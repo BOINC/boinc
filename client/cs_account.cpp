@@ -124,7 +124,7 @@ int PROJECT::parse_account(FILE* in) {
         if (xp.match_tag("/account")) {
             return 0;
         } else if (xp.match_tag("venue")) {
-            std::string devnull;
+            string devnull;
             retval = copy_element_contents(xp.f->f, "</venue>", devnull);
             if (retval) return retval;
             continue;
@@ -227,7 +227,7 @@ int PROJECT::parse_account_file_venue() {
                     no_rsc_pref[i] = false;
                 }
             } else {
-                std::string devnull;
+                string devnull;
                 retval = copy_element_contents(in, "</venue>", devnull);
                 if (retval) return retval;
             }

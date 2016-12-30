@@ -87,6 +87,9 @@ drupal/sites/default/dbconfig.php
 # ignore symlink to project-specific content (tracked in separate/project repo)
 drupal/sites/default/project
 
+## translation system
+locale/*/*.flag
+
 .libs/
 svn_version.h
 
@@ -153,6 +156,7 @@ sched/trickle_credit
 sched/trickle_deadline
 sched/trickle_echo
 sched/update_stats
+sched/validator_test
 sched/wu_check
 tools/cancel_jobs
 tools/create_work

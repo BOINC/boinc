@@ -426,7 +426,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
                     pi.working_set_size/MEGA,
                     pi.working_set_size_smoothed/MEGA,
@@ -1176,6 +1177,7 @@ void* throttler(void*) {
         double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
 #if 0
 // sub-second CPU throttling
+// DOESN'T WORK BECAUSE OF 1-SEC API POLL
 #define THROTTLE_PERIOD 1.
         on = THROTTLE_PERIOD * on_frac;
         off = THROTTLE_PERIOD - on;

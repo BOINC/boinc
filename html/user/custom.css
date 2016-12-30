@@ -1,0 +1,13 @@
+# fixes to light-backround themes
+
+table a:not(.btn), .table a:not(.btn), table a, .table a, a {
+    text-decoration: none;
+}
+
+table a:hover, .table a:hover, a:hover {
+    text-decoration: underline;
+}
+
+blockquote {
+    font-size: 15px;
+}

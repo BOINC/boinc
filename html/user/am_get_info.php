@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
+BoincDb::get(true);
 xml_header();
 
 $retval = db_init_xml();

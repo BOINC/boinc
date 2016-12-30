@@ -253,6 +253,9 @@ void CC_CONFIG::show() {
     if (no_info_fetch) {
         msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
     }
+    if (no_opencl) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use OpenCL");
+    }
     if (no_priority_change) {
         msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
     }
@@ -421,6 +424,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
+        if (xp.parse_bool("no_opencl", no_opencl)) continue;
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;

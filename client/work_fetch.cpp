@@ -784,6 +784,9 @@ PROJECT* WORK_FETCH::choose_project() {
     return p;
 }
 
+// estimate the amount of CPU and GPU time this task has got
+// in last dt sec, and add to project totals
+//
 void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     APP_VERSION* avp = atp->result->avp;
     PROJECT* p = atp->result->project;

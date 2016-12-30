@@ -10,19 +10,6 @@
 // Edit this file accordingly,
 // and put your version in html/project_specific/project_specific_prefs.inc
 
-// Select standard prefs here:
-
-define('COLOR_PREFS', false);
-    // user can select screensaver color scheme
-define('GFX_CPU_PREFS', false);
-    // user can limit % CPU used by screensaver
-    // (lower frame rate if exceeded)
-    // This is probably irrelevant if your screensaver uses OpenGL
-define('APP_SELECT_PREFS', true);
-    // user can choose which apps to run
-define('NON_GRAPHICAL_PREF', false);
-    // user can choose to run faster non-graphical app versions if available
-
 // Project-specific prefs are represented in three ways:
 // - as an XML document (stored in the DB in this form)
 // - as a PHP structure
@@ -52,7 +39,7 @@ function option($name, $val) {
 
 define('COLOR_DESC', tra('Color scheme for graphics'));
 // xgettext:no-php-format
-define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><p class=\"text-muted\">", "</p>"));
+define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><small>", "</small>"));
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('APP_SELECT_TOOLTIP', tra('Only get tasks for certain applications. Useful to focus on particular applications, or to exclude them.'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
@@ -103,11 +90,27 @@ function project_specific_prefs_default() {
     return $x;
 }
 
+function number_select($name, $max, $n) {
+    $sel = ($n == 0) ? "selected":"";
+    $x = "<select class=\"form-control input-sm\" name=$name> <option value=0 $sel>".tra("No limit")."</option>";
+    for ($i=1; $i<=$max; $i++) {
+        $sel = ($n == $i) ? "selected":"";
+        $x .= "<option value=$i $sel>$i</option>";
+    }
+    $x .= "</select>";
+    return $x;
+}
+
+function limit_string($val) {
+    if ($val) return $val;
+    return tra("No limit");
+}
+
 function project_specific_prefs_edit($prefs, $error=false) {
     global $app_array;
     if (COLOR_PREFS) {
         $x = $prefs->color_scheme;
-        $y = "<select name=color_scheme>
+        $y = "<select class=\"form-control input-sm\" name=color_scheme>
                 ".option("Tahiti Sunset", $x)
                 .option("Desert Sands", $x)."
             </select>
@@ -143,6 +146,20 @@ function project_specific_prefs_edit($prefs, $error=false) {
             "<input type=checkbox name=non_graphical $checked>"
         );
     }
+    if (MAX_JOBS_PREF) {
+        $n = $prefs->max_jobs;
+        row2(
+            tra("Max # of jobs for this project"),
+            number_select("max_jobs", 8, $n)
+        );
+    }
+    if (MAX_CPUS_PREF) {
+        $n = $prefs->max_cpus;
+        row2(
+            tra("Max # of CPUs for this project"),
+            number_select("max_cpus", 8, $n)
+        );
+    }
 }
 
 function project_specific_prefs_parse_form(&$error) {
@@ -153,8 +170,10 @@ function project_specific_prefs_parse_form(&$error) {
         $x .= "<color_scheme>$color_scheme</color_scheme>\n";
     }
     if (GFX_CPU_PREFS) {
-        $max_gfx_cpu_pct = sanitize_numeric($_GET["max_gfx_cpu_pct"]);
-        if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) $error->max_gfx_cpu_pct = true;
+        $max_gfx_cpu_pct = get_str("max_gfx_cpu_pct");
+        if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) {
+            $error->max_gfx_cpu_pct = true;
+        }
         $x .= "<max_gfx_cpu_pct>$max_gfx_cpu_pct</max_gfx_cpu_pct>\n";
     }
 
@@ -185,6 +204,14 @@ function project_specific_prefs_parse_form(&$error) {
             $x .= "<non_graphical>1</non_graphical>\n";
         }
     }
+    if (MAX_JOBS_PREF) {
+        $val = $_GET["max_jobs"];
+        $x .= "<max_jobs>$val</max_jobs>\n";
+    }
+    if (MAX_CPUS_PREF) {
+        $val = $_GET["max_cpus"];
+        $x .= "<max_cpus>$val</max_cpus>\n";
+    }
 
     return $x;
 }
@@ -209,6 +236,12 @@ function project_specific_prefs_show($prefs, $columns=false) {
         if (NON_GRAPHICAL_PREF) {
             row_defs(NON_GRAPHICAL_DESC, "non_graphical", "", "yesno", $prefs);
         }
+        if (MAX_JOBS_PREF) {
+            row_defs(tra("Max # jobs"), "max_jobs", "", "minutes", $prefs);
+        }
+        if (MAX_CPUS_PREF) {
+            row_defs(tra("Max # CPUs"), "max_cpus", "", "minutes", $prefs);
+        }
     } else {
         if (COLOR_PREFS) {
             row2(COLOR_DESC, $prefs->color_scheme);
@@ -222,6 +255,12 @@ function project_specific_prefs_show($prefs, $columns=false) {
         }
         if (NON_GRAPHICAL_PREF) {
             row2(NON_GRAPHICAL_DESC, $prefs->non_graphical?tra("yes"):tra("no"));
+        }
+        if (MAX_JOBS_PREF) {
+            row2(tra("Max # jobs"), limit_string($prefs->max_jobs));
+        }
+        if (MAX_CPUS_PREF) {
+            row2(tra("Max # CPUs"), limit_string($prefs->max_cpus));
         }
     }
 }
@@ -247,6 +286,12 @@ function project_specific_prefs_parse($prefs_xml) {
     }
     if (NON_GRAPHICAL_PREF) {
         $prefs->non_graphical = parse_bool($prefs_xml, "non_graphical");
+    }
+    if (MAX_JOBS_PREF) {
+        $prefs->max_jobs = parse_element($prefs_xml, "<max_jobs>");
+    }
+    if (MAX_CPUS_PREF) {
+        $prefs->max_cpus = parse_element($prefs_xml, "<max_cpus>");
     }
     return $prefs;
 }

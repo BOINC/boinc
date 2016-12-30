@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Vesa Nilakari, 2015
+# Kasvain <kasvain@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-03-05 05:13+0000\n"
-"Last-Translator: Vesa Nilakari\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/boinc/language/fi/)\n"
+"PO-Revision-Date: 2015-04-20 12:34+0000\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
+"Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

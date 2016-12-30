@@ -2,5 +2,8 @@ filter:
     paths:
         - html/*.php
         - html/*.inc
+        - py/*
+        - tools/*
+        - drupal/*
     excluded_paths:
-        - html/bt/*
+        - html/inc/htmLawed.php

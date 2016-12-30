@@ -217,7 +217,7 @@ void MESSAGE_DESCS::write(int seqno, MIOFILE& fout, bool translatable) {
             " <project>%s</project>\n"
             " <pri>%d</pri>\n"
             " <seqno>%d</seqno>\n"
-            " <body>\n%s\n</body>\n"
+            " <body><![CDATA[\n%s\n]]></body>\n"
             " <time>%d</time>\n",
             mdp->project_name,
             mdp->priority,

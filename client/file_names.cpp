@@ -322,11 +322,11 @@ void get_statistics_filename(char* master_url, char* path, int len) {
 }
 
 bool is_image_file(const char* filename) {
-    std::string fn = filename;
+    string fn = filename;
     downcase_string(fn);
-    if (ends_with(fn, std::string(".jpg"))) return true;
-    if (ends_with(fn, std::string(".jpeg"))) return true;
-    if (ends_with(fn, std::string(".png"))) return true;
+    if (ends_with(fn, string(".jpg"))) return true;
+    if (ends_with(fn, string(".jpeg"))) return true;
+    if (ends_with(fn, string(".png"))) return true;
     return false;
 }
 

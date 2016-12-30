@@ -40,6 +40,7 @@ function friendly_name($p) {
     }
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";
+        else if (strstr($pc, 'nvidia')) $q .= " (NVIDIA GPU)";
         else if (strstr($pc, 'ati')) $q .= " (AMD/ATI GPU)";
         else if (strstr($pc, 'intel_gpu')) $q .= " (Intel GPU)";
         else if (strstr($pc, 'mt')) $q .= " (multicore)";
@@ -49,6 +50,8 @@ function friendly_name($p) {
     return $q;
 }
 
+// return an array of bools for the supported platforms
+//
 function get_platform_icon_flags($l) {
     $x = new StdClass;
     $x->windows = false;
@@ -78,6 +81,7 @@ function get_platform_icon_flags($l) {
         if (strstr($p, "armv6")) $x->rasp_pi = true;
         if (strstr($pc, "ati")) $x->amd_gpu = true;
         if (strstr($pc, "cuda")) $x->nvidia_gpu = true;
+        if (strstr($pc, "nvidia")) $x->nvidia_gpu = true;
         if (strstr($pc, "intel_gpu")) $x->intel_gpu = true;
         if (strstr($pc, "vbox")) $x->vbox = true;
     }
@@ -126,6 +130,16 @@ function canonical_plan_class($pc) {
 	if (strstr($pc, "nvidiaOpenCL")) return "opencl_nvidia";
 	if (strstr($pc, "intelOpenCL")) return "opencl_intel_gpu";
     return $pc;
+}
+
+// some specific cases where we know the project doesn't have jobs
+//
+function valid($url, $plat) {
+    if (strstr($url, "gpugrid.net")) {
+        if (strstr($plat, "android")) return false;
+        if (strstr($plat, "vbox")) return false;
+    }
+    return true;
 }
 
 // get platforms from get_project_config.php (preferred method)
@@ -192,7 +206,9 @@ function get_platforms($url) {
                     $plat .= "[".$pc."]";
                 }
             }
-            $list[] = $plat;
+            if (valid($url, $plat)) {
+                $list[] = $plat;
+            }
         }
     }
     return array_unique($list);
@@ -263,7 +279,7 @@ function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
     $t = @filemtime($fname);
-	if ($t && $t > time() - 604800) {
+	if (!strstr($url, "gpugrid") && $t && $t > time() - 604800) {
         $l = json_decode(file_get_contents($fname));
     } else {
         $l = get_platforms($url);
@@ -313,6 +329,7 @@ function get_platform_icons($url) {
 
 
 // Mediawiki extension to show a project's platforms.
+// Doesn't seem to work anymore.
 //
 function wfPlatforms() {
     global $wgParser;

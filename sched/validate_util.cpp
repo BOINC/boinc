@@ -29,6 +29,7 @@
 #include "str_replace.h"
 #include "util.h"
 
+#include "str_util.h"
 #include "sched_util.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
@@ -74,6 +75,9 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
             if (retval) return retval;
             if (standalone) {
                 safe_strcpy(path, fi.name.c_str());
+                if (!path_to_filename(fi.name, name)) {
+                    fi.name = name;
+                }
             } else {
                 dir_hier_path(
                     fi.name.c_str(), config.upload_dir,
@@ -102,6 +106,9 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
             if (retval) return retval;
             if (standalone) {
                 safe_strcpy(path, fi.name.c_str());
+                if (!path_to_filename(fi.name, name)) {
+                    fi.name = name;
+                }
             } else {
                 dir_hier_path(
                     fi.name.c_str(), config.upload_dir,
@@ -208,7 +215,7 @@ int get_credit_from_wu(WORKUNIT& wu, vector<RESULT>&, double& credit) {
     double x;
     int retval;
     DB_WORKUNIT dbwu;
-    
+
     dbwu.id = wu.id;
     retval = dbwu.get_field_str("xml_doc", dbwu.xml_doc, sizeof(dbwu.xml_doc));
     if (!retval) {

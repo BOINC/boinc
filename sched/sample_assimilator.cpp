@@ -34,10 +34,14 @@
 using std::vector;
 using std::string;
 
+const char* outdir = "sample_results";
+
 int write_error(char* p) {
     static FILE* f = 0;
     if (!f) {
-        f = fopen(config.project_path("sample_results/errors"), "a");
+        char path[1024];
+        sprintf(path, "%s/errors", outdir);
+        f = fopen(config.project_path(path), "a");
         if (!f) return ERR_FOPEN;
     }
     fprintf(f, "%s", p);
@@ -45,16 +49,23 @@ int write_error(char* p) {
     return 0;
 }
 
-int assimilate_handler_init(int, char**) {
+int assimilate_handler_init(int argc, char** argv) {
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--outdir")) {
+            outdir = argv[++i];
+        } else {
+            fprintf(stderr, "bad arg %s\n", argv[i]);
+        }
+    }
     return 0;
 }
 
 void assimilate_handler_usage() {
     // describe the project specific arguments here
-    //fprintf(stderr,
-    //    "    Custom options:\n"
-    //    "    [--project_option X]  a project specific option\n"
-    //);
+    fprintf(stderr,
+        "    Custom options:\n"
+        "    [--outdir X]  output dir for result files\n"
+    );
 }
 
 int assimilate_handler(
@@ -64,7 +75,7 @@ int assimilate_handler(
     char buf[1024];
     unsigned int i;
 
-    retval = boinc_mkdir(config.project_path("sample_results"));
+    retval = boinc_mkdir(config.project_path(outdir));
     if (retval) return retval;
 
     if (wu.canonical_resultid) {
@@ -76,19 +87,19 @@ int assimilate_handler(
         for (i=0; i<n; i++) {
             OUTPUT_FILE_INFO& fi = output_files[i];
             if (n==1) {
-                copy_path = config.project_path("sample_results/%s", wu.name);
+                sprintf(buf, "%s/%s", outdir, wu.name);
             } else {
-                copy_path = config.project_path("sample_results/%s_%d", wu.name, i);
+                sprintf(buf, "%s/%s_%d", outdir, wu.name, i);
             }
+            copy_path = config.project_path(buf);
             retval = boinc_copy(fi.path.c_str() , copy_path);
             if (!retval) {
                 file_copied = true;
             }
         }
         if (!file_copied) {
-            copy_path = config.project_path(
-                "sample_results/%s_%s", wu.name, "no_output_files"
-            );
+            sprintf(buf, "%s/%s_no_output_files", outdir, wu.name);
+            copy_path = config.project_path(buf);
             FILE* f = fopen(copy_path, "w");
             if (!f) return ERR_FOPEN;
             fclose(f);

@@ -277,6 +277,7 @@ language("French", array(
     //site("http://wwww.boinc-2tf.org", "2TF Asso"),
     //site("http://boincfrance.org", "BOINCFRANCE.ORG"),
     site("http://www.boinc-af.org", "L'Alliance Francophone"),
+    site("https://www.crunchersansfrontieres.org/", "CRUNCHERS SANS FRONTIERES"),
 ));
 language("German", array(
     site("http://www.crunchers-freiburg.de/", "crunchers@freiburg"),

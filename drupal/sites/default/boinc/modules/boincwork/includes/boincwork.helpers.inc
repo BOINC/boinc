@@ -21,8 +21,14 @@ function boincwork_ahah_helper_venue_submit($form, &$form_state) {
 function boincwork_get_preset_prefs($preset = null) {
   $saved_state = variable_get('boincwork_preset_prefs', null);
   
-  // If not configured yet, use these defaults
+  // If not configured yet, use these values as for inital
+  // computing/general preferences.
   if (!$saved_state) {
+    // Get BOINC project disk space configurations from config.xml to
+    // fill in initial preference values.
+    require_boinc(array('db', 'prefs'));
+    $disk_space_config = get_disk_space_config();
+
     $saved_state = '
       <general_preferences>
         <preset name="standard">
@@ -36,12 +42,11 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
-          <disk_max_used_gb>8</disk_max_used_gb>
-          <disk_min_free_gb>4</disk_min_free_gb>
-          <disk_max_used_pct>10</disk_max_used_pct>
+          <disk_max_used_gb>'.$disk_space_config->disk_max_used_gb.'</disk_max_used_gb>
+          <disk_min_free_gb>'.$disk_space_config->disk_min_free_gb.'</disk_min_free_gb>
+          <disk_max_used_pct>'.$disk_space_config->disk_max_used_pct.'</disk_max_used_pct>
           <disk_interval>60</disk_interval>
           <vm_max_used_pct>0</vm_max_used_pct>
           <ram_max_used_busy_pct>15</ram_max_used_busy_pct>
@@ -69,7 +74,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>100</cpu_usage_limit>
           <disk_max_used_gb>100</disk_max_used_gb>
@@ -102,7 +106,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
           <disk_max_used_gb>8</disk_max_used_gb>
@@ -135,7 +138,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>8</end_hour>
           <leave_apps_in_memory>0</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>120</cpu_scheduling_period_minutes>
-          <max_cpus>4</max_cpus>
           <max_ncpus_pct>25</max_ncpus_pct>
           <cpu_usage_limit>40</cpu_usage_limit>
           <disk_max_used_gb>2</disk_max_used_gb>
@@ -530,7 +532,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     break;
     
   case 'apps':
-    $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+    $title = is_array($elements['title']) ? $elements['title']['@value'] : $elements['title'];
     
       // Translate elements as appropriate
       if ($title) {
@@ -580,6 +582,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#disabled' => !$app_enabled
       );
     }
+    
     break;
     
   case 'group':
@@ -678,10 +681,10 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
       if (in_array($key, array('start_hour', 'net_start_hour'))) {
         switch ($key) {
         case 'start_hour':
-          $element['#title'] = bts('Do work only between the hours of:');
+          $element['#title'] = bts('Compute only between:');
           break;
         case 'net_start_hour':
-          $element['#title'] = bts('Use network only between the hours of:');
+          $element['#title'] = bts('Transfer files only between:');
           break;
         default:
         }
@@ -753,6 +756,11 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
   // Return general preferences or a subset based on venue
   if (!$venue OR $venue == 'generic') {
     unset($main_prefs['venue']);
+    // Use the length of the $main_prefs array as a condition as to
+    // whether the preferences have already been set. This is
+    // HARDCODED here.
+    if (count($main_prefs) < 3)
+        $main_prefs['@attributes'] = array('cleared' => 1);
     return $main_prefs;
   }
   else {
@@ -767,9 +775,10 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
       }
     }
   }
-  return array('@attributes' => array(
-    'name' => $venue, 'preset' => 'standard', 'cleared' => 1
-  ));
+
+  return array(
+    '@attributes' => array('name' => $venue, 'cleared' => 1)
+  );
 }
 
 /**
@@ -844,6 +853,13 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
     }
     $main_prefs['mod_time'] = time();
+    // unset source information, the Client will fill this in again
+    if (isset($main_prefs['source_project'])) {
+      unset($main_prefs['source_project']);
+    }
+    if (isset($main_prefs['source_scheduler'])) {
+      unset($main_prefs['source_scheduler']);
+    }
   }
   
   // Convert prefs back to XML and save to database
@@ -1161,7 +1177,8 @@ function boincwork_format_stats($number, $max_digits = 4) {
   //------------------------------------------------------------------------------------------------
   
   function text_to_xml($text) {
-    if (!$xml = DomDocument::loadXML($text)) return false;
+    $xml = new DomDocument();
+    if ( !($xml->loadXML($text)) ) return false;
     return $xml;
   }
   

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2008 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,13 @@
 
 // This is a template for your web site's front page.
 // You are encouraged to customize this file,
-// and to create a graphical identity for your web site
-// my developing your own stylesheet
-// and customizing the header/footer functions in html/project/project.inc
+// and to create a graphical identity for your web site.
+// by customizing the header/footer functions in html/project/project.inc
+// and picking a Bootstrap theme
+//
+// If you add text, put it in tra() to make it translatable.
 
+require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/news.inc");
 require_once("../inc/cache.inc");
@@ -29,189 +32,102 @@ require_once("../inc/uotd.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
+require_once("../inc/bootstrap.inc");
 
-check_get_args(array());
-
-function show_nav() {
-    $config = get_config();
-    $master_url = parse_config($config, "<master_url>");
-    $no_computing = parse_config($config, "<no_computing>");
-    $no_web_account_creation = parse_bool($config, "no_web_account_creation");
-    $disable_acct = parse_bool($config, "disable_account_creation");
-    echo "<div class=\"mainnav\">
-        <h2 class=headline>About ".PROJECT."</h2>
-    ";
-    if ($no_computing) {
-        echo "
-            XXX is a research project that uses volunteers
-            to do research in XXX.
-        ";
-    } else {
-        echo "
-            XXX is a research project that uses Internet-connected
-            computers to do research in XXX.
-            You can participate by downloading and running a free program
-            on your computer.
-        ";
-    }
-    echo "
-        <p>
-        XXX is based at 
-        [describe your institution, with link to web page]
-        <ul>
-        <li> [Link to page describing your research in detail]
-        <li> [Link to page listing project personnel, and an email address]
-        </ul>
-        <h2 class=headline>Participate</h2>
-        <ul>
-    ";
-    if ($no_computing) {
-        if (!$no_web_account_creation && !$disable_acct) {
-            echo "
-                <li> <a href=\"create_account_form.php\">Create an account</a>
-            ";
-        } else {
-            echo "<li> This project is not currently accepting new accounts.";
-        }
-    } else {
-        echo "
-            <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
-        ";
-        if (0) {
-            echo "<li>";
-            show_button("register.php", "Join", null, "btn btn-green");
-        } else {
-            echo "<li> <a href=https://boinc.berkeley.edu/download.php>Download</a> and run BOINC.
-                <li> Choose Add Project
-            ";
-        }
-        echo "
-            <li> If you have any problems,
-                <a target=\"_new\" href=\"https://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
-        ";
-    }
-    echo "
-        </ul>
-
-        <h2 class=headline>Returning participants</h2>
-        <ul>
-        <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
-    ";
-    if (!$no_computing) {
-        echo "
-            <li><a href=server_status.php>Server status</a>
-            <li><a href=\"cert1.php\">Certificate</a>
-            <li><a href=\"apps.php\">".tra("Applications")."</a>
-        ";
-    }
-    if (!DISABLE_TEAMS) {
-        echo "
-            <li><a href=\"team.php\">Teams</a> - create or join a team
-        ";
-    }
-    echo "
-        </ul>
-        <h2 class=headline>".tra("Community")."</h2>
-        <ul>
-    ";
-    if (!DISABLE_PROFILES) {
-        echo "
-            <li><a href=\"profile_menu.php\">".tra("Profiles")."</a>
-        ";
-    }
-    echo "
-        <li><a href=\"user_search.php\">User search</a>
-        <li><a href=ffmail_form.php>Share</a>
-    ";
-    if (!DISABLE_FORUMS) {
-        echo "
-            <li><a href=\"forum_index.php\">".tra("Message boards")."</a>
-            <li><a href=\"forum_help_desk.php\">".tra("Questions and Answers")."</a>
-        ";
-    }
-    echo "
-        <li><a href=\"stats.php\">Statistics</a>
-        <li><a href=language_select.php>Languages</a>
-        </ul>
-        </div>
-    ";
-}
-
+$config = get_config();
+$no_computing = parse_config($config, "<no_computing>");
+$no_web_account_creation = parse_bool($config, "no_web_account_creation");
+    
 $stopped = web_stopped();
-$rssname = PROJECT . " RSS 2.0" ;
-$rsslink = url_base() . "rss_main.php";
+$user = get_logged_in_user(false);
 
-header("Content-type: text/html; charset=utf-8");
+// The panel at the top of the page
+//
+function panel_contents() {
+}
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-
-echo "<html>
-    <head>
-    <title>".PROJECT."</title>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"main.css\" media=\"all\" />
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"".STYLESHEET."\">
-    <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
-";
-include 'schedulers.txt';
-    if (defined("SHORTCUT_ICON")) {
-        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>'
-;
+function top() {
+    global $stopped, $master_url, $user;
+    if ($stopped) {
+        echo '
+            <p class="lead text-center">'
+            .tra("%1 is temporarily shut down for maintenance.", PROJECT)
+            .'</p>
+        ';
     }
-echo "
-    </head><body>
-    <div class=page_title>".PROJECT."</div>
-";
-
-if (!$stopped) {
-    get_logged_in_user(false);
-    show_login_info();
+    //panel(null, 'panel_contents');
 }
 
-echo "
-    <table cellpadding=\"8\" cellspacing=\"4\" class=\"table table-bordered\">
-    <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
-";
+function left(){
+    global $user, $no_computing, $no_web_account_creation, $master_url;
+    panel(
+        tra("What is %1?", PROJECT),
+        function() use($user) {
+            global $no_computing, $no_web_account_creation, $master_url;
+            if ($no_computing) {
+                echo "
+                    XXX is a research project that uses volunteers
+                    to do research in XXX.
+                ";
+            } else {
+                echo "
+                    <p>
+                    XXX is a research project, based at <a href=#>YYY</a>,
+                    that uses Internet-connected
+                    computers to do research in XXX.
+                    You can contribute to our research
+                    by running a free program on your computer.
+                    </p>
+                ";
+            }
+            echo "
+                <ul>
+                <li> <a href=#>Our research</a>
+                <li> <a href=#>Our team</a>
+                </ul>
+            ";
+            echo "</ul>";
+            if (!$user) {
+                if ($no_computing) {
+                    echo "
+                        <a href=\"create_account_form.php\">Create an account</a>
+                    ";
+                } else {
+                    echo '<center><a href="join.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
+                    ';
 
-if ($stopped) {
-    echo "
-        <b>".PROJECT." is temporarily shut down for maintenance.
-        Please try again later</b>.
-    ";
-} else {
-    show_nav();
-}
-
-echo "
-    <p>
-    <a href=\"https://boinc.berkeley.edu/\"><img align=\"middle\" border=\"0\" src=\"img/pb_boinc.gif\" alt=\"Powered by BOINC\"></a>
-    </p>
-    </td>
-";
-
-if (!$stopped && !DISABLE_PROFILES) {
-    $profile = get_current_uotd();
-    if ($profile) {
-        echo "
-            <td class=uotd>
-            <h2 class=headline>".tra("User of the day")."</h2>
-        ";
-        show_uotd($profile);
-        echo "</td></tr>\n";
+                }
+            }
+        }
+    );
+    global $stopped;
+    if (!$stopped) {
+        $profile = get_current_uotd();
+        if ($profile) {
+            panel('User of the Day',
+                function() use ($profile) {
+                    show_uotd($profile);
+                }
+            );
+        }
     }
 }
 
-echo "
-    <tr><td class=news>
-    <h2 class=headline>News</h2>
-    <p>
-";
-include("motd.php");
-show_news(0, 5);
-echo "
-    </td>
-    </tr></table>
-";
+function right() {
+    panel(tra('News'),
+        function() {
+            include("motd.php");
+            if (!web_stopped()) {
+                show_news(0, 5);
+            }
+        }
+    );
+}
 
-page_tail_main();
+page_head(null, null, true);
+
+grid('top', 'left', 'right');
+
+page_tail(false, "", true);
 
 ?>

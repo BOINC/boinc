@@ -19,8 +19,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
-
-check_get_args(array("set_lang"));
+require_once("../inc/language_names.inc");
 
 $languages = get_supported_languages();
 if (!is_array($languages)) {
@@ -46,32 +45,17 @@ if ($set_lang){
 
 page_head(tra("Language selection"));
 
-function language_name($code) {
-    if ($code == 'en') {
-        return "<em>en</em> (English)";
-    } else {
-        $lname = tr_specific("LANG_NAME_NATIVE", $code);
-        if ($lname == 'English' || $lname == '') {
-            return "<b>$code</b>";
-        } else {
-            return "<b>$code</b> ("
-                .tr_specific("LANG_NAME_INTERNATIONAL", $code)
-                ."/$lname)"
-            ;
-        }
-    }
-}
-
 if (count($languages_in_use)) {
-    $cur_lang_name = language_name($languages_in_use[0]);
+    $lang_code = $languages_in_use[0];
 } else {
-    $cur_lang_name = language_name('en');
+    $lang_code = 'en';
 }
+$cur_lang_desc = language_desc($lang_code);
 
 echo "<p>",
     tra(
         "This web site is available in several languages. The currently selected language is %1.",
-        $cur_lang_name
+        $cur_lang_desc
     ),
     "</p><p>",
     tra(
@@ -86,31 +70,19 @@ echo "<p>",
     "</ul>",
     "<p>",
     tra(
-        "Or you can select a language by clicking on one of the links.  This will send your browser a cookie; make sure your browser accepts cookies from our domain."
+        "Or you can select a language from the following menu:"
     ),
     "</p>"
 ;
 
-start_table();
-row1(tra("Language name (click to select)"));
-row1("<a href=language_select.php?set_lang=auto>"
-    .tra("Use browser language setting")
-    ."</a>",
-    1, "row1"
-);
-sort($languages);
-$i = 0;
-foreach ($languages as $language) {
-    $name = language_name($language);
-    row1(
-        "<a href=\"language_select.php?set_lang=$language\">$name</a>",
-        1, "row$i"
-    );
-    $i = 1-$i;
-}
-end_table();
-echo "<p>",
-    tra("Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2.",
+echo '<div class="col-sm-3">
+';
+language_form($lang_code);
+echo '</div>
+';
+
+echo "<br clear=all><p> </p>",
+    tra("Translations are done by volunteers.  If your native language is missing or incomplete, %1you can help translate%2.",
     '<a href="http://boinc.berkeley.edu/trac/wiki/TranslateIntro">', '</a>'),
     "</p>"
 ;

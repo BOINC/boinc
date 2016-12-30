@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-03-22 00:03+0000\n"
+"POT-Creation-Date: 2016-08-16 12:17+0000\n"
+"PO-Revision-Date: 2016-09-05 20:36+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,115 +18,11 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Please select a team type."
-msgstr "Selecteer alsjeblieft een team soort."
+msgid "Reject profile"
+msgstr "Profiel afwijzen"
 
-msgid ""
-"A team foundership change was already requested recently. Only one request "
-"is allowed within a period of 90 days."
-msgstr "Een team oprichterswissel was recentelijk al aangevraagd. Er kan maar één verzoek per 90 dagen worden gedaan."
-
-msgid "@count days remaining"
-msgstr "@count dagen overblijvend"
-
-msgid "Inbox"
-msgstr "Postvak In"
-
-msgid "Compose new"
-msgstr "Nieuw samenstellen"
-
-msgid "respond to the request"
-msgstr "het verzoek beantwoorden"
-
-msgid ""
-"A foundership transfer request has been made for your team. Please !respond."
-msgstr "Er is een oprichterswissel verzoek gedaan voor jouw team. !Antwoord alsjeblieft."
-
-msgid "Respond to transfer request"
-msgstr "Het wisselverzoek beantwoorden"
-
-msgid ""
-"Team member @name has requested team foundership. This may be because you "
-"left the team or have not had contact with the team for a long time."
-msgstr "Team lid @name heeft verzocht team oprichter te worden. Dit kan gebeuren als jij het team hebt verlaten, of lange tijd geen contact met je team hebt gehad."
-
-msgid ""
-"If you don't decline the request by @date, @name will have the option of "
-"assuming team foundership. (note: To accept the request, assign foundership "
-"to @name using the form below)"
-msgstr "Als je het verzoek niet voor @date afwijst, kan @name het team overnemen en team oprichter worden. (notitie: om het verzoek te accepteren, gebruik onderstaand formulier om @name als team oprichter aan te wijzen)"
-
-msgid "Deny request"
-msgstr "Verzoek weigeren"
-
-msgid "Send request"
-msgstr "Zend verzoek"
-
-msgid "Friend request from !name [!site]"
-msgstr "Vriend verzoek van !name [!site]"
-
-msgid "Message"
-msgstr "Bericht"
-
-msgid ""
-"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
-"\n"
-"Follow the link below to view this request:\n"
-"!link\n"
-"\n"
-"!message\n"
-"\n"
-"Thanks,\n"
-"The !site team"
-msgstr "!name wil je als vriend toegevoegen op !site. Je kunt dit verzoek toestaan of weigeren. Het verzoek weiegeren zal geen breicht hierover sturen, maar verwijdert het verzoek van jullie beider accounts.\n\nVolg benedenstaande link om het verzoek te bekijken:\n!link\n\n!message\n\nMet dank,\nHet !site team"
-
-msgid "Cancel friend request"
-msgstr "Annuleer vriend verzoek"
-
-msgid "Remove request"
-msgstr "Verwijder verzoek"
-
-msgid "Approve request"
-msgstr "Verzoek toestaan"
-
-msgid "!name accepted your friend request [!site]"
-msgstr "!name heeft je vriend verzoek geaccepteerd [!site]"
-
-msgid ""
-"!name confirmed you as a friend on !site.\n"
-"\n"
-"Follow this link to view his or her profile:\n"
-"!link\n"
-"\n"
-"!message\n"
-"\n"
-"Thanks,\n"
-"The !site team"
-msgstr "!name heeft je als vriend bevestigd op !site.\n\nVolg deze link om zijn of haar profiel te bekijken:\n!link\n\n!message\n\n Met dank,\nHet !site team"
-
-msgid "Email address"
-msgstr "E-mail adres"
-
-msgid "Home"
-msgstr "Thuis pagina"
-
-msgid "Login"
-msgstr "Login"
-
-msgid "search"
-msgstr "zoeken"
-
-msgid "Server status"
-msgstr "Server status"
-
-msgid "Language"
-msgstr "Taal"
-
-msgid "Enter your @s email address."
-msgstr "Vul je e-mailadres in."
-
-msgid "Join now"
-msgstr "Word lid"
+msgid "Ban user"
+msgstr "Gebruiker uitsluiten"
 
 msgid "I'm new"
 msgstr "Ik ben nieuw"
@@ -134,329 +30,18 @@ msgstr "Ik ben nieuw"
 msgid "I'm a BOINC user"
 msgstr "Ik ben een BOINC gebruiker"
 
-msgid "Welcome back!"
-msgstr "Welkom terug!"
+msgid "Authenticator login"
+msgstr "Authenticatie login"
 
 msgid ""
-"Einstein@Home is a program that uses your computer's idle time to run a "
-"screensaver to search for gravitational waves from spinning neutron stars "
-"(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home is een programma dat de inactieve tijd van uw computer gebruikt om een screensaver te draaien om te zoeken naar zwaartekrachtgolven uit draaiende neutronensterren (ook wel pulsars genaamd) met behulp van gegevens van de LIGO gravitatiegolven detector."
-
-msgid "Learn more"
-msgstr "Meer weten"
-
-msgid "View account"
-msgstr "Account bekijken"
-
-msgid "About our screensaver"
-msgstr "Over onze screensaver "
-
-msgid "Over 500,000 volunteers and counting."
-msgstr "Meer dan 500,000 vrijwilligers"
-
-msgid "Windows"
-msgstr "Windows"
-
-msgid "Mac"
-msgstr "Mac"
-
-msgid "Linux"
-msgstr "Linux"
-
-msgid "Logout"
-msgstr "Uitloggen"
-
-msgid "Name"
-msgstr "Naam"
-
-msgid "Avg credit"
-msgstr "Gemiddelde punten"
-
-msgid "Total credit"
-msgstr "Punten totaal"
-
-msgid "Enter your password to save changes"
-msgstr "Voer uw wachtwoord in om wijzigingen op te slaan"
-
-msgid ""
-"Enter your current password if changing your email\n"
-"          address or password."
-msgstr "Vul je huidige wachtwoord in als je je e-mail verandert\nadres of wachtwoord."
-
-msgid "BOINC user ID"
-msgstr "BOINC gebruikers ID"
-
-msgid "Drupal user ID"
-msgstr "Drupal gebruikers ID"
-
-msgid "Account key"
-msgstr "Account key"
-
-msgid "Weak account key"
-msgstr "Zwakke account key"
-
-msgid "Cross-project ID"
-msgstr "Cross-project ID"
-
-msgid "Save changes"
-msgstr "Veranderingen opslaan"
-
-msgid "Cancel"
-msgstr "Annuleren"
-
-msgid "Change password"
-msgstr "Verander wachtwoord"
-
-msgid "What is @this_project?"
-msgstr "Wat is @this_project?"
-
-msgid "no projects..."
-msgstr "geen projecten..."
-
-msgid "Download the desktop software"
-msgstr "Download de desktop software"
-
-msgid "Run the installer"
-msgstr "Start de installer "
-
-msgid "When prompted enter @siteurl"
-msgstr "Als daarom gevraagd wordt, vul @siteurl in"
-
-msgid "Password"
-msgstr "Wachtwoord"
-
-msgid "Enter the password that accompanies your username."
-msgstr "Vul het wachtwoord in voor je gebruikersnaam."
-
-msgid "Request new password"
-msgstr "Nieuw wachtwoord opvragen"
-
-msgid ""
-"If you're already running BOINC, select <i>Add\n"
-"      Project</i>."
-msgstr "Als je BOINC al draait, selecteer <i>Voeg\nProject Toe</.>."
-
-msgid ""
-"If you're running a command-line version of BOINC,\n"
-"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
-"        an account at this project, then use that account to connect with the\n"
-"        command-line version."
-msgstr "Als je de command-line versie van BOINC gebruikt,\n        gebruik dan eerst de BOINC Manager software (vanaf een andere computer indien nodig)\n        om een account te maken bij dit project, en gebruik dat account om dit project toe te voegen\n        aan de command-line versie."
-
-msgid ""
-"If you're running a pre-5.0 version of BOINC, please\n"
-"        upgrade to a more recent version to create an account\n"
-"        at this project."
-msgstr "Als je een pre-5.0 versie van BOINC gebruikt, update\nalsjeblieft naar een meer recente versie om een account\nbij dit project te maken."
-
-msgid ""
-"1) If you know your account&apos;s email address, and you can receive email "
-"there:"
-msgstr "1) Als u het e-mailadres van uw account&apos;s weet, en als u daar e-mail kunt ontvangen:"
-
-msgid ""
-"Enter the email address and click OK. You will be sent email instructions "
-"for resetting your password."
-msgstr "Vul dan hieronder het e-mailadres in en klik op OK. Vervolgens ontvangt u per e-mail de instructies om uw wachtwoord opnieuw in te stellen."
-
-msgid "OK"
-msgstr "OK"
-
-msgid "The latest news from the @site_name project"
-msgstr "Het laatste nieuws van @site_name"
-
-msgid "Comment form"
-msgstr "Reactieformulier"
-
-msgid "Total credits"
-msgstr "Totaal punten"
-
-msgid "Recent avg credits"
-msgstr "Huidige punten gemiddelde"
-
-msgid "Country"
-msgstr "Land"
-
-msgid "Type"
-msgstr "Soort"
-
-msgid "Founder"
-msgstr "Oprichter"
-
-msgid "New members in last day"
-msgstr "Nieuwe leden in de laatste dag"
-
-msgid "Total members"
-msgstr "Totaal aantal leden"
-
-msgid "Active members"
-msgstr "Actieve leden"
-
-msgid "Members with credit"
-msgstr "Leden met punten"
-
-msgid "Description"
-msgstr "Beschrijving"
-
-msgid "Search teams"
-msgstr "Zoek teams"
-
-msgid "Send message"
-msgstr "Verstuur bericht"
-
-msgid "BOINC"
-msgstr "BOINC"
-
-msgid "Project"
-msgstr "Project"
-
-msgid "Web site"
-msgstr "Website"
-
-msgid "No active computers"
-msgstr "Geen actieve computers"
-
-msgid "This user has no computers that have been active in the last 30 days."
-msgstr "Deze gebruiker heeft geen computers die actief waren in de laatste 30 dagen."
-
-msgid " Default value: @default"
-msgstr "Standaardwaarde: @default"
-
-msgid "Applications"
-msgstr "Applicaties"
-
-msgid "yes"
-msgstr "ja"
-
-msgid "no"
-msgstr "nee"
-
-msgid "Message @id"
-msgstr "Bericht @id"
-
-msgid "message @id"
-msgstr "bericht @id"
-
-msgid " in response to !parent"
-msgstr "In antwoord op !parent"
-
-msgid "Credits per day"
-msgstr "Punten per dag"
-
-msgid "Computers hidden"
-msgstr "Computers verbergen"
-
-msgid "This user has chosen not to show information about their computers."
-msgstr "Deze gebruiker heeft ervoor gekozen geen informatie over zijn computers te laten zien."
-
-msgid "Stderr output"
-msgstr "Stderr output"
-
-msgid "@time ago"
-msgstr "@time geleden"
-
-msgid "n/a"
-msgstr "n.v.t."
-
-msgid "Submitted by !username on !datetime"
-msgstr "Ingediend door !username op !datetime"
-
-msgid "Member since"
-msgstr "Lid sinds"
-
-msgid "View team"
-msgstr "Team bekijken"
-
-msgid "Friends (@count)"
-msgstr "Vrienden (@count)"
-
-msgid "Website"
-msgstr "Website"
-
-msgid "Locked"
-msgstr "Gesloten"
-
-msgid "Computers pending"
-msgstr "Computers in afwachting"
-
-msgid ""
-"This user does not yet have any associated computers. Computers will be "
-"displayed when they have earned their first credits."
-msgstr "Deze gebruiker heeft nog geen bijbehorende computers. Computers worden weergegeven wanneer ze hun eerste credits hebben verdiend."
-
-msgid "No results found..."
-msgstr "Geen resultaten gevonden... "
-
-msgid "Background"
-msgstr "Achtergrond"
-
-msgid "Teams"
-msgstr "Teams"
-
-msgid ""
-"@project participants may form teams. You may belong to only one team. You "
-"can join or quit a team at any time. To join a team, visit its team page and"
-" click \"Join this team\". Each team has a founder who may:"
-msgstr "@project deelnemers kunnen teams vormen. U kunt slechts tot één team behoren. U kunt op elk moment deelnemen aan of stoppen met een team. Om deel te nemen aan een team, bezoek de team-pagina en klik op \"Deelnemen aan dit team.\" Elk team heeft een oprichter die:"
-
-msgid "access team members' email addresses"
-msgstr "toegang heeft tot de e-mail adressen van de leden"
-
-msgid "edit the team's name and description"
-msgstr "de naam en beschrijving van het team kan veranderen"
-
-msgid "add or remove team admins"
-msgstr "team administrators mag toevoegen of verwijderen"
-
-msgid "remove members from the team"
-msgstr "leden kan verwijderen uit het team"
-
-msgid "disband a team if it has no members"
-msgstr "het team kan ontbinden als het geen leden heeft"
-
-msgid "Create a new team"
-msgstr "Start nieuw team"
-
-msgid ""
-"If you cannot find a team that is right for you, you can create a team."
-msgstr "Als je geen team kunt vinden dat geschikt is voor je, kun je er zelf een starten."
-
-msgid "You must earn @count more credits!"
-msgstr "Je moet @count meer punten verdienen!"
-
-msgid "Threads"
-msgstr "Onderwerpen"
-
-msgid "Posts"
-msgstr "Reacties"
-
-msgid "Last post"
-msgstr "Laatste reactie"
-
-msgid "Manage subscriptions"
-msgstr "Beheer abonnementen"
-
-msgid "Featured"
-msgstr "Aanbevolen"
-
-msgid "Submitted on !datetime"
-msgstr "Ingediend op !datetime"
-
-msgid "Comments"
-msgstr "Opmerkingen"
-
-msgid "Opinion"
-msgstr "Mening"
-
-msgid "More"
-msgstr "Meer"
-
-msgid "Tasks"
-msgstr "Taken"
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Je moet @count meer punten verdienen alvorens je commentaar kan posten op deze website."
 
 msgid "Generic"
 msgstr "Algemeen"
+
+msgid "Home"
+msgstr "Thuis pagina"
 
 msgid "Work"
 msgstr "Werk"
@@ -464,186 +49,11 @@ msgstr "Werk"
 msgid "School"
 msgstr "School"
 
-msgid "Presets"
-msgstr "Vooraf ingesteld"
+msgid "yes"
+msgstr "ja"
 
-msgid "Standard"
-msgstr "Standaard"
-
-msgid "Maximum"
-msgstr "Maximaal"
-
-msgid "Green"
-msgstr "Groen"
-
-msgid "Minimum"
-msgstr "Minimaal"
-
-msgid "Custom"
-msgstr "Aangepast"
-
-msgid "Update preset"
-msgstr "Vooraf ingestelde bijwerken"
-
-msgid "Advanced settings"
-msgstr "Geavanceerde instellingen"
-
-msgid "Processor usage"
-msgstr "Processor gebruik"
-
-msgid "Run while computer is on battery power?"
-msgstr "Uitvoeren wanneer computer op accu werkt? "
-
-msgid "Only applies to portable computers"
-msgstr "Geldt alleen voor draagbare computers"
-
-msgid "Run while computer is in use?"
-msgstr "Gebruik wanneer de computer in gebruik is?"
-
-msgid "Run GPU work while computer is in use?"
-msgstr "Gebruik de GPU wanneer de computer in gebruik Is? "
-
-msgid "Enforced by version @number"
-msgstr "Instelbaar vanaf @number"
-
-msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "\"In gebruik\" betekent muis/toetsenbord gebruik in de laatste"
-
-msgid "minutes"
-msgstr "minuten"
-
-msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "Pauzeer werk wanneer geen toestenbord/muis activiteit in de laatste"
-
-msgid "Needed to enter low-power mode on some computers"
-msgstr "Nodig op sommige computers om sluimer-modus te activeren"
-
-msgid "Suspend work if CPU usage is above"
-msgstr "Pauzeer werk bij CPU gebruik van meer dan"
-
-msgid "0 means no restriction. Enforced by version @number"
-msgstr "0 betekent geen beperking. Instelbaar vanaf @number"
-
-msgid "Do work only between the hours of:"
-msgstr "Werk actief tussen:"
-
-msgid "and"
-msgstr "en"
-
-msgid "No restriction if equal"
-msgstr "Geen beperkingen indien gelijk"
-
-msgid "Leave tasks in memory while suspended?"
-msgstr "Laat taken in geheugen wanneer gepauzeerd?"
-
-msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "Gepauzeerde taken zullen het wisselbestand gebruiken bij \"ja\""
-
-msgid "Switch between tasks every"
-msgstr "Schakel tussen taken elke"
-
-msgid "Recommended: @period minutes"
-msgstr "Aanbevolen: @period minuten"
-
-msgid "On multiprocessors, use at most"
-msgstr "Bij meerdere processoren, gebruik maximaal"
-
-msgid "processors"
-msgstr "processoren"
-
-msgid "Set to 0 for no limit"
-msgstr "Gebruik 0 voor geen limiet"
-
-msgid "% of the processors"
-msgstr "% van de processoren"
-
-msgid "Use at most"
-msgstr "Gebruik maximaal"
-
-msgid "% of the CPU time"
-msgstr "% van de CPU tijd"
-
-msgid "Can be used to reduce CPU heat"
-msgstr "Kan gebruikt worden om eventueel CPU warmte te beperken"
-
-msgid "Disk and memory usage"
-msgstr "Schijf- en geheugengebruik"
-
-msgid "Disk: use at most"
-msgstr "Schijf: gebruik maximaal"
-
-msgid "Disk: leave free at least"
-msgstr "Schijf: laat minstens vrij"
-
-msgid "Values smaller than @number are ignored"
-msgstr "Waarden kleiner dan @number worden genegeerd"
-
-msgid "% of total"
-msgstr "% van totale schijf grootte"
-
-msgid "Tasks checkpoint to disk at most every"
-msgstr "Controlepunt van werk op schijf opslaan elke"
-
-msgid "seconds"
-msgstr "seconden"
-
-msgid "Swap space: use at most"
-msgstr "Wisselbestand: gebruik maximaal"
-
-msgid "Memory: when computer is in use, use at most"
-msgstr "Geheugen: terwijl de computer actief is, gebruik maximaal"
-
-msgid "Memory: when computer is not in use, use at most"
-msgstr "Geheugen: terwijl de computer niet actief is, gebruik maximaal"
-
-msgid "Network usage"
-msgstr "Netwerkgebruik"
-
-msgid "Computer is connected to the Internet about every"
-msgstr "Computer heeft contact met het Internet ongeveer elke"
-
-msgid "days"
-msgstr "dagen"
-
-msgid ""
-"Leave blank or 0 if always connected. @project will try to maintain at least"
-" this much work."
-msgstr "Laat leeg of zet 0 als altijd verbonden. @project zal proberen om minstens zo veel werk te bewaren."
-
-msgid "Maintain enough work for an additional"
-msgstr "Bewaar genoeg werk voor een extra"
-
-msgid "Confirm before connecting to Internet?"
-msgstr "Bevestiging bij het openen van de Internet verbinding?"
-
-msgid "Matters only if you have a modem, ISDN, or VPN connection"
-msgstr "Alleen van belang bij een modem, ISDN of VPN verbinding."
-
-msgid "Disconnect when done?"
-msgstr "Verbinding verbreken indien gereed?"
-
-msgid "Maximum download rate"
-msgstr "Maximale download waarde"
-
-msgid "Maximum upload rate"
-msgstr "Maximale upload waarde"
-
-msgid "Use network only between the hours of:"
-msgstr "Gebruik het netwerk alleen tussen"
-
-msgid "Transfer at most"
-msgstr "Maximale overdacht"
-
-msgid "Skip image file verification?"
-msgstr "Sla bestands verificatie over?"
-
-msgid ""
-"Check this ONLY if your Internet provider modifies image files (UMTS does "
-"this, for example). Skipping verification reduces the security of BOINC."
-msgstr "Vink dit alleen aan als je provider de indeling van grafische bestanden aanpast (UMTS doet dit bijvoorbeeld). Verificatie overslaan verlaagt de veiligheid van BOINC."
-
-msgid "Show comparison view"
-msgstr "Toon vergelijking"
+msgid "no"
+msgstr "nee"
 
 msgid "Resource settings"
 msgstr "Broninstellingen"
@@ -660,6 +70,9 @@ msgstr "Bepaalt hoeveel tijd dit project van jouw computer gebruik kan maken. Vo
 
 msgid "Use CPU"
 msgstr "Gebruik CPU"
+
+msgid "Enforced by version @number"
+msgstr "Instelbaar vanaf @number"
 
 msgid "Use NVIDIA GPU"
 msgstr "Gebruik NVIDIA GPU"
@@ -681,105 +94,53 @@ msgid ""
 "computer"
 msgstr "Dit helpt ons om applicaties te ontwikkelen, maar kan er voor zorgen dat werk faalt op jouw computer"
 
+msgid " Default value: @default"
+msgstr "Standaardwaarde: @default"
+
+msgid "Applications"
+msgstr "Applicaties"
+
 msgid "Default set"
 msgstr "Standaardgebruik"
 
 msgid "Set used for new computers"
 msgstr "Alleen gebruikt voor nieuwe computers"
 
-msgid "Merge"
-msgstr "Samenvoegen"
+msgid "Save changes"
+msgstr "Veranderingen opslaan"
 
-msgid "Delete"
-msgstr "Verwijder"
+msgid "Cancel"
+msgstr "Annuleren"
 
-msgid ""
-"This will delete host @id from your account forever. Are you sure this is "
-"OK?"
-msgstr "Dit zal host @id voor altijd van je account vewijderen. Weet je dit zeker?"
+msgid "Show comparison view"
+msgstr "Toon vergelijking"
 
-msgid "Mark all topics read"
-msgstr "Markeer alle onderwerpen als gelezen"
+msgid "Comment form"
+msgstr "Reactieformulier"
 
-msgid "Mark all forums read"
-msgstr "Markeer alle forums als gelezen"
+msgid "Logout"
+msgstr "Uitloggen"
 
-msgid ""
-"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
-"administrator if this problem persists."
-msgstr "CAPTCHA validatiefout: onbekende CAPTCHA sessie-ID. Neem contact op met de sitebeheerder als dit probleem zich blijft voordoen."
+msgid "Join now"
+msgstr "Word lid"
 
-msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr "Het antwoord dat je voor de CAPTCHA hebt ingevuld was niet correct."
+msgid "Account"
+msgstr "Account"
 
-msgid "Access denied. You must login to view this page."
-msgstr "Toegang geweigerd. Je moet inloggen om deze pagina te kunnen zien."
+msgid "Server status"
+msgstr "Server status"
 
-msgid "You are not authorized to access this page."
-msgstr "Je bent niet gemachtigd om deze pagina te bekijken."
+msgid "Language"
+msgstr "Taal"
 
-msgid "Disable rich-text"
-msgstr "Rich-text uitschakelen"
-
-msgid "Enable rich-text"
-msgstr "Rich-text inschakelen"
-
-msgid "View user profile."
-msgstr "Bekijk gebruikers profiel"
-
-msgid "BBcode help"
-msgstr "BBcode help"
-
-msgid "Post comment"
-msgstr "Post reactie"
-
-msgid "No @type tasks"
-msgstr "Geen @type taken"
-
-msgid "There are no tasks of this type on record"
-msgstr "Er zijn geen taken van dit type bekent"
-
-msgid "Clear"
-msgstr "Wissen"
-
-msgid ""
-"This will remove all of your settings from the @name preference set. Are you"
-" sure?"
-msgstr "Dit zal al je instellingen van de @name voorkeur verwijderen. Weet je dit zeker?"
-
-msgid "These apply to all BOINC projects in which you participate."
-msgstr "Dit heeft betrekking op alle projecten waar je aan mee doet."
-
-msgid ""
-"On computers attached to multiple projects, the most recently modified "
-"preferences will be used."
-msgstr "Op computers met meerdere projecten, worden de meest recent aangepaste voorkeuren gebruikt."
-
-msgid "Preferences last modified: @mod_time"
-msgstr "Voorkeuren aangepast per: @mod_time"
-
-msgid "Combined preferences"
-msgstr "Gecombineerde voorkeuren"
-
-msgid "Switch View"
-msgstr "Verander Weergave"
-
-msgid "every"
-msgstr "elke"
-
-msgid "Edit"
-msgstr "Aanpassen"
-
-msgid ""
-"This will remove all of your settings from the \"@name\" preference set. Are"
-" you sure?"
-msgstr "Dit zal al je instellingen van de \"@name\" voorkeur verwijderen. Weet je dit zeker?"
-
-msgid "Add"
-msgstr "Toevoegen"
+msgid "Create content"
+msgstr "Maak inhoud"
 
 msgid "General settings"
 msgstr "Algemene instellingen"
+
+msgid "Name"
+msgstr "Naam"
 
 msgid "Time zone"
 msgstr "Tijdzone"
@@ -865,288 +226,14 @@ msgstr "Wil je dat @project en/of je team e-mail naar je kunnen verzenden?"
 msgid "Should @project show your computers on its web site?"
 msgstr "Wil je dat @project jouw computers laat zien op de website?"
 
-msgid "Hide"
-msgstr "Verbergen"
-
-msgid "Hide this topic"
-msgstr "Dit onderwerp verbergen"
-
-msgid "Lock"
-msgstr "Vergrendelen"
-
-msgid "Lock this thread for comments"
-msgstr "Vergrendel dit onderwerp voor reacties"
-
-msgid "Make sticky"
-msgstr "Vast zetten"
-
-msgid "Make this topic sticky"
-msgstr "Dit onderwerp vast zetten"
-
-msgid "moderation"
-msgstr "beheer"
-
-msgid "Post new comment"
-msgstr "Post nieuwe reactie"
-
-msgid "You must earn 1 more credit!"
-msgstr "Je moet nog 1 punt verdienen!"
-
-msgid "Joined"
-msgstr "Aangemeld"
-
-msgid "Credit"
-msgstr "Punten"
-
-msgid "RAC"
-msgstr "Punten gemiddelde"
-
-msgid "Join team"
-msgstr "Word lid van het team"
-
-msgid "Click here to become a member of @this_team"
-msgstr "Klik hier om lid van @this_team te worden"
-
-msgid "Join this team"
-msgstr "Sluit je aan bij dit team"
-
-msgid "Manage team"
-msgstr "Beheer team"
-
-msgid "View member list"
-msgstr "Bekijk ledenlijst"
-
-msgid "Member names and emails"
-msgstr "Ledennamen en e-mails"
-
-msgid "View change history"
-msgstr "Toon verloop van wijzigingen"
-
-msgid "See member activity"
-msgstr "Bekijk activiteit van leden"
-
-msgid "Manage team message board"
-msgstr "Beheer team forum"
-
-msgid "Create or manage message board"
-msgstr "Een forum aanmaken of beheren"
-
-msgid "Remove members"
-msgstr "Leden verwijderen niet toegestaan"
-
-msgid "Change founder"
-msgstr "Oprichter wijzigen"
-
-msgid "Manage team admins"
-msgstr "Beheer team administrators"
-
-msgid "Edit team info"
-msgstr "Team info bijwerken"
-
-msgid "Remove team"
-msgstr "Verwijder team"
-
-msgid "Team forum"
-msgstr "Team forum"
-
-msgid "A discussion forum has been set up for team members."
-msgstr "Een discussieforum is opgezet voor teamleden."
-
-msgid "Enter forum"
-msgstr "Bekijk forum"
-
-msgid "Leave team"
-msgstr "Team verlaten"
-
-msgid "Click here to revoke your membership with @this_team"
-msgstr "Klik hier om je lidmaatschap van @this_team in te trekken"
-
-msgid "Leave this team"
-msgstr "Verlaat dit team"
-
-msgid "Edit message board"
-msgstr "Forum bijwerken"
-
-msgid "Message board title"
-msgstr "Forum titel"
-
-msgid "Text only, no HTML tags"
-msgstr "Alleen tekst, geen HTML elementen"
-
-msgid "Minimum time between posts"
-msgstr "Minimum tijd tussen de berichten"
-
-msgid "Seconds"
-msgstr "Seconden"
-
-msgid "Minimum total credit to post"
-msgstr "Minimaal punten totaal om te kunnen plaatsen"
-
-msgid "Minimum avg credit to post"
-msgstr "Minimaal punten gemiddelde om te kunnen plaatsen"
-
-msgid "Allow public to read board?"
-msgstr "Sta publiek toe om forum te lezen?"
-
-msgid "Save message board"
-msgstr "Bewaar forum"
-
-msgid "About message boards"
-msgstr "Over forums"
-
-msgid "This is a team-only message board"
-msgstr "Dit forum is alleen voor het team"
-
-msgid "Only members may post"
-msgstr "Alleen leden mogen berichten posten"
-
-msgid "Only members may read (optional)"
-msgstr "Alleen leden mogen berichten lezen (optioneel)"
-
-msgid "Founder & Team Admins have moderator privileges"
-msgstr "Oprichter en team administrators hebben moderator rechten."
-
-msgid "Changing the team founder"
-msgstr "De team oprichter veranderen"
-
-msgid "Notes about changes in foundership:"
-msgstr "Notities over veranderen van oprichter:"
-
-msgid "Any member of the team is eligible"
-msgstr "Elk lid van het team komt in aanmerking"
-
-msgid "Current founder becomes a normal user"
-msgstr "Huidige oprichter verandert naar een normale gebruiker"
-
-msgid "Foundership can be requested by team members:"
-msgstr "Verandering van oprichter kan worden aangevraagd door teamleden:"
-
-msgid "One request is allowed at a time"
-msgstr "Een verzoek tegelijkertijd"
-
-msgid "It must be 60 days since any previous request"
-msgstr "Er moeten 60 dagen zijn geweest sinds het laatste verzoek"
-
-msgid "Any active request must be older than 90 days"
-msgstr "Actieve verzoeken moeten ouder zijn dan 90 dagen"
-
-msgid "Current founder has 60 days to respond to a request"
-msgstr "Huidige oprichter heeft 60 dagen om op een verzoek te reageren"
-
-msgid "Add team admin"
-msgstr "Team administrator toevoegen"
-
-msgid "Enter email address"
-msgstr "e-mail adres invoeren"
-
-msgid "Current team admins"
-msgstr "Huidige team administrators"
-
-msgid "About team admins"
-msgstr "Over team administrators"
-
-msgid "Team admins can:"
-msgstr "Team administrators kunnen:"
-
-msgid "Edit team information"
-msgstr "Team informatie bijwerken"
-
-msgid "View the team's join / quit history"
-msgstr "Het verloop van de aan- en afmeld gegevens van dit team inzien"
-
-msgid "Moderate the team forum"
-msgstr "Het team forum modereren"
-
-msgid "Remove members from the team"
-msgstr "Teamleden verwijderen"
-
-msgid "Disband a team if it has no members"
-msgstr "Het team kan ontbinden als het geen leden heeft"
-
-msgid "Team admins cannot:"
-msgstr "Team administrator beperkingen:"
-
-msgid "Change the team founder"
-msgstr "De team oprichter aanpassen is niet mogelijk"
-
-msgid "Add / Remove team admins"
-msgstr "Toevoegen of verwijderen van team administrators"
-
-msgid ""
-"If a team admin quits the team, they cease to be a team admin. We recommend "
-"only selecting people you know and trust"
-msgstr "Als een team administrator het team verlaat, verliest deze de administrator rechten. We raden je aan alleen mensen te selecteren die je kent en vertrouwt."
-
-msgid "Choose type"
-msgstr "Kies soort"
-
-msgid "Team name"
-msgstr "Team naam"
-
-msgid "Team name -- HTML version (optional)"
-msgstr "Naam van team, HTML versie (optioneel)"
-
-msgid "You may use limited HTML tags"
-msgstr "Beperkte HTML codes toegestaan"
-
-msgid "Team website (optional)"
-msgstr "Team website (optioneel)"
-
-msgid "Displayed on the team's page"
-msgstr "Weergegeven op de team pagina"
-
-msgid "Type of team"
-msgstr "Soort team"
-
-msgid "Accept new members?"
-msgstr "Accepteer nieuwe leden?"
-
-msgid "Description of team"
-msgstr "Beschrijving van team"
-
-msgid "Create new team"
-msgstr "Maak een nieuw team aan"
-
-msgid "Create a team"
-msgstr "Een team aanmaken"
-
-msgid "Save team"
-msgstr "Team opslaan"
-
-msgid "Create team message board"
-msgstr "Maak een team forum"
-
-msgid "Create message board"
-msgstr "Maak een forum"
-
-msgid "You may create a message board for use by @team"
-msgstr "Je mag een forum maken voor @team"
-
-msgid ""
-"Please set the minimum average credit that a user is required to have in "
-"order to post to this message board."
-msgstr "Minimum gemiddelde puntenaantal dat een gebruiker nodig heeft om op dit forum te kunnen posten."
-
-msgid "Post new topic"
-msgstr "Post nieuw onderwerp"
-
-msgid "Anonymous"
-msgstr "Anoniem"
-
-msgid "Unpublished"
-msgstr "Ongepubliceerd"
-
-msgid "parent removed"
-msgstr "bron verwijderd"
-
-msgid "Sorry, unrecognized email address or password."
-msgstr "Sorry, je e-mail adres of wachtwoord werd niet herkend."
-
-msgid "Have you forgotten your password?"
-msgstr "Ben je je wachtwoord vergeten?"
-
 msgid "Id"
 msgstr "id"
+
+msgid "Founder"
+msgstr "Oprichter"
+
+msgid "Country"
+msgstr "Land"
 
 msgid "Recent average credit"
 msgstr "Huidige punten gemiddelde"
@@ -1177,6 +264,9 @@ msgstr "Tijdsaanduiding"
 
 msgid "Account Key"
 msgstr "Account Key"
+
+msgid "Member since"
+msgstr "Lid sinds"
 
 msgid "CPID"
 msgstr "CPID"
@@ -1418,11 +508,389 @@ msgstr "Max. aantal taken per dag"
 msgid "Number of tasks today"
 msgstr "Aantal taken vandaag"
 
-msgid "Show IP address"
-msgstr "IP adres bekijken"
+msgid "Manage subscriptions"
+msgstr "Beheer abonnementen"
 
-msgid "hours"
-msgstr "uren"
+msgid "Avg credit"
+msgstr "Gemiddelde punten"
+
+msgid "Total credit"
+msgstr "Punten totaal"
+
+msgid "More"
+msgstr "Meer"
+
+msgid "Tasks"
+msgstr "Taken"
+
+msgid "Computers hidden"
+msgstr "Computers verbergen"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "Deze gebruiker heeft ervoor gekozen geen informatie over zijn computers te laten zien."
+
+msgid "no projects..."
+msgstr "geen projecten..."
+
+msgid "Moderation"
+msgstr "Beheer"
+
+msgid "Unvetted profiles"
+msgstr "Niet beoordeelde profielen"
+
+msgid "Inbox"
+msgstr "Postvak In"
+
+msgid "Compose new"
+msgstr "Nieuw samenstellen"
+
+msgid "Posts contributed"
+msgstr "Berichten bijgedragen"
+
+msgid "Friends (@count)"
+msgstr "Vrienden (@count)"
+
+msgid "Welcome back!"
+msgstr "Welkom terug!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home is een programma dat de inactieve tijd van uw computer gebruikt om een screensaver te draaien om te zoeken naar zwaartekrachtgolven uit draaiende neutronensterren (ook wel pulsars genaamd) met behulp van gegevens van de LIGO gravitatiegolven detector."
+
+msgid "Learn more"
+msgstr "Meer weten"
+
+msgid "View account"
+msgstr "Account bekijken"
+
+msgid "User of the day"
+msgstr "Gebruiker van de dag"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "Meer dan 500,000 vrijwilligers"
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Credits per day"
+msgstr "Punten per dag"
+
+msgid "View user profile."
+msgstr "Bekijk gebruikers profiel"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Profiel in afwachting van moderator goedkeuring"
+
+msgid "Background"
+msgstr "Achtergrond"
+
+msgid "Opinion"
+msgstr "Mening"
+
+msgid "Enter your password to save changes"
+msgstr "Voer uw wachtwoord in om wijzigingen op te slaan"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Vul je huidige wachtwoord in als je je e-mail verandert\nadres of wachtwoord."
+
+msgid "BOINC user ID"
+msgstr "BOINC gebruikers ID"
+
+msgid "Drupal user ID"
+msgstr "Drupal gebruikers ID"
+
+msgid "Account key"
+msgstr "Account key"
+
+msgid "Weak account key"
+msgstr "Zwakke account key"
+
+msgid "Cross-project ID"
+msgstr "Cross-project ID"
+
+msgid "Change password"
+msgstr "Verander wachtwoord"
+
+msgid "Presets"
+msgstr "Vooraf ingesteld"
+
+msgid "Standard"
+msgstr "Standaard"
+
+msgid "Maximum"
+msgstr "Maximaal"
+
+msgid "Green"
+msgstr "Groen"
+
+msgid "Minimum"
+msgstr "Minimaal"
+
+msgid "Custom"
+msgstr "Aangepast"
+
+msgid "Update preset"
+msgstr "Vooraf ingestelde bijwerken"
+
+msgid "Advanced settings"
+msgstr "Geavanceerde instellingen"
+
+msgid "Processor usage"
+msgstr "Processor gebruik"
+
+msgid "Run while computer is on battery power?"
+msgstr "Uitvoeren wanneer computer op accu werkt? "
+
+msgid "Only applies to portable computers"
+msgstr "Geldt alleen voor draagbare computers"
+
+msgid "Run while computer is in use?"
+msgstr "Gebruik wanneer de computer in gebruik is?"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "Gebruik de GPU wanneer de computer in gebruik Is? "
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "\"In gebruik\" betekent muis/toetsenbord gebruik in de laatste"
+
+msgid "minutes"
+msgstr "minuten"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "Pauzeer werk wanneer geen toestenbord/muis activiteit in de laatste"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "Nodig op sommige computers om sluimer-modus te activeren"
+
+msgid "Suspend work if CPU usage is above"
+msgstr "Pauzeer werk bij CPU gebruik van meer dan"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 betekent geen beperking. Instelbaar vanaf @number"
+
+msgid "Do work only between the hours of:"
+msgstr "Werk actief tussen:"
+
+msgid "and"
+msgstr "en"
+
+msgid "No restriction if equal"
+msgstr "Geen beperkingen indien gelijk"
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "Laat taken in geheugen wanneer gepauzeerd?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "Gepauzeerde taken zullen het wisselbestand gebruiken bij \"ja\""
+
+msgid "Switch between tasks every"
+msgstr "Schakel tussen taken elke"
+
+msgid "Recommended: @period minutes"
+msgstr "Aanbevolen: @period minuten"
+
+msgid "On multiprocessors, use at most"
+msgstr "Bij meerdere processoren, gebruik maximaal"
+
+msgid "processors"
+msgstr "processoren"
+
+msgid "Set to 0 for no limit"
+msgstr "Gebruik 0 voor geen limiet"
+
+msgid "% of the processors"
+msgstr "% van de processoren"
+
+msgid "Use at most"
+msgstr "Gebruik maximaal"
+
+msgid "% of the CPU time"
+msgstr "% van de CPU tijd"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "Kan gebruikt worden om eventueel CPU warmte te beperken"
+
+msgid "Disk and memory usage"
+msgstr "Schijf- en geheugengebruik"
+
+msgid "Disk: use at most"
+msgstr "Schijf: gebruik maximaal"
+
+msgid "Disk: leave free at least"
+msgstr "Schijf: laat minstens vrij"
+
+msgid "Values smaller than @number are ignored"
+msgstr "Waarden kleiner dan @number worden genegeerd"
+
+msgid "% of total"
+msgstr "% van totale schijf grootte"
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "Controlepunt van werk op schijf opslaan elke"
+
+msgid "seconds"
+msgstr "seconden"
+
+msgid "Swap space: use at most"
+msgstr "Wisselbestand: gebruik maximaal"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "Geheugen: terwijl de computer actief is, gebruik maximaal"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "Geheugen: terwijl de computer niet actief is, gebruik maximaal"
+
+msgid "Network usage"
+msgstr "Netwerkgebruik"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "Computer heeft contact met het Internet ongeveer elke"
+
+msgid "days"
+msgstr "dagen"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "Laat leeg of zet 0 als altijd verbonden. @project zal proberen om minstens zo veel werk te bewaren."
+
+msgid "Maintain enough work for an additional"
+msgstr "Bewaar genoeg werk voor een extra"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "Bevestiging bij het openen van de Internet verbinding?"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "Alleen van belang bij een modem, ISDN of VPN verbinding."
+
+msgid "Disconnect when done?"
+msgstr "Verbinding verbreken indien gereed?"
+
+msgid "Maximum download rate"
+msgstr "Maximale download waarde"
+
+msgid "Maximum upload rate"
+msgstr "Maximale upload waarde"
+
+msgid "Use network only between the hours of:"
+msgstr "Gebruik het netwerk alleen tussen"
+
+msgid "Transfer at most"
+msgstr "Maximale overdacht"
+
+msgid "Skip image file verification?"
+msgstr "Sla bestands verificatie over?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "Vink dit alleen aan als je provider de indeling van grafische bestanden aanpast (UMTS doet dit bijvoorbeeld). Verificatie overslaan verlaagt de veiligheid van BOINC."
+
+msgid "search"
+msgstr "zoeken"
+
+msgid "What is @this_project?"
+msgstr "Wat is @this_project?"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "Project"
+
+msgid "No @type tasks"
+msgstr "Geen @type taken"
+
+msgid "There are no tasks of this type on record"
+msgstr "Er zijn geen taken van dit type bekent"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Password"
+msgstr "Wachtwoord"
+
+msgid "Enter the password that accompanies your username."
+msgstr "Vul het wachtwoord in voor je gebruikersnaam."
+
+msgid "Request new password"
+msgstr "Nieuw wachtwoord opvragen"
+
+msgid "Mark all topics read"
+msgstr "Markeer alle onderwerpen als gelezen"
+
+msgid "Mark all forums read"
+msgstr "Markeer alle forums als gelezen"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "CAPTCHA validatiefout: onbekende CAPTCHA sessie-ID. Neem contact op met de sitebeheerder als dit probleem zich blijft voordoen."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "Het antwoord dat je voor de CAPTCHA hebt ingevuld was niet correct."
+
+msgid "Access denied. You must login to view this page."
+msgstr "Toegang geweigerd. Je moet inloggen om deze pagina te kunnen zien."
+
+msgid "You are not authorized to access this page."
+msgstr "Je bent niet gemachtigd om deze pagina te bekijken."
+
+msgid "Disable rich-text"
+msgstr "Rich-text uitschakelen"
+
+msgid "Enable rich-text"
+msgstr "Rich-text inschakelen"
+
+msgid "Teams"
+msgstr "Teams"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "@project deelnemers kunnen teams vormen. U kunt slechts tot één team behoren. U kunt op elk moment deelnemen aan of stoppen met een team. Om deel te nemen aan een team, bezoek de team-pagina en klik op \"Deelnemen aan dit team.\" Elk team heeft een oprichter die:"
+
+msgid "access team members' email addresses"
+msgstr "toegang heeft tot de e-mail adressen van de leden"
+
+msgid "edit the team's name and description"
+msgstr "de naam en beschrijving van het team kan veranderen"
+
+msgid "add or remove team admins"
+msgstr "team administrators mag toevoegen of verwijderen"
+
+msgid "remove members from the team"
+msgstr "leden kan verwijderen uit het team"
+
+msgid "disband a team if it has no members"
+msgstr "het team kan ontbinden als het geen leden heeft"
+
+msgid "Search teams"
+msgstr "Zoek teams"
+
+msgid "Create a new team"
+msgstr "Start nieuw team"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "Als je geen team kunt vinden dat geschikt is voor je, kun je er zelf een starten."
+
+msgid "You must earn 1 more credit!"
+msgstr "Je moet nog 1 punt verdienen!"
 
 msgid "@count million ops/sec"
 msgstr "@count miljoen ops/sec"
@@ -1433,17 +901,126 @@ msgstr "@rate KiB/sec"
 msgid "@count days"
 msgstr "@count dagen"
 
-msgid "Remove friend"
-msgstr "Vriend verwijderen"
+msgid "Stderr output"
+msgstr "Stderr output"
 
-msgid "Ban user"
-msgstr "Gebruiker uitsluiten"
+msgid "Email address"
+msgstr "E-mail adres"
+
+msgid "Enter your @s email address."
+msgstr "Vul je e-mailadres in."
+
+msgid "Log in"
+msgstr "Inloggen"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "Sorry, je e-mail adres of wachtwoord werd niet herkend."
+
+msgid "Have you forgotten your password?"
+msgstr "Ben je je wachtwoord vergeten?"
+
+msgid "No results found..."
+msgstr "Geen resultaten gevonden... "
+
+msgid "Anonymous"
+msgstr "Anoniem"
+
+msgid "Forgot password"
+msgstr "Wachtwoord vergeten"
+
+msgid "authenticator-based login"
+msgstr "op authenticatie gebasseerde login"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Vul je e-mail adres in om instructies te ontvangen om je wachtwoord te resetten (of gebruik de !authenticator_login)."
+
+msgid "Send"
+msgstr "Verzenden"
+
+msgid "Submitted by !username on !datetime"
+msgstr "Ingediend door !username op !datetime"
+
+msgid "Send message"
+msgstr "Verstuur bericht"
 
 msgid "Add as friend"
 msgstr "Voeg toe als vriend"
 
+msgid "Website"
+msgstr "Website"
+
 msgid "Team"
 msgstr "Mijn Team"
+
+msgid "Create new team"
+msgstr "Maak een nieuw team aan"
+
+msgid "Search"
+msgstr "zoeken"
+
+msgid "Total credits"
+msgstr "Totaal punten"
+
+msgid "Recent avg credits"
+msgstr "Huidige punten gemiddelde"
+
+msgid "Type"
+msgstr "Soort"
+
+msgid "New members in last day"
+msgstr "Nieuwe leden in de laatste dag"
+
+msgid "Total members"
+msgstr "Totaal aantal leden"
+
+msgid "Active members"
+msgstr "Actieve leden"
+
+msgid "Members with credit"
+msgstr "Leden met punten"
+
+msgid "Web site"
+msgstr "Website"
+
+msgid "Description"
+msgstr "Beschrijving"
+
+msgid "BBcode help"
+msgstr "BBcode help"
+
+msgid "Post comment"
+msgstr "Post reactie"
+
+#: preference set
+msgctxt "preference set"
+msgid "Home"
+msgstr "Thuis pagina"
+
+msgid "The latest news from the @site_name project"
+msgstr "Het laatste nieuws van @site_name"
+
+msgid "Hide"
+msgstr "Verbergen"
+
+msgid "Hide this topic"
+msgstr "Dit onderwerp verbergen"
+
+msgid "Lock"
+msgstr "Vergrendelen"
+
+msgid "Lock this thread for comments"
+msgstr "Vergrendel dit onderwerp voor reacties"
+
+msgid "Make sticky"
+msgstr "Vast zetten"
+
+msgid "Make this topic sticky"
+msgstr "Dit onderwerp vast zetten"
+
+msgid "moderation"
+msgstr "beheer"
 
 msgid "Reply"
 msgstr "Beantwoord"
@@ -1457,8 +1034,14 @@ msgstr "Citaat"
 msgid "Reply to this comment with quote"
 msgstr "Geef antwoord op dit bericht met citaat"
 
+msgid "Edit"
+msgstr "Aanpassen"
+
 msgid "Edit this comment"
 msgstr "Dit bericht aanpassen"
+
+msgid "Delete"
+msgstr "Verwijder"
 
 msgid "Delete this comment"
 msgstr "Verwijder dit bericht"
@@ -1466,76 +1049,44 @@ msgstr "Verwijder dit bericht"
 msgid "Hide this comment"
 msgstr "Verberg dit bericht"
 
+msgid "Message @id"
+msgstr "Bericht @id"
+
 msgid "Convert"
 msgstr "Omzetten"
 
 msgid "Convert this comment to a new topic"
 msgstr "Zet dit bericht om naar een nieuw onderwerp"
 
-msgid "Details"
-msgstr "Details"
+msgid "message @id"
+msgstr "bericht @id"
 
-msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (gelijk aan de laatste @count keer)"
+msgid " in response to !parent"
+msgstr "In antwoord op !parent"
 
-msgid "commented on"
-msgstr "gereageerd op"
+msgid "Post new comment"
+msgstr "Post nieuwe reactie"
 
-msgid "Make unsticky"
-msgstr "Los maken"
+msgid "Comments"
+msgstr "Opmerkingen"
 
-msgid "Remove sticky status from this topic"
-msgstr "Verwijder vastmaakstatus van dit onderwerp"
+msgid "discuss"
+msgstr "discussieer"
 
-msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake."
-" You can correct this by merging old identities with the newest one."
-msgstr "Soms krijgt een computer per ongeluk meer dan één identiteit door BOINC toegewezen. Je kunt dit verhelpen door vorige identiteiten met de laatste samen te voegen."
+msgid "n/a"
+msgstr "n.v.t."
 
-msgid ""
-"Check the computers that are the same as @name (created on @date at @time "
-"with computer ID @id)"
-msgstr "Controleer de computers die identiek zijn aan @name (aangemaakt @date, computer ID @id):"
+msgid "@time ago"
+msgstr "@time geleden"
 
-msgid "Computer @old_id has been merged successfully into @id."
-msgstr "Computer @old_id is succesvol toegevoegd tot @Id."
+msgid "Threads"
+msgstr "Onderwerpen"
 
-msgid "started discussion"
-msgstr "discussie gestart"
+msgid "Posts"
+msgstr "Reacties"
 
-msgid "posted"
-msgstr "bericht geplaatst"
-
-msgid "Minimum value not met for @field"
-msgstr "Minimum waarde niet voldaan voor @field"
-
-msgid "Remove"
-msgstr "Verwijderen"
-
-msgid "hidden"
-msgstr "verborgen"
-
-msgid "Invalid data type for @field"
-msgstr "Ongeldig data type voor @field"
-
-msgid ""
-"Authentication is required when changing E-mail address or setting new "
-"password."
-msgstr "Verificatie is vereist bij het wisselen van e-mailadres of het instellen van het nieuwe wachtwoord."
-
-msgid "Request foundership"
-msgstr "Oprichterschap verzoeken"
-
-msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click below to request foundership of @this_team."
-msgstr "Als de team oprichter niet actief is en je wilt deze taak overnemen, klik onder om een verzoek te doen voor oprichterschap van @this_team"
-
-msgid "Initiate request"
-msgstr "Plaats verzoek"
-
-msgid "A BOINC account already exists for @email."
-msgstr "Een BOINC account bestaat al met dit @email adres"
+msgid "Last post"
+msgstr "Laatste reactie"
 
 msgid ""
 "Please be responsible in what you write and do not create posts which are "
@@ -1559,11 +1110,96 @@ msgstr "We vragen ook dat je alle discussies op de forums hebt met betrekking to
 msgid "These message boards now support BBCode tags only."
 msgstr "Deze forums gebruiken nu alleen BBcode elementen."
 
-msgid "Posts contributed"
-msgstr "Berichten bijgedragen"
+msgid "Featured"
+msgstr "Aanbevolen"
 
-msgid "Profile awaiting moderator approval"
-msgstr "Profiel in afwachting van moderator goedkeuring"
+msgid "Locked"
+msgstr "Gesloten"
+
+msgid "Submitted on !datetime"
+msgstr "Ingediend op !datetime"
+
+msgid "Computers pending"
+msgstr "Computers in afwachting"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "Deze gebruiker heeft nog geen bijbehorende computers. Computers worden weergegeven wanneer ze hun eerste credits hebben verdiend."
+
+msgid "Show IP address"
+msgstr "IP adres bekijken"
+
+msgid "Download the desktop software"
+msgstr "Download de desktop software"
+
+msgid "Run the installer"
+msgstr "Start de installer "
+
+msgid "hours"
+msgstr "uren"
+
+msgid "When prompted enter @siteurl"
+msgstr "Als daarom gevraagd wordt, vul @siteurl in"
+
+msgid "Merge"
+msgstr "Samenvoegen"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "Dit zal host @id voor altijd van je account vewijderen. Weet je dit zeker?"
+
+msgid "Post topic"
+msgstr "Post onderwerp"
+
+msgid "Leave team"
+msgstr "Team verlaten"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Klik hier om je lidmaatschap van @this_team in te trekken"
+
+msgid "Leave this team"
+msgstr "Verlaat dit team"
+
+msgid "Request foundership"
+msgstr "Oprichterschap verzoeken"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Als de team oprichter niet actief is en je wilt deze taak overnemen, klik onder om een verzoek te doen voor oprichterschap van @this_team"
+
+msgid "Initiate request"
+msgstr "Plaats verzoek"
+
+msgid "No active computers"
+msgstr "Geen actieve computers"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "Deze gebruiker heeft geen computers die actief waren in de laatste 30 dagen."
+
+msgid "Clear"
+msgstr "Wissen"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "Dit zal al je instellingen van de @name voorkeur verwijderen. Weet je dit zeker?"
+
+msgid "Your community preferences have been updated."
+msgstr "Je gemeenschapsvoorkeuren zijn bijgewerkt."
+
+msgid "Combined preferences"
+msgstr "Gecombineerde voorkeuren"
+
+msgid "Switch View"
+msgstr "Verander Weergave"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "Dit zal al je instellingen van de \"@name\" voorkeur verwijderen. Weet je dit zeker?"
 
 msgid "Approve profile"
 msgstr "Profiel goedkeuren"
@@ -1571,46 +1207,25 @@ msgstr "Profiel goedkeuren"
 msgid "Approve this profile content"
 msgstr "Keur de inhoud van dit profiel goed"
 
-msgid "Edit profile"
-msgstr "Profiel aanpassen"
-
-msgid "Edit the content of this profile"
-msgstr "Pas de inhoud van dit profiel aan"
-
-msgid "Remove profile"
-msgstr "Verwijder profiel"
-
-msgid "Remove this profile content from the system"
-msgstr "Verwijder de inhoud van dit profiel"
-
-msgid "The team founder has @count days to respond to your transfer request."
-msgstr "Huidige oprichter heeft @count dagen om op een verzoek te reageren."
-
-msgid "Reject profile"
-msgstr "Profiel afwijzen"
-
 msgid "Reject this profile content"
 msgstr "Keur de inhoud van dit profiel af"
 
-msgid "Reason for rejecting this profile"
-msgstr "Reden om dit profiel af te keuren?"
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "Dit heeft betrekking op alle projecten waar je aan mee doet."
 
 msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of the problem and how to fix it."
-msgstr "Deze reden zal in de e-mail naar de gebruiker opgenomen worden. Type een korte uitleg van het probleem en hoe het op te lossen."
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "Op computers met meerdere projecten, worden de meest recent aangepaste voorkeuren gebruikt."
 
-msgid "Submit"
-msgstr "Indienen"
+msgid "Preferences last modified: @mod_time"
+msgstr "Voorkeuren aangepast per: @mod_time"
 
-msgid "project"
-msgstr "project"
+msgid "every"
+msgstr "elke"
 
-msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "Er bestaat geen account onder @email -- Klik op \"Nieuw account aanmaken\" om te registeren."
-
-msgid "Unknown"
-msgstr "Onbekend"
+msgid "Add"
+msgstr "Toevoegen"
 
 msgid "My team"
 msgstr "Mijn team"
@@ -1621,125 +1236,113 @@ msgstr "Je bent lid van @team."
 msgid "View my team"
 msgstr "Bekijk mijn team"
 
-msgid "Invalid setting for \"%preference\""
-msgstr "Ongeldige instellingen voor \"%preference\""
+msgid "Manage team"
+msgstr "Beheer team"
 
-msgid "Pending"
-msgstr "In behandeling"
+msgid "View member list"
+msgstr "Bekijk ledenlijst"
 
-msgid ""
-"You must earn @count more credits to be able to post comments on this site."
-msgstr "Je moet @count meer punten verdienen alvorens je commentaar kan posten op deze website."
+msgid "Member names and emails"
+msgstr "Ledennamen en e-mails"
 
-msgid "Moderation"
-msgstr "Beheer"
+msgid "View change history"
+msgstr "Toon verloop van wijzigingen"
 
-msgid "Unvetted profiles"
-msgstr "Niet beoordeelde profielen"
+msgid "See member activity"
+msgstr "Bekijk activiteit van leden"
 
-msgid "Reason for banning this user"
-msgstr "Reden voor het uitsluiten van deze gebruiker"
+msgid "Manage team message board"
+msgstr "Beheer team forum"
 
-msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of why the user is being banned."
-msgstr "Deze reden zal in de e-mail naar de gebruiker opgenomen worden. Type een korte uitleg waarom deze gebruiker uitgesloten is."
+msgid "Create or manage message board"
+msgstr "Een forum aanmaken of beheren"
 
-msgid "Duration of the ban"
-msgstr "Periode van uitsluiting"
+msgid "Remove members"
+msgstr "Leden verwijderen niet toegestaan"
 
-msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Het aantal dagen voordat de uitsluiting afloopt. Stel 0 in om permanent uit te sluiten."
+msgid "Change founder"
+msgstr "Oprichter wijzigen"
 
-msgid "Lift user ban"
-msgstr "Uitsluiting opheffen van gebruiker"
+msgid "Manage team admins"
+msgstr "Beheer team administrators"
 
-msgid "You are banned from community participation until @date"
-msgstr "Je bent uitgesloten van deelname aan deze gemeenschap tot @date"
+msgid "Edit team info"
+msgstr "Team info bijwerken"
 
-msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Computers @old_ids zijn succesvol samengevoegd tot @Id."
+msgid "Remove team"
+msgstr "Verwijder team"
 
-msgid "A team named \"@name\" already exists."
-msgstr "Een team met naam \"@name\" bestaat al. "
+msgid "Team forum"
+msgstr "Team forum"
 
-msgid "Post topic"
-msgstr "Post onderwerp"
+msgid "A discussion forum has been set up for team members."
+msgstr "Een discussieforum is opgezet voor teamleden."
 
-msgid "Please enter your email address"
-msgstr "Vul alstublieft uw emailadres in"
+msgid "Enter forum"
+msgstr "Bekijk forum"
 
-msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Ingevoerd wachtwoord is niet geldig. Controleer a.u.b. dat het correct is."
+msgid "Join team"
+msgstr "Word lid van het team"
 
-msgid "Make founder"
-msgstr "Maak oprichter"
+msgid "Click here to become a member of @this_team"
+msgstr "Klik hier om lid van @this_team te worden"
 
-msgid "User of the day"
-msgstr "Gebruiker van de dag"
+msgid "Join this team"
+msgstr "Sluit je aan bij dit team"
 
-msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: reactie geplaatst op \"!topic_name\""
+msgid "Choose type"
+msgstr "Kies soort"
 
-msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author heeft een antwoord geplaatst op \"!topic_name\"."
+msgid "Team name"
+msgstr "Team naam"
 
-msgid ""
-"To view this topic at !site, click here: \n"
-"!comment_url"
-msgstr "Om dit onderwerp te zien op !site, klik hier: \n!comment_url"
+msgid "Text only, no HTML tags"
+msgstr "Alleen tekst, geen HTML elementen"
 
-msgid "At least one application must be selected"
-msgstr "Ten minste een applicatie moet geselecteerd zijn."
+msgid "Team name -- HTML version (optional)"
+msgstr "Naam van team, HTML versie (optioneel)"
 
-msgid "Account"
-msgstr "Account"
+msgid "You may use limited HTML tags"
+msgstr "Beperkte HTML codes toegestaan"
 
-msgid "Log in"
-msgstr "Inloggen"
+msgid "Team website (optional)"
+msgstr "Team website (optioneel)"
 
-msgid "Forgot password"
-msgstr "Wachtwoord vergeten"
+msgid "Displayed on the team's page"
+msgstr "Weergegeven op de team pagina"
 
-msgid ""
-"Enter your email address to receive instructions for resetting your "
-"password."
-msgstr "Vul je e-mail adres in om instructies te ontvangen om je wachtwoord te resetten. "
+msgid "Type of team"
+msgstr "Soort team"
 
-msgid "Send"
-msgstr "Verzenden"
+msgid "Accept new members?"
+msgstr "Accepteer nieuwe leden?"
 
-msgid "Revise or post comment"
-msgstr "Corrigeer of post reactie"
+msgid "Description of team"
+msgstr "Beschrijving van team"
 
-msgid "discuss"
-msgstr "discussieer"
+msgid "Create a team"
+msgstr "Een team aanmaken"
 
-msgid "News"
-msgstr "Nieuws"
-
-msgid "Your community preferences have been updated."
-msgstr "Je gemeenschapsvoorkeuren zijn bijgewerkt."
-
-msgid "Unlock"
-msgstr "Vergrendeling opheffen"
-
-msgid "Unlock this thread for comments"
-msgstr "Ontgrendel dit onderwerp voor reacties"
-
-msgid "Authenticator login"
-msgstr "Authenticatie login"
-
-msgid "Create content"
-msgstr "Maak inhoud"
-
-msgid "authenticator-based login"
-msgstr "op authenticatie gebasseerde login"
+msgid "Save team"
+msgstr "Team opslaan"
 
 msgid ""
-"Enter your email address to receive instructions for resetting your password"
-" (or use the !authenticator_login)."
-msgstr "Vul je e-mail adres in om instructies te ontvangen om je wachtwoord te resetten (of gebruik de !authenticator_login)."
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "Als je BOINC al draait, selecteer <i>Voeg\nProject Toe</.>."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "Als je de command-line versie van BOINC gebruikt,\n        gebruik dan eerst de BOINC Manager software (vanaf een andere computer indien nodig)\n        om een account te maken bij dit project, en gebruik dat account om dit project toe te voegen\n        aan de command-line versie."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "Als je een pre-5.0 versie van BOINC gebruikt, update\nalsjeblieft naar een meer recente versie om een account\nbij dit project te maken."
 
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
@@ -1751,10 +1354,13 @@ msgid ""
 "how:"
 msgstr "Om met deze gegevens toch toegang te krijgen tot uw BOINC-account, gaat u als volgt te werk: "
 
+msgid "BOINC documentation"
+msgstr "BOINC documentatie"
+
 msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"%path1 or %path2."
-msgstr "Ga naar de BOINC data map op je computer (in Windows dit is gewoonlijk %path1 of %path2)."
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Ga naar de BOINC data map op je computer (zie !boinc_wiki voor hulp om dit te vinden)."
 
 msgid ""
 "Find your account file for this project; it will have a name like %file "
@@ -1781,34 +1387,86 @@ msgstr "U wordt nu aangemeld bij uw account; wijzig de betreffende e-mail- en wa
 msgid "Log in with authenticator"
 msgstr "Aanmelden met authentificatie"
 
-msgid "There is no account with that authenticator."
-msgstr "Er is geen account met die authenticatie."
+msgid "OK"
+msgstr "OK"
+
+msgid "Post new topic"
+msgstr "Post nieuw onderwerp"
+
+msgid "Create team message board"
+msgstr "Maak een team forum"
+
+msgid "Message board title"
+msgstr "Forum titel"
+
+msgid "Minimum time between posts"
+msgstr "Minimum tijd tussen de berichten"
+
+msgid "Seconds"
+msgstr "Seconden"
+
+msgid "Minimum total credit to post"
+msgstr "Minimaal punten totaal om te kunnen plaatsen"
+
+msgid "Minimum avg credit to post"
+msgstr "Minimaal punten gemiddelde om te kunnen plaatsen"
+
+msgid "Allow public to read board?"
+msgstr "Sta publiek toe om forum te lezen?"
+
+msgid "Create message board"
+msgstr "Maak een forum"
+
+msgid "About message boards"
+msgstr "Over forums"
+
+msgid "You may create a message board for use by @team"
+msgstr "Je mag een forum maken voor @team"
+
+msgid "Only members may post"
+msgstr "Alleen leden mogen berichten posten"
+
+msgid "Only members may read (optional)"
+msgstr "Alleen leden mogen berichten lezen (optioneel)"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Oprichter en team administrators hebben moderator rechten."
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (gelijk aan de laatste @count keer)"
+
+msgid "Revise or post comment"
+msgstr "Corrigeer of post reactie"
 
 msgid ""
-"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
-" Windows this is usually %path1 or %path2."
-msgstr "Ga naar de <a href=\"%wikiref\">BOINC data map</a> op je computer (in Windows dit is gewoonlijk %path1 of %path2)."
-
-msgid "BOINC documentation"
-msgstr "BOINC documentatie"
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Soms krijgt een computer per ongeluk meer dan één identiteit door BOINC toegewezen. Je kunt dit verhelpen door vorige identiteiten met de laatste samen te voegen."
 
 msgid ""
-"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
-"finding this)."
-msgstr "Ga naar de BOINC data map op je computer (zie !boinc_wiki voor hulp om dit te vinden)."
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Controleer de computers die identiek zijn aan @name (aangemaakt @date, computer ID @id):"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "Computer @old_id is succesvol toegevoegd tot @Id."
+
+msgid "parent removed"
+msgstr "bron verwijderd"
+
+msgid "Remove"
+msgstr "Verwijderen"
 
 msgid ""
-"@count days have elapsed since your request and the founder has not "
-"responded."
-msgstr "@count dagen zijn voorbij sinds je verzoek, en de huidige oprichter heeft niet gereageerd."
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "Verificatie is vereist bij het wisselen van e-mailadres of het instellen van het nieuwe wachtwoord."
 
-msgid ""
-"You now have @count days to assume foundership before another team member "
-"may submit a request."
-msgstr "Je hebt nu @count dagen om oprichter te worden, voordat een ander teamlid een verzoek mag doen."
+msgid "Make unsticky"
+msgstr "Los maken"
 
-msgid "Assume foundership"
-msgstr "Oprichterschap aannemen"
+msgid "Remove sticky status from this topic"
+msgstr "Verwijder vastmaakstatus van dit onderwerp"
 
 msgid "Unhide"
 msgstr "Zichtbaar maken"
@@ -1816,5 +1474,281 @@ msgstr "Zichtbaar maken"
 msgid "Unhide this comment"
 msgstr "Reactie zichtbaar maken"
 
+msgid "Unpublished"
+msgstr "Ongepubliceerd"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Computers @old_ids zijn succesvol samengevoegd tot @Id."
+
+msgid "Joined"
+msgstr "Aangemeld"
+
+msgid "Credit"
+msgstr "Punten"
+
+msgid "RAC"
+msgstr "Punten gemiddelde"
+
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Er bestaat geen account onder @email -- Klik op \"Nieuw account aanmaken\" om te registeren."
+
+msgid "started discussion"
+msgstr "discussie gestart"
+
+msgid "commented on"
+msgstr "gereageerd op"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Ingevoerd wachtwoord is niet geldig. Controleer a.u.b. dat het correct is."
+
+msgid "Minimum value not met for @field"
+msgstr "Minimum waarde niet voldaan voor @field"
+
+msgid "Invalid data type for @field"
+msgstr "Ongeldig data type voor @field"
+
+msgid "News"
+msgstr "Nieuws"
+
+msgid "Remove friend"
+msgstr "Vriend verwijderen"
+
+msgid "ignore list"
+msgstr "zwarte lijst"
+
+msgid "here"
+msgstr "hier"
+
+msgid "!username is on your !ignore_list. Click !here to view this post."
+msgstr "!username is op je zwarte lijst. Klik !here om deze post te bekijken."
+
+msgid "hidden"
+msgstr "verborgen"
+
+msgid "Unknown"
+msgstr "Onbekend"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "Ongeldige instellingen voor \"%preference\""
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: reactie geplaatst op \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author heeft een antwoord geplaatst op \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Om dit onderwerp te zien op !site, klik hier: \n!comment_url"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "Huidige oprichter heeft @count dagen om op een verzoek te reageren."
+
+msgid "Unlock"
+msgstr "Vergrendeling opheffen"
+
+msgid "Unlock this thread for comments"
+msgstr "Ontgrendel dit onderwerp voor reacties"
+
+msgid "project"
+msgstr "project"
+
 msgid "@email is not a well formed email address, please verify"
 msgstr "@email is geen correct gevormd e-mail adres, controleer het a.u.b."
+
+msgid "Please enter your email address"
+msgstr "Vul alstublieft uw emailadres in"
+
+msgid "There is no account with that authenticator."
+msgstr "Er is geen account met die authenticatie."
+
+msgid "That authenticator is not valid."
+msgstr "Deze beveiligingscode is niet geldig."
+
+msgid "Send request"
+msgstr "Zend verzoek"
+
+msgid "Friend request from !name [!site]"
+msgstr "Vriend verzoek van !name [!site]"
+
+msgid "Message"
+msgstr "Bericht"
+
+msgid ""
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name wil je als vriend toegevoegen op !site. Je kunt dit verzoek toestaan of weigeren. Het verzoek weiegeren zal geen breicht hierover sturen, maar verwijdert het verzoek van jullie beider accounts.\n\nVolg benedenstaande link om het verzoek te bekijken:\n!link\n\n!message\n\nMet dank,\nHet !site team"
+
+msgid "Cancel friend request"
+msgstr "Annuleer vriend verzoek"
+
+msgid "Please set the minimum time required between posts."
+msgstr "Zet alsjeblieft de minimum tijd die nodig is om twee posts te maken."
+
+msgid ""
+"Please set the minimum total credit that a user must earn in order to post "
+"to this message board."
+msgstr "Zet alsjeblieft het minimale punten totaal dat een gebruiker nodig heeft om te posten op dit forum."
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "Minimum gemiddelde puntenaantal dat een gebruiker nodig heeft om op dit forum te kunnen posten."
+
+msgid "Edit message board"
+msgstr "Forum bijwerken"
+
+msgid "Save message board"
+msgstr "Bewaar forum"
+
+msgid "This is a team-only message board"
+msgstr "Dit forum is alleen voor het team"
+
+msgid "Maximum value exceeded for @field"
+msgstr "Maximale waarde voor @field overschreden"
+
+msgid "Approve request"
+msgstr "Verzoek toestaan"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name heeft je vriend verzoek geaccepteerd [!site]"
+
+msgid ""
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name heeft je als vriend bevestigd op !site.\n\nVolg deze link om zijn of haar profiel te bekijken:\n!link\n\n!message\n\n Met dank,\nHet !site team"
+
+msgid "posted"
+msgstr "bericht geplaatst"
+
+msgid "Add team admin"
+msgstr "Team administrator toevoegen"
+
+msgid "Enter email address"
+msgstr "e-mail adres invoeren"
+
+msgid "Current team admins"
+msgstr "Huidige team administrators"
+
+msgid "About team admins"
+msgstr "Over team administrators"
+
+msgid "Team admins can:"
+msgstr "Team administrators kunnen:"
+
+msgid "Edit team information"
+msgstr "Team informatie bijwerken"
+
+msgid "View the team's join / quit history"
+msgstr "Het verloop van de aan- en afmeld gegevens van dit team inzien"
+
+msgid "Moderate the team forum"
+msgstr "Het team forum modereren"
+
+msgid "Remove members from the team"
+msgstr "Teamleden verwijderen"
+
+msgid "Disband a team if it has no members"
+msgstr "Het team kan ontbinden als het geen leden heeft"
+
+msgid "Team admins cannot:"
+msgstr "Team administrator beperkingen:"
+
+msgid "Change the team founder"
+msgstr "De team oprichter aanpassen is niet mogelijk"
+
+msgid "Add / Remove team admins"
+msgstr "Toevoegen of verwijderen van team administrators"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Als een team administrator het team verlaat, verliest deze de administrator rechten. We raden je aan alleen mensen te selecteren die je kent en vertrouwt."
+
+msgid "Lift user ban"
+msgstr "Uitsluiting opheffen van gebruiker"
+
+msgid "A team named \"@name\" already exists."
+msgstr "Een team met naam \"@name\" bestaat al. "
+
+msgid "A BOINC account already exists for @email."
+msgstr "Een BOINC account bestaat al met dit @email adres"
+
+msgid "Make founder"
+msgstr "Maak oprichter"
+
+msgid "Changing the team founder"
+msgstr "De team oprichter veranderen"
+
+msgid "Notes about changes in foundership:"
+msgstr "Notities over veranderen van oprichter:"
+
+msgid "Any member of the team is eligible"
+msgstr "Elk lid van het team komt in aanmerking"
+
+msgid "Current founder becomes a normal user"
+msgstr "Huidige oprichter verandert naar een normale gebruiker"
+
+msgid "Foundership can be requested by team members:"
+msgstr "Verandering van oprichter kan worden aangevraagd door teamleden:"
+
+msgid "One request is allowed at a time"
+msgstr "Een verzoek tegelijkertijd"
+
+msgid "It must be 60 days since any previous request"
+msgstr "Er moeten 60 dagen zijn geweest sinds het laatste verzoek"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Actieve verzoeken moeten ouder zijn dan 90 dagen"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "Huidige oprichter heeft 60 dagen om op een verzoek te reageren"
+
+msgid "BOINC-wide teams site"
+msgstr "BOINC-breed teams site"
+
+msgid "This is a BOINC-wide team. Changes can be made at the !site."
+msgstr "Dit is een BOINC-breed team. Veranderingen kunnen worden gemaakt op de !site."
+
+msgid ""
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "Een team oprichterswissel was recentelijk al aangevraagd. Er kan maar één verzoek per 90 dagen worden gedaan."
+
+msgid "@count days remaining"
+msgstr "@count dagen overblijvend"
+
+msgid "Team name is required."
+msgstr "Team naam is verplicht."
+
+msgid "Reason for banning this user"
+msgstr "Reden voor het uitsluiten van deze gebruiker"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "Deze reden zal in de e-mail naar de gebruiker opgenomen worden. Type een korte uitleg waarom deze gebruiker uitgesloten is."
+
+msgid "Duration of the ban"
+msgstr "Periode van uitsluiting"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Het aantal dagen voordat de uitsluiting afloopt. Stel 0 in om permanent uit te sluiten."
+
+msgid "Submit"
+msgstr "Indienen"

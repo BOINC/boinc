@@ -68,7 +68,9 @@
 #endif
 
 #include "version.h"
+#ifndef _WIN32
 #include "svn_version.h"
+#endif
 #include "boinc_api.h"
 #include "app_ipc.h"
 #include "graphics2.h"
@@ -108,7 +110,6 @@ double runtime = 0;
 double trickle_period = 0;
 bool enable_graphics_support = false;
 vector<string> unzip_filenames;
-vector<string> rename_output_filenames;
 string zip_filename;
 vector<regexp*> zip_patterns;
 APP_INIT_DATA aid;
@@ -135,6 +136,7 @@ struct TASK {
     bool is_daemon;
     bool append_cmdline_args;
     bool multi_process;
+    bool forward_slashes;
     double time_limit;
     int priority;
 
@@ -304,9 +306,10 @@ void macro_substitute(string &str) {
     fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
 #endif
 #else
-    str_replace_all(str, "$PWD", getenv("PWD"));
+    char cwd[1024];
+    str_replace_all(str, "$PWD", getcwd(cwd, sizeof(cwd)));
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getenv("PWD"));
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getcwd(cwd, sizeof(cwd)));
 #endif
 #endif
 }
@@ -417,25 +420,6 @@ void do_zip_outputs() {
     }
 }
 
-// rename/move output files usefull for large files that are alreay in the project directory
-// The logical name of the output file "foo" must be specified as "foo.link" in the result template
-// and "foo" should be a softlink, see usage of boinc_resolve() in job.xml
-//
-void do_rename_outputs() {
-    for (unsigned int i=0; i<rename_output_filenames.size(); i++) {
-        string path;
-        boinc_resolve_filename_s((rename_output_filenames[i] + string(".link")).c_str(), path);
-        if (boinc_file_exists(path.c_str())) return;
-        int retval = boinc_rename(rename_output_filenames[i].c_str(), path.c_str());
-        if (retval) {
-            fprintf(stderr, "failed to rename '%s': %d\n",
-                rename_output_filenames[i].c_str(), retval
-            );
-            exit(1);
-        }
-    }
-}
-
 int TASK::parse(XML_PARSER& xp) {
     char buf[8192];
 
@@ -447,6 +431,7 @@ int TASK::parse(XML_PARSER& xp) {
     is_daemon = false;
     multi_process = false;
     append_cmdline_args = false;
+    forward_slashes = false;
     time_limit = 0;
     priority = PROCESS_PRIORITY_LOWEST;
 
@@ -480,6 +465,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double("weight", weight)) continue;
         else if (xp.parse_bool("daemon", is_daemon)) continue;
+        else if (xp.parse_bool("forward_slashes", forward_slashes)) continue;
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
@@ -509,25 +495,6 @@ int parse_unzip_input(XML_PARSER& xp) {
         }
         if (xp.parse_string("zipfilename", s)) {
             unzip_filenames.push_back(s);
-            continue;
-        }
-        fprintf(stderr,
-            "%s unexpected tag in job.xml: %s\n",
-            boinc_msg_prefix(buf2, sizeof(buf2)), xp.parsed_tag
-        );
-    }
-    return ERR_XML_PARSE;
-}
-
-int parse_rename_output(XML_PARSER& xp) {
-    char buf2[256];
-    string s;
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/rename_output")) {
-            return 0;
-        }
-        if (xp.parse_string("filename", s)) {
-            rename_output_filenames.push_back(s);
             continue;
         }
         fprintf(stderr,
@@ -608,10 +575,6 @@ int parse_job_file() {
         }
         if (xp.match_tag("unzip_input")) {
             parse_unzip_input(xp);
-            continue;
-        }
-        if (xp.match_tag("rename_output")) {
-            parse_rename_output(xp);
             continue;
         }
         if (xp.match_tag("zip_output")) {
@@ -701,6 +664,14 @@ void slash_to_backslash(char* p) {
     }
 }
 
+void backslash_to_slash(char* p) {
+    while (1) {
+        char* q = strchr(p, '\\');
+        if (!q) break;
+        *q = '/';
+    }
+}
+
 int TASK::run(int argct, char** argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
@@ -753,7 +724,11 @@ int TASK::run(int argct, char** argvt) {
         *to = 0;
         boinc_resolve_filename(from + strlen("boinc_resolve("), fname, sizeof(fname));
 #ifdef _WIN32
-        slash_to_backslash(fname);
+        if(forward_slashes) {
+            backslash_to_slash(fname);
+        } else {
+            slash_to_backslash(fname);
+        }
 #endif
         *from = 0;
         command_line = string(lbuf) + string(fname) + string(to+1);
@@ -1182,9 +1157,11 @@ int main(int argc, char** argv) {
             gpu_device_num = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--trickle")) {
             trickle_period = atof(argv[++j]);
+#ifndef _WIN32
         } else if (!strcmp(argv[j], "--version") || !strcmp(argv[j], "-v")) {
             fprintf(stderr, "%s\n", SVN_VERSION);
             boinc_finish(0);
+#endif
         }
 
     }
@@ -1363,6 +1340,6 @@ int main(int argc, char** argv) {
     }
     kill_daemons();
     do_zip_outputs();
-    do_rename_outputs();
     boinc_finish(0);
 }
+

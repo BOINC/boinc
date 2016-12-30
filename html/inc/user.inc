@@ -29,6 +29,9 @@ if (!defined('REMOTE_PROJECTS_TTL')) {
     define('REMOTE_PROJECTS_TTL', 86400);
 }
 
+// add an element "projects" to user consisting of array of projects
+// they've participated in
+//
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
@@ -39,8 +42,6 @@ function get_other_projects($user) {
     if ($cacheddata){
         $remote = unserialize($cacheddata);
     } else {
-        $xml_object = null;
-        $remote = false;
         // Fetch the XML, use curl if fopen() is disallowed
         //
         if (ini_get('allow_url_fopen')) {
@@ -76,6 +77,9 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
+        if (count($remote) == 1) {
+            $remote = array($remote);
+        }
         
         if (!$remote) {
             return $user;
@@ -115,14 +119,20 @@ function show_other_projects($user, $personal) {
 
     usort($user->projects, "cmp");
     if ($personal) {
-        echo "<h2>".tra("Projects in which you are participating")."</h2>";
+        echo "<h3>".tra("Projects in which you are participating")."</h3>";
     } else {
-        echo "<h2>".tra("Projects in which %1 is participating", $user->name)."</h2>";
+        echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
     }
-    start_table();
-    row_heading_array(array(
-        tra("Project")."<br/><p class=\"text-muted\">".tra("Click for user page")."</p>", tra("Total credit"), tra("Average credit"), tra("Since")
-    ));
+    start_table('table-striped');
+    row_heading_array(
+        array(
+            tra("Project")."<br/><small>".tra("Click for user page")."</small>",
+            tra("Total credit"),
+            tra("Average credit"),
+            tra("Since")
+        ),
+        array("", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT)
+    );
     foreach($user->projects as $project) {
         show_project($project);
     }
@@ -192,7 +202,7 @@ function weak_auth($user) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    row1(tra("Account information"));
+    row1(tra("Account information"), 2, 'heading');
     row2(tra("Name"), $user->name);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         row2("LDAP ID", ldap_email_to_uid($user->email_addr));
@@ -224,7 +234,7 @@ function show_user_info_private($user) {
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
         );
     }
-    row2(tra("User ID")."<br/><p class=\"text-muted\">".tra("Used in community functions")."</p>", $user->id);
+    row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
     if (!no_computing()) {
         row2(
             tra("Account keys"),
@@ -270,6 +280,10 @@ function friend_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
+    if ($user->donated == 2) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK_TWO;
+    }
     $x .= "</td></tr></table>\n";
     return $x;
 }
@@ -292,6 +306,10 @@ function user_links($user, $badge_height=0) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
+    if ($user->donated == 2) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK_TWO;
+    }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
     }
@@ -302,6 +320,7 @@ function user_links($user, $badge_height=0) {
 }
 
 function show_community_private($user) {
+    start_table();
     row1(tra("Community"));
 
     show_badges_row(true, $user);
@@ -359,7 +378,7 @@ function show_community_private($user) {
         foreach ($teams_founded as $team) {
             if ($team->id != $user->teamid) {
                 $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
-                $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
+                $x .= " | <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
                 if ($team->ping_user > 0) {
                     $x .= "<p class=\"text-danger\">".tra("(foundership change request pending)")."</span>";
                 }
@@ -381,6 +400,7 @@ function show_community_private($user) {
     } else {
         row2(tra("Friends"), $x);
     }
+    end_table();
 }
 
 // show summary of dynamic and static info (public)
@@ -410,6 +430,12 @@ function show_user_summary_public($user) {
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
             row2(tra("Donor"), DONATION_LINK);
+        }
+    }
+    if ($user->donated == 2) {
+        if (file_exists("../project/donations.inc")) {
+            require_once("../project/donations.inc");
+            row2(tra("Donor"), DONATION_LINK_TWO);
         }
     }
 }
@@ -481,30 +507,30 @@ function show_profile_link($user) {
 }
 
 function show_account_private($user) {
-    start_table_noborder();
-    echo "<tr><td valign=top>";
-    start_table();
-    show_user_info_private($user);
-    if (!no_computing()) {
-        show_user_stats_private($user);
-    }
+    grid(
+        false,
+        function() use ($user) {
+            start_table();
+            show_user_info_private($user);
+            if (!no_computing()) {
+                show_user_stats_private($user);
+            }
 
-    if (file_exists("../project/donations.inc")) {
-        require_once("../project/donations.inc");
-        if (function_exists('show_user_donations_private')) {
-            show_user_donations_private($user);
+            if (file_exists("../project/donations.inc")) {
+                require_once("../project/donations.inc");
+                if (function_exists('show_user_donations_private')) {
+                    show_user_donations_private($user);
+                }
+            }
+            end_table();
+            show_other_projects($user, true);
+            project_user_page_private($user);
+            //echo "<a href=delete_account.php>Delete account</a>\n";
+        },
+        function() use ($user) {
+            show_community_private($user);
         }
-    }
-    end_table();
-    show_other_projects($user, true);
-    project_user_page_private($user);
-    //echo "<a href=delete_account.php>Delete account</a>\n";
-    echo "</td><td valign=top>";
-    start_table();
-    show_community_private($user);
-    end_table();
-
-    echo "</td></tr></table>";
+    );
 }
 
 function is_banned_email_addr($email_addr) {

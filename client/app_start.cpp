@@ -1363,7 +1363,7 @@ void run_test_app() {
         exit(1);
     }
     while (1) {
-        do_async_file_ops();
+        do_async_file_op();
         if (at.async_copy == NULL) {
             break;
         }

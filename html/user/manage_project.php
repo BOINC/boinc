@@ -70,11 +70,11 @@ function handle_list() {
     $us = BoincUserSubmit::enum("");
     start_table();
     table_header(
-        "User<br><p class=\"text-muted\">Click to change permissions or quota</p>",
+        "User<br><small>Click to change permissions or quota</small>",
         "Can submit jobs for",
         "Quota",
-        "Max jobs in progress<br><p class=\"text-muted\">0 means no limit</p>",
-        "Current priority<br><p class=\"text-muted\">Later time = lower priority</p>"
+        "Max jobs in progress<br><small>0 means no limit</small>",
+        "Current priority<br><small>Later time = lower priority</small>"
     );
     foreach ($us as $u) {
         user_row($u);
@@ -117,8 +117,6 @@ function handle_edit_form() {
     }
     $q = (string) $usub->quota;
     $mj = $usub->max_jobs_in_progress;
-    $sav = $usub->create_app_versions?"checked":"";
-    $sa = $usub->create_apps?"checked":"";
     echo "
         <p>
         Quota: <input name=quota value=$q>
@@ -127,7 +125,7 @@ function handle_edit_form() {
         Max jobs in progress:
         <input name=max_jobs_in_progress value=$mj>
         <p>
-        <input class=\"btn btn-default\" type=submit value=OK>
+        <input class=\"btn btn-success\" type=submit value=OK>
         </form>
         <p>
         <a href=manage_project.php>Return to project-wide management functions</a>
@@ -171,7 +169,7 @@ function handle_add_form() {
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
-        <input class=\"btn btn-default\" type=submit value=OK>
+        <input class=\"btn btn-success\" type=submit value=OK>
         </form>
     ";
     page_tail();

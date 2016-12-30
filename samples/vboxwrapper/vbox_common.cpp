@@ -50,6 +50,8 @@ using std::string;
 #include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
+#include "base64.h"
+#include "md5_file.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
@@ -230,6 +232,7 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     get_vm_exit_code(vm_exit_code);
 
     if (include_error_logs) {
+		dump_screenshot();
         fprintf(
             stderr,
             "\n"
@@ -301,12 +304,70 @@ void VBOX_BASE::dump_vmguestlog_entries() {
     }
 }
 
+int VBOX_BASE::dump_screenshot() {
+    int    retval;
+    char   screenshot_md5[32];
+    double nbytes;
+    char*  buf = NULL;
+    size_t n;
+    FILE*  f = NULL;
+    string screenshot_encoded;
+    string virtual_machine_slot_directory;
+	string screenshot_location;
+
+	get_slot_directory(virtual_machine_slot_directory);
+
+	screenshot_location = virtual_machine_slot_directory;
+	screenshot_location += "/";
+	screenshot_location += SCREENSHOT_FILENAME;
+
+    if (boinc_file_exists(screenshot_location.c_str())) {
+
+        // Compute MD5 hash for raw file
+        retval = md5_file(screenshot_location.c_str(), screenshot_md5, nbytes, false);
+        if (retval) return retval;
+
+        buf = (char*)malloc((size_t)nbytes);
+        if (!buf) {
+            vboxlog_msg("Failed to allocate buffer for screenshot image dump.");
+            return ERR_MALLOC;
+        }
+        f = fopen(screenshot_location.c_str(), "rb");
+        if (!f) {
+            vboxlog_msg("Failed to open screenshot image file. (%s)", screenshot_location.c_str());
+            free(buf);
+            return ERR_FOPEN;
+        }
+
+        n = fread(buf, 1, (size_t)nbytes, f);
+        if (n != nbytes) {
+            vboxlog_msg("Failed to read screenshot image file into buffer.");
+        }
+
+        screenshot_encoded = r_base64_encode(buf, n);
+
+        fclose(f);
+        free(buf);
+
+        fprintf(
+            stderr,
+            "\n"
+            "Screen Shot Information (Base64 Encoded PNG):\n"
+            "MD5 Signature: %s\n"
+            "Data: %s\n"
+            "\n",
+            screenshot_md5,
+            screenshot_encoded.c_str()
+        );
+    }
+
+    return 0;
+}
+
 bool VBOX_BASE::is_vm_machine_configuration_available() {
     string virtual_machine_slot_directory;
     string vm_machine_configuration_file;
-    APP_INIT_DATA aid;
 
-    boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
 
     vm_machine_configuration_file = virtual_machine_slot_directory + "/" + vm_master_name + "/" + vm_master_name + ".vbox";
@@ -589,8 +650,8 @@ void VBOX_BASE::sanitize_format(std::string& output) {
     }
 }
 
-void VBOX_BASE::sanitize_output(std::string& output) {
 #ifdef _WIN32
+void VBOX_BASE::sanitize_output(std::string& output) {
     // Remove \r from the log spew
     string::iterator iter = output.begin();
     while (iter != output.end()) {
@@ -600,8 +661,10 @@ void VBOX_BASE::sanitize_output(std::string& output) {
             ++iter;
         }
     }
-#endif
 }
+#else
+void VBOX_BASE::sanitize_output(std::string& ) {}
+#endif
 
 // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
 // svchost.exe with its environment block which will not contain the reference
@@ -703,7 +766,6 @@ int VBOX_BASE::launch_vboxsvc() {
 
 // Launch the VM.
 int VBOX_BASE::launch_vboxvm() {
-    char buf[256];
     char cmdline[1024];
     char* argv[5];
     int argc;
@@ -736,6 +798,7 @@ int VBOX_BASE::launch_vboxvm() {
     }
 
 #ifdef _WIN32
+    char buf[256];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -984,7 +1047,14 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_BASE::vbm_popen_raw(string& command, string& output, unsigned int timeout) {
+int VBOX_BASE::vbm_popen_raw(
+    string& command, string& output,
+#ifdef _WIN32
+    unsigned int timeout
+#else
+    unsigned int
+#endif
+) {
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -1164,7 +1234,6 @@ void VBOX_BASE::vbm_trace(std::string& command, std::string& output, int retval)
     char buf[256];
     int pid;
     struct tm tm;
-    struct tm *tmp = &tm;
 
     vbm_replay(command);
 

@@ -163,6 +163,15 @@ function boincuser_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
   );
+  $items['admin/boinc/other'] = array(
+    'title' => 'Other Options',
+    'description' => 'Set other BOINC options.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_admin_other'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincuser.admin.inc'
+  );
   
   $items['create_account.php'] = array(
     'title' => 'Create Account RPC',
@@ -328,6 +337,18 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       $imported = $_SESSION['importedUser'];
       unset($_SESSION['profileInfo']);
       unset($_SESSION['importedUser']);
+      
+      watchdog(
+        'boincuser',
+        'Creating user account for %email_addr',
+        array('%email_addr' => $edit['mail']),
+        WATCHDOG_NOTICE
+      );
+      
+      // NOTE: Registrations are normally handled via the create_account RPC,
+      // so the following will not run (kept in case form registration is used)
+      
+      // If from the registration form, create a BOINC user and relationships
       
       if ($profile_info and !$imported) {
         // Create a BOINC account unless importing from BOINC
@@ -777,7 +798,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '
         <div class="form-item">
           <label>' . bts('Weak account key') . '</label>
-          <span>' . $account->boincuser_weak_auth . '</span>
+          <span>' . "{$account->boincuser_id}_{$account->boincuser_weak_auth}" . '</span>
         </div>',
     );
     $form['account']['cpid'] = array(
@@ -901,9 +922,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1010,
     );
     
-    // Move these to community prefs form
-    $form_state['storage']['avatar'] = $form['field_image'];
-    unset($form['field_image']);
+    $form['#after_build'][] = 'boincuser_profile_node_form_after_build';
     
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
@@ -1017,6 +1036,17 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['submit']['#value'] = bts('Search');
     break;
   }
+}
+
+/**
+ * Some form alterations (CCK fields) cannot be done until after the form is
+ * built; this is called from boincuser_form_alter()
+ */
+function boincuser_profile_node_form_after_build($form, &$form_state) {
+  // Move to community prefs form
+  $form_state['storage']['avatar'] = $form['field_image'];
+  unset($form['field_image']);
+  return $form;
 }
 
 /**
@@ -1220,6 +1250,9 @@ function join_page($type = null) {
 function boincuser_home_page() {
   global $user;
   $site_name = variable_get('site_name', '');
+  // get the front page message from database; this is set in the admin interface under BOINC Other
+  $site_message = variable_get('boinc_other_frontpage','');
+
   // Determine the user of the day
   $current_uotd = db_fetch_object(db_query("
     SELECT
@@ -1240,7 +1273,7 @@ function boincuser_home_page() {
   $output .= ($user->uid) ? bts('Welcome back!') : ($site_name ? bts('What is @this_project?', array('@this_project' => $site_name)) : bts('Welcome!'));
   $output .= '</h2>';
   $output .= '<div class="boinc-overview balance-height-front">';
-  $output .= '  <div>' . bts("Einstein@Home is a program that uses your computer's idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector.") . ' ' . l(bts('Learn more'), 'about') . '</div>';
+  $output .= '  <div>' . bts($site_message, array(), NULL, "project:front page") . ' ' . l(bts('Learn more'), 'about') . '</div>';
   if ($user->uid) {
     $output .= '  <div>' . l(bts('View account'), 'dashboard', array('attributes' => array('class' => 'join button'))) . '</div>';
   }
@@ -1318,12 +1351,14 @@ function boincuser_create_account() {
       xml_error(-137, 'account error');
     }
     // Create new account
+    $unrestricted_role = array_search('community member', user_roles(true)); 
     $newUser = array(
       'name' => $params['user_name'],
       'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
       'mail' => $params['email_addr'],
       'status' => 1,
-      'init' => $params['email_addr']
+      'init' => $params['email_addr'],
+      'roles' => array($unrestricted_role => ''),
     );
     $user = user_save(null, $newUser);
     $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');

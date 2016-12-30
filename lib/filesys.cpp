@@ -42,7 +42,6 @@
 #include <cerrno>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include <ctime>
 #include <cstring>
 #include <cstdlib>
 #include <sys/time.h>
@@ -592,6 +591,7 @@ int boinc_copy(const char* orig, const char* newf) {
     // system() invokes a shell, it may not properly copy the file's 
     // ownership or permissions when called from the BOINC Client 
     // under sandbox security, so we copy the file directly.
+    //
     FILE *src, *dst;
     int m, n;
     int retval = 0;
@@ -605,15 +605,29 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     while (1) {
         n = fread(buf, 1, sizeof(buf), src);
-        if (n <= 0) break;
+        if (n <= 0) {
+            // could be either EOF or an error.
+            // Check for error case.
+            //
+            if (!feof(src)) {
+                retval = ERR_FREAD;
+            }
+            break;
+        }
         m = fwrite(buf, 1, n, dst);
         if (m != n) {
             retval = ERR_FWRITE;
             break;
         }
     }
-    fclose(src);
-    fclose(dst);
+    if (fclose(src)){
+       fclose(dst);
+       return ERR_FCLOSE;
+    }
+
+    if (fclose(dst)){
+       return ERR_FCLOSE;
+    }
     return retval;
 #endif
 }
@@ -782,7 +796,12 @@ int FILE_LOCK::lock(const char* filename) {
     fl.l_start = 0;
     fl.l_len = 0;
     if (fcntl(fd, F_SETLK, &fl) == -1) {
-        return ERR_FCNTL;
+        // ENOSYS means file locking is not implemented in this FS.
+        // In this case just return success (i.e. don't actually do locking)
+        //
+        if (errno != ENOSYS) {
+            return ERR_FCNTL;
+        }
     }
 #endif
     locked = true;
@@ -821,6 +840,7 @@ void relative_to_absolute(const char* relname, char* path) {
     }
 }
 
+
 #if defined(_WIN32)
 int boinc_allocate_file(const char* path, double size) {
     int retval = 0;
@@ -846,9 +866,42 @@ int boinc_allocate_file(const char* path, double size) {
     CloseHandle(h);
     return retval;
 }
+
+FILE* boinc_temp_file(
+    const char* dir, const char* prefix, char* temp_path, double size
+) {
+    GetTempFileNameA(dir, prefix, 0, temp_path);
+    boinc_allocate_file(temp_path, size);
+    return boinc_fopen(temp_path, "wb");
+}
+
+#else
+
+// Unix version: use mkstemp.  tempnam() prioritizes an env var
+// in deciding where to put temp file
+
+FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path) {
+    sprintf(temp_path, "%s/%s_XXXXXX", dir, prefix);
+    int fd = mkstemp(temp_path);
+    if (fd < 0) {
+        return 0;
+    }
+    return fdopen(fd, "wb");
+}
+
 #endif
 
-// get total and free dpace on current filesystem (in bytes)
+void boinc_path_to_dir(const char* path, char* dir) {
+    strcpy(dir, path);
+    char* p = strrchr(dir, '/');
+    if (p) {
+        *p = 0;
+    } else {
+        strcpy(dir, ".");
+    }
+}
+
+// get total and free space on current filesystem (in bytes)
 //
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {

@@ -1,0 +1,1756 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# Christian Beer <christian.beer@posteo.de>, 2016
+# Frans Ingelstam <02frasse11@gmail.com>, 2016
+# Henrik Mattsson-Mårn <h@reglage.net>, 2016
+# Johan Holmström, 2016
+# Urban Berggren <pudberggren@icloud.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2016-08-16 12:17+0000\n"
+"PO-Revision-Date: 2016-10-10 12:10+0000\n"
+"Last-Translator: Johan Holmström\n"
+"Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Reject profile"
+msgstr "Avvisa profil"
+
+msgid "Ban user"
+msgstr "Stäng av användaren"
+
+msgid "I'm new"
+msgstr "Jag är ny"
+
+msgid "I'm a BOINC user"
+msgstr "Jag är en BOINC-användare"
+
+msgid "Authenticator login"
+msgstr "Autentiseringsinloggning"
+
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Du måste tjäna @count poäng för att kunna göra inlägg på denna sida."
+
+msgid "Generic"
+msgstr "Allmän"
+
+msgid "Home"
+msgstr "Hem"
+
+msgid "Work"
+msgstr "Arbete"
+
+msgid "School"
+msgstr "Skola"
+
+msgid "yes"
+msgstr "ja"
+
+msgid "no"
+msgstr "nej"
+
+msgid "Resource settings"
+msgstr "Resursinställningar"
+
+msgid "Resource share"
+msgstr "Resursfördelning"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "Används för att avgöra resurstilldelningen till detta projekt. Exempel: Om du deltar i två BOINC projekt med resursfördelningarna 100 och 200, då kommer det först projektet att tilldelas 1/3 av resurserna och det andra projektet kommer att få 2/3 av resurserna."
+
+msgid "Use CPU"
+msgstr "Använd CPU"
+
+msgid "Enforced by version @number"
+msgstr "Fungerar från version @number"
+
+msgid "Use NVIDIA GPU"
+msgstr "Använd NVIDIA GPU"
+
+msgid "Use ATI GPU"
+msgstr "Använd ATI GPU"
+
+msgid "Use INTEL GPU"
+msgstr "Använd INTEL GPU"
+
+msgid "Beta settings"
+msgstr "Beta inställningar"
+
+msgid "Run test applications?"
+msgstr "Använd test applikationer?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "Detta hjälper oss att utveckla applikationerna, men kan innebära att jobb misslyckas på din dator"
+
+msgid " Default value: @default"
+msgstr "Standardvärde: @default"
+
+msgid "Applications"
+msgstr "Applikationer"
+
+msgid "Default set"
+msgstr "Standardinställning"
+
+msgid "Set used for new computers"
+msgstr "Använd dessa inställningar för ny datorer"
+
+msgid "Save changes"
+msgstr "Spara ändringar"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Show comparison view"
+msgstr "Visa jämförande vy"
+
+msgid "Comment form"
+msgstr "Kommentarsformulär"
+
+msgid "Logout"
+msgstr "Logga ut"
+
+msgid "Join now"
+msgstr "Gå med nu"
+
+msgid "Account"
+msgstr "Konto"
+
+msgid "Server status"
+msgstr "Serverstatus"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "Create content"
+msgstr "Skapa innehåll"
+
+msgid "General settings"
+msgstr "Standardinställningar"
+
+msgid "Name"
+msgstr "Namn"
+
+msgid "Time zone"
+msgstr "Tidszon"
+
+msgid "Notification settings"
+msgstr "Meddelandeinställningar"
+
+msgid "Receive email notification for private messages?"
+msgstr "Skicka e-post vid nya privata meddelanden?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "Skicka e-post vid vänförfrågningar?"
+
+msgid "Language settings"
+msgstr "Språkinställningar"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "Detta kontos standardspråk för e-post och föredraget språk för visning av hemsidan."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "Om du har en <a href=\"@gravatar-check\">giltig Gravatar</a> kopplad till din e-postadress så kommer den att användas som din användarbild."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Din Gravatar kommer inte att användas om du laddar upp en användarbild."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "Om du har en <a href=\"@gravatar-check\">giltig Gravatar</a> kopplad till din e-post adress, använd den som din användarbild."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Gravatar kommer inte att visas om en användarbild laddas upp."
+
+msgid "Avatar settings"
+msgstr "Användarbildsinställningar"
+
+msgid "This is not available until your profile is set up."
+msgstr "Detta är inte tillgängligt förrän du skapat en profil."
+
+msgid "Create a profile"
+msgstr "Skapa en profil"
+
+msgid "Upload an avatar"
+msgstr "Ladda upp en användarbild"
+
+msgid "Forum settings"
+msgstr "Foruminställningar"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "I diskussionstrådar visa upp till @comments_per_page"
+
+msgid "comments per page"
+msgstr "kommentarer per sida"
+
+msgid "Sort comments in discussions"
+msgstr "Sortera kommentarer i diskussioner"
+
+msgid "Newest post first"
+msgstr "Nyaste inlägget först"
+
+msgid "Oldest post first"
+msgstr "Äldsta inlägget först"
+
+msgid "Signature"
+msgstr "Signatur"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "Din signatur kommer att visas offentligt i slutet av dina kommentarer."
+
+msgid "Hide signatures in forums"
+msgstr "Göm signaturer i forumen"
+
+msgid "Privacy settings"
+msgstr "Sekretessinställningar"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "Är det OK för @project och ditt lag (om något) att skicka e-post till dig?"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "Ska @project visa dina datorer på dess webbplats?"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Founder"
+msgstr "Grundare"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Recent average credit"
+msgstr "Nyligen genomsnittlig kredit"
+
+msgid "Members"
+msgstr "Medlemmar"
+
+msgid "Total Credit"
+msgstr "Total poäng"
+
+msgid "User ID"
+msgstr "Användar ID"
+
+msgid "User"
+msgstr "Användare"
+
+msgid "Admin since"
+msgstr "Administratör sedan"
+
+msgid "Team ID"
+msgstr "Lag ID"
+
+msgid "User joined"
+msgstr "Medlem sedan"
+
+msgid "Timestamp"
+msgstr "Tidsstämpel"
+
+msgid "Account Key"
+msgstr "Kontonyckel"
+
+msgid "Member since"
+msgstr "Medlem sedan"
+
+msgid "CPID"
+msgstr "CPID"
+
+msgid "Email Address"
+msgstr "E-postadress"
+
+msgid "Password Hash"
+msgstr "Lösenords hash"
+
+msgid "Postal Code"
+msgstr "Postkod"
+
+msgid "Send Email"
+msgstr "Skicka e-post"
+
+msgid "Show Hosts"
+msgstr "Visa enheter"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Computer ID"
+msgstr "Dator-ID"
+
+msgid "Location"
+msgstr "Plats"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "Medan Boinc körs, % av tiden som arbete är tillåtet"
+
+msgid "Average turnaround time"
+msgstr "Genomsnittlig handläggningstid"
+
+msgid "Created"
+msgstr "Skapades"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "Medan Boinc körs, % av tiden som enheten har tillgång till Internet"
+
+msgid "Average CPU efficiency"
+msgstr "Genomsnittlig CPU-effektivitet"
+
+msgid "Free disk space"
+msgstr "Ledigt diskutrymme"
+
+msgid "Total disk space"
+msgstr "Totalt diskutrymme"
+
+msgid "Task duration correction factor"
+msgstr "Uppgifts varaktighets korrektionsfaktor"
+
+msgid "Avg. credit"
+msgstr "Genomsnittlig kredit"
+
+msgid "External IP address"
+msgstr "Extern IP-adress"
+
+msgid "Cross project ID"
+msgstr "ID för identifiering mellan projekt"
+
+msgid "Last IP address"
+msgstr "Senaste IP-adress"
+
+msgid "Cache"
+msgstr "Cache"
+
+msgid "Memory"
+msgstr "Minne"
+
+msgid "Swap space"
+msgstr "Växlingsfil"
+
+msgid "Maximum daily WU quota per CPU"
+msgstr "Maximal daglig jobbkvot per CPU"
+
+msgid "Average download rate"
+msgstr "Genomsnittlig nedladdningshastighet"
+
+msgid "Average upload rate"
+msgstr "Genomsnittlig uppladdningshastighet"
+
+msgid "Same IP address count"
+msgstr "Samma IP-adress räknare"
+
+msgid "% of time BOINC client is running"
+msgstr "% av tiden som Boinc körs"
+
+msgid "Operating system"
+msgstr "Operativsystem"
+
+msgid "Operating system version"
+msgstr "Operativsystemsversion"
+
+msgid "Measured floating point speed"
+msgstr "Uppmätt flyttalshastighet"
+
+msgid "Measured integer speed"
+msgstr "Uppmätt  heltals-hastighet"
+
+msgid "CPU model"
+msgstr "CPU modell"
+
+msgid "Number of processors"
+msgstr "Antal processorer"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Number of times client has contacted server"
+msgstr "Antal tillfällen klienten har kontaktat server"
+
+msgid "Last contact"
+msgstr "Senaste kontakt"
+
+msgid "Serial number"
+msgstr "Serienummer"
+
+msgid "Timezone"
+msgstr "Tidszon"
+
+msgid "Platform ID"
+msgstr "Plattforms ID"
+
+msgid "Task ID"
+msgstr "Uppgifts ID"
+
+msgid "Workunit ID"
+msgstr "Jobb ID"
+
+msgid "Host ID"
+msgstr "Enhets ID"
+
+msgid "Application ID"
+msgstr "Applikations ID"
+
+msgid "Application version"
+msgstr "Applikations version"
+
+msgid "Claimed credit"
+msgstr "Ansökt poäng"
+
+msgid "Client state"
+msgstr "Enhetstillstånd"
+
+msgid "CPU time"
+msgstr "CPU-tid"
+
+msgid "Run time"
+msgstr "Körtid"
+
+msgid "Exit status"
+msgstr "Avsluts status"
+
+msgid "Granted credit"
+msgstr "Beviljad poäng"
+
+msgid "Outcome"
+msgstr "Resultat"
+
+msgid "Received time"
+msgstr "Mottagen tid"
+
+msgid "Report deadline"
+msgstr "Rapporteringstidsgräns"
+
+msgid "Sent"
+msgstr "Skickad"
+
+msgid "Server state"
+msgstr "Servertillstånd"
+
+msgid "Stderr out"
+msgstr "Stderr logg"
+
+msgid "Validation state"
+msgstr "Valideringstillstånd"
+
+msgid "App ID"
+msgstr "App ID"
+
+msgid "Canonical credit"
+msgstr "Kanonisk poäng"
+
+msgid "Canonical result ID"
+msgstr "Kanoniskt resultat ID"
+
+msgid "Created time"
+msgstr "Skapades tid"
+
+msgid "Error mask"
+msgstr "Felkod"
+
+msgid "Minimum quorum"
+msgstr "Minsta beslutsmässiga antal"
+
+msgid "Max error tasks"
+msgstr "Störst antal misslyckade arbetsuppgifter"
+
+msgid "Max success tasks"
+msgstr "Störst antal lyckade arbetsuppgifter"
+
+msgid "Max total tasks"
+msgstr "Största totala antalet arbetsuppgifter"
+
+msgid "Needs validation"
+msgstr "Behöver godkännande"
+
+msgid "Initial replication"
+msgstr "Inledande replikering"
+
+msgid "Target number of results"
+msgstr "Mål antal resultat"
+
+msgid "Application version ID"
+msgstr "Applikation versions ID"
+
+msgid "Plan class"
+msgstr "Metodklassificering"
+
+msgid "Version number"
+msgstr "Versions nummer"
+
+msgid "Computer"
+msgstr "Dator"
+
+msgid "App version ID"
+msgstr "App versions ID"
+
+msgid "Consecutive valid tasks"
+msgstr "Godkända arbetsuppgifter i följd"
+
+msgid "Number of tasks completed"
+msgstr "Antal slutförda arbetsuppgifter"
+
+msgid "Max tasks per day"
+msgstr "Störst antal arbetsuppgifter per dag"
+
+msgid "Number of tasks today"
+msgstr "Antal arbetsuppgifter idag"
+
+msgid "Manage subscriptions"
+msgstr "Hantera prenumerationer"
+
+msgid "Avg credit"
+msgstr "Genomsnittlig poäng"
+
+msgid "Total credit"
+msgstr "Total poäng"
+
+msgid "More"
+msgstr "Mer"
+
+msgid "Tasks"
+msgstr "Arbetsuppgifter"
+
+msgid "Computers hidden"
+msgstr "Dolda datorer"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "Denna användare har valt att inte visa information rörande deras datorer."
+
+msgid "no projects..."
+msgstr "inga projekt..."
+
+msgid "Moderation"
+msgstr "Moderering"
+
+msgid "Unvetted profiles"
+msgstr "Ej granskade profiler"
+
+msgid "Inbox"
+msgstr "Inkorg"
+
+msgid "Compose new"
+msgstr "Skriv nytt"
+
+msgid "Posts contributed"
+msgstr "Antal inlägg"
+
+msgid "Friends (@count)"
+msgstr "Vänner (@count)"
+
+msgid "Welcome back!"
+msgstr "Välkommen tillbaka!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home är ett program som använder din dators inaktiva tid till att köra en skärmsläckare för att söka efter gravitationsvågor från roterande neutronstjärnor (också kallade pulsarer) genom att använda data från gravitationsvågsdetektorn LIGO."
+
+msgid "Learn more"
+msgstr "Lär dig mer"
+
+msgid "View account"
+msgstr "Visa konto"
+
+msgid "User of the day"
+msgstr "Dagens medlem"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "Över 500 000 volontärer som bara blir fler och fler."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Credits per day"
+msgstr "Poäng per dag"
+
+msgid "View user profile."
+msgstr "Visa användarprofil"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Profilen inväntar godkännande från moderator"
+
+msgid "Background"
+msgstr "Bakgrund"
+
+msgid "Opinion"
+msgstr "Åsikt"
+
+msgid "Enter your password to save changes"
+msgstr "Ange ditt lösenord för att spara ändringar"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Ange ditt nuvarande lösenord om du ändrar din E-post-\nadress eller lösenord."
+
+msgid "BOINC user ID"
+msgstr "BOINC användar-ID"
+
+msgid "Drupal user ID"
+msgstr "Drupal användar-ID"
+
+msgid "Account key"
+msgstr "Konto-nyckel"
+
+msgid "Weak account key"
+msgstr "Svag kontonyckel"
+
+msgid "Cross-project ID"
+msgstr "ID för identifiering mellan projekt"
+
+msgid "Change password"
+msgstr "Ändra lösenord"
+
+msgid "Presets"
+msgstr "Förinställningar"
+
+msgid "Standard"
+msgstr "Standard"
+
+msgid "Maximum"
+msgstr "Maximal"
+
+msgid "Green"
+msgstr "Energieffektiv"
+
+msgid "Minimum"
+msgstr "Minimal"
+
+msgid "Custom"
+msgstr "Egen"
+
+msgid "Update preset"
+msgstr "Uppdatera förinställd"
+
+msgid "Advanced settings"
+msgstr "Avancerade inställningar"
+
+msgid "Processor usage"
+msgstr "Processoranvändning"
+
+msgid "Run while computer is on battery power?"
+msgstr "Kör arbetsuppgifter medan datorn går på batteri?"
+
+msgid "Only applies to portable computers"
+msgstr "Gäller bara för bärbara datorer"
+
+msgid "Run while computer is in use?"
+msgstr "Kör arbetsuppgifter med datorn används?"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "Kör GPU-arbetsuppgifter medan datorn används?"
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "\"Används\" avser mus/tangentbordsaktivitet de senaste"
+
+msgid "minutes"
+msgstr "minuter"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "Pausa arbetsuppgifter om ingen mus/tangentbordsaktivitet senaste"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "Behövs för att gå ner i energisparläge på vissa datorer"
+
+msgid "Suspend work if CPU usage is above"
+msgstr "Pausa arbetsuppgifter vid CPU-användning över"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 betyder ingen restriktion. Fungerar från version @number"
+
+msgid "Do work only between the hours of:"
+msgstr "Kör arbetsuppgifter endast mellan klockan:"
+
+msgid "and"
+msgstr "och"
+
+msgid "No restriction if equal"
+msgstr "Ingen restriktion om lika"
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "Lämna arbetsuppgifter i minnet medan de är stoppade?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "Stoppade arbetsuppgifter kommer att använda växlingsminne om \"Ja\""
+
+msgid "Switch between tasks every"
+msgstr "Växla mellan arbetsuppgifter var"
+
+msgid "Recommended: @period minutes"
+msgstr "Rekommenderat: @period minuter"
+
+msgid "On multiprocessors, use at most"
+msgstr "På flerkärniga processorer, använd upp till"
+
+msgid "processors"
+msgstr "processorer"
+
+msgid "Set to 0 for no limit"
+msgstr "Ange 0 för att vara utan begränsning"
+
+msgid "% of the processors"
+msgstr "% av antalet processorer"
+
+msgid "Use at most"
+msgstr "Använd som mest"
+
+msgid "% of the CPU time"
+msgstr "% av processortiden"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "Kan användas för att minska processortemperaturen"
+
+msgid "Disk and memory usage"
+msgstr "Hårddisk och minnesanvändning"
+
+msgid "Disk: use at most"
+msgstr "Hårddisk, använd som mest"
+
+msgid "Disk: leave free at least"
+msgstr "Hårddisk, lämna som minst ledigt"
+
+msgid "Values smaller than @number are ignored"
+msgstr "Värden mindre än @number ignoreras"
+
+msgid "% of total"
+msgstr "% av total"
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "Arbetsuppgifter sparar återställningspunkt som oftast var"
+
+msgid "seconds"
+msgstr "sekunder"
+
+msgid "Swap space: use at most"
+msgstr "Växlingsminne, använd som mest"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "Minne, när datorn används, använd som mest"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "Minne, när datorn inte används, använd som mest"
+
+msgid "Network usage"
+msgstr "Nätverksanvändning"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "Datorn ansluts till Internet ungefär var"
+
+msgid "days"
+msgstr "dagar"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "Lämna tomt eller sätt till 0 om datorn alltid är ansluten. @project kommer att försöka ha så här mycket jobb redo."
+
+msgid "Maintain enough work for an additional"
+msgstr "Lagra ytterligare jobb motsvarande"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "Bekräfta innan anslutning till Internet"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "Användbart endast om du har modem-, ISDN- eller VPN-anslutning."
+
+msgid "Disconnect when done?"
+msgstr "Koppla ner anslutningen när överföringarna är färdiga?"
+
+msgid "Maximum download rate"
+msgstr "Högsta nerladdningshastighet"
+
+msgid "Maximum upload rate"
+msgstr "Högsta uppladdningshastighet"
+
+msgid "Use network only between the hours of:"
+msgstr "Använd nätverket endast mellan klocka:"
+
+msgid "Transfer at most"
+msgstr "Överför som mest"
+
+msgid "Skip image file verification?"
+msgstr "Skippa bildfilsverifiering?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "Välj bara detta om din Internetleverantör modifierar bildfiler. Att skippa verifieringen påverkar säkerheten för BOINC negativt."
+
+msgid "search"
+msgstr "sök"
+
+msgid "What is @this_project?"
+msgstr "Vad är @this_project?"
+
+msgid "Login"
+msgstr "Logga in"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "No @type tasks"
+msgstr "Inga @type arbetsuppgifter"
+
+msgid "There are no tasks of this type on record"
+msgstr "Det finns inga arbetsuppgifter av denna typ att visa"
+
+msgid "Details"
+msgstr "Detaljer"
+
+msgid "Password"
+msgstr "Lösenord"
+
+msgid "Enter the password that accompanies your username."
+msgstr "Ange lösenordet för ditt konto. "
+
+msgid "Request new password"
+msgstr "Efterfråga nytt lösenord"
+
+msgid "Mark all topics read"
+msgstr "Markera alla trådar som lästa"
+
+msgid "Mark all forums read"
+msgstr "Markera alla forum som lästa"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "CAPTCHA verifierings fel: okänt CAPTCHA sessions ID. Kontakta webbplatsens administratör om problemet kvarstår."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "Svaret du angav för CAPTCHA var inte korrekt."
+
+msgid "Access denied. You must login to view this page."
+msgstr "Åtkomst nekad. Du måste logga in för att visa denna sida."
+
+msgid "You are not authorized to access this page."
+msgstr "Du har inte åtkomst till denna sida."
+
+msgid "Disable rich-text"
+msgstr "Stäng av rich-text"
+
+msgid "Enable rich-text"
+msgstr "Använd rich-text"
+
+msgid "Teams"
+msgstr "Lag"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "@project användare kan skapa lag. Du kan bara tillhöra ett lag åt gången. Du kan gå med i eller lämna ett lag när som helst. För att gå med i ett lag så besök det lagets sida och klicka på \"Gå med i det här laget\". Varje lag har en grundare som kan:"
+
+msgid "access team members' email addresses"
+msgstr "Se lagmedlemmarnas e-post adresser"
+
+msgid "edit the team's name and description"
+msgstr "ändra lagets namn och beskrivning"
+
+msgid "add or remove team admins"
+msgstr "lägga till eller ta bort lagadministratörer"
+
+msgid "remove members from the team"
+msgstr "ta bort medlemmar ur laget"
+
+msgid "disband a team if it has no members"
+msgstr "ta bort laget om det inte har några medlemmar"
+
+msgid "Search teams"
+msgstr "Sök lag"
+
+msgid "Create a new team"
+msgstr "Skapa ett nytt lag"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "Om du inte kan hitta något lag som passar dig så kan du skapa ett lag."
+
+msgid "You must earn 1 more credit!"
+msgstr "Du måste intjäna 1 poäng till!"
+
+msgid "@count million ops/sec"
+msgstr "@count miljoner beräkningar/sekund"
+
+msgid "@rate KiB/sec"
+msgstr "@rate KIB/s"
+
+msgid "@count days"
+msgstr "@count dagar"
+
+msgid "Stderr output"
+msgstr "Stderr logg"
+
+msgid "Email address"
+msgstr "E-postadress"
+
+msgid "Enter your @s email address."
+msgstr "Ange din @s E-postadress."
+
+msgid "Log in"
+msgstr "Logga in"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "Tyvärr, okänd e-post adress eller felaktigt lösenord."
+
+msgid "Have you forgotten your password?"
+msgstr "Har du glömt ditt lösenord?"
+
+msgid "No results found..."
+msgstr "Inga resultat hittades..."
+
+msgid "Anonymous"
+msgstr "Anonym"
+
+msgid "Forgot password"
+msgstr "Glömt lösenord"
+
+msgid "authenticator-based login"
+msgstr "Autentiserings-baserad inloggning"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Ange din e-postadress för att ta emot instruktioner om hur du återställer ditt lösenord (eller använd !authenticator_login)"
+
+msgid "Send"
+msgstr "Skicka"
+
+msgid "Submitted by !username on !datetime"
+msgstr "Skickat av !username vid !datetime"
+
+msgid "Send message"
+msgstr "Sänd meddelande"
+
+msgid "Add as friend"
+msgstr "Lägg till som vän"
+
+msgid "Website"
+msgstr "Webbsida"
+
+msgid "Team"
+msgstr "Lag"
+
+msgid "Create new team"
+msgstr "Skapa ett nytt lag"
+
+msgid "Search"
+msgstr "Sök"
+
+msgid "Total credits"
+msgstr "Total poäng"
+
+msgid "Recent avg credits"
+msgstr "Nyligen genomsnittlig poäng"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "New members in last day"
+msgstr "Nya medlemmar senaste dagen"
+
+msgid "Total members"
+msgstr "Totalt antal medlemmar"
+
+msgid "Active members"
+msgstr "Aktiva medlemmar"
+
+msgid "Members with credit"
+msgstr "Medlemmar med poäng"
+
+msgid "Web site"
+msgstr "Webbsida"
+
+msgid "Description"
+msgstr "Beskrivning"
+
+msgid "BBcode help"
+msgstr "BBkod hjälp"
+
+msgid "Post comment"
+msgstr "Publicera inlägg"
+
+#: preference set
+msgctxt "preference set"
+msgid "Home"
+msgstr "Hem"
+
+msgid "The latest news from the @site_name project"
+msgstr "De senaste nyheterna från projektet @site_name"
+
+msgid "Hide"
+msgstr "Dölj"
+
+msgid "Hide this topic"
+msgstr "Dölj denna tråd"
+
+msgid "Lock"
+msgstr "Lås"
+
+msgid "Lock this thread for comments"
+msgstr "Lås denna tråd för nya kommentarer"
+
+msgid "Make sticky"
+msgstr "Fäst"
+
+msgid "Make this topic sticky"
+msgstr "Fäst denna tråd"
+
+msgid "moderation"
+msgstr "moderering"
+
+msgid "Reply"
+msgstr "Svara"
+
+msgid "Reply to this comment"
+msgstr "Svara detta inlägg"
+
+msgid "Quote"
+msgstr "Citera"
+
+msgid "Reply to this comment with quote"
+msgstr "Svara denna kommentar med citering"
+
+msgid "Edit"
+msgstr "Redigera"
+
+msgid "Edit this comment"
+msgstr "Redigera denna kommentar"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Delete this comment"
+msgstr "Radera denna kommentar"
+
+msgid "Hide this comment"
+msgstr "Dölj denna kommentar"
+
+msgid "Message @id"
+msgstr "Meddelande @id"
+
+msgid "Convert"
+msgstr "Konvertera"
+
+msgid "Convert this comment to a new topic"
+msgstr "Konvertera denna kommentar till en ny tråd"
+
+msgid "message @id"
+msgstr "meddelande @id"
+
+msgid " in response to !parent"
+msgstr "som svar till !parent"
+
+msgid "Post new comment"
+msgstr "Skriv nytt inlägg"
+
+msgid "Comments"
+msgstr "Kommentarer"
+
+msgid "discuss"
+msgstr "diskutera"
+
+msgid "n/a"
+msgstr "Inte tillgängligt"
+
+msgid "@time ago"
+msgstr "@time sedan"
+
+msgid "Threads"
+msgstr "Trådar"
+
+msgid "Posts"
+msgstr "Inlägg"
+
+msgid "Last post"
+msgstr "Senaste inlägg"
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Vänligen vara ansvarig i vad du skriver och skriv inte inlägg som är stötande eller kränkande. Offensiva inlägg eller trådar kan raderas av moderatorerna utan förvarning eller diskussion. Svara inte på offensiva inlägg. Klicka på länken \"rapportera\" längst upp i inlägget att uppmärksamma moderatorerna på det."
+
+msgid "this project"
+msgstr "detta projekt"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Vi ber också att du håller alla diskussioner i forumet relaterade till @project eller BOINC med det lilla undantaget att i Science forumet kan du fritt diskutera allt som är relevant för den underliggande vetenskapen. Deltagare som är intresserade av bredare diskussioner bör göra det i inofficiella forum för @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Detta forum stödjer nu endast BBkod taggar."
+
+msgid "Featured"
+msgstr "Utvald"
+
+msgid "Locked"
+msgstr "Låst"
+
+msgid "Submitted on !datetime"
+msgstr "Skickades !datetime"
+
+msgid "Computers pending"
+msgstr "Datorer väntande"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "Denna användare har några associerade datorer än. Datorer kommer att synas när de tjänat in sina första poäng."
+
+msgid "Show IP address"
+msgstr "Visa IP-adress"
+
+msgid "Download the desktop software"
+msgstr "Ladda ned programvaran"
+
+msgid "Run the installer"
+msgstr "Kör installationsprogrammet"
+
+msgid "hours"
+msgstr "timmar"
+
+msgid "When prompted enter @siteurl"
+msgstr "När du uppmanas, ange @siteurl"
+
+msgid "Merge"
+msgstr "Slå ihop"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "Detta kommer att permanent radera enhet @id från ditt konto. Är du säker på att detta är OK?"
+
+msgid "Post topic"
+msgstr "Publicera"
+
+msgid "Leave team"
+msgstr "Lämna laget"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Klicka här för att dra tillbaka ditt medlemskap i @this_team"
+
+msgid "Leave this team"
+msgstr "Lämna detta lag"
+
+msgid "Request foundership"
+msgstr "Begär grundarstatus"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Om lagets grundare inte längre är aktiv och du vill ta över rollen som grundare, klicka på knappen nedan för att begära grundarstatus för @this_team."
+
+msgid "Initiate request"
+msgstr "Initiera begäran"
+
+msgid "No active computers"
+msgstr "Inga aktiva datorer"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "Den här användaren har inga datorer som varit aktiva de senaste 30 dagarna."
+
+msgid "Clear"
+msgstr "Rensa"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "Detta kommer att ta bort alla inställningar för platsen @name. Är du säker?"
+
+msgid "Your community preferences have been updated."
+msgstr "Dina gemenskapsinställningar har uppdaterats."
+
+msgid "Combined preferences"
+msgstr "Kombinerade inställningar"
+
+msgid "Switch View"
+msgstr "Ändra vy"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "Detta kommer att ta bort alla inställningar för platsen @name. Är du säker?"
+
+msgid "Approve profile"
+msgstr "Godkänn profil"
+
+msgid "Approve this profile content"
+msgstr "Godkänn innehållet i denna profil"
+
+msgid "Reject this profile content"
+msgstr "Avvisa innehållet i denna profil"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "Dessa inställningar gäller för alla BOINC-projekt som du deltar i."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "För datorer som är anslutna till flera projekt kommer de senast ändrade inställningarna att gälla."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "Inställningarna ändrades senast: @mod_time"
+
+msgid "every"
+msgstr "varje"
+
+msgid "Add"
+msgstr "Lägg till"
+
+msgid "My team"
+msgstr "Mitt lag"
+
+msgid "You are a member of @team."
+msgstr "Du är medlem i @team"
+
+msgid "View my team"
+msgstr "Visa mitt lag"
+
+msgid "Manage team"
+msgstr "Hantera lag"
+
+msgid "View member list"
+msgstr "Visa medlemmslista"
+
+msgid "Member names and emails"
+msgstr "Medlemmarnas namn och e-post"
+
+msgid "View change history"
+msgstr "Visa förändringshistorik"
+
+msgid "See member activity"
+msgstr "Visa medlemmsaktivitet"
+
+msgid "Manage team message board"
+msgstr "Hantera lagets privata forum"
+
+msgid "Create or manage message board"
+msgstr "Skapa eller hantera ett forum"
+
+msgid "Remove members"
+msgstr "Ta bort medlemmar"
+
+msgid "Change founder"
+msgstr "Byt grundare"
+
+msgid "Manage team admins"
+msgstr "Hantera lagadministratörer"
+
+msgid "Edit team info"
+msgstr "Redigera lagets information"
+
+msgid "Remove team"
+msgstr "Ta bort laget"
+
+msgid "Team forum"
+msgstr "Lagforum"
+
+msgid "A discussion forum has been set up for team members."
+msgstr "Ett forum har skapats för lagets medlemmar."
+
+msgid "Enter forum"
+msgstr "Öppna forumet"
+
+msgid "Join team"
+msgstr "Gå med i lag"
+
+msgid "Click here to become a member of @this_team"
+msgstr "Klicka här för att bli medlem av @detta_lag"
+
+msgid "Join this team"
+msgstr "Gå med i detta lag"
+
+msgid "Choose type"
+msgstr "Välj typ"
+
+msgid "Team name"
+msgstr "Lagnamn"
+
+msgid "Text only, no HTML tags"
+msgstr "Endast text, inga HTML taggar"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "Lagets namn - HTML version (frivilligt)"
+
+msgid "You may use limited HTML tags"
+msgstr "Du kan använda begränsade HTML taggar"
+
+msgid "Team website (optional)"
+msgstr "Lagets webbplats (frivilligt)"
+
+msgid "Displayed on the team's page"
+msgstr "Visas på lagsidan"
+
+msgid "Type of team"
+msgstr "Typ av lag"
+
+msgid "Accept new members?"
+msgstr "Acceptera nya medlemmar?"
+
+msgid "Description of team"
+msgstr "Beskrivning av laget"
+
+msgid "Create a team"
+msgstr "Skapa ett lag"
+
+msgid "Save team"
+msgstr "Spara laget"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "Om du redan kör BOINC, välj <i>Lägg till\nProjekt</i>."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "Om du kör kommandorads-versionen av BOINC,\nanvänd först BOINC Mananger-mjukvaran (eller någon annanstans om nödvändigt) för att skapa ett\nett konto till detta projekt, använd sedan det kontot till att ansluta med\nkommandorad-versionen."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "Om du kör en version av BOINC som är släppt före -5.0, vänligen\nuppgradera till en mer aktuell version för att skapa ett konto\ntill detta projekt."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Om du glömt bort din e-postadress eller inte kan ta emot e-post via den adressen:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Om du har kör BOINC med det kontot kan du fortfarande komma åt det. Så här gör du:"
+
+msgid "BOINC documentation"
+msgstr "BOINC dokumentation"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Gå till BOINC data mapp på din dator (se !boinc_wiki för hjälp att hitta mappen)."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Leta på konto-filen för detta projekt; Den ska ha ett namn liknande %file (där projektets adress är %url)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Öppna filen i en textredigerare som t.ex. Anteckningar. Du bör se något i stil med:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Markera och kopiera strängen mellan &lt;authenticator&gt; och &lt;/authenticator&gt; (%auth i exemplet ovan)."
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "Klistra in strängen i fältet nedan och klicka på OK."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "Du kommer nu att vara inloggad; uppdatera din e-postadress och ditt lösenord."
+
+msgid "Log in with authenticator"
+msgstr "Logga in med autentisering"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Post new topic"
+msgstr "Skapa ny tråd"
+
+msgid "Create team message board"
+msgstr "Skapa lagforum"
+
+msgid "Message board title"
+msgstr "Forumtitel"
+
+msgid "Minimum time between posts"
+msgstr "Minsta tid mellan inlägg"
+
+msgid "Seconds"
+msgstr "Sekunder"
+
+msgid "Minimum total credit to post"
+msgstr "Minsta poäng för att kunna skriva inlägg"
+
+msgid "Minimum avg credit to post"
+msgstr "Minsta genomsnittlig poäng för att kunna skriva inlägg"
+
+msgid "Allow public to read board?"
+msgstr "Tillåt alla att läsa i forumet?"
+
+msgid "Create message board"
+msgstr "Skapa forum"
+
+msgid "About message boards"
+msgstr "Om forumet"
+
+msgid "You may create a message board for use by @team"
+msgstr "Du kan skapa ett eget forum för @team"
+
+msgid "Only members may post"
+msgstr "Endast medlemmar kan göra inlägg"
+
+msgid "Only members may read (optional)"
+msgstr "Endast medlemmar kan läsa (frivilligt)"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Grundare & Lagadministratörer har moderatorsbehörighet"
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (samma de senaste @count gångerna)"
+
+msgid "Revise or post comment"
+msgstr "Förhandsgranska eller publicera inlägget"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Ibland skapar BOINC flera identiteter för samma dator av misstag. Du kan rätta till detta genom att slå ihop den äldre identiteterna med den nyaste."
+
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Markera de datorer som är de samma som @name (skapad @date kl. @time med dator ID @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "Dator @old_id har slagits ihop till det nya IDt @id."
+
+msgid "parent removed"
+msgstr "förälder borttagen"
+
+msgid "Remove"
+msgstr "Ta bort"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "Autentisering krävs för att ändra e-postadress eller för att byta lösenord."
+
+msgid "Make unsticky"
+msgstr "Fäst inte"
+
+msgid "Remove sticky status from this topic"
+msgstr "Fäst inte denna tråd"
+
+msgid "Unhide"
+msgstr "Visa"
+
+msgid "Unhide this comment"
+msgstr "Gör denna kommentar synlig"
+
+msgid "Unpublished"
+msgstr "Ej publicerad"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Datorerna @old_ids har slagits samman till det nya IDt @id."
+
+msgid "Joined"
+msgstr "Gick med"
+
+msgid "Credit"
+msgstr "Poäng"
+
+msgid "RAC"
+msgstr "RAC"
+
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Inget konto finns med e-postadressen: @email - klicka på \"Skapa nytt konto\" för att registrera dig"
+
+msgid "started discussion"
+msgstr "startade diskussionen"
+
+msgid "commented on"
+msgstr "gjorde ett inlägg i"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Det angivna lösenordet är felaktigt. Vänligen kontroller att det är korrekt."
+
+msgid "Minimum value not met for @field"
+msgstr "Minsta värdet är inte uppnått för @field"
+
+msgid "Invalid data type for @field"
+msgstr "Ogiltig datatyp för @field"
+
+msgid "News"
+msgstr "Nyheter"
+
+msgid "Remove friend"
+msgstr "Ta bort som vän"
+
+msgid "ignore list"
+msgstr "ignoreringslista"
+
+msgid "here"
+msgstr "här"
+
+msgid "!username is on your !ignore_list. Click !here to view this post."
+msgstr "!username finns på din !ignore_list. Klicka !here för att visa inlägget."
+
+msgid "hidden"
+msgstr "gömd"
+
+msgid "Unknown"
+msgstr "Okänt"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "Ogiltigt värde för \"%preference\""
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: inlägget publicerad i \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author har svarat i \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "För att visa tråden på !site, klicka här:\n!comment_url"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "Lagets grundare har @count dagar på sig att svara på din begäran om att överta grundarstatus."
+
+msgid "Unlock"
+msgstr "Lås upp"
+
+msgid "Unlock this thread for comments"
+msgstr "Lås upp denna tråd för nya kommentarer"
+
+msgid "project"
+msgstr "projekt"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email är inte en välformad e-postadress, vänligen kontrollera"
+
+msgid "Please enter your email address"
+msgstr "Vänligen ange din e-postadress"
+
+msgid "There is no account with that authenticator."
+msgstr "Det finns inget konto med den verifieraren."
+
+msgid "That authenticator is not valid."
+msgstr "Verifieraren är inte giltig."
+
+msgid "Send request"
+msgstr "Send förfrågan"
+
+msgid "Friend request from !name [!site]"
+msgstr "Vänförfrågning från !name [!site]"
+
+msgid "Message"
+msgstr "Meddelande"
+
+msgid ""
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name har lagt till dig som vän på !site. Du kan välja att godkänna eller avslå förfrågan. Om du väljer att avslå så kommer inget meddelande att skickas men förfrågan kommer att tas bort från bådas konton.\n\nKlicka på länken nedan för att granska förfrågan:\n!link\n\n!message\n\nTack,\n!site teamet"
+
+msgid "Cancel friend request"
+msgstr "Avbryt vänförfrågan"
+
+msgid "Please set the minimum time required between posts."
+msgstr "Vänligen ange den minsta tiden som krävs mellan inlägg"
+
+msgid ""
+"Please set the minimum total credit that a user must earn in order to post "
+"to this message board."
+msgstr "Vänligen ange den minsta totala poängen en användare måste ha för att få göra inlägg i forumet."
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "Vänligen ange den minsta genomsnittliga poängen som en användare måste ha för att få göra inlägg i forumet"
+
+msgid "Edit message board"
+msgstr "Redigera forumet"
+
+msgid "Save message board"
+msgstr "Spara forumet"
+
+msgid "This is a team-only message board"
+msgstr "Detta är ett lagforum"
+
+msgid "Maximum value exceeded for @field"
+msgstr "Det störst värdet för @field överskrids"
+
+msgid "Approve request"
+msgstr "Godkänn förfrågan"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name accepterade din vänförfrågan [!site]"
+
+msgid ""
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name bekräftade din vänförfrågan på !site.\n\nKlicka på länken nedan för att se hans eller hennes profil:\n!link\n\n!message\n\nTack\n!site teamet"
+
+msgid "posted"
+msgstr "publicerat"
+
+msgid "Add team admin"
+msgstr "Lägg till lagadministratör"
+
+msgid "Enter email address"
+msgstr "Ange e-postadress"
+
+msgid "Current team admins"
+msgstr "Nuvarande lagadministratörer"
+
+msgid "About team admins"
+msgstr "Om lagadministratörer"
+
+msgid "Team admins can:"
+msgstr "Lagadministratörer kan:"
+
+msgid "Edit team information"
+msgstr "Redigera laginformationen"
+
+msgid "View the team's join / quit history"
+msgstr "Se historik över när medlemmarna gick med eller lämnade laget"
+
+msgid "Moderate the team forum"
+msgstr "Moderera lagforumet"
+
+msgid "Remove members from the team"
+msgstr "Ta bort medlemmar från laget"
+
+msgid "Disband a team if it has no members"
+msgstr "Ta bort laget om det inte har några medlemmar"
+
+msgid "Team admins cannot:"
+msgstr "Lagadministratörer kan inte:"
+
+msgid "Change the team founder"
+msgstr "Ändra lagets grundare"
+
+msgid "Add / Remove team admins"
+msgstr "Lägga till / ta bort lagadministratörer"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Om en lagadministratör lämnar laget så upphör den att vara en lagadministratör. Vi rekommenderar att du bara väljer personer som du känner och litar på."
+
+msgid "Lift user ban"
+msgstr "Häv avstängningen av användaren"
+
+msgid "A team named \"@name\" already exists."
+msgstr "Ett lag med namnet \"@name\" finns redan."
+
+msgid "A BOINC account already exists for @email."
+msgstr "Ett BOINC konto med e-postadressen @email finns redan."
+
+msgid "Make founder"
+msgstr "Utse som grundare"
+
+msgid "Changing the team founder"
+msgstr "Ändra lagets grundare"
+
+msgid "Notes about changes in foundership:"
+msgstr "Anmärkningar om ändrande av lagets grundare:"
+
+msgid "Any member of the team is eligible"
+msgstr "Vilken som helst av lagets medlemmar kan väljas"
+
+msgid "Current founder becomes a normal user"
+msgstr "Den nuvarande grundare övergår till att bli en vanlig medlem"
+
+msgid "Foundership can be requested by team members:"
+msgstr "Grundarstatus kan begäras av en lagmedlem:"
+
+msgid "One request is allowed at a time"
+msgstr "En begäran åt gången är tillåten"
+
+msgid "It must be 60 days since any previous request"
+msgstr "Det måste ha gått 60 dagar sedan den senaste begäran"
+
+msgid "Any active request must be older than 90 days"
+msgstr "En aktiv begäran måste vara äldre än 90 dagar"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "Den nuvarande grundaren har 60 dagar på sig att svara på begäran"
+
+msgid "BOINC-wide teams site"
+msgstr "BOINC-övergripande lagsida"
+
+msgid "This is a BOINC-wide team. Changes can be made at the !site."
+msgstr "Detta är ett BOINC-övergripande lag. Ändringar kan göras på !site."
+
+msgid ""
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "En teamskapar-ändring har redan efterfrågats nyligen. Bara en efterfrågan är tillåten innom en period av 90 dagar."
+
+msgid "@count days remaining"
+msgstr "@count dagar kvar"
+
+msgid "Team name is required."
+msgstr "Lagnamn krävs."
+
+msgid "Reason for banning this user"
+msgstr "Anledning att stänga av användaren"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "Anledningen kommer att inkluderas i ett e-post till användaren. Vänligen ge en kortfattad beskrivning om varför användaren stängs av."
+
+msgid "Duration of the ban"
+msgstr "Hur lång tid avstängningen gäller"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Antalet dagar till avstängningen upphör. Sätt till 0 för att stänga av för alltid."
+
+msgid "Submit"
+msgstr "Skicka"

@@ -119,7 +119,7 @@ function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = 
     if ($regexp === null) {
         $regexp = $select_name;
     }
-    $x = "<select name=$select_name>\n";
+    $x = "<select class=\"form-control\" name=$select_name>\n";
     if ($allow_none) {
         $x .= "<option value=\"\">--- None</option>\n";
     }

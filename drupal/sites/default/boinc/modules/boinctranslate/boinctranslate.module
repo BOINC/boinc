@@ -62,6 +62,12 @@ function boinctranslate_menu() {
     'access arguments' => array('update official BOINC translations'),
     'type' => MENU_CALLBACK,
   );
+  $items['admin/boinc/translation/download-pot'] = array(
+    'title' => 'Download translation template',
+    'page callback' => 'boinctranslate_download_pot',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -202,7 +208,9 @@ function boinctranslate_perm() {
  * 
  */
 function boinctranslate_initialize_languages() {
+
   require_once(getcwd() . '/includes/locale.inc');
+  
   $api_base_url = 'https://www.transifex.com/api/2';
   $project_name = variable_get(
     'boinc_translate_transifex_project_name', ''
@@ -385,15 +393,21 @@ function boinctranslate_export_translations() {
   $project_name = variable_get(
     'boinc_translate_transifex_project_name', ''
   );
+  // Get resource names from local config
+  $resource_config = (variable_get(
+    'boinc_translate_transifex_project_resources', ''
+  ));
+  $resource_names = boinctranslate_parse_resources($resource_config);
+  $primary_resource = reset($resource_names);
   
-  if ($project_name) {
+  if ($project_name AND $primary_resource) {
     // Create or update the translation source, if needed
     $source_exists = FALSE;
     $path = "project/{$project_name}/resources";
     $resources = boinctranslate_transifex_request($path);
     if ($resources AND is_array($resources)) {
       foreach ($resources as $resource) {
-        if ($resource['slug'] == 'drupal-project') {
+        if ($resource['slug'] == $primary_resource) {
           $source_exists = TRUE;
           break;
         }
@@ -402,7 +416,7 @@ function boinctranslate_export_translations() {
         // Create the source
         $path = "project/{$project_name}/resources";
         $post = array(
-          'slug' => 'drupal-project',
+          'slug' => $primary_resource,
           'name' => 'Drupal-Project',
           'i18n_type' => 'PO',
           'category' => 'Drupal',
@@ -412,7 +426,7 @@ function boinctranslate_export_translations() {
       }
       else {
         // Update the source
-        $path = "project/{$project_name}/resource/drupal-project/content";
+        $path = "project/{$project_name}/resource/{$primary_resource}/content";
         $post = array(
           'content' => boinctranslate_get_po('en', 'project')
         );
@@ -428,21 +442,6 @@ function boinctranslate_export_translations() {
       else {
         drupal_set_message('Established new translation resource at Transifex');
       }
-      // Ensure this exported project resource is in the config
-      $resource_config = (variable_get(
-        'boinc_translate_transifex_project_resources', ''
-      ));
-      $resource_names = boinctranslate_parse_resources($resource_config);
-      if (!in_array('drupal-project', $resource_names)) {
-        $resource_config .= "\n" . 'drupal-project';
-        variable_set(
-          'boinc_translate_transifex_project_resources',
-          $resource_config
-        );
-        drupal_set_message(
-          'Added drupal-project to Project-specific resources'
-        );
-      }
       // Try to export translations for all enabled languages
       foreach ($enabled_languages as $langcode => $language_name) {
         if ($langcode == 'en') {
@@ -450,7 +449,7 @@ function boinctranslate_export_translations() {
         }
         $po_file = boinctranslate_get_po($langcode, 'project');
         if ($po_file) {
-          $path = "project/{$project_name}/resource/drupal-project/translation/{$langcode}";
+          $path = "project/{$project_name}/resource/{$primary_resource}/translation/{$langcode}";
           $post = array(
             'content' => $po_file,
           );
@@ -582,6 +581,14 @@ function boinctranslate_update_official_boinc_translations() {
 /**
  *
  */
+function boinctranslate_download_pot($type = 'boinc') {
+  $po = boinctranslate_get_po(NULL, $type);
+  _locale_export_po(NULL, $po);
+}
+
+/**
+ *
+ */
 function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $use_put = FALSE, $username = '', $password = '') {
   $debug_mode = variable_get('boinc_debug_mode', 0);
   
@@ -642,8 +649,11 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $us
  *
  */
 function boinctranslate_get_po($langcode, $type = 'standard') {
+
+  require_once(getcwd() . '/includes/locale.inc');
+  
   $all_languages = language_list();
-  $language = $all_languages[$langcode];
+  $language = $langcode ? $all_languages[$langcode] : NULL;
   $textgroups = array();
   $strings = array();
   
@@ -675,22 +685,11 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
     $strings += _locale_export_get_strings($language, $textgroup);
   }
   ksort($strings);
-  $unique_strings = array();
-  $duplicate_strings = array();
   foreach ($strings as $id => $string) {
-    // Build a set of duplicate strings
-    if (!isset($unique_strings[$string['source']])) {
-      $unique_strings[$string['source']] = $id;
-    }
-    else {
-      $duplicate_strings[] = $id;
-    }
+    // Set the string context
+    $strings[$id]['context'] = trim($string['comment']);
   }
-  foreach ($duplicate_strings as $id) {
-    // Remove any duplicate source strings from the original array
-    unset($strings[$id]);
-  }
-  if ($langcode != 'en') {
+  if ($langcode AND $langcode != 'en') {
     // If not the source language, remove untranslated strings from the ouput
     foreach ($strings as $i => $string) {
       if (!$string['translation']) {
@@ -699,10 +698,97 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
     }
   }
   if ($strings) {
-    return _locale_export_po_generate($language, $strings);
+    return boinctranslate_export_po_generate($language, $strings);
   }
   
   return NULL;
+}
+
+/**
+ *
+ */
+function boinctranslate_export_po_generate($language = NULL, $strings = array(), $header = NULL) {
+
+  require_once(getcwd() . '/includes/locale.inc');
+  global $user;
+
+  if (!isset($header)) {
+    if (isset($language)) {
+      $header = '# ' . $language->name . ' translation of ' . variable_get('site_name', 'Drupal') . "\n";
+      $header .= '# Generated by ' . $user->name . ' <' . $user->mail . ">\n";
+      $header .= "#\n";
+      $header .= "msgid \"\"\n";
+      $header .= "msgstr \"\"\n";
+      $header .= "\"Project-Id-Version: PROJECT VERSION\\n\"\n";
+      $header .= "\"POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
+      $header .= "\"PO-Revision-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
+      $header .= "\"Last-Translator: NAME <EMAIL@ADDRESS>\\n\"\n";
+      $header .= "\"Language-Team: LANGUAGE <EMAIL@ADDRESS>\\n\"\n";
+      $header .= "\"MIME-Version: 1.0\\n\"\n";
+      $header .= "\"Content-Type: text/plain; charset=utf-8\\n\"\n";
+      $header .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
+      if ($language->formula && $language->plurals) {
+        $header .= "\"Plural-Forms: nplurals=" . $language->plurals . "; plural=" . strtr($language->formula, array('$' => '')) . ";\\n\"\n";
+      }
+    }
+    else {
+      $header = "# LANGUAGE translation of PROJECT\n";
+      $header .= "# Copyright (c) YEAR NAME <EMAIL@ADDRESS>\n";
+      $header .= "#\n";
+      $header .= "msgid \"\"\n";
+      $header .= "msgstr \"\"\n";
+      $header .= "\"Project-Id-Version: PROJECT VERSION\\n\"\n";
+      $header .= "\"POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
+      $header .= "\"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\\n\"\n";
+      $header .= "\"Last-Translator: NAME <EMAIL@ADDRESS>\\n\"\n";
+      $header .= "\"Language-Team: LANGUAGE <EMAIL@ADDRESS>\\n\"\n";
+      $header .= "\"MIME-Version: 1.0\\n\"\n";
+      $header .= "\"Content-Type: text/plain; charset=utf-8\\n\"\n";
+      $header .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
+      $header .= "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n";
+    }
+  }
+
+  $output = $header . "\n";
+
+  foreach ($strings as $lid => $string) {
+    // Only process non-children, children are output below their parent.
+    if (!isset($string['child'])) {
+      if ($string['comment']) {
+        $output .= '#: ' . $string['comment'] . "\n";
+      }
+      if ($string['context']) {
+        $output .= 'msgctxt "' . $string['context'] . "\"\n";
+      }
+      $output .= 'msgid ' . _locale_export_string($string['source']);
+      if (!empty($string['plural'])) {
+        $plural = $string['plural'];
+        $output .= 'msgid_plural ' . _locale_export_string($strings[$plural]['source']);
+        if (isset($language)) {
+          $translation = $string['translation'];
+          for ($i = 0; $i < $language->plurals; $i++) {
+            $output .= 'msgstr[' . $i . '] ' . _locale_export_string($translation);
+            if ($plural) {
+              $translation = _locale_export_remove_plural($strings[$plural]['translation']);
+              $plural = isset($strings[$plural]['plural']) ? $strings[$plural]['plural'] : 0;
+            }
+            else {
+              $translation = '';
+            }
+          }
+        }
+        else {
+          $output .= 'msgstr[0] ""' . "\n";
+          $output .= 'msgstr[1] ""' . "\n";
+        }
+      }
+      else {
+        $output .= 'msgstr ' . _locale_export_string($string['translation']);
+      }
+      $output .= "\n";
+    }
+  }
+  return $output;
 }
 
 /**
@@ -822,6 +908,7 @@ function boinctranslate_refresh_translations() {
  * Batch operation for importing translations
  */
 function boinctranslate_refresh_translations_op($project, $resource, $langcode, $language, $textgroups, $debug_mode, &$context) {
+  
   require_once(getcwd() . '/includes/locale.inc');
   
   if ($debug_mode) {
@@ -975,6 +1062,8 @@ function _boinctranslate_locale_import_po($file, $langcode, $mode, $group = NULL
     @set_time_limit(240);
   }
 
+  require_once(getcwd() . '/includes/locale.inc');
+  
   // Check if we have the language already in the database.
   if (!db_fetch_object(db_query("SELECT language FROM {languages} WHERE language = '%s'", $langcode))) {
     drupal_set_message(t('The language selected for import is not supported.'), 'error');
@@ -1015,6 +1104,8 @@ function _boinctranslate_locale_import_po($file, $langcode, $mode, $group = NULL
  */
 function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang = NULL, $group = 'default') {
 
+  require_once(getcwd() . '/includes/locale.inc');
+  
   $fd = fopen($file->filepath, "rb"); // File will get closed by PHP on return
   if (!$fd) {
     watchdog(
@@ -1061,6 +1152,36 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
         _locale_import_message('The translation file %filename contains an error: "msgstr" was expected but not found on line %line.', $file, $lineno);
         return FALSE;
       }
+    }
+    elseif (!strncmp("msgctxt", $line, 7)) {
+      if (($context == "MSGSTR") || ($context == "MSGSTR_ARR")) { // End current entry, start a new one
+        _boinctranslate_locale_import_one_string($op, $current, $mode, $lang, $file, $group);
+        $current = array();
+      }
+      elseif (($context == "MSGID") || ($context == "MSGCTXT")) { // Already in this context? Parse error
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: "msgctxt" is unexpected on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
+        _locale_import_message('The translation file %filename contains an error: "msgid" is unexpected on line %line.', $file, $lineno);
+        return FALSE;
+      }
+      $line = trim(substr($line, 7));
+      $quoted = _locale_import_parse_quoted($line);
+      if ($quoted === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
+        _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
+        return FALSE;
+      }
+      $current["msgctxt"] = $quoted;
+      $context = "MSGCTXT";
     }
     elseif (!strncmp("msgid_plural", $line, 12)) {
       if ($context != "MSGID") { // Must be plural form for current entry
@@ -1237,6 +1358,9 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
  *
  */
 function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NULL, $lang = NULL, $file = NULL, $group = 'default') {
+  
+  require_once(getcwd() . '/includes/locale.inc');
+  
   static $report = array(
     'additions' => 0,
     'updates' => 0,
@@ -1322,7 +1446,7 @@ function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NU
  * translation strings that do not exist on the site
  */
  function _boinctranslate_locale_import_one_string_db(&$report, $langcode, $source, $translation, $textgroup, $location, $mode, $plid = NULL, $plural = NULL) {
-  $lid = db_result(db_query("SELECT lid FROM {locales_source} WHERE source = '%s' AND textgroup = '%s'", $source, $textgroup));
+  $lid = db_result(db_query("SELECT lid FROM {locales_source} WHERE location = '%s' AND source = '%s' AND textgroup = '%s'", $location, $source, $textgroup));
 
   if (!empty($translation)) {
     // Skip this string unless it passes a check for dangerous code.

@@ -42,34 +42,26 @@ function get_top_participants($offset, $sort_by) {
 }
 
 function user_table_start($sort_by) {
-    start_table();
-    echo "
-        <tr>
-        <th>".tra("Rank")."</th>
-        <th>".tra("Name")."</th>
-    ";
+    start_table('table-striped');
+    $x = array();
+    $x[] = tra("Rank");
+    $x[] = tra("Name");
     if ($sort_by == "total_credit") {
-        echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a></th>
-            <th>".tra("Total credit")."</th>
-        ";
+        $x[] = "<a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a>";
+        $x[] = tra("Total credit");
     } else {
-        echo "
-            <th>".tra("Recent average credit")."</th>
-            <th><a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a></th>
-        ";
+        $x[] = tra("Recent average credit");
+        $x[] = "<a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a>";
     }
-    echo "
-        <th>".tra("Country")."</th>
-        <th>".tra("Participant since")."</th>
-        </tr>
-    ";
+    $x[] = tra("Country");
+    $x[] = tra("Participant since");
+    $a = array(null, null, ALIGN_RIGHT, ALIGN_RIGHT, null, null);
+    row_heading_array($x, $a);
 }
 
 function show_user_row($user, $i) {
-    $j = $i % 2;
     echo "
-        <tr class=row$j>
+        <tr>
         <td>$i</td>
         <td>", user_links($user, BADGE_HEIGHT_MEDIUM), "</td>
         <td align=right>", format_credit_large($user->expavg_credit), "</td>
@@ -122,7 +114,9 @@ foreach ($data as $user) {
     show_user_row($user, $i);
     $i++;
 }
-echo "</table>\n<p>";
+
+end_table();
+
 if ($offset > 0) {
     $new_offset = $offset - $users_per_page;
     echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $users_per_page)."</a> &middot; ";

@@ -193,7 +193,7 @@ protected:
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();
 
-    static  void            append_to_status(wxString& existing, const wxChar* additional);
+    static  void            append_to_status(wxString& existing, const wxString& additional);
     static  wxString        HtmlEntityEncode(wxString strRaw);
     static  wxString        HtmlEntityDecode(wxString strRaw);
 

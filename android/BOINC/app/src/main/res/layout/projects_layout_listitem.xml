@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2016 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/projectsRow"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:clickable="true">
+
+    <RelativeLayout 
+        android:id="@+id/icon_background"
+    	android:layout_width="60dp"
+    	android:layout_height="match_parent"
+    	android:minHeight="60dp"
+        android:background="@android:color/transparent">    
+	    <ImageView 
+	        android:id="@+id/project_icon"
+	        android:layout_width="48dp"
+	        android:layout_height="48dp"
+	        android:scaleType="fitCenter"
+		    android:contentDescription="@string/projects_icon"
+	    	android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="3dp">
+
+	    <TextView
+	        android:id="@+id/project_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textStyle="bold"
+	        android:singleLine="true"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	    <TextView
+	        android:id="@+id/project_user"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/dark_grey"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:layout_marginBottom="5dp" />
+
+	    <TextView 
+	   		android:layout_width="wrap_content"
+		    android:id="@+id/project_notice"
+	   		android:layout_height="wrap_content"
+	   		android:textAppearance="?android:attr/textAppearanceSmall"
+	   		android:background="@drawable/shape_yellow_background"
+	   		android:textColor="@color/black"
+	   		android:textStyle="bold"
+	   		android:padding="3dip"
+	   		android:layout_marginBottom="5dip"
+	   		android:visibility="gone"/>
+
+	    <TextView
+	        android:id="@+id/project_status"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/dark_grey"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+	    <TextView
+	        android:id="@+id/project_transfers"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/dark_grey"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/project_credits_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@string/projects_credits"
+                android:textColor="@color/dark_grey"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/project_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/projects_credits_host_and_user"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/dark_grey"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

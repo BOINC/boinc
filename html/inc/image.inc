@@ -21,7 +21,9 @@
 //
 function intelligently_scale_image($sourcefile, $fw, $fh) {
     $gd_info = gd_info();
-    $newGD = (strstr($gd_info["GD Version"], "2.0")!="");
+    // libgd version numbers seem to be always three numbers
+    preg_match('/(\d).(\d).(\d)/', $gd_info['GD Version'], $match);
+    $newGD = ($match[1]>=2);
 
     list($ow, $oh, $from_type) = getimagesize($sourcefile);
     switch($from_type) {

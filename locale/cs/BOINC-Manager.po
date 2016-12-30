@@ -4,16 +4,17 @@
 # 
 # Translators:
 # Christian Beer <christian.beer@posteo.de>, 2016
+# Šimon Orság <simonorsag98@gmail.com>, 2016
 # Martin Suchan <martin.suchan@outlook.com>, 2015
 # Pavel <xxxq@seznam.cz>, 2015
-# Petr Nekvinda <petr.nekvinda@gmail.com>, 2015
+# Petr Nekvinda <petr.nekvinda@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-23 10:04+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2016-11-16 17:16+0000\n"
+"Last-Translator: Petr Nekvinda <petr.nekvinda@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -211,12 +212,12 @@ msgstr "Odpojen"
 #: clientgui/AdvancedFrame.cpp:329
 #, c-format
 msgid "New %s window..."
-msgstr "Nové okno %s..."
+msgstr "nové okno %s"
 
 #: clientgui/AdvancedFrame.cpp:333
 #, c-format
 msgid "Open another %s window"
-msgstr "Otevřít další okno %s"
+msgstr "otevřít další okno %s"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Select computer..."
@@ -322,7 +323,7 @@ msgstr "Přid&at projekt"
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "&Use account manager..."
-msgstr "Po&užít Správce účtu..."
+msgstr "&Použít Správce účtu..."
 
 #: clientgui/AdvancedFrame.cpp:459
 msgid "Use an account manager to control this computer."
@@ -469,7 +470,7 @@ msgstr "Vyberte sloupce, které chcete zobrazit"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Možnosti záznamu událostí...⇥Ctrl+Shift+F"
+msgstr "Možnosti záznamu událostí...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
@@ -554,7 +555,7 @@ msgstr "&Aktivity"
 
 #: clientgui/AdvancedFrame.cpp:715 clientgui/sg_BoincSimpleFrame.cpp:283
 msgid "&Options"
-msgstr "M&ožnosti"
+msgstr "&Možnosti"
 
 #: clientgui/AdvancedFrame.cpp:719 clientgui/sg_BoincSimpleFrame.cpp:287
 msgid "&Tools"

@@ -81,8 +81,15 @@ function show_cpu_list($data) {
         <p>
     ";
     start_table();
-    row_heading_array(array("CPU model", "Number of computers", "Avg. cores/computer", "GFLOPS/core", "GFLOPs/computer"));
-    $i = 0;
+    row_heading_array(
+        array(
+            "CPU model",
+            "Number of computers",
+            "Avg. cores/computer",
+            "GFLOPS/core",
+            "GFLOPs/computer"
+        )
+    );
     $total_nhosts = 0;
     $total_gflops = 0;
     foreach ($data->cpus as $d) {
@@ -92,16 +99,19 @@ function show_cpu_list($data) {
                 number_format($d->mean_ncores, 2),
                 number_format($d->p_fpops/1e9, 2),
                 number_format($d->mean_ncores*$d->p_fpops/1e9, 2)
-            ),
-            "row$i"
+            )
         );
         $total_nhosts += $d->nhosts;
         $total_gflops += $d->nhosts*$d->mean_ncores*$d->p_fpops/1e9;
-        $i = 1-$i;
     }
     row_array(
-        array("Total", number_format($total_nhosts, 0). " computers", "", "", number_format($total_gflops/1e3, 2)." TeraFLOPS"),
-        "row$i"
+        array(
+            "Total",
+            number_format($total_nhosts, 0). " computers",
+            "",
+            "",
+            number_format($total_gflops/1e3, 2)." TeraFLOPS"
+        )
     );
     end_table();
     echo "Generated ".time_str($data->time);

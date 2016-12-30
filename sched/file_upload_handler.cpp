@@ -324,7 +324,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             found_data = true;
             break;
         }
-        log_messages.printf(MSG_CRITICAL, "unrecognized: %s", buf);
+        log_messages.printf(MSG_NORMAL, "unrecognized: %s", buf);
     }
     if (strlen(name) == 0) {
         return return_error(ERR_PERMANENT, "Missing name");

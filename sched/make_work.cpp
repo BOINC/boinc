@@ -25,7 +25,6 @@
 // Create WU and result records as needed to maintain a pool of work
 // (for testing purposes).
 // Clones the WU of the given name.
-//
 
 #include "config.h"
 #include <sys/param.h>

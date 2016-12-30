@@ -399,7 +399,7 @@ function boincimport_post_configuration() {
       formatted in BBcode. It would be a good idea to verify that BBcode is
       being formatted correctly in the imported posts. Have a look around
       !the_forum.', array(
-        '!the_forum' =>  l(t('the forum'), 'forum')
+        '!the_forum' =>  l(t('the forum'), 'community')
       )) . '</p>';
   }
 

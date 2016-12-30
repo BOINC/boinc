@@ -10,7 +10,7 @@ COMPILEOPENSSL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-OPENSSL="/home/boincadm/src/openssl-1.0.1j" #openSSL sources, requiered by BOINC
+OPENSSL="/home/boincadm/src/openssl-1.0.2g" #openSSL sources, requiered by BOINC
 
 export ANDROIDTC="$HOME/androidarm-tc"
 export TCBINARIES="$ANDROIDTC/bin"
@@ -22,9 +22,9 @@ export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
 export CC=arm-linux-androideabi-gcc
 export CXX=arm-linux-androideabi-g++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment

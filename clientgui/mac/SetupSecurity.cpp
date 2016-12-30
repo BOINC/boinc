@@ -1098,7 +1098,7 @@ void ShowSecurityError(const char *format, ...) {
 #ifndef __x86_64__
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
     // We need this because this is a command-line application so it does not get normal events
-    if (Button()) {
+    if (GetCurrentEventButtonState()) {
         *theItemHit = kStdOkItemIndex;
         return true;
     }

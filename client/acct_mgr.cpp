@@ -51,7 +51,7 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // if URL is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
-    std::string _url, std::string name, std::string password_hash,
+    string _url, string name, string password_hash,
     bool _via_gui
 ) {
     int retval;
@@ -162,6 +162,13 @@ int ACCT_MGR_OP::do_rpc(
             "      <detach_when_done>%d</detach_when_done>\n"
             "      <ended>%d</ended>\n"
             "      <resource_share>%f</resource_share>\n"
+            "      <cpu_ec>%f</cpu_ec>\n"
+            "      <cpu_time>%f</cpu_time>\n"
+            "      <gpu_ec>%f</gpu_ec>\n"
+            "      <gpu_time>%f</gpu_time>\n"
+            "      <njobs_success>%d</njobs_success>\n"
+            "      <njobs_error>%d</njobs_error>\n"
+            "      <usable_gpu>%d</usable_gpu>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
@@ -174,7 +181,14 @@ int ACCT_MGR_OP::do_rpc(
             p->dont_request_more_work?1:0,
             p->detach_when_done?1:0,
             p->ended?1:0,
-            p->resource_share
+            p->resource_share,
+            p->cpu_ec,
+            p->cpu_time,
+            p->gpu_ec,
+            p->gpu_time,
+            p->njobs_success,
+            p->njobs_error,
+            coprocs.n_rsc>1?1:0
         );
     }
     MIOFILE mf;
@@ -309,6 +323,12 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         }
         if (xp.parse_bool("abort_not_started", btemp)) {
             abort_not_started.set(btemp);
+            continue;
+        }
+        if (xp.parse_string("sci_keywords", sci_keywords)) {
+            continue;
+        }
+        if (xp.parse_string("loc_keywords", loc_keywords)) {
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -618,8 +638,12 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     for (int j=0; j<MAX_RSC; j++) {
                         pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
+                    pp->sci_keywords = acct.sci_keywords;
+                    pp->loc_keywords = acct.loc_keywords;
                 }
             } else {
+                // here we don't already have the project.
+                //
                 if (acct.authenticator.empty()) {
                     msg_printf(NULL, MSG_INFO,
                         "Account manager reply missing authenticator for %s",
@@ -628,7 +652,6 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     continue;
                 }
 
-                // here we don't already have the project.
                 // Attach to it, unless the acct mgr is telling us to detach
                 //
                 if (!acct.detach && !(acct.detach_when_done.present && acct.detach_when_done.value)) {

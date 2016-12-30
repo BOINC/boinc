@@ -10,9 +10,15 @@ pre, code {
     font-size: medium;
 }
 
-.emphasize {
-	font-weight: bold;
+.lead {
+    font-size: 17px;
+    font-weight: bold;
 }
+
+.emphasize {
+    font-weight: bold;
+}
+
 .emphasize2 {
 	color: red;
 }

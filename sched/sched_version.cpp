@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,6 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Logic for deciding what app version to use for jobs.
+//
+// The main interface is get_app_version(),
+// which returns the "best" app version for a given job, i.e. which
+// - passes the plan class test for this host
+// - uses a resource for which work is being requested.
+// - has the highest projected FLOPS
+//
+// Normally we choose among the project's app versions.
+// However, if the client is using anonymous platform,
+// we choose among the client's app versions.
+
 #include "boinc_db.h"
 
 #include "sched_main.h"
@@ -27,7 +39,7 @@
 
 #include "sched_version.h"
 
-inline void dont_need_message(
+static inline void dont_need_message(
     const char* p, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
 ) {
     if (!config.debug_version_select) return;
@@ -44,10 +56,9 @@ inline void dont_need_message(
     }
 }
 
-// for new-style requests, check that the app version uses a
-// resource for which we need work
+// check that the app version uses a resource for which we need work
 //
-bool need_this_resource(
+static bool need_this_resource(
     HOST_USAGE& host_usage, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
 ) {
     if (!g_wreq->rsc_spec_request) {
@@ -439,7 +450,7 @@ static double max_32b_address_space() {
 // Else return NULL.
 //
 static BEST_APP_VERSION* check_homogeneous_app_version(
-    WORKUNIT& wu, bool /* reliable_only */
+    const WORKUNIT& wu, bool /* reliable_only */
     // TODO: enforce reliable_only
 ) {
     BEST_APP_VERSION bav;
@@ -526,7 +537,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
 // that maps app ID to the best app version (or NULL).
 //
 BEST_APP_VERSION* get_app_version(
-    WORKUNIT& wu, bool check_req, bool reliable_only
+    const WORKUNIT& wu, bool check_req, bool reliable_only
 ) {
     unsigned int i;
     int j;
@@ -688,7 +699,7 @@ BEST_APP_VERSION* get_app_version(
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
             if (av.beta) {
-                if (!g_wreq->allow_beta_work) {
+                if (!g_wreq->project_prefs.allow_beta_work) {
                     continue;
                 }
             }
@@ -721,7 +732,7 @@ BEST_APP_VERSION* get_app_version(
             // skip versions that go against resource prefs
             //
             int pt = host_usage.proc_type;
-            if (g_wreq->dont_use_proc_type[pt]) {
+            if (g_wreq->project_prefs.dont_use_proc_type[pt]) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] [AV#%lu] Skipping %s version - user prefs say no %s\n",

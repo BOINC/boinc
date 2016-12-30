@@ -59,12 +59,9 @@
         </td>
         <td class="topics">
           <?php if ($forum->new_topics): ?>
-            <a href="community/forum/<?php print $forum->tid; ?>">
-          <?php endif; ?>
-          <?php print $forum->num_topics ?>
-          <?php if ($forum->new_topics): ?>
-            <?php //print $forum->new_text; ?>
-            </a>
+            <?php print l($forum->num_topics, "community/forum/{$forum->tid}"); ?>
+          <?php else: ?>
+            <?php print $forum->num_topics; ?>
           <?php endif; ?>
         </td>
         <td class="posts"><?php print $forum->num_posts ?></td>

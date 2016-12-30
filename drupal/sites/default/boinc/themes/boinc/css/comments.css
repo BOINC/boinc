@@ -106,6 +106,7 @@ div.node-type-forum.not-first-page {
 }
 .comment .user .name,
 .node-type-forum .user .name,
+.node-type-team-forum .user .name,
 #comment-form .user .name {
   color: #5A5758;
   font-size: 10px;
@@ -122,6 +123,10 @@ div.node-type-forum.not-first-page {
 .node-type-forum .user .post-count,
 .node-type-forum .user .credit,
 .node-type-forum .user .rac,
+.node-type-team-forum .user .join-date,
+.node-type-team-forum .user .post-count,
+.node-type-team-forum .user .credit,
+.node-type-team-forum .user .rac,
 #comment-form .user .join-date,
 #comment-form .user .post-count,
 #comment-form .user .credit,
@@ -133,19 +138,24 @@ div.node-type-forum.not-first-page {
   margin-left: 1px;
 }
 .comment .user .user-links,
-.node-type-forum .user .user-links {
+.node-type-forum .user .user-links,
+.node-type-team-forum .user .user-links {
   padding-top: 8px;
 }
 .comment .user .ignore-link,
 .comment .user .pm-link,
 .node-type-forum .user .ignore-link,
-.node-type-forum .user .pm-link {
+.node-type-team-forum .user .ignore-link,
+.node-type-forum .user .pm-link,
+.node-type-team-forum .user .pm-link {
   font-weight: bold;
 }
 .comment .user .ignore-link a,
 .comment .user .pm-link a,
 .node-type-forum .user .ignore-link a,
-.node-type-forum .user .pm-link a {
+.node-type-team-forum .user .ignore-link a,
+.node-type-forum .user .pm-link a,
+.node-type-team-forum .user .pm-link a {
   color: #808080; /*#5A5758;*/
   font-size: 10px;
   letter-spacing: 1px;
@@ -154,6 +164,7 @@ div.node-type-forum.not-first-page {
 
 .comment-body,
 .node-type-forum .node-body,
+.node-type-team-forum .node-body,
 #comment-form .form-body {
   margin: 16px 150px 16px 0;
   padding: 8px 16px 8px 3px;
@@ -173,48 +184,59 @@ div.node-type-forum.not-first-page {
   margin-bottom: 0;
 }
 .comment-body .links,
-.node-type-forum .node-body .links {
+.node-type-forum .node-body .links,
+.node-type-team-forum .node-body .links {
   margin: 0;
   width: 640px;
 }
 .comment-body .links li.first {
   /*padding-left: 0;*/
 }
-.node-type-forum .user .pm-link {
+.node-type-forum .user .pm-link,
+.node-type-team-forum .user .pm-link {
 }
-.node-type-forum .node-body .links {
+.node-type-forum .node-body .links,
+.node-type-team-forum .node-body .links {
 }
 .comment .user .pm-link {
 }
 .comment-body .links,
-.node-type-forum .node-body .links {
+.node-type-forum .node-body .links,
+.node-type-team-forum .node-body .links {
 }
 .comment-body .standard-links ul.links li,
 .comment-body .moderator-links li,
-.node-type-forum .node-body .links li {
+.node-type-forum .node-body .links li,
+.node-type-team-forum .node-body .links li {
   border-left: 1px solid #808080;
   margin-left: 0.3em;
+  margin-right: 0.3em;
   padding: 0 0 0 0.6em;
 }
 .comment-body .moderator-links li.first,
 .node-type-forum .node-body .moderator-links .links li.first,
+.node-type-team-forum .node-body .moderator-links .links li.first,
 .comment-body .links li.comment_forbidden.first.last {
   border-width: 0;
   margin-left: 0;
   padding-left: 0;
 }
-.node-type-forum .terms {
+.node-type-forum .terms,
+.node-type-team-forum .terms {
   float: right;
 }
-.node-type-forum .terms .links {
+.node-type-forum .terms .links,
+.node-type-team-forum .terms .links {
   width: auto;
   position: relative;
 }
 .node-type-forum #content .box,
+.node-type-team-forum #content .box,
 .node-type-news #content .box {
   margin: 24px 0 0 0;
 }
 .node-type-forum #content .box label,
+.node-type-team-forum #content .box label,
 .node-type-news #content .box label,
 #comment-form .form-item label {
   width: auto;
@@ -226,7 +248,8 @@ div.node-type-forum.not-first-page {
   margin-top: 0;
 }
 .block .content .box h2,
-#block-node_comment_block-forum_comment_form h2 {
+#block-node_comment_block-forum_comment_form h2,
+#block-node_comment_block-team-forum_comment_form h2 {
   margin-bottom: 24px;
   border-bottom: 1px dotted #aaa;
   padding-bottom: 0.667em;
@@ -239,14 +262,19 @@ div.node-type-forum.not-first-page {
 .node-type-forum .submitted,
 .node-type-forum .topic-id,
 .node-type-forum .standard-links,
-.node-type-forum .moderator-links {
+.node-type-forum .moderator-links,
+.node-type-team-forum .submitted,
+.node-type-team-forum .topic-id,
+.node-type-team-forum .standard-links,
+.node-type-team-forum .moderator-links {
   color: #808080;
   display: inline;
   font-size: 10px;
   font-style: italic;
 }
 .comment .moderator-links,
-.node-type-forum .moderator-links {
+.node-type-forum .moderator-links,
+.node-type-team-forum .moderator-links {
   display: block;
 }
 .moderator-links .label {
@@ -257,22 +285,28 @@ div.node-type-forum.not-first-page {
 .comment .moderator-links a,
 .node-type-forum .topic-id,
 .node-type-forum .standard-links a,
-.node-type-forum .moderator-links a {
+.node-type-forum .moderator-links a,
+.node-type-team-forum .topic-id,
+.node-type-team-forum .standard-links a,
+.node-type-team-forum .moderator-links a {
   color: #aaa;
   font-weight: bold;
   text-transform: uppercase;
 }
-.node-type-forum .topic-id {
+.node-type-forum .topic-id,
+.node-type-team-forum .topic-id {
   display: none;
 }
 
 .comment .content, /* Comment's content wrapper */
-.node-type-forum .content {
+.node-type-forum .content,
+.node-type-team-forum .content {
   padding: 0;
 }
 
 .comment .user-signature, /* The user's signature */
-.node-type-forum .user-signature {
+.node-type-forum .user-signature,
+.node-type-team-forum .user-signature {
   color: #808080;
 }
 
@@ -324,7 +358,7 @@ div.preview + .comment {
 .bb-code {
   width: 100%;
   border: 1px solid #bfd0d9;
-  border-left: 4px solid #bfd0d9; 666699;
+  border-left: 4px solid #bfd0d9;
 }
 .bb-code-block {}
 .bb-list {}
@@ -365,6 +399,10 @@ div.preview + .comment {
 .comment .vud-widget-updown .up-active, .vud-widget-updown .down-active,
 .comment .vud-widget-updown .up-inactive, .vud-widget-updown .down-inactive {
   border: none;
+}
+
+.flag-wrapper {
+    margin-left: -0.3em;
 }
 
 /* Really stupid, but since user preference for comments per page isn't

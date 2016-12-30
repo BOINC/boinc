@@ -247,9 +247,10 @@ def create_project_dirs(dest_dir):
         return apply(os.path.join,(dest_dir,)+d)
     def mkdir2(d):
         try:
-            os.mkdir(d);
-        except:
-            pass
+            os.makedirs(d)
+        except OSError as e:
+            if not os.path.isdir(d):
+                raise SystemExit(e)
     map(lambda d: mkdir2(dir(d)),
         [   '',
             'cgi-bin',
@@ -273,7 +274,6 @@ def create_project_dirs(dest_dir):
             'html/ops/ffmail',
             'html/ops/mass_email',
             'html/ops/remind_email',
-            'html/ops',
             'html/project',
             'html/stats',
             'html/user',
@@ -484,6 +484,7 @@ class Project:
         config.max_wus_to_send = 50
         config.daily_result_quota = 500
         config.disable_account_creation = 0
+        config.disable_web_account_creation = 0
         config.show_results = 1
         config.cache_md5_info = 1
         config.sched_debug_level = 3
@@ -558,6 +559,12 @@ class Project:
         # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),
             self.dir('html/user/index.php'))
+        install(srcdir('html/user/sample_bootstrap.min.css'),
+            self.dir('html/user/bootstrap.min.css'))
+        install(srcdir('html/user/sample_bootstrap.min.js'),
+            self.dir('html/user/bootstrap.min.js'))
+        install(srcdir('html/user/sample_jquery.min.js'),
+            self.dir('html/user/jquery.min.js'))
         install(srcdir('html/project.sample/project.inc'),
             self.dir('html/project/project.inc'))
         install(srcdir('html/project.sample/project_specific_prefs.inc'),

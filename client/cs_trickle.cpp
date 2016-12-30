@@ -44,8 +44,6 @@
 #include "project.h"
 #include "sandbox.h"
 
-using std::string;
-
 // Scan project dir for file names of the form trickle_up_X_Y
 // where X is a result name and Y is a timestamp.
 // Convert them to XML (for sched request message)
@@ -181,7 +179,7 @@ bool trickle_up_poll() {
 }
 
 static void trickle_up_request_message(
-    PROJECT* p, const char* msg, char* result_name, int t, char* buf, int len
+    PROJECT* p, const char* msg, char* result_name, int t, char* buf, size_t len
 ) {
     snprintf(buf, len,
         "<scheduler_request>\n"
@@ -216,7 +214,7 @@ void send_replicated_trickles(
     PROJECT* p, const char* msg, char* result_name, int now
 ) {
     if (!p->trickle_up_ops.size()) return;
-    int trickle_len = strlen(msg) + 4096;
+    size_t trickle_len = strlen(msg) + 4096;
     char *buf = (char*)malloc(trickle_len);
     if (!buf) return;
     trickle_up_request_message(p, msg, result_name, now, buf, trickle_len);
@@ -303,7 +301,7 @@ int TRICKLE_UP_OP::do_rpc(const char* msg) {
     return retval;
 }
 
-int parse_trickle_up_urls(XML_PARSER& xp, std::vector<std::string>& urls) {
+int parse_trickle_up_urls(XML_PARSER& xp, vector<string>& urls) {
     string s;
     while (!xp.get_tag()) {
         if (xp.match_tag("/trickle_up_urls")) {

@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<projects>
+    <project>
+        <name>theSkyNet POGS</name>
+        <url>http://pogs.theskynet.org/pogs/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astronomy</specific_area>
+        <description><![CDATA[TheSkyNet POGS is an astronomy project studying 16 different properties of galaxies, including brightness, mass, amount of dust and how fast stars are forming. We are using your processing power to conduct pixel-by-pixel calculations on multi-wavelength (ultraviolet, optical and near-infrared light) images of galaxies to produce an atlas that will help astronomers to better understand the distant universe.]]></description>
+        <home>The International Centre for Radio Astronomy Research (Perth, Australia)</home>
+    <platforms>
+        <name>arm-android-linux-gnu[android_arm_non_pie]</name>
+        <name>arm-android-linux-gnu[android_arm_non_pie_old_client]</name>
+        <name>arm-android-linux-gnu[android_arm_pie]</name>
+        <name>arm-android-linux-gnu[android_arm_pie_old_client]</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <summary>Analyze images of space</summary>
+    </project>
+    <project>
+        <name>ATLAS@Home</name>
+        <url>http://atlasathome.cern.ch/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Physics</specific_area>
+        <description><![CDATA[ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy.]]></description>
+        <home>CERN (European Organization for Nuclear Research)</home>
+    <platforms>
+        <name>windows_x86_64[vbox_64]</name>
+        <name>windows_x86_64[vbox_64_mt_mcore]</name>
+        <name>x86_64-apple-darwin[vbox_64]</name>
+        <name>x86_64-pc-linux-gnu[vbox_64]</name>
+        <name>x86_64-pc-linux-gnu[vbox_64_mt_mcore]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/atlas_at_home.jpg</image>
+      <summary>Simulate high-energy particle collisions for CERN</summary>
+    </project>
+    <project>
+        <name>Einstein@home</name>
+        <url>http://einstein.phys.uwm.edu/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astrophysics</specific_area>
+        <description><![CDATA[Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations.]]></description>
+        <home>Univ. of Wisconsin - Milwaukee, Max Planck Institute</home>
+    <platforms>
+        <name>arm-android-linux-gnu[NEON]</name>
+        <name>arm-android-linux-gnu[NEONPIE]</name>
+        <name>arm-android-linux-gnu[VFP]</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>arm-unknown-linux-gnueabihf[NEON]</name>
+        <name>arm-unknown-linux-gnueabihf[NEON_Beta]</name>
+        <name>i686-apple-darwin</name>
+        <name>i686-apple-darwin[BRP4G-Beta-cuda32-OSX]</name>
+        <name>i686-apple-darwin[BRP4G-Beta-opencl-ati-Lion]</name>
+        <name>i686-apple-darwin[BRP4G-cuda32-OSX]</name>
+        <name>i686-apple-darwin[BRP4G-opencl-ati-lion]</name>
+        <name>i686-apple-darwin[BRP6-cuda32-OSX]</name>
+        <name>i686-apple-darwin[BRP6-opencl-ati-lion]</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
+        <name>i686-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
+        <name>i686-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
+        <name>i686-pc-linux-gnu[BRP4G-opencl-ati]</name>
+        <name>i686-pc-linux-gnu[BRP6-cuda32-nv270]</name>
+        <name>i686-pc-linux-gnu[BRP6-opencl-ati]</name>
+        <name>i686-pc-linux-gnu[SSE2O1F]</name>
+        <name>i686-pc-linux-gnu[SSE2O1I]</name>
+        <name>powerpc-apple-darwin[ALTIVEC]</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[BRP4G-Beta-cuda32]</name>
+        <name>windows_intelx86[BRP4G-Beta-cuda32-nv301]</name>
+        <name>windows_intelx86[BRP4G-Beta-opencl-ati]</name>
+        <name>windows_intelx86[BRP4G-Beta-opencl-intel_gpu]</name>
+        <name>windows_intelx86[BRP4G-cuda32]</name>
+        <name>windows_intelx86[BRP4G-cuda32-nv301]</name>
+        <name>windows_intelx86[BRP4G-opencl-ati]</name>
+        <name>windows_intelx86[BRP6-Beta-cuda55]</name>
+        <name>windows_intelx86[BRP6-Beta-opencl-intel_gpu]</name>
+        <name>windows_intelx86[BRP6-cuda32]</name>
+        <name>windows_intelx86[BRP6-cuda32-nv301]</name>
+        <name>windows_intelx86[BRP6-opencl-ati]</name>
+        <name>windows_intelx86[opencl-intel_gpu]</name>
+        <name>windows_intelx86[SSE2O1F]</name>
+        <name>windows_intelx86[SSE2O1I]</name>
+        <name>windows_x86_64[BRP4G-Beta-opencl-ati]</name>
+        <name>windows_x86_64[BRP4G-Beta-opencl-intel_gpu]</name>
+        <name>windows_x86_64[BRP4G-opencl-ati]</name>
+        <name>windows_x86_64[BRP6-Beta-opencl-intel_gpu]</name>
+        <name>windows_x86_64[BRP6-opencl-ati]</name>
+        <name>windows_x86_64[opencl-intel_gpu]</name>
+        <name>windows_x86_64[opencl-intel_gpu-Beta]</name>
+        <name>windows_x86_64[opencl-intel_gpu-new]</name>
+        <name>windows_x86_64[X64O1F]</name>
+        <name>windows_x86_64[X64O1I]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[BRP6-Beta-opencl-ati-lion]</name>
+        <name>x86_64-apple-darwin[BRP6-cuda55-Lion]</name>
+        <name>x86_64-apple-darwin[X64O1F]</name>
+        <name>x86_64-apple-darwin[X64O1I]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[AVXO1F]</name>
+        <name>x86_64-pc-linux-gnu[AVXO1I]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[BRP6-Beta-cuda55]</name>
+        <name>x86_64-pc-linux-gnu[BRP6-Beta-opencl-intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[BRP6-cuda32-nv270]</name>
+        <name>x86_64-pc-linux-gnu[BRP6-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[X64O1F]</name>
+        <name>x86_64-pc-linux-gnu[X64O1I]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
+      <summary>Help detect pulsars and gravitational waves</summary>
+    </project>
+    <project>
+        <name>SETI@home</name>
+        <url>http://setiathome.berkeley.edu/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astrophysics, astrobiology</specific_area>
+        <description><![CDATA[SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology.]]></description>
+        <home>University of California, Berkeley</home>
+    <platforms>
+        <name>arm-android-linux-gnu[armv6-neon]</name>
+        <name>arm-android-linux-gnu[armv6-neon-nopie]</name>
+        <name>arm-android-linux-gnu[armv6-vfp]</name>
+        <name>arm-android-linux-gnu[armv6-vfp-nopie]</name>
+        <name>arm-android-linux-gnu[armv7-neon]</name>
+        <name>arm-android-linux-gnu[armv7-neon-nopie]</name>
+        <name>arm-android-linux-gnu[armv7-vfpv3]</name>
+        <name>arm-android-linux-gnu[armv7-vfpv3-nopie]</name>
+        <name>arm-android-linux-gnu[armv7-vfpv3d16]</name>
+        <name>arm-android-linux-gnu[armv7-vfpv3d16-nopie]</name>
+        <name>arm-android-linux-gnu[armv7-vfpv4]</name>
+        <name>arm-android-linux-gnu[armv7-vfpv4-nopie]</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[sse]</name>
+        <name>i686-pc-linux-gnu[sse2]</name>
+        <name>powerpc-apple-darwin</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[cuda22]</name>
+        <name>windows_intelx86[cuda23]</name>
+        <name>windows_intelx86[cuda32]</name>
+        <name>windows_intelx86[cuda42]</name>
+        <name>windows_intelx86[cuda50]</name>
+        <name>windows_intelx86[cuda_opencl_100]</name>
+        <name>windows_intelx86[cuda_opencl_cc1]</name>
+        <name>windows_intelx86[opencl_ati5_cat132]</name>
+        <name>windows_intelx86[opencl_ati5_nocal]</name>
+        <name>windows_intelx86[opencl_ati5_sah]</name>
+        <name>windows_intelx86[opencl_ati5_SoG]</name>
+        <name>windows_intelx86[opencl_ati5_SoG_cat132]</name>
+        <name>windows_intelx86[opencl_ati5_SoG_nocal]</name>
+        <name>windows_intelx86[opencl_atiapu_sah]</name>
+        <name>windows_intelx86[opencl_atiapu_SoG]</name>
+        <name>windows_intelx86[opencl_ati_100]</name>
+        <name>windows_intelx86[opencl_ati_cat132]</name>
+        <name>windows_intelx86[opencl_ati_nocal]</name>
+        <name>windows_intelx86[opencl_ati_sah]</name>
+        <name>windows_intelx86[opencl_intel_gpu_102]</name>
+        <name>windows_intelx86[opencl_intel_gpu_sah]</name>
+        <name>windows_intelx86[opencl_nvidia_100]</name>
+        <name>windows_intelx86[opencl_nvidia_cc1]</name>
+        <name>windows_intelx86[opencl_nvidia_sah]</name>
+        <name>windows_intelx86[opencl_nvidia_SoG]</name>
+        <name>windows_intelx86[sse]</name>
+        <name>windows_x86_64[sse2]</name>
+        <name>x86-android-linux-gnu[nopie]</name>
+        <name>x86-android-linux-gnu[pie]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[avx]</name>
+        <name>x86_64-apple-darwin[opencl_ati5zc_mac]</name>
+        <name>x86_64-apple-darwin[opencl_ati5_mac]</name>
+        <name>x86_64-apple-darwin[opencl_ati_mac]</name>
+        <name>x86_64-apple-darwin[opencl_intel_gpu_mac]</name>
+        <name>x86_64-apple-darwin[opencl_intel_gpu_sah]</name>
+        <name>x86_64-apple-darwin[opencl_nvidia_mac]</name>
+        <name>x86_64-apple-darwin[sse3]</name>
+        <name>x86_64-apple-darwin[sse41]</name>
+        <name>x86_64-apple-darwin[ssse3]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[cuda60]</name>
+        <name>x86_64-pc-linux-gnu[cuda_opencl_100]</name>
+        <name>x86_64-pc-linux-gnu[cuda_opencl_cc1]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati5_cat132]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati5_nocal]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati5_sah]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati5_SoG]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati5_SoG_cat132]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati5_SoG_nocal]</name>
+        <name>x86_64-pc-linux-gnu[opencl_atiapu_sah]</name>
+        <name>x86_64-pc-linux-gnu[opencl_atiapu_SoG]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_100]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_cat132]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_nocal]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_sah]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu_sah]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_100]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_cc1]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_sah]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_SoG]</name>
+        <name>x86_64-pc-linux-gnu[sse2]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/seti_logo.png</image>
+      <summary>Search for evidence of extra-terrestrial life</summary>
+    </project>
+    <project>
+        <name>Universe@Home</name>
+        <url>http://universeathome.pl/universe/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astronomy</specific_area>
+        <description><![CDATA[Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries.]]></description>
+        <home>University of Warsaw</home>
+    <platforms>
+        <name>arm-android-linux-gnu[android_arm_pie]</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>armv6l-unknown-linux-gnueabihf</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/universe_at_home.png</image>
+      <summary>Do research in physics and astronomy</summary>
+    </project>
+    <project>
+        <name>Asteroids@home</name>
+        <url>http://asteroidsathome.net/boinc/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astrophysics</specific_area>
+        <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
+        <home>Charles University in Prague</home>
+    <platforms>
+        <name>arm-android-linux-gnu[arm_android_non_pie]</name>
+        <name>arm-android-linux-gnu[arm_android_pie]</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>armv6l-unknown-linux-gnueabihf</name>
+        <name>i686-apple-darwin[sse3]</name>
+        <name>i686-apple-darwin[sse3_osx]</name>
+        <name>i686-pc-freebsd</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[avx]</name>
+        <name>i686-pc-linux-gnu[sse2]</name>
+        <name>i686-pc-linux-gnu[sse3]</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[avx]</name>
+        <name>windows_intelx86[cuda55]</name>
+        <name>windows_intelx86[sse2]</name>
+        <name>windows_intelx86[sse3]</name>
+        <name>windows_x86_64[avx]</name>
+        <name>windows_x86_64[cuda55]</name>
+        <name>windows_x86_64[sse2]</name>
+        <name>windows_x86_64[sse3]</name>
+        <name>x86_64-apple-darwin[sse3]</name>
+        <name>x86_64-apple-darwin[sse3_osx]</name>
+        <name>x86_64-pc-freebsd</name>
+        <name>x86_64-pc-linux-gnu[avx]</name>
+        <name>x86_64-pc-linux-gnu[cuda55]</name>
+        <name>x86_64-pc-linux-gnu[sse2]</name>
+        <name>x86_64-pc-linux-gnu[sse3]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/asteroids_logo.jpg</image>
+      <summary>Study the properties of asteroids</summary>
+    </project>
+    <project>
+        <name>vLHCathome</name>
+        <url>http://lhcathome2.cern.ch/vLHCathome/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Physics</specific_area>
+        <description><![CDATA[This project uses CERN-developed virtual machine technology for LHC event physics simulation on volunteer computers.  Requires that you install VirtualBox on your computer]]></description>
+        <home>CERN (European Organization for Nuclear Research)</home>
+    <platforms>
+        <name>i686-apple-darwin[vbox32]</name>
+        <name>i686-pc-linux-gnu[vbox32]</name>
+        <name>windows_intelx86[vbox32]</name>
+        <name>windows_x86_64[vbox64]</name>
+        <name>x86_64-apple-darwin[vbox64]</name>
+        <name>x86_64-pc-linux-gnu[vbox64]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/t4t.png</image>
+      <summary>Simulate high-energy particle collisions</summary>
+    </project>
+    <project>
+        <name>Cosmology@Home</name>
+        <url>http://www.cosmologyathome.org/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astronomy</specific_area>
+        <description><![CDATA[The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data.]]></description>
+        <home>University of Illinois at Urbana-Champaign</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64[vbox64_mt]</name>
+        <name>x86_64-apple-darwin[vbox64_mt]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[vbox64_mt]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/cosmo.jpg</image>
+      <summary>Study the evolution of the Universe</summary>
+    </project>
+    <project>
+        <name>Constellation</name>
+        <url>http://aerospaceresearch.net/constellation/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Aerospace-related science and engineering</specific_area>
+        <description><![CDATA[Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers]]></description>
+        <home><a href='http://rechenkraft.net'>Rechenkraft.net</a>, <a href='http://stuttgart.dglr.de'>DGLR</a>, <a href='http://selfnet.de'>Selfnet</a>, and <a href='http://shackspace.de'>shack</a></home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/constellation2.png</image>
+      <summary>Perform aerospace-related simulations</summary>
+    </project>
+    <project>
+        <name>LHC@home</name>
+        <url>http://lhcathomeclassic.cern.ch/sixtrack/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Physics</specific_area>
+        <description><![CDATA[The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors.]]></description>
+        <home>CERN (European Organization for Nuclear Research)</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[pni]</name>
+        <name>i686-pc-linux-gnu[sse2]</name>
+        <name>i686-pc-linux-gnu[sse3]</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[pni]</name>
+        <name>windows_intelx86[sse2]</name>
+        <name>windows_intelx86[sse3]</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[pni]</name>
+        <name>windows_x86_64[sse2]</name>
+        <name>windows_x86_64[sse3]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[pni]</name>
+        <name>x86_64-pc-linux-gnu[sse2]</name>
+        <name>x86_64-pc-linux-gnu[sse3]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
+      <summary>Improve the design of the Large Hadron Collider</summary>
+    </project>
+    <project>
+        <name>Milkyway@home</name>
+        <url>http://milkyway.cs.rpi.edu/milkyway/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astronomy</specific_area>
+        <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
+        <home>Rensselaer Polytechnic Institute</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[opencl_ati_101]</name>
+        <name>i686-pc-linux-gnu[opencl_nvidia_101]</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[mt]</name>
+        <name>windows_x86_64[opencl_ati_101]</name>
+        <name>windows_x86_64[opencl_nvidia_101]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[mt]</name>
+        <name>x86_64-apple-darwin[opencl_ati_101]</name>
+        <name>x86_64-apple-darwin[opencl_nvidia_101]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_101]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/mw.png</image>
+      <summary>Study the structure of the Milky Way galaxy</summary>
+    </project>
+    <project>
+        <name>Leiden Classical</name>
+        <url>http://boinc.gorlaeus.net/</url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Chemistry</specific_area>
+        <description><![CDATA[Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid.]]></description>
+        <home>Leiden University, The Netherlands</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-unknown-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/leiden_classical.png</image>
+      <summary>Help students do atomic simulations</summary>
+    </project>
+    <project>
+        <name>MindModeling@Home</name>
+        <url>http://mindmodeling.org/</url>
+        <general_area>Cognitive science and artifical intelligence</general_area>
+        <specific_area>Cognitive Science</specific_area>
+        <description><![CDATA[MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.]]></description>
+        <home>University of Dayton and Wright State University</home>
+    <platforms>
+        <name>windows_intelx86[sse2]</name>
+        <name>x86_64-pc-linux-gnu[sse2]</name>
+        <name>x86_64-apple-darwin[sse2]</name>
+        <name>windows_intelx86[mt]</name>
+        <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>x86_64-apple-darwin[mt]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/mmlogo.gif</image>
+      <summary>Model the human brain</summary>
+    </project>
+    <project>
+        <name>PrimeGrid</name>
+        <url>http://www.primegrid.com/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number.]]></description>
+        <home>Private</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-apple-darwin[cpuGFN15]</name>
+        <name>i686-apple-darwin[cpuGFN16]</name>
+        <name>i686-apple-darwin[cpuGFN17LOW]</name>
+        <name>i686-apple-darwin[cpuGFN17MEGA]</name>
+        <name>i686-apple-darwin[cpuGFN18]</name>
+        <name>i686-apple-darwin[cpuGFN19]</name>
+        <name>i686-apple-darwin[cpuGFN20]</name>
+        <name>i686-apple-darwin[cpuGFN21]</name>
+        <name>i686-apple-darwin[cpuGFN22]</name>
+        <name>i686-apple-darwin[cpuPPSsieve]</name>
+        <name>i686-apple-darwin[cudaPPSsieve]</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[cpuGFN15]</name>
+        <name>i686-pc-linux-gnu[cpuGFN16]</name>
+        <name>i686-pc-linux-gnu[cpuGFN17LOW]</name>
+        <name>i686-pc-linux-gnu[cpuGFN17MEGA]</name>
+        <name>i686-pc-linux-gnu[cpuGFN18]</name>
+        <name>i686-pc-linux-gnu[cpuGFN19]</name>
+        <name>i686-pc-linux-gnu[cpuGFN20]</name>
+        <name>i686-pc-linux-gnu[cpuGFN21]</name>
+        <name>i686-pc-linux-gnu[cpuGFN22]</name>
+        <name>i686-pc-linux-gnu[cpuPPSsieve]</name>
+        <name>i686-pc-linux-gnu[cudaPPSsieve]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN15]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN16]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN17LOW]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN17MEGA]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN18]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN19]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFN20]</name>
+        <name>i686-pc-linux-gnu[OCLcudaGFNWR]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN15]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN16]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN17LOW]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN17MEGA]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN18]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN19]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN20]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN21]</name>
+        <name>i686-pc-linux-gnu[openclatiGFN22]</name>
+        <name>i686-pc-linux-gnu[openclatiPPSsieve]</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[cpuGFN15]</name>
+        <name>windows_intelx86[cpuGFN16]</name>
+        <name>windows_intelx86[cpuGFN17LOW]</name>
+        <name>windows_intelx86[cpuGFN17MEGA]</name>
+        <name>windows_intelx86[cpuGFN18]</name>
+        <name>windows_intelx86[cpuGFN19]</name>
+        <name>windows_intelx86[cpuGFN20]</name>
+        <name>windows_intelx86[cpuGFN21]</name>
+        <name>windows_intelx86[cpuGFN22]</name>
+        <name>windows_intelx86[cpuPPSsieve]</name>
+        <name>windows_intelx86[cudaPPSsieve]</name>
+        <name>windows_intelx86[OCLcudaGFN]</name>
+        <name>windows_intelx86[OCLcudaGFN15]</name>
+        <name>windows_intelx86[OCLcudaGFN16]</name>
+        <name>windows_intelx86[OCLcudaGFN17LOW]</name>
+        <name>windows_intelx86[OCLcudaGFN17MEGA]</name>
+        <name>windows_intelx86[OCLcudaGFN18]</name>
+        <name>windows_intelx86[OCLcudaGFN19]</name>
+        <name>windows_intelx86[OCLcudaGFN20]</name>
+        <name>windows_intelx86[OCLcudaGFNWR]</name>
+        <name>windows_intelx86[openclatiGFN15]</name>
+        <name>windows_intelx86[openclatiGFN16]</name>
+        <name>windows_intelx86[openclatiGFN17LOW]</name>
+        <name>windows_intelx86[openclatiGFN17MEGA]</name>
+        <name>windows_intelx86[openclatiGFN18]</name>
+        <name>windows_intelx86[openclatiGFN19]</name>
+        <name>windows_intelx86[openclatiGFN20]</name>
+        <name>windows_intelx86[openclatiGFN21]</name>
+        <name>windows_intelx86[openclatiGFN22]</name>
+        <name>windows_intelx86[openclatiPPSsieve]</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[cpuGFN15]</name>
+        <name>windows_x86_64[cpuGFN16]</name>
+        <name>windows_x86_64[cpuGFN17LOW]</name>
+        <name>windows_x86_64[cpuGFN17MEGA]</name>
+        <name>windows_x86_64[cpuGFN18]</name>
+        <name>windows_x86_64[cpuGFN19]</name>
+        <name>windows_x86_64[cpuGFN20]</name>
+        <name>windows_x86_64[cpuGFN21]</name>
+        <name>windows_x86_64[cpuGFN22]</name>
+        <name>windows_x86_64[cpuPPSsieve]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[cpuGFN15]</name>
+        <name>x86_64-apple-darwin[cpuGFN16]</name>
+        <name>x86_64-apple-darwin[cpuGFN17LOW]</name>
+        <name>x86_64-apple-darwin[cpuGFN17MEGA]</name>
+        <name>x86_64-apple-darwin[cpuGFN18]</name>
+        <name>x86_64-apple-darwin[cpuGFN19]</name>
+        <name>x86_64-apple-darwin[cpuGFN20]</name>
+        <name>x86_64-apple-darwin[cpuGFN21]</name>
+        <name>x86_64-apple-darwin[cpuGFN22]</name>
+        <name>x86_64-apple-darwin[cpuPPSsieve]</name>
+        <name>x86_64-apple-darwin[cudaPPSsieve]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN15]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN16]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN17LOW]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN17MEGA]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN18]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN19]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFN20]</name>
+        <name>x86_64-apple-darwin[OCLcudaGFNWR]</name>
+        <name>x86_64-apple-darwin[openclatiGFN17LOW]</name>
+        <name>x86_64-apple-darwin[openclatiGFN18]</name>
+        <name>x86_64-apple-darwin[openclatiGFN19]</name>
+        <name>x86_64-apple-darwin[openclatiGFN20]</name>
+        <name>x86_64-apple-darwin[openclatiGFN21]</name>
+        <name>x86_64-apple-darwin[openclatiGFN22]</name>
+        <name>x86_64-apple-darwin[openclatiPPSsieve]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN15]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN16]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN17LOW]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN17MEGA]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN18]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN19]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN20]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN21]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN22]</name>
+        <name>x86_64-pc-linux-gnu[cpuPPSsieve]</name>
+        <name>x86_64-pc-linux-gnu[cudaPPSsieve]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN15]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN16]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN17LOW]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN17MEGA]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN18]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN19]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFN20]</name>
+        <name>x86_64-pc-linux-gnu[OCLcudaGFNWR]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN15]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN16]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN17LOW]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN17MEGA]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN18]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN19]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN20]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN21]</name>
+        <name>x86_64-pc-linux-gnu[openclatiGFN22]</name>
+        <name>x86_64-pc-linux-gnu[openclatiPPSsieve]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/primegrid_logo.png</image>
+      <summary>Search for large prime numbers</summary>
+    </project>
+    <project>
+        <name>Moo! Wrapper</name>
+        <url>http://moowrap.net/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Cryptography and combinatorics</specific_area>
+        <description><![CDATA[Run applications from distributed.net]]></description>
+        <home>Private</home>
+    <platforms>
+        <name>arm-android-linux-gnu[arm_android_non_pie]</name>
+        <name>arm-android-linux-gnu[arm_android_pie]</name>
+        <name>i686-apple-darwin</name>
+        <name>i686-apple-darwin[cuda31]</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[ati14]</name>
+        <name>powerpc-apple-darwin</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[ati14]</name>
+        <name>windows_intelx86[ati14_app13]</name>
+        <name>windows_intelx86[cuda31]</name>
+        <name>windows_intelx86[opencl_ati_101]</name>
+        <name>windows_intelx86[opencl_nvidia_101]</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[ati14]</name>
+        <name>x86_64-pc-linux-gnu[cuda31]</name>
+        <name>x86_64-pc-linux-gnu[cuda60]</name>
+        <name>x86_64-pc-linux-gnu[cuda70]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_101]</name>
+    </platforms>
+      <summary>Run applications from distributed.net</summary>
+    </project>
+    <project>
+        <name>Gerasim@Home</name>
+        <url>http://gerasim.boinc.ru/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Computer engineering</specific_area>
+        <description><![CDATA[Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems]]></description>
+        <home>Southwest State University (Russia)</home>
+    <platforms>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/gerasim.gif</image>
+    </project>
+    <project>
+        <name>SRBase</name>
+        <url>http://srbase.myfirewall.org/sr5/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.]]></description>
+        <home>Private</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+    </project>
+    <project>
+        <name>SAT@home</name>
+        <url>http://sat.isa.ru/pdsat/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Computer Science</specific_area>
+        <description><![CDATA[Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.]]></description>
+        <home>Institute for System Dynamics and Control Theory and Institute for Information Transmission Problems, Russian Academy of Science</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/sat_logo.png</image>
+      <summary>Study computational complexity</summary>
+    </project>
+    <project>
+        <name>NumberFields@home</name>
+        <url>http://numberfields.asu.edu/NumberFields/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
+        <home>Arizona State University, school of Mathematics</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
+      <summary>Do research in algebraic number theory</summary>
+    </project>
+    <project>
+        <name>primaboinca</name>
+        <url>http://www.primaboinca.com/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[Search for counterexamples to two conjectures related to the identification of prime numbers]]></description>
+        <home>Hochschule RheinMain University of Applied Sciences</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/logo_primaboinca.gif</image>
+      <summary>Study the properties of prime numbers</summary>
+    </project>
+    <project>
+        <name>NFS@home</name>
+        <url>http://escatter11.fullerton.edu/nfs/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Factorization of large integers</specific_area>
+        <description><![CDATA[NFS@Home is a research project that uses Internet-connected computers to do the lattice sieving step in the Number Field Sieve factorization of large integers. As a young school student, you gained your first experience at breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. NFS@Home is a continuation of that experience, only with integers that are hundreds of digits long.]]></description>
+        <home>California State University Fullerton</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[notphenomiix6]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-freebsd</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
+      <summary>Study the factorization of large integers</summary>
+    </project>
+    <project>
+        <name>SZTAKI Desktop Grid</name>
+        <url>http://szdg.lpds.sztaki.hu/szdg/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[Find all the generalized binary number systems (in which bases are matrices and digits are vectors) up to dimension 11.]]></description>
+        <home>MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>powerpc-apple-darwin</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/szdg1_small.jpg</image>
+      <summary>Study number theory</summary>
+    </project>
+    <project>
+        <name>Enigma@Home</name>
+        <url>http://www.enigmaathome.net/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Cryptography</specific_area>
+        <description><![CDATA[Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken.]]></description>
+        <home>Private</home>
+    <platforms>
+        <name>arm-android-linux-gnu</name>
+        <name>arm-unknown-linux-gnueabi</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>armv7l-unknown-linux-gnueabihf</name>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>powerpc-apple-darwin</name>
+        <name>windows_intelx86</name>
+    </platforms>
+      <summary>Decode WWII submarine messages</summary>
+    </project>
+    <project>
+        <name>Collatz Conjecture</name>
+        <url>https://boinc.thesonntags.com/collatz/</url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[Study the Collatz Conjecture, an unsolved conjecture in mathematics]]></description>
+        <home>Private</home>
+    <platforms>
+        <name>windows_intelx86</name>
+        <name>arm-android-linux-gnu[android_arm_non_pie]</name>
+        <name>arm-android-linux-gnu[android_arm_pie]</name>
+        <name>x86-android-linux-gnu</name>
+        <name>mipsel-android-linux-gnu</name>
+        <name>arm-unknown-linux-gnueabi</name>
+        <name>armv6l-unknown-linux-gnueabi</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>armv6l-unknown-linux-gnueabihf</name>
+        <name>windows_intelx86[SSE]</name>
+        <name>windows_intelx86[opencl_amd_gpu]</name>
+        <name>windows_intelx86[opencl_intel_gpu]</name>
+        <name>windows_intelx86[opencl_nvidia_gpu]</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[opencl_amd_gpu]</name>
+        <name>windows_x86_64[opencl_intel_gpu]</name>
+        <name>windows_x86_64[opencl_nvidia_gpu]</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[opencl_amd_gpu]</name>
+        <name>i686-pc-linux-gnu[opencl_intel_gpu]</name>
+        <name>i686-pc-linux-gnu[opencl_nvidia_gpu]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[opencl_amd_gpu]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_gpu]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[opencl_amd_gpu]</name>
+        <name>x86_64-apple-darwin[opencl_intel_gpu]</name>
+        <name>x86_64-apple-darwin[opencl_nvidia_gpu]</name>
+    </platforms>
+      <summary>Study the Collatz Conjecture</summary>
+    </project>
+    <project>
+        <name>The Lattice Project</name>
+        <url>http://boinc.umiacs.umd.edu/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Life science research</specific_area>
+        <description><![CDATA[The Lattice Project, developed and administered at the University of Maryland, supplies computing power to researchers worldwide who are studying evolutionary relationships using DNA and protein sequence data.]]></description>
+        <home>University of Maryland Center for Bioinformatics and Computational Biology</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/lattice.gif</image>
+      <summary>Study evolution using genetics</summary>
+    </project>
+    <project>
+        <name>POEM@HOME</name>
+        <url>http://boinc.fzk.de/poem/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Protein structure prediction</specific_area>
+        <description><![CDATA[POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins.]]></description>
+        <home>University of Karlsruhe (Germany)</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[opencl_ati_101]</name>
+        <name>windows_intelx86[opencl_nvidia_101]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[opencl_ati_101]</name>
+        <name>x86_64-apple-darwin[opencl_nvidia_101]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_101]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/poem.jpg</image>
+      <summary>Study protein structure and interaction</summary>
+    </project>
+    <project>
+        <name>DENIS@Home</name>
+        <url>http://denis.usj.es/denisathome/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Medical physiology</specific_area>
+        <description><![CDATA[DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart.]]></description>
+        <home>San Jorge University, Zaragoza, Spain</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <summary>Study the physiology of the heart</summary>
+    </project>
+    <project>
+        <name>FiND@Home</name>
+        <url>http://findah.ucd.ie/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Antimalarial drug discovery</specific_area>
+        <description><![CDATA[The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs, targeting new proteins in the parasite. The FiND@Home project is aimed at finding these new targets.]]></description>
+        <home>University College Dublin</home>
+    <platforms>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>armv6l-unknown-linux-gnueabihf</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <summary>Develop malaria drugs</summary>
+    </project>
+    <project>
+        <name>RNA World</name>
+        <url>http://www.rnaworld.de/rnaworld/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Molecular biology</specific_area>
+        <description><![CDATA[RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.]]></description>
+        <home>Rechenkraft.net e.V.</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[vbox64]</name>
+        <name>x86_64-apple-darwin[vbox64]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[vbox64]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/rna4.png</image>
+      <summary>Study and design RNA molecules</summary>
+    </project>
+    <project>
+        <name>Malariacontrol.net</name>
+        <url>http://www.malariacontrol.net/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Epidemiology</specific_area>
+        <description><![CDATA[Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. ]]></description>
+        <home>The Swiss Tropical Institute</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-unknown-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/africaathome.gif</image>
+      <summary>Study the spread of malaria</summary>
+    </project>
+    <project>
+        <name>Rosetta@home</name>
+        <url>http://boinc.bakerlab.org/rosetta/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Biology</specific_area>
+        <description><![CDATA[Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, malaria, cancer, and Alzheimer's]]></description>
+        <home>University of Washington</home>
+    <platforms>
+        <name>arm-android-linux-gnu</name>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>powerpc-apple-darwin</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/rosetta_at_home_logo.jpg</image>
+      <summary>Study diseases such as HIV, malaria, cancer, and Alzheimer's</summary>
+    </project>
+    <project>
+        <name>GPUGrid.net</name>
+        <url>http://www.gpugrid.net/</url>
+        <general_area>Biology and Medicine</general_area>
+        <specific_area>Molecular simulations of proteins</specific_area>
+        <description><![CDATA[GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.]]></description>
+        <home>Barcelona Biomedical Research Park (PRBB)</home>
+    <platforms>
+        <name>arm-android-linux-gnu</name>
+        <name>windows_intelx86[cuda60]</name>
+        <name>windows_intelx86[cuda65]</name>
+        <name>windows_intelx86[mt]</name>
+        <name>x86_64-pc-linux-gnu[cuda60]</name>
+        <name>x86_64-pc-linux-gnu[cuda65]</name>
+        <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>x86_64-pc-linux-gnu[vbox64]</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/gpugrid.png</image>
+      <summary>Help biomedical research</summary>
+    </project>
+    <project>
+        <name>CAS@home</name>
+        <url>http://casathome.ihep.ac.cn/</url>
+        <general_area>Multiple applications</general_area>
+        <specific_area>Physics, biochemistry, and others</specific_area>
+        <description><![CDATA[CAS@home is hosted by the Computing Centre of the Institute of High Energy Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with projects studying protein structure, nanotechnology, cancer genomics, and high energy physics.]]></description>
+        <home>Chinese Academy of Sciences</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/cas_at_home.jpg</image>
+      <summary>Help Chinese researchers</summary>
+    </project>
+    <project>
+        <name>Yoyo@home</name>
+        <url>http://www.rechenkraft.net/yoyo/</url>
+        <general_area>Multiple applications</general_area>
+        <specific_area>Mathematics, physics, evolution</specific_area>
+        <description><![CDATA[Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net]]></description>
+        <home>Private</home>
+    <platforms>
+        <name>arm-android-linux-gnu</name>
+        <name>arm-linux-gnu</name>
+        <name>arm-unknown-linux-gnueabi</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>powerpc-apple-darwin</name>
+        <name>powerpc64-ps3-linux-gnu</name>
+        <name>sparc-sun-solaris</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <summary>Do research in math, physics, and evolution</summary>
+    </project>
+    <project>
+        <name>World Community Grid</name>
+        <url>http://www.worldcommunitygrid.org/</url>
+        <general_area>Multiple applications</general_area>
+        <specific_area>Medical, environmental and other humanitarian research</specific_area>
+        <description><![CDATA[To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more.]]></description>
+        <home>IBM Corporate Citizenship</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>powerpc-apple-darwin</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[ati14_opencl]</name>
+        <name>windows_intelx86[cuda_opencl]</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>arm-android-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/wcg.jpg</image>
+      <summary>Do biomedical and environmental research</summary>
+    </project>
+    <project>
+        <name>Citizen Science Grid</name>
+        <url>http://csgrid.org/csg/</url>
+        <general_area>Multiple applications</general_area>
+        <specific_area>Molecular biology, Computer Science</specific_area>
+        <description><![CDATA[The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.]]></description>
+        <home>University of North Dakota</home>
+    <platforms>
+        <name>arm-android-linux-gnu</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[linux_min]</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[windows_min]</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[windows_min]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[darwin_min]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[linux_min]</name>
+    </platforms>
+      <summary>Support science from the University of North Dakota</summary>
+    </project>
+    <project>
+        <name>Ibercivis</name>
+        <url>http://registro.ibercivis.es/</url>
+        <general_area>Multiple applications</general_area>
+        <specific_area>Various Spanish research projects</specific_area>
+        <description><![CDATA[Research in physics, material science, and biomedicine]]></description>
+        <home>Spanish universities and research centers</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[cuda42i]</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/cabecera2.jpg</image>
+      <summary>Help Spanish researchers</summary>
+    </project>
+    <project>
+        <name>Climateprediction.net</name>
+        <url>http://climateprediction.net/</url>
+        <general_area>Earth Sciences</general_area>
+        <specific_area>Climate study</specific_area>
+        <description><![CDATA[Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.]]></description>
+        <home>Oxford University</home>
+    <platforms>
+        <name>i686-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
+      <summary>Study long-term climate change</summary>
+    </project>
+    <project>
+        <name>Quake Catcher Network</name>
+        <url>http://quakecatcher.net</url>
+        <general_area>Distributed sensing</general_area>
+        <specific_area>Seismology</specific_area>
+        <description><![CDATA[Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves.]]></description>
+        <home>Caltech</home>
+    <platforms>
+    </platforms>
+      <summary>Help detect earthquakes</summary>
+    </project>
+    <project>
+        <name>Radioactive@Home</name>
+        <url>http://radioactiveathome.org/boinc/</url>
+        <general_area>Distributed sensing</general_area>
+        <specific_area>Environmental research</specific_area>
+        <description><![CDATA[Radioactive@Home is creating a free and continuously updated map of radiation levels using sensors connected to volunteers' computers.  You must buy a sensor to participate.]]></description>
+        <home>BOINC Poland Foundation</home>
+    <platforms>
+        <name>windows_intelx86</name>
+        <name>i686-pc-linux-gnu[nci]</name>
+        <name>arm-unknown-linux-gnueabi</name>
+        <name>armv6l-unknown-linux-gnueabihf</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>mipsel-unknown-linux-gnu</name>
+        <name>armv7l-unknown-linux-gnueabihf</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/radioactive.jpg</image>
+      <summary>Monitor radiation levels</summary>
+    </project>
+   <account_manager>
+        <name>BAM!</name>
+        <url>https://bam.boincstats.com/</url>
+        <description>BAM! assists you in creating and managing your BOINC project accounts and helps you with setting preferences, joining or creating teams, connecting your computers to projects, and much more.  Whether you're a new or an existing BOINC user, BAM will help you get the most out of BOINC.</description>
+        <image>https://boinc.berkeley.edu/images/BAM.png</image>
+    </account_manager>
+   <account_manager>
+        <name>GridRepublic</name>
+        <url>http://www.gridrepublic.org/</url>
+        <description>GridRepublic members run a screensaver that allows their computers to work on public-interest research projects when the machines are not otherwise in use. This screensaver does not affect performance of the host computer any more than an ordinary screensaver does.</description>
+        <image>https://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
+    </account_manager>
+</projects>

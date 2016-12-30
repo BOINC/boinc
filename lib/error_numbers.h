@@ -39,6 +39,9 @@
 #define EXIT_ABORTED_VIA_GUI        203
 #define EXIT_UNKNOWN                204
 #define EXIT_OUT_OF_MEMORY          205
+#define EXIT_INIT_FAILURE           206
+#define EXIT_NO_SUB_TASKS           207
+#define EXIT_SUB_TASK_FAILURE       208
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change
@@ -209,6 +212,7 @@
 #define ERR_NEED_HTTPS      -238
 #define ERR_CHMOD           -239
 #define ERR_STAT            -240
+#define ERR_FCLOSE          -241
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

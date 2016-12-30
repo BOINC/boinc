@@ -1,31 +1,28 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Alex Chrisakis, 2016
+# Street Photograher <jvm@opmbx.org>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-10-21 15:34+0000\n"
-"Last-Translator: chris g <chr1407@hotmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: el\n"
+"PO-Revision-Date: 2016-07-06 22:27+0000\n"
+"Last-Translator: Alex Chrisakis\n"
+"Language-Team: Greek (http://www.transifex.com/boinc/boinc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1382369640.0\n"
-"X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
+msgstr "Συγνώμη, αυτή η έκδοση του %s απαιτεί σύστημα 10,5 ή υψηλότερο."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -37,24 +34,20 @@ msgstr "Όχι"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
-"Να εκτελείται το BOINC ακόμη και όταν κανένας χρήστης δεν είναι "
-"συνδεδεμένος;"
+msgstr "Να εκτελείται το BOINC ακόμη και όταν κανένας χρήστης δεν είναι συνδεδεμένος;"
 
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Στους χρήστες που τους επιτρέπεται να διαχειριστούν αυτόν τον υπολογιστή θα τους επιτραπεί αυτόματα να τρέχουν και να ελέγχουν το %s.\n\nΘέλετε και οι μη-διαχειριστές χρήστες να μπορούν να τρέχουν και να έλεγχουν το %s σε αυτόν τον Mac;"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
+msgstr "Θέλετε να θέσετε το %s σαν προφύλαξη οθόνης για όλους τους %s σε αυτόν τον Mac; "
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -65,13 +58,10 @@ msgid "Permission error after relaunch"
 msgstr "Σφάλμα άδειας μετά απο επανεκτέλεση"
 
 #: uninstall.cpp:141
-#, fuzzy
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
-"Η Αφαίρεση μπορεί να διαρκέσει αρκετά λεπτά.\n"
-"Παρακαλώ να είστε υπομονετικοί."
+msgstr "Η αφαίρεση μπορεί να διαρκέσει αρκετά λεπτά.\nΠαρακαλώ περιμένετε."
 
 #: uninstall.cpp:156
 #, c-format
@@ -79,12 +69,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
-"Είστε σίγουροι οτι θέλετε να αφαιρέσετε τελείως το %s απο τον υπολογιστή "
-"σας;\n"
-"\n"
-"Αυτό θα αφαιρέσει τα εκτελέσιμα αρχεία αλλά τα %s αρχεία δεδομένων θα "
-"μείνουν ανέπαφα."
+msgstr "Είστε σίγουροι οτι θέλετε να αφαιρέσετε τελείως το %s απο τον υπολογιστή σας;\n\nΑυτό θα αφαιρέσει τα εκτελέσιμα αρχεία αλλά τα %s αρχεία δεδομένων θα μείνουν ανέπαφα."
 
 #: uninstall.cpp:163
 #, c-format
@@ -104,7 +89,7 @@ msgstr "όνομα   του χρήστη"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
+msgstr "Θέλετε επιπλέον να αφαιρεθεί και το VirtualBox από τον υπολογιστή;\n(Το VirtualBox είχε εγκατασταθεί μαζί με το BOINC)."
 
 #: uninstall.cpp:312
 #, c-format
@@ -116,18 +101,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
+msgstr "H αφαίρεση ολοκληρώθηκε.\n\nΜπορεί να θελήσετε να καταργήσετε τα παρακάτω στοιχεία που απομένουν χρησιμοποιώντας τον Finder:\nο φάκελος \"%s\"\n\nγια κάθε χρήστη, το αρχείο\n\"%s\"."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
-"Βάλτε τον κωδικό διαχειριστή για να αφαιρέσετε τελείως το %s απο τον "
-"υπολογιστή σας\n"
-"\n"
+msgstr "Βάλτε τον κωδικό διαχειριστή για να αφαιρέσετε τελείως το %s απο τον υπολογιστή σας\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
@@ -136,7 +117,3 @@ msgstr "Ακύρωση"
 #: uninstall.cpp:1617
 msgid "Continue..."
 msgstr "Συνέχεια..."
-
-#, c-format
-#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
-#~ msgstr "Συγγνώμη, αυτή η έκδοση του %s απαιτεί σύστημα 10.4 ή μεγαλύτερο."

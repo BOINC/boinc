@@ -1,0 +1,203 @@
+#!/usr/bin/env python
+
+# $Id$
+'''
+Checks project permissions and php modules.
+
+This script is designed to run AFTER make_project is executed.
+'''
+
+import functools, argparse
+import grp, pwd
+import os, socket, sys
+import subprocess
+import shlex
+
+#-----------------------------------------------------------
+# Functions
+def gethostname():
+   try:
+      return socket.getfqdn().split('.')[0]
+   except:
+      return 'localhost'
+#gethostname
+
+def check_user(user):
+   try:
+      mypwdb = pwd.getpwnam(user)
+   except KeyError as e:
+      print "ERROR: ", e
+      print "ERROR: Specified apache user (%s) not found, Aborting"%(user)
+      sys.exit(1)
+   #try
+# check_user
+
+def check_dir(dir):
+   if not os.path.isdir(dir):
+      print "ERROR: project directory %s does not exist, Aborting"%(dir)
+      sys.exit(1)
+   #try
+   return dir
+#check_dir
+
+def determineapacheuser(user):
+
+   '''Attempts to determine the apache Web server user from the password
+   database. Checks a few possibilities that are linux defaults. If
+   one user matches, it is returned, otherwise an error created.
+
+   Known Issue: if the system has multiple users defined from the list below,
+   the script will abort.
+
+   '''
+   possibleapacheusers = [ 'apache',
+                           'apache2',
+                           'http',
+                           'httpd',
+                           'web-data',
+                           'www-data']
+
+   if user=="FINDOUT":
+      allusernames = [x.pw_name for x in pwd.getpwall()]
+      out1 = set(allusernames).intersection(possibleapacheusers)
+
+      if len(out1)==1:
+         return out1.pop()
+
+      print "WARNING: Script could not determine which user runs apache Web server. Aborting"
+      print "         You should specify the apache user with the -a/--apache_user flag"
+      print "         Try running the following command with apache Web server running:"
+      print "           ps -ef | egrep '(httpd|apache2|apache)' | grep -v `whoami` | grep -v root"
+      sys.exit(1)
+   else:
+      check_user(user)
+      return user
+   #endif
+#determineapacheuser
+
+def check_permissions(user, fpath):
+
+   mypwdb = pwd.getpwnam(user)
+
+   try:
+      mystat = os.stat(fpath)
+   except OSError as e:
+      print "ERROR: ", e
+      return 1
+   #try
+
+   owner_permissions = oct(mystat.st_mode)[4:5]
+   group_permissions = oct(mystat.st_mode)[5:6]
+
+   file_owner = pwd.getpwuid(mystat.st_uid).pw_name
+   group_members = grp.getgrgid(mystat.st_gid).gr_mem
+
+   '''Three checks:
+   1) if file owner is the user and owner's permissions allow for writing
+   2) if user is in group_members and group's permissions allow for writing
+   3) if user's gid is the same as the file's gid, and group's permissions allow for writing
+      The last condition is required because group_members (from gr_mem) does not
+      contain the primary user of the group.
+   '''
+
+   if (file_owner == user and owner_permissions >=5) or (user in group_members and group_permissions >=5) or (mypwdb.pw_gid==mystat.st_gid and group_permissions >=5) :
+      print "Info:  User %s can write to file/dir %s"%(user, fpath)
+      return 0
+   #end if
+
+   print "WARNING: User %s can NOT write to %s"%(user, fpath)
+   return 2
+#check_permissions
+
+
+def check_php_modules(modulestocheck):
+   '''Uses php -m and checks to see if certain php modules are installed.
+   '''
+
+   phpcmd = ['php','-m']
+   try:
+      phpout = subprocess.check_output(phpcmd)
+   except Exception as e:
+      print "ERROR: ",e
+      print "ERROR: Can't execute %s"%(" ".join(phpcmd))
+   #try
+   phpmodules = phpout.split("\n")
+
+   modulesnotfound = set(modulestocheck).difference(phpmodules)
+
+   if len(modulesnotfound)>0:
+      print "WARNING: The following php modules were not found on your system: %s"%(" ".join(modulesnotfound))
+      return 1
+
+   print "Info:  All required/recommended php modules found."
+   return 0
+
+#check_php_modules
+
+
+# Checks the given command if it is executable
+# can also check output (not implemented yet)
+def check_tool(command):
+
+    # make sure command is a valid list to pass to subprocess.call()
+    if not isinstance(command, list):
+        command = shlex.split(command.encode('ascii'))
+
+    try:
+        cmdout = subprocess.check_output(command,stderr=subprocess.STDOUT)
+    except OSError as e:
+        print "WARNING: The following tool was not found on your system: %s"%(command[0])
+        if e.errno != os.errno.ENOENT:
+            print "ERROR: ",e
+            print "ERROR: Can't execute %s"%(" ".join(command))
+        return 1
+    except subprocess.CalledProcessError as cpe:
+        print "WARNING: The following tool reported a non-zero returncode: %s"%(" ".join(command))
+        return 2
+
+    return 0
+#check_tool
+
+#-----------------------------------------------------------
+# Main program
+
+parser = argparse.ArgumentParser(description="Checks BOINC project directory permissions and php modules.")
+parser.add_argument("-p","--project_dir", action="store", dest="project_dir", required=True, help="Full path to the project root directory.")
+parser.add_argument("-a","--apache_user", action="store", dest="apache_user", default="FINDOUT", help="User which apache runs. Typically www-data (Debian based), httpd (Redhat based), or apache. If not specified, the script will automatically try to determine.")
+
+try:
+   args = parser.parse_args()
+except Exception as e:
+   print "ERROR: command-line parser error", e
+   sys.exit(1)
+#try
+
+# Define global variables
+S_HOSTNAME  = gethostname()
+APACHE_USER = determineapacheuser(args.apache_user)
+PROJECT_DIR = check_dir(args.project_dir)
+PATHS = ['log_'+S_HOSTNAME,
+         'html',
+         'html/cache',
+         'html/inc',
+         'html/languages',
+         'html/languages/compiled',
+         'upload',]
+MODULES = ["curl","gd","mysqli","xml"]
+TOOLS = ['curl --version']
+
+# Run the check_permissions function on all directories
+rcperm = map(functools.partial(check_permissions, APACHE_USER), [os.path.join(PROJECT_DIR,p) for p in PATHS])
+
+# Check for php modules
+rcphp = check_php_modules(MODULES)
+
+# Check for tools
+rctools = map(check_tool,TOOLS)
+
+if sum(rcperm)+rcphp+sum(rctools) == 0:
+   print "---All permissions checks passed, necessary php modules and tools installed. Your BOINC project should be ready to start.---"
+else:
+   print "WARNING: Some problems were found with your BOINC installation, please check the messages above for details."
+
+sys.exit(0)

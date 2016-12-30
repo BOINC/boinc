@@ -131,8 +131,23 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
 //TODO: Is this ever actually called?
 - (id)accessibilityHitTest:(NSPoint)point {
-    NSPoint windowPoint = [[listControlView window] convertScreenToBase:point];
-    NSPoint localPoint = [listControlView convertPointFromBase:windowPoint];
+    NSPoint windowPoint;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+    //convertRectFromScreen is not available before OS 10.7
+    if (! [[listControlView window] respondsToSelector: @selector(convertRectFromScreen:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        windowPoint = [[listControlView window] convertScreenToBase:point];
+#pragma clang diagnostic pop
+    } else
+#endif
+    {
+        NSRect r1 = NSMakeRect(point.x, point.y, 1, 1);
+        NSRect r2 = [[listControlView window] convertRectFromScreen:r1];
+        windowPoint = r2.origin;
+    }
+
+    NSPoint localPoint = [listControlView convertPoint:windowPoint fromView:nil];
 
     NSInteger i, x = 0, yoff;
     // First get the position relative to the ListCtrl
@@ -436,8 +451,23 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 }
 
 - (id)accessibilityHitTest:(NSPoint)point {
-    NSPoint windowPoint = [[listControlView window] convertScreenToBase:point];
-    NSPoint localPoint = [listControlView convertPointFromBase:windowPoint];
+    NSPoint windowPoint;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+    //convertRectFromScreen is not available before OS 10.7
+    if (! [[listControlView window] respondsToSelector: @selector(convertRectFromScreen:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        windowPoint = [[listControlView window] convertScreenToBase:point];
+#pragma clang diagnostic pop
+    } else
+#endif
+    {
+        NSRect r1 = NSMakeRect(point.x, point.y, 1, 1);
+        NSRect r2 = [[listControlView window] convertRectFromScreen:r1];
+        windowPoint = r2.origin;
+    }
+
+    NSPoint localPoint = [listControlView convertPoint:windowPoint fromView:nil];
 
 //TODO: should we just generate temporary EventLogCellUIElement objects as needed?
 #if RETAIN_KIDS_OF_ROWS
@@ -750,8 +780,23 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     [self adjustKidsIfNeeded];
     
-    NSPoint windowPoint = [[parent window] convertScreenToBase:point];  // parent == listControlView
-    NSPoint localPoint = [parent convertPointFromBase:windowPoint];
+    NSPoint windowPoint;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+    //convertRectFromScreen is not available before OS 10.7
+    if (! [[parent window] respondsToSelector: @selector(convertRectFromScreen:)]) {  // parent == listControlView
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        windowPoint = [[parent window] convertScreenToBase:point];
+#pragma clang diagnostic pop
+    } else
+#endif
+    {
+        NSRect r1 = NSMakeRect(point.x, point.y, 1, 1);
+        NSRect r2 = [[parent window] convertRectFromScreen:r1];
+        windowPoint = r2.origin;
+    }
+
+    NSPoint localPoint = [parent convertPoint:windowPoint fromView:nil];
 
     // The scroll bars are among the list control's subviews.
     // If we are outside the list control's client area, determine
@@ -1110,8 +1155,23 @@ static BOOL AccessibilityEnabled = false;
 }
 
 - (id)accessibilityHitTest:(NSPoint)point {
-    NSPoint windowPoint = [[parent window] convertScreenToBase:point];  // parent == listControlView
-    NSPoint localPoint = [parent convertPointFromBase:windowPoint];
+    NSPoint windowPoint;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+    //convertRectFromScreen is not available before OS 10.7
+    if (! [[parent window] respondsToSelector: @selector(convertRectFromScreen:)]) {  // parent == listControlView
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        windowPoint = [[parent window] convertScreenToBase:point];
+#pragma clang diagnostic pop
+    } else
+#endif
+    {
+        NSRect r1 = NSMakeRect(point.x, point.y, 1, 1);
+        NSRect r2 = [[parent window] convertRectFromScreen:r1];
+        windowPoint = r2.origin;
+    }
+
+    NSPoint localPoint = [parent convertPoint:windowPoint fromView:nil];
     
     // The scroll bars are among the list control's subviews.
     // If we are outside the list control's client area, determine

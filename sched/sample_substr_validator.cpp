@@ -22,43 +22,58 @@
 // --reject_if_present: reject (invalidate) the result if the string is present
 // (default: accept it if the string is present)
 
+#include <vector>
+
 #include "sched_msgs.h"
+#include "sched_util_basic.h"
 #include "validate_util2.h"
 #include "validator.h"
 
-bool first = true;
-char* stderr_string;
+using std::vector;
+
+vector<char*> stderr_strings;
 bool reject_if_present = false;
 
-void parse_cmdline() {
+int validate_handler_init(int argc, char** argv) {
+    // handle project specific arguments here
     bool found = false;
-    for (int i=1; i<g_argc; i++) {
-        if (!strcmp(g_argv[i], "--stderr_string")) {
-            stderr_string = g_argv[++i];
+    for (int i=1; i<argc; i++) {
+        if (is_arg(argv[i], "stderr_string")) {
+            stderr_strings.push_back(argv[++i]);
             found = true;
-        }
-        if (!strcmp(g_argv[i], "--reject_if_present")) {
+        } else if (is_arg(argv[i], "reject_if_present")) {
             reject_if_present = true;
         }
     }
+
     if (!found) {
         log_messages.printf(MSG_CRITICAL,
             "--stderr_string missing from command line\n"
         );
-        exit(1);
+        return 1;
     }
+    return 0;
+}
+
+void validate_handler_usage() {
+    // describe the project specific arguments here
+    fprintf(stderr,
+        "    Custom options:\n"
+        "    --stderr_string X     accept task if X is present in stderr_out\n"
+        "    [--reject_if_present] reject (invalidate) the task if X is present\n"
+    );
 }
 
 int init_result(RESULT& r, void*&) {
-    if (first) {
-        parse_cmdline();
-        first = false;
+    for(unsigned int i=0; i<stderr_strings.size(); i++) {
+        char* stderr_string = stderr_strings[i];
+        if (strstr(r.stderr_out, stderr_string)) {
+            if (reject_if_present) return -1;
+        } else {
+            if (!reject_if_present) return -1;
+        }
     }
-    if (strstr(r.stderr_out, stderr_string)) {
-        return reject_if_present?-1:0;
-    } else {
-        return reject_if_present?0:-1;
-    }
+    return 0;
 }
 
 int compare_results(RESULT&, void*, RESULT const&, void*, bool& match) {

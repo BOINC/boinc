@@ -53,5 +53,8 @@ extern bool standalone;
     // used by validator_test.
 extern void remove_random_from_filename(const char* in, char* out);
 
+extern int validate_handler_init(int argc, char** argv);
+extern void validate_handler_usage();
+
 #endif
 

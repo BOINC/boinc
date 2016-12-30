@@ -70,7 +70,6 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
      fi
 
      AC_PATH_PROG([_libcurl_config],[curl-config])
-
      if test x$_libcurl_config != "x" ; then
         AC_CACHE_CHECK([for the version of libcurl],
 	   [libcurl_cv_lib_curl_version],
@@ -106,6 +105,10 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
 
            if test x"$LIBCURL" = "x" ; then
               LIBCURL="`$_libcurl_config --libs`"
+
+              if test "x`echo \""$LIBCURL"\" | grep ssl`" = x ; then
+                LIBCURL="${LIBCURL} ${SSL_LIBS}"
+              fi
 
               # This is so silly, but Apple actually has a bug in their
 	      # curl-config script.  Fixed in Tiger, but there are still

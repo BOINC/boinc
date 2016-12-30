@@ -18,6 +18,13 @@ function _bbcode_filter_tip() {
  you will see in the examples below. If you mistype a tag or forget to 
  close it, you will not get the desired formatting.
 </p>
+<p>
+When using the Rich-text editor, loaded by default, ENTER will place a
+new paragraph and SHIFT-ENTER will place a new line. There are some
+BBCode tags that will not work with ENTER (new paragraph), e.g., the
+[list] tag. In general, when entering a line break within a BBCode
+tag, please use SHIFT-ENTER.
+</p>
 
 <h3>Simple text formatting</h3>
 
@@ -250,11 +257,6 @@ I love
  will be displayed.
 </p>
 
-<p>
- Similarly, the <strong>[php]</strong> tag can be used to post PHP code. 
- PHP code will automatically be syntax highlighted for easier readability.
-</p>
-
 <table width=\"98%\">
  <tr>
   <th>usage</th><th>display</th>
@@ -284,27 +286,6 @@ An HTML title example:<br />
   </td>
  </tr>
  <tr>
- </tr>
- <tr>
-  <td>
-Some PHP code:<br />
-[php]<br />
-&lt;?php<br />
-function hello()<br />
-{<br />
-&nbsp;&nbsp;echo \"Hello World!\";<br />
-}<br />
-?&gt;<br />
-[/php]
-  </td>
-  <td valign=top>
-Some PHP code:<br />
-<div class=\"codeblock\"><code>
-<font color=\"#000000\">
-<font color=\"#0000BB\">&lt;?php<br /></font><font color=\"#007700\">function </font><font color=\"#0000BB\">hello</font><font color=\"#007700\">()<br />{<br />&nbsp;&nbsp;echo </font><font color=\"#DD0000\">\"Hello World!\"</font><font color=\"#007700\">;<br />}<br /><font color=\"#0000BB\">?&gt;</font>
-</font>
-</code>
-  </td>
  </tr>
 </table>
 

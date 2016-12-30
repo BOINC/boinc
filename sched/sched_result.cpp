@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Logic for handling completed jobs being reported in scheduler requests
+
 #include "boinc_db.h"
 #include "str_util.h"
 #include "str_replace.h"

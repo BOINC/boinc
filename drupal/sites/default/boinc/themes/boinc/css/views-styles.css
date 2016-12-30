@@ -146,6 +146,14 @@
 /**
  * Computer and task lists
  */
+.sticky-header .views-field-expavg-credit,
+.sticky-header .views-field-total-credit,
+.sticky-header .views-field-elapsed-time,
+.sticky-header .views-field-cpu-time,
+.sticky-header .views-field-claimed-credit-1,
+.sticky-header .views-field-granted-credit {
+  text-align: right;
+}
 .views-table .views-field-expavg-credit,
 .views-table .views-field-total-credit,
 .views-table .views-field-elapsed-time,

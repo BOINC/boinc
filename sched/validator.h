@@ -24,6 +24,3 @@ extern WORKUNIT* g_wup;
     // A pointer to the WU currently being processed;
     // you can access this in your init_result() etc. functions
     // (which are passed RESULT but not WORKUNIT)
-
-extern int g_argc;
-extern char** g_argv;

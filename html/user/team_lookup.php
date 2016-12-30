@@ -28,6 +28,8 @@ $format = get_str("format", true);
 $team_id = get_int("team_id", true);
 $team_ids = get_str("team_ids", true);
 
+BoincDb::get(true);
+
 if ($team_id || $team_ids || ($format == 'xml')) {
     require_once ('../inc/xml.inc');
     xml_header();

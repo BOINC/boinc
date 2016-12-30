@@ -5,7 +5,8 @@
 VALIDATOR_SRC = sample_bitwise_validator.cpp
 
 # where libmysqlclient is
-MYSQL_LIB_DIR = /usr/lib64/mysql
+MYSQL_LIB := $(shell mysql_config --libs)
+MYSQL_INC := $(shell mysql_config --include)
 
-validator_test: validator_test.cpp $(VALIDATOR_SRC)
-	g++ -g -I.. -I../lib -I../db -o validator_test validator_test.cpp $(VALIDATOR_SRC) validate_util.o -L . -lsched -L ../lib -lboinc -L $(MYSQL_LIB_DIR) -lmysqlclient
+validator_test: validator_test.cpp $(VALIDATOR_SRC) makefile_validator_test
+	g++ -g -I.. -I../lib -I../db $(MYSQL_INC) -o validator_test validator_test.cpp $(VALIDATOR_SRC) validate_util.o -L . -lsched -L ../lib -lboinc $(MYSQL_LIB)
