@@ -371,8 +371,8 @@ int diagnostics_init(
 #if defined(_WIN32)
 
     //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
-    set_terminate(boinc_term_func);
-    set_unexpected(boinc_term_func);
+    std::set_terminate(boinc_term_func);
+    std::set_unexpected(boinc_term_func);
 
 #if defined(_DEBUG)
 
