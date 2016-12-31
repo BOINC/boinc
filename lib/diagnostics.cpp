@@ -371,8 +371,13 @@ int diagnostics_init(
 #if defined(_WIN32)
 
     //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
+#ifdef __MINGW32__
     std::set_terminate(boinc_term_func);
     std::set_unexpected(boinc_term_func);
+#else
+    set_terminate(boinc_term_func);
+    set_unexpected(boinc_term_func);
+#endif
 
 #if defined(_DEBUG)
 
