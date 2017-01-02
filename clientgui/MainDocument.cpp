@@ -48,7 +48,7 @@
 
 #define USE_CACHE_TIMEOUTS 0
 
-// If get_results RPC takes x seconds, do it no more often than 
+// If get_results RPC takes x seconds, do it no more often than
 // once every (x * GET_RESULTS_FREQUENCY_FACTOR) seconds
 #define GET_RESULTS_FREQUENCY_FACTOR 10
 
@@ -111,7 +111,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bUsedDefaultPassword = false;
     m_iPort = GUI_RPC_PORT,
     m_iReadGUIRPCAuthFailure = 0;
- }
+}
 
 
 CNetworkConnection::~CNetworkConnection() {
@@ -341,7 +341,7 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-        
+
         m_bConnected = true;
         m_bReconnecting = false;
         m_bReconnectOnError = true;
@@ -351,7 +351,7 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
         m_strNewComputerPassword = wxEmptyString;
         m_bNewConnection = false;
 
-        // Prevent a race condition where OnFrameRender() causes SetStateDisconnected() 
+        // Prevent a race condition where OnFrameRender() causes SetStateDisconnected()
         // to be called due to a previous RPC error before we reconnected.
         m_pDocument->RefreshRPCs(true);
 
@@ -415,42 +415,42 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
-    
+
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_status_rpc_result = 0;
-    
+
     m_dtNoticesTimeStamp = wxDateTime((time_t)0);;
     m_iGet_notices_rpc_result = -1;
-    
+
     m_dtProjectsStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_project_status1_rpc_result = -1;
-    
+
     m_dtResultsTimestamp = wxDateTime((time_t)0);
     m_iGet_results_rpc_result = -1;
-    
+
     m_fResultsRPCExecutionTime = 0;
-    
+
     m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_iGet_file_transfers_rpc_result = 0;
-    
+
     m_iGet_messages_rpc_result = -1;
-    
+
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_iGet_dsk_usage_rpc_result = -1;
 
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_statistics_rpc_result = -1;
-    
+
     m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
     m_iGet_simple_gui2_rpc_result = -1;
-    
+
     m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)0);
     m_iAcct_mgr_info_rpc_result = -1;
-    
+
     m_dtLasAsyncRPCDlgTime = wxDateTime((time_t)0);
     m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
-    
+
     status.max_event_log_lines = 0;
 }
 
@@ -484,25 +484,25 @@ int CMainDocument::OnInit() {
     wxASSERT(m_pRPC_Thread_Mutex);
 
     m_pRPC_Thread_Condition = new BOINC_Condition(*m_pRPC_Thread_Mutex);
-     wxASSERT(m_pRPC_Thread_Condition);
-  
+    wxASSERT(m_pRPC_Thread_Condition);
+
     m_pRPC_Request_Mutex = new BOINC_Mutex();
     wxASSERT(m_pRPC_Request_Mutex);
 
     m_pRPC_Request_Condition = new BOINC_Condition(*m_pRPC_Request_Mutex);
-     wxASSERT(m_pRPC_Request_Condition);
-  
-    m_RPCThread = new RPCThread(this, 
-        m_pRPC_Thread_Mutex, 
-        m_pRPC_Thread_Condition, 
-        m_pRPC_Request_Mutex, 
+    wxASSERT(m_pRPC_Request_Condition);
+
+    m_RPCThread = new RPCThread(this,
+        m_pRPC_Thread_Mutex,
+        m_pRPC_Thread_Condition,
+        m_pRPC_Request_Mutex,
         m_pRPC_Request_Condition
     );
     wxASSERT(m_RPCThread);
 
     iRetVal = m_RPCThread->Create();
     wxASSERT(!iRetVal);
-    
+
     m_RPCThread->Run();
     for (int i=0; i<100; i++) {
         if (!m_bRPCThreadIsReady) {
@@ -525,7 +525,7 @@ int CMainDocument::OnExit() {
                 m_pClientManager->ShutdownBOINCCore(true);
             }
         }
-        
+
         delete m_pClientManager;
         m_pClientManager = NULL;
     }
@@ -534,19 +534,19 @@ int CMainDocument::OnExit() {
         KillRPCThread();
         m_RPCThread = NULL;
     }
-    
+
     delete m_pRPC_Thread_Mutex;
     m_pRPC_Thread_Mutex = NULL;
-    
+
     delete m_pRPC_Thread_Condition;
     m_pRPC_Thread_Condition = NULL;
-    
+
     delete m_pRPC_Request_Mutex;
     m_pRPC_Request_Mutex = NULL;
-    
+
     delete m_pRPC_Request_Condition;
     m_pRPC_Request_Condition = NULL;
-    
+
     rpcClient.close();
 
     if (m_pNetworkConnection) {
@@ -564,7 +564,7 @@ int CMainDocument::OnPoll() {
     wxString hostName = wxGetApp().GetClientHostNameArg();
     wxString password = wxGetApp().GetClientPasswordArg();
     int portNum = wxGetApp().GetClientRPCPortArg();
-    
+
     wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
     wxASSERT(wxDynamicCast(m_pNetworkConnection, CNetworkConnection));
 
@@ -580,17 +580,17 @@ int CMainDocument::OnPoll() {
                 }
             }
         }
-        
+
         if (wxGetApp().GetNeedRunDaemon()) {
             if (IsComputerNameLocal(hostName)) {
-              if (m_pClientManager->StartupBOINCCore()) {
-                Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
-              } else {
-                m_pNetworkConnection->ForceDisconnect();
-                pFrame->ShowDaemonStartFailedAlert();
-              }
+                if (m_pClientManager->StartupBOINCCore()) {
+                    Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
+                } else {
+                    m_pNetworkConnection->ForceDisconnect();
+                    pFrame->ShowDaemonStartFailedAlert();
+                }
             } else {
-              Connect(hostName, portNum, password, TRUE, password.IsEmpty());
+                Connect(hostName, portNum, password, TRUE, password.IsEmpty());
             }
         }
     }
@@ -598,7 +598,7 @@ int CMainDocument::OnPoll() {
     // Check connection state, connect if needed.
     m_pNetworkConnection->Poll();
 
-    // Every 10 seconds, kill any running graphics apps 
+    // Every 10 seconds, kill any running graphics apps
     // whose associated worker tasks are no longer running
     wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
     if (ts.GetSeconds() > 10) {
@@ -623,7 +623,7 @@ int CMainDocument::CachedStateUpdate() {
     int     retval = 0;
 
     if (m_iGet_state_rpc_result) retval = m_iGet_state_rpc_result;
-            
+
     if (retval) m_pNetworkConnection->SetStateDisconnected();
 
     return retval;
@@ -649,8 +649,8 @@ int CMainDocument::Connect(const wxString& szComputer, int iPort, const wxString
         // Restart client if not already running
         m_pClientManager->AutoRestart();
     }
-   
-   if (bDisconnect) {
+
+    if (bDisconnect) {
         m_pNetworkConnection->ForceReconnect();
     }
 
@@ -715,12 +715,12 @@ int CMainDocument::FrameShutdownDetected() {
 }
 
 
-// It is _not_ enough to just reset m_dtCachedCCStatusTimestamp 
+// It is _not_ enough to just reset m_dtCachedCCStatusTimestamp
 // and let RunPeriodicRPCs() update the state for these routines
 // (which need immediate results):
 //      CMainDocument::SetActivityRunMode()
 //      CMainDocument::SetNetworkRunMode()
-// Otherwise the Snooze task bar menu item and SimpleGUI Pause 
+// Otherwise the Snooze task bar menu item and SimpleGUI Pause
 // button do not work properly.
 //
 int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
@@ -728,7 +728,7 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     int              iRetVal = 0;
 
     if (IsConnected()) {
-        if (!m_bWaitingForRPC) {    // Prevent recursive entry of RequestRPC() 
+        if (!m_bWaitingForRPC) {    // Prevent recursive entry of RequestRPC()
 #if USE_CACHE_TIMEOUTS
             wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
             if (ts.GetSeconds() >= (10 * CCSTATUS_RPC_INTERVAL)) bForce = true;
@@ -748,7 +748,7 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
             ccs = status;
             iRetVal = m_iGet_status_rpc_result;
         }
-        
+
         if (m_iGet_status_rpc_result) {
             m_pNetworkConnection->SetStateDisconnected();
         } else {
@@ -822,8 +822,8 @@ int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
 }
 
 
-// We use 0 to indicate that the RPC has never been called yet, so 
-// set last update time to (time_t)1 here rather than to (time_t)0, 
+// We use 0 to indicate that the RPC has never been called yet, so
+// set last update time to (time_t)1 here rather than to (time_t)0,
 // and only if it is currently not zero.
 void CMainDocument::RefreshRPCs(bool fullReset) {
     wxDateTime t = fullReset ? wxDateTime((time_t)0) : wxDateTime((time_t)1);
@@ -832,25 +832,25 @@ void CMainDocument::RefreshRPCs(bool fullReset) {
         m_dtCachedCCStatusTimestamp = t;
 //      m_iGet_status_rpc_result = -1;
     }
-    
+
     if (!m_dtProjectsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtProjectsStatusTimestamp = t;
 //      m_iGet_project_status1_rpc_result = -1;
     }
-    
+
     if (!m_dtResultsTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtResultsTimestamp = t;
 //      m_iGet_results_rpc_result = -1;
     }
     m_fResultsRPCExecutionTime = 0;
-        
+
     if (!m_dtFileTransfersTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtFileTransfersTimestamp = t;
 //      m_iGet_file_transfers_rpc_result = 0;
     }
-        
+
 //  m_iGet_messages_rpc_result = -1;
-        
+
     if (!m_dtDiskUsageTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtDiskUsageTimestamp = t;
 //      m_iGet_dsk_usage_rpc_result = -1;
@@ -860,7 +860,7 @@ void CMainDocument::RefreshRPCs(bool fullReset) {
         m_dtStatisticsStatusTimestamp = t;
 //      m_iGet_statistics_rpc_result = -1;
     }
-        
+
     if (!m_dtCachedSimpleGUITimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtCachedSimpleGUITimestamp = t;
 //      m_iGet_simple_gui2_rpc_result = -1;
@@ -878,9 +878,9 @@ void CMainDocument::RefreshRPCs(bool fullReset) {
 void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     ASYNC_RPC_REQUEST request;
     wxTimeSpan ts;
-    
-    // Timer events are handled while the RPC Wait dialog is shown 
-    // which may cause unintended recursion and repeatedly posting 
+
+    // Timer events are handled while the RPC Wait dialog is shown
+    // which may cause unintended recursion and repeatedly posting
     // the same RPC requests from timer routines.
     if (WaitingForRPC()) return;
 
@@ -888,9 +888,9 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     if (!pFrame) return;
 
     int currentTabView = pFrame->GetCurrentViewPage();
-        
-    // If the client is heavily loaded (e.g, very many tasks), the 
-    // RPC Wait dialog could appear continuously.  To prevent this, 
+
+    // If the client is heavily loaded (e.g, very many tasks), the
+    // RPC Wait dialog could appear continuously.  To prevent this,
     // delay periodic RPCs for 1 second after the dialog closes.
     wxDateTime dtNow(wxDateTime::Now());
     if ((currentTabView & (VW_STAT | VW_DISK)) == 0) {
@@ -899,7 +899,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             return;
         }
     }
-    
+
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     if (!IsConnected()) {
@@ -916,36 +916,36 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         }
         return;
     }
-    
-    // Several functions (such as Abort, Reset, Detach) display an 
-    // "Are you sure?" dialog before passing a pointer to a result 
-    // or project in a demand RPC call.  If Periodic RPCs continue 
-    // to run during these dialogs, that pointer may no longer be 
-    // valid by the time the demand RPC is executed.  So we suspend 
+
+    // Several functions (such as Abort, Reset, Detach) display an
+    // "Are you sure?" dialog before passing a pointer to a result
+    // or project in a demand RPC call.  If Periodic RPCs continue
+    // to run during these dialogs, that pointer may no longer be
+    // valid by the time the demand RPC is executed.  So we suspend
     // periodic RPCs during certain modal dialogs.
     //
     // Note that this depends on using wxGetApp().SafeMessageBox()
-    // instead of wxMessageBox in all tab views and anywhere else 
+    // instead of wxMessageBox in all tab views and anywhere else
     // where a periodic RPC could cause a similar problem.
     if (wxGetApp().IsSafeMesageBoxDisplayed()) {
         return;
     }
 
-	// SET_LANGUAGE 
+    // SET_LANGUAGE
 
-	static bool first = true;
-	if (first) {
-		first = false;
+    static bool first = true;
+    if (first) {
+        first = false;
         safe_strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
-		request.clear();
-		request.which_rpc = RPC_SET_LANGUAGE;
-		request.arg1 = (void*)(const char*)&m_szLanguage;
-		request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
-		RequestRPC(request);
-	}
+        request.clear();
+        request.which_rpc = RPC_SET_LANGUAGE;
+        request.arg1 = (void*)(const char*)&m_szLanguage;
+        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+        RequestRPC(request);
+    }
 
     // *********** RPC_GET_CC_STATUS **************
-    
+
     ts = dtNow - m_dtCachedCCStatusTimestamp;
     if (ts.GetSeconds() >= CCSTATUS_RPC_INTERVAL) {
         request.clear();
@@ -955,14 +955,14 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         request.rpcType = RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER;
         request.completionTime = &m_dtCachedCCStatusTimestamp;
         request.resultPtr = &m_iGet_status_rpc_result;
-       
+
         RequestRPC(request);
     }
 
     // *********** RPC_GET_MESSAGES **************
 
-    // We must keep getting messages even if the Event Log is not open 
-    // due to the limited size of the client's buffer, or some may be 
+    // We must keep getting messages even if the Event Log is not open
+    // due to the limited size of the client's buffer, or some may be
     // lost, causing gaps when the Event Log is later opened.
     //
     request.clear();
@@ -976,18 +976,18 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER;
     request.completionTime = NULL;
     request.resultPtr = &m_iGet_messages_rpc_result;
-   
+
     RequestRPC(request);
 
     // *********** RPC_GET_NOTICES **************
 
-    // We must keep getting notices even if the Notices Tab is not open 
+    // We must keep getting notices even if the Notices Tab is not open
     // so we can notify the user when new notices become available.
     ts = dtNow - m_dtNoticesTimeStamp;
-    if ((currentTabView & VW_NOTIF) || 
+    if ((currentTabView & VW_NOTIF) ||
         (ts.GetSeconds() >= NOTICESBACKGROUNDRPC_INTERVAL)) {
-        // Don't request another get_notices RPC until we have 
-        // updated m_iNoticeSequenceNumber from the previous 
+        // Don't request another get_notices RPC until we have
+        // updated m_iNoticeSequenceNumber from the previous
         // one; otherwise we will get duplicate notices
         if (!m_bWaitingForGetNoticesRPC) {
             m_bWaitingForGetNoticesRPC =  true;
@@ -1008,15 +1008,15 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 
             request.completionTime = &m_dtNoticesTimeStamp;
             request.resultPtr = &m_iGet_notices_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
-    
+
     ts = dtNow - m_dtCachedStateTimestamp;
     if (ts.GetSeconds() >= STATERPC_INTERVAL) {
 
-    // *********** RPC_GET_STATE **************
+        // *********** RPC_GET_STATE **************
 
         request.clear();
         request.which_rpc = RPC_GET_STATE;
@@ -1025,22 +1025,22 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
         request.completionTime = &m_dtCachedStateTimestamp;
         request.resultPtr = &m_iGet_state_rpc_result;
-       
+
         RequestRPC(request);
     }
-    
-    // **** All periodic RPCs after this point are used only 
+
+    // **** All periodic RPCs after this point are used only
     // **** when refreshing Advanced Frame or Simple Frame views.
-    // **** If the Event Log is shown, the Periodic RPC Timer is 
-    // **** set for 1 second even though the Frame View may need 
+    // **** If the Event Log is shown, the Periodic RPC Timer is
+    // **** set for 1 second even though the Frame View may need
     // **** less frequent update.
-    // **** The argument frameRefreshRate is 0 if an immediate 
+    // **** The argument frameRefreshRate is 0 if an immediate
     // **** update is needed due to some user action, etc.
-    // **** Otherwise frameRefreshRate is the rate at which the 
+    // **** Otherwise frameRefreshRate is the rate at which the
     // **** the current Frame View should be updated.
     ts = dtNow - m_dtLastFrameViewRefreshRPCTime;
     if (ts.GetMilliseconds() < (frameRefreshRate - 500)) return;
-    
+
     // Don't do periodic RPC calls when hidden / minimized
     if (!pFrame->IsShown()) return;
 #ifdef __WXMAC__
@@ -1048,7 +1048,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 #endif
 
     m_dtLastFrameViewRefreshRPCTime = dtNow;
-   
+
     // *********** RPC_GET_PROJECT_STATUS1 **************
 
     if (currentTabView & VW_PROJ) {
@@ -1061,7 +1061,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtProjectsStatusTimestamp;
             request.resultPtr = &m_iGet_project_status1_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
@@ -1082,12 +1082,12 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
                 request.completionTime = &m_dtResultsTimestamp;
                 request.RPCExecutionTime = &m_fResultsRPCExecutionTime;
                 request.resultPtr = &m_iGet_results_rpc_result;
-               
+
                 RequestRPC(request);
             }
         }
     }
-    
+
     // *********** RPC_GET_FILE_TRANSFERS **************
 
     if (currentTabView & VW_XFER) {
@@ -1100,11 +1100,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtFileTransfersTimestamp;
             request.resultPtr = &m_iGet_file_transfers_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
-    
+
     // *********** RPC_GET_STATISTICS **************
 
     if (currentTabView & VW_STAT) {
@@ -1117,11 +1117,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtStatisticsStatusTimestamp;
             request.resultPtr = &m_iGet_statistics_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
-    
+
     // *********** RPC_GET_DISK_USAGE **************
 
     if (currentTabView & VW_DISK) {
@@ -1134,11 +1134,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtDiskUsageTimestamp;
             request.resultPtr = &m_iGet_dsk_usage_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
-    
+
     // *********** GET_SIMPLE_GUI_INFO2 **************
     if (currentTabView & VW_SGUI) {
         ts = dtNow - m_dtCachedSimpleGUITimestamp;
@@ -1153,7 +1153,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtCachedSimpleGUITimestamp;
             request.resultPtr = &m_iGet_simple_gui2_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
@@ -1169,17 +1169,17 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
             request.completionTime = &m_dtCachedAcctMgrInfoTimestamp;
             request.resultPtr = &m_iAcct_mgr_info_rpc_result;
-           
+
             RequestRPC(request);
         }
     }
 }
 
 
-// TODO: Is it enough to just reset m_dtCachedStateTimestamp 
-// and let RunPeriodicRPCs() update the state?  This would avoid 
-// displaying the "Please wait" dialog on multi-processor computers.  
-// Possible exceptions might be when ForceCacheUpdate() is called 
+// TODO: Is it enough to just reset m_dtCachedStateTimestamp
+// and let RunPeriodicRPCs() update the state?  This would avoid
+// displaying the "Please wait" dialog on multi-processor computers.
+// Possible exceptions might be when ForceCacheUpdate() is called
 // from these routines (which may need immediate results):
 //      CAdvancedFrame::OnConnect()
 //      CDlgItemProperties::FormatApplicationName()
@@ -1196,7 +1196,7 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
         m_dtCachedStateTimestamp = wxDateTime((time_t)0);
         return m_iGet_state_rpc_result;
     }
-    
+
     int     retval = 0;
 
     if (IsConnected()) {
@@ -1291,7 +1291,7 @@ int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
     if (ts.GetSeconds() >= (2 * PROJECTSTATUSRPC_INTERVAL)) bForce = true;
 #endif
     if (m_dtProjectsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) bForce = true;
-    
+
     if (bForce) {
         m_dtProjectsStatusTimestamp = wxDateTime::Now();
         m_iGet_project_status1_rpc_result = rpc.get_project_status(async_projects_update_buf, state);
@@ -1329,10 +1329,10 @@ PROJECT* CMainDocument::project(unsigned int i) {
 
 
 PROJECT* CMainDocument::project(char* url) {
-	for (unsigned int i=0; i< state.projects.size(); i++) {
-		PROJECT* tp = state.projects[i];
-		if (!strcmp(url, tp->master_url)) return tp;
-	}
+    for (unsigned int i=0; i< state.projects.size(); i++) {
+        PROJECT* tp = state.projects[i];
+        if (!strcmp(url, tp->master_url)) return tp;
+    }
     return NULL;
 }
 
@@ -1453,12 +1453,12 @@ int CMainDocument::CachedResultsStatusUpdate() {
     if (ts.GetSeconds() >= (2 * RESULTSRPC_INTERVAL)) immediate = true;
 #endif
     if (m_dtResultsTimestamp.IsEqualTo(wxDateTime((time_t)0))) immediate = true;
-    
+
     if (immediate) {
         m_dtResultsTimestamp = wxDateTime::Now();
         m_iGet_results_rpc_result = rpc.get_results(results, active_tasks_only);
     }
-    
+
     if (m_iGet_results_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), m_iGet_results_rpc_result);
         ForceCacheUpdate();
@@ -1512,7 +1512,7 @@ RESULT* CMainDocument::result(const wxString& name, const wxString& project_url)
 
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
-    
+
     CachedResultsStatusUpdate();
     CachedStateUpdate();
 
@@ -1551,7 +1551,7 @@ int CMainDocument::WorkResume(char* url, char* name) {
 }
 
 
-// If the graphics application for the current task is already 
+// If the graphics application for the current task is already
 // running, return a pointer to its RUNNING_GFX_APP struct.
 //
 RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
@@ -1559,12 +1559,12 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
 ) {
     bool exited = false;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
-    
-    for( gfx_app_iter = m_running_gfx_apps.begin(); 
-        gfx_app_iter != m_running_gfx_apps.end(); 
+
+    for( gfx_app_iter = m_running_gfx_apps.begin();
+        gfx_app_iter != m_running_gfx_apps.end();
         ++gfx_app_iter
     ) {
-         if ((slot >= 0) && ((*gfx_app_iter).slot != slot)) continue;
+        if ((slot >= 0) && ((*gfx_app_iter).slot != slot)) continue;
 
 #ifdef _WIN32
         unsigned long exit_code;
@@ -1584,7 +1584,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
             ) {
                 return &(*gfx_app_iter);
             }
-    
+
             // Graphics app is still running but the slot now has a different task
             KillGraphicsApp((*gfx_app_iter).pid);
         }
@@ -1607,26 +1607,26 @@ void CMainDocument::KillInactiveGraphicsApps() {
     bool bStillRunning;
 
     if (m_running_gfx_apps.size() <= 0) return;
-    
-    // If none of the Tasks displays are visible, we need to update 
+
+    // If none of the Tasks displays are visible, we need to update
     // the results vector.  This call does nothing if recently updated
     // by a call from CViewWork or CViewTabPage.
     CachedResultsStatusUpdate();
-    
+
     gfx_app_iter = m_running_gfx_apps.begin();
     while (gfx_app_iter != m_running_gfx_apps.end()) {
         bStillRunning = false;
-        
+
         for (i=0; i<results.results.size(); i++) {
             if ((results.results.at(i))->state != RESULT_FILES_DOWNLOADED) continue;
             if (!(results.results.at(i))->active_task) continue;
             if ((results.results.at(i))->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if ((results.results.at(i))->name != (*gfx_app_iter).name) continue;
-            if ((results.results.at(i))->project_url != (*gfx_app_iter).project_url) continue;    
+            if ((results.results.at(i))->project_url != (*gfx_app_iter).project_url) continue;
             bStillRunning =  true;
             break;
         }
-        
+
         if (!bStillRunning) {
             KillGraphicsApp((*gfx_app_iter).pid);
             gfx_app_iter = m_running_gfx_apps.erase(gfx_app_iter);
@@ -1645,7 +1645,7 @@ void CMainDocument::KillAllRunningGraphicsApps()
 
     n = m_running_gfx_apps.size();
     for (i=0; i<n; i++) {
-        gfx_app_iter = m_running_gfx_apps.begin(); 
+        gfx_app_iter = m_running_gfx_apps.begin();
         KillGraphicsApp((*gfx_app_iter).pid);
         (*gfx_app_iter).name.clear();
         (*gfx_app_iter).project_url.clear();
@@ -1664,7 +1664,7 @@ void CMainDocument::KillGraphicsApp(int pid) {
     char currentDir[1024];
     char thePIDbuf[20];
     int id, iRetVal;
-    
+
 
     if (g_use_sandbox) {
         snprintf(thePIDbuf, sizeof(thePIDbuf), "%d", pid);
@@ -1674,7 +1674,7 @@ void CMainDocument::KillGraphicsApp(int pid) {
         argv[3] = "-KILL";
         argv[4] = thePIDbuf;
         argv[5] = 0;
-    
+
         iRetVal = run_program(
             getcwd(currentDir, sizeof(currentDir)),
             "./switcher/switcher",
@@ -1691,7 +1691,7 @@ void CMainDocument::KillGraphicsApp(int pid) {
 
 int CMainDocument::WorkShowGraphics(RESULT* rp) {
     int iRetVal = 0;
-    
+
     if (strlen(rp->web_graphics_url)) {
         wxString url(rp->web_graphics_url, wxConvUTF8);
         wxLaunchDefaultBrowser(url);
@@ -1712,7 +1712,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         p = strrchr((char*)rp->slot_path, '/');
         if (!p) return ERR_INVALID_PARAM;
         slot = atoi(p+1);
-        
+
         // See if we are already running the graphics application for this task
         previous_gfx_app = GetRunningGraphicsApp(rp, slot);
 
@@ -1721,7 +1721,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 
         if (previous_gfx_app) {
 #ifdef __WXMAC__
-        ProcessSerialNumber gfx_app_psn;
+            ProcessSerialNumber gfx_app_psn;
             // If this graphics app is already running,
             // just bring it to the front
             //
@@ -1734,24 +1734,24 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             return 0;
         }
         argv[0] = "switcher";
-        // For unknown reasons on Macs, the graphics application 
-        // exits with "RegisterProcess failed (error = -50)" unless 
+        // For unknown reasons on Macs, the graphics application
+        // exits with "RegisterProcess failed (error = -50)" unless
         // we pass its full path twice in the argument list to execv.
         //
         argv[1] = (char *)rp->graphics_exec_path;
         argv[2] = (char *)rp->graphics_exec_path;
         argv[3] = 0;
-    
-         if (g_use_sandbox) {
+
+        if (g_use_sandbox) {
             iRetVal = run_program(
                 rp->slot_path,
-               "../../switcher/switcher",
+                "../../switcher/switcher",
                 3,
                 argv,
                 0,
                 id
             );
-        } else {        
+        } else {
             iRetVal = run_program(
                 rp->slot_path,
                 rp->graphics_exec_path,
@@ -1768,7 +1768,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         //
         if (previous_gfx_app) return 0;
         argv[0] = 0;
-        
+
         iRetVal = run_program(
             rp->slot_path,
             rp->graphics_exec_path,
@@ -1792,7 +1792,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 
 int CMainDocument::WorkShowVMConsole(RESULT* res) {
     int iRetVal = 0;
-    
+
     if (strlen(res->remote_desktop_addr)) {
         wxString strConnection(res->remote_desktop_addr, wxConvUTF8);
         wxString strCommand;
@@ -1807,29 +1807,29 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         FSRef theFSRef;
         OSStatus status = noErr;
 
-        // I have found no reliable way to pass the IP address and port to Microsoft's 
-        // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
+        // I have found no reliable way to pass the IP address and port to Microsoft's
+        // Remote Desktop Connection application for the Mac, so I'm using CoRD.
         // Unfortunately, CoRD does not seem as reliable as I would like either.
         //
         // First try to find the CoRD application by Bundle ID and Creator Code
-        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
+        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),
                                             NULL, &theFSRef, NULL);
         if (status != noErr) {
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (pFrame) {
                 pFrame->ShowAlert(
-                    _("Missing application"), 
+                    _("Missing application"),
                     _("Please download and install the CoRD application from http://cord.sourceforge.net"),
                     wxOK | wxICON_INFORMATION,
                     false
                 );
-        } 
-        return ERR_FILE_MISSING;
-    }
+            }
+            return ERR_FILE_MISSING;
+        }
 
-    strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
-    strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
-    system(strCommand.char_str());
+        strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
+        strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
+        system(strCommand.char_str());
 #endif
     }
 
@@ -1853,30 +1853,30 @@ int CMainDocument::WorkAbort(char* url, char* name) {
 
 // Call this only when notice buffer is stable
 // Note: This must not call any rpcs.
-// This is now called after each get_notices RPC from 
+// This is now called after each get_notices RPC from
 //   CMainDocument::HandleCompletedRPC() .
 int CMainDocument::CachedNoticeUpdate() {
     static bool in_this_func = false;
 
     if (in_this_func) return 0;
     in_this_func = true;
-    
+
     if (IsConnected()) {
         // Can't look up previous last read message until we know machine name
         if (!strlen(state.host_info.domain_name)) {
             goto done;
         }
-        
+
         // rpc.get_notices is now called from RunPeriodicRPCs()
         if (m_iGet_notices_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedNoticeUpdate - Get Notices Failed '%d'"), m_iGet_notices_rpc_result);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
-        
+
         if (notices.notices.size() > 0) {
             m_iNoticeSequenceNumber = notices.notices[0]->seqno;
-            
+
             if (m_iLastReadNoticeSequenceNumber < 0) {
                 m_iLastReadNoticeSequenceNumber = 0;    // Do this only once
                 RestoreUnreadNoticeInfo();
@@ -1891,7 +1891,7 @@ done:
 
 
 void CMainDocument::SaveUnreadNoticeInfo() {
-    static double   dLastSavedArrivalTime = 0.0;       
+    static double   dLastSavedArrivalTime = 0.0;
 
     if (dLastSavedArrivalTime != m_dLastReadNoticeArrivalTime) {
         wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
@@ -1900,7 +1900,7 @@ void CMainDocument::SaveUnreadNoticeInfo() {
         wxString        strArrivalTime = wxEmptyString;
 
         pConfig->SetPath(strBaseConfigLocation + strDomainName);
-        // wxConfigBase::Write(const wxString& key, double value) has 
+        // wxConfigBase::Write(const wxString& key, double value) has
         // insufficient precision so write a wxString.
         strArrivalTime.Printf(wxT("%f"), m_dLastReadNoticeArrivalTime);
         pConfig->Write(wxT("lastReadNoticeTime"), strArrivalTime);
@@ -1921,8 +1921,8 @@ void CMainDocument::RestoreUnreadNoticeInfo() {
 
     if (pConfig->Read(wxT("LastReadNoticeTime"), &strArrivalTime)) {
         strArrivalTime.ToDouble(&dLastReadNoticeTime);
-        // To avoid problems caused by rounding in save & restore operation, test in 
-        // reverse order (oldest first) and for arrival time <= dLastReadNoticeTime 
+        // To avoid problems caused by rounding in save & restore operation, test in
+        // reverse order (oldest first) and for arrival time <= dLastReadNoticeTime
         for (i=n-1; i>=0; --i) {
             if (notices.notices[i]->arrival_time <= dLastReadNoticeTime) {
                 m_iLastReadNoticeSequenceNumber = notices.notices[i]->seqno;
@@ -1951,14 +1951,14 @@ NOTICE* CMainDocument::notice(unsigned int i) {
 int CMainDocument::GetNoticeCount() {
     int iCount = -1;
 
-    // CachedNoticeUpdate() is now called from CMainDocument::OnRPCComplete() 
+    // CachedNoticeUpdate() is now called from CMainDocument::OnRPCComplete()
     // only after a get_notices RPC completes so notices buffer is stable.
     CachedStateUpdate();
 
     if (notices.received) {
         iCount = (int)notices.notices.size();
     }
-    
+
     return iCount;
 }
 
@@ -1966,11 +1966,11 @@ int CMainDocument::GetNoticeCount() {
 int CMainDocument::GetUnreadNoticeCount() {
     int iCount = 0;
     if (!notices.notices.empty()) {
-        for (unsigned int i = 0; i < notices.notices.size(); i++) { 
-            if (notices.notices[i]->arrival_time > m_dLastReadNoticeArrivalTime) { 
-                iCount++; 
-            } 
-        } 
+        for (unsigned int i = 0; i < notices.notices.size(); i++) {
+            if (notices.notices[i]->arrival_time > m_dLastReadNoticeArrivalTime) {
+                iCount++;
+            }
+        }
     }
     return iCount;
 }
@@ -2036,7 +2036,7 @@ void localize(wxString& strMessage) {
 
 // Call this only when message buffer is stable
 // Note: This must not call any rpcs.
-// This is now called after each get_messages RPC from 
+// This is now called after each get_messages RPC from
 //   CMainDocument::HandleCompletedRPC() .
 //
 int CMainDocument::CachedMessageUpdate() {
@@ -2098,14 +2098,14 @@ MESSAGE* CMainDocument::message(unsigned int i) {
 int CMainDocument::GetMessageCount() {
     int iCount = -1;
 
-    // CachedMessageUpdate() is now called from CMainDocument::OnRPCComplete() 
+    // CachedMessageUpdate() is now called from CMainDocument::OnRPCComplete()
     // only after a get_messages RPC completes so messages buffer is stable.
     CachedStateUpdate();
 
     if (!messages.messages.empty()) {
         iCount = (int)messages.messages.size();
     }
-    
+
     return iCount;
 }
 
@@ -2128,13 +2128,13 @@ int CMainDocument::CachedFileTransfersUpdate() {
     if (ts.GetSeconds() >= (2* FILETRANSFERSRPC_INTERVAL)) immediate = true;
 #endif
     if (m_dtFileTransfersTimestamp.IsEqualTo(wxDateTime((time_t)0))) immediate = true;
-    
+
     if (immediate) {
         m_dtFileTransfersTimestamp = wxDateTime::Now();
         m_iGet_file_transfers_rpc_result = rpc.get_file_transfers(ft);
     }
- 
-     if (m_iGet_file_transfers_rpc_result) {
+
+    if (m_iGet_file_transfers_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'"), m_iGet_file_transfers_rpc_result);
         ForceCacheUpdate();
     }
@@ -2251,20 +2251,20 @@ int CMainDocument::CachedDiskUsageUpdate() {
     if (!IsConnected()) return -1;
 
     // don't get disk usage more than once per minute
-            // unless we just connected to a client
+    // unless we just connected to a client
     //
 #if USE_CACHE_TIMEOUTS
     wxTimeSpan ts(wxDateTime::Now() - m_dtDiskUsageTimestamp);
     if (ts.GetSeconds() >= (2 * DISKUSAGERPC_INTERVAL)) immediate = true;
-#endif    
+#endif
     if (disk_usage.projects.empty()) immediate = true;
     if (m_dtDiskUsageTimestamp.IsEqualTo(wxDateTime((time_t)0))) immediate = true;
-    
+
     if (immediate) {
         m_dtDiskUsageTimestamp = wxDateTime::Now();
         m_iGet_dsk_usage_rpc_result = rpc.get_disk_usage(disk_usage);
     }
-    
+
     if (m_iGet_dsk_usage_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("Get Disk Usage Failed '%d'"), m_iGet_dsk_usage_rpc_result);
         ForceCacheUpdate();
@@ -2300,7 +2300,7 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
 #endif
     if (statistics_status.projects.empty()) immediate = true;
     if (m_dtStatisticsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) immediate = true;
-    
+
     if (immediate) {
         m_dtStatisticsStatusTimestamp = wxDateTime::Now();
         m_dtStatisticsStatusTimestamp = rpc.get_statistics(statistics_status);
@@ -2423,11 +2423,11 @@ int CMainDocument::GetSimpleGUIWorkCount() {
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-	for(i=0; i<results.results.size(); i++) {
-		if (results.results[i]->active_task) {
-			iCount++;
-		}
-	}
+    for(i=0; i<results.results.size(); i++) {
+        if (results.results[i]->active_task) {
+            iCount++;
+        }
+    }
     return iCount;
 }
 
@@ -2450,7 +2450,7 @@ wxString suspend_reason_wxstring(int reason) {
 }
 
 bool uses_gpu(RESULT* r) {
-	// kludge.  But r->avp isn't populated.
+    // kludge.  But r->avp isn't populated.
     return (strstr(r->resources, "GPU") != NULL);
 }
 
@@ -2459,7 +2459,7 @@ wxString result_description(RESULT* result, bool show_resources) {
     PROJECT* project;
     CC_STATUS       status;
     int             retval;
-	wxString strBuffer= wxEmptyString;
+    wxString strBuffer= wxEmptyString;
 
     strBuffer.Clear();
     retval = doc->GetCoreClientStatus(status);
@@ -2472,10 +2472,10 @@ wxString result_description(RESULT* result, bool show_resources) {
     }
 
     project = doc->state.lookup_project(result->project_url);
-	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
+    int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
-        strBuffer += _("New"); 
+        strBuffer += _("New");
         break;
     case RESULT_FILES_DOWNLOADING:
         if (result->ready_to_report) {
@@ -2628,35 +2628,35 @@ static double XDPIScaleFactor = 0.0;
 static double YDPIScaleFactor = 0.0;
 
 void GetDPIScaling() {
-	XDPIScaleFactor = 1.0;
-	YDPIScaleFactor = 1.0;
-	// SetProcessDPIAware() requires Windows Vista or later
-	HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
-	typedef BOOL (*SetProcessDPIAwareFunc)();
-	SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
-	if (setDPIAware) {
-		setDPIAware();
-		HWND hWnd = GetForegroundWindow();
-		HDC hdc = GetDC(hWnd);
-		XDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
-		YDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
-		ReleaseDC(hWnd, hdc);
-	}
-	FreeLibrary(hUser32);
+    XDPIScaleFactor = 1.0;
+    YDPIScaleFactor = 1.0;
+    // SetProcessDPIAware() requires Windows Vista or later
+    HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
+    typedef BOOL (*SetProcessDPIAwareFunc)();
+    SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
+    if (setDPIAware) {
+        setDPIAware();
+        HWND hWnd = GetForegroundWindow();
+        HDC hdc = GetDC(hWnd);
+        XDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+        YDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
+        ReleaseDC(hWnd, hdc);
+    }
+    FreeLibrary(hUser32);
 }
 
 double GetXDPIScaling() {
-	if (XDPIScaleFactor == 0.0) {
-		GetDPIScaling();
-	}
-	return XDPIScaleFactor;
+    if (XDPIScaleFactor == 0.0) {
+        GetDPIScaling();
+    }
+    return XDPIScaleFactor;
 }
 
 double GetYDPIScaling() {
-	if (YDPIScaleFactor == 0.0) {
-		GetDPIScaling();
-	}
-	return YDPIScaleFactor;
+    if (YDPIScaleFactor == 0.0) {
+        GetDPIScaling();
+    }
+    return YDPIScaleFactor;
 }
 #endif
 
@@ -2665,8 +2665,8 @@ wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
 #ifdef __WXMSW__
     if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
         wxImage img = wxImage(XPMData);
-        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
-                    (int) (img.GetHeight()*GetYDPIScaling()), 
+        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()),
+                    (int) (img.GetHeight()*GetYDPIScaling()),
                     wxIMAGE_QUALITY_BILINEAR
                 );
         wxBitmap *bm = new wxBitmap(img);
