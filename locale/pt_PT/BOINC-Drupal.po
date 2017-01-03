@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-11-23 16:50+0000\n"
-"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
+"PO-Revision-Date: 2016-12-28 17:38+0000\n"
+"Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -449,7 +449,7 @@ msgid "Validation state"
 msgstr "Estado da validação"
 
 msgid "App ID"
-msgstr "App ID"
+msgstr "ID da App"
 
 msgid "Canonical credit"
 msgstr "Crédito canónico"
@@ -868,7 +868,7 @@ msgid ""
 msgstr "Os membros do @project podem formar equipas. Você pode pertencer a uma única equipa. Pode juntar-se ou sair de uma equipa a qualquer momento. Para aderir a uma equipa, visite a sua página de equipa, e clique em \"Aderir a esta equipa\". Cada equipa tem um fundador que pode:"
 
 msgid "access team members' email addresses"
-msgstr "aceder aos endereços de email dos membros da equipa"
+msgstr "aceder aos endereços de e-mail dos membros da equipa"
 
 msgid "edit the team's name and description"
 msgstr "editar o nome da equipa e descrição"
@@ -877,10 +877,10 @@ msgid "add or remove team admins"
 msgstr "adicionar ou remover administradores da equipa"
 
 msgid "remove members from the team"
-msgstr "remover membros da equipa"
+msgstr "remove membros da equipa"
 
 msgid "disband a team if it has no members"
-msgstr "acabar com a equipa se esta não tiver membros"
+msgstr "terminar a equipa se esta não tiver membros"
 
 msgid "Search teams"
 msgstr "Pesquisar equipas"
@@ -917,7 +917,7 @@ msgid "Log in"
 msgstr "Entrar"
 
 msgid "Sorry, unrecognized email address or password."
-msgstr "Pedimos desculpa, endereço de e-mail ou palavra-passe desconhecido/s"
+msgstr "Pedimos desculpa, endereço de e-mail ou palavra-passe desconhecida/s."
 
 msgid "Have you forgotten your password?"
 msgstr "Esqueceu-se da palavra-passe?"
@@ -1002,7 +1002,7 @@ msgid "Home"
 msgstr "Casa"
 
 msgid "The latest news from the @site_name project"
-msgstr "As últimas notícias do projecto @site_name"
+msgstr "As últimas notícias do projeto @site_name"
 
 msgid "Hide"
 msgstr "Ocultar"
@@ -1044,7 +1044,7 @@ msgid "Edit this comment"
 msgstr "Editar este comentário"
 
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Apagar"
 
 msgid "Delete this comment"
 msgstr "Apagar este comentário"
@@ -1097,10 +1097,10 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "Por favor seja responsável no que escreve e não crie mensagens ofensivas ou insultuosas. Mensagens ofensivas podem ser apagadas pelos moderadores do fórum, sem aviso. Não responda a mensagens ofensivas. Clique no botão \"report\" na parte inferior da mensagem para chamar à atenção dos moderadores."
+msgstr "Por favor seja responsável no que escreve e não crie mensagens ofensivas ou insultuosas. Mensagens ofensivas podem ser apagadas pelos moderadores do fórum sem aviso. Não responda a mensagens ofensivas. Clique no botão \"reportar\" na parte inferior da mensagem para chamar à atenção dos moderadores."
 
 msgid "this project"
-msgstr "este projecto"
+msgstr "este projeto"
 
 msgid ""
 "We also ask that you keep all discussion on the message boards related to "
@@ -1151,7 +1151,7 @@ msgstr "Fundir"
 msgid ""
 "This will delete host @id from your account forever. Are you sure this is "
 "OK?"
-msgstr "Isto irá eliminar o @id o anfitrição da sua conta para sempre. Tem a certeza DISTO?"
+msgstr "Isto irá eliminar o @id do anfitrião da sua conta para sempre. Tem a certeza DISTO?"
 
 msgid "Post topic"
 msgstr "Publicar tópico"
@@ -1171,16 +1171,16 @@ msgstr "Pedir liderança"
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "Se o fundador da equipa não estiver activo e quiser assumir o papel de fundador, clique abaixo para pedir a liderança da @this_team. "
+msgstr "Se o fundador da equipa não estiver ativo e quiser assumir o seu papel de fundador, clique abaixo para pedir a liderança da @this_team. "
 
 msgid "Initiate request"
 msgstr "Iniciar pedido"
 
 msgid "No active computers"
-msgstr "Sem computadores activos"
+msgstr "Sem computadores ativos"
 
 msgid "This user has no computers that have been active in the last 30 days."
-msgstr "Este utilizador não tem computadores que tenham estado activos os últimos 30 dias."
+msgstr "Este utilizador não tem computadores que tenham estado ativos nos últimos 30 dias."
 
 msgid "Clear"
 msgstr "Limpar"
@@ -1202,7 +1202,7 @@ msgstr "Mudar Vista"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "Irá remover todas as configurações do utilizador \"@name\". Pretende continuar?"
+msgstr "Irá remover todas as suas configurações do \"@name\". Pretende continuar?"
 
 msgid "Approve profile"
 msgstr "Aprovar perfil"
@@ -1214,15 +1214,15 @@ msgid "Reject this profile content"
 msgstr "Rejeitar o conteúdo deste perfil"
 
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "Estas aplicam-se a todos os projectos BOINC em que participa."
+msgstr "Estas aplicam-se a todos os projetos BOINC em que participa."
 
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "Em computadores com projectos múltiplos anexados, as preferências modificadas mais recentemente serão usadas."
+msgstr "Em computadores com projetos múltiplos anexados, as preferências modificadas mais recentemente serão utilizadas."
 
 msgid "Preferences last modified: @mod_time"
-msgstr "As preferências foram modificadas pela última vez: @mod_time"
+msgstr "Preferências modificadas pela última vez: @mod_time"
 
 msgid "every"
 msgstr "a cada"
@@ -1237,7 +1237,7 @@ msgid "You are a member of @team."
 msgstr "É membro de @team"
 
 msgid "View my team"
-msgstr "Ver a minha equpa"
+msgstr "Ver a minha equipa"
 
 msgid "Manage team"
 msgstr "Gerir equipa"
@@ -1246,7 +1246,7 @@ msgid "View member list"
 msgstr "Ver lista de membros"
 
 msgid "Member names and emails"
-msgstr "Nomes e e-mails do membro"
+msgstr "Nomes e e-mails dos membros"
 
 msgid "View change history"
 msgstr "Ver história de alterações"
@@ -1300,7 +1300,7 @@ msgid "Team name"
 msgstr "Nome da equipa"
 
 msgid "Text only, no HTML tags"
-msgstr "Textp apenas, sem tags HTML"
+msgstr "Texto apenas, sem tags HTML"
 
 msgid "Team name -- HTML version (optional)"
 msgstr "Nome da equipa -- versão HTML (opcional)"
@@ -1332,25 +1332,25 @@ msgstr "Guardar equipa"
 msgid ""
 "If you're already running BOINC, select <i>Add\n"
 "      Project</i>."
-msgstr "Se já executa o BOINC, seleccionei>Adicionar\nProjecto</i>."
+msgstr "Se já executa o BOINC, seleccione<i>Adicionar\nProjeto</i>."
 
 msgid ""
 "If you're running a command-line version of BOINC,\n"
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "Se estiver a executar uma versão do BOINC em linha de comandos,\nprimeiro use o software BOINC Manager (noutra localização, caso necessário) para criar uma\numa conta neste projecto, em seguida, use essa conta para se ligar utilizando\nversão do BOINC, na linha de comandos."
+msgstr "Se estiver a executar uma versão do BOINC em linha de comandos, \nprimeiro use o software BOINC Manager (noutra localização, caso necessário) para criar uma\numa conta neste projeto, em seguida, use essa conta para se ligar à versão da linha de comandos."
 
 msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version to create an account\n"
 "        at this project."
-msgstr "Se está a executar uma versão do BOINC pré-5.0, por favor actualize-o para uma versão mais recente para criar uma conta neste projecto."
+msgstr "Se está a executar uma versão do BOINC pré-5.0, por favor \natualize-o para uma versão mais recente para criar uma conta \nneste projeto."
 
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr "Se esqueceu o seu endereço de e-mail da sua conta, ou não consegue receber emails nessa conta:"
+msgstr "Se esqueceu o endereço de e-mail da sua conta, ou não consegue receber e-mails nessa conta:"
 
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
@@ -1368,7 +1368,7 @@ msgstr "Vá ao directório de dados do BOINC no seu computador (ver !boinc_wiki 
 msgid ""
 "Find your account file for this project; it will have a name like %file "
 "(where the project URL is %url)."
-msgstr "Encontre o seu ficheiro de conta para este projecto; terá um nome como %file (onde o URL do projecto é %url)."
+msgstr "Encontre o seu ficheiro de conta para este projeto; terá um nome como %file (onde o URL do projecto é %url)."
 
 msgid ""
 "Open the file in a text editor like Notepad. You'll see something like:"
@@ -1377,7 +1377,7 @@ msgstr "Abra o ficheiro num editor de texto como o Notepad. Irá ver qualquer co
 msgid ""
 "Select and Copy the string between &lt;authenticator&gt; and "
 "&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "Seleccione e Copie a string entre &It;autenticador&gt; e &It;/autenticador&get; (%auth no exemplo abaixo)."
+msgstr "Selecione e Copie a string entre &It;autenticador&gt; e &It;/autenticador&get; (%auth no exemplo abaixo)."
 
 msgid "Paste the string into the field below, and click OK."
 msgstr "Colar a string no campo abaixo e, carregar em OK."
@@ -1385,7 +1385,7 @@ msgstr "Colar a string no campo abaixo e, carregar em OK."
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "Será agora feito o log in na sua conta; actualizar o email e palavra passe da sua conta."
+msgstr "Será agora feito o login na sua conta; atualizar o e-mail e palavra-passe da sua conta."
 
 msgid "Log in with authenticator"
 msgstr "fazer login com o autenticador"
@@ -1403,13 +1403,13 @@ msgid "Message board title"
 msgstr "Título do fórum de discussão"
 
 msgid "Minimum time between posts"
-msgstr "Tempo minímo entre tópicos"
+msgstr "Tempo mínimo entre tópicos"
 
 msgid "Seconds"
 msgstr "Segundos"
 
 msgid "Minimum total credit to post"
-msgstr "Total de créditos minímos para postar"
+msgstr "Total de créditos mínimos para postar "
 
 msgid "Minimum avg credit to post"
 msgstr "Créditos mínimos para poder postar"
@@ -1433,10 +1433,10 @@ msgid "Only members may read (optional)"
 msgstr "Apenas membros podem ler (opcional)"
 
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "O Fundador e Administradores de Equipa tem privilégios de moderação"
+msgstr "O Fundador & Administradores de Equipa tem privilégios de moderação"
 
 msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (o mesmo total @count)"
+msgstr "@ip_address (o mesmo que das últimas @count)"
 
 msgid "Revise or post comment"
 msgstr "Rever ou publicar comentário"
@@ -1449,10 +1449,10 @@ msgstr "Por vezes o BOINC assigna identidades separadas para o mesmo computador 
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
 "with computer ID @id)"
-msgstr "Verifique os computadores que são idênticos a @name (criado em @date às @time com o ID @id)"
+msgstr "Verifique os computadores que são idênticos a @name (criado em @date às @time com o ID de computador @id)"
 
 msgid "Computer @old_id has been merged successfully into @id."
-msgstr "O antigo ID do computador @old_id, foi migrado com sucesso para o novo ID @id."
+msgstr "O computador @old_id foi migrado com sucesso para @id."
 
 msgid "parent removed"
 msgstr "parentalidade removida"
@@ -1469,19 +1469,19 @@ msgid "Make unsticky"
 msgstr "Marcar como não sticky"
 
 msgid "Remove sticky status from this topic"
-msgstr "Remover o status definido para este tópico"
+msgstr "Remover o status de sticky para este tópico"
 
 msgid "Unhide"
-msgstr "Revelar"
+msgstr "Mostrar"
 
 msgid "Unhide this comment"
-msgstr "Meter comentário visível"
+msgstr "Colocar comentário visível"
 
 msgid "Unpublished"
 msgstr "Não publicado"
 
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Os antigos ID dos computadores @old_ids, foram migrados com sucesso para o novo ID @id."
+msgstr "Os computadores @old_ids foram migrados com sucesso para o novo @id."
 
 msgid "Joined"
 msgstr "Aderiu"
@@ -1496,7 +1496,7 @@ msgid "No account exists for @email -- select \"Create new account\" to register
 msgstr "Não existe nenhuma conta para @email -- selecione \"Criar nova conta\" para se registar"
 
 msgid "started discussion"
-msgstr "Iniciar uma discussão"
+msgstr "discussão iniciada"
 
 msgid "commented on"
 msgstr "comentado em"
@@ -1505,7 +1505,7 @@ msgid "Password entered is not valid. Please verify that it is correct."
 msgstr "A palavra-passe introduzida não é válida. Verifique se está correta"
 
 msgid "Minimum value not met for @field"
-msgstr "O valor mínimo do campo @field, não foi atingido"
+msgstr "O valor mínimo do campo @field não foi atingido"
 
 msgid "Invalid data type for @field"
 msgstr "tipo de dados inválido para o @field"
@@ -1555,13 +1555,13 @@ msgid "Unlock this thread for comments"
 msgstr "Desbloquear este tópico para comentários"
 
 msgid "project"
-msgstr "projecto"
+msgstr "projeto"
 
 msgid "@email is not a well formed email address, please verify"
-msgstr "@email não têm o formato correcto. verifique por favor o e-mail introduzido"
+msgstr "@email não tem o formato correto de e-mail, por favor verifique"
 
 msgid "Please enter your email address"
-msgstr "Introduza o seu endereço de email"
+msgstr "Introduza o seu endereço de e-mail"
 
 msgid "There is no account with that authenticator."
 msgstr "Não existe conta com esse autenticador."
@@ -1634,7 +1634,7 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name confirmou-o como amigo de !site.\n\nSiga esta hiperligação para ver o seu perfil:\n!link\n\n!message\n\nObrigado,\nA equipa !site"
+msgstr "!name confirmou-o como amigo em !site.\n\nSiga esta hiperligação para ver o seu perfil:\n!link\n\n!message\n\nObrigado,\nA equipa !site"
 
 msgid "posted"
 msgstr "colocado"
@@ -1646,7 +1646,7 @@ msgid "Enter email address"
 msgstr "Insira endereço de e-mail"
 
 msgid "Current team admins"
-msgstr "Administradores actuais da equipa"
+msgstr "Administradores atuais da equipa"
 
 msgid "About team admins"
 msgstr "Sobre os administradores da equipa"
@@ -1667,7 +1667,7 @@ msgid "Remove members from the team"
 msgstr "Remover membros da equipa"
 
 msgid "Disband a team if it has no members"
-msgstr "Acabar com equipa se esta não tiver membros"
+msgstr "Terminar a equipa se esta não tiver membros"
 
 msgid "Team admins cannot:"
 msgstr "Administradores de equipa não podem:"
@@ -1690,7 +1690,7 @@ msgid "A team named \"@name\" already exists."
 msgstr "Uma equipa chamada \"@name\" já existe."
 
 msgid "A BOINC account already exists for @email."
-msgstr "Já existe uma conta do BOINC para @email."
+msgstr "Já existe uma conta de BOINC para o @email."
 
 msgid "Make founder"
 msgstr "Criar fundador"
@@ -1705,7 +1705,7 @@ msgid "Any member of the team is eligible"
 msgstr "Qualquer membro da equipa é elegível"
 
 msgid "Current founder becomes a normal user"
-msgstr "O fundador actual tornou-se um utilizador normal"
+msgstr "O fundador atual tornou-se um utilizador normal"
 
 msgid "Foundership can be requested by team members:"
 msgstr "O Fundador pode ser solicitado pelos membros da equipa:"
@@ -1717,10 +1717,10 @@ msgid "It must be 60 days since any previous request"
 msgstr "Tem de ter passado 60 dias desde pedidos anteriores"
 
 msgid "Any active request must be older than 90 days"
-msgstr "Qualquer pedido activo deve ter mais de 90 dias"
+msgstr "Qualquer pedido ativo deve ter mais de 90 dias"
 
 msgid "Current founder has 60 days to respond to a request"
-msgstr "O fundador actual tem 60 dias para responder ao pedido"
+msgstr "O fundador atual tem 60 dias para responder ao pedido"
 
 msgid "BOINC-wide teams site"
 msgstr "BOINC - site de equipas \"wide\""
@@ -1745,7 +1745,7 @@ msgstr "Razão para banir este utilizador"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of why the user is being banned."
-msgstr "A razão será incluída num email enviado ao utilizador. Escreva uma breve explicação do porquê deste utilizador estar a ser banido."
+msgstr "A razão será incluída num e-mail enviado ao utilizador. Escreva uma breve explicação do porquê deste utilizador estar a ser banido."
 
 msgid "Duration of the ban"
 msgstr "Duração do banimento"

@@ -1,43 +1,49 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC setup localization template
+# Copyright (C) 2016 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # ersi <erik-transifex@simmesgard.se>, 2015
 # Frans Ingelstam <02frasse11@gmail.com>, 2016
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
+# Johan Holmström, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-04-17 19:07+0000\n"
-"Last-Translator: Frans Ingelstam <02frasse11@gmail.com>\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
+"PO-Revision-Date: 2016-12-13 14:15+0000\n"
+"Last-Translator: Johan Holmström\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:124
+#: mac_installer/Installer.cpp:135
 #, c-format
-msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Ledsen, denna version av %s kräver system 10.5 eller högre."
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "Tyvärr kräver denna version av %s system 10.6 eller högre."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
+#: mac_installer/uninstall.cpp:1616
 msgid "Yes"
 msgstr "Ja"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
+#: mac_installer/uninstall.cpp:1617
 msgid "No"
 msgstr "Nej"
 
-#: PostInstall.cpp:133
+#. Future feature
+#: mac_installer/PostInstall.cpp:130
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Skall BOINC köra även när ingen avnändare är inloggad?"
 
-#: PostInstall.cpp:1416
+#: mac_installer/PostInstall.cpp:1375
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -45,26 +51,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Användare som har administratörsrättigheter på denna dator kommer automatiskt tillåtas köra och kontrollera %s.\n\nVill du att också ej administratörs-berättigade användare ska kunna köra och kontrollera %s på denna Mac?"
 
-#: PostInstall.cpp:1444
+#: mac_installer/PostInstall.cpp:1403
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Vill du ställa in %s som skärmsläckare för alla %s användare på denna Mac?"
 
-#: uninstall.cpp:82
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:136
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:134
 msgid "Permission error after relaunch"
 msgstr "Tillåtelse-error efter omstart"
 
-#: uninstall.cpp:141
+#: mac_installer/uninstall.cpp:139
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Borttagningen kan ta ett antal minuter.\nVänligen ha tålamod."
 
-#: uninstall.cpp:156
+#: mac_installer/uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -72,27 +79,27 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Är du säker på att du vill komplett ta bort %s från din dator?\n\nDetta raderar det körbara men kommer inte röra %s -datafiler."
 
-#: uninstall.cpp:163
+#: mac_installer/uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Avbruten: %s har inte rörts."
 
-#: uninstall.cpp:174
+#: mac_installer/uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Ett fel uppstod: errorkod %d"
 
-#: uninstall.cpp:230
+#: mac_installer/uninstall.cpp:230
 msgid "name  of user"
 msgstr "namn på användare"
 
-#: uninstall.cpp:272
+#: mac_installer/uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Vill du också ta bort VirtualBox från din dator?\n(VirtualBox installerades tillsammans med BOINC.)"
 
-#: uninstall.cpp:312
+#: mac_installer/uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -104,17 +111,17 @@ msgid ""
 "\"%s\"."
 msgstr "Borttagning komplett.\n\nDu kan vilja ta bort följande resterande föremål med Finder:\nplatsen var \"%s\"\n\nför varje användare_ filen\n\"%s\"."
 
-#: uninstall.cpp:840
+#: mac_installer/uninstall.cpp:871
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr "Ange ditt administratörs-lösenord för att helt ta bort %s från din dator.\n\n"
 
-#: uninstall.cpp:1616
+#: mac_installer/uninstall.cpp:1614
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: uninstall.cpp:1617
+#: mac_installer/uninstall.cpp:1615
 msgid "Continue..."
 msgstr "Fortsätt..."

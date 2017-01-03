@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -22,7 +22,7 @@
   <string name="attachproject_credential_input_show_pwd">Visualizza password</string>
   <string name="attachproject_individual_credential_input">Aggiungi progetti individualmente</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Si sono verificati errori nell\'aggiunta dei seguenti progetti:</string>
+  <string name="attachproject_conflicts_desc">Si sono verificati errori durante l\'aggiunta dei seguenti progetti:</string>
   <string name="attachproject_conflict_undefined">Impossibile connettersi</string>
   <string name="attachproject_conflict_not_unique">L\'account esiste già con una password differente</string>
   <string name="attachproject_conflict_bad_password">Password errata</string>
@@ -203,7 +203,7 @@
   <string name="projects_credits_host_and_user">%1$,d (da questo dispositivo) %2$,d (in totale)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Sospeso dall\'utente</string>
-  <string name="projects_status_dontrequestmorework">Non chiedere nuovi lavori</string>
+  <string name="projects_status_dontrequestmorework">Non chiedere nuove workunit</string>
   <string name="projects_status_ended">Progetto terminato - Può essere rimosso</string>
   <string name="projects_status_detachwhendone">Verrà rimosso quando le workunit saranno terminate</string>
   <string name="projects_status_schedrpcpending">Richiesta allo scheduler in attesa</string>
@@ -239,14 +239,14 @@
   <!--tasks tab strings-->
   <string name="tasks_header_name">Nome workunit:</string>
   <string name="tasks_header_elapsed_time">Tempo trascorso:</string>
-  <string name="tasks_header_project_paused">(sospeso)</string>
+  <string name="tasks_header_project_paused">(sospesa)</string>
   <string name="tasks_header_deadline">Tempo limite:</string>
-  <string name="tasks_result_new">nuovo</string>
+  <string name="tasks_result_new">nuova</string>
   <string name="tasks_result_files_downloading">in attesa del download</string>
   <string name="tasks_result_files_downloaded">download completato</string>
   <string name="tasks_result_compute_error">errore elaborazione</string>
   <string name="tasks_result_files_uploading">upload in corso</string>
-  <string name="tasks_result_files_uploaded">upload completo</string>
+  <string name="tasks_result_files_uploaded">upload completato</string>
   <string name="tasks_result_aborted">annullato</string>
   <string name="tasks_result_upload_failed">upload fallito</string>
   <string name="tasks_active_uninitialized">pronto</string>
@@ -254,7 +254,7 @@
   <string name="tasks_active_suspended">sospesa</string>
   <string name="tasks_active_abort_pending">in sospensione</string>
   <string name="tasks_active_quit_pending">in sospensione</string>
-  <string name="tasks_custom_suspended_via_gui">sospeso</string>
+  <string name="tasks_custom_suspended_via_gui">sospesa</string>
   <string name="tasks_custom_project_suspended_via_gui">progetto sospeso</string>
   <string name="tasks_custom_ready_to_report">pronto per l\'invio</string>
   <!--confirmation dialog-->
@@ -279,13 +279,13 @@
   <string name="confirm_abort_trans_message">Annulla file:</string>
   <string name="confirm_abort_trans_confirm">Annulla</string>
   <!--notices tab strings-->
-  <string name="notices_loading">Lettura delle notizie...</string>
+  <string name="notices_loading">Lettura degli avvisi...</string>
   <!--eventlog tab strings-->
-  <string name="eventlog_loading">Caricamento messaggi di log…</string>
+  <string name="eventlog_loading">Caricamento elenco eventi…</string>
   <string name="eventlog_client_header">Messaggi del client</string>
   <string name="eventlog_gui_header">Messaggi della GUI</string>
-  <string name="eventlog_copy_toast">Log copiato nella clipboard.</string>
-  <string name="eventlog_email_subject">Log eventi per BOINC su Android:</string>
+  <string name="eventlog_copy_toast">Eventi copiati negli appunti.</string>
+  <string name="eventlog_email_subject">Registro eventi BOINC su Android:</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">Elaborazione sospesa.</string>
   <string name="suspend_batteries">Connetti il tuo dispositivo ad un caricabatterie per continuare l\'eleborazione.</string>
@@ -312,8 +312,8 @@
   <!--rpc reasons-->
   <string name="rpcreason_userreq">Richiesto dall\'utente</string>
   <string name="rpcreason_needwork">Richiesta lavoro</string>
-  <string name="rpcreason_resultsdue">Per inviare le elaborazioni completate</string>
-  <string name="rpcreason_trickleup">Per inviare messaggi trickle</string>
+  <string name="rpcreason_resultsdue">Invio delle elaborazioni completate</string>
+  <string name="rpcreason_trickleup">Invio messaggi trickle</string>
   <string name="rpcreason_acctmgrreq">Richiesto dal gestore account</string>
   <string name="rpcreason_init">Inizializzazione progetto</string>
   <string name="rpcreason_projectreq">Richiesto dal progetto</string>
@@ -322,7 +322,7 @@
   <string name="menu_refresh">Refresh</string>
   <string name="menu_emailto">Invia un\'email</string>
   <string name="menu_copy">Copia negli appunti</string>
-  <string name="menu_eventlog">Log eventi</string>
+  <string name="menu_eventlog">Registro eventi</string>
   <string name="menu_exit">Chiudi BOINC</string>
   <string name="menu_run_mode_disable">Sospendi</string>
   <string name="menu_run_mode_enable">Riprendi</string>
