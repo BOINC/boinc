@@ -4,13 +4,14 @@
 # Translators:
 # Николай Сахаров <saharovna@gmail.com>, 2015
 # Olga Liienko <o.k.lienko@gmail.com>, 2015
+# Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2016
 # Николай Сахаров <saharovna@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-10-05 18:45+0000\n"
-"Last-Translator: Николай Сахаров <saharovna@gmail.com>\n"
+"PO-Revision-Date: 2016-11-29 01:06+0000\n"
+"Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -122,7 +123,7 @@ msgid "Logout"
 msgstr "Выйти"
 
 msgid "Join now"
-msgstr "Присоединиться"
+msgstr "Вступить"
 
 msgid "Account"
 msgstr "Учётная запись"
@@ -257,7 +258,7 @@ msgid "Team ID"
 msgstr "ID команды"
 
 msgid "User joined"
-msgstr "Пользователь присоединился"
+msgstr "Пользователь вступил"
 
 msgid "Timestamp"
 msgstr "Штамп времени"
@@ -862,7 +863,7 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "Участники @project могут образовывать команды. Вы можете принадлежать только одной команде. Вы можете вступить или выйти из команды в любое время. Чтобы присоединиться к команде, посетите страницу команды и нажмите кнопку «Присоединиться к этой команде». Каждая команда имеет основателя, который может:"
+msgstr "Участники @project могут образовывать команды. Вы можете принадлежать только одной команде. Вы можете вступить или выйти из команды в любое время. Чтобы примкнуть к команде, посетите страницу команды и нажмите кнопку «Вступить в эту команду». Каждая команда имеет основателя, который может:"
 
 msgid "access team members' email addresses"
 msgstr "иметь доступ к адресам электронной почты участников команды"
@@ -1282,13 +1283,13 @@ msgid "Enter forum"
 msgstr "Войти на форум"
 
 msgid "Join team"
-msgstr "Присоединиться к команде"
+msgstr "Вступить в команду"
 
 msgid "Click here to become a member of @this_team"
 msgstr "Нажмите здесь, чтобы стать участником команды @this_team"
 
 msgid "Join this team"
-msgstr "Присоединиться к этой команде"
+msgstr "Вступить в эту команду"
 
 msgid "Choose type"
 msgstr "Выберите тип"
@@ -1481,7 +1482,7 @@ msgid "Computers @old_ids have been merged successfully into @id."
 msgstr "Компьютеры @old_ids успешно объединены с @id."
 
 msgid "Joined"
-msgstr "Присоединился"
+msgstr "Вступил"
 
 msgid "Credit"
 msgstr "Очки"
@@ -1655,7 +1656,7 @@ msgid "Edit team information"
 msgstr "Редактировать информацию о команде"
 
 msgid "View the team's join / quit history"
-msgstr "Просматривать историю присоединения/выхода из команды"
+msgstr "Просматривать историю вступления/выхода из команды"
 
 msgid "Moderate the team forum"
 msgstr "Модерировать форум команды"

@@ -39,9 +39,9 @@ source_lang = en
 type = PO
 
 [boinc.android]
-file_filter = android/BOINC/res/values-<lang>/strings.xml
+file_filter = android/BOINC/app/src/main/res/values-<lang>/strings.xml
 lang_map = it_IT:it-rIT,pt_BR:pt-rBR,pt_PT:pt-rPT,zh_CN:zh-rCN,zh_TW:zh-rTW,fa_IR:fa_rIR
-source_file = android/BOINC/res/values/strings.xml
+source_file = android/BOINC/app/src/main/res/values/strings.xml
 source_lang = en
 type = ANDROID
 

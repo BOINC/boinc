@@ -1,15 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC setup localization template
+# Copyright (C) 2016 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# George Salukvadze <giosal90@gmail.com>, 2015
+# George Salukvadze <giosal90@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-05-29 17:52+0000\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
+"PO-Revision-Date: 2016-12-09 12:18+0000\n"
 "Last-Translator: George Salukvadze <giosal90@gmail.com>\n"
 "Language-Team: Georgian (http://www.transifex.com/boinc/boinc/language/ka/)\n"
 "MIME-Version: 1.0\n"
@@ -17,25 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ka\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:124
+#: mac_installer/Installer.cpp:135
 #, c-format
-msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "ბოდიში, %s-ის ეს ვერსია ითხოვს სისტემას 10.5 ან უფრო მაღალს."
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "უკაცრავად, %s-ის ამ ვერსიას სჭირდება სისტემა 10.6 ან უფრო მაღალი."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
+#: mac_installer/uninstall.cpp:1616
 msgid "Yes"
 msgstr "დიახ"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
+#: mac_installer/uninstall.cpp:1617
 msgid "No"
 msgstr "არა"
 
-#: PostInstall.cpp:133
+#. Future feature
+#: mac_installer/PostInstall.cpp:130
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "გსურთ, რომ BOINC იყოს გაშვებული მაშინაც, როდესაც არც ერთი მომხმარებებლი არ არის შესული?"
 
-#: PostInstall.cpp:1416
+#: mac_installer/PostInstall.cpp:1375
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -43,26 +48,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "მომხმარებლებს, ვისაც აქვს ამ კომპიუტერის ადმინისტრირების უფლება, ავტომატურად მიეცემათ უფლება გაუშვან და აკონტროლონ %s.\n\nგსურთ, ასევე არა-ადმინისტრატორ მომხმარებლებსაც ჰქონდეთ საშუალება გაუშვან და აკონტროლონ %s ამ მაკ-ზე?"
 
-#: PostInstall.cpp:1444
+#: mac_installer/PostInstall.cpp:1403
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "გსურთ, დააყენოთ %s, როგორც ეკრანის შემნახველი, ყველა %s-ის მომხმარებლისთვის ამ მაკ-ზე?"
 
-#: uninstall.cpp:82
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "ოკ"
 
-#: uninstall.cpp:136
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:134
 msgid "Permission error after relaunch"
 msgstr "უფლებათა შეცდომა თავიდან გაშვებისას"
 
-#: uninstall.cpp:141
+#: mac_installer/uninstall.cpp:139
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "წაშლამ შეიძლება დაიკავოს რამოდენიმე წუთი.\nგთხოვთ, მოითმინოთ."
 
-#: uninstall.cpp:156
+#: mac_installer/uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -70,27 +76,27 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "დარწმუნებული ხართ, რომ გსურთ %s-ის სრულად წაშლა თქვენი კომპიუტერიდან?\n\nეს წაშლის გაშვებად ფაილებს, მაგრამ არ შეეხება %s-ის მონაცემთა ფაილებს."
 
-#: uninstall.cpp:163
+#: mac_installer/uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "გაუქმებულია: %s არ იქნა შეხებული."
 
-#: uninstall.cpp:174
+#: mac_installer/uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "მოხდა შეცდომა: შეცდომის კოდი %d."
 
-#: uninstall.cpp:230
+#: mac_installer/uninstall.cpp:230
 msgid "name  of user"
 msgstr "მომხმარებლის სახელი"
 
-#: uninstall.cpp:272
+#: mac_installer/uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "გსურთ, ასევე წაშალოთ VirtualBox-ი თქვენი კომპიუტერიდან?\n(VirtualBox-ი იყო დაყენებული BOINC-თან ერთად.)"
 
-#: uninstall.cpp:312
+#: mac_installer/uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -102,17 +108,17 @@ msgid ""
 "\"%s\"."
 msgstr "წაშლა იქნა დასრულებული.\n\nთქვენი შეიძლება ასევე გინდოდეთ მაძიებლის მეშვეობით შემდეგის წაშლა:\nსაქაღალდე \"%s\"\n\nყოველი მომხმარებლისთვის, ფაილი\n\"%s\"."
 
-#: uninstall.cpp:840
+#: mac_installer/uninstall.cpp:871
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr "შეიყვანეთ თქვენი ადმინისტრატორის პაროლი %s-ის სრულად წასაშლელად თქვენი კომპიუტერიდან.\n\n"
 
-#: uninstall.cpp:1616
+#: mac_installer/uninstall.cpp:1614
 msgid "Cancel"
 msgstr "გაუქმება"
 
-#: uninstall.cpp:1617
+#: mac_installer/uninstall.cpp:1615
 msgid "Continue..."
 msgstr "გაგრძელება..."

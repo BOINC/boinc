@@ -1,0 +1,13 @@
+app/src/main/assets/arm*
+app/src/main/assets/mips*
+app/src/main/assets/x86*
+*.iml
+.gradle
+local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+app/build
+/captures
+.externalNativeBuild
+
