@@ -167,7 +167,7 @@ int ACCT_MGR_OP::do_rpc(
             "      <gpu_ec>%f</gpu_ec>\n"
             "      <gpu_time>%f</gpu_time>\n"
             "      <njobs_success>%d</njobs_success>\n"
-            "      <njobs_error>%d</njobs_error>\n"
+            "      <njobs_fail>%d</njobs_fail>\n"
             "      <usable_gpu>%d</usable_gpu>\n"
             "   </project>\n",
             p->master_url,
@@ -187,7 +187,7 @@ int ACCT_MGR_OP::do_rpc(
             p->gpu_ec,
             p->gpu_time,
             p->njobs_success,
-            p->njobs_error,
+            p->njobs_fail,
             coprocs.n_rsc>1?1:0
         );
     }
