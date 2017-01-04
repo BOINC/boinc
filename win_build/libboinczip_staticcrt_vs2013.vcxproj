@@ -27,7 +27,8 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -39,7 +40,8 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -142,7 +144,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\lib;..\;.\;..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
@@ -154,6 +156,10 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -170,7 +176,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\lib;..\;.\;..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;DLL;_CRT_SECURE_NO_WARNINGS;NO_MKTEMP;USE_ZIPMAIN;NO_CRYPT;IZ_PWLEN=80;NO_ASM;NO_UNICODE_SUPPORT;deflate=deflate_boinc;get_crc_table=get_crc_table_boinc;longest_match=longest_match_boinc;inflate_codes=inflate_codes_boinc;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
@@ -182,6 +188,10 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -34,7 +34,8 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -46,7 +47,8 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -112,7 +114,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2013/freetype/include;../../boinc_depends_win_vs2013/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -131,6 +133,9 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4127;4702;4244;4305;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -163,7 +168,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2013/freetype/include;../../boinc_depends_win_vs2013/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -183,6 +188,9 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4127;4702;4244;4305;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
