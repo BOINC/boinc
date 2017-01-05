@@ -109,7 +109,7 @@ void PROJECT::init() {
     nuploading_results = 0;
     too_many_uploading_results = false;
     njobs_success = 0;
-    njobs_error = 0;
+    njobs_fail = 0;
     elapsed_time = 0;
     cpu_ec = 0;
     cpu_time = 0;
@@ -324,7 +324,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
         if (xp.parse_int("njobs_success", njobs_success)) continue;
-        if (xp.parse_int("njobs_error", njobs_error)) continue;
+        if (xp.parse_int("njobs_fail", njobs_fail)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
         if (xp.parse_double("cpu_ec", cpu_ec)) continue;
@@ -394,7 +394,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <send_time_stats_log>%d</send_time_stats_log>\n"
         "    <send_job_log>%d</send_job_log>\n"
         "    <njobs_success>%d</njobs_success>\n"
-        "    <njobs_error>%d</njobs_error>\n"
+        "    <njobs_fail>%d</njobs_fail>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
         "    <last_rpc_time>%f</last_rpc_time>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
@@ -431,7 +431,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         send_time_stats_log,
         send_job_log,
         njobs_success,
-        njobs_error,
+        njobs_fail,
         elapsed_time,
         last_rpc_time,
         anonymous_platform?"    <anonymous_platform/>\n":"",
@@ -595,7 +595,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     desired_disk_usage = p.desired_disk_usage;
     use_symlinks = p.use_symlinks;
     njobs_success = p.njobs_success;
-    njobs_error = p.njobs_error;
+    njobs_fail = p.njobs_fail;
     elapsed_time = p.elapsed_time;
     last_rpc_time = p.last_rpc_time;
     cpu_ec = p.cpu_ec;

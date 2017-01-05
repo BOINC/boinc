@@ -481,7 +481,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __ia64__
     strcpy(host.p_model, "IA-64 ");
     model_hack = true;
-#elif __arm__
+#elif __arm__ || __aarch64__
     strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
 #endif
@@ -522,7 +522,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
-#elif __arm__
+#elif __arm__ || __aarch64__
             strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")

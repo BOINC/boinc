@@ -312,7 +312,7 @@ struct PROJECT : PROJ_AM {
     // job counting
     //
     int njobs_success;
-    int njobs_error;
+    int njobs_fail;
 
     // total elapsed time of this project's jobs (for export to GUI)
     //
