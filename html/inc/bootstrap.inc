@@ -299,9 +299,7 @@ function form_input_textarea($label, $name, $value='') {
         <div class="form-group">
             <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
             <div class="col-sm-10">
-                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">
-                '.$value.'
-                </textarea>
+                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">'.$value.'</textarea>
             </div>
         </div>
     ';
