@@ -62,6 +62,15 @@ function boinccore_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boinccore.admin.inc'
   );
+  $items['admin/boinc/db-options'] = array(
+    'title' => 'Database Options',
+    'description' => 'Set BOINC Database options.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boinccore_admin_dbopts'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boinccore.admin.inc'
+  );
   
   // BOINC RPC wrappers
   $items['lookup_account.php'] = array(

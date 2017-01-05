@@ -263,6 +263,8 @@ function boincteam_edit_form(&$form_state, $team_id) {
   
   $team = node_load($team_id);
   $boincteam = boincteam_load(boincteam_lookup_id($team_id));
+  dpm($team->body, "team body");
+  dpm($boincteam->description , "boincteam desc");
   
   $is_boinc_wide = ($boincteam->seti_id > 0) ? TRUE : FALSE;
   
@@ -450,7 +452,14 @@ function boincteam_edit_form_submit($form, &$form_state) {
   $values['description'] = check_markup($values['description'], $input_format);
   
   // Update the team in the BOINC db
+  $dbenc = variable_get('boinc_database_encoding');
+  if (isset($dbenc) AND $dbenc!='utf-8') {
+    $myenc = "SET NAMES " . $dbenc;
+  }
+
   db_set_active('boinc');
+  drupal_set_message($myenc, 'info');
+  db_query($myenc);
   db_query("
     UPDATE {team} SET
       name = '%s',
@@ -472,6 +481,7 @@ function boincteam_edit_form_submit($form, &$form_state) {
     $values['joinable'],
     $boincteam_id
   );
+  db_query("SET NAMES utf8");
   db_set_active('default');
   
   // Update the team node in Drupal
@@ -599,9 +609,15 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
   
   $team = node_load($team_id);
   $boincteam_id = boincteam_lookup_id($team_id);
-  
+
   // Update the team in the BOINC db
+  $dbenc = variable_get('boinc_database_encoding');
+  if (isset($dbenc) AND $dbenc!='utf-8') {
+    $myenc = "SET NAMES " . $dbenc;
+  }
+  
   db_set_active('boinc');
+  db_query($myenc);
   db_query("
     INSERT INTO {team_admin} SET
       teamid = '%d',
@@ -611,6 +627,7 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
     $boincuser_id,
     time()
   );
+  db_query("SET NAMES utf8");
   db_set_active('default');
   
   // Could assign a role in Drupal here, as needed
