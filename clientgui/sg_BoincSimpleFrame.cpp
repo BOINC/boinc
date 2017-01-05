@@ -390,6 +390,7 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     wxMenu* menuFile = NULL;
     wxMenu* menuHelp = NULL;
+    wxMenu* menuChangeGUI = NULL;
     
     wxASSERT(pDoc);
     
@@ -398,13 +399,14 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     
     menu->FindItem(ID_CLOSEWINDOW, &menuFile);
     menu->FindItem(ID_HELPBOINC, &menuHelp);
+    menu->FindItem(ID_CHANGEGUI, &menuChangeGUI);
     size_t numItems = menu->GetMenuItemCount();
     for (size_t pos = 0; pos < numItems; ++pos) {
         wxMenuItem * item = menu->FindItemByPosition(pos);
-        if ((menu == menuFile) || (menu == menuHelp)) {
+        if ((menu == menuFile) || (menu == menuHelp) || (menu == menuChangeGUI)) {
             // Always enable all items in File menu or Help menu:
             // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
-            // ID_HELPBOINCWEBSITE, wxID_ABOUT
+            // ID_HELPBOINCWEBSITE, wxID_ABOUT, ID_CHANGEGUI
             item->Enable(true);
         } else {
             // Disable other menu items if not connected to client
