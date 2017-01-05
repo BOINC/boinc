@@ -1,0 +1,1752 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# Shmuel Shwartz, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2016-08-16 12:17+0000\n"
+"PO-Revision-Date: 2016-12-30 14:13+0000\n"
+"Last-Translator: Shmuel Shwartz\n"
+"Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Reject profile"
+msgstr "דחה פרופיל"
+
+msgid "Ban user"
+msgstr "החרם משתמש"
+
+msgid "I'm new"
+msgstr "אני חדש"
+
+msgid "I'm a BOINC user"
+msgstr "אני משתמש BOINC"
+
+msgid "Authenticator login"
+msgstr "כניסת מאמת"
+
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "עליך להרוויח עוד @count נקודות זכות כדי שתוכל לכתוב תגובות באתר זה."
+
+msgid "Generic"
+msgstr "גנרי"
+
+msgid "Home"
+msgstr "בית"
+
+msgid "Work"
+msgstr "עבודה"
+
+msgid "School"
+msgstr "בית ספר"
+
+msgid "yes"
+msgstr "כן"
+
+msgid "no"
+msgstr "לא"
+
+msgid "Resource settings"
+msgstr "הגדרות משאבים"
+
+msgid "Resource share"
+msgstr "שתוף משאבים"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "קובע את הפרופורציה של משאבי המחשב המוקצים לפרוייקט זה. דוגמה: אם תשתתף בשני פרוייקטי BOINC עם שיתוף משאבים של 100 ו-200, הראשון יקבל 1/3 מהמשאבים שלך והשני יקבל 2/3."
+
+msgid "Use CPU"
+msgstr "השתמש במעבד"
+
+msgid "Enforced by version @number"
+msgstr "נאכף על-ידי גירסה @number"
+
+msgid "Use NVIDIA GPU"
+msgstr "השתמש במעבד גרפי NVIDIA"
+
+msgid "Use ATI GPU"
+msgstr "השתמש במעבד גרפי ATI"
+
+msgid "Use INTEL GPU"
+msgstr "השתמש במעבד גרפי Intel"
+
+msgid "Beta settings"
+msgstr "הגדרות בטא"
+
+msgid "Run test applications?"
+msgstr "הפעל יישומי בדיקה?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "זה עוזר לנו לפתח יישומים, אך עלול לגרום לעבודות להיכשל במחשב שלך"
+
+msgid " Default value: @default"
+msgstr " ערך ברירת מחדל: @default"
+
+msgid "Applications"
+msgstr "יישומים"
+
+msgid "Default set"
+msgstr "קביעת ברירת המחדל"
+
+msgid "Set used for new computers"
+msgstr "קביעה המשמשת עבור מחשבים חדשים"
+
+msgid "Save changes"
+msgstr "שמור שינויים"
+
+msgid "Cancel"
+msgstr "ביטול"
+
+msgid "Show comparison view"
+msgstr "הצגת השוואה"
+
+msgid "Comment form"
+msgstr "תגובה מאת"
+
+msgid "Logout"
+msgstr "יציאה מהמערכת"
+
+msgid "Join now"
+msgstr "הצטרף עכשיו"
+
+msgid "Account"
+msgstr "חשבון"
+
+msgid "Server status"
+msgstr "מצב השרת"
+
+msgid "Language"
+msgstr "שפה"
+
+msgid "Create content"
+msgstr "צור תוכן"
+
+msgid "General settings"
+msgstr "הגדרות כלליות"
+
+msgid "Name"
+msgstr "שם"
+
+msgid "Time zone"
+msgstr "אזור זמן"
+
+msgid "Notification settings"
+msgstr "הגדרות הודעות"
+
+msgid "Receive email notification for private messages?"
+msgstr "קבל הודעות דוא\"ל עבור הודעות פרטיות?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "קבל הודעות דוא\"ל עבור בקשות חברות?"
+
+msgid "Language settings"
+msgstr "הגדרות שפה"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "שפת ברירת המחדל של חשבון זה עבור הודעות דוא\"ל ושפה מועדפת עבור הצגת האתר."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "אם יש לך <a href=\"@gravatar-check\">Gravatar תקף</a> המשויך לכתובת הדוא\"ל שלך, הוא ישמש עבור תמונת המשתמש שלך."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "ה-Gravatar שלך לא יוצג אם העלאת תמונת משתמש."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "אם יש לך <a href=\"@gravatar-check\">Gravatar תקף</a> המשויך לכתובת הדוא\"ל שלך, השתמש בו עבור תמונת המשתמש שלך."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Gravatar לא יוצג אם יצגן (avatar) מועלה."
+
+msgid "Avatar settings"
+msgstr "הגדרות יצגן (avatar)"
+
+msgid "This is not available until your profile is set up."
+msgstr "אינו זמין עד שהפרופיל שלך יוגדר."
+
+msgid "Create a profile"
+msgstr "צור פרופיל"
+
+msgid "Upload an avatar"
+msgstr "העלה יצגן (avatar)"
+
+msgid "Forum settings"
+msgstr "הגדרות פורום"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "בנושאי דיון, הצג @comments_per_page לכל היותר"
+
+msgid "comments per page"
+msgstr "תגובות לדף"
+
+msgid "Sort comments in discussions"
+msgstr "מיין תגובות בדיונים"
+
+msgid "Newest post first"
+msgstr "רשומות חדשות ראשונות"
+
+msgid "Oldest post first"
+msgstr "רשומות ישנות ראשונות"
+
+msgid "Signature"
+msgstr "חתימה"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "החתימה שלך תוצג בפומבי בסוף התגובות שלך."
+
+msgid "Hide signatures in forums"
+msgstr "הסתר חתימות בפורומים"
+
+msgid "Privacy settings"
+msgstr "הגדרות פרטיות"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "הרשה ל-@project ולצוות שלך (אם יש) לשלוח לך דוא\"ל?"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "הרשה ל-@project להציג את המחשבים שלך באתר האינטרנט שלו?"
+
+msgid "Id"
+msgstr "מזהה"
+
+msgid "Founder"
+msgstr "מייסד"
+
+msgid "Country"
+msgstr "מדינה"
+
+msgid "Recent average credit"
+msgstr "ממוצע נקודות זכות לאחרונה"
+
+msgid "Members"
+msgstr "חברים"
+
+msgid "Total Credit"
+msgstr "סך נקודות זכות"
+
+msgid "User ID"
+msgstr "זיהוי משתמש"
+
+msgid "User"
+msgstr "משתמש"
+
+msgid "Admin since"
+msgstr "מנהל מאז"
+
+msgid "Team ID"
+msgstr "מזהה צוות"
+
+msgid "User joined"
+msgstr "המשתמש הצטרף"
+
+msgid "Timestamp"
+msgstr "חותמת זמן"
+
+msgid "Account Key"
+msgstr "מפתח חשבון"
+
+msgid "Member since"
+msgstr "חבר מאז"
+
+msgid "CPID"
+msgstr "מזהה פרוייקט מוצלב"
+
+msgid "Email Address"
+msgstr "כתובת דוא\"ל"
+
+msgid "Password Hash"
+msgstr "גיבוב (hash) סיסמה"
+
+msgid "Postal Code"
+msgstr "מיקוד"
+
+msgid "Send Email"
+msgstr "דוא\"ל נשלח"
+
+msgid "Show Hosts"
+msgstr "הצג מארחים"
+
+msgid "URL"
+msgstr "כתובת אינטרנט"
+
+msgid "Computer ID"
+msgstr "מזהה מחשב"
+
+msgid "Location"
+msgstr "מיקום"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "בזמן ש-BOINC רץ, מותרת עבודה ב-% מהזמן."
+
+msgid "Average turnaround time"
+msgstr "זמן סבב ממוצע"
+
+msgid "Created"
+msgstr "נוצר"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "בזמן ש-BOINC רץ, ב-% מהזמן יש למארח גישה לאינטרנט."
+
+msgid "Average CPU efficiency"
+msgstr "יעילות מעבד ממוצעת"
+
+msgid "Free disk space"
+msgstr "שטח דיסק פנוי"
+
+msgid "Total disk space"
+msgstr "שטח דיסק כולל"
+
+msgid "Task duration correction factor"
+msgstr "גורם התיקון של משך המשימה"
+
+msgid "Avg. credit"
+msgstr "ממוצע נקודות זכות"
+
+msgid "External IP address"
+msgstr "כתובת IP חיצונית"
+
+msgid "Cross project ID"
+msgstr "מזהה פרוייקט מוצלב"
+
+msgid "Last IP address"
+msgstr "כתובת IP אחרונה"
+
+msgid "Cache"
+msgstr "מטמון"
+
+msgid "Memory"
+msgstr "זיכרון"
+
+msgid "Swap space"
+msgstr "שטח החלפה"
+
+msgid "Maximum daily WU quota per CPU"
+msgstr "המיכסה המרבית של יחידות עבודה יומיות למעבד"
+
+msgid "Average download rate"
+msgstr "קצב הורדה ממוצע"
+
+msgid "Average upload rate"
+msgstr "קצב העלאה ממוצע"
+
+msgid "Same IP address count"
+msgstr "ספירת כתובת IP זהה"
+
+msgid "% of time BOINC client is running"
+msgstr "% מהזמן שלקוח BOINC רץ"
+
+msgid "Operating system"
+msgstr "מערכת הפעלה"
+
+msgid "Operating system version"
+msgstr "גרסת מערכת ההפעלה"
+
+msgid "Measured floating point speed"
+msgstr "מהירות מחושבת של נקודה צפה"
+
+msgid "Measured integer speed"
+msgstr "מהירות מחושבת של מספר שלם"
+
+msgid "CPU model"
+msgstr "דגם מעבד"
+
+msgid "Number of processors"
+msgstr "מספר מעבדים"
+
+msgid "CPU"
+msgstr "מעבד"
+
+msgid "Number of times client has contacted server"
+msgstr "מספר הפעמים שהלקוח יצר קשר עם השרת"
+
+msgid "Last contact"
+msgstr "יצירת קשר אחרונה"
+
+msgid "Serial number"
+msgstr "מספר סידורי"
+
+msgid "Timezone"
+msgstr "אזור זמן"
+
+msgid "Platform ID"
+msgstr "מזהה פלטפורמה"
+
+msgid "Task ID"
+msgstr "מזהה משימה"
+
+msgid "Workunit ID"
+msgstr "מזהה יחידת עבודה"
+
+msgid "Host ID"
+msgstr "מזהה מארח"
+
+msgid "Application ID"
+msgstr "מזהה יישום"
+
+msgid "Application version"
+msgstr "גרסת יישום"
+
+msgid "Claimed credit"
+msgstr "נקודות זכות שנתבעו"
+
+msgid "Client state"
+msgstr "מצב לקוח"
+
+msgid "CPU time"
+msgstr "זמן מעבד"
+
+msgid "Run time"
+msgstr "זמן ריצה"
+
+msgid "Exit status"
+msgstr "מצב יציאה"
+
+msgid "Granted credit"
+msgstr "נקודות זכות מוענקות"
+
+msgid "Outcome"
+msgstr "תוצאה"
+
+msgid "Received time"
+msgstr "זמן קבלה"
+
+msgid "Report deadline"
+msgstr "מועד אחרון לדיווח"
+
+msgid "Sent"
+msgstr "נשלח"
+
+msgid "Server state"
+msgstr "מצב השרת"
+
+msgid "Stderr out"
+msgstr "פלט Stderr"
+
+msgid "Validation state"
+msgstr "מצב אימות"
+
+msgid "App ID"
+msgstr "מזהה יישום"
+
+msgid "Canonical credit"
+msgstr "נקודות זכות קנוניות"
+
+msgid "Canonical result ID"
+msgstr "מזהה תוצאה קנוני"
+
+msgid "Created time"
+msgstr "זמן שנוצר"
+
+msgid "Error mask"
+msgstr "מסיכת שגיאה"
+
+msgid "Minimum quorum"
+msgstr "מניין מזערי"
+
+msgid "Max error tasks"
+msgstr "משימות שגויות מרביות"
+
+msgid "Max success tasks"
+msgstr "משימות מצליחות מרביות"
+
+msgid "Max total tasks"
+msgstr "סך משימות מרביות"
+
+msgid "Needs validation"
+msgstr "זקוק לאימות"
+
+msgid "Initial replication"
+msgstr "שכפול ראשוני"
+
+msgid "Target number of results"
+msgstr "מספר היעד של תוצאות"
+
+msgid "Application version ID"
+msgstr "מזהה גרסת יישום"
+
+msgid "Plan class"
+msgstr "מחלקת תוכנית"
+
+msgid "Version number"
+msgstr "מספר גרסה"
+
+msgid "Computer"
+msgstr "מחשב"
+
+msgid "App version ID"
+msgstr "מזהה גרסת יישום"
+
+msgid "Consecutive valid tasks"
+msgstr "משימות חוקיות עוקבות"
+
+msgid "Number of tasks completed"
+msgstr "מספר משימות שהסתיימו"
+
+msgid "Max tasks per day"
+msgstr "משימות מרביות ליום"
+
+msgid "Number of tasks today"
+msgstr "מספר משימות היום"
+
+msgid "Manage subscriptions"
+msgstr "נהל מינויים"
+
+msgid "Avg credit"
+msgstr "ממוצע נקודות זכות"
+
+msgid "Total credit"
+msgstr "סך נקודות זכות"
+
+msgid "More"
+msgstr "עוד"
+
+msgid "Tasks"
+msgstr "משימות"
+
+msgid "Computers hidden"
+msgstr "מחשבים מוסתרים"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "משתמש זה בחר שלא להציג מידע אודות המחשבים שלו."
+
+msgid "no projects..."
+msgstr "אין פרויקטים..."
+
+msgid "Moderation"
+msgstr "ניהול פורום"
+
+msgid "Unvetted profiles"
+msgstr "פרופילים לא בדוקים"
+
+msgid "Inbox"
+msgstr "דואר נכנס"
+
+msgid "Compose new"
+msgstr "כתוב חדש"
+
+msgid "Posts contributed"
+msgstr "רשומות שנתרמו"
+
+msgid "Friends (@count)"
+msgstr "חברים (@count)"
+
+msgid "Welcome back!"
+msgstr "ברוכים השבים!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home היא תוכנית המשתמשת בזמן חוסר פעילות של המחשב שלך להפעלת שומר מסך כדי לחפש גלי כבידה של כוכבי נייטרונים מסוחררים (הנקראים גם פולסרים), באמצעות נתונים מגלאי גלי הכבידה LIGO."
+
+msgid "Learn more"
+msgstr "למד עוד"
+
+msgid "View account"
+msgstr "הצג חשבון"
+
+msgid "User of the day"
+msgstr "משתמש היום"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "מעל 500,000 מתנדבים ועוד היד נטויה."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "מקינטוש"
+
+msgid "Linux"
+msgstr "לינוקס"
+
+msgid "Credits per day"
+msgstr "נקודות זכות ליום"
+
+msgid "View user profile."
+msgstr "הצג פרופיל משתמש."
+
+msgid "Profile awaiting moderator approval"
+msgstr "הפרופיל ממתין לאישור מנהל פורום"
+
+msgid "Background"
+msgstr "רקע"
+
+msgid "Opinion"
+msgstr "חוות דעת"
+
+msgid "Enter your password to save changes"
+msgstr "הזן את הסיסמה שלך כדי לשמור את השינויים"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "הזן את הסיסמה הנוכחית שלך אם אתה משנה את כתובת הדוא\"ל או הסיסמה שלך."
+
+msgid "BOINC user ID"
+msgstr "מזהה משתמש BOINC"
+
+msgid "Drupal user ID"
+msgstr "מזהה משתמש Drupal"
+
+msgid "Account key"
+msgstr "מפתח חשבון"
+
+msgid "Weak account key"
+msgstr "מפתח חשבון חלש"
+
+msgid "Cross-project ID"
+msgstr "מזהה פרוייקט מוצלב"
+
+msgid "Change password"
+msgstr "שנה סיסמה"
+
+msgid "Presets"
+msgstr "קביעות מוגדרות מראש"
+
+msgid "Standard"
+msgstr "רגיל"
+
+msgid "Maximum"
+msgstr "מרב"
+
+msgid "Green"
+msgstr "ירוק"
+
+msgid "Minimum"
+msgstr "מזער"
+
+msgid "Custom"
+msgstr "מותאם אישית"
+
+msgid "Update preset"
+msgstr "עדכן קבוע מראש"
+
+msgid "Advanced settings"
+msgstr "הגדרות מתקדמות"
+
+msgid "Processor usage"
+msgstr "ניצול מעבד"
+
+msgid "Run while computer is on battery power?"
+msgstr "הרץ בזמן שהמחשב מופעל על סוללה?"
+
+msgid "Only applies to portable computers"
+msgstr "חל רק במחשבים ניידים"
+
+msgid "Run while computer is in use?"
+msgstr "הרץ כאשר המחשב נמצא בשימוש?"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "הרץ עבודת מעבד גרפי כאשר המחשב נמצא בשימוש?"
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "\"בשימוש\" פירושו פעילות עכבר/מקלדת ב-"
+
+msgid "minutes"
+msgstr "דקות"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "השעה עבודה אם אין פעילות עכבר/מקלדת ב-"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "צריך להיכנס למצב צריכת חשמל נמוכה במחשבים מסויימים"
+
+msgid "Suspend work if CPU usage is above"
+msgstr "השעה עבודה אם השימוש במעבד עולה על"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 פירושו ללא הגבלה. נאכף על-ידי גירסה @number"
+
+msgid "Do work only between the hours of:"
+msgstr "עבוד רק בין השעות:"
+
+msgid "and"
+msgstr "ו-"
+
+msgid "No restriction if equal"
+msgstr "ללא הגבלה אם שווה"
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "השאר משימות בזיכרון כאשר הן מושעות?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "משימות מושעות יצרכו שטח ההחלפה אם \"כן\""
+
+msgid "Switch between tasks every"
+msgstr "החלף בין משימות כל"
+
+msgid "Recommended: @period minutes"
+msgstr "מומלץ: @period דקות"
+
+msgid "On multiprocessors, use at most"
+msgstr "במעבדים מרובים, השתמש לכל היותר"
+
+msgid "processors"
+msgstr "מעבדים"
+
+msgid "Set to 0 for no limit"
+msgstr "הגדר 0 עבור ללא הגבלה"
+
+msgid "% of the processors"
+msgstr "% של המעבדים"
+
+msgid "Use at most"
+msgstr "השתמש לכל היותר ב-"
+
+msgid "% of the CPU time"
+msgstr "% מזמן המעבד"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "ניתן לשימוש להפחתת חום המעבד"
+
+msgid "Disk and memory usage"
+msgstr "ניצול דיסק וזכרון"
+
+msgid "Disk: use at most"
+msgstr "דיסק: השתמש לכל היותר"
+
+msgid "Disk: leave free at least"
+msgstr "דיסק: השאר שטח פנוי של לפחות"
+
+msgid "Values smaller than @number are ignored"
+msgstr "ערכים קטנים מ-@number לא ייחשבו"
+
+msgid "% of total"
+msgstr "% מהסך הכללי"
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "משימות יבצעו נקודות ביקורת בדיסק לכל היותר כל"
+
+msgid "seconds"
+msgstr "שניות"
+
+msgid "Swap space: use at most"
+msgstr "שטח החלפה: השתמש לכל היותר"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "זכרון: כאשר המחשב נמצא בשימוש, השתמש לכל היותר"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "זכרון: כאשר המחשב לא נמצא בשימוש, השתמש לכל היותר"
+
+msgid "Network usage"
+msgstr "ניצול רשת"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "המחשב מחובר לאינטרנט בערך כל"
+
+msgid "days"
+msgstr "ימים"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "השאר ריק או 0 אם תמיד מחובר. @project ינסה לשמור כמות עבודה זו לפחות."
+
+msgid "Maintain enough work for an additional"
+msgstr "שמור עבודה מספיקה לעוד"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "לאשר לפני חיבור לאינטרנט?"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "חשוב רק אם יש לך חיבור מודם, ISDN, או VPN"
+
+msgid "Disconnect when done?"
+msgstr "התנתק בסיום?"
+
+msgid "Maximum download rate"
+msgstr "קצב הורדה מרבי"
+
+msgid "Maximum upload rate"
+msgstr "קצב העלאה מרבי"
+
+msgid "Use network only between the hours of:"
+msgstr "השתמש ברשת רק בין השעות:"
+
+msgid "Transfer at most"
+msgstr "העבר לכל היותר"
+
+msgid "Skip image file verification?"
+msgstr "דלג על אימות קובץ התמונה?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "סמן את זה אך ורק אם ספק האינטרנט משנה את קבצי התמונה (UMTS עושה זאת, לדוגמה). דילוג על אימות מפחית את האבטחה של BOINC."
+
+msgid "search"
+msgstr "חפש"
+
+msgid "What is @this_project?"
+msgstr "מהו @this_project?"
+
+msgid "Login"
+msgstr "היכנס"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "פרוייקט"
+
+msgid "No @type tasks"
+msgstr "אין משימות @type"
+
+msgid "There are no tasks of this type on record"
+msgstr "אין משימות מסוג זה ברשימה"
+
+msgid "Details"
+msgstr "פרטים"
+
+msgid "Password"
+msgstr "סיסמה"
+
+msgid "Enter the password that accompanies your username."
+msgstr "הזן את הסיסמה המתלווה לשם המשתמש שלך."
+
+msgid "Request new password"
+msgstr "בקש סיסמה חדשה"
+
+msgid "Mark all topics read"
+msgstr "סמן את כל הנושאים כנקראו"
+
+msgid "Mark all forums read"
+msgstr "סמן את כל הפורומים כנקראו"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "שגיאת אימות אנוש: מזהה שיח של אימות אנוש לא ידוע. אם הבעיה נמשכת, פנה אל מנהל האתר."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "התשובה שהזנת לאימות האנוש לא הייתה נכונה."
+
+msgid "Access denied. You must login to view this page."
+msgstr "הגישה נדחתה. עליך להיכנס כדי להציג דף זה."
+
+msgid "You are not authorized to access this page."
+msgstr "אינך מורשה לגשת לדף זה."
+
+msgid "Disable rich-text"
+msgstr "השבת טקסט עשיר"
+
+msgid "Enable rich-text"
+msgstr "אפשר טקסט עשיר"
+
+msgid "Teams"
+msgstr "צוות"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "משתתפי @project עשויים ליצור צוותים. תוכל להשתייך רק לצוות אחד. באפשרותך להצטרף או לפרוש מצוות בכל עת. להצטרפות לצוות, בקר בדף הצוות ולחץ על \"הצטרף לצוות\". בכל צוות יש מייסד אשר עשוי ל-:"
+
+msgid "access team members' email addresses"
+msgstr "גש לכתובות הדוא\"ל של חברי הצוות"
+
+msgid "edit the team's name and description"
+msgstr "ערוך את שם הצוות ותיאורו"
+
+msgid "add or remove team admins"
+msgstr "הוסף או הסר מנהלי צוות"
+
+msgid "remove members from the team"
+msgstr "הסר חברים מהצוות"
+
+msgid "disband a team if it has no members"
+msgstr "פרק צוות אם אין בו חברים"
+
+msgid "Search teams"
+msgstr "חפש צוותים"
+
+msgid "Create a new team"
+msgstr "צור צוות חדש"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "אם אינך מצליח לאתר צוות המתאים לך, באפשרותך ליצור צוות."
+
+msgid "You must earn 1 more credit!"
+msgstr "עליך להרוויח עוד 1 נקודות קרדיט!"
+
+msgid "@count million ops/sec"
+msgstr "@count מיליון פעולות/שניה"
+
+msgid "@rate KiB/sec"
+msgstr "@rate ק\"ב/שניה"
+
+msgid "@count days"
+msgstr "@count ימים"
+
+msgid "Stderr output"
+msgstr "פלט Stderr"
+
+msgid "Email address"
+msgstr "כתובת דוא\"ל"
+
+msgid "Enter your @s email address."
+msgstr "הזן את כתובת הדוא\"ל של @s שלך."
+
+msgid "Log in"
+msgstr "היכנס"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "מצטערים, כתובת הדוא\"ל או הסיסמה אינם מזוהים."
+
+msgid "Have you forgotten your password?"
+msgstr "האם שכחת את הסיסמה שלך?"
+
+msgid "No results found..."
+msgstr "לא נמצאו תוצאות..."
+
+msgid "Anonymous"
+msgstr "עלום שם"
+
+msgid "Forgot password"
+msgstr "שכחתי סיסמה"
+
+msgid "authenticator-based login"
+msgstr "כניסה מבוססת מאמת"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "הזן את כתובת הדוא\"ל שלך כדי לקבל הנחיות לאיפוס הסיסמה שלך (או השתמש ב-!authenticator_login)."
+
+msgid "Send"
+msgstr "שלח"
+
+msgid "Submitted by !username on !datetime"
+msgstr "נשלח על-ידי !username ב-"
+
+msgid "Send message"
+msgstr "שלח הודעה"
+
+msgid "Add as friend"
+msgstr "הוסף כחבר"
+
+msgid "Website"
+msgstr "אתר אינטרנט"
+
+msgid "Team"
+msgstr "צוות"
+
+msgid "Create new team"
+msgstr "צור צוות חדש"
+
+msgid "Search"
+msgstr "חפש"
+
+msgid "Total credits"
+msgstr "סך נקודות זכות"
+
+msgid "Recent avg credits"
+msgstr "ממוצע נקודות זכות לאחרונה"
+
+msgid "Type"
+msgstr "סוג"
+
+msgid "New members in last day"
+msgstr "חברים חדשים ביום האחרון"
+
+msgid "Total members"
+msgstr "סה\"כ חברים"
+
+msgid "Active members"
+msgstr "חברים פעילים"
+
+msgid "Members with credit"
+msgstr "חברים עם נקודות זכות"
+
+msgid "Web site"
+msgstr "אתר אינטרנט"
+
+msgid "Description"
+msgstr "תיאור"
+
+msgid "BBcode help"
+msgstr "עזרה של BBcode"
+
+msgid "Post comment"
+msgstr "פרסם תגובה"
+
+#: preference set
+msgctxt "preference set"
+msgid "Home"
+msgstr "בית"
+
+msgid "The latest news from the @site_name project"
+msgstr "החדשות האחרונות מפרוייקט @site_name"
+
+msgid "Hide"
+msgstr "הסתר"
+
+msgid "Hide this topic"
+msgstr "הסתר נושא זה"
+
+msgid "Lock"
+msgstr "נעל"
+
+msgid "Lock this thread for comments"
+msgstr "נעל את השרשור לתגובות"
+
+msgid "Make sticky"
+msgstr "נעץ"
+
+msgid "Make this topic sticky"
+msgstr "נעץ נושא זה"
+
+msgid "moderation"
+msgstr "ניהול פורום"
+
+msgid "Reply"
+msgstr "השב"
+
+msgid "Reply to this comment"
+msgstr "השב לתגובה זו"
+
+msgid "Quote"
+msgstr "צטט"
+
+msgid "Reply to this comment with quote"
+msgstr "השב לתגובה זו עם ציטוט"
+
+msgid "Edit"
+msgstr "עריכה"
+
+msgid "Edit this comment"
+msgstr "ערוך תגובה זו"
+
+msgid "Delete"
+msgstr "מחק"
+
+msgid "Delete this comment"
+msgstr "מחק תגובה זו"
+
+msgid "Hide this comment"
+msgstr "הסתר תגובה זו"
+
+msgid "Message @id"
+msgstr "הודעה @id"
+
+msgid "Convert"
+msgstr "המר"
+
+msgid "Convert this comment to a new topic"
+msgstr "המר תגובה זו לנושא חדש"
+
+msgid "message @id"
+msgstr "הודעה @id"
+
+msgid " in response to !parent"
+msgstr " בתגובה ל-!parent"
+
+msgid "Post new comment"
+msgstr "פרסם תגובה חדשה"
+
+msgid "Comments"
+msgstr "תגובות"
+
+msgid "discuss"
+msgstr "דון"
+
+msgid "n/a"
+msgstr "לא ישים"
+
+msgid "@time ago"
+msgstr "@time קודם"
+
+msgid "Threads"
+msgstr "שרשורים"
+
+msgid "Posts"
+msgstr "רשומות"
+
+msgid "Last post"
+msgstr "רשומה אחרונה"
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "בבקשה היה אחראי למה שאתה כותב ואל תיצור רשומות פוגעניות או מעליבות. רשומות או שרשורים פוגעניים עלולים להימחק על ידי מנהלי הפורום ללא מתן אזהרה וללא דיון. אל תגיב לרשומות פוגעניות. לחץ על כפתור \"דווח\" בתחתית הרשומה כדי להסב אליהם את תשומת הלב של מנהלי הפורום."
+
+msgid "this project"
+msgstr "פרוייקט זה"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "אנחנו מבקשים גם שתשמור שכל דיון בלוחות הודעות יהיה קשור ל-@project או ל-BOINC, למעט יוצא דופן קטן של לוח ההודעות המדע, בו אתה חופשי לדבר על כל דבר הרלוונטי למדע הבסיסי. משתתפים המעוניינים בדיונים רחבים יותר צריכים לפרסם בפורומים לא רשמיים של @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "לוחות הודעות אלו תומכים כעת בתגיות BBCode בלבד."
+
+msgid "Featured"
+msgstr "מובלט"
+
+msgid "Locked"
+msgstr "נעול"
+
+msgid "Submitted on !datetime"
+msgstr "נשלח ב-!datetime"
+
+msgid "Computers pending"
+msgstr "מחשבים ממתינים"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "למשתמש זה אין עדיין מחשבים משוייכים. המחשבים יוצגו כאשר הם ירוויחו את נקודות הזכות הראשונות שלהם."
+
+msgid "Show IP address"
+msgstr "הצג כתובת IP"
+
+msgid "Download the desktop software"
+msgstr "הורד את תוכנת שולחן העבודה"
+
+msgid "Run the installer"
+msgstr "הרץ את תוכנית ההתקנה"
+
+msgid "hours"
+msgstr "שעות"
+
+msgid "When prompted enter @siteurl"
+msgstr "כאשר תתבקש הזן @siteurl"
+
+msgid "Merge"
+msgstr "מזג"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "פעולה זו תמחק לצמיתות את המארח @id מהחשבון שלך. אתה בטוח שאתה מאשר?"
+
+msgid "Post topic"
+msgstr "פרסם נושא"
+
+msgid "Leave team"
+msgstr "עזוב צוות"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "לחץ כאן כדי לבטל את החברות שלך ב-@this_team"
+
+msgid "Leave this team"
+msgstr "עזוב צוות זה"
+
+msgid "Request foundership"
+msgstr "בקש תפקיד מייסד"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "אם מייסד הצוות אינו פעיל ואתה רוצה ליטול את תפקיד המייסד, לחץ להלן כדי לבקש תפקיד מייסד של @this_team."
+
+msgid "Initiate request"
+msgstr "יזום בקשה"
+
+msgid "No active computers"
+msgstr "אין מחשבים פעילים"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "למשתמש זה אין מחשבים שהיו פעילים ב-30 הימים האחרונים."
+
+msgid "Clear"
+msgstr "נקה"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "פעולה זו תסיר את כל ההגדרות שלך מסידרת העדפה @name. האם אתה בטוח?"
+
+msgid "Your community preferences have been updated."
+msgstr "העדפות הקהילה שלך עודכנו."
+
+msgid "Combined preferences"
+msgstr "העדפות משולבות"
+
+msgid "Switch View"
+msgstr "החלף תצוגה"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "פעולה זו תסיר את כל ההגדרות שלך מסידרת ההעדפות \"@name\". האם אתה בטוח?"
+
+msgid "Approve profile"
+msgstr "אשר פרופיל"
+
+msgid "Approve this profile content"
+msgstr "אשר תוכן פרופיל זה"
+
+msgid "Reject this profile content"
+msgstr "דחה תוכן פרופיל זה"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "דברים אלו חלים על כל הפרוייקטים של BOINC בהם אתה משתתף."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "במחשבים המחוברים לפרוייקטים מרובים, ההעדפות ששונו לאחרונה יהיו בשימוש."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "עדכון ההעדפות אחרון: @mod_time"
+
+msgid "every"
+msgstr "כל"
+
+msgid "Add"
+msgstr "הוספה"
+
+msgid "My team"
+msgstr "הצוות שלי"
+
+msgid "You are a member of @team."
+msgstr "אתה חבר של @team."
+
+msgid "View my team"
+msgstr "הצג את הצוות שלי"
+
+msgid "Manage team"
+msgstr "נהל צוות"
+
+msgid "View member list"
+msgstr "הצג רשימת חברים"
+
+msgid "Member names and emails"
+msgstr "שמות החברים ודוא\"ל"
+
+msgid "View change history"
+msgstr "הצג היסטוריית שינויים"
+
+msgid "See member activity"
+msgstr "צפה בפעילות החבר"
+
+msgid "Manage team message board"
+msgstr "נהל את לוח ההודעות של הצוות"
+
+msgid "Create or manage message board"
+msgstr "צור או נהל לוח הודעות"
+
+msgid "Remove members"
+msgstr "הסר משתמשים"
+
+msgid "Change founder"
+msgstr "שנה מייסד"
+
+msgid "Manage team admins"
+msgstr "הוסף מנהלי צוות"
+
+msgid "Edit team info"
+msgstr "ערוך את המידע אודות הצוות"
+
+msgid "Remove team"
+msgstr "הסר צוות"
+
+msgid "Team forum"
+msgstr "פורום הצוות"
+
+msgid "A discussion forum has been set up for team members."
+msgstr "פורום דיונים הוגדר עבור חברי הצוות."
+
+msgid "Enter forum"
+msgstr "הזן פורום"
+
+msgid "Join team"
+msgstr "הצטרף לצוות"
+
+msgid "Click here to become a member of @this_team"
+msgstr "לחץ כאן כדי להיות חבר ב-@this_team"
+
+msgid "Join this team"
+msgstr "הצטרף לצוות זה"
+
+msgid "Choose type"
+msgstr "בחר סוג"
+
+msgid "Team name"
+msgstr "שם הצוות"
+
+msgid "Text only, no HTML tags"
+msgstr "טקסט בלבד, ללא תגיות HTML"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "שם הצוות - גרסת HTML (רשות)"
+
+msgid "You may use limited HTML tags"
+msgstr "תוכל להשתמש בתגיות HTML מוגבלות"
+
+msgid "Team website (optional)"
+msgstr "אתר אינטרנט של הצוות (רשות)"
+
+msgid "Displayed on the team's page"
+msgstr "מוצג בדף הצוות"
+
+msgid "Type of team"
+msgstr "סוג הצוות"
+
+msgid "Accept new members?"
+msgstr "האם לקבל חברים חדשים?"
+
+msgid "Description of team"
+msgstr "תיאור הצוות"
+
+msgid "Create a team"
+msgstr "צור צוות"
+
+msgid "Save team"
+msgstr "שמור צוות"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "אם אתה כבר מריץ BOINC, בחר <i>הוסף פרוייקט</i>."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "אם אתה מפעיל גירסה של שורת הפקודה של BOINC, \nהשתמש קודם בתוכנת מנהל BOINC (במקומות אחרים במקרה הצורך) כדי ליצור\nחשבון בפרויקט הזה, ואז השתמש בחשבון זה כדי להתחבר עם הגרסה של שורת הפקודה."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "אם אתה מפעיל גירסת קודמת ל-5.0 BOINC, אנא שדרג לגרסה עדכנית יותר כדי ליצור חשבון בפרויקט זה."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "אם שכחת את כתובת הדוא\"ל של החשבון שלך, או שאתה לא יכול לקבל דוא\"ל שם:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "אם הפעלת את BOINC תחת החשבון, עדיין תוכל לגשת לזה. הנה כיצד:"
+
+msgid "BOINC documentation"
+msgstr "תיעוד BOINC"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "עבור אל ספריית הנתונים של BOINC במחשב שלך (ראה !boinc_wiki לעזרה במציאה את זה)."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "מצא את קובץ החשבון לפרוייקט זה; השם שלו יהיה דומה ל-%file (כאשר כתובת האינטרנט של הפרוייקט היא %url)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "פתח את הקובץ בעורך טקסט כפנקס רשימות. תראה משהו דומה ל-:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "בחר והעתק את המחרוזת בין &lt;מאמת&gt; ל-&lt;/authenticator&gt; (%auth בדוגמה לעיל)."
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "הדבק את המחרוזת לתוך השדה שלהלן ולחץ על אישור."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "כעת תכנס לחשבון שלך; עדכן את הדוא\"ל והסיסמה של החשבון שלך."
+
+msgid "Log in with authenticator"
+msgstr "היכנס באמצעות מאמת"
+
+msgid "OK"
+msgstr "אישור"
+
+msgid "Post new topic"
+msgstr "פרסם נושא חדש"
+
+msgid "Create team message board"
+msgstr "צור לוח הודעות של הצוות"
+
+msgid "Message board title"
+msgstr "כותרת לוח ההודעות"
+
+msgid "Minimum time between posts"
+msgstr "זמן ממזערי בין פרסומים"
+
+msgid "Seconds"
+msgstr "שניות"
+
+msgid "Minimum total credit to post"
+msgstr "סך נקודות זכות מזערי כדי לפרסם"
+
+msgid "Minimum avg credit to post"
+msgstr "ממוצע נקודות זכות מזערי כדי לפרסם"
+
+msgid "Allow public to read board?"
+msgstr "אפשר לכלל הציבור לקרוא בלוח ההודעות?"
+
+msgid "Create message board"
+msgstr "צור לוח הודעות"
+
+msgid "About message boards"
+msgstr "על אודות לוחות הודעות"
+
+msgid "You may create a message board for use by @team"
+msgstr "באפשרותך ליצור לוח הודעות לשימוש על-ידי @team"
+
+msgid "Only members may post"
+msgstr "רק חברים יכולים לפרסם"
+
+msgid "Only members may read (optional)"
+msgstr "רק חברים יכולים לקרוא (רשות)"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "למייסד ומנהל הצוות יש הרשאות מנהל פורום"
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (זהה ל-@count האחרונים)"
+
+msgid "Revise or post comment"
+msgstr "הגה או פרסם תגובה"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "לפעמים BOINC מקצה זהויות נפרדות לאותו המחשב בטעות. באפשרותך לתקן זאת על-ידי מיזוג זהויות ישנות עם החדשות."
+
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "בדוק את המחשבים שזהים ל-@name (נוצרו ב-@date ב-@time עם מזהה המחשב @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "המחשב @old_id התמזג בהצלחה לתוך @id."
+
+msgid "parent removed"
+msgstr "הורה הוסר"
+
+msgid "Remove"
+msgstr "הסר"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "נדרש אימות בעת שינוי כתובת דוא\"ל או הגדרת סיסמה חדשה."
+
+msgid "Make unsticky"
+msgstr "בטל נעיצה"
+
+msgid "Remove sticky status from this topic"
+msgstr "הסר את מצב הנעיצה מנושא זה"
+
+msgid "Unhide"
+msgstr "בטל הסתרה"
+
+msgid "Unhide this comment"
+msgstr "בטל הסתרת תגובה זו"
+
+msgid "Unpublished"
+msgstr "לא פורסם"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "המחשבים @old_ids מוזגו בהצלחה לתוך @id."
+
+msgid "Joined"
+msgstr "הצטרף"
+
+msgid "Credit"
+msgstr "נקודות זכות"
+
+msgid "RAC"
+msgstr "נקודות זכות ממוצעות לאחרונה"
+
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "אין חשבון קיים עבור @email -- בחר \"צור חשבון חדש\" כדי להירשם"
+
+msgid "started discussion"
+msgstr "התחיל דיון "
+
+msgid "commented on"
+msgstr "תגובה ב-"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "הסיסמה שהוזנה אינה חוקית. נא ודא כי היא נכונה."
+
+msgid "Minimum value not met for @field"
+msgstr "לא הושג הערך המזערי עבור @field"
+
+msgid "Invalid data type for @field"
+msgstr "סוג נתונים לא חוקי עבור @field"
+
+msgid "News"
+msgstr "חדשות"
+
+msgid "Remove friend"
+msgstr "הסר חבר"
+
+msgid "ignore list"
+msgstr "רשימת התעלמות"
+
+msgid "here"
+msgstr "כאן"
+
+msgid "!username is on your !ignore_list. Click !here to view this post."
+msgstr " !username ב-!ignore_list שלך. לחץ !here כדי להציג רשומה זו."
+
+msgid "hidden"
+msgstr "מוסתר"
+
+msgid "Unknown"
+msgstr "לא ידוע"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "הגדרה לא חוקית עבור "
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: התגובה פורסמה ב-\"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "המחבר פרסם תגובה ל-"
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "כדי להציג נושא זה ב-!site, לחץ כאן:\n!comment_url"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "למייסד הצוות יש @count יום להגיב לבקשת ההעברה שלך"
+
+msgid "Unlock"
+msgstr "בטל נעילה"
+
+msgid "Unlock this thread for comments"
+msgstr "פתח את השרשור לתגובות"
+
+msgid "project"
+msgstr "פרוייקט"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email אינה כתובת דוא\"ל תקינה, אנא וודא תקינות"
+
+msgid "Please enter your email address"
+msgstr "אנא הזן את כתובת הדוא\"ל שלך"
+
+msgid "There is no account with that authenticator."
+msgstr "אין חשבון עם מאמת זה."
+
+msgid "That authenticator is not valid."
+msgstr "מאמת זה אינו חוקי."
+
+msgid "Send request"
+msgstr "שלח בקשה"
+
+msgid "Friend request from !name [!site]"
+msgstr "בקשת חברות מ-!name [!site]"
+
+msgid "Message"
+msgstr "הודעה"
+
+msgid ""
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name הוסיף אותך כחבר ב-!site. באפשרותך לאשר או לדחות את הבקשה. דחיית הבקשה לא תשלח הודעה, אבל תסיר את הבקשה משני החשבונות שלכם.\n\nהפעל את הקישור שלהלן כדי להציג בקשה זו:\n!link\n\n!message\n\nתודה,\nצוות !site"
+
+msgid "Cancel friend request"
+msgstr "בטל בקשת חברות"
+
+msgid "Please set the minimum time required between posts."
+msgstr "נא הגדר את משך הזמן המזערי הנדרש בין פרסום רשומות."
+
+msgid ""
+"Please set the minimum total credit that a user must earn in order to post "
+"to this message board."
+msgstr "נא הגדר את מינימום סך נקודות הזכות שהמשתמש צריך להרוויח על מנת לפרסם בלוח הודעות זה."
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "נא הגדר את מינימום ממוצע נקודות הזכות שצריך להיות למשתמש על מנת לפרסם בלוח הודעות זה."
+
+msgid "Edit message board"
+msgstr "ערוך לוח הודעות"
+
+msgid "Save message board"
+msgstr "שמור לוח הודעות"
+
+msgid "This is a team-only message board"
+msgstr "זהו לוח הודעות לצוות בלבד"
+
+msgid "Maximum value exceeded for @field"
+msgstr "חריגה מהערך המרבי עבור @field"
+
+msgid "Approve request"
+msgstr "אשר בקשה"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name קיבל את בקשת החברות שלך [!site]"
+
+msgid ""
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name אישר אותך כחבר ב-!site.\n\nהפעל קישור זה כדי להציג את הפרופיל שלו או שלה:\n!link\n\n!message\n\nתודה,\nצוות "
+
+msgid "posted"
+msgstr "פורסם"
+
+msgid "Add team admin"
+msgstr "הוסף מנהל צוות"
+
+msgid "Enter email address"
+msgstr "הזן כתובת דוא\"ל"
+
+msgid "Current team admins"
+msgstr "מנהלי צוות נוכחיים"
+
+msgid "About team admins"
+msgstr "אודות מנהלי צוות"
+
+msgid "Team admins can:"
+msgstr "מנהלי צוות יכולים:"
+
+msgid "Edit team information"
+msgstr "ערוך את המידע על הצוות"
+
+msgid "View the team's join / quit history"
+msgstr "צפה בהיסטוריית הצטרפות / עזיבה של הצוות"
+
+msgid "Moderate the team forum"
+msgstr "נהל את פורום הצוות"
+
+msgid "Remove members from the team"
+msgstr "הסר חברים מהצוות"
+
+msgid "Disband a team if it has no members"
+msgstr "פרק צוות אם אין בו חברים"
+
+msgid "Team admins cannot:"
+msgstr "מנהלי צוות לא יכולים:"
+
+msgid "Change the team founder"
+msgstr "שנה את מייסד הצוות"
+
+msgid "Add / Remove team admins"
+msgstr "הוסף / הסר מנהלי צוות"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "אם מנהל צוות עוזב את הצוות, הוא מפסיק להיות מנהל צוות. אנו ממליצים לבחור רק באנשים שאתה מכיר וסומך עליהם"
+
+msgid "Lift user ban"
+msgstr "הסר חרם משתמש"
+
+msgid "A team named \"@name\" already exists."
+msgstr "צוות בשם \"@name\" כבר קיים."
+
+msgid "A BOINC account already exists for @email."
+msgstr "חשבון BOINC כבר קיים עבור @email."
+
+msgid "Make founder"
+msgstr "צור מייסד"
+
+msgid "Changing the team founder"
+msgstr "שינוי מייסד הצוות"
+
+msgid "Notes about changes in foundership:"
+msgstr "הערות על שינויים בתפקיד מייסד:"
+
+msgid "Any member of the team is eligible"
+msgstr "כל חבר בצוות זכאי"
+
+msgid "Current founder becomes a normal user"
+msgstr "המייסד הנוכחי הופך למשתמש רגיל"
+
+msgid "Foundership can be requested by team members:"
+msgstr "בקשה לתפקיד מייסד יכולה להיות מוגשת ע\"י חברי הצוות:"
+
+msgid "One request is allowed at a time"
+msgstr "בקשה אחת מותרת בכל פעם"
+
+msgid "It must be 60 days since any previous request"
+msgstr "חייבים לעבור 60 יום מאז כל בקשה קודמת"
+
+msgid "Any active request must be older than 90 days"
+msgstr "כל בקשה פעילה חייבת להיות בת יותר מ-90 יום"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "למייסד הנוכחי יש 60 יום להגיב לבקשה"
+
+msgid "BOINC-wide teams site"
+msgstr "אתר צוות בתחום BOINC"
+
+msgid "This is a BOINC-wide team. Changes can be made at the !site."
+msgstr "זהו צוות בתחום BOINC. ניתן לבצע שינויים ב- !site."
+
+msgid ""
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "בקשה לשינוי תפקיד מייסד של צוות כבר הוגשה לאחרונה. רק בקשה אחת מותרת בתקופה של 90 יום."
+
+msgid "@count days remaining"
+msgstr "@count ימים נותרו"
+
+msgid "Team name is required."
+msgstr "דרוש שם צוות."
+
+msgid "Reason for banning this user"
+msgstr "סיבה להחרמת משתמש זה"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "סיבה זו תכלל בהודעת הדוא\"ל למשתמש. נא לכתוב הסבר קצר למה המשתמש הוחרם."
+
+msgid "Duration of the ban"
+msgstr "משך הזמן של החרם"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "מספר הימים עד שהחרם יפוג. הגדר 0 כדי להחרים לצמיתות."
+
+msgid "Submit"
+msgstr "שלח"

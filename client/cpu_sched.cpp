@@ -562,17 +562,30 @@ void CLIENT_STATE::reset_rec_accounting() {
     rec_interval_start = now;
 }
 
-// update REC (recent estimated credit)
+// update per-project accounting:
+//  - recent estimated credit (EC)
+//  - total CPU and GPU EC
+//  - total CPU and GPU time
 //
 static void update_rec() {
     double f = gstate.host_info.p_fpops;
+    double on_frac = gstate.global_prefs.cpu_usage_limit / 100;
 
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
 
         double x = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
-            x += p->rsc_pwf[j].secs_this_rec_interval * f * rsc_work_fetch[j].relative_speed;
+            double dt = p->rsc_pwf[j].secs_this_rec_interval * on_frac;
+            double flops = dt * f * rsc_work_fetch[j].relative_speed;
+            x += flops;
+            if (j) {
+                p->gpu_ec += flops*COBBLESTONE_SCALE;
+                p->gpu_time += dt;
+            } else {
+                p->cpu_ec += flops*COBBLESTONE_SCALE;
+                p->cpu_time += dt;
+            }
         }
         x *= COBBLESTONE_SCALE;
         double old = p->pwf.rec;

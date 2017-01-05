@@ -57,4 +57,5 @@ void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
 bool            validateNumericString(CFStringRef s);
 double          getDTime();
+void            doBoinc_Sleep(double seconds);
 extern void     print_to_log_file(const char *format, ...);

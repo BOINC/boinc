@@ -438,10 +438,17 @@ if test "x${enable_fcgi}" = xyes ; then
 dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
 fi
+dnl ---------- SSL (m4/check_ssl.m4)
+if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
+then
+    CHECK_SSL
+fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
-dnl curl is needed for libraries and those are needed by everything else
+dnl curl is needed for client
 
+if [[ "x${enable_client}" = "xyes" ]]
+then
 LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
 if test "${haveCurl}" != yes; then
@@ -469,16 +476,12 @@ else
       echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
       echo "LDFLAGS = ${LDFLAGS}"
    fi
-      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+fi
 fi
 
-dnl ---------- SSL (m4/check_ssl.m4)
-if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
-then
-    CHECK_SSL
-    if test "x${found_ssl}" = "xyes"; then
-       BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
-    fi
+if test "x${found_ssl}" = "xyes"; then
+   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
 fi
 
 dnl save the libs, since SAH_CHECK_LIB() will change them

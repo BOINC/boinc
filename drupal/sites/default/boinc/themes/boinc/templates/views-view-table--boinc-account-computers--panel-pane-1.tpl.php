@@ -32,7 +32,7 @@
 </table>
 <ul class="more-link tab-list">
   <li class="first tab">
-    <?php print l(bts('More'), 'account/computers/all'); ?>
+    <?php print l(bts('More'), 'account/computers'); ?>
   </li>
   <li class="first alt tab">
     <?php print l(bts('Tasks'), 'account/tasks/active'); ?>

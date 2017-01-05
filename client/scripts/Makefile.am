@@ -3,7 +3,7 @@
 install-exec-hook:
 	chmod +x boinc-client
 	$(INSTALL) -d $(DESTDIR)$(sysconfdir)/init.d
-	$(INSTALL) -b $(srcdir)/boinc-client $(DESTDIR)$(sysconfdir)/init.d/boinc-client
+	$(INSTALL) -b boinc-client $(DESTDIR)$(sysconfdir)/init.d/boinc-client
 	if [ -d /etc/sysconfig ] ; then \
 	  $(INSTALL) -d $(DESTDIR)$(sysconfdir)/sysconfig ; \
 	  $(INSTALL) $(srcdir)/boinc-client.conf $(DESTDIR)$(sysconfdir)/sysconfig/boinc-client ; \

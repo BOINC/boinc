@@ -44,7 +44,8 @@
 
 using std::vector;
 
-// clean up after finished apps
+// Clean up after finished apps.
+// Called every second from the main polling loop.
 //
 bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
@@ -190,7 +191,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         default:
             rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
-        rp->project->njobs_error++;
+        rp->project->njobs_fail++;
     } else {
 #ifdef SIM
         rp->set_state(RESULT_FILES_UPLOADED, "CS::app_finished");

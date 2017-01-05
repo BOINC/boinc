@@ -68,7 +68,9 @@
 #endif
 
 #include "version.h"
+#ifndef _WIN32
 #include "svn_version.h"
+#endif
 #include "boinc_api.h"
 #include "app_ipc.h"
 #include "graphics2.h"
@@ -304,9 +306,10 @@ void macro_substitute(string &str) {
     fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
 #endif
 #else
-    str_replace_all(str, "$PWD", getenv("PWD"));
+    char cwd[1024];
+    str_replace_all(str, "$PWD", getcwd(cwd, sizeof(cwd)));
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getenv("PWD"));
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getcwd(cwd, sizeof(cwd)));
 #endif
 #endif
 }
@@ -1154,9 +1157,11 @@ int main(int argc, char** argv) {
             gpu_device_num = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--trickle")) {
             trickle_period = atof(argv[++j]);
+#ifndef _WIN32
         } else if (!strcmp(argv[j], "--version") || !strcmp(argv[j], "-v")) {
             fprintf(stderr, "%s\n", SVN_VERSION);
             boinc_finish(0);
+#endif
         }
 
     }

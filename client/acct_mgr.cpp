@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// code for communicating with account managers (AMs)
 
 #include "cpp.h"
 
@@ -47,11 +49,23 @@
 
 static const char *run_mode_name[] = {"", "always", "auto", "never"};
 
+static void am_url_filename(char* url, char* filename) {
+    char buf [1024];
+    escape_project_url(url, buf);
+    sprintf(filename, "acct_mgr_url_%s.xml", buf);
+}
+
+static void am_login_filename(char* url, char* filename) {
+    char buf[1024];
+    escape_project_url(url, buf);
+    sprintf(filename, "acct_mgr_login_%s.xml", buf);
+}
+
 // do an account manager RPC;
 // if URL is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
-    std::string _url, std::string name, std::string password_hash,
+    string _url, string name, string password_hash,
     bool _via_gui
 ) {
     int retval;
@@ -73,8 +87,15 @@ int ACCT_MGR_OP::do_rpc(
     if (!strlen(url) && strlen(gstate.acct_mgr_info.master_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
         gstate.acct_mgr_info.clear();
-        boinc_delete_file(ACCT_MGR_URL_FILENAME);
-        boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
+
+        // don't delete the url and login files in case
+        // user later reattaches to same AM (use same opaque data)
+        //
+        // char filename[MAXPATHLEN];
+        // am_url_filename(master_url, filename);
+        // boinc_delete_file(filename);
+        // am_login_filename(master_url, filename);
+        // boinc_delete_file(filename);
         error_num = 0;
         for (i=0; i<gstate.projects.size(); i++) {
             gstate.projects[i]->detach_ams();
@@ -162,6 +183,13 @@ int ACCT_MGR_OP::do_rpc(
             "      <detach_when_done>%d</detach_when_done>\n"
             "      <ended>%d</ended>\n"
             "      <resource_share>%f</resource_share>\n"
+            "      <cpu_ec>%f</cpu_ec>\n"
+            "      <cpu_time>%f</cpu_time>\n"
+            "      <gpu_ec>%f</gpu_ec>\n"
+            "      <gpu_time>%f</gpu_time>\n"
+            "      <njobs_success>%d</njobs_success>\n"
+            "      <njobs_fail>%d</njobs_fail>\n"
+            "      <usable_gpu>%d</usable_gpu>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
@@ -174,7 +202,14 @@ int ACCT_MGR_OP::do_rpc(
             p->dont_request_more_work?1:0,
             p->detach_when_done?1:0,
             p->ended?1:0,
-            p->resource_share
+            p->resource_share,
+            p->cpu_ec,
+            p->cpu_time,
+            p->gpu_ec,
+            p->gpu_time,
+            p->njobs_success,
+            p->njobs_fail,
+            coprocs.n_rsc>1?1:0
         );
     }
     MIOFILE mf;
@@ -309,6 +344,12 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         }
         if (xp.parse_bool("abort_not_started", btemp)) {
             abort_not_started.set(btemp);
+            continue;
+        }
+        if (xp.parse_string("sci_keywords", sci_keywords)) {
+            continue;
+        }
+        if (xp.parse_string("loc_keywords", loc_keywords)) {
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -513,12 +554,20 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     }
 
     if (sig_ok) {
+        // if the AM RPC had an error, some items may be missing; don't copy
+        //
+        if (strlen(ami.project_name)) {
+            safe_strcpy(gstate.acct_mgr_info.project_name, ami.project_name);
+        }
+        if (strlen(ami.signing_key)) {
+            safe_strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
+        }
+        if (strlen(ami.opaque)) {
+            safe_strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
+        }
         safe_strcpy(gstate.acct_mgr_info.master_url, ami.master_url);
-        safe_strcpy(gstate.acct_mgr_info.project_name, ami.project_name);
-        safe_strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
         safe_strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         safe_strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
-        safe_strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
         gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
 
         // process projects
@@ -618,8 +667,12 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     for (int j=0; j<MAX_RSC; j++) {
                         pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
+                    pp->sci_keywords = acct.sci_keywords;
+                    pp->loc_keywords = acct.loc_keywords;
                 }
             } else {
+                // here we don't already have the project.
+                //
                 if (acct.authenticator.empty()) {
                     msg_printf(NULL, MSG_INFO,
                         "Account manager reply missing authenticator for %s",
@@ -628,7 +681,6 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     continue;
                 }
 
-                // here we don't already have the project.
                 // Attach to it, unless the acct mgr is telling us to detach
                 //
                 if (!acct.detach && !(acct.detach_when_done.present && acct.detach_when_done.value)) {
@@ -706,9 +758,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 }
 
 int ACCT_MGR_INFO::write_info() {
+    char filename[MAXPATHLEN];
     FILE* p;
     if (strlen(master_url)) {
-        p = fopen(ACCT_MGR_URL_FILENAME, "w");
+        am_url_filename(master_url, filename); 
+        p = fopen(filename, "w");
         if (p) {
             fprintf(p,
                 "<acct_mgr>\n"
@@ -732,7 +786,8 @@ int ACCT_MGR_INFO::write_info() {
     }
 
     if (strlen(login_name)) {
-        p = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
+        am_login_filename(master_url, filename); 
+        p = fopen(filename, "w");
         if (p) {
             fprintf(
                 p,
@@ -825,17 +880,24 @@ int ACCT_MGR_INFO::init() {
     MIOFILE mf;
     FILE*   p;
     int retval;
+    char filename[MAXPATHLEN];
 
     clear();
-    p = fopen(ACCT_MGR_URL_FILENAME, "r");
+    am_url_filename(master_url, filename);
+    p = fopen(filename, "r");
     if (!p) {
-        // if not using acct mgr, make sure projects not flagged,
-        // otherwise won't be able to detach them.
+        // try old name
         //
-        for (unsigned int i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->attached_via_acct_mgr = false;
+        p = fopen(ACCT_MGR_URL_FILENAME, "r");
+        if (!p) {
+            // if not using acct mgr, make sure projects not flagged,
+            // otherwise won't be able to detach them.
+            //
+            for (unsigned int i=0; i<gstate.projects.size(); i++) {
+                gstate.projects[i]->attached_via_acct_mgr = false;
+            }
+            return 0;
         }
-        return 0;
     }
     mf.init_file(p);
     XML_PARSER xp(&mf);
@@ -872,7 +934,12 @@ int ACCT_MGR_INFO::init() {
     }
     fclose(p);
 
-    p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
+    am_login_filename(master_url, filename);
+    p = fopen(filename, "r");
+    if (!p) {
+        // try old name
+        p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
+    }
     if (p) {
         parse_login_file(p);
         fclose(p);

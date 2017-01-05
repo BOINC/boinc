@@ -35,8 +35,9 @@ row2(tra("Name %1 real name or nickname%2", "<br><p class=\"text-muted\">", "</p
 row2(tra("URL %1 of your web page; optional%2", "<br><p class=\"text-muted\">", "</p>"),
     "http://<input name=url type=text size=50 value='$user->url'>"
 );
-row2_init(tra("Country"),
-    "<select name=country>"
+row2_init(
+    tra("Country"),
+    '<select name="country" class="form-control">'
 );
 print_country_select($user->country);
 echo "</select></td></tr>\n";

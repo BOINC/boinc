@@ -55,42 +55,52 @@ $language_names = array(
     array("zh_TW", "繁體中文", "Chinese (Taiwan)"),
 );
 
-function language_select() {
+function language_select($cur_lang_name) {
     global $language_names;
     $supported_languages = get_supported_languages();
     $supported_languages[] = "en";
-    $bd = tra("Browser default");
+    $sel = $cur_lang_name?"":"selected";
     echo "
-        <option value=auto selected=\"selected\">-- language --
-        <option value=auto>$bd
+        <option $sel value=auto> Browser default
     ";
-    if ($bd != "Browser default") echo " (Browser default)";
     foreach ($language_names as $lang) {
         if (!in_array($lang[0], $supported_languages)) continue;
+        $sel = ($cur_lang_name == $lang[0])?"selected":"";
         if ($lang[0] == "en") {
-            echo "<option value=".$lang[0].">".$lang[1];
+            echo "<option $sel value=".$lang[0].">".$lang[1];
         } else {
-            echo "<option value=".$lang[0].">".$lang[1]." (".$lang[2].")";
+            echo "<option $sel value=".$lang[0].">".$lang[1]." (".$lang[2].")";
         }
+        echo "\n";
     }
 }
 
 // show a menu of supported languages
 //
-function language_form() {
-    echo "
-        <table><tr><td>
-        <form name=language method=get action=set_language.php>
-        <select class=selectbox name=lang onchange=\"javascript: submit()\">
-    ";
-    language_select();
-    echo "</select>
+function language_form($cur_lang_name=null) {
+    echo '
+        <form name="language" method="get" action="set_language.php">
+        <select class="selectbox form-control" name="lang" onchange="javascript: submit()">
+    ';
+    language_select($cur_lang_name);
+    echo '</select>
         </form>
-        <script type=\"text/javascript\">
-        document.language.lang.selectedIndex=0;
-        </script>
-        </td></tr></table>
-    ";
+    ';
+}
+
+// given a language code, return a string of the form "(int-name/native-name)"
+//
+function language_desc($code) {
+    global $language_names;
+    if ($code == 'en') {
+        return '(English)';
+    }
+    foreach ($language_names as $lang) {
+        if ($code == $lang[0]) {
+            return "'$code'".' ('.$lang[1].'/'.$lang[2].')';
+        }
+    }
+    return "'$code'";
 }
 
 ?>

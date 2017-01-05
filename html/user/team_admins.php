@@ -44,6 +44,7 @@ function show_admins($user, $teamid) {
         <ul>
         <li>".tra("Edit team information (name, URL, description, country)")."
         <li>".tra("View the team's join/quit history")."
+        <li>".tra("Send messages to the team")."
         <li>".tra("Moderate the team forum, if any (admins get email notification of moderation events and red X reports)")."
         </ul>
         ".tra("Team Admins cannot:")."
@@ -77,8 +78,8 @@ function show_admins($user, $teamid) {
     echo form_tokens($user->authenticator);
     start_table();
     row1(tra("Add Team Admin"));
-    row2(tra("Email address of team member:"), "<input name=email_addr>");
-    row2("", "<input class=\"btn btn-default\" type=submit action value=\"".tra("Add")."\">");
+    row2(tra("Email address of team member:"), '<input class="form-control" name="email_addr">');
+    row2("", "<input class=\"btn btn-success\" type=submit action value=\"".tra("Add")."\">");
     end_table();
     echo "</form>";
 

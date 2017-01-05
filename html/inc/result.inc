@@ -357,47 +357,56 @@ function result_page_url($info) {
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
-    start_table();
-    echo "<tr>";
+    start_table('table-striped');
+    $x = array();
+    $a = array(null);
+
     if ($info) {
         if ($info->show_names) {
             $i2 = clone $info;
             $i2->show_names = 0;
             $url = result_page_url($i2);
-            echo "<th>".tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small></th>\n";
+            $x[] = tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small>";
         } else {
             $i2 = clone $info;
             $i2->show_names = 1;
             $url = result_page_url($i2);
-            echo "<th>Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small></th>\n";
+            $x[] = "Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small>";
         }
     } else {
-        echo "<th>".tra("Task")."<br><small>".tra("click for details")."</small></th>\n";
+        $x[] = tra("Task")."<br><small>".tra("click for details")."</small>";
     }
     if ($show_wu_link) {
-        echo "<th>".tra("Work unit")."<br><small>".tra("click for details")."</small></th>\n";
+        $x[] = tra("Work unit")."<br><small>".tra("click for details")."</small>";
+        $a[] = null;
         if (function_exists('project_result_info_heading')) {
-            $x = project_result_info_heading();
-            if ($x) {
-                echo "<th>$x</th>\n";
+            $y = project_result_info_heading();
+            if ($y) {
+                $x[] = $y;
+                $a[] = null;
             }
         }
     }
     if ($show_host_link) {
-        echo "<th>".tra("Computer")."</th>\n";
+        $x[] = tra("Computer");
+        $a[] = null;
     }
-    echo "
-        <th>".tra("Sent")."</th>
-        <th>".tra("Time reported<br />or deadline")."
-            <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>
-        </th>
-        <th>".tra("Status")."</th>
-        <th>".tra("Run time<br />(sec)")."</th>
-        <th>".tra("CPU time<br />(sec)")."</th>
-        <th>".tra("Credit")."</th>
-        <th>".tra("Application")."</th>
-        </tr>
-    ";
+    $x[] = tra("Sent");
+    $x[] = tra("Time reported<br />or deadline")."
+        <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>";
+    $x[] = tra("Status");
+    $a[] = null;
+    $a[] = null;
+    $a[] = null;
+    $x[] = tra("Run time<br />(sec)");
+    $x[] = tra("CPU time<br />(sec)");
+    $x[] = tra("Credit");
+    $a[] = ALIGN_RIGHT;
+    $a[] = ALIGN_RIGHT;
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("Application");
+    $a[] = null;
+    row_heading_array($x, $a);
 }
 
 // was result invalid or timed out?
@@ -408,9 +417,7 @@ function bad_result($result) {
     return false;
 }
 
-function show_result_row(
-    $result, $show_wu_link, $show_host_link, $show_name, $i
-) {
+function show_result_row($result, $show_wu_link, $show_host_link, $show_name) {
     $s = time_str($result->sent_time);
     // if result has been reported, show the received time,
     // else show the reporting deadline in green if in the future
@@ -430,8 +437,7 @@ function show_result_row(
     $ss = state_string($result);
     $result_granted_credit = format_credit($result->granted_credit);
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit);
-    $j = $i % 2;
-    echo "<tr class=row$j>";
+    echo "<tr>";
     if ($show_name) {
         $x = $result->name;
     } else {
@@ -827,7 +833,7 @@ function result_navigation($info, $where_clause) {
         }
     }
 
-    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input class=\"btn btn-primary\" type=submit value='OK'></form>";
+    $x .= '<form action="result.php">'.tra("Task name:").' <input "size=40" name="result_name"> <input class="btn btn-primary" type="submit" value="OK"></form>';
     $x .= "</center><br>";
     return $x;
 }

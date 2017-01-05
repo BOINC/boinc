@@ -222,6 +222,11 @@ double getDTime() {
 }
 
 
+void doBoinc_Sleep(double seconds) {
+    boinc_sleep(seconds);
+}
+
+
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     

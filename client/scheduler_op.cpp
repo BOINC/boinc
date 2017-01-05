@@ -325,10 +325,10 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 
 // parse a master file.
 //
-int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
+int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<string> &urls) {
     char buf[256], buf2[256];
     char master_filename[256];
-    std::string str;
+    string str;
     FILE* f;
     int n;
 
@@ -392,7 +392,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
 // transfer scheduler URLs to project.
 // Return true if any of them is new
 //
-bool SCHEDULER_OP::update_urls(PROJECT* p, vector<std::string> &urls) {
+bool SCHEDULER_OP::update_urls(PROJECT* p, vector<string> &urls) {
     unsigned int i, j;
     bool found, any_new;
 
@@ -422,7 +422,7 @@ bool SCHEDULER_OP::update_urls(PROJECT* p, vector<std::string> &urls) {
 //
 bool SCHEDULER_OP::poll() {
     int retval;
-    vector<std::string> urls;
+    vector<string> urls;
     bool changed;
 
     switch(state) {
@@ -587,7 +587,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     int retval;
     MIOFILE mf;
     XML_PARSER xp(&mf);
-    std::string delete_file_name;
+    string delete_file_name;
     bool verify_files_on_app_start = false;
     bool non_cpu_intensive = false;
     bool ended = false;
@@ -703,7 +703,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 return retval;
             }
         } else if (xp.match_tag("gui_urls")) {
-            std::string foo;
+            string foo;
             retval = copy_element_contents(xp.f->f, "</gui_urls>", foo);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,

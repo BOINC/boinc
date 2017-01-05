@@ -1260,6 +1260,9 @@ function boincteam_view_member_list_panel($team_id) {
  */
 function boincteam_view_team_panel($team_id) {
   $team = node_load($team_id);
+  if ($team->type != "team") {
+    return;
+  }
   $boincteam = boincteam_load(boincteam_lookup_id($team_id), TRUE);
   $founder = user_load(get_drupal_id($boincteam->userid));
   $new_members = array();

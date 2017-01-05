@@ -104,12 +104,13 @@ if ($offset < ITEM_LIMIT) {
 
 
 // Now display what we've got (either gotten from cache or from DB)
+//
 page_head(tra("Top %1 teams", $type_name));
 
 if (count($data) == 0) {
     echo tra("There are no %1 teams", $type_name);
 } else {
-    start_table();
+    start_table('table-striped');
     team_table_start($sort_by, $type_url);
     $i = 1 + $offset;
     $n = sizeof($data);
@@ -117,7 +118,8 @@ if (count($data) == 0) {
         show_team_row($team, $i);
         $i++;
     }
-    echo "</table>\n<p>";
+    end_table();
+    echo "<p>";
     if ($offset > 0) {
         $new_offset = $offset - $teams_per_page;
         echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">".tra("Previous %1", $teams_per_page)."</a> &middot; ";

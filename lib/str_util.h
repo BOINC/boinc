@@ -110,4 +110,6 @@ extern std::vector<std::string> split(std::string, char delim);
 
 extern bool is_valid_filename(const char*);
 
+extern int path_to_filename(std::string fpath, std::string& fname);
+extern int path_to_filename(std::string fpath, char* &fname);
 #endif

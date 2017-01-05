@@ -95,13 +95,11 @@ $nav = result_navigation($info, $clause);
 if (count($results)) {
     echo $nav;
     result_table_start(true, $show_host_link, $info);
-    $i = 0;
     foreach ($results as $result) {
         if ($i >= $results_per_page) break;
-        show_result_row($result, true, $show_host_link, $show_names, $i);
-        $i++;
+        show_result_row($result, true, $show_host_link, $show_names);
     }
-    echo "</table>\n";
+    end_table();
 } else {
     start_table();
     row1(tra("No tasks to display"));

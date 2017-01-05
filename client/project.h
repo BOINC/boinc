@@ -21,12 +21,17 @@
 #include "app_config.h"
 #include "client_types.h"
 
+// describes a project to which this client is attached
+//
 struct PROJECT : PROJ_AM {
     char _project_dir[MAXPATHLEN];
     char _project_dir_absolute[MAXPATHLEN];
 
+    std::string sci_keywords;
+    std::string loc_keywords;
+
     // the following items come from the account file
-    // They are a function only of the user and the project
+    // They are a function of the user and the project (not host)
     //
     char authenticator[256];
         // user's authenticator on this project
@@ -77,7 +82,8 @@ struct PROJECT : PROJ_AM {
         // But we need it in the latter in order to parse prefs.
     bool using_venue_specific_prefs;
 
-    // the following items come from client_state.xml
+    ///////  START OF ITEMS STORED IN client_state.xml
+    //
     // They may depend on the host as well as user and project
     // NOTE: if you add anything, add it to copy_state_fields() also!!!
     //
@@ -107,6 +113,23 @@ struct PROJECT : PROJ_AM {
         // -1 means not specified by AMS, or not using an AMS
     double last_rpc_time;
         // when last RPC finished; used by Manager
+    double duration_correction_factor;
+        // Multiply by this when estimating the CPU time of a result
+        // (based on FLOPs estimated and benchmarks).
+        // This is dynamically updated in a way that maintains an upper bound.
+        // it goes down slowly but if a new estimate X is larger,
+        // the factor is set to X.
+        //
+        // Deprecated - current server logic handles this,
+        // and this should go to 1.
+        // But we need to keep it around for older projects
+
+    // accounting info; estimated credit and time for CPU and GPU
+    //
+    double cpu_ec;
+    double cpu_time;
+    double gpu_ec;
+    double gpu_time;
 
     // stuff related to scheduler RPCs and master fetch
     //
@@ -116,7 +139,6 @@ struct PROJECT : PROJ_AM {
     int master_fetch_failures;
     double min_rpc_time;
         // earliest time to contact any server of this project (or zero)
-    void set_min_rpc_time(double future_time, const char* reason);
     double next_rpc_time;
         // if nonzero, specifies a time when another scheduler RPC
         // should be done (as requested by server).
@@ -129,16 +151,18 @@ struct PROJECT : PROJ_AM {
         // we need to do a scheduler RPC, for various possible reasons:
         // user request, propagate host CPID, time-based, etc.
         // Reasons are enumerated in lib/common_defs.h
+    bool trickle_up_pending;
+        // have trickle up to send
+
+    ///////  END OF ITEMS STORED IN client_state.xml
+
+    // Other stuff
+    //
     bool possibly_backed_off;
         // we need to call request_work_fetch() when a project
         // transitions from being backed off to not.
         // This (slightly misnamed) keeps track of whether this
         // may still need to be done for given project
-    bool trickle_up_pending;
-        // have trickle up to send
-
-    // Other stuff
-
     bool anonymous_platform;
         // app_versions.xml file found in project dir;
         // use those apps rather then getting from server
@@ -155,14 +179,15 @@ struct PROJECT : PROJ_AM {
     double disk_share;
         // computed by get_disk_shares();
 
-    // items send in scheduler replies, requesting that
-    // various things be sent in the next request
+    // items sent in scheduler replies,
+    // requesting that various things be sent subsequent requests
     //
     int send_time_stats_log;
         // if nonzero, send time stats log from that point on
     int send_job_log;
         // if nonzero, send this project's job log from that point on
     bool send_full_workload;
+
     bool dont_use_dcf;
 
     bool suspended_via_gui;
@@ -180,6 +205,9 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
 
+    ///////////////// member functions /////////////////
+
+    void set_min_rpc_time(double future_time, const char* reason);
     int parse_preferences_for_user_files();
     void write_project_files(MIOFILE&);
     void link_project_files();
@@ -192,16 +220,6 @@ struct PROJECT : PROJ_AM {
         // called when a project file download finishes.
         // If it's the last one, set project_files_downloaded_time to now
 
-    double duration_correction_factor;
-        // Multiply by this when estimating the CPU time of a result
-        // (based on FLOPs estimated and benchmarks).
-        // This is dynamically updated in a way that maintains an upper bound.
-        // it goes down slowly but if a new estimate X is larger,
-        // the factor is set to X.
-        //
-        // Deprecated - current server logic handles this,
-        // and this should go to 1.
-        // But we need to keep it around for older projects
     void update_duration_correction_factor(ACTIVE_TASK*);
     
     // fields used by CPU scheduler and work fetch
@@ -294,7 +312,7 @@ struct PROJECT : PROJ_AM {
     // job counting
     //
     int njobs_success;
-    int njobs_error;
+    int njobs_fail;
 
     // total elapsed time of this project's jobs (for export to GUI)
     //
