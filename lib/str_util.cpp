@@ -322,35 +322,6 @@ void strip_whitespace(char *str) {
 
 // remove whitespace and quotes from start and end of a string
 //
-void strip_quotes(char *str) {
-    char *s = str;
-
-    while (*s) {
-        if (*s == '"' || *s == '\'') {
-            s++;
-            continue;
-        }
-        if (!isascii(*s)) break;
-        if (!isspace(*s)) break;
-        s++;
-    }
-    if (s != str) strcpy_overlap(str, s);
-
-    size_t n = strlen(str);
-    while (n>0) {
-        n--;
-        if (str[n] == '"' || str[n] == '\'') {
-            if (str[n-1] != '\\') {
-                str[n] = 0;
-                continue;
-            }
-        }
-        if (!isascii(str[n])) break;
-        if (!isspace(str[n])) break;
-        str[n] = 0;
-    }
-}
-
 void strip_quotes(string& str) {
     while (1) {
         if (str.length() == 0) break;
@@ -376,6 +347,12 @@ void strip_quotes(string& str) {
         n--;
     }
     str.erase(n, str.length()-n);
+}
+
+void strip_quotes(char *str) {
+    string s = str;
+    strip_quotes(s);
+    strcpy(str, s.c_str());
 }
 
 // This only unescapes some special shell characters used in /etc/os-release
