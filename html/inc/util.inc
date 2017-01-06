@@ -671,16 +671,12 @@ function post_int($name, $optional=false) {
     return $y;
 }
 
-function get_array($name, $optional=false) {
+function get_array($name) {
     if (isset($_GET[$name])) {
-        $x = $_GET[$name];
+        return $_GET[$name];
     } else {
-        if (!$optional) {
-            error_page("missing or bad parameter: $name");
-        }
-        $x = null;
+        return array();
     }
-    return $x;
 }
 
 function get_str($name, $optional=false) {

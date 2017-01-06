@@ -364,6 +364,7 @@ struct GR_PROXY_INFO {
     int socks_server_port;
     std::string socks5_user_name;
     std::string socks5_user_passwd;
+    bool socks5_remote_dns;
 
 	std::string noproxy_hosts;
 
