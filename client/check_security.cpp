@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,9 +29,12 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
-
 #ifdef __WXMAC__                            // If Mac BOINC Manager
-bool IsUserInGroupBM();
+#include "mac_util.h"
+#endif
+
+#ifdef __APPLE__                            // If Mac BOINC Manager
+bool IsUserInGroup(char* groupName);
 #endif
 
 static int CheckNestedDirectories(
@@ -59,12 +62,11 @@ static gid_t        boinc_master_gid, boinc_project_gid;
 static uid_t        boinc_master_uid, boinc_project_uid;
 
 // Called from BOINC Manager, BOINC Client and Installer.
-// The arguments are use only when called from the Installer
 
 // Returns FALSE (0) if owners and permissions are OK, else TRUE (1)
 int check_security(
 #ifdef _MAC_INSTALLER
-char *bundlePath, char *dataPath,
+char *bundlePath, char *dataPath,   // These arguments are used only when called from the Installer
 #endif
 int use_sandbox, int isManager, char* path_to_error, int len
 ) {
@@ -76,11 +78,6 @@ int use_sandbox, int isManager, char* path_to_error, int len
     struct stat         sbuf;
     int                 retval;
     int                 useFakeProjectUserAndGroup = 0;
-#ifdef __WXMAC__                            // If Mac BOINC Manager
-    ProcessSerialNumber ourPSN;
-    ProcessInfoRec      pInfo;
-    FSRef               ourFSRef;
-#endif
 
 #define NUMBRANDS 3
 
@@ -93,7 +90,23 @@ saverName[2] = "Progress Thru Processors";
     useFakeProjectUserAndGroup = ! use_sandbox;
 #ifdef _DEBUG
 #ifdef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
-        useFakeProjectUserAndGroup = 1;
+    useFakeProjectUserAndGroup = 1;
+#endif
+#if (defined(__APPLE__) &&  ! defined(_MAC_INSTALLER))
+    // Debugging Mac client or Mac BOINC Manager
+    // Normally, the Mac Development (Debug) builds do not define SANDBOX, so
+    // check_security() is never called. However, it is possible to use GDB
+    // or LLDB on sandbox-specific code, as long as the code is run as the
+    // current user (i.e., not as boinc_master or boinc_project), and the
+    // current user is a member of both groups boinc_master and boinc_project.
+    // Note that this newer approach supersedes the old one described and 
+    // implemented below. But since it has not been thoroughly tested, I have
+    // not removed the old code.
+    if (IsUserInGroup(REAL_BOINC_MASTER_NAME) && IsUserInGroup(REAL_BOINC_PROJECT_NAME)) {
+        return 0;
+    } else {
+        return -1099;
+    }
 #endif
 #endif      // _DEBUG
 
@@ -106,23 +119,7 @@ saverName[2] = "Progress Thru Processors";
 
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     // Get the full path to BOINC Manager application's bundle
-    retval = GetCurrentProcess (&ourPSN);
-    if (retval)
-        return -1000;          // Should never happen
-
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    retval = GetProcessInformation(&ourPSN, &pInfo);
-    if (retval)
-        return -1001;          // Should never happen
-
-    retval = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-    if (retval)
-        return -1002;          // Should never happen
-
-    retval = FSRefMakePath (&ourFSRef, (UInt8*)dir_path, sizeof(dir_path));
-    if (retval)
-        return -1003;          // Should never happen
+    getPathToThisApp(dir_path, sizeof(dir_path));
 #elif defined (_MAC_INSTALLER)
     strlcpy(dir_path, bundlePath, sizeof(dir_path));
 #endif
@@ -154,7 +151,7 @@ saverName[2] = "Progress Thru Processors";
         boinc_master_gid = sbuf.st_gid;
 
 #ifdef __WXMAC__
-    if (!IsUserInGroupBM())
+    if (!IsUserInGroup(REAL_BOINC_MASTER_NAME))
         return -1099;
 #endif
     } else {
@@ -672,14 +669,14 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
 #endif
 
 
-#ifdef __WXMAC__                            // If Mac BOINC Manager
-bool IsUserInGroupBM() {
+#ifdef __APPLE__                            // If Mac BOINC Manager
+bool IsUserInGroup(char* groupName) {
     group               *grp;
     gid_t               rgid;
     char                *userName, *groupMember;
     int                 i;
 
-    grp = getgrnam(REAL_BOINC_MASTER_NAME);
+    grp = getgrnam(groupName);
     if (grp) {
         rgid = getgid();
         if (rgid == grp->gr_gid) {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,6 +37,17 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     strlcpy(pathBuf, [thePath UTF8String], bufSize);
 }
 
+
 void BringAppToFront() {
     [ [NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
+}
+
+
+pid_t getPidIfRunning(char * bundleID) {
+    NSString *NSBundleID = [[NSString alloc] initWithUTF8String:bundleID];
+    NSArray * runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:NSBundleID];
+    if ([runningApps count] > 0) {
+        return [((NSRunningApplication *)[runningApps firstObject]) processIdentifier];
+    }
+    return 0;
 }

@@ -865,7 +865,9 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
 
     } else if (pi.use_socks_proxy) {
         // CURL only supports SOCKS version 5
-        curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE,
+            pi.socks5_remote_dns?CURLPROXY_SOCKS5_HOSTNAME:CURLPROXY_SOCKS5
+        );
         curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
         // libcurl uses blocking sockets with socks proxy, so limit timeout.

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,6 +32,7 @@
 
 #include "str_util.h"
 #include "str_replace.h"
+#include "mac_util.h"
 #include "translate.h"
 
 #define boinc_master_user_name "boinc_master"
@@ -39,14 +40,37 @@
 #define boinc_project_user_name "boinc_project"
 #define boinc_project_group_name "boinc_project"
 
-void Initialize(void);	/* function prototypes */
+
+// Macros to test OS version number on all versions of OS X without using deprecated Gestalt
+// compareOSVersionTo(x, y) returns:
+// -1 if the OS version we are running on is less than 10.x.y
+//  0 if the OS version we are running on is equal to 10.x.y
+// +1 if the OS version we are running on is lgreater than 10.x.y
+//
+#define MAKECFVERSIONNUMBER(x, y) floor(kCFCoreFoundationVersionNumber##x##_##y)
+#define compareOSVersionTo(toMajor, toMinor) \
+(floor(kCFCoreFoundationVersionNumber) > MAKECFVERSIONNUMBER(toMajor, toMinor) ? 1 : \
+(floor(kCFCoreFoundationVersionNumber) < MAKECFVERSIONNUMBER(toMajor, toMinor) ? -1 : 0))
+
+// Allow this to be built using Xcode 5.0.2
+#ifndef kCFCoreFoundationVersionNumber10_9
+#define kCFCoreFoundationVersionNumber10_9      855.11
+#endif
+#ifndef kCFCoreFoundationVersionNumber10_10
+#define kCFCoreFoundationVersionNumber10_10     1151.16
+#endif
+#ifndef kCFCoreFoundationVersionNumber10_11
+#define kCFCoreFoundationVersionNumber10_11     1253
+#endif
+
+OSErr Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
-static int compareOSVersionTo(int toMajor, int toMinor);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
+int callPosixSpawn(const char *cmd);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
@@ -72,22 +96,16 @@ int main(int argc, char *argv[])
     char                    temp[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
-    ProcessSerialNumber     ourPSN;
-    FSRef                   ourFSRef;
     OSStatus                err = noErr;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
 
-    Initialize();
+    if (Initialize() != noErr) {
+        return 0;
+    }
 
     // Get the full path to Installer package inside this application's bundle
-    err = GetCurrentProcess (&ourPSN);
-    if (err == noErr)
-        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-
-    if (err == noErr)
-        err = FSRefMakePath (&ourFSRef, (UInt8*)pkgPath, sizeof(pkgPath));
-
+    getPathToThisApp(pkgPath, sizeof(pkgPath));
     strlcpy(temp, pkgPath, sizeof(temp));
 
     strlcat(pkgPath, "/Contents/Resources/", sizeof(pkgPath));
@@ -128,7 +146,7 @@ int main(int argc, char *argv[])
     }
     if (compareOSVersionTo(10, 6) < 0) {
         LoadPreferredLanguages();
-        ::SetFrontProcess(&ourPSN);
+        BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
@@ -272,15 +290,11 @@ Boolean IsRestartNeeded()
 }
 
 
-void Initialize()	/* Initialize some managers */
+OSErr Initialize()	/* Initialize some managers */
 {
-    OSErr	err;
-        
 //    InitCursor();
 
-    err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
-    if (err != noErr)
-        ExitToShell();
+    return AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 }
 
 
@@ -457,7 +471,6 @@ static void ShowMessage(const char *format, ...) {
     va_list                 args;
     char                    s[1024];
     CFOptionFlags           responseFlags;
-    ProcessSerialNumber     ourProcess;
    
 #if 1
     va_start(args, format);
@@ -472,38 +485,13 @@ static void ShowMessage(const char *format, ...) {
     
     CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
 
-    ::GetCurrentProcess (&ourProcess);
-    ::SetFrontProcess(&ourProcess);
+    BringAppToFront();
     CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
                 NULL, NULL, NULL, CFSTR(" "), myString,
                 NULL, NULL, NULL,
                 &responseFlags);
     
     if (myString) CFRelease(myString);
-}
-
-
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMinor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
 }
 
 
@@ -515,6 +503,134 @@ static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* repl
 }
 
 
+#define NOT_IN_TOKEN                0
+#define IN_SINGLE_QUOTED_TOKEN      1
+#define IN_DOUBLE_QUOTED_TOKEN      2
+#define IN_UNQUOTED_TOKEN           3
+
+static int parse_posic_spawn_command_line(char* p, char** argv) {
+    int state = NOT_IN_TOKEN;
+    int argc=0;
+
+    while (*p) {
+        switch(state) {
+        case NOT_IN_TOKEN:
+            if (isspace(*p)) {
+            } else if (*p == '\'') {
+                p++;
+                argv[argc++] = p;
+                state = IN_SINGLE_QUOTED_TOKEN;
+                break;
+            } else if (*p == '\"') {
+                p++;
+                argv[argc++] = p;
+                state = IN_DOUBLE_QUOTED_TOKEN;
+                break;
+            } else {
+                argv[argc++] = p;
+                state = IN_UNQUOTED_TOKEN;
+            }
+            break;
+        case IN_SINGLE_QUOTED_TOKEN:
+            if (*p == '\'') {
+                if (*(p-1) == '\\') break;
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_DOUBLE_QUOTED_TOKEN:
+            if (*p == '\"') {
+                if (*(p-1) == '\\') break;
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_UNQUOTED_TOKEN:
+            if (isspace(*p)) {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        }
+        p++;
+    }
+    argv[argc] = 0;
+    return argc;
+}
+
+#include <spawn.h>
+
+int callPosixSpawn(const char *cmdline) {
+    char command[1024];
+    char progName[1024];
+    char progPath[MAXPATHLEN];
+    char* argv[100];
+    int argc = 0;
+    char *p;
+    pid_t thePid = 0;
+    int result = 0;
+    int status = 0;
+    extern char **environ;
+    
+    // Make a copy of cmdline because parse_posic_spawn_command_line modifies it
+    strlcpy(command, cmdline, sizeof(command));
+    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    strlcpy(progPath, argv[0], sizeof(progPath));
+    strlcpy(progName, argv[0], sizeof(progName));
+    p = strrchr(progName, '/');
+    if (p) {
+        argv[0] = p+1;
+    } else {
+        argv[0] = progName;
+    }
+    
+#if VERBOSE_TEST
+    print_to_log_file("***********");
+    for (int i=0; i<argc; ++i) {
+        print_to_log_file("argv[%d]=%s", i, argv[i]);
+    }
+    print_to_log_file("***********\n");
+#endif
+
+    errno = 0;
+
+    result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
+#if VERBOSE_TEST
+    print_to_log_file("callPosixSpawn command: %s", cmdline);
+    print_to_log_file("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+#endif
+    if (result) {
+        return result;
+    }
+// CAF    int val =
+    waitpid(thePid, &status, WUNTRACED);
+// CAF        if (val < 0) printf("first waitpid returned %d\n", val);
+    if (status != 0) {
+#if VERBOSE_TEST
+        print_to_log_file("waitpid() returned status=%d", status);
+#endif
+        result = status;
+    } else {
+        if (WIFEXITED(status)) {
+            result = WEXITSTATUS(status);
+            if (result == 1) {
+#if VERBOSE_TEST
+                print_to_log_file("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+#endif
+                result = errno;
+            }
+#if VERBOSE_TEST
+            else if (result) {
+                print_to_log_file("WEXITSTATUS(status) returned %d", result);
+            }
+#endif
+        }   // end if (WIFEXITED(status)) else
+    }       // end if waitpid returned 0 sstaus else
+    
+    return result;
+}
+
+
 // For debugging
 void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
@@ -522,8 +638,8 @@ void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    safe_strcpy(buf, getenv("HOME"));
-    safe_strcat(buf, "/Documents/test_log.txt");
+    strlcpy(buf, getenv("HOME"), sizeof(buf));
+    strlcpy(buf, "/Documents/test_log.txt", sizeof(buf));
     f = fopen(buf, "a");
     if (!f) return;
 
@@ -531,7 +647,7 @@ void print_to_log_file(const char *format, ...) {
 //  freopen(buf, "a", stderr);
 
     time(&t);
-    safe_strcpy(buf, asctime(localtime(&t)));
+    strlcpy(buf, asctime(localtime(&t)),sizeof(buf));
     strip_cr(buf);
 
     fputs(buf, f);
