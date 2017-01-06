@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,9 +24,6 @@
 #include "filesys.h"
 #include "util.h"
 #include "mac_util.h"
-#if (defined(SANDBOX) && defined(_DEBUG))
-#include "SetupSecurity.h"
-#endif
 #include "sandbox.h"
 #endif
 
@@ -276,19 +273,21 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
+    //
+    // NOTE: GDB and LLDB can't attach to applications which are running as
+    // a different user or group.
+    // Normally, the Mac Development (Debug) builds do not define SANDBOX, so
+    // check_security() is never called. However, it is possible to use GDB
+    // or LLDB on sandbox-specific code, as long as the code is run as the
+    // current user (i.e., not as boinc_master or boinc_project), and the
+    // current user is a member of both groups boinc_master and boinc_project.
+    // However, this has not been thoroughly tested. Please see the comments
+    // in SetupSecurity.cpp and check_security.cpp for more details.
+    //
     char path_to_error[MAXPATHLEN];
     path_to_error[0] = '\0';
     
     if (!iErrorCode) {
-#if (defined(__WXMAC__) && defined(_DEBUG))     // TODO: implement this for other platforms
-        // GDB can't attach to applications which are running as a different user   
-        //  or group, so fix up data with current user and group during debugging
-        if (check_security(g_use_sandbox, true, NULL, 0)) {
-            CreateBOINCUsersAndGroups();
-            SetBOINCDataOwnersGroupsAndPermissions();
-            SetBOINCAppOwnersGroupsAndPermissions(NULL);
-        }
-#endif
         iErrorCode = check_security(
             g_use_sandbox, true, path_to_error, sizeof(path_to_error)
         );
@@ -299,11 +298,18 @@ bool CBOINCGUIApp::OnInit() {
         ShowApplication(true);
 
         if (iErrorCode == -1099) {
+#if (defined(__WXMAC__) && defined (_DEBUG))
+            strDialogMessage.Printf(
+                "To debug with sandbox security enabled, the current user\n"
+                "must be a member of both groups boinc_master and boinc_project."
+            );
+#else   // ! (defined(__WXMAC__) && defined (_DEBUG))
             strDialogMessage.Printf(
                 _("You currently are not authorized to manage the client.\n\nTo run %s as this user, please:\n  - reinstall %s answering \"Yes\" to the question about\n     non-administrative users\n or\n  - contact your administrator to add you to the 'boinc_master'\n     user group."),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str()
             );
+#endif  // ! (defined(__WXMAC__) && defined (_DEBUG))
         } else {
             strDialogMessage.Printf(
                 _("%s ownership or permissions are not set properly; please reinstall %s.\n(Error code %d"),

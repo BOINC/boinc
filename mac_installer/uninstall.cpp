@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,8 +22,6 @@
 
     
 #include <Carbon/Carbon.h>
-#include <Security/Authorization.h>
-#include <Security/AuthorizationTags.h>
 
 #include <grp.h>
 
@@ -649,17 +647,17 @@ static OSStatus CleanupAllVisibleUsers(void)
     systemEventsPath[0] = '\0';
 
     // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
-    CFArrayRef (*LSCopyAppURLForBundleID)(CFStringRef, CFErrorRef) = NULL;
+    CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
     void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
     if (LSlib) {
-        LSCopyAppURLForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
+        LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
     }
-    if (LSCopyAppURLForBundleID == NULL) {
+    if (LSCopyAppURLsForBundleID == NULL) {
         err = fnfErr;
     }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-    if (err != noErr) {     // LSCopyAppURLForBundleID == NULL
+    if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, NULL, &appURL);
@@ -673,7 +671,7 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
     {
         if (err == noErr) {
-            CFArrayRef appRefs = (*LSCopyAppURLForBundleID)(kSystemEventsBundleID, NULL);
+            CFArrayRef appRefs = (*LSCopyAppURLsForBundleID)(kSystemEventsBundleID, NULL);
             if (appRefs == NULL) {
                 err = fnfErr;
             } else {
@@ -1585,17 +1583,17 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
     OSStatus                status = noErr;
 
     // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
-    CFArrayRef (*LSCopyAppURLForBundleID)(CFStringRef, CFErrorRef) = NULL;
+    CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
     void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
     if (LSlib) {
-        LSCopyAppURLForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
+        LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
     }
-    if (LSCopyAppURLForBundleID == NULL) {
+    if (LSCopyAppURLsForBundleID == NULL) {
         status = fnfErr;
     }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-    if (status != noErr) {     // LSCopyAppURLForBundleID == NULL
+    if (status != noErr) {     // LSCopyAppURLsForBundleID == NULL
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         status = LSFindApplicationForInfo(creator, bundleID, NULL, NULL, &appURL);
@@ -1609,7 +1607,7 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
 #endif
     {
         if (status == noErr) {
-            CFArrayRef appRefs = (*LSCopyAppURLForBundleID)(bundleID, NULL);
+            CFArrayRef appRefs = (*LSCopyAppURLsForBundleID)(bundleID, NULL);
             if (appRefs == NULL) {
                 status = fnfErr;
             } else {
@@ -1772,6 +1770,8 @@ int callPosixSpawn(const char *cmdline, bool delayForResult) {
     
     return result;
 }
+
+
 #if VERBOSE_TEST
 void strip_cr(char *buf)
 {

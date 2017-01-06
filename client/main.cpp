@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,9 +49,6 @@
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
-#if (defined(SANDBOX) && defined(_DEBUG))
-#include "SetupSecurity.h"
-#endif
 #endif
 
 #include "diagnostics.h"
@@ -513,16 +510,23 @@ int main(int argc, char** argv) {
     // Make sure owners, groups and permissions are correct
     // for the current setting of g_use_sandbox
     //
-#if defined(_DEBUG) && defined(__APPLE__)
-    // GDB can't attach to applications which are running as a different user
-    // or group, so fix up data with current user and group during debugging
-    //
-    if (check_security(g_use_sandbox, false, NULL, 0)) {
-        SetBOINCDataOwnersGroupsAndPermissions();
-    }
-#endif  // _DEBUG && __APPLE__
+    // NOTE: GDB and LLDB can't attach to applications which are running as
+    // a different user or group.
+    // Normally, the Mac Development (Debug) builds do not define SANDBOX, so
+    // check_security() is never called. However, it is possible to use GDB
+    // or LLDB on sandbox-specific code, as long as the code is run as the
+    // current user (i.e., not as boinc_master or boinc_project), and the
+    // current user is a member of both groups boinc_master and boinc_project.
+    // However, this has not been thoroughly tested. Please see the comments
+    // in SetupSecurity.cpp and check_security.cpp for more details.
     int securityErr = check_security(g_use_sandbox, false, NULL, 0);
     if (securityErr) {
+#if (defined(__APPLE__) && defined (_DEBUG))
+        printf(
+            "To debug with sandbox security enabled, the current user\n"
+            "must be a member of both groups boinc_master and boinc_project."
+        );
+#else  // ! (defined(__APPLE__) && defined (_DEBUG))
         printf(
             "File ownership or permissions are set in a way that\n"
             "does not allow sandboxed execution of BOINC applications.\n"
@@ -535,6 +539,7 @@ int main(int argc, char** argv) {
 #endif
             ". (Error code %d)\n", securityErr
         );
+#endif  // ! (defined(__APPLE__) && defined (_DEBUG))
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX

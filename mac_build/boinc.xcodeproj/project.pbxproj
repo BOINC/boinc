@@ -54,7 +54,6 @@
 		DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */; };
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */; };
-		DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
@@ -139,7 +138,6 @@
 		DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46908F334EA00C1DF66 /* wizardex.cpp */; };
 		DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD3E15210A774397007E0084 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
-		DD3E15220A774397007E0084 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
 		DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */; };
 		DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */; };
@@ -164,7 +162,6 @@
 		DD407A6B07D2FBC700163EF5 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DD407A6D07D2FBD100163EF5 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DD407ABB07D2FC7D00163EF5 /* mem_usage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */; };
-		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
@@ -322,7 +319,6 @@
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
 		DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9E560E182D0D40002AF0F8 /* WebKit.framework */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
-		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -393,6 +389,10 @@
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
+		DDD0CEAC1E1E15B2003BD920 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
+		DDD0CEAD1E1E15FB003BD920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
+		DDD0CEAE1E1E36AE003BD920 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
+		DDD0CEAF1E1E36E4003BD920 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DDD3371310622D0800867C7D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDD50AFA18C49D2300EC244E /* BOINCGUIApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
@@ -459,6 +459,8 @@
 		DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374010DC60E200161D6B /* DlgEventLog.cpp */; };
 		DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */; };
 		DDE17420166746F70059083A /* app_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1741E166746F70059083A /* app_config.cpp */; };
+		DDE289661E1F985C00A17A36 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
+		DDE289671E1F989400A17A36 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
@@ -1233,7 +1235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD1277E6081F44C1007B5DE1 /* Carbon.framework in Frameworks */,
-				DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */,
+				DDD0CEAD1E1E15FB003BD920 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1241,6 +1243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDE289671E1F989400A17A36 /* AppKit.framework in Frameworks */,
 				DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */,
 				DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */,
 			);
@@ -1301,6 +1304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7749680A3596380025D05E /* Security.framework in Frameworks */,
+				DDD0CEAF1E1E36E4003BD920 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2786,6 +2790,7 @@
 				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 				DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */,
 				DD728D45175DD3B900A1CE23 /* url.cpp in Sources */,
+				DDD0CEAC1E1E15B2003BD920 /* mac_util.mm in Sources */,
 				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
 				DDF93511176B0D0C00A2793C /* translate.cpp in Sources */,
 				DDB9EA9817BE2C1400651B07 /* filesys.cpp in Sources */,
@@ -2797,11 +2802,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */,
 				DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */,
 				DD5FE1B517828887003339DF /* translate.cpp in Sources */,
 				DDB9EA9917BE2C1E00651B07 /* filesys.cpp in Sources */,
 				DDB9EA9B17BE2C6F00651B07 /* util.cpp in Sources */,
+				DDE289661E1F985C00A17A36 /* mac_util.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2872,7 +2877,6 @@
 				DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */,
 				DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */,
 				DD3E15210A774397007E0084 /* check_security.cpp in Sources */,
-				DD3E15220A774397007E0084 /* SetupSecurity.cpp in Sources */,
 				DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */,
 				DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */,
 				DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */,
@@ -3015,6 +3019,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */,
+				DDD0CEAE1E1E36AE003BD920 /* mac_util.mm in Sources */,
 				DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3273,7 +3278,6 @@
 				DDD74DD307CF493D0065AC9D /* shmem.cpp in Sources */,
 				DDD74DD407CF493E0065AC9D /* util.cpp in Sources */,
 				DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */,
-				DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */,
 				DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */,
 				DD7BF7E40B8E7B5000A009F7 /* str_util.cpp in Sources */,
 				DD7BF7E80B8E7BBE00A009F7 /* work_fetch.cpp in Sources */,
