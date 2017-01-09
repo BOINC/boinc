@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -47,67 +47,33 @@ using std::string;
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
 
-// version of strcpy that works even if strings overlap (p < q)
-//
-void strcpy_overlap(char* p, const char* q) {
-    while (1) {
-        *p++ = *q;
-        if (!*q) break;
-        q++;
-    }
-}
-
 // remove whitespace from start and end of a string
 //
-void strip_whitespace(char *str) {
-    char *s = str;
-    while (*s) {
-        if (!isascii(*s)) break;
-        if (!isspace(*s)) break;
-        s++;
+void strip_whitespace(string& str) {
+    while (1) {
+        if (str.length() == 0) break;
+        if (!isascii(str[0])) break;
+        if (!isspace(str[0])) break;
+        str.erase(0, 1);
     }
-    if (s != str) strcpy_overlap(str, s);
 
-    size_t n = strlen(str);
+    int n = (int) str.length();
     while (n>0) {
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
         n--;
-        if (!isascii(str[n])) break;
-        if (!isspace(str[n])) break;
-        str[n] = 0;
     }
+    str.erase(n, str.length()-n);
+}
+
+void strip_whitespace(char *str) {
+    string s = str;
+    strip_whitespace(s);
+    strcpy(str, s.c_str());
 }
 
 // remove whitespace and quotes from start and end of a string
 //
-void strip_quotes(char *str) {
-    char *s = str;
-
-    while (*s) {
-        if (*s == '"' || *s == '\'') {
-            s++;
-            continue;
-        }
-        if (!isascii(*s)) break;
-        if (!isspace(*s)) break;
-        s++;
-    }
-    if (s != str) strcpy_overlap(str, s);
-
-    size_t n = strlen(str);
-    while (n>0) {
-        n--;
-        if (str[n] == '"' || str[n] == '\'') {
-            if (str[n-1] != '\\') {
-                str[n] = 0;
-                continue;
-            }
-        }
-        if (!isascii(str[n])) break;
-        if (!isspace(str[n])) break;
-        str[n] = 0;
-    }
-}
-
 void strip_quotes(string& str) {
     while (1) {
         if (str.length() == 0) break;
@@ -133,6 +99,12 @@ void strip_quotes(string& str) {
         n--;
     }
     str.erase(n, str.length()-n);
+}
+
+void strip_quotes(char *str) {
+    string s = str;
+    strip_quotes(s);
+    strcpy(str, s.c_str());
 }
 
 void unescape_os_release(char* buf) {
