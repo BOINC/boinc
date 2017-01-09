@@ -29,7 +29,9 @@ function dir_hier_path($filename, $root, $fanout) {
     $dir = filename_hash($filename, $fanout);
     $dirpath = "$root/$dir";
     if (!is_dir($dirpath)) {
-        mkdir($dirpath);
+        if (!mkdir($dirpath)) {
+            echo "failed to mkdir: $dirpath\n";
+        }
     }
     return "$dirpath/$filename";
 }
