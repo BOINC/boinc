@@ -30,7 +30,7 @@
 //  for installation on remote Macs.  However, there is no way to respond 
 //  to dialogs during a command-line install.
 //
-// The command-line installer sets the following environment variable: 
+// Apple's command-line installer sets the following environment variable: 
 //     COMMAND_LINE_INSTALL=1
 // The postinstall script, postupgrade script, and this Postinstall.app 
 //   detect this environment variable and do the following:
@@ -42,14 +42,18 @@
 //  * test for the existence of a file /tmp/setboincsaver.txt; if the 
 //     file exists, set BOINC as the screensaver for all BOINC users. 
 //
+// The BOINC installer package to be used for command line installs can
+// be found embedded inside the GUI BOINC Installer application at:
+// "..../BOINC Installer.app/Contents/Resources/BOINC.pkg"
+//
 // Example: To install on a remote Mac from the command line, allowing 
 //   non-admin users to run the BOINC Manager and setting BOINC as the 
 //   screensaver:
-//  * First SCP the "BOINC Installer.pkg" to the remote Mac's /tmp 
-//     directory, then SSh into the remote mac and enter the following
+//  * First SCP the "BOINC.pkg" to the remote Mac's /tmp
+//     directory, then SSh into the remote Mac and enter the following
 //  $ touch /tmp/nonadminusersok.txt
 //  $ touch /tmp/setboincsaver.txt
-//  $ sudo installer -pkg "/tmp/BOINC Installer.pkg" -tgt /
+//  $ sudo installer -pkg /tmp/BOINC.pkg -tgt /
 //  $ sudo reboot
 //
 
