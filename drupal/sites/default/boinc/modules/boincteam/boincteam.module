@@ -1306,3 +1306,31 @@ function boincteam_view_team_panel($team_id) {
   }
   return $output;
 }
+
+/**
+ * Implementation of hook_views_pre_execute()
+ *
+ * Before reading from the BOINC database, set the character encoding
+ * to 'boinc_database_encoding'.
+ */
+function boincteam_views_pre_execute(&$view) {
+  if ($view->name=="boinc_teams") {
+    if (isset($view->base_database)) {
+      db_set_active($view->base_database);
+      $dbenc = variable_get('boinc_database_encoding', 'latin1');
+      if (isset($dbenc) AND $dbenc!='utf-8') {
+        $myenc = "SET NAMES " . $dbenc;
+        db_query($myenc);
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_views_post_execute()
+ */
+function boincteam_views_post_execute(&$view) {
+  if ($view->name=="boinc_teams") {
+    db_query("SET NAMES utf8");
+  }
+}
