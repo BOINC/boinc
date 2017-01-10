@@ -16,13 +16,12 @@
 function boincteam_sync() {
 
   // Get the list of teams to import from BOINC db
-  $dbenc = variable_get('boinc_database_encoding');
+  db_set_active('boinc'); 
+  $dbenc = variable_get('boinc_database_encoding', 'latin1');
   if (isset($dbenc) AND $dbenc!='utf-8') {
     $myenc = "SET NAMES " . $dbenc;
+    db_query($myenc);
   }
-
-  db_set_active('boinc');
-  db_query($myenc);
   $boinc_teams = db_query('
     SELECT id, name, description, userid, create_time, seti_id
     FROM team

@@ -234,16 +234,16 @@ function boinccore_admin_default_content_generate($pages = array()) {
 function boinccore_admin_dbopts(&$form_state) {
   $form = array();
   $default = array(
-    'database_encoding' => variable_get('boinc_database_encoding', 'utf-8')
+    'database_encoding' => variable_get('boinc_database_encoding', 'latin1')
   );
 
   $form['boinc_database_encoding'] = array(
-    '#title' => bts('BOINC Database Character encoding (default is UTF-8).'),
+    '#title' => bts('BOINC Database Character encoding (default is latin1).'),
     '#type' => 'radios',
-    '#description' => bts('Choose character the encoding of BOINC database. When the BOINC database is loaded, the command \'SET NAMES (encoding)\' is run before database queries.'),
+    '#description' => bts('Choose the character encoding of the BOINC database. When the BOINC database is loaded, the command \'SET NAMES (encoding)\' is run before queries.'),
     '#options' => array(
-        'utf-8' => 'UTF-8',
         'latin1' => 'latin1 (ISO/IEC 8859-1)',
+        'utf-8' => 'UTF-8',
     ),
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['database_encoding'],
