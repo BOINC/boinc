@@ -365,7 +365,7 @@ function news_views_default_views() {
   $handler->override_option('row_plugin', 'fields');
   $handler->override_option('path', 'news');
   $handler->override_option('menu', array(
-    'type' => 'default tab',
+    'type' => 'normal',
     'title' => 'News',
     'description' => '',
     'weight' => '0',
