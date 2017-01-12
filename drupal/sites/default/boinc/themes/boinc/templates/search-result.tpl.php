@@ -53,22 +53,15 @@
 <?php
   case 'Profile':
   case 'profile':
-    $parsed_url = parse_url($url);
-    $base_length = strlen($base_path);
-    $core_path = trim(substr($parsed_url['path'], $base_length), '/');
-    $path = drupal_lookup_path('source', $core_path);
-    $matches = array();
-    if (preg_match('/node\/([0-9]+)/', $path, $matches)) {
-      $node = node_load($matches[1]);
-      $account = user_load($node->uid);
+    $nid = $result['fields']['entity_id'];
+    $node = node_load($nid);
+    $account = user_load($node->uid);
+    if (isset($account)) {
       $user_image = boincuser_get_user_profile_image($account->uid);
       $url = "{$base_path}account/{$account->uid}";
-      $forum = $node->taxonomy[$node->forum_tid]->name;
-      if ($forum) {
-        $title_prefix = "{$forum} : ";
+      if (empty($title)) {
+        $title = $account->name;
       }
-      //echo '<pre>' . print_r($node,1) . '</pre>';
-      //echo '<pre>' . print_r($account,1) . '</pre>';
     }
   ?>
   <div class="result user">
