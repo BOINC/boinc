@@ -72,6 +72,11 @@ if (!defined('LDAP_HOST')) {
     define('LDAP_HOST', null);
 }
 
+// sleep this long on any login failure
+// (slow the rate of hacker attacks)
+//
+define('LOGIN_FAIL_SLEEP_SEC', 5);
+
 $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;
