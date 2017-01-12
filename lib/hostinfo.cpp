@@ -208,7 +208,7 @@ int HOST_INFO::write(
         d_free,
         osn,
         osv,
-        coprocs.ndev();
+        coprocs.ndevs()
     );
     if (strlen(product_name)) {
         xml_escape(product_name, pn, sizeof(pn));
