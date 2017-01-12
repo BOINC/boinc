@@ -103,7 +103,7 @@ function show_participate() {
                 '<a href="projects.php">', '</a>',
                 '<a href="https://einsteinathome.org">Einstein@Home</a>',
                 '<a href="https://worldcommunitygrid.org">IBM World Community Grid</a>',
-                '<a href="https://setatihome.berkeley.edu">SETI@home</a>'
+                '<a href="https://setiathome.berkeley.edu">SETI@home</a>'
             );
             echo " ";
             echo tra("If you run several projects, try an %1account manager%2 such as %3GridRepublic%4 or %5BAM!%6. ",
