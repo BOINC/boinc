@@ -24,7 +24,9 @@
 #include "sched_config.h"
 #include "boinc_db.h"
 
-// describes an input file, possibly remote
+// describes an input file;
+// either an argument to create_work(),
+// or a <file_info> in input template
 //
 struct INFILE_DESC {
     bool is_remote;
