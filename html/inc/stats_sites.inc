@@ -29,7 +29,7 @@ $cpid_stats_sites = array(
     ),
 */
     array("BOINCstats",
-        "http://www.boincstats.com/en/stats/-1/user/detail/%s"
+        "http://boincstats.com/en/stats/-1/user/detail/%s"
     ),
     array("BOINC Statistics for the WORLD!",
         "http://www.boincsynergy.com/stats/boinc-individual.php?cpid=%s"
@@ -74,7 +74,7 @@ $stats_sites = array(
         "BOINC Combined Statistics",
         "developed by James Drews"
     ),
-    array("http://www.boincstats.com/",
+    array("http://boincstats.com/",
         "BOINCstats",
         "by Willy de Zutter"
     ),
@@ -137,7 +137,7 @@ $sig_sites = array(
     //    "boinc.be",
     //    ""
     //),
-    array("http://www.boincstats.com/page/faq.php#3",
+    array("http://boincstats.com/page/faq.php#3",
         "BOINCstats",
         "by Willy de Zutter"
     ),
