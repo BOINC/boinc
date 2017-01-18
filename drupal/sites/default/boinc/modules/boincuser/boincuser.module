@@ -1810,12 +1810,10 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
 
   foreach ($documents as $document) {
     if ( $document->entity_type=='node' AND $document->bundle=='profile' ) {
-      dd($document, "index documents alter - document");
       // Node information.
       $nid = $document->entity_id;
       $node = node_load($nid);
       $account = user_load($node->uid);
-      dd($account, "index document alter - account");
 
       // Replace the Solr document's created field with the date the user 
       // account was created. This replaces the node creation date typically 
