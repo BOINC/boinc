@@ -343,13 +343,13 @@ public class PrefsFragment extends Fragment {
 				public void onClick(View v) {
 					try{
 						for(SelectionDialogOption option: options) {
-							if(option.name == getResources().getString(R.string.prefs_power_source_ac))
+							if(option.name.equals(getResources().getString(R.string.prefs_power_source_ac)))
 								BOINCActivity.monitor.setPowerSourceAc(option.selected);
-							if(option.name == getResources().getString(R.string.prefs_power_source_usb))
+							if(option.name.equals(getResources().getString(R.string.prefs_power_source_usb)))
 								BOINCActivity.monitor.setPowerSourceUsb(option.selected);
-							if(option.name == getResources().getString(R.string.prefs_power_source_wireless))
+							if(option.name.equals(getResources().getString(R.string.prefs_power_source_wireless)))
 								BOINCActivity.monitor.setPowerSourceWireless(option.selected);
-							if(option.name == getResources().getString(R.string.prefs_power_source_battery)) {
+							if(option.name.equals(getResources().getString(R.string.prefs_power_source_battery))) {
 								clientPrefs.run_on_batteries = option.selected;
 								new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
 							}
