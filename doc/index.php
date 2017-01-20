@@ -118,8 +118,8 @@ function show_participate() {
                 <center>
                 <a class="btn btn-xs btn-primary" href="dev/">'.tra("Message boards").'</a>
                 <a class="btn btn-xs btn-primary" href="projects.php">'.tra("Projects").'</a>
-                <a class="btn btn-xs btn-primary" href="wiki/User_manual"><span class=nobr>'.tra("Manual").'</span></a> 
-                <a class="btn btn-xs btn-primary" href="/wiki/BOINC_Help">'.tra("Help").'</a>
+                <a class="btn btn-xs btn-primary" href="http://boinc.berkeley.edu/wiki/User_manual"><span class=nobr>'.tra("Manual").'</span></a> 
+                <a class="btn btn-xs btn-primary" href="http://boinc.berkeley.edu/wiki/BOINC_Help">'.tra("Help").'</a>
                 <a class="btn btn-xs btn-primary" href="addons.php"><span class=nobr>'.tra("Add-ons").'</span></a> 
                 <a class="btn btn-xs btn-primary" href="links.php"><span class=nobr>'.tra("Links").'</span></a> 
                 </center>
