@@ -94,7 +94,11 @@ using std::string;
 
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
-bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
+bool wu_is_infeasible_custom(
+    WORKUNIT& /*wu*/,
+    APP& /*app*/,
+    BEST_APP_VERSION& /*bav*/
+) {
 #if 0
     // example 1: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.

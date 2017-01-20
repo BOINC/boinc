@@ -751,10 +751,14 @@ static char *xtoa(size_t x) {
 #endif
 
 #ifdef HAVE_SIGACTION
+#ifdef ANDROID
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
+void boinc_catch_signal(int signal, struct siginfo *, void *) {
+#endif  // ANDROID
+#else
 void boinc_catch_signal(int signal) {
-#endif
+#endif  // HAVE_SIGACTION
     switch(signal) {
     case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
          return;
