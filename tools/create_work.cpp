@@ -25,6 +25,7 @@
 #include <cstring>
 #include <ctime>
 #include <string>
+#include <map>
 #include <sys/param.h>
 #include <unistd.h>
 
@@ -40,6 +41,7 @@
 #include "backend_lib.h"
 
 using std::string;
+using std::map;
 
 bool verbose = false;
 bool continue_on_error = false;
@@ -80,6 +82,7 @@ void usage() {
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
+        "\nSee http://boinc.berkeley.edu/trac/wiki/JobSubmission\n"
     );
     exit(1);
 }
@@ -102,10 +105,16 @@ void check_assign_id(int x) {
     }
 }
 
+// describes a job.
+// Also used to store batch-level info such as template names
+// and assignment info
+//
 struct JOB_DESC {
     DB_WORKUNIT wu;
     char wu_template[BLOB_SIZE];
-    char result_template_file[256], result_template_path[MAXPATHLEN];
+    char wu_template_file[256];
+    char result_template_file[256];
+    char result_template_path[MAXPATHLEN];
     vector <INFILE_DESC> infiles;
     char* command_line;
     char additional_xml[256];
@@ -119,6 +128,7 @@ struct JOB_DESC {
         command_line = NULL;
         assign_flag = false;
         assign_multi = false;
+        strcpy(wu_template_file, "");
         strcpy(result_template_file, "");
         strcpy(additional_xml, "");
         assign_id = 0;
@@ -152,6 +162,10 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             command_line = argv[++i];
         } else if (arg(argv, i, (char*)"wu_name")) {
             safe_strcpy(wu.name, argv[++i]);
+        } else if (arg(argv, i, (char*)"wu_template")) {
+            safe_strcpy(wu_template_file, argv[++i]);
+        } else if (arg(argv, i, (char*)"result_template")) {
+            safe_strcpy(result_template_file, argv[++i]);
         } else if (arg(argv, i, (char*)"remote_file")) {
             INFILE_DESC id;
             id.is_remote = true;
@@ -182,10 +196,33 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
     }
 }
 
+// See if WU template was given for job.
+// Many jobs may have the same ones.
+// To avoid rereading files, cache them in a map.
+// Get from cache if there, else read the file and add to cache
+//
+void get_wu_template(JOB_DESC& jd2) {
+    // the jobs may specify WU templates.
+    //
+    static map<char*, char*> wu_templates;
+
+    if (wu_templates.count(jd2.wu_template_file) == 0) {
+        char* p;
+        int retval = read_file_malloc(jd2.wu_template_file, p, 0, false);
+        if (retval) {
+            fprintf(
+                stderr, "Can't read WU template %s\n", jd2.wu_template_file
+            );
+            exit(1);
+        }
+        wu_templates[jd2.wu_template_file] = p;
+    }
+    strcpy(jd2.wu_template, wu_templates[jd2.wu_template_file]);
+}
+
 int main(int argc, char** argv) {
     DB_APP app;
     int retval;
-    char wu_template_file[256];
     int i;
     char download_dir[256], db_name[256], db_passwd[256];
     char db_user[256],db_host[256];
@@ -194,7 +231,6 @@ int main(int argc, char** argv) {
     bool show_wu_name = true;
     bool use_stdin = false;
 
-    strcpy(wu_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
     const char* config_dir = 0;
@@ -211,7 +247,7 @@ int main(int argc, char** argv) {
             show_wu_name = false;
             safe_strcpy(jd.wu.name, argv[++i]);
         } else if (arg(argv, i, "wu_template")) {
-            safe_strcpy(wu_template_file, argv[++i]);
+            safe_strcpy(jd.wu_template_file, argv[++i]);
         } else if (arg(argv, i, "result_template")) {
             safe_strcpy(jd.result_template_file, argv[++i]);
         } else if (arg(argv, i, "config_dir")) {
@@ -318,8 +354,8 @@ int main(int argc, char** argv) {
     if (!strlen(jd.wu.name)) {
         sprintf(jd.wu.name, "%s_%d_%f", app.name, getpid(), dtime());
     }
-    if (!strlen(wu_template_file)) {
-        sprintf(wu_template_file, "templates/%s_in", app.name);
+    if (!strlen(jd.wu_template_file)) {
+        sprintf(jd.wu_template_file, "templates/%s_in", app.name);
     }
     if (!strlen(jd.result_template_file)) {
         sprintf(jd.result_template_file, "templates/%s_out", app.name);
@@ -352,12 +388,16 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    // read the WU template file.
+    // this won't get used if we're creating a batch
+    // with job-level WU templates
+    //
     retval = read_filename(
-        wu_template_file, jd.wu_template, sizeof(jd.wu_template)
+        jd.wu_template_file, jd.wu_template, sizeof(jd.wu_template)
     );
     if (retval) {
         fprintf(stderr,
-            "create_work: can't open input template %s\n", wu_template_file
+            "create_work: can't open input template %s\n", jd.wu_template_file
         );
         exit(1);
     }
@@ -367,6 +407,10 @@ int main(int argc, char** argv) {
     strcpy(jd.result_template_path, "./");
     strcat(jd.result_template_path, jd.result_template_file);
     if (use_stdin) {
+        // clear the WU template name so we'll recognize a job-level one
+        //
+        strcpy(jd.wu_template_file, "");
+
         if (jd.assign_flag) {
             // if we're doing assignment we can't use the bulk-query method;
             // create the jobs one at a time.
@@ -382,6 +426,9 @@ int main(int argc, char** argv) {
                 jd2.parse_cmdline(_argc, _argv);
                 if (!strlen(jd2.wu.name)) {
                     sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                }
+                if (strlen(jd2.wu_template_file)) {
+                    get_wu_template(jd2);
                 }
                 jd2.create();
             }
@@ -410,6 +457,9 @@ int main(int argc, char** argv) {
                 // otherwise accumulate a SQL query so that we can
                 // create jobs en masse
                 //
+                if (strlen(jd2.wu_template_file)) {
+                    get_wu_template(jd2);
+                }
                 retval = create_work2(
                     jd2.wu,
                     jd2.wu_template,

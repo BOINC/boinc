@@ -20,6 +20,10 @@
 
 $fixed_navbar = false;
 
+if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
+    require_once("../inc/submit_db.inc");
+}
+
 ////////////// NAVBAR ////////////////
 
 // call this to start the navbar.
@@ -167,7 +171,6 @@ function sample_navbar(
             array(tra("Applications"), $url_prefix."apps.php"),
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
-            require_once("../inc/submit_db.inc");
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
             }
