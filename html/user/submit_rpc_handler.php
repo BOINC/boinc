@@ -293,7 +293,7 @@ function make_result_template($job) {
 //
 function delete_wu_templates() {
     global $wu_templates;
-    foreach ($wu_templates as $t->$f) {
+    foreach ($wu_templates as $t => $f) {
         unlink($f);
     }
 }
@@ -427,7 +427,7 @@ function submit_batch($r) {
         </submit_batch>
     ";
 
-    //delete_wu_templates();
+    delete_wu_templates();
 }
 
 function create_batch($r) {
