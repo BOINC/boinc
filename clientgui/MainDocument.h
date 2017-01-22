@@ -167,6 +167,8 @@ public:
 
     bool                        IsUserAuthorized();
 
+    void                        CheckForVersionUpdate();
+
     CNetworkConnection*         m_pNetworkConnection;
     CBOINCClientManager*        m_pClientManager;
     AsyncRPC                    rpc;
