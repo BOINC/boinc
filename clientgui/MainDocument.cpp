@@ -1281,11 +1281,6 @@ bool CMainDocument::IsUserAuthorized() {
 
 void CMainDocument::CheckForVersionUpdate() {
     std::string version, url;
-    // It seems that this check will work if the client will check newer file version on start.
-    // Client will check this even the last check was more that 14 days ago and on start only.
-    // Client newer saves this information in its internal files 
-    // and never reread 'get_current_version.xml' between checks.
-    // In any other cases result will be empty.
     rpc.get_newer_version(version, url);
 
     if (!version.empty() && !url.empty()) {
