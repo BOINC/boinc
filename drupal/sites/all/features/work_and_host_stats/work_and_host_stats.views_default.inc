@@ -6359,7 +6359,7 @@ else {
   ));
   $handler->override_option('arguments', array());
   $handler->override_option('filters', array());
-  $handler->override_option('items_per_page', 25);
+  $handler->override_option('items_per_page', 50);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_options', array(
     'grouping' => '',
