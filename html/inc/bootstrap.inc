@@ -272,6 +272,7 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
 
 function form_start($action) {
     echo '
+        <div class="container">
         <form class="form-horizontal" method="get" action="'.$action.'">
     ';
 }
@@ -283,6 +284,7 @@ function form_input_hidden($name, $value) {
 
 function form_end() {
     echo '</form>
+        </div>
     ';
 }
 
@@ -350,4 +352,13 @@ function form_submit($text) {
             </div>
         </div>
     ';
+}
+
+function form_checkbox($label, $name, $checked=false) {
+    echo sprintf('
+        <div class="form-group">
+            <input type="checkbox" name="%s" %s> &nbsp; <span class="lead">%s</span>
+        </div>
+        ', $name, $checked?"checked":"", $label
+    );
 }
