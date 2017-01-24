@@ -140,8 +140,8 @@ void newer_version_startup_check() {
 
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
 
-void CLIENT_STATE::new_version_check() {
-    if ((new_version_check_time == 0) ||
+void CLIENT_STATE::new_version_check(bool force) {
+    if (force || (new_version_check_time == 0) ||
         (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
             // get_current_version_op.handle_reply()
             // updates new_version_check_time
