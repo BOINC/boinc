@@ -196,7 +196,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
-    EVT_MENU(wxID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
+    EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
@@ -696,7 +696,7 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuHelp->Append(
-        wxID_CHECK_VERSION,
+        ID_CHECK_VERSION,
         strMenuName,
         strMenuDescription
     );

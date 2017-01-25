@@ -84,6 +84,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+    EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
 	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
@@ -254,6 +255,21 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
         strMenuName, 
+        strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    strMenuName.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    strMenuDescription.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    menuHelp->Append(
+        ID_CHECK_VERSION,
+        strMenuName,
         strMenuDescription
     );
     menuHelp->AppendSeparator();
@@ -609,6 +625,32 @@ void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
     m_pBackgroundPanel->SetDlgOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpAbout - Function End"));
+}
+
+void CSimpleFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function Begin"));
+
+    std::string version, url;
+    wxString message, title;
+    title.Printf(_("Version Update"));
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    if (pDoc->IsConnected()) {
+        pDoc->rpc.get_newer_version(version, url);
+
+        if (!version.empty() && !url.empty()) {
+            message.Printf("%s: %s", _("A new version of BOINC is available for downloading here"), url);
+        }
+        else {
+            message.Printf("%s", _("No new version available for downloading"), url);
+        }
+    }
+    else {
+        message.Printf("%s is not connected to the client", pSkinAdvanced->GetApplicationName().c_str());
+    }
+    wxGetApp().SafeMessageBox(message, title);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function End"));
 }
 
 
