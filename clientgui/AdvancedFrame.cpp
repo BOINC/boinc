@@ -196,6 +196,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
+    EVT_MENU(wxID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
@@ -682,6 +683,21 @@ bool CAdvancedFrame::CreateMenu() {
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
         strMenuName, 
+        strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    strMenuName.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    strMenuDescription.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    menuHelp->Append(
+        wxID_CHECK_VERSION,
+        strMenuName,
         strMenuDescription
     );
     menuHelp->AppendSeparator();
@@ -1666,6 +1682,31 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function End"));
 }
 
+void CAdvancedFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCheckVersion - Function Begin"));
+
+    std::string version, url;
+    wxString message, title;
+    title.Printf(_("Version Update"));
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    if (pDoc->IsConnected()) {
+        pDoc->rpc.get_newer_version(version, url);
+
+        if (!version.empty() && !url.empty()) {
+            message.Printf("%s: %s", _("A new version of BOINC is available for downloading here"), url);
+        }
+        else {
+            message.Printf("%s", _("No new version available for downloading"), url);
+        }
+    }
+    else {
+        message.Printf("%s is not connected to the client", pSkinAdvanced->GetApplicationName().c_str());
+    }
+    wxGetApp().SafeMessageBox(message, title);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCheckVersion - Function End"));
+}
 
 void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));

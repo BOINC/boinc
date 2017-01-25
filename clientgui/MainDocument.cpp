@@ -1282,12 +1282,6 @@ bool CMainDocument::IsUserAuthorized() {
 void CMainDocument::CheckForVersionUpdate() {
     std::string version, url;
     rpc.get_newer_version(version, url);
-
-    if (!version.empty() && !url.empty()) {
-        char message[MAXPATHLEN];
-        snprintf(message, sizeof(message), "%s: %s", wxT("You can download it here"), url);
-        wxGetApp().SafeMessageBox(message, wxT("A new version of BOINC is available."));
-    }
 }
 
 int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
