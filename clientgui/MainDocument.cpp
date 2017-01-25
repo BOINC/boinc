@@ -1284,7 +1284,7 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
     std::string version, url;
     wxString message, title;
     title.Printf(_("Version Update"));
-    std::string applicationName = wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName();
+    wxString applicationName = wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName();
     if (IsConnected()) {
         rpc.get_newer_version(version, url);
 
@@ -1299,7 +1299,7 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
         }
     }
     else {
-        message.Printf("%s is not connected to the client", applicationName.c_str());
+        message.Printf("%s is not connected to the client", applicationName);
     }
     if (showMessage) {
         wxGetApp().SafeMessageBox(message, title);
