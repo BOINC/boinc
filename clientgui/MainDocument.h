@@ -167,7 +167,7 @@ public:
 
     bool                        IsUserAuthorized();
 
-    void                        CheckForVersionUpdate();
+    void                        CheckForVersionUpdate(bool showMessage = false);
 
     CNetworkConnection*         m_pNetworkConnection;
     CBOINCClientManager*        m_pClientManager;

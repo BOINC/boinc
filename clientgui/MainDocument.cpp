@@ -37,6 +37,7 @@
 #include "BOINCTaskBar.h"
 #include "DlgEventLog.h"
 #include "Events.h"
+#include "SkinManager.h"
 
 #ifndef _WIN32
 #include <sys/wait.h>
@@ -1279,9 +1280,30 @@ bool CMainDocument::IsUserAuthorized() {
     return true;
 }
 
-void CMainDocument::CheckForVersionUpdate() {
+void CMainDocument::CheckForVersionUpdate(bool showMessage) {
     std::string version, url;
-    rpc.get_newer_version(version, url);
+    wxString message, title;
+    title.Printf(_("Version Update"));
+    std::string applicationName = wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName();
+    if (IsConnected()) {
+        rpc.get_newer_version(version, url);
+
+        if (!showMessage)
+            return;
+
+        if (!version.empty() && !url.empty()) {
+            message.Printf("%s: %s", _("A new version of BOINC is available for downloading here"), url);
+        }
+        else {
+            message.Printf("%s", _("No new version available for downloading"), url);
+        }
+    }
+    else {
+        message.Printf("%s is not connected to the client", applicationName.c_str());
+    }
+    if (showMessage) {
+        wxGetApp().SafeMessageBox(message, title);
+    }
 }
 
 int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
