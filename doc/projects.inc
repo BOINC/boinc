@@ -111,16 +111,16 @@ $biomed = array(
             "",
             "Develop malaria drugs"
         ),
-        array(
-            "POEM@HOME",
-            "http://boinc.fzk.de/poem/",
-            tra("University of Karlsruhe (Germany)"),
-            tra("Protein structure prediction"),
-            tra("POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins."),
-            "poem.jpg",
-            "",
-            "Study protein structure and interaction"
-        ),
+//        array(
+//            "POEM@HOME",
+//            "http://boinc.fzk.de/poem/",
+//            tra("University of Karlsruhe (Germany)"),
+//            tra("Protein structure prediction"),
+//            tra("POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins."),
+//            "poem.jpg",
+//            "",
+//            "Study protein structure and interaction"
+//        ),
 //        array(
 //            "Docking@Home",
 //            "http://docking.cis.udel.edu/",
