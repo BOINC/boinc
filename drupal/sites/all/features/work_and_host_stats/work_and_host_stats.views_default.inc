@@ -6359,6 +6359,8 @@ else {
   ));
   $handler->override_option('arguments', array());
   $handler->override_option('filters', array());
+  $handler->override_option('items_per_page', 50);
+  $handler->override_option('use_pager', '0');
   $handler->override_option('style_options', array(
     'grouping' => '',
     'override' => 1,
@@ -10131,8 +10133,8 @@ else {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('items_per_page', 50);
-  $handler->override_option('use_pager', '1');
+  $handler->override_option('items_per_page', 100);
+  $handler->override_option('use_pager', '0');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
     'grouping' => '',
@@ -10504,7 +10506,6 @@ else {
   ));
   $handler->override_option('title', 'Top participants');
   $handler->override_option('items_per_page', 10);
-  $handler->override_option('use_pager', '0');
   $handler->override_option('use_more', 1);
   $handler->override_option('use_more_always', 0);
   $handler->override_option('use_more_text', 'view more');

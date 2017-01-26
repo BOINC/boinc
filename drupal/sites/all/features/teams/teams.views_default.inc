@@ -3169,8 +3169,8 @@ else {
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('items_per_page', 50);
-  $handler->override_option('use_pager', '1');
+  $handler->override_option('items_per_page', 100);
+  $handler->override_option('use_pager', '0');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
     'grouping' => '',
