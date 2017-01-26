@@ -157,13 +157,13 @@ def test_upload_files():
     req = UPLOAD_FILES_REQ()
     req.project = project_url
     req.authenticator = get_auth()
-    req.batch_id = 271
+    req.batch_id = 283
     req.local_names = ('updater.cpp', 'kill_wu.cpp')
-    req.boinc_names = ('xxx_updater.cpp', 'xxx_kill_wu.cpp')
+    req.boinc_names = ('dxxx_updater.cpp', 'dxxx_kill_wu.cpp')
     r = upload_files(req)
     if r[0].tag == 'error':
         print 'error: ', r[0].find('error_msg').text
         return
     print 'success'
 
-test_submit_batch()
+test_upload_files()

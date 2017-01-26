@@ -205,7 +205,7 @@ class QUERY_FILES_REQ:
         '<authenticator>%s</authenticator>\n'
         '<batch_id>%d</batch_id>\n') %(self.authenticator, self.batch_id)
         for name in self.boinc_names:
-            xml += '<md5>%s</md5>\n' %(name)
+            xml += '<phys_name>%s</phys_name>\n' %(name)
         xml += '</query_files>\n'
         return xml
 
@@ -218,7 +218,7 @@ class UPLOAD_FILES_REQ:
         '<authenticator>%s</authenticator>\n'
         '<batch_id>%d</batch_id>\n') %(self.authenticator, self.batch_id)
         for name in self.boinc_names:
-            xml += '<md5>%s</md5>\n' %(name)
+            xml += '<phys_name>%s</phys_name>\n' %(name)
         xml += '</upload_files>\n'
         return xml
 
