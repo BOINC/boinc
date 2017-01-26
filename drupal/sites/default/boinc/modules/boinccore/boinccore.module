@@ -747,9 +747,15 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   switch ($action) {
   case 'unhide':
     comment_publish_action($comment);
+    if (module_exists("boinc_solr_comments")) {
+      boinc_solr_comments_publish($comment);
+    }
     break;
   case 'hide':
     comment_unpublish_action($comment);
+    if (module_exists("boinc_solr_comments")) {
+      boinc_solr_comments_unpublish($comment);
+    }
     break;
   case 'convert':
     $node = new stdClass();
