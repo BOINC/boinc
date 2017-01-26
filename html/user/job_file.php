@@ -131,7 +131,7 @@ function query_files($r) {
                 $jf_id = $job_file->id;
             } else {
                 $jf_id = BoincJobFile::insert(
-                    "(md5, create_time, delete_time) values ('$phys_name', $now, $delete_time)"
+                    "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
                 );
                 if (!$jf_id) {
                     xml_error(-1, "query_file(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
@@ -228,7 +228,7 @@ function upload_files($r) {
             "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($md5) failed: ".BoincDb::error());
+            xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(
