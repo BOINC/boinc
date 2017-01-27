@@ -111,6 +111,22 @@ int ACCT_MGR_OP::do_rpc(
         return 0;
     }
 
+    // if we're not currently attached to an AM,
+    // see if the AM login file is present for this URL,
+    // and parse it to get opaque data
+    //
+    if (!strlen(gstate.acct_mgr_info.master_url)) {
+        char filename[MAXPATHLEN];
+        am_login_filename(ami.master_url, filename);
+        FILE* f = fopen(filename, "r");
+        if (f) {
+            ACCT_MGR_INFO ami;
+            ami.parse_login_file(f);
+            fclose(f);
+            strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
+        }
+    }
+
     strlcpy(ami.master_url, url, sizeof(ami.master_url));
     strlcpy(ami.project_name, "", sizeof(ami.project_name));
     strlcpy(ami.login_name, name.c_str(), sizeof(ami.login_name));
@@ -841,7 +857,9 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
     mf.init_file(p);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("acct_mgr_login")) {
-        //
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "missing start tag in account manager login file"
+        );
     }
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -876,6 +894,9 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
     return 0;
 }
 
+// called at client startup.
+// If currently using an AM, read its URL and login files
+//
 int ACCT_MGR_INFO::init() {
     MIOFILE mf;
     FILE*   p;
@@ -883,6 +904,9 @@ int ACCT_MGR_INFO::init() {
     char filename[MAXPATHLEN];
 
     clear();
+    if (strlen(master_url) == 0) {
+        return 0;
+    }
     am_url_filename(master_url, filename);
     p = fopen(filename, "r");
     if (!p) {
@@ -901,7 +925,7 @@ int ACCT_MGR_INFO::init() {
     }
     mf.init_file(p);
     XML_PARSER xp(&mf);
-    if (!xp.parse_start("acct_mgr_login")) {
+    if (!xp.parse_start("acct_mgr")) {
         //
     }
     while (!xp.get_tag()) {
