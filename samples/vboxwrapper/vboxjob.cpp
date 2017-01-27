@@ -128,6 +128,7 @@ void VBOX_JOB::clear() {
     pf_host_port = 0;
     port_forwards.clear();
     intermediate_upload_files.clear();
+    copy_cmdline_to_shared = false;
 
     // Initialize default values
     vm_disk_controller_type = "ide";
@@ -190,6 +191,7 @@ int VBOX_JOB::parse() {
             copy_to_shared.push_back(str);
             continue;
         }
+        else if (xp.parse_bool("copy_cmdline_to_shared", copy_cmdline_to_shared)) continue;
         else if (xp.parse_string("trickle_trigger_file", str)) {
             trickle_trigger_files.push_back(str);
             continue;
