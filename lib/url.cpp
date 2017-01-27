@@ -27,9 +27,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #endif
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 
 #include "str_util.h"
 #include "str_replace.h"

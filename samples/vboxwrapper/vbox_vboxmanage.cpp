@@ -39,12 +39,6 @@
 
 using std::string;
 
-#if defined(_MSC_VER)
-#define getcwd      _getcwd
-#define stricmp     _stricmp
-#define snprintf    _snprintf
-#endif
-
 #include "diagnostics.h"
 #include "filesys.h"
 #include "parse.h"

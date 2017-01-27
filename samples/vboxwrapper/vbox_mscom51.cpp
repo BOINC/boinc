@@ -40,11 +40,6 @@
 #include "vbox_mscom51.h"
 
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define stricmp     _stricmp
-#define snprintf    _snprintf
-#endif
-
 #import "file:vbox51.tlb" rename_namespace("vbox51"), named_guids, raw_interfaces_only
 
 using std::string;
