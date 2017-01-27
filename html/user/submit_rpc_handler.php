@@ -311,8 +311,12 @@ function xml_get_jobs($r) {
         $job->target_host = (int)$j->target_host;
         $job->name = (string)$j->name;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
-        $job->wu_template = $j->wu_template->input_template->asXML();
-        $job->result_template = $j->result_template->output_template->asXML();
+        if ($j->wu_template) {
+            $job->wu_template = $j->wu_template->input_template->asXML();
+        }
+        if ($j->result_template) {
+            $job->result_template = $j->result_template->output_template->asXML();
+        }
         foreach ($j->input_file as $f) {
             $file = new StdClass;
             $file->mode = (string)$f->mode;
