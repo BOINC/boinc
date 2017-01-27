@@ -27,12 +27,6 @@
 #include "win_util.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#endif
-
 #ifndef __CYGWIN32__
 #include "stackwalker_win.h"
 #endif

@@ -48,10 +48,6 @@
 #include "stdwx.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "diagnostics.h"
 #include "str_replace.h"
 #include "str_util.h"

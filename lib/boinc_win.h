@@ -15,17 +15,32 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// boinc_win.h : include file for standard system include files,
-// or project specific include files that are used frequently,
-// but are changed infrequently
+// boinc_win.h : include file for Windows builds.
+// Includes standard system include files,
+// and aliases function names like getpid -> _getpid
+//
+// ?? Is this only for Visual Studio, or for MINGW too?
+// comments below are contradictory
 
 #ifndef _BOINC_WIN_
 #define _BOINC_WIN_
 
+#ifdef _MSC_VER
+#define getpid _getpid
+#define getcwd      _getcwd
+#define snprintf _snprintf
+#define strdate     _strdate
+#define strdup _strdup
+#define stricmp     _stricmp
+#define strtime     _strtime
+#endif
+
+
 #ifndef HAVE_CONFIG_H
 
 // Windows C Runtime Library
-// These are version dependent.  If you aren't using MSC, you'll probably need
+// These are Visual Studio version dependent.
+// If you aren't using VS, you'll probably need
 // to edit this file or create a config.h
 // For MINGW32 and MINGW64, it's best to run autoconf if possible.
 
@@ -72,8 +87,6 @@
 #define HAVE_DECL__FPRESET 1
 #define HAVE_DECL___CPUID 1
 #define HAVE_MSVCRT 1
-#undef HAVE_STRDUP 
-#define HAVE__STRDUP 1
 #undef NO_PER_THREAD_LOCALE
 #define HAVE_DECL__CONFIGTHREADLOCALE 1
 #define HAVE__CONFIGTHREADLOCALE 1

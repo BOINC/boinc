@@ -24,12 +24,6 @@
 #include "stdwx.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#endif
-
 #ifdef __EMX__
 #include <sys/stat.h>
 #endif
