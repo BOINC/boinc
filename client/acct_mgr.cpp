@@ -120,10 +120,10 @@ int ACCT_MGR_OP::do_rpc(
         am_login_filename(ami.master_url, filename);
         FILE* f = fopen(filename, "r");
         if (f) {
-            ACCT_MGR_INFO ami;
-            ami.parse_login_file(f);
+            ACCT_MGR_INFO ami2;
+            ami2.parse_login_file(f);
             fclose(f);
-            strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
+            strcpy(gstate.acct_mgr_info.opaque, ami2.opaque);
         }
     }
 
