@@ -26,6 +26,9 @@
 #define _BOINC_WIN_
 
 #ifdef _MSC_VER
+#pragma warning(disable: 4996)  // deprecated function names
+#pragma warning(disable: 4127)  // constant conditional expression
+#pragma warning(disable: 4244)  // conversion from int to char
 #define getpid _getpid
 #define getcwd      _getcwd
 #define snprintf _snprintf
@@ -34,7 +37,6 @@
 #define stricmp     _stricmp
 #define strtime     _strtime
 #endif
-
 
 #ifndef HAVE_CONFIG_H
 

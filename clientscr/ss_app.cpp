@@ -232,7 +232,7 @@ void show_coords() {
 }
 #endif
 
-void show_project(unsigned int index, float alpha) {
+void show_project(unsigned int index, float /*alpha*/) {
     float x=.2, y=.6;
     char buf[1024];
     ttf_render_string(x, y, 0, PROJ_INTRO_SIZE, white, "This computer is participating in");
@@ -387,7 +387,7 @@ struct FADER {
 FADER logo_fader(5,5,5,2);
 FADER info_fader(4,4,4,1);
 
-void app_graphics_render(int xs, int ys, double t) {
+void app_graphics_render(int , int , double t) {
     double alpha;
     static bool showing_project = false;
     static unsigned int project_index = 0, job_index=0;
@@ -471,8 +471,8 @@ void app_graphics_resize(int w, int h){
     glViewport(0, 0, w, h);
 }
 
-void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {}
-void boinc_app_mouse_button(int x, int y, int which, int is_down) {}
+void boinc_app_mouse_move(int , int , int , int , int ) {}
+void boinc_app_mouse_button(int , int , int , int ) {}
 void boinc_app_key_press(int, int){}
 void boinc_app_key_release(int, int){}
 

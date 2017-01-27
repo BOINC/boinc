@@ -15,12 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A very crude interface for parsing XML files;
-// assumes all elements are either single-line or
+// This file contains two XML parsers:
+//
+// 1) a very crude one, which assumes all elements are either single-line or
 // have start and end tags on separate lines.
 // This is meant to be used ONLY for parsing XML files produced
 // by the BOINC scheduling server or client.
-// Could replace this with a more general parser.
+//
+// 2) a better one (class XML_PARSER) which parses arbitrary XML
 
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"

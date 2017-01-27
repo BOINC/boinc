@@ -126,7 +126,7 @@ int handle_static_boinc_png(struct mg_connection *conn) {
     mg_send_data(
         conn,
         image.c_str(),
-        image.size()
+        (int)image.size()
     );
     return MG_TRUE;
 }

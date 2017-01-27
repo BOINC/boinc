@@ -755,7 +755,8 @@ int VBOX_BASE::launch_vboxsvc() {
 #endif
                 }
 
-                vbm_trace(command, std::string(""), retval);
+                string s = string("");
+                vbm_trace(command, s, retval);
             }
         }
     }

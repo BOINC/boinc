@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4706)
+#endif
+
 #ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
 
 const char *MachineStateToName(MachineState State) 
@@ -940,7 +944,8 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             //
             rc = pMachine->FindSnapshot(CComBSTR(""), &pRootSnapshot);
             if (SUCCEEDED(rc) && pRootSnapshot) {
-                TraverseSnapshots(string(""), snapshots, pRootSnapshot);
+                string s = string("");
+                TraverseSnapshots(s, snapshots, pRootSnapshot);
             }
             if (snapshots.size()) {
                 for (size_t i = 0; i < snapshots.size(); i++) {
@@ -1895,7 +1900,7 @@ int VBOX_VM::is_registered() {
     return retval;
 }
 
-bool VBOX_VM::is_system_ready(std::string& message) {
+bool VBOX_VM::is_system_ready(std::string& ) {
     return true;
 }
 
