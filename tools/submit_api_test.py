@@ -41,13 +41,14 @@ def make_batch_desc():
     batch.project = project_url
     batch.authenticator = get_auth()
     batch.app_name = "uppercase"
-    batch.batch_name = "blah16"
+    batch.batch_name = "blah18"
     batch.jobs = []
 
     for i in range(2):
         job.rsc_fpops_est = i*1e9
         job.command_line = '-i %s' %(i)
-        job.wu_template = """
+        if False:
+            job.wu_template = """
 <input_template>
     <file_info>
     </file_info>
@@ -62,7 +63,8 @@ def make_batch_desc():
     </workunit>
 </input_template>
 """
-        job.result_template = """
+        if False:
+            job.result_template = """
 <output_template>
     <file_info>
         <name><OUTFILE_0/></name>
@@ -166,4 +168,4 @@ def test_upload_files():
         return
     print 'success'
 
-test_upload_files()
+test_submit_batch()
