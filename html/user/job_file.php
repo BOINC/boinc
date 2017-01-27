@@ -143,11 +143,6 @@ function query_files($r) {
                 $ret = BoincBatchFileAssoc::insert(
                     "(batch_id, job_file_id) values ($batch_id, $jf_id)"
                 );
-                if (!$ret) {
-                    xml_error(-1,
-                        "BoincBatchFileAssoc::insert() failed: ".BoincDb::error()
-                    );
-                }
             }
         } else {
             if ($job_file) {

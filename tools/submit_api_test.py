@@ -164,4 +164,17 @@ def test_upload_files():
         return
     print 'upload_files: success'
 
-test_submit_batch()
+def test_query_files():
+    req = QUERY_FILES_REQ()
+    req.project = project_url
+    req.authenticator = get_auth()
+    req.batch_id = 271
+    req.boinc_names = ('dxxx_updater.cpp', 'dxxx_kill_wu.cpp')
+    r = query_files(req)
+    if check_error(r):
+        return
+    print 'absent files:'
+    for f in r[0]:
+        print f.text
+
+test_query_files()
