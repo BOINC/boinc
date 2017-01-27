@@ -107,7 +107,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
 
         $comment_document->entity_id = $comment->cid;
         $comment_document->entity_type = 'comment';
-        $comment_document->bundle = 'comment';
+        $comment_document->bundle = 'Comment';
         $comment_document->bundle_name = 'Comment';
 
         $comment_document->path = 'goto/comment/' . $comment->cid;
