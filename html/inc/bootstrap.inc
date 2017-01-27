@@ -20,6 +20,10 @@
 
 $fixed_navbar = false;
 
+if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
+    require_once("../inc/submit_db.inc");
+}
+
 ////////////// NAVBAR ////////////////
 
 // call this to start the navbar.
@@ -167,7 +171,6 @@ function sample_navbar(
             array(tra("Applications"), $url_prefix."apps.php"),
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
-            require_once("../inc/submit_db.inc");
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
             }
@@ -269,6 +272,7 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
 
 function form_start($action) {
     echo '
+        <div class="container">
         <form class="form-horizontal" method="get" action="'.$action.'">
     ';
 }
@@ -280,6 +284,7 @@ function form_input_hidden($name, $value) {
 
 function form_end() {
     echo '</form>
+        </div>
     ';
 }
 
@@ -299,9 +304,7 @@ function form_input_textarea($label, $name, $value='') {
         <div class="form-group">
             <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
             <div class="col-sm-10">
-                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">
-                '.$value.'
-                </textarea>
+                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">'.$value.'</textarea>
             </div>
         </div>
     ';
@@ -349,4 +352,13 @@ function form_submit($text) {
             </div>
         </div>
     ';
+}
+
+function form_checkbox($label, $name, $checked=false) {
+    echo sprintf('
+        <div class="form-group">
+            <input type="checkbox" name="%s" %s> &nbsp; <span class="lead">%s</span>
+        </div>
+        ', $name, $checked?"checked":"", $label
+    );
 }

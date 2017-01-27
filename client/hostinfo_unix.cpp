@@ -481,7 +481,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __ia64__
     strcpy(host.p_model, "IA-64 ");
     model_hack = true;
-#elif __arm__
+#elif __arm__ || __aarch64__
     strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
 #endif
@@ -522,7 +522,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
-#elif __arm__
+#elif __arm__ || __aarch64__
             strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
@@ -1965,184 +1965,199 @@ bool interrupts_idle(time_t t) {
 // Initializer for const vector<string> in xss_idle
 //
 const vector<string> X_display_values_initialize() {
-
-  /* According to "man Xserver", each local Xserver will have a socket file
-   * at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
-   * We will parse this directory for currently open Xservers and attempt
-   * to ultimately query them for their idle time. If we can't open this
-   * directory, or the display_values vector is otherwise empty, then a
-   * static list of guesses for open display servers is utilized instead
-   * (DISPLAY values ":{0..6}") that will attempt connections to the first
-   * seven open Xservers.
-   *
-   * If we were unable to open _any_ Xserver, then we will log this and
-   * xss_idle returns true, effectively leaving idle detection up to other
-   * methods.
-   */
-  static const string dir = "/tmp/.X11-unix/";
-  vector<string> display_values;
-  vector<string>::iterator it;
-
-  DIR *dp;
-  struct dirent *dirp;
-  if((dp = opendir(dir.c_str())) == NULL) {
-    if ( log_flags.idle_detection_debug ) {
-      msg_printf(NULL, MSG_INFO, 
-        "[idle_detection] Error (%d) opening %s.", errno, dir.c_str());
-    }
-  }
-  else {
-    while ((dirp = readdir(dp)) != NULL) {
-      display_values.push_back(string(dirp->d_name));
-    }
-    closedir(dp);
-  }
-
-  // Get rid of non-matching elements and format the matching ones.
-  for ( it = display_values.begin() ; it != display_values.end() ; ) {
-    if ( it->c_str()[0] != 'X' ) {
-      it = display_values.erase(it);
-    }
-    else {
-      replace(it->begin(), it->end(), 'X', ':');
-      it++;
+    // According to "man Xserver", each local Xserver will have a socket file
+    // at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
+    // We will parse this directory for currently open Xservers and attempt
+    // to ultimately query them for their idle time. If we can't open this
+    // directory, or the display_values vector is otherwise empty, then a
+    // static list of guesses for open display servers is utilized instead
+    // (DISPLAY values ":{0..6}") that will attempt connections to the first
+    // seven open Xservers.
+    //
+    // If we were unable to open _any_ Xserver, then we will log this and
+    // xss_idle returns true, effectively leaving idle detection up to other
+    // methods.
+    //
+    static const string dir = "/tmp/.X11-unix/";
+    vector<string> display_values;
+    vector<string>::iterator it;
+  
+    DIR *dp;
+    struct dirent *dirp;
+    if ((dp = opendir(dir.c_str())) == NULL) {
+        if (log_flags.idle_detection_debug ) {
+            msg_printf(NULL, MSG_INFO, 
+                "[idle_detection] Error (%d) opening %s.", errno, dir.c_str()
+            );
+        }
+    } else {
+        while ((dirp = readdir(dp)) != NULL) {
+            display_values.push_back(string(dirp->d_name));
+        }
+        closedir(dp);
     }
 
-  }
-
-  // if the display_values vector is empty, assume something went wrong
-  // (couldn't open directory, no apparent Xn files). Test a static list of
-  // DISPLAY values instead that is likely to catch most common use cases.
-  // (I don't know of many environments where there will simultaneously be
-  // more than seven active, local Xservers. I'm sure they exist... somewhere.
-  // But seven was the magic number for me).
-  if ( display_values.size() == 0 ) {
-    if ( log_flags.idle_detection_debug ) {
-      msg_printf(NULL, MSG_INFO,
-        "[idle_detection] No DISPLAY values found in /tmp/.X11-unix/.");
-      msg_printf(NULL, MSG_INFO,
-        "[idle_detection] Using static DISPLAY list, :{0..6}.");
+    // Get rid of non-matching elements and format the matching ones.
+    //
+    for (it = display_values.begin(); it != display_values.end(); ) {
+        if (it->c_str()[0] != 'X') {
+            it = display_values.erase(it);
+        } else {
+            replace(it->begin(), it->end(), 'X', ':');
+            it++;
+        }
     }
-    display_values.push_back(":0");
-    display_values.push_back(":1");
-    display_values.push_back(":2");
-    display_values.push_back(":3");
-    display_values.push_back(":4");
-    display_values.push_back(":5");
-    display_values.push_back(":6");
-    return display_values;
-  }
-  else {
-    return display_values;
-  }
+
+    // if the display_values vector is empty, assume something went wrong
+    // (couldn't open directory, no apparent Xn files). Test a static list of
+    // DISPLAY values instead that is likely to catch most common use cases.
+    // (I don't know of many environments where there will simultaneously be
+    // more than seven active, local Xservers. I'm sure they exist... somewhere.
+    // But seven was the magic number for me).
+    //
+    if ( display_values.size() == 0 ) {
+        if ( log_flags.idle_detection_debug ) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] No DISPLAY values found in /tmp/.X11-unix/."
+            );
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] Using static DISPLAY list, :{0..6}."
+            );
+        }
+        display_values.push_back(":0");
+        display_values.push_back(":1");
+        display_values.push_back(":2");
+        display_values.push_back(":3");
+        display_values.push_back(":4");
+        display_values.push_back(":5");
+        display_values.push_back(":6");
+        return display_values;
+    } else {
+        return display_values;
+    }
 }
 
-/* Ask the X server for user idle time (using XScreenSaver API)
- * Return true if the idle time exceeds idle_threshold for all accessible
- * Xservers. However, if even one Xserver reports busy/non-idle, then
- * return false. This function assumes that the boinc user has been
- * granted access to the Xservers a la "xhost +SI:localuser:boinc". If
- * access isn't available for an Xserver, then that Xserver is skipped.
- * One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
- * for all Xservers on a machine when the Xservers start up.
- */
+// Ask the X server for user idle time (using XScreenSaver API)
+// Return true if the idle time exceeds idle_threshold for all accessible
+// Xservers. However, if even one Xserver reports busy/non-idle, then
+// return false. This function assumes that the boinc user has been
+// granted access to the Xservers a la "xhost +SI:localuser:boinc". If
+// access isn't available for an Xserver, then that Xserver is skipped.
+// One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
+// for all Xservers on a machine when the Xservers start up.
+//
 bool xss_idle(long idle_threshold) {
+    const vector<string> display_values = X_display_values_initialize();
+    vector<string>::const_iterator it;
 
-  const vector<string> display_values = X_display_values_initialize();
-  vector<string>::const_iterator it;
-  // If we can connect to at least one DISPLAY, this is set to false.
-  bool no_available_x_display = true;
+    // If we can connect to at least one DISPLAY, this is set to false.
+    //
+    bool no_available_x_display = true;
 
-  static XScreenSaverInfo* xssInfo = XScreenSaverAllocInfo();
-  // This shouldn't fail. XScreenSaverAllocInfo just returns a small
-  // struct (see "man 3 xss"). If we can't allocate this, then we've
-  // got bigger problems to worry about.
-  if ( xssInfo == NULL ) {
-    if ( log_flags.idle_detection_debug ) {
-      msg_printf(NULL, MSG_INFO,
-        "[idle_detection] XScreenSaverAllocInfo failed. Out of memory? Skipping XScreenSaver idle detection.");
+    static XScreenSaverInfo* xssInfo = XScreenSaverAllocInfo();
+    // This shouldn't fail. XScreenSaverAllocInfo just returns a small
+    // struct (see "man 3 xss"). If we can't allocate this, then we've
+    // got bigger problems to worry about.
+    //
+    if (xssInfo == NULL) {
+        if (log_flags.idle_detection_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] XScreenSaverAllocInfo failed. Out of memory? Skipping XScreenSaver idle detection."
+            );
+        }
+        return true;
+    }
+
+    for (it = display_values.begin(); it != display_values.end() ; it++) {
+
+        Display* disp = NULL;
+        long idle_time = 0;
+    
+        disp = XOpenDisplay(it->c_str());
+        // XOpenDisplay may return NULL if there is no running X
+        // or DISPLAY points to wrong/invalid display
+        //
+        if (disp == NULL) {
+            if (log_flags.idle_detection_debug) {
+	            msg_printf(NULL, MSG_INFO, 
+	                "[idle_detection] DISPLAY '%s' not found or insufficient access.",
+	                it->c_str()
+                );
+            }
+            continue;
+        }
+
+        // Determine if the DISPLAY we have accessed has the XScreenSaver
+        // extension or not.
+        //
+        int event_base_return, error_base_return;
+        if (!XScreenSaverQueryExtension(
+            disp, &event_base_return, &error_base_return
+        )){
+            if (log_flags.idle_detection_debug) {
+	            msg_printf(NULL, MSG_INFO,
+	                "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
+	                it->c_str()
+                );
+            }
+            XCloseDisplay(disp);
+            continue;
+        }
+
+        // All checks passed. Get the idle information.
+        //
+        no_available_x_display = false;
+        XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
+        idle_time = xssInfo->idle;
+
+        // Close the connection to the XServer
+        //
+        XCloseDisplay(disp);
+
+        // convert from milliseconds to seconds
+        //
+        idle_time = idle_time / 1000;
+
+        if (log_flags.idle_detection_debug) {
+            msg_printf(NULL, MSG_INFO, 
+                "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
+            );
+            msg_printf(NULL, MSG_INFO, 
+                "[idle_detection] idle threshold: %ld", idle_threshold
+            );
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] idle_time: %ld", idle_time
+            );
+        }
+
+        if ( idle_threshold < idle_time ) {
+            if (log_flags.idle_detection_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[idle_detection] DISPLAY '%s' is idle.", it->c_str()
+                );
+            }
+        } else {
+            if (log_flags.idle_detection_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[idle_detection] DISPLAY '%s' is active.", it->c_str()
+                );
+            }
+            return false;
+        }
+    }
+
+    // We should only ever get here if all queryable Xservers were idle.
+    // If none of the Xservers were queryable, we should still end up here,
+    // and simply report true. In that case, the xss_idle function effectively
+    // provides no information on the idle state of the system,
+    // as no Xservers were accessible to interrogate.
+    //
+    if (log_flags.idle_detection_debug && no_available_x_display) {
+        msg_printf(NULL, MSG_INFO,
+            "[idle_detection] Could not connect to any DISPLAYs. XSS idle determination impossible."
+        );
     }
     return true;
-  }
-
-  for (it = display_values.begin() ; it != display_values.end() ; it++) {
-
-    Display* disp = NULL;
-    long idle_time = 0;
-    
-    disp = XOpenDisplay(it->c_str());
-    // XOpenDisplay may return NULL if there is no running X
-    // or DISPLAY points to wrong/invalid display
-    if (disp == NULL) {
-      if ( log_flags.idle_detection_debug ) {
-	msg_printf(NULL, MSG_INFO, 
-	"[idle_detection] DISPLAY '%s' not found or insufficient access.",
-	it->c_str());
-      }
-      continue;
-    }
-
-    // Determine if the DISPLAY we have accessed has the XScreenSaver
-    // extension or not.
-    int event_base_return, error_base_return;
-    if (!XScreenSaverQueryExtension(
-      disp, &event_base_return, &error_base_return
-    )){
-      if ( log_flags.idle_detection_debug ) {
-	msg_printf(NULL, MSG_INFO,
-	  "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
-	  it->c_str());
-      }
-      XCloseDisplay(disp);
-      continue;
-    }
-
-    // All checks passed. Get the idle information.
-    no_available_x_display = false;
-    XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-    idle_time = xssInfo->idle;
-
-    // Close the connection to the XServer
-    XCloseDisplay(disp);
-
-    // convert from milliseconds to seconds
-    idle_time = idle_time / 1000;
-
-    if ( log_flags.idle_detection_debug ) {
-      msg_printf(NULL, MSG_INFO, 
-        "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str());
-      msg_printf(NULL, MSG_INFO, 
-        "[idle_detection] idle threshold: %ld", idle_threshold);
-      msg_printf(NULL, MSG_INFO,
-        "[idle_detection] idle_time: %ld", idle_time);
-    }
-
-    if ( idle_threshold < idle_time ) {
-      if ( log_flags.idle_detection_debug ) {
-        msg_printf(NULL, MSG_INFO,
-          "[idle_detection] DISPLAY '%s' is idle.", it->c_str());
-      }
-    } else {
-      if ( log_flags.idle_detection_debug ) {
-        msg_printf(NULL, MSG_INFO,
-          "[idle_detection] DISPLAY '%s' is active.", it->c_str());
-      }
-      return false;
-    }
-
-  }
-
-  /* We should only ever get here if all Xservers (that were queryable) were
-   * idle. If none of the Xservers were queryable, we should still end up here,
-   * and simply report true. In that case, the xss_idle function effectively
-   * provides no information on the idle state of the system, as no Xservers
-   * were accessible to interrogate.
-   */
-  if ( log_flags.idle_detection_debug && no_available_x_display ) {
-    msg_printf(NULL, MSG_INFO,
-      "[idle_detection] Could not connect to any DISPLAYs. XSS idle determination impossible.");
-  }
-  return true;
 
 }
 #endif // HAVE_XSS

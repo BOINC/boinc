@@ -113,7 +113,7 @@ class BoincJobFile {
         $db = BoincDb::get();
         $ret = $db->insert('job_file', $clause);
         if (!$ret) return false;
-        return true;
+        return $db->insert_id();
     }
     static function lookup_md5($md5) {
         $db = BoincDb::get();

@@ -99,7 +99,7 @@ function platform_icons($f) {
         $x .= "<img hspace=$hs height=$ht src=images/mac.jpg title=\"Supports Mac OS X\">";
     }
     if ($f->linux) {
-        $x .= "<img hspace=$hs height=$ht src=images/linux.jpg title=\"Supports Linux\">";
+        $x .= "<img hspace=$hs height=$ht src=images/linux.jpg title=\"Supports Linux on Intel\">";
     }
     if ($f->android) {
         $x .= "<img hspace=$hs height=$ht src=images/android.png title=\"Supports Android\">";
@@ -108,7 +108,7 @@ function platform_icons($f) {
         $x .= "<img hspace=$hs height=$ht src=images/freebsd.png title=\"Supports FreeBSD\">";
     }
     if ($f->rasp_pi) {
-        $x .= "<img hspace=$hs height=$ht src=images/raspberry-pi.jpg title=\"Supports Raspberry Pi\">";
+        $x .= "<img hspace=$hs height=$ht src=images/linux_arm.png title=\"Supports Linux on ARM (e.g. Raspberry Pi)\">";
     }
     if ($f->nvidia_gpu) {
         $x .= "<img hspace=$hs height=$ht src=images/nvidia.jpg title=\"Supports NVIDIA GPUs\">";
@@ -138,6 +138,8 @@ function valid($url, $plat) {
     if (strstr($url, "gpugrid.net")) {
         if (strstr($plat, "android")) return false;
         if (strstr($plat, "vbox")) return false;
+    } else if (strstr($url, "csgrid")) {
+        if (strstr($plat, "android")) return false;
     }
     return true;
 }

@@ -205,7 +205,6 @@ int ACCT_MGR_OP::do_rpc(
             "      <gpu_time>%f</gpu_time>\n"
             "      <njobs_success>%d</njobs_success>\n"
             "      <njobs_fail>%d</njobs_fail>\n"
-            "      <usable_gpu>%d</usable_gpu>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
@@ -224,8 +223,7 @@ int ACCT_MGR_OP::do_rpc(
             p->gpu_ec,
             p->gpu_time,
             p->njobs_success,
-            p->njobs_fail,
-            coprocs.n_rsc>1?1:0
+            p->njobs_fail
         );
     }
     MIOFILE mf;

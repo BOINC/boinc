@@ -105,22 +105,19 @@ function query_files($r) {
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $i = 0;
-    $md5s= array();
-    foreach($r->md5 as $f) {
-        $md5 = (string)$f;
-        $md5s[] = $md5;
+    $phys_names= array();
+    foreach($r->phys_name as $f) {
+        $phys_names[] = (string)$f;
     }
-    $md5s = array_unique($md5s);
-    foreach($md5s as $md5) {
-        $fname = job_file_name($md5);
+    $i = 0;
+    foreach($phys_names as $fname) {
         $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
 
         // if the job_file record is there,
         // update the delete time first to avoid race condition
         // with job file deleter
         //
-        $job_file = BoincJobFile::lookup_md5($md5);
+        $job_file = BoincJobFile::lookup_md5($fname);
         if ($job_file && $job_file->delete_time < $delete_time) {
             $retval = $job_file->update("delete_time=$delete_time");
             if ($retval) {
@@ -134,10 +131,10 @@ function query_files($r) {
                 $jf_id = $job_file->id;
             } else {
                 $jf_id = BoincJobFile::insert(
-                    "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
+                    "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
                 );
                 if (!$jf_id) {
-                    xml_error(-1, "query_file(): BoincJobFile::insert($md5) failed: ".BoincDb::error());
+                    xml_error(-1, "query_file(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
                 }
             }
             // create batch association if needed
@@ -174,6 +171,12 @@ function query_files($r) {
     ";
 }
 
+function delete_uploaded_files() {
+    foreach ($_FILES as $f) {
+        unlink($f['tmp_name']);
+    }
+}
+
 function upload_files($r) {
     xml_start_tag("upload_files");
     list($user, $user_submit) = authenticate_user($r, null);
@@ -181,80 +184,60 @@ function upload_files($r) {
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
     //print_r($_FILES);
-    $upload_error = "";
-    $files_md5 = array();
-    $files_upl = array();
-    foreach ($r->md5 as $cs) {
-        $files_md5[] = (string)$cs;
+
+    if (count($_FILES) != count($r->phys_name)) {
+        delete_uploaded_files();
+        xml_error(-1,
+            sprintf("# of uploaded files (%d) doesn't agree with request (%d)",
+                count($_FILES), count($r->phys_name)
+            )
+        );
+    }
+
+    $phys_names = array();
+    foreach ($r->phys_name as $cs) {
+        $phys_names[] = (string)$cs;
     }
 
     foreach ($_FILES as $f) {
         $name = $f['name'];
         $tmp_name = $f['tmp_name'];
 
-        if ($f['error'] != UPLOAD_ERR_OK) {
-            $reason = upload_error_description($f['error']);
-            $upload_error .= "$name upload failed because: $reason; ";
-            unlink($tmp_name);
-            continue;
-        }
         if (!is_uploaded_file($tmp_name)) {
-            $upload_error .= "$name was not uploaded correctly; ";
-            continue;
+            delete_uploaded_files();
+            xml_error(-1, "$name was not uploaded correctly");
         }
-        $md5 = md5_file($tmp_name);
-        if (!in_array($md5, $files_md5)) {
-            $upload_error .= "$name md5 value ($md5) missing in request XML; ";
-            unlink($tmp_name);
-            continue;
-        } else {
-            // remove md5 from array so we can check if all files are uploaded
-            $files_md5 = array_diff($files_md5, array($md5));
-        }
-        $files_upl[] = array("name" => $name, "tmp_name" => $tmp_name, "size" => $f['size'], "md5" => $md5 );
-    }
 
-    if (count($files_md5) > 0) {
-        $upload_error .= "More md5's specified in request XML than files uploaded; ";
-        foreach ($files_upl as $f) {
-            unlink($f['tmp_name']);
+        if ($f['error'] != UPLOAD_ERR_OK) {
+            delete_uploaded_files();
+            $reason = upload_error_description($f['error']);
+            xml_error(-1, "$name upload failed because: $reason");
         }
     }
 
-    if ($upload_error == "") {
-        foreach ($files_upl as $f) {
-            $tmp_name = $f['tmp_name'];
-            $md5 = $f['md5'];
-            $fname = job_file_name($md5);
-            // TODO: apache should not have access to the whole download/ directory
-            $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
-            if (!move_uploaded_file($tmp_name, $path)) {
-                $upload_error .= "could not move $tmp_name to $path; ";
-                unlink($tmp_name);
-                continue;
-            }
-            $now = time();
-            $jf_id = BoincJobFile::insert(
-                "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
+    $i = 0;
+    $now = time();
+    foreach ($_FILES as $f) {
+        $tmp_name = $f['tmp_name'];
+        $fname = $phys_names[$i];
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
+        if (!move_uploaded_file($tmp_name, $path)) {
+            xml_error(-1, "could not move $tmp_name to $path");
+        }
+        $jf_id = BoincJobFile::insert(
+            "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
+        );
+        if (!$jf_id) {
+            xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
+        }
+        if ($batch_id) {
+            BoincBatchFileAssoc::insert(
+                "(batch_id, job_file_id) values ($batch_id, $jf_id)"
             );
-            if (!$jf_id) {
-                $upload_error .= "BoincJobFile::insert($md5) failed: " . BoincDb::error() . " ";
-                unlink($path);
-                continue;
-            }
-            if ($batch_id) {
-                // this is not considered serious but can not be reported right now
-                BoincBatchFileAssoc::insert(
-                    "(batch_id, job_file_id) values ($batch_id, $jf_id)"
-                );
-            }
         }
+        $i++;
     }
 
-    if ($upload_error != "") {
-        // this will exit()
-        xml_error(-1, "upload_files(): " . $upload_error);
-    }
     echo "<success/>
         </upload_files>
     ";

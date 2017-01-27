@@ -514,23 +514,23 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Choose a random interleave value for checkpoint intervals to stagger disk I/O.
+    // Choose a random interleave value for checkpoint intervals
+    // to stagger disk I/O.
     // 
-    struct stat vm_image_stat;
-    if (stat(IMAGE_FILENAME_COMPLETE, &vm_image_stat)) {
-        // Error
-        srand((int)time(NULL));
-    } else {
-        srand((int)(vm_image_stat.st_mtime * time(NULL)));
-    }
-    random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
+    srand((int)getpid());
+    random_checkpoint_factor = drand() * 600;
 
-    vboxlog_msg("Feature: Checkpoint interval offset (%d seconds)", (int)random_checkpoint_factor);
+    vboxlog_msg(
+        "Feature: Checkpoint interval offset (%d seconds)",
+        (int)random_checkpoint_factor
+    );
 
     // Display trickle value if specified
     //
     if (trickle_period > 0.0) {
-        vboxlog_msg("Feature: Enabling trickle-ups (Interval: %f)", trickle_period);
+        vboxlog_msg(
+            "Feature: Enabling trickle-ups (Interval: %f)", trickle_period
+        );
     }
 
     // Check for architecture incompatibilities
@@ -567,11 +567,11 @@ int main(int argc, char** argv) {
         pVM->headless = false;
     }
 
-    // Check for invalid confgiurations.
+    // Check for invalid configurations.
     //
     if (aid.using_sandbox && aid.vbox_window) {
         vboxlog_msg("Invalid configuration detected.");
-        vboxlog_msg("NOTE: BOINC cannot be installed as a service and run VirtualBox in headfull mode at the same time.");
+        vboxlog_msg("NOTE: BOINC cannot be installed as a service and run VirtualBox in headful mode at the same time.");
         boinc_temporary_exit(86400, "Incompatible configuration detected.");
     }
 
@@ -589,8 +589,9 @@ int main(int argc, char** argv) {
         );
     }
 
-    // Check to see if the system is in a state in which we expect to be able to run
-    // VirtualBox successfully.  Sometimes the system is in a wierd state after a
+    // Check to see if the system is in a state in which
+    // we expect to be able to run VirtualBox successfully.
+    // Sometimes the system is in a weird state after a
     // reboot and the system needs a little bit of time.
     //
     if (!pVM->is_system_ready(message)) {
@@ -655,6 +656,19 @@ int main(int argc, char** argv) {
                     vboxlog_msg("Failed to copy '%s' to the shared directory.", source.c_str());
                 }
             }
+        }
+    }
+
+    if (pVM->copy_cmdline_to_shared) {
+        FILE* f = fopen("shared/cmdline", "w");
+        if (!f) {
+            vboxlog_msg("Couldn't create shared/cmdline");
+        } else {
+            for (int i=1; i<argc; i++) {
+                fprintf(f, "%s ", argv[i]);
+            }
+            fprintf(f, "\n");
+            fclose(f);
         }
     }
 

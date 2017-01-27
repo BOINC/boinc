@@ -53,7 +53,7 @@ int main(void) {
 #elif __ia64__
     strcpy(p_model, "IA-64 ");
     model_hack = true;
-#elif __arm__
+#elif __arm__ || __aarch64__
     strcpy(p_vendor, "ARM ");
     vendor_hack = vendor_found = true;
 #endif
@@ -73,7 +73,7 @@ int main(void) {
         strstr(buf, "type\t\t: ")
 #elif __alpha__
         strstr(buf, "cpu\t\t\t: ")
-#elif __arm__
+#elif __arm__ || __aarch64__
         strstr(buf, "CPU architecture: ")
 #else
         strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
@@ -94,7 +94,7 @@ int main(void) {
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
-#elif __arm__
+#elif __arm__ || __aarch64__
             strstr(buf, "Processor\t: ")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")

@@ -18,13 +18,30 @@
 
 // PHP interfaces to some of BOINC's Web RPCs
 
+// my PHP currently doesn't support file_get_contents(https://...)
+// so do it with Curl
+//
+function fetch_url($url) {
+    if (0) {
+        return file_get_contents($url);
+    } else {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $x = curl_exec($ch);
+        curl_close($ch);
+        return $x;
+    }
+}
+
 function lookup_account(
     $project_url,
     $email_addr,
     $passwd_hash
 ) {
     $url = $project_url."/lookup_account.php?email_addr=".urlencode($email_addr)."&passwd_hash=$passwd_hash";
-    $reply = file_get_contents($url);
+    $reply = fetch_url($url);
     if (!$reply) return array(null, -1, "HTTP error");
     $r = @simplexml_load_string($reply);
     if (!$r) {
@@ -49,7 +66,7 @@ function create_account(
     $url = $project_url."/create_account.php?email_addr=".urlencode($email_addr)."&passwd_hash=$passwd_hash&user_name=".urlencode($user_name);
 
     //echo "url: $url\n";
-    $reply = file_get_contents($url);
+    $reply = fetch_url($url);
     if (!$reply) return array(null, -1, "HTTP error");
     //echo "reply: $reply\n";
     $r = @simplexml_load_string($reply);

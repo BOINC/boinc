@@ -144,7 +144,8 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
 // - client state XML file (net info, coprocs)
 // - a GUI RPC reply (net info, coprocs)
 // - a scheduler request message
-//   (net info unless config says otherwise, no coprocs)
+//   (net info unless config says otherwise,
+//   no coprocs - we write them separately)
 // - account manager request
 //   (net info unless config says otherwise, coprocs)
 // - app init file (net info, coprocs)
@@ -188,7 +189,8 @@ int HOST_INFO::write(
         "    <d_total>%f</d_total>\n"
         "    <d_free>%f</d_free>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n",
+        "    <os_version>%s</os_version>\n"
+        "    <n_usable_coprocs>%d</n_usable_coprocs>\n",
         host_cpid,
         p_ncpus,
         pv,
@@ -205,7 +207,8 @@ int HOST_INFO::write(
         d_total,
         d_free,
         osn,
-        osv
+        osv,
+        coprocs.ndevs()
     );
     if (strlen(product_name)) {
         xml_escape(product_name, pn, sizeof(pn));

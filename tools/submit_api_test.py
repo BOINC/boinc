@@ -21,7 +21,7 @@ from submit_api import *
 
 project_url = 'http://isaac.ssl.berkeley.edu/test/'
 
-# read auth from a file so we don't have to including it here
+# read auth from a file so we don't have to include it here
 #
 def get_auth():
     with open("test_auth", "r") as f:
@@ -31,10 +31,8 @@ def get_auth():
 #
 def make_batch_desc():
     file = FILE_DESC()
-    file.mode = 'remote'
-    file.url = 'http://isaac.ssl.berkeley.edu/validate_logic.txt'
-    file.md5 = "eec5a142cea5202c9ab2e4575a8aaaa7"
-    file.nbytes = 4250
+    file.mode = 'local_staged'
+    file.source = 'input'
 
     job = JOB_DESC()
     job.files = [file]
@@ -43,12 +41,44 @@ def make_batch_desc():
     batch.project = project_url
     batch.authenticator = get_auth()
     batch.app_name = "uppercase"
-    batch.batch_name = "blah"
+    batch.batch_name = "blah16"
     batch.jobs = []
 
-    for i in range(3):
+    for i in range(2):
         job.rsc_fpops_est = i*1e9
         job.command_line = '-i %s' %(i)
+        job.wu_template = """
+<input_template>
+    <file_info>
+    </file_info>
+    <workunit>
+        <file_ref>
+            <open_name>in</open_name>
+        </file_ref>
+        <target_nresults>1</target_nresults>
+        <min_quorum>1</min_quorum>
+        <credit>2</credit>
+        <rsc_fpops_est>   60e9  </rsc_fpops_est>
+    </workunit>
+</input_template>
+"""
+        job.result_template = """
+<output_template>
+    <file_info>
+        <name><OUTFILE_0/></name>
+        <generated_locally/>
+        <upload_when_present/>
+        <max_nbytes>4000000</max_nbytes>
+        <url><UPLOAD_URL/></url>
+    </file_info>
+    <result>
+        <file_ref>
+            <file_name><OUTFILE_0/></file_name>
+            <open_name>out</open_name>
+        </file_ref>
+    </result>
+</output_template>
+"""
         batch.jobs.append(copy.copy(job))
 
     return batch
@@ -66,7 +96,7 @@ def test_submit_batch():
     batch = make_batch_desc()
     r = submit_batch(batch)
     if r[0].tag == 'error':
-        print 'error: ', r.find('error_msg').text
+        print 'error: ', r[0].find('error_msg').text
         return
     print 'batch ID: ', r[0].text
 
@@ -99,12 +129,25 @@ def test_query_batch():
         print '      n_outfiles: ', job.find('n_outfiles').text
         # ... various other fields
 
-def test_abort_batch
+def test_create_batch():
+    req = CREATE_BATCH_REQ()
+    req.project = project_url
+    req.authenticator = get_auth()
+    req.app_name = 'uppercase'
+    req.batch_name = 'foobar'
+    req.expire_time = 0
+    r = create_batch(req)
+    if r[0].tag == 'error':
+        print 'error: ', r[0].find('error_msg').text
+        return
+    print 'batch ID: ', r[0].text
+
+def test_abort_batch():
     req = REQUEST()
     req.project = project_url
     req.authenticator = get_auth()
     req.batch_id = 271
-    r = abort_bath(req)
+    r = abort_batch(req)
     if r[0].tag == 'error':
         print 'error: ', r.find('error_msg').text
         return
@@ -114,9 +157,9 @@ def test_upload_files():
     req = UPLOAD_FILES_REQ()
     req.project = project_url
     req.authenticator = get_auth()
-    req.batch_id = 271
+    req.batch_id = 283
     req.local_names = ('updater.cpp', 'kill_wu.cpp')
-    req.boinc_names = ('xxx_updater.cpp', 'xxx_kill_wu.cpp')
+    req.boinc_names = ('dxxx_updater.cpp', 'dxxx_kill_wu.cpp')
     r = upload_files(req)
     if r[0].tag == 'error':
         print 'error: ', r[0].find('error_msg').text

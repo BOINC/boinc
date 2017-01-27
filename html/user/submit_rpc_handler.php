@@ -180,10 +180,18 @@ function stage_files(&$jobs, $template) {
     }
 }
 
+// submit a list of jobs with a single create_work command.
+//
 function submit_jobs(
     $jobs, $template, $app, $batch_id, $priority,
-    $result_template_file = null, $workunit_template_file = null
+    $result_template_file,      // batch-level; can also specify per job
+    $workunit_template_file
 ) {
+    global $wu_templates, $result_templates;
+
+    // make a string to pass to create_work;
+    // one line per job
+    //
     $x = "";
     foreach($jobs as $job) {
         if ($job->name) {
@@ -205,6 +213,14 @@ function submit_jobs(
             } else {
                 $x .= " $file->name";
             }
+        }
+        if ($job->wu_template) {
+            $f = $wu_templates[$job->wu_template];
+            $x .= " --wu_template $f";
+        }
+        if ($job->result_template) {
+            $f = $result_templates[$job->result_template];
+            $x .= " --result_template $f";
         }
         $x .= "\n";
     }
@@ -232,6 +248,58 @@ function submit_jobs(
     unlink($errfile);
 }
 
+// lists of arrays for job-level templates;
+// each maps template to filename
+//
+$wu_templates = array();
+$result_templates = array();
+
+// The job specifies an input template.
+// Check whether the template is already in our map.
+// If not, write it to a temp file.
+//
+function make_wu_template($job) {
+    global $wu_templates;
+    if (!array_key_exists($job->wu_template, $wu_templates)) {
+        $f = tempnam("/tmp", "wu_template_");
+        //echo "writing wt $f\n";
+        file_put_contents($f, $job->wu_template);
+        $wu_templates[$job->wu_template] = $f;
+    } else {
+        //echo "dup wu template\n";
+    }
+}
+
+// same for output templates.
+// A little different because these have to exist for life of job.
+// Store them in templates/tmp/, with content-based filenames
+//
+function make_result_template($job) {
+    global $result_templates;
+    if (!array_key_exists($job->result_template, $result_templates)) {
+        $m = md5($job->result_template);
+        $filename = "../../templates/tmp/$m";
+        if (!file_exists($filename)) {
+            file_put_contents($filename, $job->result_template);
+        }
+        $result_templates[$job->result_template] = $filename;
+    } else {
+        //echo "dup result template\n";
+    }
+}
+
+// delete per-job WU templates after creating jobs.
+// (we can't delete result templates)
+//
+function delete_wu_templates() {
+    global $wu_templates;
+    foreach ($wu_templates as $t => $f) {
+        unlink($f);
+    }
+}
+
+// convert job list from XML nodes to our own objects
+//
 function xml_get_jobs($r) {
     $jobs = array();
     foreach($r->batch->job as $j) {
@@ -243,6 +311,8 @@ function xml_get_jobs($r) {
         $job->target_host = (int)$j->target_host;
         $job->name = (string)$j->name;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
+        $job->wu_template = $j->wu_template->input_template->asXML();
+        $job->result_template = $j->result_template->output_template->asXML();
         foreach ($j->input_file as $f) {
             $file = new StdClass;
             $file->mode = (string)$f->mode;
@@ -256,6 +326,12 @@ function xml_get_jobs($r) {
             $job->input_files[] = $file;
         }
         $jobs[] = $job;
+        if ($job->wu_template) {
+            make_wu_template($job);
+        }
+        if ($job->result_template) {
+            make_result_template($job);
+        }
     }
     return $jobs;
 }
@@ -350,14 +426,16 @@ function submit_batch($r) {
     echo "<batch_id>$batch_id</batch_id>
         </submit_batch>
     ";
+
+    delete_wu_templates();
 }
 
 function create_batch($r) {
     xml_start_tag("create_batch");
-    $app = get_submit_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
-    $batch_name = (string)($r->batch->batch_name);
+    $batch_name = (string)($r->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
     $expire_time = (double)($r->expire_time);
     $batch_id = BoincBatch::insert(
@@ -744,10 +822,6 @@ estimate_batch($r);
 exit;
 }
 
-if (0) {
-    require_once("submit_test.inc");
-}
-
 $request_log = parse_config(get_config(), "<remote_submission_log>");
 if ($request_log) {
     $request_log_dir = parse_config(get_config(), "<log_dir>");
@@ -761,7 +835,12 @@ if ($request_log) {
 }
 
 xml_header();
-$r = simplexml_load_string($_POST['request']);
+if (0) {
+    $r = file_get_contents("submit_req.xml");
+} else {
+    $r = $_POST['request'];
+}
+$r = simplexml_load_string($r);
 if (!$r) {
     xml_error(-1, "can't parse request message");
 }

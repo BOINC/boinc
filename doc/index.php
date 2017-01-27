@@ -103,7 +103,7 @@ function show_participate() {
                 '<a href="projects.php">', '</a>',
                 '<a href="https://einsteinathome.org">Einstein@Home</a>',
                 '<a href="https://worldcommunitygrid.org">IBM World Community Grid</a>',
-                '<a href="https://setatihome.berkeley.edu">SETI@home</a>'
+                '<a href="https://setiathome.berkeley.edu">SETI@home</a>'
             );
             echo " ";
             echo tra("If you run several projects, try an %1account manager%2 such as %3GridRepublic%4 or %5BAM!%6. ",
@@ -118,8 +118,8 @@ function show_participate() {
                 <center>
                 <a class="btn btn-xs btn-primary" href="dev/">'.tra("Message boards").'</a>
                 <a class="btn btn-xs btn-primary" href="projects.php">'.tra("Projects").'</a>
-                <a class="btn btn-xs btn-primary" href="wiki/User_manual"><span class=nobr>'.tra("Manual").'</span></a> 
-                <a class="btn btn-xs btn-primary" href="/wiki/BOINC_Help">'.tra("Help").'</a>
+                <a class="btn btn-xs btn-primary" href="http://boinc.berkeley.edu/wiki/User_manual"><span class=nobr>'.tra("Manual").'</span></a> 
+                <a class="btn btn-xs btn-primary" href="http://boinc.berkeley.edu/wiki/BOINC_Help">'.tra("Help").'</a>
                 <a class="btn btn-xs btn-primary" href="addons.php"><span class=nobr>'.tra("Add-ons").'</span></a> 
                 <a class="btn btn-xs btn-primary" href="links.php"><span class=nobr>'.tra("Links").'</span></a> 
                 </center>

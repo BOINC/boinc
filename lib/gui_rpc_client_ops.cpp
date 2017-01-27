@@ -855,6 +855,7 @@ int GR_PROXY_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_int("socks_server_port", socks_server_port)) continue;
         if (xp.parse_string("socks5_user_name", socks5_user_name)) continue;
         if (xp.parse_string("socks5_user_passwd", socks5_user_passwd)) continue;
+        if (xp.parse_bool("socks5_remote_dns", socks5_remote_dns)) continue;
         if (xp.parse_string("http_server_name", http_server_name)) continue;
         if (xp.parse_int("http_server_port", http_server_port)) continue;
         if (xp.parse_string("http_user_name", http_user_name)) continue;
@@ -879,6 +880,7 @@ void GR_PROXY_INFO::clear() {
     http_user_passwd.clear();
     socks5_user_name.clear();
     socks5_user_passwd.clear();
+    socks5_remote_dns = false;
 	noproxy_hosts.clear();
 }
 
@@ -1956,6 +1958,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
         "        <socks_server_port>%d</socks_server_port>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
         "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
+        "        <socks5_remote_dns>%d</socks5_remote_dns>\n"		
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
@@ -1970,6 +1973,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
         procinfo.socks_server_port,
         procinfo.socks5_user_name.c_str(),
         procinfo.socks5_user_passwd.c_str(),
+        procinfo.socks5_remote_dns?1:0,
 		procinfo.noproxy_hosts.c_str()
     );
     buf[sizeof(buf)-1] = 0;

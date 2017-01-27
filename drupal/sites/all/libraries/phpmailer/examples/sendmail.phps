@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>PHPMailer - sendmail test</title>
-</head>
-<body>
 <?php
+/**
+ * This example shows sending a message using a local sendmail binary.
+ */
+
 require '../PHPMailerAutoload.php';
 
 //Create a new PHPMailer instance
-$mail = new PHPMailer();
+$mail = new PHPMailer;
 // Set PHPMailer to use the sendmail transport
 $mail->isSendmail();
 //Set who the message is to be sent from
@@ -26,7 +23,7 @@ $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
 //Replace the plain text body with one created manually
 $mail->AltBody = 'This is a plain-text message body';
 //Attach an image file
-$mail->addAttachment('images/phpmailer_mini.gif');
+$mail->addAttachment('images/phpmailer_mini.png');
 
 //send the message, check for errors
 if (!$mail->send()) {
@@ -34,6 +31,3 @@ if (!$mail->send()) {
 } else {
     echo "Message sent!";
 }
-?>
-</body>
-</html>

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,4 +28,5 @@ int CreateBOINCUsersAndGroups(void);
 int SetBOINCAppOwnersGroupsAndPermissions(char *path);
 int SetBOINCDataOwnersGroupsAndPermissions(void);
 int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project=true);
+OSStatus ResynchDSSystem(void);
 void ShowSecurityError(const char *format, ...);

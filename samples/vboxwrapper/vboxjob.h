@@ -59,109 +59,113 @@ public:
     void clear();
     int parse();
 
-    // name of the OS the VM runs
     std::string os_name;
+        // name of the OS the VM runs
 
-    // the type of disk controller to emulate
     std::string vm_disk_controller_type;
+        // the type of disk controller to emulate
 
-    // the disk controller model to emulate
     std::string vm_disk_controller_model;
+        // the disk controller model to emulate
 
-    // size of the memory allocation for the VM, in megabytes
     double memory_size_mb;
+        // size of the memory allocation for the VM, in megabytes
 
-    // whether to use CERN specific data structures
     bool enable_cern_dataformat;
+        // whether to use CERN specific data structures
 
-    // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
     bool enable_isocontextualization;
+        // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
 
-    // whether to add an extra cache disk for systems like uCernVM
     bool enable_cache_disk;
+        // whether to add an extra cache disk for systems like uCernVM
     
-    // whether to put the iso as the first boot device 
     bool boot_iso; 
+        // whether to put the iso as the first boot device 
 
-    // whether to allow network access
     bool enable_network;
+        // whether to allow network access
 
-    // use bridged mode for network
     bool network_bridged_mode;
+        // use bridged mode for network
 
-    // whether to use shared directory infrastructure
     bool enable_shared_directory;
+        // whether to use shared directory infrastructure
 
-    // whether to use scratch directory infrastructure
     bool enable_scratch_directory;
+        // whether to use scratch directory infrastructure
 
-    // whether to use floppy io infrastructure
     bool enable_floppyio;
+        // whether to use floppy io infrastructure
 
-    // whether to enable remote desktop functionality
     bool enable_remotedesktop;
+        // whether to enable remote desktop functionality
 
-    // whether to enable GBAC functionality
     bool enable_gbac;
+        // whether to enable GBAC functionality
 
-    // whether to enable graphics support by way of
-    // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
     bool enable_graphics_support;
+        // whether to enable graphics support by way of
+        // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
 
-    // capture screen shots during catastrophic events
     bool enable_screenshots_on_error;
+        // capture screen shots during catastrophic events
 
-    // whether to use savestate instead of poweroff on exit
     bool enable_vm_savestate_usage;
+        // whether to use savestate instead of poweroff on exit
 
-    // whether to disable automatic checkpoint support
     bool disable_automatic_checkpoints;
+        // whether to disable automatic checkpoint support
 
-    // maximum amount of wall-clock time this VM is allowed to run before
-    // considering itself done.
     double job_duration;
+        // maximum amount of wall-clock time this VM is allowed to run before
+        // considering itself done.
 
-    // name of file where app will write its fraction done
     std::string fraction_done_filename;
+        // name of file where app will write its fraction done
 
-    // name of the file to check for a heartbeat (i.e. check mod time with stat)
     std::string heartbeat_filename;
+        // name of the file to check for a heartbeat
+        // (i.e. check mod time with stat)
 
-    // check heartbeat interval
     double minimum_heartbeat_interval; 
+        // check heartbeat interval
 
-    // if nonzero, do port forwarding for Web GUI
     int pf_guest_port;      
     int pf_host_port;
+        // if nonzero, do port forwarding for Web GUI
 
     std::vector<VBOX_PORT_FORWARD> port_forwards;
 
-    // minimum time between checkpoints
     double minimum_checkpoint_interval;
+        // minimum time between checkpoints
 
-    // list of files to copy from slot dir to shared/
     std::vector<std::string> copy_to_shared;
+        // list of files to copy from slot dir to shared/
 
-    // if find file of this name in shared/, send trickle-up message
-    // with variety = filename, contents = file contents
+    bool copy_cmdline_to_shared;
+        // copy the cmdline to shared/cmdline
+
     std::vector<std::string> trickle_trigger_files;
+        // if find file of this name in shared/, send trickle-up message
+        // with variety = filename, contents = file contents
 
-    // if find file of this name in shared/, send specified file
     std::vector<VBOX_INTERMEDIATE_UPLOAD> intermediate_upload_files;
+        // if find file of this name in shared/, send specified file
 
-    // if find this file in shared/, task is over.
-    // File can optionally contain exit code (first line)
-    // File can optionally contain is_notice bool (second line)
-    // and stderr text (subsequent lines).
-    // Addresses a problem where VM doesn't shut down properly
     std::string completion_trigger_file;
+        // if find this file in shared/, task is over.
+        // File can optionally contain exit code (first line)
+        // File can optionally contain is_notice bool (second line)
+        // and stderr text (subsequent lines).
+        // Addresses a problem where VM doesn't shut down properly
 
-    // if find this file in shared/, task is restarted at a later date.
-    // File can optionally contain restart delay (first line)
-    // File can optionally contain is_notice bool (second line)
-    // and stderr text (subsequent lines).
-    // Addresses a problem where VM doesn't shut down properly
     std::string temporary_exit_trigger_file;
+        // if find this file in shared/, task is restarted at a later date.
+        // File can optionally contain restart delay (first line)
+        // File can optionally contain is_notice bool (second line)
+        // and stderr text (subsequent lines).
+        // Addresses a problem where VM doesn't shut down properly
 };
 
 #endif

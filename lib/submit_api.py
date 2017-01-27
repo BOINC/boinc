@@ -24,7 +24,7 @@ import xml.etree.ElementTree as ET
 import requests
     # you'll need to "yip install requests"
 
-# represents an input file
+# describes an input file
 #
 class FILE_DESC:
     def __init__(self):
@@ -43,22 +43,27 @@ class FILE_DESC:
         xml += '</input_file>\n'
         return xml
 
-# represents a job
+# describes a job
 #
 class JOB_DESC:
     def __init__(self):
         return
     def to_xml(self):
-        xml = ('<job>\n'
-        '<rsc_fpops_est>%f</rsc_fpops_est>\n'
-        '<command_line>%s</command_line>\n'
-        ) %(self.rsc_fpops_est, self.command_line)
+        xml = '<job>\n'
+        if hasattr(self, 'rsc_fpops'):
+            xml += '<rsc_fpops_est>%f</rsc_fpops_est>\n'%self.rsc_fpops_est
+        if hasattr(self, 'command_line'):
+            xml += '<command_line>%s</command_line>\n'%self.command_line
+        if hasattr(self, 'wu_template'):
+            xml += '<wu_template>\n%s\n</wu_template>\n'%self.wu_template
+        if hasattr(self, 'result_template'):
+            xml += '<result_template>\n%s\n</result_template>\n'%self.result_template
         for file in self.files:
             xml += file.to_xml()
         xml += '</job>\n'
         return xml
 
-# represents a batch description for submit() or estimate()
+# describes a batch for submit() or estimate()
 #
 class BATCH_DESC:
     def __init__(self):
@@ -66,11 +71,15 @@ class BATCH_DESC:
 
     def to_xml(self, op):
         xml = ('<%s>\n'
-        '<authenticator>%s</authenticator>\n'
-        '<batch>\n'
-        '<app_name>%s</app_name>\n'
-        '<batch_name>%s</batch_name>\n'
-        ) %(op, self.authenticator, self.app_name, self.batch_name)
+            '<authenticator>%s</authenticator>\n'
+            '<batch>\n'
+            '<app_name>%s</app_name>\n'
+        ) %(op, self.authenticator, self.app_name)
+
+        if hasattr(self, 'batch_id'):
+            xml += '<batch_id>%s</batch_id>\n'%(self.batch_id)
+        elif hasattr(self, 'batch_name'):
+            xml += '<batch_name>%s</batch_name>\n'%(self.batch_name)
         for job in self.jobs:
             xml += job.to_xml()
         xml += '</batch>\n</%s>\n' %(op)
@@ -80,7 +89,7 @@ class CREATE_BATCH_REQ:
     def __init__(self):
         return
     def to_xml(self):
-        xml = ('create_batch\n'
+        xml = ('<create_batch>\n'
         '<authenticator>%s</authenticator>\n'
         '<app_name>%s</app_name>\n'
         '<batch_name>%s</batch_name>\n'
@@ -95,6 +104,7 @@ class REQUEST:
         return
 
 def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
+    print req
     url = project_url + handler
     params = urllib.urlencode({'request': req})
     f = urllib.urlopen(url, params)
@@ -120,7 +130,9 @@ def abort_jobs(req):
         req_xml += '<job_name>%s</job_name>\n'%(job)
     req_xml += '</abort_jobs>\n'
     return do_http_post(req_xml, req.project)
-    
+
+# req is a CREATE_BATCH_REQ
+#
 def create_batch(req):
     return do_http_post(req.to_xml(), req.project)
 
@@ -170,7 +182,6 @@ def get_output_files(req):
     auth_str = md5.new(req.authenticator+req.batch_id).digest()
     return project_url+"/get_output.php?cmd=batch_files&batch_id=%s&auth_str=%s"%(req.batch_id, auth_str)
 
-
 def retire_batch(req):
     req_xml = ('<retire_batch>\n'
     '<authenticator>%s</authenticator>\n'
@@ -194,7 +205,7 @@ class QUERY_FILES_REQ:
         '<authenticator>%s</authenticator>\n'
         '<batch_id>%d</batch_id>\n') %(self.authenticator, self.batch_id)
         for name in self.boinc_names:
-            xml += '<md5>%s</md5>\n' %(name)
+            xml += '<phys_name>%s</phys_name>\n' %(name)
         xml += '</query_files>\n'
         return xml
 
@@ -207,11 +218,11 @@ class UPLOAD_FILES_REQ:
         '<authenticator>%s</authenticator>\n'
         '<batch_id>%d</batch_id>\n') %(self.authenticator, self.batch_id)
         for name in self.boinc_names:
-            xml += '<md5>%s</md5>\n' %(name)
+            xml += '<phys_name>%s</phys_name>\n' %(name)
         xml += '</upload_files>\n'
         return xml
 
-# This actually does two RPC:
+# This actually does two RPCs:
 # query_files() to find what files aren't already on server
 # upload_files() to upload them
 #

@@ -77,6 +77,14 @@ function req_to_xml($req, $op) {
             }
             $x .= "        </input_file>\n";
         }
+        // send templates for both estimate and submit ops
+        //
+        if (isset($job->wu_template)) {
+            $x .= "    <wu_template>\n$job->wu_template\n    </wu_template>\n";
+        }
+        if (isset($job->result_template)) {
+            $x .= "    <result_template>\n$job->result_template\n    </result_template>\n";
+        }
         $x .= "    </job>
 ";
     }
@@ -318,28 +326,70 @@ function boinc_retire_batch($req) {
 }
 
 //// example usage follows
-/*
-$req->project = "http://isaac.ssl.berkeley.edu/test/";
-$req->authenticator = "x";
-if (0) {
+if (1) {
+    $req = new StdClass;
+    $req->project = "http://isaac.ssl.berkeley.edu/test/";
+    $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
     $req->batch_name = "batch_name3";
     $req->jobs = array();
 
+    $job = new StdClass;
     $job->input_files = array();
+
+    $f = new StdClass;
     $f->mode = "remote";
     $f->url = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
     $f->nbytes = 4250;
     $job->input_files[] = $f;
+
     $f = new StdClass;
     $f->mode = "local";
     $f->source = "foobar";
     //$job->input_files[] = $f;
 
-    for ($i=10; $i<11; $i++) {
+    $it = "
+<input_template>
+    <file_info>
+    </file_info>
+    <workunit>
+        <file_ref>
+            <open_name>in</open_name>
+        </file_ref>
+        <target_nresults>1</target_nresults>
+        <min_quorum>1</min_quorum>
+        <rsc_fpops_est>   60e9  </rsc_fpops_est>
+        <rsc_fpops_bound> 60e12 </rsc_fpops_bound>
+        <rsc_disk_bound>2e6</rsc_disk_bound>
+        <rsc_memory_bound>1e6</rsc_memory_bound>
+        <delay_bound>3600</delay_bound>
+        <credit>1</credit>
+    </workunit>
+</input_template>
+";
+    $ot = "
+<output_template>
+    <file_info>
+        <name><OUTFILE_0/></name>
+        <generated_locally/>
+        <upload_when_present/>
+        <max_nbytes>5000000</max_nbytes>
+        <url><UPLOAD_URL/></url>
+    </file_info>
+    <result>
+        <file_ref>
+            <file_name><OUTFILE_0/></file_name>
+            <open_name>out</open_name>
+        </file_ref>
+    </result>
+</output_template>
+";
+    for ($i=0; $i<2; $i++) {
         $job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
+        $job->wu_template = $it;
+        $job->result_template = $ot;
         $req->jobs[] = $job;
     }
 
@@ -378,5 +428,4 @@ if (0) {
         print_r($jobs);
     }
 }
-*/
 ?>

@@ -1786,3 +1786,40 @@ function boincuser_get_profile_links($uid) {
 </ul>
 */
 }
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * 
+ * Call backs for apachesolr
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_apachesolr_index_documents_alter()
+ *
+ * This function modifies the Apache Solr Document to use the user's
+ * join date as the "ds_create" timestamp.
+ * 
+ * @param array $documents
+ *   Array of ApacheSolrDocument which are to be indexed
+ * @param string $entity
+ *   The entity object, typically a node object.
+ * @param string $entity_type
+ *   The entity's type, typically 'node'.
+ * @param $env_id
+ *   Environment ID for apache solr.
+ */
+function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, $entity_type, $env_id) {
+
+  foreach ($documents as $document) {
+    if ( $document->entity_type=='node' AND $document->bundle=='profile' ) {
+      // Node information.
+      $nid = $document->entity_id;
+      $node = node_load($nid);
+      $account = user_load($node->uid);
+
+      // Replace the Solr document's created field with the date the user 
+      // account was created. This replaces the node creation date typically 
+      // used for indexing nodes.
+      $document->ds_created = apachesolr_date_iso($account->created);
+    }
+  }
+
+}

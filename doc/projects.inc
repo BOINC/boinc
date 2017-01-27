@@ -111,16 +111,16 @@ $biomed = array(
             "",
             "Develop malaria drugs"
         ),
-        array(
-            "POEM@HOME",
-            "http://boinc.fzk.de/poem/",
-            tra("University of Karlsruhe (Germany)"),
-            tra("Protein structure prediction"),
-            tra("POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins."),
-            "poem.jpg",
-            "",
-            "Study protein structure and interaction"
-        ),
+//        array(
+//            "POEM@HOME",
+//            "http://boinc.fzk.de/poem/",
+//            tra("University of Karlsruhe (Germany)"),
+//            tra("Protein structure prediction"),
+//            tra("POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins."),
+//            "poem.jpg",
+//            "",
+//            "Study protein structure and interaction"
+//        ),
 //        array(
 //            "Docking@Home",
 //            "http://docking.cis.udel.edu/",
@@ -179,16 +179,16 @@ $biomed = array(
             "",
             "Study evolution using genetics"
         ),
-        array(
-            "Malariacontrol.net",
-            "http://www.malariacontrol.net/",
-            tra("The Swiss Tropical Institute"),
-            tra("Epidemiology"),
-            tra("Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. "),
-            "africaathome.gif",
-            "",
-            "Study the spread of malaria"
-        ),
+//        array(
+//            "Malariacontrol.net",
+//            "http://www.malariacontrol.net/",
+//            tra("The Swiss Tropical Institute"),
+//            tra("Epidemiology"),
+//            tra("Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. "),
+//            "africaathome.gif",
+//            "",
+//            "Study the spread of malaria"
+//        ),
 //        array(
 //            "Tanpaku",
 //            "http://issofty17.is.noda.tus.ac.jp/",

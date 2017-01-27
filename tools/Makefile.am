@@ -58,7 +58,7 @@ dir_hier_move_SOURCES = dir_hier_move.cpp
 dir_hier_move_LDADD = $(SERVERLIBS)
 
 sign_executable_SOURCES = sign_executable.cpp
-sign_executable_LDADD = $(SERVERLIBS)
+sign_executable_LDADD = $(SERVERLIBS_MIN)
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
 remote_submit_test_LDADD = $(SERVERLIBS) -lcurl
