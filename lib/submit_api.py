@@ -50,7 +50,7 @@ class JOB_DESC:
         return
     def to_xml(self):
         xml = '<job>\n'
-        if hasattr(self, 'rsc_fpops'):
+        if hasattr(self, 'rsc_fpops_est'):
             xml += '<rsc_fpops_est>%f</rsc_fpops_est>\n'%self.rsc_fpops_est
         if hasattr(self, 'command_line'):
             xml += '<command_line>%s</command_line>\n'%self.command_line
@@ -263,3 +263,11 @@ def upload_files(upload_files_req):
     reply = requests.post(url, data=req, files=files)
     #print "reply text: ", reply.text
     return ET.fromstring(reply.text)
+
+# see if reply is error.
+# if so print the message and return True
+#
+def check_error(response):
+    if response.find('error') is not None:
+         print 'error: ', response.find('error').find('error_msg').text
+         return True

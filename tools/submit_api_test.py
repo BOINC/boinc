@@ -41,11 +41,10 @@ def make_batch_desc():
     batch.project = project_url
     batch.authenticator = get_auth()
     batch.app_name = "uppercase"
-    batch.batch_name = "blah18"
+    batch.batch_name = "blah22"
     batch.jobs = []
 
     for i in range(2):
-        job.rsc_fpops_est = i*1e9
         job.command_line = '-i %s' %(i)
         if False:
             job.wu_template = """
@@ -81,6 +80,7 @@ def make_batch_desc():
     </result>
 </output_template>
 """
+        job.rsc_fpops_est = (i+1)*1e9
         batch.jobs.append(copy.copy(job))
 
     return batch
@@ -89,16 +89,14 @@ def test_estimate_batch():
     batch = make_batch_desc()
     #print batch.to_xml("submit")
     r = estimate_batch(batch)
-    if r[0].tag == 'error':
-        print 'error: ', r.find('error_msg').text
+    if check_error(r):
         return
     print 'estimated time: ', r[0].text, ' seconds'
 
 def test_submit_batch():
     batch = make_batch_desc()
     r = submit_batch(batch)
-    if r[0].tag == 'error':
-        print 'error: ', r[0].find('error_msg').text
+    if check_error(r):
         return
     print 'batch ID: ', r[0].text
 
@@ -108,6 +106,8 @@ def test_query_batches():
     req.authenticator = get_auth()
     req.get_cpu_time = True
     r = query_batches(req)
+    if check_error(r):
+        return
     print ET.tostring(r)
 
 def test_query_batch():
@@ -117,8 +117,7 @@ def test_query_batch():
     req.batch_id = 271
     req.get_cpu_time = True
     r = query_batch(req)
-    if r[0].tag == 'error':
-        print 'error: ', r[0].find('error_msg').text
+    if check_error(r):
         return
     print ET.tostring(r)
     print 'njobs: ', r.find('njobs').text
@@ -139,8 +138,7 @@ def test_create_batch():
     req.batch_name = 'foobar'
     req.expire_time = 0
     r = create_batch(req)
-    if r[0].tag == 'error':
-        print 'error: ', r[0].find('error_msg').text
+    if check_error(r):
         return
     print 'batch ID: ', r[0].text
 
@@ -150,8 +148,7 @@ def test_abort_batch():
     req.authenticator = get_auth()
     req.batch_id = 271
     r = abort_batch(req)
-    if r[0].tag == 'error':
-        print 'error: ', r.find('error_msg').text
+    if check_error(r):
         return
     print 'success'
 
@@ -163,9 +160,8 @@ def test_upload_files():
     req.local_names = ('updater.cpp', 'kill_wu.cpp')
     req.boinc_names = ('dxxx_updater.cpp', 'dxxx_kill_wu.cpp')
     r = upload_files(req)
-    if r[0].tag == 'error':
-        print 'error: ', r[0].find('error_msg').text
+    if check_error(r):
         return
-    print 'success'
+    print 'upload_files: success'
 
 test_submit_batch()
