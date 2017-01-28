@@ -392,20 +392,23 @@ int main(int argc, char** argv) {
     // this won't get used if we're creating a batch
     // with job-level WU templates
     //
-    retval = read_filename(
-        jd.wu_template_file, jd.wu_template, sizeof(jd.wu_template)
-    );
-    if (retval) {
-        fprintf(stderr,
-            "create_work: can't open input template %s\n", jd.wu_template_file
+    if (boinc_file_exists(jd.wu_template_file)) {
+        retval = read_filename(
+            jd.wu_template_file, jd.wu_template, sizeof(jd.wu_template)
         );
-        exit(1);
+        if (retval) {
+            fprintf(stderr,
+                "create_work: can't open input template %s\n", jd.wu_template_file
+            );
+            exit(1);
+        }
     }
 
     jd.wu.appid = app.id;
 
     strcpy(jd.result_template_path, "./");
     strcat(jd.result_template_path, jd.result_template_file);
+
     if (use_stdin) {
         // clear the WU template name so we'll recognize a job-level one
         //
@@ -429,6 +432,10 @@ int main(int argc, char** argv) {
                 }
                 if (strlen(jd2.wu_template_file)) {
                     get_wu_template(jd2);
+                }
+                if (!strlen(jd2.wu_template)) {
+                    fprintf(stderr, "job is missing input template\n");
+                    exit(1);
                 }
                 jd2.create();
             }
@@ -459,6 +466,10 @@ int main(int argc, char** argv) {
                 //
                 if (strlen(jd2.wu_template_file)) {
                     get_wu_template(jd2);
+                }
+                if (!strlen(jd2.wu_template)) {
+                    fprintf(stderr, "job is missing input template\n");
+                    exit(1);
                 }
                 retval = create_work2(
                     jd2.wu,

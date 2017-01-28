@@ -140,9 +140,10 @@ function query_files($r) {
             // create batch association if needed
             //
             if ($batch_id) {
-                $ret = BoincBatchFileAssoc::insert(
+                BoincBatchFileAssoc::insert(
                     "(batch_id, job_file_id) values ($batch_id, $jf_id)"
                 );
+                // this return error if assoc already exists; ignore
             }
         } else {
             if ($job_file) {

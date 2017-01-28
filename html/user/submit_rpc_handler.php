@@ -50,7 +50,9 @@ function get_submit_app($name) {
 //
 function batch_flop_count($r, $template) {
     $x = 0;
-    $t = (double)$template->workunit->rsc_fpops_est;
+    if ($template) {
+        $t = (double)$template->workunit->rsc_fpops_est;
+    }
     foreach($r->batch->job as $job) {
         $y = (double)$job->rsc_fpops_est;
         if ($y) {
@@ -83,11 +85,15 @@ function read_input_template($app, $r) {
     } else {
         $path = project_dir() . "/templates/$app->name"."_in";
     }
-    $x = simplexml_load_file($path);
-    if (!$x) {
-        xml_error(-1, "Couldn't parse input template file $path");
+    if (file_exists($path)) {
+        $x = simplexml_load_file($path);
+        if (!$x) {
+            xml_error(-1, "Couldn't parse input template file $path");
+        }
+        return $x;
+    } else {
+        return null;
     }
-    return $x;
 }
 
 function check_max_jobs_in_progress($r, $user_submit) {
@@ -170,7 +176,7 @@ function stage_file($file) {
 
 // stage all the files
 //
-function stage_files(&$jobs, $template) {
+function stage_files(&$jobs) {
     foreach($jobs as $job) {
         foreach ($job->input_files as $file) {
             if ($file->mode != "remote") {
@@ -346,10 +352,12 @@ function submit_batch($r) {
     xml_start_tag("submit_batch");
     $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
-    $template = read_input_template($app, $r);
     $jobs = xml_get_jobs($r);
-    validate_batch($jobs, $template);
-    stage_files($jobs, $template);
+    $template = read_input_template($app, $r);
+    if ($template) {
+        validate_batch($jobs, $template);
+    }
+    stage_files($jobs);
     $njobs = count($jobs);
     $now = time();
     $batch_id = (int)($r->batch->batch_id);

@@ -41,12 +41,12 @@ def make_batch_desc():
     batch.project = project_url
     batch.authenticator = get_auth()
     batch.app_name = "uppercase"
-    batch.batch_name = "blah22"
+    batch.batch_name = "blah25"
     batch.jobs = []
 
     for i in range(2):
         job.command_line = '-i %s' %(i)
-        if False:
+        if True:
             job.wu_template = """
 <input_template>
     <file_info>
@@ -62,7 +62,7 @@ def make_batch_desc():
     </workunit>
 </input_template>
 """
-        if False:
+        if True:
             job.result_template = """
 <output_template>
     <file_info>
@@ -177,4 +177,4 @@ def test_query_files():
     for f in r[0]:
         print f.text
 
-test_query_files()
+test_submit_batch()
