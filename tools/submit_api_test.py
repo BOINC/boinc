@@ -177,4 +177,21 @@ def test_query_files():
     for f in r[0]:
         print f.text
 
-test_upload_files()
+def test_get_output_file():
+    req = REQUEST()
+    req.project = project_url
+    req.authenticator = get_auth()
+    req.instance_name = 'uppercase_32275_1484961754.784017_0_0';
+    req.file_num = 1;
+    r = get_output_file(req)
+    print(r)
+
+def test_get_output_files():
+    req = REQUEST()
+    req.project = project_url
+    req.authenticator = get_auth()
+    req.batch_id = 271
+    r = get_output_files(req)
+    print(r)
+
+test_get_output_files()

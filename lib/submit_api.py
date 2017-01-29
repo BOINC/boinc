@@ -23,6 +23,7 @@ import copy
 import xml.etree.ElementTree as ET
 import requests
     # you'll need to "yip install requests"
+import hashlib
 
 # describes an input file
 #
@@ -58,8 +59,9 @@ class JOB_DESC:
             xml += '<wu_template>\n%s\n</wu_template>\n'%self.wu_template
         if hasattr(self, 'result_template'):
             xml += '<result_template>\n%s\n</result_template>\n'%self.result_template
-        for file in self.files:
-            xml += file.to_xml()
+        if hasattr(self, 'files'):
+            for file in self.files:
+                xml += file.to_xml()
         xml += '</job>\n'
         return xml
 
@@ -173,13 +175,13 @@ def query_job(req):
     return do_http_post(req_xml, req.project)
 
 def get_output_file(req):
-    auth_str = md5.new(req.authenticator+req.instance_name).hexdigest()
+    auth_str = hashlib.md5(req.authenticator+req.instance_name).hexdigest()
     name = req.instance_name
     file_num = req.file_num
     return req.project+"/get_output.php?cmd=result_file&result_name=%s&file_num=%s&auth_str=%s"%(name, file_num, auth_str)
 
 def get_output_files(req):
-    auth_str = md5.new(req.authenticator+req.batch_id).hexdigest()
+    auth_str = hashlib.md5(req.authenticator+str(req.batch_id)).hexdigest()
     return req.project+"/get_output.php?cmd=batch_files&batch_id=%s&auth_str=%s"%(req.batch_id, auth_str)
 
 def retire_batch(req):
