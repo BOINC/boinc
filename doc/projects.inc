@@ -21,11 +21,11 @@ $sensing = array(
         array(
             "Quake Catcher Network",
             "http://quakecatcher.net",
-            tra("Caltech"),
+            tra("University of Southern California"),
             tra("Seismology"),
             tra("Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves."),
             "",
-            "",
+            "http://quakecatcher.net/sensor/",
             "Help detect earthquakes"
         ),
         array(
