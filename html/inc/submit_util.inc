@@ -21,8 +21,10 @@
 
 require_once("../inc/submit_db.inc");
 
-// the physical name of a file is jf_(md5).
-// Prepend the jf_ to make the source of the file clear
+// in remote job submission,
+// for input files of type local, semilocal, and inline,
+// we need to give a unique physical name based on its content.
+// Prepend the jf_ to make the origin of the file clear
 //
 function job_file_name($md5) {
     return "jf_$md5";
@@ -45,8 +47,10 @@ function authenticate_user($r, $app) {
     return array($user, $user_submit);
 }
 
-// given its WUs, compute params of a batch
-// NOTE: eventually this should be done by server components
+// given its WUs, compute progress of a batch
+// (fraction done, est completion time etc.)
+// NOTE: this is inefficient because we need all the WUs.
+// it could be done by server components
 // (transitioner, validator etc.) as jobs complete or time out
 //
 // TODO: update est_completion_time
@@ -187,9 +191,8 @@ function boinc_get_output_files_url($user, $batch_id) {
 }
 
 function boinc_get_wu_output_files_url($user, $wu_id) {
-    
-    //echo "url: user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
     $auth_str =  md5($user->authenticator.$wu_id);
     return "get_output.php?cmd=workunit_files&wu_id=$wu_id&auth_str=$auth_str";
 }
+
 ?>

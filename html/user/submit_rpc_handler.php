@@ -50,6 +50,7 @@ function get_submit_app($name) {
 //
 function batch_flop_count($r, $template) {
     $x = 0;
+    $t = 0;
     if ($template) {
         $t = (double)$template->workunit->rsc_fpops_est;
     }
@@ -57,8 +58,10 @@ function batch_flop_count($r, $template) {
         $y = (double)$job->rsc_fpops_est;
         if ($y) {
             $x += $y;
-        } else {
+        } else if ($t) {
             $x += $t;
+        } else {
+            xml_error(-1, "No rsc_fpops_est given for job");
         }
     }
     return $x;
@@ -149,7 +152,7 @@ function stage_file($file) {
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
-        $name = "jf_$md5";
+        $name = job_file_name($md5);
         $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!copy($file->source, $path)) {
@@ -163,7 +166,7 @@ function stage_file($file) {
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of inline data");
         }
-        $name = "jf_$md5";
+        $name = job_file_name($md);
         $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!file_put_contents($path, $file->source)) {

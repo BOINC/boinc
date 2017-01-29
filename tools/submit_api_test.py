@@ -158,7 +158,7 @@ def test_upload_files():
     req.authenticator = get_auth()
     req.batch_id = 283
     req.local_names = ('updater.cpp', 'kill_wu.cpp')
-    req.boinc_names = ('dxxx_updater.cpp', 'dxxx_kill_wu.cpp')
+    req.boinc_names = ('dxxxb_updater.cpp', 'dxxxb_kill_wu.cpp')
     r = upload_files(req)
     if check_error(r):
         return
@@ -177,4 +177,4 @@ def test_query_files():
     for f in r[0]:
         print f.text
 
-test_submit_batch()
+test_upload_files()

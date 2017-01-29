@@ -41,4 +41,51 @@ function dir_hier_url($filename, $base, $fanout) {
     return "$base/$dir/$filename";
 }
 
+// we're about to put a file with the given path into the download hier;
+// return
+// 0 if same file is already there and we don't need to copy
+// 1 if file isn't there, need to copy
+// -1 if a different file is there
+//
+// in cases 0 and 1 we make sure a .md5 file is there; create if needed
+//
+// Assume that if there's a .md5 file, it's correct.
+//
+function check_download_file($path, $dl_path) {
+    $dl_md5_path = "$dl_path.md5";
+    $have_md5_file = false;
+    $md5 = md5_file($path);
+    $size = filesize($path);
+
+    if (file_exists($dl_md5_path)) {
+        $x = file_get_contents($dl_md5_path);
+        $x = explode(" ", $x);
+        $dl_md5 = $x[0];
+        $dl_size = $x[1];
+        $have_md5_file = true;
+    }
+
+    if (file_exists($dl_path)) {
+        if ($have_md5_file) {
+            if (filesize($dl_path) == $dl_size && $dl_md5 == $md5) {
+                // looks like the right file is there
+                //
+                return 0;
+            }
+            return -1;
+        } else {
+            // missing the .md5 file; need to look at the file
+            //
+            if (md5_file($dl_path) == $md5) {
+                file_put_contents($dl_md5_path, "$md5 $size\n");
+                return 0;
+            }
+            return -1;
+        }
+    } else {
+        file_put_contents($dl_md5_path, "$md5 $size\n");
+        return 1;
+    }
+}
+
 ?>

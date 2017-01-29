@@ -217,9 +217,21 @@ function upload_files($r) {
         $tmp_name = $f['tmp_name'];
         $fname = $phys_names[$i];
         $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
-        if (!move_uploaded_file($tmp_name, $path)) {
-            xml_error(-1, "could not move $tmp_name to $path");
+        $md5 = md5_file($tmp_name);
+        $size = filesize($tmp_name);
+
+        switch(check_download_file($tmp_name, $path)) {
+        case 0:
+            break;
+        case 1:
+            if (!move_uploaded_file($tmp_name, $path)) {
+                xml_error(-1, "could not move $tmp_name to $path");
+            }
+            break;
+        case -1: 
+            xml_error(-1, "file immutability violation for $fname");
         }
+
         $jf_id = BoincJobFile::insert(
             "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
         );
