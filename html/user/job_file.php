@@ -217,8 +217,6 @@ function upload_files($r) {
         $tmp_name = $f['tmp_name'];
         $fname = $phys_names[$i];
         $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
-        $md5 = md5_file($tmp_name);
-        $size = filesize($tmp_name);
 
         switch(check_download_file($tmp_name, $path)) {
         case 0:

@@ -166,7 +166,7 @@ function stage_file($file) {
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of inline data");
         }
-        $name = job_file_name($md);
+        $name = job_file_name($md5);
         $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!file_put_contents($path, $file->source)) {
@@ -274,8 +274,8 @@ function make_wu_template($job) {
         //echo "writing wt $f\n";
         file_put_contents($f, $job->wu_template);
         $wu_templates[$job->wu_template] = $f;
-    } else {
-        //echo "dup wu template\n";
+    //} else {
+    //    echo "dup wu template\n";
     }
 }
 
@@ -292,8 +292,8 @@ function make_result_template($job) {
             file_put_contents($filename, $job->result_template);
         }
         $result_templates[$job->result_template] = $filename;
-    } else {
-        //echo "dup result template\n";
+    //} else {
+    //    echo "dup result template\n";
     }
 }
 
