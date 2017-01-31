@@ -4,13 +4,13 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Shmuel Shwartz, 2016
+# Shmuel Shwartz, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-29 13:51+0000\n"
+"PO-Revision-Date: 2017-01-12 19:00+0000\n"
 "Last-Translator: Shmuel Shwartz\n"
 "Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -40,14 +40,14 @@ msgstr "לא ניתן לרשום קובץ מצב; בדוק הרשאות תיקי
 
 #: client/cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr "משתנה הסביבה HTTP_PROXY חייב לציין פרוקסי מסוג HTTP"
+msgstr "משתנה הסביבה HTTP_PROXY חייב לציין שרת מתווך HTTP"
 
 #: client/cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
-msgstr "פרוייקט זה משתמש בכתובת אינטרנט ישנה.  בזמן הנוח לך, הסר את הפרוייקט, ולאחר מכן הוסף את %s"
+msgstr "מיזם זה משתמש בכתובת אינטרנט ישנה.  בזמן הנוח לך, הסר את המיזם, ולאחר מכן הוסף את %s"
 
 #: client/cs_statefile.cpp:844
 msgid "Syntax error in app_info.xml"
@@ -96,7 +96,7 @@ msgstr "כדי לפתור זאת, באפשרותך "
 
 #: client/project.cpp:970
 msgid "change Project Preferences on the project's web site"
-msgstr "שנה את העדפות הפרוייקט באתר האינטרנט של הפרוייקט"
+msgstr "שנה את העדפות המיזם באתר האינטרנט של המיזם"
 
 #: client/project.cpp:976
 msgid "remove GPU exclusions in your cc_config.xml file"
@@ -108,30 +108,30 @@ msgstr "שנה את ההגדרות שלך באתר מנהל החשבון"
 
 #: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr "מפתח החשבון אינו נכון או חסר. לתיקון, הסר והוסף פרוייקט זה מחדש."
+msgstr "מפתח החשבון אינו נכון או חסר. לתיקון, הסר והוסף מיזם זה מחדש."
 
 #: sched/handle_request.cpp:951
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr "הפרוייקט שינה את מפתח האבטחה שלו. הסר והוסף פרוייקט זה מחדש."
+msgstr "המיזם שינה את מפתח האבטחה שלו. הסר והוסף מיזם זה מחדש."
 
 #: sched/handle_request.cpp:1022
 msgid "This project doesn't support operating system"
-msgstr "פרוייקט זה לא תומך במערכת הפעלה"
+msgstr "מיזם זה לא תומך במערכת הפעלה"
 
 #: sched/handle_request.cpp:1048
 msgid "This project doesn't support CPU type"
-msgstr "פרוייקט זה לא תומך בסוג המעבד"
+msgstr "מיזם זה לא תומך בסוג המעבד"
 
 #: sched/handle_request.cpp:1072
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "גרסת קליינט ה-BOINC ישנה מידי. אנא התקן את הגירסה הנוכחית."
+msgstr "גרסת לקוח ה-BOINC ישנה מידי. אנא התקן את הגירסה הנוכחית."
 
 #: sched/handle_request.cpp:1347
 msgid "This project doesn't support computers of type"
-msgstr "פרוייקט זה אינו תומך במחשבים מסוג"
+msgstr "מיזם זה אינו תומך במחשבים מסוג"
 
 #: sched/sched_send.cpp:1107
 msgid ""
@@ -152,7 +152,7 @@ msgstr "יש צורך בגרסה חדשה יותר של BOINC על מנת להש
 #: sched/sched_send.cpp:1167
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "נדרש מעבד גרפי של %s GPU להרצת משימות מפרוייקט זה"
+msgstr "נדרש מעבד גרפי של %s להרצת משימות ממיזם זה"
 
 #: sched/sched_send.cpp:1283
 msgid "No tasks are available for the applications you have selected."
@@ -160,7 +160,7 @@ msgstr "אין משימות זמינות ליישומים שבחרת."
 
 #: sched/sched_send.cpp:1309
 msgid "Your computer type is not supported by this project"
-msgstr "מחשבך אינו נתמך ע\"י פרוייקט זה"
+msgstr "מחשבך אינו נתמך ע\"י מיזם זה"
 
 #: sched/sched_send.cpp:1315
 msgid "Newer BOINC version required; please install current version"

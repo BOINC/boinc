@@ -292,7 +292,7 @@
   <string name="suspend_screen_on">Wyłącz ekran aby kontynuować obliczenia.</string>
   <string name="suspend_useractive">Użytkownik jest aktywny.</string>
   <string name="suspend_tod">Wyczerpano ograniczenie czasu obliczeniowego.</string>
-  <string name="suspend_bm">BOINC pomiarowuje urządzenie…</string>
+  <string name="suspend_bm">BOINC testuje twoje urządzenie...</string>
   <string name="suspend_disksize">Brak wolnego miejsca pamięci stałej</string>
   <string name="suspend_cputhrottle">Przewidziane pohamowanie procesora głównego</string>
   <string name="suspend_noinput">Brak aktywności użytkownika</string>

@@ -2,12 +2,12 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
-# Shmuel Shwartz, 2016
+# Shmuel Shwartz, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-12-30 14:13+0000\n"
+"PO-Revision-Date: 2017-01-13 13:49+0000\n"
 "Last-Translator: Shmuel Shwartz\n"
 "Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgid ""
 "project. Example: if you participate in two BOINC projects with resource "
 "shares of 100 and 200, the first will get 1/3 of your resources and the "
 "second will get 2/3."
-msgstr "קובע את הפרופורציה של משאבי המחשב המוקצים לפרוייקט זה. דוגמה: אם תשתתף בשני פרוייקטי BOINC עם שיתוף משאבים של 100 ו-200, הראשון יקבל 1/3 מהמשאבים שלך והשני יקבל 2/3."
+msgstr "קובע את היחס של משאבי המחשב המוקצים למיזם זה. דוגמה: אם תשתתף בשני מיזמי BOINC עם שיתוף משאבים של 100 ו-200, הראשון יקבל 1/3 מהמשאבים שלך והשני יקבל 2/3."
 
 msgid "Use CPU"
 msgstr "השתמש במעבד"
@@ -267,7 +267,7 @@ msgid "Member since"
 msgstr "חבר מאז"
 
 msgid "CPID"
-msgstr "מזהה פרוייקט מוצלב"
+msgstr "מזהה מיזם מוצלב"
 
 msgid "Email Address"
 msgstr "כתובת דוא\"ל"
@@ -324,7 +324,7 @@ msgid "External IP address"
 msgstr "כתובת IP חיצונית"
 
 msgid "Cross project ID"
-msgstr "מזהה פרוייקט מוצלב"
+msgstr "מזהה מיזם מוצלב"
 
 msgid "Last IP address"
 msgstr "כתובת IP אחרונה"
@@ -528,10 +528,10 @@ msgid "This user has chosen not to show information about their computers."
 msgstr "משתמש זה בחר שלא להציג מידע אודות המחשבים שלו."
 
 msgid "no projects..."
-msgstr "אין פרויקטים..."
+msgstr "אין מיזמים..."
 
 msgid "Moderation"
-msgstr "ניהול פורום"
+msgstr "הנחייה"
 
 msgid "Unvetted profiles"
 msgstr "פרופילים לא בדוקים"
@@ -585,7 +585,7 @@ msgid "View user profile."
 msgstr "הצג פרופיל משתמש."
 
 msgid "Profile awaiting moderator approval"
-msgstr "הפרופיל ממתין לאישור מנהל פורום"
+msgstr "הפרופיל ממתין לאישור המנחה"
 
 msgid "Background"
 msgstr "רקע"
@@ -614,7 +614,7 @@ msgid "Weak account key"
 msgstr "מפתח חשבון חלש"
 
 msgid "Cross-project ID"
-msgstr "מזהה פרוייקט מוצלב"
+msgstr "מזהה מיזם מוצלב"
 
 msgid "Change password"
 msgstr "שנה סיסמה"
@@ -807,7 +807,7 @@ msgid "BOINC"
 msgstr "BOINC"
 
 msgid "Project"
-msgstr "פרוייקט"
+msgstr "מיזם"
 
 msgid "No @type tasks"
 msgstr "אין משימות @type"
@@ -997,7 +997,7 @@ msgid "Home"
 msgstr "בית"
 
 msgid "The latest news from the @site_name project"
-msgstr "החדשות האחרונות מפרוייקט @site_name"
+msgstr "החדשות האחרונות ממיזם @site_name"
 
 msgid "Hide"
 msgstr "הסתר"
@@ -1018,7 +1018,7 @@ msgid "Make this topic sticky"
 msgstr "נעץ נושא זה"
 
 msgid "moderation"
-msgstr "ניהול פורום"
+msgstr "הנחייה"
 
 msgid "Reply"
 msgstr "השב"
@@ -1092,10 +1092,10 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "בבקשה היה אחראי למה שאתה כותב ואל תיצור רשומות פוגעניות או מעליבות. רשומות או שרשורים פוגעניים עלולים להימחק על ידי מנהלי הפורום ללא מתן אזהרה וללא דיון. אל תגיב לרשומות פוגעניות. לחץ על כפתור \"דווח\" בתחתית הרשומה כדי להסב אליהם את תשומת הלב של מנהלי הפורום."
+msgstr "בבקשה היה אחראי למה שאתה כותב ואל תיצור רשומות פוגעניות או מעליבות. רשומות או שרשורים פוגעניים עלולים להימחק על ידי המנחים ללא מתן אזהרה וללא דיון. אל תגיב לרשומות פוגעניות. לחץ על כפתור \"דווח\" בתחתית הרשומה כדי להסב את תשומת לב המנחים אליהם."
 
 msgid "this project"
-msgstr "פרוייקט זה"
+msgstr "מיזם זה"
 
 msgid ""
 "We also ask that you keep all discussion on the message boards related to "
@@ -1129,7 +1129,7 @@ msgid "Show IP address"
 msgstr "הצג כתובת IP"
 
 msgid "Download the desktop software"
-msgstr "הורד את תוכנת שולחן העבודה"
+msgstr "הורד את התוכנה השולחנית"
 
 msgid "Run the installer"
 msgstr "הרץ את תוכנית ההתקנה"
@@ -1209,12 +1209,12 @@ msgid "Reject this profile content"
 msgstr "דחה תוכן פרופיל זה"
 
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "דברים אלו חלים על כל הפרוייקטים של BOINC בהם אתה משתתף."
+msgstr "דברים אלו חלים על כל המיזמים של BOINC בהם אתה משתתף."
 
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "במחשבים המחוברים לפרוייקטים מרובים, ההעדפות ששונו לאחרונה יהיו בשימוש."
+msgstr "במחשבים המחוברים למיזמים מרובים, ההעדפות ששונו לאחרונה יהיו בשימוש."
 
 msgid "Preferences last modified: @mod_time"
 msgstr "עדכון ההעדפות אחרון: @mod_time"
@@ -1327,20 +1327,20 @@ msgstr "שמור צוות"
 msgid ""
 "If you're already running BOINC, select <i>Add\n"
 "      Project</i>."
-msgstr "אם אתה כבר מריץ BOINC, בחר <i>הוסף פרוייקט</i>."
+msgstr "אם אתה כבר מריץ BOINC, בחר <i>הוסף מיזם</i>."
 
 msgid ""
 "If you're running a command-line version of BOINC,\n"
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "אם אתה מפעיל גירסה של שורת הפקודה של BOINC, \nהשתמש קודם בתוכנת מנהל BOINC (במקומות אחרים במקרה הצורך) כדי ליצור\nחשבון בפרויקט הזה, ואז השתמש בחשבון זה כדי להתחבר עם הגרסה של שורת הפקודה."
+msgstr "אם אתה מפעיל גירסה של שורת הפקודה של BOINC, \nהשתמש קודם בתוכנת מנהל BOINC (במקומות אחרים במקרה הצורך) כדי ליצור\nחשבון במיזם זה, ואז השתמש בחשבון זה כדי להתחבר עם הגרסה של שורת הפקודה."
 
 msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version to create an account\n"
 "        at this project."
-msgstr "אם אתה מפעיל גירסת קודמת ל-5.0 BOINC, אנא שדרג לגרסה עדכנית יותר כדי ליצור חשבון בפרויקט זה."
+msgstr "אם אתה מפעיל גירסת קודמת ל-5.0 BOINC, אנא שדרג לגרסה עדכנית יותר כדי ליצור חשבון במיזם זה."
 
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
@@ -1363,7 +1363,7 @@ msgstr "עבור אל ספריית הנתונים של BOINC במחשב שלך (
 msgid ""
 "Find your account file for this project; it will have a name like %file "
 "(where the project URL is %url)."
-msgstr "מצא את קובץ החשבון לפרוייקט זה; השם שלו יהיה דומה ל-%file (כאשר כתובת האינטרנט של הפרוייקט היא %url)."
+msgstr "מצא את קובץ החשבון למיזם זה; השם שלו יהיה דומה ל-%file (כאשר כתובת האינטרנט של המיזם היא %url)."
 
 msgid ""
 "Open the file in a text editor like Notepad. You'll see something like:"
@@ -1428,7 +1428,7 @@ msgid "Only members may read (optional)"
 msgstr "רק חברים יכולים לקרוא (רשות)"
 
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "למייסד ומנהל הצוות יש הרשאות מנהל פורום"
+msgstr "למייסד ומנהל הצוות יש הרשאות מנחה"
 
 msgid "@ip_address (same the last @count times)"
 msgstr "@ip_address (זהה ל-@count האחרונים)"
@@ -1550,7 +1550,7 @@ msgid "Unlock this thread for comments"
 msgstr "פתח את השרשור לתגובות"
 
 msgid "project"
-msgstr "פרוייקט"
+msgstr "מיזם"
 
 msgid "@email is not a well formed email address, please verify"
 msgstr "@email אינה כתובת דוא\"ל תקינה, אנא וודא תקינות"
@@ -1656,7 +1656,7 @@ msgid "View the team's join / quit history"
 msgstr "צפה בהיסטוריית הצטרפות / עזיבה של הצוות"
 
 msgid "Moderate the team forum"
-msgstr "נהל את פורום הצוות"
+msgstr "הנחה את פורום הצוות"
 
 msgid "Remove members from the team"
 msgstr "הסר חברים מהצוות"

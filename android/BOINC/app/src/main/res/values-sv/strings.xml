@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Avsluta</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Välj ett vetenskapligt projekt du vilj bidra till:</string>
+  <string name="attachproject_list_desc">Välj ett vetenskapligt projekt du vill bidra till:</string>
   <string name="attachproject_list_header">Välj ett projekt</string>
   <string name="attachproject_list_manual_button">Lägg till projekt via URL</string>
   <string name="attachproject_list_manual_dialog_title">Ange projektets URL:</string>
@@ -35,7 +35,7 @@
   <string name="attachproject_hints_header">Tips</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Hur du kan hjälpa till:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Anslut till trådlöst nätverk</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Anslut till WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Koppla in batteriladdare</string>
   <string name="attachproject_hint_contribtion_screen">3. Stäng av skärmen</string>
   <string name="attachproject_hint_projectwebsite_header">Besök projektets hemsida för att:</string>
@@ -98,7 +98,7 @@
   <string name="attachproject_error_no_name">Ange användarnamn</string>
   <string name="attachproject_error_unknown">misslyckades</string>
   <string name="attachproject_error_bad_username">Användarnamn felaktigt</string>
-  <string name="attachproject_error_email_in_use">eMail-adressen används redan</string>
+  <string name="attachproject_error_email_in_use">ePost-adressen används redan</string>
   <string name="attachproject_error_project_down">Projektet nedkopplat</string>
   <string name="attachproject_error_email_bad_syntax">eMail-adress felaktig</string>
   <string name="attachproject_error_bad_pwd">Lösenord felaktigt</string>
@@ -276,7 +276,7 @@
   <string name="trans_header_name">Fil:</string>
   <string name="trans_control_retry">Skicka överföringar igen</string>
   <string name="confirm_abort_trans_title">Avbryta överföring?</string>
-  <string name="confirm_abort_trans_message">Avbryta fil:</string>
+  <string name="confirm_abort_trans_message">Avbryt fil:</string>
   <string name="confirm_abort_trans_confirm">Avbryt</string>
   <!--notices tab strings-->
   <string name="notices_loading">Läser noticer...</string>
