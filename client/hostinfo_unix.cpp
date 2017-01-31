@@ -456,7 +456,12 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
     int n;
+#if !defined(__aarch64__) && !defined(__arm__)
     int family=-1, model=-1, stepping=-1;
+#else
+    char implementer[32] = {0}, architecture[32] = {0}, variant[32] = {0}, cpu_part[32] = {0}, revision[32] = {0};
+    bool model_info_found=false;
+#endif
     char buf2[256];
 
     FILE* f = fopen("/proc/cpuinfo", "r");
@@ -481,7 +486,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __ia64__
     strcpy(host.p_model, "IA-64 ");
     model_hack = true;
-#elif __arm__ || __aarch64__
+#elif defined(__arm__) || defined(__aarch64__)
     strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
 #endif
@@ -517,13 +522,31 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 strlcat(host.p_vendor, buf2, sizeof(host.p_vendor));
             }
         }
+
+#if defined(__aarch64__) || defined(__arm__)
+        if (
+            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            strstr(buf, "Hardware\t: ")
+        ) {
+            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
+            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
+            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
+            strip_whitespace(buf2);
+            if (strlen(host.product_name)) {
+                strcat(host.product_name, " ");
+            }
+            safe_strcat(host.product_name, buf2);
+        }
+#endif
+
         if (
 #ifdef __ia64__
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
-#elif __arm__ || __aarch64__
-            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
+#elif defined(__aarch64__) || defined(__arm__)
+            // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
+            strstr(buf, "model name") || strstr(buf, "Processor") || strstr(buf, "Hardware")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -554,10 +577,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 model_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 1, sizeof(host.p_model) - strlen(host.p_model) - 1);
                 strip_whitespace(buf2);
-                strcat(host.p_model, buf2);
+                safe_strcat(host.p_model, buf2);
             }
         }
-#ifndef __hppa__
+#if  !defined(__hppa__) && !defined(__aarch64__) && !defined(__arm__)
     /* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
             family = atoi(buf+strlen("cpu family\t: "));
@@ -572,9 +595,32 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             model = atoi(buf+strlen("model     : "));
         }
 #endif
+#if !defined(__aarch64__) && !defined(__arm__)
         if (strstr(buf, "stepping\t: ") && stepping<0) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
+#else
+        if (strstr(buf, "CPU implementer") && strlen(implementer) == 0) {
+            strlcpy(implementer, strchr(buf, ':') + 2, sizeof(implementer));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU architecture") && strlen(architecture) == 0) {
+            strlcpy(architecture, strchr(buf, ':') + 2, sizeof(architecture));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU variant") && strlen(variant) == 0) {
+            strlcpy(variant, strchr(buf, ':') + 2, sizeof(variant));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU part") && strlen(cpu_part) == 0) {
+            strlcpy(cpu_part, strchr(buf, ':') + 2, sizeof(cpu_part));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU revision") && strlen(revision) == 0) {
+            strlcpy(revision, strchr(buf, ':') + 2, sizeof(revision));
+            model_info_found = true;
+        }
+#endif
 #ifdef __hppa__
         bool icache_found=false,dcache_found=false;
         if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
@@ -619,22 +665,49 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         }
     }
     safe_strcpy(model_buf, host.p_model);
+#if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
             sprintf(buf, "Family %d ", family);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (model>=0) {
             sprintf(buf, "Model %d ", model);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (stepping>=0) {
             sprintf(buf, "Stepping %d", stepping);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         strcat(model_buf, "]");
     }
+#else
+    if (model_info_found) {
+        strcat(model_buf, " [");
+        if (strlen(implementer)>0) {
+            sprintf(buf, "Impl %s ", implementer);
+            safe_strcat(model_buf, buf);
+        }
+        if (strlen(architecture)>0) {
+            sprintf(buf, "Arch %s ", architecture);
+            safe_strcat(model_buf, buf);
+        }
+        if (strlen(variant)>0) {
+            sprintf(buf, "Variant %s ", variant);
+            safe_strcat(model_buf, buf);
+        }
+        if (strlen(cpu_part)>0) {
+            sprintf(buf, "Part %s ", cpu_part);
+            safe_strcat(model_buf, buf);
+        }
+        if (strlen(revision)>0) {
+            sprintf(buf, "Rev %s", revision);
+            safe_strcat(model_buf, buf);
+        }
+        strcat(model_buf, "]");
+    }
+#endif
     if (strlen(features)) {
         safe_strcpy(host.p_features, features);
     }
@@ -676,12 +749,12 @@ void use_cpuid(HOST_INFO& host) {
     }
 
     capabilities[0] = '\0';
-    if (hasSSE) strcat(capabilities, "sse ");
-    if (hasSSE2) strcat(capabilities, "sse2 ");
-    if (hasSSE3) strcat(capabilities, "pni ");
-    if (has3DNow) strcat(capabilities, "3dnow ");
-    if (has3DNowExt) strcat(capabilities, "3dnowext ");
-    if (hasMMX) strcat(capabilities, "mmx ");
+    if (hasSSE) safe_strcat(capabilities, "sse ");
+    if (hasSSE2) safe_strcat(capabilities, "sse2 ");
+    if (hasSSE3) safe_strcat(capabilities, "pni ");
+    if (has3DNow) safe_strcat(capabilities, "3dnow ");
+    if (has3DNowExt) safe_strcat(capabilities, "3dnowext ");
+    if (hasMMX) safe_strcat(capabilities, "mmx ");
     strip_whitespace(capabilities);
     char buf[1024];
     snprintf(buf, sizeof(buf), "%s [] [%s]",
@@ -1572,6 +1645,131 @@ int HOST_INFO::get_os_info() {
 #else
 #error Need to specify a method to obtain OS name/version
 #endif
+
+#if LINUX_LIKE_SYSTEM
+    bool found_something = false;
+    char buf[256],buf2[256];
+    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    strcpy(dist_pretty, "");
+    strcpy(dist_name, "");
+    strcpy(dist_version, "");
+    strcpy(dist_codename, "");
+
+    // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
+    // although the output is not clearly specified it seems to be constant
+    FILE* f = popen("/usr/bin/lsb_release -a 2>&1", "r");
+    if (f) {
+        while (fgets(buf, 256, f)) {
+            strip_whitespace(buf);
+            if ( strstr(buf, "Description:") ) {
+                found_something = true;
+                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
+                strip_whitespace(dist_pretty);
+            }
+            if ( strstr(buf, "Distributor ID:") ) {
+                found_something = true;
+                safe_strcpy(dist_name, strchr(buf, ':') + 1);
+                strip_whitespace(dist_name);
+            }
+            if ( strstr(buf, "Release:") ) {
+                found_something = true;
+                safe_strcpy(dist_version, strchr(buf, ':') + 1);
+                strip_whitespace(dist_version);
+            }
+            if ( strstr(buf, "Codename:") ) {
+                found_something = true;
+                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
+                strip_whitespace(dist_codename);
+            }
+        }
+        pclose(f);
+    }
+    if (!found_something) {
+        // see: https://www.freedesktop.org/software/systemd/man/os-release.html
+        f = fopen("/etc/os-release", "r");
+        if (f) {
+            while (fgets(buf, 256, f)) {
+                strip_whitespace(buf);
+                // check if substr is at the beginning of the line
+                if ( strstr(buf, "PRETTY_NAME=") == buf ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    unescape_os_release(buf2);
+                    safe_strcpy(dist_pretty, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "NAME=") == buf ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    unescape_os_release(buf2);
+                    safe_strcpy(dist_name, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "VERSION=") == buf ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    unescape_os_release(buf2);
+                    safe_strcpy(dist_version, buf2);
+                    continue;
+                }
+                // could also be "UBUNTU_CODENAME="
+                if ( strstr(buf, "CODENAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    unescape_os_release(buf2);
+                    safe_strcpy(dist_codename, buf2);
+                    continue;
+                }
+            }
+            fclose(f);
+        }
+    }
+
+    if (!found_something) {
+        // last ditch effort for older redhat releases
+        f = fopen("/etc/redhat-release", "r");
+        if (f) {
+            fgets(buf, 256, f);
+            found_something = true;
+            strip_whitespace(buf);
+            safe_strcpy(dist_pretty, buf);
+            fclose(f);
+        }
+    }
+
+    if (found_something) {
+        strcpy(buf2, "");
+        if (strlen(dist_pretty)) {
+            safe_strcat(buf2, dist_pretty);
+        } else {
+            if (strlen(dist_name)) {
+                safe_strcat(buf2, dist_name);
+                strcat(buf2, " ");
+            }
+            if (strlen(dist_version)) {
+                safe_strcat(buf2, dist_version);
+                strcat(buf2, " ");
+            }
+            if (strlen(dist_codename)) {
+                safe_strcat(buf2, dist_codename);
+                strcat(buf2, " ");
+            }
+            strip_whitespace(buf2);
+        }
+        strcat(buf2, " [");
+        safe_strcat(buf2, os_version);
+        strcat(buf2, "]");
+        safe_strcpy(os_version, buf2);
+        if (strlen(dist_name)) {
+            strcat(os_name, " ");
+            safe_strcat(os_name, dist_name);
+        }
+    }
+#endif //LINUX_LIKE_SYSTEM
     return 0;
 }
 
