@@ -2372,14 +2372,19 @@ int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_dow
     RPC rpc(this);
 
     version = "";
+    version_download_url = "";
+
     retval = rpc.do_rpc("<get_newer_version/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
+            if (!version.empty() && !version_download_url.empty()) {
+                break;
+            }
             if (parse_str(buf, "<newer_version>", version)) {
-                return ERR_XML_PARSE;
+                continue;
             }
             if (parse_str(buf, "<download_url>", version_download_url)) {
-                return ERR_XML_PARSE;
+                continue;
             }
         }
     }

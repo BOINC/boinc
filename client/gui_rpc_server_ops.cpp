@@ -1000,6 +1000,8 @@ static void handle_acct_mgr_rpc_poll(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_newer_version(GUI_RPC_CONN& grc) {
+    gstate.new_version_check(true);
+
     grc.mfout.printf(
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",

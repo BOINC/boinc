@@ -238,7 +238,7 @@ struct CLIENT_STATE {
 // --------------- acct_setup.cpp:
     PROJECT_INIT project_init;
     PROJECT_ATTACH project_attach;
-    void new_version_check();
+    void new_version_check(bool force = false);
     void all_projects_list_check();
     double new_version_check_time;
     double all_projects_list_check_time;
