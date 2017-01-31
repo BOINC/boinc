@@ -25,7 +25,7 @@ require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 
 function return_error($str) {
-    return_error("ERROR: $str");
+    die("ERROR: $str");
 }
 
 // get a single output file
