@@ -495,6 +495,7 @@ function query_batches($r) {
     $batches = BoincBatch::enum("user_id = $user->id");
     $get_cpu_time = (int)($r->get_cpu_time);
     foreach ($batches as $batch) {
+        if ($batch->state == BATCH_STATE_RETIRED) continue;
         if ($batch->state < BATCH_STATE_COMPLETE) {
             $wus = BoincWorkunit::enum("batch = $batch->id");
             $batch = get_batch_params($batch, $wus);
