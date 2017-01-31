@@ -526,19 +526,23 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     return f;
 }
 
-
-int boinc_file_exists(const char* path) {
 #ifdef _WIN32
-    struct __stat64 buf;
-    if (_stat64(path, &buf)) {
+int boinc_file_exists(const char* path) {
+    // don't use _stat64 because it doesn't work with VS2015, XP client
+    DWORD dwAttrib = GetFileAttributesA(path);
+    return (dwAttrib != INVALID_FILE_ATTRIBUTES
+        && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
+    );
+}
 #else
+int boinc_file_exists(const char* path) {
     struct stat buf;
     if (stat(path, &buf)) {
-#endif
         return false;     // stat() returns zero on success
     }
     return true;
 }
+#endif
 
 // same, but doesn't traverse symlinks
 //
