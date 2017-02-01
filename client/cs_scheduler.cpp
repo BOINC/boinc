@@ -676,9 +676,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     // if the scheduler reply includes global preferences,
+    // and we currently don't use an account manager
     // insert extra elements, write to disk, and parse
     //
-    if (sr.global_prefs_xml) {
+    if (!gstate.acct_mgr_info.using_am() && sr.global_prefs_xml) {
         // skip this if we have host-specific prefs
         // and we're talking to an old scheduler
         //
