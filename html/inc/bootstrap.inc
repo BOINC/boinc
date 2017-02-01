@@ -299,6 +299,18 @@ function form_input_text($label, $name, $value='', $type='text', $attrs='') {
     ';
 }
 
+// display name/value with same formatting as form
+//
+function form_attr($name, $value) {
+    echo sprintf('
+        <div class="form-group">
+            <div class="col-sm-2 text-right">%s</div>
+            <div class="col-sm-10">%s</div>
+        </div>
+    ', $name, $value
+    );
+}
+
 function form_input_textarea($label, $name, $value='') {
     echo '
         <div class="form-group">
