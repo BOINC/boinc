@@ -134,7 +134,7 @@ function show_participate() {
                 <a class="btn btn-xs btn-primary" href="trac/wiki/AlphaInstructions">'.tra("Test").'</a>
                 <a class="btn btn-xs btn-primary" href="trac/wiki/WikiMeta">'.tra("Document").'</a>
                 <a class="btn btn-xs btn-primary" href="http://boinc.berkeley.edu/wiki/Publicizing_BOINC">'.tra("Publicize").'</a>
-                <a class="btn btn-xs btn-primary" href=https://github.com/BOINC/boinc/issues>'.tra("Report bugs").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/ReportBugs">'.tra("Report bugs").'</a>
                 </center>
                 <p>
             ';
