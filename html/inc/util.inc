@@ -152,7 +152,7 @@ function get_logged_in_user($must_be_logged_in=true) {
             }
         }
         $next_url = urlencode($next_url);
-        Header("Location: login_form.php?next_url=$next_url");
+        Header("Location: ".URL_BASE."login_form.php?next_url=$next_url");
         exit;
     }
     $got_logged_in_user = true;
