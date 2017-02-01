@@ -88,24 +88,28 @@ char boinc_failed_file[MAXPATHLEN];
 
 int is_file(const char* path) {
 #ifdef _WIN32
-    struct __stat64 sbuf;
-    int retval = _stat64(path, &sbuf);
+    DWORD dwAttrib = GetFileAttributesA(path);
+    return (dwAttrib != INVALID_FILE_ATTRIBUTES
+        && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
+    );
 #else
     struct stat sbuf;
     int retval = lstat(path, &sbuf);
-#endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
+#endif
 }
 
 int is_dir(const char* path) {
 #ifdef _WIN32
-    struct __stat64 sbuf;
-    int retval = _stat64(path, &sbuf);
+    DWORD dwAttrib = GetFileAttributesA(path);
+    return (dwAttrib != INVALID_FILE_ATTRIBUTES
+        && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
+    );
 #else
     struct stat sbuf;
     int retval = lstat(path, &sbuf);
-#endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
+#endif
 }
 
 #ifndef _WIN32
@@ -342,18 +346,24 @@ int boinc_delete_file(const char* path) {
 // get file size
 //
 int file_size(const char* path, double& size) {
-    int retval;
-
 #if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
-    struct __stat64 sbuf;
-    retval = _stat64(path, &sbuf);
+    HANDLE h = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    if (h == INVALID_HANDLE_VALUE) return ERR_STAT;
+    LARGE_INTEGER size;
+    if (GetFileSizeEx(h, &size)) {
+        size = (double) size.QuadPart;
+        CloseHandle(h);
+        return 0;
+    }
+    return ERR_STAT;
 #else
+    int retval;
     struct stat sbuf;
     retval = stat(path, &sbuf);
-#endif
     if (retval) return ERR_NOT_FOUND;
     size = (double)sbuf.st_size;
     return 0;
+#endif
 }
 
 int boinc_truncate(const char* path, double size) {
@@ -526,8 +536,11 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     return f;
 }
 
-#ifdef _WIN32
+// returns true if anything (file, dir, whatever) exists at given path;
+// name is misleading.
+//
 int boinc_file_exists(const char* path) {
+#ifdef _WIN32
     // don't use _stat64 because it doesn't work with VS2015, XP client
     DWORD dwAttrib = GetFileAttributesA(path);
     return (dwAttrib != INVALID_FILE_ATTRIBUTES
@@ -535,29 +548,29 @@ int boinc_file_exists(const char* path) {
     );
 }
 #else
-int boinc_file_exists(const char* path) {
     struct stat buf;
     if (stat(path, &buf)) {
         return false;     // stat() returns zero on success
     }
     return true;
-}
 #endif
+}
 
+#if 0
 // same, but doesn't traverse symlinks
 //
 int boinc_file_or_symlink_exists(const char* path) {
 #ifdef _WIN32
-    struct __stat64 buf;
-    if (_stat64(path, &buf)) {
+    return boinc_file_exists(path);
 #else
     struct stat buf;
     if (lstat(path, &buf)) {
-#endif
         return false;     // stat() returns zero on success
     }
     return true;
+#endif
 }
+#endif
 
 // returns zero on success, nonzero if didn't touch file
 //
