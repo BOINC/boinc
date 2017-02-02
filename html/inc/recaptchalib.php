@@ -27,7 +27,7 @@ function boinc_recaptcha_get_head_extra() {
         // the meta tag must be included
         // for Recaptcha to work with some IE browsers
         return '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script src="https://www.google.com/recaptcha/api.js?ver=2" async defer></script>
         ';
     }
     return "";
