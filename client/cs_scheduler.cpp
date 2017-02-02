@@ -679,11 +679,11 @@ int CLIENT_STATE::handle_scheduler_reply(
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-        if (gstate.acct_mgr_info.using_am()
-            // ignore prefs if we're using prefs from account mgr
-            //
-            && !strcmp(global_prefs.source_project, gstate.acct_mgr_info.master_url)
-        ) {
+        // ignore prefs if we're using prefs from account mgr
+        // BAM! currently has mixed http, https; trim off
+        char* p = strchr(global_prefs.source_project, '/');
+        char* q = strchr(gstate.acct_mgr_info.master_url, '/');
+        if (gstate.acct_mgr_info.using_am() && p && q && !strcmp(p, q)) {
             if (log_flags.sched_op_debug) {
                 msg_printf(project, MSG_INFO,
                     "ignoring prefs from project; using prefs from AM"

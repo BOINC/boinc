@@ -763,7 +763,7 @@ int ACCT_MGR_INFO::write_info() {
     }
 
     if (strlen(login_name)) {
-        p = fopen(ACCT_MGR_URL_FILENAME, "w");
+        p = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
         if (p) {
             fprintf(
                 p,
