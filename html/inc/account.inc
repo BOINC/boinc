@@ -19,6 +19,7 @@
 // forms for account creation and login
 
 function create_account_form($teamid, $next_url) {
+    global $recaptcha_public_key;
     echo "
         <form action=\"create_account_action.php\" method=\"post\">
         <input type=hidden name=next_url value=\"$next_url\">
@@ -75,13 +76,12 @@ function create_account_form($teamid, $next_url) {
         );
     }
 
-    // Check if we're reCaptcha to prevent spam accounts
+    // Check if we're using reCaptcha to prevent spam accounts
     //
-    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
-    if ($publickey) {
+    if ($recaptcha_public_key) {
         row2(
             "",
-            boinc_recaptcha_get_html($publickey)
+            boinc_recaptcha_get_html($recaptcha_public_key)
         );
     }
 

@@ -79,18 +79,20 @@ function navbar_right($user) {
     ';
     if (!$is_login_page) {
         if ($user) {
-            echo '
-                <li><a href=home.php>'.$user->name.'</a></li>
-            ';
+            echo sprintf('
+                <li><a href=%shome.php>'.$user->name.'</a></li>
+                ', URL_BASE
+            );
             $url_tokens = url_tokens($user->authenticator);
-            echo '
-                <li><a href="logout.php?'.$url_tokens.'">Log out</a></li>
-            ';
+            echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
+                URL_BASE, $url_tokens
+            );
         } else {
-            echo '
-                <li><a href="create_account_form.php">Sign Up</a></li>
-                <li><a href="login_form.php">Login</a></li>
-            ';
+            echo sprintf('
+                <li><a href="%screate_account_form.php">Sign Up</a></li>
+                <li><a href="%slogin_form.php">Login</a></li>
+                ', URL_BASE, URL_BASE
+            );
         }
     }
 }

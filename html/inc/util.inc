@@ -31,7 +31,13 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-$master_url = parse_config(get_config(), "<master_url>");
+// parse some stuff from config (do it here for efficiency)
+//
+$config = get_config();
+$master_url = parse_config($config , "<master_url>");
+$no_computing =  parse_bool($config, "no_computing");
+$recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
+$recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
 // don't allow /... at the end of URL
 
@@ -152,7 +158,7 @@ function get_logged_in_user($must_be_logged_in=true) {
             }
         }
         $next_url = urlencode($next_url);
-        Header("Location: login_form.php?next_url=$next_url");
+        Header("Location: ".URL_BASE."login_form.php?next_url=$next_url");
         exit;
     }
     $got_logged_in_user = true;
@@ -533,7 +539,8 @@ function check_tokens($auth) {
 }
 
 function no_computing() {
-    return parse_bool(get_config(), "no_computing");
+    global $no_computing;
+    return $no_computing;
 }
 
 // Generates a legal filename from a parameter string.
