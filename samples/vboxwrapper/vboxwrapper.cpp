@@ -660,14 +660,13 @@ int main(int argc, char** argv) {
     }
 
     if (pVM->copy_cmdline_to_shared) {
-        FILE* f = fopen("shared/cmdline", "w");
+        FILE* f = fopen("shared/cmdline", "wb");
         if (!f) {
             vboxlog_msg("Couldn't create shared/cmdline");
         } else {
             for (int i=1; i<argc; i++) {
                 fprintf(f, "%s ", argv[i]);
             }
-            fprintf(f, "\n");
             fclose(f);
         }
     }
