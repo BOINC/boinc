@@ -31,11 +31,13 @@
 #pragma warning(disable: 4244)  // conversion from int to char
 #define getpid _getpid
 #define getcwd      _getcwd
-#define snprintf _snprintf
 #define strdate     _strdate
 #define strdup _strdup
 #define stricmp     _stricmp
 #define strtime     _strtime
+#if _MSC_VER < 1900
+#define snprintf _snprintf
+#endif
 #endif
 
 #ifndef HAVE_CONFIG_H
