@@ -92,22 +92,6 @@ int ACCT_MGR_OP::do_rpc(
         return 0;
     }
 
-    // if we're not currently attached to an AM,
-    // see if the AM login file is present for this URL,
-    // and parse it to get opaque data
-    //
-    if (!strlen(gstate.acct_mgr_info.master_url)) {
-        char filename[MAXPATHLEN];
-        am_login_filename(ami.master_url, filename);
-        FILE* f = fopen(filename, "r");
-        if (f) {
-            ACCT_MGR_INFO ami2;
-            ami2.parse_login_file(f);
-            fclose(f);
-            strcpy(gstate.acct_mgr_info.opaque, ami2.opaque);
-        }
-    }
-
     strlcpy(ami.master_url, url, sizeof(ami.master_url));
     strlcpy(ami.project_name, "", sizeof(ami.project_name));
     strlcpy(ami.login_name, name.c_str(), sizeof(ami.login_name));
