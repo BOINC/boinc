@@ -679,10 +679,20 @@ int CLIENT_STATE::handle_scheduler_reply(
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-        // skip this if we have host-specific prefs
-        // and we're talking to an old scheduler
-        //
-        if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
+        if (gstate.acct_mgr_info.using_am()
+            // ignore prefs if we're using prefs from account mgr
+            //
+            && !strcmp(global_prefs.source_project, gstate.acct_mgr_info.master_url)
+        ) {
+            if (log_flags.sched_op_debug) {
+                msg_printf(project, MSG_INFO,
+                    "ignoring prefs from project; using prefs from AM"
+                );
+            }
+        } else if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
+            // ignore prefs if we have host-specific prefs
+            // and we're talking to an old scheduler
+            //
             retval = save_global_prefs(
                 sr.global_prefs_xml, project->master_url, scheduler_url
             );
