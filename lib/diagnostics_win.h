@@ -27,7 +27,7 @@ typedef LONG       NTSTATUS;
 typedef LONG       KPRIORITY;
 
 //MinGW-W64 defines this struct in its own header
-#ifndef HAVE_CLIENT_ID
+#if !defined(HAVE_CLIENT_ID) && !defined(__MINGW32__)
 typedef struct _CLIENT_ID {
     DWORD          UniqueProcess;
     DWORD          UniqueThread;
@@ -35,7 +35,7 @@ typedef struct _CLIENT_ID {
 #endif
 
 //MinGW-W64 defines this struct in its own header
-#ifndef HAVE_VM_COUNTERS
+#if !defined(HAVE_VM_COUNTERS) && !defined(__MINGW32__)
 typedef struct _VM_COUNTERS {
 #ifdef _WIN64
 // the following was inferred by painful reverse engineering
@@ -67,7 +67,7 @@ typedef struct _VM_COUNTERS {
 #endif
 
 //MinGW-W64 defines this struct in its own header
-#ifndef HAVE_SYSTEM_THREADS
+#if !defined(HAVE_SYSTEM_THREADS) && !defined(__MINGW32__)
 typedef struct _SYSTEM_THREADS {
     LARGE_INTEGER  KernelTime;
     LARGE_INTEGER  UserTime;
@@ -112,7 +112,7 @@ typedef struct _SYSTEM_PROCESSES {
 #endif
 
 //MinGW-W64 defines this struct in its own header
-#ifndef HAVE_THREAD_STATE
+#if !defined(HAVE_THREAD_STATE) && !defined(__MINGW32__)
 typedef enum _THREAD_STATE {
     StateInitialized,
     StateReady,
