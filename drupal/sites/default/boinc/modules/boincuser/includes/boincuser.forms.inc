@@ -343,8 +343,7 @@ function boincuser_account_validate($edit, $account) {
   require_boinc('boinc_db');
   $boinc_user = BoincUser::lookup_email_addr($account->mail);
   $changing_email = ($edit['mail'] AND $edit['mail'] != $account->mail) ? true : false;
-  $changing_pass = ($edit['pass']['pass1']) ? true : false;
-  // 
+  $changing_pass = ($edit['pass']) ? true : false;
   if ($changing_email) {
     // E-mail address is set to change; check for an existing BOINC user
     $boinc_user_already_exists = BoincUser::lookup_email_addr($edit['mail']);
