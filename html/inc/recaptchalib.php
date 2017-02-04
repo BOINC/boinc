@@ -24,17 +24,14 @@ require('../inc/recaptcha_loader.php');
 function boinc_recaptcha_get_head_extra() {
     global $recaptcha_public_key;
     if ($recaptcha_public_key) {
-        // the meta tag must be included
-        // for Recaptcha to work with some IE browsers
-        return '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >
-        <script src="https://www.google.com/recaptcha/api.js?ver=2" async defer></script>
+        return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
         ';
     }
     return "";
 }
 
 function boinc_recaptcha_get_html($publickey) {
-    if ($publickey) {
+    if (down$publickey) {
         return '<div class="g-recaptcha" data-sitekey="' . $publickey . '"></div>';
     } else {
         return '';
