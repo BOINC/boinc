@@ -31,7 +31,7 @@ function boinc_recaptcha_get_head_extra() {
 }
 
 function boinc_recaptcha_get_html($publickey) {
-    if (down$publickey) {
+    if ($publickey) {
         return '<div class="g-recaptcha" data-sitekey="' . $publickey . '"></div>';
     } else {
         return '';
