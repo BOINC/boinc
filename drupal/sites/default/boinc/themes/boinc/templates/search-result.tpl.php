@@ -57,7 +57,7 @@
     $node = node_load($nid);
     $account = user_load($node->uid);
     if (isset($account)) {
-      $user_image = boincuser_get_user_profile_image($account->uid);
+      $user_image = boincuser_get_user_profile_image($account->uid, FALSE);
       $url = "{$base_path}account/{$account->uid}";
       if (empty($title)) {
         $title = $account->name;
