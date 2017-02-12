@@ -81,17 +81,17 @@ function navbar_right($user) {
         if ($user) {
             echo sprintf('
                 <li><a href=%shome.php>'.$user->name.'</a></li>
-                ', URL_BASE
+                ', url_base()
             );
             $url_tokens = url_tokens($user->authenticator);
             echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
-                URL_BASE, $url_tokens
+                url_base(), $url_tokens
             );
         } else {
             echo sprintf('
                 <li><a href="%screate_account_form.php">Sign Up</a></li>
                 <li><a href="%slogin_form.php">Login</a></li>
-                ', URL_BASE, URL_BASE
+                ', url_base(), url_base()
             );
         }
     }

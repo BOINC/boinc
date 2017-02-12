@@ -49,7 +49,7 @@ function show_notify_rss_item($notify) {
     $news_date=gmdate('D, d M Y H:i:s',$notify->create_time) . ' GMT';
     echo "<item>
         <title><![CDATA[$title]]></title>
-        <guid>".URL_BASE."_notify_$notify->id</guid>
+        <guid>".url_base()."_notify_$notify->id</guid>
         <link>".htmlentities($url)."</link>
         <description><![CDATA[$msg]]></description>
         <pubDate>$news_date</pubDate>
