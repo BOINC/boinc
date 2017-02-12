@@ -510,8 +510,7 @@ function country_select_options($selected_country="None") {
     }
 
     $x = "";
-    for ($i=0; $i<count($countries); $i++) {
-        $country = $countries[$i];
+    foreach ($countries as $country) {
         $selected = ($selected_country == $country ? "selected":"");
         $x .= "<option value=\"$country\" $selected>$country</option>\n";
     }
