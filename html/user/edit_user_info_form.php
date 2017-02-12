@@ -26,28 +26,35 @@ check_tokens($user->authenticator);
 
 page_head(tra("Edit account information"));
 
-echo "<form method=post action=edit_user_info_action.php>";
+form_start('edit_user_info_action.php', 'post');
 echo form_tokens($user->authenticator);
-start_table();
-row2(tra("Name %1 real name or nickname%2", "<br><p class=\"text-muted\">", "</p>"),
-    "<input name=user_name type=text size=30 value='$user->name'>"
-);
-row2(tra("URL %1 of your web page; optional%2", "<br><p class=\"text-muted\">", "</p>"),
-    "http://<input name=url type=text size=50 value='$user->url'>"
-);
-row2_init(
-    tra("Country"),
-    '<select name="country" class="form-control">'
-);
-print_country_select($user->country);
-echo "</select></td></tr>\n";
-row2(tra("Postal (ZIP) code %1 Optional%2", "<br><p class=\"text-muted\">", "</p>"),
-    "<input name=postal_code type=text size=20 value='$user->postal_code'>"
+
+form_input_text(
+    tra("Name %1 real name or nickname%2", "<br><p class=\"text-muted\">", "</p>"),
+    'user_name',
+    $user->name
 );
 
-row2("", "<input class=\"btn btn-default\" type=submit value='".tra("Update info")."'>");
-end_table();
-echo "</form>\n";
+form_input_text(
+    tra("URL %1 of your web page; optional%2", "<br><p class=\"text-muted\">", "</p>"),
+    'url',
+    $user->url
+);
+
+form_select(
+    tra("Country"),
+    'country',
+    country_select_options($user->country)
+);
+
+form_input_text(
+    tra("Postal (ZIP) code %1 Optional%2", "<br><p class=\"text-muted\">", "</p>"),
+    'postal_code',
+    $user->postal_code
+);
+
+form_submit('Update info');
+form_end();
 page_tail();
 
 ?>

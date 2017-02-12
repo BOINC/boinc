@@ -95,6 +95,7 @@ function show_host_xml($host) {
 //
 function show_user_xml($user, $show_hosts) {
     $cpid = md5($user->cross_project_id.$user->email_addr);
+    $url = normalize_user_url($user->url);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
@@ -105,7 +106,7 @@ function show_user_xml($user, $show_hosts) {
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>
     <teamid>$user->teamid</teamid>
-    <url>".htmlspecialchars($user->url)."</url>
+    <url>".htmlspecialchars($url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
     if ($show_hosts) {
@@ -122,6 +123,7 @@ echo"</user>
 function show_team_member($user, $creditonly = false) {
     if ($creditonly && !$user->total_credit) { return; }
     $cpid = md5($user->cross_project_id.$user->email_addr);
+    $url = normalize_user_url($user->url);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
@@ -132,7 +134,7 @@ function show_team_member($user, $creditonly = false) {
     <country>$user->country</country>
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>
-    <url>".htmlspecialchars($user->url)."</url>
+    <url>".htmlspecialchars($url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
     }

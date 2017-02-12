@@ -54,7 +54,7 @@ function user_search_form() {
         '<input class="form-control" type="text" name="search_string">'
     );
     row2_init(tra("Country"), "<select class=\"form-control\" name=\"country\"><option value=\"any\" selected>".tra("Any")."</option>");
-    print_country_select("asdf");
+    echo country_select_options("asdf");
     echo "</select></td></tr>";
     row2(tra("With profile?"),
         "<input type=radio name=profile value=either checked=1> ".tra("Either")."

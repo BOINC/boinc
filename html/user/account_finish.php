@@ -45,7 +45,7 @@ row2_init(
     tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
     '<select name="country" class="form-control">'
 );
-print_country_select();
+echo country_select_options();
 echo "</select></td></tr>\n";
 row2(
     tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</span>",

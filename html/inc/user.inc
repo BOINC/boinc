@@ -199,6 +199,23 @@ function weak_auth($user) {
     return "{$user->id}_$x";
 }
 
+// originally user URLs were assumed to be http://,
+// and this prefix wasn't stored.
+// Now the prefix can be http:// or https://.
+// This function takes a user URL in any form and converts
+// it to a canonical form, with the protocol prefix.
+//
+function normalize_user_url($url) {
+    $x = strtolower($url);
+    if (substr($x, 0, 7) == 'http://') {
+        return 'http://'.substr($url, 7);
+    }
+    if (substr($x, 0, 8) == 'https://') {
+        return 'https://'.substr($url, 8);
+    }
+    return 'http://'.$url;
+}
+
 // show static user info (private)
 //
 function show_user_info_private($user) {
@@ -214,8 +231,8 @@ function show_user_info_private($user) {
         row2(tra("Email address"), $email_text);
     }
     if (strlen($user->url)) {
-        $x = "<a href=http://$user->url>http://$user->url</a>";
-        row2(tra("URL"), $x);
+        $u = normalize_user_url($user->url);
+        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
     }
     row2(tra("Country"), $user->country);
     row2(tra("Postal code"), $user->postal_code);
@@ -414,7 +431,8 @@ function show_user_summary_public($user) {
     //
     if (strlen($user->url)) {
         if (no_computing() || $user->expavg_credit > 1) {
-            row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
+            $u = normalize_user_url($user->url);
+            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }
     }
     if (!no_computing()) {

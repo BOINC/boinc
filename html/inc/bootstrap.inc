@@ -272,11 +272,13 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
     ';
 }
 
-function form_start($action) {
-    echo '
-        <div class="container">
-        <form class="form-horizontal" method="get" action="'.$action.'">
-    ';
+function form_start($action, $method='get') {
+    echo sprintf(
+        '<div class="container">
+        <form class="form-horizontal" method="%s" action="%s">'
+        ,
+        $method, $action
+    );
 }
 
 function form_input_hidden($name, $value) {
@@ -324,6 +326,8 @@ function form_input_textarea($label, $name, $value='') {
     ';
 }
 
+// $items is either a string of <option> elements, or an array
+//
 function form_select($label, $name, $items) {
     echo '
         <div class="form-group">
@@ -331,9 +335,13 @@ function form_select($label, $name, $items) {
             <div class="col-sm-10">
                 <select class="form-control" id="'.$name.'" name="'.$name.'">
     ';
-    foreach ($items as $i) {
-        echo '<option value="'.$i[0].'">'.$i[1].'</option>
-        ';
+    if (is_array($items)) {
+        foreach ($items as $i) {
+            echo '<option value="'.$i[0].'">'.$i[1].'</option>
+            ';
+        }
+    } else {
+        echo $items;
     }
     echo "</select></div></div>\n";
 }
