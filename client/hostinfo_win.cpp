@@ -1442,6 +1442,8 @@ int HOST_INFO::get_host_info(bool init) {
         m_cache,
         p_ncpus
     );
+    collapse_whitespace(p_model);
+    collapse_whitespace(p_vendor);
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }

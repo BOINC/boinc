@@ -35,6 +35,8 @@ extern void strip_whitespace(std::string&);
 extern void strip_quotes(char *str);
 extern void strip_quotes(std::string&);
 extern void unescape_os_release(char *str);
+extern void collapse_whitespace(char *str);
+extern void collapse_whitespace(std::string&);
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern void secs_to_hmsf(double, char*);
