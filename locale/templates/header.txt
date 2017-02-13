@@ -1,5 +1,5 @@
 # BOINC @TMPL_NAME@ localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) @YEAR@ University of California
 #
 # This file is distributed under the same license as BOINC.
 #
