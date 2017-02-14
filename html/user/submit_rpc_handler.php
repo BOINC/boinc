@@ -289,6 +289,7 @@ function make_result_template($job) {
         $m = md5($job->result_template);
         $filename = "../../templates/tmp/$m";
         if (!file_exists($filename)) {
+            @mkdir("../../templates/tmp");
             file_put_contents($filename, $job->result_template);
         }
         $result_templates[$job->result_template] = $filename;
