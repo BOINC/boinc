@@ -385,6 +385,25 @@ void unescape_os_release(char* buf) {
     *out = 0;
 }
 
+// collapse multiple whitespace into one (will not strip_whitespace)
+//
+void collapse_whitespace(string& str) {
+    int n = (int) str.length();
+    if (n<2) return;
+    for (int i=1; i<n; i++) {
+        if (isspace(str[i-1]) && isspace(str[i])) {
+            str.erase(i, 1);
+            n--; i--;
+        }
+    }
+}
+
+void collapse_whitespace(char *str) {
+    string s = str;
+    collapse_whitespace(s);
+    strcpy(str, s.c_str());
+}
+
 char* time_to_string(double t) {
     static char buf[100];
     if (!t) {

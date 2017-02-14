@@ -839,14 +839,6 @@ static void get_cpu_info_mac(HOST_INFO& host) {
 #endif
 
     host.p_model[p_model_size-1] = 0;
-    char *in = host.p_model + 1;
-    char *out = in;
-    // Strip out runs of multiple spaces
-    do {
-        if ((!isspace(*(in-1))) || (!isspace(*in))) {
-            *out++ = *in;
-        }
-    } while (*in++);
 
     // This returns an Apple hardware model designation such as "MacPro3,1".
     // One source for converting this to a common model name is:
@@ -1069,7 +1061,6 @@ int get_network_usage_totals(
         total_sent += ifmsg->ifm_data.ifi_obytes;
 #endif
     }
-        
     return 0;
 }
 
@@ -1400,14 +1391,6 @@ int HOST_INFO::get_cpu_info() {
 #elif HAVE_SYS_SYSTEMINFO_H
     sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
     sysinfo(SI_ISALIST, p_model, sizeof(p_model));
-    for (unsigned int i=0; i<sizeof(p_model); i++) {
-        if (p_model[i]==' ') {
-            p_model[i]=0;
-        }
-        if (p_model[i]==0) {
-            i=sizeof(p_model);
-        }
-    }
 #else
 #error Need to specify a method to get p_vendor, p_model
 #endif
@@ -1802,7 +1785,8 @@ int HOST_INFO::get_host_info(bool init) {
     get_memory_info();
     timezone = get_timezone();
     get_os_info();
-
+    collapse_whitespace(p_model);
+    collapse_whitespace(p_vendor);
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }
