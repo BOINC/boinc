@@ -45,7 +45,7 @@ function team_search_form($params) {
     echo '<select class="form-control" name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
-    print_country_select($country);
+    echo country_select_options($country);
     echo "</select></td></tr>\n";
     row2(tra('Type of team'), team_type_select($params->type, true));
     $checked = $params->active?"checked":"";
@@ -467,7 +467,7 @@ function team_edit_form($team, $label, $url) {
     row2_init(tra('Country'),
         '<select class="form-control" name="country">'
     );
-    print_country_select($team?$team->country:null);
+    echo country_select_options($team?$team->country:null);
 
     echo "</select></td></tr>\n";
     $x = (!$team || $team->joinable)?"checked":"";

@@ -67,7 +67,7 @@ function create_account_form($teamid, $next_url) {
         tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
         '<select class="form-control" style="width:240px;" name="country">'
     );
-    print_country_select();
+    echo country_select_options();
     echo "</select></td></tr>\n";
     if (0) {
         row2(
