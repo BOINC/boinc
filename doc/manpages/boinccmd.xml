@@ -171,7 +171,7 @@
           <listitem>
               <para>Attach to an account using the project URL and authenticator
                 (send via email after <option>--create_account</option> was
-                succesfull).</para>
+                successful).</para>
           </listitem>
         </varlistentry>
 
