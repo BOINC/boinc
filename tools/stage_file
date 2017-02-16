@@ -24,11 +24,14 @@
 //
 // Usage (from project dir):
 //
-// bin/stage_file [--gzip] [--copy] path
+// bin/stage_file [options] path
 //
+// options:
 // --gzip       Make a gzipped version of the file.
 //              Use this if you specify <gzip> in the <file_info>
 // --copy       Copy the file (default is to move it)
+//
+// -- verbose
 //
 // path         The file to be staged.
 //              If it's a directory, stage all the files in that dir
@@ -94,7 +97,7 @@ There is already a file in your project's download directory with that name,
 but with different contents.
 This is not allowed by BOINC, which requires that files be immutable.
 Please use a different file name.
-        ");
+");
         break;
     }
 

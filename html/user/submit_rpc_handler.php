@@ -291,7 +291,7 @@ function make_result_template($job) {
         $path = "../../$filename";
         if (!file_exists($filename)) {
             @mkdir("../../templates/tmp");
-            file_put_contents($filename, $job->result_template);
+            file_put_contents($path, $job->result_template);
         }
         $result_templates[$job->result_template] = $filename;
     //} else {
