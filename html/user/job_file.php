@@ -117,7 +117,7 @@ function query_files($r) {
         // update the delete time first to avoid race condition
         // with job file deleter
         //
-        $job_file = BoincJobFile::lookup_md5($fname);
+        $job_file = BoincJobFile::lookup_name($fname);
         if ($job_file && $job_file->delete_time < $delete_time) {
             $retval = $job_file->update("delete_time=$delete_time");
             if ($retval) {
@@ -131,10 +131,10 @@ function query_files($r) {
                 $jf_id = $job_file->id;
             } else {
                 $jf_id = BoincJobFile::insert(
-                    "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
+                    "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
                 );
                 if (!$jf_id) {
-                    xml_error(-1, "query_file(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
+                    xml_error(-1, "query_files(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
                 }
             }
             // create batch association if needed
@@ -233,7 +233,7 @@ function upload_files($r) {
         }
 
         $jf_id = BoincJobFile::insert(
-            "(md5, create_time, delete_time) values ('$fname', $now, $delete_time)"
+            "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
         );
         if (!$jf_id) {
             xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());

@@ -349,12 +349,11 @@ create table user_submit_app (
     primary key (user_id, app_id)
 ) engine = InnoDB;
 
--- Record files present on server.
--- Files are named jf_(md5)
+-- Record files (created by remote file mgt) present on server.
 --
 create table job_file (
     id                      integer         not null auto_increment,
-    md5                     char(64)        not null,
+    name                    varchar(255)    not null,
     create_time             double          not null,
     delete_time             double          not null,
     primary key (id)

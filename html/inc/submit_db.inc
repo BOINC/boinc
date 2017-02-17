@@ -115,9 +115,9 @@ class BoincJobFile {
         if (!$ret) return false;
         return $db->insert_id();
     }
-    static function lookup_md5($md5) {
+    static function lookup_name($name) {
         $db = BoincDb::get();
-        return $db->lookup('job_file', 'BoincJobFile', "md5='$md5'");
+        return $db->lookup('job_file', 'BoincJobFile', "name='$name'");
     }
     function delete() {
         $db = BoincDb::get();

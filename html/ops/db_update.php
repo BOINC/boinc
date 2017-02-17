@@ -1027,6 +1027,10 @@ function update_1_27_2016() {
     do_query("alter table team add column mod_time timestamp default current_timestamp on update current_timestamp");
 }
 
+function update_2_17_2017() {
+    do_query("alter table job_file change md5 name varchar(255) not null");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1073,6 +1077,7 @@ $db_updates = array (
     array(27012, "update_10_8_2014"),
     array(27013, "update_4_15_2015"),
     array(27014, "update_1_27_2016"),
+    array(27015, "update_2_17_2017"),
 );
 
 ?>
