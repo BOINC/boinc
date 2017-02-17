@@ -150,4 +150,11 @@ typedef enum _THREAD_WAIT_REASON {
 } THREAD_WAIT_REASON;
 #endif
 
+// older mingw versions (before 2012-07-12) do not define this in winternl.h
+#if defined(__MINGW32__)
+#ifndef NT_SUCCESS
+#define NT_SUCCESS(status)     ((NTSTATUS) (status) >= 0)
+#endif
+#endif
+
 #endif
