@@ -46,6 +46,7 @@ function dir_hier_url($filename, $base, $fanout) {
 // 0 if same file is already there and we don't need to copy
 // 1 if file isn't there, need to copy
 // -1 if a different file is there
+// -2 if a file operation failed
 //
 // in cases 0 and 1 we make sure a .md5 file is there; create if needed
 //
@@ -55,10 +56,19 @@ function check_download_file($path, $dl_path) {
     $dl_md5_path = "$dl_path.md5";
     $have_md5_file = false;
     $md5 = md5_file($path);
+    if ($md5 === FALSE) {
+        return -2;
+    }
     $size = filesize($path);
+    if ($size === FALSE) {
+        return -2;
+    }
 
     if (file_exists($dl_md5_path)) {
         $x = file_get_contents($dl_md5_path);
+        if ($x === FALSE) {
+            return -2;
+        }
         $x = explode(" ", $x);
         $dl_md5 = $x[0];
         $dl_size = $x[1];
@@ -67,7 +77,11 @@ function check_download_file($path, $dl_path) {
 
     if (file_exists($dl_path)) {
         if ($have_md5_file) {
-            if (filesize($dl_path) == $dl_size && $dl_md5 == $md5) {
+            $s = filesize($dl_path);
+            if ($s === FALSE) {
+                return -2;
+            }
+            if ($s == $dl_size && $dl_md5 == $md5) {
                 // looks like the right file is there
                 //
                 return 0;
@@ -76,14 +90,22 @@ function check_download_file($path, $dl_path) {
         } else {
             // missing the .md5 file; need to look at the file
             //
-            if (md5_file($dl_path) == $md5) {
-                file_put_contents($dl_md5_path, "$md5 $size\n");
+            $m = md5_file($dl_path);
+            if ($m === FALSE) {
+                return -2;
+            }
+            if ($m == $md5) {
+                if (file_put_contents($dl_md5_path, "$md5 $size\n") === FALSE) {
+                    return -2;
+                }
                 return 0;
             }
             return -1;
         }
     } else {
-        file_put_contents($dl_md5_path, "$md5 $size\n");
+        if (file_put_contents($dl_md5_path, "$md5 $size\n") === FALSE) {
+            return -2;
+        }
         return 1;
     }
 }

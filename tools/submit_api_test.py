@@ -17,15 +17,20 @@
 
 # test functions for submit_api.py
 
+# YOU MUST CREATE A FILE "test_auth' CONTAINING
+#
+# project URL
+# authenticator of your account
+
 from submit_api import *
 
-project_url = 'http://isaac.ssl.berkeley.edu/test/'
-
-# read auth from a file so we don't have to include it here
+# read URL and auth from a file so we don't have to include it here
 #
 def get_auth():
     with open("test_auth", "r") as f:
-        return (f.readline()).strip()
+        url = (f.readline()).strip()
+        auth = (f.readline()).strip()
+    return [url, auth]
 
 # make a batch description, to be passed to estimate_batch() or submit_batch()
 #
@@ -38,8 +43,7 @@ def make_batch_desc():
     job.files = [file]
 
     batch = BATCH_DESC()
-    batch.project = project_url
-    batch.authenticator = get_auth()
+    [batch.project, batch.authenticator] = get_auth()
     batch.app_name = "uppercase"
     batch.batch_name = "blah26"
     batch.jobs = []
@@ -102,8 +106,7 @@ def test_submit_batch():
 
 def test_query_batches():
     req = REQUEST()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.get_cpu_time = True
     r = query_batches(req)
     if check_error(r):
@@ -112,8 +115,7 @@ def test_query_batches():
 
 def test_query_batch():
     req = REQUEST()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.batch_id = 271
     req.get_cpu_time = True
     r = query_batch(req)
@@ -132,8 +134,7 @@ def test_query_batch():
 
 def test_create_batch():
     req = CREATE_BATCH_REQ()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.app_name = 'uppercase'
     req.batch_name = 'foobar'
     req.expire_time = 0
@@ -144,8 +145,7 @@ def test_create_batch():
 
 def test_abort_batch():
     req = REQUEST()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.batch_id = 271
     r = abort_batch(req)
     if check_error(r):
@@ -154,8 +154,7 @@ def test_abort_batch():
 
 def test_upload_files():
     req = UPLOAD_FILES_REQ()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.batch_id = 283
     req.local_names = ('updater.cpp', 'kill_wu.cpp')
     req.boinc_names = ('dxxxb_updater.cpp', 'dxxxb_kill_wu.cpp')
@@ -166,8 +165,7 @@ def test_upload_files():
 
 def test_query_files():
     req = QUERY_FILES_REQ()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.batch_id = 271
     req.boinc_names = ('dxxx_updater.cpp', 'dxxx_kill_wu.cpp')
     r = query_files(req)
@@ -179,8 +177,7 @@ def test_query_files():
 
 def test_get_output_file():
     req = REQUEST()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.instance_name = 'uppercase_32275_1484961754.784017_0_0';
     req.file_num = 1;
     r = get_output_file(req)
@@ -188,10 +185,9 @@ def test_get_output_file():
 
 def test_get_output_files():
     req = REQUEST()
-    req.project = project_url
-    req.authenticator = get_auth()
+    [req.project, req.authenticator] = get_auth()
     req.batch_id = 271
     r = get_output_files(req)
     print(r)
 
-test_submit_batch()
+test_upload_files()

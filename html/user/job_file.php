@@ -226,8 +226,10 @@ function upload_files($r) {
                 xml_error(-1, "could not move $tmp_name to $path");
             }
             break;
-        case -1: 
+        case -1:
             xml_error(-1, "file immutability violation for $fname");
+        case -2:
+            xml_error(-1, "file operation failed; check permissions in download/*");
         }
 
         $jf_id = BoincJobFile::insert(
