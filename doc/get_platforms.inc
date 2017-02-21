@@ -281,22 +281,21 @@ function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
     $t = @filemtime($fname);
-	if (!strstr($url, "gpugrid") && $t && $t > time() - 604800) {
-        $l = json_decode(file_get_contents($fname));
+	if (strstr($url, "gpugrid") || ($t && $t > time() - 604800)) {
+        return json_decode(file_get_contents($fname));
+    }
+    $l = get_platforms($url);
+    if (!$l) {
+        $l = get_platforms2($url);
+    }
+    if ($l) {
+        file_put_contents($fname, json_encode($l));
     } else {
-        $l = get_platforms($url);
-        if (!$l) {
-            $l = get_platforms2($url);
-        }
-        if ($l) {
-            file_put_contents($fname, json_encode($l));
+        if (file_exists($fname)) {
+            touch($fname);
         } else {
-            if (file_exists($fname)) {
-                touch($fname);
-            } else {
-                $l[] = "Unknown";
-                file_put_contents($fname, json_encode($l));
-            }
+            $l[] = "Unknown";
+            file_put_contents($fname, json_encode($l));
         }
     }
     return $l;
