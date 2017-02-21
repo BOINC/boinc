@@ -156,33 +156,32 @@ fi
 echo ""
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=0
 
 if [ $isXcode6orLater = 0 ]; then
     ## echo "Xcode version < 6"
     ## Build the screensaver using our standard settings (with Garbage Collection)
     xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ${uselibcplusplus} ${cplusplus11dialect}
+    result=$?
 else
     ## echo "Xcode version > 5"
     ## We must modify the build settings for the screensaver only, to build it with ARC
     xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean}  build ${uselibcplusplus} ${cplusplus11dialect}
-
     result=$?
 
     if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
         if [ $result -eq 0 ]; then
             xcodebuild -project boinc.xcodeproj -target ScreenSaver -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ARCHS=x86_64 GCC_ENABLE_OBJC_GC=unsupported ${uselibcplusplus} ${cplusplus11dialect}
+            result=$?
         fi
     fi
 fi
-
-result=$?
 
 if [ $result -eq 0 ]; then
     # build ibboinc_zip.a for -all or -lib or default, where
     # default is none of { -all, -lib, -client }
     if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "0" ]; then
         xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk "${SDKPATH}" ${doclean} build  ${uselibcplusplus} ${cplusplus11dialect}
-
         result=$?
     fi
 fi
