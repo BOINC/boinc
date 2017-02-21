@@ -53,7 +53,7 @@ if [ ! -d "openssl-1.0.1j" ]; then
 fi
 
 if [ ! -d "wxWidgets-3.0.0" ]; then
-  wget http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2/
+  wget http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2
   tar -xf wxWidgets-3.0.0.tar.bz2
   rm wxWidgets-3.0.0.tar.bz2
 fi
