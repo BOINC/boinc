@@ -29,27 +29,35 @@ set -e
 mkdir -p ./build/mac
 cd ./build/mac
 
-# if the versioning changes try to delete the old directory and change .travis.yml to cache the new directory
+# delete old versions and trigger a new build
+old_versions=(c-ares-1.10.0 openssl-1.0.1j curl-7.39.0 sqlite-autoconf-3080300 freetype-2.4.10)
+for old in ${old_versions[@]}; do
+    if [ -d "${old}" ]; then
+        rm -rf ./${old}
+        rm -f build_complete
+    fi
+done
+
 if [ -e "build_complete" ]; then
-    exit 0 # exit is ok as long as this script is called in the "script" part of .travis.yml
+    exit 0
 fi
 
-if [ ! -d "c-ares-1.10.0" ]; then
-  wget http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz
-  tar -xf c-ares-1.10.0.tar.gz
-  rm c-ares-1.10.0.tar.gz
+if [ ! -d "c-ares-1.11.0" ]; then
+  wget http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz
+  tar -xf c-ares-1.11.0.tar.gz
+  rm c-ares-1.11.0.tar.gz
 fi
 
-if [ ! -d "curl-7.39.0" ]; then
-  wget http://curl.haxx.se/download/curl-7.39.0.tar.gz
-  tar -xf curl-7.39.0.tar.gz
-  rm curl-7.39.0.tar.gz
+if [ ! -d "curl-7.50.2" ]; then
+  wget http://curl.haxx.se/download/curl-7.50.2.tar.gz
+  tar -xf curl-7.50.2.tar.gz
+  rm curl-7.50.2.tar.gz
 fi
 
-if [ ! -d "openssl-1.0.1j" ]; then
-  wget http://www.openssl.org/source/openssl-1.0.1j.tar.gz
-  tar -xf openssl-1.0.1j.tar.gz
-  rm openssl-1.0.1j.tar.gz
+if [ ! -d "openssl-1.1.0" ]; then
+  wget https://www.openssl.org/source/openssl-1.1.0.tar.gz
+  tar -xf openssl-1.1.0.tar.gz
+  rm openssl-1.1.0.tar.gz
 fi
 
 if [ ! -d "wxWidgets-3.0.0" ]; then
@@ -58,16 +66,16 @@ if [ ! -d "wxWidgets-3.0.0" ]; then
   rm wxWidgets-3.0.0.tar.bz2
 fi
 
-if [ ! -d "sqlite-autoconf-3080300" ]; then
-  wget http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz
-  tar -xf sqlite-autoconf-3080300.tar.gz
-  rm sqlite-autoconf-3080300.tar.gz
+if [ ! -d "sqlite-autoconf-3110000" ]; then
+  wget http://www.sqlite.org/2016/sqlite-autoconf-3110000.tar.gz
+  tar -xf sqlite-autoconf-3110000.tar.gz
+  rm sqlite-autoconf-3110000.tar.gz
 fi
 
-if [ ! -d "freetype-2.4.10" ]; then
-  wget http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2
-  tar -xf freetype-2.4.10.tar.bz2
-  rm freetype-2.4.10.tar.bz2
+if [ ! -d "freetype-2.6.2" ]; then
+  wget http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2
+  tar -xf freetype-2.6.2.tar.bz2
+  rm freetype-2.6.2.tar.bz2
 fi
 
 if [ ! -d "ftgl-2.1.3~rc5" ]; then
