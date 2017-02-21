@@ -28,7 +28,9 @@ set -x
 cd ./mac3rdParty
 
 # if the versioning changes try to delete the old directory and change .travis.yml to cache the new directory
-
+if [ ! -e "build_complete" ]; then
+    exit 0 # exit is ok as long as this script is called in the "script" part of .travis.yml
+fi
 
 if [ ! -d "c-ares-1.10.0" ]; then
   wget http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz
@@ -70,5 +72,5 @@ cd ../mac_build
 source setupForBoinc.sh
 
 if [  $? -eq 0 ]; then
-    source BuildMacBOINC.sh
+    touch ../mac3rdParty/build_complete
 fi
