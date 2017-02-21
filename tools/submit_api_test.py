@@ -45,7 +45,7 @@ def make_batch_desc():
     batch = BATCH_DESC()
     [batch.project, batch.authenticator] = get_auth()
     batch.app_name = "uppercase"
-    batch.batch_name = "blah26"
+    batch.batch_name = "blah28"
     batch.jobs = []
 
     for i in range(2):
@@ -61,11 +61,11 @@ def make_batch_desc():
         </file_ref>
         <target_nresults>1</target_nresults>
         <min_quorum>1</min_quorum>
-        <credit>2</credit>
+        <credit>%d</credit>
         <rsc_fpops_est>   60e9  </rsc_fpops_est>
     </workunit>
 </input_template>
-"""
+""" % (i+1)
         if True:
             job.result_template = """
 <output_template>
@@ -190,4 +190,4 @@ def test_get_output_files():
     r = get_output_files(req)
     print(r)
 
-test_upload_files()
+test_submit_batch()
