@@ -61,9 +61,6 @@ check_version()
     fi
 } ## check_version()
 
-  if [ "`uname`" = "Darwin" ]; then
-    exit 0
-  fi
 
   ## --------------------------------------------------------------------------------
   ## 'MAIN' starts here
