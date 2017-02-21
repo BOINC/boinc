@@ -29,7 +29,9 @@ cd ./mac3rdParty
 
 # if the versioning changes try to delete the old directory and change .travis.yml to cache the new directory
 if [ ! -e "build_complete" ]; then
-    exit 0 # exit is ok as long as this script is called in the "script" part of .travis.yml
+    rm build_complete
+    ls
+    #exit 0 # exit is ok as long as this script is called in the "script" part of .travis.yml
 fi
 
 if [ ! -d "c-ares-1.10.0" ]; then
@@ -71,6 +73,6 @@ fi
 cd ../mac_build
 source setupForBoinc.sh
 
-if [  $? -eq 0 ]; then
+if [ $? -eq 0 ]; then
     touch ../mac3rdParty/build_complete
 fi
