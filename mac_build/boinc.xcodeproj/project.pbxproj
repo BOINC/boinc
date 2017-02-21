@@ -3566,14 +3566,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../mac3rdParty/wxWidgets-3.0.0/include",
-					"../mac3rdParty/wxWidgets-3.0.0/build/osx/setup/cocoa/include",
+					"../build/mac/wxWidgets-3.0.0/include",
+					"../build/mac/wxWidgets-3.0.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Debug",
-					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
+					"../build/mac/wxWidgets-3.0.0/build/osx/build/Debug",
+					"../build/mac/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3591,7 +3591,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
+					"../build/mac/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3621,14 +3621,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../mac3rdParty/wxWidgets-3.0.0/include",
-					"../mac3rdParty/wxWidgets-3.0.0/build/osx/setup/cocoa/include",
+					"../build/mac/wxWidgets-3.0.0/include",
+					"../build/mac/wxWidgets-3.0.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Release",
-					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
+					"../build/mac/wxWidgets-3.0.0/build/osx/build/Release",
+					"../build/mac/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3648,7 +3648,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
+					"../build/mac/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3755,8 +3755,8 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../mac3rdParty/freetype-2.6.2/include",
-					"../mac3rdParty/ftgl-2.1.3~rc5/src",
+					"../build/mac/freetype-2.6.2/include",
+					"../build/mac/ftgl-2.1.3~rc5/src",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3765,8 +3765,8 @@
 				OTHER_LDFLAGS = (
 					"-lresolv",
 					"-ljpeg",
-					"../mac3rdParty/freetype-2.6.2/objs/.libs/libfreetype.a",
-					"../mac3rdParty/ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"../build/mac/freetype-2.6.2/objs/.libs/libfreetype.a",
+					"../build/mac/ftgl-2.1.3~rc5/src/.libs/libftgl.a",
 					"-lz",
 					"-lbz2",
 				);
@@ -3780,8 +3780,8 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../mac3rdParty/freetype-2.6.2/include",
-					"../mac3rdParty/ftgl-2.1.3~rc5/src",
+					"../build/mac/freetype-2.6.2/include",
+					"../build/mac/ftgl-2.1.3~rc5/src",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3790,8 +3790,8 @@
 				OTHER_LDFLAGS = (
 					"-lresolv",
 					"-ljpeg",
-					"../mac3rdParty/freetype-2.6.2/objs/.libs/libfreetype.a",
-					"../mac3rdParty/ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"../build/mac/freetype-2.6.2/objs/.libs/libfreetype.a",
+					"../build/mac/ftgl-2.1.3~rc5/src/.libs/libftgl.a",
 					"-lz",
 					"-lbz2",
 				);
@@ -3896,8 +3896,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
-					"../mac3rdParty/curl-7.50.2/include",
-					"../mac3rdParty/openssl-1.1.0/include",
+					"../build/mac/curl-7.50.2/include",
+					"../build/mac/openssl-1.1.0/include",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3909,16 +3909,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.50.2/lib/.libs/libcurl.a",
-					"../mac3rdParty/c-ares-1.11.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.1.0/libcrypto.a",
-					"../mac3rdParty/openssl-1.1.0/libssl.a",
+					"../build/mac/curl-7.50.2/lib/.libs/libcurl.a",
+					"../build/mac/c-ares-1.11.0/.libs/libcares.a",
+					"../build/mac/openssl-1.1.0/libcrypto.a",
+					"../build/mac/openssl-1.1.0/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.50.2/include ../mac3rdParty/openssl-1.1.0/include";
+				USER_HEADER_SEARCH_PATHS = "../build/mac/curl-7.50.2/include ../build/mac/openssl-1.1.0/include";
 			};
 			name = Deployment;
 		};
@@ -4070,8 +4070,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
-					"../mac3rdParty/curl-7.50.2/include",
-					"../mac3rdParty/openssl-1.1.0/include",
+					"../build/mac/curl-7.50.2/include",
+					"../build/mac/openssl-1.1.0/include",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				OTHER_CFLAGS = (
@@ -4082,16 +4082,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.50.2/lib/.libs/libcurl.a",
-					"../mac3rdParty/c-ares-1.11.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.1.0/libcrypto.a",
-					"../mac3rdParty/openssl-1.1.0/libssl.a",
+					"../build/mac/curl-7.50.2/lib/.libs/libcurl.a",
+					"../build/mac/c-ares-1.11.0/.libs/libcares.a",
+					"../build/mac/openssl-1.1.0/libcrypto.a",
+					"../build/mac/openssl-1.1.0/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.50.2/include ../mac3rdParty/openssl-1.1.0/include";
+				USER_HEADER_SEARCH_PATHS = "../build/mac/curl-7.50.2/include ../build/mac/openssl-1.1.0/include";
 			};
 			name = Development;
 		};

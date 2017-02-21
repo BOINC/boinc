@@ -25,7 +25,7 @@ cache:
   apt: true
   directories:
   - build/wxWidgets-3.0.2
-  - mac3rdParty
+  - build/mac
 
 addons:
   coverity_scan:
@@ -80,6 +80,6 @@ script:
 - if [[ "${BOINC_TYPE}" == "client" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./build/getWxWidgets.sh && ./configure --disable-server --disable-client --with-wxdir=./build/wxWidgets-3.0.2/buildgtk && make ) fi
-- if [[ "${BOINC_TYPE}" == "libs" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./mac3rdParty/buildMacTravis.sh && ./mac_build/buildTravis.sh -dev -lib ) fi
-- if [[ "${BOINC_TYPE}" == "client" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./mac3rdParty/buildMacTravis.sh && ./mac_build/buildTravis.sh -dev -client ) fi
-- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./mac3rdParty/buildMacTravis.sh && ./mac_build/buildTravis.sh -dev -all ) fi
+- if [[ "${BOINC_TYPE}" == "libs" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./build/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -lib ) fi
+- if [[ "${BOINC_TYPE}" == "client" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./build/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -client ) fi
+- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./build/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -all ) fi

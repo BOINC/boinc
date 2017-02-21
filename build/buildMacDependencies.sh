@@ -1,5 +1,6 @@
 #!/bin/bash
 set -x
+set -e
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
@@ -24,55 +25,64 @@ set -x
 ## if needed.
 ## The directory is cached by Travis-CI for all subsequent runs of the VM
 
-# change to correct working directory because the script is called like: ./mac3rdParty/buildMacTravis.sh
-cd ./mac3rdParty
+# change to correct working directory because the script is called like: ./build/buildMacDependencies.sh
+mkdir -p ./build/mac
+cd ./build/mac
 
 # if the versioning changes try to delete the old directory and change .travis.yml to cache the new directory
-if [ ! -e "build_complete" ]; then
-    rm build_complete
-    ls
-    #exit 0 # exit is ok as long as this script is called in the "script" part of .travis.yml
+if [ -e "build_complete" ]; then
+    exit 0 # exit is ok as long as this script is called in the "script" part of .travis.yml
 fi
 
 if [ ! -d "c-ares-1.10.0" ]; then
   wget http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz
   tar -xf c-ares-1.10.0.tar.gz
+  rm c-ares-1.10.0.tar.gz
 fi
 
 if [ ! -d "curl-7.39.0" ]; then
   wget http://curl.haxx.se/download/curl-7.39.0.tar.gz
   tar -xf curl-7.39.0.tar.gz
+  rm curl-7.39.0.tar.gz
 fi
 
 if [ ! -d "openssl-1.0.1j" ]; then
   wget http://www.openssl.org/source/openssl-1.0.1j.tar.gz
   tar -xf openssl-1.0.1j.tar.gz
+  rm openssl-1.0.1j.tar.gz
 fi
 
 if [ ! -d "wxWidgets-3.0.0" ]; then
   wget http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2/
   tar -xf wxWidgets-3.0.0.tar.bz2
+  rm wxWidgets-3.0.0.tar.bz2
 fi
 
 if [ ! -d "sqlite-autoconf-3080300" ]; then
   wget http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz
   tar -xf sqlite-autoconf-3080300.tar.gz
+  rm sqlite-autoconf-3080300.tar.gz
 fi
 
 if [ ! -d "freetype-2.4.10" ]; then
   wget http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2
   tar -xf freetype-2.4.10.tar.bz2
+  rm freetype-2.4.10.tar.bz2
 fi
 
 if [ ! -d "ftgl-2.1.3~rc5" ]; then
   wget http://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz
   tar -xf ftgl-2.1.3-rc5.tar.gz
+  rm ftgl-2.1.3-rc5.tar.gz
 fi
 
 ## This script checks if a cached version is available and builds one if not.
-cd ../mac_build
+cd ../../mac_build
 source setupForBoinc.sh
 
 if [ $? -eq 0 ]; then
-    touch ../mac3rdParty/build_complete
+    touch ../build/mac/build_complete
 fi
+
+# change back to root directory
+cd ..

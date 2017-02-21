@@ -43,12 +43,12 @@ set -x
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree. For compatibility with Travis CI builds, they
-# can instead be placed in the directory ../mac3rdParty/
+# can instead be placed in the directory ../build/mac/
 #
 # When the packages are placed in the parent directory, this script creates
-# symbolic links to them in ../mac3rdParty/.
+# symbolic links to them in ../build/mac/.
 #
-## In Terminal, cd to the mac_build directory of the boinc tree; for 
+## In Terminal, cd to the mac_build directory of the boinc tree; for
 ## example:
 ##     cd [path]/boinc/mac_build/
 ## then run this script:
@@ -60,10 +60,10 @@ set -x
 #
 
 function make_symlink_if_needed() {
-    cd ../mac3rdParty/
+    cd ../build/mac/
     if [ ! -d "${1}" ]; then
-        if [ -d "../../${1}" ]; then
-            ln -s "../../${1}"
+        if [ -d "../../../${1}" ]; then
+            ln -s "../../../${1}"
         fi
     fi
 
@@ -87,8 +87,8 @@ finalResult=0
 
 SCRIPT_DIR=`pwd`
 
-if [ ! -d ../mac3rdParty ]; then
-    mkdir ../mac3rdParty
+if [ ! -d ../build/mac/ ]; then
+    mkdir -p ../build/mac/
 fi
 
 echo ""
@@ -99,7 +99,7 @@ echo ""
 
 make_symlink_if_needed openssl-1.1.0
 
-cd ../mac3rdParty/openssl-1.1.0/
+cd ../build/mac/openssl-1.1.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -117,7 +117,7 @@ echo ""
 
 make_symlink_if_needed c-ares-1.11.0
 
-cd ../mac3rdParty/c-ares-1.11.0/
+cd ../build/mac/c-ares-1.11.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -135,7 +135,7 @@ echo ""
 
 make_symlink_if_needed curl-7.50.2
 
-cd ../mac3rdParty/curl-7.50.2/
+cd ../build/mac/curl-7.50.2/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -153,7 +153,7 @@ echo ""
 
 make_symlink_if_needed wxWidgets-3.0.0
 
-cd ../mac3rdParty/wxWidgets-3.0.0/
+cd ../build/mac/wxWidgets-3.0.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildWxMac.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -171,7 +171,7 @@ echo ""
 
 make_symlink_if_needed sqlite-autoconf-3110000
 
-cd ../mac3rdParty/sqlite-autoconf-3110000/
+cd ../build/mac/sqlite-autoconf-3110000/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -189,7 +189,7 @@ echo ""
 
 make_symlink_if_needed freetype-2.6.2
 
-cd ../mac3rdParty/freetype-2.6.2/
+cd ../build/mac/freetype-2.6.2/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildfreetype.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -207,7 +207,7 @@ echo ""
 
 make_symlink_if_needed ftgl-2.1.3~rc5
 
-cd ../mac3rdParty/ftgl-2.1.3~rc5/
+cd ../build/mac/ftgl-2.1.3~rc5/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildFTGL.sh" ${cleanit}
     if [  $? -eq 0 ]; then
