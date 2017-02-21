@@ -72,7 +72,7 @@ matrix:
     env: BOINC_TYPE=apps
 
 before_script:
-- ./_autosetup
+- if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
 
 script:
 - if [[ "${BOINC_TYPE}" == "libs" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
