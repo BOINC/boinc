@@ -1,5 +1,4 @@
 #!/bin/sh
-set -x
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu

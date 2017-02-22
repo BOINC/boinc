@@ -1,6 +1,4 @@
 #!/bin/bash
-set -x
-set -e
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
