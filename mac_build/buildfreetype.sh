@@ -159,6 +159,18 @@ make install
 rm -fR "../freetype_install/lib"
 rm -fR "../freetype_install/share"
 
+# we need to store only what is needed in the CI cache
+if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
+    mkdir ../keep
+    cp -r include ../keep/
+    cp objs/.libs/libfreetype.a ../keep/
+    rm -rf ./*
+    cp -r ../keep/* ./
+    mkdir -p objs/.libs
+    mv libfreetype.a objs/.libs/
+    rm -rf ../keep
+fi
+
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""

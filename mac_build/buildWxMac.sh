@@ -172,4 +172,18 @@ else
 if [  ${retval} -ne 0 ]; then return 1; fi
 fi
 
+# we need to store only what is needed in the CI cache
+if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
+    mkdir ../keep
+    cp -r include ../keep/
+    mkdir -p ../keep/build/osx/setup/cocoa
+    cp -r build/osx/setup/cocoa/include ../keep/build/osx/setup/cocoa/
+    mkdir -p ../keep/build/osx/build
+    cp -r build/osx/build/Debug ../keep/build/osx/build/
+    cp -r build/osx/build/Release ../keep/build/osx/build/
+    rm -rf ./*
+    cp -r ../keep/* ./
+    rm -rf ../keep
+fi
+
 return 0

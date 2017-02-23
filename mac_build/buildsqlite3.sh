@@ -103,6 +103,15 @@ fi
 make
 if [  $? -ne 0 ]; then return 1; fi
 
+# we need to store only what is needed in the CI cache
+if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
+    mkdir ../keep
+    cp -r .libs ../keep/
+    rm -rf ./*
+    cp -r ../keep/* ./
+    rm -rf ../keep
+fi
+
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""

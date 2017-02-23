@@ -142,6 +142,15 @@ rm -f .libs/libftgl_x86_64.a
 
 cd ..
 
+if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
+    mkdir ../keep
+    cp -r src ../keep/
+    rm -rf ./*
+    cp -r ../keep/* ./
+    rm -rf ../keep
+    rm -rf ../freetype_install
+fi
+
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
