@@ -36,6 +36,8 @@ for old in ${old_versions[@]}; do
     fi
 done
 
+rm -f build_complete
+
 if [ -e "build_complete" ]; then
     exit 0
 fi
