@@ -43,6 +43,11 @@ void BringAppToFront() {
 }
 
 
+void BringAppWithPidToFront(pid_t pid) {
+    [ [NSRunningApplication runningApplicationWithProcessIdentifier:pid] activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
+}
+
+
 pid_t getPidIfRunning(char * bundleID) {
     NSString *NSBundleID = [[NSString alloc] initWithUTF8String:bundleID];
     NSArray * runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:NSBundleID];

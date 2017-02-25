@@ -25,6 +25,7 @@
     double              getTimeSinceBoot(void);
     void                getPathToThisApp(char* pathBuf, size_t bufSize);
     void                BringAppToFront();
+    void                BringAppWithPidToFront(pid_t pid);
     pid_t               getPidIfRunning(char * bundleID);
 
 #endif      // _MAC_UTIL_H_
