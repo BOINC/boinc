@@ -1990,6 +1990,15 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
 #ifdef __APPLE__
 
+int get_system_uptime() {
+    struct timeval tv;
+    size_t len = sizeof(tv);
+    gettimeofday(&tv, 0);
+    time_t now = tv.tv_sec;
+    sysctlbyname("kern.boottime", &tv, &len, NULL, 0);
+    return ((int)now - (int)tv.tv_sec);
+}
+
 // NXIdleTime() is an undocumented Apple API to return user idle time, which 
 // was implemented from before OS 10.0 through OS 10.5.  In OS 10.4, Apple 
 // added the CGEventSourceSecondsSinceLastEventType() API as a replacement for 
@@ -2052,7 +2061,7 @@ bool HOST_INFO::users_idle(
 
             gEventHandle = NXOpenEventStatus();
             if (!gEventHandle) {
-                if (TickCount() > (120*60)) {   // If system has been up for more than 2 minutes 
+                if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
                      msg_printf(NULL, MSG_INFO,
                         "User idle detection is disabled: initialization failed."
                     );
@@ -2088,7 +2097,7 @@ bool HOST_INFO::users_idle(
             }
             if ( (!service) || (kernResult != KERN_SUCCESS) ) {
                 // When the system first starts up, allow time for HIDSystem to be available if needed
-                if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
+                if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
                      msg_printf(NULL, MSG_INFO,
                         "Could not connect to HIDSystem: user idle detection is disabled."
                     );
