@@ -884,12 +884,19 @@ OSErr CScreensaver::GetpathToBOINCManagerApp(char* path, int maxLen)
 {
     CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
     OSType creator = 'BNC!';
-    FSRef theFSRef;
+    CFURLRef appURL = NULL;
     OSStatus status = noErr;
 
-    status = LSFindApplicationForInfo(creator, bundleID, NULL, &theFSRef, NULL);
-    if (status == noErr)
-        status = FSRefMakePath(&theFSRef, (unsigned char *)path, maxLen);
+    status = LSFindApplicationForInfo(creator, bundleID, NULL, NULL, &appURL);
+    if (status == noErr) {
+        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
+        CFStringGetCString(CFPath, path, maxLen, kCFStringEncodingUTF8);
+        CFRelease(CFPath);
+    }
+    if (appURL) {
+        CFRelease(appURL);
+    }
+
     return status;
 }
 
