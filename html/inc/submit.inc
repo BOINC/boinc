@@ -206,14 +206,13 @@ function boinc_submit_batch($req) {
 }
 
 function boinc_query_batches($req) {
-    $get_cpu_time =
-        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
-    ;
     $req_xml = "<query_batches>
     <authenticator>$req->authenticator</authenticator>
-$get_cpu_time
-</query_batches>
 ";
+    if (!empty($req->get_cpu_time)) {
+        $req_xml .= "   <get_cpu_time>1</get_cpu_time>\n";
+    }
+    $req_xml .= "</query_batches>\n";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
     if ($x = get_error($reply, "query_batches")) {
@@ -228,15 +227,17 @@ $get_cpu_time
 }
 
 function boinc_query_batch($req) {
-    $get_cpu_time =
-        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
-    ;
     $req_xml = "<query_batch>
     <authenticator>$req->authenticator</authenticator>
     <batch_id>$req->batch_id</batch_id>
-$get_cpu_time
-</query_batch>
 ";
+    if (!empty($req->get_cpu_time)) {
+        $req_xml .= "   <get_cpu_time>1</get_cpu_time>\n";
+    }
+    if (!empty($req->get_job_details)) {
+        $req_xml .= "   <get_job_details>1</get_job_details>\n";
+    }
+    echo "</query_batch>\n";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
     if ($x = get_error($reply, "query_batch")) {
@@ -326,7 +327,7 @@ function boinc_retire_batch($req) {
 }
 
 //// example usage follows
-if (1) {
+if (0) {
     $req = new StdClass;
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
