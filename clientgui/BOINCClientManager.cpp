@@ -44,6 +44,7 @@
 #define CLIENT_3_CRASH_MAX_TIME 30
 
 #ifdef __WXMAC__
+#include "mac_util.h"
 enum {
     NewStyleDaemon = 1,
     OldStyleDaemon
@@ -123,7 +124,7 @@ bool CBOINCClientManager::IsSystemBooting() {
 #if   defined(__WXMSW__)
     if (GetTickCount() < (1000*60*5)) bReturnValue = true;  // If system has been up for less than 5 minutes 
 #elif defined(__WXMAC__)
-    if (TickCount() < (120*60)) bReturnValue = true;        // If system has been up for less than 2 minutes 
+    if (getTimeSinceBoot() < (120)) bReturnValue = true;    // If system has been up for less than 2 minutes
 #endif
     return bReturnValue;
 }
@@ -259,16 +260,8 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 #elif defined(__WXMAC__)
 
-#if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
-    wxChar buf[1024];
-    wxChar *argv[5];
-#else
     char buf[1024];
     char *argv[5];
-#endif
-    ProcessSerialNumber ourPSN;
-    FSRef ourFSRef;
-    OSErr err;
 
     if (IsBOINCConfiguredAsDaemon() == NewStyleDaemon) {
         system ("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
@@ -283,44 +276,34 @@ bool CBOINCClientManager::StartupBOINCCore() {
     } else {
         
         // Get the full path to core client inside this application's bundle
-        err = GetCurrentProcess (&ourPSN);
-        if (err == noErr) {
-            err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-        }
-        if (err == noErr) {
-            err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
-        }
-        if (err == noErr) {
+        getPathToThisApp(buf, sizeof(buf));
 #if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
-            strExecute = wxT("\"");            
-            strExecute += wxT(buf);
-            strExecute += wxT("/Contents/Resources/boinc\" --redirectio --launched_by_manager");
-            m_lBOINCCoreProcessId = ::wxExecute(strExecute);
+        strExecute = wxT("\"");            
+        strExecute += wxT(buf);
+        strExecute += wxT("/Contents/Resources/boinc\" --redirectio --launched_by_manager");
+        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
 #else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
-            strcat(buf, "/Contents/Resources/boinc");
-            argv[0] = buf;
-            argv[1] = "--redirectio";
-            argv[2] = "--launched_by_manager";
-            argv[3] = NULL;
+        strcat(buf, "/Contents/Resources/boinc");
+        argv[0] = buf;
+        argv[1] = "--redirectio";
+        argv[2] = "--launched_by_manager";
+        argv[3] = NULL;
 #ifdef SANDBOX
-            if (!g_use_sandbox) {
-                argv[3] = "--insecure";
-                argv[4] = NULL;
-            }
-#endif
-            // Under wxMac-2.8.0, wxExecute starts a separate thread
-            // to wait for child's termination.
-            // That wxProcessTerminationThread uses a huge amount of processor
-            // time (about 11% of one CPU on 2GHz Intel Dual-Core Mac).
-//                m_lBOINCCoreProcessId = ::wxExecute(argv);
-            run_program(
-                "/Library/Application Support/BOINC Data",
-                buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId
-            );
-#endif
-        } else {
-            buf[0] = '\0';
+        if (!g_use_sandbox) {
+            argv[3] = "--insecure";
+            argv[4] = NULL;
         }
+#endif
+        // Under wxMac-2.8.0, wxExecute starts a separate thread
+        // to wait for child's termination.
+        // That wxProcessTerminationThread uses a huge amount of processor
+        // time (about 11% of one CPU on 2GHz Intel Dual-Core Mac).
+//                m_lBOINCCoreProcessId = ::wxExecute(argv);
+        run_program(
+            "/Library/Application Support/BOINC Data",
+            buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId
+        );
+#endif
     }
 
 #else   // Unix based systems

@@ -25,6 +25,9 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "util.h"
+#ifdef __WXMAC__
+#include "mac_util.h"
+#endif
 #ifdef _WIN32
 #include "proc_control.h"
 #endif
@@ -1746,13 +1749,10 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 
         if (previous_gfx_app) {
 #ifdef __WXMAC__
-        ProcessSerialNumber gfx_app_psn;
             // If this graphics app is already running,
             // just bring it to the front
             //
-            if (!GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
-                SetFrontProcess(&gfx_app_psn);
-            }
+            BringAppWithPidToFront(previous_gfx_app->pid);
 #endif
             // If graphics app is already running, don't launch a second instance
             //
@@ -1829,7 +1829,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         strCommand = wxT("rdesktop-vrdp ") + strConnection;
         wxExecute(strCommand);
 #elif defined(__WXMAC__)
-        FSRef theFSRef;
+        CFURLRef appURL = NULL;
         OSStatus status = noErr;
 
         // I have found no reliable way to pass the IP address and port to Microsoft's 
@@ -1838,7 +1838,10 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         //
         // First try to find the CoRD application by Bundle ID and Creator Code
         status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
-                                            NULL, &theFSRef, NULL);
+                                            NULL, NULL, &appURL);
+        if (appURL) {
+            CFRelease(appURL);
+        }
         if (status != noErr) {
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (pFrame) {
