@@ -23,15 +23,18 @@
 
 #include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
+#include <sys/time.h>
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <grp.h>        // getgrnam
+#include "mac_util.h"
 
 void printUsage(void);
 Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static int compareOSVersionTo(int toMajor, int toMinor);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
-static void SleepTicks(UInt32 ticksToSleep);
+static double dtime(void);
+static void SleepSeconds(double seconds);
 static OSErr QuitOneProcess(OSType signature);
 
 
@@ -215,6 +218,7 @@ void printUsage() {
 enum {
 	kSystemEventsCreator = 'sevs'
 };
+CFStringRef kSystemEventsBundleID = CFSTR("com.apple.systemevents");
 
 Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
 {
@@ -222,7 +226,7 @@ Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     ProcessSerialNumber     SystemEventsPSN;
-	FSRef                   appRef;
+    CFURLRef                appURL = NULL;
     OSErr                   err, err2;
 
 #if VERBOSE
@@ -247,7 +251,7 @@ Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
         }
         // Wait for the process to be gone
         for (i=0; i<50; ++i) {      // 5 seconds max delay
-            SleepTicks(6);  // 6 Ticks == 1/10 second
+            SleepSeconds(0.1);      // 1/10 second
             err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
             if (err != noErr) break;
         }
@@ -260,13 +264,18 @@ Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
         sleep(4);
     }
     
-    err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
+    err = LSFindApplicationForInfo(kSystemEventsCreator, kSystemEventsBundleID, NULL, NULL, &appURL);
     if (err != noErr) {
         fprintf(stderr, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d \n", (int) err);
         fflush(stderr);
         goto cleanupSystemEvents;
     } else {
-        FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
+        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
+        CFStringGetCString(CFPath, systemEventsPath, sizeof(systemEventsPath), kCFStringEncodingUTF8);
+        CFRelease(CFPath);
+    if (appURL) {
+        CFRelease(appURL);
+    }
 #if VERBOSE
         fprintf(stderr, "SystemEvents is at %s\n", systemEventsPath);
         fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
@@ -281,7 +290,7 @@ Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
             }
             // Wait for the process to start
             for (i=0; i<50; ++i) {      // 5 seconds max delay
-                SleepTicks(6);  // 6 Ticks == 1/10 second
+                SleepSeconds(0.1);      // 1/10 second
                 err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
                 if (err == noErr) break;
             }
@@ -336,7 +345,7 @@ cleanupSystemEvents:
     }
     // Wait for the process to be gone
     for (i=0; i<50; ++i) {      // 5 seconds max delay
-        SleepTicks(6);  // 6 Ticks == 1/10 second
+        SleepSeconds(0.1);      // 1/10 second
         err2 = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
         if (err2 != noErr) break;
     }
@@ -424,19 +433,31 @@ OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberP
 }
 
 
-// Uses usleep to sleep for full duration even if a signal is received
-static void SleepTicks(UInt32 ticksToSleep) {
-    UInt32 endSleep, timeNow, ticksRemaining;
-
-    timeNow = TickCount();
-    ticksRemaining = ticksToSleep;
-    endSleep = timeNow + ticksToSleep;
-    while ( (timeNow < endSleep) && (ticksRemaining <= ticksToSleep) ) {
-        usleep(16667 * ticksRemaining);
-        timeNow = TickCount();
-        ticksRemaining = endSleep - timeNow;
-    } 
+// return time of day (seconds since 1970) as a double
+//
+static double dtime(void) {
+    struct timeval tv;
+    gettimeofday(&tv, 0);
+    return tv.tv_sec + (tv.tv_usec/1.e6);
 }
+
+// Uses usleep to sleep for full duration even if a signal is received
+static void SleepSeconds(double seconds) {
+    double end_time = dtime() + seconds - 0.01;
+    // sleep() and usleep() can be interrupted by SIGALRM,
+    // so we may need multiple calls
+    //
+    while (1) {
+        if (seconds >= 1) {
+            sleep((unsigned int) seconds);
+        } else {
+            usleep((int)fmod(seconds*1000000, 1000000));
+        }
+        seconds = end_time - dtime();
+        if (seconds <= 0) break;
+    }
+}
+
 
 static OSErr QuitOneProcess(OSType signature) {
     bool                done = false;

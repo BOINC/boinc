@@ -857,7 +857,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, NULL, &appURL);
+        err = LSFindApplicationForInfo(kSystemEventsCreator, kSystemEventsBundleID, NULL, NULL, &appURL);
 #pragma clang diagnostic pop
 #if TESTING
         if (err != noErr) {
