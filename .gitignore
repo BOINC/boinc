@@ -90,6 +90,11 @@ drupal/sites/default/project
 ## translation system
 locale/*/*.flag
 
+## continuous integration system
+3rdParty/linux/
+3rdParty/mac/
+install/
+
 .libs/
 svn_version.h
 
