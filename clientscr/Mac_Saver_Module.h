@@ -86,7 +86,6 @@ protected:
     int             GetBrandID(void);
     char*           PersistentFGets(char *buf, size_t buflen, FILE *f);
     pid_t           FindProcessPID(char* name, pid_t thePID);
-    OSErr           GetpathToBOINCManagerApp(char* path, int maxLen);
     bool            SetError( bool bErrorMode, unsigned int hrError );
     void            setSSMessageText(const char *msg);
     void            updateSSMessageText(char *msg);

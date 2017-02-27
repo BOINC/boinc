@@ -51,6 +51,7 @@ extern "C" {
 #include "screensaver.h"
 #include "diagnostics.h"
 #include "str_replace.h"
+#include "mac_util.h"
 
 //#include <drivers/event_status_driver.h>
 
@@ -388,7 +389,7 @@ OSStatus CScreensaver::initBOINCApp() {
 
     // If not at default path, search for it by creator code and bundle identifier
     if (!boinc_file_exists(boincPath)) {
-        err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
+        err = GetPathToAppFromID('BNC!', CFSTR("edu.berkeley.boinc"),  boincPath, sizeof(boincPath));
         if (err) {
             saverState = SaverState_CantLaunchCoreClient;
             return err;
@@ -810,7 +811,7 @@ int CScreensaver::GetBrandID()
     if (f == NULL) {
        // If we couldn't find our Branding file in the BOINC Data Directory,  
        // look in our application bundle
-        err = GetpathToBOINCManagerApp(buf, sizeof(buf));
+        err = GetPathToAppFromID('BNC!', CFSTR("edu.berkeley.boinc"),  buf, sizeof(buf));
         if (err == noErr) {
             strcat(buf, "/Contents/Resources/Branding");
             f = fopen(buf, "r");
@@ -877,27 +878,6 @@ pid_t CScreensaver::FindProcessPID(char* name, pid_t thePID)
     }
     pclose(f);
     return 0;
-}
-
-
-OSErr CScreensaver::GetpathToBOINCManagerApp(char* path, int maxLen)
-{
-    CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
-    OSType creator = 'BNC!';
-    CFURLRef appURL = NULL;
-    OSStatus status = noErr;
-
-    status = LSFindApplicationForInfo(creator, bundleID, NULL, NULL, &appURL);
-    if (status == noErr) {
-        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-        CFStringGetCString(CFPath, path, maxLen, kCFStringEncodingUTF8);
-        CFRelease(CFPath);
-    }
-    if (appURL) {
-        CFRelease(appURL);
-    }
-
-    return status;
 }
 
 
