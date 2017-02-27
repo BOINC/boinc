@@ -52,8 +52,7 @@
 
 #ifdef __WXMAC__
 #include "util.h"
-
-static int compareOSVersionTo(int toMajor, int toMinor);
+#include "mac_util.h"
 #endif
 
 // Workaround for Linux refresh problem
@@ -1351,29 +1350,3 @@ void CSimpleGUIPanel::OnEraseBackground(wxEraseEvent& event) {
 #endif
     dc->DrawBitmap(m_bmpBg, 0, 0);
 }
-
-
-#ifdef __WXMAC__
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
-}
-#endif
