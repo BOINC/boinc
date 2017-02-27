@@ -19,8 +19,9 @@
 
 #include "mac_util.h"
 #import <Cocoa/Cocoa.h>
-
-
+#define DLOPEN_NO_WARN
+#include <mach-o/dyld.h>
+#include <dlfcn.h>
 
 
 // Returns time in seconds since system was booted
@@ -55,4 +56,65 @@ pid_t getPidIfRunning(char * bundleID) {
         return [((NSRunningApplication *)[runningApps firstObject]) processIdentifier];
     }
     return 0;
+}
+
+
+// Find the path to the app with the bundle identifier and (optionally) creator code.
+// The creator code can be NULL.
+OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, size_t maxLen) {
+    CFURLRef                appURL = NULL;
+    OSErr                   err;
+
+    // We must launch the System Events application for the target user
+    err = noErr;
+    *path = '\0';
+
+    // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
+    CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
+    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
+    if (LSlib) {
+        LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
+    }
+    if (LSCopyAppURLsForBundleID == NULL) {
+        err = fnfErr;
+    }
+
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
+    if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
+//LSFindApplicationForInfo is deprecated in OS 10.10, so may not be available in the future
+    OSStatus (*LSFindAppForInfo)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*) = NULL;
+    if (LSlib) {
+        LSFindAppForInfo = (OSStatus(*)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*))
+                    dlsym(LSlib, "LSFindApplicationForInfo");
+    }
+    if (LSFindAppForInfo == NULL) {
+        return fnfErr;
+    }
+    err = (*LSFindAppForInfo)(creator, bundleID, NULL, NULL, &appURL);
+    } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
+#endif
+    {
+        if (err == noErr) {
+            CFArrayRef appRefs = (*LSCopyAppURLsForBundleID)(bundleID, NULL);
+            if (appRefs == NULL) {
+                err = fnfErr;
+            } else {
+                appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
+                CFRelease(appRefs);
+            }
+        }
+        if (err != noErr) {
+            return err;
+        }
+    }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
+
+    if (err == noErr) {
+        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
+        CFStringGetCString(CFPath, path, maxLen, kCFStringEncodingUTF8);
+        CFRelease(CFPath);
+    }
+    if (appURL) {
+        CFRelease(appURL);
+    }
+    return err;
 }
