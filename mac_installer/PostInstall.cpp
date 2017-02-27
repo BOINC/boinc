@@ -82,9 +82,6 @@
 #include <time.h>       // for time()
 #include <vector>
 #include <string>
-#define DLOPEN_NO_WARN
-#include <mach-o/dyld.h>
-#include <dlfcn.h>
 #include "url.h"
 
 using std::vector;
@@ -100,28 +97,6 @@ using std::string;
 #define boinc_master_group_name "boinc_master"
 #define boinc_project_user_name "boinc_project"
 #define boinc_project_group_name "boinc_project"
-
-// Macros to test OS version number on all versions of OS X without using deprecated Gestalt
-// compareOSVersionTo(x, y) returns:
-// -1 if the OS version we are running on is less than 10.x.y
-//  0 if the OS version we are running on is equal to 10.x.y
-// +1 if the OS version we are running on is lgreater than 10.x.y
-//
-#define MAKECFVERSIONNUMBER(x, y) floor(kCFCoreFoundationVersionNumber##x##_##y)
-#define compareOSVersionTo(toMajor, toMinor) \
-(floor(kCFCoreFoundationVersionNumber) > MAKECFVERSIONNUMBER(toMajor, toMinor) ? 1 : \
-(floor(kCFCoreFoundationVersionNumber) < MAKECFVERSIONNUMBER(toMajor, toMinor) ? -1 : 0))
-
-// Allow this to be built using Xcode 5.0.2
-#ifndef kCFCoreFoundationVersionNumber10_9
-#define kCFCoreFoundationVersionNumber10_9      855.11
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_10
-#define kCFCoreFoundationVersionNumber10_10     1151.16
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_11
-#define kCFCoreFoundationVersionNumber10_11     1253
-#endif
 
 
 OSErr Initialize(void);	/* function prototypes */
@@ -833,7 +808,6 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     pid_t                   systemEventsPID;
-    CFURLRef                appURL = NULL;
     OSErr                   err, err2;
 
     fprintf(stdout, "Adjusting login items for user %s\n", userName);
@@ -843,58 +817,16 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     err = noErr;
     systemEventsPath[0] = '\0';
 
-    // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
-    CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
-    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
-    if (LSlib) {
-        LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
-    }
-    if (LSCopyAppURLsForBundleID == NULL) {
-        err = fnfErr;
-    }
+    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-    if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        err = LSFindApplicationForInfo(kSystemEventsCreator, kSystemEventsBundleID, NULL, NULL, &appURL);
-#pragma clang diagnostic pop
-#if TESTING
-        if (err != noErr) {
-            fprintf(stdout,false, false, false, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d ", (int) err);
-            fflush(stdout);
-        }
-#endif
-    } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-#endif
-    {
-        if (err == noErr) {
-            CFArrayRef appRefs = (*LSCopyAppURLsForBundleID)(kSystemEventsBundleID, NULL);
-            if (appRefs == NULL) {
-                err = fnfErr;
-            } else {
-                appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
-                CFRelease(appRefs);
-            }
-        }
-        if (err != noErr) {
-            fprintf(false, false, false, "LSCopyApplicationURLsForBundleIdentifier(kSystemEventsBundleID) returned error %d ", (int) err);
-            fflush(stdout);
-            goto cleanupSystemEvents;
-        }
-    }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-
+#if CREATE_LOG
     if (err == noErr) {
-        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-        CFStringGetCString(CFPath, systemEventsPath, sizeof(systemEventsPath), kCFStringEncodingUTF8);
-        CFRelease(CFPath);
-        fprintf(stdout, "SystemEvents is at %s\n", systemEventsPath);
-        fflush(stdout);
+        print_to_log_file(stdout, "SystemEvents is at %s\n", systemEventsPath);
+    } else {
+        print_to_log_file("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
     }
-    if (appURL) {
-        CFRelease(appURL);
-    }
-    
+#endif
+
     if (err == noErr) {
         // Find SystemEvents process.  If found, quit it in case 
         // it is running under a different user.

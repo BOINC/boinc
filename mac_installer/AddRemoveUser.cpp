@@ -31,7 +31,6 @@
 void printUsage(void);
 Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-static int compareOSVersionTo(int toMajor, int toMinor);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static double dtime(void);
 static void SleepSeconds(double seconds);
@@ -226,7 +225,6 @@ Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     ProcessSerialNumber     SystemEventsPSN;
-    CFURLRef                appURL = NULL;
     OSErr                   err, err2;
 
 #if VERBOSE
@@ -264,45 +262,39 @@ Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
         sleep(4);
     }
     
-    err = LSFindApplicationForInfo(kSystemEventsCreator, kSystemEventsBundleID, NULL, NULL, &appURL);
+    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
     if (err != noErr) {
-        fprintf(stderr, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d \n", (int) err);
+        fprintf(stderr, "GetPathToAppFromID(kSystemEventsCreator) returned error %d \n", (int) err);
         fflush(stderr);
         goto cleanupSystemEvents;
-    } else {
-        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-        CFStringGetCString(CFPath, systemEventsPath, sizeof(systemEventsPath), kCFStringEncodingUTF8);
-        CFRelease(CFPath);
-    if (appURL) {
-        CFRelease(appURL);
     }
 #if VERBOSE
-        fprintf(stderr, "SystemEvents is at %s\n", systemEventsPath);
-        fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
-        fflush(stderr);
+    fprintf(stderr, "SystemEvents is at %s\n", systemEventsPath);
+    fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
+    fflush(stderr);
 #endif
 
-        for (j=0; j<5; ++j) {
-            sprintf(cmd, "sudo -u \"%s\" \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
-            err = system(cmd);
-            if (err) {
-                fprintf(stderr, "Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
-            }
-            // Wait for the process to start
-            for (i=0; i<50; ++i) {      // 5 seconds max delay
-                SleepSeconds(0.1);      // 1/10 second
-                err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-                if (err == noErr) break;
-            }
-            if (i < 50) break;  // Exit j loop on success
+    for (j=0; j<5; ++j) {
+        sprintf(cmd, "sudo -u \"%s\" \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
+        err = system(cmd);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
         }
-        if (j >= 5) {
-            fprintf(stderr, "Failed to launch System Events for user %s\n", userName);
-            fflush(stderr);
-            err = noErr;
-            goto cleanupSystemEvents;
+        // Wait for the process to start
+        for (i=0; i<50; ++i) {      // 5 seconds max delay
+            SleepSeconds(0.1);      // 1/10 second
+            err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+            if (err == noErr) break;
         }
+        if (i < 50) break;  // Exit j loop on success
     }
+    if (j >= 5) {
+        fprintf(stderr, "Failed to launch System Events for user %s\n", userName);
+        fflush(stderr);
+        err = noErr;
+        goto cleanupSystemEvents;
+    }
+
     sleep(2);
     
 #if VERBOSE
@@ -376,30 +368,6 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
         len -= datalen;
     }
     return (buf[0] ? buf : NULL);
-}
-
-
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
 }
 
 // ---------------------------------------------------------------------------
