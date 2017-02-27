@@ -477,6 +477,9 @@
 		DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDE7A3B115C6739E002B3B96 /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */; };
 		DDE813221770479C0068A770 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
+		DDE900251E643DFF003728F2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
+		DDE900261E643E39003728F2 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
+		DDE900271E643E3C003728F2 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
 		DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
@@ -1369,6 +1372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDD3371310622D0800867C7D /* Carbon.framework in Frameworks */,
+				DDE900251E643DFF003728F2 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3138,6 +3142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */,
+				DDE900261E643E39003728F2 /* mac_util.mm in Sources */,
 				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */,
 				DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */,
 				DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */,
@@ -3219,6 +3224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */,
+				DDE900271E643E3C003728F2 /* mac_util.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
