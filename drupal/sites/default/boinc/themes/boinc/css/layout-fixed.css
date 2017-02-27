@@ -215,6 +215,18 @@ body {
   padding-right: 10px;
 }
 
+/* Mobile Menu */
+#mobile-menu-toggle .mmt-menu {
+    position: relative;
+    bottom: 3px;
+    font-size: 14px;
+    font-family: "DejaVu Sans", Verdana, Tahoma, sans-serif;
+    font-weight: bold;
+    padding-left: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
 /*
  * First sidebar
  */
