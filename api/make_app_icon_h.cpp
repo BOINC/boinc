@@ -19,6 +19,18 @@
 // Utility to convert *.icns file into app_icon.h file for use 
 // with api/setMacIcon() in science applications.
 
+// THIS CODE IS OBSOLETE! A better way to add an icon to science applications
+// (or any Mac executable, including command-line tools) is:
+// [1] Select the application in the Finder
+// [2] Get Info (command-I) for the selected application
+// [3] Click on the file's current icon in the top left corner of the Get Info window
+// [4] Paste (command-v) the desired icon.
+//
+// To copy an icon from a different file:
+// [a] Get Info for the source file
+// [b] Click on the file's  icon in the top left corner of the Get Info window
+// [c] Copy (command-c) the icon.
+
 #include "config.h"
 #include <cstdio>
 
