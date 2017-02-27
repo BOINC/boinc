@@ -46,7 +46,7 @@
 #include "mac_backtrace.h"
 #endif
 
-#ifdef __GLIBC__
+#ifdef HAVE_EXECINFO_H
 #include <execinfo.h>
 #endif
 
@@ -775,7 +775,7 @@ void boinc_catch_signal(int signal) {
     default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
 
-#ifdef __GLIBC__
+#ifdef HAVE_EXECINFO_H
     void *array[64];
     size_t size;
     size = backtrace (array, 64);
