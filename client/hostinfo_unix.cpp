@@ -1485,15 +1485,12 @@ int HOST_INFO::get_memory_info() {
 #elif defined(__APPLE__)
     // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
     // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
-    // value to 2GB when the actual RAM size is > 2GB.  The Gestalt selector 
-    // gestaltPhysicalRAMSizeInMegabytes is available starting with OS 10.3.0.
-    SInt32 mem_size;
-    if (Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size)) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Couldn't determine physical RAM size"
-        );
-    }
-    m_nbytes = (1024. * 1024.) * (double)mem_size;
+    // value to 2GB when the actual RAM size is > 2GB.
+    // But HW_MEMSIZE returns a uint64_t value.
+    uint64_t mem_size;
+    size_t len = sizeof(mem_size);
+    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #elif defined(_HPUX_SOURCE)
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
@@ -1990,6 +1987,9 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
 #ifdef __APPLE__
 
+// We can't link the client with the AppKit framework because the client
+// must be setuid boinc_master. So the client uses this to get the system
+// up time instead of our getTimeSinceBoot() function in lib/mac_util.mm.
 int get_system_uptime() {
     struct timeval tv;
     size_t len = sizeof(tv);
