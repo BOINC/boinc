@@ -36,6 +36,8 @@
     NSString *mDefaultPeriodString;
     NSString *mSciencePeriodString;
     NSString *mChangePeriodString;
+
+    NSArray *NIBTopLevel;
 }
 
 @property (strong) NSArray *NIBTopLevel;

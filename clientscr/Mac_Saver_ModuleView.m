@@ -81,6 +81,8 @@ int signof(float x) {
 
 @implementation BOINC_Saver_ModuleView
 
+@synthesize NIBTopLevel;
+
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     self = [ super initWithFrame:frame isPreview:isPreview ];
     return self;
@@ -507,11 +509,11 @@ int signof(float x) {
 
 	// if we haven't loaded our configure sheet, load the nib named MyScreenSaver.nib
 	if (!mConfigureSheet) {
-        if (! [NSBundle respondsToSelector: @selector(loadNibNamed: owner: topLevelObjects:)]) {
+        if ([[ NSBundle bundleForClass:[ self class ]] respondsToSelector: @selector(loadNibNamed: owner: topLevelObjects:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-method-access"
             // [NSBundle loadNibNamed: owner: topLevelObjects:] is not available before OS 10.8
-            [ NSBundle loadNibNamed:@"BOINCSaver" owner:self topLevelObjects:&_NIBTopLevel ];
+            [ [ NSBundle bundleForClass:[ self class ]] loadNibNamed:@"BOINCSaver" owner:self topLevelObjects:&NIBTopLevel ];
 #pragma clang diagnostic pop
         }
 #if __MAC_OS_X_VERSION_MIN_REQUIRED < 1080
