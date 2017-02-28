@@ -264,8 +264,6 @@ CScreensaver::CScreensaver() {
 
 
 int CScreensaver::Create() {
-    ProcessSerialNumber psn;
-    ProcessInfoRec pInfo;
     OSStatus err;
     
     // Ugly workaround for a problem with the System Preferences app
@@ -280,12 +278,8 @@ int CScreensaver::Create() {
     // fails to run and stderr shows the message: 
     // "The process has forked and you cannot use this CoreFoundation 
     // functionality safely. You MUST exec()" 
-    GetCurrentProcess(&psn);
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    pInfo.processName = NULL;
-    err = GetProcessInformation(&psn, &pInfo);
-    if ( (err == noErr) && (pInfo.processSignature == 'sprf') ) {
+    pid_t SystemPrefsPID = getPidIfRunning("com.apple.systempreferences");
+    if (SystemPrefsPID == getpid()) {
         saverState = SaverState_ControlPanelTestMode;
     }
 
@@ -883,16 +877,13 @@ pid_t CScreensaver::FindProcessPID(char* name, pid_t thePID)
 
 // Send a Quit AppleEvent to the process which called this module
 // (i.e., tell the ScreenSaver engine to quit)
-OSErr CScreensaver::KillScreenSaver() {
-    ProcessSerialNumber         thisPSN;
+int CScreensaver::KillScreenSaver() {
     pid_t                       thisPID;
-    OSErr                       err = noErr;
+    int                         retval;
 
-    GetCurrentProcess(&thisPSN);
-    err = GetProcessPID(&thisPSN , &thisPID);
-    if (err == noErr)
-        err = kill(thisPID, SIGABRT);   // SIGINT
-    return err;
+    thisPID = getpid();
+    retval = kill(thisPID, SIGABRT);   // SIGINT
+    return retval;
 }
 
 
