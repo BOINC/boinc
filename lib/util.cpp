@@ -598,6 +598,9 @@ int wait_client_mutex(const char* dir, double timeout) {
 bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
     return _Isfinite(x);
+#elif defined (__APPLE__)
+    // finite() is deprecated in OS 10.9
+    return std::isfinite(x) != 0;
 #else
     return finite(x) != 0;
 #endif
