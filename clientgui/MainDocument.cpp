@@ -1847,13 +1847,13 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
                     wxOK | wxICON_INFORMATION,
                     false
                 );
-        } 
-        return ERR_FILE_MISSING;
-    }
+            }
+            return ERR_FILE_MISSING;
+        }
 
-    strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
-    strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
-    system(strCommand.char_str());
+        strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
+        strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
+        system(strCommand.char_str());
 #endif
     }
 
