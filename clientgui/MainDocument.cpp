@@ -1817,9 +1817,8 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 
 int CMainDocument::WorkShowVMConsole(RESULT* res) {
     int iRetVal = 0;
-    char pathToCoRD[MAXPATHLEN];
     
-//    if (strlen(res->remote_desktop_addr)) {
+    if (strlen(res->remote_desktop_addr)) {
         wxString strConnection(res->remote_desktop_addr, wxConvUTF8);
         wxString strCommand;
 
@@ -1831,6 +1830,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         wxExecute(strCommand);
 #elif defined(__WXMAC__)
         OSStatus status = noErr;
+        char pathToCoRD[MAXPATHLEN];
 
         // I have found no reliable way to pass the IP address and port to Microsoft's 
         // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
@@ -1849,7 +1849,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
                 );
         } 
         return ERR_FILE_MISSING;
-//    }
+    }
 
     strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
     strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
