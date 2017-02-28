@@ -26,14 +26,12 @@
 				DD6178CE1488F09E0042482E /* PBXTargetDependency */,
 				DD127877081F44E5007B5DE1 /* PBXTargetDependency */,
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
-				DD6D35F40871509300BBCDEE /* PBXTargetDependency */,
 				DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */,
 				DDD095510A3EE09900C95BA4 /* PBXTargetDependency */,
 				DD45C4A10A53E73500E923D1 /* PBXTargetDependency */,
 				DDBD52900C16C3790074905B /* PBXTargetDependency */,
 				DD095D1F0F3B22DE000902F5 /* PBXTargetDependency */,
 				DDD3370C106224FF00867C7D /* PBXTargetDependency */,
-				DDB219B410B3BBD000417AEF /* PBXTargetDependency */,
 			);
 			name = Build_All;
 			productName = Build_All;
@@ -180,7 +178,6 @@
 		DD55AF6D1916248200259439 /* coproc_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD55AF6B1916248200259439 /* coproc_sched.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5FE1B517828887003339DF /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
-		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD6802310E701ACD0067D009 /* cert_sig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.cpp */; };
@@ -349,7 +346,6 @@
 		DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA850A21207EED900B473A6 /* WizardAttach.cpp */; };
 		DDAEB54012F8295800EDEDBE /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
-		DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */; };
 		DDB295C9185B0DBD00B9F842 /* MacNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDB295C8185B0DBD00B9F842 /* MacNotification.mm */; };
 		DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
@@ -588,13 +584,6 @@
 			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
 			remoteInfo = libboinc;
 		};
-		DD6D35F30871509300BBCDEE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD6381E90870DC9D007A2F8E;
-			remoteInfo = MakeAppIcon_h;
-		};
 		DD791FF00819063C00BE2906 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -629,13 +618,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
 			remoteInfo = SetVersion;
-		};
-		DDB219B310B3BBD000417AEF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDB219A310B3BB6100417AEF;
-			remoteInfo = WaitPermissions;
 		};
 		DDB874660C850DB600E0DE1F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -903,7 +885,6 @@
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD6381450870DB78007A2F8E /* mac_icon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mac_icon.cpp; sourceTree = "<group>"; };
-		DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MakeAppIcon_h; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = make_app_icon_h.cpp; sourceTree = "<group>"; };
 		DD64DF0409DCC5E000668B3A /* gutil_text.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gutil_text.cpp; sourceTree = "<group>"; };
 		DD64E7D507D89DB800B176C8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
@@ -1088,7 +1069,6 @@
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.cpp; path = ../clientgui/mac/SetVersion.cpp; sourceTree = SOURCE_ROOT; };
 		DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sg_BoincSimpleFrame.cpp; sourceTree = "<group>"; };
 		DDAFA7AD12D4834D00997329 /* sg_BoincSimpleFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sg_BoincSimpleFrame.h; sourceTree = "<group>"; };
-		DDB219A410B3BB6100417AEF /* WaitPermissions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaitPermissions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WaitPermissions-Info.plist"; sourceTree = "<group>"; };
 		DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitPermissions.cpp; path = ../mac_installer/WaitPermissions.cpp; sourceTree = SOURCE_ROOT; };
 		DDB295C8185B0DBD00B9F842 /* MacNotification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacNotification.mm; path = ../clientgui/mac/MacNotification.mm; sourceTree = "<group>"; };
@@ -1288,13 +1268,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD6381E80870DC9D007A2F8E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD69FEE608416C1300C01361 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1340,13 +1313,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DDAEC9DF07FA583B00A7BC36 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDB219A210B3BB6100417AEF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1421,7 +1387,6 @@
 				DD96AFF90811075000A06F22 /* BOINCSaver.saver */,
 				DD1277B3081F3D67007B5DE1 /* PostInstall.app */,
 				DD69FEE808416C1300C01361 /* boinccmd */,
-				DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */,
 				DD7748980A356C880025D05E /* SetUpSecurity */,
 				DDD0953F0A3EDD2500C95BA4 /* switcher */,
 				DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */,
@@ -1432,7 +1397,6 @@
 				DDFA60D40CB337D40037B88C /* gfx_switcher */,
 				DD8916280F3B17E900DE5B1C /* boincscr */,
 				DDD337021062235D00867C7D /* AddRemoveUser */,
-				DDB219A410B3BB6100417AEF /* WaitPermissions.app */,
 				DD81C79A144D8DA9000BE61A /* libjpeg.a */,
 				DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */,
 			);
@@ -2152,22 +2116,6 @@
 			productReference = DD4688410C165F3C0089F500 /* Uninstall BOINC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DD6381E90870DC9D007A2F8E /* MakeAppIcon_h */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD9E2379091CBDAE0048316E /* Build configuration list for PBXNativeTarget "MakeAppIcon_h" */;
-			buildPhases = (
-				DD6381E70870DC9D007A2F8E /* Sources */,
-				DD6381E80870DC9D007A2F8E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MakeAppIcon_h;
-			productName = MakeAppIcon_h;
-			productReference = DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */;
-			productType = "com.apple.product-type.tool";
-		};
 		DD69FEE708416C1300C01361 /* cmd_boinc */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2375091CBDAE0048316E /* Build configuration list for PBXNativeTarget "cmd_boinc" */;
@@ -2271,23 +2219,6 @@
 			productName = SetVersion;
 			productReference = DDAEC9E107FA583B00A7BC36 /* SetVersion */;
 			productType = "com.apple.product-type.tool";
-		};
-		DDB219A310B3BB6100417AEF /* WaitPermissions */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DDB219AE10B3BB6200417AEF /* Build configuration list for PBXNativeTarget "WaitPermissions" */;
-			buildPhases = (
-				DDB219A010B3BB6100417AEF /* Resources */,
-				DDB219A110B3BB6100417AEF /* Sources */,
-				DDB219A210B3BB6100417AEF /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = WaitPermissions;
-			productName = WaitPermissions;
-			productReference = DDB219A410B3BB6100417AEF /* WaitPermissions.app */;
-			productType = "com.apple.product-type.application";
 		};
 		DDB873E90C850BC800E0DE1F /* gfx2libboinc */ = {
 			isa = PBXNativeTarget;
@@ -2442,7 +2373,6 @@
 				DDAEC9E007FA583B00A7BC36 /* SetVersion */,
 				DD96AFF80811075000A06F22 /* ScreenSaver */,
 				DD1277B2081F3D67007B5DE1 /* PostInstall */,
-				DD6381E90870DC9D007A2F8E /* MakeAppIcon_h */,
 				DD7748970A356C880025D05E /* SetUpSecurity */,
 				DDD0953E0A3EDD2500C95BA4 /* switcher */,
 				DD1AFEA40A512D8700EE5B82 /* Install_BOINC */,
@@ -2452,7 +2382,6 @@
 				DDFA60C90CB337D40037B88C /* gfx_switcher */,
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
 				DDD336F51062235D00867C7D /* AddRemoveUser */,
-				DDB219A310B3BB6100417AEF /* WaitPermissions */,
 			);
 		};
 /* End PBXProject section */
@@ -2503,13 +2432,6 @@
 				DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */,
 				DD957E5B181B908800ECA34E /* thumbnail.png in Resources */,
 				DD957E5C181B908800ECA34E /* thumbnail@2x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDB219A010B3BB6100417AEF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2997,14 +2919,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD6381E70870DC9D007A2F8E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD69FEE508416C1300C01361 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3173,14 +3087,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDB219A110B3BB6100417AEF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3418,11 +3324,6 @@
 			target = DD407A4907D2FB1200163EF5 /* libboinc */;
 			targetProxy = DD69FEFE08416D1000C01361 /* PBXContainerItemProxy */;
 		};
-		DD6D35F40871509300BBCDEE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD6381E90870DC9D007A2F8E /* MakeAppIcon_h */;
-			targetProxy = DD6D35F30871509300BBCDEE /* PBXContainerItemProxy */;
-		};
 		DD791FF10819063C00BE2906 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD96AFF80811075000A06F22 /* ScreenSaver */;
@@ -3447,11 +3348,6 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DDAD19DE09090914004E7DD0 /* PBXContainerItemProxy */;
-		};
-		DDB219B410B3BBD000417AEF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDB219A310B3BB6100417AEF /* WaitPermissions */;
-			targetProxy = DDB219B310B3BBD000417AEF /* PBXContainerItemProxy */;
 		};
 		DDB874670C850DB600E0DE1F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3957,13 +3853,6 @@
 			};
 			name = Deployment;
 		};
-		DD9843E309920F220090855B /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = Deployment;
-		};
 		DD9843E409920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4130,13 +4019,6 @@
 			};
 			name = Development;
 		};
-		DD9E237A091CBDAE0048316E /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MakeAppIcon_h;
-			};
-			name = Development;
-		};
 		DD9E237E091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4193,51 +4075,6 @@
 				);
 			};
 			name = Development;
-		};
-		DDB219A710B3BB6200417AEF /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_NAME = WaitPermissions;
-			};
-			name = Development;
-		};
-		DDB219AB10B3BB6200417AEF /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "WaitPermissions-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_NAME = WaitPermissions;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
 		};
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4484,15 +4321,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DD9E2379091CBDAE0048316E /* Build configuration list for PBXNativeTarget "MakeAppIcon_h" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD9E237A091CBDAE0048316E /* Development */,
-				DD9843E309920F220090855B /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		DD9E237D091CBDAE0048316E /* Build configuration list for PBXAggregateTarget "Build_All" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -4507,15 +4335,6 @@
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,
 				DD9843E509920F220090855B /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		DDB219AE10B3BB6200417AEF /* Build configuration list for PBXNativeTarget "WaitPermissions" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DDB219A710B3BB6200417AEF /* Development */,
-				DDB219AB10B3BB6200417AEF /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
