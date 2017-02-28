@@ -53,14 +53,16 @@
 <?php
   case 'Profile':
   case 'profile':
+  case 'User':
+  case 'user':
     $nid = $result['fields']['entity_id'];
     $node = node_load($nid);
     $account = user_load($node->uid);
     if (isset($account)) {
-      $user_image = boincuser_get_user_profile_image($account->uid, FALSE);
+      $user_image = boincuser_get_user_profile_image($account->uid);
       $url = "{$base_path}account/{$account->uid}";
       if (empty($title)) {
-        $title = $account->name;
+        $title = $account->boincuser_name;
       }
     }
   ?>
