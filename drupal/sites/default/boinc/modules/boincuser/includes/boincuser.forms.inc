@@ -351,7 +351,9 @@ function boincuser_account_validate($edit, $account) {
       form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
     }
   }
-  
+
+  // If user is changing email or password, require that the current
+  // password has been given as well.
   if (($changing_email OR $changing_pass) AND !user_access('administer users')) {
     // If changing email or password, require current password
     // (except in cases where password is being reset)
@@ -367,6 +369,12 @@ function boincuser_account_validate($edit, $account) {
         form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.'));
       }
     }
+  }
+
+  // If an admin tries to change the email and NOT the password, show
+  // error message. BOINC requires both to be changed together.
+  if ($changing_email AND !$changing_pass AND user_access('administer users')) {
+    form_set_error('pass', bts('If changing a user\'s email, you must also change the password simultaneously.'));
   }
   
   // Expansion required to allow account key in place of passwd...?
