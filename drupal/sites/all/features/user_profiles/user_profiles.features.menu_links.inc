@@ -16,6 +16,7 @@ function user_profiles_menu_default_menu_links() {
       'attributes' => array(
         'title' => '',
       ),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -25,8 +26,29 @@ function user_profiles_menu_default_menu_links() {
     'weight' => '-49',
     'parent_path' => 'dashboard',
   );
+  // Exported menu link: primary-links:moderate/profiles
+  $menu_links['primary-links:moderate/profiles'] = array(
+    'menu_name' => 'primary-links',
+    'link_path' => 'moderate/profiles',
+    'router_path' => 'moderate/profiles',
+    'link_title' => 'Moderation Queue',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'alter' => TRUE,
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-50',
+    'parent_path' => 'moderate',
+  );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Moderation Queue');
   t('Profile');
 
 

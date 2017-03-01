@@ -3,25 +3,25 @@
 /**
  * Implementation of hook_default_fe_block_settings().
  */
-function boinc_standard_default_fe_block_settings() {
+function mobilemenu_default_fe_block_settings() {
   $export = array();
 
   // boinc
   $theme = array();
 
-  $theme['menu_block-1'] = array(
-    'module' => 'menu_block',
-    'delta' => '1',
+  $theme['mobile_menu_toggle-0'] = array(
+    'module' => 'mobile_menu_toggle',
+    'delta' => '0',
     'theme' => 'boinc',
-    'status' => 0,
+    'status' => '1',
     'weight' => '0',
-    'region' => '',
+    'region' => 'header',
     'custom' => '0',
     'throttle' => '0',
     'visibility' => '0',
     'pages' => '',
     'title' => '<none>',
-    'cache' => '-1',
+    'cache' => '1',
   );
 
   $export['boinc'] = $theme;
@@ -29,19 +29,19 @@ function boinc_standard_default_fe_block_settings() {
   // einstein
   $theme = array();
 
-  $theme['menu_block-1'] = array(
-    'module' => 'menu_block',
-    'delta' => '1',
+  $theme['mobile_menu_toggle-0'] = array(
+    'module' => 'mobile_menu_toggle',
+    'delta' => '0',
     'theme' => 'einstein',
-    'status' => 0,
-    'weight' => '-23',
-    'region' => '',
+    'status' => '1',
+    'weight' => '-25',
+    'region' => 'header',
     'custom' => '0',
     'throttle' => '0',
     'visibility' => '0',
     'pages' => '',
     'title' => '<none>',
-    'cache' => '-1',
+    'cache' => '1',
   );
 
   $export['einstein'] = $theme;
@@ -49,9 +49,9 @@ function boinc_standard_default_fe_block_settings() {
   // garland
   $theme = array();
 
-  $theme['menu_block-1'] = array(
-    'module' => 'menu_block',
-    'delta' => '1',
+  $theme['mobile_menu_toggle-0'] = array(
+    'module' => 'mobile_menu_toggle',
+    'delta' => '0',
     'theme' => 'garland',
     'status' => 0,
     'weight' => '0',
@@ -61,7 +61,7 @@ function boinc_standard_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '<none>',
-    'cache' => '-1',
+    'cache' => '1',
   );
 
   $export['garland'] = $theme;
