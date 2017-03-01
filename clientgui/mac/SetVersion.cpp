@@ -26,6 +26,9 @@
 
 // Set STAND_ALONE TRUE if testing as a separate applicaiton
 #define STAND_ALONE 0
+#define VERBOSE_SPAWN 0  /* for debugging callPosixSpawn */
+
+#include <Carbon/Carbon.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +46,7 @@ int FixInfoPlist_Strings(char* myPath, char* name);
 int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand);
 int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand);
 int MakeMetaPackageInfoPlistFile(char* myPath, char* brand);
+int callPosixSpawn(const char *cmd);
 
 int main(int argc, char** argv) {
     int retval = 0, err;
@@ -253,10 +257,10 @@ bail:
     if (file_exists("./temp")) {
         rename("./temp", dstPath);
 //    sprintf(buf, "mv -f temp %s", myPath);
-//    retval = system(buf);
+//    retval = callPosixSpawn(buf);
     } else {
         sprintf(buf, "cp -f %s %s", srcPath, dstPath);
-        retval = system(buf);
+        retval = callPosixSpawn(buf);
     }
     
     printf("Error updating version number in file %s\n", dstPath);
@@ -416,3 +420,132 @@ int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
 }
 
 
+
+
+#define NOT_IN_TOKEN                0
+#define IN_SINGLE_QUOTED_TOKEN      1
+#define IN_DOUBLE_QUOTED_TOKEN      2
+#define IN_UNQUOTED_TOKEN           3
+
+static int parse_posic_spawn_command_line(char* p, char** argv) {
+    int state = NOT_IN_TOKEN;
+    int argc=0;
+
+    while (*p) {
+        switch(state) {
+        case NOT_IN_TOKEN:
+            if (isspace(*p)) {
+            } else if (*p == '\'') {
+                p++;
+                argv[argc++] = p;
+                state = IN_SINGLE_QUOTED_TOKEN;
+                break;
+            } else if (*p == '\"') {
+                p++;
+                argv[argc++] = p;
+                state = IN_DOUBLE_QUOTED_TOKEN;
+                break;
+            } else {
+                argv[argc++] = p;
+                state = IN_UNQUOTED_TOKEN;
+            }
+            break;
+        case IN_SINGLE_QUOTED_TOKEN:
+            if (*p == '\'') {
+                if (*(p-1) == '\\') break;
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_DOUBLE_QUOTED_TOKEN:
+            if (*p == '\"') {
+                if (*(p-1) == '\\') break;
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_UNQUOTED_TOKEN:
+            if (isspace(*p)) {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        }
+        p++;
+    }
+    argv[argc] = 0;
+    return argc;
+}
+
+
+#include <spawn.h>
+
+int callPosixSpawn(const char *cmdline) {
+    char command[1024];
+    char progName[1024];
+    char progPath[MAXPATHLEN];
+    char* argv[100];
+    int argc = 0;
+    char *p;
+    pid_t thePid = 0;
+    int result = 0;
+    int status = 0;
+    extern char **environ;
+    
+    // Make a copy of cmdline because parse_posic_spawn_command_line modifies it
+    strlcpy(command, cmdline, sizeof(command));
+    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    strlcpy(progPath, argv[0], sizeof(progPath));
+    strlcpy(progName, argv[0], sizeof(progName));
+    p = strrchr(progName, '/');
+    if (p) {
+        argv[0] = p+1;
+    } else {
+        argv[0] = progName;
+    }
+    
+#if VERBOSE_SPAWN
+    printf("***********");
+    for (int i=0; i<argc; ++i) {
+        printf("argv[%d]=%s", i, argv[i]);
+    }
+    printf("***********\n");
+#endif
+
+    errno = 0;
+
+    result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
+#if VERBOSE_SPAWN
+    printf("callPosixSpawn command: %s", cmdline);
+    printf("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+#endif
+    if (result) {
+        return result;
+    }
+// CAF    int val =
+    waitpid(thePid, &status, WUNTRACED);
+// CAF        if (val < 0) printf("first waitpid returned %d\n", val);
+    if (status != 0) {
+#if VERBOSE_SPAWN
+        printf("waitpid() returned status=%d", status);
+#endif
+        result = status;
+    } else {
+        if (WIFEXITED(status)) {
+            result = WEXITSTATUS(status);
+            if (result == 1) {
+#if VERBOSE_SPAWN
+                printf("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+#endif
+                result = errno;
+            }
+#if VERBOSE_SPAWN
+            else if (result) {
+                printf("WEXITSTATUS(status) returned %d", result);
+            }
+#endif
+        }   // end if (WIFEXITED(status)) else
+    }       // end if waitpid returned 0 sstaus else
+    
+    return result;
+}
