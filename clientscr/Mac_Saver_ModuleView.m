@@ -610,7 +610,23 @@ Bad:
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+    
+    if ([alert respondsToSelector: @selector(beginSheetModalForWindow: completionHandler:)]){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+        // [NSAlert beginSheetModalForWindow: completionHandler:] is not available before OS 10.9
+        [alert beginSheetModalForWindow:mConfigureSheet completionHandler:^(NSModalResponse returnCode){}];
+#pragma clang diagnostic pop
+    }
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1090
+        else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            // [NSAlert beginSheetModalForWindow: modalDelegate: didEndSelector: contextInfo:] is deprecated in OS 10.9
+            [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+#pragma clang diagnostic pop
+        }
+#endif
 }
 
 // Called when the user clicked the CANCEL button
