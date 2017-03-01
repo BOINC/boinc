@@ -241,7 +241,7 @@ function panel($title, $content_func) {
 //
 function grid($top_func, $left_func, $right_func, $left_width=6) {
     echo '
-        <div class="container">
+        <div class="container-fluid">
     ';
     if ($top_func) {
         echo '
