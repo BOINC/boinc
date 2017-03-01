@@ -37,7 +37,7 @@ static double dtime(void);
 static void SleepSeconds(double seconds);
 long GetBrandID(void);
 static int parse_posic_spawn_command_line(char* p, char** argv);
-static int callPosixSpawn(const char *cmd);
+int callPosixSpawn(const char *cmd);
 
 #define NUMBRANDS 4
 static char *appName[NUMBRANDS];
@@ -64,13 +64,6 @@ int main(int argc, char *argv[])
     FILE                *f;
     OSStatus            err;
     
-#ifndef _DEBUG
-    if (getuid() != 0) {
-        printf("This program must be run as root\n");
-        printUsage();
-        return 0;
-    }
-#endif
     appName[0] = "BOINCManager";
     appPath[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
@@ -85,6 +78,14 @@ int main(int argc, char *argv[])
     brandName[3] = "Charity Engine";
 
     brandID = GetBrandID();
+
+#ifndef _DEBUG
+    if (getuid() != 0) {
+        printf("This program must be run as root\n");
+        printUsage(brandID);
+        return 0;
+    }
+#endif
 
     if (argc < 3) {
         printUsage(brandID);
@@ -536,7 +537,7 @@ static int parse_posic_spawn_command_line(char* p, char** argv) {
 
 #include <spawn.h>
 
-static int callPosixSpawn(const char *cmdline) {
+int callPosixSpawn(const char *cmdline) {
     char command[1024];
     char progName[1024];
     char progPath[MAXPATHLEN];

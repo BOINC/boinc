@@ -280,18 +280,18 @@ int main(int argc, char *argv[])
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
         sprintf(s, "rm -rf %s", appPathEscaped[brandID]);
-        system (s);
+        callPosixSpawn (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
         sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[brandID]);
-        system (s);
+        callPosixSpawn (s);
         
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
         sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
-        system (s);
+        callPosixSpawn (s);
 
         // We don't customize BOINC Data directory name for branding
-        system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
+        callPosixSpawn ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
 
         err = kill(installerPID, SIGKILL);
 
@@ -385,21 +385,21 @@ int main(int argc, char *argv[])
     // Set owner of branded BOINCManager and contents, including core client
     // "chown -Rf username /Applications/GridRepublic\\ Desktop.app"
     sprintf(s, "chown -Rf %s %s", p, appPathEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
     // Set owner of BOINC Screen Saver
     // "chown -Rf username /Library/Screen\\ Savers/GridRepublic.saver"
     sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/%s.saver", p, saverNameEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
     //  We don't customize BOINC Data directory name for branding
     // "chown -Rf username /Library/Application\\ Support/BOINC\\ Data"
     sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
-    system (s);
+    callPosixSpawn (s);
 
     // "chmod -R a+s /Applications/GridRepublic\\ Desktop.app"
     sprintf(s, "chmod -R a+s %s", appPathEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
 #endif   // ! defined(SANDBOX)
 
@@ -409,15 +409,15 @@ int main(int argc, char *argv[])
         
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
         sprintf(s, "rm -rf %s", appPathEscaped[i]);
-        system (s);
+        callPosixSpawn (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
         sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[i]);
-        system (s);
+        callPosixSpawn (s);
     }
     
    if (brandID == 0) {  // Installing generic BOINC
-        system ("rm -f /Library/Application\\ Support/BOINC\\ Data/Branding");
+        callPosixSpawn ("rm -f /Library/Application\\ Support/BOINC\\ Data/Branding");
     }
     
     CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
@@ -572,7 +572,7 @@ int DeleteReceipt()
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
     if (!restartNeeded) {
         installerPID = getPidIfRunning("com.apple.installer");
@@ -683,14 +683,14 @@ void CheckUserAndGroupConflicts()
         }
     }
     if ((boinc_master_gid < 501) || (entryCount > 1)) {
-        err = system ("dscl . -delete /groups/boinc_master");
+        err = callPosixSpawn ("dscl . -delete /groups/boinc_master");
         // User boinc_master must have group boinc_master as its primary group.
         // Since this group no longer exists, delete the user as well.
         if (err) {
             fprintf(stdout, "dscl . -delete /groups/boinc_master returned %d\n", err);
             fflush(stdout);
         }
-        err = system ("dscl . -delete /users/boinc_master");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_master");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
@@ -719,14 +719,14 @@ void CheckUserAndGroupConflicts()
     }
     
     if ((boinc_project_gid < 501) || (entryCount > 1)) {
-       err = system ("dscl . -delete /groups/boinc_project");
+       err = callPosixSpawn ("dscl . -delete /groups/boinc_project");
         if (err) {
             fprintf(stdout, "dscl . -delete /groups/boinc_project returned %d\n", err);
             fflush(stdout);
         }
         // User boinc_project must have group boinc_project as its primary group.
         // Since this group no longer exists, delete the user as well.
-        err = system ("dscl . -delete /users/boinc_project");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_project");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
@@ -757,7 +757,7 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        err = system ("dscl . -delete /users/boinc_master");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_master");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
@@ -784,7 +784,7 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        system ("dscl . -delete /users/boinc_project");
+        callPosixSpawn ("dscl . -delete /users/boinc_project");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
@@ -1550,10 +1550,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
             if (setSaverForAllUsers) {
                 if (compareOSVersionTo(10, 6) < 0) {
                      sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName %s", pw->pw_name, saverNameEscaped[brandID]);
-                    system (s);
+                    callPosixSpawn (s);
                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
                                 pw->pw_name, saverNameEscaped[brandID]);
-                    system (s);
+                    callPosixSpawn (s);
                 } else {
                     seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                     sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
