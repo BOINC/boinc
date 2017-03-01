@@ -74,6 +74,8 @@
 		DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
+		DD2C5C3E1E66D83D00BF5511 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
+		DD2C5C401E66F84300BF5511 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
 		DD30CACF1C6B3C7F00AE1D14 /* project_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30CACD1C6B3C7F00AE1D14 /* project_init.cpp */; };
 		DD30CAD01C6B3CCB00AE1D14 /* project_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30CACD1C6B3C7F00AE1D14 /* project_init.cpp */; };
 		DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3157C016740C9100B6C909 /* gpu_intel.cpp */; };
@@ -769,6 +771,7 @@
 		DD25F72715914F8C007845B5 /* gpu_detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpu_detect.h; sourceTree = "<group>"; };
 		DD2B6C7E13149177005D6F3E /* procinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = procinfo.cpp; path = ../lib/procinfo.cpp; sourceTree = SOURCE_ROOT; };
 		DD2B6C7F13149177005D6F3E /* procinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = procinfo.h; path = ../lib/procinfo.h; sourceTree = SOURCE_ROOT; };
+		DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_spawn.cpp; path = ../lib/mac/mac_spawn.cpp; sourceTree = "<group>"; };
 		DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgSelectComputer.cpp; path = ../clientgui/DlgSelectComputer.cpp; sourceTree = SOURCE_ROOT; };
 		DD2D25CC07FAB41700151141 /* DlgSelectComputer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgSelectComputer.h; path = ../clientgui/DlgSelectComputer.h; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
@@ -1707,6 +1710,7 @@
 			isa = PBXGroup;
 			children = (
 				DDA6BD030BD4551F008F7921 /* dyld_gdb.h */,
+				DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */,
 				DDBAA9B61DF190EB004C48FD /* mac_util.h */,
 				DDBAA9B41DF1902B004C48FD /* mac_util.mm */,
 				DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */,
@@ -2805,6 +2809,7 @@
 				DD3E15210A774397007E0084 /* check_security.cpp in Sources */,
 				DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */,
 				DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */,
+				DD2C5C401E66F84300BF5511 /* mac_spawn.cpp in Sources */,
 				DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */,
 				DD3E152D0A774397007E0084 /* app_ipc.cpp in Sources */,
 				DD3E152E0A774397007E0084 /* proxy_info.cpp in Sources */,
@@ -3177,6 +3182,7 @@
 				DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */,
 				DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */,
 				DDD74DC807CF492E0065AC9D /* hostinfo.cpp in Sources */,
+				DD2C5C3E1E66D83D00BF5511 /* mac_spawn.cpp in Sources */,
 				DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */,
 				DDD74DCB07CF49310065AC9D /* md5.cpp in Sources */,
 				DDD74DCC07CF49320065AC9D /* md5_file.cpp in Sources */,
