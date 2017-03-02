@@ -551,15 +551,19 @@ function show_job_details($wu) {
         if ($wu->error_mask && $r->outcome == RESULT_OUTCOME_CLIENT_ERROR) {
             echo "            <exit_status>$r->exit_status</exit_status>\n";
         }
+        if ($r->id == $wu->canonical_resultid) {
+            echo "            <cpu_time>$r->cpu_time</cpu_time>\n";
+        }
     }
     if ($wu->error_mask) {
+        echo "            <status>error</status>\n";
         return;
     }
 
     if ($wu->canonical_resultid) {
         echo "            <status>done</status>\n";
     } else {
-        if ($in_progress) {
+        if ($in_progress > 0) {
             echo "            <status>in_progress</status>\n";
         } else {
             echo "            <status>queued</status>\n";
@@ -593,31 +597,27 @@ function query_batch($r) {
     }
 
     $wus = BoincWorkunit::enum("batch = $batch->id", "order by id");
-    if (count($wus) > 0) {
-        $batch = get_batch_params($batch, $wus);
-        $get_cpu_time = (int)($r->get_cpu_time);
-        $get_job_details = (int)($r->get_job_details);
-        print_batch_params($batch, $get_cpu_time);
-        foreach ($wus as $wu) {
-            echo "        <job>
-            <id>$wu->id</id>
-            <name>$wu->name</name>
-            <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
+    $batch = get_batch_params($batch, $wus);
+    $get_cpu_time = (int)($r->get_cpu_time);
+    $get_job_details = (int)($r->get_job_details);
+    print_batch_params($batch, $get_cpu_time);
+    foreach ($wus as $wu) {
+        echo "        <job>
+        <id>$wu->id</id>
+        <name>$wu->name</name>
+        <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
 ";
-            // does anyone need this?
-            //
-            if (0) {
-                $n_outfiles = n_outfiles($wu);
-                echo "     <n_outfiles>$n_outfiles</n_outfiles>\n";
-            }
-
-            if ($get_job_details) {
-                show_job_details($wu);
-            }
-            echo "        </job>\n";
+        // does anyone need this?
+        //
+        if (0) {
+            $n_outfiles = n_outfiles($wu);
+            echo "     <n_outfiles>$n_outfiles</n_outfiles>\n";
         }
-    } else {
-        echo "<nojobs>no jobs found</nojobs>\n";
+
+        if ($get_job_details) {
+            show_job_details($wu);
+        }
+        echo "        </job>\n";
     }
     echo "</query_batch>\n";
 }

@@ -190,5 +190,5 @@ def test_get_output_files():
     r = get_output_files(req)
     print(r)
 
-test_query_batch(326)
-#test_submit_batch('batch_30')
+test_query_batch(328)
+#test_submit_batch('batch_31')
