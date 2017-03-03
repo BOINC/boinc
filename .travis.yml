@@ -25,7 +25,7 @@ cache:
   apt: true
   directories:
   - build/wxWidgets-3.0.2
-  - build/mac
+  - install
 
 addons:
   coverity_scan:
