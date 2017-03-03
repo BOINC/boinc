@@ -46,9 +46,8 @@ function user_profiles_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Queue');
-  t('Profile');
-
+  bts('Queue', array(), NULL, 'boinc:menu-link');
+  bts('Profile', array(), NULL, 'boinc:menu-link');
 
   return $menu_links;
 }

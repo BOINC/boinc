@@ -27,7 +27,7 @@ function news_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('News');
+  bts('News', array(), NULL, 'boinc:menu-link');
 
 
   return $menu_links;
