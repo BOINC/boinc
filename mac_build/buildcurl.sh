@@ -92,7 +92,9 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-rm -f ${PREFIX}/lib/libcurl.a
+if [ -d "${PREFIX}/lib" ]; then
+    rm -f ${PREFIX}/lib/libcurl.a
+fi
 
 if [ $? -ne 0 ]; then return 1; fi
 

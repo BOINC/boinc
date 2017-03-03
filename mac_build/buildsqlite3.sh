@@ -86,8 +86,9 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-rm -f ${PREFIX}/lib/libsqlite3.a
-if [ $? -ne 0 ]; then return 1; fi
+if [ -d "${PREFIX}/lib" ]; then
+    rm -f ${PREFIX}/lib/libsqlite3.a
+fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"

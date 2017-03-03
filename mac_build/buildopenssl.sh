@@ -93,7 +93,9 @@ SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-rm -f ${PREFIX}/lib/libssl.a ${PREFIX}/lib/libcrypto.a
+if [ -d "${PREFIX}/lib" ]; then
+    rm -f ${PREFIX}/lib/libssl.a ${PREFIX}/lib/libcrypto.a
+fi
 
 if [ $? -ne 0 ]; then return 1; fi
 
