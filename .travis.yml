@@ -56,10 +56,10 @@ env:
     #   via the "travis encrypt" command using the project repo's public key
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
   matrix:
-    - BOINC_TYPE=libs
-    - BOINC_TYPE=server
-    - BOINC_TYPE=client
-    - BOINC_TYPE=apps
+    #- BOINC_TYPE=libs
+    #- BOINC_TYPE=server
+    #- BOINC_TYPE=client
+    #- BOINC_TYPE=apps
     - BOINC_TYPE=manager
     #- BOINC_TYPE=coverity
 
@@ -80,6 +80,6 @@ script:
 - if [[ "${BOINC_TYPE}" == "client" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./build/getWxWidgets.sh && ./configure --disable-server --disable-client --with-wxdir=./build/wxWidgets-3.0.2/buildgtk && make ) fi
-- if [[ "${BOINC_TYPE}" == "libs" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./build/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -lib ) fi
-- if [[ "${BOINC_TYPE}" == "client" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./build/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -client ) fi
-- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./build/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -all ) fi
+- if [[ "${BOINC_TYPE}" == "libs" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -lib ) fi
+- if [[ "${BOINC_TYPE}" == "client" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh && ./mac_build/buildTravis.sh -dev -client ) fi
+- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh ) fi
