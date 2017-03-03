@@ -41,28 +41,6 @@
 #define boinc_project_group_name "boinc_project"
 
 
-// Macros to test OS version number on all versions of OS X without using deprecated Gestalt
-// compareOSVersionTo(x, y) returns:
-// -1 if the OS version we are running on is less than 10.x.y
-//  0 if the OS version we are running on is equal to 10.x.y
-// +1 if the OS version we are running on is lgreater than 10.x.y
-//
-#define MAKECFVERSIONNUMBER(x, y) floor(kCFCoreFoundationVersionNumber##x##_##y)
-#define compareOSVersionTo(toMajor, toMinor) \
-(floor(kCFCoreFoundationVersionNumber) > MAKECFVERSIONNUMBER(toMajor, toMinor) ? 1 : \
-(floor(kCFCoreFoundationVersionNumber) < MAKECFVERSIONNUMBER(toMajor, toMinor) ? -1 : 0))
-
-// Allow this to be built using Xcode 5.0.2
-#ifndef kCFCoreFoundationVersionNumber10_9
-#define kCFCoreFoundationVersionNumber10_9      855.11
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_10
-#define kCFCoreFoundationVersionNumber10_10     1151.16
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_11
-#define kCFCoreFoundationVersionNumber10_11     1253
-#endif
-
 OSErr Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
@@ -129,17 +107,17 @@ int main(int argc, char *argv[])
     
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     // Expand the installer package
-    system("rm -dfR /tmp/BOINC.pkg");
-    system("rm -dfR /tmp/expanded_BOINC.pkg");
-    system("rm -dfR /tmp/PostInstall.app");
-    system("rm -f /tmp/BOINC_preferred_languages");
-    system("rm -f /tmp/BOINC_restart_flag");
+    callPosixSpawn("rm -dfR /tmp/BOINC.pkg");
+    callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg");
+    callPosixSpawn("rm -dfR /tmp/PostInstall.app");
+    callPosixSpawn("rm -f /tmp/BOINC_preferred_languages");
+    callPosixSpawn("rm -f /tmp/BOINC_restart_flag");
 
     sprintf(temp, "cp -fpR \"%s\" /tmp/PostInstall.app", postInstallAppPath);
-    err = system(temp);
+    err = callPosixSpawn(temp);
     
     sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
-    err = system(temp);
+    err = callPosixSpawn(temp);
     
     if (err == noErr) {
         GetPreferredLanguages();
@@ -152,17 +130,17 @@ int main(int argc, char *argv[])
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
-        system("rm -dfR /tmp/BOINC_payload");
+        callPosixSpawn("rm -dfR /tmp/BOINC_payload");
         return -1;
     }
 
-    system("rm -dfR /tmp/BOINC_payload");
+    callPosixSpawn("rm -dfR /tmp/BOINC_payload");
 
     // Remove previous installer package receipt so we can run installer again
     // (affects only older versions of OS X and fixes a bug in those versions)
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
-    system (s);
+    callPosixSpawn (s);
 
     restartNeeded = IsRestartNeeded();
     
@@ -176,27 +154,27 @@ int main(int argc, char *argv[])
     if (restartNeeded) {
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
-            err = system("sed -i \"\" s/\"onConclusion=\\\"none\\\"\"/\"onConclusion=\\\"RequireRestart\\\"\"/g /tmp/expanded_BOINC.pkg/Distribution");
+            err = callPosixSpawn("sed -i \"\" s/\"onConclusion=\\\"none\\\"\"/\"onConclusion=\\\"RequireRestart\\\"\"/g /tmp/expanded_BOINC.pkg/Distribution");
         }
         if (err == noErr) {
             // Flatten the installer package
             sprintf(temp, "pkgutil --flatten /tmp/expanded_BOINC.pkg /tmp/%s.pkg", brand);
-            err = system(temp);
+            err = callPosixSpawn(temp);
             
-            system("rm -fR /tmp/expanded_BOINC.pkg");
+            callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
         }
 
         if (err == noErr) {
             sprintf(temp, "open \"/tmp/%s.pkg\" &", brand);
-            system(temp);
+            callPosixSpawn(temp);
             return 0;
         }
     }
 
-    system("rm -fR /tmp/expanded_BOINC.pkg");
+    callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
 
     sprintf(temp, "open \"%s\" &", pkgPath);
-    system(temp);
+    callPosixSpawn(temp);
     
     return err;
 }
@@ -319,10 +297,10 @@ static void GetPreferredLanguages() {
     FILE *f;
 
     getcwd(savedWD, sizeof(savedWD));
-    system("rm -dfR /tmp/BOINC_payload");
+    callPosixSpawn("rm -dfR /tmp/BOINC_payload");
     mkdir("/tmp/BOINC_payload", 0777);
     chdir("/tmp/BOINC_payload");
-    system("cpio -i < /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
+    callPosixSpawn("cpio -i < /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
     chdir(savedWD);
 
     // Create an array of all our supported languages

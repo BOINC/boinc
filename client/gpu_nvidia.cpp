@@ -76,6 +76,7 @@
 #define DLOPEN_NO_WARN
 #include <mach-o/dyld.h>
 #include <Carbon/Carbon.h>
+#include "hostinfo.h"
 #endif
 #include "config.h"
 #include <dlfcn.h>
@@ -348,16 +349,18 @@ void* cudalib = NULL;
         goto leave;
     }
 
+    retval = (*__cuInit)(0);
 #ifdef __APPLE__
     // If system is just booting, CUDA driver may not be ready yet
-    for (int retryCount=0; retryCount<120; retryCount++) {
-#endif
-        retval = (*__cuInit)(0);
-#ifdef __APPLE__
-        if (!retval) break;
-        if (TickCount() > (300*60)) break;   // Don't retry if system has been up for over 5 minutes
-        boinc_sleep(1.);
-        continue;
+    if (retval) {
+        if (get_system_uptime() < 300) {   // Retry only if system has been up for under 5 minutes
+            for (int retryCount=0; retryCount<120; retryCount++) {
+                retval = (*__cuInit)(0);
+                if (!retval) break;
+                boinc_sleep(1.);
+                continue;
+            }
+        }
     }
 #endif
     

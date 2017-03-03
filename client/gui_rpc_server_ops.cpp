@@ -21,6 +21,7 @@
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
+#include <libproc.h>
 #endif
 
 #ifdef _WIN32
@@ -157,14 +158,12 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
 #ifdef __APPLE__
     if (gstate.launched_by_manager) {
         // If launched by Manager, get Manager's size on disk
-        ProcessSerialNumber managerPSN;
-        FSRef ourFSRef;
         char path[MAXPATHLEN];
         double manager_size = 0.0;
-        OSStatus err;
-        err = GetProcessForPID(getppid(), &managerPSN);
-        if (! err) err = GetProcessBundleLocation(&managerPSN, &ourFSRef);
-        if (! err) err = FSRefMakePath (&ourFSRef, (UInt8*)path, sizeof(path));
+        OSStatus err = noErr;
+        
+        retval = proc_pidpath(getppid(), path, sizeof(path));
+        if (retval <= 0) err = fnfErr;
         if (! err) dir_size(path, manager_size, true);
         if (! err) boinc_non_project += manager_size;
     }

@@ -219,25 +219,13 @@ void CLIENT_STATE::show_host_info() {
         "Processor features: %s", host_info.p_features
     );
 #ifdef __APPLE__
-    SInt32 temp;
-    int major, minor, rev;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &temp);
-    major = temp;
-    if (!err) {
-    err = Gestalt(gestaltSystemVersionMinor, &temp);
-    minor = temp;
-    }
-    if (!err) {
-    err = Gestalt(gestaltSystemVersionBugFix, &temp);
-    rev = temp;
-    }
-    if (err) {
-        sscanf(host_info.os_version, "%d.%d.%d", &major, &minor, &rev);
-    }
+    buf[0] = '\0';
+    FILE *f = popen("sw_vers -productVersion", "r");
+    fgets(buf, sizeof(buf), f);
+    strip_whitespace(buf);
+    fclose(f);
     msg_printf(NULL, MSG_INFO,
-        "OS: Mac OS X %d.%d.%d (%s %s)", major, minor, rev, 
+        "OS: Mac OS X %s (%s %s)", buf,
         host_info.os_name, host_info.os_version
     );
 #else

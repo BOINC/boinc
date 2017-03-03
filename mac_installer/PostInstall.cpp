@@ -82,9 +82,6 @@
 #include <time.h>       // for time()
 #include <vector>
 #include <string>
-#define DLOPEN_NO_WARN
-#include <mach-o/dyld.h>
-#include <dlfcn.h>
 #include "url.h"
 
 using std::vector;
@@ -100,28 +97,6 @@ using std::string;
 #define boinc_master_group_name "boinc_master"
 #define boinc_project_user_name "boinc_project"
 #define boinc_project_group_name "boinc_project"
-
-// Macros to test OS version number on all versions of OS X without using deprecated Gestalt
-// compareOSVersionTo(x, y) returns:
-// -1 if the OS version we are running on is less than 10.x.y
-//  0 if the OS version we are running on is equal to 10.x.y
-// +1 if the OS version we are running on is lgreater than 10.x.y
-//
-#define MAKECFVERSIONNUMBER(x, y) floor(kCFCoreFoundationVersionNumber##x##_##y)
-#define compareOSVersionTo(toMajor, toMinor) \
-(floor(kCFCoreFoundationVersionNumber) > MAKECFVERSIONNUMBER(toMajor, toMinor) ? 1 : \
-(floor(kCFCoreFoundationVersionNumber) < MAKECFVERSIONNUMBER(toMajor, toMinor) ? -1 : 0))
-
-// Allow this to be built using Xcode 5.0.2
-#ifndef kCFCoreFoundationVersionNumber10_9
-#define kCFCoreFoundationVersionNumber10_9      855.11
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_10
-#define kCFCoreFoundationVersionNumber10_10     1151.16
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_11
-#define kCFCoreFoundationVersionNumber10_11     1253
-#endif
 
 
 OSErr Initialize(void);	/* function prototypes */
@@ -305,18 +280,18 @@ int main(int argc, char *argv[])
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
         sprintf(s, "rm -rf %s", appPathEscaped[brandID]);
-        system (s);
+        callPosixSpawn (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
         sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[brandID]);
-        system (s);
+        callPosixSpawn (s);
         
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
         sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
-        system (s);
+        callPosixSpawn (s);
 
         // We don't customize BOINC Data directory name for branding
-        system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
+        callPosixSpawn ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
 
         err = kill(installerPID, SIGKILL);
 
@@ -410,21 +385,21 @@ int main(int argc, char *argv[])
     // Set owner of branded BOINCManager and contents, including core client
     // "chown -Rf username /Applications/GridRepublic\\ Desktop.app"
     sprintf(s, "chown -Rf %s %s", p, appPathEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
     // Set owner of BOINC Screen Saver
     // "chown -Rf username /Library/Screen\\ Savers/GridRepublic.saver"
     sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/%s.saver", p, saverNameEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
     //  We don't customize BOINC Data directory name for branding
     // "chown -Rf username /Library/Application\\ Support/BOINC\\ Data"
     sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
-    system (s);
+    callPosixSpawn (s);
 
     // "chmod -R a+s /Applications/GridRepublic\\ Desktop.app"
     sprintf(s, "chmod -R a+s %s", appPathEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
 #endif   // ! defined(SANDBOX)
 
@@ -434,15 +409,15 @@ int main(int argc, char *argv[])
         
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
         sprintf(s, "rm -rf %s", appPathEscaped[i]);
-        system (s);
+        callPosixSpawn (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
         sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[i]);
-        system (s);
+        callPosixSpawn (s);
     }
     
    if (brandID == 0) {  // Installing generic BOINC
-        system ("rm -f /Library/Application\\ Support/BOINC\\ Data/Branding");
+        callPosixSpawn ("rm -f /Library/Application\\ Support/BOINC\\ Data/Branding");
     }
     
     CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
@@ -597,7 +572,7 @@ int DeleteReceipt()
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
-    system (s);
+    callPosixSpawn (s);
 
     if (!restartNeeded) {
         installerPID = getPidIfRunning("com.apple.installer");
@@ -708,14 +683,14 @@ void CheckUserAndGroupConflicts()
         }
     }
     if ((boinc_master_gid < 501) || (entryCount > 1)) {
-        err = system ("dscl . -delete /groups/boinc_master");
+        err = callPosixSpawn ("dscl . -delete /groups/boinc_master");
         // User boinc_master must have group boinc_master as its primary group.
         // Since this group no longer exists, delete the user as well.
         if (err) {
             fprintf(stdout, "dscl . -delete /groups/boinc_master returned %d\n", err);
             fflush(stdout);
         }
-        err = system ("dscl . -delete /users/boinc_master");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_master");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
@@ -744,14 +719,14 @@ void CheckUserAndGroupConflicts()
     }
     
     if ((boinc_project_gid < 501) || (entryCount > 1)) {
-       err = system ("dscl . -delete /groups/boinc_project");
+       err = callPosixSpawn ("dscl . -delete /groups/boinc_project");
         if (err) {
             fprintf(stdout, "dscl . -delete /groups/boinc_project returned %d\n", err);
             fflush(stdout);
         }
         // User boinc_project must have group boinc_project as its primary group.
         // Since this group no longer exists, delete the user as well.
-        err = system ("dscl . -delete /users/boinc_project");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_project");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
@@ -782,7 +757,7 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        err = system ("dscl . -delete /users/boinc_master");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_master");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
@@ -809,7 +784,7 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        system ("dscl . -delete /users/boinc_project");
+        callPosixSpawn ("dscl . -delete /users/boinc_project");
         if (err) {
             fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
@@ -833,7 +808,6 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     pid_t                   systemEventsPID;
-    CFURLRef                appURL = NULL;
     OSErr                   err, err2;
 
     fprintf(stdout, "Adjusting login items for user %s\n", userName);
@@ -843,58 +817,16 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     err = noErr;
     systemEventsPath[0] = '\0';
 
-    // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
-    CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
-    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
-    if (LSlib) {
-        LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
-    }
-    if (LSCopyAppURLsForBundleID == NULL) {
-        err = fnfErr;
-    }
+    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-    if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, NULL, &appURL);
-#pragma clang diagnostic pop
-#if TESTING
-        if (err != noErr) {
-            fprintf(stdout,false, false, false, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d ", (int) err);
-            fflush(stdout);
-        }
-#endif
-    } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-#endif
-    {
-        if (err == noErr) {
-            CFArrayRef appRefs = (*LSCopyAppURLsForBundleID)(kSystemEventsBundleID, NULL);
-            if (appRefs == NULL) {
-                err = fnfErr;
-            } else {
-                appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
-                CFRelease(appRefs);
-            }
-        }
-        if (err != noErr) {
-            fprintf(false, false, false, "LSCopyApplicationURLsForBundleIdentifier(kSystemEventsBundleID) returned error %d ", (int) err);
-            fflush(stdout);
-            goto cleanupSystemEvents;
-        }
-    }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-
+#if CREATE_LOG
     if (err == noErr) {
-        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-        CFStringGetCString(CFPath, systemEventsPath, sizeof(systemEventsPath), kCFStringEncodingUTF8);
-        CFRelease(CFPath);
-        fprintf(stdout, "SystemEvents is at %s\n", systemEventsPath);
-        fflush(stdout);
+        print_to_log_file(stdout, "SystemEvents is at %s\n", systemEventsPath);
+    } else {
+        print_to_log_file("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
     }
-    if (appURL) {
-        CFRelease(appURL);
-    }
-    
+#endif
+
     if (err == noErr) {
         // Find SystemEvents process.  If found, quit it in case 
         // it is running under a different user.
@@ -1618,10 +1550,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
             if (setSaverForAllUsers) {
                 if (compareOSVersionTo(10, 6) < 0) {
                      sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName %s", pw->pw_name, saverNameEscaped[brandID]);
-                    system (s);
+                    callPosixSpawn (s);
                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
                                 pw->pw_name, saverNameEscaped[brandID]);
-                    system (s);
+                    callPosixSpawn (s);
                 } else {
                     seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                     sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);

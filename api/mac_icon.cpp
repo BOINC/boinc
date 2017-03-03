@@ -15,6 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// THIS CODE IS OBSOLETE! A better way to add an icon to science applications
+// (or any Mac executable, including command-line tools) is:
+// [1] Select the application in the Finder
+// [2] Get Info (command-I) for the selected application
+// [3] Click on the file's current icon in the top left corner of the Get Info window
+// [4] Paste (command-v) the desired icon.
+//
+// To copy an icon from a different file:
+// [a] Get Info for the source file
+// [b] Click on the file's  icon in the top left corner of the Get Info window
+// [c] Copy (command-c) the icon.
+
+
 /* Mac-specific code to display custom icon for science application (optional)
    adapted from code written by Bernd Machenschalk.  Used with permission of the
    Einstein@home project.

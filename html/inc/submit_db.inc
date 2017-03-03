@@ -121,7 +121,7 @@ class BoincJobFile {
     }
     function delete() {
         $db = BoincDb::get();
-        return $db->delete_aux('job_file', "md5='$this->md5'");
+        return $db->delete($this, 'job_file');
     }
     function update($clause) {
         $db = BoincDb::get();

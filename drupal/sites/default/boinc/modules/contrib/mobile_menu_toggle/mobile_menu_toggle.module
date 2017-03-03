@@ -1,0 +1,76 @@
+<?php
+/**
+ * @file
+ *  Adds mobile menu toggle to Drupal sites.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function mobile_menu_toggle_menu() {
+  $items = array();
+
+  $items['admin/settings/mobile-menu-toggle'] = array(
+    'title' => 'Mobile Menu Toggle',
+    'description' => t('Select menu and zones for mobile menu toggle'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mobile_menu_toggle_form'),
+    'access arguments' => array('administer menu'),
+    'file' => 'mobile_menu_toggle.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function mobile_menu_toggle_init() {
+  // Set JS settings based on menu selected.
+  $menu_default = check_plain(variable_get('mobile_menu_menu', 'main-menu'));
+  $css_class = check_plain(variable_get('mobile_menu_css', ''));
+  $menu_block = variable_get('mobile_menu_block', FALSE);
+  $js_settings['mobile_menu_toggle'] = array(
+    'default_menu' => $menu_default,
+    'css_class' => '#' . $menu_default,
+  );
+
+  // Add #block-menu as a prefix to class if the menu will be loaded via block.
+  if ($menu_block) {
+    $js_settings['mobile_menu_toggle']['css_class'] = '#block-menu-' . $menu_default;
+  }
+
+  if (!empty($css_class)) {
+    $js_settings['mobile_menu_toggle']['css_class'] = $css_class;
+  }
+  drupal_add_js($js_settings, 'setting');
+
+}
+
+function mobile_menu_toggle_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+    $blocks[0]['info'] = t('Mobile Menu Toggle');
+    return $blocks;
+  }
+  elseif ($op == 'view') {
+    $block = array();
+    switch ($delta) {
+      case 0:
+        drupal_add_js(drupal_get_path('module', 'mobile_menu_toggle') . '/mobile_menu_toggle.js');
+        $block['content'] = theme('mobile_menu_toggle');
+        break;
+    }
+    return $block;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function mobile_menu_toggle_theme($existing, $type, $theme, $path) {
+  return array(
+    'mobile_menu_toggle' => array(
+      'template' => 'mobile_menu_toggle',
+    ),
+  );
+}

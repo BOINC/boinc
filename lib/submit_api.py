@@ -146,8 +146,9 @@ def query_batch(req):
     '<authenticator>%s</authenticator>\n'
     '<batch_id>%s</batch_id>\n'
     '<get_cpu_time>%d</get_cpu_time>\n'
+    '<get_job_details>%d</get_job_details>\n'
     '</query_batch>\n'
-    ) %(req.authenticator, req.batch_id, 1 if req.get_cpu_time else 0)
+    ) %(req.authenticator, req.batch_id, 1 if req.get_cpu_time else 0, 1 if req.get_job_details else 0)
     return do_http_post(req_xml, req.project)
 
 def query_batches(req):

@@ -20,8 +20,11 @@
 #ifndef STR_REPLACE_H
 #define STR_REPLACE_H
 
-#ifndef _WIN32
+#if (defined(HAVE_CONFIG_H) || defined(__APPLE__))
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <sys/types.h>
 #endif
 

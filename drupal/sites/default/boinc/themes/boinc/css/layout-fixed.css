@@ -25,7 +25,6 @@ body {
 }
 
 #page-wrapper {
-  min-width: 980px;
 }
 
 .region-page-closure {
@@ -36,7 +35,7 @@ body {
    */
   margin-left: auto;
   margin-right: auto;
-  width: 960px;
+  max-width: 960px;
 }
 
 #page {
@@ -66,7 +65,7 @@ body {
  */
 #main-wrapper {
   margin: 16px auto 0;
-  width: 960px;
+  max-width: 960px;
 }
 
 #main {
@@ -78,10 +77,11 @@ body {
 #content,
 .no-sidebars #content {
   float: left; /* LTR */
-  width: 960px;
+  max-width: 960px;
   margin-left: 0; /* LTR */
   margin-right: -960px; /* LTR */ /* Negative value of #content's width + left margin. */
   padding: 0; /* DO NOT CHANGE. Add padding or margin to #content .section. */
+  width: 100%;
 }
 
 .sidebar-first #content {
@@ -134,7 +134,7 @@ body {
 
 #navigation .section {
   margin: 0 auto;
-  width: 980px;
+  max-width: 980px;
 }
 
 #navigation ul /* Primary and secondary links */ {
@@ -213,6 +213,18 @@ body {
 }
 #action-links li.last .tab {
   padding-right: 10px;
+}
+
+/* Mobile Menu */
+#mobile-menu-toggle .mmt-menu {
+    position: relative;
+    bottom: 3px;
+    font-size: 14px;
+    font-family: "DejaVu Sans", Verdana, Tahoma, sans-serif;
+    font-weight: bold;
+    padding-left: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
 }
 
 /*

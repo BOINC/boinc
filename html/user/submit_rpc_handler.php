@@ -515,6 +515,62 @@ function n_outfiles($wu) {
     return count($r->file_info);
 }
 
+// show status of job.
+// done:
+// unsent:
+// in_progress:
+// error:
+
+function show_job_details($wu) {
+    if ($wu->error_mask && WU_ERROR_COULDNT_SEND_RESULT) {
+        echo "   <error>couldnt_send_result</error>\n";
+    }
+    if ($wu->error_mask && WU_ERROR_TOO_MANY_ERROR_RESULTS) {
+        echo "   <error>too_many_error_results</error>\n";
+    }
+    if ($wu->error_mask && WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
+        echo "   <error>too_many_success_results</error>\n";
+    }
+    if ($wu->error_mask && WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
+        echo "   <error>too_many_total_results</error>\n";
+    }
+    if ($wu->error_mask && WU_ERROR_CANCELLED) {
+        echo "   <error>cancelled</error>\n";
+    }
+    if ($wu->error_mask && WU_ERROR_NO_CANONICAL_RESULT) {
+        echo "   <error>no_canonical_result</error>\n";
+    }
+    $results = BoincResult::enum("workunitid=$wu->id");
+    $in_progress = 0;
+    foreach ($results as $r) {
+        switch ($r->server_state) {
+        case RESULT_SERVER_STATE_IN_PROGRESS:
+            $in_progress++;
+            break;
+        }
+        if ($wu->error_mask && $r->outcome == RESULT_OUTCOME_CLIENT_ERROR) {
+            echo "            <exit_status>$r->exit_status</exit_status>\n";
+        }
+        if ($r->id == $wu->canonical_resultid) {
+            echo "            <cpu_time>$r->cpu_time</cpu_time>\n";
+        }
+    }
+    if ($wu->error_mask) {
+        echo "            <status>error</status>\n";
+        return;
+    }
+
+    if ($wu->canonical_resultid) {
+        echo "            <status>done</status>\n";
+    } else {
+        if ($in_progress > 0) {
+            echo "            <status>in_progress</status>\n";
+        } else {
+            echo "            <status>queued</status>\n";
+        }
+    }
+}
+
 // return a batch specified by the command, using either ID or name
 //
 function get_batch($r) {
@@ -540,23 +596,28 @@ function query_batch($r) {
         xml_error(-1, "BOINC server: not owner of batch");
     }
 
-    $wus = BoincWorkunit::enum("batch = $batch->id");
-    if (count($wus) > 0) {
-        $batch = get_batch_params($batch, $wus);
-        $get_cpu_time = (int)($r->get_cpu_time);
-        print_batch_params($batch, $get_cpu_time);
-        $n_outfiles = n_outfiles($wus[0]);
-        foreach ($wus as $wu) {
-            echo "    <job>
-            <id>$wu->id</id>
-            <name>$wu->name</name>
-            <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
-            <n_outfiles>$n_outfiles</n_outfiles>
-            </job>
+    $wus = BoincWorkunit::enum("batch = $batch->id", "order by id");
+    $batch = get_batch_params($batch, $wus);
+    $get_cpu_time = (int)($r->get_cpu_time);
+    $get_job_details = (int)($r->get_job_details);
+    print_batch_params($batch, $get_cpu_time);
+    foreach ($wus as $wu) {
+        echo "        <job>
+        <id>$wu->id</id>
+        <name>$wu->name</name>
+        <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
 ";
+        // does anyone need this?
+        //
+        if (0) {
+            $n_outfiles = n_outfiles($wu);
+            echo "     <n_outfiles>$n_outfiles</n_outfiles>\n";
         }
-    } else {
-        echo "<nojobs>no jobs found</nojobs>\n";
+
+        if ($get_job_details) {
+            show_job_details($wu);
+        }
+        echo "        </job>\n";
     }
     echo "</query_batch>\n";
 }

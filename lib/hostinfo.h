@@ -102,6 +102,8 @@ public:
 };
 
 #ifdef __APPLE__
+    int get_system_uptime();
+
 #ifdef __cplusplus
 extern "C" {
 #endif

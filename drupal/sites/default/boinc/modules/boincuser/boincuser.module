@@ -1815,6 +1815,23 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
       $node = node_load($nid);
       $account = user_load($node->uid);
 
+      // Use boincuser name and not drupal user name
+      $document->label = apachesolr_clean_text($account->boincuser_name);
+      // Author information
+      if ($node->uid == 0 || strlen($node->name) == 0) {
+        // @see user_validate_name(). !'0' === TRUE.
+        $document->ss_name = '0';
+      }
+      else {
+        $document->ss_name = $account->boincuser_name;
+        // We want the name to be searchable for keywords.
+        $document->tos_name = $account->boincuser_name;
+      }
+
+      // Rename "Profle" to "User"
+      $document->bundle = "User";
+      $document->bundle_name = "User";
+
       // Replace the Solr document's created field with the date the user 
       // account was created. This replaces the node creation date typically 
       // used for indexing nodes.

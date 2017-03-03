@@ -1485,15 +1485,12 @@ int HOST_INFO::get_memory_info() {
 #elif defined(__APPLE__)
     // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
     // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
-    // value to 2GB when the actual RAM size is > 2GB.  The Gestalt selector 
-    // gestaltPhysicalRAMSizeInMegabytes is available starting with OS 10.3.0.
-    SInt32 mem_size;
-    if (Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size)) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Couldn't determine physical RAM size"
-        );
-    }
-    m_nbytes = (1024. * 1024.) * (double)mem_size;
+    // value to 2GB when the actual RAM size is > 2GB.
+    // But HW_MEMSIZE returns a uint64_t value.
+    uint64_t mem_size;
+    size_t len = sizeof(mem_size);
+    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #elif defined(_HPUX_SOURCE)
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
@@ -1990,6 +1987,18 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
 #ifdef __APPLE__
 
+// We can't link the client with the AppKit framework because the client
+// must be setuid boinc_master. So the client uses this to get the system
+// up time instead of our getTimeSinceBoot() function in lib/mac_util.mm.
+int get_system_uptime() {
+    struct timeval tv;
+    size_t len = sizeof(tv);
+    gettimeofday(&tv, 0);
+    time_t now = tv.tv_sec;
+    sysctlbyname("kern.boottime", &tv, &len, NULL, 0);
+    return ((int)now - (int)tv.tv_sec);
+}
+
 // NXIdleTime() is an undocumented Apple API to return user idle time, which 
 // was implemented from before OS 10.0 through OS 10.5.  In OS 10.4, Apple 
 // added the CGEventSourceSecondsSinceLastEventType() API as a replacement for 
@@ -2052,7 +2061,7 @@ bool HOST_INFO::users_idle(
 
             gEventHandle = NXOpenEventStatus();
             if (!gEventHandle) {
-                if (TickCount() > (120*60)) {   // If system has been up for more than 2 minutes 
+                if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
                      msg_printf(NULL, MSG_INFO,
                         "User idle detection is disabled: initialization failed."
                     );
@@ -2088,7 +2097,7 @@ bool HOST_INFO::users_idle(
             }
             if ( (!service) || (kernResult != KERN_SUCCESS) ) {
                 // When the system first starts up, allow time for HIDSystem to be available if needed
-                if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
+                if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
                      msg_printf(NULL, MSG_INFO,
                         "Could not connect to HIDSystem: user idle detection is disabled."
                     );

@@ -361,9 +361,9 @@ function user_profiles_views_default_views() {
   $handler->override_option('path', 'moderate/profiles');
   $handler->override_option('menu', array(
     'type' => 'default tab',
-    'title' => 'Profiles',
+    'title' => 'Queue',
     'description' => '',
-    'weight' => '0',
+    'weight' => '-50',
     'name' => 'primary-links',
   ));
   $handler->override_option('tab_options', array(

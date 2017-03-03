@@ -86,7 +86,6 @@ protected:
     int             GetBrandID(void);
     char*           PersistentFGets(char *buf, size_t buflen, FILE *f);
     pid_t           FindProcessPID(char* name, pid_t thePID);
-    OSErr           GetpathToBOINCManagerApp(char* path, int maxLen);
     bool            SetError( bool bErrorMode, unsigned int hrError );
     void            setSSMessageText(const char *msg);
     void            updateSSMessageText(char *msg);
@@ -124,7 +123,7 @@ protected:
     int             launch_screensaver(RESULT* rp, int& graphics_application);
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
-    OSErr           KillScreenSaver(void);
+    int             KillScreenSaver(void);
     void            GetDefaultDisplayPeriods(struct ss_periods &periods);
     bool            HasProcessExited(pid_t pid, int &exitCode);
     pthread_t       m_hDataManagementThread;

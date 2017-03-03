@@ -40,6 +40,11 @@
 #endif
 #endif
 
+#ifdef __MINGW32__
+#define strdate     _strdate
+#define strtime     _strtime
+#endif
+
 #ifndef HAVE_CONFIG_H
 
 // Windows C Runtime Library

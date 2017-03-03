@@ -36,7 +36,11 @@
     NSString *mDefaultPeriodString;
     NSString *mSciencePeriodString;
     NSString *mChangePeriodString;
+
+    NSArray *NIBTopLevel;
 }
+
+@property (strong) NSArray *NIBTopLevel;
 
 - (IBAction)closeSheetSave:(id) sender;
 - (IBAction)closeSheetCancel:(id) sender;

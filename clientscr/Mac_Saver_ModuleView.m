@@ -27,6 +27,7 @@
 #include <IOKit/hidsystem/IOHIDLib.h>
 #include <IOKit/hidsystem/IOHIDParameter.h>
 #include <IOKit/hidsystem/event_status_driver.h>
+#include "mac_util.h"
 
 #ifndef NSInteger
 #if __LP64__ || NS_BUILD_32_LIKE_64
@@ -39,8 +40,6 @@ typedef int NSInteger;
 #ifndef CGFLOAT_DEFINED
 typedef float CGFloat;
 #endif
-
-static int compareOSVersionTo(int toMajor, int toMinor);
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -81,6 +80,8 @@ int signof(float x) {
 }
 
 @implementation BOINC_Saver_ModuleView
+
+@synthesize NIBTopLevel;
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     self = [ super initWithFrame:frame isPreview:isPreview ];
@@ -507,8 +508,24 @@ int signof(float x) {
     int period;
 
 	// if we haven't loaded our configure sheet, load the nib named MyScreenSaver.nib
-	if (!mConfigureSheet)
-        [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
+	if (!mConfigureSheet) {
+        if ([[ NSBundle bundleForClass:[ self class ]] respondsToSelector: @selector(loadNibNamed: owner: topLevelObjects:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+            // [NSBundle loadNibNamed: owner: topLevelObjects:] is not available before OS 10.8
+            [ [ NSBundle bundleForClass:[ self class ]] loadNibNamed:@"BOINCSaver" owner:self topLevelObjects:&NIBTopLevel ];
+#pragma clang diagnostic pop
+        }
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1080
+         else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            // [NSBundle loadNibNamed: owner:] is deprecated in OS 10.8
+            [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
+#pragma clang diagnostic pop
+        }
+#endif
+    }
 	// set the UI state
 	[ mGoToBlankCheckbox setState:gGoToBlank ];
 
@@ -593,7 +610,23 @@ Bad:
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+    
+    if ([alert respondsToSelector: @selector(beginSheetModalForWindow: completionHandler:)]){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+        // [NSAlert beginSheetModalForWindow: completionHandler:] is not available before OS 10.9
+        [alert beginSheetModalForWindow:mConfigureSheet completionHandler:^(NSModalResponse returnCode){}];
+#pragma clang diagnostic pop
+    }
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1090
+        else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            // [NSAlert beginSheetModalForWindow: modalDelegate: didEndSelector: contextInfo:] is deprecated in OS 10.9
+            [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+#pragma clang diagnostic pop
+        }
+#endif
 }
 
 // Called when the user clicked the CANCEL button
@@ -604,27 +637,3 @@ Bad:
 }
 
 @end
-
-
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", (long)err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", (long)err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
-}

@@ -1034,6 +1034,29 @@ void COPROC::find_best_opencls(
     }
 }
 
+void fake_opencl_gpu(char* type) {
+    OPENCL_DEVICE_PROP op;
+    op.clear();
+    strcpy(op.name, type);
+    strcpy(op.vendor, "ARM");
+    op.vendor_id = 102760464;
+    op.available = 1;
+    op.half_fp_config = 63;
+    op.single_fp_config = 63;
+    op.double_fp_config = 63;
+    op.endian_little = 1;
+    op.execution_capabilities = 1;
+    strcpy(op.extensions, "cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics cl_khr_local_int32_base_atomics cl_khr_local_int32_extended_atomics cl_khr_byte_addressable_store cl_khr_3d_image_writes cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics cl_khr_fp16 cl_khr_gl_sharing cl_khr_icd cl_khr_egl_event cl_khr_egl_image cl_khr_image2d_from_buffer cl_arm_core_id cl_arm_printf cl_arm_thread_limit_hint cl_arm_non_uniform_work_group_size cl_arm_import_memory");
+    op.global_mem_size = 2086998016;
+    op.local_mem_size = 32768;
+    op.max_clock_frequency = 600;
+    op.max_compute_units = 2;
+    strcpy(op.opencl_platform_version, "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
+    strcpy(op.opencl_device_version,   "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
+    strcpy(op.opencl_driver_version, "1.2");
+    op.is_used = COPROC_USED;
+    other_opencls.push_back(op);
+}
 
 #ifdef __APPLE__
 // OpenCL returns incorrect total RAM size for some
@@ -1043,6 +1066,9 @@ void COPROC::find_best_opencls(
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <Carbon/Carbon.h>
+#include <IOKit/graphics/IOGraphicsLib.h>
+
+static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID);
 
 void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
     CGLRendererInfoObj info;
@@ -1067,7 +1093,9 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
             theErr2 = CGLQueryRendererInfo(myMask, &info, &numRenderers);
             if ((displayID != kCGNullDirectDisplay) && (theErr2 == kCGLNoError)) {
                 // Get the I/O Kit service port for the display
-                io_registry_entry_t dspPort = CGDisplayIOServicePort(displayID);
+//                io_registry_entry_t dspPort = CGDisplayIOServicePort(displayID);  // Deprecated in OS 10.9
+                io_registry_entry_t dspPort = IOServicePortFromCGDisplayID(displayID);
+
                 for (j = 0; j < numRenderers; j++) {
                     // find accelerated renderer (assume only one)
                     CGLDescribeRenderer (info, j, kCGLRPAcceleratedCompute, &rv);
@@ -1209,28 +1237,105 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
     }
     CGLSetCurrentContext (curr_ctx); // restore current CGL context
 }
-#endif
 
-void fake_opencl_gpu(char* type) {
-    OPENCL_DEVICE_PROP op;
-    op.clear();
-    strcpy(op.name, type);
-    strcpy(op.vendor, "ARM");
-    op.vendor_id = 102760464;
-    op.available = 1;
-    op.half_fp_config = 63;
-    op.single_fp_config = 63;
-    op.double_fp_config = 63;
-    op.endian_little = 1;
-    op.execution_capabilities = 1;
-    strcpy(op.extensions, "cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics cl_khr_local_int32_base_atomics cl_khr_local_int32_extended_atomics cl_khr_byte_addressable_store cl_khr_3d_image_writes cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics cl_khr_fp16 cl_khr_gl_sharing cl_khr_icd cl_khr_egl_event cl_khr_egl_image cl_khr_image2d_from_buffer cl_arm_core_id cl_arm_printf cl_arm_thread_limit_hint cl_arm_non_uniform_work_group_size cl_arm_import_memory");
-    op.global_mem_size = 2086998016;
-    op.local_mem_size = 32768;
-    op.max_clock_frequency = 600;
-    op.max_compute_units = 2;
-    strcpy(op.opencl_platform_version, "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
-    strcpy(op.opencl_device_version,   "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
-    strcpy(op.opencl_driver_version, "1.2");
-    op.is_used = COPROC_USED;
-    other_opencls.push_back(op);
+
+
+// The following replaces CGDisplayIOServicePort which is deprecated in OS 10.9
+//
+//========================================================================
+// GLFW 3.1 OS X - www.glfw.org
+//------------------------------------------------------------------------
+// Copyright (c) 2002-2006 Marcus Geelnard
+// Copyright (c) 2006-2010 Camilla Berglund <elmindreda@elmindreda.org>
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would
+//    be appreciated but is not required.
+//
+// 2. Altered source versions must be plainly marked as such, and must not
+//    be misrepresented as being the original software.
+//
+// 3. This notice may not be removed or altered from any source
+//    distribution.
+//
+//========================================================================
+
+// Returns the io_service_t corresponding to a CG display ID, or 0 on failure.
+// The io_service_t should be released with IOObjectRelease when not needed.
+//
+
+static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
+{
+    io_iterator_t iter;
+    io_service_t serv, servicePort = 0;
+    
+    CFMutableDictionaryRef matching = IOServiceMatching("IODisplayConnect");
+    
+    // releases matching for us
+    kern_return_t err = IOServiceGetMatchingServices(kIOMasterPortDefault,
+                                                     matching,
+                                                     &iter);
+    if (err)
+        return 0;
+    
+    while ((serv = IOIteratorNext(iter)) != 0)
+    {
+        CFDictionaryRef info;
+        CFIndex vendorID, productID, serialNumber;
+        CFNumberRef vendorIDRef, productIDRef, serialNumberRef;
+        Boolean success;
+        
+        info = IODisplayCreateInfoDictionary(serv,
+                                             kIODisplayOnlyPreferredName);
+        
+        vendorIDRef = (CFNumberRef)CFDictionaryGetValue(info,
+                                           CFSTR(kDisplayVendorID));
+        productIDRef = (CFNumberRef)CFDictionaryGetValue(info,
+                                            CFSTR(kDisplayProductID));
+        serialNumberRef = (CFNumberRef)CFDictionaryGetValue(info,
+                                               CFSTR(kDisplaySerialNumber));
+        
+        success = CFNumberGetValue(vendorIDRef, kCFNumberCFIndexType,
+                                   &vendorID);
+        success &= CFNumberGetValue(productIDRef, kCFNumberCFIndexType,
+                                    &productID);
+        success &= CFNumberGetValue(serialNumberRef, kCFNumberCFIndexType,
+                                    &serialNumber);
+        
+        if (!success)
+        {
+            CFRelease(info);
+            continue;
+        }
+        // If the vendor and product id along with the serial don't match
+        // then we are not looking at the correct monitor.
+        // NOTE: The serial number is important in cases where two monitors
+        //       are the exact same.
+        if (CGDisplayVendorNumber(displayID) != vendorID  ||
+            CGDisplayModelNumber(displayID) != productID  ||
+            CGDisplaySerialNumber(displayID) != serialNumber)
+        {
+            CFRelease(info);
+            continue;
+        }
+        
+        // The VendorID, Product ID, and the Serial Number all Match Up!
+        // Therefore we have found the appropriate display io_service
+        servicePort = serv;
+        CFRelease(info);
+        break;
+    }
+    
+    IOObjectRelease(iter);
+    return servicePort;
 }
+#endif// __APPLE__

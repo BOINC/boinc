@@ -34,7 +34,7 @@ def get_auth():
 
 # make a batch description, to be passed to estimate_batch() or submit_batch()
 #
-def make_batch_desc():
+def make_batch_desc(batch_name):
     file = FILE_DESC()
     file.mode = 'local_staged'
     file.source = 'input'
@@ -45,7 +45,7 @@ def make_batch_desc():
     batch = BATCH_DESC()
     [batch.project, batch.authenticator] = get_auth()
     batch.app_name = "uppercase"
-    batch.batch_name = "blah26"
+    batch.batch_name = batch_name
     batch.jobs = []
 
     for i in range(2):
@@ -61,11 +61,11 @@ def make_batch_desc():
         </file_ref>
         <target_nresults>1</target_nresults>
         <min_quorum>1</min_quorum>
-        <credit>2</credit>
+        <credit>%d</credit>
         <rsc_fpops_est>   60e9  </rsc_fpops_est>
     </workunit>
 </input_template>
-"""
+""" % (i+1)
         if True:
             job.result_template = """
 <output_template>
@@ -97,8 +97,8 @@ def test_estimate_batch():
         return
     print 'estimated time: ', r[0].text, ' seconds'
 
-def test_submit_batch():
-    batch = make_batch_desc()
+def test_submit_batch(batch_name):
+    batch = make_batch_desc(batch_name)
     r = submit_batch(batch)
     if check_error(r):
         return
@@ -113,11 +113,12 @@ def test_query_batches():
         return
     print ET.tostring(r)
 
-def test_query_batch():
+def test_query_batch(id):
     req = REQUEST()
     [req.project, req.authenticator] = get_auth()
-    req.batch_id = 271
+    req.batch_id = id
     req.get_cpu_time = True
+    req.get_job_details = True
     r = query_batch(req)
     if check_error(r):
         return
@@ -129,7 +130,6 @@ def test_query_batch():
     print 'jobs:'
     for job in r.findall('job'):
         print '   id: ', job.find('id').text
-        print '      n_outfiles: ', job.find('n_outfiles').text
         # ... various other fields
 
 def test_create_batch():
@@ -178,8 +178,8 @@ def test_query_files():
 def test_get_output_file():
     req = REQUEST()
     [req.project, req.authenticator] = get_auth()
-    req.instance_name = 'uppercase_32275_1484961754.784017_0_0';
-    req.file_num = 1;
+    req.instance_name = 'uppercase_32275_1484961754.784017_0_0'
+    req.file_num = 1
     r = get_output_file(req)
     print(r)
 
@@ -190,4 +190,5 @@ def test_get_output_files():
     r = get_output_files(req)
     print(r)
 
-test_upload_files()
+test_query_batch(328)
+#test_submit_batch('batch_31')

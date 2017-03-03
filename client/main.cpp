@@ -49,6 +49,7 @@
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
+#include "hostinfo.h"
 #endif
 
 #include "diagnostics.h"
@@ -354,7 +355,7 @@ int boinc_main_loop() {
 #ifdef __APPLE__
     // If we run too soon during system boot we can cause a kernel panic
     if (gstate.executing_as_daemon) {
-        if (TickCount() < (120*60)) {   // If system has been up for less than 2 minutes
+        if (get_system_uptime() < 120) {    // If system has been up for less than 2 minutes
             boinc_sleep(30.);
         }
     }

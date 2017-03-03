@@ -204,9 +204,10 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
 void get_wu_template(JOB_DESC& jd2) {
     // the jobs may specify WU templates.
     //
-    static map<char*, char*> wu_templates;
+    static map<string, char*> wu_templates;
 
-    if (wu_templates.count(jd2.wu_template_file) == 0) {
+    string s = string(jd2.wu_template_file);
+    if (wu_templates.count(s) == 0) {
         char* p;
         int retval = read_file_malloc(jd2.wu_template_file, p, 0, false);
         if (retval) {
@@ -215,9 +216,9 @@ void get_wu_template(JOB_DESC& jd2) {
             );
             exit(1);
         }
-        wu_templates[jd2.wu_template_file] = p;
+        wu_templates[s] = p;
     }
-    strcpy(jd2.wu_template, wu_templates[jd2.wu_template_file]);
+    strcpy(jd2.wu_template, wu_templates[s]);
 }
 
 int main(int argc, char** argv) {

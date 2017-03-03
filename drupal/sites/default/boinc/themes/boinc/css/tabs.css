@@ -57,7 +57,6 @@ ul.tab-list a {
 }
 
 ul.primary, ul.secondary {
-  width: 980px;
   margin: 0 auto;
   padding: 0 0 0 12px; /* LTR */
   border-width: 0;

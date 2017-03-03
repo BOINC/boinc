@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -87,6 +87,15 @@
 #undef PACKAGE_VERSION
 
 #include "config.h"
+
+#include <stdlib.h>
+
+// system() is deprecated in Mac OS 10.10.
+// Apple says to call posix_spawn instead.
+#undef system
+#define system(x) callPosixSpawn(x)
+
+extern int callPosixSpawn(const char *cmdline);
 
 // Prototypes for Mac_GUI.cpp
 Boolean Mac_Authorize(void);
