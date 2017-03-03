@@ -24,6 +24,10 @@
 #include <errno.h>
 #endif
 
+#ifdef __APPLE__
+#include "mac_spawn.h"
+#endif
+
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
@@ -694,7 +698,9 @@ int CLIENT_STATE::write_state_file() {
             );
 #elif defined (__APPLE__)
             if (log_flags.statefile_debug) {
-                system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
+                // system() is deprecated in Mac OS 10.10.
+                // Apple says to call posix_spawn instead.
+                callPosixSpawn("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
             }
 #endif
         }

@@ -315,6 +315,12 @@
 		DD8917F00F3B21DA00DE5B1C /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD957E5B181B908800ECA34E /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = DD957E59181B908800ECA34E /* thumbnail.png */; };
 		DD957E5C181B908800ECA34E /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD957E5A181B908800ECA34E /* thumbnail@2x.png */; };
+		DD9917251E69A4F100555337 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
+		DD9917261E69A8B300555337 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
+		DD9917271E69A8D100555337 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
+		DD9917281E69A90500555337 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
+		DD9917291E69A90800555337 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
+		DD99172A1E69A92A00555337 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
 		DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9E560E182D0D40002AF0F8 /* WebKit.framework */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
@@ -2896,6 +2902,7 @@
 				DD407A6907D2FBC200163EF5 /* proxy_info.cpp in Sources */,
 				DD407A6B07D2FBC700163EF5 /* shmem.cpp in Sources */,
 				DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */,
+				DD9917251E69A4F100555337 /* mac_spawn.cpp in Sources */,
 				DD30CAD01C6B3CCB00AE1D14 /* project_init.cpp in Sources */,
 				DDA45500140F7DE200D97676 /* synch.cpp in Sources */,
 				DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */,
@@ -2917,6 +2924,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDE813221770479C0068A770 /* translate.cpp in Sources */,
+				DD9917291E69A90800555337 /* mac_spawn.cpp in Sources */,
 				DDB9EA9717BE2C0D00651B07 /* filesys.cpp in Sources */,
 				DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */,
 				DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */,
@@ -3015,6 +3023,7 @@
 				DD8916950F3B1BFF00DE5B1C /* mac_backtrace.cpp in Sources */,
 				DD8916960F3B1C0000DE5B1C /* QBacktrace.c in Sources */,
 				DD8916970F3B1C0100DE5B1C /* QCrashReport.c in Sources */,
+				DD9917281E69A90500555337 /* mac_spawn.cpp in Sources */,
 				DD8916980F3B1C0200DE5B1C /* QMachOImage.c in Sources */,
 				DD89169A0F3B1C0600DE5B1C /* QMachOImageList.c in Sources */,
 				DD89169B0F3B1C0700DE5B1C /* QSymbols.c in Sources */,
@@ -3060,6 +3069,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD9917271E69A8D100555337 /* mac_spawn.cpp in Sources */,
 				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */,
 				DDE900261E643E39003728F2 /* mac_util.mm in Sources */,
 				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */,
@@ -3123,6 +3133,7 @@
 				DDE586AC10FC8E6900DFA887 /* str_util.cpp in Sources */,
 				DDE586AF10FC8E7B00DFA887 /* proxy_info.cpp in Sources */,
 				DDE586B010FC8E9100DFA887 /* coproc.cpp in Sources */,
+				DD99172A1E69A92A00555337 /* mac_spawn.cpp in Sources */,
 				DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */,
 				DD3741D610FC948C001257EB /* filesys.cpp in Sources */,
 				DD3741D910FC94BA001257EB /* url.cpp in Sources */,
@@ -3250,6 +3261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD9917261E69A8B300555337 /* mac_spawn.cpp in Sources */,
 				DDFA60E40CB3396C0037B88C /* gfx_switcher.cpp in Sources */,
 				DDFA61520CB347500037B88C /* app_ipc.cpp in Sources */,
 				DDFA61570CB347730037B88C /* filesys.cpp in Sources */,
@@ -4120,6 +4132,7 @@
 		DDD095420A3EDD4300C95BA4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = ../lib/mac;
 				PRODUCT_NAME = switcher;
 			};
 			name = Development;
@@ -4127,6 +4140,7 @@
 		DDD095450A3EDD4300C95BA4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = ../lib/mac;
 				PRODUCT_NAME = switcher;
 			};
 			name = Deployment;
@@ -4168,6 +4182,7 @@
 		DDFA60CE0CB337D40037B88C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = ../lib/mac;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4182,6 +4197,7 @@
 		DDFA60D20CB337D40037B88C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = ../lib/mac;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
