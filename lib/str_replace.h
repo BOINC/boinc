@@ -20,8 +20,9 @@
 #ifndef STR_REPLACE_H
 #define STR_REPLACE_H
 
-#ifndef _WIN32
 #include "config.h"
+
+#ifndef _WIN32
 #include <sys/types.h>
 #endif
 
