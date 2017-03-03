@@ -35,8 +35,8 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the openssl-1.1.0 directory.
@@ -47,8 +47,13 @@
 ## the -clean argument will force a full rebuild.
 ##
 
+# might already be set by caller
+if [ "x$PREFIX" = "x" ]; then
+    PREFIX=`pwd`/../../../install/mac
+fi
+
 if [ "$1" != "-clean" ]; then
-    if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
+    if [ -f ${PREFIX}/lib/libssl.a ] && [ -f ${PREFIX}/lib/libcrypto.a ]; then
         echo "openssl-1.1.0 libraries already built"
         return 0
     fi
@@ -57,19 +62,19 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -77,7 +82,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -88,10 +93,9 @@ SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-rm -f libssl.a
-rm -f libcrypto.a
+rm -f ${PREFIX}/lib/libssl.a ${PREFIX}/lib/libcrypto.a
 
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
@@ -101,25 +105,17 @@ export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
-./configure no-shared darwin64-x86_64-cc
-if [  $? -ne 0 ]; then return 1; fi
+./configure --prefix=${PREFIX} no-shared darwin64-x86_64-cc
+if [ $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
     make clean
 fi
 
 make
-if [  $? -ne 0 ]; then return 1; fi
-
-# we need to store only what is needed in the CI cache
-if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
-    mkdir ../keep
-    mv *.a ../keep
-    mv include ../keep/
-    rm -rf ./*
-    mv ../keep/* ./
-    rm -rf ../keep
-fi
+if [ $? -ne 0 ]; then return 1; fi
+make install
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
 export LDFLAGS=""

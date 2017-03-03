@@ -38,9 +38,10 @@
 ## In Terminal, CD to the wxWidgets-3.0.0 directory.
 ##    cd [path]/wxWidgets-3.0.0/
 ## then run this script:
-##    source [ path_to_this_script ] [ -clean ]
+##    source [ path_to_this_script ] [ -clean ] [ -debug ]
 ##
 ## the -clean argument will force a full rebuild.
+## the -debug argument will build wxWidgets in Debug mode
 #
 
 Path=$PWD
@@ -67,8 +68,8 @@ if [ ! -f src/png/pngstruct.h.orig ]; then
 @@ -34,6 +34,13 @@
  #  undef const
  #endif
- 
-+/* BOINC workaround patch to fix crashes on OS 10.5 or 10.6 when 
+
++/* BOINC workaround patch to fix crashes on OS 10.5 or 10.6 when
 + * built with OS 10.7 SDK or later.
 + */
 +#undef ZLIB_VERNUM
@@ -107,7 +108,7 @@ if [ ! -f build/osx/setup/cocoa/include/wx/setup.h.orig ]; then
 + * with OS 10.7 SDK or later.
 + */
 +#define wxUSE_STD_IOSTREAM 0 // wxUSE_STD_DEFAULT
- 
+
  // Enable minimal interoperability with the standard C++ string class if 1.
  // "Minimal" means that wxString can be constructed from std::string or
 ENDOFFILE
@@ -125,7 +126,7 @@ if [ ! -f src/osx/carbon/dcclient.cpp.orig ]; then
 --- src/osx/carbon/dcclient.cpp	2014-06-12 22:15:31.000000000 -0700
 +++ src/osx/carbon/dcclient-patched.cpp 2014-06-19 01:04:58.000000000 -0700
 @@ -174,7 +174,7 @@
- 
+
  wxClientDCImpl::~wxClientDCImpl()
  {
 -    if( GetGraphicsContext() && GetGraphicsContext()->GetNativeContext() )
@@ -139,51 +140,46 @@ else
     echo "src/osx/carbon/dcclient.cpp already patched"
 fi
 
-echo ""
+# might already be set by caller
+if [ "x${PREFIX}" = "x" ]; then
+    PREFIX=`pwd`/../../../install/mac
+fi
 
+doclean=""
+configuration="Release"
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -clean|--clean)
+        doclean="clean"
+        ;;
+        -debug|--debug)
+        configuration="Debug"
+        ;;
+    esac
+    shift # past argument or value
+done
 
+debug_flag="--disable-debug_flag"
+if [ $configuration = "Debug" ]; then
+    debug_flag="--enable-debug"
+    echo "Debug build not implemented yet"
+    return 1
+fi
 
-if [ "$1" = "-clean" ]; then
-  doclean="clean "
+if [ "${doclean}" = "" ] && [ -f ${PREFIX}/lib/libwx_osx_cocoa_static.a ]; then
+    echo "libwx_osx_cocoa_static.a already built"
 else
-  doclean=""
+    make clean
 fi
 
-retval=0
-
-if [ "$1" != "-clean" ] && [ -f build/osx/build/Release/libwx_osx_cocoa_static.a ]; then
-    echo "Release libwx_osx_cocoa_static.a already built"
-else
-
-##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
-    ## We must override some of the build settings in wxWindows.xcodeproj
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0" | xcpretty && ${retval}=${PIPESTATUS[0]}
-
-if [  ${retval} -ne 0 ]; then return 1; fi
-fi
-
-if [ "$1" != "-clean" ] && [ -f build/osx/build/Debug/libwx_osx_cocoa_static.a ]; then
-    echo "Debug libwx_osx_cocoa_static.a already built"
-else
-##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
-    ## We must override some of the build settings in wxWindows.xcodeproj
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0"  | xcpretty && ${retval}=${PIPESTATUS[0]}
-
-if [  ${retval} -ne 0 ]; then return 1; fi
-fi
-
-# we need to store only what is needed in the CI cache
-if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
-    mkdir ../keep
-    cp -r include ../keep/
-    mkdir -p ../keep/build/osx/setup/cocoa
-    cp -r build/osx/setup/cocoa/include ../keep/build/osx/setup/cocoa/
-    mkdir -p ../keep/build/osx/build
-    cp -r build/osx/build/Debug ../keep/build/osx/build/
-    cp -r build/osx/build/Release ../keep/build/osx/build/
-    rm -rf ./*
-    cp -r ../keep/* ./
-    rm -rf ../keep
-fi
+arch_flags="-arch i386" # builds a library that can be used on 32 and 64bit systems
+mkdir build-cocoa
+../configure --prefix="${PREFIX}" --with-osx --with-cocoa --disable-shared ${debug_flag} --with-macosx-version-min=10.6 CFLAGS="$arch_flags" CXXFLAGS="$arch_flags" CPPFLAGS="$arch_flags" LDFLAGS="$arch_flags" OBJCFLAGS="$arch_flags" OBJCXXFLAGS="$arch_flags"
+if [ $? -ne 0 ]; then return 1; fi
+make
+if [ $? -ne 0 ]; then return 1; fi
+make install
+if [ $? -ne 0 ]; then return 1; fi
 
 return 0

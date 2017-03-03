@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh Universal Intel library (i386 and x86_64) 
+# Script to build Macintosh Universal Intel library (i386 and x86_64)
 # of FreeType-2.6.2 for use in building BOINC graphics.
 # The resulting library is at:
 #   [path]/freetype-2.6.2/objs/.libs/libfreetype.a
@@ -30,8 +30,8 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the freetype-2.6.2 directory.
@@ -57,29 +57,32 @@ if [ "$?" -eq "0" ]; then
     return 1
 fi
 
-echo ""
+# might already be set by caller
+if [ "x${PREFIX}" = "x" ]; then
+    PREFIX=`pwd`/../../../install/mac
+fi
 
 if [ "$1" != "-clean" ]; then
-    if [ -f objs/.libs/libfreetype.a ]; then
+    if [ -f ${PREFIX}/lib/libfreetype.a ]; then
         echo "freetype-2.6.2 already built"
         return 0
     fi
 fi
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -87,7 +90,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -98,32 +101,24 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-cp -p objs/README README-objs
-rm -fR objs/*.*
-rm -fR objs/*
-cp -p README-objs objs/README
-rm -f README-objs
-rm -fR "../freetype_install/"
-
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 # Build for i386 architecture
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
-
-./configure --enable-shared=NO --prefix="`pwd`/../freetype_install/" --host=i386
-if [  $? -ne 0 ]; then return 1; fi
+export MACOSX_DEPLOYMENT_TARGET=10.6
 
 if [ "$1" = "-clean" ]; then
-    make clean
+    make distclean
 fi
 
+./configure --enable-shared=NO --prefix=${PREFIX} --host=i386
+if [ $? -ne 0 ]; then return 1; fi
 make
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_i386.a
 
@@ -132,44 +127,27 @@ make clean
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.5
+export MACOSX_DEPLOYMENT_TARGET=10.6
 
-./configure --enable-shared=NO --prefix="`pwd`/../freetype_install/" --host=x86_64
-if [  $? -ne 0 ]; then return 1; fi
+./configure --enable-shared=NO --prefix=${PREFIX} --host=x86_64
+if [ $? -ne 0 ]; then return 1; fi
 
 make
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_x86_64.a
-
 lipo -create objs/.libs/libfreetype_i386.a objs/.libs/libfreetype_x86_64.a -output objs/.libs/libfreetype.a
-
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 rm -f objs/.libs/libfreetype_i386.a
 rm -f objs/.libs/libfreetype_x86_64.a
 
-# Building ftgl requires [install-path]/bin.freetype-config
+# this installs the modified library
 make install
-
-# remove installed items not needed by ftgl build
-rm -fR "../freetype_install/lib"
-rm -fR "../freetype_install/share"
-
-# we need to store only what is needed in the CI cache
-if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
-    mkdir ../keep
-    cp -r include ../keep/
-    cp objs/.libs/libfreetype.a ../keep/
-    rm -rf ./*
-    cp -r ../keep/* ./
-    mkdir -p objs/.libs
-    mv libfreetype.a objs/.libs/
-    rm -rf ../keep
-fi
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
 export LDFLAGS=""

@@ -31,8 +31,8 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the c-ares-1.11.0 directory.
@@ -43,27 +43,32 @@
 ## the -clean argument will force a full rebuild.
 ##
 
+# might already be set by caller
+if [ "x$PREFIX" = "x" ]; then
+    PREFIX=`pwd`/../../../install/mac
+fi
+
 if [ "$1" != "-clean" ]; then
-    if [ -f .libs/libcares.a ]; then
+    if [ -f ${PREFIX}/lib/libcares.a ]; then
         echo "c-ares-1.11.0 already built"
         return 0
     fi
 fi
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -71,7 +76,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -82,9 +87,9 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-rm -f .libs/libcares.a
+rm -f ${PREFIX}/lib/libcares.a
 
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
@@ -95,27 +100,17 @@ export MACOSX_DEPLOYMENT_TARGET=10.6
 export MAC_OS_X_VERSION_MAX_ALLOWED=1060
 export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
-# We configure c-ares to install at /tmp/installed-c-ares for use by our
-# buildcurl.sh script
-./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=x86_64
-if [  $? -ne 0 ]; then return 1; fi
+./configure --prefix=${PREFIX} --enable-shared=NO --host=x86_64
+if [ $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
     make clean
 fi
 
 make
-if [  $? -ne 0 ]; then return 1; fi
-
-# we need to store only what is needed in the CI cache
-if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
-    mkdir ../keep
-    mv .libs/libcares.a ../keep
-    rm -rf ./*
-    mkdir .libs
-    mv ../keep/* ./.libs
-    rm -rf ../keep
-fi
+if [ $? -ne 0 ]; then return 1; fi
+make install
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
 export LDFLAGS=""

@@ -34,8 +34,8 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the curl-7.50.2 directory.
@@ -46,8 +46,13 @@
 ## the -clean argument will force a full rebuild.
 ##
 
+# might already be set by caller
+if [ "x$PREFIX" = "x" ]; then
+    PREFIX=`pwd`/../../../install/mac
+fi
+
 if [ "$1" != "-clean" ]; then
-    if [ -f lib/.libs/libcurl.a ]; then
+    if [ -f ${PREFIX}/lib/libcurl.a ]; then
         echo "curl-7.50.2 already built"
         return 0
     fi
@@ -56,19 +61,19 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -76,7 +81,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -87,60 +92,36 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-CURL_DIR=`pwd`
-# curl configure and make expect a path to _installed_ c-ares-1.11.0
-# so temporarily install c-ares at a path that does not contain spaces.
-# buildc-ares.sh script configured c-ares with prefix=/tmp/installed-c-ares
-cd ../c-ares-1.11.0
-make install 
-cd "${CURL_DIR}"
+rm -f ${PREFIX}/lib/libcurl.a
 
-
-rm -f lib/.libs/libcurl.a
-
-if [  $? -ne 0 ]; then return 1; fi
+if [ $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0 "
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${PREFIX} "
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${PREFIX}/include"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${PREFIX}/include"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export MAC_OS_X_VERSION_MAX_ALLOWED=1060
 export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
-./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=x86_64
-if [  $? -ne 0 ]; then return 1; fi
-
-echo ""
+./configure --prefix=${PREFIX} --enable-ares=${PREFIX} --enable-shared=NO --host=x86_64
+if [ $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
     make clean
 fi
 
 make
-if [  $? -ne 0 ]; then return 1; fi
-
-# we need to store only what is needed in the CI cache
-if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
-    mkdir ../keep
-    mv lib/.libs/libcurl.a ../keep
-    mv include ../keep/
-    rm -rf ./*
-    mkdir -p lib/.libs/
-    mv ../keep/* ./
-    mv libcurl.a lib/.libs/libcurl.a
-    rm -rf ../keep
-fi
+if [ $? -ne 0 ]; then return 1; fi
+make install
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
-
-# Delete temporarily installed c-ares.
-rm -Rf /tmp/installed-c-ares/
 
 return 0

@@ -28,8 +28,8 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the sqlite-autoconf-3110000 directory.
@@ -40,8 +40,13 @@
 ## the -clean argument will force a full rebuild.
 ##
 
+# might already be set by caller
+if [ "x$PREFIX" = "x" ]; then
+    PREFIX=`pwd`/../../../install/mac
+fi
+
 if [ "$1" != "-clean" ]; then
-    if [ -f .libs/libsqlite3.a ]; then
+    if [ -f ${PREFIX}/lib/libsqlite3.a ]; then
         echo "sqlite-3.11.0 already built"
         return 0
     fi
@@ -50,19 +55,19 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -70,7 +75,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -81,9 +86,8 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-rm -f .libs/libsqlite3.a
-
-if [  $? -ne 0 ]; then return 1; fi
+rm -f ${PREFIX}/lib/libsqlite3.a
+if [ $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
@@ -93,24 +97,17 @@ export CFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWE
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-./configure --enable-shared=NO --host=i386
-if [  $? -ne 0 ]; then return 1; fi
+./configure --prefix=${PREFIX} --enable-shared=NO --host=i386
+if [ $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
     make clean
 fi
 
 make
-if [  $? -ne 0 ]; then return 1; fi
-
-# we need to store only what is needed in the CI cache
-if [ "x$CONTINUOUS_INTEGRATION" == "xtrue" ]; then
-    mkdir ../keep
-    cp -r .libs ../keep/
-    rm -rf ./*
-    cp -r ../keep/* ./
-    rm -rf ../keep
-fi
+if [ $? -ne 0 ]; then return 1; fi
+make install
+if [ $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
 export LDFLAGS=""
