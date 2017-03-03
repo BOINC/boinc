@@ -20,7 +20,7 @@
 #ifndef STR_REPLACE_H
 #define STR_REPLACE_H
 
-#ifdef HAVE_CONFIG_H
+#if (defined(HAVE_CONFIG_H) || defined(__APPLE__))
 #include "config.h"
 #endif
 
