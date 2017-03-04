@@ -58,6 +58,10 @@ download_and_build() {
     touch ${FLAGFILE}
 }
 
+if [ ! -d "install" ]; then
+    echo "install is not a directory, deleting and recreating"
+    rm -f install
+fi
 mkdir -p 3rdParty/mac
 mkdir -p install/mac
 cd ./3rdParty/mac
