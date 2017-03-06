@@ -830,7 +830,7 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('path', 'account/computers/all');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'All computers',
+    'title' => bts('All computers', array(), NULL, 'boinc:account-host-list'),
     'description' => 'Show all computers associated with the account',
     'weight' => '1',
     'name' => 'navigation',
@@ -870,7 +870,7 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('path', 'account/computers/active');
   $handler->override_option('menu', array(
     'type' => 'default tab',
-    'title' => 'Computers active in past 30 days',
+    'title' => bts('Computers active in past 30 days', array(), NULL, 'boinc:account-host-list'),
     'description' => '',
     'weight' => '0',
     'name' => 'navigation',

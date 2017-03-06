@@ -38,7 +38,7 @@ function user_account_project_list_default_panels_mini() {
     $pane->access = array();
     $pane->configuration = array(
       'admin_title' => 'Dashboard project table',
-      'title' => 'Projects',
+      'title' => bts('Projects', array(), NULL, 'boinc:account-dashboard'),
       'body' => '<?php echo boincuser_get_projects_table(); ?>',
       'format' => '3',
       'substitute' => TRUE,
