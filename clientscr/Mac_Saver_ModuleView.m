@@ -41,6 +41,24 @@ typedef int NSInteger;
 typedef float CGFloat;
 #endif
 
+// NSCompositeSourceOver is deprecated in OS 10.12 and is replaced by
+// NSCompositingOperationSourceOver, which is not defined before OS 10.12
+#ifndef NSCompositingOperationSourceOver
+#define NSCompositingOperationSourceOver NSCompositeSourceOver
+#endif
+
+// NSCompositeCopy is deprecated in OS 10.12 and is replaced by
+// NSCompositingOperationCopy, which is not defined before OS 10.12
+#ifndef NSCompositingOperationCopy
+#define NSCompositingOperationCopy NSCompositeCopy
+#endif
+
+// NSCriticalAlertStyle is deprecated in OS 10.12 and is replaced by
+// NSAlertStyleCritical, which is not defined before OS 10.12
+#ifndef NSAlertStyleCritical
+#define NSAlertStyleCritical NSCriticalAlertStyle
+#endif
+
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
