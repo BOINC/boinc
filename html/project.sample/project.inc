@@ -15,15 +15,6 @@ require_once("../inc/util.inc");
 define("PROJECT", "REPLACE WITH PROJECT NAME");
 define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
 
-//-------------- contact info
-
-define("SYS_ADMIN_EMAIL", "admin@$master_url");
-define("UOTD_ADMIN_EMAIL", "admin@$master_url");
-    // who gets emails about user of the day pool running low?
-define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
-    // Email addresses separated by pipe ( | ) that will receive user reports
-    // of offensive forum posts.
-
 //-------------- URLs and directories
 
 $master_url = parse_config(get_config(), "<master_url>");
@@ -33,6 +24,15 @@ define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
 define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
+
+//-------------- contact info
+
+define("SYS_ADMIN_EMAIL", "admin@$master_url");
+define("UOTD_ADMIN_EMAIL", "admin@$master_url");
+    // who gets emails about user of the day pool running low?
+define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
+    // Email addresses separated by pipe ( | ) that will receive user reports
+    // of offensive forum posts.
 
 //-------------- Caching
 
