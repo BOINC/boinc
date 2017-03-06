@@ -1434,36 +1434,26 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxString            password = wxEmptyString;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     long                lRetVal = -1;
+    bool                bRetrievePasswordFromFile = FALSE;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (SelectComputer(hostName, portNum, password, false)) { 
-        if (pDoc->IsComputerNameLocal(hostName)) {
-            lRetVal = pDoc->Connect(
-                wxT("localhost"),
-                GUI_RPC_PORT,
-                wxEmptyString,
-                TRUE,
-                TRUE
-            );
-        } else {
-            // Connect to the remote machine
-            long lPort = GUI_RPC_PORT; 
-            int iPos = hostName.Find(wxT(":")); 
-            if (iPos != wxNOT_FOUND) { 
-                wxString sPort = hostName.substr(iPos + 1); 
-                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
-                hostName.erase(iPos); 
-            } 
-            lRetVal = pDoc->Connect(
-                hostName.c_str(),
-                portNum,
-                password.c_str(),
-                TRUE,
-                FALSE
-            );
+    if (SelectComputer(hostName, portNum, password, false)) {
+        // possibly read password from file if local computername AND no password was entered
+        if (pDoc->IsComputerNameLocal(hostName) && password == wxEmptyString) {
+            hostName = wxT("localhost");
+            bRetrievePasswordFromFile = TRUE;
         }
+        // Connect to the specified host
+        lRetVal = pDoc->Connect(
+            hostName.c_str(),
+            portNum,
+            password.c_str(),
+            TRUE,
+            bRetrievePasswordFromFile
+        );
+
         if (lRetVal) {
             ShowConnectionFailedAlert();
         }
