@@ -100,15 +100,15 @@ if [ $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${PREFIX} "
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${PREFIX}/include"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${PREFIX}/include"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export MAC_OS_X_VERSION_MAX_ALLOWED=1060
 export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
-./configure --prefix=${PREFIX} --enable-ares=${PREFIX} --enable-shared=NO --host=x86_64
+PKG_CONFIG_PATH=${PREFIX} ./configure --prefix=${PREFIX} --enable-ares --enable-shared=NO --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
