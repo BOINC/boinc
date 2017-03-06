@@ -97,8 +97,6 @@ if [ -d "${PREFIX}/lib" ]; then
     rm -f ${PREFIX}/lib/libssl.a ${PREFIX}/lib/libcrypto.a
 fi
 
-if [ $? -ne 0 ]; then return 1; fi
-
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
