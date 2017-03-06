@@ -146,7 +146,7 @@ public class BatchProcessingActivity extends FragmentActivity{
 
 		// Add data to the intent, the receiving app will decide what to do with it.
 		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.social_invite_content_title));
-		if (android.os.Build.MANUFACTURER.toUpperCase() == "AMAZON") {
+		if (android.os.Build.MANUFACTURER.toUpperCase().equals("AMAZON")) {
 			intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url_amazon)));
 		} else {
 			intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url_google)));
