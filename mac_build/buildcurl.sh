@@ -108,7 +108,7 @@ export MACOSX_DEPLOYMENT_TARGET=10.6
 export MAC_OS_X_VERSION_MAX_ALLOWED=1060
 export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
-PKG_CONFIG_PATH=${PREFIX} ./configure --prefix=${PREFIX} --enable-ares --enable-shared=NO --host=x86_64
+PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig" ./configure --prefix=${PREFIX} --enable-ares --enable-shared=NO --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
