@@ -27,6 +27,7 @@
 #include <sys/time.h>
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <grp.h>        // getgrnam
+#include <sys/param.h>  // for MAXPATHLEN
 #include "mac_util.h"
 
 void printUsage(long brandID);
