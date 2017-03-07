@@ -178,6 +178,7 @@ struct PROJECT : PROJ_AM {
         // computed by get_disk_usages()
     double disk_share;
         // computed by get_disk_shares();
+    bool report_results_immediately;
 
     // items sent in scheduler replies,
     // requesting that various things be sent subsequent requests

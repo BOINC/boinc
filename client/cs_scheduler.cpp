@@ -1308,6 +1308,14 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
             return p;
         }
 
+        if (p->report_results_immediately) {
+            return p;
+        }
+
+        if (r->app->report_results_immediately) {
+            return p;
+        }
+
         if (net_status.have_sporadic_connection) {
             return p;
         }

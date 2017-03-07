@@ -86,6 +86,9 @@ int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
         if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) {
             continue;
         }
+        if (xp.parse_bool("report_results_immediately", report_results_immediately)) {
+            continue;
+        }
 
         // unparsed XML not considered an error; maybe it should be?
         //
@@ -171,6 +174,11 @@ int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
             }
             continue;
         }
+        if (xp.parse_bool(
+            "report_results_immediately", p->report_results_immediately
+        )) {
+            continue;
+        }
         msg_printf_notice(p, false, NULL,
             "Unknown tag in app_config.xml: %s",
             xp.parsed_tag
@@ -198,6 +206,8 @@ static void show_warning(PROJECT* p, char* name) {
     );
 }
 
+// having parsed a project's app_config.xml, put the config into effect
+//
 int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     unsigned int i;
     bool showed_notice = false;
@@ -213,6 +223,7 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         }
         app->max_concurrent = ac.max_concurrent;
         app->fraction_done_exact = ac.fraction_done_exact;
+        app->report_results_immediately = ac.report_results_immediately;
 
         if (!ac.gpu_gpu_usage || !ac.gpu_cpu_usage) continue;
         for (unsigned int j=0; j<gstate.app_versions.size(); j++) {
@@ -276,10 +287,12 @@ void max_concurrent_init() {
 //
 static void clear_app_config(PROJECT* p) {
     p->app_configs.clear();
+    p->report_results_immediately = false;
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (app->project != p) continue;
         app->max_concurrent = 0;
+        app->report_results_immediately = false;
     }
 }
 

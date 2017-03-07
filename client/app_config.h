@@ -33,6 +33,7 @@ struct APP_CONFIG {
     double gpu_gpu_usage;
     double gpu_cpu_usage;
     bool fraction_done_exact;
+    bool report_results_immediately;
 
     int parse(XML_PARSER&, PROJECT*);
     int parse_gpu_versions(XML_PARSER&, PROJECT*);
