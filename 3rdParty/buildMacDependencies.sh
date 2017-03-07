@@ -43,7 +43,7 @@ download_and_build() {
     FLAGFILE="${PREFIX}/${DIRNAME}_done"
     if [ -e "${FLAGFILE}" ]; then
         echo "${DIRNAME} seems already to be present in install/mac"
-        exit 0
+        return 0
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then
