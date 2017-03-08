@@ -3487,6 +3487,7 @@
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
 					"../install/mac/include",
+					"../install/mac/include/wx-3.0",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3540,6 +3541,7 @@
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
 					"../install/mac/include",
+					"../install/mac/include/wx-3.0",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
