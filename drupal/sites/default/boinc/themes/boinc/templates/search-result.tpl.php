@@ -75,10 +75,10 @@
     <div class="name"><a href="<?php print $url; ?>"><?php print $title; ?></a></div>
     <div class="details">
       <div class="user-stats">
-        <div class="join-date"><?php print bts('Joined') . ': ' . date('j M y', $account->created); ?></div>
-        <div class="post-count"><?php print bts('Posts') . ': ' . $account->post_count; ?></div>
-        <div class="credit"><?php print bts('Credit') . ': ' . $account->boincuser_total_credit; ?></div>
-        <div class="rac"><?php print bts('RAC') . ': ' . $account->boincuser_expavg_credit; ?></div>
+        <div class="join-date"><?php print bts('Joined', array(), NULL, 'boinc:user-info') . ': ' . date('j M y', $account->created); ?></div>
+        <div class="post-count"><?php print bts('Posts', array(), NULL, 'boinc:user-info') . ': ' . $account->post_count; ?></div>
+        <div class="credit"><?php print bts('Credit', array(), NULL, 'boinc:user-info') . ': ' . $account->boincuser_total_credit; ?></div>
+        <div class="rac"><?php print bts('RAC', array(), NULL, 'boinc:user-info') . ': ' . $account->boincuser_expavg_credit; ?></div>
       </div>
     </div>
     <?php if ($snippet) : ?>
