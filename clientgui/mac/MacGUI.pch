@@ -43,7 +43,7 @@
 // Set USE_DEBUG_WXMAC to 1 to enable wxAssert() calls in Manager Development builds.
 // See the note above for a special exception.
 //
-#define USE_DEBUG_WXMAC 1
+#define USE_DEBUG_WXMAC 0
 
 // Set wxUSE_LOG_TRACE to 0 to disable wxLogTrace() calls in Manager Development builds.
 // Set both USE_DEBUG_WXMAC to 1 and wxUSE_LOG_TRACE to 1 to enable wxLogTrace() calls
@@ -57,7 +57,7 @@
 #define __WX__
 #define wxUSE_BASE 1
 #define MACOS_CLASSIC
-#define __WXMAC_XCODE__ 1
+#undef __WXMAC_XCODE__
 #define SCI_LEXER
 #define WX_PRECOMP 1
 #define wxUSE_UNICODE_UTF8 1
