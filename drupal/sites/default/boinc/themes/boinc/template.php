@@ -714,7 +714,7 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
   // Create an array of HTML elements from the $links string, keys
   // are the class attribute for the <li> tags.
   $dom = new DOMDocument;
-  $dom->loadHTML($links);
+  $dom->loadHTML(mb_convert_encoding($links, 'HTML-ENTITIES', 'UTF-8'));
   foreach($dom->getElementsByTagName('li') as $node) {
     $key = $node->getAttribute("class");
     $alllinks[$key] = $dom->saveHTML($node);
@@ -754,7 +754,7 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
 function _boinc_firstlink(&$alink) {
   if (!empty($alink)) {
     $dom = new DomDocument;
-    $dom->loadHTML($alink);
+    $dom->loadHTML(mb_convert_encoding($alink, 'HTML-ENTITIES', 'UTF-8'));
 
     $myli = $dom->getElementsByTagName('li');
     if ($myli->length>0) {
