@@ -38,10 +38,9 @@
 ## In Terminal, CD to the wxWidgets-3.0.0 directory.
 ##    cd [path]/wxWidgets-3.0.0/
 ## then run this script:
-##    source [ path_to_this_script ] [ -clean ] [ -debug ]
+##    source [ path_to_this_script ] [ -clean ]
 ##
 ## the -clean argument will force a full rebuild.
-## the -debug argument will build wxWidgets in Debug mode
 #
 
 Path=$PWD
@@ -140,48 +139,35 @@ else
     echo "src/osx/carbon/dcclient.cpp already patched"
 fi
 
-# might already be set by caller
-if [ "x${PREFIX}" = "x" ]; then
-    PREFIX=`pwd`/../../../install/mac
-fi
+echo ""
 
-doclean=""
-configuration="Release"
-while [[ $# -gt 0 ]]; do
-    key="$1"
-    case $key in
-        -clean|--clean)
-        doclean="clean"
-        ;;
-        -debug|--debug)
-        configuration="Debug"
-        ;;
-    esac
-    shift # past argument or value
-done
 
-debug_flag="--disable-debug_flag"
-if [ $configuration = "Debug" ]; then
-    debug_flag="--enable-debug"
-    echo "Debug build not implemented yet"
-    return 1
-fi
 
-if [ "${doclean}" = "" ] && [ -f ${PREFIX}/lib/libwx_osx_cocoa_static.a ]; then
-    echo "libwx_osx_cocoa_static.a already built"
+if [ "$1" = "-clean" ]; then
+  doclean="clean "
 else
-    make clean
+  doclean=""
 fi
 
-arch_flags="-arch i386" # builds a library that can be used on 32 and 64bit systems
-mkdir build-cocoa
-cd build-cocoa
-../configure --prefix="${PREFIX}" --with-osx --with-cocoa --disable-shared --enable-monolithic ${debug_flag} --with-macosx-version-min=10.6 CFLAGS="$arch_flags" CXXFLAGS="$arch_flags" CPPFLAGS="$arch_flags" LDFLAGS="$arch_flags" OBJCFLAGS="$arch_flags" OBJCXXFLAGS="$arch_flags"
-if [ $? -ne 0 ]; then cd ..; return 1; fi
-make 1>make.log
-if [ $? -ne 0 ]; then cd ..; return 1; fi
-make install
-if [ $? -ne 0 ]; then cd ..; return 1; fi
+if [ "$1" != "-clean" ] && [ -f build/osx/build/Release/libwx_osx_cocoa_static.a ]; then
+    echo "Release libwx_osx_cocoa_static.a already built"
+else
 
-cd ..
+##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
+    ## We must override some of the build settings in wxWindows.xcodeproj
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0"
+
+if [  $? -ne 0 ]; then return 1; fi
+fi
+
+if [ "$1" != "-clean" ] && [ -f build/osx/build/Debug/libwx_osx_cocoa_static.a ]; then
+    echo "Debug libwx_osx_cocoa_static.a already built"
+else
+##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
+    ## We must override some of the build settings in wxWindows.xcodeproj
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0"
+
+if [  $? -ne 0 ]; then return 1; fi
+fi
+
 return 0
