@@ -176,7 +176,7 @@ fi
 arch_flags="-arch i386" # builds a library that can be used on 32 and 64bit systems
 mkdir build-cocoa
 cd build-cocoa
-../configure --prefix="${PREFIX}" --with-osx --with-cocoa --disable-shared ${debug_flag} --with-macosx-version-min=10.6 CFLAGS="$arch_flags" CXXFLAGS="$arch_flags" CPPFLAGS="$arch_flags" LDFLAGS="$arch_flags" OBJCFLAGS="$arch_flags" OBJCXXFLAGS="$arch_flags"
+../configure --prefix="${PREFIX}" --with-osx --with-cocoa --disable-shared --enable-monolithic ${debug_flag} --with-macosx-version-min=10.6 CFLAGS="$arch_flags" CXXFLAGS="$arch_flags" CPPFLAGS="$arch_flags" LDFLAGS="$arch_flags" OBJCFLAGS="$arch_flags" OBJCXXFLAGS="$arch_flags"
 if [ $? -ne 0 ]; then cd ..; return 1; fi
 make 1>make.log
 if [ $? -ne 0 ]; then cd ..; return 1; fi
