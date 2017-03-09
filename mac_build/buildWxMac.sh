@@ -183,7 +183,5 @@ if [ $? -ne 0 ]; then cd ..; return 1; fi
 make install
 if [ $? -ne 0 ]; then cd ..; return 1; fi
 
-echo $(ls ${PREFIX}/lib/wx/include/)
-echo $(ls ${PREFIX}/lib/)
 cd ..
 return 0

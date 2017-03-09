@@ -66,8 +66,6 @@ mkdir -p 3rdParty/mac
 mkdir -p install/mac
 cd ./3rdParty/mac
 
-rm -f ${PREFIX}/wxWidgets-3.0.0_done
-
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
 download_and_build "openssl-1.1.0" "openssl-1.1.0.tar.gz" "https://www.openssl.org/source/openssl-1.1.0.tar.gz" "${SRCDIR}/mac_build/buildopenssl.sh"
 download_and_build "c-ares-1.11.0" "c-ares-1.11.0.tar.gz" "http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz" "${SRCDIR}/mac_build/buildc-ares.sh"
