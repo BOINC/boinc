@@ -125,8 +125,6 @@ h1 {
                            (relative to the base font), we have to divide that
                            length by the element's font-size:
                            1em / 2em = 0.5em */
-  border-bottom: 2px dotted #aaa;
-  padding-bottom: 7px;
 }
 
 h2 {
