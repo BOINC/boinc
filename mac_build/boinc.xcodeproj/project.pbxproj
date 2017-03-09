@@ -3487,8 +3487,6 @@
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
 					"../install/mac/include",
-					"../install/mac/include/wx-3.0",
-					"../install/mac/lib/wx/include/osx_cocoa-unicode-static-3.0",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3510,7 +3508,7 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
-					"-lwx_osx_cocoau-3.0",
+					"-lwx_osx_cocoa_static",
 					"../install/mac/lib/libsqlite3.a",
 					"-lz",
 					"-lpthread",
@@ -3542,8 +3540,6 @@
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
 					"../install/mac/include",
-					"../install/mac/include/wx-3.0",
-					"../install/mac/lib/wx/include/osx_cocoa-unicode-static-3.0",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3567,7 +3563,7 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
-					"-lwx_osx_cocoau-3.0",
+					"-lwx_osx_cocoa_static",
 					"../install/mac/lib/libsqlite3.a",
 					"-lz",
 					"-lpthread",

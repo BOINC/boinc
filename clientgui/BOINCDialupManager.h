@@ -22,7 +22,6 @@
 #pragma interface "BOINCDialupManager.cpp"
 #endif
 
-#include "stdwx.h"
 
 class CBOINCDialUpManager : public wxObject
 {
