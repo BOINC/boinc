@@ -70,7 +70,7 @@ cd ./3rdParty/mac
 download_and_build "openssl-1.1.0" "openssl-1.1.0.tar.gz" "https://www.openssl.org/source/openssl-1.1.0.tar.gz" "${SRCDIR}/mac_build/buildopenssl.sh"
 download_and_build "c-ares-1.11.0" "c-ares-1.11.0.tar.gz" "http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz" "${SRCDIR}/mac_build/buildc-ares.sh"
 download_and_build "curl-7.50.2" "curl-7.50.2.tar.gz" "http://curl.haxx.se/download/curl-7.50.2.tar.gz" "${SRCDIR}/mac_build/buildcurl.sh"
-download_and_build "wxWidgets-3.0.0" "wxWidgets-3.0.0.tar.bz2" "http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2" "${SRCDIR}/mac_build/buildWxMac.sh"
+download_and_build "wxWidgets-3.0.0" "wxWidgets-3.0.0.tar.bz2" "http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2" "${SRCDIR}/mac_build/buildWxMac.sh --nodebug"
 download_and_build "sqlite-autoconf-3110000" "sqlite-autoconf-3110000.tar.gz" "http://www.sqlite.org/2016/sqlite-autoconf-3110000.tar.gz" "${SRCDIR}/mac_build/buildsqlite3.sh"
 download_and_build "freetype-2.6.2" "freetype-2.6.2.tar.bz2" "http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2" "${SRCDIR}/mac_build/buildfreetype.sh"
 download_and_build "ftgl-2.1.3~rc5" "ftgl-2.1.3-rc5.tar.gz" "http://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz" "${SRCDIR}/mac_build/buildFTGL.sh"
