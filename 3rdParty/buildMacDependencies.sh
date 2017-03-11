@@ -66,6 +66,10 @@ mkdir -p 3rdParty/mac
 mkdir -p install/mac
 cd ./3rdParty/mac
 
+# remove old libcurl to force rebuild
+rm -f ${PREFIX}/lib/libcurl.a
+rm -f ${PREFIX}/curl-7.50.2_done
+
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
 download_and_build "openssl-1.1.0" "openssl-1.1.0.tar.gz" "https://www.openssl.org/source/openssl-1.1.0.tar.gz" "${SRCDIR}/mac_build/buildopenssl.sh"
 download_and_build "c-ares-1.11.0" "c-ares-1.11.0.tar.gz" "http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz" "${SRCDIR}/mac_build/buildc-ares.sh"
