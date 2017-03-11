@@ -117,6 +117,8 @@ fi
 
 make
 if [ $? -ne 0 ]; then return 1; fi
+make test
+if [ $? -ne 0 ]; then return 1; fi
 make install
 if [ $? -ne 0 ]; then return 1; fi
 
