@@ -177,6 +177,7 @@ else
     cp build/osx/build/Release/libwx_osx_cocoa_static.a "${PREFIX}/lib"
     strip -x "${PREFIX}/lib/libwx_osx_cocoa_static.a"
     cp -R include/wx "${PREFIX}/include"
+    cp build/osx/setup/cocoa/include/wx/setup.h "${PREFIX}/include/wx"
 fi
 
 if [ ${nodebug} = "yes" ]; then
