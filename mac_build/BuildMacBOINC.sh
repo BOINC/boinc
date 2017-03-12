@@ -28,6 +28,7 @@
 # Updated 2/7/14 to also build libboinc_zip.a
 # Updated 11/28/15 to build ScreenSaver with ARC under Xcode 6 or later
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
+# Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
 #
 ## This script requires OS 10.8 or later
 #
@@ -62,8 +63,7 @@
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
-##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a and the
-##              utility application MakeAppIcon_h.
+##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
@@ -106,7 +106,7 @@ if [ "${doclean}" = "clean" ]; then
 fi
 
 if [ "${buildlibs}" = "1" ]; then
-    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target MakeAppIcon_h"
+    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg"
 fi
 
 if [ "${buildclient}" = "1" ]; then
@@ -120,7 +120,7 @@ if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
         targets="-target Build_All"
     else
         ## We must modify the build settings for the screensaver only, to build it with ARC
-        targets="-target SetVersion -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target MakeAppIcon_h -target BOINC_Client -target switcher -target setprojectgrp -target cmd_boinc -target mgr_boinc -target Install_BOINC -target PostInstall -target Uninstaller -target SetUpSecurity -target AddRemoveUser -target WaitPermissions -target ss_app -target gfx_switcher"
+        targets="-target SetVersion -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target BOINC_Client -target switcher -target setprojectgrp -target cmd_boinc -target mgr_boinc -target Install_BOINC -target PostInstall -target Uninstaller -target SetUpSecurity -target AddRemoveUser -target ss_app -target gfx_switcher"
     fi
 fi
 
