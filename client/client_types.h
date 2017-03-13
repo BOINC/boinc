@@ -255,6 +255,7 @@ struct APP {
     bool non_cpu_intensive;
     bool fraction_done_exact;
     PROJECT* project;
+    bool report_results_immediately;
     int max_concurrent;
         // Limit on # of concurrent jobs of this app; 0 if none
         // Specified in app_config.xml

@@ -906,6 +906,10 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
             p->rsc_pwf[j].deadlines_missed_copy = p->rsc_pwf[j].deadlines_missed;
         }
     }
+
+    // compute max working set size for app versions
+    // (max of working sets of currently running jobs)
+    //
     for (i=0; i<app_versions.size(); i++) {
         app_versions[i]->max_working_set_size = 0;
     }
@@ -1265,12 +1269,17 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
 #endif
 
+        // skip jobs whose working set is too large to fit in available RAM
+        //
         double wss = 0;
         if (atp) {
             atp->too_large = false;
             wss = atp->procinfo.working_set_size_smoothed;
         } else {
             wss = rp->avp->max_working_set_size;
+        }
+        if (wss == 0) {
+            wss = rp->wup->rsc_memory_bound;
         }
         if (wss > ram_left) {
             if (atp) {

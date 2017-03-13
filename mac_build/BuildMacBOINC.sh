@@ -28,11 +28,12 @@
 # Updated 2/7/14 to also build libboinc_zip.a
 # Updated 11/28/15 to build ScreenSaver with ARC under Xcode 6 or later
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
+# Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
 #
 ## This script requires OS 10.8 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 ##
 
@@ -47,7 +48,7 @@
 ##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-help]
 ##
 ## optional arguments
-## -dev         build the development (debug) version. 
+## -dev         build the development (debug) version.
 ##              default is deployment (release) version.
 ##
 ## -noclean     don't do a "clean" of each target before building.
@@ -62,7 +63,7 @@
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
-##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.
+##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
@@ -88,7 +89,7 @@ isXcode6orLater=1
 fi
 
 while [ $# -gt 0 ]; do
-  case "$1" in 
+  case "$1" in
     -noclean ) doclean="" ; shift 1 ;;
     -dev ) style="Development" ; shift 1 ;;
     -libc++ ) uselibcplusplus="CLANG_CXX_LIBRARY=libc++ MACOSX_DEPLOYMENT_TARGET=10.7" ; shift 1 ;;

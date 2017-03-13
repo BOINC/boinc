@@ -41,6 +41,24 @@ typedef int NSInteger;
 typedef float CGFloat;
 #endif
 
+// NSCompositeSourceOver is deprecated in OS 10.12 and is replaced by
+// NSCompositingOperationSourceOver, which is not defined before OS 10.12
+#ifndef NSCompositingOperationSourceOver
+#define NSCompositingOperationSourceOver NSCompositeSourceOver
+#endif
+
+// NSCompositeCopy is deprecated in OS 10.12 and is replaced by
+// NSCompositingOperationCopy, which is not defined before OS 10.12
+#ifndef NSCompositingOperationCopy
+#define NSCompositingOperationCopy NSCompositeCopy
+#endif
+
+// NSCriticalAlertStyle is deprecated in OS 10.12 and is replaced by
+// NSAlertStyleCritical, which is not defined before OS 10.12
+#ifndef NSAlertStyleCritical
+#define NSAlertStyleCritical NSCriticalAlertStyle
+#endif
+
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
@@ -246,9 +264,6 @@ int signof(float x) {
     char *msg;
     CFStringRef cf_msg;
     double timeToBlock, frameStartTime = getDTime();
-    kern_return_t   kernResult = kIOReturnError; 
-    UInt64          params;
-    IOByteCount     rcnt = sizeof(UInt64);
     double          idleTime = 0;
     HIThemeTextInfo textInfo;
 
@@ -273,18 +288,16 @@ int signof(float x) {
         return;
     }
 
-    // For unkown reasons, OS 10.7 Lion screensaver delays several seconds after 
-    // user activity before calling stopAnimation, so we check user activity here
+    // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
+    // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-        kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
-        if ( kernResult == kIOReturnSuccess ) {
-            idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
-            if (idleTime < 1.5) {
-                [ NSApp terminate:nil ];
-            }
+           idleTime =  CGEventSourceSecondsSinceLastEventType
+                    (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+        if (idleTime < 1.5) {
+            [ NSApp terminate:nil ];
         }
     }
-    
+
    myContext = [[NSGraphicsContext currentContext] graphicsPort];
 //    [myContext retain];
     

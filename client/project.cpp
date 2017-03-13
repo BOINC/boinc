@@ -88,6 +88,7 @@ void PROJECT::init() {
     anonymous_platform = false;
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
+    report_results_immediately = false;
     pwf.reset(this);
     send_time_stats_log = 0;
     send_job_log = 0;

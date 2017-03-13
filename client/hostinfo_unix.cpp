@@ -138,8 +138,6 @@ extern "C" {
 
 #include <dlfcn.h>
 #endif
-
-mach_port_t gEventHandle = NULL;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -1919,72 +1917,6 @@ inline bool all_input_idle(time_t t) {
     }
     return true;
 }
-
-#if HAVE_UTMP_H
-inline bool user_idle(time_t t, struct utmp* u) {
-    char tty[5 + sizeof u->ut_line + 1] = "/dev/";
-    unsigned int i;
-
-    for (i=0; i < sizeof(u->ut_line); i++) {
-        // clean up tty if garbled
-        if (isalnum((int) u->ut_line[i]) || (u->ut_line[i]=='/')) {
-            tty[i+5] = u->ut_line[i];
-        } else {
-            tty[i+5] = '\0';
-        }
-    }
-    return device_idle(t, tty);
-}
-
-#if !HAVE_SETUTENT || !HAVE_GETUTENT
-  static FILE *ufp = NULL;
-  static struct utmp ut;
-
-  // get next user login record
-  // (this is defined on everything except BSD)
-  //
-  struct utmp *getutent() {
-      if (ufp == NULL) {
-#if defined(UTMP_LOCATION)
-          if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL) {
-#elif defined(UTMP_FILE)
-          if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
-#elif defined(_PATH_UTMP)
-          if ((ufp = fopen(_PATH_UTMP, "r")) == NULL) {
-#else
-          if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
-#endif
-              return((struct utmp *)NULL);
-          }
-      }
-      do {
-          if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
-              return((struct utmp *)NULL);
-          }
-      } while (ut.ut_name[0] == 0);
-      return(&ut);
-  }
-
-  void setutent() {
-      if (ufp != NULL) rewind(ufp);
-  }
-#endif
-
-  // scan list of logged-in users, and see if they're all idle
-  //
-  inline bool all_logins_idle(time_t t) {
-      struct utmp* u;
-      setutent();
-
-      while ((u = getutent()) != NULL) {
-          if (!user_idle(t, u)) {
-              return false;
-          }
-      }
-      return true;
-  }
-#endif  // HAVE_UTMP_H
-
 #ifdef __APPLE__
 
 // We can't link the client with the AppKit framework because the client
@@ -2017,6 +1949,10 @@ int get_system_uptime() {
 // CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC, 
 // except when BOINC is a pre-login launchd daemon running as user boinc_master.
 //
+// IOHIDGetParameter() is deprecated in OS 10.12, but IORegistryEntryFromPath()
+// and IORegistryEntryCreateCFProperty() do the same thing and have been
+// available since OS 10.0.
+//
 // Also, CGEventSourceSecondsSinceLastEventType() does not detect user activity 
 // when the user who launched the client is switched out by fast user switching.
 //
@@ -2026,88 +1962,54 @@ int get_system_uptime() {
 // CGEventSourceSecondsSinceLastEventType().  If both return without error, 
 // we use the lower of the two returned values.
 //
+//TODO: I believe that the IOHIDSystemEntry returned by IORegistryEntryFromPath()
+// will remain valid as long as the client application runs if we don't call
+// IOObjectRelease() on it, so we could probably make this more efficient by
+// calling IORegistryEntryFromPath() only once. But I have not been able to
+// confirm that, so I call it each time through this function out of caution.
+// Even with calling IORegistryEntryFromPath() each time, this code is much
+// faster than the previous method, which called IOHIDGetParameter().
+//
 bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
 ) {
     static bool     error_posted = false;
+    int64_t         idleNanoSeconds;
     double          idleTime = 0;
     double          idleTimeFromCG = 0;
-    io_service_t    service;
-    kern_return_t   kernResult = kIOReturnError; 
-    UInt64          params;
-    IOByteCount     rcnt = sizeof(UInt64);
-    void            *IOKitlib = NULL;
-    static bool     triedToLoadNXIdleTime = false;
-    static nxIdleTimeProc  myNxIdleTimeProc = NULL;
+
+    CFTypeRef idleTimeProperty;
+    io_registry_entry_t IOHIDSystemEntry;
     
     if (error_posted) goto bail;
     
-    if (!triedToLoadNXIdleTime) {
-        triedToLoadNXIdleTime = true;
+    IOHIDSystemEntry = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IOHIDSystem");
+    if (IOHIDSystemEntry != MACH_PORT_NULL) {
+        idleTimeProperty = IORegistryEntryCreateCFProperty(IOHIDSystemEntry, CFSTR(EVSIOIDLE), kCFAllocatorDefault, kNilOptions);
+        CFNumberGetValue((CFNumberRef)idleTimeProperty, kCFNumberSInt64Type, &idleNanoSeconds);
+        idleTime = ((double)idleNanoSeconds) / 1000.0 / 1000.0 / 1000.0;
+        IOObjectRelease(IOHIDSystemEntry);  // Prevent a memory leak (see comment above)
+        CFRelease(idleTimeProperty);
+    } else {
+        // When the system first starts up, allow time for HIDSystem to be available if needed
+        if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
+             msg_printf(NULL, MSG_INFO,
+                "Could not connect to HIDSystem: user idle detection is disabled."
+            );
+            error_posted = true;
+            goto bail;
+        }
+    }
+    
+    if (!gstate.executing_as_daemon) {
+        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType  
+                (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
 
-        IOKitlib = dlopen ("/System/Library/Frameworks/IOKit.framework/IOKit", RTLD_NOW );
-        if (IOKitlib) {
-            myNxIdleTimeProc = (nxIdleTimeProc)dlsym(IOKitlib, "NXIdleTime");
+        if (idleTimeFromCG < idleTime) {
+            idleTime = idleTimeFromCG;
         }
     }
 
-    if (myNxIdleTimeProc) {   // Use NXIdleTime API in OS 10.5 and earlier
-        if (gEventHandle) {
-            idleTime = myNxIdleTimeProc(gEventHandle);    
-        } else {
-            // Initialize Mac OS X idle time measurement / idle detection
-            // Do this here because NXOpenEventStatus() may not be available 
-            // immediately on system startup when running as a deaemon.
-
-            gEventHandle = NXOpenEventStatus();
-            if (!gEventHandle) {
-                if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
-                     msg_printf(NULL, MSG_INFO,
-                        "User idle detection is disabled: initialization failed."
-                    );
-                    error_posted = true;
-                    goto bail;
-                }
-            }
-        }
-    } else {        // NXIdleTime API does not exist in OS 10.6 and later
-        if (gEventHandle) {
-            kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
-            if ( kernResult != kIOReturnSuccess ) {
-                msg_printf(NULL, MSG_INFO,
-                    "User idle time measurement failed because IOHIDGetParameter failed."
-                );
-                error_posted = true;
-                goto bail;
-            }
-            idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
-            
-             if (!gstate.executing_as_daemon) {
-                idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType  
-                        (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-        
-                if (idleTimeFromCG < idleTime) {
-                    idleTime = idleTimeFromCG;
-                }
-            }
-        } else {
-            service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching(kIOHIDSystemClass));
-            if (service) {
-                 kernResult = IOServiceOpen(service, mach_task_self(), kIOHIDParamConnectType, &gEventHandle);
-            }
-            if ( (!service) || (kernResult != KERN_SUCCESS) ) {
-                // When the system first starts up, allow time for HIDSystem to be available if needed
-                if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
-                     msg_printf(NULL, MSG_INFO,
-                        "Could not connect to HIDSystem: user idle detection is disabled."
-                    );
-                    error_posted = true;
-                    goto bail;
-                }
-            }
-        }   // End (gEventHandle == NULL)
-    }           // End NXIdleTime API does not exist
-    
 bail:
     if (actual_idle_time) {
         *actual_idle_time = idleTime;
@@ -2116,6 +2018,73 @@ bail:
 }
 
 #else  // ! __APPLE__
+
+#if HAVE_UTMP_H
+inline bool user_idle(time_t t, struct utmp* u) {
+    char tty[5 + sizeof u->ut_line + 1] = "/dev/";
+    unsigned int i;
+
+    for (i=0; i < sizeof(u->ut_line); i++) {
+        // clean up tty if garbled
+        if (isalnum((int) u->ut_line[i]) || (u->ut_line[i]=='/')) {
+            tty[i+5] = u->ut_line[i];
+        } else {
+            tty[i+5] = '\0';
+        }
+    }
+    return device_idle(t, tty);
+}
+
+#if !HAVE_SETUTENT || !HAVE_GETUTENT
+  static FILE *ufp = NULL;
+  static struct utmp ut;
+
+  // get next user login record
+  // (this is defined on everything except BSD)
+  //
+  struct utmp *getutent() {
+      if (ufp == NULL) {
+#if defined(UTMP_LOCATION)
+          if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL)
+#elif defined(UTMP_FILE)
+          if ((ufp = fopen(UTMP_FILE, "r")) == NULL)
+#elif defined(_PATH_UTMP)
+          if ((ufp = fopen(_PATH_UTMP, "r")) == NULL)
+#else
+          if ((ufp = fopen("/etc/utmp", "r")) == NULL)
+#endif
+          { // Please keep all braces balanced in source files; repeated
+            // open braces in conditional compiles confuse Xcode's editor.
+              return((struct utmp *)NULL);
+          }
+      }
+      do {
+          if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
+              return((struct utmp *)NULL);
+          }
+      } while (ut.ut_name[0] == 0);
+      return(&ut);
+  }
+
+  void setutent() {
+      if (ufp != NULL) rewind(ufp);
+  }
+#endif
+
+  // scan list of logged-in users, and see if they're all idle
+  //
+  inline bool all_logins_idle(time_t t) {
+      struct utmp* u;
+      setutent();
+
+      while ((u = getutent()) != NULL) {
+          if (!user_idle(t, u)) {
+              return false;
+          }
+      }
+      return true;
+  }
+#endif  // HAVE_UTMP_H
 
 #if LINUX_LIKE_SYSTEM
 bool interrupts_idle(time_t t) {

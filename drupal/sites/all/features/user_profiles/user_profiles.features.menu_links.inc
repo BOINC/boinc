@@ -16,7 +16,6 @@ function user_profiles_menu_default_menu_links() {
       'attributes' => array(
         'title' => '',
       ),
-      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -31,7 +30,7 @@ function user_profiles_menu_default_menu_links() {
     'menu_name' => 'primary-links',
     'link_path' => 'moderate/profiles',
     'router_path' => 'moderate/profiles',
-    'link_title' => 'Moderation Queue',
+    'link_title' => 'Queue',
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -48,7 +47,7 @@ function user_profiles_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Moderation Queue');
+  t('Queue');
   t('Profile');
 
 

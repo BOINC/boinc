@@ -21,6 +21,7 @@
 #define VERBOSE_SPAWN 0  /* for debugging callPosixSpawn */
 
 #include <Carbon/Carbon.h>
+#include <sys/param.h>  // for MAXPATHLEN
 #include <spawn.h>
 
 #define NOT_IN_TOKEN                0
