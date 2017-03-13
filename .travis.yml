@@ -4,7 +4,7 @@ os:
   - osx
 compiler:
   - gcc
-#  - clang
+  - clang
 
 branches:
   only:
@@ -76,6 +76,8 @@ env:
 matrix:
   fast_finish: true
   exclude:
+  - os: linux
+    compiler: clang
   - os: osx
     env: BOINC_TYPE=server
   - os: osx
