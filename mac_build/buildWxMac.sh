@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -38,14 +38,15 @@
 ## In Terminal, CD to the wxWidgets-3.0.0 directory.
 ##    cd [path]/wxWidgets-3.0.0/
 ## then run this script:
-##    source [ path_to_this_script ] [ -clean ] [ -nodebug ]
+##    source [ path_to_this_script ] [ -clean ] [ -nodebug ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
 ## the -nodebug argument will ommit building the debug version of the library
+## if --prefix is given as absolute path the library is installed into there
 #
 
-Path=$PWD
-echo "${Path}" | grep " " > /dev/null 2>&1
+SRCDIR=$PWD
+echo "${SRCDIR}" | grep " " > /dev/null 2>&1
 if [ "$?" -eq "0" ]; then
     echo "**********************************************************"
     echo "**********************************************************"
@@ -142,14 +143,12 @@ fi
 
 echo ""
 
-# might already be set by caller
-if [ "x${PREFIX}" = "x" ]; then
-    PREFIX=`pwd`/../../../install/mac
-fi
-
-retval=0
 doclean=""
+lprefix=""
+libPathRel="build/osx/build/Release"
+libPathDbg="build/osx/build/Debug"
 nodebug=""
+beautifier="cat" # we need a fallback if xcpretty is not available
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -159,41 +158,57 @@ while [[ $# -gt 0 ]]; do
         -nodebug|--nodebug)
         nodebug="yes"
         ;;
+        -prefix|--prefix)
+        lprefix="$2"
+        libPathRel="${lprefix}/lib"
+        libPathDbg="${lprefix}/lib/debug"
+        shift
+        ;;
     esac
     shift # past argument or value
 done
 
-if [ "${doclean}" != "clean" ] && [ -f ${PREFIX}/lib/libwx_osx_cocoa_static.a ]; then
+XCPRETTYPATH=`xcrun -find xcpretty`
+if [ $? -eq 0 ]; then
+    beautifier="xcpretty"
+fi
+
+retval=0
+
+if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" ]; then
     echo "Release libwx_osx_cocoa_static.a already built"
 else
 
 ##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0" | xcpretty && retval=${PIPESTATUS[0]}
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
-    # copy library and headers to $PREFIX
-    mkdir -p "${PREFIX}/lib"
-    mkdir -p "${PREFIX}/include"
-    cp build/osx/build/Release/libwx_osx_cocoa_static.a "${PREFIX}/lib"
-    strip -x "${PREFIX}/lib/libwx_osx_cocoa_static.a"
-    cp -R include/wx "${PREFIX}/include"
-    cp build/osx/setup/cocoa/include/wx/setup.h "${PREFIX}/include/wx"
+    if [ "x${lprefix}" != "x" ]; then
+        # copy library and headers to $lprefix
+        mkdir -p "${libPathRel}"
+        mkdir -p "${lprefix}/include"
+        cp build/osx/build/Release/libwx_osx_cocoa_static.a "${libPathRel}"
+        strip -x "${libPathRel}/libwx_osx_cocoa_static.a"
+        cp -R include/wx "${lprefix}/include"
+        cp build/osx/setup/cocoa/include/wx/setup.h "${lprefix}/include/wx"
+    fi
 fi
 
 if [ ${nodebug} = "yes" ]; then
     return 0
 fi
 
-if [ "${doclean}" != "clean" ] && [ -f ${PREFIX}/lib/debug/libwx_osx_cocoa_static.a ]; then
+if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" ]; then
     echo "Debug libwx_osx_cocoa_static.a already built"
 else
 ##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0" | xcpretty && retval=${PIPESTATUS[0]}
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="i386" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
-    # copy debug library to $PREFIX
-    mkdir -p "${PREFIX}/lib/debug"
-    cp build/osx/build/Debug/libwx_osx_cocoa_static.a "${PREFIX}/lib/debug"
+    if [ "x${lprefix}" != "x" ]; then
+        # copy debug library to $PREFIX
+        mkdir -p "${libPathDbg}"
+        cp build/osx/build/Debug/libwx_osx_cocoa_static.a "${libPathDbg}"
+    fi
 fi
-
 return 0

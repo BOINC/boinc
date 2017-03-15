@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -35,18 +35,36 @@
 ## In Terminal, CD to the ftgl-2.1.3~rc5 directory.
 ##     cd [path]/ftgl-2.1.3~rc5/
 ## then run this script:
-##     source [path]/buildFTGL.sh [ -clean ]
+##     source [path]/buildFTGL.sh [ -clean ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
+## if --prefix is given as absolute path the library is installed into there
 ##
 
-# might already be set by caller
-if [ "x${PREFIX}" = "x" ]; then
-    PREFIX=`pwd`/../../../install/mac
-fi
+doclean=""
+lprefix=""
+libPath="src/.libs"
+libftpath="`pwd`/../freetype_install/"
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -clean|--clean)
+        doclean="yes"
+        ;;
+        -prefix|--prefix)
+        lprefix="$2"
+        libPath="${lprefix}/lib"
+        libftpath=$libPath
+        shift
+        ;;
+    esac
+    shift # past argument or value
+done
 
-if [ "$1" != "-clean" ]; then
-    if [ -f ${PREFIX}/lib/libftgl.a ]; then
+SRCDIR=$PWD
+
+if [ "${doclean}" != "yes" ]; then
+    if [ -f "${libPath}/libftgl.a" ]; then
         echo "ftgl-2.1.3~rc5 already built"
         return 0
     fi
@@ -84,8 +102,6 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-if [ $? -ne 0 ]; then return 1; fi
-
 # Build for i386 architecture
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
@@ -93,22 +109,28 @@ export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=
 export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
 
-./configure --prefix="${PREFIX}" --enable-shared=NO --disable-freetypetest  --with-ft-prefix="${PREFIX}" --host=i386
-if [ $? -ne 0 ]; then return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=i386
+    if [ $? -ne 0 ]; then return 1; fi
+else
+    ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=i386
+    if [ $? -ne 0 ]; then return 1; fi
+fi
 
-if [ "$1" = "-clean" ]; then
+if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
 cd src
 make
 if [ $? -ne 0 ]; then
-    cd ..
+    cd "${SRCDIR}"
     return 1;
 fi
 
+# save i386 lib for later use
 mv -f .libs/libftgl.a libftgl_i386.a
-cd ..
+cd "${SRCDIR}"
 
 # Build for x86_64 architecture
 make clean
@@ -119,8 +141,15 @@ export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWE
 export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
 
-./configure --prefix="${PREFIX}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${PREFIX}" --host=x86_64
-if [ $? -ne 0 ]; then
+retval=0
+if [ "x${lprefix}" != "x" ]; then
+    ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
+    retval=$?
+else
+    ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
+    retval=$?
+fi
+if [ $retval -ne 0 ]; then
     rm -f src/libftgl_i386.a
     return 1;
 fi
@@ -129,29 +158,34 @@ cd src
 make
 if [ $? -ne 0 ]; then
     rm -f libftgl_i386.a
-    cd ..
+    cd "${SRCDIR}"
     return 1;
 fi
 
 mv -f .libs/libftgl.a .libs/libftgl_x86_64.a
+# combine i386 and x86_64 libraries
 lipo -create libftgl_i386.a .libs/libftgl_x86_64.a -output .libs/libftgl.a
 if [ $? -ne 0 ]; then
-    cd ..
+    rm -f .libs/libftgl_x86_64.a libftgl_i386.a
+    cd "${SRCDIR}"
     return 1;
 fi
 
 rm -f libftgl_i386.a
 rm -f .libs/libftgl_x86_64.a
 
-# this installs the modified library
-make install
-if [ $? -ne 0 ]; then
-    cd ..
-    return 1;
+if [ "x${lprefix}" != "x" ]; then
+    # this installs the modified library
+    make install
+    if [ $? -ne 0 ]; then
+        cd "${SRCDIR}"
+        return 1;
+    fi
 fi
 
-cd ..
+cd "${SRCDIR}"
 
+lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""

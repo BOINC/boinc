@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2014 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -42,21 +42,34 @@
 ## In Terminal, CD to the openssl-1.1.0 directory.
 ##     cd [path]/openssl-1.1.0/
 ## then run this script:
-##     source [path]/buildopenssl.sh [ -clean ]
+##     source [path]/buildopenssl.sh [ -clean ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
+## if --prefix is given as absolute path the library is installed into there
 ##
 
-# might already be set by caller
-if [ "x$PREFIX" = "x" ]; then
-    PREFIX=`pwd`/../../../install/mac
-fi
+doclean=""
+lprefix=""
+libPath="."
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -clean|--clean)
+        doclean="yes"
+        ;;
+        -prefix|--prefix)
+        lprefix="$2"
+        libPath="${lprefix}/lib"
+        shift
+        ;;
+    esac
+    shift # past argument or value
+done
 
-if [ "$1" != "-clean" ]; then
-    if [ -f ${PREFIX}/lib/libssl.a ] && [ -f ${PREFIX}/lib/libcrypto.a ]; then
-        echo "openssl-1.1.0 libraries already built"
-        return 0
-    fi
+if [ "${doclean}" != "yes" ]; then
+    if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
+    echo "openssl-1.1.0 libraries already built"
+    return 0
 fi
 
 export PATH=/usr/local/bin:$PATH
@@ -93,8 +106,9 @@ SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-if [ -d "${PREFIX}/lib" ]; then
-    rm -f ${PREFIX}/lib/libssl.a ${PREFIX}/lib/libcrypto.a
+if [ -d "${libPath}" ]; then
+    rm -f {libPath}/libssl.a
+    rm -f {libPath}/libcrypto.a
 fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
@@ -105,18 +119,27 @@ export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
-./configure --prefix=${PREFIX} no-shared darwin64-x86_64-cc
-if [ $? -ne 0 ]; then return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    ./configure --prefix=${lprefix} no-shared darwin64-x86_64-cc
+    if [ $? -ne 0 ]; then return 1; fi
+else
+    ./configure no-shared darwin64-x86_64-cc
+    if [ $? -ne 0 ]; then return 1; fi
+fi
 
-if [ "$1" = "-clean" ]; then
+if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
 make
 if [ $? -ne 0 ]; then return 1; fi
-make install
-if [ $? -ne 0 ]; then return 1; fi
 
+if [ "x${lprefix}" != "x" ]; then
+    make install
+    if [ $? -ne 0 ]; then return 1; fi
+fi
+
+lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""

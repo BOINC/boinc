@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2015 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -43,11 +43,7 @@
 # When updating versions here also change them in build/buildMacDependencies.sh
 #
 # Download these seven packages and place them in a common parent directory
-# with the BOINC source tree. For compatibility with Travis CI builds, they
-# can instead be placed in the directory ../build/mac/
-#
-# When the packages are placed in the parent directory, this script creates
-# symbolic links to them in ../build/mac/.
+# with the BOINC source tree.
 #
 ## In Terminal, cd to the mac_build directory of the boinc tree; for
 ## example:
@@ -59,17 +55,6 @@
 #
 # This script will work even if you have renamed the boinc/ directory
 #
-
-function make_symlink_if_needed() {
-    cd ../build/mac/
-    if [ ! -d "${1}" ]; then
-        if [ -d "../../../${1}" ]; then
-            ln -s "../../../${1}"
-        fi
-    fi
-
-    cd "${SCRIPT_DIR}"
-}
 
 if [ "$1" = "-clean" ]; then
   cleanit="-clean"
@@ -88,19 +73,13 @@ finalResult=0
 
 SCRIPT_DIR=`pwd`
 
-if [ ! -d ../build/mac/ ]; then
-    mkdir -p ../build/mac/
-fi
-
 echo ""
 echo "----------------------------------"
 echo "----- BUILD OPENSSL-1.1.0 -------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed openssl-1.1.0
-
-cd ../build/mac/openssl-1.1.0/
+cd ../../openssl-1.1.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -116,9 +95,7 @@ echo "------- BUILD C-ARES-1.11.0 ------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed c-ares-1.11.0
-
-cd ../build/mac/c-ares-1.11.0/
+cd ../../c-ares-1.11.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -134,9 +111,7 @@ echo "------- BUILD CURL-7.50.2 --------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed curl-7.50.2
-
-cd ../build/mac/curl-7.50.2/
+cd ../../curl-7.50.2/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -152,9 +127,7 @@ echo "----- BUILD wxWidgets-3.0.0 ------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed wxWidgets-3.0.0
-
-cd ../build/mac/wxWidgets-3.0.0/
+cd ../../wxWidgets-3.0.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildWxMac.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -170,9 +143,7 @@ echo "------- BUILD sqlite-3.11.0 -------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed sqlite-autoconf-3110000
-
-cd ../build/mac/sqlite-autoconf-3110000/
+cd ../../sqlite-autoconf-3110000/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -188,9 +159,7 @@ echo "----- BUILD FreeType-2.6.2 ------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed freetype-2.6.2
-
-cd ../build/mac/freetype-2.6.2/
+cd ../../freetype-2.6.2/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildfreetype.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -206,9 +175,7 @@ echo "------ BUILD FTGL-2.1.3~rc5 ------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed ftgl-2.1.3~rc5
-
-cd ../build/mac/ftgl-2.1.3~rc5/
+cd ../../ftgl-2.1.3~rc5/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildFTGL.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -250,7 +217,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "- COULD NOT BUILD OPENSSL-1.1.0 -"
     echo "----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 4 ]
 fi
 
@@ -262,7 +229,7 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     echo "- COULD NOT BUILD wxWidgets-3.0.0 -"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 8 ]
 fi
 
@@ -274,7 +241,7 @@ if [ "${sqlite3OK}" = "NO" ]; then
     echo "-- COULD NOT BUILD sqlite-3.11.0 -"
     echo "----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 16 ]
 fi
 
@@ -286,7 +253,7 @@ if [ "${freetypeOK}" = "NO" ]; then
     echo "- COULD NOT BUILD FreeType-2.6.2 -"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 32 ]
 fi
 
@@ -298,7 +265,7 @@ if [ "${ftglOK}" = "NO" ]; then
     echo "- COULD NOT BUILD FTGL-2.1.3~rc5 --"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 64 ]
 fi
 
