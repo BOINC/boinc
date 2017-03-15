@@ -201,16 +201,15 @@
           <ul><li class="first">
             <?php 
               global $user;
-              global $base_path;
               if ($user->uid):
-                echo '<a href="' . $base_path . 'logout"><span class="secondary-link tab">' . bts('Logout') . '</span></a>';
+                echo '<a href="' . url('logout') . '"><span class="secondary-link tab">' . bts('Logout') . '</span></a>';
               else:
-                echo '<a href="' . $base_path . 'user/login?' . drupal_get_destination() . '"><span class="secondary-link tab">' . bts('Login') . '</span></a>';
+                echo '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '"><span class="secondary-link tab">' . bts('Login') . '</span></a>';
               endif;
             ?>
             </li>
             <?php if (module_exists('global_search') OR module_exists('global_search_solr')): ?>
-              <li class="last"><a class="search" href="<?php print $base_path; ?>search/site"><span class="tab"><?php print bts('search'); ?></span></a></li>
+              <li class="last"><a class="search" href="<?php print url('search/site') ?>"><span class="tab"><?php print bts('search'); ?></span></a></li>
             <?php endif; ?>
           </ul>
         </div>

@@ -487,9 +487,8 @@ function boinc_preprocess_search_result(&$variables) {
   $type = strtolower($variables['result']['type']);
   switch ($type) {
   case 'team':
-    global $base_url;
     $node = $variables['result']['node'];
-    $variables['url'] = $base_url .'/community/teams/' . $node->entity_id;
+    $variables['url'] = url('/community/teams/' . $node->entity_id);;
     break;
   default:
   }
@@ -774,13 +773,13 @@ function _boinc_action_links() {
 
   $output = '<ul class="menu"><li class="first">';
   if ($user->uid) {
-    $output .= '<a href="' . $base_path . 'logout">' . bts('Logout') . '</a>';
+    $output .= '<a href="' . url('logout') . '">' . bts('Logout') . '</a>';
   } else {
-    $output .= '<a href="' . $base_path . 'user/login?' . drupal_get_destination() . '">' . bts('Login') . '</a>';
+    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login') . '</a>';
   }
   $output .= '</li>';
   if (module_exists('global_search') OR module_exists('global_search_solr')) {
-    $output .= '<li class="last"> <a class="search" href="' . $base_path . 'search/site">' . bts('search') . '</a> </li>';
+    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search') .'</a> </l1>';
   }
   $output .= '</ul>';
   return $output;

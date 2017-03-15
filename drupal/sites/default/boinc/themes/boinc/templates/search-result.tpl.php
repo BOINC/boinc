@@ -45,9 +45,6 @@
  *
  * @see template_preprocess_search_result()
  */
- 
- global $base_path;
- 
 ?>
 <?php switch ($info_split['type']): ?>
 <?php
@@ -60,7 +57,7 @@
     $account = user_load($node->uid);
     if (isset($account)) {
       $user_image = boincuser_get_user_profile_image($account->uid);
-      $url = "{$base_path}account/{$account->uid}";
+      $url = url('account/' . $account->uid);
       if (empty($title)) {
         $title = $account->boincuser_name;
       }
