@@ -163,9 +163,11 @@ function sample_navbar(
     if (defined('NO_COMPUTING')) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
-        navbar_menu(tra("Participate"), array(
-            array(tra("Do work"), $url_prefix."bossa_apps.php"),
-        ));
+        if (defined('BOSSA')) {
+            navbar_menu(tra("Participate"), array(
+                array(tra("Do work"), $url_prefix."bossa_apps.php"),
+            ));
+        }
     } else {
         $x = array(
             array(tra("Server status"), $url_prefix."server_status.php"),
