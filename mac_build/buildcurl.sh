@@ -189,7 +189,7 @@ if [ "x${lprefix}" != "x" ]; then
     if [ $? -ne 0 ]; then return 1; fi
 else
     # Delete temporarily installed c-ares.
-    rm -Rf /tmp/installed-c-ares/
+    rm -Rf ${libcares}
 fi
 
 export lprefix=""
