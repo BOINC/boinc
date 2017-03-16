@@ -625,3 +625,20 @@ double rand_normal() {
     cached = true;
     return z*cos(PI2*u2);
 }
+
+// determines the real path and filename of the current process
+// not the current working directory
+//
+int get_real_executable_path(char* path, size_t max_len) {
+#ifdef HAVE__PROC_SELF_EXE
+    int ret = readlink("/proc/self/exe", path, max_len);
+    if ( ret >= 0) {
+        path[ret] = '\0'; // readlink does not null terminate
+        return 0;
+    } else {
+        perror("readlink");
+        return ERR_PROC_PARSE;
+    }
+#endif
+    return ERR_NOT_IMPLEMENTED;
+}
