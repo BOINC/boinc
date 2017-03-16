@@ -40,8 +40,6 @@
 # Updated 3/2/16 for curl 7.47.1, openssl 1.0.2g, sqlite 3.11.0
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 #
-# When updating versions here also change them in build/buildMacDependencies.sh
-#
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
 #

@@ -1103,7 +1103,12 @@ function boinccore_team_email_list() {
   // See if the account has an approved profile in Drupal
   $boincteam_id = !empty($_POST['teamid']) ? $_POST['teamid'] : $_GET['teamid'];
   $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
+  $credit_only = !empty($_POST['creditonly']) ? $_POST['creditonly'] : $_GET['creditonly'];
   $show_xml = !empty($_POST['xml']) ? $_POST['xml'] : $_GET['xml'];
+  if (!$show_xml) {
+      // creditonly does not affect non xml output in BOINC
+      $credit_only = FALSE;
+  }
   $admin_request = FALSE;
   if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($account_key) {
@@ -1123,41 +1128,68 @@ function boinccore_team_email_list() {
       $boincteam = boincteam_load($boincteam_id);
       $admin_request = is_team_admin($boincuser, $boincteam) OR is_team_founder($boincuser, $boincteam);
     }
-    $members = array();
-    db_set_active('boinc');
-    $result = db_query("
-      SELECT 
-        u.name, u.email_addr
-      FROM {user} u
-      WHERE u.teamid = %d
-      ORDER BY u.email_addr ASC",
-      $boincteam_id
-    );
-    db_set_active('default');
-    
-    while ($member = db_fetch_object($result)) {
-      $members[] = user_load(array('mail' => $member->email_addr));
-    }
-    
-    $xml = array('users' => array());
-    foreach ($members as $member) {
-      $content_profile = content_profile_load('profile', $member->uid);
-      $team_member = array(
-        'id' => $member->boincuser_id,
-        'cpid' => $member->boincuser_cpid,
-        'create_time' => $member->created,
-        'name' => $member->boincuser_name,
-        'country' => $content_profile->field_country[0]['value'],
-        'total_credit' => $member->boincuser_total_credit,
-        'expavg_credit' => $member->boincuser_expavg_credit,
-        'expavg_time' => $member->boincuser_expavg_time,
-        'url' => $content_profile->field_url[0]['value'],
-        'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
+
+    if ($credit_only) {
+      db_set_active('boinc');
+      $result = db_query("
+        SELECT
+          u.id, u.name, u.cross_project_id, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
+        FROM {user} u
+        WHERE u.teamid = %d and u.total_credit > 0",
+        $boincteam_id
       );
-      if ($admin_request) {
-        $team_member['email_addr'] = $member->mail;
+      db_set_active('default');
+
+      $xml = array('users' => array());
+      while ($member = db_fetch_object($result)) {
+        $team_member = array(
+          'id' => $member->id,
+          'cpid' => md5($member->cross_project_id.$member->email_addr),
+          'name' => htmlspecialchars($member->name),
+          'total_credit' => round($member->total_credit),
+          'expavg_credit' => round($member->expavg_credit),
+          'expavg_time' => round($member->expavg_time),
+        );
+        $xml['users']['user'][] = $team_member;
       }
-      $xml['users']['user'][] = $team_member;
+    }
+    else {
+      $members = array();
+      db_set_active('boinc');
+      $result = db_query("
+        SELECT
+          u.name, u.email_addr
+        FROM {user} u
+        WHERE u.teamid = %d
+        ORDER BY u.email_addr ASC",
+        $boincteam_id
+      );
+      db_set_active('default');
+
+      while ($member = db_fetch_object($result)) {
+        $members[] = user_load(array('mail' => $member->email_addr));
+      }
+
+      $xml = array('users' => array());
+      foreach ($members as $member) {
+        $content_profile = content_profile_load('profile', $member->uid);
+        $team_member = array(
+          'id' => $member->boincuser_id,
+          'cpid' => $member->boincuser_cpid,
+          'create_time' => $member->created,
+          'name' => $member->boincuser_name,
+          'country' => $content_profile->field_country[0]['value'],
+          'total_credit' => $member->boincuser_total_credit,
+          'expavg_credit' => $member->boincuser_expavg_credit,
+          'expavg_time' => $member->boincuser_expavg_time,
+          'url' => $content_profile->field_url[0]['value'],
+          'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
+        );
+        if ($admin_request) {
+          $team_member['email_addr'] = $member->mail;
+        }
+        $xml['users']['user'][] = $team_member;
+      }
     }
   }
   else {
