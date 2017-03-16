@@ -132,12 +132,13 @@ if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 source BuildMacBOINC.sh ${config} -noclean -target Install_BOINC | $beautifier; retval=${PIPESTATUS[0]}
 if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 
-libSearchPath="./build/Deployment"
-if [ "${style}" == "Development" ]; then
-    libSearchPath="./build/Development"
-fi
-source BuildMacBOINC.sh ${config} -noclean -target ss_app -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+# disabled because Travis can't build the 32bit FTGL library currently
+#libSearchPath="./build/Deployment"
+#if [ "${style}" == "Development" ]; then
+#    libSearchPath="./build/Development"
+#fi
+#source BuildMacBOINC.sh ${config} -noclean -target ss_app -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
+#if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 
 source BuildMacBOINC.sh ${config} -noclean -target boinc_opencl | $beautifier; retval=${PIPESTATUS[0]}
 if [ $retval -ne 0 ]; then cd ..; exit 1; fi
