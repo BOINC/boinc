@@ -75,7 +75,7 @@ if [ $? -eq 0 ]; then
     beautifier="xcpretty"
 fi
 
-cd ./mac_build
+cd ./mac_build || exit 1
 retval=0
 
 if [ ${share_paths} = "yes" ]; then
@@ -98,7 +98,7 @@ if [ "${doclean}" = "yes" ]; then
     if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 
     ## clean boinc_zip which is not included in Build_All
-    xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${buildStyle} clean | $beautifier; retval=${PIPESTATUS[0]}
+    xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} clean | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 fi
 
@@ -136,7 +136,7 @@ libSearchPath="./build/Deployment"
 if [ "${style}" == "Development" ]; then
     libSearchPath="./build/Development"
 fi
-source BuildMacBOINC.sh ${config} -noclean -target ss_app -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include .${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} -noclean -target ss_app -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
 if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 
 source BuildMacBOINC.sh ${config} -noclean -target boinc_opencl | $beautifier; retval=${PIPESTATUS[0]}
