@@ -21,12 +21,13 @@
 # Script to build the different targets in the BOINC xcode project using a
 # combined install directory for all dependencies
 #
-# Usage: ./mac_build/buildTravis.sh [--cache_dir PATH] [--debug] [--clean]
+# Usage:
+# ./mac_build/buildTravis.sh [--cache_dir PATH] [--debug] [--clean] [--no_shared_headers]
 #
-# The PATH specified with --cache_dir needs to be the path where the
-# dependencies are installed.
-# If --debug is given the script builts the debug version of all targets
-# the --clean argument will force a full rebuild.
+# --cache_dir is the path where the dependencies are installed by buildMacDependencies.sh.
+# --debug will build the debug Manager (needs debug wxWidgets library in cache_dir).
+# --clean will force a full rebuild.
+# --no_shared_headers will build targets individually instead of in one call of BuildMacBOINC.sh (NOT recommended)
 
 # check working directory because the script needs to be called like: ./mac_build/buildTravis.sh
 if [ ! -d "mac_build" ]; then
@@ -43,7 +44,7 @@ style="Deployment"
 config=""
 doclean=""
 beautifier="cat" # we need a fallback if xcpretty is not available
-allatonce=""
+share_paths="yes"
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -58,9 +59,8 @@ while [[ $# -gt 0 ]]; do
         style="Development"
         config="-dev"
         ;;
-        # non public option
-        --allatonce)
-        allatonce="yes"
+        --no_shared_headers)
+        share_paths="no"
         ;;
     esac
     shift # past argument or value
@@ -78,8 +78,8 @@ fi
 cd ./mac_build
 retval=0
 
-if [ ${allatonce} = "yes" ]; then
-    ## If all targets can share the same header and library search paths
+if [ ${share_paths} = "yes" ]; then
+    ## all targets share the same header and library search paths
     libSearchPathDbg=""
     if [ "${style}" == "Development" ]; then
         libSearchPathDbg="${cache_dir}/lib/debug"
@@ -90,7 +90,8 @@ if [ ${allatonce} = "yes" ]; then
     return 0
 fi
 
-## targets need different header or library search paths, so build individually
+## This is code that builds each target individually in case the above shared header paths version is giving problems
+## Note: currently this does not build the boinc_zip library
 if [ "${doclean}" = "yes" ]; then
     ## clean all targets
     xcodebuild -project boinc.xcodeproj -target Build_All  -configuration ${style} clean | $beautifier; retval=${PIPESTATUS[0]}
