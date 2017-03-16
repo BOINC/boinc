@@ -122,9 +122,9 @@ if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
-make
+make 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
-make install
+make install 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
 
 lprefix=""

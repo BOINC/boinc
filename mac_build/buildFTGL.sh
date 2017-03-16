@@ -122,7 +122,7 @@ if [ "${doclean}" = "yes" ]; then
 fi
 
 cd src
-make
+make 1>/dev/null
 if [ $? -ne 0 ]; then
     cd "${SRCDIR}"
     return 1;
@@ -133,7 +133,7 @@ mv -f .libs/libftgl.a libftgl_i386.a
 cd "${SRCDIR}"
 
 # Build for x86_64 architecture
-make clean
+make clean 1>/dev/null
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
@@ -155,7 +155,7 @@ if [ $retval -ne 0 ]; then
 fi
 
 cd src
-make
+make 1>/dev/null
 if [ $? -ne 0 ]; then
     rm -f libftgl_i386.a
     cd "${SRCDIR}"
@@ -176,7 +176,7 @@ rm -f .libs/libftgl_x86_64.a
 
 if [ "x${lprefix}" != "x" ]; then
     # this installs the modified library
-    make install
+    make install 1>/dev/null
     if [ $? -ne 0 ]; then
         cd "${SRCDIR}"
         return 1;

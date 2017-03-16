@@ -137,14 +137,14 @@ fi
 
 ./configure --enable-shared=NO --prefix=${lprefix} --host=i386
 if [ $? -ne 0 ]; then return 1; fi
-make
+make 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
 
 # save i386 lib for later use
 mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_i386.a
 
 # Build for x86_64 architecture
-make clean
+make clean 1>/dev/null
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
@@ -155,7 +155,7 @@ export MACOSX_DEPLOYMENT_TARGET=10.6
 
 ./configure --enable-shared=NO --prefix=${lprefix} --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
-make
+make 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
 
 mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_x86_64.a
@@ -168,7 +168,7 @@ rm -f objs/.libs/libfreetype_x86_64.a
 
 # Building ftgl requires [install-path]/bin/freetype-config
 # this installs the modified library
-make install
+make install 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
 
 # remove installed items not needed by ftgl build
