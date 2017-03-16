@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
@@ -69,8 +68,9 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
-    echo "openssl-1.1.0 libraries already built"
-    return 0
+        echo "openssl-1.1.0 libraries already built"
+        return 0
+    fi
 fi
 
 export PATH=/usr/local/bin:$PATH
@@ -108,8 +108,8 @@ SDKPATH=`xcodebuild -version -sdk macosx Path`
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 if [ -d "${libPath}" ]; then
-    rm -f {libPath}/libssl.a
-    rm -f {libPath}/libcrypto.a
+    rm -f ${libPath}/libssl.a
+    rm -f ${libPath}/libcrypto.a
 fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"

@@ -164,9 +164,9 @@ else
     # so we temporarily installed c-ares at a path that does not contain spaces.
     # buildc-ares.sh installed c-ares to /tmp/installed-c-ares
     if [ ! -f "${libcares}/libcares.a" ]; then
-        cd ../c-ares-1.11.0
+        cd ../c-ares-1.11.0 || return 1
         make install
-        cd "${CURL_DIR}"
+        cd "${CURL_DIR}" || return 1
     fi
 
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0 "

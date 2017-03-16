@@ -118,19 +118,19 @@ else
 fi
 
 if [ "${doclean}" = "yes" ]; then
-    make clean
+    make clean 1>/dev/null
 fi
 
-cd src
+cd src || return 1
 make 1>/dev/null
 if [ $? -ne 0 ]; then
-    cd "${SRCDIR}"
+    cd "${SRCDIR}" || return 1
     return 1;
 fi
 
 # save i386 lib for later use
 mv -f .libs/libftgl.a libftgl_i386.a
-cd "${SRCDIR}"
+cd "${SRCDIR}" || return 1
 
 # Build for x86_64 architecture
 make clean 1>/dev/null
@@ -154,11 +154,11 @@ if [ $retval -ne 0 ]; then
     return 1;
 fi
 
-cd src
+cd src || return 1
 make 1>/dev/null
 if [ $? -ne 0 ]; then
     rm -f libftgl_i386.a
-    cd "${SRCDIR}"
+    cd "${SRCDIR}" || return 1
     return 1;
 fi
 
@@ -167,7 +167,7 @@ mv -f .libs/libftgl.a .libs/libftgl_x86_64.a
 lipo -create libftgl_i386.a .libs/libftgl_x86_64.a -output .libs/libftgl.a
 if [ $? -ne 0 ]; then
     rm -f .libs/libftgl_x86_64.a libftgl_i386.a
-    cd "${SRCDIR}"
+    cd "${SRCDIR}" || return 1
     return 1;
 fi
 
@@ -178,12 +178,12 @@ if [ "x${lprefix}" != "x" ]; then
     # this installs the modified library
     make install 1>/dev/null
     if [ $? -ne 0 ]; then
-        cd "${SRCDIR}"
+        cd "${SRCDIR}" || return 1
         return 1;
     fi
 fi
 
-cd "${SRCDIR}"
+cd "${SRCDIR}" || return 1
 
 lprefix=""
 export CC="";export CXX=""

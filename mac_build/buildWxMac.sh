@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
@@ -93,9 +93,9 @@ echo ""
 if [ ! -f build/osx/setup/cocoa/include/wx/setup.h.orig ]; then
 
 # First run wxWidget's built-in script to copy setup.h into place
-    cd build/osx
+    cd build/osx || return 1
     ../../distrib/mac/pbsetup-sh ../../src ../../build/osx/setup/cocoa
-    cd ../..
+    cd ../.. || return 1
 
     cat >> /tmp/setup_h_diff << ENDOFFILE
 --- setup.h	2014-02-18 05:17:45.000000000 -0800

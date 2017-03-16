@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
@@ -23,7 +22,7 @@ set -x
 ## This script checks if cached versions are available and builts them if not.
 ## The build is done in 3rdParty/mac and usable files are installed to 3rdParty/buildCache/mac
 ## in order to keep the cache as small as possible
-## The 3rdParty/buildCache/mac directory can be cached by CI systems for all subsequent builds
+## The 3rdParty/buildCache directory can be cached by CI systems for all subsequent builds
 
 ## This script should do what mac_build/setupForBOINC.sh does but install to 3rdParty/buildCache/mac
 
@@ -32,6 +31,7 @@ set -x
 ##
 ## --clean will force a full rebuild of the cache.
 ## --cache_dir must be an absolute path where the libraries are installed to (default: 3rdParty/buildCache/mac)
+##             ATTENTION: don't set this to /usr or /var this is an internal cache and it should stay in the source path
 ## --debug will also build the debug versions of wxWidgets and BOINC Manager (Cache will be larger)
 ##
 
@@ -83,7 +83,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
-    if isPathCanonical "$cache_dir"; then
+    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
         PREFIX="$cache_dir"
     else
         echo "cache_dir must be an absolute path without ./ or ../ in it"
@@ -94,7 +94,7 @@ else
 fi
 
 download_and_build() {
-    cd "${ROOTDIR}/3rdParty/mac"
+    cd "${ROOTDIR}/3rdParty/mac" || exit 1
     DIRNAME="${1}"
     FILENAME="${2}"
     DLURL="${3}"
@@ -110,20 +110,21 @@ download_and_build() {
         fi
         tar -xf ${FILENAME}
     fi
-    cd ${DIRNAME}
+    cd ${DIRNAME} || exit 1
     source ${BUILDSCRIPT} --prefix ${PREFIX}
     if [ $? -ne 0 ]; then exit 1; fi
-    cd ../..
+    cd ../.. || exit 1
     touch ${FLAGFILE}
 }
 
 mkdir -p 3rdParty/mac
 mkdir -p ${PREFIX}
-cd "${ROOTDIR}/3rdParty/mac"
+cd "${ROOTDIR}/3rdParty/mac" || exit 1
 
 if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
-    rm -rf ${PREFIX}/* ${PREFIX}/*.*
+    rm -rf ${PREFIX}
+    mkdir -p ${PREFIX}
 fi
 
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
@@ -136,4 +137,4 @@ download_and_build "freetype-2.6.2" "freetype-2.6.2.tar.bz2" "http://sourceforge
 download_and_build "ftgl-2.1.3~rc5" "ftgl-2.1.3-rc5.tar.gz" "http://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz" "${ROOTDIR}/mac_build/buildFTGL.sh"
 
 # change back to root directory
-cd ${ROOTDIR}
+cd ${ROOTDIR} || exit 1
