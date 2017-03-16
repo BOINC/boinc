@@ -82,9 +82,9 @@ if [ ${share_paths} = "yes" ]; then
     ## all targets share the same header and library search paths
     libSearchPathDbg=""
     if [ "${style}" == "Development" ]; then
-        libSearchPathDbg="${cache_dir}/lib/debug"
+        libSearchPathDbg="./build/Development  ${cache_dir}/lib/debug"
     fi
-    source BuildMacBOINC.sh ${config} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "./build/Development $libSearchPathDbg ${cache_dir}/lib ../lib" | $beautifier; retval=${PIPESTATUS[0]}
+    source BuildMacBOINC.sh ${config} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 
     return 0
