@@ -107,7 +107,7 @@ libSearchPathDbg=""
 if [ "${style}" == "Development" ]; then
     libSearchPathDbg="${cache_dir}/lib/debug"
 fi
-source BuildMacBOINC.sh ${config} -noclean -target mgr_boinc -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ../${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} -noclean -target mgr_boinc -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then cd ..; exit 1; fi
 
 ## Target gfx2libboinc also build dependent target jpeg
