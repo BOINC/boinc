@@ -54,7 +54,7 @@ while [[ $# -gt 0 ]]; do
         -prefix|--prefix)
         lprefix="$2"
         libPath="${lprefix}/lib"
-        libftpath=$libPath
+        libftpath="${lprefix}"
         shift
         ;;
     esac
