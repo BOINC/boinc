@@ -125,7 +125,7 @@ $offset = get_int('offset', true);
 if (!$offset) $offset=0;
 if ($offset % $items_per_page) $offset = 0;
 $x = $is_team?"teams":"participants";
-page_head("Top $x by application");
+page_head(tra("Top %1 by application", $x));
 $apps = BoincApp::enum("deprecated=0");
 if (!$appid) {
     $appid = $apps[0]->id;
@@ -168,7 +168,7 @@ if ($offset > 0) {
     echo "<a href=per_app_list.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>".tra("Previous %1", $items_per_page)."</a> &middot; ";
 }
 
-if ($n==$items_per_page) {
+if ($n == $items_per_page) {
     $new_offset = $offset + $items_per_page;
     echo "<a href=per_app_list.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>".tra("Next %1", $items_per_page)."</a>";
 }
