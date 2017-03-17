@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2015 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -215,7 +215,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "- COULD NOT BUILD OPENSSL-1.1.0 -"
     echo "----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 4 ]
 fi
 
@@ -227,7 +227,7 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     echo "- COULD NOT BUILD wxWidgets-3.0.0 -"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 8 ]
 fi
 
@@ -239,7 +239,7 @@ if [ "${sqlite3OK}" = "NO" ]; then
     echo "-- COULD NOT BUILD sqlite-3.11.0 -"
     echo "----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 16 ]
 fi
 
@@ -251,7 +251,7 @@ if [ "${freetypeOK}" = "NO" ]; then
     echo "- COULD NOT BUILD FreeType-2.6.2 -"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 32 ]
 fi
 
@@ -263,7 +263,7 @@ if [ "${ftglOK}" = "NO" ]; then
     echo "- COULD NOT BUILD FTGL-2.1.3~rc5 --"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 64 ]
 fi
 
