@@ -42,14 +42,6 @@ function get_top_hosts($offset, $sort_by) {
     return BoincHost::enum(null, "order by $sort_order limit $offset, $hosts_per_page");
 }
 
-function hosts_to_store($participants){
-    return serialize($participants);
-}
-
-function store_to_hosts($data){
-    return unserialize($data);
-}
-
 $sort_by = get_str("sort_by", true);
 switch ($sort_by) {
 case "total_credit":
@@ -70,10 +62,10 @@ if ($offset >= ITEM_LIMIT) {
 $cache_args = "sort_by=$sort_by&offset=$offset";
 $cacheddata = get_cached_data(TOP_PAGES_TTL, $cache_args);
 if ($cacheddata){
-    $data = store_to_hosts($cacheddata);
+    $data = unserialize($cacheddata);
 } else {
     $data = get_top_hosts($offset,$sort_by);
-    set_cached_data(TOP_PAGES_TTL, hosts_to_store($data), $cache_args);
+    set_cached_data(TOP_PAGES_TTL, serialize($data), $cache_args);
 };
 
 
