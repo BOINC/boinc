@@ -1,4 +1,7 @@
 language: cpp
+os:
+  - linux
+  - osx
 compiler:
   - gcc
 #  - clang
@@ -21,7 +24,7 @@ sudo: false
 cache:
   apt: true
   directories:
-  - build/wxWidgets-3.0.2
+  - 3rdParty/buildCache
 
 addons:
   coverity_scan:
@@ -71,14 +74,27 @@ env:
 
 matrix:
   fast_finish: true
+  exclude:
+# the osx build currently builds everything in one go
+  - os: osx
+    env: BOINC_TYPE=libs
+  - os: osx
+    env: BOINC_TYPE=server
+  - os: osx
+    env: BOINC_TYPE=client
+  - os: osx
+    env: BOINC_TYPE=apps
+  - os: osx
+    env: BOINC_TYPE=libs-mingw
 
 before_script:
-- ./_autosetup
+- if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
 
 script:
 - if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
-- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./build/getWxWidgets.sh && ./configure --disable-server --disable-client --with-wxdir=./build/wxWidgets-3.0.2/buildgtk && make ) fi
+- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./build/getWxWidgets.sh && ./configure --disable-server --disable-client --with-wxdir=./build/wxWidgets-3.0.2/buildgtk && make ) fi
+- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && CC=/usr/bin/x86_64-w64-mingw32-gcc; CXX=/usr/bin/x86_64-w64-mingw32-g++; make -f Makefile.mingw ) fi
