@@ -636,7 +636,11 @@ int get_real_executable_path(char* path, size_t max_len) {
         path[ret] = '\0'; // readlink does not null terminate
         return 0;
     } else {
+#ifdef _USING_FCGI_
+        FCGI::perror("readlink");
+#else
         perror("readlink");
+#endif
         return ERR_PROC_PARSE;
     }
 #endif
