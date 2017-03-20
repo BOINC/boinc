@@ -853,10 +853,24 @@ function boinctranslate_refresh_translations() {
       foreach ($other_strings as $string) {
         $string = trim($string);
         if ($string) {
-          bts($string);
-        }
-      }
-    }
+          // Ignore lines starting with '#' i.e., comments.
+          if ($string[0] === "#")
+            continue;
+
+          // Use '|' as delimiter to split string and context info.
+          $line = explode("|", $string);
+          if ($line) {
+            if (count($line)==1) {
+              bts($line[0]);
+            }
+            elseif (count($line)>1) {
+              bts($line[0], array(), NULL, $line[1]);
+            }
+          }// if ($line)
+
+        }// if ($string)
+      }// foreach
+    }// if ($other_strings)
   }
   
   foreach ($languages as $langcode => $language) {
