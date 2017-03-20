@@ -62,6 +62,8 @@ fi
 
 doclean=""
 configuration="Release"
+lprefix=""
+cmdline_prefix=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -73,6 +75,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -prefix|--prefix)
         lprefix="$2"
+        cmdline_prefix="--prefix=${lprefix}"
         shift
         ;;
     esac
@@ -84,20 +87,20 @@ if [ $configuration = "Debug" ]; then
     debug_flag="--enable-debug"
 fi
 
-if [ "${doclean}" = "yes" ]; then
-    make clean
+if [ -d buildgtk ] && [ "${doclean}" = "yes" ]; then
+    rm -rf buildgtk
 fi
-
-mkdir buildgtk
-if [  $? -ne 0 ]; then exit 1; fi
+mkdir -p buildgtk
 cd buildgtk || return 1
 
-../configure --prefix="${lprefix}" --with-gtk --disable-shared --enable-webview --disable-gtktest --disable-sdltest ${debug_flag}
+../configure "${cmdline_prefix}" --with-gtk --disable-shared --enable-webview --disable-gtktest --disable-sdltest ${debug_flag}
 if [ $? -ne 0 ]; then cd ..; return 1; fi
 make 1>/dev/null # the wxWidgets build is very noisy so tune it down to warnings and errors only
 if [ $? -ne 0 ]; then cd ..; return 1; fi
-make install
-if [ $? -ne 0 ]; then cd ..; return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    make install
+    if [ $? -ne 0 ]; then cd ..; return 1; fi
+fi
 
 cd ..
 return 0
