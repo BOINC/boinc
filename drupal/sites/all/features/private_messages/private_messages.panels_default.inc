@@ -39,12 +39,15 @@ function private_messages_default_panels_mini() {
     $pane->configuration = array(
       'admin_title' => 'Mail summary',
       'title' => 'Messages',
-      'body' => '<?php global $base_path; ?>
+      'body' => '<?php 
+  $l1 = url(\'messages\');
+  $l2 = url(\'messages/new\');
+?>
 <ul class="tab-list">
   <li class="first tab"><div>
-    <a href="<?php echo $base_path; ?>messages"><?php print bts(\'Inbox\'); ?></a><div class="item-count-wrapper"><span class="item-count"><?php echo privatemsg_unread_count(); ?></span></div></div>
+    <a href="<?php echo $l1;?>"><?php print bts(\'Inbox\', array(), NULL, \'boinc:account-dashboard\'); ?></a><div class="item-count-wrapper"><span class="item-count"><?php echo privatemsg_unread_count(); ?></span></div></div>
   </li>
-  <li class="last tab"><a href="<?php echo $base_path; ?>messages/new"><?php print bts(\'Compose new\'); ?></a></li>
+  <li class="last tab"><a href="<?php echo $l2?>"><?php print bts(\'Compose new\', array(), NULL, \'boinc:account-dashboard\'); ?></a></li>
 </ul>',
       'format' => '3',
       'substitute' => TRUE,
