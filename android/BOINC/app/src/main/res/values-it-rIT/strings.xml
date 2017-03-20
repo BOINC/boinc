@@ -41,12 +41,12 @@
   <string name="attachproject_hint_projectwebsite_header">Visita il sito web del progetto a:</string>
   <string name="attachproject_hint_projectwebsite_science">Scopri di più sul calcolo scientifico</string>
   <string name="attachproject_hint_projectwebsite_stats">Vedi le statistiche dei contributi</string>
-  <string name="attachproject_hint_projectwebsite_community">Parla con altri volontari</string>
+  <string name="attachproject_hint_projectwebsite_community">Conosci gli altri volontari</string>
   <string name="attachproject_hint_platforms_header">BOINC è anche disponibile per il tuo computer o laptop, visita boinc.berkeley.edu per saperne di più.</string>
   <!--project login-->
-  <string name="attachproject_login_loading">Comunicazione con il server progetto in corso…</string>
+  <string name="attachproject_login_loading">Comunicazione con il server del progetto in corso…</string>
   <string name="attachproject_login_image_description">Logo progetto.</string>
-  <string name="attachproject_login_header_general_area">Idea generale:</string>
+  <string name="attachproject_login_header_general_area">Area di ricerca:</string>
   <string name="attachproject_login_header_specific_area">Area specifica:</string>
   <string name="attachproject_login_header_description">Descrizione:</string>
   <string name="attachproject_login_header_home">Home:</string>
@@ -115,7 +115,7 @@
   <string name="attachproject_working_connect">Connetti</string>
   <string name="attachproject_working_verify">Verifica account</string>
   <string name="attachproject_working_register">Registra account</string>
-  <string name="attachproject_working_login">Log in</string>
+  <string name="attachproject_working_login">Login</string>
   <string name="attachproject_working_acctmgr">Aggiungi un account manager</string>
   <string name="attachproject_working_acctmgr_sync">Sincronizza</string>
   <!--main activity-->
@@ -159,7 +159,7 @@
   <string name="prefs_show_advanced_header">Visualizza preferenze avanzate e controlli…</string>
   <string name="prefs_suspend_when_screen_on">Interrompi il calcolo quando lo schermo è acceso</string>
   <string name="prefs_stationary_device_mode_header">Modalità dispositivo stazionario</string>
-  <string name="prefs_stationary_device_mode_description">Permetti il calcolo a prescindere dalle preferenze di elettricità. Abilitalo solo se il dispositivo non ha una batteria.</string>
+  <string name="prefs_stationary_device_mode_description">Permetti il calcolo a prescindere dalle preferenze di alimentazione. Abilitalo solo se il dispositivo non ha una batteria.</string>
   <string name="prefs_power_source_header">Sorgente di elettricità per il calcolo</string>
   <string name="prefs_power_source_description">Seleziona le sorgenti di elettricità che BOINC può usare per il calcolo.</string>
   <string name="prefs_power_source_ac">Caricabatterie a muro</string>

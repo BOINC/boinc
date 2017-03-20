@@ -7,13 +7,13 @@
 # Alessandro Dalla Rosa <exit96dalla@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015-2016
 # OlatusRooc <sebastiano.pistore.info@aol.com>, 2016
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-17 13:30+0000\n"
+"PO-Revision-Date: 2017-02-24 11:14+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -354,7 +354,7 @@ msgstr "Ritenta i trasferimenti in attesa"
 
 #: clientgui/AdvancedFrame.cpp:499
 msgid "Retry deferred file transfers and task requests"
-msgstr "Ritenta i trasferimenti e le richieste di nuove elaborazioni rimandate"
+msgstr "Ritenta gli invii ed i trasferimenti di WU"
 
 #: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
@@ -760,17 +760,17 @@ msgstr "%s deve connettersi a Internet.\nPuò farlo ora?"
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s si sta connettendo a Internet."
+msgstr "%s si sta connettendo ad Internet."
 
 #: clientgui/BOINCDialupManager.cpp:303
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s è riuscito a connettersi a Internet."
+msgstr "%s è riuscito a connettersi ad Internet."
 
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s non è riuscito a connettersi a Internet."
+msgstr "%s non è riuscito a connettersi ad Internet."
 
 #: clientgui/BOINCDialupManager.cpp:372
 #, c-format
@@ -911,7 +911,7 @@ msgstr "Sospendi tutto"
 #: clientgui/BOINCTaskBar.cpp:533 clientgui/BOINCTaskBar.cpp:648
 #: clientgui/BOINCTaskBar.cpp:653
 msgid "Snooze GPU"
-msgstr "Ferma la GPU"
+msgstr "Sospendi la GPU"
 
 #: clientgui/BOINCTaskBar.cpp:551
 msgid "E&xit"
@@ -1054,7 +1054,7 @@ msgstr "Versione:"
 
 #: clientgui/DlgAbout.cpp:180
 msgid "wxWidgets Version:"
-msgstr "Versione dei wxWidget:"
+msgstr "Versione di wxWidgets:"
 
 #: clientgui/DlgAbout.cpp:188
 msgid "Copyright:"
@@ -1255,12 +1255,12 @@ msgstr "Altro"
 #. buffer sizes
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Mantieni workunit sufficienti per tenere il computer occupato per questo periodo."
+msgstr "Mantieni WU sufficienti per tenere il computer occupato per questo periodo."
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "Store at least"
-msgstr "Memorizza almeno"
+msgstr "Scarica almeno"
 
 #. context: Store at least ___ days of work
 #. context: Store up to an additional ___ days of work
@@ -1273,7 +1273,7 @@ msgstr "giorni di lavoro"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Scarica workunit addizionali oltre la soglia minima. Determina quante workunit vengono richieste quando si contatta un progetto."
+msgstr "Scarica working unit oltre la soglia minima. Determina quante WU vengono richieste quando un progetto viene contattato."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
@@ -1454,7 +1454,7 @@ msgstr "Quando il computer non è 'in uso', utilizza al massimo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Lascia le elaborazioni non-GPU in memoria mentre sono sospese"
+msgstr "Lascia le elaborazioni non-GPU in RAM mentre sono sospese"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid ""
@@ -1796,7 +1796,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Questo terminerà %s e tutti i suoi processi finché l'applicazione\n%s o lo screensaver di %s verranno eseguiti nuovamente.\n\nIn molti casi, è consigliabile chiudere solo la finestra del %s invece\nche uscire dall'applicazione; questo permetterebbe a %s di eseguire i suoi\nprocessi negli orari che hai selezionato nelle tue preferenze."
+msgstr "Questo terminerà %s e tutti i suoi processi finché l'applicazione\n%s o lo screensaver di %s verranno lanciati nuovamente.\n\nIn molti casi, è consigliabile chiudere solo la finestra del %s invece\nche uscire dall'applicazione; questo permette ad %s di eseguire i suoi\nprocessi negli orari che hai selezionato nelle tue preferenze."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
@@ -1840,7 +1840,7 @@ msgstr "Conferma le impostazioni predefinite"
 #: clientgui/DlgItemProperties.cpp:194 clientgui/DlgItemProperties.cpp:197
 #: clientgui/DlgItemProperties.cpp:200 clientgui/DlgItemProperties.cpp:203
 msgid "Don't request tasks for "
-msgstr "Non richiedere workunit per "
+msgstr "Non richiedere WU per "
 
 #: clientgui/DlgItemProperties.cpp:194
 msgid "Project preference"
@@ -1861,12 +1861,12 @@ msgstr "La configurazione del client esclude"
 #: clientgui/DlgItemProperties.cpp:209
 #, c-format
 msgid "%s task request deferred for"
-msgstr "richiesta di workunit per %s rimandata di"
+msgstr "richiesta di working unit per %s rimandata di"
 
 #: clientgui/DlgItemProperties.cpp:213
 #, c-format
 msgid "%s task request deferral interval"
-msgstr "intervallo di richiesta di nuove workunit per %s"
+msgstr "intervallo di richiesta di nuove WU per %s"
 
 #. set dialog title
 #: clientgui/DlgItemProperties.cpp:247
@@ -1935,7 +1935,7 @@ msgstr "no"
 
 #: clientgui/DlgItemProperties.cpp:271
 msgid "Don't request tasks"
-msgstr "Non richiedere workunit"
+msgstr "Non richiedere WU"
 
 #: clientgui/DlgItemProperties.cpp:273
 msgid "Scheduler call in progress"
@@ -1959,7 +1959,7 @@ msgstr "Aggiunto mediante account manager"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Remove when tasks done"
-msgstr "Rimuovi il progetto al termine dell'elaborazione"
+msgstr "Rimuovi il progetto al termine delle elaborazioni"
 
 #: clientgui/DlgItemProperties.cpp:291
 msgid "Ended"
@@ -2012,7 +2012,7 @@ msgstr "Ultima risposta dello scheduler"
 
 #: clientgui/DlgItemProperties.cpp:360
 msgid "Properties of task "
-msgstr "Proprietà della workunit"
+msgstr "Proprietà dell'elaborazione"
 
 #: clientgui/DlgItemProperties.cpp:372 clientgui/ViewWork.cpp:266
 msgid "Application"
@@ -2072,7 +2072,7 @@ msgstr "Dimensioni della memoria di lavoro"
 
 #: clientgui/DlgItemProperties.cpp:400
 msgid "Directory"
-msgstr "Cartella"
+msgstr "Directory"
 
 #: clientgui/DlgItemProperties.cpp:403
 msgid "Process ID"
@@ -2349,7 +2349,7 @@ msgstr "Discuti con gli amministratori e gli altri utenti sul forum di Einstein@
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr "Stato di Einstein"
+msgstr "Status di Einstein"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
@@ -2457,7 +2457,7 @@ msgstr "Ricerca"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "Informati sui progetti ospitati nel World Community Grid"
+msgstr "Informati sui progetti ospitati dalla World Community Grid"
 
 #: clientgui/MainDocument.cpp:1819
 msgid "Missing application"
@@ -2479,7 +2479,7 @@ msgstr "il computer è in uso"
 
 #: clientgui/MainDocument.cpp:2436
 msgid "user request"
-msgstr "Richiesta dell'utente"
+msgstr "richiesta dell'utente"
 
 #: clientgui/MainDocument.cpp:2437
 msgid "time of day"
@@ -2491,7 +2491,7 @@ msgstr "Benchmark della CPU in corso"
 
 #: clientgui/MainDocument.cpp:2439
 msgid "need disk space - check preferences"
-msgstr "È necessario più spazio su disco, controlla le preferenze"
+msgstr "È necessario più spazio su disco - controlla le preferenze"
 
 #: clientgui/MainDocument.cpp:2440
 msgid "computer is not in use"
@@ -2499,7 +2499,7 @@ msgstr "il computer non è in uso"
 
 #: clientgui/MainDocument.cpp:2441
 msgid "starting up"
-msgstr "Avvio del client"
+msgstr "avvio del client"
 
 #: clientgui/MainDocument.cpp:2442
 msgid "an exclusive app is running"
@@ -2511,7 +2511,7 @@ msgstr "La CPU è occupata"
 
 #: clientgui/MainDocument.cpp:2444
 msgid "network bandwidth limit exceeded"
-msgstr "Limite della banda di connessione della rete superato"
+msgstr "superato limite banda di connessione della rete"
 
 #: clientgui/MainDocument.cpp:2445
 msgid "requested by operating system"
@@ -2539,7 +2539,7 @@ msgstr "Scaricamento in corso"
 
 #: clientgui/MainDocument.cpp:2484 clientgui/MainDocument.cpp:2543
 msgid " (suspended - "
-msgstr "(sospesa -"
+msgstr " (sospesa - "
 
 #: clientgui/MainDocument.cpp:2492
 msgid "Project suspended by user"
@@ -2553,7 +2553,7 @@ msgstr "Elaborazione sospesa dall'utente"
 #. (because of <dont_suspend_nci>
 #: clientgui/MainDocument.cpp:2499
 msgid "Suspended - "
-msgstr "Sospesa -"
+msgstr "Sospesa - "
 
 #: clientgui/MainDocument.cpp:2502
 msgid "GPU suspended - "
@@ -2585,11 +2585,11 @@ msgstr "Pronto per l'elaborazione"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Postponed: "
-msgstr "Ritardata:"
+msgstr "Ritardato: "
 
 #: clientgui/MainDocument.cpp:2527
 msgid "Postponed"
-msgstr "Ritardata"
+msgstr "Ritardato"
 
 #: clientgui/MainDocument.cpp:2531
 msgid "Waiting for network access"
@@ -2617,19 +2617,19 @@ msgstr "Annullato dal progetto"
 
 #: clientgui/MainDocument.cpp:2558
 msgid "Aborted: not started by deadline"
-msgstr "Annullato: a causa della scadenza della workunit"
+msgstr "Annullato: per scadenza della workunit"
 
 #: clientgui/MainDocument.cpp:2561
 msgid "Aborted: task disk limit exceeded"
-msgstr "Interrotto: limite elaborazioni disco superato"
+msgstr "Interrotto: superato limite WU su disco"
 
 #: clientgui/MainDocument.cpp:2564
 msgid "Aborted: run time limit exceeded"
-msgstr "Annullato: limite di elaborazione superato"
+msgstr "Annullato: superato limite workunit"
 
 #: clientgui/MainDocument.cpp:2567
 msgid "Aborted: memory limit exceeded"
-msgstr "Annullato: limite di memoria superato"
+msgstr "Annullato: superato limite utilizzo memoria"
 
 #: clientgui/MainDocument.cpp:2570
 msgid "Aborted"
@@ -2654,7 +2654,7 @@ msgstr "Nessuna connessione Internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "Attiva una connessione Internet e riprova."
+msgstr "Apri una connessione Internet e riprova."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
@@ -2969,23 +2969,23 @@ msgstr "Aggiorna"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "Invia il lavoro completato, aggiorna il totale dei crediti e le preferenze, e possibilmente ottiene altre WU."
+msgstr "Invio WU completate, aggiornamento totale crediti e preferenze, richiesta nuove WU."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129 clientgui/ViewProjects.cpp:210
 #: clientgui/ViewProjects.cpp:792
 msgid "Suspend tasks for this project."
-msgstr "Sospendi il lavoro per questo progetto."
+msgstr "Sospendi elaborazioni di questo progetto."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136 clientgui/ViewProjects.cpp:216
 #: clientgui/ViewProjects.cpp:811
 msgid "No new tasks"
-msgstr "Blocca richiesta workunit"
+msgstr "Blocca richiesta WU"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:79 clientgui/ViewProjects.cpp:217
 msgid "Don't get new tasks for this project."
-msgstr "Non scaricare nuovo lavoro per questo progetto."
+msgstr "Non scaricare nuove WU per questo progetto."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:84 clientgui/ViewProjects.cpp:223
 msgid "Reset project"
@@ -2995,13 +2995,13 @@ msgstr "Reset del progetto"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuove WU.  Puoi aggiornare il progetto prima di eseguire il reset per inviare le elaborazioni già completate."
+msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuove WU.  Puoi aggiornare il progetto prima di eseguire il reset per inviare le elaborazioni completate."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91 clientgui/ViewProjects.cpp:231
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Rimuovi questo progetto dal computer.  Le elaborazioni in corso andranno perse (usa prima 'Aggiorna' per inviare il lavoro già completato)."
+msgstr "Rimuovi questo progetto dal computer.  Le elaborazioni in corso andranno perse (usa prima 'Aggiorna' per inviare le WU già completate)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84 clientgui/ViewProjects.cpp:237
@@ -3015,19 +3015,19 @@ msgstr "Visualizza i dettagli del progetto."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:126 clientgui/ViewProjects.cpp:788
 msgid "Resume tasks for this project."
-msgstr "Riprendi il lavoro per questo progetto."
+msgstr "Riprendi le elaborazioni di questo progetto."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:133 clientgui/ViewProjects.cpp:807
 msgid "Allow new tasks"
-msgstr "Abilita richiesta workunit"
+msgstr "Abilita richiesta WU"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:134 clientgui/ViewProjects.cpp:807
 msgid "Allow fetching new tasks for this project."
-msgstr "Permetti a questo progetto di richiedere nuove workunit."
+msgstr "Permetti a questo progetto di richiedere nuove working unit."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:137 clientgui/ViewProjects.cpp:811
 msgid "Don't fetch new tasks for this project."
-msgstr "Non richiedere nuove workunit per questo progetto."
+msgstr "Non richiedere nuove working unit per questo progetto."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:229 clientgui/ViewProjects.cpp:517
 #, c-format
@@ -3100,7 +3100,7 @@ msgstr "Mostra la grafica dell'applicazione in una finestra."
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Suspend this task."
-msgstr "Sospendi questo lavoro."
+msgstr "Sospendi elaborazione."
 
 #: clientgui/sg_TaskCommandPopup.cpp:78 clientgui/ViewWork.cpp:239
 msgid "Abort"
@@ -3108,7 +3108,7 @@ msgstr "Annulla"
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Cancella questa elaborazione. Non otterrai crediti."
+msgstr "Cancella quest'elaborazione. Non otterrai crediti."
 
 #: clientgui/sg_TaskCommandPopup.cpp:85 clientgui/ViewWork.cpp:247
 msgid "Show task details."
@@ -3148,7 +3148,7 @@ msgstr "Elaborazioni:"
 #. TODO: Might want better wording for Task Selection Combo Box tooltip
 #: clientgui/sg_TaskPanel.cpp:487
 msgid "Select a task to access"
-msgstr "Seleziona un'attività alla quale accedere"
+msgstr "Seleziona un'elaborazione alla quale accedere"
 
 #. what project the task is from, e.g. "From: SETI@home"
 #: clientgui/sg_TaskPanel.cpp:499
@@ -3165,7 +3165,7 @@ msgstr "Comandi dell'attività"
 
 #: clientgui/sg_TaskPanel.cpp:572
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "Apri una finestra di menù dei comandi da applicare a questo lavoro"
+msgstr "Apri una finestra di menù dei comandi da mandare a questo lavoro"
 
 #: clientgui/sg_TaskPanel.cpp:707
 #, c-format
@@ -3423,7 +3423,7 @@ msgstr "Per ottenere lavoro"
 
 #: clientgui/ViewProjects.cpp:1117
 msgid "To report completed tasks"
-msgstr "Per inviare le workunit completate"
+msgstr "Per inviare le WU completate"
 
 #: clientgui/ViewProjects.cpp:1118
 msgid "To send trickle-up message"
@@ -3451,7 +3451,7 @@ msgstr "Sospeso dall'utente"
 
 #: clientgui/ViewProjects.cpp:1139
 msgid "Won't get new tasks"
-msgstr "Non richiedere nuove workunit"
+msgstr "Non richiedere nuove WU"
 
 #: clientgui/ViewProjects.cpp:1142
 msgid "Project ended - OK to remove"

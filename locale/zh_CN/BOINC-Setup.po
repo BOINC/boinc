@@ -4,7 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# xiaobo zhou <zhouxiaobo.500@gmail.com>, 2015
+# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
 # 秦赫阳 <qysnn1@gmail.com>, 2016
 msgid ""
 msgstr ""

@@ -7,7 +7,7 @@
 # 谢意, 2015
 # Xu Dong <1278297578@qq.com>, 2015
 # Yin Gang <zenith.yin@gmail.com>, 2015
-# xiaobo zhou <zhouxiaobo.500@gmail.com>, 2015
+# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
 # 李泽林, 2015
 # 秦赫阳 <qysnn1@gmail.com>, 2015-2016
 msgid ""

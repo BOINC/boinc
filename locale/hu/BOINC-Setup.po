@@ -1,44 +1,49 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC setup localization template
+# Copyright (C) 2016 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Attila Fenyvesi <fenya25@gmail.com>, 2015
+# Attila Fenyvesi <fenya25@gmail.com>, 2015,2017
 # fischer braun <fischer.braun@gmx.net>, 2015
 # Gabor Cseh <csega@mailbox.hu>, 2015-2016
 # misibacsi, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-02-08 09:39+0000\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
+"PO-Revision-Date: 2017-02-23 17:24+0000\n"
+"Last-Translator: Attila Fenyvesi <fenya25@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:124
+#: mac_installer/Installer.cpp:135
 #, c-format
-msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Sajnos a(z) %s ezen verziója 10.5 vagy nagyobb rendszerverziót igényel."
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "Sajnos a(z) %s ezen verziója 10.6 vagy nagyobb rendszerverziót igényel."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
+#: mac_installer/uninstall.cpp:1616
 msgid "Yes"
 msgstr "Igen"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
+#: mac_installer/uninstall.cpp:1617
 msgid "No"
 msgstr "Nem"
 
-#: PostInstall.cpp:133
+#. Future feature
+#: mac_installer/PostInstall.cpp:130
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Akkor is fusson a BOINC, ha mindenki kijelentkezett?"
 
-#: PostInstall.cpp:1416
+#: mac_installer/PostInstall.cpp:1375
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -46,26 +51,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "A felhasználók, akik ezen számítógépen adminisztrátori jogosultsággal rendelkeznek, automatikusan engedélyt kapnak a %s futtatására és vezérlésére.\n\nSzeretnéd, hogy a nem adminisztrátori jogú felhasználók is futtathassák és vezéreljék %s-t ezen a Mac-en?"
 
-#: PostInstall.cpp:1444
+#: mac_installer/PostInstall.cpp:1403
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Be akarod állítani %s-t képernyővédőnek minden %s felhasználó számára ezen a Mac-en?"
 
-#: uninstall.cpp:82
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:136
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:134
 msgid "Permission error after relaunch"
 msgstr "Hozzáférési hiba újraindítás után"
 
-#: uninstall.cpp:141
+#: mac_installer/uninstall.cpp:139
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Az eltávolítás több percet is igénybe vehet.\nKérjük, légy türelmes."
 
-#: uninstall.cpp:156
+#: mac_installer/uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -73,27 +79,27 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Biztosan eltávolítod:  %s -t erről a számítógépről?\n\nEz letörli a végrehajtható állományokat, de meghagyja %s adatfájljait."
 
-#: uninstall.cpp:163
+#: mac_installer/uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Visszavonva: %s nem változott."
 
-#: uninstall.cpp:174
+#: mac_installer/uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Hiba történt: hibakód: %d"
 
-#: uninstall.cpp:230
+#: mac_installer/uninstall.cpp:230
 msgid "name  of user"
 msgstr "a felhasználó neve"
 
-#: uninstall.cpp:272
+#: mac_installer/uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "El akarod távolítani a VirtualBox-ot is a számítógépről?\n(a VirtualBox a BOINC-cal együtt lett felrakva)"
 
-#: uninstall.cpp:312
+#: mac_installer/uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -105,17 +111,17 @@ msgid ""
 "\"%s\"."
 msgstr "Eltávolítás befejezve.\n\nEltávolíthatod a következő fennmaradó elemeket a Kereső használatával:\n a \"%s\" könyvár \n\nminden felhasználóhoz, a \"%s\" fájl."
 
-#: uninstall.cpp:840
+#: mac_installer/uninstall.cpp:871
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr "Add meg az adminisztrátori jelszót %s teljes eltávolításához erről a számítógépről.\n"
 
-#: uninstall.cpp:1616
+#: mac_installer/uninstall.cpp:1614
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: uninstall.cpp:1617
+#: mac_installer/uninstall.cpp:1615
 msgid "Continue..."
 msgstr "Folytatás..."

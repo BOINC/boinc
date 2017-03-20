@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">Tilføj projekt</string>
   <string name="projects_icon">Projekt-ikon</string>
   <string name="projects_credits">Bidragsydere:</string>
-  <string name="projects_credits_host_and_user">%1$,d (på denne enhed) %2$,d (total)</string>
+  <string name="projects_credits_host_and_user">%1$,d (på denne enhed) %2$,d (totalt)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspenderet af bruger</string>
   <string name="projects_status_dontrequestmorework">Vil ikke modtage nye opgaver</string>
@@ -334,11 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rettigheder forbeholdes.</string>
   <string name="about_credits">Tak til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC Corporation for deres støtte.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Ny besked fra %1$s</item>
+    <item quantity="other">%2$,d nye beskeder</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">App til frivillig beregning detekteret</string>
   <string name="nonexcl_dialog_text">En anden app til frivillig beregning kører på denne enhed. Kun én version kan køre ad gangen.</string>
   <string name="nonexcl_dialog_exit">Afslut</string>
@@ -348,5 +352,6 @@
   <string name="social_invite_content_title">Jeg bruger min smartphone til videnskab!</string>
   <string name="social_invite_content_body">Jeg bruger min %1$s til at lave beregninger for videnskaben! Det kan du også! Download app\'en fra: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

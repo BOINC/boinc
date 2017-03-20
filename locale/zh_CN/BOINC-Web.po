@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Hanlin Yang <mattoncis@hotmail.com>, 2016
-# xiaobo zhou <zhouxiaobo.500@gmail.com>, 2015
+# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
 # 李泽林, 2015
 # 秦赫阳 <qysnn1@gmail.com>, 2015-2016
 msgid ""

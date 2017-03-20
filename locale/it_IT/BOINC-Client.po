@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-12 11:24+0000\n"
+"PO-Revision-Date: 2017-02-24 11:23+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Messaggio dal server"
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr "Alcune workunit richiedono più RAM di quanta ne sia permessa dalle tue preferenze. Se vuoi eseguirle devi aumentare il limite massimo."
+msgstr "Alcune WU richiedono più RAM di quanta ne sia permessa dalle preferenze. Per eseguirle aumentare il limite."
 
 #: client/client_state.cpp:661
 msgid "Couldn't write state file; check directory permissions"
@@ -48,7 +48,7 @@ msgstr "La variabile d'ambiente HTTP_PROXY deve specificare un proxy HTTP"
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
-msgstr "Stai usando l'URL vecchio di questo progetto. Appena possibile rimuovi questo progetto, quindi connettiti a %s"
+msgstr "Stai usando il vecchio URL di questo progetto. Appena possibile rimuovi il progetto, e poi connettiti a %s"
 
 #: client/cs_statefile.cpp:844
 msgid "Syntax error in app_info.xml"
@@ -105,7 +105,7 @@ msgstr "rimuovi le limitazioni per la GPU nel file cc_config.xml"
 
 #: client/project.cpp:983
 msgid "change your settings at your account manager web site"
-msgstr "modifica le impostazioni del tuo account manger via web"
+msgstr "modifica le impostazioni del tuo account manager via web"
 
 #: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
@@ -137,7 +137,7 @@ msgstr "Il progetto non supporta i computer"
 #: sched/sched_send.cpp:1107
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Aggiorna i driver della scheda video all'ultima versione per \neseguire workunit che utilizzano la GPU del computer"
+msgstr "Aggiorna i driver della scheda video all'ultima versione per \neseguire working unit che utilizzano la GPU del computer"
 
 #: sched/sched_send.cpp:1114
 msgid ""
@@ -148,16 +148,16 @@ msgstr "Aggiorna i driver della scheda video per poter eseguire tutte le applica
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "La versione di BOINC installata non permette l'uso delle GPU Nvidia. Per risolvere il problema scarica l'ultima versione di BOINC."
+msgstr "La versione di BOINC installata non permette l'uso delle GPU nVidia. Per risolvere il problema scarica l'ultima versione di BOINC."
 
 #: sched/sched_send.cpp:1167
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "È necessaria una GPU %s per eseguire le workunit di questo progetto"
+msgstr "È necessaria una GPU %s per eseguire le applicazioni di questo progetto"
 
 #: sched/sched_send.cpp:1283
 msgid "No tasks are available for the applications you have selected."
-msgstr "Nessuna workunit disponibile per le applicazioni selezionate."
+msgstr "Nessuna working unit disponibile per le applicazioni selezionate."
 
 #: sched/sched_send.cpp:1309
 msgid "Your computer type is not supported by this project"
@@ -171,7 +171,7 @@ msgstr "È richiesta una versione di BOINC più recente; per favore installa l'u
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr "Sono disponibili delle workunit per %s, ma le tue preferenze sono impostate per non accettarle"
+msgstr "Sono disponibili delle WU per %s, ma le tue preferenze sono impostate per non accettarle"
 
 #: sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"

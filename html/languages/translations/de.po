@@ -4,14 +4,14 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Christian Beer <christian.beer@posteo.de>, 2015-2016
+# Christian Beer <christian.beer@posteo.de>, 2015-2017
 # Wolf Dieter Dallinger <wolf.dieter@dallinger.de>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-15 13:47+0000\n"
+"PO-Revision-Date: 2017-03-20 13:46+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1879,7 +1879,7 @@ msgstr "Neu"
 
 #: html/inc/result.inc:264 html/user/explain_state.php:91
 msgid "Downloading"
-msgstr "am herunterladen"
+msgstr "lädt herunter"
 
 #: html/inc/result.inc:265
 msgid "Processing"
