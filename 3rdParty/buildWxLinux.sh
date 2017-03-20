@@ -27,6 +27,38 @@
 # the --debug argument will build the debug version of the library
 # if --prefix is given as absolute path the library is installed into there
 
+# Patch wxwidgets to work with GCC6
+# from https://github.com/wxWidgets/wxWidgets/commit/73e9e18ea09ffffcaac50237def0d9728a213c02
+if [ ! -f  src/stc/scintilla/src/Editor.cxx.orig ]; then
+    cat >> /tmp/Editor.cxx.patch << ENDOFFILE
+--- Editor.cxx  2014-10-06 23:33:44.000000000 +0200
++++ Editor_patched.cxx  2017-03-20 10:24:14.776685161 +0100
+@@ -11,6 +11,7 @@
+ #include <ctype.h>
+ #include <assert.h>
+
++#include <cmath>
+ #include <string>
+ #include <vector>
+ #include <map>
+@@ -5841,9 +5842,9 @@
+ }
+
+ static bool Close(Point pt1, Point pt2) {
+-       if (abs(pt1.x - pt2.x) > 3)
++       if (std::abs(pt1.x - pt2.x) > 3)
+                return false;
+-       if (abs(pt1.y - pt2.y) > 3)
++       if (std::abs(pt1.y - pt2.y) > 3)
+                return false;
+        return true;
+ }
+ENDOFFILE
+    patch -blfu src/stc/scintilla/src/Editor.cxx /tmp/Editor.cxx.patch
+    rm -f /tmp/Editor.cxx.patch
+else
+    echo "src/stc/scintilla/src/Editor.cxx already patched"
+fi
 
 doclean=""
 configuration="Release"
