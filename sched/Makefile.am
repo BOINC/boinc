@@ -25,7 +25,7 @@ lib_LTLIBRARIES = libsched.la
 libsched_la_SOURCES = $(libsched_sources)
 libsched_la_CFLAGS = $(AM_CPPFLAGS)
 libsched_la_CXXFLAGS = $(AM_CPPFLAGS)
-libsched_la_LDFLAGS= -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libsched_la_LDFLAGS= -version-number $(LIBBOINC_VERSION)
 libsched_la_LIBADD= $(SSL_LIBS)
 
 ## install only headers that are meant for exporting the API !!
@@ -47,7 +47,7 @@ lib_LTLIBRARIES += libsched_fcgi.la
 libsched_fcgi_la_SOURCES = $(libsched_sources)
 libsched_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 libsched_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
-libsched_fcgi_la_LDFLAGS= -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libsched_fcgi_la_LDFLAGS= -version-number $(LIBBOINC_VERSION)
 libsched_fcgi_la_LIBADD=
 
 endif
