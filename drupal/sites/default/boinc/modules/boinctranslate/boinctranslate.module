@@ -861,10 +861,17 @@ function boinctranslate_refresh_translations() {
           $line = explode("|", $string);
           if ($line) {
             if (count($line)==1) {
-              bts($line[0]);
+              $tl0 = trim($line[0]);
+              if ($tl0) {
+                bts($tl0);
+              }
             }
             elseif (count($line)>1) {
-              bts($line[0], array(), NULL, $line[1]);
+              $tl0 = trim($line[0]);
+              $tl1 = trim($line[1]);
+              if ($tl0 and $tl1) {
+                bts($tl0, array(), NULL, $tl1);
+              }
             }
           }// if ($line)
 
