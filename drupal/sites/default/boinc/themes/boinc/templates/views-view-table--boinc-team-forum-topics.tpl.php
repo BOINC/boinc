@@ -60,7 +60,7 @@
       if ($topic_index == $topic_count) {
         $row_class .= ' last';
       }
-      if ($topic->timestamp OR $topic->new_comments) {
+      if (!empty($topic->timestamp) OR $topic->new_comments) {
         $row_class .= ' updated';
       }
     ?>
@@ -72,7 +72,7 @@
         <?php if ($result[$id]->node_boincteam_forum_node_comment != COMMENT_NODE_READ_WRITE): ?>
           <span class='fa fa-lock'></span>
         <?php endif; ?>
-        <?php if ($topic->timestamp): ?>
+        <?php if (!empty($topic->timestamp)): ?>
             <span class='fa fa-star-o'></span>
         <?php elseif ($topic->new_comments): ?>
             <span class='fa fa-bell-o'></span>
