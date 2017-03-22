@@ -1522,3 +1522,12 @@ function boinctranslate_parse_resources($resource_text) {
   }
   return $resources;
 }
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Implementation of hooks for l10n_update
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+function boinctranslate_l10n_update_projects_alter(&$projects) {
+  foreach ($projects as &$proj) {
+    $proj['info']['l10n path'] = 'https://ftp-origin.drupal.org/files/translations/%core/%project/%project-%release.%language.po';
+  }
+}
