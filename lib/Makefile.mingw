@@ -6,6 +6,13 @@ BOINC_PREFIX ?= /usr/local
 # set this for the BOINC sourc directory. This default should work for calling from within lib/ or api/
 BOINC_SRC ?= ..
 
+# if MINGW is set, define all used tools based on that
+ifdef MINGW
+    CC     = $(MINGW)-gcc
+    CXX    = $(MINGW)-g++
+    AR     = $(MINGW)-ar
+    RANLIB = $(MINGW)-ranlib
+endif
 
 # headers to install
 HEADERS = $(BOINC_SRC)/version.h \
@@ -36,7 +43,6 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/str_util.h
 
 ZIP_HEADERS = zip/boinc_zip.h
-
 
 # objects to compile
 
@@ -107,6 +113,13 @@ ZIP_OBJ = zip/boinc_zip.o \
 	zip/zipfile.o \
 	zip/zipup.o
 
+REGEXP_OBJS = \
+	regexp.o \
+	regsub.o \
+	regerror.o \
+	regexp_memory.o \
+	regexp_report.o
+
 # libraries to build
 API_BIN = libboinc_api.a
 API_LIB = libboinc_api.la
@@ -140,10 +153,15 @@ CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_C
 	-DNODB -D_CONSOLE -fexceptions $(OPTFLAGS) $(NOCYGWIN)
 
 # flags for compiling boinc_zip
-BOINC_ZIP_VCPROJ_FLAGS = -DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS -DNO_MKTEMP -DUSE_ZIPMAIN -DNO_CRYPT \
-	-DIZ_PWLEN=80 -DNO_ASM -DNO_UNICODE_SUPPORT -Dinflate=inflate_boinc -Ddeflate=deflate_boinc \
-	-Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc
-ZIP_FLAGS = $(BOINC_ZIP_VCPROJ_FLAGS) -DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT $(INCS) -O2 $(NOCYGWIN)
+ZIP_VCPROJ_FLAGS = -DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS -DNO_MKTEMP -DUSE_ZIPMAIN -DNO_CRYPT \
+	-DIZ_PWLEN=80 -DNO_ASM -DNO_UNICODE_SUPPORT -DNO_MBCS
+ZIP_BOINC_RENAMES = \
+	-Dinflate=inflate_boinc \
+	-Ddeflate=deflate_boinc \
+	-Dget_crc_table=get_crc_table_boinc \
+	-Dlongest_match=longest_match_boinc \
+	-Dinflate_codes=inflate_codes_boinc
+ZIP_FLAGS = $(ZIP_VCPROJ_FLAGS) $(ZIP_BOINC_RENAMES) -DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT $(INCS) -O2 $(NOCYGWIN)
 
 # LDFLAGS = -lwinmm 
 
@@ -160,14 +178,21 @@ all-la: $(BIN) $(API_LIB)
 .PHONY: boinc_zip
 boinc_zip: $(ZIP_BIN)
 
+# The MinGW 64Bit msvcrt library doesn't export __p___mb_cur_max(), so
+# we need to hack our own in this case. However this is only needed for
+# boinc_zip, which is compiled without Unicode/MBCS support, so a function
+# that alway returns 2 (as max character length) should be more than safe.
+# The source file is in zip/zip.
+ZIP_MINGW64_FIX ?= $(if $(findstring x86_64-w64-mingw32,$(CXX)),zip/__p___mb_cur_max.o,)
+
 .PHONY: wrapper
 wrapper: wrapper.exe
-wrapper.exe: wrapper.o regexp.o regsub.o regerror.o regexp_memory.o regexp_report.o $(API_BIN) $(LIB_BIN) $(ZIP_BIN)
+wrapper.exe: wrapper.o $(REGEXP_OBJS) $(API_BIN) $(LIB_BIN) $(ZIP_BIN) $(ZIP_MINGW64_FIX)
 	 $(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $^ -lpsapi
 
 # set to the target tools when cross-compiling
 RANLIB ?= ranlib
-LIBTOOL ?= libtool
+LIBTOOL ?= $(BOINC_SRC)/libtool
 
 # rules for the indivisual libraries
 $(API_LIB): $(API_LOBJ)
@@ -250,4 +275,4 @@ uninstall:
 	( cd $(BOINC_PREFIX)/lib && $(RM) -f $(BIN) $(API_BIN) $(API_LIB) || exit 0 )
 
 clean:
-	${RM} -rf $(OBJ) $(BIN) $(API_BIN) $(API_LIB) .libs $(ZIP_BIN)
+	${RM} -rf *.o $(BIN) $(API_BIN) $(API_LIB) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN) .libs $(ZIP_BIN) zip $(REGEXP_OBJS) wrapper.o wrapper.exe
