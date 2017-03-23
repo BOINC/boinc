@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Yin Gang <zenith.yin@gmail.com>, 2017
-# xiaobo zhou <zhouxiaobo.500@gmail.com>, 2015
+# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
 # 秦赫阳 <qysnn1@gmail.com>, 2015-2016
 msgid ""
 msgstr ""

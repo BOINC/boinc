@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-12-12 11:24+0000\n"
+"PO-Revision-Date: 2017-02-24 11:33+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -318,7 +318,7 @@ msgid "Total disk space"
 msgstr "Spazio totale su disco"
 
 msgid "Task duration correction factor"
-msgstr "Fattore di correzione della durata del lavoro"
+msgstr "Fattore correzione durata WU"
 
 msgid "Avg. credit"
 msgstr "Media dei crediti"
@@ -423,7 +423,7 @@ msgid "Exit status"
 msgstr "Stato di uscita"
 
 msgid "Granted credit"
-msgstr "Credito garantito"
+msgstr "Credito assegnato"
 
 msgid "Outcome"
 msgstr "Risultato"
@@ -465,13 +465,13 @@ msgid "Minimum quorum"
 msgstr "Quorum minimo"
 
 msgid "Max error tasks"
-msgstr "Numero massimo di elaborazioni fallite"
+msgstr "Numero massimo WU fallite"
 
 msgid "Max success tasks"
-msgstr "Numero massimo di elaborazioni terminate con successo"
+msgstr "Numero massimo WU terminate con successo"
 
 msgid "Max total tasks"
-msgstr "Numero massimo di elaborazioni totali"
+msgstr "Numero massimo WU totali"
 
 msgid "Needs validation"
 msgstr "Richiede validazione"
@@ -498,16 +498,16 @@ msgid "App version ID"
 msgstr "ID versione applicazione"
 
 msgid "Consecutive valid tasks"
-msgstr "Lavori validi consecutivi"
+msgstr "WU valide consecutive"
 
 msgid "Number of tasks completed"
-msgstr "Numero di lavori completati"
+msgstr "WU completate"
 
 msgid "Max tasks per day"
-msgstr "Massimo numero di lavori giornalieri"
+msgstr "WU massime giornaliere"
 
 msgid "Number of tasks today"
-msgstr "Numero di lavori giornaliero"
+msgstr "WU giornaliere"
 
 msgid "Manage subscriptions"
 msgstr "Imposta le sottoscrizioni"
@@ -689,7 +689,7 @@ msgid "No restriction if equal"
 msgstr "Nessuna restrizione se uguale"
 
 msgid "Leave tasks in memory while suspended?"
-msgstr "Lasciare le attività in memoria quando sono sospese?"
+msgstr "Lasciare i processi in memoria mentre sono sospesi?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
 msgstr "Segnando \"si\" i processi sospesi utilizzeranno spazio di swap"
@@ -816,7 +816,7 @@ msgid "No @type tasks"
 msgstr "Nessuna task del tipo @type"
 
 msgid "There are no tasks of this type on record"
-msgstr "Non ci sono incarichi di questo tipo registrati"
+msgstr "Non ci sono elaborazioni di questo tipo registrate"
 
 msgid "Details"
 msgstr "Dettagli"
@@ -881,14 +881,14 @@ msgid "disband a team if it has no members"
 msgstr "sciogliere il team, nel momento in cui lo stesso abbia un solo membro"
 
 msgid "Search teams"
-msgstr "Cerca i team"
+msgstr "Cerca team"
 
 msgid "Create a new team"
 msgstr "Crea un nuovo team"
 
 msgid ""
 "If you cannot find a team that is right for you, you can create a team."
-msgstr "Se non trovi una squadra che è giusta per te, puoi creare una squadra."
+msgstr "Se non trovi un team che ti vada bene, puoi crearne uno nuovo."
 
 msgid "You must earn 1 more credit!"
 msgstr "Ti manca ancora 1 credito!"
@@ -956,7 +956,7 @@ msgid "Team"
 msgstr "Team"
 
 msgid "Create new team"
-msgstr "Creare un nuovo team"
+msgstr "Crea un nuovo team"
 
 msgid "Search"
 msgstr "Cerca"
@@ -1158,7 +1158,7 @@ msgid "Leave team"
 msgstr "Abbandona il team"
 
 msgid "Click here to revoke your membership with @this_team"
-msgstr "Clicca qui per revocare la tua iscrizione su @this_team"
+msgstr "Clicca qui per revocare la tua iscrizione a @this_team"
 
 msgid "Leave this team"
 msgstr "Abbandona questo team"
@@ -1169,7 +1169,7 @@ msgstr "Richiedi cambio fondatore"
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "Se il fondatore del team non è attivo e si desidera assumere il ruolo di fondatore, cliccare qui sotto per richiedere la foundership di @this_team."
+msgstr "Se il fondatore del team non è attivo e desideri assumere il ruolo di fondatore, cliccare qui sotto per chiedere di diventare il fondatore di @this_team."
 
 msgid "Initiate request"
 msgstr "Avvia la richiesta"

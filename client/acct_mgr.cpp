@@ -155,7 +155,6 @@ int ACCT_MGR_OP::do_rpc(
             "      <url>%s</url>\n"
             "      <project_name>%s</project_name>\n"
             "      <suspended_via_gui>%d</suspended_via_gui>\n"
-            "      <account_key>%s</account_key>\n"
             "      <hostid>%d</hostid>\n"
             "      <not_started_dur>%f</not_started_dur>\n"
             "      <in_progress_dur>%f</in_progress_dur>\n"
@@ -169,12 +168,10 @@ int ACCT_MGR_OP::do_rpc(
             "      <gpu_ec>%f</gpu_ec>\n"
             "      <gpu_time>%f</gpu_time>\n"
             "      <njobs_success>%d</njobs_success>\n"
-            "      <njobs_fail>%d</njobs_fail>\n"
-            "   </project>\n",
+            "      <njobs_fail>%d</njobs_fail>\n",
             p->master_url,
             p->project_name,
             p->suspended_via_gui?1:0,
-            p->authenticator,
             p->hostid,
             not_started_dur,
             in_progress_dur,
@@ -189,6 +186,15 @@ int ACCT_MGR_OP::do_rpc(
             p->gpu_time,
             p->njobs_success,
             p->njobs_fail
+        );
+        if (p->attached_via_acct_mgr) {
+            fprintf(f,
+                "      <account_key>%s</account_key>\n",
+                p->authenticator
+            );
+        }
+        fprintf(f,
+            "   </project>\n"
         );
     }
     MIOFILE mf;

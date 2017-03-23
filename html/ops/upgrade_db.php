@@ -27,6 +27,8 @@ $db_revision = 0;
 if (file_exists("../../db_revision")) {
     $db_revision = (int) file_get_contents("../../db_revision");
 }
+echo "DB version: $db_revision\n";
+
 require_once("db_update.php");
 
 $updates = array();

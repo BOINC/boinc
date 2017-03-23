@@ -853,10 +853,31 @@ function boinctranslate_refresh_translations() {
       foreach ($other_strings as $string) {
         $string = trim($string);
         if ($string) {
-          bts($string);
-        }
-      }
-    }
+          // Ignore lines starting with '#' i.e., comments.
+          if ($string[0] === "#")
+            continue;
+
+          // Use '|' as delimiter to split string and context info.
+          $line = explode("|", $string);
+          if ($line) {
+            if (count($line)==1) {
+              $tl0 = trim($line[0]);
+              if ($tl0) {
+                bts($tl0);
+              }
+            }
+            elseif (count($line)>1) {
+              $tl0 = trim($line[0]);
+              $tl1 = trim($line[1]);
+              if ($tl0 and $tl1) {
+                bts($tl0, array(), NULL, $tl1);
+              }
+            }
+          }// if ($line)
+
+        }// if ($string)
+      }// foreach
+    }// if ($other_strings)
   }
   
   foreach ($languages as $langcode => $language) {
@@ -1521,4 +1542,13 @@ function boinctranslate_parse_resources($resource_text) {
     }
   }
   return $resources;
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Implementation of hooks for l10n_update
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+function boinctranslate_l10n_update_projects_alter(&$projects) {
+  foreach ($projects as &$proj) {
+    $proj['info']['l10n path'] = 'https://ftp-origin.drupal.org/files/translations/%core/%project/%project-%release.%language.po';
+  }
 }

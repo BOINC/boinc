@@ -138,3 +138,11 @@ alter table badge_user
 
 alter table badge_team
     add unique (team_id, badge_id);
+
+alter table credit_user
+    add index cu_total(appid, total),
+    add index cu_avg(appid, expavg);
+
+alter table credit_team
+    add index ct_total(appid, total),
+    add index ct_avg(appid, expavg);

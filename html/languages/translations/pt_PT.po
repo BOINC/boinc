@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-01-31 16:44+0000\n"
+"PO-Revision-Date: 2017-02-10 11:24+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -5809,7 +5809,7 @@ msgstr "Pode criar um fórum para utilização por %1."
 
 #: html/user/team_forum.php:33
 msgid "Only team members will be able to post."
-msgstr "Apenas membros da equipa podem postar."
+msgstr "Apenas membros da equipa podem publicar."
 
 #: html/user/team_forum.php:34
 msgid "At your option, only members will be able to read."
@@ -5833,15 +5833,15 @@ msgstr "Fórum de Equipa"
 
 #: html/user/team_forum.php:78
 msgid "Minimum time between posts (seconds)"
-msgstr "Tempo minímo entres posts (segundos)"
+msgstr "Tempo mínimo entres publicações (segundos)"
 
 #: html/user/team_forum.php:81
 msgid "Minimum total credit to post"
-msgstr "Total de créditos minímos para postar"
+msgstr "Total de créditos mínimos para publicar"
 
 #: html/user/team_forum.php:84
 msgid "Minimum average credit to post"
-msgstr "Média de créditos minímos para postar"
+msgstr "Média de créditos mínimos para publicar"
 
 #: html/user/team_forum.php:87
 msgid "Submit"
@@ -5860,7 +5860,7 @@ msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
-msgstr "Tem a certeza que quer remover o fórum da sua equipa? Todos os tópicos e posts serão permanentemente removidos. (Pode, no entanto, criar um novo fórum mais tarde)."
+msgstr "Tem a certeza que quer remover o fórum da sua equipa? Todos os tópicos e publicações serão permanentemente removidos. (Pode, no entanto, criar um novo fórum mais tarde)."
 
 #: html/user/team_forum.php:108
 msgid "Yes - remove message board"
@@ -5878,15 +5878,15 @@ msgstr "O fórum da sua equipa foi removido. Pode agora %1criar um novo%2."
 
 #: html/user/team_forum.php:151
 msgid "Team Message Board Updated"
-msgstr "Fórum da Equipa Actualizado"
+msgstr "Fórum da Equipa Atualizado"
 
 #: html/user/team_forum.php:152
 msgid "Update successful"
-msgstr "Actualização com sucesso"
+msgstr "Atualização com sucesso"
 
 #: html/user/team_forum.php:155
 msgid "Update failed"
-msgstr "Actualização falhada"
+msgstr "Atualização falhada"
 
 #: html/user/team_forum.php:162
 msgid "Team has no forum"
@@ -5904,12 +5904,12 @@ msgstr "Pedindo liderança de %1"
 msgid ""
 "The current founder has been notified of your request by email and private message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you will be allowed to become the founder."
-msgstr "O fundador actual foi notificado para o seu pedido por email e mensagem privada.<br/><br/>\n                      Se o fundador não responder num prazo de 60 dias, terá permissão para se tornar o fundador."
+msgstr "O fundador atual foi notificado do seu pedido por e-mail e mensagem privada.<br/><br/>\nSe o fundador não responder num prazo de 60 dias, terá permissão para se tornar o fundador."
 
 #: html/user/team_founder_transfer_action.php:112
 #: html/user/team_founder_transfer_action.php:123
 msgid "Foundership request not allowed now"
-msgstr "Pedido de liderança não permitido agora"
+msgstr "Pedido de liderança não permitido atualmente"
 
 #: html/user/team_founder_transfer_action.php:119
 msgid "Assumed foundership of %1"
@@ -5935,7 +5935,7 @@ msgstr "Não existem pedidos de liderança."
 
 #: html/user/team_founder_transfer_action.php:144
 msgid "undefined action %1"
-msgstr "acção indefinida %1"
+msgstr "ação indefinida %1"
 
 #: html/user/team_founder_transfer_action.php:147
 #: html/user/team_founder_transfer_form.php:85
@@ -5962,7 +5962,7 @@ msgstr "Solicitou a liderança de %1 em %2."
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr "60 dias passaram desde o seu pedido e o fundador não respondeu. Pode agora assumir a liderança carregando aqui:"
+msgstr "60 dias passaram desde o seu pedido e o fundador não respondeu. Pode agora assumir a liderança clicando aqui:"
 
 #: html/user/team_founder_transfer_form.php:52
 msgid "Assume foundership"
@@ -5972,13 +5972,13 @@ msgstr "Assumir liderança"
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
-msgstr "O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-lhe-á dada a opção de se tornar fundador."
+msgstr "O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-lhe-à dado a opção de se tornar fundador."
 
 #: html/user/team_founder_transfer_form.php:62
 msgid ""
 "If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr "Se o fundador da equipa não está activo e quiser assumir o papel de fundador, carregue no botão em baixo. Será enviado um email detalhado ao fundador actual com o seu pedido, e o mesmo poderá transferir-lhe a liderança ou declinar o seu pedido. Se o fundador não responder num prazo de 60 dias, terá permissão para se tornar o fundador.<br/><br/>\n                       Tem a certeza que quer solicitar a liderança?"
+msgstr "Se o fundador da equipa não está ativo e quiser assumir o papel de fundador, clique no botão abaixo. Será enviado um e-mail detalhado ao fundador atual com o seu pedido, e o mesmo poderá transferir-lhe a liderança ou declinar o seu pedido. Se o fundador não responder num prazo de 60 dias, terá permissão para se tornar o fundador.<br/><br/>\nTem a certeza que quer solicitar a liderança?"
 
 #: html/user/team_founder_transfer_form.php:67
 msgid "Request foundership"
@@ -5992,7 +5992,7 @@ msgstr "A alteração de fundador já foi solicitada por %1 em %2."
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
-msgstr "Uma mudança de liderança foi solicitada durante os ultimos 90 dias, por isso novos pedidos não são permitidos. Por favor, tente mais tarde."
+msgstr "Uma mudança de liderança foi solicitada durante os últimos 90 dias, por isso novos pedidos não são permitidos. Por favor, tente mais tarde."
 
 #: html/user/team_join_action.php:34 html/user/team_join_form.php:31
 #: html/user/team_join.php:34
@@ -6025,7 +6025,7 @@ msgstr "Por favor tenha atenção:"
 
 #: html/user/team_join_form.php:37
 msgid "Joining a team gives its founder access to your email address."
-msgstr "Juntar-se a uma equipa dá ao fundador acesso ao seu endereço de email."
+msgstr "Juntar-se a uma equipa dá ao fundador acesso ao seu endereço de e-mail."
 
 #: html/user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
@@ -6091,11 +6091,11 @@ msgstr "Ver informação do membro"
 
 #: html/user/team_manage.php:40
 msgid "View change history:"
-msgstr "Ver histórico de mudanças:"
+msgstr "Ver histórico de alterações:"
 
 #: html/user/team_manage.php:43
 msgid "See when members joined or quit this team"
-msgstr "Ver quando os membros se juntaram ou sairam da equipa"
+msgstr "Ver quando os membros se juntaram ou saíram da equipa"
 
 #: html/user/team_manage.php:54
 msgid "Respond to foundership request."
@@ -6119,7 +6119,7 @@ msgstr "Adicionar/remover Administradores da Equipa"
 
 #: html/user/team_manage.php:63
 msgid "Give selected team members Team Admin privileges"
-msgstr "Dar aos membros seleccionados privilégios de Administração da Equipa"
+msgstr "Dar aos membros selecionados privilégios de Administração da Equipa"
 
 #: html/user/team_manage.php:65
 msgid "Remove team"
@@ -6137,7 +6137,7 @@ msgstr "Criar ou gerir um fórum da equipa"
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can"
 " make it into a %1BOINC-wide team%2."
-msgstr "Para ter esta equipa criada em todos os projectos BOINC (agora e futuramente) pode criá-la numa %1equipa ampla do BOINC%2."
+msgstr "Para ter esta equipa criada em todos os projetos BOINC (agora e futuramente) pode criá-la numa %1equipa ampla do BOINC%2."
 
 #: html/user/team_manage.php:77
 msgid ""
@@ -6147,7 +6147,7 @@ msgstr "Administradores de Equipa são encorajados a juntar-se e participar no g
 
 #: html/user/team_manage.php:93
 msgid "Can't delete non-empty team"
-msgstr "Não é possivel apagar uma equipa não vazia"
+msgstr "Não é possível apagar uma equipa que não  esteja vazia"
 
 #: html/user/team_manage.php:97
 msgid "Team %1 deleted"
@@ -6155,7 +6155,7 @@ msgstr "Equipa %1 apagada"
 
 #: html/user/team_members.php:38
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr "Limite excedido: Só é possivel mostrar os primeiros 1000 membros."
+msgstr "Limite excedido: Só é possível mostrar os primeiros 1000 membros."
 
 #: html/user/team.php:29
 msgid "%1 participants may form %2teams%3."
@@ -6217,7 +6217,7 @@ msgstr "Não foi possivel sair da equipa"
 
 #: html/user/team_quit_action.php:35
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr "A equipa não existe ou não pertence à mesma."
+msgstr "A equipa não existe ou não pertence a ela."
 
 #: html/user/team_quit_form.php:33
 msgid "Quit %1"
@@ -6230,7 +6230,7 @@ msgid ""
 "         <li>If you quit a team, you may rejoin later, or join any other team you desire\n"
 "         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
-msgstr "<strong>Tenha em atenção antes de sair de uma equipa:</strong>\n         <ul>\n         <li>Se sair de uma equipa, pode mais tarde se juntar novamente, ou juntar-se a outra equipa que deseja\n         <li>Sair de uma equipa não afecta de maneira nenhuma os seus créditos pessoais.\n         </ul>"
+msgstr "<strong>Tenha em atenção antes de sair de uma equipa:</strong>\n<ul>\n<li>Se sair de uma equipa, pode mais tarde juntar-se novamente, ou juntar-se a outra equipa que desejar\n<li>Sair de uma equipa não afecta de maneira nenhuma os seus créditos pessoais.\n</ul>"
 
 #: html/user/team_quit_form.php:42
 msgid "Quit Team"
@@ -6262,7 +6262,7 @@ msgstr "Nome (ID)"
 
 #: html/user/team_remove_inactive_form.php:68
 msgid "No members are eligible for removal."
-msgstr "Nenhum membro está qualificado para remoção."
+msgstr "Não existem membros qualificados para remoção."
 
 #: html/user/team_remove_inactive_form.php:71
 msgid "Remove users"
@@ -6293,7 +6293,7 @@ msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
-msgstr "As seguintes equipas correspondem a um ou mais critérios da sua pesquisa.\n           Para se juntar a uma equipa, carregue no seu nome para ir á página da equipa,\n               depois carregue em %1Juntar-se a esta equipa%2."
+msgstr "As seguintes equipas correspondem a um ou mais critérios da sua pesquisa.\nPara se juntar a uma equipa, carregue no seu nome para ir á página da equipa,\ndepois carregue em %1Juntar-se a esta equipa%2."
 
 #: html/user/team_search.php:130
 msgid "Change your search"
@@ -6303,11 +6303,11 @@ msgstr "Mudar a sua pesquisa"
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
-msgstr "Pode juntar-se com outras pessoas com interesses similares, ou do mesmo país, companhia ou escola."
+msgstr "Pode juntar-se a outras pessoas com interesses similares, ou do mesmo país, empresa ou escola."
 
 #: html/user/team_search.php:206
 msgid "Use this form to find teams that might be right for you."
-msgstr "Use este formulário para encontrar equipas que possam ser adequadas a si."
+msgstr "Use este formulário para encontrar equipas que possam ser adequadas para si."
 
 #: html/user/team_search.php:211
 msgid "%1I'm not interested%2 in joining a team right now."
@@ -6316,7 +6316,7 @@ msgstr "%1Não estou interessado%2 em juntar-me a uma equipa neste momento."
 #: html/user/top_hosts.php:67 html/user/top_teams.php:102
 #: html/user/top_users.php:105
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr "Limite excedido - Pedimos desculpa, os primeiros %1 items apenas"
+msgstr "Limite excedido - Pedimos desculpa, os primeiros %1 itens apenas"
 
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:82
@@ -6338,11 +6338,11 @@ msgstr "Participante desde"
 
 #: html/user/uotd.php:32
 msgid "No user of the day has been chosen."
-msgstr "Não foi escolhido utilizador do dia."
+msgstr "Não foi escolhido um utilizador do dia."
 
 #: html/user/uotd.php:36
 msgid "User of the Day for %1: %2"
-msgstr "Uitlizador do Dia para %1: %2"
+msgstr "Utilizador do Dia para %1: %2"
 
 #: html/user/user_search.php:51
 msgid "Filters"
@@ -6374,7 +6374,7 @@ msgstr "Ordenando"
 
 #: html/user/user_search.php:70
 msgid "Decreasing sign-up time"
-msgstr "Diminuir o tempo de inscrição"
+msgstr "Diminuindo o tempo de inscrição"
 
 #: html/user/user_search.php:71
 msgid "Decreasing average credit"
@@ -6382,11 +6382,11 @@ msgstr "Média de créditos por ordem decrescente"
 
 #: html/user/user_search.php:72
 msgid "Decreasing total credit"
-msgstr "Créditos totais por ordem descrescente"
+msgstr "Créditos totais por ordem decrescente"
 
 #: html/user/user_search.php:87
 msgid "search string must be at least 3 characters"
-msgstr "pesquisar string que tenha no minímo 3 caracteres"
+msgstr "pesquisar string que tenha no mínimo 3 caracteres "
 
 #: html/user/user_search.php:121
 msgid "User search results"
@@ -6426,23 +6426,23 @@ msgstr "Equipa: Nenhuma"
 
 #: html/user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr "Validar endereço de email do BOINC"
+msgstr "Validar endereço de e-mail do BOINC "
 
 #: html/user/validate_email_addr.php:31
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
-msgstr "Por favor visite o seguinte link para validar o endereço de email da sua %1 conta:"
+msgstr "Por favor visite o seguinte link para validar o endereço de e-mail da sua conta %1:"
 
 #: html/user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr "Email de validação enviado"
+msgstr "E-mail de validação enviado"
 
 #: html/user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
-msgstr "Um email foi enviado para %1. Visite o link contido para validar o seu endereço de email."
+msgstr "Um e-mail foi enviado para %1. Visite o link contido para validar o seu endereço de e-mail."
 
 #: html/user/validate_email_addr.php:44
 msgid "No such user."
@@ -6450,19 +6450,19 @@ msgstr "Não existe tal utilizador."
 
 #: html/user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr "Erro de dados no URL - não é possivel validar o endereço de email"
+msgstr "Erro de dados no URL - não é possível validar o endereço de e-mail"
 
 #: html/user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr "Actualização da base de dados falhada - por favor, tente mais tarde."
+msgstr "Atualização da base de dados falhada - por favor, tente mais tarde."
 
 #: html/user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr "Validar endereço de email"
+msgstr "Validar endereço de e-mail"
 
 #: html/user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr "O endereço de email da sua conta foi validado."
+msgstr "O endereço de e-mail da sua conta foi validado."
 
 #: html/user/view_profile.php:38
 msgid "This user has no profile"
@@ -6481,7 +6481,7 @@ msgid ""
 "You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr "Pode aceder à sua conta usando o endereço de email e palavra-passe,\n      ou então usando a 'chave da conta' assignada.\n      A sua chave da conta é:"
+msgstr "Pode aceder à sua conta usando o endereço de e-mail e \npalavra-passe,\nou então usando a 'chave da conta' assignada.\nA sua chave da conta é:"
 
 #: html/user/weak_auth.php:57
 msgid "This key can be used to:"
@@ -6489,7 +6489,7 @@ msgstr "esta chave pode ser usada para:"
 
 #: html/user/weak_auth.php:59
 msgid "log in to your account on the web"
-msgstr "faça login com a sua conta na web"
+msgstr "entre com a sua conta na web"
 
 #: html/user/weak_auth.php:61
 msgid ""
@@ -6497,7 +6497,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr "para adicionar um computador à sua conta sem ter de usar o Gestor BOINC.\n        Para o fazer, instale o BOINC,\n        crie um ficheiro chamado %1 na directoria de dados\n        do BOINC e, defina os seus conteúdos para:"
+msgstr "para adicionar um computador à sua conta sem ter de usar o Gestor BOINC.\nPara o fazer, instale o BOINC,\ncrie um ficheiro chamado %1 na directoria de dados\ndo BOINC e, defina os seus conteúdos para:"
 
 #: html/user/weak_auth.php:73
 msgid "Weak account key"
@@ -6510,7 +6510,7 @@ msgid ""
 "    If you want to attach untrusted or insecure computers to your account,\n"
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
-msgstr "A sua 'chave de conta fraca' pode ser utilizada para adicionar computadores à sua conta\n    como descrito acima mas, não pode ser usada para se ligar à sua conta ou alterá-la de qualquer maneira.\n    Se quiser adicionar computadores inseguros ou que não sejam de confiança, à sua conta,\n    faça-o usando a sua chave de conta fraca.\n    A sua chave de conta fraca é:"
+msgstr "A sua 'chave de conta fraca' pode ser utilizada para adicionar computadores à sua conta \ncomo descrito acima mas, não pode ser usada para se ligar à sua conta ou alterá-la de qualquer maneira.\nSe quiser adicionar computadores inseguros, ou que não sejam de confiança à sua conta, faça-o usando a sua chave de conta fraca.\nA sua chave de conta fraca é:"
 
 #: html/user/weak_auth.php:81
 msgid ""
@@ -6520,7 +6520,7 @@ msgstr "Se mudar a sua palavra passe, a sua chave fraca mudará e a sua chave fr
 
 #: html/user/workunit.php:32
 msgid "can't find workunit"
-msgstr "não foi possivel encontrar unidade de trabalho"
+msgstr "não foi possível encontrar unidade de trabalho "
 
 #: html/user/workunit.php:35
 msgid "Workunit %1"
@@ -6548,7 +6548,7 @@ msgstr "conclusão pendente suprimida"
 
 #: html/user/workunit.php:58
 msgid "minimum quorum"
-msgstr "quórum minímo"
+msgstr "quórum mínimo "
 
 #: html/user/workunit.php:59
 msgid "initial replication"
@@ -6582,7 +6582,7 @@ msgstr "O seu fundo pessoal."
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr "Fale-nos sobre si. Diga-nos de onde é, a sua idade, ocupação, passatempos ou algos mais sobre si."
+msgstr "Fale-nos sobre si. Diga-nos de onde é, a sua idade, ocupação, passatempos ou algo mais sobre si."
 
 #: html/project.sample/project.inc:134
 msgid "Your opinions about %1"
@@ -6595,7 +6595,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr "Diga-nos as suas opiniões acerca %1<ol>\n    <li>Porque executa %1?\n    <li>O seu ponto de vista acerca do projecto?\n    <li>Alguma sugestão?\n    </ol>"
+msgstr "Diga-nos as suas opiniões acerca %1<ol>\n<li>Porque executa %1?\n<li>O seu ponto de vista acerca do projeto\n <li>Sugestões?\n </ol>"
 
 #: html/project.sample/project_specific_prefs.inc:57
 msgid "Color scheme for graphics"
@@ -6604,7 +6604,7 @@ msgstr "Esquema de cores para os gráficos"
 #: html/project.sample/project_specific_prefs.inc:59
 #, no-php-format
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr "Máximo da CPU % para os gráficos%10... 100%2"
+msgstr "Máximo do CPU % para os gráficos%10... 100%2"
 
 #: html/project.sample/project_specific_prefs.inc:60
 msgid "Run only the selected applications"
@@ -6620,7 +6620,7 @@ msgstr "Obter tarefas apenas para certas aplicações. Útil para se focar em ap
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr "Se não houver trabalho para as aplicações seleccionadas, aceitar trabalho de outras aplicações?"
+msgstr "Se não houver trabalho para as aplicações selecionadas, aceitar trabalho de outras aplicações?"
 
 #: html/project.sample/project_specific_prefs.inc:63
 msgid "Use faster non-graphical applications if available?"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -334,11 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Verzió</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a Hálózati Számításért)</string>
-    <string name="about_copyright">\u00A9 2003–2016 Kaliforniai Egyetem, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003-2016 Kaliforniai Egyetem, Berkeley.</string>
   <string name="about_copyright_reserved">Minden jog fenntartva.</string>
   <string name="about_credits">Köszönet a Max Planck Gravitációs Fizikai Intézetnek, az IBM Corporation-nek és a HTC Corporation-nek a támogatásért.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Új figyelmeztetés: a(z) %1$ s</item>
+    <item quantity="other">%2$,d új értesítés</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Önkéntes számítási alkalmazás észlelve</string>
   <string name="nonexcl_dialog_text">Már fut egy másik önkéntes számítási alkalmazás. Egy időben csak egy futhat.</string>
   <string name="nonexcl_dialog_exit">Bezárás</string>
