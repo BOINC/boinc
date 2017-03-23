@@ -26,301 +26,190 @@
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-check_get_args(array("is_team", "appid", "is_total", "added_offset", "up", "offset"));
+check_get_args(array(
+    "is_team",
+    "appid",
+    "is_total",
+    "added_offset",
+    "up",
+    "offset"
+));
 
-define ('ITEM_LIMIT', 10000);
+define('ITEM_LIMIT', 10000);
 
 // return a column title (Average or Total),
 // hyperlinked if this is not the current sort column
 //
-function col_title($is_team, $app, $appid, $is_total, $i) {
-    $x = $i?"Total":"Average";
-    if ($app->id == $appid && ($is_total?$i:!$i)) {
+function col_title($is_team, $app, $appid, $is_total, $i)
+{
+    $x = $i ? "Total" : "Average";
+    if ($app->id == $appid && ($is_total ? $i : !$i)) {
         return $x;
     } else {
-        return "<a href=per_app_list.php?appid=$app->id&is_team=$is_team&is_total=$i>$x</a>";
+        return "<a href=per_app_list_dev.php?appid=$app->id&is_team=$is_team&is_total=$i>$x</a>";
     }
 }
 
 // print a row of app names,
 // under each of which are columns for Average and Total
 //
-function show_header($is_team, $apps, $appid, $is_total) {
+function show_header($is_team, $apps, $appid, $is_total)
+{
     echo "<tr><th colspan=2>&nbsp;</th>";
     foreach ($apps as $app) {
         echo "<th colspan=2>$app->name</th>\n";
     }
     echo "</tr>";
-
+    
     echo "<tr>";
     echo "<th>Rank</th><th>Name</th>\n";
     foreach ($apps as $app) {
-        for ($i=0; $i<2; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $x = col_title($is_team, $app, $appid, $is_total, $i);
             echo "<th>$x</th>\n";
         }
     }
-
+    
     echo "</tr>";
-
+    
 }
 
 // show a user or team, with their credit for each app
 //
-function show_row($item, $x) {
+function show_row($item, $x)
+{
     global $i;
     global $apps;
     echo "<tr>";
     echo "<td>$i</td>";
-   
-    echo $item[0][$x];
+    
+    echo "<td>" . $item[0][$x] . "</td>";
     $y = 1;
     foreach ($apps as $app) {
-         echo $item[$y][$x];
-         $y++;
+        $z = 0;
+        echo "<td>" . format_credit($item[$y][$x][$z]) . "</td>";
+        $z++;
+        echo "<td>" . format_credit_large($item[$y][$x][$z]) . "</td>";
+        $y++;
     }
     echo "</tr>";
     
 }
 
-function choose_teams($x, $appid, $used_offset, $up) {
-     global $store;
-     global $items_per_page;
-     $fetched_items = $items_per_page;
-     $check = 0;
-     $fetch = 1;
+function retrieve_credit_team($data)
+{
+    global $apps;
+    $x = 1;
+    $c = 0;
     
-     $store[1][0] = 0;
- 
-     //Check whether every one of the credit_teams corresponds to a valid team in the teams table
-     //and fetch accordingly bigger chunks of the credit_team table until we have the chosen size
-     //
-     if (!$up) {
-         while ($check != $fetch) {
-            $data =  BoincCreditTeam::enum("appid=$appid order by $x desc limit $used_offset,$fetched_items");
-            $check = sizeof($data) - ($fetched_items - $items_per_page);
-            $fetch = $check + ($fetched_items - $items_per_page);
-            foreach ($data as $item) {
-                     $team = BoincTeam::lookup_id($item->teamid);
-                     if (!is_object($team)) {
-                       $fetch--;
-                     }
-            }
-            if ($check != $fetch) {
-                $fetched_items++;
-            }
-         }
-         //How many teams did we get
-         //
-         $store[0][0] = $fetch;
-         
-         //How many more than the predefined items_per_page did we fetch
-         //
-         $store[1][0] = $fetched_items - $items_per_page;
-     
-     }   else {
-
-         //Do the opposite. Fetch chunks from the credit_team table but from an earlier point 
-         //every time we find a non valid team entry. 
-         //
-         while ($check != $fetch) {
-               if ($used_offset < 0) $used_offset = 0;
-               $data =  BoincCreditTeam::enum("appid=$appid order by $x desc limit $used_offset,$fetched_items");
-               $check = sizeof($data) - ($fetched_items - $items_per_page);
-               $fetch = $check + ($fetched_items - $items_per_page);
-               foreach ($data as $item) {
-                      $team = BoincTeam::lookup_id($item->teamid);
-                      if (!is_object($team)) {
-                        $fetch--;
-                      }
-             }
-             if ($check != $fetch) {
-                 $fetched_items++;
-                 $used_offset--;
-             }
-        } 
-        $store[0][0] = $fetch;
-        $store[1][0] = $fetched_items - $items_per_page;
+    foreach ($data as $item) {
+        $team = BoincTeam::lookup_id($item->teamid);
+        if (is_object($team)) {
+            $sign         = team_links($team);
+            $store[0][$c] = $sign;
+            $c++;
         }
-
-       return $data;
-
-}
-
-function choose_users($x, $appid, $used_offset, $up) {
-     global $store;
-     global $items_per_page;
-     $fetched_items = $items_per_page;
-     $check = 0;
-     $fetch = 1;
-  
-      //Do the same for the credit_user and user tables
-      //
-     if (!$up) {
-      while ($check != $fetch) {
-             $data = BoincCreditUser::enum("appid=$appid order by $x desc limit $used_offset,$fetched_items");
-             $check = sizeof($data) - ($fetched_items - $items_per_page);
-             $fetch = $check + ($fetched_items - $items_per_page);
-             foreach ($data as $item) {
-                      $user = BoincUser::lookup_id($item->userid);
-                      if (!is_object($user)) {
-                          $fetch--;
-                      }
-             }
-             if ($check != $fetch) {
-                   $fetched_items++;
-             }
-      }
-        $store[0][0] = $fetch;
-        $store[1][0] = $fetched_items - $items_per_page;
-     } else { 
-   
-       while ($check != $fetch) {
-              if ($used_offset < 0) $used_offset = 0;
-              $data =  BoincCreditUser::enum("appid=$appid order by $x desc limit $used_offset,$fetched_items");
-              $check = sizeof($data) - ($fetched_items - $items_per_page);
-              $fetch = $check + ($fetched_items - $items_per_page);
-              foreach ($data as $item) {
-                       $user = BoincUser::lookup_id($item->userid);
-                       if (!is_object($user)) {
-                         $fetch--;
-                       }
-              }
-              if ($check != $fetch) {
-                  $fetched_items++;
-                  $used_offset--;
-              }
-        }
-           $store[0][0] = $fetch;
-           $store[1][0] = $fetched_items - $items_per_page;
-       }
-        return $data;
-}
-
-function retrieve_credit_team($data) {
-     global $apps;
-     global $store;
-     $x = 1;
-     $c = 1;
-   
-     //Store the sign of each team in the first column of an array
-     // 
-     foreach ($data as $item) {
-                $team = BoincTeam::lookup_id($item->teamid);
-                if (is_object($team)) {
-                   $sign = "<td>".team_links($team)."</td>";
-                   $store[0][$c] = $sign;
-                   $c++;
-                }
-     }
-
-     //Store the expavg and total credits of each team and for each app in 
-     //their corresponding row of the array
-     //
-     foreach ($apps as $app) {
-     $y=1;
-
+    }
+    
+    foreach ($apps as $app) {
+        $y = 0;
+        
         foreach ($data as $item) {
-               $team = BoincTeam::lookup_id($item->teamid);
-                if (is_object($team)) {
-                    $item = BoincCreditTeam::lookup("teamid=$item->teamid and appid=$app->id");
+            $team = BoincTeam::lookup_id($item->teamid);
+            if (is_object($team)) {
+                $item = BoincCreditTeam::lookup("teamid=$item->teamid and appid=$app->id");
                 
                 if (is_object($item)) {
-                    $store[$x][$y] = "<td>".format_credit($item->expavg) ."</td><td>". format_credit_large($item->total) ."</td>";
+                    $z                 = 0;
+                    $store[$x][$y][$z] = $item->expavg;
+                    $z++;
+                    $store[$x][$y][$z] = $item->total;
                 } else {
-                    $store[$x][$y] = "<td>"."No Credit"."</td><td>"."No Credit"."</td>";
+                    $z                 = 0;
+                    $store[$x][$y][$z] = 0.0;
+                    $z++;
+                    $store[$x][$y][$z] = 0.0;
                 }
                 $y++;
-               }
+            }
         }
-
-     $x++;
+        
+        $x++;
     }
+    return $store;
 }
 
-function retrieve_credit_user($data) {
-     global $apps;
-     global $store;
-     $x = 1;
-     $c = 1;
-
-     //Same as above 
-     //
-     foreach ($data as $item) {
-              $user = BoincUser::lookup_id($item->userid);
-              if (is_object($user)) {
-                  $sign = "<td>".user_links($user, BADGE_HEIGHT_MEDIUM)."</td>";
-                  $store[0][$c] = $sign;
-                  $c++;
-              }
-     }
-
-     foreach ($apps as $app) {
-     $y=1;
-
-              foreach ($data as $item) {
-                       $user = BoincUser::lookup_id($item->userid);
-                       if (is_object($user)) {
-                          $item = BoincCreditUser::lookup("userid=$item->userid and appid=$app->id");
-
-                          if (is_object($item)) {
-                              $store[$x][$y] = "<td>".format_credit($item->expavg) ."</td><td>". format_credit_large($item->total) ."</td>"    ;
-                          } else {
-                              $store[$x][$y] = "<td>"."No Credit"."</td><td>"."No Credit"."</td>";
-                          }
-                          $y++;
-                       }
-              }
-      $x++;
-     }
-}
-
-function get_top_items($is_team, $appid, $is_total, $offset, $added_offset, $up) {
+function retrieve_credit_user($data)
+{
     global $apps;
+    $x = 1;
+    $c = 0;
+    
+    foreach ($data as $item) {
+        $user = BoincUser::lookup_id($item->userid);
+        if (is_object($user)) {
+            $sign         = user_links($user, BADGE_HEIGHT_MEDIUM);
+            $store[0][$c] = $sign;
+            $c++;
+        }
+    }
+    
+    foreach ($apps as $app) {
+        $y = 0;
+        
+        foreach ($data as $item) {
+            $user = BoincUser::lookup_id($item->userid);
+            if (is_object($user)) {
+                $item = BoincCreditUser::lookup("userid=$item->userid and appid=$app->id");
+                if (is_object($item)) {
+                    $z                 = 0;
+                    $store[$x][$y][$z] = $item->expavg;
+                    $z++;
+                    $store[$x][$y][$z] = $item->total;
+                } else {
+                    $z                 = 0;
+                    $store[$x][$y][$z] = 0.0;
+                    $z++;
+                    $store[$x][$y][$z] = 0.0;
+                }
+                $y++;
+            }
+        }
+        $x++;
+    }
+    return $store;
+}
+
+function get_top_items($is_team, $appid, $is_total, $offset)
+{
     global $items_per_page;
-    global $store;
-    $fetched_items = $items_per_page;
-    $check = 0;
-    $fetch = 1;
-    $used_offset = $offset + $added_offset;
-    $x = $is_total?"total":"expavg";
+    $x = $is_total ? "total" : "expavg";
     
     if ($is_team) {
-       $data = choose_teams($x, $appid, $used_offset, $up);
-       retrieve_credit_team($data);
-    
-    } else { 
-      $data = choose_users($x, $appid, $used_offset, $up);
-      retrieve_credit_user($data);
+        
+        $data  = BoincCreditTeam::show_list("appid=$appid", $x, $offset . ", " . $items_per_page);
+        $store = retrieve_credit_team($data);
+        
+    } else {
+        $data  = BoincCreditUser::show_list("appid=$appid", $x, $offset . ", " . $items_per_page);
+        $store = retrieve_credit_user($data);
     }
- 
-  //What gets returned is an array containing all we need for the page in the correct order
-  // 
-  return $store;
+    
+    return $store;
 }
 
-$is_team = get_int('is_team', true);
-$appid = get_int('appid', true);
-$is_total = get_int('is_total', true);
-$added_offset = get_int('added_offset', true);
+$is_team        = get_int('is_team', true);
+$appid          = get_int('appid', true);
+$is_total       = get_int('is_total', true);
 $items_per_page = 20;
-$offset = get_int('offset', true);
+$offset         = get_int('offset', true);
 
-//1 for previous page and default for next
-//
-$up = get_int('up', true);
-
-if (!$offset) {
-    $offset=0;
-    $added_offset = 0;
-}
-
-if ($offset % $items_per_page) {
+if (!$offset)
     $offset = 0;
-    $added_offset = 0;
-}
+if ($offset % $items_per_page)
+    $offset = 0;
 
-$x = $is_team?"teams":"participants";
+$x = $is_team ? "teams" : "participants";
 page_head(tra("Top %1 by application", $x));
 
 $apps = BoincApp::enum("deprecated=0");
@@ -329,48 +218,49 @@ if (!$appid) {
 }
 
 if ($offset < ITEM_LIMIT) {
-     $cache_args = "appid=$appid&is_team=$is_team&is_total=$is_total&offset=$offset";
-     $cacheddata = get_cached_data(TOP_PAGES_TTL,$cache_args);
-
-     // Do we have the data in cache?
-     //
-     if ($cacheddata){
-         $data = unserialize($cacheddata); // use the cached data
-     } else {
+    $cache_args = "appid=$appid&is_team=$is_team&is_total=$is_total&offset=$offset";
+    $cacheddata = get_cached_data(TOP_PAGES_TTL, $cache_args);
+    
+    // Do we have the data in cache?
+    //
+    if ($cacheddata) {
+        $data = unserialize($cacheddata); // use the cached data
+    } else {
         //if not do queries etc to generate new data
-        $data = get_top_items($is_team, $appid, $is_total, $offset, $added_offset, $up);
- 
+        $data = get_top_items($is_team, $appid, $is_total, $offset);
+        
         //save data in cache
         //
-        set_cached_data(TOP_PAGES_TTL, serialize($data),$cache_args);
-       }
+        set_cached_data(TOP_PAGES_TTL, serialize($data), $cache_args);
+    }
 } else {
     error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));
-  }
+}
 
 
 start_table('table_striped');
 show_header($is_team, $apps, $appid, $is_total);
 
-  $i = 1 + $offset;
-  $n = $data[0][0];
-  $added_offset = $data[1][0] +  $added_offset;
-  
-  for ($x = 1; $x <= $n; $x++) {
-       show_row($data, $x);    
-       $i++;
-  }
-  
+$i = 1 + $offset;
+
+//The number of columns is the number of items we currently have
+//available to display in each row
+// 
+for ($x = 0; $x < count($data[0]); $x++) {
+    show_row($data, $x);
+    $i++;
+}
+
 end_table();
 
 if ($offset > 0) {
     $new_offset = $offset - $items_per_page;
-    echo "<a href=per_app_list.php?appid=$appid&is_team=$is_team&is_total=$is_total&added_offset=$added_offset&up=1&offset=$new_offset>".tra("Previous %1", $items_per_page)."</a> &middot; ";
+    echo "<a href=per_app_list_dev.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>" . tra("Previous %1", $items_per_page) . "</a> &middot; ";
 }
 
-if ($n == $items_per_page) {
+if (sizeof($data[0]) == $items_per_page) {
     $new_offset = $offset + $items_per_page;
-    echo "<a href=per_app_list.php?appid=$appid&is_team=$is_team&is_total=$is_total&added_offset=$added_offset&up=0&offset=$new_offset>".tra("Next %1", $items_per_page)."</a>";
+    echo "<a href=per_app_list_dev.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>" . tra("Next %1", $items_per_page) . "</a>";
 }
 
 page_tail();
