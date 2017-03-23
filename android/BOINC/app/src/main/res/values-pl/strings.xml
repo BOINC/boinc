@@ -341,6 +341,7 @@
   <plurals name="notice_notification">
     <item quantity="one">Nowa wiadomość od „%1$s”</item>
     <item quantity="few">%2$,d nowe wiadomości</item>
+    <item quantity="many">%2$,d nowych wiadomości</item>
     <item quantity="other">%2$,d nowych wiadomości</item>
   </plurals>
   <!--multi BOINC compatibility-->

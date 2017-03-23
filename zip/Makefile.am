@@ -61,7 +61,7 @@ endif
 
 lib_LTLIBRARIES = libboinc_zip.la
 libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
-libboinc_zip_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_zip_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 libboinc_zip_la_LIBADD =
 
 # Some OSs may not prefix libraries with lib.

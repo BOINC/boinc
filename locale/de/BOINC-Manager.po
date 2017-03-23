@@ -4,7 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Christian Beer <christian.beer@posteo.de>, 2015-2016
+# Christian Beer <christian.beer@posteo.de>, 2015-2017
 # Florian Heuer <f.a.heuer@gmail.com>, 2015
 # informatorius <helmut.killer@live.de>, 2015
 # Jan Schladetzky <inactive+Keiken@transifex.com>, 2015
@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-15 12:36+0000\n"
+"PO-Revision-Date: 2017-03-20 13:46+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2539,7 +2539,7 @@ msgstr "Herunterladen fehlgeschlagen"
 
 #: clientgui/MainDocument.cpp:2482
 msgid "Downloading"
-msgstr "Am herunterladen"
+msgstr "lädt herunter"
 
 #: clientgui/MainDocument.cpp:2484 clientgui/MainDocument.cpp:2543
 msgid " (suspended - "
