@@ -129,14 +129,16 @@ rm -fR objs/*.*
 rm -fR objs/*
 cp -p README-objs objs/README
 rm -f README-objs
+# this directory is only used when no --prefix argument was given
 rm -fR "../freetype_install/"
+
+./configure --enable-shared=NO --prefix=${lprefix} --host=i386
+if [ $? -ne 0 ]; then return 1; fi
 
 if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
-./configure --enable-shared=NO --prefix=${lprefix} --host=i386
-if [ $? -ne 0 ]; then return 1; fi
 make 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -172,7 +174,9 @@ make install 1>/dev/null
 if [ $? -ne 0 ]; then return 1; fi
 
 # remove installed items not needed by ftgl build
-rm -fR "${lprefix}/share"
+# this directory is only used when no --prefix argument was given
+rm -fR "../freetype_install/share"
+rm -fR "../freetype_install/lib"
 
 lprefix=""
 export CC="";export CXX=""

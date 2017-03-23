@@ -140,6 +140,9 @@ if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 #source BuildMacBOINC.sh ${config} -noclean -target ss_app -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
 #if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 
+source BuildMacBOINC.sh ${config} -noclean -target ScreenSaver -setting GCC_ENABLE_OBJC_GC "unsupported" | $beautifier; retval=${PIPESTATUS[0]}
+if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+
 source BuildMacBOINC.sh ${config} -noclean -target boinc_opencl | $beautifier; retval=${PIPESTATUS[0]}
 if [ $retval -ne 0 ]; then cd ..; exit 1; fi
 

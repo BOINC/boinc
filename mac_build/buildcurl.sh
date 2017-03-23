@@ -82,7 +82,7 @@ fi
 
 doclean=""
 lprefix=""
-libPath=".libs"
+libPath="libs/.libs"
 libcares="/tmp/installed-c-ares"
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -163,6 +163,7 @@ else
     # curl configure and make expect a path to _installed_ c-ares-1.11.0
     # so we temporarily installed c-ares at a path that does not contain spaces.
     # buildc-ares.sh installed c-ares to /tmp/installed-c-ares
+    # and configured c-ares with prefix=/tmp/installed-c-ares
     if [ ! -f "${libcares}/libcares.a" ]; then
         cd ../c-ares-1.11.0 || return 1
         make install

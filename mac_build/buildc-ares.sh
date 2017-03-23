@@ -46,7 +46,7 @@
 
 doclean=""
 lprefix="/tmp/installed-c-ares"
-libPath="lib/.libs"
+libPath=".libs"
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
