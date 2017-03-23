@@ -57,6 +57,7 @@ scripts[] = js/fancy-radios.js
 scripts[] = js/jquery.equalheights.js
 scripts[] = js/script.js
 scripts[] = js/jquery.detectwidths.js
+scripts[] = js/jquery.headerwidth.js
 
   ; The regions defined in Zen's default page.tpl.php file.  The name in
   ; brackets is the name of the variable in the page.tpl.php file, (e.g.
