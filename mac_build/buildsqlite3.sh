@@ -61,7 +61,9 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libsqlite3.a" ]; then
-        echo "sqlite-3.11.0 already built"
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi

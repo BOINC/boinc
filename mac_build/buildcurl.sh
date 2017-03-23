@@ -102,7 +102,9 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libcurl.a" ]; then
-        echo "curl-7.50.2 already built"
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi

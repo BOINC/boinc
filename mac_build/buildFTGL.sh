@@ -65,7 +65,9 @@ SRCDIR=$PWD
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libftgl.a" ]; then
-        echo "ftgl-2.1.3~rc5 already built"
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi

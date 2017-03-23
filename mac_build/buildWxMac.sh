@@ -176,7 +176,9 @@ fi
 retval=0
 
 if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" ]; then
-    echo "Release libwx_osx_cocoa_static.a already built"
+    cwd=$(pwd)
+    dirname=${cwd##*/}
+    echo "${dirname} Release libwx_osx_cocoa_static.a already built"
 else
 
 ##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
@@ -199,7 +201,9 @@ if [ ${nodebug} = "yes" ]; then
 fi
 
 if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" ]; then
-    echo "Debug libwx_osx_cocoa_static.a already built"
+    cwd=$(pwd)
+    dirname=${cwd##*/}
+    echo "${dirname} Debug libwx_osx_cocoa_static.a already built"
 else
 ##    export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj

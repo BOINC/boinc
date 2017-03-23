@@ -68,7 +68,9 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
-        echo "openssl-1.1.0 libraries already built"
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi

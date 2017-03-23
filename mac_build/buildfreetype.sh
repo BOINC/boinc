@@ -79,7 +79,9 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libfreetype.a" ]; then
-        echo "freetype-2.6.2 already built"
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi

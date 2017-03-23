@@ -64,7 +64,9 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libcares.a" ]; then
-        echo "c-ares-1.11.0 already built"
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi
