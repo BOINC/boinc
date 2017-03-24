@@ -82,7 +82,7 @@ fi
 
 doclean=""
 lprefix=""
-libPath="libs/.libs"
+libPath="lib/.libs"
 libcares="/tmp/installed-c-ares"
 while [[ $# -gt 0 ]]; do
     key="$1"

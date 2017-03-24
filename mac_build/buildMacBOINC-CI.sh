@@ -70,7 +70,7 @@ if [ ! -d "$cache_dir" ] || [ ! -d "$cache_dir/lib" ] || [ ! -d "$cache_dir/incl
     echo "${cache_dir} is not a directory or does not contain dependencies"
 fi
 
-XCPRETTYPATH=`xcrun -find xcpretty`
+XCPRETTYPATH=`xcrun -find xcpretty 2>/dev/null`
 if [ $? -eq 0 ]; then
     beautifier="xcpretty"
 fi

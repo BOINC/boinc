@@ -168,7 +168,7 @@ while [[ $# -gt 0 ]]; do
     shift # past argument or value
 done
 
-XCPRETTYPATH=`xcrun -find xcpretty`
+XCPRETTYPATH=`xcrun -find xcpretty 2>/dev/null`
 if [ $? -eq 0 ]; then
     beautifier="xcpretty"
 fi
@@ -196,7 +196,7 @@ else
     fi
 fi
 
-if [ ${nodebug} = "yes" ]; then
+if [ "${nodebug}" = "yes" ]; then
     return 0
 fi
 
