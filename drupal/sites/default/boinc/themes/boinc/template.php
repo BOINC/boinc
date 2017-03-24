@@ -484,12 +484,42 @@ function boinc_preprocess_block(&$vars, $hook) {
 // */ 
 
 function boinc_preprocess_search_result(&$variables) {
-  $type = strtolower($variables['result']['type']);
+  $type = strtolower($variables['result']['bundle']);
   switch ($type) {
+  case 'profile':
+  case 'user':
+    $node = $variables['result']['node'];
+    $variables['url'] = url('account/' . $node->is_uid);
+    $variables['title'] = $node->tos_name;
+    $variables['user_image'] = boincuser_get_user_profile_image($node->is_uid);
+    break;
   case 'team':
     $node = $variables['result']['node'];
     $variables['url'] = url('/community/teams/' . $node->entity_id);;
     break;
+  case 'forum':
+    $node = $variables['result']['node'];
+    $drupalnode = node_load($node->entity_id);
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($drupalnode->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $variables['parent_forum'] = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+    break;
+  case 'comment':
+    // Get the node id for this comment
+    $nid = $variables['result']['fields']['tos_content_extra'];
+    $drupalnode = node_load($nid);
+    // Parent forum topic title
+    $variables['parent_title'] = $drupalnode->title;
+    // Link to the parent forum topic
+    $variables['parent_topic'] = l($drupalnode->title, drupal_get_path_alias('node/' . $nid) );
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($drupalnode->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $variables['parent_forum'] = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+  break;
   default:
   }
 }
