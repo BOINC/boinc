@@ -43,6 +43,16 @@ function linux_info() {
     instead.  ";
 }
 
+$w77 = array(
+    "num"=>"7.7.2",
+    "status"=>"Development version",
+    "file"=>"boinc_7.7.2_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.7.2_windows_intelx86_vbox.exe",
+    "vbox_version"=>"5.1.18",
+    "date"=>"25 Mar 2017",
+    "type"=>"win_new",
+);
+
 $w76 = array(
     "num"=>"7.6.33",
     "status"=>"Recommended version",
@@ -76,6 +86,16 @@ $w5816 = array(
     "status"=>"Older version (also works on Windows 95 and NT 4.0)",
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
+    "type"=>"win_new",
+);
+
+$w77x64 = array(
+    "num"=>"7.7.2",
+    "status"=>"Development version",
+    "file"=>"boinc_7.7.2_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.7.2_windows_x86_64_vbox.exe",
+    "vbox_version"=>"5.1.18",
+    "date"=>"25 Mar 2017",
     "type"=>"win_new",
 );
 
@@ -278,6 +298,7 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1/10",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+          $w77,
           $w76,
           $w74,
           $w66,
@@ -290,6 +311,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1/10",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+          $w77x64,
           $w76x64,
           $w74x64,
     )
