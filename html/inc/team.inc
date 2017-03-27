@@ -426,7 +426,7 @@ function user_quit_team($user) {
 }
 
 function team_edit_form($team, $label, $url) {
-    global $team_types;
+    global $team_types, $recaptcha_public_key;
     echo "<form method=post action=$url>\n";
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
@@ -472,6 +472,14 @@ function team_edit_form($team, $label, $url) {
     echo "</select></td></tr>\n";
     $x = (!$team || $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
+    // Check if we're using reCaptcha to prevent spam accounts
+    //
+    if (!$team && $recaptcha_public_key) {
+        row2(
+            "",
+            boinc_recaptcha_get_html($recaptcha_public_key)
+        );
+    }
     row2("",
         "<input class=\"btn btn-primary\" type=submit name=new value='$label'>"
     );

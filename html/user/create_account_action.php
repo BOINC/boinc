@@ -38,10 +38,11 @@ if (parse_bool($config, "disable_account_creation")
     error_page("Account creation is disabled");
 }
 
-$privatekey = parse_config($config, "<recaptcha_private_key>");
-if ($privatekey) {
-    if (!boinc_recaptcha_isValidated($privatekey)) {
-        show_error(tra("Your reCAPTCHA response was not correct. Please try again."));
+if ($recaptcha_private_key) {
+    if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
+        show_error(
+            tra("Your reCAPTCHA response was not correct. Please try again.")
+        );
     }
 }
 

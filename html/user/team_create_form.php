@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/recaptchalib.php");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
@@ -26,7 +27,10 @@ check_get_args(array());
 
 $user = get_logged_in_user();
 
-page_head(tra("Create a team"));
+page_head(
+    tra("Create a team"), null, null, null, boinc_recaptcha_get_head_extra()
+);
+
 if ($user->teamid && ($team = BoincTeam::lookup_id($user->teamid))) {
     echo tra("You belong to %1. You must %2quit this team%3 before creating a new one.", "<a href=\"team_display.php?teamid=".$team->id."\">".$team->name."</a>", "<a href=\"team_quit_form.php\">", "</a>");
 } else {
