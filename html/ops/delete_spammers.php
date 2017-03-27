@@ -83,7 +83,7 @@
 //   delete teams (and their owners) where the team
 //   - has 0 or 1 members
 //   - has no total credit
-//   - has description containing a link
+//   - has description containing a link, or a URL
 //   - is not a BOINC-Wide team
 //   and the owner
 //   - has no posts
@@ -299,9 +299,12 @@ function delete_teams() {
     foreach ($teams as $team) {
         $n = team_count_members($team->id);
         if ($n > 1) continue;
-        if (!has_link($team->description)) continue;
-        $user = BoincUser::lookup_id($team->userid);
-        if ($user) {
+        if (!has_link($team->description) && !$team->url) continue;
+        $users = BoincUser::enum("teamid = $team->id");
+        if (count($users)) {
+            $user = $users[0];
+            if ($user->seti_nresults) continue;
+                // for SETI@home
             $n = BoincPost::count("user=$user->id");
             if ($n) continue;
             $n = BoincHost::count("userid=$user->id");

@@ -798,6 +798,7 @@ function post_rules() {
         <li> No abusive comments involving race, religion,
             nationality, gender, class or sexuality.
         <li> The posting privileges of violators may be suspended or revoked.
+        <li> If your account is suspended, don't create a new one.
         ").$project_rules."
         </ul>
     ";
