@@ -326,6 +326,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
         if (xp.parse_int("njobs_success", njobs_success)) continue;
         if (xp.parse_int("njobs_fail", njobs_fail)) continue;
+        if (xp.parse_int("njobs_error", njobs_fail)) continue;
+            // handle pre-7.7 state files
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
         if (xp.parse_double("cpu_ec", cpu_ec)) continue;
