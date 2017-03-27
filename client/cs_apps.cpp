@@ -191,7 +191,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         default:
             rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
-        rp->project->njobs_fail++;
+        rp->project->njobs_error++;
     } else {
 #ifdef SIM
         rp->set_state(RESULT_FILES_UPLOADED, "CS::app_finished");
