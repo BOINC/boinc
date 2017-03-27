@@ -359,6 +359,8 @@ function delete_team_id_range($id1, $id2) {
 
 echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
 
+// get settings first
+//
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == "--test") {
         $test = true;
@@ -368,7 +370,13 @@ for ($i=1; $i<$argc; $i++) {
         $max_days = $argv[++$i];
     } else if ($argv[$i] == "--days") {     // deprecated
         $max_days = $argv[++$i];
-    } else if ($argv[$i] == "--list") {
+    }
+}
+
+// then do actions
+//
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == "--list") {
         delete_list($argv[++$i]);
     } else if ($argv[$i] == "--profiles") {
         delete_profiles();
@@ -410,9 +418,6 @@ for ($i=1; $i<$argc; $i++) {
         delete_users(true, true, false, true);
     } else if ($argv[$i] == "--user_null") {
         delete_users(true, true, true, false);
-    } else {
-        echo "usage: delete_spammers.php [--min_days N] [--max_days N] [--test] [--list filename] [--profiles] [--profiles_strict] [--forums] [--id_range N M] [--teams] [--user_url] [--user_null]\n";
-        exit;
     }
 }
 echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
