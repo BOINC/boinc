@@ -30,8 +30,6 @@ check_get_args(array(
     "is_team",
     "appid",
     "is_total",
-    "added_offset",
-    "up",
     "offset"
 ));
 
@@ -42,11 +40,11 @@ define('ITEM_LIMIT', 10000);
 //
 function col_title($is_team, $app, $appid, $is_total, $i)
 {
-    $x = $i ? "Total" : "Average";
+    $x = $i ? tra("Total") : tra("Average");
     if ($app->id == $appid && ($is_total ? $i : !$i)) {
         return $x;
     } else {
-        return "<a href=per_app_list_dev.php?appid=$app->id&is_team=$is_team&is_total=$i>$x</a>";
+        return "<a href=per_app_list.php?appid=$app->id&is_team=$is_team&is_total=$i>$x</a>";
     }
 }
 
@@ -62,7 +60,7 @@ function show_header($is_team, $apps, $appid, $is_total)
     echo "</tr>";
     
     echo "<tr>";
-    echo "<th>Rank</th><th>Name</th>\n";
+    echo "<th>" . tra("Rank") . "</th><th>" . tra("Name") . "</th>\n";
     foreach ($apps as $app) {
         for ($i = 0; $i < 2; $i++) {
             $x = col_title($is_team, $app, $appid, $is_total, $i);
@@ -187,11 +185,11 @@ function get_top_items($is_team, $appid, $is_total, $offset)
     
     if ($is_team) {
         
-        $data  = BoincCreditTeam::show_list("appid=$appid", $x, $offset . ", " . $items_per_page);
+        $data  = BoincCreditTeam::get_list("appid=$appid", $x, $offset . ", " . $items_per_page);
         $store = retrieve_credit_team($data);
         
     } else {
-        $data  = BoincCreditUser::show_list("appid=$appid", $x, $offset . ", " . $items_per_page);
+        $data  = BoincCreditUser::get_list("appid=$appid", $x, $offset . ", " . $items_per_page);
         $store = retrieve_credit_user($data);
     }
     
@@ -209,8 +207,8 @@ if (!$offset)
 if ($offset % $items_per_page)
     $offset = 0;
 
-$x = $is_team ? "teams" : "participants";
-page_head(tra("Top %1 by application", $x));
+$x = $is_team ? tra("Top teams by application") : tra("Top participants by application");
+page_head($x);
 
 $apps = BoincApp::enum("deprecated=0");
 if (!$appid) {
@@ -255,12 +253,12 @@ end_table();
 
 if ($offset > 0) {
     $new_offset = $offset - $items_per_page;
-    echo "<a href=per_app_list_dev.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>" . tra("Previous %1", $items_per_page) . "</a> &middot; ";
+    echo "<a href=per_app_list.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>" . tra("Previous %1", $items_per_page) . "</a> &middot; ";
 }
 
 if (sizeof($data[0]) == $items_per_page) {
     $new_offset = $offset + $items_per_page;
-    echo "<a href=per_app_list_dev.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>" . tra("Next %1", $items_per_page) . "</a>";
+    echo "<a href=per_app_list.php?appid=$appid&is_team=$is_team&is_total=$is_total&offset=$new_offset>" . tra("Next %1", $items_per_page) . "</a>";
 }
 
 page_tail();

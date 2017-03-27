@@ -92,7 +92,7 @@ class DbConn {
         }
     }
 
-     function show_list($table1, $table2, $joinfield1, $joinfield2, $classname, $fields, $where_clause, $order_clause, $limit) {
+    function get_list($table1, $table2, $joinfield1, $joinfield2, $classname, $fields, $where_clause, $order_clause, $limit) {
         $query = "select $fields from DBNAME.$table1 a join DBNAME.$table2 b on a.$joinfield1=b.$joinfield2 where $where_clause order by $order_clause desc limit $limit";
         $result = $this->do_query($query);
         if (!$result) return null;
