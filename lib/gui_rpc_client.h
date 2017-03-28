@@ -401,7 +401,10 @@ struct CC_STATE {
     APP_VERSION* lookup_app_version(PROJECT*, APP*,
         char* platform, int vnum, char* plan_class
     );
-    APP_VERSION* lookup_app_version_old(PROJECT*, APP*, int);
+    APP_VERSION* lookup_app_version(PROJECT*, APP*,
+        int vnum, char* plan_class
+    );
+    APP_VERSION* lookup_app_version(PROJECT*, APP*, int vnum);
     WORKUNIT* lookup_wu(PROJECT*, const char* name);
     RESULT* lookup_result(PROJECT*, const char* name);
     RESULT* lookup_result(const char* url, const char* name);
