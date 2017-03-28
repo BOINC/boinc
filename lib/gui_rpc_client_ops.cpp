@@ -703,6 +703,7 @@ void RESULT::clear() {
     version_num = 0;
     safe_strcpy(plan_class, "");
     safe_strcpy(project_url, "");
+    safe_strcpy(platform, "");
     safe_strcpy(graphics_exec_path, "");
     safe_strcpy(web_graphics_url, "");
     safe_strcpy(remote_desktop_addr, "");
@@ -970,13 +971,18 @@ int CC_STATE::parse(XML_PARSER& xp) {
             }
             result->app = result->wup->app;
             APP_VERSION* avp;
-            if (result->version_num) {
+            if (strlen(result->platform)) {
                 avp = lookup_app_version(
                     project, result->app,
                     result->platform, result->version_num, result->plan_class
                 );
+            } else if (result->version_num) {
+                avp = lookup_app_version(
+                    project, result->app,
+                    result->version_num, result->plan_class
+                );
             } else {
-                avp = lookup_app_version_old(
+                avp = lookup_app_version(
                     project, result->app, result->wup->version_num
                 );
             }
@@ -1074,7 +1080,22 @@ APP_VERSION* CC_STATE::lookup_app_version(
     return 0;
 }
 
-APP_VERSION* CC_STATE::lookup_app_version_old(
+APP_VERSION* CC_STATE::lookup_app_version(
+    PROJECT* project, APP* app,
+    int version_num, char* plan_class
+) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        if (app_versions[i]->project != project) continue;
+        if (app_versions[i]->app != app) continue;
+        if (app_versions[i]->version_num != version_num) continue;
+        if (strcmp(app_versions[i]->plan_class, plan_class)) continue;
+        return app_versions[i];
+    }
+    return 0;
+}
+
+APP_VERSION* CC_STATE::lookup_app_version(
     PROJECT* project, APP* app, int version_num
 ) {
     unsigned int i;
