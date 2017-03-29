@@ -683,18 +683,18 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   // Login form
   case 'user_login':
   case 'user_login_block':
-    drupal_set_title(bts('Login'));
+      drupal_set_title(bts('Login', array(), NULL, 'boinc:standard-login-page'));
     // Replace name with email in login form
     unset($form['name']);
     array_unshift($form, array(
       'email' => array(
         '#type' => 'textfield',
-        '#title' => bts('Email address'),
+        '#title' => bts('Email address', array(), NULL, 'boinc:standard-login-page'),
         '#size' => ($form_id == 'user_login_block') ? 15 : 60,
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,
         '#attributes' => array('tabindex' => '1'),
-        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'BOINC')))
+        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'BOINC')), array(), NULL, 'boinc:standard-login-page')
       ),
       'validation_source' => array(
         '#type' => 'hidden',
@@ -710,7 +710,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['buttons']['submit'] = $form['submit'];
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = bts('Log in');
+    $form['buttons']['submit']['#value'] = bts('Log in', array(), NULL, 'boinc:standard-login-page');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     $form['buttons']['form control tabs suffix'] = array(
@@ -989,7 +989,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     array_unshift($form, array(
       'name' => array(
         '#type' => 'textfield',
-        '#title' => bts('Email address'),
+        '#title' => bts('Email address', array(), NULL, 'boinc:forgot-password'),
         '#size' => 60,
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,

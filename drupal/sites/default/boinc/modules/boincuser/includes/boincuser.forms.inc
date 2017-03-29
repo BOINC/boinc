@@ -446,7 +446,7 @@ function boincuser_authloginform() {
       '</p>'
   );
   $form['authenticator'] = array(
-    '#title' => bts('Log in with authenticator'),
+    '#title' => bts('Log in with authenticator', array(), NULL, 'boinc:authenticator-login-page'),
     '#type' => 'textfield',
     '#size' => 60,
     '#maxlength' => 32,
