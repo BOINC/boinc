@@ -80,8 +80,54 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provision "shell", name: "Preparing desktop environment...", inline: <<-SHELL
+      add-apt-repository ppa:ubuntu-desktop/ubuntu-make
+      apt-get update
+      apt-get upgrade
+      apt-get --assume-yes install ubuntu-mate-core virtualbox-guest-x11
+      apt-get --assume-yes install ubuntu-make git automake libtool
+      update-locale LC_ALL=en_US.UTF-8
+  SHELL
+
+  config.vm.provision "shell" do |s|
+      s.name = "Installing Android Studio..."
+      s.privileged  = false
+      s.inline = <<-SHELL
+          umake --verbose android android-studio --accept-license $HOME/Android/Android-Studio
+          printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
+          umake --verbose android android-sdk --accept-license $HOME/Android/Sdk
+          printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
+          umake --verbose android android-ndk --accept-license $HOME/Android/Ndk
+          yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update
+          yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository"
+          mkdir $HOME/Desktop
+          cp $HOME/.local/share/applications/android-studio.desktop $HOME/Desktop/
+          chmod +x $HOME/Desktop/android-studio.desktop
+      SHELL
+  end
+
+  config.vm.provision "shell" do |s|
+      s.name = "Clone BOINC repository and configuring toolchain..."
+      s.privileged  = false
+      s.inline  = <<-SHELL
+          git clone https://github.com/BOINC/boinc.git $HOME/BOINC
+          export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
+          export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
+          yes | $HOME/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
+          yes | $HOME/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
+          printf "\n# Build toolchains\nexport ANDROID_TC=\$HOME/Android/Toolchains\n" >> $HOME/.profile
+          mkdir $HOME/3rdParty
+          wget -O /tmp/openssl.tgz https://www.openssl.org/source/old/1.0.2/openssl-1.0.2g.tar.gz
+          tar xzf /tmp/openssl.tgz --directory=$HOME/3rdParty
+          printf "\n# OpenSSL sources\nexport OPENSSL_SRC=\$HOME/3rdParty/openssl-1.0.2g\n" >> $HOME/.profile
+          wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-7.48.0.tar.gz
+          tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
+          printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-7.48.0\n" >> $HOME/.profile
+      SHELL
+  end
+
+  config.vm.provision "shell", name: "Final cleanup and reboot...", inline: <<-SHELL
+      apt-get clean
+      reboot
+  SHELL
 end
