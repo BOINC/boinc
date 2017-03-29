@@ -83,7 +83,7 @@ function boincuser_menu() {
     'weight' => 5
   );
   $items['moderate/profile/%/reject'] = array(
-    'title' => bts('Reject profile'),
+    'title' => bts('Reject profile', array(), NULL, 'boinc:moderate-user'),
     'description' => 'Reject profile content',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_moderate_profile_reject_form', 2),
@@ -92,7 +92,7 @@ function boincuser_menu() {
     'weight' => 5
   );
   $items['moderate/user/%/ban'] = array(
-    'title' => bts('Ban user'),
+    'title' => bts('Ban user', array(), NULL, 'boinc:moderate-user'),
     'description' => 'Ban a user from using community features',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_moderate_user_ban_form', 2),
@@ -123,7 +123,7 @@ function boincuser_menu() {
     'weight' => 5
   );
   $items['user/login/auth'] = array(
-    'title' => bts('Authenticator login'),
+    'title' => bts('Authenticator login', array(), NULL, 'boinc:authenticator-login-page'),
     'description' => 'Log in using a user authenticator',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_authloginform'),
@@ -302,7 +302,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           // Information being checked before adding a user
           if (!boincuser_register_validate($edit)) {
             // BOINC user validation failed for registration; set an error accordingly
-            form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT)));
+            form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), array(), NULL, 'boinc:add-new-user'));
           }
           else {
             // Save profile information for use during Insert
@@ -362,7 +362,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $boinc_user = boincuser_register_make_user($user_params);
         if (!$boinc_user) {
           // Account exists with this email addr
-          form_set_error('email', bts('Error creating BOINC account.'));
+          form_set_error('email', bts('Error creating BOINC account.', array(), NULL, 'boinc:add-new-user'));
           return;
         }
         // Add user to community role by default (not banned)
@@ -535,7 +535,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       
       // General friend form overrides
       $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
-      $form['flag_friend_submit']['#value'] = bts('Send request');
+      $form['flag_friend_submit']['#value'] = bts('Send request', array(), NULL, 'boinc:friends-page');
       $form['flag_friend_submit']['#type'] = 'submit';
       $form['flag_friend_submit']['#suffix'] = '</li>';
       $form['flag_friend_submit']['#weight'] = 1002;
@@ -544,7 +544,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       case FLAG_FRIEND_BOTH:
       case FLAG_FRIEND_FLAGGED:
         unset($form['actions']);
-        $form['flag_friend_submit']['#value'] = bts('Remove friend');
+        $form['flag_friend_submit']['#value'] = bts('Remove friend', array(), NULL, 'boinc:friends-page');
         // Add in our hack handler to fix the flag_friend module
         $final_handler = array_pop($form['#submit']);
         $form['#submit'][] = 'boincuser_fix_unfriend_form_submit';
@@ -552,21 +552,21 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         break;
       case FLAG_FRIEND_PENDING:
         unset($form['actions']);
-        $form['flag_friend_submit']['#value'] = bts('Remove request');
+        $form['flag_friend_submit']['#value'] = bts('Remove request', array(), NULL, 'boinc:friends-page');
         break;
       case FLAG_FRIEND_APPROVAL:
         if ($action == 'flag') {
-          $form['flag_friend_submit']['#value'] = bts('Approve request');
+          $form['flag_friend_submit']['#value'] = bts('Approve request', array(), NULL, 'boinc:friends-page');
         }
         elseif ($action == 'unflag') {
           unset($form['actions']);
-          $form['flag_friend_submit']['#value'] = bts('Deny request');
+          $form['flag_friend_submit']['#value'] = bts('Deny request', array(), NULL, 'boinc:friends-page');
         }
         break;
       case FLAG_FRIEND_UNFLAGGED:
       default:
         $user_links[] = array(
-          'title' => bts('Add as friend'),
+          'title' => bts('Add as friend', array(), NULL, 'boinc:friends-page'),
           'href' => "flag/confirm/flag/friend/{$account->uid}"
         );
       }
@@ -576,7 +576,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
     
     $form['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), $cancel_dest) . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $cancel_dest) . '</li>',
       '#weight' => 1004,
     );
     $form['form control tabs suffix'] = array(
@@ -599,7 +599,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = bts('Save changes');
+    $form['buttons']['submit']['#value'] = bts('Save changes', array(), NULL, 'boinc:form-save');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     $form['buttons']['preview']['#prefix'] = '<li class="tab">';
@@ -609,7 +609,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview_changes']['#suffix'] = '</li>';
     $form['buttons']['preview_changes']['#weight'] = 1004;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "node/{$form['nid']['#value']}") . '</li>',
       '#weight' => 1005,
     );
     $form['buttons']['delete']['#prefix'] = '<li class="tab">';
@@ -637,11 +637,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['actions']['submit']['#prefix'] = '<li class="first tab">';
-    $form['actions']['submit']['#value'] = bts('Delete');
+    $form['actions']['submit']['#value'] = bts('Delete', array(), NULL, 'boinc:form-delete');
     $form['actions']['submit']['#suffix'] = '</li>';
     $form['actions']['submit']['#weight'] = 1002;
     $form['actions']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+        '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "node/{$form['nid']['#value']}") . '</li>',
       '#weight' => 1005,
     );
     $form['actions']['form control tabs suffix'] = array(
@@ -661,14 +661,14 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['privatemsg']['submit']['#prefix'] = '<li class="first tab">';
-    $form['privatemsg']['submit']['#value'] = bts('Send message');
+    $form['privatemsg']['submit']['#value'] = bts('Send message', array(), NULL, 'boinc:private-message');
     $form['privatemsg']['submit']['#suffix'] = '</li>';
     $form['privatemsg']['submit']['#weight'] = 1002;
     $form['privatemsg']['preview']['#prefix'] = '<li class="tab">';
     $form['privatemsg']['preview']['#suffix'] = '</li>';
     $form['privatemsg']['preview']['#weight'] = 1003;
     $form['privatemsg']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>',
       '#weight' => 1004,
     );
     $form['privatemsg']['form control tabs suffix'] = array(
@@ -762,9 +762,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       // Add a password authenticator, required to change email or pw
       $form['account']['current_pass'] = array(
         '#type' => 'password',
-        '#title' => bts('Enter your password to save changes'),
+        '#title' => bts('Enter your password to save changes', array(), NULL, 'boinc:account-credentials-change'),
         '#description' => bts('Enter your current password if changing your email
-          address or password.'),
+          address or password.', array(), NULL, 'boinc:account-credentials-change'),
         '#size' => 17,
         '#attributes' => array(
           'autocomplete' => 'off',
@@ -776,35 +776,35 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['account']['boincuser_id'] = array(
       '#value' => '
         <div class="form-item">
-          <label>' . bts('BOINC user ID') . '</label>
+          <label>' . bts('BOINC user ID', array(), NULL, 'boinc:account-credentials-change') . '</label>
           <span>' . $account->boincuser_id . '</span>
         </div>',
     );
     $form['account']['user_id'] = array(
       '#value' => '
         <div class="form-item">
-          <label>' . bts('Drupal user ID') . '</label>
+          <label>' . bts('Drupal user ID', array(), NULL, 'boinc:account-credentials-change') . '</label>
           <span>' . $account->uid . '</span>
         </div>',
     );
     $form['account']['account_key'] = array(
       '#value' => '
         <div class="form-item">
-          <label>' . bts('Account key') . '</label>
+          <label>' . bts('Account key', array(), NULL, 'boinc:account-credentials-change') . '</label>
           <span>' . $account->boincuser_account_key . '</span>
         </div>',
     );
     $form['account']['weak_account_key'] = array(
       '#value' => '
         <div class="form-item">
-          <label>' . bts('Weak account key') . '</label>
+          <label>' . bts('Weak account key', array(), NULL, 'boinc:account-credentials-change') . '</label>
           <span>' . "{$account->boincuser_id}_{$account->boincuser_weak_auth}" . '</span>
         </div>',
     );
     $form['account']['cpid'] = array(
       '#value' => '
         <div class="form-item">
-          <label>' . bts('Cross-project ID') . '</label>
+          <label>' . bts('Cross-project ID', array(), NULL, 'boinc:account-credentials-change') . '</label>
           <span>' . $account->boincuser_cpid . '</span>
         </div>',
     );
@@ -819,7 +819,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['submit']['#prefix'] = '<li class="first tab">';
-    $form['submit']['#value'] = bts('Save changes');
+    $form['submit']['#value'] = bts('Save changes', array(), NULL, 'boinc:form-save');
     $form['submit']['#suffix'] = '</li>';
     $form['submit']['#weight'] = 1002;
     if (isset($form['delete']) AND is_array($form['delete'])) {
@@ -828,7 +828,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       $form['delete']['#weight'] = 1003;
     }
     $form['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>',
       '#weight' => 1004,
     );
     $form['form control tabs suffix'] = array(
@@ -901,7 +901,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = bts('Save changes');
+    $form['buttons']['submit']['#value'] = bts('Save changes', array(), NULL, 'boinc:form-save');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     $form['buttons']['preview']['#prefix'] = '<li class="tab">';
@@ -911,7 +911,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview_changes']['#suffix'] = '</li>';
     $form['buttons']['preview_changes']['#weight'] = 1004;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>',
       '#weight' => 1005,
     );
     $form['buttons']['delete']['#prefix'] = '<li class="tab">';
@@ -952,10 +952,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     array_unshift($form, array(
       'boincuser_name' => array(
         '#type' => 'textfield', 
-        '#title' => bts('Name'), 
+        '#title' => bts('Name', array(), NULL, 'boinc:user-register'), 
         '#default_value' => $edit['boincuser_name'], 
         '#maxlength' => USERNAME_MAX_LENGTH, 
-        '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.'), 
+        '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.', array(), NULL, 'boinc:user-register'), 
         '#required' => TRUE
       ),
       'validation_source' => array(
@@ -982,7 +982,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
   // Request new password form
   case 'user_pass':
-    drupal_set_title(bts('Forgot password'));
+    drupal_set_title(bts('Forgot password', array(), NULL, 'boinc:forgot-password'));
     // Replace name/email text box with email only; retain "name" label
     // for compatibility with standard Drupal submit function
     unset($form['name']);
@@ -997,11 +997,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
           'Enter your email address to receive instructions for resetting your password (or use the !authenticator_login).',
           array(
             '!authenticator_login' => l(
-              bts('authenticator-based login'),
+              bts('authenticator-based login', array(), NULL, 'boinc:forgot-password'),
               'user/login/auth'
             )
           )
-        ),
+        , array(), NULL, 'boinc:forgot-password'),
       ),
     ));
     
@@ -1012,11 +1012,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['buttons']['submit'] = $form['submit'];
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = bts('Send');
+    $form['buttons']['submit']['#value'] = bts('Send', array(), NULL, 'boinc:form-send');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), 'user/login') . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), 'user/login') . '</li>',
       '#weight' => 1005,
     );
     $form['buttons']['form control tabs suffix'] = array(
@@ -1065,7 +1065,7 @@ function boincuser_elements() {
 function boincuser_process_password_confirm($element) {
   // Check if parent element is "account".
   if ($element['#array_parents'][0] == 'account') {
-    $element['pass1']['#title'] = bts('Change password');
+    $element['pass1']['#title'] = bts('Change password', array(), NULL, 'boinc:forgot-password');
   }
   return $element;
 }
@@ -1206,26 +1206,26 @@ function join_page($type = null) {
   switch ($type) {
   case 'boinc':
     $output .= '<p>' . bts("If you're already running BOINC, select <i>Add
-      Project</i>.") . '</p>';
+      Project</i>.", array(), NULL, 'boinc:join-page') . '</p>';
     if ($registration_enabled) {
       $output .= '<p>' . bts("If you're running a command-line or pre-5.0 version
         of BOINC, !create_an_account first.", array('!create_an_account' => 
-          l(bts('create an account'), 'user/registration'))) . '</p>';
+        l(bts('create an account'), 'user/registration')), array(), NULL, 'boinc:join-page') . '</p>';
     }
     else {
       $output .= '<p>' . bts("If you're running a command-line version of BOINC,
         first use the BOINC Manager software (elsewhere if necessary) to create an
         an account at this project, then use that account to connect with the
-        command-line version.") . '</p>';
+        command-line version.", array(), NULL, 'boinc:join-page') . '</p>';
       $output .= '<p>' . bts("If you're running a pre-5.0 version of BOINC, please
         upgrade to a more recent version to create an account
-        at this project.") . '</p>';
+        at this project.", array(), NULL, 'boinc:join-page') . '</p>';
     }
     break;
   case 'new':
   default:
     $output .= '<ol>';
-    $output .= '  <li>' . bts('Download the desktop software');
+    $output .= '  <li>' . bts('Download the desktop software', array(), NULL, 'boinc:join-page');
     $output .= '    <p>';
     $output .= '      <a class="button" href="http://boinc.berkeley.edu/download.php">Download</a>';
     $output .= '    </p>';
@@ -1235,9 +1235,9 @@ function join_page($type = null) {
     //$output .= '      <a href="files/boinc_i686-pc-linux-gnu.sh" class="platform linux">Linux</a>';
     //$output .= '    </p>';
     $output .= '  </li>';
-    $output .= '  <li>' . bts('Run the installer') . '</li>';
+    $output .= '  <li>' . bts('Run the installer', array(), NULL, 'boinc:join-page') . '</li>';
     $output .= '  <li>' . bts('When prompted enter @siteurl', array(
-      '@siteurl' => $base_url)) . '</li>';
+        '@siteurl' => $base_url), array(), NULL, 'boinc:join-page') . '</li>';
     $output .=  '</ol>';
   }
   $output .= '</div>';
@@ -1270,15 +1270,15 @@ function boincuser_home_page() {
   }
   $uotd_image = boincuser_get_user_profile_image($uotd->uid, FALSE);
   $output = '<h2 class="pane-title">';
-  $output .= ($user->uid) ? bts('Welcome back!') : ($site_name ? bts('What is @this_project?', array('@this_project' => $site_name)) : bts('Welcome!'));
+  $output .= ($user->uid) ? bts('Welcome back!', array(), NULL, 'boinc:front-page') : ($site_name ? bts('What is @this_project?', array('@this_project' => $site_name)) : bts('Welcome!', array(), NULL, 'boinc:front-page'));
   $output .= '</h2>';
   $output .= '<div class="boinc-overview balance-height-front">';
-  $output .= '  <div>' . bts($site_message, array(), NULL, "project:front page") . ' ' . l(bts('Learn more'), 'about') . '</div>';
+  $output .= '  <div>' . bts($site_message, array(), NULL, "project:front page") . ' ' . l(bts('Learn more', array(), NULL, 'boinc:front-page'), 'about') . '</div>';
   if ($user->uid) {
-    $output .= '  <div>' . l(bts('View account'), 'dashboard', array('attributes' => array('class' => 'join button'))) . '</div>';
+    $output .= '  <div>' . l(bts('View account', array(), NULL, 'boinc:front-page'), 'dashboard', array('attributes' => array('class' => 'join button'))) . '</div>';
   }
   else {
-    $output .= '  <div>' . l(bts('Join now'), 'join', array('attributes' => array('class' => 'join button'))) . '</div>';
+    $output .= '  <div>' . l(bts('Join now', array(), NULL, 'boinc:front-page'), 'join', array('attributes' => array('class' => 'join button'))) . '</div>';
   }
   $output .= '</div>';
   $output .= '<div class="boinc-overview-details">';
@@ -1288,15 +1288,15 @@ function boincuser_home_page() {
   $output .= theme('imagefield_image', $uotd_image['image'], $uotd_image['alt'],
     $uotd_image['alt'], array(), FALSE);
   $output .= '      </div>';
-  $output .= '      <div class="text">' . bts('User of the day') . '</div>';
+  $output .= '      <div class="text">' . bts('User of the day', array(), NULL, 'boinc:front-page') . '</div>';
   $output .= '      <div class="detail">' . $uotd->boincuser_name . '</div>';
   $output .= '    </a>';
   $output .= '    <div class="volunteers">';
-  $output .= '      <div class="text">' . bts('Over 500,000 volunteers and counting.') . '</div>';
+  $output .= '      <div class="text">' . bts('Over 500,000 volunteers and counting.', array(), NULL, 'boinc:front-page') . '</div>';
   $output .= '      <div class="platforms">';
-  $output .= '        <div class="detail platform windows">' . bts('Windows') . '</div>';
-  $output .= '        <div class="detail platform mac">' .  bts('Mac') . '</div>';
-  $output .= '        <div class="detail platform linux">' . bts('Linux') . '</div>';
+  $output .= '        <div class="detail platform windows">' . bts('Windows', array(), NULL, 'boinc:front-page') . '</div>';
+  $output .= '        <div class="detail platform mac">' .  bts('Mac', array(), NULL, 'boinc:front-page') . '</div>';
+  $output .= '        <div class="detail platform linux">' . bts('Linux', array(), NULL, 'boinc:front-page') . '</div>';
   $output .= '      </div>';
   $output .= '    </div>';
   $output .= '  </div>';
@@ -1649,15 +1649,15 @@ function boincuser_get_projects_table($account = null) {
     $account = user_load($account);
   }
   $projects = boincuser_get_projects($account);
-  if (!$projects) return bts('no projects...');
+  if (!$projects) return bts('no projects...', array(), NULL, 'boinc:account-dashboard');
   
   $output = '';
   $output .= '<table class="user-projects">' . "\n";
   $output .= '<thead>' . "\n";
   $output .= '  <tr>' . "\n";
-  $output .= '    <th>' . bts('Name') . '</th>' . "\n";
-  $output .= '    <th class="numeric">' . bts('Avg credit') . '</th>' . "\n";
-  $output .= '    <th class="numeric">' . bts('Total credit') . '</th>' . "\n";
+  $output .= '    <th>' . bts('Name', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
+  $output .= '    <th class="numeric">' . bts('Avg credit', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
+  $output .= '    <th class="numeric">' . bts('Total credit', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
   $output .= '  </tr>' . "\n";
   $output .= '</thead>' . "\n";
   $output .= '<tbody>' . "\n";
@@ -1736,10 +1736,10 @@ function boincuser_get_profile_links($uid) {
     
     if ($profile->moderate AND $user_is_moderator) {
       $links['approve_profile'] = array(
-        'title' => bts('Approve profile'),
+        'title' => bts('Approve profile', array(), NULL, 'boinc:moderate-user'),
         'href' => "{$profile_moderation_path}/approve",
         'attributes' => array(
-          'title' => bts('Approve this profile content'),
+          'title' => bts('Approve this profile content', array(), NULL, 'boinc:moderate-user'),
           'class' => 'first primary tab',
         )
       );
@@ -1752,10 +1752,10 @@ function boincuser_get_profile_links($uid) {
         )
       );*/
       $links['reject_profile'] = array(
-        'title' => bts('Reject profile'),
+        'title' => bts('Reject profile', array(), NULL, 'boinc:moderate-user'),
         'href' => "{$profile_moderation_path}/reject",
         'attributes' => array(
-          'title' => bts('Reject this profile content'),
+          'title' => bts('Reject this profile content', array(), NULL, 'boinc:moderate-user'),
           'class' => 'tab',
         )
       );

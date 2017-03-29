@@ -35,7 +35,7 @@ function boincuser_login_validate($form, &$form_state) {
   // Call our custom authentication function to check for an existing BOINC user
   if (!boincuser_login_authenticate($form_state['values'])) {
     // Authentication failed; set an error accordingly
-    form_set_error('name', bts('Sorry, unrecognized email address or password.') . ' ' . l(bts('Have you forgotten your password?'), 'user/password'));
+    form_set_error('name', bts('Sorry, unrecognized email address or password.', array(), NULL, 'boinc:forgot-password') . ' ' . l(bts('Have you forgotten your password?', array(), NULL, 'boinc:forgot-password'), 'user/password'));
   }
 }
 
@@ -348,7 +348,7 @@ function boincuser_account_validate($edit, $account) {
     // E-mail address is set to change; check for an existing BOINC user
     $boinc_user_already_exists = BoincUser::lookup_email_addr($edit['mail']);
     if ($boinc_user_already_exists) {
-      form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
+      form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail']), array(), NULL, 'boinc:add-new-user'));
     }
   }
 
@@ -363,10 +363,10 @@ function boincuser_account_validate($edit, $account) {
     else {
       $given_hash = md5($edit['current_pass'] . $account->mail);
       if (!$edit['current_pass']) {
-        form_set_error('current_pass', bts('Authentication is required when changing E-mail address or setting new password.'));
+        form_set_error('current_pass', bts('Authentication is required when changing E-mail address or setting new password.', array(), NULL, 'boinc:account-credentials-change'));
       }
       elseif ($given_hash != $boinc_user->passwd_hash) {
-        form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.'));
+        form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.', array(), NULL, 'boinc:account-credentials-change'));
       }
     }
   }
@@ -374,7 +374,7 @@ function boincuser_account_validate($edit, $account) {
   // If an admin tries to change the email and NOT the password, show
   // error message. BOINC requires both to be changed together.
   if ($changing_email AND !$changing_pass AND user_access('administer users')) {
-    form_set_error('pass', bts('If changing a user\'s email, you must also change the password simultaneously.'));
+    form_set_error('pass', bts('If changing a user\'s email, you must also change the password simultaneously.', array(), NULL, 'boinc:account-credentials-change'));
   }
   
   // Expansion required to allow account key in place of passwd...?
@@ -393,8 +393,8 @@ function boincuser_request_pass_validate($form, &$form_state) {
   $edit = $form_state['values'];
   // The Drupal submit function expects a "name" field, even though
   // it contains an email address and we will not allow a user name
-  if (!$edit['name']) form_set_error('name', bts('Please enter your email address'));
-  elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name'])));
+  if (!$edit['name']) form_set_error('name', bts('Please enter your email address', array(), NULL, 'boinc:forgot-password'));
+  elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name']), array(), NULL, 'boinc:forgot-password'));
   else {
     // First look for an existing Drupal account
     if ($account = user_load_by_mail($edit['name'])) return;
@@ -406,7 +406,7 @@ function boincuser_request_pass_validate($form, &$form_state) {
       boincuser_register_make_drupal_user($boinc_user);
     } else {
       // If there is no existing BOINC user either, show an error
-      form_set_error('name', bts('No account exists for @email -- select "Create new account" to register', array('@email' => $edit['name'])));
+      form_set_error('name', bts('No account exists for @email -- select "Create new account" to register', array('@email' => $edit['name']), array(), NULL, 'boinc:forgot-password'));
     }
   }
 }
@@ -420,16 +420,16 @@ function boincuser_authloginform() {
   $project_domain = $headers['Host'];
   $form['heading'] = array(
     '#type' => 'markup',
-    '#value' => '<h3>' . bts("If you forgot your account's email address, or you can't receive email there:") . '</h3>'
+    '#value' => '<h3>' . bts("If you forgot your account's email address, or you can't receive email there:", array(), NULL, 'boinc:authenticator-login-page') . '</h3>'
   );
   $form['instructions'] = array(
     '#type' => 'markup',
     '#value' => '' .
-      '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:") .
+      '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:", array(), NULL, 'boinc:authenticator-login-page') .
       '  <ul>' .
-      '    <li>' . bts('Go to the BOINC data directory on your computer (see !boinc_wiki for help finding this).', array('!boinc_wiki' => l(bts('BOINC documentation'), 'http://boinc.berkeley.edu/wiki/BOINC_Data_directory'))) . '</li>' .
-      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => "account_{$project_domain}.xml", '%url' => "http://{$project_domain}")) . '</li>' .
-      '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:") .
+      '    <li>' . bts('Go to the BOINC data directory on your computer (see !boinc_wiki for help finding this).', array('!boinc_wiki' => l(bts('BOINC documentation', array(), NULL, 'boinc:authenticator-login-page'), 'http://boinc.berkeley.edu/wiki/BOINC_Data_directory')), array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => "account_{$project_domain}.xml", '%url' => "http://{$project_domain}"), array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:", array(), NULL, 'boinc:authenticator-login-page') .
       '      <pre>' .
       '&lt;account&gt;' . "\n" .
       "  &lt;master_url&gt;http://{$project_domain}/&lt;/master_url&gt;" . "\n" .
@@ -439,9 +439,9 @@ function boincuser_authloginform() {
       '&lt;/account&gt;' .
       '      </pre>' .
       '    </li>' .
-      '    <li>' . bts('Select and Copy the string between &lt;authenticator&gt; and &lt;/authenticator&gt; (%auth in the above example).', array('%auth' => '8b8496fdd26df7dc0423ecd43c09a56b')) . '</li>' .
-      '    <li>' . bts('Paste the string into the field below, and click OK.') . '</li>' .
-      '    <li>' . bts('You will now be logged in to your account; update the email and password of your account.') . '</li>' .
+      '    <li>' . bts('Select and Copy the string between &lt;authenticator&gt; and &lt;/authenticator&gt; (%auth in the above example).', array('%auth' => '8b8496fdd26df7dc0423ecd43c09a56b'), array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts('Paste the string into the field below, and click OK.', array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts('You will now be logged in to your account; update the email and password of your account.', array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
       '  </ul>' .
       '</p>'
   );
@@ -462,12 +462,12 @@ function boincuser_authloginform() {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('OK'),
+    '#value' => bts('OK', array(), NULL, 'boinc:form-ok'),
     '#suffix' => '</li>',
     '#weight' => 1002,
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), 'user/password') . '</li>',
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), 'user/password') . '</li>',
     '#weight' => 1003,
   );
   $form['form control tabs suffix'] = array(
@@ -484,11 +484,11 @@ function boincuser_authloginform_validate($form, &$form_state) {
   $authenticator = $form_state['values']['authenticator'];
   if (strlen($authenticator) != 32) {
     // We notify the form API that this field has failed validation.
-    form_set_error('authenticator', bts('That authenticator is not valid.'));
+    form_set_error('authenticator', bts('That authenticator is not valid.', array(), NULL, 'boinc:authenticator-login-page'));
   } else {
     require_boinc('boinc_db');
     $boinc_user = BoincUser::lookup("authenticator='".addslashes($authenticator)."'");
-    if (!$boinc_user) form_set_error('authenticator', bts('There is no account with that authenticator.'));
+    if (!$boinc_user) form_set_error('authenticator', bts('There is no account with that authenticator.', array(), NULL, 'boinc:authenticator-login-page'));
   }
 }
 
@@ -511,9 +511,9 @@ function boincuser_authloginform_submit($form, &$form_state) {
 function boincuser_moderate_profile_reject_form(&$form_state, $uid) {
   $form_state['storage']['reject_profile_uid'] = $uid;
   $form['reason'] = array(
-    '#title' => bts('Reason for rejecting this profile'),
+    '#title' => bts('Reason for rejecting this profile', array(), NULL, 'boinc:moderate-user'),
     '#type' => 'textarea',
-    '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of the problem and how to fix it.'),
+    '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of the problem and how to fix it.', array(), NULL, 'boinc:moderate-user'),
     '#default_value' => '',
   );
   
@@ -525,12 +525,12 @@ function boincuser_moderate_profile_reject_form(&$form_state, $uid) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Submit'),
+    '#value' => bts('Submit', array(), NULL, 'boinc:form-submit'),
     '#suffix' => '</li>',
     '#weight' => 1002,
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), "account/{$uid}") . '</li>',
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "account/{$uid}") . '</li>',
     '#weight' => 1003,
   );
   $form['form control tabs suffix'] = array(
@@ -556,15 +556,15 @@ function boincuser_moderate_profile_reject_form_submit($form, &$form_state) {
 function boincuser_moderate_user_ban_form(&$form_state, $uid) {
   $form_state['storage']['ban_user_uid'] = $uid;
   $form['reason'] = array(
-    '#title' => bts('Reason for banning this user'),
+    '#title' => bts('Reason for banning this user', array(), NULL, 'boinc:moderate-user'),
     '#type' => 'textarea',
-    '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of why the user is being banned.'),
+    '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of why the user is being banned.', array(), NULL, 'boinc:moderate-user'),
     '#default_value' => '',
   );
   $form['duration'] = array(
-    '#title' => bts('Duration of the ban'),
+    '#title' => bts('Duration of the ban', array(), NULL, 'boinc:moderate-user'),
     '#type' => 'textfield',
-    '#description' => bts('The number of days until the ban expires. Set to 0 to ban permanently.'),
+    '#description' => bts('The number of days until the ban expires. Set to 0 to ban permanently.', array(), NULL, 'boinc:moderate-user'),
     '#default_value' => '',
   );
   
@@ -576,12 +576,12 @@ function boincuser_moderate_user_ban_form(&$form_state, $uid) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Submit'),
+    '#value' => bts('Submit', array(), NULL, 'boinc:form-submit'),
     '#suffix' => '</li>',
     '#weight' => 1002,
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), "account/{$uid}") . '</li>',
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "account/{$uid}") . '</li>',
     '#weight' => 1003,
   );
   $form['form control tabs suffix'] = array(
