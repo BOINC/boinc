@@ -34,8 +34,8 @@ Reset flags|boinc:forum
 Ignore user|boinc:forum
 All tasks|boinc:workunit-and-host-lists
 Time reported or deadline|boinc:workunit-and-host-lists
-Run time (sec)|boinc:task-deatils
-CPU time (sec)|boinc:task-deatils
+Run time (sec)|boinc:task-details
+CPU time (sec)|boinc:task-details
 Canonical result|boinc:workunit-details
 Minimum quorum|boinc:workunit-details
 Initial replication|boinc:workunit-details
