@@ -416,7 +416,7 @@ function boincuser_request_pass_validate($form, &$form_state) {
  */
 function boincuser_authloginform() {
   $headers = apache_request_headers();
-  $project_name = variable_get('site_name', 'einsteinathome.org');
+  $project_name = variable_get('site_name', 'Drupal-BOINC');
   $project_domain = $headers['Host'];
   $form['heading'] = array(
     '#type' => 'markup',
