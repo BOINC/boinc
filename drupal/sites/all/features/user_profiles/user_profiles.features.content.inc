@@ -492,9 +492,9 @@ Zimbabwe|Zimbabwe',
       'default_value_php' => NULL,
       'label' => 'Your opinions about this project',
       'weight' => '4',
-      'description' => 'Tell us your thoughts about Einstein@Home
+      'description' => 'Tell us your thoughts about ' . variable_get('site_name', '') . '
 
-   1. Why do you run Einstein@Home?
+   1. Why do you run '. variable_get('site_name', '') . '?
    2. What are your views about the project?
    3. Any suggestions? ',
       'type' => 'text_textarea',
