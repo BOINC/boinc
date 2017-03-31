@@ -20,7 +20,7 @@ Provide a turn-key VM for Android development
    1. Wait until the final reboot finished
    1. **From this point on you don't need Vagrant anymore**
       1. Don't run `vagrant up` again!
-      2. Just use VirtualBox to stop/start your new shiny VM
+      1. Just use VirtualBox to stop/start your new shiny VM
 1. In the VM:
    1. Log in with `vagrant/vagrant`
    1. Open a terminal
