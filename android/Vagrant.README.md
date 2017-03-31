@@ -34,7 +34,7 @@ Provide a turn-key VM for Android development
 1. Hook up your Android device via USB (and remember to attach it to VirtualBox)
 1. Happy hacking :-)
 
-## Know limitations
+## Known limitations
 
 * The Android Virtual Device Manager might not work properly as it needs virtualization
   which isn't possible within a virtual machine (at least not using VirtualBox).
