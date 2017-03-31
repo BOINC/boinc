@@ -10,9 +10,10 @@ COMPILECURL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-CURL="/home/boincadm/src/curl-7.48.0" #CURL sources, required by BOINC
+CURL="${CURL_SRC:-$HOME/src/curl-7.48.0}" #CURL sources, required by BOINC
 
-export ANDROIDTC="$HOME/androidmips-tc"
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROIDTC="${ANDROID_TC_MIPS:-$ANDROID_TC/mips}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mipsel-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"

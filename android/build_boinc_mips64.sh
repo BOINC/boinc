@@ -12,7 +12,8 @@ MAKECLEAN="yes"
 
 export BOINC=".." #BOINC source code
 
-export ANDROIDTC="$HOME/androidmips64-tc"
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROIDTC="${ANDROID_TC_MIPS64-$ANDROID_TC/mips64}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
@@ -53,7 +54,7 @@ cd ../../../../
 
 echo "Copy Assets"
 cd android
-mkdir "BOINC/app/src/main/assets"
+mkdir -p "BOINC/app/src/main/assets"
 cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/mips64/boinc"
 cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/mips64/boinccmd"
 cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"

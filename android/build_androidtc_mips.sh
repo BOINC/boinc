@@ -6,9 +6,10 @@
 
 # Script to setup Android toolchain
 
-export NDKROOT="/home/boincadm/NVPACK/android-ndk-r10e"
-export ANDROIDTC="$HOME/androidmips-tc"
+export NDK_ROOT="${NDK_ROOT:-$HOME/NVPACK/android-ndk-r10e}"
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROID_TC_MIPS="${ANDROID_TC_MIPS:-$ANDROID_TC/mips}"
 
-if [ ! -d $ANDROIDTC/mipsel-linux-android ]; then
-    $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=mips --install-dir=$ANDROIDTC
+if [ ! -d $ANDROID_TC_MIPS/mipsel-linux-android ]; then
+    $NDK_ROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=mips --install-dir=$ANDROID_TC_MIPS
 fi
