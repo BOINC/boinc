@@ -1718,14 +1718,14 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#collapsed' => FALSE
   );
   $form['privacy']['send_email'] = array(
-    '#title' => bts('Is it OK for @project and your team (if any) to email you?', array('@project' => variable_get('site_name', 'BOINC')), array(), NULL, 'boinc:account-preferences-privacy'),
+    '#title' => bts('Is it OK for @project and your team (if any) to email you?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['privacy']['send_email']
   );
   $form['privacy']['show_hosts'] = array(
-    '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'BOINC')), array(), NULL, 'boinc:account-preferences-privacy'),
+    '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),

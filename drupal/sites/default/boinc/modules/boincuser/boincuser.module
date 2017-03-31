@@ -694,7 +694,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,
         '#attributes' => array('tabindex' => '1'),
-        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'BOINC')), array(), NULL, 'boinc:standard-login-page')
+        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'Drupal-BOINC')), array(), NULL, 'boinc:standard-login-page')
       ),
       'validation_source' => array(
         '#type' => 'hidden',
@@ -1249,7 +1249,7 @@ function join_page($type = null) {
   */
 function boincuser_home_page() {
   global $user;
-  $site_name = variable_get('site_name', '');
+  $site_name = variable_get('site_name', 'Drupal-BOINC');
   // get the front page message from database; this is set in the admin interface under BOINC Other
   $site_message = variable_get('boinc_other_frontpage','');
 
@@ -1487,7 +1487,7 @@ function boincuser_moderate_profile_reject($uid, $reason = '') {
     global $user;
     global $base_url;
     global $base_path;
-    $site_name = variable_get('site_name', bts('project'));
+    $site_name = variable_get('site_name', 'Drupal-BOINC');
     $site_url = $base_url . $base_path;
     $moderator = user_load($user->uid);
     $profile->moderate = 0;
@@ -1548,7 +1548,7 @@ function boincuser_moderate_user_ban($uid, $reason = '', $duration = '') {
       global $user;
       global $base_url;
       global $base_path;
-      $site_name = variable_get('site_name', bts('project'));
+      $site_name = variable_get('site_name',  'Drupal-BOINC');
       $site_url = $base_url . $base_path;
       $moderator = user_load($user->uid);
       $settings = array(
