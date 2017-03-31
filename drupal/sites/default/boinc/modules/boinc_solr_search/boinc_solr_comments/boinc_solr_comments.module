@@ -399,7 +399,7 @@ function boinc_solr_comments_deletecomment($comment) {
  */
 
 function boinc_solr_comments_enable() {
-  drupal_set_message( bts('Warning: Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index'))), 'warning');
+  drupal_set_message( bts('Warning: Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index')), NULL, 'boinc:admin-solr-index-comments-message'), 'warning');
 }
 
 /** 
