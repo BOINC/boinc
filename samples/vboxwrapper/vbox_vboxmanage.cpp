@@ -793,7 +793,7 @@ int VBOX_VM::deregister_stale_vm() {
     //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
-    if (enable_isocontextualization && enable_isocontextualization) {
+    if (enable_isocontextualization) {
         command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
