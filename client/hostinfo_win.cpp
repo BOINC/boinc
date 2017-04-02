@@ -885,9 +885,9 @@ int get_os_information(
 
                 if ( lstrcmpi( "WINNT", szProductType) == 0 ) {
                     safe_strcpy( szSKU, "Workstation Edition" );
-                } if ( lstrcmpi( "LANMANNT", szProductType) == 0 ) {
+                } else if ( lstrcmpi( "LANMANNT", szProductType) == 0 ) {
                     safe_strcpy( szSKU, "Server Edition" );
-                } if ( lstrcmpi( "SERVERNT", szProductType) == 0 ) {
+                } else if ( lstrcmpi( "SERVERNT", szProductType) == 0 ) {
                     safe_strcpy( szSKU, "Advanced Server Edition" );
                 }
 
