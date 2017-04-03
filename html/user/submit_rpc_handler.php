@@ -451,10 +451,10 @@ function submit_batch($r) {
 
 function create_batch($r) {
     xml_start_tag("create_batch");
-    $app = get_submit_app((string)($r->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
-    $batch_name = (string)($r->batch_name);
+    $batch_name = (string)($r->batch->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
     $expire_time = (double)($r->expire_time);
     $batch_id = BoincBatch::insert(
@@ -656,13 +656,23 @@ function query_batch2($r) {
         $wus = BoincWorkunit::enum("batch = $batch->id $mod_time_clause");
         echo "   <batch_size>".count($wus)."</batch_size>\n";
         foreach ($wus as $wu) {
+            //We want to know if at least one job in the batch is in_progress.
+            //Unsent jobs shouldn't show as in_progress.
+            //So we ask the server if a job has a sent_time that is non zero.
+            //If yes we know it has been sent.
+            //
+            $in_progress = false;
+            $instances = BoincResult::enum("workunitid = $wu->id");
+            foreach ($instances as $job) { 
+                if ($job->sent_time) { $in_progress = true;}
+            }
             if ($wu->canonical_resultid) {
                 $status = "DONE";
             } else if ($wu->error_mask) {
                 $status = "ERROR";
-            } else {
+            } else if ($in_progress) {
                 $status = "IN_PROGRESS";
-            }
+            } else $status = "UNSENT";
             echo
 "    <job>
         <job_name>$wu->name</job_name>
