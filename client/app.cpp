@@ -985,7 +985,7 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     for (unsigned int i=0; i<msgs.size(); i++) {
         if (log_flags.app_msg_send) {
             msg_printf(NULL, MSG_INFO,
-                "[app_msg_send] poll: deferred: %s", msgs[0].c_str()
+                "[app_msg_send] poll: deferred: %s", msgs[i].c_str()
             );
         }
     }
