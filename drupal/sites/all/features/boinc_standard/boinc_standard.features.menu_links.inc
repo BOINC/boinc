@@ -81,7 +81,7 @@ function boinc_standard_menu_default_menu_links() {
     'parent_path' => 'dashboard',
   );
   // Translatables
-  // Included for use with string extractors like potx.
+  // Use bts() function to translate additional strings.
   bts('Home', array(), NULL, 'boinc:menu-link');
   bts('Credentials', array(), NULL, 'boinc:menu-link');
   bts('Dashboard', array(), NULL, 'boinc:menu-link');

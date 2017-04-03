@@ -695,7 +695,7 @@ Zimbabwe|Zimbabwe',
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'Postal code',
+      'label' => bts('Postal code', array(), NULL, 'boinc:account-profile-edit'),
       'weight' => '6',
       'description' => '',
       'type' => 'text_textfield',
@@ -704,7 +704,7 @@ Zimbabwe|Zimbabwe',
   );
 
   // Translatables
-  // Included for use with string extractors like potx.
+  // Use bts() function to translate additional strings.
   bts('Avatar', array(), NULL, 'boinc:account-profile-edit');
   bts('Country', array(), NULL, 'boinc:account-profile-edit');
   bts('Profile image', array(), NULL, 'boinc:account-profile-edit');
