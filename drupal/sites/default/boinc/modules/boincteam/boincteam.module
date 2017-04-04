@@ -1176,7 +1176,7 @@ function boincteam_request_foundership_response_panel($team_id) {
         . ' the team for a long time.', array(
           '@name' => $member->boincuser_name,
         )
-      , array(), NULL, 'boinc:team-request-foundership-response's) . '</p>';
+      , array(), NULL, 'boinc:team-request-foundership-response') . '</p>';
       $output .= '<p>' . bts("If you don't decline the request by @date, @name"
         . ' will have the option of assuming team foundership. (note: To'
         . ' accept the request, assign foundership to @name using the form'
