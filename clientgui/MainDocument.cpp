@@ -1839,8 +1839,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         // Unfortunately, CoRD does not seem as reliable as I would like either.
         //
         // First try to find the CoRD application by Bundle ID and Creator Code
-        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),
-                                            NULL, &theFSRef, NULL);
+        status = GetPathToAppFromID('RDC#', CFSTR("net.sf.cord"), pathToCoRD, MAXPATHLEN);
         if (status != noErr) {
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (pFrame) {
