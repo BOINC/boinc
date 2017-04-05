@@ -29,13 +29,13 @@ function boincteam_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
   );
   
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
-    '#value' => array(0 => bts('Choose type'))
+    '#value' => array(0 => bts('Choose type', array(), NULL, 'boinc:form-choose'))
   );
   $vocabs = taxonomy_get_vocabularies(NULL);
   foreach ($vocabs as $vocab) {
@@ -86,7 +86,7 @@ function boincteam_create_form(&$form_state) {
     '#default_value' => $default['type'],
   );
   $form['country'] = array(
-    '#title' => bts('Country', array(), NULL, 'boinc:team-create/edit'),
+    '#title' => bts('Country', array(), NULL, 'boinc:team-country'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
@@ -282,13 +282,13 @@ function boincteam_edit_form(&$form_state, $team_id) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
   );
   
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
-    '#value' => array(0 => bts('Choose type'))
+    '#value' => array(0 => bts('Choose type', array(), NULL, 'boinc:form-choose'))
   );
   $vocabs = taxonomy_get_vocabularies(NULL);
   foreach ($vocabs as $vocab) {
@@ -343,7 +343,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
     '#disabled' => $is_boinc_wide,
   );
   $form['country'] = array(
-    '#title' => bts('Country', array(), NULL, 'boinc:team-create/edit'),
+    '#title' => bts('Country', array(), NULL, 'boinc:team-country'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],

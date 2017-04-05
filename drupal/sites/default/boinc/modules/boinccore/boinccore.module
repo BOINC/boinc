@@ -552,7 +552,7 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
 function boinccore_locale($op = 'groups', $group = NULL) {
   switch ($op) {
     case 'groups':
-      return array('boinc' => bts('BOINC'));
+        return array('boinc' => bts('BOINC', array(), NULL, 'boinc:locale-textgroup-BOINC'));
     case 'info':
       //$info['boinc']['refresh callback'] = 'boinccore_locale_refresh';
       $info['boinc']['format'] = FALSE;

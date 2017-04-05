@@ -135,7 +135,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="value"><?php print $join_date; ?></span>
     </div>
     <div class="country">
-      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:user-profile'); ?>:</span>
+      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:user-info'); ?>:</span>
       <span class="value"><?php print $country; ?></span>
     </div>
     <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>

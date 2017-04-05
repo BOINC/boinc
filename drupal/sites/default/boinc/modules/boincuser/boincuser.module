@@ -952,7 +952,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     array_unshift($form, array(
       'boincuser_name' => array(
         '#type' => 'textfield', 
-        '#title' => bts('Name', array(), NULL, 'boinc:user-register'), 
+        '#title' => bts('Name', array(), NULL, 'boinc:user-info'), 
         '#default_value' => $edit['boincuser_name'], 
         '#maxlength' => USERNAME_MAX_LENGTH, 
         '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.', array(), NULL, 'boinc:user-register'), 
@@ -1033,7 +1033,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     break;
     
   case 'views_exposed_form':
-    $form['submit']['#value'] = bts('Search');
+      $form['submit']['#value'] = bts('Search', array(), NULL, 'boinc:search-user');
     break;
   }
 }
@@ -1655,7 +1655,7 @@ function boincuser_get_projects_table($account = null) {
   $output .= '<table class="user-projects">' . "\n";
   $output .= '<thead>' . "\n";
   $output .= '  <tr>' . "\n";
-  $output .= '    <th>' . bts('Name', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
+  $output .= '    <th>' . bts('Name', array(), NULL, 'boinc:project-name') . '</th>' . "\n";
   $output .= '    <th class="numeric">' . bts('Avg credit', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
   $output .= '    <th class="numeric">' . bts('Total credit', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
   $output .= '  </tr>' . "\n";

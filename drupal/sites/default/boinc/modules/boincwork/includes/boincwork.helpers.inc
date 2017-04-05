@@ -466,7 +466,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $form[$name] = array(
         '#title' => $title,
         '#type' => 'radios',
-        '#options' => array(1 => bts('yes'), 0 => bts('no')),
+        '#options' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
         '#description' => $description

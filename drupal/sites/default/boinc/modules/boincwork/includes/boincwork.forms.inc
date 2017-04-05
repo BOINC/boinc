@@ -137,7 +137,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
   );
   $form['hour_options'] = array(
     '#type' => 'value',
@@ -879,7 +879,7 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
   $form['merge'] = array(
     '#title' => '',
     '#type' => 'tableselect',
-    '#header' => array(bts('Name', array(), NULL, 'boinc:account-host-merge'), bts('Created', array(), NULL, 'boinc:account-host-merge'), bts('Computer ID', array(), NULL, 'boinc:account-host-merge')),
+    '#header' => array(bts('Name', array(), NULL, 'boinc:host-details'), bts('Created', array(), NULL, 'boinc:host-details'), bts('Computer ID', array(), NULL, 'boinc:host-list')),
     '#options' => $options,
   );
   
@@ -1051,7 +1051,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
   );
   
   // Identify preference sets that are established to distinguish what has been
@@ -1391,7 +1391,7 @@ function communityprefs_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
   );
   
   $default = array(
@@ -1412,7 +1412,7 @@ function communityprefs_form(&$form_state) {
   // Add the BOINC user name (non-unique, user editable)
   $form['general']['boincuser_name'] = array(
     '#type' => 'textfield',
-    '#title' => bts('Name', array(), NULL, 'boinc:account-preferences-community'),
+    '#title' => bts('Name', array(), NULL, 'boinc:user-info'),
     '#default_value' => $account->boincuser_name,
     '#maxlength' => USERNAME_MAX_LENGTH,
     '#required' => TRUE,
@@ -1455,7 +1455,7 @@ function communityprefs_form(&$form_state) {
     '#type' => 'radios',
     '#title' => bts('Receive email notification for friend requests?', array(), NULL, 'boinc:account-preferences-community'),
     '#description' => ' ',
-    '#options' => array(0 => bts('yes'), -1 => bts('no')),
+    '#options' => array(0 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), -1 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['friend_notification']
   );
@@ -1707,7 +1707,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
   );
   
   $form['privacy'] = array(

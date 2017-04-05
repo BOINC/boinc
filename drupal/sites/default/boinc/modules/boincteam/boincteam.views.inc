@@ -198,7 +198,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['total_credit'] = array(
-    'title' => bts('Total Credit', array(), NULL, 'boinc:team-total-accumulated-credit'),
+    'title' => bts('Total Credit', array(), NULL, 'boinc:team-total-credit'),
     'help' => t('The total team accumulated BOINC credit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -415,7 +415,7 @@ function boincteam_views_data() {
     )
   );
   $data['team_delta']['total_credit'] = array(
-    'title' => bts('Total Credit', array(), NULL, 'boinc:user-total-credit-in-team-history'),
+    'title' => bts('Total Credit', array(), NULL, 'boinc:user-info'),
     'help' => t('The total accumulated BOINC credit of the user when the
       history event took place.'),
     'field' => array(
