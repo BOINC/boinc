@@ -787,14 +787,16 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 
 
 FILE_LOCK::FILE_LOCK() {
-#ifndef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
+  handle = INVALID_HANDLE_VALUE;
+#else
     fd = -1;
 #endif
     locked = false;
 }
 
 FILE_LOCK::~FILE_LOCK() {
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__CYGWIN32__)
     if (fd >= 0) close(fd);
 #endif
 }
