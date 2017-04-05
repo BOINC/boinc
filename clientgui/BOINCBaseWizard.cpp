@@ -47,11 +47,13 @@ IMPLEMENT_DYNAMIC_CLASS( CBOINCBaseWizard, wxWizardEx )
 CBOINCBaseWizard::CBOINCBaseWizard() :
     wxWizardEx()
 {
+  m_bCancelInProgress = false;
 }
 
 CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& title, const wxPoint& pos, long style) :
     wxWizardEx(parent, id, title, pos, style)
 {
+  m_bCancelInProgress = false;
 }
 
 /*!

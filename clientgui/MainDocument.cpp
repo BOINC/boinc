@@ -112,6 +112,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bForceReconnect = false;
     m_bReconnectOnError = false;
     m_bNewConnection = false;
+    m_bUseDefaultPassword = false;
     m_bUsedDefaultPassword = false;
     m_iPort = GUI_RPC_PORT,
     m_iReadGUIRPCAuthFailure = 0;
