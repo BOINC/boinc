@@ -408,7 +408,11 @@ void CPaintStatistics::DrawProjectHead(wxDC &dc, PROJECT* project1, const wxStri
 	wxCoord y0 = 0;
 
 	if (project1) {
-	    head_name = wxString(_("Project")) + wxT(": ") + wxString(project1->project_name.c_str(), wxConvUTF8);
+		if (project1->project_name.length() > 0) {
+			head_name = wxString(_("Project")) + wxT(": ") + wxString(project1->project_name.c_str(), wxConvUTF8);
+		} else {
+			head_name = wxString(_("Project")) + wxT(": ") + wxString(project1->master_url, wxConvUTF8);
+		}
 	    dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 		x0 = wxCoord(m_WorkSpace_X_start + ((m_WorkSpace_X_end - m_WorkSpace_X_start - double(w_temp)) / 2.0));
 		y0 = wxCoord(m_WorkSpace_Y_start + 1.0);
@@ -492,7 +496,13 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 		++count;
 		PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
-		if (state_project) head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+		if (state_project) {
+			if (state_project->project_name.length() > 0) {
+				head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+			} else {
+				head_name = wxString(state_project->master_url, wxConvUTF8);
+			}
+		}
 		dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 		if (project_name_max_width < w_temp) project_name_max_width = w_temp;
 	}
@@ -588,7 +598,13 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	///Draw project name
 		head_name = wxT("?");
 		PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
-		if (state_project) head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+		if (state_project) {
+			if (state_project->project_name.length() > 0) {
+				head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+			} else {
+				head_name = wxString(state_project->master_url, wxConvUTF8);
+			}
+		}
 
 		if (SelProj == count){
 			dc.SetBrush(wxBrush(m_brush_LegendSelectColour , wxSOLID));
@@ -1286,6 +1302,11 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 				PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
 				if (state_project) {
 					head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+					if (state_project->project_name.length() > 0) {
+						head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+					} else {
+						head_name = wxString(state_project->master_url, wxConvUTF8);
+					}
 				}
 			//Draw heading
 				DrawMainHead(dc, head_name);
