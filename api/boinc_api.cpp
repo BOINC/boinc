@@ -21,14 +21,31 @@
 // 1) Thread structure:
 //  Sequential apps
 //    Unix
-//      getting CPU time and suspend/resume have to be done
-//      in the worker thread, so we use a SIGALRM signal handler.
-//      However, many library functions and system calls
+//      Suspend/resume have to be done in the worker thread,
+//      so we use a 10 Hz SIGALRM signal handler.
+//      Also get CPU time (getrusage()) in the signal handler.
+//      Note: many library functions and system calls
 //      are not "asynch signal safe": see, e.g.
 //      http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html#tag_02_04_03
-//      (e.g. sprintf() in a signal handler hangs Mac OS X)
-//      so we do as little as possible in the signal handler,
+//      (e.g. sprintf() in a signal handler hangs Mac OS X).
+//      Can't do floating-point math because FP regs not saved.
+//      So we do as little as possible in the signal handler,
 //      and do the rest in a separate "timer thread".
+//          - send status and graphics messages to client
+//          - handle messages from client
+//          - set ready-to-checkpoint flag
+//          - check heartbeat
+//          - call app-defined timer callback function
+//    Mac: similar to Linux,
+//          but getrusage() in the worker signal handler causes crashes,
+//          so do it in the timer thread (GETRUSAGE_IN_TIMER_THREAD)
+//          TODO: why not do this on Linux too?
+//    Android: similar to Linux,
+//          but setitimer() causes crashes on some Android versions,
+//          so instead of using a periodic signal,
+//          have the timer thread send SIGALRM signals to the worker thread
+//          every .1 sec.
+//          TODO: for uniformity should we do this on Linux as well?
 //    Win
 //      the timer thread does everything
 //  Multi-thread apps:
@@ -109,9 +126,12 @@
 using std::vector;
 
 //#define DEBUG_BOINC_API
+    // enable a bunch of fprintfs to stderr
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
+#endif
+#if defined(__APPLE__) || defined(ANDROID)
 #define GETRUSAGE_IN_TIMER_THREAD
     // call getrusage() in the timer thread,
     // rather than in the worker thread's signal handler
@@ -284,7 +304,7 @@ static int setup_shared_mem() {
     }
 #else
     if (aid.shmem_seg_name == -1) {
-        // Version 6 Unix/Linux/Mac client 
+        // Version 6 Unix/Linux/Mac client
         if (attach_shmem_mmap(MMAPPED_FILE_NAME, (void**)&app_client_shm->shm)) {
             delete app_client_shm;
             app_client_shm = NULL;
@@ -686,8 +706,8 @@ static void send_trickle_up_msg() {
     }
 }
 
-// NOTE: a non-zero status tells the client that we're exiting with 
-// an "unrecoverable error", which will be reported back to server. 
+// NOTE: a non-zero status tells the client that we're exiting with
+// an "unrecoverable error", which will be reported back to server.
 // A zero exit-status tells the client we've successfully finished the result.
 //
 int boinc_finish_message(int status, const char* msg, bool is_notice) {
@@ -810,6 +830,9 @@ int boinc_is_standalone() {
     return 0;
 }
 
+// called from the timer thread if we need to exit,
+// e.g. quit message from client, or client has gone away
+//
 static void exit_from_timer_thread(int status) {
 #ifdef DEBUG_BOINC_API
     char buf[256];
@@ -826,11 +849,22 @@ static void exit_from_timer_thread(int status) {
     //
     boinc_exit(status);
 #else
-    // but on Unix there are synchronization problems;
+    // but on Unix there are synchronization problems if we exit here;
     // set a flag telling the worker thread to exit
     //
     worker_thread_exit_status = status;
     worker_thread_exit_flag = true;
+#ifdef ANDROID
+    // trigger the worker signal handler, which will call boinc_exit()
+    //
+    pthread_kill(worker_thread_handle, SIGALRM);
+
+    // the exit should happen more or less instantly.
+    // But if we're still here after 1 sec, exit directly
+    //
+    sleep(1.0);
+    boinc_exit(status);
+#endif
     pthread_exit(NULL);
 #endif
 }
@@ -1093,6 +1127,9 @@ static void handle_process_control_msg() {
             BOINCINFO("Received quit message");
             boinc_status.quit_request = true;
             if (!in_critical_section && options.direct_process_action) {
+                release_mutex();
+                    // we hold mutex, and it's possible that worker
+                    // is waiting on it, so release it
                 exit_from_timer_thread(0);
             }
         }
@@ -1121,7 +1158,7 @@ static void handle_process_control_msg() {
     }
 }
 
-// timer handler; runs in the timer thread
+// timer handler; called every 0.1 sec in the timer thread
 //
 static void timer_handler() {
     char buf[512];
@@ -1162,6 +1199,11 @@ static void timer_handler() {
             handle_process_control_msg();
         }
     }
+#ifdef ANDROID
+    // Trigger call to worker_signal_handler() in the worker thread
+    //
+    pthread_kill(worker_thread_handle, SIGALRM);
+#endif
     if (interrupt_count % TIMERS_PER_SEC) return;
 
 #ifdef DEBUG_BOINC_API
@@ -1201,7 +1243,7 @@ static void timer_handler() {
         last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
         update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
     }
-    
+
     if (have_new_trickle_up || have_new_upload_file) {
         send_trickle_up_msg();
     }
@@ -1232,7 +1274,6 @@ static void timer_handler() {
 #ifdef _WIN32
 
 DWORD WINAPI timer_thread(void *) {
-     
     while (1) {
         Sleep((int)(TIMER_PERIOD*1000));
         timer_handler();
@@ -1270,17 +1311,6 @@ static void worker_signal_handler(int) {
     }
     if (options.direct_process_action) {
         while (boinc_status.suspended && in_critical_section==0) {
-#ifdef ANDROID
-            // per-thread signal masking doesn't work
-            // on old (pre-4.1) versions of Android.
-            // If we're handling this signal in the timer thread,
-            // send signal explicitly to worker thread.
-            //
-            if (pthread_self() == timer_thread_handle) {
-                pthread_kill(worker_thread_handle, SIGALRM);
-                return;
-            }
-#endif
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
     }
@@ -1317,7 +1347,7 @@ int start_timer_thread() {
         );
         return errno;
     }
-    
+
     if (!options.normal_thread_priority) {
         // lower our (worker thread) priority
         //
@@ -1341,28 +1371,35 @@ int start_timer_thread() {
 }
 
 #ifndef _WIN32
-// set up a periodic SIGALRM, to be handled by the worker thread
+
+// called in the worker thread.
+// set up a handler for SIGALRM.
+// If Android, we'll get signals from the time thread.
+// otherwise, set an interval timer to deliver signals
 //
 static int start_worker_signals() {
     int retval;
     struct sigaction sa;
-    itimerval value;
+    memset(&sa, 0, sizeof(sa));
     sa.sa_handler = worker_signal_handler;
     sa.sa_flags = SA_RESTART;
     sigemptyset(&sa.sa_mask);
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
-        perror("boinc start_timer_thread() sigaction");
+        perror("boinc start_worker_signals(): sigaction failed");
         return retval;
     }
+#ifndef ANDROID
+    itimerval value;
     value.it_value.tv_sec = 0;
     value.it_value.tv_usec = (int)(TIMER_PERIOD*1e6);
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
-        perror("boinc start_timer_thread() setitimer");
+        perror("boinc start_worker_thread(): setitimer failed");
         return retval;
     }
+#endif
     return 0;
 }
 #endif
