@@ -296,31 +296,69 @@ function delete_teams() {
         $query .= " and create_time > $x";
     }
     $teams = BoincTeam::enum($query);
+    $count = 0;
     foreach ($teams as $team) {
         $n = team_count_members($team->id);
         if ($n > 1) continue;
         if (!has_link($team->description) && !$team->url) continue;
+
+        // get list of team members
+        //
         $users = BoincUser::enum("teamid = $team->id");
-        if (count($users)) {
-            $user = $users[0];
-            if ($user->seti_nresults) continue;
-                // for SETI@home
-            $n = BoincPost::count("user=$user->id");
-            if ($n) continue;
-            $n = BoincHost::count("userid=$user->id");
-            if ($n) continue;
+
+        // add team founder if not member
+        //
+        if ($team->userid) {
+            $user = BoincUser::lookup_id($team->userid);
+            if ($user && $user->teamid != $team->id) {
+                $users[] = $user;
+            }
         }
+
+        // if any of these has signs of life, skip team
+        //
+        $life = false;
+        foreach ($users as $user) {
+            if ($user->seti_nresults) {
+                // for SETI@home
+                $life = true;
+                break;
+            }
+            $n = BoincPost::count("user=$user->id");
+            if ($n) {
+                $life = true;
+                break;
+            }
+            $n = BoincHost::count("userid=$user->id");
+            if ($n) {
+                $life = true;
+                break;
+            }
+        }
+        if ($life) {
+            continue;
+        }
+
+        $count++;
+
         if ($test) {
             echo "would delete team:\n";
             echo "   ID: $team->id\n";
             echo "   name: $team->name\n";
             echo "   description: $team->description\n";
+            echo "   URL: $team->url\n";
+            foreach ($users as $user) {
+                echo "would delete user $user->id: $user->email_addr:\n";
+            }
         } else {
             $team->delete();
             echo "deleted team ID $team->id name $team->name\n";
-            if ($user) do_delete_user($user);
+            foreach ($users as $user) {
+                do_delete_user($user);
+            }
         }
     }
+    echo "deleted $count teams\n";
 }
 
 function delete_user_id($id) {
