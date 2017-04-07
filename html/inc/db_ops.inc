@@ -236,7 +236,7 @@ class SqlQueryString {
     var $query;
     var $urlquery;
 
-    function SqlQueryString() {
+    function __construct() {
         if (isset($_GET['table'])) {
             $this->table = $_GET['table'];
         } else {

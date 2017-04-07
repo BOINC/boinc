@@ -36,7 +36,7 @@ class output_options {
 
     // Constructor - set the defaults.
 
-    function output_options() {
+    function __construct() {
         $this->bb2html = 1;
         $this->images_as_links = 0;
         $this->link_popup = 0;
