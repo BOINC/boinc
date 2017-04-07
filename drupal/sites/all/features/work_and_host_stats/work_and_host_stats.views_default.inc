@@ -3130,7 +3130,7 @@ function work_and_host_stats_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo bts(\'@count days\', array(\'@count\' => round($data->host_avg_turnaround/(60*60*24), 2)), array(), NULL, \'boinc:host-details\');
+  echo bts(\'@count days\', array(\'@count\' => round($data->host_avg_turnaround/(60*60*24), 2)), NULL, \'boinc:host-details\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_17',
@@ -4965,7 +4965,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -5884,7 +5884,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -6706,7 +6706,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 1,
       'id' => 'phpcode_3',

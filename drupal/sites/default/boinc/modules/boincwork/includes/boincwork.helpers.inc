@@ -420,7 +420,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#type' => 'textfield',
         '#default_value' => $value,
         '#size' => 5,
-        '#description' => $description . bts(' Default value: @default', array('@default' => $default), array(), NULL, 'boinc:account-preferences-project')
+        '#description' => $description . bts(' Default value: @default', array('@default' => $default), NULL, 'boinc:account-preferences-project')
       );
     }
     break;
@@ -466,7 +466,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $form[$name] = array(
         '#title' => $title,
         '#type' => 'radios',
-        '#options' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
+        '#options' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
         '#description' => $description
@@ -526,7 +526,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#options' => $options,
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
-        '#description' => $description . bts(' Default value: @default', array('@default' =>$default), array(), NULL, 'boinc:account-preferences-project')
+        '#description' => $description . bts(' Default value: @default', array('@default' =>$default), NULL, 'boinc:account-preferences-project')
       );
     }
     break;
@@ -931,13 +931,13 @@ function boincwork_validate_form($validation_rules, $values, $path = array()) {
         $form_field = $field;
       }
       if (isset($rules['datatype']) AND !boincwork_validate_datatype($values[$field], $rules['datatype'])) {
-        form_set_error($form_field, bts('Invalid data type for @field', array('@field' => $field), array(), NULL, 'boinc:account-preferences'));
+        form_set_error($form_field, bts('Invalid data type for @field', array('@field' => $field), NULL, 'boinc:account-preferences'));
       }
       if (isset($rules['min']) AND $values[$field] < $rules['min']) {
-        form_set_error($form_field, bts('Minimum value not met for @field', array('@field' => $field), array(), NULL, 'boinc:account-preferences'));
+        form_set_error($form_field, bts('Minimum value not met for @field', array('@field' => $field), NULL, 'boinc:account-preferences'));
       }
       if (isset($rules['max']) AND $values[$field] > $rules['max']) {
-        form_set_error($form_field, bts('Maximum value exceeded for @field', array('@field' => $field), array(), NULL, 'boinc:account-preferences'));
+        form_set_error($form_field, bts('Maximum value exceeded for @field', array('@field' => $field), NULL, 'boinc:account-preferences'));
       }
     }
   }
@@ -1319,7 +1319,7 @@ function boincwork_views_task_list_empty_text($context = NULL) {
   $output = '';
   switch($context) {
   default:
-    $output .=  '<h2>' . bts('No @type tasks', array('@type' => $context), array(), NULL, 'boinc:task-list')
+    $output .=  '<h2>' . bts('No @type tasks', array('@type' => $context), NULL, 'boinc:task-list')
     . '</h2>';
     $output .=  '<p>' . bts('There are no tasks of this type on record', array(), NULL, 'boinc:task-list')
     . '</p>';
@@ -1345,8 +1345,8 @@ function boincwork_host_action_links($host_id) {
           'attributes' => array(
             'onclick' => 'return confirm(\'' . bts('This will delete host @id'
               . ' from your account forever. Are you sure this is OK?',
-              array('@id' => $host_id)
-            , array(), NULL, 'boinc:account-host-delete') . '\')'
+              array('@id' => $host_id),
+              NULL, 'boinc:account-host-delete') . '\')'
           )
         )
       );

@@ -31,7 +31,7 @@ function boincteam_forum_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Form elements
@@ -114,16 +114,16 @@ function boincteam_forum_create_form_validate($form, &$form_state) {
       $values['min_total_credit_to_post'] < 0) {
     form_set_error('min_total_credit_to_post',
       bts('Please set the minimum total credit that a user'
-        . ' must earn in order to post to this message board.'
-      , array(), NULL, 'boinc:team-forum-create/edit')
+        . ' must earn in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
     form_set_error('min_avg_credit_to_post',
       bts('Please set the minimum average credit that a user'
-        . ' is required to have in order to post to this message board.'
-      , array(), NULL, 'boinc:team-forum-create/edit')
+        . ' is required to have in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
 }
@@ -188,7 +188,7 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Form elements
@@ -204,7 +204,7 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
     '#type' => 'textfield',
     '#default_value' => $default['min_time_between_posts'],
     '#size' => 12,
-    '#description' => bts('seconds', array(), NULL, 'boinc:team-unit-of-time'),
+    '#description' => bts('seconds', array(), NULL, 'boinc:unit-of-time'),
   );
   $form['min_total_credit_to_post'] = array(
     '#title' => bts('Minimum total credit to post', array(), NULL, 'boinc:team-forum-create/edit'),
@@ -271,16 +271,16 @@ function boincteam_forum_edit_form_validate($form, &$form_state) {
       $values['min_total_credit_to_post'] < 0) {
     form_set_error('min_total_credit_to_post',
       bts('Please set the minimum total credit that a user'
-        . ' must earn in order to post to this message board.'
-      , array(), NULL, 'boinc:team-forum-create/edit')
+        . ' must earn in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
     form_set_error('min_avg_credit_to_post', 
       bts('Please set the minimum average credit that a user'
-        . ' is required to have in order to post to this message board.'
-      , array(), NULL, 'boinc:team-forum-create/edit')
+        . ' is required to have in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
 }

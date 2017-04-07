@@ -29,7 +29,7 @@ function boincteam_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Vocabulary based option sets
@@ -86,7 +86,7 @@ function boincteam_create_form(&$form_state) {
     '#default_value' => $default['type'],
   );
   $form['country'] = array(
-    '#title' => bts('Country', array(), NULL, 'boinc:team-country'),
+    '#title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
@@ -282,7 +282,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Vocabulary based option sets
@@ -328,7 +328,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
     '#disabled' => $is_boinc_wide,
   );
   $form['website'] = array(
-    '#title' => bts('Team website (optional)', array(), NULL, 'boinc:beam-edit'),
+    '#title' => bts('Team website (optional)', array(), NULL, 'boinc:team-edit'),
     '#type' => 'textfield',
     '#default_value' => $default['website'],
     '#size' => 34,
@@ -343,7 +343,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
     '#disabled' => $is_boinc_wide,
   );
   $form['country'] = array(
-    '#title' => bts('Country', array(), NULL, 'boinc:team-country'),
+    '#title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
@@ -375,7 +375,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
     $form['submit'] = array(
       '#prefix' => '<li class="first tab">',
       '#type' => 'submit',
-      '#value' => bts('Save changes', array(), NULL, 'boinc:team-save'),
+      '#value' => bts('Save changes', array(), NULL, 'boinc:form-save'),
       '#suffix' => '</li>',
     );
     $form['form control tabs'] = array(
@@ -390,10 +390,10 @@ function boincteam_edit_form(&$form_state, $team_id) {
     );
     drupal_set_message(
       bts('This is a BOINC-wide team. Changes can be made at the !site.',
-        array('!site' => l(bts('BOINC-wide teams site'),
+        array('!site' => l(bts('BOINC-wide teams site', array(), NULL, 'boinc:link-to-BOINC-wide-teams-Website'),
           'http://boinc.berkeley.edu/teams/'
-        , array(), NULL, 'boinc:link-to-BOINC-wide-teams-Website'))
-      , array(), NULL, 'boinc:team-edit-warning-message'),
+        )),
+        NULL, 'boinc:team-edit-warning-message'),
       'warning');
   }
   
@@ -569,16 +569,16 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
-        )
-      , array(), NULL, 'boinc:team-add-admin'));
+        ),
+        NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_admin($team_id, $account->uid)) {
       form_set_error('email', bts('@user is already an admin of @team.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
-        )
-      , array(), NULL, 'boinc:team-add-admin'));
+        ),
+        NULL, 'boinc:team-add-admin'));
     }
     else {
       $form_state['storage']['boincuser_id'] = $account->boincuser_id;

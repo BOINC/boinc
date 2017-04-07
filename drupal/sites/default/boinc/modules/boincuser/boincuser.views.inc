@@ -34,7 +34,7 @@ function boincuser_views_data() {
   // Primary keys allowed as arguments
   
   $data['user']['id'] = array(
-    'title' => bts('Id', array(), NULL, 'boinc:user-info'),
+    'title' => bts('Id', array(), NULL, 'boinc:user-id'),
     'help' => t('The BOINC ID of the user account.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -54,7 +54,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['teamid'] = array(
-    'title' => bts('Team ID', array(), NULL, 'boinc:user-info'),
+    'title' => bts('Team ID', array(), NULL, 'boinc:team-id'),
     'help' => t('The ID of the user\'s team.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -91,7 +91,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['country'] = array(
-    'title' => bts('Country', array(), NULL, 'boinc:user-info'),
+    'title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     'help' => t('The country of the user.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -147,7 +147,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['expavg_credit'] = array(
-    'title' => bts('Recent average credit', array(), NULL, 'boinc:user-info'),
+    'title' => bts('Recent average credit', array(), NULL, 'boinc:user-or-team-RAC'),
     'help' => t('A decaying average of credit per day for the user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -247,7 +247,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['url'] = array(
-    'title' => bts('URL', array(), NULL, 'boinc:user-info'),
+    'title' => bts('URL', array(), NULL, 'boinc:website-of-user-or-team'),
     'help' => t('The URL provided by the user'),
     'field' => array(
       'handler' => 'views_handler_field',

@@ -131,16 +131,16 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="value"><?php print $name; ?></span>
     </div>
     <div class="join-date">
-      <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-profile'); ?>:</span>
+      <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-info'); ?>:</span>
       <span class="value"><?php print $join_date; ?></span>
     </div>
     <div class="country">
-      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:user-info'); ?>:</span>
+      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
       <span class="value"><?php print $country; ?></span>
     </div>
     <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
       <div class="website">
-        <span class="label"><?php print bts('Website', array(), NULL, 'boinc:user-profile'); ?>:</span>
+        <span class="label"><?php print bts('Website', array(), NULL, 'boinc:website-of-user-of-team'); ?>:</span>
         <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
       </div>
     <?php endif; ?>
@@ -165,7 +165,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     <div class="bio">
       <?php if (!$profile_is_approved): ?>
         <div class="messages warning">
-          <?php print bts('Profile awaiting moderator approval', array(), NULL, 'boinc:user-profile::message-shown-when-awating-moderation'); ?>
+          <?php print bts('Profile awaiting moderator approval', array(), NULL, 'boinc:user-profile:-1:message-shown-when-awating-moderation'); ?>
         </div>
       <?php endif; ?>
       <?php if ($profile_is_approved OR $user_is_moderator OR $is_own_profile): ?>

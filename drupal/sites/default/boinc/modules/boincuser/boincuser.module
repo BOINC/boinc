@@ -92,7 +92,7 @@ function boincuser_menu() {
     'weight' => 5
   );
   $items['moderate/user/%/ban'] = array(
-    'title' => bts('Ban user', array(), NULL, 'boinc:moderate-user'),
+    'title' => bts('Ban user', array(), NULL, 'boinc:moderate-ban-user'),
     'description' => 'Ban a user from using community features',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_moderate_user_ban_form', 2),
@@ -302,7 +302,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           // Information being checked before adding a user
           if (!boincuser_register_validate($edit)) {
             // BOINC user validation failed for registration; set an error accordingly
-            form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), array(), NULL, 'boinc:add-new-user'));
+            form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
           }
           else {
             // Save profile information for use during Insert
@@ -689,12 +689,12 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     array_unshift($form, array(
       'email' => array(
         '#type' => 'textfield',
-        '#title' => bts('Email address', array(), NULL, 'boinc:standard-login-page'),
+        '#title' => bts('Email address', array(), NULL, 'boinc:email-address-to-login'),
         '#size' => ($form_id == 'user_login_block') ? 15 : 60,
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,
         '#attributes' => array('tabindex' => '1'),
-        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'Drupal-BOINC')), array(), NULL, 'boinc:standard-login-page')
+        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:standard-login-page')
       ),
       'validation_source' => array(
         '#type' => 'hidden',
@@ -989,7 +989,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     array_unshift($form, array(
       'name' => array(
         '#type' => 'textfield',
-        '#title' => bts('Email address', array(), NULL, 'boinc:forgot-password'),
+        '#title' => bts('Email address', array(), NULL, 'boinc:email-address-to-login'),
         '#size' => 60,
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,
@@ -1001,7 +1001,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
               'user/login/auth'
             )
           )
-        , array(), NULL, 'boinc:forgot-password'),
+        , NULL, 'boinc:forgot-password'),
       ),
     ));
     

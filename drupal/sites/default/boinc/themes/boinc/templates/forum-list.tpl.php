@@ -76,7 +76,7 @@
   <?php if (module_exists('boincteam_forum')
       AND $team_forums = boincteam_forum_list()): ?>
       <tr class="heading">
-        <td class="primary"><div class="name"><?php echo bts('Team', array(), NULL, 'boinc:team-forum'); ?></div></td>
+        <td class="primary"><div class="name"><?php echo bts('Team', array(), NULL, 'boinc:team-dashboard'); ?></div></td>
         <td><?php print bts('Threads', array(), NULL, 'boinc:forum-column');?></td>
         <td><?php print bts('Posts', array(), NULL, 'boinc:forum-column'); ?></td>
         <td><?php print bts('Last post', array(), NULL, 'boinc:forum-column'); ?></td>

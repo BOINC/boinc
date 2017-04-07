@@ -413,8 +413,8 @@ function boincteam_show_messages() {
           drupal_set_message(
             bts(
               'A foundership transfer request has been made for your team. Please !respond.',
-              array('!respond' => l(bts('respond to the request', array(), NULL, 'boinc:team-founder-change'), $foundership_url))
-            , array(), NULL, 'boinc:team-founder-change'),
+              array('!respond' => l(bts('respond to the request', array(), NULL, 'boinc:team-founder-change'), $foundership_url)),
+              NULL, 'boinc:team-founder-change'),
             'warning', FALSE
           );
         }
@@ -851,11 +851,11 @@ function boincteam_dashboard_panel($uid = NULL) {
     $output .= '  <span>' . l($team->name, "community/teams/{$account->team}") . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
-    $output .= '  <label>' . bts('Member since', array(), NULL, 'boinc:team-dashboard') . ': </label>';
+    $output .= '  <label>' . bts('Member since', array(), NULL, 'boinc:user-info') . ': </label>';
     $output .= '  <span>' . date('j F Y', boincteam_get_member_join_date($team->id, $account->boincuser_id)) . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
-    $output .= '  <label>' . bts('Country', array(), NULL, 'boinc:team-country') . ': </label>';
+    $output .= '  <label>' . bts('Country', array(), NULL, 'boinc:country-of-origin') . ': </label>';
     $output .= '  <span>' . $team->country . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
@@ -989,7 +989,7 @@ function boincteam_management_panel($team_id) {
   $output .= '<div class="form-item">';
   $output .= '  <ul class="tab-list action-list">';
   $output .= '    <li class="first tab primary">' . 
-    l(bts('Remove members', array(), NULL, 'boinc:team-manage'), "community/teams/{$team_id}/edit/members") . '</li>';
+    l(bts('Remove members', array(), NULL, 'boinc:team-admin-panel'), "community/teams/{$team_id}/edit/members") . '</li>';
   
   if ($is_founder) {
     
@@ -1064,8 +1064,8 @@ function boincteam_request_foundership_panel($team_id) {
       else {
         $output .= bts('@count days have elapsed since your request and'
           . ' the founder has not responded.',
-          array('@count' => $request_age)
-        , array(), NULL, 'boinc:team-request-foundership');
+          array('@count' => $request_age),
+          NULL, 'boinc:team-request-foundership');
       }
       $output .= ' ';
       if ($days_to_respond == 1) {
@@ -1075,8 +1075,8 @@ function boincteam_request_foundership_panel($team_id) {
       else {
         $output .= bts('You now have @count days to assume foundership before'
           . ' another team member may submit a request.',
-          array('@count' => $days_to_respond)
-        , array(), NULL, 'boinc:team-request-foundership');
+          array('@count' => $days_to_respond),
+          NULL, 'boinc:team-request-foundership');
       }
       $output .= '</p>';
       $output .= '<ul class="tab-list">';
@@ -1088,13 +1088,13 @@ function boincteam_request_foundership_panel($team_id) {
       $output .= '<p>';
       if ($days_to_deadline == 1) {
         $output .= bts('The team founder has 1 day to respond to your'
-          . ' transfer request.'
-        , array(), NULL, 'boinc:team-request-foundership');
+          . ' transfer request.',
+          NULL, 'boinc:team-request-foundership');
       }
       else {
         $output .= bts('The team founder has @count days to respond to your'
-          . ' transfer request.', array('@count' => $days_to_deadline)
-        , array(), NULL, 'boinc:team-request-foundership');
+          . ' transfer request.', array('@count' => $days_to_deadline),
+          NULL, 'boinc:team-request-foundership');
       }
       $output .= '</p>';
     }
@@ -1108,15 +1108,15 @@ function boincteam_request_foundership_panel($team_id) {
     $days_to_deadline = ceil(($deadline - time()) / (24*60*60)) + 30;
     $output .= '<p>';
     $output .= bts('A team foundership change was already requested recently.'
-      . ' Only one request is allowed within a period of 90 days.'
-    , array(), NULL, 'boinc:team-request-foundership');
+      . ' Only one request is allowed within a period of 90 days.',
+      NULL, 'boinc:team-request-foundership');
     if ($days_to_deadline == 1) {
       $output .= ' (' . bts('1 day remaining', array(), NULL, 'boinc:team-request-foundership') . ')';
     }
     else {
       $output .= ' (' . bts('@count days remaining',
-        array('@count' => $days_to_deadline)
-      , array(), NULL, 'boinc:team-request-foundership') . ')';
+        array('@count' => $days_to_deadline),
+        NULL, 'boinc:team-request-foundership') . ')';
     }
     $output .= '</p>';
   }
@@ -1124,7 +1124,7 @@ function boincteam_request_foundership_panel($team_id) {
     $output .= '<p>' . bts('If the team founder is not active and you want to'
       . ' assume the role of founder, click below to request foundership of'
       . ' @this_team.',
-      array('@this_team' =>$team->title), array(), NULL, 'boinc:team-request-foundership') . '</p>';
+      array('@this_team' =>$team->title), NULL, 'boinc:team-request-foundership') . '</p>';
     $output .= '<ul class="tab-list">';
     $output .= '  <li class="first last tab">' . 
       l(bts('Initiate request', array(), NULL, 'boinc:team-request-foundership'), "community/teams/{$team_id}/request-foundership") . '</li>';
@@ -1155,8 +1155,8 @@ function boincteam_request_foundership_response_panel($team_id) {
         array(
           '@name' => $member->boincuser_name,
           '@date' => date('j M Y', $boincteam->ping_time),
-        )
-      , array(), NULL, 'boinc:team-request-foundership-response') . '</p>';
+        ),
+        NULL, 'boinc:team-request-foundership-response') . '</p>';
       // Automatically cancel the request
       db_set_active('boinc');
       db_query("
@@ -1184,8 +1184,8 @@ function boincteam_request_foundership_response_panel($team_id) {
         array(
           '@name' => $member->boincuser_name,
           '@date' => date('j M Y', boincteam_foundership_transfer_ok_time($boincteam)),
-        )
-      , array(), NULL, 'boinc:team-request-foundership-response') . '</p>';
+        ),
+        NULL, 'boinc:team-request-foundership-response') . '</p>';
       $output .= '<ul class="tab-list">';
       $output .= '  <li class="first last tab">' . 
         l(bts('Deny request', array(), NULL, 'boinc:team-request-foundership-response'), "community/teams/{$team_id}/deny-foundership-request") . '</li>';
@@ -1279,14 +1279,14 @@ function boincteam_view_team_panel($team_id) {
   $output .= '<div class="left-column">';
   $output .= '<ul class="stats">';
   $output .= '  <li>' . bts('Total credits', array(), NULL, 'boinc:view-team-info') . ': ' . number_format($boincteam->total_credit, 2) . '</li>';
-  $output .= '  <li>' . bts('Recent avg credits', array(), NULL, 'boinc:view-team-info') . ': ' . number_format($boincteam->expavg_credit, 2) . '</li>';
-  $output .= '  <li>' . bts('Country', array(), NULL, 'boinc:team-country') . ': ' . $boincteam->country . '</li>';
+  $output .= '  <li>' . bts('Recent average credit', array(), NULL, 'boinc:user-or-team-RAC') . ': ' . number_format($boincteam->expavg_credit, 2) . '</li>';
+  $output .= '  <li>' . bts('Country', array(), NULL, 'boinc:country-of-origin') . ': ' . $boincteam->country . '</li>';
   $output .= '  <li>' . bts('Type', array(), NULL, 'boinc:view-team-info') . ': ' . boincteam_get_type($team_id) . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   $output .= '<div class="right-column">';
   $output .= '<ul class="stats">';
-  $output .= '  <li>' . bts('Founder', array(), NULL, 'boinc:view-team-info::team-founder') . ': ' . l($founder->boincuser_name, "account/{$founder->uid}") . '</li>';
+  $output .= '  <li>' . bts('Founder', array(), NULL, 'boinc:view-team-info') . ': ' . l($founder->boincuser_name, "account/{$founder->uid}") . '</li>';
   $output .= '  <li>' . bts('New members in last day', array(), NULL, 'boinc:view-team-info') . ': ' . implode('&middot;', $new_members) . '</li>';
   $output .= '  <li>' . bts('Total members', array(), NULL, 'boinc:view-team-info') . ': ' . l($boincteam->nusers, "community/teams/{$team_id}/members") . '</li>';
   $output .= '  <li>' . bts('Active members', array(), NULL, 'boinc:view-team-info') . ': ' . $boincteam->nusers_active . '</li>';
@@ -1297,11 +1297,11 @@ function boincteam_view_team_panel($team_id) {
   $output .= '<div class="clearfix"></div>';
   if ($boincteam->url) {
     $output .= '<div class="stats">';
-    $output .= bts('Web site', array(), NULL, 'boinc:view-team-info::team-Website') . ': ' . l("http://{$boincteam->url}", "http://{$boincteam->url}");
+    $output .= bts('Website', array(), NULL, 'boinc:website-of-user-or-team') . ': ' . l("http://{$boincteam->url}", "http://{$boincteam->url}");
     $output .= '</div>';
   }
   if ($team->body) {
-    $output .= '<h3>' . bts('Description', array(), NULL, 'boinc:view-team-info::team-description') . '</h3>';
+    $output .= '<h3>' . bts('Description', array(), NULL, 'boinc:team-description') . '</h3>';
     $output .= check_markup($team->body, $team->format);
     $output .= '</div>';
   }

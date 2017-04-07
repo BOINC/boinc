@@ -137,7 +137,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
   $form['hour_options'] = array(
     '#type' => 'value',
@@ -178,7 +178,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   
   // Simplified selectors
   $form['prefs']['preset'] = array(
-      '#title' => bts('Presets', array(), NULL, 'boinc:account-preferences-preset::for a user to choose a computing or project preference preset.'),
+      '#title' => bts('Presets', array(), NULL, 'boinc:account-preferences-preset:-1:for a user to choose a computing or project preference preset.'),
     '#type' => 'radios',
     '#description' => ' ',
     '#options' => array(
@@ -567,33 +567,33 @@ function boincwork_generalprefs_form_validate($form, &$form_state) {
   // Verify all non-boolean user input values and notify form API of failures
   
   // Processing preferences
-  if (!verify_numeric($values['processor']['idle_time_to_run'], 1, 9999)) form_set_error('idle_time_to_run', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['idle_time_to_run']['#title']} [x] {$form['prefs']['advanced']['processor']['idle_time_to_run']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['suspend_if_no_recent_input'], 0, 9999)) form_set_error('suspend_if_no_recent_input', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['suspend_if_no_recent_input']['#title']} [x] {$form['prefs']['advanced']['processor']['suspend_if_no_recent_input']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['suspend_cpu_usage'], 0, 100)) form_set_error('suspend_cpu_usage', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['suspend_cpu_usage']['#title']} [x] {$form['prefs']['advanced']['processor']['suspend_cpu_usage']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['start_hour'], 0, 23)) form_set_error('start_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['start_hour']['#title']} [x] {$form['prefs']['advanced']['processor']['start_hour']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['end_hour'], 0, 23)) form_set_error('end_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['end_hour']['#title']} [x] {$form['prefs']['advanced']['processor']['end_hour']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['cpu_scheduling_period_minutes'], 1, 9999)) form_set_error('cpu_scheduling_period_minutes', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes']['#title']} [x] {$form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['max_ncpus_pct'], 0, 100)) form_set_error('max_ncpus_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['max_ncpus_pct']['#title']} [x] {$form['prefs']['advanced']['processor']['max_ncpus_pct']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['processor']['cpu_usage_limit'], 0, 100)) form_set_error('cpu_usage_limit', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['cpu_usage_limit']['#title']} [x] {$form['prefs']['advanced']['processor']['cpu_usage_limit']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['idle_time_to_run'], 1, 9999)) form_set_error('idle_time_to_run', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['idle_time_to_run']['#title']} [x] {$form['prefs']['advanced']['processor']['idle_time_to_run']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['suspend_if_no_recent_input'], 0, 9999)) form_set_error('suspend_if_no_recent_input', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['suspend_if_no_recent_input']['#title']} [x] {$form['prefs']['advanced']['processor']['suspend_if_no_recent_input']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['suspend_cpu_usage'], 0, 100)) form_set_error('suspend_cpu_usage', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['suspend_cpu_usage']['#title']} [x] {$form['prefs']['advanced']['processor']['suspend_cpu_usage']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['start_hour'], 0, 23)) form_set_error('start_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['start_hour']['#title']} [x] {$form['prefs']['advanced']['processor']['start_hour']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['end_hour'], 0, 23)) form_set_error('end_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['end_hour']['#title']} [x] {$form['prefs']['advanced']['processor']['end_hour']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['cpu_scheduling_period_minutes'], 1, 9999)) form_set_error('cpu_scheduling_period_minutes', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes']['#title']} [x] {$form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['max_ncpus_pct'], 0, 100)) form_set_error('max_ncpus_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['max_ncpus_pct']['#title']} [x] {$form['prefs']['advanced']['processor']['max_ncpus_pct']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['processor']['cpu_usage_limit'], 0, 100)) form_set_error('cpu_usage_limit', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['cpu_usage_limit']['#title']} [x] {$form['prefs']['advanced']['processor']['cpu_usage_limit']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
 
   // Storage preferences
-  if (!verify_numeric($values['storage']['disk_max_used_gb'], 0, 9999999)) form_set_error('disk_max_used_gb', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_max_used_gb']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_max_used_gb']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['storage']['disk_min_free_gb'], 0.001, 9999999)) form_set_error('disk_min_free_gb', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_min_free_gb']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_min_free_gb']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['storage']['disk_max_used_pct'], 0, 100)) form_set_error('disk_max_used_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_max_used_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_max_used_pct']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['storage']['disk_interval'], 0, 9999999)) form_set_error('disk_interval', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_interval']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_interval']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['storage']['vm_max_used_pct'], 0, 100)) form_set_error('vm_max_used_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['vm_max_used_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['vm_max_used_pct']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['storage']['ram_max_used_busy_pct'], 0, 100)) form_set_error('ram_max_used_busy_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['ram_max_used_busy_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['ram_max_used_busy_pct']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['storage']['ram_max_used_idle_pct'], 0, 100)) form_set_error('ram_max_used_idle_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['ram_max_used_idle_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['ram_max_used_idle_pct']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['disk_max_used_gb'], 0, 9999999)) form_set_error('disk_max_used_gb', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_max_used_gb']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_max_used_gb']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['disk_min_free_gb'], 0.001, 9999999)) form_set_error('disk_min_free_gb', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_min_free_gb']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_min_free_gb']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['disk_max_used_pct'], 0, 100)) form_set_error('disk_max_used_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_max_used_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_max_used_pct']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['disk_interval'], 0, 9999999)) form_set_error('disk_interval', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['disk_interval']['#title']} [x] {$form['prefs']['advanced']['storage']['disk_interval']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['vm_max_used_pct'], 0, 100)) form_set_error('vm_max_used_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['vm_max_used_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['vm_max_used_pct']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['ram_max_used_busy_pct'], 0, 100)) form_set_error('ram_max_used_busy_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['ram_max_used_busy_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['ram_max_used_busy_pct']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['storage']['ram_max_used_idle_pct'], 0, 100)) form_set_error('ram_max_used_idle_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['storage']['ram_max_used_idle_pct']['#title']} [x] {$form['prefs']['advanced']['storage']['ram_max_used_idle_pct']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
 
   // Network preferences
-  if (!verify_numeric($values['network']['work_buf_min_days'], 0, 10)) form_set_error('work_buf_min_days', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['work_buf_min_days']['#title']} [x] {$form['prefs']['advanced']['network']['work_buf_min_days']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['work_buf_additional_days'], 0, 10)) form_set_error('work_buf_additional_days', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['work_buf_additional_days']['#title']} [x] {$form['prefs']['advanced']['network']['work_buf_additional_days']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['max_bytes_sec_down'], 0, 9999.999)) form_set_error('max_bytes_sec_down', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['max_bytes_sec_down']['#title']} [x] {$form['prefs']['advanced']['network']['max_bytes_sec_down']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['max_bytes_sec_up'], 0, 9999.999)) form_set_error('max_bytes_sec_up', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['max_bytes_sec_up']['#title']} [x] {$form['prefs']['advanced']['network']['max_bytes_sec_up']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['net_start_hour'], 0, 23)) form_set_error('net_start_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['net_start_hour']['#title']} [x] {$form['prefs']['advanced']['network']['net_start_hour']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['net_end_hour'], 0, 23)) form_set_error('net_end_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['net_end_hour']['#title']} [x] {$form['prefs']['advanced']['network']['net_end_hour']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['daily_xfer_limit_mb'], 0, 9999999)) form_set_error('daily_xfer_limit_mb', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#title']} [x] {$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
-  if (!verify_numeric($values['network']['daily_xfer_period_days'], 0, 9999999)) form_set_error('daily_xfer_period_days', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#title']} [x] {$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#field_suffix']}"), array(), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['work_buf_min_days'], 0, 10)) form_set_error('work_buf_min_days', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['work_buf_min_days']['#title']} [x] {$form['prefs']['advanced']['network']['work_buf_min_days']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['work_buf_additional_days'], 0, 10)) form_set_error('work_buf_additional_days', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['work_buf_additional_days']['#title']} [x] {$form['prefs']['advanced']['network']['work_buf_additional_days']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['max_bytes_sec_down'], 0, 9999.999)) form_set_error('max_bytes_sec_down', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['max_bytes_sec_down']['#title']} [x] {$form['prefs']['advanced']['network']['max_bytes_sec_down']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['max_bytes_sec_up'], 0, 9999.999)) form_set_error('max_bytes_sec_up', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['max_bytes_sec_up']['#title']} [x] {$form['prefs']['advanced']['network']['max_bytes_sec_up']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['net_start_hour'], 0, 23)) form_set_error('net_start_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['net_start_hour']['#title']} [x] {$form['prefs']['advanced']['network']['net_start_hour']['#field_suffix']}"), NULL, 'boinc:account-prefrences-computing'));
+  if (!verify_numeric($values['network']['net_end_hour'], 0, 23)) form_set_error('net_end_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['net_end_hour']['#title']} [x] {$form['prefs']['advanced']['network']['net_end_hour']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['daily_xfer_limit_mb'], 0, 9999999)) form_set_error('daily_xfer_limit_mb', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#title']} [x] {$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
+  if (!verify_numeric($values['network']['daily_xfer_period_days'], 0, 9999999)) form_set_error('daily_xfer_period_days', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#title']} [x] {$form['prefs']['advanced']['network']['daily_xfer_limit_mb']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
 }
 
 /**
@@ -863,8 +863,8 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
           '@date' => date('j M Y', $current_host->create_time),
           '@time' => date('H:i:s T', $current_host->create_time),
           '@id' => $current_host->id,
-        )
-      , array(), NULL, 'boinc:account-host-merge') . '</p>',
+        ),
+        NULL, 'boinc:account-host-merge') . '</p>',
   );
   
   $options = array();
@@ -954,8 +954,8 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
         array(
           '@old_id' => $list,
           '@id' => $current_host_id
-        )
-      , array(), NULL, 'boinc:account-host-merge'));
+        ),
+        NULL, 'boinc:account-host-merge'));
     }
     else {
       drupal_set_message(bts(
@@ -963,8 +963,8 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
         array(
           '@old_ids' => $list,
           '@id' => $current_host_id
-        )
-      , array(), NULL, 'boinc:account-host-merge'));
+        ),
+        NULL, 'boinc:account-host-merge'));
     }
   }
   
@@ -976,8 +976,8 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
           array(
             '@old_id' => $id,
             '@message' => $error,
-          )
-        , array(), NULL, 'boinc:account-host-merge'),
+          ),
+          NULL, 'boinc:account-host-merge'),
         'warning'
       );
     }
@@ -1051,7 +1051,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
   
   // Identify preference sets that are established to distinguish what has been
@@ -1391,7 +1391,7 @@ function communityprefs_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
   
   $default = array(
@@ -1455,7 +1455,7 @@ function communityprefs_form(&$form_state) {
     '#type' => 'radios',
     '#title' => bts('Receive email notification for friend requests?', array(), NULL, 'boinc:account-preferences-community'),
     '#description' => ' ',
-    '#options' => array(0 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), -1 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes')),
+    '#options' => array(0 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), -1 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['friend_notification']
   );
@@ -1492,13 +1492,13 @@ function communityprefs_form(&$form_state) {
   // Avatar options
   $form['gravatar'] = array(
     '#type' => 'item',
-    '#value' => bts('If you have a <a href="@gravatar-check">valid Gravatar</a> associated with your e-mail address, it will be used for your user picture.', array('@gravatar-check' => 'http://en.gravatar.com/site/check/' . $account->mail), array(), NULL, 'boinc:account-preferences-community'),
+    '#value' => bts('If you have a <a href="@gravatar-check">valid Gravatar</a> associated with your e-mail address, it will be used for your user picture.', array('@gravatar-check' => 'http://en.gravatar.com/site/check/' . $account->mail), NULL, 'boinc:account-preferences-community'),
     '#description' => bts('Your Gravatar will not be shown if you upload a user picture.', array(), NULL, 'boinc:account-preferences-community'),
   );
   if (user_access('disable own gravatar', $account)) {
     $form['gravatar'] = array(
       '#type' => 'checkbox',
-      '#title' => bts('If you have a <a href="@gravatar-check">valid Gravatar</a> associated with your e-mail address, use it for your user picture.', array('@gravatar-check' => 'http://en.gravatar.com/site/check/' . $account->mail), array(), NULL, 'boinc:account-preferences-community'),
+      '#title' => bts('If you have a <a href="@gravatar-check">valid Gravatar</a> associated with your e-mail address, use it for your user picture.', array('@gravatar-check' => 'http://en.gravatar.com/site/check/' . $account->mail), NULL, 'boinc:account-preferences-community'),
       '#description' => bts('Gravatar will not be shown if an avatar is uploaded.', array(), NULL, 'boinc:account-preferences-community'),
       '#default_value' => isset($account->gravatar) ? $account->gravatar : 0,
       '#disabled' => !empty($account->picture),
@@ -1534,7 +1534,7 @@ function communityprefs_form(&$form_state) {
   );
   $form['forums']['comments_per_page'] = array(
     '#type' => 'select',
-    '#title' => bts('In discussion topics, show at most @comments_per_page', array('@comments_per_page' => ''), array(), NULL, 'boinc:account-preferences-community'),
+    '#title' => bts('In discussion topics, show at most @comments_per_page', array('@comments_per_page' => ''), NULL, 'boinc:account-preferences-community'),
     '#options' => array(10 => 10, 20 => 20, 30 => 30, 50 => 50, 100 => 100),
     '#default_value' => $default['comments_per_page']
   );
@@ -1582,11 +1582,13 @@ function communityprefs_form(&$form_state) {
 	. bts('Ignore Users in forums:', array(), NULL, 'boinc:account-preferences-community')
 	. '</label>'
         . bts('<a href="@ignore-user-list">View/Edit</a> your ignored users list.',
-	  array(
-	    '@ignore-user-list' => url('ignore_user/list'),
-	    array('attributes' => array('class' => 'form-link'))
-	  )
-    , array(), NULL, 'boinc:account-preferences-community')
+	    array(
+	      '@ignore-user-list' => url('ignore_user/list'),
+	      array(
+            'attributes' => array('class' => 'form-link')
+          )
+	    ),
+        NULL, 'boinc:account-preferences-community')
 	. '</div>',
     );
   }//endif module_exists('ignore_user')
@@ -1707,7 +1709,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no::binary-form-option-pairs-with-yes'))
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
   
   $form['privacy'] = array(
@@ -1718,14 +1720,14 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#collapsed' => FALSE
   );
   $form['privacy']['send_email'] = array(
-    '#title' => bts('Is it OK for @project and your team (if any) to email you?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), array(), NULL, 'boinc:account-preferences-privacy'),
+    '#title' => bts('Is it OK for @project and your team (if any) to email you?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['privacy']['send_email']
   );
   $form['privacy']['show_hosts'] = array(
-    '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), array(), NULL, 'boinc:account-preferences-privacy'),
+    '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),

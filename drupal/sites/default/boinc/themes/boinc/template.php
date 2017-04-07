@@ -91,7 +91,7 @@ function boinc_links__system_main_menu($links, $menu, $element) {
     if ($i == $item_count) $classes[] = 'last';
     $html .= '<li class="' . implode(' ', $classes) .'">';
     if ($link['title'] == 'Home') {
-      $link['title'] = bts('Home', array(), NULL, 'boinc:menu-bar');
+      $link['title'] = bts('Home', array(), NULL, 'boinc:menu-link');
     }
     if (module_exists('privatemsg')) {
       // Put a new mail notification next to the Account menu item
@@ -624,14 +624,14 @@ Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
         '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email::a-private-message') . ': ' . $flag->friend_message : '',
+        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
         ), array(), NULL, 'boinc:friend-request-email');
       break;
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')), array(), NULL, 'boinc:friend-request-email');
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
@@ -643,7 +643,7 @@ Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
         '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email::a-private-message') . ': ' . $flag->friend_message : '',
+        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
         ),
       array(), NULL, 'boinc:friend-request-email');

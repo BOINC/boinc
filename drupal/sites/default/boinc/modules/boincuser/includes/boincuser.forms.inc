@@ -348,7 +348,7 @@ function boincuser_account_validate($edit, $account) {
     // E-mail address is set to change; check for an existing BOINC user
     $boinc_user_already_exists = BoincUser::lookup_email_addr($edit['mail']);
     if ($boinc_user_already_exists) {
-      form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail']), array(), NULL, 'boinc:add-new-user'));
+      form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail']), NULL, 'boinc:add-new-user'));
     }
   }
 
@@ -394,7 +394,7 @@ function boincuser_request_pass_validate($form, &$form_state) {
   // The Drupal submit function expects a "name" field, even though
   // it contains an email address and we will not allow a user name
   if (!$edit['name']) form_set_error('name', bts('Please enter your email address', array(), NULL, 'boinc:forgot-password'));
-  elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name']), array(), NULL, 'boinc:forgot-password'));
+  elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name']), NULL, 'boinc:forgot-password'));
   else {
     // First look for an existing Drupal account
     if ($account = user_load_by_mail($edit['name'])) return;
@@ -406,7 +406,7 @@ function boincuser_request_pass_validate($form, &$form_state) {
       boincuser_register_make_drupal_user($boinc_user);
     } else {
       // If there is no existing BOINC user either, show an error
-      form_set_error('name', bts('No account exists for @email -- select "Create new account" to register', array('@email' => $edit['name']), array(), NULL, 'boinc:forgot-password'));
+      form_set_error('name', bts('No account exists for @email -- select "Create new account" to register', array('@email' => $edit['name']), NULL, 'boinc:forgot-password'));
     }
   }
 }
@@ -427,8 +427,8 @@ function boincuser_authloginform() {
     '#value' => '' .
       '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:", array(), NULL, 'boinc:authenticator-login-page') .
       '  <ul>' .
-      '    <li>' . bts('Go to the BOINC data directory on your computer (see !boinc_wiki for help finding this).', array('!boinc_wiki' => l(bts('BOINC documentation', array(), NULL, 'boinc:authenticator-login-page'), 'http://boinc.berkeley.edu/wiki/BOINC_Data_directory')), array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
-      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => "account_{$project_domain}.xml", '%url' => "http://{$project_domain}"), array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts('Go to the BOINC data directory on your computer (see !boinc_wiki for help finding this).', array('!boinc_wiki' => l(bts('BOINC documentation', array(), NULL, 'boinc:authenticator-login-page'), 'http://boinc.berkeley.edu/wiki/BOINC_Data_directory')), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => "account_{$project_domain}.xml", '%url' => "http://{$project_domain}"), NULL, 'boinc:authenticator-login-page') . '</li>' .
       '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:", array(), NULL, 'boinc:authenticator-login-page') .
       '      <pre>' .
       '&lt;account&gt;' . "\n" .
@@ -439,7 +439,7 @@ function boincuser_authloginform() {
       '&lt;/account&gt;' .
       '      </pre>' .
       '    </li>' .
-      '    <li>' . bts('Select and Copy the string between &lt;authenticator&gt; and &lt;/authenticator&gt; (%auth in the above example).', array('%auth' => '8b8496fdd26df7dc0423ecd43c09a56b'), array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
+      '    <li>' . bts('Select and Copy the string between &lt;authenticator&gt; and &lt;/authenticator&gt; (%auth in the above example).', array('%auth' => '8b8496fdd26df7dc0423ecd43c09a56b'), NULL, 'boinc:authenticator-login-page') . '</li>' .
       '    <li>' . bts('Paste the string into the field below, and click OK.', array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
       '    <li>' . bts('You will now be logged in to your account; update the email and password of your account.', array(), NULL, 'boinc:authenticator-login-page') . '</li>' .
       '  </ul>' .

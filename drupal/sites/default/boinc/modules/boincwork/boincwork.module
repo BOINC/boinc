@@ -248,7 +248,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
 
     $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.', array(), NULL, 'boinc:account-preferences-computing') . '<br/>';
     $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.', array(), NULL, 'boinc:account-preferences-computing') . '</p>';
-    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value'])), array(), NULL, 'boinc:account-preferences-computing') . '</p>';
+    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value'])), NULL, 'boinc:account-preferences-computing') . '</p>';
     $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table class="preferences combined">';
@@ -391,8 +391,8 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     if (!$current_set['#established']) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
-          array( '@venue' => $venue, )
-          , array(), NULL, 'boinc:account-preferences-computing'), 'status');
+          array( '@venue' => $venue, ),
+          NULL, 'boinc:account-preferences-computing'), 'status');
     }
     
     break;
@@ -523,7 +523,7 @@ function projectprefs_page($action = null, $venue = null) {
     // Set this preference set as the one to use for any new hosts attached
     // to the user account
     boincwork_set_default_venue($venue);
-    drupal_set_message( bts('The primary preference set has been changed to "@set"', array('@set' => $venue), array(), NULL, 'boinc:account-preferences-project') );
+    drupal_set_message( bts('The primary preference set has been changed to "@set"', array('@set' => $venue), NULL, 'boinc:account-preferences-project') );
     drupal_goto('account/prefs/project/combined');
     break;
     
@@ -563,8 +563,8 @@ function projectprefs_page($action = null, $venue = null) {
     if (!$current_set['#established']) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
-          array( '@venue' => $venue, )
-          , array(), NULL, 'boinc:boinc-preferences-project'), 'status');
+          array( '@venue' => $venue, ),
+          NULL, 'boinc:boinc-preferences-project'), 'status');
     }
     
     break;
@@ -635,7 +635,7 @@ function privacyprefs_page($action = null) {
     // Edit preferences link
     $output .= '<tr>';
     $output .= '<td></td>';
-    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit", array(), NULL, 'boinc:account-preferences-privacy') . '</td>';
+    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit", NULL, 'boinc:account-preferences-privacy') . '</td>';
     $output .= '</tr>';
     
     $output .= '</table>';

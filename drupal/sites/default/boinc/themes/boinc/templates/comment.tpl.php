@@ -73,9 +73,11 @@
           '!username' => theme('username', $authors[$comment->uid]),
           '!ignore_list' => l(bts('ignore list'), 'ignore_user/list'),
           '!here' => l(bts('here'), "node/{$comment->nid}#comment-{$comment->cid}",
-            array('attributes' => array('class' => 'ignore-user-content-link')))
-        )
-      , array(), NULL, 'boinc:coment-from-ignored-user');
+            array(
+              'attributes' => array('class' => 'ignore-user-content-link')
+            ))
+          ),
+        NULL, 'boinc:coment-from-ignored-user');
       print '<div class="ignore-user-content">';
     } 
     ?>
@@ -163,7 +165,7 @@
     </div>
     <?php if ($moderator_links): ?>
       <div class="moderator-links">
-        <span class="label">(<?php print bts('moderation', array(), NULL, 'boinc:comment-action-link'); ?>:</span>
+        <span class="label">(<?php print bts('moderation', array(), NULL, 'boinc:comment-action-links'); ?>:</span>
         <?php print $moderator_links; ?>
         <span class="label">)</span>
       </div>
