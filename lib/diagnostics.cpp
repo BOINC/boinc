@@ -58,10 +58,13 @@
 #include "parse.h"
 #include "str_replace.h"
 
+// The android voodoo caused seg faults on some devices for R@h.
+// If you'd like to avoid voodoo, uncomment below.
+//#define AVOID_ANDROID_VOODOO
 
 #include "diagnostics.h"
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
 // for signal handler backtrace
 unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
 acquire_my_map_info_list_t acquire_my_map_info_list;
@@ -77,8 +80,8 @@ format_backtrace_line_t format_backtrace_line;
 
 #if defined(_WIN32) && defined(_MSC_VER)
 
-static _CrtMemState start_snapshot; 
-static _CrtMemState finish_snapshot; 
+static _CrtMemState start_snapshot;
+static _CrtMemState finish_snapshot;
 static _CrtMemState difference_snapshot;
 
 #endif
@@ -103,7 +106,7 @@ static double      max_stderr_file_size = 2048*1024;
 static double      stdout_file_size = 0;
 static double      max_stdout_file_size = 2048*1024;
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
 static void*       libhandle;
 #endif
 
@@ -262,7 +265,7 @@ int diagnostics_init(
     safe_strcpy(boinc_proxy, "");
     safe_strcpy(symstore, "");
 
-    
+
     // Check for invalid parameter combinations
     //
     if ((flags & BOINC_DIAG_REDIRECTSTDERR) && (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE)) {
@@ -391,7 +394,7 @@ int diagnostics_init(
 
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
         if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
-            _CrtMemCheckpoint(&start_snapshot); 
+            _CrtMemCheckpoint(&start_snapshot);
         }
     }
 
@@ -408,7 +411,7 @@ int diagnostics_init(
 
 #endif // defined(_WIN32)
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
 #define resolve_func(l,x) \
   x=(x##_t)dlsym(l,#x); \
   if (!x) {\
@@ -459,7 +462,7 @@ int diagnostics_init(
 #else
         p = FCGI::fopen(INIT_DATA_FILE, "r");
 #endif
- 
+
 		if (p) {
 			mf.init_file(p);
 			while(mf.fgets(buf, sizeof(buf))) {
@@ -478,7 +481,7 @@ int diagnostics_init(
 
         if (boinc_proxy_enabled) {
             int buffer_used = snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port);
-            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) { 
+            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) {
                 boinc_proxy[sizeof(boinc_proxy)-1] = '\0';
             }
         }
@@ -487,9 +490,9 @@ int diagnostics_init(
         // Lookup the location of where BOINC was installed to and store
         //   that for future use.
         lReturnValue = RegOpenKeyEx(
-            HKEY_LOCAL_MACHINE, 
-            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
-	        0, 
+            HKEY_LOCAL_MACHINE,
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+	        0,
             KEY_READ,
             &hkSetupHive
         );
@@ -566,7 +569,7 @@ int diagnostics_finish() {
 #endif // defined(_DEBUG)
 #endif // defined(_WIN32)
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
     if (libhandle) {
       dlclose(libhandle);
     }
@@ -618,7 +621,7 @@ char* diagnostics_get_symstore() {
 int diagnostics_set_symstore(char* project_symstore) {
     if (!strlen(symstore)) {
         int buffer_used = snprintf(symstore, sizeof(symstore), "%s", project_symstore);
-        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) { 
+        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) {
             symstore[sizeof(symstore)-1] = '\0';
         }
     }
@@ -692,6 +695,7 @@ int diagnostics_cycle_logs() {
 extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
 #if HAVE_SIGACTION
     struct sigaction temp;
+    memset(&temp, 0, sizeof(temp));
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
         temp.sa_handler = (void (*)(int))handler;
@@ -712,6 +716,7 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
 void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
 #if HAVE_SIGACTION
     struct sigaction temp;
+    memset(&temp, 0, sizeof(temp));
     sigaction(sig, NULL, &temp);
     temp.sa_handler = handler;
     sigaction(sig, &temp, NULL);
@@ -729,7 +734,7 @@ void set_signal_exit_code(int x) {
     signal_exit_code = x;
 }
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
 const char *argv0;
 
 static char *xtoa(size_t x) {
@@ -750,7 +755,7 @@ static char *xtoa(size_t x) {
 #endif
 
 #ifdef HAVE_SIGACTION
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
 void boinc_catch_signal(int signal, struct siginfo *, void *) {
@@ -801,14 +806,14 @@ void boinc_catch_signal(int signal) {
     PrintBacktrace();
 #endif
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(AVOID_ANDROID_VOODOO)
     // this is some dark undocumented Android voodoo that uses libcorkscrew.so.
     // Minimal use of library functions because they may not work in a signal
     // handler.
     //
 #define DUMP_LINE_LEN 256
     static backtrace_frame_t backtrace[64];
-    static backtrace_symbol_t backtrace_symbols[64]; 
+    static backtrace_symbol_t backtrace_symbols[64];
     if (unwind_backtrace_signal_arch != NULL) {
         map_info_t *map_info = acquire_my_map_info_list();
         ssize_t size = unwind_backtrace_signal_arch(
@@ -903,7 +908,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         time_t t;
         char *theCR;
-    
+
         time(&t);
         safe_strcpy(szTime, asctime(localtime(&t)));
         theCR = strrchr(szTime, '\n');
@@ -992,7 +997,7 @@ void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
 }
 
 // Dump string to whatever the platform debuggers
-// 
+//
 #ifndef _WIN32
 int diagnostics_trace_to_debugger(const char*) {
     return 0;
