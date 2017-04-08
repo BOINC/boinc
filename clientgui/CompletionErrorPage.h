@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_COMPLETIONERRORPAGE_H_
-#define _WIZ_COMPLETIONERRORPAGE_H_
+#ifndef BOINC_COMPLETIONERRORPAGE_H
+#define BOINC_COMPLETIONERRORPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "CompletionErrorPage.cpp"
@@ -80,4 +80,4 @@ public:
 ////@end CCompletionErrorPage member variables
 };
 
-#endif // _WIZ_COMPLETIONERRORPAGE_H_
+#endif

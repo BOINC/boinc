@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __sg_ProjectPanel__
-#define __sg_ProjectPanel__
+#ifndef BOINC_SG_PROJECTPANEL_H
+#define BOINC_SG_PROJECTPANEL_H
 
 #include "sg_CustomControls.h"
 #include "sg_PanelBase.h"
@@ -77,4 +77,4 @@ class CSimpleProjectPanel : public CSimplePanelBase
         double                              m_fDisplayedCredit;
 };
 
-#endif //__sg_ProjectPanel__
+#endif

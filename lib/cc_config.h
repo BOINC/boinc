@@ -21,8 +21,8 @@
 // NOTE: all writes to stdout should have an if (log_flags.*) {} around them.
 //
 
-#ifndef _CC_CONFIG_H_
-#define _CC_CONFIG_H_
+#ifndef BOINC_CC_CONFIG_H
+#define BOINC_CC_CONFIG_H
 
 #include <vector>
 #include <string>

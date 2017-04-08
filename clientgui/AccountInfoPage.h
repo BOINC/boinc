@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_ACCOUNTINFOPAGE_H_
-#define _WIZ_ACCOUNTINFOPAGE_H_
+#ifndef BOINC_ACCOUNTINFOPAGE_H
+#define BOINC_ACCOUNTINFOPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "AccountInfoPage.cpp"
@@ -105,4 +105,4 @@ public:
     wxString m_strAccountUsername;
 };
 
-#endif // _WIZ_ACCOUNTINFOPAGE_H_
+#endif

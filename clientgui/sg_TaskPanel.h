@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __sg_TaskPanel__
-#define __sg_TaskPanel__
+#ifndef BOINC_SG_TASKPANEL_H
+#define BOINC_SG_TASKPANEL_H
 
 // Comment???
 //
@@ -165,4 +165,4 @@ class CSimpleTaskPanel : public CSimplePanelBase
         wxString                    m_sNoProjectsString;
 };
 
-#endif //__sg_TaskPanel__
+#endif

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VIEWSTATISTICS_H_
-#define _VIEWSTATISTICS_H_
+#ifndef BOINC_VIEWSTATISTICS_H
+#define BOINC_VIEWSTATISTICS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ViewStatistics.cpp"
@@ -248,6 +248,4 @@ protected:
     virtual void            UpdateSelection();
 };
 
-
 #endif
-

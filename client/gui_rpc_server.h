@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _GUI_RPC_SERVER_
-#define _GUI_RPC_SERVER_
+#ifndef BOINC_GUI_RPC_SERVER_H
+#define BOINC_GUI_RPC_SERVER_H
 
 #include "network.h"
 #include "acct_setup.h"

@@ -17,8 +17,8 @@
 
 // a C++ interface to BOINC GUI RPC
 
-#ifndef _GUI_RPC_CLIENT_H_
-#define _GUI_RPC_CLIENT_H_
+#ifndef BOINC_GUI_RPC_CLIENT_H
+#define BOINC_GUI_RPC_CLIENT_H
 
 #if !defined(_WIN32) || defined (__CYGWIN__)
 #include <cstdio>
@@ -839,4 +839,4 @@ struct SET_LOCALE {
 
 extern int read_gui_rpc_password(char*);
 
-#endif /* _GUI_RPC_CLIENT_H_ */
+#endif // BOINC_GUI_RPC_CLIENT_H

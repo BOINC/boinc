@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINCLISTCTRL_H_
-#define _BOINCLISTCTRL_H_
+#ifndef BOINC_BOINCLISTCTRL_H
+#define BOINC_BOINCLISTCTRL_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCListCtrl.cpp"
@@ -187,4 +187,3 @@ private:
 };
 
 #endif
-

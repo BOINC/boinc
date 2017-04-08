@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _DLG_MESSAGES_H_ 
-#define _DLG_MESSAGES_H_ 
+#ifndef BOINC_SG_DLG_MESSAGES_H
+#define BOINC_SG_DLG_MESSAGES_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "sg_DlgMessages.cpp"
@@ -165,5 +165,4 @@ private:
 ////@end CDlgMessages member variables
 };
 
-
-#endif  // end CDlgMessages
+#endif

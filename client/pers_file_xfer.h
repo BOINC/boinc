@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PERS_FILE_XFER_H
-#define _PERS_FILE_XFER_H
+#ifndef BOINC_PERS_FILE_XFER_H
+#define BOINC_PERS_FILE_XFER_H
 
 #include "client_types.h"
 #include "file_xfer.h"

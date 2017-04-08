@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_COMPLETIONPAGE_H_
-#define _WIZ_COMPLETIONPAGE_H_
+#ifndef BOINC_COMPLETIONPAGE_H
+#define BOINC_COMPLETIONPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "CompletionPage.cpp"
@@ -82,4 +82,4 @@ public:
 ////@end CCompletionPage member variables
 };
 
-#endif // _WIZ_COMPLETIONPAGE_H_
+#endif

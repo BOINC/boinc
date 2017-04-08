@@ -32,8 +32,8 @@
 // translation will be found in some language useful to the user.
 //
 
-#ifndef _BOINC_TRANSLATE_H
-#define _BOINC_TRANSLATE_H
+#ifndef BOINC_TRANSLATE_H
+#define BOINC_TRANSLATE_H
 
 // We use only C APIs for maximum portability
 #ifdef __cplusplus
@@ -72,4 +72,4 @@ void BOINCTranslationCleanup();
 } // extern "C" {
 #endif
 
-#endif  // _BOINC_TRANSLATE_H
+#endif  // BOINC_TRANSLATE_H

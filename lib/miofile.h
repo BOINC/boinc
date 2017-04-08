@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _MIOFILE_
-#define _MIOFILE_
+#ifndef BOINC_MIOFILE_H
+#define BOINC_MIOFILE_H
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"

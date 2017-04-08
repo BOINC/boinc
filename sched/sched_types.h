@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_TYPES_
-#define _SCHED_TYPES_
+#ifndef BOINC_SCHED_TYPES_H
+#define BOINC_SCHED_TYPES_H
 
 #include <cstdio>
 #include <vector>
@@ -587,4 +587,5 @@ inline bool is_64b_platform(const char* name) {
 }
 
 extern double available_frac(BEST_APP_VERSION&);
+
 #endif

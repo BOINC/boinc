@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_LIMIT_
-#define _SCHED_LIMIT_
+#ifndef BOINC_SCHED_LIMIT_H
+#define BOINC_SCHED_LIMIT_H
 
 #include <vector>
 

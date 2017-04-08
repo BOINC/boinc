@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef H_BACKEND_LIB
-#define H_BACKEND_LIB
+#ifndef BOINC_BACKEND_LIB_H
+#define BOINC_BACKEND_LIB_H
 
 #include <limits.h>
 
@@ -159,4 +159,5 @@ extern int cancel_job(DB_WORKUNIT&);
 extern int get_total_quota(double&);
 extern int get_project_flops(double&);
 extern double user_priority_delta(DB_USER_SUBMIT&, double, double, double);
+
 #endif

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _ACCT_MGR_
-#define _ACCT_MGR_
+#ifndef BOINC_ACCT_MGR_H
+#define BOINC_ACCT_MGR_H
 
 #include <string>
 #include <vector>

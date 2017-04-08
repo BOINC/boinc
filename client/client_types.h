@@ -20,8 +20,8 @@
 // client_state.C  (to cross-link objects)
 //
 
-#ifndef _CLIENT_TYPES_
-#define _CLIENT_TYPES_
+#ifndef BOINC_CLIENT_TYPES_H
+#define BOINC_CLIENT_TYPES_H
 
 #include "cpp.h"
 

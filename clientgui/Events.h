@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _EVENTS_H_
-#define _EVENTS_H_
+#ifndef BOINC_EVENTS_H
+#define BOINC_EVENTS_H
 
 // Common Events across GUIs
 #define ID_CLOSEWINDOW                          6100
@@ -196,4 +196,3 @@
 #define ID_ANYDIALOG                            10000
 
 #endif
-

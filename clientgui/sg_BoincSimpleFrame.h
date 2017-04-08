@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _BOINCSIMPLEFRAME_H_
-#define _BOINCSIMPLEFRAME_H_
+#ifndef BOINC_SG_BOINCSIMPLEFRAME_H
+#define BOINC_SG_BOINCSIMPLEFRAME_H
 
 #include "BOINCBaseFrame.h"
 
@@ -149,6 +149,4 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-#endif  // _BOINCSIMPLEFRAME_H_
-
-
+#endif

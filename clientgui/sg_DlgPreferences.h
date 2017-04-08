@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _DLG_PREFERENCES_H_ 
-#define _DLG_PREFERENCES_H_ 
+#ifndef BOINC_SG_DLG_PREFERENCES_H
+#define BOINC_SG_DLG_PREFERENCES_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "sg_DlgPreferences.cpp"
@@ -223,6 +223,4 @@ private:
     CPanelPreferences* m_pBackgroundPanel;
 };
 
-
-
-#endif  // end CDlgPreferences
+#endif

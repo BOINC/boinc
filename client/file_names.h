@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _FILE_NAMES_
-#define _FILE_NAMES_
+#ifndef BOINC_FILE_NAMES_H
+#define BOINC_FILE_NAMES_H
 
 #include "client_types.h"
 #include "common_defs.h"

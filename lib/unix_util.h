@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef UNIX_UTIL_H
-#define UNIX_UTIL_H
+#ifndef BOINC_UNIX_UTIL_H
+#define BOINC_UNIX_UTIL_H
 
 // Nothing in this file is needed on WIN32
 #ifndef _WIN32
@@ -74,5 +74,5 @@ extern "C" char *ether_ntoa(const struct ether_addr *addr);
 
 #endif /* _WIN32 */
 
-#endif /* UNIX_UTIL_H */
+#endif // BOINC_UNIX_UTIL_H
 

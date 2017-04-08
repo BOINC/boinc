@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PARSE_H
-#define PARSE_H
+#ifndef BOINC_PARSE_H
+#define BOINC_PARSE_H
 
 #include <cstdio>
 #include <stdlib.h>

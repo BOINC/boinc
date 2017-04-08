@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINC_MSG_LOG_H_
-#define _BOINC_MSG_LOG_H_
+#ifndef BOINC_MSG_LOG_H
+#define BOINC_MSG_LOG_H
 
 #include <cstdio>
 #include <cstdarg>

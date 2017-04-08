@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROJECT_INIT_
-#define _PROJECT_INIT_
+#ifndef BOINC_PROJECT_INIT_H
+#define BOINC_PROJECT_INIT_H
 
 #define PROJECT_INIT_FILENAME       "project_init.xml"
 

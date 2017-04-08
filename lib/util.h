@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef BOINC_UTIL_H
+#define BOINC_UTIL_H
 
 #include <stdlib.h>
 #include <string>

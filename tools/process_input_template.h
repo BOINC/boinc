@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROCESS_INPUT_TEMPLATE_
-#define _PROCESS_INPUT_TEMPLATE_
+#ifndef BOINC_PROCESS_INPUT_TEMPLATE_H
+#define BOINC_PROCESS_INPUT_TEMPLATE_H
 
 #include <vector>
 

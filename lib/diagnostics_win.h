@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINC_DIAGNOSTICS_WIN_
-#define _BOINC_DIAGNOSTICS_WIN_
+#ifndef BOINC_DIAGNOSTICS_WIN_H
+#define BOINC_DIAGNOSTICS_WIN_H
 
 #include "boinc_win.h"
 

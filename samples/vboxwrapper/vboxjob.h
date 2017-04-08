@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VBOXJOB_H_
-#define _VBOXJOB_H_
+#ifndef BOINC_VBOXJOB_H
+#define BOINC_VBOXJOB_H
 
 
 #define JOB_FILENAME "vbox_job.xml"

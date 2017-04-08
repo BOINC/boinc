@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _GUI_HTTP_
-#define _GUI_HTTP_
+#ifndef BOINC_GUI_HTTP_H
+#define BOINC_GUI_HTTP_H
 
 // A high-level interface for client-initiated HTTP requests.
 

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROXY_INFO_
-#define _PROXY_INFO_
+#ifndef BOINC_PROXY_INFO_H
+#define BOINC_PROXY_INFO_H
 
 struct XML_PARSER;
 class MIOFILE;

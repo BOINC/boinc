@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _FILE_XFER_
-#define _FILE_XFER_
+#ifndef BOINC_FILE_XFER_H
+#define BOINC_FILE_XFER_H
 
 // A FILE_XFER object represents a file transfer "episode"
 // (see pers_file_xfer.h), i.e. an HTTP transaction with a

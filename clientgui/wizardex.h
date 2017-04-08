@@ -14,8 +14,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _WX_WIZARDEX_H_
-#define _WX_WIZARDEX_H_
+#ifndef BOINC_WIZARDEX_H
+#define BOINC_WIZARDEX_H
 
 // ----------------------------------------------------------------------------
 // headers and other simple declarations
@@ -334,4 +334,4 @@ typedef void (wxEvtHandler::*wxWizardExEventFunction)(wxWizardExEvent&);
 #define EVT_WIZARDEX_HELP(id, fn) wx__DECLARE_WIZARDEXEVT(HELP, id, fn)
 
 
-#endif // _WX_WIZARDEX_H_
+#endif

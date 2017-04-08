@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _ERROR_NUMBERS_H_
-#define _ERROR_NUMBERS_H_
+#ifndef BOINC_ERROR_NUMBERS_H
+#define BOINC_ERROR_NUMBERS_H
 
 // The following are process exit codes (not function return values).
 // They are used by the core client and apps.

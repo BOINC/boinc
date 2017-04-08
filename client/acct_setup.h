@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _ACCT_SETUP_H_
-#define _ACCT_SETUP_H_
+#ifndef BOINC_ACCT_SETUP_H
+#define BOINC_ACCT_SETUP_H
 
 #include "gui_http.h"
 #include "error_numbers.h"
-
 
 struct ACCOUNT_IN {
     std::string url;

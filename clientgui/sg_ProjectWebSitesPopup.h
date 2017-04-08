@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __sg_ProjectWebsitesPopup__
-#define __sg_ProjectWebsitesPopup__
+#ifndef BOINC_SG_PROJECTWEBSITESPOPUP_H
+#define BOINC_SG_PROJECTWEBSITESPOPUP_H
 
 #include "sg_CustomControls.h"
 
@@ -51,4 +51,4 @@ class CSimpleProjectWebSitesPopupButton : public CTransparentButton
         wxMenu*                     m_ProjectWebSitesPopUpMenu;
 };
 
-#endif // __sg_ProjectWebsitesPopup__
+#endif

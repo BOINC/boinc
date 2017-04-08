@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _HOSTINFO_
-#define _HOSTINFO_
+#ifndef BOINC_HOSTINFO_H
+#define BOINC_HOSTINFO_H
 
 // Description of a host's hardware and software.
 // This is used a few places:

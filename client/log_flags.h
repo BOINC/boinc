@@ -21,8 +21,8 @@
 // NOTE: all writes to stdout should have an if (log_flags.*) {} around them.
 //
 
-#ifndef _LOGFLAGS_H_
-#define _LOGFLAGS_H_
+#ifndef BOINC_LOG_FLAGS_H
+#define BOINC_LOG_FLAGS_H
 
 #include <vector>
 #include <string>

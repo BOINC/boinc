@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _APP_CONFIG_
-#define _APP_CONFIG_
+#ifndef BOINC_APP_CONFIG_H
+#define BOINC_APP_CONFIG_H
 
 #include <vector>
 

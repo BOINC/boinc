@@ -15,15 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef h_BASE64
-#define h_BASE64
+#ifndef BOINC_BASE64_H
+#define BOINC_BASE64_H
 
 #ifndef _WIN32
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #endif
-
 
 class InvalidBase64Exception
 {

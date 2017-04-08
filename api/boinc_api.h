@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINC_API_
-#define _BOINC_API_
+#ifndef BOINC_BOINC_API_H
+#define BOINC_BOINC_API_H
 
 #include <stddef.h>     // for NULL
 

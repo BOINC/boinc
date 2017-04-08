@@ -45,8 +45,8 @@
 // There are two buffers, each with a "state" (see below).
 // In a given state, only one thread can access the data or change the state.
 //
-#ifndef GRAPHICS_DATA_H
-#define GRAPHICS_DATA_H
+#ifndef BOINC_GRAPHICS_DATA_H
+#define BOINC_GRAPHICS_DATA_H
 
 #define GB_STATE_IDLE       0
 #define GB_STATE_GENERATING 1

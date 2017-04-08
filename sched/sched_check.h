@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 // values returned by wu_is_infeasible()
 
-#ifndef _SCHED_CHECK_
-#define _SCHED_CHECK_
+#ifndef BOINC_SCHED_CHECK_H
+#define BOINC_SCHED_CHECK_H
 
 #include "sched_shmem.h"
 #include "sched_types.h"

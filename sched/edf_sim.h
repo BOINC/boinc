@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _EDF_SIM_H
-#define _EDF_SIM_H
+#ifndef BOINC_EDF_SIM_H
+#define BOINC_EDF_SIM_H
 
 #include <cstring>
 #include <vector>

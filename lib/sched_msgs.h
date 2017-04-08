@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINC_SCHED_MSGS_H_
-#define _BOINC_SCHED_MSGS_H_
+#ifndef BOINC_SCHED_MSGS_H
+#define BOINC_SCHED_MSGS_H
 
 #include "msg_log.h"
 

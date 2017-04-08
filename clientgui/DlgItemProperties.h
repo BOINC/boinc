@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _DLGITEMPROPERTIES_H_
-#define _DLGITEMPROPERTIES_H_
+
+#ifndef BOINC_DLGITEMPROPERTIES_H
+#define BOINC_DLGITEMPROPERTIES_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgItemProperties.cpp"
@@ -65,5 +66,4 @@ protected:
         wxString m_strBaseConfigLocation;
 };
 
-#endif // _DLGITEMPROPERTIES_H_
-
+#endif

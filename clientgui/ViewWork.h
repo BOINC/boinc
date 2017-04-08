@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VIEWWORK_H_
-#define _VIEWWORK_H_
+#ifndef BOINC_VIEWWORK_H
+#define BOINC_VIEWWORK_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ViewWork.cpp"
@@ -118,6 +118,4 @@ protected:
     DECLARE_EVENT_TABLE()
 };
 
-
 #endif
-

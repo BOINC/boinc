@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _ADVANCEDFRAME_H_
-#define _ADVANCEDFRAME_H_
+#ifndef BOINC_ADVANCEDFRAME_H
+#define BOINC_ADVANCEDFRAME_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "AdvancedFrame.cpp"
@@ -152,7 +152,4 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
-
 #endif
-
-
