@@ -125,8 +125,11 @@
 
 using std::vector;
 
-//#define DEBUG_BOINC_API
+//#define VERBOSE
     // enable a bunch of fprintfs to stderr
+
+#define MSGS_FROM_FILE
+    // get messages from a file "msgs.txt" instead of shared mem
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -339,7 +342,7 @@ static inline void release_mutex() {
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static void init_mutex() {}
 static inline void acquire_mutex() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr, "%s acquiring mutex\n",
         boinc_msg_prefix(buf, sizeof(buf))
@@ -348,7 +351,7 @@ static inline void acquire_mutex() {
     pthread_mutex_lock(&mutex);
 }
 static inline void release_mutex() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr, "%s releasing mutex\n",
         boinc_msg_prefix(buf, sizeof(buf))
@@ -834,7 +837,7 @@ int boinc_is_standalone() {
 // e.g. quit message from client, or client has gone away
 //
 static void exit_from_timer_thread(int status) {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr, "%s exit_from_timer_thread(%d) called\n",
         boinc_msg_prefix(buf, sizeof(buf)), status
@@ -860,9 +863,9 @@ static void exit_from_timer_thread(int status) {
     pthread_kill(worker_thread_handle, SIGALRM);
 
     // the exit should happen more or less instantly.
-    // But if we're still here after 1 sec, exit directly
+    // But if we're still here after 2 sec, exit directly
     //
-    sleep(1.0);
+    sleep(2.0);
     boinc_exit(status);
 #endif
     pthread_exit(NULL);
@@ -972,7 +975,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
 // Can be called from either timer or worker thread.
 //
 static int suspend_activities(bool called_from_worker) {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char log_buf[256];
     fprintf(stderr, "%s suspend_activities() called from %s\n",
         boinc_msg_prefix(log_buf, sizeof(log_buf)),
@@ -1007,7 +1010,7 @@ static int suspend_activities(bool called_from_worker) {
 }
 
 int resume_activities() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char log_buf[256];
     fprintf(stderr, "%s resume_activities()\n",
         boinc_msg_prefix(log_buf, sizeof(log_buf))
@@ -1088,9 +1091,22 @@ static bool suspend_request = false;
 //
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
+#ifdef MSGS_FROM_FILE
+    char msg_buf[1024];
+    strcpy(msg_buf, "");
+    if (boinc_file_exists("msgs.txt")) {
+        FILE* f = fopen("msgs.txt", "r");
+        fgets(msg_buf, sizeof(msg_buf), f);
+        fclose(f);
+    }
+    if (strlen(msg_buf)) {
+        unlink("msgs.txt");
+#else
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+#endif
+
         acquire_mutex();
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
         char log_buf[256];
         fprintf(stderr, "%s got process control msg %s\n",
             boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
@@ -1162,7 +1178,7 @@ static void handle_process_control_msg() {
 //
 static void timer_handler() {
     char buf[512];
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     fprintf(stderr, "%s timer handler: disabled %s; in critical section %s; finishing %s\n",
         boinc_msg_prefix(buf, sizeof(buf)),
         boinc_disable_timer_thread?"yes":"no",
@@ -1206,7 +1222,7 @@ static void timer_handler() {
 #endif
     if (interrupt_count % TIMERS_PER_SEC) return;
 
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     fprintf(stderr, "%s 1 sec elapsed - doing slow actions\n", boinc_msg_prefix(buf, sizeof(buf)));
 #endif
 
@@ -1439,7 +1455,7 @@ int boinc_checkpoint_completed() {
 }
 
 void boinc_begin_critical_section() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr,
         "%s begin_critical_section\n",
@@ -1450,7 +1466,7 @@ void boinc_begin_critical_section() {
 }
 
 void boinc_end_critical_section() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr,
         "%s end_critical_section\n",
