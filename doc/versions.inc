@@ -130,10 +130,10 @@ $w72x64 = array(
 );
 
 $m76 = array(
-    "num"=>"7.6.33",
+    "num"=>"7.6.34",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_7.6.33_macOSX_x86_64.zip",
-    "date"=>"6 Jun 2016",
+    "file"=>"boinc_7.6.34_macOSX_x86_64.zip",
+    "date"=>"9 Apr 2017",
     "type"=>"mac_advanced",
 );
 
@@ -170,10 +170,10 @@ $m66 = array(
 );
 
 $m76c = array(
-    "num"=>"7.6.33",
+    "num"=>"7.6.34",
     "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_7.6.33_x86_64-apple-darwin.zip",
-    "date"=>"6 Jun 2016",
+    "file"=>"boinc_7.6.34_x86_64-apple-darwin.zip",
+    "date"=>"9 April 2017",
     "type"=>"bare_core",
 );
 
