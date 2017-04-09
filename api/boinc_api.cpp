@@ -128,7 +128,7 @@ using std::vector;
 //#define VERBOSE
     // enable a bunch of fprintfs to stderr
 
-#define MSGS_FROM_FILE
+//#define MSGS_FROM_FILE
     // get messages from a file "msgs.txt" instead of shared mem
 
 #ifdef __APPLE__
