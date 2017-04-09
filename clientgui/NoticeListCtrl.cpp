@@ -236,7 +236,9 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
         m_noticesBody += strBuffer;
     }
     m_noticesBody += wxT("</font></body></html>");
-    m_browser->SetPage(m_noticesBody, wxT("http://"));
+    // baseURL is not needed here (see comments above) and it
+    // must be an empty string for this to work under OS 10.12.4
+    m_browser->SetPage(m_noticesBody, wxEmptyString);
 }
 
 
