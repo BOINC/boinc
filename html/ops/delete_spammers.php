@@ -80,14 +80,13 @@
 //   delete users with ID N to M inclusive
 //
 // --teams
-//   delete teams (and their owners) where the team
-//   - has 0 or 1 members
+//   delete teams (and their owners and members) where the team
 //   - has no total credit
 //   - has description containing a link, or a URL
 //   - is not a BOINC-Wide team
-//   and the owner
-//   - has no posts
-//   - has no hosts
+//   and the owner and members
+//   - have no posts
+//   - have no hosts
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
