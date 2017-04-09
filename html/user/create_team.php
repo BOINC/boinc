@@ -42,6 +42,12 @@ if (!$user) {
     xml_error(ERR_DB_NOT_FOUND);
 }
 
+if (@constant('TEAM_CREATE_NEED_CREDIT')) {
+    if ($user->total_credit == 0) {
+        xml_error(-1, "no credit");
+    }
+}
+
 $name = $_GET["name"];
 if (strlen($name) == 0) {
     xml_error(-1, "must set team name");
