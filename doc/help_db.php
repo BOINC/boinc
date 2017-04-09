@@ -1,6 +1,7 @@
 <?php
 
-@mysql_pconnect("localhost", "boincadm", null);
+$db_passwd = trim(file_get_contents("db_passwd"));
+@mysql_pconnect("localhost", "boincadm", $db_passwd);
 @mysql_select_db("support");
 
 function rating_insert($r) {
