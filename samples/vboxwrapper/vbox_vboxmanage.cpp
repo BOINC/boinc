@@ -153,11 +153,13 @@ int VBOX_VM::initialize() {
     }
 
 #ifdef _WIN32
+#ifndef COM_OFF
     // Launch vboxsvc manually so that the DCOM subsystem won't be able too.  Our version
     // will have permission and direction to write its state information to the BOINC
     // data directory.
     //
     launch_vboxsvc();
+#endif
 #endif
 
     rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
@@ -793,7 +795,7 @@ int VBOX_VM::deregister_stale_vm() {
     //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
-    if (enable_isocontextualization) {
+    if (enable_isocontextualization && enable_isocontextualization) {
         command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
@@ -1005,7 +1007,7 @@ int VBOX_VM::start() {
     boinc_get_init_data_p(&aid);
 
 
-    vboxlog_msg("Starting VM. (%s, slot#%d)", vm_name.c_str(), aid.slot);
+    vboxlog_msg("Starting VM using VboxManage interface. (%s, slot#%d)", vm_name.c_str(), aid.slot);
 
 
     command = "startvm \"" + vm_name + "\"";
@@ -1721,41 +1723,48 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_vm_process_id() {
-    string output;
-    string pid;
-    size_t pid_start;
-    size_t pid_end;
+	string virtualbox_vm_log;
+	string::iterator iter;
+	int retval = BOINC_SUCCESS;
+	string line;
+	string comp = "Process ID";
+	string pid;
+	size_t pid_start;
+	size_t pid_end;
+	std::size_t found;
 
-    get_vm_log(output, false);
 
-    // Output should look like this:
-    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
-    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
-    // 00:00:06.008 OS Product: Windows 7
-    // 00:00:06.009 OS Release: 6.1.7601
-    // 00:00:06.009 OS Service Pack: 1
-    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
-    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
-    // 00:00:06.015 Process ID: 6128
-    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
-    // 00:00:06.015 Installed Extension Packs:
-    // 00:00:06.015   None installed!
-    //
-    pid_start = output.find("Process ID: ");
-    if (pid_start == string::npos) {
-        return ERR_NOT_FOUND;
-    }
-    pid_start += strlen("Process ID: ");
-    pid_end = output.find("\n", pid_start);
-    pid = output.substr(pid_start, pid_end - pid_start);
-    strip_whitespace(pid);
-    if (pid.size() <= 0) {
-        return ERR_NOT_FOUND;
-    }
+	virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-    vm_pid = atol(pid.c_str());
+	if (boinc_file_exists(virtualbox_vm_log.c_str())) {
 
-    return 0;
+		std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
+		while (std::getline(src, line))
+		{
+
+			found = line.find(comp);
+			if (found != string::npos){
+
+				pid_start = line.find("Process ID: ");
+				if (pid_start == string::npos) {
+					vboxlog_msg("Something wrong with the process ID finding\n %s ", line.c_str());
+					return ERR_NOT_FOUND;
+				}
+				pid_start += strlen("Process ID: ");
+				pid_end = line.find("\n", pid_start);
+				pid = line.substr(pid_start, pid_end - pid_start);
+				strip_whitespace(pid);
+				if (pid.size() <= 0) {
+					return ERR_NOT_FOUND;
+				}
+
+				vm_pid = atol(pid.c_str());
+				break;
+			}
+		}
+	}
+
+	return retval;
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
@@ -1914,3 +1923,4 @@ void VBOX_VM::reset_vm_process_priority() {
 }
 
 }
+

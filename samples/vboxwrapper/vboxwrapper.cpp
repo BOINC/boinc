@@ -80,11 +80,17 @@
 #include "vboxcheckpoint.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
+//Use of COM_OFF to choose between COM 
+//and VboxManage interfaces
+//
+//Default is COM
 #ifdef _WIN32
+#ifndef COM_OFF
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
 #include "vbox_mscom50.h"
 #include "vbox_mscom51.h"
+#endif
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -423,7 +429,9 @@ int main(int argc, char** argv) {
     // Initialize system services
     // 
 #ifdef _WIN32
+#ifndef COM_OFF
     CoInitialize(NULL);
+#endif
 #ifdef USE_WINSOCK
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -439,7 +447,9 @@ int main(int argc, char** argv) {
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
 
+	//Use COM_OFF to choose how we initialize() the VM
 #ifdef _WIN32
+#ifndef COM_OFF
     // Determine what version of VirtualBox we are using via the registry. Use a
     // namespace specific version of the function because VirtualBox has been known
     // to change the registry location from time to time.
@@ -481,6 +491,7 @@ int main(int argc, char** argv) {
             }
 		}
     }
+#endif
 #endif
     // Initialize VM Hypervisor
     //
@@ -1383,7 +1394,9 @@ int main(int argc, char** argv) {
     }
 
 #ifdef _WIN32
+#ifndef COM_OFF
     CoUninitialize();
+#endif
 #ifdef USE_WINSOCK
     WSACleanup();
 #endif
@@ -1391,3 +1404,4 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+

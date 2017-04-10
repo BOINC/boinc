@@ -149,6 +149,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
     retval = is_registered();
     if (ERR_TIMEOUT == retval) {
+		vboxlog_msg("Error: Timeout");
 
         return VBOXWRAPPER_ERR_RECOVERABLE;
 
@@ -156,17 +157,26 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
         if (is_vm_machine_configuration_available()) {
             retval = register_vm();
-            if (retval) return retval;
+			if (retval){
+				vboxlog_msg("Could not register");
+				return retval;
+			}
         } else {
             if (is_disk_image_registered()) {
                 // Handle the case where a previous instance of the same projects VM
                 // was already initialized for the current slot directory but aborted
                 // while the task was suspended and unloaded from memory.
                 retval = deregister_stale_vm();
-                if (retval) return retval;
+				if (retval){
+					vboxlog_msg("Could not deregister stale VM");
+					return retval;
+				}
             }
             retval = create_vm();
-            if (retval) return retval;
+			if (retval){
+				vboxlog_msg("Could not create VM");
+				return retval;
+			}
         }
 
     }
@@ -183,15 +193,22 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     // Check to see if the VM is already in a running state, if so, poweroff.
     poll(false);
     if (online) {
+		vboxlog_msg("VM was running");
         retval = poweroff();
-        if (retval) return ERR_NOT_EXITED;
+		if (retval){
+			vboxlog_msg("Could not stop running VM");
+			return ERR_NOT_EXITED;
+		}
     }
 
     // If our last checkpoint time is greater than 0, restore from the previously
     // saved snapshot
     if (do_restore_snapshot) {
         retval = restore_snapshot();
-        if (retval) return retval;
+		if (retval){
+			vboxlog_msg("Could not restore from snapshot");
+			return retval;
+		}
     }
 
     // Has BOINC signaled that we should quit?
@@ -205,7 +222,10 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
     // Start the VM
     retval = start();
-    if (retval) return retval;
+	if (retval){
+		vboxlog_msg("Could not start ");
+		return retval;
+	}
 
     return 0;
 }
@@ -267,41 +287,37 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
 void VBOX_BASE::dump_vmguestlog_entries() {
     string local_vm_log;
     string line;
-    size_t eol_pos;
-    size_t eol_prev_pos;
     size_t line_pos;
     VBOX_TIMESTAMP current_timestamp;
     string msg;
+	string virtualbox_vm_log;
+	virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-    get_vm_log(local_vm_log, true, 16*1024);
+	if (boinc_file_exists(virtualbox_vm_log.c_str())) {
 
-    eol_prev_pos = 0;
-    eol_pos = local_vm_log.find("\n");
-    while (eol_pos != string::npos) {
-        line = local_vm_log.substr(eol_prev_pos, eol_pos - eol_prev_pos);
+		std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
+		while (std::getline(src, line))
+		{
+			line_pos = line.find("Guest Log:");
+			if (line_pos != string::npos) {
+				sscanf(
+					line.c_str(),
+					"%d:%d:%d.%d",
+					&current_timestamp.hours, &current_timestamp.minutes,
+					&current_timestamp.seconds, &current_timestamp.milliseconds
+					);
 
-        line_pos = line.find("Guest Log:");
-        if (line_pos != string::npos) {
-            sscanf(
-                line.c_str(),
-                "%d:%d:%d.%d",
-                &current_timestamp.hours, &current_timestamp.minutes,
-                &current_timestamp.seconds, &current_timestamp.milliseconds
-            );
+				if (is_timestamp_newer(current_timestamp, vm_log_timestamp)) {
+					vm_log_timestamp = current_timestamp;
+					msg = line.substr(line_pos, line.size() - line_pos);
 
-            if (is_timestamp_newer(current_timestamp, vm_log_timestamp)) {
-                vm_log_timestamp = current_timestamp;
-                msg = line.substr(line_pos, line.size() - line_pos);
+					sanitize_format(msg);
 
-				sanitize_format(msg);
-
-                vboxlog_msg(msg.c_str());
-            }
-        }
-
-        eol_prev_pos = eol_pos + 1;
-        eol_pos = local_vm_log.find("\n", eol_prev_pos);
-    }
+					vboxlog_msg(msg.c_str());
+				}
+			}
+		}
+	}
 }
 
 int VBOX_BASE::dump_screenshot() {
@@ -1273,3 +1289,4 @@ VBOX_VM::VBOX_VM() {
 
 VBOX_VM::~VBOX_VM() {
 }
+
