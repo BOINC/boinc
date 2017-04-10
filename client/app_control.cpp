@@ -963,9 +963,10 @@ int ACTIVE_TASK::read_stderr_file() {
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return 0;
-    if (read_file_malloc(path, buf1, max_len, !cc_config.stderr_head)) {
-        return ERR_MALLOC;
-    }
+    int retval  = read_file_malloc(
+        path, buf1, max_len, !cc_config.stderr_head
+    );
+    if (retval) return retval;
 
     // if it's a vbox app, check for string in stderr saying
     // the job failed because CPU VM extensions disabled
