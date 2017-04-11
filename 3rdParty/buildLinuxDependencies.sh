@@ -51,6 +51,7 @@ ROOTDIR=$(pwd)
 cache_dir=""
 doclean=""
 wxoption=""
+build_config="Release"
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -63,6 +64,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         --debug)
         wxoption="--debug"
+        build_config="Debug"
         ;;
         *)
         echo "unrecognized option $key"
@@ -80,6 +82,17 @@ if [ "x$cache_dir" != "x" ]; then
     fi
 else
     PREFIX="$(pwd)/3rdParty/buildCache/linux"
+fi
+
+if [ -f "${PREFIX}/build-config" ]; then
+    cur_config=$(<${PREFIX}/build-config)
+    if [ "${cur_config}" != "${build_config}" ]; then
+        doclean="yes"
+        wxoption="${wxoption} --clean"
+    fi
+else
+    doclean="yes"
+    wxoption="${wxoption} --clean"
 fi
 
 download_and_build() {
@@ -114,6 +127,7 @@ if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
     rm -rf ${PREFIX}
     mkdir -p ${PREFIX}
+    echo ${build_config} >${PREFIX}/build-config
 fi
 
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT

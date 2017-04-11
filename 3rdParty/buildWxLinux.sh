@@ -61,7 +61,7 @@ else
 fi
 
 doclean=""
-configuration="Release"
+debug_flag="--disable-debug_flag"
 lprefix=""
 cmdline_prefix=""
 while [[ $# -gt 0 ]]; do
@@ -71,7 +71,7 @@ while [[ $# -gt 0 ]]; do
         doclean="yes"
         ;;
         -debug|--debug)
-        configuration="Debug"
+        debug_flag="--enable-debug"
         ;;
         -prefix|--prefix)
         lprefix="$2"
@@ -81,11 +81,6 @@ while [[ $# -gt 0 ]]; do
     esac
     shift # past argument or value
 done
-
-debug_flag="--disable-debug_flag"
-if [ $configuration = "Debug" ]; then
-    debug_flag="--enable-debug"
-fi
 
 if [ -d buildgtk ] && [ "${doclean}" = "yes" ]; then
     rm -rf buildgtk
