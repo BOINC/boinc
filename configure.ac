@@ -538,16 +538,6 @@ if test "x${libdir}" = "xNONE" -o -z "${libdir}" ; then
   bindir="${exec_prefix}/lib"
 fi
 
-dnl if --sysconfdir was not specified, default ${sysconfdir} to '/etc/'.
-dnl this is done to preserve the behaviour of previous BOINC versions
-dnl which always installed to /etc/ in client/scripts/. Now we install
-dnl to ${sysconfdir}/.
-dnl the default value for ${sysconfdir} set by automake is '${prefix}/etc',
-dnl but we also test for an empty string
-if test "${sysconfdir}" = '${prefix}/etc' -o "x${sysconfdir}" = "x"; then
-  sysconfdir=/etc
-fi
-
 AC_DEFINE_UNQUOTED(BOINC_PREFIX,"`eval echo ${prefix}`",[Directory tree where BOINC will be installed])
 AC_DEFINE_UNQUOTED(BOINC_EXECPREFIX,"`eval echo ${bindir}`",[Directory where BOINC executables will be installed])
 AC_DEFINE_UNQUOTED(BOINC_LIBDIR,"`eval echo ${libdir}`",[Directory where BOINC libraries will be installed])
