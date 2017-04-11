@@ -108,14 +108,11 @@
 
 using std::vector;
 
-//#define DEBUG_BOINC_API
+#define VERBOSE
+    // enable a bunch of fprintfs to stderr
 
-#ifdef DEBUG_BOINC_API
-static volatile bool abort_called = false;
-static volatile bool quit_called = false;
-static volatile bool resume_called = false;
-static volatile bool suspend_called = false;
-#endif
+#define MSGS_FROM_FILE
+    // get messages from a file "msgs.txt" instead of shared mem
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -328,7 +325,7 @@ static inline void release_mutex() {
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static void init_mutex() {}
 static inline void acquire_mutex() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr, "%s acquiring mutex\n",
         boinc_msg_prefix(buf, sizeof(buf))
@@ -337,7 +334,7 @@ static inline void acquire_mutex() {
     pthread_mutex_lock(&mutex);
 }
 static inline void release_mutex() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr, "%s releasing mutex\n",
         boinc_msg_prefix(buf, sizeof(buf))
@@ -820,7 +817,7 @@ int boinc_is_standalone() {
 }
 
 static void exit_from_timer_thread(int status) {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr, "%s exit_from_timer_thread(%d) called\n",
         boinc_msg_prefix(buf, sizeof(buf)), status
@@ -954,7 +951,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
 // Can be called from either timer or worker thread.
 //
 static int suspend_activities(bool called_from_worker) {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char log_buf[256];
     fprintf(stderr, "%s suspend_activities() called from %s\n",
         boinc_msg_prefix(log_buf, sizeof(log_buf)),
@@ -989,7 +986,7 @@ static int suspend_activities(bool called_from_worker) {
 }
 
 int resume_activities() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char log_buf[256];
     fprintf(stderr, "%s resume_activities()\n",
         boinc_msg_prefix(log_buf, sizeof(log_buf))
@@ -1071,21 +1068,28 @@ static bool suspend_request = false;
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
 
-#ifdef DEBUG_BOINC_API
-    if (suspend_called || resume_called || quit_called || abort_called || app_client_shm->shm->process_control_request.get_msg(buf)) {
+#ifdef MSGS_FROM_FILE
+    char msg_buf[1024];
+    strcpy(msg_buf, "");
+    if (boinc_file_exists("msgs.txt")) {
+        FILE* f = fopen("msgs.txt", "r");
+        fgets(msg_buf, sizeof(msg_buf), f);
+        fclose(f);
+    }
+    if (strlen(msg_buf)) {
+        unlink("msgs.txt");
+        strlcpy(buf, msg_buf, sizeof(buf));
 #else
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
 #endif
         acquire_mutex();
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
         char log_buf[256];
         fprintf(stderr, "%s got process control msg %s\n",
             boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
         );
-        if (match_tag(buf, "<suspend/>") || suspend_called) {
-#else
-        if (match_tag(buf, "<suspend/>")) {
 #endif
+        if (match_tag(buf, "<suspend/>")) {
             BOINCINFO("Received suspend message");
             if (options.direct_process_action) {
                 if (in_critical_section > 0) {
@@ -1099,11 +1103,7 @@ static void handle_process_control_msg() {
                 boinc_status.suspended = true;
             }
         }
-#ifdef DEBUG_BOINC_API
-        if (match_tag(buf, "<resume/>") || resume_called) {
-#else
         if (match_tag(buf, "<resume/>")) {
-#endif
             BOINCINFO("Received resume message");
             if (options.direct_process_action) {
                 if (boinc_status.suspended) {
@@ -1114,11 +1114,7 @@ static void handle_process_control_msg() {
             }
             boinc_status.suspended = false;
         }
-#ifdef DEBUG_BOINC_API
-        if (boinc_status.quit_request || match_tag(buf, "<quit/>") || quit_called) {
-#else
         if (boinc_status.quit_request || match_tag(buf, "<quit/>")) {
-#endif
             BOINCINFO("Received quit message");
             boinc_status.quit_request = true;
             if ((in_critical_section==0) && options.direct_process_action) {
@@ -1126,11 +1122,7 @@ static void handle_process_control_msg() {
                 exit_from_timer_thread(0);
             }
         }
-#ifdef DEBUG_BOINC_API
-        if (boinc_status.abort_request || match_tag(buf, "<abort/>") || abort_called) {
-#else
         if (boinc_status.abort_request || match_tag(buf, "<abort/>")) {
-#endif
             BOINCINFO("Received abort message");
             boinc_status.abort_request = true;
             if ((in_critical_section==0) && options.direct_process_action) {
@@ -1153,14 +1145,6 @@ static void handle_process_control_msg() {
         }
         release_mutex();
 
-
-#ifdef DEBUG_BOINC_API
-        suspend_called = false;
-        resume_called = false;
-        quit_called = false;
-        abort_called = false;
-#endif // DEBUG
-
 #ifdef ANDROID
         // call the worker_signal_handler which calls boinc_exit
         pthread_kill(worker_thread_handle, SIGALRM);
@@ -1172,16 +1156,12 @@ static void handle_process_control_msg() {
 //
 static void timer_handler() {
     char buf[512];
-#ifdef DEBUG_BOINC_API
-    fprintf(stderr, "%s timer handler: disabled %s; in critical section %s; finishing %s; suspend_called %s; resume_called %s; quit_called %s; abort_called %s\n",
+#ifdef VERBOSE
+    fprintf(stderr, "%s timer handler: disabled %s; in critical section %s; finishing %s\n",
         boinc_msg_prefix(buf, sizeof(buf)),
         boinc_disable_timer_thread?"yes":"no",
         in_critical_section?"yes":"no",
-        finishing?"yes":"no",
-        suspend_called?"yes":"no",
-        resume_called?"yes":"no",
-        quit_called?"yes":"no",
-        abort_called?"yes":"no"
+        finishing?"yes":"no"
     );
 #endif
     if (boinc_disable_timer_thread) {
@@ -1201,10 +1181,6 @@ static void timer_handler() {
         running_interrupt_count++;
     }
 
-#ifdef DEBUG_BOINC_API
-    if (suspend_called || resume_called || quit_called || abort_called) { handle_process_control_msg(); };
-#endif
-
     // handle messages from the client
     //
     if (app_client_shm) {
@@ -1218,9 +1194,12 @@ static void timer_handler() {
             handle_process_control_msg();
         }
     }
+#ifdef MSGS_FROM_FILE
+    handle_process_control_msg();
+#endif
     if (interrupt_count % TIMERS_PER_SEC) return;
 
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     fprintf(stderr, "%s 1 sec elapsed - doing slow actions\n", boinc_msg_prefix(buf, sizeof(buf)));
 #endif
 
@@ -1316,29 +1295,6 @@ static void* timer_thread(void*) {
     }
     return 0;
 }
-
-#ifdef DEBUG_BOINC_API
-
-static void abort_signal_handler(int) {
-    abort_called = true;
-}
-
-static void quit_signal_handler(int) {
-    quit_called = true;
-}
-
-static void suspend_signal_handler(int) {
-    suspend_called = true;
-}
-
-static void resume_signal_handler(int) {
-    resume_called = true;
-}
-
-#endif // DEBUG
-
-
-
 
 // This SIGALRM handler gets handled only by the worker thread.
 // It gets CPU time and implements sleeping.
@@ -1441,67 +1397,6 @@ static int start_worker_signals() {
         return retval;
     }
 
-#ifdef DEBUG_BOINC_API
-
-/*
-  These signal handlers help with testing/debugging:
-
-      1. quitting w/ "kill -SIGUSR1 <pid>"
-      2. suspending w/ "kill -SIGUSR2 <pid>"
-      3. resuming w/ "kill -SIGINT <pid>"
-      4. aborting w/ "kill -SIGTERM <pid>"
-*/
-
-    struct sigaction sa1;
-    memset(&sa1, 0, sizeof(sa1));
-    sa1.sa_handler = quit_signal_handler;
-    sa1.sa_flags = SA_RESTART;
-    sigemptyset(&sa1.sa_mask);
-    retval = sigaction(SIGUSR1, &sa1, NULL);
-    if (retval) {
-        perror("boinc quit_signal_handler sigaction");
-        return retval;
-    }
-
-    struct sigaction sa2;
-    memset(&sa2, 0, sizeof(sa2));
-    sa2.sa_handler = suspend_signal_handler;
-    sa2.sa_flags = SA_RESTART;
-    sigemptyset(&sa2.sa_mask);
-    retval = sigaction(SIGUSR2, &sa2, NULL);
-    if (retval) {
-        perror("boinc suspend_signal_handler sigaction");
-        return retval;
-    }
-
-    struct sigaction sa3;
-    memset(&sa3, 0, sizeof(sa3));
-    sa3.sa_handler = resume_signal_handler;
-    sa3.sa_flags = SA_RESTART;
-    sigemptyset(&sa3.sa_mask);
-    retval = sigaction(SIGINT, &sa3, NULL);
-    if (retval) {
-        perror("boinc resume_signal_handler sigaction");
-        return retval;
-    }
-
-    struct sigaction sa4;
-    memset(&sa4, 0, sizeof(sa4));
-    sa4.sa_handler = abort_signal_handler;
-    sa4.sa_flags = SA_RESTART;
-    sigemptyset(&sa4.sa_mask);
-    retval = sigaction(SIGTERM, &sa4, NULL);
-    if (retval) {
-        perror("boinc abort_signal_handler sigaction");
-        return retval;
-    }
-
-#endif // DEBUG
-
-
-
-
-
 // worker_signal_handler causes random seg faults via setitimer
 // on some ANDROID devices for R@h and possibly other projects
 // so lets not periodically call the handler but call it only
@@ -1558,7 +1453,7 @@ int boinc_checkpoint_completed() {
 }
 
 void boinc_begin_critical_section() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr,
         "%s begin_critical_section\n",
@@ -1567,8 +1462,8 @@ void boinc_begin_critical_section() {
 #endif
     in_critical_section++;
 
-#ifdef DEBUG_BOINC_API
-    int tics = 30;
+#ifdef VERBOSE
+    int tics = 30;  // this pause is for testing
     while (tics-- > 0) {
         sleep(1);
         fprintf(stderr,
@@ -1581,7 +1476,7 @@ void boinc_begin_critical_section() {
 }
 
 void boinc_end_critical_section() {
-#ifdef DEBUG_BOINC_API
+#ifdef VERBOSE
     char buf[256];
     fprintf(stderr,
         "%s end_critical_section\n",
