@@ -34,6 +34,11 @@
 #include <dlfcn.h>
 #endif
 
+// some of the Android stuff below causes seg faults on some devices.
+// Disable by default.
+// Set this to enable it.
+//
+//#define ANDROID_VOODOO
 
 // flags for boinc_init_diagnostics()
 //
@@ -146,7 +151,7 @@ extern void set_signal_exit_code(int);
 }
 #endif
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 // Yes, these are undocumented android functions located
 // libcorkscrew.so .  They may not always be there, but it's better than
 // nothing.  And we've got source so we could reimplement them if necessary.
@@ -213,7 +218,7 @@ extern find_symbol_t find_symbol;
 typedef void (* format_backtrace_line_t)(unsigned, const backtrace_frame_t *, const backtrace_symbol_t *, char *, size_t);
 extern format_backtrace_line_t format_backtrace_line;
 
-#endif // ANDROID
+#endif // ANDROID_VOODOO
 
 #ifdef _WIN32
 
