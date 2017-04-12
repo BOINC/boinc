@@ -131,6 +131,9 @@ using std::vector;
 //#define MSGS_FROM_FILE
     // get messages from a file "msgs.txt" instead of shared mem
 
+//#define ANDROID
+    // use the Android thread/signal logic, which works on Linux too
+
 #ifdef __APPLE__
 #include "mac_backtrace.h"
 #endif
@@ -281,6 +284,9 @@ char* boinc_msg_prefix(char* sbuf, int len) {
     return sbuf;
 }
 
+#ifdef MSGS_FROM_FILE
+static FILE* fout = fopen("out_msgs.txt", "w");
+#else
 static int setup_shared_mem() {
     char buf[256];
     if (standalone) {
@@ -324,6 +330,7 @@ static int setup_shared_mem() {
     if (app_client_shm == NULL) return -1;
     return 0;
 }
+#endif  // MSGS_FROM_FILE
 
 // a mutex for data structures shared between time and worker threads
 //
@@ -420,31 +427,41 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
+#ifdef MSGS_FROM_FILE
+    fputs(msg_buf, fout);
+    return 0;
+#else
     return app_client_shm->shm->app_status.send_msg(msg_buf);
+#endif
 }
 
+// called in timer thread
+//
 static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     double dtemp;
     bool btemp;
 
-    if (app_client_shm->shm->heartbeat.get_msg(buf)) {
-        boinc_status.network_suspended = false;
-        if (match_tag(buf, "<heartbeat/>")) {
-            heartbeat_giveup_count = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
-        }
-        if (parse_double(buf, "<wss>", dtemp)) {
-            boinc_status.working_set_size = dtemp;
-        }
-        if (parse_double(buf, "<max_wss>", dtemp)) {
-            boinc_status.max_working_set_size = dtemp;
-        }
-        if (parse_bool(buf, "suspend_network", btemp)) {
-            boinc_status.network_suspended = btemp;
-        }
+    if (!app_client_shm->shm->heartbeat.get_msg(buf)) {
+        return;
+    }
+    boinc_status.network_suspended = false;
+    if (match_tag(buf, "<heartbeat/>")) {
+        heartbeat_giveup_count = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
+    }
+    if (parse_double(buf, "<wss>", dtemp)) {
+        boinc_status.working_set_size = dtemp;
+    }
+    if (parse_double(buf, "<max_wss>", dtemp)) {
+        boinc_status.max_working_set_size = dtemp;
+    }
+    if (parse_bool(buf, "suspend_network", btemp)) {
+        boinc_status.network_suspended = btemp;
     }
 }
 
+// called in timer thread
+//
 static bool client_dead() {
     char buf[256];
     bool dead;
@@ -521,11 +538,13 @@ static void parallel_master(int child_pid) {
 #endif
 
 int boinc_init() {
+#ifndef MSGS_FROM_FILE
     int retval;
     if (!diagnostics_is_initialized()) {
         retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
         if (retval) return retval;
     }
+#endif
     boinc_options_defaults(options);
     return boinc_init_options(&options);
 }
@@ -592,20 +611,23 @@ int boinc_set_min_checkpoint_period(int x) {
 }
 
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
-    int retval;
-    char buf[256];
     options = opt;
 
+#ifndef MSGS_FROM_FILE
+    int retval;
     if (!diagnostics_is_initialized()) {
         retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
         if (retval) return retval;
     }
+#endif
 
     boinc_status.no_heartbeat = false;
     boinc_status.suspended = false;
     boinc_status.quit_request = false;
     boinc_status.abort_request = false;
 
+#ifndef MSGS_FROM_FILE
+    char buf[256];
     if (options.main_program) {
         // make sure we're the only app running in this slot
         //
@@ -654,6 +676,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             standalone = true;
         }
     }
+#endif      // MSGS_FROM_FILE
 
     // copy the WU CPU time to a separate var,
     // since we may reread the structure again later.
@@ -836,6 +859,9 @@ int boinc_is_standalone() {
 // called from the timer thread if we need to exit,
 // e.g. quit message from client, or client has gone away
 //
+// On Linux we can't exit directly from the timer thread.
+// Set a flag telling the worker thread to exit.
+//
 static void exit_from_timer_thread(int status) {
 #ifdef VERBOSE
     char buf[256];
@@ -863,12 +889,13 @@ static void exit_from_timer_thread(int status) {
     pthread_kill(worker_thread_handle, SIGALRM);
 
     // the exit should happen more or less instantly.
-    // But if we're still here after 2 sec, exit directly
+    // But if we're still here after 5 sec, exit directly
     //
-    sleep(2.0);
+    sleep(5.0);
     boinc_exit(status);
-#endif
+#else
     pthread_exit(NULL);
+#endif
 #endif
 }
 
@@ -940,10 +967,15 @@ int boinc_report_app_status_aux(
         sprintf(buf, "<bytes_received>%f</bytes_received>\n", _bytes_received);
         safe_strcat(msg_buf, buf);
     }
+#ifdef MSGS_FROM_FILE
+    fputs(msg_buf, fout);
+    return 0;
+#else
     if (app_client_shm->shm->app_status.send_msg(msg_buf)) {
         return 0;
     }
     return ERR_WRITE;
+#endif
 }
 
 int boinc_report_app_status(
@@ -1032,6 +1064,7 @@ int resume_activities() {
     return 0;
 }
 
+#ifndef MSGS_FROM_FILE
 static void handle_upload_file_status() {
     char path[MAXPATHLEN], buf[256], log_name[256], *p, log_buf[256];
     std::string filename;
@@ -1080,6 +1113,7 @@ static void handle_trickle_down_msg() {
         }
     }
 }
+#endif
 
 // This flag is set of we get a suspend request while in a critical section,
 // and options.direct_process_action is set.
@@ -1092,94 +1126,105 @@ static bool suspend_request = false;
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
 #ifdef MSGS_FROM_FILE
-    char msg_buf[1024];
-    strcpy(msg_buf, "");
+    strcpy(buf, "");
     if (boinc_file_exists("msgs.txt")) {
         FILE* f = fopen("msgs.txt", "r");
-        fgets(msg_buf, sizeof(msg_buf), f);
+        fgets(buf, sizeof(buf), f);
         fclose(f);
-    }
-    if (strlen(msg_buf)) {
         unlink("msgs.txt");
+    }
+    if (!strlen(buf)) {
+        return;
+    }
 #else
-    if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+    if (!app_client_shm->shm->process_control_request.get_msg(buf)) {
+        return;
+    }
 #endif
 
-        acquire_mutex();
+    // here if we have a message to process
+
+    acquire_mutex();
 #ifdef VERBOSE
-        char log_buf[256];
-        fprintf(stderr, "%s got process control msg %s\n",
-            boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
-        );
+    char log_buf[256];
+    fprintf(stderr, "%s got process control msg %s\n",
+        boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
+    );
 #endif
-        if (match_tag(buf, "<suspend/>")) {
-            BOINCINFO("Received suspend message");
-            if (options.direct_process_action) {
-                if (in_critical_section) {
-                    suspend_request = true;
-                } else {
-                    boinc_status.suspended = true;
-                    suspend_request = false;
-                    suspend_activities(false);
-                }
+    if (match_tag(buf, "<suspend/>")) {
+        BOINCINFO("Received suspend message");
+        if (options.direct_process_action) {
+            if (in_critical_section) {
+                suspend_request = true;
             } else {
                 boinc_status.suspended = true;
+                suspend_request = false;
+                suspend_activities(false);
             }
+        } else {
+            boinc_status.suspended = true;
         }
-
-        if (match_tag(buf, "<resume/>")) {
-            BOINCINFO("Received resume message");
-            if (options.direct_process_action) {
-                if (boinc_status.suspended) {
-                    resume_activities();
-                } else if (suspend_request) {
-                    suspend_request = false;
-                }
-            }
-            boinc_status.suspended = false;
-        }
-
-        if (boinc_status.quit_request || match_tag(buf, "<quit/>")) {
-            BOINCINFO("Received quit message");
-            boinc_status.quit_request = true;
-            if (!in_critical_section && options.direct_process_action) {
-                release_mutex();
-                    // we hold mutex, and it's possible that worker
-                    // is waiting on it, so release it
-                exit_from_timer_thread(0);
-            }
-        }
-        if (boinc_status.abort_request || match_tag(buf, "<abort/>")) {
-            BOINCINFO("Received abort message");
-            boinc_status.abort_request = true;
-            if (!in_critical_section && options.direct_process_action) {
-                diagnostics_set_aborted_via_gui();
-#if   defined(_WIN32)
-                // Cause a controlled assert and dump the callstacks.
-                DebugBreak();
-#elif defined(__APPLE__)
-                PrintBacktrace();
-#endif
-                release_mutex();
-                exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
-            }
-        }
-        if (match_tag(buf, "<reread_app_info/>")) {
-            boinc_status.reread_init_data_file = true;
-        }
-        if (match_tag(buf, "<network_available/>")) {
-            have_network = 1;
-        }
-        release_mutex();
     }
+
+    if (match_tag(buf, "<resume/>")) {
+        BOINCINFO("Received resume message");
+        if (options.direct_process_action) {
+            if (boinc_status.suspended) {
+                resume_activities();
+            } else if (suspend_request) {
+                suspend_request = false;
+            }
+        }
+        boinc_status.suspended = false;
+    }
+
+    if (boinc_status.quit_request || match_tag(buf, "<quit/>")) {
+        BOINCINFO("Received quit message");
+        boinc_status.quit_request = true;
+        if (!in_critical_section && options.direct_process_action) {
+            release_mutex();
+                // we hold mutex, and it's possible that worker
+                // is waiting on it, so release it
+            exit_from_timer_thread(0);
+        }
+    }
+    if (boinc_status.abort_request || match_tag(buf, "<abort/>")) {
+        BOINCINFO("Received abort message");
+        boinc_status.abort_request = true;
+        if (!in_critical_section && options.direct_process_action) {
+            diagnostics_set_aborted_via_gui();
+#if   defined(_WIN32)
+            // Cause a controlled assert and dump the callstacks.
+            DebugBreak();
+#elif defined(__APPLE__)
+            PrintBacktrace();
+#endif
+            release_mutex();
+            exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
+        }
+    }
+    if (match_tag(buf, "<reread_app_info/>")) {
+        boinc_status.reread_init_data_file = true;
+    }
+    if (match_tag(buf, "<network_available/>")) {
+        have_network = 1;
+    }
+#ifdef ANDROID
+    // Trigger call to worker_signal_handler() in the worker thread
+    //
+    pthread_kill(worker_thread_handle, SIGALRM);
+#endif
+    release_mutex();
 }
 
 // timer handler; called every 0.1 sec in the timer thread
 //
 static void timer_handler() {
     char buf[512];
-#ifdef VERBOSE
-    fprintf(stderr, "%s timer handler: disabled %s; in critical section %s; finishing %s\n",
+//#ifdef VERBOSE
+#if 0
+    fprintf(stderr,
+        "%s timer handler: disabled %s; in critical section %s; finishing %s\n",
         boinc_msg_prefix(buf, sizeof(buf)),
         boinc_disable_timer_thread?"yes":"no",
         in_critical_section?"yes":"no",
@@ -1204,6 +1249,9 @@ static void timer_handler() {
     }
     // handle messages from the client
     //
+#ifdef MSGS_FROM_FILE
+    handle_process_control_msg();
+#else
     if (app_client_shm) {
         if (options.check_heartbeat) {
             handle_heartbeat_msg();
@@ -1215,10 +1263,6 @@ static void timer_handler() {
             handle_process_control_msg();
         }
     }
-#ifdef ANDROID
-    // Trigger call to worker_signal_handler() in the worker thread
-    //
-    pthread_kill(worker_thread_handle, SIGALRM);
 #endif
     if (interrupt_count % TIMERS_PER_SEC) return;
 
@@ -1319,14 +1363,33 @@ static void* timer_thread(void*) {
 // It must call only signal-safe functions, and must not do FP math
 //
 static void worker_signal_handler(int) {
+#ifdef ANDROID
+    // per-thread signal masking doesn't work on pre-4.1 Android.
+    // If we're handling this signal in the timer thread,
+    // send signal explicitly to worker thread.
+    //
+    if (pthread_self() != worker_thread_handle) {
+#ifdef VERBOSE
+        fprintf(stderr, "worker signal handler: called in timer thread; forwarding to worker\n");
+#endif
+        pthread_kill(worker_thread_handle, SIGALRM);
+        return;
+    }
+#endif
 #ifndef GETRUSAGE_IN_TIMER_THREAD
     getrusage(RUSAGE_SELF, &worker_thread_ru);
 #endif
     if (worker_thread_exit_flag) {
+#ifdef VERBOSE
+        fprintf(stderr, "worker signal handler: exiting\n");
+#endif
         boinc_exit(worker_thread_exit_status);
     }
     if (options.direct_process_action) {
         while (boinc_status.suspended && in_critical_section==0) {
+#ifdef VERBOSE
+            fprintf(stderr, "worker signal handler: sleeping\n");
+#endif
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
     }
