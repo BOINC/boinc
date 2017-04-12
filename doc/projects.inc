@@ -361,10 +361,10 @@ $astro_phys_chem = array(
 //        ),
         array(
             "Einstein@home",
-            "http://einstein.phys.uwm.edu/",
-            tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
+            "https://einsteinathome.org/",
+            tra("University of Wisconsin - Milwaukee (USA), Max Planck Institute for Gravitational Physics - Hanover (Germany)"),
             tra("Astrophysics"),
-            tra("Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."),
+            tra("Einstein@Home uses your computer's idle time to search for weak astrophysical signals from spinning neutron stars (often called pulsars) using data from the LIGO gravitational-wave detectors, the Arecibo radio telescope, and the Fermi gamma-ray satellite."),
             "einstein.jpg",
             "",
             tra("Help detect pulsars and gravitational waves")
