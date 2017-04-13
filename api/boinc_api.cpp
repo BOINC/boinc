@@ -130,6 +130,7 @@ using std::vector;
 
 //#define MSGS_FROM_FILE
     // get messages from a file "msgs.txt" instead of shared mem
+    // write messages to a file "out_msgs.txt" instead of shared mem
 
 //#define ANDROID
     // use the Android thread/signal logic, which works on Linux too
@@ -231,6 +232,10 @@ static struct rusage worker_thread_ru;
 static BOINC_OPTIONS options;
 volatile BOINC_STATUS boinc_status;
 
+#ifdef MSGS_FROM_FILE
+static FILE* fout;
+#endif
+
 // vars related to intermediate file upload
 struct UPLOAD_FILE_STATUS {
     std::string name;
@@ -284,9 +289,8 @@ char* boinc_msg_prefix(char* sbuf, int len) {
     return sbuf;
 }
 
-#ifdef MSGS_FROM_FILE
-static FILE* fout = fopen("out_msgs.txt", "w");
-#else
+#ifndef MSGS_FROM_FILE
+
 static int setup_shared_mem() {
     char buf[256];
     if (standalone) {
@@ -330,7 +334,7 @@ static int setup_shared_mem() {
     if (app_client_shm == NULL) return -1;
     return 0;
 }
-#endif  // MSGS_FROM_FILE
+#endif      // MSGS_FROM_FILE
 
 // a mutex for data structures shared between time and worker threads
 //
@@ -428,7 +432,9 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
 #ifdef MSGS_FROM_FILE
-    fputs(msg_buf, fout);
+    if (fout) {
+        fputs(msg_buf, fout);
+    }
     return 0;
 #else
     return app_client_shm->shm->app_status.send_msg(msg_buf);
@@ -626,7 +632,12 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     boinc_status.quit_request = false;
     boinc_status.abort_request = false;
 
-#ifndef MSGS_FROM_FILE
+#ifdef MSGS_FROM_FILE
+    fout = fopen("out_msgs.txt", "w");
+    if (!fout) {
+        fprintf(stderr, "Can't open out_msgs.txt\n");
+    }
+#else
     char buf[256];
     if (options.main_program) {
         // make sure we're the only app running in this slot
@@ -968,7 +979,9 @@ int boinc_report_app_status_aux(
         safe_strcat(msg_buf, buf);
     }
 #ifdef MSGS_FROM_FILE
-    fputs(msg_buf, fout);
+    if (fout) {
+        fputs(msg_buf, fout);
+    }
     return 0;
 #else
     if (app_client_shm->shm->app_status.send_msg(msg_buf)) {
@@ -1129,6 +1142,10 @@ static void handle_process_control_msg() {
     strcpy(buf, "");
     if (boinc_file_exists("msgs.txt")) {
         FILE* f = fopen("msgs.txt", "r");
+        if (!f) {
+            fprintf(stderr, "msgs.txt exists but can't open it\n");
+            return;
+        }
         fgets(buf, sizeof(buf), f);
         fclose(f);
         unlink("msgs.txt");
