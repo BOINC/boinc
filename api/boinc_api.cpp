@@ -637,6 +637,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     if (!fout) {
         fprintf(stderr, "Can't open out_msgs.txt\n");
     }
+    options.check_heartbeat = false;
 #else
     char buf[256];
     if (options.main_program) {
