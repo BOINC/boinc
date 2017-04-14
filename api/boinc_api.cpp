@@ -250,6 +250,11 @@ static void block_sigalrm();
 static int start_worker_signals();
 
 char* boinc_msg_prefix(char* sbuf, int len) {
+#ifdef ANDROID
+    // the time stuff crashes on Android if in a signal handler
+    //
+    sbuf[0] = 0;
+#else
     char buf[256];
     struct tm tm;
     struct tm *tmp = &tm;
@@ -286,6 +291,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         return sbuf;
     }
     sbuf[len-1] = 0;    // just in case
+#endif  // ANDROID
     return sbuf;
 }
 
