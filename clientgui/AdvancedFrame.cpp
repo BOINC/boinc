@@ -1465,6 +1465,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_SELECTCOMPUTER);
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    int                showDialog = wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage();
     CDlgGenericMessage dlg(this);
     wxString           strDialogTitle = wxEmptyString;
     wxString           strDialogMessage = wxEmptyString;
@@ -1479,29 +1480,31 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // Stop all timers
     StopTimers();
 
+    if (showDialog) {
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strDialogTitle.Printf(
+            _("%s - Shut down the current client..."),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    strDialogTitle.Printf(
-        _("%s - Shut down the current client..."),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
+        // 1st %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        // 2nd %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        strDialogMessage.Printf(
+            _("%s will shut down the current client\nand prompt you for another host to connect to."),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
 
-    // 1st %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    // 2nd %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strDialogMessage.Printf(
-        _("%s will shut down the current client\nand prompt you for another host to connect to."),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
+        dlg.SetTitle(strDialogTitle);
+        dlg.m_DialogMessage->SetLabel(strDialogMessage);
+        dlg.Fit();
+        dlg.Centre();
+    }
 
-    dlg.SetTitle(strDialogTitle);
-    dlg.m_DialogMessage->SetLabel(strDialogMessage);
-    dlg.Fit();
-    dlg.Centre();
-
-    if (wxID_OK == dlg.ShowModal()) {
+    if (!showDialog || wxID_OK == dlg.ShowModal()) {
+        wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.m_DialogDisableMessage->GetValue());
         pDoc->CoreClientQuit();
         pDoc->ForceDisconnect();
         
