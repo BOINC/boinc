@@ -106,6 +106,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
     m_iDisplayExitDialog = 1;
+    m_iDisplayShutdownConnectedClientDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
     m_bRunDaemon = true;
@@ -163,6 +164,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->SetPath(wxT("/"));
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
+    m_pConfig->Read(wxT("DisplayShutdownConnectedClientDialog"), &m_iDisplayShutdownConnectedClientDialog, 1L);
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
@@ -567,6 +569,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
 }
