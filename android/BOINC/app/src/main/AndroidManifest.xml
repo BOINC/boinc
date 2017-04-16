@@ -19,9 +19,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
-    android:installLocation="internalOnly"
-    android:versionCode="72"
-    android:versionName="7.5.0"> <!-- installation on SD card would break boot receiver -->
+    android:installLocation="internalOnly"> <!-- installation on SD card would break boot receiver -->
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
     <supports-screens

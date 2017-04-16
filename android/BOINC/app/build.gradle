@@ -1,4 +1,44 @@
+plugins {
+    id 'org.ajoberstar.grgit' version '1.7.1'
+    id 'com.palantir.git-version' version '0.7.1'
+}
+
 apply plugin: 'com.android.application'
+
+import org.ajoberstar.grgit.Grgit
+
+// Use commit date as version code
+def buildVersionCode() {
+    def repo = Grgit.open()
+    def head = repo.head()
+
+    // Sanity check across git plugins
+    assert head.getAbbreviatedId(10) == versionDetails().gitHash : "Internal error: SHA1 mismatch!"
+
+    return head.time
+}
+
+// Derive version name from release tag and add commit SHA1
+def buildVersionName() {
+    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_].*)/
+    def message = 'Invalid release tag encountered:'
+
+    def tag = versionDetails().lastTag
+    def match = (tag =~ pattern)
+
+    // Sanity checks for tag format
+    assert match.hasGroup() : "$message $tag"
+    assert 1 == match.size() : "$message $tag"
+    assert 5 == match[0].size() : "$message $tag"
+
+    def major = match.group('major')
+    def minor = match.group('minor')
+    def revision = match.group('revision')
+    def suffix = match.group('suffix')
+    def commit = versionDetails().gitHash
+
+    return "${major}.${minor}.${revision}${suffix} (${commit})"
+}
 
 android {
     compileSdkVersion 23
@@ -8,6 +48,8 @@ android {
         applicationId "edu.berkeley.boinc"
         minSdkVersion 16
         targetSdkVersion 23
+        versionCode buildVersionCode()
+        versionName buildVersionName()
     }
 
     buildTypes {
