@@ -195,13 +195,13 @@ $net_prefs = array(
         tra("Limit download rate to"),
         tra("Limit the download rate of file transfers."),
         "max_bytes_sec_down",
-        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1024, 100)
     ),
     new PREF_OPT_NUM(
         tra("Limit upload rate to"),
         tra("Limit the upload rate of file transfers."),
         "max_bytes_sec_up",
-        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1024, 100)
     ),
     new PREF_NUM2(
         tra("Limit usage to"),
