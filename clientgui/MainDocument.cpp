@@ -1298,14 +1298,14 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
             return;
 
         if (!version.empty() && !url.empty()) {
-            message.Printf("%s: %s", _("A new version of BOINC is available for downloading here"), url);
+            message.Printf(_("A new version of %s is available. You can download it here: %s"), applicationName, url);
         }
         else {
-            message.Printf("%s", _("No new version available for downloading"), url);
+            message.Printf(_("There is no new version of %s available for download."), applicationName);
         }
     }
     else {
-        message.Printf("%s is not connected to the client", applicationName);
+        message.Printf(_("%s is not connected to the client"), applicationName);
     }
     if (showMessage) {
         wxGetApp().SafeMessageBox(message, title);
