@@ -208,7 +208,7 @@ int VBOX_VM::create_vm() {
     command += "--basefolder \"" + virtual_machine_slot_directory + "\" ";
     command += "--ostype \"" + os_name + "\" ";
     command += "--register";
-    
+
     retval = vbm_popen(command, output, "create");
     if (retval) return retval;
 
@@ -254,11 +254,11 @@ int VBOX_VM::create_vm() {
     command  = "modifyvm \"" + vm_name + "\" ";
     if (boot_iso) {
         command += "--boot1 dvd ";
-        command += "--boot2 disk ";        
+        command += "--boot2 disk ";
     } else {
         command += "--boot1 disk ";
         command += "--boot2 dvd ";
-    } 
+    }
     command += "--boot3 none ";
     command += "--boot4 none ";
 
@@ -418,9 +418,9 @@ int VBOX_VM::create_vm() {
     command += "--add \"" + vm_disk_controller_type + "\" ";
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     if (
-         (vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA") ||
-         (vm_disk_controller_type == "scsi") || (vm_disk_controller_type == "SCSI") ||
-         (vm_disk_controller_type == "sas") || (vm_disk_controller_type == "SAS")
+        (vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA") ||
+        (vm_disk_controller_type == "scsi") || (vm_disk_controller_type == "SCSI") ||
+        (vm_disk_controller_type == "sas") || (vm_disk_controller_type == "SAS")
     ) {
         command += "--hostiocache off ";
     }
@@ -478,7 +478,7 @@ int VBOX_VM::create_vm() {
 
         // Add a virtual cache disk drive to VM
         //
-        if (enable_cache_disk){
+        if (enable_cache_disk) {
             vboxlog_msg("Adding virtual cache disk drive to VM. (%s)", cache_disk_filename.c_str());
             command  = "storageattach \"" + vm_name + "\" ";
             command += "--storagectl \"Hard Disk Controller\" ";
@@ -590,9 +590,9 @@ int VBOX_VM::create_vm() {
             // Add new firewall rule
             //
             sprintf(buf, ",tcp,%s,%d,,%d",
-                pf.is_remote?"":"127.0.0.1",
-                pf.host_port, pf.guest_port
-            );
+                    pf.is_remote?"":"127.0.0.1",
+                    pf.host_port, pf.guest_port
+                   );
             command  = "modifyvm \"" + vm_name + "\" ";
             command += "--natpf1 \"" + string(buf) + "\" ";
 
@@ -673,7 +673,7 @@ int VBOX_VM::register_vm() {
     //
     command  = "registervm ";
     command += "\"" + virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox\" ";
-    
+
     retval = vbm_popen(command, output, "register");
     if (retval) return retval;
 
@@ -795,7 +795,7 @@ int VBOX_VM::deregister_stale_vm() {
     //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
-    if (enable_isocontextualization && enable_isocontextualization) {
+    if (enable_isocontextualization) {
         command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
@@ -1182,10 +1182,10 @@ int VBOX_VM::capture_screenshot() {
 
             command = "controlvm \"" + vm_name + "\" ";
             command += "screenshotpng \"";
-	        command += virtual_machine_slot_directory;
-	        command += "/";
-	        command += SCREENSHOT_FILENAME;
-	        command += "\"";
+            command += virtual_machine_slot_directory;
+            command += "/";
+            command += SCREENSHOT_FILENAME;
+            command += "\"";
             retval = vbm_popen(command, output, "capture screenshot", true, true, 0);
             if (retval) return retval;
 
@@ -1193,7 +1193,7 @@ int VBOX_VM::capture_screenshot() {
 
         }
     }
-	return 0;
+    return 0;
 }
 
 int VBOX_VM::create_snapshot(double elapsed_time) {
@@ -1262,7 +1262,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
     //
     // Traverse the list from newest to oldest.  Otherwise we end up with an error:
     //   VBoxManage.exe: error: Snapshot operation failed
-    //   VBoxManage.exe: error: Hard disk 'C:\ProgramData\BOINC\slots\23\vm_image.vdi' has 
+    //   VBoxManage.exe: error: Hard disk 'C:\ProgramData\BOINC\slots\23\vm_image.vdi' has
     //     more than one child hard disk (2)
     //
 
@@ -1298,7 +1298,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
             command += "delete \"";
             command += uuid;
             command += "\" ";
-            
+
             // Only log the error if we are not attempting to deregister the VM.
             // delete_active is only set to true when we are deregistering the VM.
             retval = vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
@@ -1403,7 +1403,7 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     if (
         (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) ||
         (output.find("WARNING: The VirtualBox kernel modules are not loaded.") != string::npos)
-    ){
+    ) {
         vboxlog_msg("WARNING: The VirtualBox kernel modules are not loaded.");
         vboxlog_msg("WARNING: Please update/recompile VirtualBox kernel drivers.");
         message = "Please update/recompile VirtualBox kernel drivers.";
@@ -1413,7 +1413,7 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     if (
         (output.find("Warning: program compiled against ") != string::npos) &&
         (output.find(" using older ") != string::npos)
-    ){
+    ) {
         vboxlog_msg("WARNING: VirtualBox incompatible dependencies detected.");
         message = "Please update/reinstall VirtualBox";
         rc = false;
@@ -1431,10 +1431,10 @@ bool VBOX_VM::is_disk_image_registered() {
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
     if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
-            (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
-            (output.find("does not match the value") == string::npos)
-        ) {
+        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) &&
+                (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
+                (output.find("does not match the value") == string::npos)
+           ) {
             // Error message not found in text
             return true;
         }
@@ -1443,10 +1443,10 @@ bool VBOX_VM::is_disk_image_registered() {
     if (enable_isocontextualization && enable_cache_disk) {
         command = "showhdinfo \"" + virtual_machine_root_dir + "/" + cache_disk_filename + "\" ";
         if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-            if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
-                (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
-                (output.find("does not match the value") == string::npos)
-            ) {
+            if ((output.find("VBOX_E_FILE_ERROR") == string::npos) &&
+                    (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
+                    (output.find("does not match the value") == string::npos)
+               ) {
                 // Error message not found in text
                 return true;
             }
@@ -1479,36 +1479,36 @@ int VBOX_VM::get_install_directory(string& install_directory) {
 
     // change the current directory to the boinc data directory if it exists
     lReturnValue = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Oracle\\VirtualBox"),  
-        0, 
-        KEY_READ,
-        &hkSetupHive
-    );
+                       HKEY_LOCAL_MACHINE,
+                       _T("SOFTWARE\\Oracle\\VirtualBox"),
+                       0,
+                       KEY_READ,
+                       &hkSetupHive
+                   );
     if (lReturnValue == ERROR_SUCCESS) {
         // How large does our buffer need to be?
         lReturnValue = RegQueryValueEx(
-            hkSetupHive,
-            _T("InstallDir"),
-            NULL,
-            NULL,
-            NULL,
-            &dwSize
-        );
+                           hkSetupHive,
+                           _T("InstallDir"),
+                           NULL,
+                           NULL,
+                           NULL,
+                           &dwSize
+                       );
         if (lReturnValue != ERROR_FILE_NOT_FOUND) {
             // Allocate the buffer space.
             lpszRegistryValue = (LPTSTR) malloc(dwSize);
             (*lpszRegistryValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
-                hkSetupHive,
-                _T("InstallDir"),
-                NULL,
-                NULL,
-                (LPBYTE)lpszRegistryValue,
-                &dwSize
-            );
+            lReturnValue = RegQueryValueEx(
+                               hkSetupHive,
+                               _T("InstallDir"),
+                               NULL,
+                               NULL,
+                               (LPBYTE)lpszRegistryValue,
+                               &dwSize
+                           );
 
             install_directory = lpszRegistryValue;
         }
@@ -1549,20 +1549,20 @@ int VBOX_VM::get_version_information(std::string& version_raw, std::string& vers
         }
 
         if (3 == sscanf(output.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
-			snprintf(
+            snprintf(
                 buf, sizeof(buf),
                 "%d.%d.%d",
                 vbox_major, vbox_minor, vbox_release
             );
             version_raw = buf;
-			snprintf(
+            snprintf(
                 buf, sizeof(buf),
                 "VirtualBox VboxManage Interface (Version: %d.%d.%d)",
                 vbox_major, vbox_minor, vbox_release
             );
             version_display = buf;
         } else {
-			version_raw = "Unknown";
+            version_raw = "Unknown";
             version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
         }
     }
@@ -1723,48 +1723,48 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_vm_process_id() {
-	string virtualbox_vm_log;
-	string::iterator iter;
-	int retval = BOINC_SUCCESS;
-	string line;
-	string comp = "Process ID";
-	string pid;
-	size_t pid_start;
-	size_t pid_end;
-	std::size_t found;
+    string virtualbox_vm_log;
+    string::iterator iter;
+    int retval = BOINC_SUCCESS;
+    string line;
+    string comp = "Process ID";
+    string pid;
+    size_t pid_start;
+    size_t pid_end;
+    std::size_t found;
 
 
-	virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
+    virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-	if (boinc_file_exists(virtualbox_vm_log.c_str())) {
+    if (boinc_file_exists(virtualbox_vm_log.c_str())) {
 
-		std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
-		while (std::getline(src, line))
-		{
+        std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
+        while (std::getline(src, line))
+        {
 
-			found = line.find(comp);
-			if (found != string::npos){
+            found = line.find(comp);
+            if (found != string::npos) {
 
-				pid_start = line.find("Process ID: ");
-				if (pid_start == string::npos) {
-					vboxlog_msg("Something wrong with the process ID finding\n %s ", line.c_str());
-					return ERR_NOT_FOUND;
-				}
-				pid_start += strlen("Process ID: ");
-				pid_end = line.find("\n", pid_start);
-				pid = line.substr(pid_start, pid_end - pid_start);
-				strip_whitespace(pid);
-				if (pid.size() <= 0) {
-					return ERR_NOT_FOUND;
-				}
+                pid_start = line.find("Process ID: ");
+                if (pid_start == string::npos) {
+                    vboxlog_msg("Something wrong with the process ID finding\n %s ", line.c_str());
+                    return ERR_NOT_FOUND;
+                }
+                pid_start += strlen("Process ID: ");
+                pid_end = line.find("\n", pid_start);
+                pid = line.substr(pid_start, pid_end - pid_start);
+                strip_whitespace(pid);
+                if (pid.size() <= 0) {
+                    return ERR_NOT_FOUND;
+                }
 
-				vm_pid = atol(pid.c_str());
-				break;
-			}
-		}
-	}
+                vm_pid = atol(pid.c_str());
+                break;
+            }
+        }
+    }
 
-	return retval;
+    return retval;
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
@@ -1789,7 +1789,7 @@ double VBOX_VM::get_vm_cpu_time() {
 }
 
 // Enable the network adapter if a network connection is required.
-// NOTE: Network access should never be allowed if the code running in a 
+// NOTE: Network access should never be allowed if the code running in a
 //   shared directory or the VM image itself is NOT signed.  Doing so
 //   opens up the network behind the company firewall to attack.
 //
@@ -1921,6 +1921,4 @@ void VBOX_VM::reset_vm_process_priority() {
     }
 #endif
 }
-
 }
-
