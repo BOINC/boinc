@@ -133,6 +133,7 @@ pkginclude_HEADERS = \
     cert_sig.h \
     cl_boinc.h \
     common_defs.h \
+    $(top_builddir)/config.h \
     coproc.h \
     crypt.h \
     diagnostics.h \
@@ -152,9 +153,11 @@ pkginclude_HEADERS = \
     parse.h \
     prefs.h \
     procinfo.h \
+    $(top_srcdir)/project_specific_defines.h \
     proxy_info.h \
 	sched_msgs.h \
     stackwalker_imports.h \
+    str_replace.h \
     str_util.h \
     url.h \
     util.h \
@@ -168,7 +171,6 @@ noinst_HEADERS = \
     proc_control.h \
     procinfo.h \
     shmem.h \
-    str_replace.h \
     synch.h \
     unix_util.h
 
