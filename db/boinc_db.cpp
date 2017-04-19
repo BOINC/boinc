@@ -1011,7 +1011,7 @@ void DB_CREDITED_JOB::db_parse(MYSQL_ROW &r) {
     clear();
     userid = atol(r[i++]);
     workunitid = atol(r[i++]);
-};
+}
 
 void DB_RESULT::db_print(char* buf){
     ESCAPE(xml_doc_out);
