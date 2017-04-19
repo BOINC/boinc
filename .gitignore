@@ -105,6 +105,11 @@ drupal/sites/default/project
 ## translation system
 locale/*/*.flag
 
+## dependency builds and CI cache directories
+3rdParty/linux/
+3rdParty/mac/
+3rdParty/buildCache/
+
 .libs/
 svn_version.h
 

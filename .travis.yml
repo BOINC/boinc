@@ -21,7 +21,7 @@ sudo: false
 cache:
   apt: true
   directories:
-  - build/wxWidgets-3.0.2
+  - 3rdParty/buildCache
 
 addons:
   coverity_scan:
@@ -81,6 +81,6 @@ script:
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
-- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./build/getWxWidgets.sh && ./configure --disable-server --disable-client --with-wxdir=./build/wxWidgets-3.0.2/buildgtk && make ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux && make ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
