@@ -150,7 +150,7 @@
     <div id="header"><div class="section clearfix">
 
       <?php if ($logo): ?>
-        <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print bts('Home'); ?>" /></a>
+        <a href="<?php print $front_page; ?>" title="<?php print bts('Home', array(), NULL, 'boinc:menu-bar'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print bts('Home', array(), NULL, 'boinc:menu-bar'); ?>" /></a>
       <?php endif; ?>
 
       <?php if ($site_name || $site_slogan): ?>
@@ -158,11 +158,11 @@
           <?php if ($site_name): ?>
             <?php if ($title): ?>
               <div id="site-name"><strong>
-                <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
+                <a href="<?php print $front_page; ?>" title="<?php print bts('Home', array(), NULL, 'boinc:menu-bar'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
               </strong></div>
             <?php else: // Use h1 when the content title is empty  ?>
               <h1 id="site-name">
-                <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
+                <a href="<?php print $front_page; ?>" title="<?php print bts('Home', array(), NULL, 'boinc:menu-bar'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
               </h1>
             <?php endif; ?>
           <?php endif; ?>
@@ -209,7 +209,7 @@
             ?>
             </li>
             <?php if (module_exists('global_search') OR module_exists('global_search_solr')): ?>
-              <li class="last"><a class="search" href="<?php print url('search/site') ?>"><span class="tab"><?php print bts('search'); ?></span></a></li>
+              <li class="last"><a class="search" href="<?php print url('search/site') ?>"><span class="tab"><?php print bts('search', array(), NULL, 'boinc:menu-bar'); ?></span></a></li>
             <?php endif; ?>
           </ul>
         </div>
@@ -265,9 +265,9 @@
         $active_menu_item = '';
         $current_path = $_GET['q'];
         $heading_overrides = array(
-          'join' => bts('Join now'),
-          'user/login' => bts('Account'),
-          'user/password' => bts('Account'),
+          'join' => bts('Join now', array(), NULL, 'boinc:front-page'),
+          'user/login' => bts('Account', array(), NULL, 'boinc:user-account'),
+          'user/password' => bts('Account', array(), NULL, 'boinc:user-account'),
         );
         if (isset($heading_overrides[$current_path])) {
           $active_menu_item = $heading_overrides[$current_path];
@@ -356,10 +356,10 @@
           <ul id="server-status" class="tab-list">
             
             <li class="first tab">
-              <?php print l(bts('Applications'), $app_list_url); ?>
+              <?php print l(bts('Applications', array(), NULL, 'boinc:footer-link'), $app_list_url); ?>
             </li>
             <li class="last tab">
-              <?php print l(bts('Server status'), $server_status_url); ?>
+              <?php print l(bts('Server status', array(), NULL, 'boinc:footer-link'), $server_status_url); ?>
             </li>
             <!--<li class="first tab">Server status</li>
             <li class="tab">
@@ -379,7 +379,7 @@
           
           <div id="language"
             style="background: url(<?php print $flag_path; ?>) no-repeat right;">
-              <?php print bts('Language'); ?>
+              <?php print bts('Language', array(), NULL, 'boinc:footer-link'); ?>
           </div>
           
           <?php if ($footer_message): ?>
@@ -388,7 +388,7 @@
           
           <?php if (user_access('create page content') OR user_access('create news content')): ?>
             <div id="content-management-links">
-              <?php print l(bts('Create content'), 'node/add'); ?>
+              <?php print l(bts('Create content', array(), NULL, 'boinc:footer-link'), 'node/add'); ?>
             </div>
           <?php endif; ?>
           

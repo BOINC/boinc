@@ -75,7 +75,7 @@
           '!here' => l(bts('here'), "node/{$comment->nid}#comment-{$comment->cid}",
             array('attributes' => array('class' => 'ignore-user-content-link')))
         )
-      );
+      , array(), NULL, 'boinc:coment-from-ignored-user');
       print '<div class="ignore-user-content">';
     } 
     ?>
@@ -113,7 +113,7 @@
         </div>
         <div class="pm-link"><?php
           if ($user->uid AND ($user->uid != $account->uid)) {
-            print l(bts('Send message'),
+            print l(bts('Send message', array(), NULL, 'boinc:private-message'),
             privatemsg_get_link(array($account)),
             array('query' => drupal_get_destination()));
           } ?>
@@ -134,28 +134,28 @@
     <?php endif; ?>
 
     <?php if ($unpublished): ?>
-      <div class="unpublished"><?php print bts('Unpublished'); ?></div>
+      <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-link'); ?></div>
     <?php endif; ?>
 
     <div class="submitted">
       <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
     </div>
     <div class="comment-id">
-      <?php echo l(bts('Message @id', array('@id' => $comment->cid)),
+      <?php echo l(bts('Message @id', array('@id' => $comment->cid), NULL, 'boinc:message-header'),
         "goto/comment/{$comment->cid}"); ?>
       <?php 
         if ($comment->pid):
           $parent = _comment_load($comment->pid);
           if ($parent->status == COMMENT_PUBLISHED) {
-            $parent_link = l(bts('message @id', array('@id' => $comment->pid)),
+            $parent_link = l(bts('message @id', array('@id' => $comment->pid), NULL, 'boinc:message-header'),
             "goto/comment/{$comment->pid}");
           }
           else {
-            $parent_link = '(' . bts('parent removed') . ')';
+            $parent_link = '(' . bts('parent removed', array(), NULL, 'boinc:message-header') . ')';
           }
           echo bts(' in response to !parent', array(
             '!parent' => $parent_link
-          ));
+          ), NULL, 'boinc:message-header');
         endif;
       ?>
     </div>
@@ -164,7 +164,7 @@
     </div>
     <?php if ($moderator_links): ?>
       <div class="moderator-links">
-        <span class="label">(<?php print bts('moderation'); ?>:</span>
+        <span class="label">(<?php print bts('moderation', array(), NULL, 'boinc:comment-action-link'); ?>:</span>
         <?php print $moderator_links; ?>
         <span class="label">)</span>
       </div>
@@ -189,5 +189,5 @@
 </div> <!-- /.comment -->
 
 <?php if ($status == 'comment-preview'): ?>
-  <h2 class="title"><?php print bts('Revise or post comment'); ?></h2>
+  <h2 class="title"><?php print bts('Revise or post comment', array(), NULL, 'boinc:comment-preview-title'); ?></h2>
 <?php endif; ?>

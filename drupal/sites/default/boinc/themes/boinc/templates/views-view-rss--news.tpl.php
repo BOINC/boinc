@@ -12,7 +12,7 @@
  // description in the view does not allow the site_name variable.
  $site_name = variable_get('site_name', 'BOINC');
  $description = bts('The latest news from the @site_name project',
-    array('@site_name' => $site_name));
+    array('@site_name' => $site_name), NULL, 'boinc:rss-feed-description');
   
 ?>
 <?php print "<?xml"; ?> version="1.0" encoding="utf-8" <?php print "?>"; ?>

@@ -91,7 +91,7 @@ function boinc_links__system_main_menu($links, $menu, $element) {
     if ($i == $item_count) $classes[] = 'last';
     $html .= '<li class="' . implode(' ', $classes) .'">';
     if ($link['title'] == 'Home') {
-      $link['title'] = bts('Home');
+      $link['title'] = bts('Home', array(), NULL, 'boinc:menu-bar');
     }
     if (module_exists('privatemsg')) {
       // Put a new mail notification next to the Account menu item
@@ -286,7 +286,7 @@ function boinc_preprocess_forums(&$vars, $hook) {
     unset($vars['links']['forum']);
     // Add a link to manage subscriptions for the user
     $vars['links']['subscriptions'] = array(
-      'title' => bts('Manage subscriptions'),
+      'title' => bts('Manage subscriptions', array(), NULL, 'boinc:forum-footer'),
       'href' => 'account/prefs/subscriptions',
     );
   }
@@ -422,7 +422,7 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $view->execute();
     $result = reset($view->result);
     // Display the stderr output in the footer
-    $vars['footer'] = '<h3>' . bts('Stderr output') .'</h3>';
+    $vars['footer'] = '<h3>' . bts('Stderr output', array(), NULL, 'boinc:task-dtails-errorlog') .'</h3>';
     $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
     break;
   case 'boinc_teams':
@@ -527,7 +527,7 @@ function boinc_preprocess_search_result(&$variables) {
 // Remove the mess of text under the search form and don't display "no results"
 // if a search hasn't even been submitted
 function boinc_apachesolr_search_noresults() {
-  $message = bts('No results found...');
+  $message = bts('No results found...', array(), NULL, 'boinc:search-with-no-results');
   if (!arg(2)) {
     $message = '';
   }
@@ -551,7 +551,7 @@ function phptemplate_username($object) {
     }
 
     if (user_access('access user profiles')) {
-      $output = l($name, 'account/' . $object->uid, array('attributes' => array('title' => bts('View user profile.'))));
+      $output = l($name, 'account/' . $object->uid, array('attributes' => array('title' => bts('View user profile.', array(), NULL, 'boinc:users-table'))));
     }
     else {
       $output = check_plain($name);
@@ -569,10 +569,10 @@ function phptemplate_username($object) {
       $output = check_plain($object->name);
     }
 
-    $output .= ' (' . bts('not verified') . ')';
+    $output .= ' (' . bts('not verified', array(), NULL, 'boinc:user-not-found') . ')';
   }
   else {
-    $output = check_plain(variable_get('anonymous', bts('Anonymous')));
+    $output = check_plain(variable_get('anonymous', bts('Anonymous', array(), NULL, 'boinc:anonymous-user')));
   }
 
   return $output;
@@ -612,7 +612,7 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
       $email['subject'] = bts('!name accepted your friend request [!site]', array(
         '!name' => $sender->boincuser_name,
         '!site' => variable_get('site_name', ''),
-        ));
+        ), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name confirmed you as a friend on !site.
 
 Follow this link to view his or her profile:
@@ -624,14 +624,14 @@ Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
         '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? bts('Message') . ': ' . $flag->friend_message : '',
+        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email::a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
-        ));
+        ), array(), NULL, 'boinc:friend-request-email');
       break;
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')));
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')), array(), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
@@ -643,9 +643,10 @@ Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
         '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? bts('Message') . ': ' . $flag->friend_message : '',
+        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email::a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
-        ));
+        ),
+      array(), NULL, 'boinc:friend-request-email');
       break;
   }
   return $email;
@@ -809,7 +810,7 @@ function _boinc_action_links() {
   }
   $output .= '</li>';
   if (module_exists('global_search') OR module_exists('global_search_solr')) {
-    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search') .'</a> </l1>';
+    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search', array(), NULL, 'boinc:menu-bar') .'</a> </l1>';
   }
   $output .= '</ul>';
   return $output;

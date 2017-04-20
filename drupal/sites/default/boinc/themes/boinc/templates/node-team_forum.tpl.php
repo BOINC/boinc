@@ -119,7 +119,7 @@
   <h2 class="title"><?php print $subtitle; ?></h2>
   
   <?php if ($unpublished): ?>
-    <div class="unpublished"><?php print bts('Unpublished'); ?></div>
+    <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
   <?php endif; ?>
   
   <?php 
@@ -173,7 +173,7 @@
           </div>
           <div class="pm-link"><?php
             if ($user->uid AND ($user->uid != $account->uid)) {
-              print l(bts('Send message'),
+              print l(bts('Send message', array(), NULL, 'boinc:private-message'),
               privatemsg_get_link(array($account)),
               array('query' => drupal_get_destination()));
             } ?>
@@ -201,7 +201,7 @@
       </div>
       <?php if ($moderator_links): ?>
         <div class="moderator-links">
-          <span class="label">(<?php print bts('moderation'); ?>:</span>
+          <span class="label">(<?php print bts('moderation', array(), NULL, 'boinc:comment-action-links'); ?>:</span>
           <?php print $moderator_links; ?>
           <span class="label">)</span>
         </div>
