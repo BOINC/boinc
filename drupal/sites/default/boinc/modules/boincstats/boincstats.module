@@ -230,7 +230,7 @@ function boincstats_get_project_stats_chart() {
   global $theme_key;
   $cache_name = "{$theme_key}_project_chart";
   
-  $stats_xml = boincstats_get_project_stats();
+  $stats_xml = boincstats_get_project_stats('daily');
   $color_keys = array('R', 'G', 'B');
   
   // Get color configuration
@@ -258,11 +258,9 @@ function boincstats_get_project_stats_chart() {
     // Initialize dataset
     $dataset = array();
     if ($stats_xml) {
-      $credit = null;
-      for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
-        $day = "day_{$j}";
-        $credit[$i] = isset($stats_xml->$day) ? (int) $stats_xml->$day : 0;
-        $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
+      // Get the last 60 days of stats for the chart
+      for ($j = 30; $j <= 90; $j++) {
+        $dataset[] = $stats_xml->records->record[$j];
       }
     }
     else {
@@ -365,7 +363,7 @@ function boincstats_check_cache_dir($cache_path = 'files/cache') {
 /*
  *
  */
-function boincstats_get_project_stats() {
+function boincstats_get_project_stats($type = 'total') {
   
   // Determine the stats environment
   boincstats_check_configuration();
@@ -375,10 +373,24 @@ function boincstats_get_project_stats() {
   
   // Construct query string
   $get = array(
-    'projectid' => $project_id
+    'id' => $project_id
   );
+  switch ($type) {
+  case 'daily':
+    $get['daily'] = NULL;
+    break;
+  case 'total':
+  default:
+  }
   $args = array();
-  foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
+  foreach ($get as $arg => $value) {
+    if ($value !== NULL) {
+      $args[] = "{$arg}=" . rawurlencode($value);
+    }
+    else {
+      $args[] = $arg;
+    }
+  }
   $query = '?' . implode('&', $args);
   
   // Load XML from RPC
@@ -397,7 +409,8 @@ function boincstats_get_project_stats() {
  */
 function boincstats_get_project_total_credit() {
   $stats_xml = boincstats_get_project_stats();
-  return isset($stats_xml->day_91) ? (int) $stats_xml->day_91 : 0;
+  $last_record = end($stats_xml->records->record);
+  return ($last_record) ? (int) $last_record : 0;
 }
 
 /*
@@ -405,18 +418,7 @@ function boincstats_get_project_total_credit() {
  */
 function boincstats_get_project_avg_credit() {
   $stats_xml = boincstats_get_project_stats();
-  $dataset = array();
-  if ($stats_xml) {
-    $daily_values = null;
-    $dail_totals = null;
-    for ($i = 61; $i <= 91; $i++) {
-      $day = "day_{$i}";
-      $daily_totals[$i] = isset($stats_xml->$day) ? (int) $stats_xml->$day : 0;
-      if ($i == 61) continue;
-      $daily_values[$i] = ($i) ? ($daily_totals[$i] - $daily_totals[$i-1]) : 0;
-    }
-  }
-  return (count($daily_values)) ? array_sum($daily_values) / count($daily_values) : 0;
+  return (isset($stats_xml->recent_avg)) ? $stats_xml->recent_avg : 0;
 }
 
 /*
