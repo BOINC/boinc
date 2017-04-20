@@ -527,7 +527,7 @@ function stats_charts_views_default_views() {
     'nothing' => array(
       'label' => '',
       'alter' => array(
-        'text' => 'Certificates',
+        'text' => bts('Certificates', array(), NULL, 'boinc:account-dashboard'),
         'make_link' => 1,
         'path' => 'account/certs',
         'absolute' => 0,
@@ -834,7 +834,7 @@ function stats_charts_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
 
-echo l(t(\'Show computers\'), \'account/\' . get_drupal_id($data->id) . \'/computers\');
+echo l(bts(\'Show computers\', array(), NULL, \'boinc:accountpage\'), \'account/\' . get_drupal_id($data->id) . \'/computers\');
 
 ?>',
       'exclude' => 0,

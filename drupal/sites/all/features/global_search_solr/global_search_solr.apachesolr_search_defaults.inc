@@ -13,7 +13,7 @@ function global_search_solr_apachesolr_search_default_searchers() {
   $searcher->label = 'Core Search';
   $searcher->description = 'Core Search';
   $searcher->search_path = 'search/site';
-  $searcher->page_title = 'Search site';
+  $searcher->page_title = bts('Search site', array(), NULL, 'boinc:search-page');
   $searcher->env_id = 'solr';
   $searcher->settings = array(
     'fq' => array(),

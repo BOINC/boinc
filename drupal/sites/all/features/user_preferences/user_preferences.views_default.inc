@@ -448,7 +448,7 @@ elseif ($data->node_type == \'news\') {
   $handler->override_option('path', 'account/prefs/subscriptions');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'Subscriptions',
+    'title' => bts('Subscriptions', array(), NULL, 'boinc:account-dashboard'),
     'description' => '',
     'weight' => '20',
     'name' => 'primary-links',
@@ -778,7 +778,7 @@ elseif ($data->node_type == \'news\') {
       'relationship' => 'none',
     ),
     'last_updated' => array(
-      'label' => 'Updated',
+      'label' => bts('Updated', array(), NULL, 'boinc:account-dashboard'),
       'alter' => array(
         'alter_text' => 0,
         'text' => '',

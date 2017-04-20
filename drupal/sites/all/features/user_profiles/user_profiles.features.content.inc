@@ -60,9 +60,9 @@ function user_profiles_content_default_fields() {
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'Your personal background',
+      'label' => bts('Your personal background', array(), NULL, 'boinc:account-profile-edit'),
       'weight' => '3',
-      'description' => 'Tell us about yourself. You could tell us where you\'re from, your age, occupation, hobbies, or anything else about yourself. ',
+      'description' => bts('Tell us about yourself. You could tell us where you\'re from, your age, occupation, hobbies, or anything else about yourself.', array(), NULL, 'boinc:account-profile-edit'),
       'type' => 'text_textarea',
       'module' => 'text',
     ),
@@ -490,13 +490,13 @@ Zimbabwe|Zimbabwe',
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'Your opinions about this project',
+      'label' => bts('Your opinions about this project', array(), NULL, 'boinc:account-profile-edit'),
       'weight' => '4',
-      'description' => 'Tell us your thoughts about Einstein@Home
-
-   1. Why do you run Einstein@Home?
+      'description' => bts('Tell us your thoughts about @this_project
+   1. Why do you run @this_project?
    2. What are your views about the project?
-   3. Any suggestions? ',
+   3. Any suggestions?',
+      array('@this_project' => variable_get('site_name','')), NULL, 'boinc:account-profile-edit'),
       'type' => 'text_textarea',
       'module' => 'text',
     ),
@@ -695,7 +695,7 @@ Zimbabwe|Zimbabwe',
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'Zip code',
+      'label' => bts('Postal code', array(), NULL, 'boinc:account-profile-edit'),
       'weight' => '6',
       'description' => '',
       'type' => 'text_textfield',
@@ -704,14 +704,14 @@ Zimbabwe|Zimbabwe',
   );
 
   // Translatables
-  // Included for use with string extractors like potx.
-  t('Avatar');
-  t('Country');
-  t('Profile image');
-  t('Website URL');
-  t('Your opinions about this project');
-  t('Your personal background');
-  t('Zip code');
+  // Use bts() function to translate additional strings.
+  bts('Avatar', array(), NULL, 'boinc:account-profile-edit');
+  bts('Country', array(), NULL, 'boinc:account-profile-edit');
+  bts('Profile image', array(), NULL, 'boinc:account-profile-edit');
+  bts('Website URL', array(), NULL, 'boinc:account-profile-edit');
+  bts('Your opinions about this project', array(), NULL, 'boinc:account-profile-edit');
+  bts('Your personal background', array(), NULL, 'boinc:account-profile-edit');
+  bts('Postal code', array(), NULL, 'boinc:account-profile-edit');
 
   return $fields;
 }

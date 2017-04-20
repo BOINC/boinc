@@ -32,3 +32,11 @@ Report|boinc:forum
 Cancel report|boinc:forum
 Reset flags|boinc:forum
 Ignore user|boinc:forum
+All tasks|boinc:workunit-and-host-lists
+Time reported or deadline|boinc:workunit-and-host-lists
+Run time (sec)|boinc:task-details
+CPU time (sec)|boinc:task-details
+Canonical result|boinc:workunit-details
+Minimum quorum|boinc:workunit-details
+Initial replication|boinc:workunit-details
+Max # of error/total/success tasks|boinc:workunit-details

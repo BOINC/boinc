@@ -26,9 +26,11 @@ function user_preferences_menu_default_menu_links() {
     'parent_path' => 'dashboard',
   );
   // Translatables
-  // Included for use with string extractors like potx.
-  t('Preferences');
-
+  // Use bts() function to translate additional strings.
+  bts('Preferences', array(), NULL, 'boinc:menu-link');
+  bts('Community', array(), NULL, 'boinc:menu-link');
+  bts('Privacy', array(), NULL, 'boinc:menu-link');
+  bts('Subscriptions', array(), NULL, 'boinc:menu-link');
 
   return $menu_links;
 }

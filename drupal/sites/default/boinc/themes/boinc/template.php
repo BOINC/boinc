@@ -484,13 +484,42 @@ function boinc_preprocess_block(&$vars, $hook) {
 // */ 
 
 function boinc_preprocess_search_result(&$variables) {
-  $type = strtolower($variables['result']['type']);
+  $type = strtolower($variables['result']['bundle']);
   switch ($type) {
-  case 'team':
-    global $base_url;
+  case 'profile':
+  case 'user':
     $node = $variables['result']['node'];
-    $variables['url'] = $base_url .'/community/teams/' . $node->entity_id;
+    $variables['url'] = url('account/' . $node->is_uid);
+    $variables['title'] = $node->tos_name;
+    $variables['user_image'] = boincuser_get_user_profile_image($node->is_uid);
     break;
+  case 'team':
+    $node = $variables['result']['node'];
+    $variables['url'] = url('/community/teams/' . $node->entity_id);;
+    break;
+  case 'forum':
+    $node = $variables['result']['node'];
+    $drupalnode = node_load($node->entity_id);
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($drupalnode->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $variables['parent_forum'] = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+    break;
+  case 'comment':
+    // Get the node id for this comment
+    $nid = $variables['result']['fields']['tos_content_extra'];
+    $drupalnode = node_load($nid);
+    // Parent forum topic title
+    $variables['parent_title'] = $drupalnode->title;
+    // Link to the parent forum topic
+    $variables['parent_topic'] = l($drupalnode->title, drupal_get_path_alias('node/' . $nid) );
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($drupalnode->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $variables['parent_forum'] = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+  break;
   default:
   }
 }
@@ -774,13 +803,13 @@ function _boinc_action_links() {
 
   $output = '<ul class="menu"><li class="first">';
   if ($user->uid) {
-    $output .= '<a href="' . $base_path . 'logout">' . bts('Logout') . '</a>';
+    $output .= '<a href="' . url('logout') . '">' . bts('Logout') . '</a>';
   } else {
-    $output .= '<a href="' . $base_path . 'user/login?' . drupal_get_destination() . '">' . bts('Login') . '</a>';
+    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login') . '</a>';
   }
   $output .= '</li>';
   if (module_exists('global_search') OR module_exists('global_search_solr')) {
-    $output .= '<li class="last"> <a class="search" href="' . $base_path . 'search/site">' . bts('search') . '</a> </li>';
+    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search') .'</a> </l1>';
   }
   $output .= '</ul>';
   return $output;
