@@ -108,10 +108,10 @@ function retrieve_credit_team($data) {
     foreach ($apps as $app) {
         $y = 0;
 
-	foreach ($data as $item) {
+        foreach ($data as $item) {
             $team = BoincTeam::lookup_id($item->teamid);
             if (is_object($team)) {
-		$item = BoincCreditTeam::lookup("teamid=$item->teamid and appid=$app->id");
+                $item = BoincCreditTeam::lookup("teamid=$item->teamid and appid=$app->id");
 
                 if (is_object($item)) {
                     $z                 = 0;
@@ -128,7 +128,7 @@ function retrieve_credit_team($data) {
             }
         }
 
-	$x++;
+        $x++;
     }
     return $store;
 }
@@ -150,7 +150,7 @@ function retrieve_credit_user($data) {
     foreach ($apps as $app) {
         $y = 0;
 
-	foreach ($data as $item) {
+        foreach ($data as $item) {
             $user = BoincUser::lookup_id($item->userid);
             if (is_object($user)) {
                 $item = BoincCreditUser::lookup("userid=$item->userid and appid=$app->id");
@@ -179,7 +179,7 @@ function get_top_items($is_team, $appid, $is_total, $offset) {
 
     if ($is_team) {
 
-	$data  = BoincCreditTeam::get_list("appid=$appid", $x, $offset . ", " . $items_per_page);
+        $data  = BoincCreditTeam::get_list("appid=$appid", $x, $offset . ", " . $items_per_page);
         $store = retrieve_credit_team($data);
     } else {
         $data  = BoincCreditUser::get_list("appid=$appid", $x, $offset . ", " . $items_per_page);
@@ -220,7 +220,7 @@ if ($offset < ITEM_LIMIT) {
         //if not do queries etc to generate new data
         $data = get_top_items($is_team, $appid, $is_total, $offset);
 
-	//save data in cache
+        //save data in cache
         //
         set_cached_data(TOP_PAGES_TTL, serialize($data), $cache_args);
     }
