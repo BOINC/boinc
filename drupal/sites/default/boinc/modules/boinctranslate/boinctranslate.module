@@ -1469,10 +1469,40 @@ function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NU
 
 /**
  * Modify the _locale_import_one_string_db() function so that it does not add
- * translation strings that do not exist on the site
+ * translation strings that do not exist on the site.
+ *
+ * Function will attempt t overwrite strings in textgroups other than
+ * 'boinc' or 'project', without using the location field as a search
+ * parameter. All found rows in locales_source are overwritten by the
+ * translations. 
+ *
+ * Textgroups 'boinc' and 'project' use the location string to
+ * uniquely identify rows in the locales_source database.
  */
- function _boinctranslate_locale_import_one_string_db(&$report, $langcode, $source, $translation, $textgroup, $location, $mode, $plid = NULL, $plural = NULL) {
-  $lid = db_result(db_query("SELECT lid FROM {locales_source} WHERE location = '%s' AND source = '%s' AND textgroup = '%s'", $location, $source, $textgroup));
+function _boinctranslate_locale_import_one_string_db(&$report, $langcode, $source, $translation, $textgroup, $location, $mode, $plid = NULL, $plural = NULL) {
+
+  $ignoreoverwrite = FALSE;
+  $lid = 0;
+
+  // Use different DB query depending on the textgroup.
+  $uselocation = array("boinc", "project");
+  if (in_array($textgroup, $uselocation)) {
+    $resource = db_query("SELECT lid FROM {locales_source} WHERE location = '%s' AND source = '%s' AND textgroup = '%s'", $location, $source, $textgroup);
+  }
+  else {
+    $resource = db_query("SELECT lid FROM {locales_source} WHERE source = '%s' AND textgroup = '%s'", $source, $textgroup);
+
+    // Parse the location string for the string ignoreoverwrite, which
+    // ignores the LOCAL_IMPORT_OVERWRITE directive below. $parts[2]
+    // is hardcoded, it is the third field, separated by ':' in the
+    // location string.
+    $parts = explode(':', $location);
+    if (!empty($parts[2])) {
+      if (preg_match('/(ignoreoverwrite)/', $parts[2])) {
+        $ignoreoverwrite = TRUE;
+      }
+    }
+  }// if (in_array($textgroup, $uselocation))
 
   if (!empty($translation)) {
     // Skip this string unless it passes a check for dangerous code.
@@ -1482,41 +1512,41 @@ function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NU
       $report['skips']++;
       $lid = 0;
     }
-    elseif ($lid) {
-      // We have this source string saved already.
-      // Don't update location, that just makes Drupal add the same strings
-      // over and over
-      //db_query("UPDATE {locales_source} SET location = '%s' WHERE lid = %d", $location, $lid);
-      $exists = (bool) db_result(db_query("SELECT lid FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $langcode));
-      if (!$exists) {
-        // No translation in this language.
-        db_query("INSERT INTO {locales_target} (lid, language, translation, plid, plural) VALUES (%d, '%s', '%s', %d, %d)", $lid, $langcode, $translation, $plid, $plural);
-        $report['additions']++;
-      }
-      else if ($mode == LOCALE_IMPORT_OVERWRITE) {
-        // Translation exists, only overwrite if instructed.
-        db_query("UPDATE {locales_target} SET translation = '%s', plid = %d, plural = %d WHERE language = '%s' AND lid = %d", $translation, $plid, $plural, $langcode, $lid);
-        $report['updates']++;
-      }
-    }
-    else {
-      // No such source string in the database yet.
-      // Do not insert the source string if it does not belong on the site!
-      /*
-      db_query("INSERT INTO {locales_source} (location, source, textgroup) VALUES ('%s', '%s', '%s')", $location, $source, $textgroup);
-      $lid = db_result(db_query("SELECT lid FROM {locales_source} WHERE source = '%s' AND textgroup = '%s'", $source, $textgroup));
-      db_query("INSERT INTO {locales_target} (lid, language, translation, plid, plural) VALUES (%d, '%s', '%s', %d, %d)", $lid, $langcode, $translation, $plid, $plural);
-      $report['additions']++;
-      */
+    elseif ($resource) {
+      // We have this source string saved already. Loop over the db results from locales_source table.
+      while ($row = db_fetch_array($resource)) {
+
+        $lid = $row['lid'];
+        // Check of if one or more translations exist for this lid in locales_target table.
+        $exists = (bool) db_result(db_query("SELECT lid FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $langcode));
+        if (!$exists) {
+          // No translation in this language, insert translation into locales_target table.
+          db_query("INSERT INTO {locales_target} (lid, language, translation, plid, plural) VALUES (%d, '%s', '%s', %d, %d)", $lid, $langcode, $translation, $plid, $plural);
+          $report['additions']++;
+        }
+        else if ( ($mode == LOCALE_IMPORT_OVERWRITE) and (!$ignoreoverwrite) ) {
+          // Translation exists, only overwrite if instructed.
+          db_query("UPDATE {locales_target} SET translation = '%s', plid = %d, plural = %d WHERE language = '%s' AND lid = %d", $translation, $plid, $plural, $langcode, $lid);
+          $report['updates']++;
+        }
+        else {
+          $report['skips']++;
+        }// end if !$exists
+
+      }// while
     }
   }
-  elseif ($mode == LOCALE_IMPORT_OVERWRITE AND $lid) {
-    $exists = (bool) db_result(db_query("SELECT lid FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $langcode));
-    if ($exists) {
-      // Empty translation, remove existing if instructed.
-      db_query("DELETE FROM {locales_target} WHERE language = '%s' AND lid = %d AND plid = %d AND plural = %d", $langcode, $lid, $plid, $plural);
-      $report['deletes']++;
-    }
+  elseif ($mode == LOCALE_IMPORT_OVERWRITE AND $resource) {
+    // Loop over db results from locales_source table.
+    while ($row = db_fetch_array($resource)) {
+      $lid = $row['lid'];
+      $exists = (bool) db_result(db_query("SELECT lid FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $langcode));
+      if ($exists) {
+        // Empty translation, remove existing if instructed.
+        db_query("DELETE FROM {locales_target} WHERE language = '%s' AND lid = %d AND plid = %d AND plural = %d", $langcode, $lid, $plid, $plural);
+        $report['deletes']++;
+      }// if $exists
+    }// while
   }
   else {
     $report['skips']++;
