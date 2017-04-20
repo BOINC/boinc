@@ -54,7 +54,7 @@ extern void show_message(
 void show_message(
     PROJ_AM *p, char* msg, int priority, bool is_html, const char* link
 ) {
-    const char* x;
+    std::string x;
     char message[1024], event_msg[1024], evt_message[2048];
     double t = dtime();
     char* time_string = time_to_string(t);
@@ -104,7 +104,7 @@ void show_message(
             safe_strcpy(n.link, link);
         }
         if (p) {
-            safe_strcpy(n.project_name, p->get_project_name());
+            safe_strcpy(n.project_name, p->get_project_name().c_str());
         }
         n.create_time = n.arrival_time = t;
         safe_strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
@@ -120,7 +120,7 @@ void show_message(
     }
 
     // Construct message to be logged/displayed
-    snprintf(evt_message, sizeof(evt_message), "%s [%s] %s\n", time_string,  x, message);
+    snprintf(evt_message, sizeof(evt_message), "%s [%s] %s\n", time_string, x.c_str() , message);
 
     // print message to the console
     printf("%s", evt_message);
@@ -169,9 +169,7 @@ void MESSAGE_DESCS::insert(PROJ_AM* p, int priority, int now, char* message) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
     if (p) {
-        strlcpy(
-            mdp->project_name, p->get_project_name(), sizeof(mdp->project_name)
-        );
+        safe_strcpy(mdp->project_name, p->get_project_name().c_str());
     } else {
         safe_strcpy(mdp->project_name, "");
     }

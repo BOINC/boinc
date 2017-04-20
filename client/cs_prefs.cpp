@@ -506,7 +506,7 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     if (pp) {
         msg_printf(pp, MSG_INFO,
             "General prefs: from %s (last modified %s)",
-            pp->get_project_name(), time_to_string(global_prefs.mod_time)
+            pp->get_project_name().c_str(), time_to_string(global_prefs.mod_time)
         );
     } else {
         msg_printf(NULL, MSG_INFO,

@@ -529,7 +529,7 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
     deque<NOTICE>::iterator i = notices.begin();
     while (i != notices.end()) {
         NOTICE& n = *i;
-        if (p && strcmp(n.project_name, p->get_project_name())) {
+        if (p && n.project_name != p->get_project_name()) {
             ++i;
             continue;
         }
@@ -923,7 +923,7 @@ void RSS_FEEDS::update_proj_am(PROJ_AM* p) {
             rfp->found = true;
         } else {
             rf.found = true;
-            safe_strcpy(rf.project_name, p->get_project_name());
+            safe_strcpy(rf.project_name, p->get_project_name().c_str());
             feeds.push_back(rf);
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,

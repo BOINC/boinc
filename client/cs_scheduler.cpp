@@ -1165,7 +1165,7 @@ void CLIENT_STATE::check_project_timeout() {
         if (p->possibly_backed_off && now > p->min_rpc_time) {
             p->possibly_backed_off = false;
             char buf[256];
-            snprintf(buf, sizeof(buf), "Backoff ended for %s", p->get_project_name());
+            snprintf(buf, sizeof(buf), "Backoff ended for %s", p->get_project_name().c_str());
             request_work_fetch(buf);
         }
     }
