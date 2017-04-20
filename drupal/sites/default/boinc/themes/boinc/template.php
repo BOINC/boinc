@@ -804,13 +804,13 @@ function _boinc_action_links() {
 
   $output = '<ul class="menu"><li class="first">';
   if ($user->uid) {
-    $output .= '<a href="' . url('logout') . '">' . bts('Logout', array(), NULL, 'boinc:menu-bar') . '</a>';
+    $output .= '<a href="' . url('logout') . '">' . bts('Logout', array(), NULL, 'boinc:menu-link') . '</a>';
   } else {
-    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login', array(), NULL, 'boinc:menu-bar') . '</a>';
+    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login', array(), NULL, 'boinc:menu-link') . '</a>';
   }
   $output .= '</li>';
   if (module_exists('global_search') OR module_exists('global_search_solr')) {
-    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search', array(), NULL, 'boinc:menu-bar') .'</a> </l1>';
+    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search', array(), NULL, 'boinc:menu-link') .'</a> </l1>';
   }
   $output .= '</ul>';
   return $output;
