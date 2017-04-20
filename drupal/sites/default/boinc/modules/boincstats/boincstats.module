@@ -230,7 +230,6 @@ function boincstats_get_project_stats_chart() {
   global $theme_key;
   $cache_name = "{$theme_key}_project_chart";
   
-  $stats_xml = boincstats_get_project_stats('daily');
   $color_keys = array('R', 'G', 'B');
   
   // Get color configuration
@@ -257,6 +256,7 @@ function boincstats_get_project_stats_chart() {
   else {
     // Initialize dataset
     $dataset = array();
+    $stats_xml = boincstats_get_project_stats('daily');
     if ($stats_xml) {
       // Get the last 60 days of stats for the chart
       for ($j = 30; $j <= 90; $j++) {
