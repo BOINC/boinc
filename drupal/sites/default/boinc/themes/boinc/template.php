@@ -803,9 +803,9 @@ function _boinc_action_links() {
 
   $output = '<ul class="menu"><li class="first">';
   if ($user->uid) {
-    $output .= '<a href="' . url('logout') . '">' . bts('Logout') . '</a>';
+    $output .= '<a href="' . url('logout') . '">' . bts('Logout', array(), NULL, 'boinc:menu-bar') . '</a>';
   } else {
-    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login') . '</a>';
+    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login', array(), NULL, 'boinc:menu-bar') . '</a>';
   }
   $output .= '</li>';
   if (module_exists('global_search') OR module_exists('global_search_solr')) {

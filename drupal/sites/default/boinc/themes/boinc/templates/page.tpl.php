@@ -202,9 +202,9 @@
             <?php 
               global $user;
               if ($user->uid):
-                echo '<a href="' . url('logout') . '"><span class="secondary-link tab">' . bts('Logout') . '</span></a>';
+                echo '<a href="' . url('logout') . '"><span class="secondary-link tab">' . bts('Logout', array(), NULL, 'boinc:menu-bar') . '</span></a>';
               else:
-                echo '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '"><span class="secondary-link tab">' . bts('Login') . '</span></a>';
+                echo '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '"><span class="secondary-link tab">' . bts('Login', array(), NULL, 'boinc:menu-bar') . '</span></a>';
               endif;
             ?>
             </li>
