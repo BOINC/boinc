@@ -733,7 +733,7 @@ return variable_get(\'site_name\', \'BOINC\');
   if ($data->node_comment == COMMENT_NODE_READ_WRITE) {
     $cid = boincuser_get_first_unread_comment_id($data->nid);
     $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
-    return l(bts(\'discuss\'), $link);
+    return l(bts(\'discuss\', array(), NULL, \'boinc:front-page::link-to-news-item-from-front-page\'), $link);
   }
 ?>',
       'exclude' => 0,

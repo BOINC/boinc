@@ -257,7 +257,7 @@ if (module_exists(\'boincteam\')) {
 global $user;
 $uid = $user->uid;
 $account = user_load($uid);
-echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
+echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\', array(), NULL, \'boinc:account-dashboard\'), "account/{$uid}/posts") . \'</h2>\';
 echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->post_count . \'</div></div>\';
 
 ?>',
@@ -467,7 +467,7 @@ if (module_exists(\'boincteam\')) {
 
 $uid = arg(1);
 $account = user_load($uid);
-echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
+echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\', array(), NULL, \'boinc:account-dashboard\'), "account/{$uid}/posts") . \'</h2>\';
 echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->post_count . \'</div></div>\';
 
 ?>',

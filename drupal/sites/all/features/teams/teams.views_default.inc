@@ -1013,7 +1013,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . bts(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\', array(), NULL, \'boinc:team-emails-are-hidden\') . \')\';
 }
 ?>',
       'exclude' => 0,
@@ -1210,7 +1210,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 1,
@@ -1865,7 +1865,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . bts(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\', array(), NULL, \'boinc:team-emails-are-hidden\') . \')\';
 }
 ?>',
       'exclude' => 0,
@@ -2033,7 +2033,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\', array(), NULL, \'boinc:team-remove-member\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 0,
@@ -2405,7 +2405,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . bts(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\', array(), NULL, \'boinc:team-emails-are-hidden\') . \')\';
 }
 ?>',
       'exclude' => 1,
@@ -2573,7 +2573,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Make founder\'), "community/teams/{$team_id}/edit/founder/set/{$user_id}");
+    echo l(bts(\'Make founder\', array(), NULL, \'boinc:team-make-founder\'), "community/teams/{$team_id}/edit/founder/set/{$user_id}");
   }
 ?>',
       'exclude' => 0,
@@ -3818,7 +3818,7 @@ else {
       'value' => '<?php
 $team_id = boincteam_lookup_nid($data->id);
 $user_id = get_drupal_id($data->team_admin_userid);
-echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}");
+echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',

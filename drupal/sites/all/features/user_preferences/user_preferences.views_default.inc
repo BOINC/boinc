@@ -325,7 +325,7 @@ if ($data->node_type == \'forum\') {
   print $data->vocabulary_name . \' &rsaquo; \' . $data->term_data_name;
 }
 elseif ($data->node_type == \'news\') {
-  print bts(\'News\');
+  print bts(\'News\', array(), NULL, \'boinc:menu-link\');
 }
 ?>',
       'exclude' => 0,
@@ -765,7 +765,7 @@ if ($data->node_type == \'forum\') {
   print $data->vocabulary_name . \' &rsaquo; \' . $data->term_data_name;
 }
 elseif ($data->node_type == \'news\') {
-  print bts(\'News\');
+  print bts(\'News\', array(), NULL, \'boinc:menu-link\');
 }
 ?>',
       'exclude' => 0,

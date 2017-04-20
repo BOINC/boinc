@@ -1739,14 +1739,15 @@ function work_and_host_stats_views_default_views() {
       $last_ip = $data->host_last_ip_addr;
       if ($last_ip) {
         echo bts(\'@ip_address (same the last @count times)\',
-          array(\'@ip_address\' => $data->host_last_ip_addr, \'@count\' => $data->host_nsame_ip_addr)
+          array(\'@ip_address\' => $data->host_last_ip_addr, \'@count\' => $data->host_nsame_ip_addr),
+          NULL, \'boinc:host-details\'
         );
       }
       else {
         echo \'n/a\';
       }
     } else {
-      echo l(bts(\'Show IP address\'), arg(0).\'/\'.arg(1).\'/1\');
+      echo l(bts(\'Show IP address\', array(), NULL, \'boinc:host-details\'), arg(0).\'/\'.arg(1).\'/1\');
     }
   }
 ?>',
@@ -1919,7 +1920,7 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
-    echo \'UTC \' . ($data->host_timezone > 0 ? \'+\' : \'\') . $data->host_timezone / 3600 . \' \' . bts(\'hours\');
+    echo \'UTC \' . ($data->host_timezone > 0 ? \'+\' : \'\') . $data->host_timezone / 3600 . \' \' . bts(\'hours\', array(), NULL, \'boinc:unit-of-time\');
   }
 ?>',
       'exclude' => 0,
@@ -1994,7 +1995,7 @@ function work_and_host_stats_views_default_views() {
     $owner = BoincUser::lookup_id($data->host_userid);
     $drupal_id = get_drupal_id($owner->id);
     $profile_link = ($drupal_id) ? l($owner->name, "account/{$drupal_id}") : $owner->name;
-    echo ($owner->show_hosts) ? $profile_link : bts(\'Anonymous\');
+    echo ($owner->show_hosts) ? $profile_link : bts(\'Anonymous\', array(), NULL, \'boinc:anonymous-user\');
   }
 ?>',
       'exclude' => 0,
@@ -2984,8 +2985,8 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   echo bts(\'@count million ops/sec\',
-    array(\'@count\' => round($data->host_p_fpops/(1000*1000), 2))
-  );
+    array(\'@count\' => round($data->host_p_fpops/(1000*1000), 2)),
+    NULL, \'boinc:host-details\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_13',
@@ -3021,8 +3022,8 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   echo bts(\'@count million ops/sec\',
-    array(\'@count\' => round($data->host_p_iops/(1000*1000), 2))
-  );
+    array(\'@count\' => round($data->host_p_iops/(1000*1000), 2)),
+    NULL, \'boinc:host-details\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_14',
@@ -3058,7 +3059,7 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   $rate = round($data->host_n_bwup/(1024), 2);
-  echo ($rate > 0) ? bts(\'@rate KiB/sec\', array(\'@rate\' => $rate)) : bts(\'Unknown\');
+  echo ($rate > 0) ? bts(\'@rate KiB/sec\', array(\'@rate\' => $rate), NULL, \'boinc:host-details\') : bts(\'Unknown\', array(), NULL, \'boinc:host-details\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_15',
@@ -3094,7 +3095,7 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   $rate = round($data->host_n_bwdown/(1024), 2);
-  echo ($rate > 0) ? bts(\'@rate KiB/sec\', array(\'@rate\' => $rate)) : bts(\'Unknown\');
+  echo ($rate > 0) ? bts(\'@rate KiB/sec\', array(\'@rate\' => $rate), NULL, \'boinc:host-details\') : bts(\'Unknown\', array(), NULL, \'boinc:host-details\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_16',
@@ -3129,7 +3130,7 @@ function work_and_host_stats_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo bts(\'@count days\', array(\'@count\' => round($data->host_avg_turnaround/(60*60*24), 2)));
+  echo bts(\'@count days\', array(\'@count\' => round($data->host_avg_turnaround/(60*60*24), 2)), array(), NULL, \'boinc:host-details\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_17',
@@ -4964,7 +4965,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -5883,7 +5884,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -6032,7 +6033,7 @@ if ($data->user_host_show_hosts) {
   echo l($data->user_host_name, "account/{$uid}");
 }
 else {
-  echo bts(\'Anonymous\');
+  echo bts(\'Anonymous\', array(), NULL, \'boinc:anonymous-user\');
 }',
       'exclude' => 0,
       'id' => 'phpcode_5',
@@ -6705,7 +6706,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 1,
       'id' => 'phpcode_3',
@@ -6825,7 +6826,7 @@ if ($data->user_host_show_hosts) {
   echo l($data->user_host_name, "account/{$uid}");
 }
 else {
-  echo bts(\'Anonymous\');
+  echo bts(\'Anonymous\', array(), NULL, \'boinc:anonymous-user\');
 }',
       'exclude' => 0,
       'id' => 'phpcode_5',
@@ -11329,7 +11330,7 @@ else {
   if (!($data->app_workunit_target_nresults>0 AND !$data->workunit_canonical_resultid AND !$data->workunit_error_mask AND !$data->dontsuppresspending)) {
 
     if ($data->workunit_need_validate) {
-      echo bts(\'Pending\');
+      echo bts(\'Pending\', array(), NULL, \'boinc:workunit-detail\');
     }
   }
 ?>',
