@@ -167,6 +167,13 @@ int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
             app_version_configs.push_back(avc);
             continue;
         }
+        if (xp.match_tag("options")) {
+            OPTIONS_CONFIG oc;
+            int retval = oc.parse(xp, p);
+            if (retval) return retval;
+            options_config = oc;
+            continue;
+        }
         if (xp.parse_int("project_max_concurrent", n)) {
             if (n >= 0) {
                 have_max_concurrent = true;
@@ -271,6 +278,40 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     return 0;
 }
 
+OPTIONS_CONFIG::OPTIONS_CONFIG() {
+    defaults();
+}
+
+void OPTIONS_CONFIG::defaults() {
+    report_results_immediately = false;
+}
+
+int OPTIONS_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
+    memset(this, 0, sizeof(OPTIONS_CONFIG));
+
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            msg_printf_notice(p, false, NULL,
+                "unexpected text '%s' in app_config.xml", xp.parsed_tag
+            );
+            return ERR_XML_PARSE;
+        }
+        if (xp.match_tag("/options")) return 0;
+        if (xp.parse_bool("report_results_immediately", report_results_immediately)) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(p, MSG_INFO,
+                "Unparsed line in app_config.xml: %s",
+                xp.parsed_tag
+            );
+        }
+        xp.skip_unexpected(log_flags.unparsed_xml, "OPTIONS_CONFIG::parse");
+    }
+    msg_printf_notice(p, false, NULL,
+        "Missing </options> in app_config.xml"
+    );
+    return ERR_XML_PARSE;
+}
+
 void max_concurrent_init() {
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         gstate.apps[i]->n_concurrent = 0;
@@ -295,6 +336,7 @@ static void clear_app_config(PROJECT* p) {
         app->report_results_immediately = false;
     }
 }
+
 
 // check for app_config.xml files, and parse them.
 // Called at startup and on read_cc_config() RPC

@@ -1304,7 +1304,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
             return p;
         }
 
-        if (cc_config.report_results_immediately) {
+        if (cc_config.report_results_immediately || p->app_configs.options_config.report_results_immediately) {
             return p;
         }
 
