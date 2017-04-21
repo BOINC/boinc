@@ -227,3 +227,41 @@ function boinccore_admin_default_content_generate($pages = array()) {
   menu_cache_clear_all();
   return $pages_generated;
 }
+
+/**
+ * BOINC form to set database options
+ **/
+function boinccore_admin_dbopts(&$form_state) {
+  $form = array();
+  $default = array(
+    'database_encoding' => variable_get('boinc_database_encoding', 'latin1')
+  );
+
+  $form['boinc_database_encoding'] = array(
+    '#title' => bts('BOINC Database Character encoding (default is latin1).'),
+    '#type' => 'radios',
+    '#description' => bts('Choose the character encoding of the BOINC database. When the BOINC database is loaded, the command \'SET NAMES (encoding)\' is run before queries.'),
+    '#options' => array(
+        'latin1' => 'latin1 (ISO/IEC 8859-1)',
+        'utf-8' => 'UTF-8',
+    ),
+    '#attributes' => array('class' => 'fancy'),
+    '#default_value' => $default['database_encoding'],
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Validate BOINC db options form.
+ */
+
+function boinccore_admin_dbopts_validate($form, &$form_state) {
+}
+
+/**
+ * Submit BOINC db options form.
+ */
+function boinccore_admin_dbopts_submit($form, &$form_state) {
+  drupal_set_message( bts('Status: BOINC database options settings have been updated.') );
+}

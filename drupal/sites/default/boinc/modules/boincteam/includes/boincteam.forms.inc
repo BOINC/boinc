@@ -451,6 +451,11 @@ function boincteam_edit_form_submit($form, &$form_state) {
   
   // Update the team in the BOINC db
   db_set_active('boinc');
+  $dbenc = variable_get('boinc_database_encoding', 'latin1');
+  if (isset($dbenc) AND $dbenc!='utf-8') {
+    $myenc = "SET NAMES " . $dbenc;
+    db_query($myenc);
+  }
   db_query("
     UPDATE {team} SET
       name = '%s',
@@ -472,6 +477,7 @@ function boincteam_edit_form_submit($form, &$form_state) {
     $values['joinable'],
     $boincteam_id
   );
+  db_query("SET NAMES utf8");
   db_set_active('default');
   
   // Update the team node in Drupal
@@ -599,9 +605,14 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
   
   $team = node_load($team_id);
   $boincteam_id = boincteam_lookup_id($team_id);
-  
+
   // Update the team in the BOINC db
   db_set_active('boinc');
+  $dbenc = variable_get('boinc_database_encoding', 'latin1');
+  if (isset($dbenc) AND $dbenc!='utf-8') {
+    $myenc = "SET NAMES " . $dbenc;
+    db_query($myenc);
+  }
   db_query("
     INSERT INTO {team_admin} SET
       teamid = '%d',
@@ -611,6 +622,7 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
     $boincuser_id,
     time()
   );
+  db_query("SET NAMES utf8");
   db_set_active('default');
   
   // Could assign a role in Drupal here, as needed
