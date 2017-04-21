@@ -65,12 +65,6 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   global $theme_key;
   $cache_name = "{$theme_key}_";
   
-  // Determine the stats environment
-  boincstats_check_configuration();
-  $stats_server = variable_get('boinc_stats_server', '');
-  $stats_rpc = variable_get('boinc_stats_user_credit_history_rpc', '');
-  $project_id = variable_get('boinc_stats_remote_project_id', '');
-  
   $dataset_size = 0;
   $chart_height = 0;
   $chart_width = 0;
@@ -78,13 +72,6 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
   $label_x_axis = FALSE;
   
   $stats_xml = NULL;
-  $color_keys = array('R', 'G', 'B');
-  
-  // Get color configuration
-  $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
-  $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
-  $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
-  $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
   
   switch($chart_size) {
   case 'small':
@@ -119,38 +106,28 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     $myCache->strokeFromCache($cache_name);
   }
   else {
-    // Construct query string
-    $get = array(
-      'cpid' => $cpid,
-      'projectid' => $project_id
-    );
-    $args = array();
-    foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
-    $query = '?' . implode('&', $args);
-    
-    // Load XML from RPC
-    $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
-    $result = drupal_http_request($target_url);
-    if (in_array($result->code, array(200, 304))) {
-      $stats_xml = simplexml_load_string($result->data);
-    }
-    
-    // Create and populate the pData object
-    $MyData = new pData();
-    
     // Initialize dataset
     $dataset = array();
+    $stats_xml = boincstats_get_project_stats('daily', $cpid);
     if ($stats_xml) {
-      $credit = null;
-      for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
-        $day = "day_{$j}";
-        $credit[$i] = isset($stats_xml->total_credit_history_last_91_days->$day) ? (int) $stats_xml->total_credit_history_last_91_days->$day : 0;
-        $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
+      // Get the last 60 days of stats for the chart
+      for ($j = 30; $j < 90; $j++) {
+        $dataset[] = (int) $stats_xml->records->record[$j];
       }
     }
     else {
       for ($i = 0; $i <= $dataset_size; $i++) $dataset[] = 0;
     }
+    
+    // Get color configuration
+    $color_keys = array('R', 'G', 'B');
+    $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
+    $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
+    $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
+    $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
+    
+    // Create and populate the pData object
+    $MyData = new pData();
     
     $MyData->addPoints($dataset, 'series1');
     $MyData->setPalette('series1', $palette_color);
@@ -163,7 +140,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     $myPicture->Antialias = true;
 
     // Set the default font
-    //$myPicture->setFontProperties(array('FontName'=>'../fonts/pf_arma_five.ttf','FontSize'=>6));
+    //$myPicture->setFontProperties(array('FontName' => '../fonts/pf_arma_five.ttf','FontSize' => 6));
 
     // Define the chart area
     $myPicture->setGraphArea(0, 3, $chart_width, $chart_height);
@@ -238,16 +215,13 @@ function boincstats_get_project_stats_chart() {
   $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
   $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
    
-  // Create and populate the pData object
-  $MyData = new pData();
-  
   // Sanity check for cache directory
   if (!boincstats_check_cache_dir()) {
     return;
   }
   
   // Initialize the cache object and flush stale images
-  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path(). '/files/cache'));
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path() . '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
   
   if ($myCache->isInCache($cache_name)) {
@@ -259,13 +233,16 @@ function boincstats_get_project_stats_chart() {
     $stats_xml = boincstats_get_project_stats('daily');
     if ($stats_xml) {
       // Get the last 60 days of stats for the chart
-      for ($j = 30; $j <= 90; $j++) {
-        $dataset[] = $stats_xml->records->record[$j];
+      for ($j = 30; $j < 90; $j++) {
+        $dataset[] = (int) $stats_xml->records->record[$j];
       }
     }
     else {
       for ($i = 0; $i <= 30; $i++) $dataset[] = 0;
     }
+    
+    // Create and populate the pData object
+    $MyData = new pData();
     
     $MyData->addPoints($dataset, 'series1');
     $MyData->setPalette('series1', $palette_color);
@@ -363,7 +340,7 @@ function boincstats_check_cache_dir($cache_path = 'files/cache') {
 /*
  *
  */
-function boincstats_get_project_stats($type = 'total') {
+function boincstats_get_project_stats($type = 'total', $cpid = NULL) {
   
   // Determine the stats environment
   boincstats_check_configuration();
@@ -371,7 +348,6 @@ function boincstats_get_project_stats($type = 'total') {
   $stats_rpc = variable_get('boinc_stats_project_credit_history_rpc', '');
   $project_id = variable_get('boinc_stats_remote_project_id', '');
   
-  // Construct query string
   $get = array(
     'id' => $project_id
   );
@@ -382,6 +358,14 @@ function boincstats_get_project_stats($type = 'total') {
   case 'total':
   default:
   }
+  
+  if ($cpid) {
+    // If a user CPID has been provided, limit scope to that user
+    $stats_rpc = variable_get('boinc_stats_user_credit_history_rpc', '');
+    $get['cpid'] = $cpid;
+  }
+  
+  // Construct query string
   $args = array();
   foreach ($get as $arg => $value) {
     if ($value !== NULL) {

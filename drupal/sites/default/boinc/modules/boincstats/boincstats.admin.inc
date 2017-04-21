@@ -16,7 +16,7 @@ function boincstats_admin_stats_system(&$form_state) {
     'boinc_stats_server' => variable_get('boinc_stats_server', 'stats.gridrepublic.org'),
     'boinc_stats_project_list_rpc' => variable_get('boinc_stats_project_list_rpc', 'rpc/get_projects.php'),
     'boinc_stats_project_credit_history_rpc' => variable_get('boinc_stats_project_credit_history_rpc', 'rpc2/get_project_tc_history.php'),
-    'boinc_stats_user_credit_history_rpc' => variable_get('boinc_stats_user_credit_history_rpc', 'rpc/get_user_credit_history_by_project.php'),
+    'boinc_stats_user_credit_history_rpc' => variable_get('boinc_stats_user_credit_history_rpc', 'rpc2/get_user_credit_history.php'),
     'boinc_stats_remote_project_id' => variable_get('boinc_stats_remote_project_id', ''),
   );
   // Define the form
