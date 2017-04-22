@@ -1090,11 +1090,11 @@ int ACTIVE_TASK::start(bool test) {
                 }
             }
 #endif
-#if HAVE_SCHED_SETSCHEDULER && defined(SCHED_BATCH) && defined (__linux__)
+#if HAVE_SCHED_SETSCHEDULER && defined(SCHED_IDLE) && defined (__linux__)
             if (!high_priority) {
                 struct sched_param sp;
                 sp.sched_priority = 0;
-                if (sched_setscheduler(0, SCHED_BATCH, &sp)) {
+                if (sched_setscheduler(0, SCHED_IDLE, &sp)) {
                     perror("sched_setscheduler");
                 }
             }
