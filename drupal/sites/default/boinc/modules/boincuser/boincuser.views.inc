@@ -232,7 +232,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['total_credit'] = array(
-    'title' => bts('Total Credit', array(), NULL, 'boinc:user-info'),
+    'title' => bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits'),
     'help' => t('The total accumulated BOINC credit for the user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',

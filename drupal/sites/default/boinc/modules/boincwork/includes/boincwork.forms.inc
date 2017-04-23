@@ -289,7 +289,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['start_hour']
   );
   $form['prefs']['advanced']['processor']['hour_delimiter'] = array(
-    '#value' => '<span>' . bts('and') . '</span>'
+    '#value' => '<span>' . bts('and', array(), NULL, 'boinc:account-preference') . '</span>'
   );
   $form['prefs']['advanced']['processor']['end_hour'] = array(
     '#type' => 'select',
@@ -462,7 +462,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['net_start_hour']
   );
   $form['prefs']['advanced']['network']['hour_delimiter'] = array(
-    '#value' => '<span>' . bts('and') . '</span>'
+    '#value' => '<span>' . bts('and', array(), NULL, 'boinc:account-preference') . '</span>'
   );
   $form['prefs']['advanced']['network']['net_end_hour'] = array(
     '#type' => 'select',
@@ -936,7 +936,7 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
   if ($merged) {
     // Generate a natural language list of IDs that were merged
     $oxford_comma = ',';
-    $conjunction = bts('and');
+    $conjunction = bts('and', array(), NULL, 'boinc:account-preference');
     $list = array_keys($merged);
     $last = array_pop($list);
     if ($list) {

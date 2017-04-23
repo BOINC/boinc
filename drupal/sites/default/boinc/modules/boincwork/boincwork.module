@@ -271,9 +271,9 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
           'daily_xfer_limit_mb' => 'daily_xfer_period_days',
         );
         $special_delimiter = array(
-          'start_hour' => bts('and'),
-          'net_start_hour'=> bts('and'),
-          'daily_xfer_limit_mb' => bts('every'),
+          'start_hour' => bts('and', array(), NULL, 'boinc:account-preference'),
+          'net_start_hour'=> bts('and', array(), NULL, 'boinc:account-preference'),
+          'daily_xfer_limit_mb' => bts('every', array(), NULL, 'boinc:account-preference'),
         );
         $special = isset($special_map[$name]);
         $very_special = in_array($name, $special_map);

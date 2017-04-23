@@ -17,7 +17,7 @@
   <tr>
     <th><?php print bts('Name', array(), NULL, 'boinc:host-details'); ?></th>
     <th class="numeric"><?php print bts('Avg credit', array(), NULL, 'boinc:account-dashboard'); ?></th>
-    <th class="numeric"><?php print bts('Total credit', array(), NULL, 'boinc:account-dashboard'); ?></th>
+    <th class="numeric"><?php print bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits'); ?></th>
   </tr>
 </thead>
 <tbody>

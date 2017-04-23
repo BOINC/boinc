@@ -71,8 +71,8 @@
       print bts('!username is on your !ignore_list. Click !here to view this post.',
         array(
           '!username' => theme('username', $authors[$comment->uid]),
-          '!ignore_list' => l(bts('ignore list'), 'ignore_user/list'),
-          '!here' => l(bts('here'), "node/{$comment->nid}#comment-{$comment->cid}",
+          '!ignore_list' => l(bts('ignore list', array(), NULL, 'boinc:ignore-user-content'), 'ignore_user/list'),
+          '!here' => l(bts('here', array(), NULL, 'boinc:ignore-user-content'), "node/{$comment->nid}#comment-{$comment->cid}",
             array(
               'attributes' => array('class' => 'ignore-user-content-link')
             ))

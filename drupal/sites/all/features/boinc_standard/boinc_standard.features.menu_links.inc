@@ -85,7 +85,6 @@ function boinc_standard_menu_default_menu_links() {
   bts('Home', array(), NULL, 'boinc:menu-link');
   bts('Credentials', array(), NULL, 'boinc:menu-link');
   bts('Dashboard', array(), NULL, 'boinc:menu-link');
-  bts('BOINC', array(), NULL, 'boinc:footer-link');
 
   return $menu_links;
 }
