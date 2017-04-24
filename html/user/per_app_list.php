@@ -53,7 +53,7 @@ function col_title($is_team, $app, $appid, $is_total, $i) {
 function show_header($is_team, $apps, $appid, $is_total) {
     echo "<tr><th colspan=2>&nbsp;</th>";
     foreach ($apps as $app) {
-        echo "<th colspan=2>$app->name</th>\n";
+        echo "<th colspan=2 class=\"text-center\">$app->name</th>\n";
     }
     echo "</tr>";
 
@@ -62,7 +62,7 @@ function show_header($is_team, $apps, $appid, $is_total) {
     foreach ($apps as $app) {
         for ($i = 0; $i < 2; $i++) {
             $x = col_title($is_team, $app, $appid, $is_total, $i);
-            echo "<th>$x</th>\n";
+            echo "<th class=\"text-right\">$x</th>\n";
         }
     }
 
