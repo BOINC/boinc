@@ -110,6 +110,8 @@ extern bool process_exists(int);
 
 extern int wait_client_mutex(const char* dir, double timeout);
 
+extern int get_real_executable_path(char* path, size_t max_len);
+
 #ifdef GCL_SIMULATOR
 extern double simtime;
 #define time(x) ((int)simtime)

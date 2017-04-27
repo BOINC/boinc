@@ -724,6 +724,16 @@ void CBOINCGUIApp::DetectExecutableName() {
 
     // Store the root directory for later use.
     m_strBOINCMGRExecutableName = pszProg;
+#elif defined(__WXGTK__)
+    char path[PATH_MAX];
+    if (!get_real_executable_path(path, PATH_MAX)) {
+        // find filename component
+        char* name = strrchr(path, '/');
+        if (name) {
+            name++;
+            m_strBOINCMGRExecutableName = name;
+        }
+    }
 #endif
 }
 
@@ -745,6 +755,17 @@ void CBOINCGUIApp::DetectRootDirectory() {
 
     // Store the root directory for later use.
     m_strBOINCMGRRootDirectory = szPath;
+#elif defined(__WXGTK__)
+    char path[PATH_MAX];
+    if (!get_real_executable_path(path, PATH_MAX)) {
+        // find path component
+        char* name = strrchr(path, '/');
+        if (name) {
+            name++;
+            *name = '\0';
+            m_strBOINCMGRRootDirectory = path;
+        }
+    }
 #endif
 }
 
