@@ -26,8 +26,6 @@
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-$items_per_page = 20;
-
 // return a column title (Average or Total),
 // hyperlinked if this is not the current sort column
 //
@@ -46,7 +44,7 @@ function col_title($is_team, $app, $appid, $is_total, $i) {
 function show_header($is_team, $apps, $appid, $is_total) {
     echo "<tr><th colspan=2>&nbsp;</th>";
     foreach ($apps as $app) {
-        echo "<th colspan=2 class=\"text-center\">$app->name</th>\n";
+        echo "<th colspan=2>$app->name</th>\n";
     }
     echo "</tr>";
 
@@ -55,7 +53,7 @@ function show_header($is_team, $apps, $appid, $is_total) {
     foreach ($apps as $app) {
         for ($i=0; $i<2; $i++) {
             $x = col_title($is_team, $app, $appid, $is_total, $i);
-            echo "<th class=\"text-right\">$x</th>\n";
+            echo "<th>$x</th>\n";
         }
     }
     echo "</tr>";
@@ -98,8 +96,7 @@ function show_row($item, $apps, $is_team, $i) {
     echo "</tr>\n";
 }
 
-function show_list($is_team, $appid, $is_total, $offset) {
-    global $items_per_page;
+function show_list($is_team, $appid, $is_total) {
     $x = $is_team?"teams":"participants";
     page_head("Top $x by application");
     $apps = BoincApp::enum("deprecated=0");
@@ -110,34 +107,23 @@ function show_list($is_team, $appid, $is_total, $offset) {
     show_header($is_team, $apps, $appid, $is_total);
     $x = $is_total?"total":"expavg";
     if ($is_team) {
-        $items = BoincCreditTeam::enum("appid=$appid order by $x desc limit $offset,$items_per_page");
+        $items = BoincCreditTeam::enum("appid=$appid order by $x desc");
     } else {
-        $items = BoincCreditUser::enum("appid=$appid order by $x desc limit $offset,$items_per_page");
+        $items = BoincCreditUser::enum("appid=$appid order by $x desc");
     }
-    $i = $offset+1;
+    $i = 0;
     foreach ($items as $item) {
         show_row($item, $apps, $is_team, $i);
         $i++;
     }
     end_table();
-    if ($offset) {
-        $n = $offset - $items_per_page;
-        echo "<a href=\"per_app_list.php?is_team=$is_team&is_total=$is_total&offset=$n\">Previous $items_per_page</a>
-        &middot;
-        ";
-    }
-    $n = $offset + $items_per_page;
-    echo "<a href=\"per_app_list.php?is_team=$is_team&is_total=$is_total&offset=$n\">Next $items_per_page</a>
-    ";
     page_tail();
 }
 
 $is_team = get_int('is_team', true);
 $appid = get_int('appid', true);
 $is_total = get_int('is_total', true);
-$offset = get_int('offset', true);
-if ($offset == null) $offset = 0;
 
-show_list($is_team, $appid, $is_total, $offset);
+show_list($is_team, $appid, $is_total);
 
 ?>
