@@ -420,7 +420,7 @@ function show_posts(
             break;
         }
         show_post(
-            $post, $thread, $forum, $logged_in_user, $latest_viewed,
+            $post, $thread, $forum, $logged_in_user, $start, $latest_viewed,
             FORUM_CONTROLS, $filter
         );
         
@@ -489,8 +489,8 @@ function avatar_url($url) {
 // Generates a table row with two cells: author and message
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $latest_viewed,
-    $controls=FORUM_CONTROLS, $filter=true
+    $post, $thread, $forum, $logged_in_user, $start,
+    $latest_viewed, $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
 
@@ -654,7 +654,11 @@ function show_post(
         echo "<br>".tra("Last modified: %1", pretty_time_Str($post->modified));
     }
     if ($ignore_poster && $filter){
-        echo "<br>".tra("This post is not shown because the sender is on your 'ignore' list.  Click %1here%2 to view this post","<a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">","</a>");
+        echo "<br>" .tra(
+            "This post is hidden because the sender is on your 'ignore' list.  Click %1here%2 to view hidden posts",
+            "<a href=\"?id=".$thread->id."&amp;filter=false&amp;start=$start#".$post->id."\">",
+            "</a>"
+        );
     }
     if ($controls == FORUM_CONTROLS) {
         echo "</form>\n";
