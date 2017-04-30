@@ -913,7 +913,6 @@ bool CAdvancedFrame::SaveState() {
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
-    wxString        strBuffer;
     int             iIndex = 0;
     int             iItemCount = 0;
 
@@ -975,8 +974,6 @@ bool CAdvancedFrame::RestoreState() {
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
-    wxString        strBuffer;
-    wxString        strValue;
     long            iIndex;
     long            iPageCount;
     long            iCurrentPage;
@@ -1749,9 +1746,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAttach* pWizard = NULL;
     wxString strComputer = wxEmptyString;
-    wxString strName = wxEmptyString;
-    wxString strURL = wxEmptyString;
-    wxString strTeamName = wxEmptyString;
     wxString strDialogTitle = wxEmptyString;
     wxString strDialogDescription = wxEmptyString;
     std::string strProjectName;
@@ -2015,7 +2009,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                     m_pStatusbar->m_pbmpDisconnect->Hide();
                     m_pStatusbar->m_ptxtDisconnect->Hide();
 
-                    wxString strBuffer = wxEmptyString;
                     wxString strComputerName = wxEmptyString;
                     wxString strComputerVersion = wxEmptyString;
                     wxString strStatusText = wxEmptyString;
