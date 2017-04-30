@@ -846,7 +846,6 @@ GR_PROXY_INFO::GR_PROXY_INFO() {
 }
 
 int GR_PROXY_INFO::parse(XML_PARSER& xp) {
-	std::string noproxy;
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
