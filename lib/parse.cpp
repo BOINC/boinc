@@ -321,6 +321,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
     const char* p, *q;
     char* wp;
     char buf[256];
+    const size_t venueCloseTagLen = strlen("</venue>");
     snprintf(buf, sizeof(buf), "<venue name=\"%s\">", venue_name);
     p = strstr(in, buf);
     if (p) {
@@ -344,7 +345,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
                strncat(out, q, p-q);
                q = strstr(p, "</venue>");
                if (!q) break;
-               q += strlen("</venue>");
+               q += venueCloseTagLen;
            }
     }
 }
