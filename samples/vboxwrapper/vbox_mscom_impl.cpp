@@ -290,7 +290,6 @@ int VBOX_VM::create_vm() {
     HRESULT rc;
     char buf[256];
     APP_INIT_DATA aid;
-    CComBSTR vm_machine_uuid;
     CComPtr<IMachine> pMachineRO;
     CComPtr<IMachine> pMachine;
     CComPtr<ISession> pSession;
@@ -907,7 +906,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     CComPtr<IProgress> pProgress;
     CComPtr<IBandwidthControl> pBandwidthControl;
     CComPtr<ISnapshot> pRootSnapshot;
-    std::vector<CComPtr<IMedium>> clean_mediums;
     std::vector<CComPtr<IMedium>> mediums;
     std::vector<std::string> snapshots;
     DeviceType device_type; 
