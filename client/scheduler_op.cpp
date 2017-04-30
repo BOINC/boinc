@@ -331,6 +331,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<string> &urls) {
     string str;
     FILE* f;
     int n;
+    const size_t scheduler_close_tag_len = strlen("</scheduler>");
 
     get_master_filename(*p, master_filename, sizeof(master_filename));
     f = boinc_fopen(master_filename, "r");
@@ -348,7 +349,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<string> &urls) {
         while (q && parse_str(q, "<scheduler>", str)) {
             push_unique(str, urls);
             q = strstr(q, "</scheduler>");
-            if (q) q += strlen("</scheduler>");
+            if (q) q += scheduler_close_tag_len;
         }
 
         // check for new syntax: <link ...>
