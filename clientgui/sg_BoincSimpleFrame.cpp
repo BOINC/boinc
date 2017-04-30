@@ -754,9 +754,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CWizardAttach*     pWizard = NULL;
     wxString strComputer = wxEmptyString;
-    wxString strName = wxEmptyString;
-    wxString strURL = wxEmptyString;
-    wxString strTeamName = wxEmptyString;
     std::string strProjectName;
     std::string strProjectURL;
     std::string strProjectAuthenticator;

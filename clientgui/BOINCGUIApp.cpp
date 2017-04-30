@@ -117,8 +117,9 @@ bool CBOINCGUIApp::OnInit() {
     int      iDesiredLanguageCode = 0;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
+#ifdef SANDBOX
     wxString strDialogMessage = wxEmptyString;
-    wxString strOldLanguageCode = wxEmptyString;
+#endif
     bool     success = false;
 
 
