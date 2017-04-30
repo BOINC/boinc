@@ -1047,12 +1047,13 @@ int ACTIVE_TASK::handle_upload_files() {
     std::string filename;
     char buf[MAXPATHLEN], path[MAXPATHLEN];
     int retval;
+    const size_t prefixLen = strlen(UPLOAD_FILE_REQ_PREFIX);
 
     DirScanner dirscan(slot_dir);
     while (dirscan.scan(filename)) {
         safe_strcpy(buf, filename.c_str());
         if (strstr(buf, UPLOAD_FILE_REQ_PREFIX) == buf) {
-            char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
+            char* p = buf+prefixLen;
             FILE_INFO* fip = result->lookup_file_logical(p);
             if (fip) {
                 get_pathname(fip, path, sizeof(path));

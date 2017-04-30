@@ -544,14 +544,16 @@ int PROJECT::parse_preferences_for_user_files() {
 
     user_files.clear();
     size_t n=0, start, end;
+    const size_t app_fileOpenTagLen = strlen("<app_file>");
+    const size_t app_fileCloseTagLen = strlen("</app_file>");
     while (1) {
         start = project_specific_prefs.find("<app_file>", n);
         if (start == string::npos) break;
         end = project_specific_prefs.find("</app_file>", n);
         if (end == string::npos) break;
-        start += strlen("<app_file>");
+        start += app_fileOpenTagLen;
         string x = project_specific_prefs.substr(start, end);
-        n = end + strlen("</app_file>");
+        n = end + app_fileCloseTagLen;
 
         strlcpy(buf, x.c_str(), sizeof(buf));
         if (!parse_str(buf, "<timestamp>", timestamp)) break;
