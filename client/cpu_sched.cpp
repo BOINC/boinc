@@ -1109,7 +1109,6 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //
 bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
-    vector<ACTIVE_TASK*> preemptable_tasks;
     int retval;
     double ncpus_used=0;
     ACTIVE_TASK* atp;
