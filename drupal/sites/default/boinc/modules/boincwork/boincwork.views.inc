@@ -90,7 +90,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['host']['userid'] = array(
-    'title' => bts('User ID', array(), NULL, 'boinc:host-list'),
+    'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The owner of this host.'),
     // Because this is a foreign key to the {user} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
@@ -224,7 +224,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['domain_name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:host-details'),
+    'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'),
     'help' => t('The name of the host.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -634,7 +634,7 @@ function boincwork_views_data() {
   // Descriptions of app fields (alphabetized)
   
   $data['platform']['name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:platform-details'),
+    'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'),
     'help' => t('The name of the platform.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -703,7 +703,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['result']['userid'] = array(
-    'title' => bts('User ID', array(), NULL, 'boinc:task-details'),
+    'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The owner of this result.'),
     // Foreign key to the {user} table
     'argument' => array(
@@ -720,7 +720,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['workunitid'] = array(
-    'title' => bts('Workunit ID', array(), NULL, 'boinc:task-details'),
+    'title' => bts('Workunit ID', array(), NULL, 'boinc:workunit-details'),
     'help' => t('The workunit associated with this result.'),
     // Foreign key to the {workunit} table
     'argument' => array(
@@ -777,7 +777,7 @@ function boincwork_views_data() {
   // Descriptions of result fields (alphabetized)
   
   $data['result']['appid'] = array(
-    'title' => bts('Application ID', array(), NULL, 'boinc:task-details'),
+    'title' => bts('Application ID', array(), NULL, 'boinc:application-details'),
     'help' => t('The ID number of the application.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -849,7 +849,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['create_time'] = array(
-    'title' => bts('Created', array(), NULL, 'boinc:task-details'),
+    'title' => bts('Created', array(), NULL, 'boinc:task-details:-1:ignoreoverwrite'),
     'help' => t('The time that the task was created.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -907,7 +907,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:task-details'),
+    'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'),
     'help' => t('The name of the task.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1066,7 +1066,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['workunit']['appid'] = array(
-    'title' => bts('App ID', array(), NULL, 'boinc:workunit-details'),
+    'title' => bts('Application ID', array(), NULL, 'boinc:application-details'),
     'help' => t('The application associated with this workunit.'), 
     'argument' => array( // foreign key to the {app} table
       'handler' => 'views_handler_argument',
@@ -1166,7 +1166,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:workunit-details'),
+    'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreovewrite'),
     'help' => t('The name of the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1302,7 +1302,7 @@ function boincwork_views_data() {
     )
   );
   $data['app']['user_friendly_name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:application-details'),
+    'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'),
     'help' => t('The user friendly name of the application.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1354,8 +1354,8 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['app_version']['appid'] = array(
-    'title' => bts('App ID', array(), NULL, 'boinc:application-details'),
-    'help' => t('The app ID associated with this app version.'),
+    'title' => bts('Application ID', array(), NULL, 'boinc:application-details'),
+    'help' => t('The application ID associated with this app version.'),
     // Because this is a foreign key to the {app} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
     // for the related node available.
@@ -1384,7 +1384,7 @@ function boincwork_views_data() {
   );
   
   $data['app_version']['platformid'] = array(
-    'title' => bts('Platform ID', array(), NULL, 'boinc:application-details'),
+    'title' => bts('Platform ID', array(), NULL, 'boinc:platform-details'),
     'help' => t('The platform ID associated with this app version.'),
     // Because this is a foreign key to the {platform} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
@@ -1594,7 +1594,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['turnaround_avg'] = array(
-    'title' => bts('Average turnaround time', array(), NULL, 'boinc:application-details'),
+    'title' => bts('Average turnaround time', array(), NULL, 'boinc:application-details:-1:ignoreoverwrite'),
     'help' => t('The average turnaround time per task for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_boincwork_host_app_turnaround_avg',
@@ -1609,7 +1609,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['user_friendly_name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:application-details'),
+    'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'),
     'help' => t('The user friendly name of the application.'),
     'field' => array(
       'handler' => 'views_handler_field',

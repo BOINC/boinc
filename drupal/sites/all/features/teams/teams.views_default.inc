@@ -2033,7 +2033,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Remove\', array(), NULL, \'boinc:team-remove-member\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 0,

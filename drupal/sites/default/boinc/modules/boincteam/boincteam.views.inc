@@ -170,7 +170,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:team-name'),
+    'title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'),
     'help' => t('The name of the team.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -278,7 +278,7 @@ function boincteam_views_data() {
   // Foreign key fields
   
   $data['team_admin']['userid'] = array(
-    'title' => bts('User ID', array(), NULL, 'boinc:user-that-is-team-admin'),
+    'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The user that is a team admin.'),
     // This is a foreign key to the {user} table. When the view is configured
     // with this relationship, all the fields for the related user node will be 
@@ -364,7 +364,7 @@ function boincteam_views_data() {
   // Foreign key fields
   
   $data['team_delta']['userid'] = array(
-    'title' => bts('User ID', array(), NULL, 'boinc:user-id'),
+    'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The user for this team history event.'),
     'relationship' => array(
       'base' => 'user',

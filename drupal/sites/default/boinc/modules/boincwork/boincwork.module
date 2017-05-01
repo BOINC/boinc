@@ -365,7 +365,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $path = 'account/prefs/computing/edit';
       $venues = array(
         "{$path}/generic" => bts('Generic', array(), NULL, 'boinc:account-preferences-location'),
-        "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location'),
+        "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location:-1:ignoreoverwrite'),
         "{$path}/school" => bts('School', array(), NULL, 'boinc:account-preferences-location'),
         "{$path}/work" => bts('Work', array(), NULL, 'boinc:account-preferences-location')
       );
@@ -537,7 +537,7 @@ function projectprefs_page($action = null, $venue = null) {
       $path = 'account/prefs/project/edit';
       $venues = array(
         "{$path}/generic" => bts('Generic', array(), NULL, 'boinc:account-preferences-location'),
-        "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location'),
+        "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location:-1:ignoreoverwrite'),
         "{$path}/school" => bts('School', array(), NULL, 'boinc:account-preferences-location'),
         "{$path}/work" => bts('Work', array(), NULL, 'boinc:account-preferences-location')
       );

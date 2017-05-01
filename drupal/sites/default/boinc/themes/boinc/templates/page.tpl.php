@@ -356,7 +356,7 @@
           <ul id="server-status" class="tab-list">
             
             <li class="first tab">
-              <?php print l(bts('Applications', array(), NULL, 'boinc:footer-link'), $app_list_url); ?>
+              <?php print l(bts('Applications', array(), NULL, 'boinc:footer-link:-1:ignoreoverwrite'), $app_list_url); ?>
             </li>
             <li class="last tab">
               <?php print l(bts('Server status', array(), NULL, 'boinc:footer-link'), $server_status_url); ?>
@@ -379,7 +379,7 @@
           
           <div id="language"
             style="background: url(<?php print $flag_path; ?>) no-repeat right;">
-              <?php print bts('Language', array(), NULL, 'boinc:footer-link'); ?>
+              <?php print bts('Language', array(), NULL, 'boinc:footer-link:-1:ignoreoverwrite'); ?>
           </div>
           
           <?php if ($footer_message): ?>

@@ -69,7 +69,7 @@ function boincteam_forum_create_form(&$form_state) {
     '#default_value' => $default['public'],
   );
   $form['description'] = array(
-    '#title' => bts('Description', array(), NULL, 'boinc:team-forum-create/edit'),
+    '#title' => bts('Description', array(), NULL, 'boinc:team-forum-create/edit:-1:ignoreoverwrite'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -226,7 +226,7 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
     '#default_value' => $default['public'],
   );
   $form['description'] = array(
-    '#title' => bts('Description', array(), NULL, 'boinc:team-forum-create/edit'),
+    '#title' => bts('Description', array(), NULL, 'boinc:team-forum-create/edit:-1:ignoreoverwrite'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,

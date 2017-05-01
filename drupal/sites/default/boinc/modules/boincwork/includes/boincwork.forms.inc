@@ -879,7 +879,7 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
   $form['merge'] = array(
     '#title' => '',
     '#type' => 'tableselect',
-    '#header' => array(bts('Name', array(), NULL, 'boinc:host-details'), bts('Created', array(), NULL, 'boinc:host-details'), bts('Computer ID', array(), NULL, 'boinc:host-list')),
+    '#header' => array(bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'), bts('Created', array(), NULL, 'boinc:host-details'), bts('Computer ID', array(), NULL, 'boinc:host-list')),
     '#options' => $options,
   );
   
@@ -1412,7 +1412,7 @@ function communityprefs_form(&$form_state) {
   // Add the BOINC user name (non-unique, user editable)
   $form['general']['boincuser_name'] = array(
     '#type' => 'textfield',
-    '#title' => bts('Name', array(), NULL, 'boinc:user-info'),
+    '#title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'),
     '#default_value' => $account->boincuser_name,
     '#maxlength' => USERNAME_MAX_LENGTH,
     '#required' => TRUE,

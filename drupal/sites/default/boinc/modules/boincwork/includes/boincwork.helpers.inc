@@ -1431,7 +1431,7 @@ function boincwork_host_venue_selector($host_id) {
     $path = "host/{$host_id}/set-venue";
     $venues = array(
       "{$path}/generic" => bts('Generic', array(), NULL, 'boinc:account-preferences-location'),
-      "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location'),
+      "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location:-1:ignoreoverwrite'),
       "{$path}/work" => bts('Work', array(), NULL, 'boinc:account-preferences-location'),
       "{$path}/school" => bts('School', array(), NULL, 'boinc:account-preferences-location')
     );

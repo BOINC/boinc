@@ -683,7 +683,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   // Login form
   case 'user_login':
   case 'user_login_block':
-      drupal_set_title(bts('Login', array(), NULL, 'boinc:standard-login-page'));
+      drupal_set_title(bts('Login', array(), NULL, 'boinc:menu-link'));
     // Replace name with email in login form
     unset($form['name']);
     array_unshift($form, array(
@@ -952,7 +952,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     array_unshift($form, array(
       'boincuser_name' => array(
         '#type' => 'textfield', 
-        '#title' => bts('Name', array(), NULL, 'boinc:user-info'), 
+        '#title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'), 
         '#default_value' => $edit['boincuser_name'], 
         '#maxlength' => USERNAME_MAX_LENGTH, 
         '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.', array(), NULL, 'boinc:user-register'), 
@@ -1655,7 +1655,7 @@ function boincuser_get_projects_table($account = null) {
   $output .= '<table class="user-projects">' . "\n";
   $output .= '<thead>' . "\n";
   $output .= '  <tr>' . "\n";
-  $output .= '    <th>' . bts('Name', array(), NULL, 'boinc:project-name') . '</th>' . "\n";
+  $output .= '    <th>' . bts('Name', array(), NULL, 'boinc:project-name:-1:ignoreoverwrite') . '</th>' . "\n";
   $output .= '    <th class="numeric">' . bts('Avg credit', array(), NULL, 'boinc:account-dashboard') . '</th>' . "\n";
   $output .= '    <th class="numeric">' . bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits') . '</th>' . "\n";
   $output .= '  </tr>' . "\n";

@@ -847,7 +847,7 @@ function boincteam_dashboard_panel($uid = NULL) {
     $team = boincteam_load(boincteam_lookup_id($account->team));
     $output .= '<h2 class="pane-title">' . bts('Team', array(), NULL, 'boinc:team-dashboard') . '</h2>';
     $output .= '<div class="stats">';
-    $output .= '  <label>' . bts('Name', array(), NULL, 'boinc:team-name') . ': </label>';
+    $output .= '  <label>' . bts('Name', array(), NULL, 'boinc:user-or-team-name') . ': </label>';
     $output .= '  <span>' . l($team->name, "community/teams/{$account->team}") . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
@@ -989,7 +989,7 @@ function boincteam_management_panel($team_id) {
   $output .= '<div class="form-item">';
   $output .= '  <ul class="tab-list action-list">';
   $output .= '    <li class="first tab primary">' . 
-    l(bts('Remove members', array(), NULL, 'boinc:team-admin-panel'), "community/teams/{$team_id}/edit/members") . '</li>';
+    l(bts('Remove members', array(), NULL, 'boinc:team-admins-panel'), "community/teams/{$team_id}/edit/members") . '</li>';
   
   if ($is_founder) {
     

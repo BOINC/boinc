@@ -162,7 +162,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['name'] = array(
-    'title' => bts('Name', array(), NULL, 'boinc:user-info'),
+    'title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'),
     'help' => t('The BOINC account user name.'),
     'field' => array(
       'handler' => 'views_handler_field',
