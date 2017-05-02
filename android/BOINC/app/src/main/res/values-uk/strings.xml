@@ -346,7 +346,7 @@
   <string name="social_invite_button">Запросити друзів</string>
   <string name="social_invite_intent_title">Як ви бажаєто поділитися?</string>
   <string name="social_invite_content_title">Я приймаю участь у наукових обчисленнях на моєму смартфоні!</string>
-  <string name="social_invite_content_body">Я вікористовую %1$s для наукових обчислень. Ти також можешь прийняти участь! Завантажуй додаток звідси: %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_body">Я вікористовую %1$s для наукових обчислень. Ти також можешь прийняти участь! Завантажуй додаток звідси: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

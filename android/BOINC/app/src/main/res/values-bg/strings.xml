@@ -353,5 +353,5 @@
   <string name="social_invite_content_body">Аз използвам моя %1$s за да извършвам изчисления за науката. Ти можеш също! Изтегли приложението от: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
