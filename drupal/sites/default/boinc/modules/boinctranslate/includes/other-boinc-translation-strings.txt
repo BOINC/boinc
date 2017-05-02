@@ -15,15 +15,15 @@
 # specificity is still required. Generally, a simple textgroup:type context is
 # sufficient.
 #
-Password
-Enter the password that accompanies your username.
-Request new password
+Password|boinc:account-password
+Enter the password that accompanies your username.|boinc:login-page
+Request new password|boinc:login-page
 Mark all topics read|boinc:forum
 Mark all forums read|boinc:forum
-CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site administrator if this problem persists.
-The answer you entered for the CAPTCHA was not correct.
-Access denied. You must login to view this page.
-You are not authorized to access this page.
+CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site administrator if this problem persists.|boinc:account-profile-edit
+The answer you entered for the CAPTCHA was not correct.|boinc:account-profile-edit
+Access denied. You must login to view this page.|boinc:general-access-error
+You are not authorized to access this page.|boinc:general-access-error
 Disable rich-text|boinc:forum
 Enable rich-text|boinc:forum
 subscribe|boinc:forum-thread-subscribe
