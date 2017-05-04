@@ -86,7 +86,7 @@ function boincteam_forum_create_form(&$form_state) {
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-ancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
   );
   
   $form['#redirect'] = "community/teams/{$account->team}";

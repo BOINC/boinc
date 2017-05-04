@@ -328,7 +328,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
     '#disabled' => $is_boinc_wide,
   );
   $form['website'] = array(
-    '#title' => bts('Team website (optional)', array(), NULL, 'boinc:team-edit'),
+    '#title' => bts('Team website (optional)', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['website'],
     '#size' => 34,

@@ -5666,7 +5666,7 @@ Cross-project stats:
   $handler->override_option('path', 'account/%/computers/active');
   $handler->override_option('menu', array(
     'type' => 'default tab',
-    'title' => bts('Active in past 30 days', array(), NULL, 'boinc:user-host-list'),
+    'title' => bts('Active in past 30 days', array(), NULL, 'boinc:account-host-list'),
     'description' => 'Show only computers that have been active in the past month',
     'weight' => '0',
     'name' => 'navigation',
@@ -5682,7 +5682,7 @@ Cross-project stats:
   $handler->override_option('path', 'account/%/computers/all');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => bts('All computers', array(), NULL, 'boinc:user-host-list'),
+    'title' => bts('All computers', array(), NULL, 'boinc:account-host-list'),
     'description' => 'Show all computers associated with the account',
     'weight' => '1',
     'name' => 'navigation',

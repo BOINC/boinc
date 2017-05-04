@@ -79,7 +79,7 @@ function boincteam_views_data() {
   // Foreign key fields
   
   $data['team']['userid'] = array(
-    'title' => bts('Founder', array(), NULL, 'boinc:team-founder'),
+    'title' => bts('Founder', array(), NULL, 'boinc:view-team-info'),
     'help' => t('The founder of this team.'),
     // This is a foreign key to the {user} table. When the view is configured
     // with this relationship, all the fields for the related user node will be 

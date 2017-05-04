@@ -30,7 +30,7 @@ function user_preferences_menu_default_menu_links() {
   bts('Preferences', array(), NULL, 'boinc:menu-link');
   bts('Community', array(), NULL, 'boinc:menu-link');
   bts('Privacy', array(), NULL, 'boinc:menu-link');
-  bts('Subscriptions', array(), NULL, 'boinc:menu-link');
+  bts('Subscriptions', array(), NULL, 'boinc:menu-link:-1:ignoreoverwrite');
 
   return $menu_links;
 }

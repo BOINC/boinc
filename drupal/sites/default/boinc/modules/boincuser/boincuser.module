@@ -544,7 +544,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       case FLAG_FRIEND_BOTH:
       case FLAG_FRIEND_FLAGGED:
         unset($form['actions']);
-        $form['flag_friend_submit']['#value'] = bts('Remove friend', array(), NULL, 'boinc:friends-page');
+        $form['flag_friend_submit']['#value'] = bts('Remove friend', array(), NULL, 'boinc:friends-remove');
         // Add in our hack handler to fix the flag_friend module
         $final_handler = array_pop($form['#submit']);
         $form['#submit'][] = 'boincuser_fix_unfriend_form_submit';
@@ -566,7 +566,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       case FLAG_FRIEND_UNFLAGGED:
       default:
         $user_links[] = array(
-          'title' => bts('Add as friend', array(), NULL, 'boinc:friends-page'),
+          'title' => bts('Add as friend', array(), NULL, 'boinc:friends-add'),
           'href' => "flag/confirm/flag/friend/{$account->uid}"
         );
       }

@@ -392,7 +392,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
           array( '@venue' => $venue, ),
-          NULL, 'boinc:account-preferences-computing'), 'status');
+          NULL, 'boinc:account-preferences'), 'status');
     }
     
     break;
@@ -564,7 +564,7 @@ function projectprefs_page($action = null, $venue = null) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
           array( '@venue' => $venue, ),
-          NULL, 'boinc:boinc-preferences-project'), 'status');
+          NULL, 'boinc:account-preferences'), 'status');
     }
     
     break;
