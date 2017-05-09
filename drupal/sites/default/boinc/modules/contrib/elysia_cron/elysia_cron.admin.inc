@@ -65,7 +65,7 @@ function elysia_cron_admin_page() {
           ),
         );
         $rows[] = array(
-          $conf['rule'] . (!empty($conf['weight']) ? ' <small>(' . t('Weight') . ': ' . $conf['weight'] . ')</small>' : ''),
+          check_plain($conf['rule']) . (!empty($conf['weight']) ? ' <small>(' . t('Weight') . ': ' . $conf['weight'] . ')</small>' : ''),
           elysia_cron_date($conf['last_run']),
           $conf['last_execution_time'] . 's',
           $conf['execution_count'],
@@ -554,7 +554,25 @@ function elysia_cron_settings_form_validate($_dco_form, &$_dco_form_state) {
   foreach ($form_state['values'] as $key => $value) {
     if ($value && preg_match('/^_elysia_cron_([^_]+_[^_]+)_(.*)$/', $key, $r) && ($r[1] == 'job_rule' || $r[1] == 'ch_rule')) {
       if (!preg_match('/^\\s*([0-9*,\/-]+[ ]+[0-9*,\/-]+[ ]+[0-9*,\/-]+[ ]+[0-9*,\/-]+[ ]+[0-9*,\/-]+)\\s*$/', $value)) {
-        form_set_error($key, t('Invalid rule: !rule', array('!rule' => $value)));
+        form_set_error($key, t('Invalid rule: %rule', array('%rule' => $value)));
+      }
+    }
+  }
+
+  if (!empty($form_state['values']['elysia_cron_default_rules'])) {
+    $rules = explode(PHP_EOL, $form_state['values']['elysia_cron_default_rules']);
+    foreach ($rules as $rule) {
+      $rule = trim($rule);
+      if (empty($rule)) {
+        continue;
+      }
+
+      $rule = explode('=', $rule);
+      if (empty($rule[1])) {
+        form_set_error('elysia_cron_default_rules', t('Invalid rule: %rule', array('%rule' => $rule[0])));
+      } 
+      elseif (!preg_match('/^\\s*([0-9*,\/-]+[ ]+[0-9*,\/-]+[ ]+[0-9*,\/-]+[ ]+[0-9*,\/-]+[ ]+[0-9*,\/-]+)\\s*$/', trim($rule[1]))) {
+        form_set_error('elysia_cron_default_rules', t('Invalid rule: %rule', array('%rule' => $rule[0])));
       }
     }
   }
