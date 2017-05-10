@@ -1063,15 +1063,6 @@ static void handle_set_global_prefs_override(GUI_RPC_CONN& grc) {
     }
 }
 
-static void handle_get_cc_config(GUI_RPC_CONN& grc) {
-    string s;
-    int retval = read_file_string(CONFIG_FILE, s);
-    if (!retval) {
-        strip_whitespace(s);
-        grc.mfout.printf("%s\n", s.c_str());
-    }
-}
-
 static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
     string s;
     int retval = read_file_string(ALL_PROJECTS_LIST_FILENAME, s);
@@ -1085,6 +1076,15 @@ static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
 
 static void handle_get_state(GUI_RPC_CONN& grc) {
     gstate.write_state_gui(grc.mfout);
+}
+
+static void handle_get_cc_config(GUI_RPC_CONN& grc) {
+    string s;
+    int retval = read_file_string(CONFIG_FILE, s);
+    if (!retval) {
+        strip_whitespace(s);
+        grc.mfout.printf("%s\n", s.c_str());
+    }
 }
 
 static void handle_set_cc_config(GUI_RPC_CONN& grc) {
