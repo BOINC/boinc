@@ -97,7 +97,6 @@ void CBOINCDialUpManager::OnPoll() {
     bool                bIsOnline = false;
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
-    wxString            strDialogMessage = wxEmptyString;
     CC_STATUS           cc_status;
 
 

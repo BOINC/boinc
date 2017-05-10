@@ -184,7 +184,6 @@ void CDlgHiddenColumns::CreateCheckboxes() {
 
         CBOINCListCtrl* listCtrl = pView->GetListCtrl();
         wxInt32 iShownColumnCount = listCtrl->GetColumnCount();
-        wxString strHiddenColumns;
         wxArrayInt aOrder(iShownColumnCount);
 
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER

@@ -482,9 +482,6 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     // button or not (initially the label is "Next")
     bool btnLabelWasNext = true;
 
-    // remember the old bitmap (if any) to compare with the new one later
-    wxBitmap bmpPrev;
-
     // check for previous page
     if ( m_page )
     {

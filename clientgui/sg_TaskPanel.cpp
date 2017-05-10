@@ -791,7 +791,6 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
     RESULT*        state_result = NULL;
     wxString       strAppBuffer = wxEmptyString;
     wxString       strGPUBuffer = wxEmptyString;
-    wxString pct_done_str = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));

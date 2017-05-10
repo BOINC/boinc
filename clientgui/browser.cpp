@@ -800,7 +800,6 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     std::string  domainname;
     std::wstring domainname_w;
     std::wstring name_w;
-    std::wstring value_w;
     size_t       uiDelimeterLocation;
 
     if (!ieframelib) {
