@@ -125,9 +125,9 @@ function show_host($host, $user, $ipprivate) {
     if ($v) {
         row2(tra("BOINC version"), $v);
     }
-    $x = $host->m_nbytes/MEGA;
+    $x = $host->m_nbytes/GIGA;
     $y = round($x, 2);
-    row2(tra("Memory"), tra("%1 MB", $y));
+    row2(tra("Memory"), tra("%1 GB", $y));
     if ($host->m_cache > 0) {
         $x = $host->m_cache/KILO;
         $y = round($x, 2);
@@ -135,9 +135,9 @@ function show_host($host, $user, $ipprivate) {
     }
 
     if ($user) {
-        $x = $host->m_swap/MEGA;
+        $x = $host->m_swap/GIGA;
         $y = round($x, 2);
-        row2(tra("Swap space"), tra("%1 MB", $y));
+        row2(tra("Swap space"), tra("%1 GB", $y));
         $x = $host->d_total/GIGA;
         $y = round($x, 2);
         row2(tra("Total disk space"), tra("%1 GB", $y));
@@ -145,12 +145,12 @@ function show_host($host, $user, $ipprivate) {
         $y = round($x, 2);
         row2(tra("Free Disk Space"), tra("%1 GB", $y));
     }
-    $x = $host->p_fpops/(1000*1000);
+    $x = $host->p_fpops/1e9;
     $y = round($x, 2);
-    row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
-    $x = $host->p_iops/(1000*1000);
+    row2(tra("Measured floating point speed"), tra("%1 billion ops/sec", $y));
+    $x = $host->p_iops/1e9;
     $y = round($x, 2);
-    row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
+    row2(tra("Measured integer speed"), tra("%1 billion ops/sec", $y));
     $x = $host->n_bwup/KILO;
     $y = round($x, 2);
     if ($y > 0) {
@@ -235,7 +235,7 @@ function top_host_table_start($sort_by) {
     $x[] = tra("Operating system");
     $s = 'style="text-align:right;"';
     $a = array("", "", "", $s, $s, "", "", "", "");
-    row_heading_array($x, $a);
+    row_heading_array($x, $a, "bg-default");
 }
 
 function host_nresults($host) {
@@ -706,7 +706,7 @@ function user_host_table_start(
     $url = link_url_rev($sort, "rpc_time", $rev, $show_all);
     $x[] = "<a href=$url>".tra("Last contact")."</a>";
     $a[] = null;
-    row_heading_array($x, $a);
+    row_heading_array($x, $a, "bg-default");
 }
 
 function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
