@@ -23,6 +23,7 @@
 #include <string>
 #include <string.h>
 
+#include "client_types.h"
 #include "common_defs.h"
 #include "log_flags.h"
 

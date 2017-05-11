@@ -43,6 +43,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "gui_http.h"
+#include "log_flags.h"
 #include "project.h"
 
 #include "acct_mgr.h"
