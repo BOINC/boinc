@@ -1192,7 +1192,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
           'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/project/combined')),
           'attributes' => array(
             'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the @name preference set. Are you sure?',
-              array('@name' => $venue), array(), NULL, 'boinc:account-preferences') . '\')'
+              array('@name' => $venue), NULL, 'boinc:account-preferences') . '\')'
           )
         )
       ) . '</li>';

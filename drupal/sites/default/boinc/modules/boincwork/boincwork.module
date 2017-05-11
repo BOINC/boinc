@@ -635,7 +635,7 @@ function privacyprefs_page($action = null) {
     // Edit preferences link
     $output .= '<tr>';
     $output .= '<td></td>';
-    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit", NULL, 'boinc:account-preferences-privacy') . '</td>';
+    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT), NULL, 'boinc:account-preferences-privacy'), "account/prefs/privacy/edit") . '</td>';
     $output .= '</tr>';
     
     $output .= '</table>';
