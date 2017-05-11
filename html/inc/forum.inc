@@ -489,8 +489,8 @@ function avatar_url($url) {
 // Generates a table row with two cells: author and message
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $start,
-    $latest_viewed, $controls=FORUM_CONTROLS, $filter=true
+    $post, $thread, $forum, $logged_in_user, $start=0,
+    $latest_viewed=0, $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
 
@@ -633,7 +633,7 @@ function show_post(
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
 
-    if ($logged_in_user && $post->timestamp>$latest_viewed){
+    if ($logged_in_user && $post->timestamp > $latest_viewed){
         show_image(NEW_IMAGE, tra("You haven't read this message yet"), tra("Unread"), NEW_IMAGE_HEIGHT);
     }
 
