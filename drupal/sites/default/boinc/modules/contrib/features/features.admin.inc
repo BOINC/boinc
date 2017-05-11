@@ -596,7 +596,7 @@ function features_form_submit(&$form, &$form_state) {
   // page callback rather than as part of the submit handler as some modules
   // have includes/other directives of importance in hooks that have already
   // been called in this page load.
-  $form_state['redirect'] = 'admin/build/features/cleanup/clear';
+  $form_state['redirect'] = array('admin/build/features/cleanup/clear', array('token' => drupal_get_token()));
 
   $features = $form['#features'];
   if (!empty($features)) {
@@ -619,7 +619,7 @@ function features_cleanup_form($form_state, $cache_clear = FALSE) {
   $form = array();
 
   // Clear caches if we're getting a post-submit redirect that requests it.
-  if ($cache_clear) {
+  if ($cache_clear && !empty($_GET['token']) && drupal_valid_token($_GET['token'])) {
     drupal_flush_all_caches();
 
     // The following functions need to be run because drupal_flush_all_caches()
