@@ -541,6 +541,19 @@ function panels_panel_context_edit_choose(&$form, &$form_state) {
 
   $form_state['display'] = &panels_panel_context_get_display($form_state['handler']);
 
+  // Grab the storage_type and storage_id and inject it into the display.
+  if (empty($form_state['display']->storage_type)) {
+    if (!isset($form_state[$form_state['task_id']]->storage_type)) {
+      watchdog('panels', "Unable to find the storage type for specified storage. Read 'Upgrading task handlers' in CHANGELOG.txt", array(), WATCHDOG_ERROR);
+      $form_state['display']->storage_type = 'unknown';
+    }
+    else {
+      $form_state['display']->storage_type = $form_state[$form_state['task_id']]->storage_type;
+    }
+    // When adding variants, we don't know the handler id yet. In that case,
+    // Mark it as new. We'll assign it later.
+    $form_state['display']->storage_id = !empty($form_state['handler_id']) ? $form_state['handler_id'] : 'new';
+  }
   // Tell the Panels form not to display buttons.
   $form_state['no buttons'] = TRUE;
 
@@ -685,6 +698,10 @@ function panels_panel_context_edit_content(&$form, &$form_state) {
 }
 
 function panels_panel_context_edit_content_submit(&$form, &$form_state) {
+  // Update the storage_id if this is a new variant before saving.
+  if ($form_state['display']->storage_id == 'new') {
+    $form_state['display']->storage_id = $form_state['handler_id'];
+  }
   panels_edit_display_form_submit($form, $form_state);
   $handler = &$form_state['handler'];
 

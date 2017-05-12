@@ -268,6 +268,7 @@ function panels_perm() {
     'use panels caching features',
     'use panels dashboard',
     'use panels in place editing',
+    'bypass access in place editing',
   );
 }
 
@@ -414,6 +415,7 @@ function panels_ctools_style_base_types() {
       'preview' => 'panels_stylizer_pane_preview',
       'theme arguments' => array('settings' => NULL, 'content' => NULL, 'pane' => NULL, 'display' => NULL),
     ),
+    'panels_storage' => array(),
   );
 }
 
@@ -708,6 +710,55 @@ class panels_display {
       $output .= $function($this, $renderer);
     }
     return $output;
+  }
+
+  /**
+   * Determine if the given user can perform the requested operation.
+   *
+   * @param string $op
+   *   An operation like: create, read, update, or delete.
+   * @param object $account
+   *   (optional) The account to check access for.
+   *
+   * @return bool
+   *   TRUE if access is granted; otherwise FALSE.
+   */
+  function access($op, $account = NULL) {
+    global $user;
+
+    if (!$account) {
+      $account = $user;
+    }
+
+    // Even administrators need to go through the access system. However, to
+    // support legacy plugins, user 1 gets full access no matter what.
+    if ($account->uid == 1) {
+      return TRUE;
+    }
+
+    if (!in_array($op, array('create', 'read', 'update', 'delete', 'change layout'))) {
+      return FALSE;
+    }
+
+    if (empty($this->storage_type) || empty($this->storage_id)) {
+      return FALSE;
+    }
+
+    if ($this->storage_type == 'unknown') {
+      return FALSE;
+    }
+
+    $storage_plugin = panels_get_panels_storage_plugin($this->storage_type);
+    if (!$storage_plugin) {
+      return FALSE;
+    }
+
+    $access_callback = panels_plugin_get_function('panels_storage', $storage_plugin, 'access callback');
+    if (!$access_callback) {
+      return FALSE;
+    }
+
+    return $access_callback($this->storage_type, $this->storage_id, $op, $account);
   }
 }
 
@@ -1237,6 +1288,11 @@ function panels_ajax_router() {
   ctools_include('cleanstring');
   $renderer->clean_key = ctools_cleanstring($cache_key);
 
+  $op = $renderer->get_panels_storage_op_for_ajax($method);
+  if (!$cache->display->access($op)) {
+    return MENU_ACCESS_DENIED;
+  }
+
   $output = call_user_func_array(array($renderer, $method), $args);
   if (empty($output) && !empty($renderer->commands)) {
     return ctools_ajax_render($renderer->commands);
@@ -1528,6 +1584,38 @@ function panels_page_wizard_panels_cache_set($key, $cache) {
   $wizard_cache = page_manager_get_wizard_cache($key);
   $wizard_cache->display_cache = $cache;
   page_manager_set_wizard_cache($wizard_cache);
+}
+
+/**
+ * Alter the page wizard basic page, when panels is selected, to inject page
+ * manager as the storage plugin for panels.
+ * @param $form
+ * @param $form_state
+ */
+function panels_form_page_manager_page_form_basic_alter(&$form, &$form_state) {
+  $form['#validate'][] = 'panels_page_manager_handler_add_validate';
+}
+
+/**
+ * Alter the variant add page, so when panels is selected, page manager is the
+ * storage plugin for panels.
+ * @param $form
+ * @param $form_state
+ */
+function panels_form_page_manager_handler_add_alter(&$form, &$form_state) {
+  $form['#validate'][] = 'panels_page_manager_handler_add_validate';
+}
+
+/**
+ * Perform the validation check to see if panel context is selected to use
+ * page manager as the storage plugin.
+ * @param $form
+ * @param $form_state
+ */
+function panels_page_manager_handler_add_validate($form, &$form_state) {
+  if($form_state['values']['handler'] == 'panel_context') {
+    $form_state['page']->storage_type = 'page_manager';
+  }
 }
 
 // --------------------------------------------------------------------------

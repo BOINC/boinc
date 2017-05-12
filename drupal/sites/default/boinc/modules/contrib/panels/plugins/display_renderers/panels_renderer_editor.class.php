@@ -471,6 +471,40 @@ class panels_renderer_editor extends panels_renderer_standard {
   }
 
   /**
+   * Get the Panels storage oparation for a given renderer AJAX method.
+   *
+   * @param string $method
+   *   The method name.
+   *
+   * @return string
+   *   The Panels storage op.
+   */
+  function get_panels_storage_op_for_ajax($method) {
+    switch ($method) {
+      case 'ajax_show':
+      case 'ajax_hide':
+      case 'ajax_select_content':
+      case 'ajax_add_pane':
+      case 'ajax_edit_pane':
+      case 'ajax_panel_title':
+      case 'ajax_cache_method':
+      case 'ajax_cache_settings':
+      case 'ajax_style_type':
+      case 'ajax_style_settings':
+      case 'ajax_pane_css':
+      case 'ajax_lock':
+      case 'ajax_access_settings':
+      case 'ajax_access_add_test':
+      case 'ajax_access_configure_test':
+      case 'ajax_layout':
+      case 'ajax_style':
+        return 'update';
+    }
+
+    return parent::get_panels_storage_op($method);
+  }
+
+  /**
    * AJAX command to show a pane.
    */
   function ajax_show($pid = NULL) {

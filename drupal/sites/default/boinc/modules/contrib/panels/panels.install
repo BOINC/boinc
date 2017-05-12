@@ -89,9 +89,30 @@ function panels_requirements_runtime() {
 function panels_schema() {
   // This should always point to our 'current' schema. This makes it relatively easy
   // to keep a record of schema as we make changes to it.
-  return panels_schema_3();
+  return panels_schema_4();
 }
 
+/**
+ * Schema that adds the 'storage_type' and 'storage_id' columns.
+ */
+function panels_schema_4() {
+  $schema = panels_schema_3();
+
+  // Add the storage type and id columns.
+  $schema['panels_display']['fields']['storage_type'] = array(
+    'type' => 'varchar',
+    'length' => 255,
+    'default' => '',
+  );
+  $schema['panels_display']['fields']['storage_id'] = array(
+    'type' => 'varchar',
+    'length' => 255,
+    'default' => '',
+  );
+
+  return $schema;
+}
+ 
 /**
  * Schema that adds the panels_layout table.
  */
@@ -1553,6 +1574,65 @@ function panels_update_6312() {
   }
 
   $ret[] = array('success' => TRUE, 'query' => t('Added a cache panels table.'));
+
+  return $ret;
+}
+
+/**
+ * Add the "storage_type" and "storage_id" columns to "panels_display".
+ */
+function panels_update_6313() {
+  $schema = panels_schema_4();
+
+  $new_fields = array(
+    'panels_display' => array('storage_type', 'storage_id'),
+  );
+
+  $ret = array();
+
+  foreach ($new_fields as $table => $fields) {
+    foreach ($fields as $field_name) {
+      db_add_field($ret, $table, $field_name, $schema[$table]['fields'][$field_name]);
+    }
+  }
+
+  $ret[] = array('success' => TRUE, 'query' => t('Added the storage_type and storage_id columns.'));
+
+  return $ret;
+}
+
+/**
+ * Set the storage type and id on existing page manager panels displays.
+ */
+function panels_update_6314() {
+  $ret = array();
+
+  if (!db_table_exists('page_manager_handlers')) {
+    $ret[] = array('success' => TRUE, 'query' => t('Skipping update - page_manager is not installed.'));
+    return $ret;
+  }
+
+  // Get all page_manager_handlers that have a panels context.
+  $result = db_query("SELECT pm.name, pm.conf FROM {page_manager_handlers} pm WHERE pm.handler = 'panel_context'");
+  $page_manager_panels = array();
+  while ($row = db_fetch_object($result)) {
+    $conf = unserialize($row->conf);
+    if (isset($conf['did'])) {
+      $page_manager_panels[$conf['did']] = $row->name;
+    }
+  }
+  $dids = array_keys($page_manager_panels);
+
+  if (!empty($dids)) {
+    // Check panels displays that only have empty storage types
+    $result = db_query("SELECT pd.did FROM {panels_display} pd WHERE pd.did IN (" . db_placeholders($dids, 'int') . ") AND storage_type = ''", $dids);
+    while ($row = db_fetch_object($result)) {
+      db_query("UPDATE {panels_display} SET storage_type = '%s', storage_id = '%s' WHERE did = %d",
+        'page_manager', $page_manager_panels[$row->did], $row->did);
+    }
+  }
+
+  $ret[] = array('success' => TRUE, 'query' => t('Set storage_type and storage_id on existing page manager panels displays.'));
 
   return $ret;
 }

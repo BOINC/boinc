@@ -177,6 +177,19 @@ class panels_renderer_standard {
   }
 
   /**
+   * Get the Panels storage oparation for a given renderer AJAX method.
+   *
+   * @param string $method
+   *   The method name.
+   *
+   * @return string
+   *   The Panels storage op.
+   */
+  function get_panels_storage_op_for_ajax($method) {
+    return 'read';
+  }
+
+  /**
    * Prepare the attached display for rendering.
    *
    * This is the outermost prepare method. It calls several sub-methods as part

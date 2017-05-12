@@ -183,3 +183,57 @@ function panels_mini_update_6303() {
   db_drop_field($ret, 'panels_mini', 'title');
   return $ret;
 }
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function panels_mini_update_dependencies() {
+  // Update 6304 requires panels storage support
+  $dependencies['panels_mini'][6304] = array(
+    'panels' => 6313,
+  );
+
+  return $dependencies;
+}
+
+/**
+ * Set the storage type and id on existing mini panels.
+ */
+function panels_mini_update_6304() {
+  if (!isset($sandbox['progress'])) {
+     // Initialize batch update information.
+     $sandbox['progress'] = (float)0;
+     $sandbox['current_did'] = -1;
+     $sandbox['max'] = db_result(db_query("SELECT COUNT(pd.did)
+         FROM {panels_display} pd
+           JOIN {panels_mini} pm ON pm.did = pd.did
+         WHERE pd.storage_type = ''"));
+   }
+
+  // Set a limit of how many rows to process per batch.
+  $limit = 1000;
+
+  // Run the query
+  $result = db_query_range("SELECT pd.did, pm.name
+      FROM {panels_display} pd
+        JOIN {panels_mini} pm ON pm.did = pd.did
+      WHERE pd.storage_type = '' AND pd.did > %d", $sandbox['current_did'], 0, $limit);
+
+  while ($row = db_fetch_object($result)) {
+    db_query("UPDATE {panels_display} SET storage_type = '%s', storage_id = '%s' WHERE did = %d",
+      'panels_mini', $row->name, $row->did);
+
+    // Update our progress information.
+    $sandbox['progress']++;
+    $sandbox['current_did'] = $row->did;
+  }
+
+  // Set the "finished" status, to tell batch engine whether this function
+  // needs to run again.
+  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+
+  if ($sandbox['#finished']) {
+    $ret[] = array('success' => TRUE, 'query' => t('Added the storage type for panels_mini to relevant panels displays'));
+    return $ret;
+  }
+}

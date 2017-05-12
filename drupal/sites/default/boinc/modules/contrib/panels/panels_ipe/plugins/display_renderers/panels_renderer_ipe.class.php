@@ -7,12 +7,44 @@ class panels_renderer_ipe extends panels_renderer_editor {
   // The IPE operates in normal render mode, not admin mode.
   var $admin = FALSE;
 
+  // Whether or not the user has access.
+  var $access = NULL;
+
+  function invoke_panels_ipe_access() {
+    if (user_access('bypass access in place editing')) {
+      return TRUE;
+    }
+    // Modules can return TRUE, FALSE or NULL, for allowed, disallowed,
+    // or don't care - respectively. On the first FALSE, we deny access,
+    // otherwise allow.
+    foreach (module_invoke_all('panels_ipe_access', $this->display) as $result) {
+      if ($result === FALSE) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
+
+  function access() {
+    if (is_null($this->access)) {
+      $this->access = $this->invoke_panels_ipe_access();
+    }
+    return $this->access;
+  }
+
   function render() {
     $output = parent::render();
-    return "<div id='panels-ipe-display-{$this->clean_key}' class='panels-ipe-display-container'>$output</div>";
+    if ($this->access()) {
+      return "<div id='panels-ipe-display-{$this->clean_key}' class='panels-ipe-display-container'>$output</div>";
+    }
+    return $output;
   }
 
   function add_meta() {
+    if (!$this->access()) {
+      return parent::add_meta();
+    }
+
     ctools_include('display-edit', 'panels');
     ctools_include('content');
 
@@ -57,6 +89,9 @@ class panels_renderer_ipe extends panels_renderer_editor {
     if (empty($output)) {
       return;
     }
+    if (!$this->access()) {
+      return $output;
+    }
 
     if (empty($pane->IPE_empty)) {
       // Add an inner layer wrapper to the pane content before placing it into
@@ -73,6 +108,9 @@ class panels_renderer_ipe extends panels_renderer_editor {
 
   function render_pane_content(&$pane) {
     $content = parent::render_pane_content($pane);
+    if (!$this->access()) {
+      return $output;
+    }
     if (!is_object($content)) {
       $content = new StdClass();
     }
@@ -96,6 +134,10 @@ class panels_renderer_ipe extends panels_renderer_editor {
    * @param $panes
    */
   function render_region($region_id, $panes) {
+    if (!$this->access()) {
+      return parent::render_region($region_id, $panes);
+    }
+
     // Generate this region's 'empty' placeholder pane from the IPE plugin.
     $empty_ph = theme('panels_ipe_placeholder_pane', $region_id, $this->plugins['layout']['panels'][$region_id]);
 
@@ -112,6 +154,19 @@ class panels_renderer_ipe extends panels_renderer_editor {
     return "<div id='panels-ipe-regionid-$region_id' class='panels-ipe-region'>$output</div>";
   }
 
+  function get_panels_storage_op_for_ajax($method) {
+    switch ($method) {
+      case 'ajax_unlock_ipe':
+      case 'ajax_save_form':
+        return 'update';
+      case 'ajax_change_layout':
+      case 'ajax_set_layout':
+        return 'change layout';
+    }
+
+    return parent::get_panels_storage_op_for_ajax($method);
+  }
+ 
   /**
    * AJAX entry point to create the controller form for an IPE.
    */

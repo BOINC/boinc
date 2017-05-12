@@ -20,6 +20,15 @@ function panels_node_perm() {
 }
 
 /**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function panels_node_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'panels' && $plugin == 'panels_storage') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Implementation of hook_menu().
  */
 function panels_node_menu() {
@@ -253,6 +262,8 @@ function panels_node_insert(&$node) {
   // Create a new display and record that.
   $display = panels_new_display();
   $display->layout = $node->panels_node['layout'];
+  $display->storage_type = 'panels_node';
+  $display->storage_id = $node->nid;
 
   // Special handling for nodes being imported from an export.module data dump.
   if (!empty($node->export_display)) {
@@ -333,6 +344,19 @@ function panels_node_view($node, $teaser = FALSE, $page = FALSE) {
 function panels_node_settings() {
   ctools_include('common', 'panels');
   return drupal_get_form('panels_common_settings', 'panels_node');
+}
+
+/**
+ * Implements hook_panels_ipe_access().
+ */
+function panels_node_panels_ipe_access($display) {
+  // We only care about Panels displays from panels_node.
+  if (isset($display->context['panel-node'])) {
+    // Only allow access to use the IPE if the user has 'update' access to
+    // the underlying node.
+    $node = $display->context['panel-node']->data;
+    return node_access('update', $node); 
+  }
 }
 
 // ---------------------------------------------------------------------------

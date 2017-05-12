@@ -205,6 +205,7 @@ function panels_mini_load_all($reset = FALSE) {
  */
 function panels_mini_save(&$mini) {
   if (!empty($mini->display)) {
+    $mini->display->storage_id = $mini->name;
     $display = panels_save_display($mini->display);
     $mini->did = $display->did;
   }
@@ -254,6 +255,9 @@ function panels_mini_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && ($plugin == 'content_types' || $plugin == 'export_ui')) {
     return 'plugins/' . $plugin;
   }
+  if ($module == 'panels' && $plugin == 'panels_storage') {
+    return 'plugins/' . $plugin;
+  }
 }
 
 /**
@@ -292,6 +296,9 @@ function panels_mini_panels_cache_get($key) {
   $cache->display = $item->display;
   $cache->display->context = ctools_context_load_contexts($item);
   $cache->display->cache_key = 'panels_mini:' . $key;
+  $cache->display->storage_type = 'panels_mini';
+  // Temporary storage id that's replaced in panels_mini_save().
+  $cache->display->storage_id = 'panels_mini';
   $cache->content_types = panels_common_get_allowed_types('panels_mini', $cache->display->context);
   $cache->display_title = TRUE;
 
