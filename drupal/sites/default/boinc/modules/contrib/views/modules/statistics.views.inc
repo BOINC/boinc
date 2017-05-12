@@ -36,7 +36,7 @@ function statistics_views_data() {
     'help' => t('The total number of times the node has been viewed.'),
 
     'field' => array(
-      'handler' => 'views_handler_field_numeric',
+      'handler' => 'views_handler_field_statistics_numeric',
       'click sortable' => TRUE,
      ),
     'filter' => array(
@@ -53,7 +53,7 @@ function statistics_views_data() {
     'help' => t('The total number of times the node has been viewed today.'),
 
     'field' => array(
-      'handler' => 'views_handler_field_numeric',
+      'handler' => 'views_handler_field_statistics_numeric',
       'click sortable' => TRUE,
      ),
     'filter' => array(
@@ -70,7 +70,7 @@ function statistics_views_data() {
     'help' => t('The most recent time the node has been viewed.'),
 
     'field' => array(
-      'handler' => 'views_handler_field_date',
+      'handler' => 'views_handler_field_node_counter_timestamp',
       'click sortable' => TRUE,
     ),
     'filter' => array(
@@ -257,6 +257,12 @@ function statistics_views_handlers() {
     'handlers' => array(
       'views_handler_field_accesslog_path' => array(
         'parent' => 'views_handler_field',
+      ),
+      'views_handler_field_statistics_numeric' => array(
+        'parent' => 'views_handler_field_numeric',
+      ),
+      'views_handler_field_node_counter_timestamp' => array(
+        'parent' => 'views_handler_field_date',
       ),
     ),
   );
