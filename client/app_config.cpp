@@ -125,7 +125,7 @@ static void clear_app_config(PROJECT* p) {
 
 static void print_msgs(vector<string> msgs, PROJECT* p) {
     for (unsigned int i=0; i<msgs.size(); i++) {
-        msg_printf_notice(p, false, NULL, msgs[i].c_str());
+        msg_printf_notice(p, false, NULL, "%s", msgs[i].c_str());
     }
 }
 
