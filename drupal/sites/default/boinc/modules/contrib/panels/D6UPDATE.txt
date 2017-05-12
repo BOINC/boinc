@@ -1,0 +1,52 @@
+CHANGES DURING D6 UPDATE TO PANELS 3
+
+ALL PLUGINS
+===========
+
+Function to advertise directory for plugins:
+  hook_ctools_plugin_directory($module, $plugin)
+
+LAYOUTS
+=======
+
+All layouts should use templates
+'icon' now uses the defined path and should no longer have path built in.
+'css' now uses defined path and should no longer have path built in.
+DOCUMENTATION NOTE: You can just copy any layout css file directly to your theme. It should no longer be in theme/layouts directory.
+administrative view of a layout can now have its own theme function.
+
+CONTENT TYPES
+=============
+
+panels_node_legacy module renamed to panels_node_content.module
+-- NEED UPDATE TO RENAME IN SYSTEM TABLE.
+
+'title callback' now has $subtype as the first argument.
+'render' now has $subtype as the first argument.
+'content_types' now 'content types'.
+New 'content type' to fetch information a single content type so we don't have
+to load all of them all the time.
+New 'defaults' array in either the type or subtype declaration to provide
+defaults for the add form.
+
+CONTEXTS
+========
+
+Function signature on submit and validate handlers now: ($form, &$form_values, &$form_state)
+Moved to CTOOLS
+
+RELATIONSHIPS
+========
+
+Function signature on submit and validate handlers now: ($form, &$form_values, &$form_state)
+Moved to CTOOLS
+
+ARGUMENTS
+========
+
+Function signature on submit and validate handlers now: ($form, &$form_values, &$form_state)
+Moved to CTOOLS
+
+When argument plugins fail to load a context at runtime, they must now return
+error codes instead of FALSE or NULL (previously the practice). The error codes,
+and their respective documentation, can be found at the top of panels.module.
