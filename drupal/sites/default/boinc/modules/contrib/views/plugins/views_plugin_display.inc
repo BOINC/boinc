@@ -565,7 +565,7 @@ class views_plugin_display extends views_plugin {
   /**
    * Get a full array of handlers for $type. This caches them.
    */
-  function get_handlers($type) {
+  function &get_handlers($type) {
     if (!isset($this->handlers[$type])) {
       $this->handlers[$type] = array();
       $types = views_object_types();

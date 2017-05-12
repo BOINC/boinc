@@ -416,7 +416,7 @@ class view extends views_db_object {
    */
   function _init_handler($key, $info) {
     // Load the requested items from the display onto the object.
-    $this->$key = $this->display_handler->get_handlers($key);
+    $this->$key = &$this->display_handler->get_handlers($key);
 
     // This reference deals with difficult PHP indirection.
     $handlers = &$this->$key;
