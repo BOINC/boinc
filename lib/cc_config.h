@@ -248,6 +248,7 @@ struct APP_CONFIGS {
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
     int parse_file(FILE*, MSG_VEC&, LOG_FLAGS&);
     int config_app_versions(PROJECT*, bool show_warnings);
+    void write(MIOFILE&);
     void clear() {
         app_configs.clear();
         app_version_configs.clear();

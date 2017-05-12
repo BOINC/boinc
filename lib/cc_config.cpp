@@ -495,7 +495,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     int j;
     unsigned int i;
 
-    out.printf("<set_cc_config>\n");
     out.printf("<cc_config>\n");
 
     log_flags.write(out);
@@ -694,7 +693,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     );
 
     out.printf("    </options>\n</cc_config>\n");
-    out.printf("</set_cc_config>\n");
     return 0;
 }
 
@@ -801,10 +799,6 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     char buf[1024];
     int n;
     clear();
-    if (!xp.parse_start("app_config")) {
-        mv.push_back(string("Missing <app_config> in app_config.xml"));
-        return ERR_XML_PARSE;
-    }
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             sprintf(buf, "unexpected text '%s' in app_config.xml", xp.parsed_tag);
@@ -849,6 +843,58 @@ int APP_CONFIGS::parse_file(FILE* f, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(f);
+    if (!xp.parse_start("app_config")) {
+        mv.push_back(string("Missing <app_config> in app_config.xml"));
+        return ERR_XML_PARSE;
+    }
     return parse(xp, mv, log_flags);
 }
 
+void APP_CONFIGS::write(MIOFILE& out) {
+    out.printf(
+        "   <app_config>\n"
+    );
+    for (unsigned int i=0; i<app_configs.size(); i++) {
+        APP_CONFIG& ac = app_configs[i];
+        out.printf(
+            "       <app>\n"
+            "           <name>%s</name>\n"
+            "           <max_concurrent>%d</max_concurrent>\n"
+            "           <gpu_gpu_usage>%f</gpu_gpu_usage>\n"
+            "           <gpu_cpu_usage>%f</gpu_cpu_usage>\n"
+            "           <fraction_done_exact>%d</fraction_done_exact>\n"
+            "           <report_results_immediately>%d</report_results_immediately>\n"
+            "       </app>\n",
+            ac.name,
+            ac.max_concurrent,
+            ac.gpu_gpu_usage,
+            ac.gpu_cpu_usage,
+            ac.fraction_done_exact?1:0,
+            ac.report_results_immediately?1:0
+        );
+    }
+    for (unsigned int i=0; i<app_version_configs.size(); i++) {
+        APP_VERSION_CONFIG& avc = app_version_configs[i];
+        out.printf(
+            "       <app_version>\n"
+            "           <app_name>%s</app_name>\n"
+            "           <plan_class>%s</plan_class>\n"
+            "           <cmdline>%s</cmdline>\n"
+            "           <avg_ncpus>%f</avg_ncpus>\n"
+            "           <ngpus>%f</ngpus>\n"
+            "       </app_version>\n",
+            avc.app_name,
+            avc.plan_class,
+            avc.cmdline,
+            avc.avg_ncpus,
+            avc.ngpus
+        );
+    }
+    out.printf(
+        "       <project_max_concurrent>%d</project_max_concurrent>\n"
+        "       <report_results_immediately>%d</report_results_immediately>\n"
+        "   </app_config>\n",
+        project_max_concurrent,
+        report_results_immediately?1:0
+    );
+}
