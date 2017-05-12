@@ -261,6 +261,21 @@ function panels_mini_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_default_panels_mini_alter().
+ *
+ * If a default Panels display has no storage type, set it.
+ */
+function panels_default_panels_mini_alter(&$mini_panels) {
+  foreach ($mini_panels as &$mini_panel) {
+    $display =& $mini_panel->display;
+    if (empty($display->storage_type)) {
+      $display->storage_type = 'panels_mini';
+      $display->storage_id = $mini_panel->name;
+    }
+  }
+}
+
+/**
  * Get the display cache for the panels_mini plugin.
  */
 function _panels_mini_panels_cache_get($key) {

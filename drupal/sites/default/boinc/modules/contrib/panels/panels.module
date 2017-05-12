@@ -1618,6 +1618,32 @@ function panels_page_manager_handler_add_validate($form, &$form_state) {
   }
 }
 
+/**
+ * Implements hook_default_page_manager_handlers_alter().
+ *
+ * If a default Panels display has no storage type, set it.
+ */
+function panels_default_page_manager_handlers_alter(&$handlers) {
+  foreach ($handlers as &$handler) {
+    if ($handler->handler == 'panel_context') {
+      $display =& $handler->conf['display'];
+      if (empty($display->storage_type)) {
+        $display->storage_type = 'page_manager';
+        $display->storage_id = $handler->name;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_default_page_manager_pages_alter().
+ */
+function panels_default_page_manager_pages_alter(&$pages) {
+  foreach ($pages as &$page) {
+    panels_default_page_manager_handlers_alter($page->default_handlers);
+  }
+}
+
 // --------------------------------------------------------------------------
 // General utility functions
 
