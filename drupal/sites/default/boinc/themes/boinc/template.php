@@ -296,7 +296,11 @@ function boinc_preprocess_forums(&$vars, $hook) {
  * Preprocessing for forum type nodes
  */
 function boinc_preprocess_node_forum(&$vars, $hook) {
+  global $language;
   global $user;
+
+  // Locality
+  $vars['locality'] = $language->language;
 
   // Get the author of the node
   $account = user_load($vars['uid']);
@@ -343,15 +347,20 @@ function boinc_preprocess_node_team_forum(&$vars, $hook) {
  *   The name of the template being rendered ("comment" in this case.)
  */
 function boinc_preprocess_comment(&$vars, $hook) {
-    // Show signatures based on user preference
-    global $user;
-    $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
+  global $language;
+  global $user;
 
-    $links = $vars['links'];
-    $moderator_links = array();
-    _boinc_create_moderator_links($links, $moderator_links);
-    $vars['links'] = $links;
-    $vars['moderator_links'] = $moderator_links;
+  // Locality
+  $vars['locality'] = $language->language;
+
+  // Show signatures based on user preference
+  $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
+
+  $links = $vars['links'];
+  $moderator_links = array();
+  _boinc_create_moderator_links($links, $moderator_links);
+  $vars['links'] = $links;
+  $vars['moderator_links'] = $moderator_links;
 }
 
 /**
@@ -484,6 +493,10 @@ function boinc_preprocess_block(&$vars, $hook) {
 // */ 
 
 function boinc_preprocess_search_result(&$variables) {
+  global $language;
+  // Locality
+  $variables['locality'] = $language->language;
+
   $type = strtolower($variables['result']['bundle']);
   switch ($type) {
   case 'profile':
@@ -492,6 +505,7 @@ function boinc_preprocess_search_result(&$variables) {
     $variables['url'] = url('account/' . $node->is_uid);
     $variables['title'] = $node->tos_name;
     $variables['user_image'] = boincuser_get_user_profile_image($node->is_uid);
+    $variables['account'] = user_load($node->is_uid);
     break;
   case 'team':
     $node = $variables['result']['node'];
