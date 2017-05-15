@@ -171,12 +171,13 @@ function flag_views_default_views() {
       'default_action' => 'empty',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
-      'wildcard' => 'all',
-      'wildcard_substitution' => 'All',
+      'exception' => array(
+        'value' => '',
+      ),
       'title' => '%1\'s bookmarks',
       'default_argument_type' => 'fixed',
       'default_argument' => '',
-      'validate_type' => 'none',
+      'validate_type' => 'flag_plugin_owner_perm',
       'validate_fail' => 'not found',
       'break_phrase' => 0,
       'not' => 0,
@@ -191,6 +192,7 @@ function flag_views_default_views() {
       'default_argument_user' => 0,
       'default_argument_fixed' => '',
       'default_argument_php' => '',
+      'validate_user_argument_type' => 'uid',
     ),
   );
 

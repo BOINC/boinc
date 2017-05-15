@@ -60,9 +60,16 @@ function flag_views_plugins() {
       // A comment validator won't be very useful. Moreover, having it will
       // contribute to the argument object's $options polution, so let's skip
       // it.
+      'flag_plugin_owner_perm' => array(
+        'title' => t("Current user ID matches argument value"),
+        'handler' => 'flag_plugin_validate_user',
+        'parent' => 'user',
+        'path' => drupal_get_path('module', 'flag') . '/includes',
+      ),
     ),
   );
 }
+
 /**
  * Implements hook_views_data().
  */
