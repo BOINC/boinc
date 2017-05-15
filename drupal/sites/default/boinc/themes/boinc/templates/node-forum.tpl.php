@@ -88,7 +88,7 @@
       drupal_set_title($title);
       $subtitle = array();
       // Get vocabulary name and taxonomy name for subtitle breadcrumbs
-      $taxonomy = reset($node->taxonomy);
+      $taxonomy = taxonomy_get_term($node->forum_tid);
       if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
         $subtitle[] = l($forum_vocab->name, 'community/forum');
       }
