@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Tests for the Flag module.
+ */
+
+class FlagTestCase extends DrupalWebTestCase {
+  var $_flag = FALSE;
+
+  /**
+   * Implements getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('Flag tests'),
+      'description' => t('Add, edit and delete flags.'),
+      'group' => t('Flag'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  function setUp() {
+    parent::setUp('flag');
+
+    // Create and login user
+    $admin_user = $this->drupalCreateUser(array('access administration pages', 'administer flags'));
+    $this->drupalLogin($admin_user);
+  }
+
+  /**
+   * Create a flag through the UI and ensure that it is saved properly.
+   */
+  function testFlagAdmin() {
+    // Add a new flag using the UI.
+    $edit = array(
+      'name' => strtolower($this->randomName()),
+      'title' => $this->randomName(),
+      'flag_short'          => 'flag short [nid]',
+      'flag_long'           => 'flag long [nid]',
+      'flag_message'        => 'flag message [nid]',
+      'unflag_short'        => 'unflag short [nid]',
+      'unflag_long'         => 'unflag long [nid]',
+      'unflag_message'      => 'unflag message [nid]',
+      'roles[flag][2]' => TRUE,
+      'roles[unflag][2]' => TRUE,
+      'types[story]' => FALSE,
+      'types[page]' => TRUE,
+      'show_on_teaser' => FALSE,
+      'show_on_page' => FALSE,
+      'show_on_form' => FALSE,
+      'link_type' => 'toggle',
+    );
+    $saved = $edit;
+    $saved['roles'] = array('flag' => array(2), 'unflag' => array(2));
+    $saved['types'] = array('page');
+    unset($saved['roles[flag][2]'], $saved['roles[unflag][2]'], $saved['types[story]'], $saved['types[page]']);
+
+    $this->drupalPost(FLAG_ADMIN_PATH . '/add/node/' . $edit['name'], $edit, t('Save flag'));
+
+    flag_get_flags(NULL, NULL, NULL, TRUE);
+    $flag = flag_get_flag($edit['name']);
+
+    // Check that the flag object is in the database.
+    $this->assertTrue($flag != FALSE, t('Flag object found in database'));
+
+    // Check each individual property of the flag and make sure it was set.
+    foreach ($saved as $property => $value) {
+      $this->assertEqual($flag->$property, $value, t('Flag property %property properly saved.', array('%property' => $property)));
+    }
+
+    // Edit the flag through the UI.
+    $edit = array(
+      'name' => strtolower($this->randomName()),
+      'title' => $this->randomName(),
+      'flag_short'          => 'flag 2 short [nid]',
+      'flag_long'           => 'flag 2 long [nid]',
+      'flag_message'        => 'flag 2 message [nid]',
+      'unflag_short'        => 'unflag 2 short [nid]',
+      'unflag_long'         => 'unflag 2 long [nid]',
+      'unflag_message'      => 'unflag 2 message [nid]',
+      'roles[flag][2]' => TRUE,
+      'roles[unflag][2]' => TRUE,
+      'types[story]' => TRUE,
+      'types[page]' => FALSE,
+      'show_on_teaser' => TRUE,
+      'show_on_page' => TRUE,
+      'show_on_form' => TRUE,
+      'link_type' => 'normal',
+    );
+    $saved = $edit;
+    $saved['roles'] = array('flag' => array(2), 'unflag' => array(2));
+    $saved['types'] = array('story');
+    unset($saved['roles[flag][2]'], $saved['roles[unflag][2]'], $saved['types[story]'], $saved['types[page]']);
+
+    $this->drupalPost(FLAG_ADMIN_PATH . '/manage/' . $flag->name, $edit, t('Save flag'));
+
+    flag_get_flags(NULL, NULL, NULL, TRUE);
+    $flag = flag_get_flag($edit['name']);
+
+    // Check that the flag object is in the database.
+    $this->assertTrue($flag != FALSE, t('Flag object found in database'));
+
+    // Check each individual property of the flag and make sure it was set.
+    foreach ($saved as $property => $value) {
+      $this->assertEqual($flag->$property, $value, t('Flag property %property properly saved.', array('%property' => $property)));
+    }
+
+    // Delete the flag through the UI.
+    $this->drupalPost(FLAG_ADMIN_PATH . '/manage/' . $flag->name . '/delete', array(), t('Delete'));
+    flag_get_flags(NULL, NULL, NULL, TRUE);
+    $this->assertFalse(flag_get_flag($flag->name), t('Flag successfully deleted.'));
+  }
+
+  /**
+   * Test that only allowed users have access to flags.
+   */
+  function testFlagAccess() {
+
+  }
+
+}
+
