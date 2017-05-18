@@ -34,7 +34,7 @@ function boincuser_views_data() {
   // Primary keys allowed as arguments
   
   $data['user']['id'] = array(
-    'title' => bts('Id'),
+    'title' => bts('Id', array(), NULL, 'boinc:user-id'),
     'help' => t('The BOINC ID of the user account.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -54,7 +54,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['teamid'] = array(
-    'title' => bts('Team ID'),
+    'title' => bts('Team ID', array(), NULL, 'boinc:team-id'),
     'help' => t('The ID of the user\'s team.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -77,7 +77,7 @@ function boincuser_views_data() {
   // Descriptions of general host fields (alphabetized)
   
   $data['user']['authenticator'] = array(
-    'title' => bts('Account Key'),
+    'title' => bts('Account Key', array(), NULL, 'boinc:user-info'),
     'help' => t('The BOINC account key of the user.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -91,7 +91,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['country'] = array(
-    'title' => bts('Country'),
+    'title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     'help' => t('The country of the user.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -105,7 +105,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['create_time'] = array(
-    'title' => bts('Member since'),
+    'title' => bts('Member since', array(), NULL, 'boinc:user-info'),
     'help' => t('When the BOINC account was created.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -119,7 +119,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['cross_project_id'] = array(
-    'title' => bts('CPID'),
+    'title' => bts('CPID', array(), NULL, 'boinc:user-info'),
     'help' => t('The cross project user identifier.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -133,7 +133,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['email_addr'] = array(
-    'title' => bts('Email Address'),
+      'title' => bts('Email Address', array(), NULL, 'boinc:user-info'),
     'help' => t('The BOINC account email address.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -147,7 +147,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['expavg_credit'] = array(
-    'title' => bts('Recent average credit'),
+    'title' => bts('Recent average credit', array(), NULL, 'boinc:user-or-team-RAC'),
     'help' => t('A decaying average of credit per day for the user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -162,7 +162,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['name'] = array(
-    'title' => bts('Name'),
+    'title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'),
     'help' => t('The BOINC account user name.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -176,7 +176,7 @@ function boincuser_views_data() {
     )                           
   );
   $data['user']['passwd_hash'] = array(
-    'title' => bts('Password Hash'),
+    'title' => bts('Password Hash', array(), NULL, 'boinc:user-info'),
     'help' => t('The user password hash'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -190,7 +190,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['postal_code'] = array(
-    'title' => bts('Postal Code'),
+    'title' => bts('Postal Code', array(), NULL, 'boinc:user-info'),
     'help' => t('The postal code of the user.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -204,7 +204,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['send_email'] = array(
-    'title' => bts('Send Email'),
+    'title' => bts('Send Email', array(), NULL, 'boinc:user-info'),
     'help' => t('User preference to allow email communications.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -218,7 +218,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['show_hosts'] = array(
-    'title' => bts('Show Hosts'),
+    'title' => bts('Show Hosts', array(), NULL, 'boinc:user-info'),
     'help' => t('User preference to display owned computers.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -232,7 +232,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['total_credit'] = array(
-    'title' => bts('Total Credit'),
+    'title' => bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits'),
     'help' => t('The total accumulated BOINC credit for the user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -247,7 +247,7 @@ function boincuser_views_data() {
     )
   );
   $data['user']['url'] = array(
-    'title' => bts('URL'),
+    'title' => bts('URL', array(), NULL, 'boinc:website-of-user-or-team'),
     'help' => t('The URL provided by the user'),
     'field' => array(
       'handler' => 'views_handler_field',

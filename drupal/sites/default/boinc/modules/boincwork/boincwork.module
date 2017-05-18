@@ -246,10 +246,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
 
-    $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.') . '<br/>';
-    $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
-    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value']))) . '</p>';
-    $output .= '<h2>' . bts('Combined preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/computing') . '</h2>';
+    $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.', array(), NULL, 'boinc:account-preferences-computing') . '<br/>';
+    $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.', array(), NULL, 'boinc:account-preferences-computing') . '</p>';
+    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value'])), NULL, 'boinc:account-preferences-computing') . '</p>';
+    $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table class="preferences combined">';
     
@@ -271,9 +271,9 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
           'daily_xfer_limit_mb' => 'daily_xfer_period_days',
         );
         $special_delimiter = array(
-          'start_hour' => bts('and'),
-          'net_start_hour'=> bts('and'),
-          'daily_xfer_limit_mb' => bts('every'),
+          'start_hour' => bts('and', array(), NULL, 'boinc:account-preference'),
+          'net_start_hour'=> bts('and', array(), NULL, 'boinc:account-preference'),
+          'daily_xfer_limit_mb' => bts('every', array(), NULL, 'boinc:account-preference'),
         );
         $special = isset($special_map[$name]);
         $very_special = in_array($name, $special_map);
@@ -332,19 +332,19 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
-      $action_text = ($prefs[$pref_set]['#established']) ? bts('Edit') : bts('Add');
+      $action_text = ($prefs[$pref_set]['#established']) ? bts('Edit', array(), NULL, 'boinc:form-edit') : bts('Add', array(), NULL, 'boinc:form-add');
       $output .= '<td><ul class="tab-list"><li class="first tab">';
       $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}/1",
         array('fragment' => "")
       );
       // Show Clear links for established preference sets
       if ($pref_set != 'generic' AND $prefs[$pref_set]['#established']) {
-        $output .= ' </li><li class="tab"> ' . l(bts('Clear'), "account/prefs/computing/clear/{$pref_set}",
+        $output .= ' </li><li class="tab"> ' . l(bts('Clear', array(), NULL, 'boinc:form-clear'), "account/prefs/computing/clear/{$pref_set}",
           array(
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
-                array('@name' => ucfirst($pref_set))) . '\')'
+                array('@name' => ucfirst($pref_set)), array(), NULL, 'boinc:account-computing-preferences') . '\')'
             )
           )
         );
@@ -364,10 +364,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/computing/edit';
       $venues = array(
-        "{$path}/generic" => bts('Generic'),
-        "{$path}/home" => bts('Home', array(), NULL, 'boinc:preference set'),
-        "{$path}/school" => bts('School'),
-        "{$path}/work" => bts('Work')
+        "{$path}/generic" => bts('Generic', array(), NULL, 'boinc:account-preferences-location'),
+        "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location:-1:ignoreoverwrite'),
+        "{$path}/school" => bts('School', array(), NULL, 'boinc:account-preferences-location'),
+        "{$path}/work" => bts('Work', array(), NULL, 'boinc:account-preferences-location')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -391,8 +391,8 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     if (!$current_set['#established']) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
-          array( '@venue' => $venue, )
-      ), 'status');
+          array( '@venue' => $venue, ),
+          NULL, 'boinc:account-preferences'), 'status');
     }
     
     break;
@@ -450,7 +450,7 @@ function projectprefs_page($action = null, $venue = null) {
       drupal_prepare_form('boincwork_projectprefs_form', $prefs[$pref_set], $form_state);
     }
     
-    $output .= '<h2>' . bts('Combined preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/project') . '</h2>';
+    $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/project') . '</h2>';
     
     $output .= '<table class="preferences combined">';
     
@@ -497,17 +497,17 @@ function projectprefs_page($action = null, $venue = null) {
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
-      $action_text = ($prefs[$pref_set]['#established']) ? bts('Edit') : bts('Add');
+      $action_text = ($prefs[$pref_set]['#established']) ? bts('Edit', array(), NULL, 'boinc:form-edit') : bts('Add', array(), NULL, 'boinc:form-add');
       $output .= '<td><ul class="tab-list"><li class="first tab">';
       $output .= l($action_text, "account/prefs/project/edit/{$pref_set}");
       // Show Clear links for established preference sets
       if ($pref_set != 'generic' AND $prefs[$pref_set]['#established']) {
-        $output .= ' </li><li class="tab"> ' . l(bts('Clear'), "account/prefs/project/clear/{$pref_set}",
+        $output .= ' </li><li class="tab"> ' . l(bts('Clear', array(), NULL, 'boinc:form-clear'), "account/prefs/project/clear/{$pref_set}",
           array(
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
-                array('@name' => ucfirst($pref_set))) . '\')'
+                array('@name' => ucfirst($pref_set)), array(), NULL, 'boinc:account-preferences-project') . '\')'
             )
           )
         );
@@ -523,7 +523,7 @@ function projectprefs_page($action = null, $venue = null) {
     // Set this preference set as the one to use for any new hosts attached
     // to the user account
     boincwork_set_default_venue($venue);
-    drupal_set_message( bts('The primary preference set has been changed to "@set"', array('@set' => $venue)) );
+    drupal_set_message( bts('The primary preference set has been changed to "@set"', array('@set' => $venue), NULL, 'boinc:account-preferences-project') );
     drupal_goto('account/prefs/project/combined');
     break;
     
@@ -536,10 +536,10 @@ function projectprefs_page($action = null, $venue = null) {
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/project/edit';
       $venues = array(
-        "{$path}/generic" => bts('Generic'),
-        "{$path}/home" => bts('Home', array(), NULL, 'boinc:preference set'),
-        "{$path}/school" => bts('School'),
-        "{$path}/work" => bts('Work')
+        "{$path}/generic" => bts('Generic', array(), NULL, 'boinc:account-preferences-location'),
+        "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location:-1:ignoreoverwrite'),
+        "{$path}/school" => bts('School', array(), NULL, 'boinc:account-preferences-location'),
+        "{$path}/work" => bts('Work', array(), NULL, 'boinc:account-preferences-location')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -563,8 +563,8 @@ function projectprefs_page($action = null, $venue = null) {
     if (!$current_set['#established']) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
-          array( '@venue' => $venue, )
-      ), 'status');
+          array( '@venue' => $venue, ),
+          NULL, 'boinc:account-preferences'), 'status');
     }
     
     break;
@@ -635,7 +635,7 @@ function privacyprefs_page($action = null) {
     // Edit preferences link
     $output .= '<tr>';
     $output .= '<td></td>';
-    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit") . '</td>';
+    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT), NULL, 'boinc:account-preferences-privacy'), "account/prefs/privacy/edit") . '</td>';
     $output .= '</tr>';
     
     $output .= '</table>';
@@ -893,20 +893,20 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
     );
     if ($updated) {
       drupal_set_message(
-        bts('The location for this host has been updated.')
-        . bts('This will take effect next time the host contacts the project.')
+        bts('The location for this host has been updated.', array(), NULL, 'boinc:account-host-details')
+        . bts('This will take effect next time the host contacts the project.', array(), NULL, 'boinc:account-host-details')
       );
     }
     else {
       drupal_set_message(
-        bts('Unable to save changes to this host for some reason!'),
+        bts('Unable to save changes to this host for some reason!', array(), NULL, 'boinc:account-host-details'),
         'error'
       );
     }
   }
   else {
     drupal_set_message(
-      bts('You are not allowed to make changes to this host.'),
+      bts('You are not allowed to make changes to this host.', array(), NULL, 'boinc:account-host-details'),
       'warning'
     );
   }

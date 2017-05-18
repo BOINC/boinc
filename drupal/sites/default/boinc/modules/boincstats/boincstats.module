@@ -435,13 +435,13 @@ function boincstats_get_project_stats_overview($type = 'basic') {
   $output = '';
   switch ($type) {
   case 'basic':
-    $output .= '<div class="overlay"><span>(' . bts('Credits per day') . ')</span></div>' . "\n";
+    $output .= '<div class="overlay"><span>(' . bts('Credits per day', array(), NULL, 'boinc:front-page') . ')</span></div>' . "\n";
     $output .= '<div class="chart"><img src="' . $base_path . 'charts/project" /></div>' . "\n";
     break;
   case 'detailed':
-    $output .= '<div class="stats"><label>' . bts('Total G-hours') . ': </label><span>' . number_format(boincstats_credit_to_ghours(boincstats_get_project_total_credit())) . '</span></div>' . "\n";
-    $output .= '<div class="stats"><label>' . bts('Avg TFlops') . ': </label><span>' . number_format(boincstats_credit_to_flops(boincstats_get_project_avg_credit(), 't')) . '</span></div>' . "\n";
-    //$output .= '<div class="stats"><a href="#">' . bts('Pending credits') . '</a></div>' . "\n";
+    $output .= '<div class="stats"><label>' . bts('Total G-hours', array(), NULL, 'boinc:front-page') . ': </label><span>' . number_format(boincstats_credit_to_ghours(boincstats_get_project_total_credit())) . '</span></div>' . "\n";
+    $output .= '<div class="stats"><label>' . bts('Avg TFlops', array(), NULL, 'boinc:front-page') . ': </label><span>' . number_format(boincstats_credit_to_flops(boincstats_get_project_avg_credit(), 't')) . '</span></div>' . "\n";
+    //$output .= '<div class="stats"><a href="#">' . bts('Pending credits', array(), NULL, 'boinc:front-page') . '</a></div>' . "\n";
     $output .= '<div class="chart"><img src="' . $base_path . 'charts/project" /></div>' . "\n";
     break;
   default:

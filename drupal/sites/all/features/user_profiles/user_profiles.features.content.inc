@@ -706,7 +706,7 @@ Zimbabwe|Zimbabwe',
   // Translatables
   // Use bts() function to translate additional strings.
   bts('Avatar', array(), NULL, 'boinc:account-profile-edit');
-  bts('Country', array(), NULL, 'boinc:account-profile-edit');
+  bts('Country', array(), NULL, 'boinc:country-of-origin');
   bts('Profile image', array(), NULL, 'boinc:account-profile-edit');
   bts('Website URL', array(), NULL, 'boinc:account-profile-edit');
   bts('Your opinions about this project', array(), NULL, 'boinc:account-profile-edit');

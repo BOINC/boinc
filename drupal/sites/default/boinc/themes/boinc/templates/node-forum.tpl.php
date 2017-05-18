@@ -102,7 +102,7 @@
   <h2 class="title"><?php print $subtitle; ?></h2>
   
   <?php if ($unpublished): ?>
-    <div class="unpublished"><?php print bts('Unpublished'); ?></div>
+    <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
   <?php endif; ?>
   
   <?php 
@@ -144,11 +144,11 @@
       ?>
       <div class="name"><?php print $name; ?></div>
       <?php if ($account->uid): ?>
-        <div class="join-date"><?php print bts('Joined', array(), NULL, 'boinc:user-info') . ': ' . date('j M y', $account->created); ?></div>
-        <div class="post-count"><?php print bts('Posts', array(), NULL, 'boinc:user-info') . ': ' . $account->post_count; ?></div>
-        <div class="credit"><?php print bts('Credit', array(), NULL, 'boinc:user-info') . ': ' . $account->boincuser_total_credit; ?></div>
-        <div class="rac"><?php print bts('RAC', array(), NULL, 'boinc:user-info') . ': ' . $account->boincuser_expavg_credit; ?></div>
-
+        <div class="join-date"><?php print bts('Joined: @join_date', array( '@join_date' => date('j M y', $account->created) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="post-count"><?php print bts('Posts: @post_count', array( '@post_count' => $account->post_count ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="credit"><?php print bts('Credit: @user_credits', array( '@user_credits' => $account->boincuser_total_credit ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $account->boincuser_expavg_credit ), NULL, 'boinc:mini-user-stats'); ?></div>
+        
         <div class="user-links">
           <div class="ignore-link"><?php print l($ignore_link['ignore_user']['title'],
             $ignore_link['ignore_user']['href'],
@@ -156,7 +156,7 @@
           </div>
           <div class="pm-link"><?php
             if ($user->uid AND ($user->uid != $account->uid)) {
-              print l(bts('Send message'),
+              print l(bts('Send message', array(), NULL, 'boinc:private-message'),
               privatemsg_get_link(array($account)),
               array('query' => drupal_get_destination()));
             } ?>
@@ -184,7 +184,7 @@
       </div>
       <?php if ($moderator_links): ?>
         <div class="moderator-links">
-          <span class="label">(<?php print bts('moderation'); ?>:</span>
+          <span class="label">(<?php print bts('moderation', array(), NULL, 'boinc:comment-action-links'); ?>:</span>
           <?php print $moderator_links; ?>
           <span class="label">)</span>
         </div>

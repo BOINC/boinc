@@ -110,9 +110,9 @@ function boincwork_admin_prefs_presets_page($preset = 'standard') {
   $output .= drupal_get_form('boincwork_admin_prefs_presets_form', $preset);
 
   $output .= '<div>';
-  $output .= bts('Usage: \'Save configuration\' will save the above preferences into the drupal database. These will be the preset computing (global) preferences that will fill in the preferences form once a user loads the Account Preferences page.');
+  $output .= bts('Usage: \'Save configuration\' will save the above preferences into the drupal database. These will be the preset computing (global) preferences that will fill in the preferences form once a user loads the Account Preferences page.', array(), NULL, 'boinc:admin-boinc-preference-presets');
   $output .= '<p>';
-  $output .= bts('\'Save configuration with disk usage settings from config.xml\' will save the above preferences into the drupal database, but also load disk usage settings from the BOINC project\'s config.xml file. These will overwrite any disk usage settings you have placed above. Caution: A user\'s personal preferences will not change if you load the disk usage settings from config.xml here into the drupal database. They must change their preference settings manually.');
+  $output .= bts('\'Save configuration with disk usage settings from config.xml\' will save the above preferences into the drupal database, but also load disk usage settings from the BOINC project\'s config.xml file. These will overwrite any disk usage settings you have placed above. Caution: A user\'s personal preferences will not change if you load the disk usage settings from config.xml here into the drupal database. They must change their preference settings manually.', array(), NULL, 'boinc:admin-boinc-preference-presets');
   $output .= '</div>';
   return $output;
 }
@@ -124,7 +124,7 @@ function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') 
 
   // Check database for preset prefs
   if (!variable_get('boincwork_preset_prefs', null))
-    drupal_set_message(bts('No presets found in database, loading a default set of preferences for each preset. These will be saved to the database once you click \'Save configuration\'.'), 'status');
+    drupal_set_message(bts('No presets found in database, loading a default set of preferences for each preset. These will be saved to the database once you click \'Save configuration\'.', array(), NULL, 'boinc:admin-boinc-preference-presets'), 'status');
 
   // Load a copy of the general prefs form
   $form = boincwork_generalprefs_form($form_state, NULL, $preset);

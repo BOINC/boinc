@@ -71,11 +71,13 @@
       print bts('!username is on your !ignore_list. Click !here to view this post.',
         array(
           '!username' => theme('username', $authors[$comment->uid]),
-          '!ignore_list' => l(bts('ignore list'), 'ignore_user/list'),
-          '!here' => l(bts('here'), "node/{$comment->nid}#comment-{$comment->cid}",
-            array('attributes' => array('class' => 'ignore-user-content-link')))
-        )
-      );
+          '!ignore_list' => l(bts('ignore list', array(), NULL, 'boinc:ignore-user-content'), 'ignore_user/list'),
+          '!here' => l(bts('here', array(), NULL, 'boinc:ignore-user-content'), "node/{$comment->nid}#comment-{$comment->cid}",
+            array(
+              'attributes' => array('class' => 'ignore-user-content-link')
+            ))
+          ),
+        NULL, 'boinc:coment-from-ignored-user');
       print '<div class="ignore-user-content">';
     } 
     ?>
@@ -101,11 +103,10 @@
     ?>
     <div class="name"><?php print $author; ?></div>
     <?php if ($account->uid): ?>
-      <div class="join-date"><?php print bts('Joined', array(), NULL, 'boinc:user-info') . ': ' . date('j M y', $account->created); ?></div>
-      <div class="post-count"><?php print bts('Posts', array(), NULL, 'boinc:user-info') . ': ' . $account->post_count; ?></div>
-      <div class="credit"><?php print bts('Credit', array(), NULL, 'boinc:user-info') . ': ' . $account->boincuser_total_credit; ?></div>
-      <div class="rac"><?php print bts('RAC', array(), NULL, 'boinc:user-info') . ': ' . $account->boincuser_expavg_credit; ?></div>
-
+      <div class="join-date"><?php print bts('Joined: @join_date', array( '@join_date' => date('j M y', $account->created) ), NULL, 'boinc:mini-user-stats'); ?></div>
+      <div class="post-count"><?php print bts('Posts: @post_count', array( '@post_count' => $account->post_count ), NULL, 'boinc:mini-user-stats'); ?></div>
+      <div class="credit"><?php print bts('Credit: @user_credits', array( '@user_credits' => $account->boincuser_total_credit ), NULL, 'boinc:mini-user-stats'); ?></div>
+      <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $account->boincuser_expavg_credit ), NULL, 'boinc:mini-user-stats'); ?></div>
       <div class="user-links">
         <div class="ignore-link"><?php print l($ignore_link['ignore_user']['title'],
           $ignore_link['ignore_user']['href'],
@@ -113,7 +114,7 @@
         </div>
         <div class="pm-link"><?php
           if ($user->uid AND ($user->uid != $account->uid)) {
-            print l(bts('Send message'),
+            print l(bts('Send message', array(), NULL, 'boinc:private-message'),
             privatemsg_get_link(array($account)),
             array('query' => drupal_get_destination()));
           } ?>
@@ -134,28 +135,28 @@
     <?php endif; ?>
 
     <?php if ($unpublished): ?>
-      <div class="unpublished"><?php print bts('Unpublished'); ?></div>
+      <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-link'); ?></div>
     <?php endif; ?>
 
     <div class="submitted">
       <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
     </div>
     <div class="comment-id">
-      <?php echo l(bts('Message @id', array('@id' => $comment->cid)),
+      <?php echo l(bts('Message @id', array('@id' => $comment->cid), NULL, 'boinc:message-header'),
         "goto/comment/{$comment->cid}"); ?>
       <?php 
         if ($comment->pid):
           $parent = _comment_load($comment->pid);
           if ($parent->status == COMMENT_PUBLISHED) {
-            $parent_link = l(bts('message @id', array('@id' => $comment->pid)),
+            $parent_link = l(bts('message @id', array('@id' => $comment->pid), NULL, 'boinc:message-header'),
             "goto/comment/{$comment->pid}");
           }
           else {
-            $parent_link = '(' . bts('parent removed') . ')';
+            $parent_link = '(' . bts('parent removed', array(), NULL, 'boinc:message-header') . ')';
           }
           echo bts(' in response to !parent', array(
             '!parent' => $parent_link
-          ));
+          ), NULL, 'boinc:message-header');
         endif;
       ?>
     </div>
@@ -164,7 +165,7 @@
     </div>
     <?php if ($moderator_links): ?>
       <div class="moderator-links">
-        <span class="label">(<?php print bts('moderation'); ?>:</span>
+        <span class="label">(<?php print bts('moderation', array(), NULL, 'boinc:comment-action-links'); ?>:</span>
         <?php print $moderator_links; ?>
         <span class="label">)</span>
       </div>
@@ -189,5 +190,5 @@
 </div> <!-- /.comment -->
 
 <?php if ($status == 'comment-preview'): ?>
-  <h2 class="title"><?php print bts('Revise or post comment'); ?></h2>
+  <h2 class="title"><?php print bts('Revise or post comment', array(), NULL, 'boinc:comment-preview-title'); ?></h2>
 <?php endif; ?>
