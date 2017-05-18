@@ -1,0 +1,243 @@
+You can extend cron functionality in you modules by using elysia_cron api.
+With it you can:
+- have more than one cron job per module
+- have a different schedule rule for each cron job defined
+- set a description for each cron job
+
+To do this you should add in you module a new hook. This is the syntax:
+
+function hook_cronapi($op, $job = NULL) {
+  $items['key'] = array(
+    'description' => 'string',
+    'rule' => 'string',
+    'weight' => 1234,
+    'callback' => 'function_name', 
+    'arguments' => array(...),
+    'file' => 'string', // External file, like hook_menu
+    'file path' => 'string'
+  );
+  $items['key2'] = ...
+  ...
+  return $items;
+}
+
+- 'key' is the identifier for the task you are defining. 
+  You can define a timing for the standard cron hook of the module by using
+  the "MODULENAME_cron" key. (See examples).
+
+- description: a textual description of the job, used in elysia cron's status
+  page. Use the untranslated string, without the "t()" wrapper (elysia_cron
+  will apply it)
+
+- rule: the crontab rule. For example: "*/30 * * * *" to execute the task every
+  30 minutes.
+
+- weight (optional): a numerical value to define order of execution. (Default:0)
+
+- callback (optional): you can define here a name of a PHP function that should
+  by called to execute the task. This is not mandatory: if you don't specify
+  it Elysia cron will search for a function called like the task KEY.
+  If this function is not found, Elysia cron will call the "hook_cronapi" 
+  function with $op = 'execute' and $job = 'KEY' (the key of the task).
+  (See examples)
+
+- arguments (optional): an array of arguments passed to callback (only if 
+  callback is defined)
+
+- file/file path: the PHP file that contains the callback (hook_menu's syntax)
+
+
+-----------------------------------------------------------------------------
+EXAMPLES
+-----------------------------------------------------------------------------
+
+Some examples...
+
+Example 1: Basic
+-----------------
+
+example.module:
+
+function example_cronapi($op, $job = NULL) {
+
+  $items['example_sendmail_cron'] = array(
+    'description' => 'Send mail with news',
+    'rule' => '0 */2 * * *', // Every 2 hours
+    // Note: i don't need to define a callback, i'll use "example_sendmail_cron"
+    // function
+  );
+
+  $items['example_news_cron'] = array(
+    'description' => 'Send mail with news',
+    'rule' => '*/5 * * * *', // Every 5 minutes
+    // i must call: example_news_fetch('all')
+    'callback' => 'example_news_fetch',
+    'arguments' => array('all'),
+  );
+
+  return $items;
+}
+
+function example_sendmail_cron() {
+  // ...
+}
+
+function example_news_fetch($what) {
+  // ...
+}
+
+Example 2: Embedded code
+-------------------------
+
+function example_cronapi($op, $job = NULL) {
+  if ($op == 'list') {
+    $items['job1'] = array(
+      'description' => 'Send mail with news',
+      'rule' => '0 */2 * * *', // Every 2 hours
+    );
+
+    $items['job2'] = array(
+      'description' => 'Send mail with news',
+      'rule' => '*/5 * * * *', // Every 5 minutes
+    );
+
+  }
+  elseif ($op == 'execute') {
+    switch ($job) {
+      case 'job1':
+        // ... job1 code
+        break;
+
+      case 'job2':
+        // ... job2 code
+        break;
+    }
+  }
+
+  return $items;
+}
+
+
+-----------------------------------------------------------------------------
+ALTERING HOOK CRON DEFINITION
+-----------------------------------------------------------------------------
+
+You can use the "hook_cron_alter" function to edit cronapi data of other
+modules.
+
+Example:
+function module_cron_alter($data) {
+  $data['key']['rule'] = '0 */6 * * *';
+}
+
+
+-----------------------------------------------------------------------------
+HANDLING DEFAULT MODULE_CRON FUNCTION
+-----------------------------------------------------------------------------
+
+To support standard drupal cron, all cron hooks (*_cron function) are
+automatically added to supported jobs, even if you don't declare them
+on cronapi hook (or if you don't implement the hook at all).
+However you can define job description and job rule in the same way as
+above (considering the job as an external function).
+
+Example:
+
+function module_cronapi($op, $job = NULL) {
+  $items['module_cron'] = array(
+    'description' => 'Standard cron process',
+    'rule' => '*/15 * * * *',
+  )
+  return $items;
+}
+
+function module_cron() {
+  ... 
+  // this is the standard cron hook, but with cronapi above
+  // it has a default rule (execution every 15 minutes) and
+  // a description
+  ...
+}
+
+
+-----------------------------------------------------------------------------
+THEMING & JOB DESCRIPTION
+-----------------------------------------------------------------------------
+
+If you want to have a nicer cron administration page with all modules
+description, and assuming only a few modules supports cronapi hooks,
+you can add your own description by script (see above) or by 
+'elysia_cron_description' theme function.
+
+For example, in your phptemplate theme, you can declare:
+
+function phptemplate_elysia_cron_description($job) {
+  switch($job) {
+    case 'job 1': return 'First job';
+    case 'job 2': return 'Second job';
+    default: return theme_elysia_cron_description($job);
+  }
+}
+
+Note: module default theme_elysia_cron_description($job) already contains
+some common tasks descriptions.
+
+
+-----------------------------------------------------------------------------
+OLD 1.x MODULE API (OBSOLETE)
+-----------------------------------------------------------------------------
+
+Elysia Cron 2.0 defines the totally new module API you see above. However the
+compatibility with old API is mantained.
+This is the old format for reference.
+
+function module_cronapi($op, $job = NULL) {
+  ...
+}
+
+$op can have 3 values:
+- 'list': you should return the list of available jobs, in the form
+  array(
+    array( 'job' => 'description' ),
+    array( 'job' => 'description' ),
+    ...
+  )
+  'job' could be the name of a real function or an identifier used with
+  $op = 'execute' (see below).
+  Warn: 'job' should be a unique identified, even if it's not a function 
+  name.
+- 'rule' : when called with this method, $job variable will contain the 
+  job name you should return the crun rule of. 
+  The rule you return is the default/module preferred schedule rule. 
+  An administrator can always override it to fit his needs.
+- 'execute' : when the system needs to call the job task, if no function 
+  with the same of the job exists, it will call the cronapi with this
+  value and with $job filled with the name of the task to execute.
+  
+Example:
+Assume your module needs 2 cron tasks: one executed every hour (process_queue)
+and one executed once a day (send_summary_mail).
+You can do this with this cronapi:
+
+function module_cronapi($op, $job = NULL) {
+  switch ($op) {
+    case 'list':
+      return array(
+        'module_process_queue' => 'Process queue of new data',
+        'module_send_summary_mail' => 'Send summary of data processed'
+      );
+    case 'rule':
+      if ($job == 'module_process_queue') return '0 * * * *';
+      else return '0 1 * * *';
+    case 'execute':
+      if ($job == 'module_process_queue') {
+        ... do the job ...
+      }
+      // Just for example, module_send_summary_mail is on a separate
+      // function (see below)
+  }
+}
+
+function module_send_summary_mail() {
+  ... do the job ...
+}
