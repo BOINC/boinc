@@ -196,6 +196,11 @@ void CC_CONFIG::show() {
     if (dont_use_vbox) {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
     }
+    for (i=0; i<alt_platforms.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: alternate platform: %s", alt_platforms[i].c_str()
+        );
+    }
     for (i=0; i<exclude_gpus.size(); i++) {
         show_exclude_gpu(exclude_gpus[i]);
     }
