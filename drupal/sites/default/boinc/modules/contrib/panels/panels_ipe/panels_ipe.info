@@ -1,0 +1,14 @@
+name = Panels In-Place Editor
+description = Provide a UI for managing some Panels directly on the frontend, instead of having to use the backend.
+package = "Panels"
+dependencies[] = panels
+dependencies[] = jquery_ui
+dependencies[] = jquery_update
+core = 6.x
+
+; Information added by Drupal.org packaging script on 2016-02-25
+version = "6.x-3.12-boinc-1-dev"
+core = "6.x"
+project = "panels"
+datestamp = "1494600716"
+
