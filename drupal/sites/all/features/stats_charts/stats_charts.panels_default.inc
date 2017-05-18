@@ -27,6 +27,8 @@ function stats_charts_default_panels_mini() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'project_stats_overview';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

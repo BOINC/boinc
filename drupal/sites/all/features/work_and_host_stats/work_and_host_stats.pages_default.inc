@@ -59,6 +59,8 @@ function work_and_host_stats_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = 'Statistics and Leaderboards';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_page_stats_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

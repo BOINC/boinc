@@ -197,6 +197,8 @@ return boincteam_is_founder($team_id);',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_team_forums_panel_context_2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -385,6 +387,8 @@ return boincteam_is_founder($team_id);',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_team_forums_panel_context_3';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -582,6 +586,8 @@ return FALSE;',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_team_forums_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
