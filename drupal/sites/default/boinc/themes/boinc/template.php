@@ -370,6 +370,11 @@ function boinc_preprocess_forum_topic_list(&$variables) {
           $topic->new_replies = NULL;
         }
       }
+      // Use same logic in forum.module to change message if topic has
+      // moved. Changed link to match boinc path-added "community".
+      if ($topic->forum_tid != $variables['tid']) {
+        $variables['topics'][$id]->message = l(t('This topic has been moved'), "community/forum/$topic->forum_tid");
+      }
     }
   }
 }
