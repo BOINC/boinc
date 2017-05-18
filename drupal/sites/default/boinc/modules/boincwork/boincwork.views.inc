@@ -1018,6 +1018,49 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
+  $data['result']['peak_working_set_size'] = array(
+    'title' => bts('Peak working set size', array(), NULL, 'boinc:task-details'),
+    'help' => t('Peak working set size.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['peak_swap_size'] = array(
+    'title' => bts('Peak swap size', array(), NULL, 'boinc:task-details'),
+    'help' => t('Peak swap size.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+    $data['result']['peak_disk_usage'] = array(
+    'title' => bts('Peak disk usage', array(), NULL, 'boinc:task-details'),
+    'help' => t('Peak disk usage.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+
   
   // ------------------------------------------------------------------------------------------------
   // Definition for workunit table
