@@ -662,13 +662,17 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
                 "Archived result [%lu] to a file\n", result.id
             );
         }
-        if (!dont_delete) {
+        if (dont_delete) {
+            log_messages.printf(MSG_DEBUG,
+                "Didn't purge result [%lu] from database (-dont_delete)\n", result.id
+            );
+        } else {
             retval = result.delete_from_db();
             if (retval) return retval;
+            log_messages.printf(MSG_DEBUG,
+                "Purged result [%lu] from database\n", result.id
+            );
         }
-        log_messages.printf(MSG_DEBUG,
-            "Purged result [%lu] from database\n", result.id
-        );
         number_results++;
     }
     return 0;
@@ -761,7 +765,11 @@ bool do_pass() {
 
         // purge workunit from DB
         //
-        if (!dont_delete) {
+        if (dont_delete) {
+            log_messages.printf(MSG_DEBUG,
+                "Didn't purge workunit [%lu] from database (-dont_delete)\n", wu.id
+            );
+        } else {
             retval= wu.delete_from_db();
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
@@ -778,10 +786,10 @@ bool do_pass() {
                     asg.delete_from_db();
                 }
             }
+            log_messages.printf(MSG_DEBUG,
+                "Purged workunit [%lu] from database\n", wu.id
+            );
         }
-        log_messages.printf(MSG_DEBUG,
-            "Purged workunit [%lu] from database\n", wu.id
-        );
 
         if (config.enable_assignment) {
             DB_ASSIGNMENT asg;
