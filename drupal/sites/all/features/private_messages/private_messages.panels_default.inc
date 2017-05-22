@@ -27,6 +27,8 @@ function private_messages_default_panels_mini() {
   );
   $display->cache = array();
   $display->title = 'Messages';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'user_mail_summary';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

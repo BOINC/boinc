@@ -34,6 +34,8 @@ function user_profiles_default_panels_mini() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'user_profile';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

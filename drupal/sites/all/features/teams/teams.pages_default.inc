@@ -139,6 +139,8 @@ function teams_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_create_team_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -335,6 +337,8 @@ function teams_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_teams_landing_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -613,6 +617,8 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -736,6 +742,8 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_8';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -831,6 +839,8 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_4';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -917,6 +927,8 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_3';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1060,6 +1072,8 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_5';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1155,6 +1169,8 @@ return boincteam_is_founder($team_id);',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_6';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1276,6 +1292,8 @@ return boincteam_is_founder($team_id);',
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_9';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1424,6 +1442,8 @@ return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_i
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_7';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1566,6 +1586,8 @@ return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_i
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

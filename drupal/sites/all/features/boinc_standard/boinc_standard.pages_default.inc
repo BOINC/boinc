@@ -107,6 +107,8 @@ function boinc_standard_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_account_dashboard_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -372,6 +374,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_boinc_user_panel_context_2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -612,6 +616,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_home_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

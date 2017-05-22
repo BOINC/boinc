@@ -27,6 +27,8 @@ function user_account_project_list_default_panels_mini() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'user_project_list';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
