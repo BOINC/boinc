@@ -199,15 +199,15 @@ function upload_files($r) {
         $name = $f['name'];
         $tmp_name = $f['tmp_name'];
 
-        if (!is_uploaded_file($tmp_name)) {
-            delete_uploaded_files();
-            xml_error(-1, "$name was not uploaded correctly");
-        }
-
         if ($f['error'] != UPLOAD_ERR_OK) {
             delete_uploaded_files();
             $reason = upload_error_description($f['error']);
             xml_error(-1, "$name upload failed because: $reason");
+        }
+
+        if (!is_uploaded_file($tmp_name)) {
+            delete_uploaded_files();
+            xml_error(-1, "$name was not uploaded correctly");
         }
     }
 
