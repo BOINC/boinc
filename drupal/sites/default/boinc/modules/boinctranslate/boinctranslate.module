@@ -1003,7 +1003,6 @@ function boinctranslate_refresh_translations_op($project, $resource, $langcode, 
       $message = "The {$language} translation import of"
         . " local file {$resource} failed.";
       $success = FALSE;
-      break;
     }
     else {
       $success = TRUE;
