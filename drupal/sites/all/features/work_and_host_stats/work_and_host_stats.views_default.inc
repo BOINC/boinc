@@ -6866,7 +6866,7 @@ else {
       'set_precision' => 1,
       'precision' => '0',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
