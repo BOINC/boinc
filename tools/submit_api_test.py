@@ -132,11 +132,11 @@ def test_query_batch(id):
         print '   id: ', job.find('id').text
         # ... various other fields
 
-def test_create_batch():
+def test_create_batch(name):
     req = CREATE_BATCH_REQ()
     [req.project, req.authenticator] = get_auth()
     req.app_name = 'uppercase'
-    req.batch_name = 'foobar'
+    req.batch_name = name
     req.expire_time = 0
     r = create_batch(req)
     if check_error(r):
@@ -190,5 +190,6 @@ def test_get_output_files():
     r = get_output_files(req)
     print(r)
 
-test_query_batch(328)
-#test_submit_batch('batch_31')
+#test_query_batch(328)
+#test_submit_batch('batch_32')
+test_create_batch('batch_33')

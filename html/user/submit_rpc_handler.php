@@ -622,6 +622,10 @@ function query_batch($r) {
     echo "</query_batch>\n";
 }
 
+function results_sent($wu) {
+    return BoincResult::count("workunitid=$wu->id and sent_time>0");
+}
+
 // variant for Condor, which doesn't care about job instances
 // and refers to batches by name
 //
@@ -655,13 +659,21 @@ function query_batch2($r) {
     foreach ($batches as $batch) {
         $wus = BoincWorkunit::enum("batch = $batch->id $mod_time_clause");
         echo "   <batch_size>".count($wus)."</batch_size>\n";
+
+        // job status is:
+        // DONE if done
+        // ERROR if error
+        // IN_PROGRESS if at least one instance sent
+        // QUEUED if no instances sent
         foreach ($wus as $wu) {
             if ($wu->canonical_resultid) {
                 $status = "DONE";
             } else if ($wu->error_mask) {
                 $status = "ERROR";
-            } else {
+            } else if (results_send($wu) > 0) {
                 $status = "IN_PROGRESS";
+            } else {
+                $status = "QUEUED";
             }
             echo
 "    <job>

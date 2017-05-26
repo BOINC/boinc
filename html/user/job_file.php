@@ -225,6 +225,7 @@ function upload_files($r) {
             if (!move_uploaded_file($tmp_name, $path)) {
                 xml_error(-1, "could not move $tmp_name to $path");
             }
+            touch("$path.md5");
             break;
         case -1:
             xml_error(-1, "file immutability violation for $fname");
