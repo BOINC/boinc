@@ -670,10 +670,10 @@ function query_batch2($r) {
                 $status = "DONE";
             } else if ($wu->error_mask) {
                 $status = "ERROR";
-            } else if (results_send($wu) > 0) {
+            } else if (results_sent($wu) > 0) {
                 $status = "IN_PROGRESS";
             } else {
-                $status = "QUEUED";
+                $status = "UNSENT";
             }
             echo
 "    <job>
@@ -869,6 +869,18 @@ function ping($r) {
     echo "<success>1</success>
         </ping>
     ";
+}
+
+if (0) {
+$r = simplexml_load_string("
+<query_batch2>
+    <authenticator>x</authenticator>
+    <batch_name>batch_30</batch_name>
+    <batch_name>batch_31</batch_name>
+</query_batch2>
+");
+query_batch2($r);
+exit;
 }
 
 if (0) {
