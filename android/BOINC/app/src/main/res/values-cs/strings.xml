@@ -356,5 +356,5 @@ Překlad do češtiny: petnek</string>
   <string name="social_invite_content_body">Používám svůj %1$s pro vědecké výpočty. Ty můžeš taky! Stáhni si aplikaci z: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
