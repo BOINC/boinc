@@ -17,7 +17,8 @@
 
 /* Installer.cpp */
 
-#define CREATE_LOG 1    /* for debugging */
+#define CREATE_LOG 0    /* for debugging */
+#define VERBOSE_TEST 0
 
 #include <Carbon/Carbon.h>
 #include <grp.h>
@@ -77,11 +78,10 @@ int main(int argc, char *argv[])
     OSStatus                err = noErr;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
-
+    
     if (Initialize() != noErr) {
         return 0;
     }
-
     // Get the full path to Installer package inside this application's bundle
     getPathToThisApp(pkgPath, sizeof(pkgPath));
     strlcpy(temp, pkgPath, sizeof(temp));
@@ -154,9 +154,10 @@ int main(int argc, char *argv[])
     if (restartNeeded) {
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
-            err = callPosixSpawn("sed -i \"\" s/\"onConclusion=\\\"none\\\"\"/\"onConclusion=\\\"RequireRestart\\\"\"/g /tmp/expanded_BOINC.pkg/Distribution");
+            err = callPosixSpawn("sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/expanded_BOINC.pkg/Distribution");
         }
         if (err == noErr) {
+            callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg/Distribution.bak");
             // Flatten the installer package
             sprintf(temp, "pkgutil --flatten /tmp/expanded_BOINC.pkg /tmp/%s.pkg", brand);
             err = callPosixSpawn(temp);
@@ -165,7 +166,7 @@ int main(int argc, char *argv[])
         }
 
         if (err == noErr) {
-            sprintf(temp, "open \"/tmp/%s.pkg\" &", brand);
+            sprintf(temp, "open \"/tmp/%s.pkg\"", brand);
             callPosixSpawn(temp);
             return 0;
         }
@@ -173,7 +174,7 @@ int main(int argc, char *argv[])
 
     callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
 
-    sprintf(temp, "open \"%s\" &", pkgPath);
+    sprintf(temp, "open \"%s\"", pkgPath);
     callPosixSpawn(temp);
     
     return err;
@@ -209,7 +210,7 @@ Boolean IsRestartNeeded()
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
     char            loginName[256];
-    
+
     if (compareOSVersionTo(10, 9) >= 0) {
         return false;
     }
@@ -299,8 +300,9 @@ static void GetPreferredLanguages() {
     getcwd(savedWD, sizeof(savedWD));
     callPosixSpawn("rm -dfR /tmp/BOINC_payload");
     mkdir("/tmp/BOINC_payload", 0777);
+    chmod("/tmp/BOINC_payload", 0777);  // Why doesn't mkdir set permissions correctly?
     chdir("/tmp/BOINC_payload");
-    callPosixSpawn("cpio -i < /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
+    callPosixSpawn("cpio -i -I /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
     chdir(savedWD);
 
     // Create an array of all our supported languages
@@ -350,7 +352,8 @@ static void GetPreferredLanguages() {
 
     // Write a temp file to tell our PostInstall.app our preferred languages
     f = fopen("/tmp/BOINC_preferred_languages", "w");
-
+    print_to_log_file("Create BOINC_preferred_languages %s", f ? "OK" : "failed");
+    
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
         preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
@@ -374,9 +377,9 @@ static void GetPreferredLanguages() {
             }
             if (f && language) {
                 fprintf(f, "%s\n", language);
+                print_to_log_file("Adding language: %s\n", language);
             }
-            
-            // Remove all copies of this language from our list of supported languages 
+            // Remove all copies of this language from our list of supported languages
             // so we can get the next preferred language in order of priority
             for (k=CFArrayGetCount(supportedLanguages)-1; k>=0; --k) {
                 if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
@@ -410,6 +413,7 @@ cleanup:
     CFArrayRemoveAllValues(supportedLanguages);
     CFRelease(supportedLanguages);
     supportedLanguages = NULL;
+    print_to_log_file("Exiting GetPreferredLanguages");
 }
 
 
@@ -549,8 +553,8 @@ int callPosixSpawn(const char *cmdline) {
     int result = 0;
     int status = 0;
     extern char **environ;
-    
-    // Make a copy of cmdline because parse_posic_spawn_command_line modifies it
+
+    // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
     argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
     strlcpy(progPath, argv[0], sizeof(progPath));
@@ -617,7 +621,7 @@ void print_to_log_file(const char *format, ...) {
     char buf[256];
     time_t t;
     strlcpy(buf, getenv("HOME"), sizeof(buf));
-    strlcpy(buf, "/Documents/test_log.txt", sizeof(buf));
+    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
     f = fopen(buf, "a");
     if (!f) return;
 

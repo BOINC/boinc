@@ -155,12 +155,10 @@ static char                     loginName[256];
 static time_t                   waitPermissionsStartTime;
 
 static char *saverName[NUMBRANDS];
-static char *saverNameEscaped[NUMBRANDS];
 static char *brandName[NUMBRANDS];
 static char *appName[NUMBRANDS];
 static char *appPath[NUMBRANDS];
-static char *appPathEscaped[NUMBRANDS];
-static char *receiptNameEscaped[NUMBRANDS];
+static char *receiptName[NUMBRANDS];
 static char *skinName[NUMBRANDS];
 
 enum { launchWhenDone,
@@ -194,38 +192,30 @@ int main(int argc, char *argv[])
 
     appName[0] = "BOINCManager";
     appPath[0] = "/Applications/BOINCManager.app";
-    appPathEscaped[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
     saverName[0] = "BOINCSaver";
-    saverNameEscaped[0] = "BOINCSaver";
-    receiptNameEscaped[0] = "/Library/Receipts/BOINC\\ Installer.pkg";
+    receiptName[0] = "/Library/Receipts/BOINC Installer.pkg";
     skinName[0] = "Default";
 
     appName[1] = "GridRepublic Desktop";
     appPath[1] = "/Applications/GridRepublic Desktop.app";
-    appPathEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
     saverName[1] = "GridRepublic";
-    saverNameEscaped[1] = "GridRepublic";
-    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Installer.pkg";
+    receiptName[1] = "/Library/Receipts/GridRepublic Installer.pkg";
     skinName[1] = "GridRepublic";
 
     appName[2] = "Progress Thru Processors Desktop";
     appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    appPathEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
     saverName[2] = "Progress Thru Processors";
-    saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
-    receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
+    receiptName[2] = "/Library/Receipts/Progress Thru Processors Installer.pkg";
     skinName[2] = "ProgressThruProcessors";
 
     appName[3] = "Charity Engine Desktop";
     appPath[3] = "/Applications/Charity Engine Desktop.app";
-    appPathEscaped[3] = "/Applications/Charity\\ Engine\\ Desktop.app";
     brandName[3] = "Charity Engine";
     saverName[3] = "Charity Engine";
-    saverNameEscaped[3] = "Charity\\ Engine";
-    receiptNameEscaped[3] = "/Library/Receipts/Charity\\ Engine\\ Installer.pkg";
+    receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
     skinName[3] = "Charity Engine";
 
     puts("Starting PostInstall app\n");
@@ -278,20 +268,20 @@ int main(int argc, char *argv[])
         s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
-        // "rm -rf /Applications/GridRepublic\\ Desktop.app"
-        sprintf(s, "rm -rf %s", appPathEscaped[brandID]);
+        // "rm -rf \"/Applications/GridRepublic Desktop.app\""
+        sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
         callPosixSpawn (s);
         
-        // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
-        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[brandID]);
+        // "rm -rf \"/Library/Screen Savers/GridRepublic.saver\""
+        sprintf(s, "rm -rf \"/Library/Screen Savers/%s.saver\"", saverName[brandID]);
         callPosixSpawn (s);
         
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
-        sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
+        sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
         callPosixSpawn (s);
 
         // We don't customize BOINC Data directory name for branding
-        callPosixSpawn ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
+        callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
 
         err = kill(installerPID, SIGKILL);
 
@@ -383,22 +373,22 @@ int main(int argc, char *argv[])
     }
 
     // Set owner of branded BOINCManager and contents, including core client
-    // "chown -Rf username /Applications/GridRepublic\\ Desktop.app"
-    sprintf(s, "chown -Rf %s %s", p, appPathEscaped[brandID]);
+    // "chown -Rf username \"/Applications/GridRepublic Desktop.app\""
+    sprintf(s, "chown -Rf %s \"%s\"", p, appPath[brandID]);
     callPosixSpawn (s);
 
     // Set owner of BOINC Screen Saver
-    // "chown -Rf username /Library/Screen\\ Savers/GridRepublic.saver"
-    sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/%s.saver", p, saverNameEscaped[brandID]);
+    // "chown -Rf username \"/Library/Screen Savers/GridRepublic.saver\""
+    sprintf(s, "chown -Rf %s \"/Library/Screen Savers/%s.saver\"", p, saverName[brandID]);
     callPosixSpawn (s);
 
     //  We don't customize BOINC Data directory name for branding
-    // "chown -Rf username /Library/Application\\ Support/BOINC\\ Data"
-    sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
+    // "chown -Rf username \"/Library/Application Support/BOINC Data\""
+    sprintf(s, "chown -Rf %s \"/Library/Application Support/BOINC Data\"", p);
     callPosixSpawn (s);
 
-    // "chmod -R a+s /Applications/GridRepublic\\ Desktop.app"
-    sprintf(s, "chmod -R a+s %s", appPathEscaped[brandID]);
+    // "chmod -R a+s \"/Applications/GridRepublic Desktop.app\""
+    sprintf(s, "chmod -R a+s \"%s\"", appPath[brandID]);
     callPosixSpawn (s);
 
 #endif   // ! defined(SANDBOX)
@@ -407,17 +397,17 @@ int main(int argc, char *argv[])
     for (i=0; i< NUMBRANDS; i++) {
         if (i == brandID) continue;
         
-        // "rm -rf /Applications/GridRepublic\\ Desktop.app"
-        sprintf(s, "rm -rf %s", appPathEscaped[i]);
+        // "rm -rf \"/Applications/GridRepublic Desktop.app\""
+        sprintf(s, "rm -rf \"%s\"", appPath[i]);
         callPosixSpawn (s);
         
-        // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
-        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[i]);
+        // "rm -rf \"/Library/Screen Savers/GridRepublic.saver\""
+        sprintf(s, "rm -rf \"/Library/Screen Savers/%s.saver\"", saverName[i]);
         callPosixSpawn (s);
     }
     
    if (brandID == 0) {  // Installing generic BOINC
-        callPosixSpawn ("rm -f /Library/Application\\ Support/BOINC\\ Data/Branding");
+        callPosixSpawn ("rm -f \"/Library/Application Support/BOINC Data/Branding\"");
     }
     
     CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
@@ -571,7 +561,7 @@ int DeleteReceipt()
 
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
-    sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
+    sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
     callPosixSpawn (s);
 
     if (!restartNeeded) {
@@ -821,7 +811,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 
 #if CREATE_LOG
     if (err == noErr) {
-        print_to_log_file(stdout, "SystemEvents is at %s\n", systemEventsPath);
+        print_to_log_file("SystemEvents is at %s\n", systemEventsPath);
     } else {
         print_to_log_file("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
     }
@@ -1549,10 +1539,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
         
             if (setSaverForAllUsers) {
                 if (compareOSVersionTo(10, 6) < 0) {
-                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName %s", pw->pw_name, saverNameEscaped[brandID]);
+                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName \"%s\"", pw->pw_name, saverName[brandID]);
                     callPosixSpawn (s);
-                    sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
-                                pw->pw_name, saverNameEscaped[brandID]);
+                    sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/%s.saver\"",
+                                pw->pw_name, saverName[brandID]);
                     callPosixSpawn (s);
                 } else {
                     seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
