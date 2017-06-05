@@ -6,7 +6,7 @@ class views_handler_field_user_name extends views_handler_field_user {
   /**
    * Add uid in the query so we can test for anonymous if needed.
    */
-  function init(&$view, &$data) {
+  function init(&$view, $data) {
     parent::init($view, $data);
     if (!empty($this->options['overwrite_anonymous'])) {
       $this->additional_fields['uid'] = 'uid';

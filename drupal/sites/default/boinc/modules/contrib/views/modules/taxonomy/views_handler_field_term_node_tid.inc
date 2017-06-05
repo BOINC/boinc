@@ -66,7 +66,7 @@ class views_handler_field_term_node_tid extends views_handler_field_prerender_li
     $this->add_additional_fields();
   }
 
-  function pre_render($values) {
+  function pre_render(&$values) {
     $this->field_alias = $this->aliases['vid'];
     $vids = array();
     foreach ($values as $result) {

@@ -13,7 +13,7 @@
  * @ingroup views_argument_handlers
  */
 class views_handler_argument_many_to_one extends views_handler_argument {
-  function init(&$view, &$options) {
+  function init(&$view, $options) {
     parent::init($view, $options);
     $this->helper = new views_many_to_one_helper($this);
 

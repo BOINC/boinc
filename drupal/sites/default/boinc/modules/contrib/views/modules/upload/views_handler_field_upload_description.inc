@@ -26,7 +26,7 @@ class views_handler_field_upload_description extends views_handler_field {
     );
   }
 
-  function pre_render($values) {
+  function pre_render(&$values) {
     if (empty($this->options['link_to_file'])) {
       return;
     }

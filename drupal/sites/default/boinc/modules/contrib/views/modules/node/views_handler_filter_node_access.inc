@@ -4,7 +4,7 @@
  */
 class views_handler_filter_node_access extends views_handler_filter {
   function admin_summary() { }
-  function operator_form() { }
+  function operator_form(&$form, &$form_state) { }
   function can_expose() {
     return FALSE;
   }
