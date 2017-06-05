@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2015 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -44,6 +44,7 @@
 ## updated 12/17/14 by Charlie Fenton to fix typo in build of BOINC+VBox installer
 ## updated 4/7/15 by Charlie Fenton to comment on problem with BOINC+VBox installer
 ## updated 7/1/15 by Charlie Fenton for compatibility with OS 10.11
+## updated 6/4/17 by Charlie Fenton for compatibility with Xcode versions > 5.0.2
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -54,7 +55,7 @@
 
 ## NOTE: To build the executables under Lion and XCode 4, select from XCode's
 ## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
-## Under Mavericks and Xcode 5, select "Product/Buildfor/Build for Profiling"
+## Under Mavericks and Xcode 5, select "Product/Build For/Profiling"
 
 ## To have this script build the combined BOINC+VirtualBox installer:
 ## * Create a directory named "VirtualBox Installer" in the same
@@ -222,7 +223,15 @@ cp -fpRL $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Su
 
 cp -fpRL $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
+## OS 10.6 and OS10.7 require screensavers built with Garbage Collection, but Xcode 5.0.2
+## was the last version of Xcode which supported building with Garbage Collection, so we
+## have saved the screensaver executable with GC as a binary. Add it to the screen saver
+## passed to the BOINC installer. At install time, he BOINC installer will select the
+## correct binary for the version of OS X and delete the other one. This scripy assumes
+## that $BUILDPATH/BOINCSaver.saver was built to use Automatic Reference Counting (ARC)
+## and not built to use GC.
 cp -fpRL $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
+ditto -xk ./clientscr/BOINCSaver_MacOS10_6_7.zip ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed

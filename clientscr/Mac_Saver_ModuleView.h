@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,11 +36,7 @@
     NSString *mDefaultPeriodString;
     NSString *mSciencePeriodString;
     NSString *mChangePeriodString;
-
-    NSArray *NIBTopLevel;
 }
-
-@property (strong) NSArray *NIBTopLevel;
 
 - (IBAction)closeSheetSave:(id) sender;
 - (IBAction)closeSheetCancel:(id) sender;
