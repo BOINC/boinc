@@ -15,7 +15,7 @@ define("LANGUAGE_FILE", "languages.txt");
 define("STYLESHEET", "dev_custom.css");
 define("COPYRIGHT_HOLDER", "UC Berkeley");
 define("SYS_ADMIN_EMAIL", "davea@ssl.berkeley.edu");
-define("POST_REPORT_EMAILS", "elst93@gmail.com, ksmarkspsych@gmail.com, DjangoFett@gmx.net");
+define("POST_REPORT_EMAILS", "bernievine@gmail.com", "elst93@gmail.com, ksmarkspsych@gmail.com, DjangoFett@gmx.net");
 define('DISABLE_TEAMS', 1);
 define('COUNTRY_FLAGS', 1);
 define("SHORTCUT_ICON", "img/favicon.gif");
@@ -92,13 +92,11 @@ function project_banner_old($title) {
 function project_footer($show_return, $show_date, $prefix) {
     $y = date("Y ");
     echo "
-        </div>
         <hr><p class=\"text-muted\">
         Copyright &copy; $y University of California.
         Permission is granted to copy, distribute and/or modify this document
         under the terms of the GNU Free Documentation License,
         Version 1.2 or any later version published by the Free Software Foundation.</p>
-            </body></html>
     ";
 }
 
