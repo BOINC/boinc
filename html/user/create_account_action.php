@@ -115,7 +115,11 @@ if (!is_valid_country($country)) {
     error_page("bad country");
 }
 
-$postal_code = sanitize_tags(post_str("postal_code", true));
+if (POSTAL_CODE) {
+    $postal_code = sanitize_tags(post_str("postal_code", true));
+} else {
+    $postal_code = '';
+}
 
 $user = make_user(
     $new_email_addr, $new_name, $passwd_hash,

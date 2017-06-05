@@ -77,6 +77,9 @@ if (!defined('BADGE_HEIGHT_LARGE')) {
 if (!defined('LDAP_HOST')) {
     define('LDAP_HOST', null);
 }
+if (!defined('POSTAL_CODE')) {
+    define('POSTAL_CODE', false);
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)

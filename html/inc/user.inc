@@ -235,7 +235,9 @@ function show_user_info_private($user) {
         row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
     }
     row2(tra("Country"), $user->country);
-    row2(tra("Postal code"), $user->postal_code);
+    if (POSTAL_CODE) {
+        row2(tra("Postal code"), $user->postal_code);
+    }
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {

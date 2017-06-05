@@ -69,7 +69,7 @@ function create_account_form($teamid, $next_url) {
     );
     echo country_select_options();
     echo "</select></td></tr>\n";
-    if (0) {
+    if (POSTAL_CODE) {
         row2(
             tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",
             "<input type=\"text\" name=\"postal_code\" size=\"20\">"

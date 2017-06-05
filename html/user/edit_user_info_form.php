@@ -47,11 +47,13 @@ form_select(
     country_select_options($user->country)
 );
 
-form_input_text(
-    tra("Postal (ZIP) code %1 Optional%2", "<br><p class=\"text-muted\">", "</p>"),
-    'postal_code',
-    $user->postal_code
-);
+if (POSTAL_CODE) {
+    form_input_text(
+        tra("Postal (ZIP) code %1 Optional%2", "<br><p class=\"text-muted\">", "</p>"),
+        'postal_code',
+        $user->postal_code
+    );
+}
 
 form_submit('Update info');
 form_end();

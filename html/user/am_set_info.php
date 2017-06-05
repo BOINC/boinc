@@ -128,7 +128,7 @@ if ($name) {
 if ($country) {
     $query .= " country='$country', ";
 }
-if ($postal_code) {
+if (POSTAL_CODE && $postal_code) {
     $query .= " postal_code='$postal_code', ";
 }
 if ($global_prefs) {

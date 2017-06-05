@@ -123,11 +123,9 @@ try {
                 exit();
             }
             
-            $postal_code = '';
-            
             $user = make_user(
                 $new_email_addr, $new_name, $passwd_hash,
-                $country, $postal_code, $project_prefs="", $teamid=0
+                $country, '', $project_prefs="", $teamid=0
             );
             if (!$user) {
                 show_error("Couldn't create account");
