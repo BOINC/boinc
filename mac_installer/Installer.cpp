@@ -48,6 +48,7 @@ Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
+static void ShowError(int lineNum);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
 void print_to_log_file(const char *format, ...);
@@ -56,6 +57,8 @@ void strip_cr(char *buf);
 // We can't use translation because the translation catalogs
 // have not yet been installed when this application is run.
 #define MAX_LANGUAGES_TO_TRY 5
+
+#define REPORT_ERROR(isError) if (isError) ShowError(__LINE__)
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char * Catalogs_Dir = (char *)"/tmp/BOINC_payload/Library/Application Support/BOINC Data/locale/";
@@ -78,7 +81,7 @@ int main(int argc, char *argv[])
     OSStatus                err = noErr;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
-    
+
     if (Initialize() != noErr) {
         return 0;
     }
@@ -107,18 +110,23 @@ int main(int argc, char *argv[])
     
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     // Expand the installer package
-    callPosixSpawn("rm -dfR /tmp/BOINC.pkg");
-    callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg");
-    callPosixSpawn("rm -dfR /tmp/PostInstall.app");
-    callPosixSpawn("rm -f /tmp/BOINC_preferred_languages");
-    callPosixSpawn("rm -f /tmp/BOINC_restart_flag");
-
+    err = callPosixSpawn("rm -dfR /tmp/BOINC.pkg");
+    REPORT_ERROR(err);
+    err = callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg");
+    REPORT_ERROR(err);
+    err = callPosixSpawn("rm -dfR /tmp/PostInstall.app");
+    REPORT_ERROR(err);
+    err =     callPosixSpawn("rm -f /tmp/BOINC_preferred_languages");
+    REPORT_ERROR(err);
+    err =     callPosixSpawn("rm -f /tmp/BOINC_restart_flag");
+    REPORT_ERROR(err);
+    
     sprintf(temp, "cp -fpR \"%s\" /tmp/PostInstall.app", postInstallAppPath);
     err = callPosixSpawn(temp);
-    
+    REPORT_ERROR(err);
     sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
     err = callPosixSpawn(temp);
-    
+    REPORT_ERROR(err);
     if (err == noErr) {
         GetPreferredLanguages();
     }
@@ -130,17 +138,20 @@ int main(int argc, char *argv[])
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
-        callPosixSpawn("rm -dfR /tmp/BOINC_payload");
+        err = callPosixSpawn("rm -dfR /tmp/BOINC_payload");
+        REPORT_ERROR(err);
         return -1;
     }
 
-    callPosixSpawn("rm -dfR /tmp/BOINC_payload");
+    err = callPosixSpawn("rm -dfR /tmp/BOINC_payload");
+    REPORT_ERROR(err);
 
     // Remove previous installer package receipt so we can run installer again
     // (affects only older versions of OS X and fixes a bug in those versions)
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
-    callPosixSpawn (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     restartNeeded = IsRestartNeeded();
     
@@ -155,27 +166,33 @@ int main(int argc, char *argv[])
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
             err = callPosixSpawn("sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/expanded_BOINC.pkg/Distribution");
+            REPORT_ERROR(err);
         }
         if (err == noErr) {
             callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg/Distribution.bak");
+            REPORT_ERROR(err);
             // Flatten the installer package
             sprintf(temp, "pkgutil --flatten /tmp/expanded_BOINC.pkg /tmp/%s.pkg", brand);
             err = callPosixSpawn(temp);
-            
-            callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
+            REPORT_ERROR(err);
         }
 
         if (err == noErr) {
+            err = callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
+            REPORT_ERROR(err);
             sprintf(temp, "open \"/tmp/%s.pkg\"", brand);
-            callPosixSpawn(temp);
-            return 0;
+            err = callPosixSpawn(temp);
+            REPORT_ERROR(err);
+            return err;
         }
     }
 
-    callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
+    err = callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
+    REPORT_ERROR(err);
 
     sprintf(temp, "open \"%s\"", pkgPath);
-    callPosixSpawn(temp);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
     
     return err;
 }
@@ -314,7 +331,10 @@ static void GetPreferredLanguages() {
     aLanguage = NULL;
 
     dirp = opendir(Catalogs_Dir);
-    if (!dirp) goto cleanup;
+    if (!dirp) {
+        REPORT_ERROR(true);
+        goto cleanup;
+    }
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
@@ -352,8 +372,11 @@ static void GetPreferredLanguages() {
 
     // Write a temp file to tell our PostInstall.app our preferred languages
     f = fopen("/tmp/BOINC_preferred_languages", "w");
-    print_to_log_file("Create BOINC_preferred_languages %s", f ? "OK" : "failed");
-    
+    if (!f) {
+        REPORT_ERROR(true);
+        goto cleanup;
+    }
+
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
         preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
@@ -427,7 +450,10 @@ static void LoadPreferredLanguages(){
 
     // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
     f = fopen("/tmp/BOINC_preferred_languages", "r");
-    if (!f) return;
+    if (!f) {
+        REPORT_ERROR(true);
+        return;
+    }
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
         fgets(language, sizeof(language), f);
@@ -437,6 +463,7 @@ static void LoadPreferredLanguages(){
         if (p) *p = '\0';           // Replace newline with null terminator 
         if (language[0]) {
             if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                REPORT_ERROR(true);
                 printf("could not load catalog for langage %s\n", language);
             }
         }
@@ -453,6 +480,13 @@ static void ShowMessage(const char *format, ...) {
     va_list                 args;
     char                    s[1024];
     CFOptionFlags           responseFlags;
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+   
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
+    }
    
 #if 1
     va_start(args, format);
@@ -469,11 +503,17 @@ static void ShowMessage(const char *format, ...) {
 
     BringAppToFront();
     CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
-                NULL, NULL, NULL, CFSTR(" "), myString,
+                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
                 NULL, NULL, NULL,
                 &responseFlags);
     
+    if (myIconURLRef) CFRelease(myIconURLRef);
     if (myString) CFRelease(myString);
+}
+
+
+static void ShowError(int lineNum) {
+    ShowMessage((char *)_("BOINC Installer error at line %d"), lineNum);
 }
 
 

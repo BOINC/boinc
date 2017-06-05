@@ -113,6 +113,7 @@ void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void LoadPreferredLanguages();
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
+static void ShowError(int lineNum);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -146,6 +147,8 @@ void notused() {
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
+
+#define REPORT_ERROR(isError) if (isError) ShowError(__LINE__)
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -237,6 +240,7 @@ int main(int argc, char *argv[])
     }
 
     if (Initialize() != noErr) {
+        REPORT_ERROR(true);
         return 0;
     }
 
@@ -270,18 +274,22 @@ int main(int argc, char *argv[])
 
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
-        callPosixSpawn (s);
+        err = callPosixSpawn (s);
+        REPORT_ERROR(err);
         
         // "rm -rf \"/Library/Screen Savers/GridRepublic.saver\""
         sprintf(s, "rm -rf \"/Library/Screen Savers/%s.saver\"", saverName[brandID]);
-        callPosixSpawn (s);
+        err = callPosixSpawn (s);
+        REPORT_ERROR(err);
         
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
         sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
-        callPosixSpawn (s);
+        err = callPosixSpawn (s);
+        REPORT_ERROR(err);
 
         // We don't customize BOINC Data directory name for branding
-        callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
+        err = callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
+        REPORT_ERROR(err);
 
         err = kill(installerPID, SIGKILL);
 
@@ -290,7 +298,7 @@ int main(int argc, char *argv[])
     
     sleep (2);
 
-    // Install all_projects_list.xml file, but only if one doesn't 
+    // Install all_projects_list.xml file, but only if one doesn't
     // already exist, since a pre-existing one is probably newer.
     f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
     if (f) {
@@ -306,12 +314,15 @@ int main(int argc, char *argv[])
     
 #ifdef SANDBOX
 
+#define RETRY_LIMIT 5
+
     CheckUserAndGroupConflicts();
-    for (i=0; i<5; ++i) {
+    for (i=0; i<RETRY_LIMIT; ++i) {
         err = CreateBOINCUsersAndGroups();
         if (err != noErr) {
             printf("CreateBOINCUsersAndGroups returned %ld (repetition=%d)", err, i);
             fflush(stdout);
+            REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
         }
         
@@ -321,6 +332,7 @@ int main(int argc, char *argv[])
         if (err != noErr) {
             printf("SetBOINCAppOwnersGroupsAndPermissions returned %ld (repetition=%d)", err, i);
             fflush(stdout);
+            REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
         }
 
@@ -328,6 +340,7 @@ int main(int argc, char *argv[])
         if (err != noErr) {
             printf("SetBOINCDataOwnersGroupsAndPermissions returned %ld (repetition=%d)", err, i);
             fflush(stdout);
+            REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
         }
         
@@ -339,6 +352,7 @@ int main(int argc, char *argv[])
         if (err != noErr) {
             printf("check_security returned %ld (repetition=%d)", err, i);
             fflush(stdout);
+            REPORT_ERROR(i >= RETRY_LIMIT);
         } else {
             break;
         }
@@ -375,21 +389,25 @@ int main(int argc, char *argv[])
     // Set owner of branded BOINCManager and contents, including core client
     // "chown -Rf username \"/Applications/GridRepublic Desktop.app\""
     sprintf(s, "chown -Rf %s \"%s\"", p, appPath[brandID]);
-    callPosixSpawn (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     // Set owner of BOINC Screen Saver
     // "chown -Rf username \"/Library/Screen Savers/GridRepublic.saver\""
     sprintf(s, "chown -Rf %s \"/Library/Screen Savers/%s.saver\"", p, saverName[brandID]);
-    callPosixSpawn (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     //  We don't customize BOINC Data directory name for branding
     // "chown -Rf username \"/Library/Application Support/BOINC Data\""
     sprintf(s, "chown -Rf %s \"/Library/Application Support/BOINC Data\"", p);
-    callPosixSpawn (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     // "chmod -R a+s \"/Applications/GridRepublic Desktop.app\""
     sprintf(s, "chmod -R a+s \"%s\"", appPath[brandID]);
-    callPosixSpawn (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
 #endif   // ! defined(SANDBOX)
 
@@ -399,15 +417,18 @@ int main(int argc, char *argv[])
         
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[i]);
-        callPosixSpawn (s);
+        err = callPosixSpawn (s);
+        REPORT_ERROR(err);
         
         // "rm -rf \"/Library/Screen Savers/GridRepublic.saver\""
         sprintf(s, "rm -rf \"/Library/Screen Savers/%s.saver\"", saverName[i]);
-        callPosixSpawn (s);
+        err = callPosixSpawn (s);
+        REPORT_ERROR(err);
     }
     
    if (brandID == 0) {  // Installing generic BOINC
-        callPosixSpawn ("rm -f \"/Library/Application Support/BOINC Data/Branding\"");
+        err = callPosixSpawn ("rm -f \"/Library/Application Support/BOINC Data/Branding\"");
+        REPORT_ERROR(err);
     }
     
     CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
@@ -419,13 +440,16 @@ int main(int argc, char *argv[])
         if (urlref) {
             err = LSRegisterURL(urlref, true);
             CFRelease(urlref);
+            REPORT_ERROR(err);
         }
     }
 
     err = UpdateAllVisibleUsers(brandID);
-    if (err != noErr)
+    if (err != noErr) {
+        REPORT_ERROR(true);
         return err;
-
+    }
+    
 #if 0   // WaitPermissions is not needed when using wrapper
 #ifdef SANDBOX
     pid_t                   waitPermissionsPID = 0;
@@ -550,6 +574,7 @@ int DeleteReceipt()
     struct stat             sbuf;
 
     if (Initialize() != noErr) {
+        REPORT_ERROR(true);
         return 0;
     }
 
@@ -562,7 +587,8 @@ int DeleteReceipt()
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
-    callPosixSpawn (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     if (!restartNeeded) {
         installerPID = getPidIfRunning("com.apple.installer");
@@ -592,6 +618,7 @@ int DeleteReceipt()
             CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
             if (urlref) {
                 err = LSOpenCFURLRef(urlref, NULL);
+                REPORT_ERROR(err);
                 CFRelease(urlref);
                 CFRelease(CFAppPath);
             }
@@ -662,6 +689,7 @@ void CheckUserAndGroupConflicts()
         if (boinc_master_gid > 500) {
             sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_master_gid);
             f = popen(cmd, "r");
+            REPORT_ERROR(!f);
             if (f) {
                 while (PersistentFGets(buf, sizeof(buf), f)) {
                     if (strstr(buf, "PrimaryGroupID")) {
@@ -697,6 +725,7 @@ void CheckUserAndGroupConflicts()
         if (boinc_project_gid > 500) {
             sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_project_gid);
             f = popen(cmd, "r");
+            REPORT_ERROR(!f);
             if (f) {
                 while (PersistentFGets(buf, sizeof(buf), f)) {
                     if (strstr(buf, "PrimaryGroupID")) {
@@ -730,12 +759,14 @@ void CheckUserAndGroupConflicts()
 
     entryCount = 0;
     pw = getpwnam(boinc_master_user_name);
+    REPORT_ERROR(!pw);
     if (pw) {
         boinc_master_uid = pw->pw_uid;
         printf("boinc_master user ID = %d\n", (int)boinc_master_uid);
         fflush(stdout);
         sprintf(cmd, "dscl . -search /Users UniqueID %d", boinc_master_uid);
         f = popen(cmd, "r");
+        REPORT_ERROR(!f);
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 if (strstr(buf, "UniqueID")) {
@@ -749,6 +780,7 @@ void CheckUserAndGroupConflicts()
     if (entryCount > 1) {
         err = callPosixSpawn ("dscl . -delete /users/boinc_master");
         if (err) {
+            REPORT_ERROR(true);
             fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
         }
@@ -757,12 +789,14 @@ void CheckUserAndGroupConflicts()
         
     entryCount = 0;
     pw = getpwnam(boinc_project_user_name);
+    REPORT_ERROR(!pw);
     if (pw) {
         boinc_project_uid = pw->pw_uid;
         printf("boinc_project user ID = %d\n", (int)boinc_project_uid);
         fflush(stdout);
         sprintf(cmd, "dscl . -search /Users UniqueID %d", boinc_project_uid);
         f = popen(cmd, "r");
+        REPORT_ERROR(!f);
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 if (strstr(buf, "UniqueID")) {
@@ -774,8 +808,9 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        callPosixSpawn ("dscl . -delete /users/boinc_project");
+        err = callPosixSpawn ("dscl . -delete /users/boinc_project");
         if (err) {
+            REPORT_ERROR(true);
             fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
         }
@@ -808,6 +843,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     systemEventsPath[0] = '\0';
 
     err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
+    REPORT_ERROR(err);
 
 #if CREATE_LOG
     if (err == noErr) {
@@ -827,6 +863,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
             err = kill(systemEventsPID, SIGKILL);
         }
         if (err != noErr) {
+            REPORT_ERROR(true);
             fprintf(stdout, "(systemEventsPID, SIGKILL) returned error %d \n", (int) err);
             fflush(stdout);
         }
@@ -837,6 +874,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
             if (systemEventsPID == 0) break;
         }
         if (i >= 50) {
+            REPORT_ERROR(true);
             fprintf(stdout, "Failed to make System Events quit\n");
             fflush(stdout);
             err = noErr;
@@ -853,6 +891,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
             sprintf(cmd, "sudo -u \"%s\" -b \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
             err = callPosixSpawn(cmd);
             if (err) {
+                REPORT_ERROR(true);
                 fprintf(stdout, "[2] Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
             }
             // Wait for the process to start
@@ -865,6 +904,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         }
         if (j >= 5) {
             fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
+            REPORT_ERROR(true);
             fflush(stdout);
             err = noErr;
             goto cleanupSystemEvents;
@@ -878,6 +918,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", userName, appName[i]);
         err = callPosixSpawn(cmd);
         if (err) {
+            REPORT_ERROR(true);
             fprintf(stdout, "[2] Command: %s\n", cmd);
             fprintf(stdout, "[2] Delete login item containing %s returned error %d\n", appName[i], err);
             fflush(stdout);
@@ -894,6 +935,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
     err = callPosixSpawn(cmd);
     if (err) {
+        REPORT_ERROR(true);
         fprintf(stdout, "[2] Command: %s\n", cmd);
         printf("[2] Make login item for %s returned error %d\n", appPath[brandID], err);
     }
@@ -909,6 +951,7 @@ cleanupSystemEvents:
         err2 = kill(systemEventsPID, SIGKILL);
     }
     if (err2 != noErr) {
+        REPORT_ERROR(true);
         fprintf(stdout, "kill(systemEventsPID, SIGKILL) returned error %d \n", (int) err2);
         fflush(stdout);
     }
@@ -919,6 +962,7 @@ cleanupSystemEvents:
         if (systemEventsPID == 0) break;
     }
     if (i >= 50) {
+        REPORT_ERROR(true);
         fprintf(stdout, "Failed to make System Events quit\n");
         fflush(stdout);
     }
@@ -945,6 +989,7 @@ void SetSkinInUserPrefs(char *userName, char *nameOfSkin)
         sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
         sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
         newPrefs = fopen(tempFilename, "w");
+        REPORT_ERROR(!newPrefs);
         if (newPrefs) {
             wroteSkinName = 0;
             statErr = stat(oldFileName, &sbuf);
@@ -1069,6 +1114,7 @@ static void LoadPreferredLanguages(){
         if (p) *p = '\0';           // Replace newline with null terminator 
         if (language[0]) {
             if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                REPORT_ERROR(true);
                 printf("could not load catalog for langage %s\n", language);
             }
         }
@@ -1134,6 +1180,31 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
 }
 
 
+static void ShowError(int lineNum) {
+    char                    s[1024];
+    CFOptionFlags           responseFlags;
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+   
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
+    }
+    
+    sprintf(s, (char *)_("BOINC PostInstall error at line %d"), lineNum);
+    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
+
+    BringAppToFront();
+    CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
+                NULL, NULL, NULL,
+                &responseFlags);
+    
+    if (myIconURLRef) CFRelease(myIconURLRef);
+    if (myString) CFRelease(myString);
+}
+
+
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
     group               *grp;
     short               i = 0;
@@ -1174,8 +1245,10 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     escape_url(userName, escapedUserName, sizeof(escapedUserName)); // Avoid confusion if name has embedded spaces
     sprintf(cmd, "dscl -url . -read /Groups/%s GroupMembership", groupName);
     f = popen(cmd, "r");
-    if (f == NULL)
+    if (f == NULL) {
+        REPORT_ERROR(true);
         return 0;
+    }
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
@@ -1242,6 +1315,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
     fflush(stdout);
 
     f = popen("dscl . list /Users UniqueID", "r");
+    REPORT_ERROR(!f);
     if (f) {
         while (PersistentFGets(buf, sizeof(buf), f)) {
             p = strrchr(buf, ' ');
@@ -1268,6 +1342,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
         sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);    
         f = popen(cmd, "r");
+        REPORT_ERROR(!f);
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
@@ -1280,6 +1355,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
 
         sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
         f = popen(cmd, "r");
+        REPORT_ERROR(!f);
         if (f) {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
@@ -1348,7 +1424,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
             if (compareOSVersionTo(10, 6) < 0) {
                 sprintf(cmd, "sudo -u \"%s\" defaults -currentHost read com.apple.screensaver moduleName", pw->pw_name);
                 f = popen(cmd, "r");
-            
+                REPORT_ERROR(!f);
+           
                 if (f) {
                     found = false;
                     while (PersistentFGets(s, sizeof(s), f)) {
@@ -1472,6 +1549,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             if (BMGroupMembershipCount == 0) {
                 sprintf(cmd, "dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
                 err = callPosixSpawn(cmd);
+                REPORT_ERROR(err);
                 printf("[2] %s returned %d\n", cmd, err);
                 fflush(stdout);
                 isBMGroupMember = true;
@@ -1480,6 +1558,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 for (i=1; i<BMGroupMembershipCount; ++i) {
                     sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
                     err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
                     printf("[2] %s returned %d\n", cmd, err);
                     fflush(stdout);
                 }
@@ -1492,6 +1571,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             if (BPGroupMembershipCount == 0) {
                 sprintf(cmd, "dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                 err = callPosixSpawn(cmd);
+                REPORT_ERROR(err);
                 printf("[2] %s returned %d\n", cmd, err);
                 fflush(stdout);
                 isBPGroupMember = true;
@@ -1500,6 +1580,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 for (i=1; i<BPGroupMembershipCount; ++i) {
                     sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                     err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
                     printf("[2] %s returned %d\n", cmd, err);
                     fflush(stdout);
                 }
@@ -1540,10 +1621,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
             if (setSaverForAllUsers) {
                 if (compareOSVersionTo(10, 6) < 0) {
                      sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName \"%s\"", pw->pw_name, saverName[brandID]);
-                    callPosixSpawn (s);
+                    err = callPosixSpawn (s);
+                    REPORT_ERROR(err);
                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/%s.saver\"",
                                 pw->pw_name, saverName[brandID]);
-                    callPosixSpawn (s);
+                    err = callPosixSpawn (s);
+                    REPORT_ERROR(err);
                 } else {
                     seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                     sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
@@ -1561,6 +1644,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         sprintf(cmd, "sudo -u \"%s\" rm -f \"/Users/%s/Library/Application Support/BOINC/BOINC Manager-%s\"",
                             pw->pw_name, pw->pw_name, pw->pw_name);
         err = callPosixSpawn(cmd);
+        REPORT_ERROR(err);
         printf("[2] %s returned %d\n", cmd, err);
         fflush(stdout);
 
@@ -1586,12 +1670,14 @@ OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
                 kCFPreferencesCurrentHost
                 );
     if (theData == NULL) {
+        REPORT_ERROR(true);
         CFRelease(nameKey);
         return (-1);
     }
     
     if (CFDictionaryContainsKey(theData, nameKey)  == false) 	
 	{
+        REPORT_ERROR(true);
         moduleName[0] = 0;
         CFRelease(nameKey);
         CFRelease(theData);
@@ -1627,6 +1713,7 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
     
     emptyData = CFDictionaryCreate(NULL, NULL, NULL, 0, NULL, NULL);
     if (emptyData == NULL) {
+        REPORT_ERROR(true);
         CFRelease(nameKey);
         CFRelease(nameValue);
         CFRelease(pathKey);
@@ -1640,6 +1727,7 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
 
     if (newData == NULL)
 	{
+        REPORT_ERROR(true);
         CFRelease(nameKey);
         CFRelease(nameValue);
         CFRelease(pathKey);
@@ -1658,6 +1746,7 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
     success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
 
     if (!success) {
+        REPORT_ERROR(true);
         err = -1;
     }
     
@@ -1740,6 +1829,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
 
     f = popen("ps -a -x -c -o command,pid", "r");
     if (f == NULL) {
+        REPORT_ERROR(true);
         return 0;
     }
     
