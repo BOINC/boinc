@@ -19,7 +19,7 @@
 #include "config.h"
 #include "sched_msgs.h"
 
-SCHED_MSG_LOG log_messages;
+SCHED_MSG_LOG log_messages(stdout);
 
 const char* SCHED_MSG_LOG::v_format_kind(int kind) const {
     switch(kind) {

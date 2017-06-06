@@ -30,9 +30,8 @@ class SCHED_MSG_LOG : public MSG_LOG {
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
 public:
-    int debug_level;
     enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG };
-    SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
+    SCHED_MSG_LOG(FILE* f): MSG_LOG(f) { debug_level = MSG_NORMAL; }
     void set_debug_level(int new_level) { debug_level = new_level; }
     void set_indent_level(const int new_indent_level);
 #ifdef _USING_FCGI_
