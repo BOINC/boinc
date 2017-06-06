@@ -1133,7 +1133,10 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                 } else {	// kCGLRPVideoMemoryMegabytes is not available before OS 10.7
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+                    // kCGLRPVideoMemory=120 is deprecated in OS 10.7 and may not be
+                    // defined in later SDKs, so use a literal value here instead
+                    // CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+                    CGLDescribeRenderer (info, i, (CGLRendererProperty)120, &deviceVRAM);
 #pragma clang diagnostic pop
                 }
 
