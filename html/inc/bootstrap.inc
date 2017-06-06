@@ -155,6 +155,7 @@ function sample_navbar(
     if ($user) {
         $x[] = array(tra("Account"), $url_prefix."home.php");
         $x[] = array(tra("Join"), $url_prefix."join.php");
+        $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
     $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
     $x[] = array(tra("Help"), $url_prefix."help.php");
@@ -170,6 +171,7 @@ function sample_navbar(
         }
     } else {
         $x = array(
+            array(tra("Preferences"), $url_prefix."prefs.php?subset=global"),
             array(tra("Server status"), $url_prefix."server_status.php"),
             array(tra("Statistics"), $url_prefix."stats.php"),
             array(tra("Applications"), $url_prefix."apps.php"),
@@ -197,6 +199,7 @@ function sample_navbar(
         //array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
         array(tra("Teams"), $url_prefix."team.php", tra("create or join a team")),
         array(tra("Profiles"), $url_prefix."profile_menu.php"),
+        array(tra("Preferences"), $url_prefix."edit_forum_preferences_form.php"),
         array(tra("User search"), $url_prefix."user_search.php"),
         array(tra("User of the day"), $url_prefix."uotd.php"),
         array(tra("Certificate"), $url_prefix."cert1.php", "", "_blank"),
