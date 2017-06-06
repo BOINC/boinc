@@ -42,9 +42,9 @@
 class MSG_LOG {
 public:
     int debug_level;
+    int indent_level;
     char spaces[80];
     FILE* output;
-    int indent_level;
     int pid;
 
     MSG_LOG(FILE* output);
@@ -61,6 +61,9 @@ public:
     void vprintf(int kind, const char* format, va_list va);
     void vprintf_multiline(int kind, const char* str, const char* prefix_format, va_list va);
     void vprintf_file(int kind, const char* filename, const char* prefix_format, va_list va);
+    void set_debug_level(int new_level) { debug_level = new_level; }
+    void set_indent_level(int new_level);
+
 
 protected:
 

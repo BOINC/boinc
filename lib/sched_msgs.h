@@ -24,16 +24,19 @@
 #include "boinc_fcgi.h"
 #endif
 
-enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG };
+enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG, MSG_DETAIL };
 
 class SCHED_MSG_LOG : public MSG_LOG {
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
 public:
-    enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG };
+    enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG, MSG_DETAIL };
     SCHED_MSG_LOG(FILE* f): MSG_LOG(f) { debug_level = MSG_NORMAL; }
     void set_debug_level(int new_level) { debug_level = new_level; }
     void set_indent_level(const int new_indent_level);
+    bool debug() {return debug_level >= MSG_DEBUG;}
+    bool detail() {return debug_level >= MSG_DETAIL;}
+
 #ifdef _USING_FCGI_
     ~SCHED_MSG_LOG();
     void redirect(FCGI_FILE* f);
