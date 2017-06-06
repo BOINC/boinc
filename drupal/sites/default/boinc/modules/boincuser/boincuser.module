@@ -1351,20 +1351,32 @@ function boincuser_create_account() {
       xml_error(-137, 'account error');
     }
     // Create new account
-    $unrestricted_role = array_search('community member', user_roles(true)); 
+    $unrestricted_role = array_search('community member', user_roles(true));
+
+    // Make sure user_name is unique
+    $unique_name = find_unique_name($params['user_name']);
+
     $newUser = array(
-      'name' => $params['user_name'],
+      'name' => $unique_name,
       'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
       'mail' => $params['email_addr'],
       'status' => 1,
       'init' => $params['email_addr'],
       'roles' => array($unrestricted_role => ''),
     );
+
+    // Create the drupal user
     $user = user_save(null, $newUser);
+    if (!$user) {
+      watchdog('boincuser', 'create_accout: Failed to create Drupal user account for @email', array('@email' => $params['email_addr']), WATCHDOG_WARNING);
+    }
+
+    // Create the BOINC user
     $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
     if (!$boinc_user) {
       xml_error(-137);
     }
+
     // Cross reference Drupal account with BOINC
     $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
     if (!$reference) {
