@@ -169,16 +169,16 @@ $biomed = array(
 //            tra("By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit."),
 //            "proteinsathome.gif"
 //        ),
-        array(
-            "The Lattice Project",
-            "http://boinc.umiacs.umd.edu/",
-            tra("University of Maryland Center for Bioinformatics and Computational Biology"),
-            tra("Life science research"),
-            tra("The Lattice Project, developed and administered at the University of Maryland, supplies computing power to researchers worldwide who are studying evolutionary relationships using DNA and protein sequence data."),
-            "lattice.gif",
-            "",
-            "Study evolution using genetics"
-        ),
+//        array(
+//            "The Lattice Project",
+//            "http://boinc.umiacs.umd.edu/",
+//            tra("University of Maryland Center for Bioinformatics and Computational Biology"),
+//            tra("Life science research"),
+//            tra("The Lattice Project, developed and administered at the University of Maryland, supplies computing power to researchers worldwide who are studying evolutionary relationships using DNA and protein sequence data."),
+//            "lattice.gif",
+//            "",
+//            "Study evolution using genetics"
+//        ),
 //        array(
 //            "Malariacontrol.net",
 //            "http://www.malariacontrol.net/",
@@ -397,16 +397,16 @@ $astro_phys_chem = array(
 //            "",
 //            tra("Simulate high-energy particle collisions")
 //        ),
-        array(
-            "ATLAS@Home",
-            "http://atlasathome.cern.ch/",
-            tra("CERN (European Organization for Nuclear Research)"),
-            tra("Physics"),
-            tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
-            "atlas_at_home.jpg",
-            "",
-            tra("Simulate high-energy particle collisions for CERN")
-        ),
+//        array(
+//            "ATLAS@Home",
+//            "http://atlasathome.cern.ch/",
+//            tra("CERN (European Organization for Nuclear Research)"),
+//            tra("Physics"),
+//            tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
+//            "atlas_at_home.jpg",
+//            "",
+//            tra("Simulate high-energy particle collisions for CERN")
+//        ),
         array(
             "SETI@home",
             "http://setiathome.berkeley.edu/",
@@ -481,16 +481,16 @@ $mixed = array(
 //            "",
 //            tra("Help European researchers")
 //        ),
-        array(
-            "Ibercivis",
-            "http://registro.ibercivis.es/",
-            tra("Spanish universities and research centers"),
-            tra("Various Spanish research projects"),
-            tra("Research in physics, material science, and biomedicine"),
-            "cabecera2.jpg",
-            "",
-            tra("Help Spanish researchers")
-        ),
+//        array(
+//            "Ibercivis",
+//            "http://registro.ibercivis.es/",
+//            tra("Spanish universities and research centers"),
+//            tra("Various Spanish research projects"),
+//            tra("Research in physics, material science, and biomedicine"),
+//            "cabecera2.jpg",
+//            "",
+//            tra("Help Spanish researchers")
+//        ),
         array(
             "World Community Grid",
             "http://www.worldcommunitygrid.org/",
