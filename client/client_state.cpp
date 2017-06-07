@@ -223,7 +223,7 @@ void CLIENT_STATE::show_host_info() {
     FILE *f = popen("sw_vers -productVersion", "r");
     fgets(buf, sizeof(buf), f);
     strip_whitespace(buf);
-    fclose(f);
+    pclose(f);
     msg_printf(NULL, MSG_INFO,
         "OS: Mac OS X %s (%s %s)", buf,
         host_info.os_name, host_info.os_version
