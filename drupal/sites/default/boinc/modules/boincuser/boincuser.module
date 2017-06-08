@@ -1237,7 +1237,7 @@ function join_page($type = null) {
     $output .= '  </li>';
     $output .= '  <li>' . bts('Run the installer', array(), NULL, 'boinc:join-page') . '</li>';
     $output .= '  <li>' . bts('When prompted enter @siteurl', array(
-        '@siteurl' => $base_url), array(), NULL, 'boinc:join-page') . '</li>';
+        '@siteurl' => $base_url), NULL, 'boinc:join-page') . '</li>';
     $output .=  '</ol>';
   }
   $output .= '</div>';

@@ -1223,7 +1223,7 @@ function boincteam_topic_overview_panel() {
   $output .= '<p>' . bts('@project participants may form teams. You may belong'
     . ' to only one team. You can join or quit a team at any time. To join a'
     . ' team, visit its team page and click "Join this team". Each team has a'
-    . ' founder who may:', array('@project' => $site_name), array(), NULL, 'boinc:team-general-info') . '</p>';
+    . ' founder who may:', array('@project' => $site_name), NULL, 'boinc:team-general-info') . '</p>';
   $output .= '<ul>';
   $output .= '  <li>' . bts("access team members' email addresses", array(), NULL, 'boinc:team-general-info') . '</li>';
   $output .= '  <li>' . bts("edit the team's name and description", array(), NULL, 'boinc:team-general-info') . '</li>';
