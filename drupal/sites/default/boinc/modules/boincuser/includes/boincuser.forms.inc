@@ -406,7 +406,11 @@ function boincuser_request_pass_validate($form, &$form_state) {
       boincuser_register_make_drupal_user($boinc_user);
     } else {
       // If there is no existing BOINC user either, show an error
-      form_set_error('name', bts('No account exists for @email -- select "Create new account" to register', array('@email' => $edit['name']), NULL, 'boinc:forgot-password'));
+      form_set_error('name', bts('No account exists for @email -- please create an account using a BOINC client -- !instructions',
+      array(
+          '@email' => $edit['name'],
+          '!instructions' => l(bts('Instructions', array(), NULL, 'boinc:forgot-password'), 'join')
+      ), NULL, 'boinc:forgot-password'));
     }
   }
 }
