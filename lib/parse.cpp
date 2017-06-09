@@ -905,7 +905,7 @@ void XML_PARSER::skip_unexpected(
 // copy this entire element, including start and end tags, to the buffer
 //
 int XML_PARSER::copy_element(string& out) {
-    char end_tag[TAG_BUF_LEN], buf[1024];
+    char end_tag[TAG_BUF_LEN], buf[ELEMENT_BUF_LEN];
 
     // handle <foo/> case
     //

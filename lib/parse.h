@@ -36,12 +36,15 @@
 #define XML_PARSE_DATA      5
 #define XML_PARSE_OVERFLOW  6
 
-#define TAG_BUF_LEN         256
+#define TAG_BUF_LEN         4096
+    // max tag length
+#define ELEMENT_BUF_LEN     65536
+    // max element length (matches BLOB_SIZE, max size of XML fields in DB)
 
 struct XML_PARSER {
     int scan_comment();
     int scan_cdata(char*, int);
-    char parsed_tag[4096];
+    char parsed_tag[TAG_BUF_LEN];
     bool is_tag;
     MIOFILE* f;
     XML_PARSER(MIOFILE*);
