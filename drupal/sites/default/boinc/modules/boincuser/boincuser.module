@@ -1345,7 +1345,8 @@ function boincuser_create_account() {
     } else {
       xml_error(-137);
     }
-  } else {
+  }
+  else {
     // Verify that there isn't somehow a Drupal user already (not possible with proper function)
     if ($existing_user = user_load(array('mail' => $params['email_addr']))) {
       xml_error(-137, 'account error');
@@ -1365,24 +1366,26 @@ function boincuser_create_account() {
       'roles' => array($unrestricted_role => ''),
     );
 
-    // Create the drupal user
+    // Create the drupal user. If the drupal user cannot be created, then stop with error message.
     $user = user_save(null, $newUser);
-    if (!$user) {
+    if ($user) {
+      // Create the BOINC user.
+      $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
+      if (!$boinc_user) {
+        xml_error(-137);
+      }
+
+      // Cross reference Drupal account with BOINC.
+      $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
+      if (!$reference) {
+        xml_error(-1, 'error connecting BOINC account to Drupal');
+      }
+    }
+    else {
       watchdog('boincuser', 'create_accout: Failed to create Drupal user account for @email', array('@email' => $params['email_addr']), WATCHDOG_WARNING);
-    }
-
-    // Create the BOINC user
-    $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
-    if (!$boinc_user) {
-      xml_error(-137);
-    }
-
-    // Cross reference Drupal account with BOINC
-    $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
-    if (!$reference) {
-      xml_error(-1, 'error connecting BOINC account to Drupal');
-    }
-  }
+      xml_error(-1, 'error creating Drupal user account');
+    }// if drupal user created
+  }// if existing user found
   echo " <account_out>\n";
   echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
   echo "</account_out>\n";
