@@ -1371,21 +1371,22 @@ function boincuser_create_account() {
     if ($user) {
       // Create the BOINC user.
       $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
-      if (!$boinc_user) {
+      if ($boinc_user) {
+        // Cross reference Drupal account with BOINC.
+        $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
+        if (!$reference) {
+          xml_error(-1, 'error connecting BOINC account to Drupal');
+        }
+      }
+      else {
         xml_error(-137);
-      }
-
-      // Cross reference Drupal account with BOINC.
-      $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
-      if (!$reference) {
-        xml_error(-1, 'error connecting BOINC account to Drupal');
-      }
+      }// if boinc user created.
     }
     else {
       watchdog('boincuser', 'create_accout: Failed to create Drupal user account for @email', array('@email' => $params['email_addr']), WATCHDOG_WARNING);
       xml_error(-1, 'error creating Drupal user account');
-    }// if drupal user created
-  }// if existing user found
+    }// if drupal user created.
+  }// if existing user found.
   echo " <account_out>\n";
   echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
   echo "</account_out>\n";
