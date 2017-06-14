@@ -220,7 +220,7 @@ struct XML_PARSER {
 
     // copy everything up to (but not including) the given end tag.
     // The copied text may include XML tags.
-    // strips whitespace.
+    // strips start/end whitespace.
     //
     inline int element_contents(const char* end_tag, char* buf, int buflen) {
         int n=0;

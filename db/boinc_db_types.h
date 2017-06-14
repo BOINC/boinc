@@ -347,6 +347,8 @@ struct HOST {
         // DEPRECATED
     char product_name[256];
     double gpu_active_frac;
+    int p_ngpus;
+    double p_gpu_fpops;
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,

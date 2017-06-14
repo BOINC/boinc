@@ -833,6 +833,14 @@ int DB_HOST::update_diff_sched(HOST& h) {
         sprintf(buf, " gpu_active_frac=%.15e,", gpu_active_frac);
         strcat(updates, buf);
     }
+    if (p_ngpus != h.p_ngpus) {
+        sprintf(buf, " p_ngpus=%d,", p_ngpus);
+        strcat(updates, buf);
+    }
+    if (p_gpu_fpops != h.p_gpu_fpops) {
+        sprintf(buf, " p_gpu_fpops=%.15e,", p_gpu_fpops);
+        strcat(updates, buf);
+    }
 
     int n = strlen(updates);
     if (n == 0) return 0;

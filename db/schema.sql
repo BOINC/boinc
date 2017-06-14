@@ -149,6 +149,7 @@ create table host (
     timezone                integer         not null,
     domain_name             varchar(254),
     serialnum               varchar(254),
+        /* now used to encode stuff related to GPUs and VBox */
     last_ip_addr            varchar(254),
     nsame_ip_addr           integer         not null,
 
@@ -190,6 +191,8 @@ create table host (
     error_rate              double          not null default 0,
     product_name            varchar(254)    not null,
     gpu_active_frac         double          not null,
+    p_ngpus                 integer         not null,
+    p_gpu_fpops             double          not null,
 
     primary key (id)
 ) engine=InnoDB;
