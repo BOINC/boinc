@@ -39,29 +39,34 @@ function download_link($pname, $button=false) {
 
     if ($button) {
         if ($vbox_file) {
-            echo tra("We recommend that you also install VirtualBox, so your computer can work on science projects that require it.");
-            echo " <a href=wiki/VirtualBox>";
+            echo tra("We recommend that you also install %1VirtualBox%2, so your computer can work on science projects that require it.", "<a href=https://www.virtualbox.org/>", "</a>");
+            echo " <a href=http://boinc.berkeley.edu/wiki/VirtualBox>";
             echo tra("Learn more about VirtualBox.");
             echo "</a>";
 
             echo "<table><tr valign=top><td>\n";
 
-            echo "
-                <table cellpadding=10><tr valign=top><td class=button_green>
-                <a href=\"$vbox_url\"><font size=5em><u>"
-                .tra("Download BOINC + VirtualBox")
-                ."</u></font></a>
-                <br>"
-                // "for %s" identifies the operating system, e.g. "for Windows"
-                .sprintf(tra("for %s"), $long_name)
-                ." ($vbox_size MB)"
-                ."<br><span class=note>"
-                .sprintf(tra("BOINC %s"), $num)
-                .", "
-                .sprintf(tra("VirtualBox %s"), $vbox_version)
-                ."</span></td></tr>
-                </table>
-            ";
+            // the current BOINC VBox doesn't work on Win 10
+            // remove this when we make a new release
+            //
+            if (!strstr($client_info, "Windows NT 10")) {
+                echo "
+                    <table cellpadding=10><tr valign=top><td class=button_green>
+                    <a href=\"$vbox_url\"><font size=5em><u>"
+                    .tra("Download BOINC + VirtualBox")
+                    ."</u></font></a>
+                    <br>"
+                    // "for %s" identifies the operating system, e.g. "for Windows"
+                    .sprintf(tra("for %s"), $long_name)
+                    ." ($vbox_size MB)"
+                    ."<br><span class=note>"
+                    .sprintf(tra("BOINC %s"), $num)
+                    .", "
+                    .sprintf(tra("VirtualBox %s"), $vbox_version)
+                    ."</span></td></tr>
+                    </table>
+                ";
+            }
             echo "</td><td>\n";
         }
         echo "
