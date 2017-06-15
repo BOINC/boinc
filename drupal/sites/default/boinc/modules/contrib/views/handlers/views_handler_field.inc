@@ -454,7 +454,7 @@ If you would like to have the characters %5B and %5D please use the html entity 
    * @param $values
    *   An array of all objects returned from the query.
    */
-  function pre_render($values) { }
+  function pre_render(&$values) { }
 
   /**
    * Render the field.

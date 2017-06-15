@@ -45,7 +45,7 @@ class views_handler_field_node_new_comments extends views_handler_field_numeric 
     $this->field_alias = $this->table . '_' . $this->field;
   }
 
-  function pre_render($values) {
+  function pre_render(&$values) {
     global $user;
     if (!$user->uid || empty($values)) {
       return;

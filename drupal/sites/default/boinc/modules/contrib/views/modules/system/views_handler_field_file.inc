@@ -6,7 +6,7 @@ class views_handler_field_file extends views_handler_field {
   /**
    * Constructor to provide additional field to add.
    */
-  function init(&$view, &$options) {
+  function init(&$view, $options) {
     parent::init($view, $options);
     if (!empty($options['link_to_file'])) {
       $this->additional_fields['filepath'] = 'filepath';
