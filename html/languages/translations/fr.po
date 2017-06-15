@@ -1811,7 +1811,7 @@ msgstr "Terminé"
 #: html/inc/result.inc:203 html/inc/result.inc:247
 #: html/user/explain_state.php:62
 msgid "Couldn't send"
-msgstr "Impossible d'envoyer"
+msgstr "Envoi impossible"
 
 #: html/inc/result.inc:208 html/inc/result.inc:271
 msgid "Cancelled by server"
@@ -1823,15 +1823,15 @@ msgstr "Pas démarré avant la date limite - annulé"
 
 #: html/inc/result.inc:216
 msgid "Error while downloading"
-msgstr "Erreur en cours de téléchargement (sens download)"
+msgstr "Erreur lors du chargement (download)"
 
 #: html/inc/result.inc:218
 msgid "Error while computing"
-msgstr "Erreur en cours de calculs"
+msgstr "Erreur lors des calculs"
 
 #: html/inc/result.inc:219
 msgid "Error while uploading"
-msgstr "Erreur en cours de téléchargement (sens upload)"
+msgstr "Erreur lors du téléchargement (upload)"
 
 #: html/inc/result.inc:220
 msgid "Aborted"
