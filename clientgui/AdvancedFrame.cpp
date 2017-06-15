@@ -1274,13 +1274,7 @@ void CAdvancedFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
         );
 
         if (wxYES == iAnswer) {
-            std::string url, name, passwd;
-            pDoc->rpc.acct_mgr_rpc(
-                url.c_str(),
-                name.c_str(),
-                passwd.c_str(),
-                false
-            );
+            pDoc->rpc.acct_mgr_rpc("", "", "", false);
         }
 
         DeleteMenu();

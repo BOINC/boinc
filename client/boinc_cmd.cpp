@@ -481,6 +481,7 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc(am_url, am_name, am_passwd);
         if (!retval) {
             while (1) {
+                printf("polling for reply\n");
                 ACCT_MGR_RPC_REPLY amrr;
                 retval = rpc.acct_mgr_rpc_poll(amrr);
                 if (retval) {

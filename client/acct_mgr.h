@@ -33,11 +33,14 @@ struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
     // were mysterious bugs where setting it to "" didn't work
     //
-    char login_name[256];
+    char login_name[256];   // unique name (could be email addr)
+    char user_name[256];    // non-unique name
     char password_hash[256];
         // md5 of password.lowercase(login_name)
     char opaque[256];
-        // whatever the AMS sends us
+        // opaque data, from the AM, to be included in future AM requests
+    std::string sched_req_opaque;
+        // opaque data to be sent in scheduler requests, in CDATA
     char signing_key[MAX_KEY_LEN];
     char previous_host_cpid[64];
         // the host CPID sent in last RPC
@@ -63,6 +66,12 @@ struct ACCT_MGR_INFO : PROJ_AM {
         if (!strlen(master_url)) return false;
         if (!strlen(login_name)) return false;
         if (!strlen(password_hash)) return false;
+        return true;
+    }
+    inline bool same_am(const char* mu, const char* ln, const char* ph) {
+        if (strcmp(mu, master_url)) return false;
+        if (strcmp(ln, login_name)) return false;
+        if (strcmp(ph, password_hash)) return false;
         return true;
     }
     inline bool get_no_project_notices() {

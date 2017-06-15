@@ -925,6 +925,12 @@ static void handle_project_attach_poll(GUI_RPC_CONN& grc) {
     );
 }
 
+// This RPC, regrettably, serves 3 purposes
+// - to join an account manager
+// - to trigger an RPC to the current account manager
+//   (perhaps with "use_config_file")
+// - to quit an account manager (with null args)
+//
 static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     string url, name, password;
     string password_hash, name_lc;
@@ -973,6 +979,8 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     }
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
+    } else if (!gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str())) {
+        grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
         gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
         grc.mfout.printf("<success/>\n");
