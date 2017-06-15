@@ -706,14 +706,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vbm_popen(command, output, "network throttle group (remove)", false, false);
     }
 
-    // Delete its storage controller(s)
-    //
-    vboxlog_msg("Removing storage controller(s) from VM.");
-    command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"Hard Disk Controller\" ";
-    command += "--remove ";
-
-    vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
 
     if (enable_floppyio) {
         command  = "storagectl \"" + vm_name + "\" ";
@@ -750,14 +742,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
             vbm_popen(command, output, "remove virtual cache disk", false, false);
         }
-    } else {
-        vboxlog_msg("Removing virtual disk drive from VirtualBox.");
-        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        if (delete_media) {
-            command += "--delete ";
-        }
-        vbm_popen(command, output, "remove virtual disk", false, false);
-    }
+    } 
 
     if (enable_floppyio) {
         vboxlog_msg("Removing virtual floppy disk from VirtualBox.");
