@@ -79,23 +79,23 @@ function boinctranslate_admin_settings(&$form_state) {
   );
   $form['transifex']['boinc_translate_transifex_boinc_drupal_resource'] = array(
     '#type' => 'textfield',
-    '#title' => t('Official BOINC Drupal resource'),
+    '#title' => t('Official BOINC Drupal Resource'),
     '#default_value' => $default['transifex_boinc_drupal_resource'],
     '#description' => t('The portion of the Transifex URL that identifies
-      the standard BOINC resource to use for translation of the public
+      the standard BOINC Resource to use for translation of the public
       content defined in the Drupal system.'),
   );
   $form['transifex']['boinc_translate_transifex_standard_resources'] = array(
     '#type' => 'textarea',
-    '#title' => t('Additional BOINC resources'),
+    '#title' => t('Additional BOINC Resources'),
     '#default_value' => $default['transifex_boinc_resources'],
-    '#description' => t('List additional BOINC Transifex resources to be used
-      for translating strings on this site (one resource string per line).
+    '#description' => t('List additional BOINC Transifex Resources to be used
+      for translating strings on this site (one Resource string per line).
       Resources will be imported in the order they are given, so
-      translations from the resources at the top of the list will be overridden
-      by any matching translations found in resources further down the list.
-      Note that strings from the Official BOINC Drupal resource will override
-      any strings from these additional resources.'),
+      translations from the Resources at the top of the list will be overridden
+      by any matching translations found in Resources further down the list.
+      Note that strings from the Official BOINC Drupal Resource will override
+      any strings from these additional Resources.'),
   );
   $form['transifex']['boinc_translate_transifex_project_name'] = array(
     '#type' => 'textfield',
@@ -105,17 +105,17 @@ function boinctranslate_admin_settings(&$form_state) {
   );
   $form['transifex']['boinc_translate_transifex_project_resources'] = array(
     '#type' => 'textarea',
-    '#title' => t('Project-specific resources'),
+    '#title' => t('Project-specific Resources'),
     '#default_value' => $default['transifex_project_resources'],
-    '#description' => t('List project-specific Transifex resources to be used
-      for translating strings on this site (one resource string per line).
+    '#description' => t('List project-specific Transifex Resources to be used
+      for translating strings on this site (one Resource string per line).
       Resources will be imported in the order they are given, so
-      translations from the resources at the top of the list will be overridden
-      by any matching translations found in resources further down the list.
+      translations from the Resources at the top of the list will be overridden
+      by any matching translations found in Resources further down the list.
       <br/>
-      NOTE: The first resource listed here is considered the primary resource
+      NOTE: The first Resource listed here is considered the primary Resource
       for project-specific translations and will be updated by the "Update
-      project-specific resources" button below!'),
+      project-specific Resources" button below!'),
   );
   $form['transifex']['buttons']['submit'] = array(
     '#type' => 'submit',
@@ -130,6 +130,11 @@ function boinctranslate_admin_settings(&$form_state) {
     '#collapsed' => FALSE,
     '#attributes' => array('class' => '')
   );
+  $form['tools']['initialize_languages_text'] = array(
+    '#type' => 'item',
+    '#title' => t('Install official BOINC languages'),
+    '#value' => t('Installs all languages from the BOINC Transifex project. Also installs missing languages in Drupal. <br>Languages must be enabled manually in Administer > Site configuration > Languages.'),
+  );
   $form['tools']['initialize_languages'] = array(
     '#type' => 'button',
     '#value' => t('Install official BOINC languages'),
@@ -137,12 +142,10 @@ function boinctranslate_admin_settings(&$form_state) {
     '#submit' => array('boinctranslate_admin_settings_initialize_languages'),
     '#disabled' => !$initialized,
   );
-  $form['tools']['export_now'] = array(
-    '#type' => 'button',
-    '#value' => t('Update project-specific resources'),
-    '#executes_submit_callback' => TRUE,
-    '#submit' => array('boinctranslate_admin_settings_export_now'),
-    '#disabled' => !$import_enabled,
+  $form['tools']['import_now_text'] = array(
+    '#type' => 'item',
+    '#title' => t('Import all translations'),
+    '#value' => t('Imports from Tranifex all configured Resources into their respective text groups.'),
   );
   $form['tools']['import_now'] = array(
     '#type' => 'button',
@@ -151,7 +154,36 @@ function boinctranslate_admin_settings(&$form_state) {
     '#submit' => array('boinctranslate_admin_settings_import_now'),
     '#disabled' => !$import_enabled,
   );
+  $form['tools']['download_boinc_pot_text'] = array(
+    '#type' => 'item',
+    '#title' => t('Download official BOINC-Drupal .pot'),
+    '#value' => t('Downloads the generic BOINC-Drupal .pot file. This is the template file for the boinc text group.'),
+  );
+  $form['tools']['download_boinc_pot'] = array(
+    '#type' => 'button',
+    '#value' => t('Download official BOINC-Drupal .pot'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_download_boinc_pot'),
+    '#disabled' => !$import_enabled,
+  );
+  $form['tools']['download_project_pot_text'] = array(
+    '#type' => 'item',
+    '#title' => t('Download project-specific .pot'),
+    '#value' => t('Downloads the project-specific .pot file. This is the template file for the project text group.'),
+  );
+  $form['tools']['download_project_pot'] = array(
+    '#type' => 'button',
+    '#value' => t('Download project-specific .pot'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_download_project_pot'),
+    '#disabled' => !$import_enabled,
+  );
   if (user_access('update official BOINC translations')) {
+    $form['tools']['update_official_boinc_text'] = array(
+      '#type' => 'item',
+      '#title' => t('Update official BOINC translations'),
+      '#value' => t('Updates the official BOINC-Drupal Resource (translatable strings templates) to the BOINC Transifex project, based on the consolidated imported translations.<br><b>WARNING: Do not use unless you have write-access to the BOINC Transifex project.</b>'),
+    );
     $form['tools']['update_official_boinc'] = array(
       '#type' => 'button',
       '#value' => t('Update official BOINC translations'),
@@ -160,18 +192,16 @@ function boinctranslate_admin_settings(&$form_state) {
       '#disabled' => !$import_enabled,
     );
   }
-  $form['tools']['download_boinc_pot'] = array(
-    '#type' => 'button',
-    '#value' => t('Download official BOINC .pot'),
-    '#executes_submit_callback' => TRUE,
-    '#submit' => array('boinctranslate_admin_settings_download_boinc_pot'),
-    '#disabled' => !$import_enabled,
+  $form['tools']['export_now_text'] = array(
+    '#type' => 'item',
+    '#title' => t('Update project-specific Resources'),
+    '#value' => t('Updates the configured Resources (translatable strings templates) to the project\'s Transifex project.<br><b>WARNING: Do not use unless you have write-access to your project\'s Transifex project.</b>'),
   );
-  $form['tools']['download_project_pot'] = array(
+  $form['tools']['export_now'] = array(
     '#type' => 'button',
-    '#value' => t('Download project-specific .pot'),
+    '#value' => t('Update project-specific Resources'),
     '#executes_submit_callback' => TRUE,
-    '#submit' => array('boinctranslate_admin_settings_download_project_pot'),
+    '#submit' => array('boinctranslate_admin_settings_export_now'),
     '#disabled' => !$import_enabled,
   );
   
@@ -232,12 +262,12 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   }
   if (!$values['boinc_translate_transifex_standard_resources']) {
     form_set_error('boinc_translate_transifex_standard_resources',
-      t('At least one BOINC Transifex project resource is required.')
+      t('At least one BOINC Transifex project Resource is required.')
     );
   }
   if (!$values['boinc_translate_transifex_project_resources']) {
     form_set_error('boinc_translate_transifex_project_resources',
-      t('At least one project-specific Transifex resource is required.')
+      t('At least one project-specific Transifex Resource is required.')
     );
   }
   

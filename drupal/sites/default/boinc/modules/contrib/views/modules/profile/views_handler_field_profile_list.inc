@@ -6,7 +6,7 @@ class views_handler_field_profile_list extends views_handler_field_prerender_lis
   /**
    * Break up our field into a proper list.
    */
-  function pre_render($values) {
+  function pre_render(&$values) {
     $this->items = array();
     foreach ($values as $value) {
       $field = $value->{$this->field_alias};
