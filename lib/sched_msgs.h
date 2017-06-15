@@ -31,7 +31,8 @@ class SCHED_MSG_LOG : public MSG_LOG {
     bool v_message_wanted(int kind) const;
 public:
     enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG, MSG_DETAIL };
-    SCHED_MSG_LOG(FILE* f): MSG_LOG(f) { debug_level = MSG_NORMAL; }
+    SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
+    void set_file(FILE* f) {output=f;}
     void set_debug_level(int new_level) { debug_level = new_level; }
     bool debug() {return debug_level >= MSG_DEBUG;}
     bool detail() {return debug_level >= MSG_DETAIL;}
