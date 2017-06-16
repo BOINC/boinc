@@ -979,7 +979,10 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     }
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
-    } else if (!gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str())) {
+    } else if (gstate.acct_mgr_info.using_am()
+        && !url.empty()
+        && !gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str())
+    ){
         grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
         gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
