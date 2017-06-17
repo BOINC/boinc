@@ -35,7 +35,6 @@ require_once("../inc/bootstrap.inc");
 //
 $config = get_config();
 $master_url = parse_config($config , "<master_url>");
-$no_computing =  parse_bool($config, "no_computing");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
@@ -79,6 +78,9 @@ if (!defined('LDAP_HOST')) {
 }
 if (!defined('POSTAL_CODE')) {
     define('POSTAL_CODE', false);
+}
+if (!defined('NO_COMPUTING')) {
+    define('NO_COMPUTING', false);
 }
 
 // sleep this long on any login failure
@@ -539,11 +541,6 @@ function check_tokens($auth) {
     error_page(
         tra("Link has timed out. Please click Back, refresh the page, and try again.")
     );
-}
-
-function no_computing() {
-    global $no_computing;
-    return $no_computing;
 }
 
 // Generates a legal filename from a parameter string.

@@ -254,7 +254,7 @@ function show_user_info_private($user) {
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(
             tra("Account keys"),
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
@@ -262,7 +262,7 @@ function show_user_info_private($user) {
     }
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(
             tra("When and how BOINC uses your computer"),
             "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
@@ -271,7 +271,7 @@ function show_user_info_private($user) {
     row2(tra("Message boards and private messages"),
         "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
     );
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(tra("Preferences for this project"),
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
@@ -432,12 +432,12 @@ function show_user_summary_public($user) {
     // don't show URL if user has no recent credit (spam suppression)
     //
     if (strlen($user->url)) {
-        if (no_computing() || $user->expavg_credit > 1) {
+        if (!NO_COMPUTING || $user->expavg_credit > 1) {
             $u = normalize_user_url($user->url);
             row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }
     }
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         show_credit($user);
 
         if ($user->show_hosts) {
@@ -532,7 +532,7 @@ function show_account_private($user) {
         function() use ($user) {
             start_table();
             show_user_info_private($user);
-            if (!no_computing()) {
+            if (!NO_COMPUTING) {
                 show_user_stats_private($user);
             }
 
