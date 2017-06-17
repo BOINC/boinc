@@ -1416,11 +1416,27 @@ bool CLIENT_STATE::garbage_collect() {
     // because detach_project() calls garbage_collect_always(),
     // and we need to avoid infinite recursion
     //
-    for (unsigned i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->detach_when_done && !nresults_for_project(p)) {
-            detach_project(p);
-            action = true;
+    if (acct_mgr_info.using_am()) {
+        // If we're using an AM,
+        // start an AM RPC rather than detaching the projects;
+        // the RPC completion handler will detach them.
+        // This way the AM will be informed of their work done.
+        //
+        for (unsigned i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            if (p->detach_when_done && !nresults_for_project(p)) {
+                acct_mgr_info.next_rpc_time = 0;
+                acct_mgr_info.poll();
+                break;
+            }
+        }
+    } else {
+        for (unsigned i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            if (p->detach_when_done && !nresults_for_project(p)) {
+                detach_project(p);
+                action = true;
+            }
         }
     }
 #endif
