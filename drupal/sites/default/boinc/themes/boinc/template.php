@@ -206,8 +206,24 @@ function boinc_preprocess_page(&$vars, $hook) {
   }
   $vars['app_list_url'] = $app_list_url;
 
-  // Remove title from search page
-  if (arg(0) == 'search') {
+  // Remove title from certain pages using URL.
+  // This is a kludge to remove the title of the page but not the
+  // "head_title" which is placed in the HTML <head> section. Most of
+  // these pages are defined in the Page Manager module.
+  // See: https://dev.gridrepublic.org/browse/DBOINC-65
+  if (arg(0) == 'search') { 
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (is_numeric(arg(1))) AND (empty(arg(2))) ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (arg(1)=='profile') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='dashboard') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='community') AND ( (arg(1)=='teams') OR (arg(1)=='stats') ) ) {
     unset($vars['title']);
   }
 
