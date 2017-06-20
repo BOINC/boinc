@@ -297,15 +297,22 @@ function form_end() {
     ';
 }
 
+define('FORM_LEFT_CLASS', 'col-sm-5');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-5');
+define('FORM_RIGHT_CLASS', 'col-sm-7');
+
 function form_input_text($label, $name, $value='', $type='text', $attrs='') {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <input '.$attrs.' type="'.$type.'" class="form-control" id="'.$name.'" name="'.$name.'" value="'.$value.'">
+            <label class="control-label %s">%s</label>
+            <div class="%s">
+                <input %s type="%s" class="form-control" name="%s" value="%s">
             </div>
         </div>
-    ';
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
+        $attrs, $type, $name, $value
+    );
 }
 
 // display name/value with same formatting as form
@@ -313,33 +320,38 @@ function form_input_text($label, $name, $value='', $type='text', $attrs='') {
 function form_attr($name, $value) {
     echo sprintf('
         <div class="form-group">
-            <div class="col-sm-2 text-right">%s</div>
-            <div class="col-sm-10">%s</div>
+            <div class="%s text-right">%s</div>
+            <div class="%s">%s</div>
         </div>
-    ', $name, $value
+        ',
+        FORM_LEFT_CLASS, $name, FORM_RIGHT_CLASS, $value
     );
 }
 
 function form_input_textarea($label, $name, $value='') {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">'.$value.'</textarea>
+            <label class="control-label %s" for="%s">%s</label>
+            <div class="%s">
+                <textarea rows="6" class="form-control" id="%s" name="%s">%s</textarea>
             </div>
         </div>
-    ';
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $value
+    );
 }
 
 // $items is either a string of <option> elements, or an array
 //
 function form_select($label, $name, $items) {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <select class="form-control" id="'.$name.'" name="'.$name.'">
-    ';
+            <label class="control-label %s" for="%s">%s</label>
+            <div class="%s">
+                <select class="form-control" id="%s" name="%s">
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+    );
     if (is_array($items)) {
         foreach ($items as $i) {
             echo '<option value="'.$i[0].'">'.$i[1].'</option>
@@ -355,12 +367,14 @@ function form_select($label, $name, $items) {
 // flags, if non-null, says which ones are selected
 //
 function form_select_multiple($label, $name, $items, $flags) {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <select multiple class="form-control" id="'.$name.'" name="'.$name.'[]">
-    ';
+            <label class="control-label %s" for="%s">%s</label>
+            <div class="%s">
+                <select multiple class="form-control" id="%s" name="%s[]">
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+    );
     $n = 0;
     foreach ($items as $i) {
         $s = ($flags && $flags[$n])?'selected':'';
@@ -371,14 +385,77 @@ function form_select_multiple($label, $name, $items, $flags) {
     echo "</select></div></div>\n";
 }
 
-function form_submit($text) {
-    echo '
+// $items is list of (name, label)
+//
+function form_checkboxes($label, $items) {
+    echo sprintf('
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success">'.$text.'</button>
-            </div>
+            <label class="control-label %s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    foreach ($items as $i) {
+        echo sprintf('<input type="checkbox" name="%s"> %s <br>
+            ',
+            $i[0], $i[1]
+        );
+    }
+    echo '</div>
         </div>
     ';
+}
+
+// $items is list of (value, label)
+//
+function form_radio_buttons($label, $name, $items) {
+    echo sprintf('
+        <div class="form-group">
+            <label class="control-label %s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    foreach ($items as $i) {
+        echo sprintf('<input type="radio" name="%s" value="%s"> %s <br>
+            ',
+            $name, $i[0], $i[1]
+        );
+    }
+    echo '</div>
+        </div>
+    ';
+}
+
+function form_general($label, $item) {
+    echo '
+        <div class="form-group">
+    ';
+    if (strlen($label)) {
+        echo sprintf(
+'           <label class="control-label %s">%s</label>
+            <div class="%s">%s</div>
+        ',
+            FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS, $item
+        );
+    } else {
+        echo sprintf(
+'           <div class="%s %s">%s</div>
+        ',
+            FORM_LEFT_OFFSET, FORM_RIGHT_CLASS, $item
+        );
+    }
+    echo '</div>
+';
+}
+
+function form_submit($text) {
+    form_general(
+        "",
+        sprintf('<button type="submit" class="btn btn-success">%s</button>',
+            $text
+        )
+    );
 }
 
 function form_checkbox($label, $name, $checked=false) {

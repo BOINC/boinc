@@ -42,10 +42,10 @@ page_head(
     tra("Create account"), null, null, null, boinc_recaptcha_get_head_extra()
 );
 
-if (!no_computing()) {
+if (!NO_COMPUTING) {
     echo "<p class=\"lead\">"
         .tra(
-            "NOTE: to run %1 on your computer, %2go here%3 instead of using this form.",
+            "If you already have an account and want to run %1 on this computer, %2go here%3.",
             PROJECT,
             '<a href=join.php>',
             '</a>'
@@ -66,7 +66,13 @@ if ($teamid) {
     }
 }
 
+form_start("create_account_action.php","post");
 create_account_form($teamid, $next_url);
+if ($recaptcha_public_key) {
+    form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+}
+form_submit(tra("Create account"));
+form_end();
 
 page_tail();
 
