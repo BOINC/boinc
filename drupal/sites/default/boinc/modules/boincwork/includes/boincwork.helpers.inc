@@ -1761,15 +1761,14 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   // Begin result navigation
 
   // Set pathprefix based on type
-  // @todo - change tasktable to new string based on new routing
   if ($category==0) {
-    $pathprefix = 'account/tasktable';
+    $pathprefix = 'account/tasks';
   }
   elseif ($category==1) {
-    $pathprefix = 'workunit/' . $queryid . '/tasktable';
+    $pathprefix = 'workunit/' . $queryid . '/tasks';
   }
   elseif ($category==2) {
-    $pathprefix = 'host/' . $queryid . '/tasktable';
+    $pathprefix = 'host/' . $queryid . '/tasks';
   }
   // Need an "All" tab as well, maps to app_id of zero.
   $application_map[0] = bts('All', array(), NULL, 'boinc:task-table');

@@ -3248,7 +3248,7 @@ function work_and_host_stats_views_default_views() {
     $host->id = $data->id;
     $nresults = host_nresults($host);
     if ($nresults) {
-      echo l($nresults, "host/{$host->id}/tasks");
+      echo l($nresults, "host/{$host->id}/tasks/0/0");
     }
   //}
 ?>',

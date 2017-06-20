@@ -163,7 +163,7 @@ function boincwork_menu() {
     'type' => MENU_CALLBACK
   );
   // @todo - change URL of routes
-  $items['account/tasktable/%/%'] = array(
+  $items['account/tasks/%/%'] = array(
     'title' => 'Account Tasks Table',
     'description' => '',
     'page callback' => 'boincwork_account_task_table',
@@ -171,7 +171,7 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  $items['host/%/tasktable/%/%'] = array(
+  $items['host/%/tasks/%/%'] = array(
     'title' => 'Host Tasks Table',
     'description' => '',
     'page callback' => 'boincwork_host_task_table',
@@ -179,14 +179,15 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  $items['workunit/%/tasktable/%/%'] = array(
-    'title' => 'Workunit Tasks Table',
-    'description' => '',
-    'page callback' => 'boincwork_workunit_task_table',
-    'page arguments' => array(1,3,4),
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
+  // Workunit task table disabled
+  //$items['workunit/%/tasks/%/%'] = array(
+  //  'title' => 'Workunit Tasks Table',
+  //  'description' => '',
+  //  'page callback' => 'boincwork_workunit_task_table',
+  //  'page arguments' => array(1,3,4),
+  //  'access arguments' => array('access content'),
+  //  'type' => MENU_CALLBACK,
+  //);
   return $items;
 }
 
