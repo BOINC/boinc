@@ -706,15 +706,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vbm_popen(command, output, "network throttle group (remove)", false, false);
     }
 
-    // Delete its storage controller(s)
-    //
-    vboxlog_msg("Removing storage controller(s) from VM.");
-    command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"Hard Disk Controller\" ";
-    command += "--remove ";
-
-    vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
-
     if (enable_floppyio) {
         command  = "storagectl \"" + vm_name + "\" ";
         command += "--name \"Floppy Controller\" ";
@@ -750,13 +741,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
             vbm_popen(command, output, "remove virtual cache disk", false, false);
         }
-    } else {
-        vboxlog_msg("Removing virtual disk drive from VirtualBox.");
-        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        if (delete_media) {
-            command += "--delete ";
-        }
-        vbm_popen(command, output, "remove virtual disk", false, false);
     }
 
     if (enable_floppyio) {
@@ -851,9 +835,7 @@ int VBOX_VM::poll(bool log_state) {
     string output;
     string::iterator iter;
     string vmstate;
-    static string vmstate_old = "poweroff";
-    size_t vmstate_start;
-    size_t vmstate_end;
+    static string vmstate_old = "PoweredOff";
 
     boinc_get_init_data_p(&aid);
 
@@ -876,123 +858,124 @@ int VBOX_VM::poll(bool log_state) {
     //
     // What state is the VM in?
     //
+    vmstate =read_vm_log();
+    if (vmstate != "Error in parsing the log file") {
 
-    command  = "showvminfo \"" + vm_name + "\" ";
-    command += "--machinereadable ";
+		// VirtualBox Documentation suggests that that a VM is running when its
+		// machine state is between MachineState_FirstOnline and MachineState_LastOnline
+		// which as of this writing is 5 and 17.
+		//
+		// VboxManage's source shows more than that though:
+		// see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
+		//
+		// So for now, go with what VboxManage is reporting.
+		//
+		if (vmstate == "Running") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "Paused") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = true;
+			crashed = false;
+		}
+		else if (vmstate == "Saved") {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = true;
+			crashed = false;
+		}
+		else if (vmstate == "Starting") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "Stopping") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "Saving") {
+			online = true;
+			saving = true;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "Restoring") {
+			online = true;
+			saving = false;
+			restoring = true;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "LiveSnapshotting") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "DeletingsnapshotOnline") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "DeletingSnapshotPaused") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "Aborted") {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = true;
+		}
+		else if (vmstate == "Stuck") {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = true;
+		}
+		else {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+			if (log_state) {
+				vboxlog_msg("VM is no longer is a running state. It is in '%s'.", vmstate.c_str());
+			}
+		}
+		if (log_state && (vmstate_old != vmstate)) {
+			vboxlog_msg("VM state change detected. (old = '%s', new = '%s')", vmstate_old.c_str(), vmstate.c_str());
+			vmstate_old = vmstate;
+		}
 
-    if (vbm_popen(command, output, "VM state", false, false, 45, false) == 0) {
-        vmstate_start = output.find("VMState=\"");
-        if (vmstate_start != string::npos) {
-            vmstate_start += 9;
-            vmstate_end = output.find("\"", vmstate_start);
-            vmstate = output.substr(vmstate_start, vmstate_end - vmstate_start);
-
-            // VirtualBox Documentation suggests that that a VM is running when its
-            // machine state is between MachineState_FirstOnline and MachineState_LastOnline
-            // which as of this writing is 5 and 17.
-            //
-            // VboxManage's source shows more than that though:
-            // see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
-            //
-            // So for now, go with what VboxManage is reporting.
-            //
-            if (vmstate == "running") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "paused") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = true;
-                crashed = false;
-            } else if (vmstate == "starting") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "stopping") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "saving") {
-                online = true;
-                saving = true;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "restoring") {
-                online = true;
-                saving = false;
-                restoring = true;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "livesnapshotting") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "deletingsnapshotlive") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "deletingsnapshotlivepaused") {
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-            } else if (vmstate == "aborted") {
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = true;
-            } else if (vmstate == "gurumeditation") {
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = true;
-            } else {
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                if (log_state) {
-                    vboxlog_msg("VM is no longer is a running state. It is in '%s'.", vmstate.c_str());
-                }
-            }
-            if (log_state && (vmstate_old != vmstate)) {
-                vboxlog_msg("VM state change detected. (old = '%s', new = '%s')", vmstate_old.c_str(), vmstate.c_str());
-                vmstate_old = vmstate;
-            }
-
-            retval = BOINC_SUCCESS;
+		retval = BOINC_SUCCESS;
+	}
+        else
+        {
+            vboxlog_msg("Error in parsing the log file");
         }
-    }
-
-    //
-    // Grab a snapshot of the latest log file.  Avoids multiple queries across several
-    // functions.
-    //
-    get_vm_log(vm_log);
-
-    //
-    // Dump any new VM Guest Log entries
-    //
-    dump_vmguestlog_entries();
-
-    return retval;
+        return retval;
 }
 
 int VBOX_VM::start() {
@@ -1004,8 +987,8 @@ int VBOX_VM::start() {
 
     boinc_get_init_data_p(&aid);
 
-
-    vboxlog_msg("Starting VM. (%s, slot#%d)", vm_name.c_str(), aid.slot);
+    log_pointer = 0;
+    vboxlog_msg("Starting VM using VBoxManage interface. (%s, slot#%d)", vm_name.c_str(), aid.slot);
 
 
     command = "startvm \"" + vm_name + "\"";
@@ -1057,7 +1040,6 @@ int VBOX_VM::stop() {
         if (!retval) {
             timeout = dtime() + 300;
             do {
-                poll(false);
                 if (!online && !saving) break;
                 boinc_sleep(1.0);
             } while (timeout >= dtime());
@@ -1100,7 +1082,6 @@ int VBOX_VM::poweroff() {
         if (!retval) {
             timeout = dtime() + 300;
             do {
-                poll(false);
                 if (!online && !saving) break;
                 boinc_sleep(1.0);
             } while (timeout >= dtime());
@@ -1174,7 +1155,7 @@ int VBOX_VM::capture_screenshot() {
             vboxlog_msg("Capturing screenshot.");
 
             command = "controlvm \"" + vm_name + "\" ";
-            command += "keyboardputscancode 0x39";
+            command += "keyboardputscancode 39";
             vbm_popen(command, output, "put scancode", true, true, 0);
             boinc_sleep(1);
 
@@ -1218,10 +1199,6 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     // Resume VM
     resume();
-
-    // Set the suspended flag back to false before deleting the stale
-    // snapshot
-    poll(false);
 
     // Delete stale snapshot(s), if one exists
     cleanup_snapshots(false);
@@ -1721,41 +1698,53 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_vm_process_id() {
-    string output;
-    string pid;
-    size_t pid_start;
-    size_t pid_end;
+	string virtualbox_vm_log;
+	string::iterator iter;
+	int retval = BOINC_SUCCESS;
+	string line;
+	string comp = "Process ID: ";
+	string pid;
+	size_t pid_start;
+	size_t pid_end;
+	std::size_t found;
 
-    get_vm_log(output, false);
 
-    // Output should look like this:
-    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
-    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
-    // 00:00:06.008 OS Product: Windows 7
-    // 00:00:06.009 OS Release: 6.1.7601
-    // 00:00:06.009 OS Service Pack: 1
-    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
-    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
-    // 00:00:06.015 Process ID: 6128
-    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
-    // 00:00:06.015 Installed Extension Packs:
-    // 00:00:06.015   None installed!
-    //
-    pid_start = output.find("Process ID: ");
-    if (pid_start == string::npos) {
-        return ERR_NOT_FOUND;
-    }
-    pid_start += strlen("Process ID: ");
-    pid_end = output.find("\n", pid_start);
-    pid = output.substr(pid_start, pid_end - pid_start);
-    strip_whitespace(pid);
-    if (pid.size() <= 0) {
-        return ERR_NOT_FOUND;
-    }
+	virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-    vm_pid = atol(pid.c_str());
+	if (boinc_file_exists(virtualbox_vm_log.c_str())) {
 
-    return 0;
+		std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
+		while (std::getline(src, line))
+		{
+
+			found = line.find(comp);
+			if (found != string::npos){
+
+				pid_start = found;//line.find("Process ID: ");
+				if (pid_start == string::npos) {
+					vboxlog_msg("Something wrong with the process ID finding\n %s ", line.c_str());
+					return ERR_NOT_FOUND;
+				}
+				pid_start += strlen("Process ID: ");
+				pid_end = line.find("\n", pid_start);
+				pid = line.substr(pid_start, string::npos);
+				strip_whitespace(pid);
+				if (pid.size() <= 0) {
+					return ERR_NOT_FOUND;
+				}
+
+				vm_pid = atol(pid.c_str());
+				break;
+			}
+		}
+
+		if (pid.size() <= 0) {
+		     retval ERR_NOT_FOUND;
+	        }
+	}
+	else retval = ERR_NOT_FOUND;
+
+	return retval;
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
@@ -1914,3 +1903,4 @@ void VBOX_VM::reset_vm_process_priority() {
 }
 
 }
+

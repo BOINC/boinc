@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef BOINC_VBOX_COMMON_H
-#define BOINC_VBOX_COMMON_H
+#ifndef _VBOX_COMMON_H_
+#define _VBOX_COMMON_H_
 
 #include "vboxjob.h"
 
@@ -153,6 +153,10 @@ public:
     int rd_host_port;
     bool headless;
 
+
+    std::streamoff log_pointer;
+    std::string state;
+
     int vm_pid;
     int vboxsvc_pid;
 #ifdef _WIN32
@@ -179,7 +183,7 @@ public:
     virtual int poweroff() = 0;
     virtual int pause() = 0;
     virtual int resume() = 0;
-	virtual int capture_screenshot() = 0;
+    virtual int capture_screenshot() = 0;
     virtual int create_snapshot(double elapsed_time) = 0;
     virtual int cleanup_snapshots(bool delete_active) = 0;
     virtual int restore_snapshot() = 0;
@@ -190,7 +194,9 @@ public:
     virtual void dump_hypervisor_logs(bool include_error_logs);
     virtual void dump_hypervisor_status_reports() = 0;
     virtual void dump_vmguestlog_entries();
-	virtual int dump_screenshot();
+    virtual int dump_screenshot();
+    virtual std::string read_vm_log();
+
 
     virtual int is_registered() = 0;
     virtual bool is_system_ready(std::string& message) = 0;
@@ -239,13 +245,26 @@ public:
     virtual int launch_vboxvm();
 
     int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
+        std::string& command, std::string& output, const char* item,
+	bool log_error = true, bool retry_failures = true,
+	unsigned int timeout = 45, bool log_trace = true
     );
     int vbm_popen_raw(
-        std::string& command, std::string& output, unsigned int timeout
+        std::string& command, std::string& output , unsigned int timeout
     );
     static void vbm_replay(std::string& command);
     static void vbm_trace(std::string& command, std::string& ouput, int retval);
+
+    virtual std::string get_error(int choice);
+	
+    virtual void report_clean(bool unrecoverable_error, bool skip_cleanup, bool do_dump_hypervisor_logs, 
+                                      int retval, std::string error_reason,
+                                      int vm_pid, int temp_delay, const char*  temp_reason,
+                                      double current_cpu_time,
+                                      double last_checkpoint_cpu_time,
+                                      double fraction_done,
+                                      double bytes_sent,
+                                      double bytes_received);
 };
 
 class VBOX_VM : public VBOX_BASE {

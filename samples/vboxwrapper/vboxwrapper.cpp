@@ -80,11 +80,17 @@
 #include "vboxcheckpoint.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
+//Use of COM_OFF to choose between COM 
+//and VboxManage interfaces
+//
+//Default is COM
 #ifdef _WIN32
+#ifndef COM_OFF
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
 #include "vbox_mscom50.h"
 #include "vbox_mscom51.h"
+#endif
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -418,7 +424,8 @@ int main(int argc, char** argv) {
 
     // Log banner
     //
-    vboxlog_msg("vboxwrapper (%d.%d.%d): starting", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, VBOXWRAPPER_RELEASE);
+	vboxlog_msg("Detected: vboxwrapper %d", VBOXWRAPPER_RELEASE);
+	vboxlog_msg("Detected: BOINC client v%d.%d", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION);
 
     // Initialize system services
     // 
@@ -439,7 +446,9 @@ int main(int argc, char** argv) {
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
 
+    //Use COM_OFF to choose how we initialize() the VM
 #ifdef _WIN32
+#ifndef COM_OFF
     // Determine what version of VirtualBox we are using via the registry. Use a
     // namespace specific version of the function because VirtualBox has been known
     // to change the registry location from time to time.
@@ -482,15 +491,19 @@ int main(int argc, char** argv) {
 		}
     }
 #endif
+#endif
     // Initialize VM Hypervisor
     //
     if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
         retval = pVM->initialize();
         if (retval) {
-            vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
-            pVM->dump_hypervisor_logs(true);
-            boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+            vboxlog_msg("ERROR: VM initialization failed with return code: %s", retval);
+	    //Chose not to postpone the task but rather just fail it. In the majority of cases 
+	    //if the hypervisor does not get initialized correctly the configuration is wrong 
+	    //and it will just keep failing to initialize.
+	    //
+	    boinc_finish(retval);
         }
     }
 
@@ -512,25 +525,6 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--register_only")) {
             pVM->register_only = true;
         }
-    }
-
-    // Choose a random interleave value for checkpoint intervals
-    // to stagger disk I/O.
-    // 
-    srand((int)getpid());
-    random_checkpoint_factor = drand() * 600;
-
-    vboxlog_msg(
-        "Feature: Checkpoint interval offset (%d seconds)",
-        (int)random_checkpoint_factor
-    );
-
-    // Display trickle value if specified
-    //
-    if (trickle_period > 0.0) {
-        vboxlog_msg(
-            "Feature: Enabling trickle-ups (Interval: %f)", trickle_period
-        );
     }
 
     // Check for architecture incompatibilities
@@ -595,8 +589,11 @@ int main(int argc, char** argv) {
     // reboot and the system needs a little bit of time.
     //
     if (!pVM->is_system_ready(message)) {
-        vboxlog_msg("Could not communicate with VM Hypervisor. Rescheduling execution for a later date.");
-        boinc_temporary_exit(86400, message.c_str());
+
+	//If we can't even run the initial command there is no point in postponing for
+	//24 hours. We might as well abort the task. 
+        vboxlog_msg("ERROR: VBoxManage list hostinfo failed");
+	boinc_finish(1);
     }
 
     // Parse Job File
@@ -606,11 +603,7 @@ int main(int argc, char** argv) {
         vboxlog_msg("ERROR: Cannot parse job file: %d", retval);
         boinc_finish(retval);
     }
-
-    // Record what the minimum checkpoint interval is.
-    //
-    vboxlog_msg("Detected: Minimum checkpoint interval (%f seconds)", pVM->minimum_checkpoint_interval);
-
+    
     // Record what the minimum heartbeat interval is.
     //
     if (pVM->heartbeat_filename.size()) {
@@ -735,17 +728,47 @@ int main(int argc, char** argv) {
         pVM->headless = false;
     }
 
-    // Restore from checkpoint
-    //
-    checkpoint.parse();
-    pVM->pf_host_port = checkpoint.webapi_port;
-    pVM->rd_host_port = checkpoint.remote_desktop_port;
-    elapsed_time = checkpoint.elapsed_time;
-    starting_cpu_time = checkpoint.cpu_time;
-    current_cpu_time = starting_cpu_time;
-    last_checkpoint_elapsed_time = elapsed_time;
-    last_heartbeat_elapsed_time = elapsed_time;
-    last_checkpoint_cpu_time = starting_cpu_time;
+	// Restore from checkpoint
+	//
+	checkpoint.parse();
+	pVM->pf_host_port = checkpoint.webapi_port;
+	pVM->rd_host_port = checkpoint.remote_desktop_port;
+	elapsed_time = checkpoint.elapsed_time;
+	starting_cpu_time = checkpoint.cpu_time;
+	current_cpu_time = starting_cpu_time;
+	last_checkpoint_elapsed_time = elapsed_time;
+	last_heartbeat_elapsed_time = elapsed_time;
+	last_checkpoint_cpu_time = starting_cpu_time;
+
+
+	// We only have to do this if we are using checkpointing
+	//
+	// Choose a random interleave value for checkpoint intervals
+	// to stagger disk I/O.
+	// 
+	if (!pVM->disable_automatic_checkpoints) {
+		srand((int)getpid());
+		random_checkpoint_factor = drand() * 600;
+
+		vboxlog_msg(
+			"Feature: Checkpoint interval offset (%d seconds)",
+			(int)random_checkpoint_factor
+			);
+
+		// Display trickle value if specified
+		//
+		if (trickle_period > 0.0) {
+			vboxlog_msg(
+				"Feature: Enabling trickle-ups (Interval: %f)", trickle_period
+				);
+		}
+
+		// Record what the minimum checkpoint interval is.
+		//
+		vboxlog_msg("Detected: Minimum checkpoint interval (%f seconds)", pVM->minimum_checkpoint_interval);
+
+	}
+
 
     // Should we even try to start things up?
     //
@@ -756,6 +779,7 @@ int main(int argc, char** argv) {
     retval = pVM->run(current_cpu_time > 0);
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
+	vboxlog_msg("ERROR: VM failed to start");
         bool   unrecoverable_error = true;
         bool   skip_cleanup = false;
         bool   do_dump_hypervisor_logs = false;
@@ -763,96 +787,40 @@ int main(int argc, char** argv) {
         const char*  temp_reason = "";
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
-            error_reason =
-                "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This is a temporary problem and so this job will be rescheduled for another time.\n";
+			error_reason = pVM->get_error(0);
             unrecoverable_error = false;
-            temp_reason = "VM environment needed to be cleaned up.";
+            temp_reason = pVM->get_error(10).c_str();
         } else if (ERR_NOT_EXITED == retval) {
-            error_reason =
-                "   NOTE: VM was already running.\n"
-                "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
+			error_reason = pVM->get_error(1);
             unrecoverable_error = false;
-            temp_reason = "VM environment needed to be cleaned up.";
+			temp_reason = pVM->get_error(10).c_str();
         } else if (ERR_INVALID_PARAM == retval) {
-            error_reason =
-                "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
-                "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
-                "    Please report this issue to the project so that it can be addresssed.\n"
-                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
+			error_reason = pVM->get_error(2);
             skip_cleanup = true;
             retval = ERR_EXEC;
         } else if (retval == (int)RPC_S_SERVER_UNAVAILABLE) {
-            error_reason =
-                "    VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n"
-                "    operation and this job cannot be recovered.\n";
+			error_reason = pVM->get_error(3);
             skip_cleanup = true;
             retval = ERR_EXEC;
         } else if (retval == (int)VBOX_E_INVALID_OBJECT_STATE) {
-            error_reason =
-                "   NOTE: VM session lock error encountered.\n"
-                "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
+			error_reason = pVM->get_error(4);
             unrecoverable_error = false;
-            temp_reason = "VM environment needed to be cleaned up.";
+			temp_reason = pVM->get_error(10).c_str();
         } else {
             do_dump_hypervisor_logs = true;
         }
 
-        if (unrecoverable_error) {
-            // Only attempt to take a screen shot if the VM is online.
-            if (pVM->online) {
-                pVM->capture_screenshot();
-            }
-
-            // Attempt to cleanup the VM and exit.
-            if (!skip_cleanup) {
-                pVM->cleanup();
-            }
-
-            checkpoint.update(elapsed_time, current_cpu_time);
-
-            if (error_reason.size()) {
-                vboxlog_msg("\n%s", error_reason.c_str());
-            }
-
-            if (do_dump_hypervisor_logs) {
-                pVM->dump_hypervisor_logs(true);
-            }
-
-            boinc_finish(retval);
-        } else {
-            // if the VM is already running notify BOINC about the process ID so it can
-            // clean up the environment.  We should be safe to run after that.
-            //
-            if (pVM->vm_pid) {
-                retval = boinc_report_app_status_aux(
-                    current_cpu_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done,
-                    pVM->vm_pid,
-                    bytes_sent,
-                    bytes_received
-                );
-            }
- 
-            // Give the BOINC API time to report the pid to BOINC.
-            //
-            boinc_sleep(5.0);
-
-            if (error_reason.size()) {
-                vboxlog_msg("\n%s", error_reason.c_str());
-            }
-
-            if (do_dump_hypervisor_logs) {
-                pVM->dump_hypervisor_logs(true);
-            }
-
-            // Exit and let BOINC clean up the rest.
-            //
-            boinc_temporary_exit(temp_delay, temp_reason);
-        }
+	pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
+			retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
+			current_cpu_time, last_checkpoint_cpu_time, fraction_done,
+	                bytes_sent, bytes_received);
+		
+	if (unrecoverable_error) {
+	
+		if (pVM->online) pVM->capture_screenshot();
+		
+		checkpoint.update(elapsed_time, current_cpu_time);
+	}
     }
 
     // Report the VM pid to BOINC so BOINC can deal with it when needed.
@@ -875,7 +843,7 @@ int main(int argc, char** argv) {
     //
     timeout = dtime() + 300;
     do {
-        pVM->poll(false);
+        pVM->poll(true);
         if (pVM->online && !pVM->restoring) break;
         boinc_sleep(1.0);
     } while (timeout >= dtime());
@@ -883,9 +851,6 @@ int main(int argc, char** argv) {
     // Lower the VM process priority after it has successfully brought itself online.
     //
     pVM->lower_vm_process_priority();
-
-    // Log our current state 
-    pVM->poll(true);
 
     // Is the VM still running? If not, why not?
     //
@@ -898,92 +863,34 @@ int main(int argc, char** argv) {
         const char*  temp_reason = "";
 
         if (pVM->is_logged_failure_vm_extensions_disabled()) {
-            error_reason =
-                "   NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
-                "    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n"
-                "    This means that the hardware acceleration feature has been disabled in the computer's BIOS.\n"
-                "    Please enable this feature in your computer's BIOS.\n"
-                "    Intel calls it 'VT-x'\n"
-                "    AMD calls it 'AMD-V'\n"
-                "    More information can be found here: https://en.wikipedia.org/wiki/X86_virtualization\n"
-                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
+	    error_reason = pVM->get_error(5);
             retval = ERR_EXEC;
         } else if (pVM->is_logged_failure_vm_extensions_not_supported()) {
-            error_reason =
-                "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
-                "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
-                "    Please report this issue to the project so that it can be addresssed.\n";
+	    error_reason = pVM->get_error(6);
         } else if (pVM->is_logged_failure_vm_extensions_in_use()) {
-            error_reason =
-                "   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
-                "    for virtual machines feature in exclusive mode.\n";
+	    error_reason = pVM->get_error(7);
             unrecoverable_error = false;
-            temp_reason = "Forign VM Hypervisor locked hardware acceleration features.";
+	    temp_reason = pVM->get_error(11).c_str();
             temp_delay = 86400;
         } else if (pVM->is_logged_failure_host_out_of_memory()) {
-            error_reason =
-                "   NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
+	    error_reason = pVM->get_error(8);
             unrecoverable_error = false;
-            temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
+            temp_reason = pVM->get_error(12).c_str();
         } else if (timeout <= dtime()) {
-            error_reason =
-                "   NOTE: VM failed to enter an online state within the timeout period.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
+	    error_reason = pVM->get_error(9);
             unrecoverable_error = false;
             do_dump_hypervisor_logs = true;
-            temp_reason = "VM Hypervisor failed to enter an online state in a timely fashion.";
+	    temp_reason = pVM->get_error(13).c_str();
             temp_delay = 86400;
         }
 
-        if (unrecoverable_error) {
-            // Attempt to cleanup the VM and exit.
-            if (!skip_cleanup) {
-                pVM->cleanup();
-            }
+	pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
+			retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
+			current_cpu_time, last_checkpoint_cpu_time, fraction_done,
+			bytes_sent, bytes_received);
 
-            checkpoint.update(elapsed_time, current_cpu_time);
-
-            if (error_reason.size()) {
-                vboxlog_msg("\n%s", error_reason.c_str());
-            }
-
-            if (do_dump_hypervisor_logs) {
-                pVM->dump_hypervisor_logs(true);
-            }
-
-            boinc_finish(retval);
-        } else {
-            // if the VM is already running notify BOINC about the process ID so it can
-            // clean up the environment.  We should be safe to run after that.
-            //
-            if (pVM->vm_pid) {
-                retval = boinc_report_app_status_aux(
-                    current_cpu_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done,
-                    pVM->vm_pid,
-                    bytes_sent,
-                    bytes_received
-                );
-            }
- 
-            // Give the BOINC API time to report the pid to BOINC.
-            //
-            boinc_sleep(5.0);
-
-            if (error_reason.size()) {
-                vboxlog_msg("\n%s", error_reason.c_str());
-            }
-
-            if (do_dump_hypervisor_logs) {
-                pVM->dump_hypervisor_logs(true);
-            }
-
-            // Exit and let BOINC clean up the rest.
-            //
-            boinc_temporary_exit(temp_delay, temp_reason);
-        }
+	if (unrecoverable_error)
+		checkpoint.update(elapsed_time, current_cpu_time);
     }
 
     set_floppy_image(aid, *pVM);
@@ -996,19 +903,62 @@ int main(int argc, char** argv) {
     // Force throttling on our first pass through the loop
     boinc_status.reread_init_data_file = true;
 
-    while (1) {
+	int poll_iteration = 0;
+
+	while (1) {
         // Begin stopwatch timer
         stopwatch_starttime = dtime();
         loop_iteration += 1;
 
         // Discover the VM's current state
         retval = pVM->poll();
-        if (retval) {
-            vboxlog_msg("ERROR: Vboxwrapper lost communication with VirtualBox, rescheduling task for a later time.");
-            pVM->reset_vm_process_priority();
-            pVM->poweroff();
-            boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
-        }
+		if (retval) {
+			vboxlog_msg("WARNING: Vboxwrapper poll command returned %d.", (retval));
+			poll_iteration += 1;
+
+			if (poll_iteration > 600){
+				vboxlog_msg("ERROR: Vboxwrapper poll command failed too often. ");
+				pVM->reset_vm_process_priority();
+				pVM->capture_screenshot();
+				pVM->cleanup();
+				pVM->dump_hypervisor_logs(true);
+				boinc_finish(EXIT_ABORTED_BY_CLIENT);
+			}
+
+			stopwatch_endtime = dtime();
+			stopwatch_elapsedtime = stopwatch_endtime - stopwatch_starttime;
+
+			// user may have changed system clock, so do sanity checks
+			//
+			if (stopwatch_elapsedtime < 0) {
+				stopwatch_elapsedtime = 0;
+			}
+			if (stopwatch_elapsedtime > 60) {
+				stopwatch_elapsedtime = 0;
+			}
+
+			// Sleep for the remainder of the polling period
+			//
+			sleep_time = POLL_PERIOD - stopwatch_elapsedtime;
+			if (sleep_time > 0) {
+				boinc_sleep(sleep_time);
+			}
+
+			// if VM is running, increment elapsed time
+			//
+			if (!boinc_status.suspended && !pVM->suspended) {
+				if (sleep_time > 0) {
+					elapsed_time += POLL_PERIOD;
+				}
+				else {
+					elapsed_time += stopwatch_elapsedtime;
+				}
+			}
+
+			continue;
+		}
+
+		poll_iteration = 0;
 
         // Write updates for the graphics application's use
         if (pVM->enable_graphics_support) {
@@ -1037,10 +987,8 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (pVM->heartbeat_filename.size()) {
-            if (
-                (initial_heartbeat_check && (elapsed_time >= (last_heartbeat_elapsed_time + 600.0))) ||
-                (!initial_heartbeat_check && (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval)))
-            ){
+			if (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval))
+            {
                 bool should_exit = false;
                 struct stat heartbeat_stat;
 
@@ -1391,3 +1339,4 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+

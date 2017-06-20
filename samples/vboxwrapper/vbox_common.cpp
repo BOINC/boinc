@@ -120,6 +120,10 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     headless = true;
     vm_pid = 0;
     vboxsvc_pid = 0;
+
+    log_pointer = 0;
+    state = "PoweredOff";
+
 #ifdef _WIN32
     vm_pid_handle = 0;
     vboxsvc_pid_handle = 0;
@@ -149,6 +153,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
     retval = is_registered();
     if (ERR_TIMEOUT == retval) {
+        vboxlog_msg("Error: Timeout");
 
         return VBOXWRAPPER_ERR_RECOVERABLE;
 
@@ -156,19 +161,27 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
         if (is_vm_machine_configuration_available()) {
             retval = register_vm();
-            if (retval) return retval;
+	    if (retval){
+	        vboxlog_msg("Could not register");
+                return retval;
+            }
         } else {
             if (is_disk_image_registered()) {
                 // Handle the case where a previous instance of the same projects VM
                 // was already initialized for the current slot directory but aborted
                 // while the task was suspended and unloaded from memory.
                 retval = deregister_stale_vm();
-                if (retval) return retval;
+		if (retval){
+                    vboxlog_msg("Could not deregister stale VM");
+                    return retval;
+		}
             }
             retval = create_vm();
-            if (retval) return retval;
+            if (retval){
+                vboxlog_msg("Could not create VM");
+                return retval;
+            }
         }
-
     }
 
     // The user has requested that we exit after registering the VM, so return an
@@ -181,17 +194,23 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     vm_name = vm_master_name;
 
     // Check to see if the VM is already in a running state, if so, poweroff.
-    poll(false);
     if (online) {
+	vboxlog_msg("VM was running");
         retval = poweroff();
-        if (retval) return ERR_NOT_EXITED;
+        if (retval){
+            vboxlog_msg("Could not stop running VM");
+            return ERR_NOT_EXITED;
+        }
     }
 
     // If our last checkpoint time is greater than 0, restore from the previously
     // saved snapshot
     if (do_restore_snapshot) {
         retval = restore_snapshot();
-        if (retval) return retval;
+        if (retval){
+        vboxlog_msg("Could not restore from snapshot");
+        return retval;
+	}
     }
 
     // Has BOINC signaled that we should quit?
@@ -205,8 +224,10 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
     // Start the VM
     retval = start();
-    if (retval) return retval;
-
+    if (retval){
+        vboxlog_msg("Could not start ");
+	return retval;
+    }
     return 0;
 }
 
@@ -262,51 +283,206 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     }
 }
 
+void VBOX_BASE::report_clean(bool unrecoverable_error, bool skip_cleanup, bool do_dump_hypervisor_logs,
+	                         int retval, std::string error_reason,
+	                         int vm_pid, int temp_delay, const char*  temp_reason,
+	                         double current_cpu_time,
+	                         double last_checkpoint_cpu_time,
+	                         double fraction_done,
+	                         double bytes_sent,
+	                         double bytes_received) {
+
+
+    if (unrecoverable_error) {
+
+        // Attempt to cleanup the VM and exit.
+	if (!skip_cleanup) {
+            cleanup();
+	}
+
+        if (error_reason.size()) {
+            vboxlog_msg("\n%s", error_reason.c_str());
+        }
+
+        if (do_dump_hypervisor_logs) {
+            dump_hypervisor_logs(true);
+        }
+
+	boinc_finish(retval);
+    }
+    else {
+
+        // if the VM is already running notify BOINC about the process ID so it can
+        // clean up the environment.  We should be safe to run after that.
+        //
+        if (vm_pid) {
+            retval = boinc_report_app_status_aux(
+			current_cpu_time,
+			last_checkpoint_cpu_time,
+			fraction_done,
+			vm_pid,
+			bytes_sent,
+			bytes_received
+			);
+        }
+
+        // Give the BOINC API time to report the pid to BOINC.
+        //
+        boinc_sleep(5.0);
+
+        if (error_reason.size()) {
+            vboxlog_msg("\n%s", error_reason.c_str());
+        }
+
+        if (do_dump_hypervisor_logs) {
+            dump_hypervisor_logs(true);
+        }
+
+        // Exit and let BOINC clean up the rest.
+        //
+        boinc_temporary_exit(temp_delay, temp_reason);
+    }
+}
+
+string VBOX_BASE::get_error(int num){
+
+	const char* args[] = { 
+		"   BOINC will be notified that it needs to clean up the environment.\n \
+		    This is a temporary problem and so this job will be rescheduled for another time.\n",
+		
+		"   NOTE: VM was already running.\n \
+		    BOINC will be notified that it needs to clean up the environment.\n \
+		    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+		
+		"   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n \
+		    hardware acceleration for virtual machines, but your processor does not support the required feature.\n \
+		    Please report this issue to the project so that it can be addresssed.\n \
+		    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
+		
+		"   VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n \
+		    operation and this job cannot be recovered.\n",
+		
+		"   NOTE: VM session lock error encountered.\n \
+		    BOINC will be notified that it needs to clean up the environment.\n \
+		    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+		
+		"   NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n \
+		    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n \
+		    This means that the hardware acceleration feature has been disabled in the computer's BIOS.\n \
+		    Please enable this feature in your computer's BIOS.\n \
+		    Intel calls it 'VT-x'\n \
+		    AMD calls it 'AMD-V'\n \
+		    More information can be found here: https://en.wikipedia.org/wiki/X86_virtualization\n \
+		    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
+		
+		"   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n \
+		    hardware acceleration for virtual machines, but your processor does not support the required feature.\n \
+		    Please report this issue to the project so that it can be addresssed.\n",
+		
+		"   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n \
+		    for virtual machines feature in exclusive mode.\n",
+		
+		"   NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n \
+		    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+		
+		"   NOTE: VM failed to enter an online state within the timeout period.\n \
+		    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+	
+		    "VM environment needed to be cleaned up.",
+       
+		    "Forign VM Hypervisor locked hardware acceleration features.",
+
+		    "VM Hypervisor was unable to allocate enough memory to start VM.",
+
+	     	"VM Hypervisor failed to enter an online state in a timely fashion."
+	};
+
+	std::vector<std::string> v(args, args + 14);
+	
+	return v[num];
+}
+
+string VBOX_BASE::read_vm_log(){
+	string line;
+	size_t line_pos;
+	size_t line_end;
+	size_t line_start;
+	string msg;
+	string virtualbox_vm_log;
+	virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
+	
+
+	std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
+	    
+	if ((src.is_open()) && (src.seekg(log_pointer))) {
+
+            while (std::getline(src, line)) {
+
+                line_start = line.find("Console:");
+		if (line_start != string::npos) {
+					
+                    line_start += 35;
+                    line_end = line.find("\'", line_start);
+                    msg = line.substr(line_start, line_end - line_start);
+                    sanitize_format(msg);
+                    state = msg.c_str();
+                }
+                line_pos = line.find("Guest Log:");
+                if (line_pos != string::npos) {
+					
+                    msg = line.substr(line_pos, line.size() - line_pos);
+                    sanitize_format(msg);
+                    vboxlog_msg(msg.c_str());
+                }
+                log_pointer = src.tellg();
+           }
+           return state.c_str();
+        }
+        else return "Error in parsing the log file";
+}
+
+
 // Dump any new guest log messages which are generated by applications running within
 // the guest VM.
 void VBOX_BASE::dump_vmguestlog_entries() {
     string local_vm_log;
     string line;
-    size_t eol_pos;
-    size_t eol_prev_pos;
     size_t line_pos;
     VBOX_TIMESTAMP current_timestamp;
     string msg;
+	string virtualbox_vm_log;
+	virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-    get_vm_log(local_vm_log, true, 16*1024);
+	if (boinc_file_exists(virtualbox_vm_log.c_str())) {
 
-    eol_prev_pos = 0;
-    eol_pos = local_vm_log.find("\n");
-    while (eol_pos != string::npos) {
-        line = local_vm_log.substr(eol_prev_pos, eol_pos - eol_prev_pos);
+		std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
+		while (std::getline(src, line))
+		{
+			line_pos = line.find("Guest Log:");
+			if (line_pos != string::npos) {
+				sscanf(
+					line.c_str(),
+					"%d:%d:%d.%d",
+					&current_timestamp.hours, &current_timestamp.minutes,
+					&current_timestamp.seconds, &current_timestamp.milliseconds
+					);
 
-        line_pos = line.find("Guest Log:");
-        if (line_pos != string::npos) {
-            sscanf(
-                line.c_str(),
-                "%d:%d:%d.%d",
-                &current_timestamp.hours, &current_timestamp.minutes,
-                &current_timestamp.seconds, &current_timestamp.milliseconds
-            );
+				if (is_timestamp_newer(current_timestamp, vm_log_timestamp)) {
+					vm_log_timestamp = current_timestamp;
+					msg = line.substr(line_pos, line.size() - line_pos);
 
-            if (is_timestamp_newer(current_timestamp, vm_log_timestamp)) {
-                vm_log_timestamp = current_timestamp;
-                msg = line.substr(line_pos, line.size() - line_pos);
+					sanitize_format(msg);
 
-				sanitize_format(msg);
-
-                vboxlog_msg(msg.c_str());
-            }
-        }
-
-        eol_prev_pos = eol_pos + 1;
-        eol_pos = local_vm_log.find("\n", eol_prev_pos);
-    }
+					vboxlog_msg(msg.c_str());
+				}
+			}
+		}
+	}
 }
 
 int VBOX_BASE::dump_screenshot() {
     int    retval;
-    char   screenshot_md5[32];
+    char   screenshot_md5[33];
     double nbytes;
     char*  buf = NULL;
     size_t n;
@@ -949,7 +1125,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
     command = "VBoxManage -q " + command;
 
     do {
-        retval = vbm_popen_raw(command, output, timeout);
+        retval = vbm_popen_raw(command, output , timeout);
         sanitize_output(command);
         sanitize_output(output);
 
