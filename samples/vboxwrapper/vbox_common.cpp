@@ -375,10 +375,6 @@ string VBOX_BASE::get_error(int num){
 		    More information can be found here: https://en.wikipedia.org/wiki/X86_virtualization\n \
 		    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
 		
-		"   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n \
-		    hardware acceleration for virtual machines, but your processor does not support the required feature.\n \
-		    Please report this issue to the project so that it can be addresssed.\n",
-		
 		"   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n \
 		    for virtual machines feature in exclusive mode.\n",
 		
@@ -390,14 +386,14 @@ string VBOX_BASE::get_error(int num){
 	
 		    "VM environment needed to be cleaned up.",
        
-		    "Forign VM Hypervisor locked hardware acceleration features.",
+		    "Foreign VM Hypervisor locked hardware acceleration features.",
 
 		    "VM Hypervisor was unable to allocate enough memory to start VM.",
 
 	     	"VM Hypervisor failed to enter an online state in a timely fashion."
 	};
 
-	std::vector<std::string> v(args, args + 14);
+	std::vector<std::string> v(args, args + 13);
 	
 	return v[num];
 }

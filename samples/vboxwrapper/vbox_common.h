@@ -74,6 +74,19 @@
 //
 #define VBOXWRAPPER_ERR_RECOVERABLE     -1000
 
+#define ENV_UNCLEAN     0
+#define VM_RUNNING      1
+#define NO_HA           2
+#define VBOX_SNAPSHOT   3
+#define SESSION_LOCK    4
+#define HA_OFF          5
+#define LOCKED_HA       6
+#define NO_MEM          7
+#define NOT_ONLINE      8
+#define VM_ENV          9
+#define FOREIGN_HYPERV  10
+#define TEMP_NO_MEM     11
+#define NO_ONLINE       12
 
 // Vboxwrapper diagnostics
 //

@@ -425,8 +425,7 @@ int main(int argc, char** argv) {
     // Log banner
     //
 	vboxlog_msg("Detected: vboxwrapper %d", VBOXWRAPPER_RELEASE);
-	vboxlog_msg("Detected: BOINC client v%d.%d", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION);
-
+	
     // Initialize system services
     // 
 #ifdef _WIN32
@@ -445,6 +444,8 @@ int main(int argc, char** argv) {
     //
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
+
+    vboxlog_msg("Detected: BOINC client v%d.%d.%d", aid.major_version, aid.minor_version, aid.release);
 
     //Use COM_OFF to choose how we initialize() the VM
 #ifdef _WIN32
@@ -787,25 +788,25 @@ int main(int argc, char** argv) {
         const char*  temp_reason = "";
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
-			error_reason = pVM->get_error(0);
+			error_reason = pVM->get_error(ENV_UNCLEAN);
             unrecoverable_error = false;
-            temp_reason = pVM->get_error(10).c_str();
+            temp_reason = pVM->get_error(VM_ENV).c_str();
         } else if (ERR_NOT_EXITED == retval) {
-			error_reason = pVM->get_error(1);
+			error_reason = pVM->get_error(VM_RUNNING);
             unrecoverable_error = false;
-			temp_reason = pVM->get_error(10).c_str();
+			temp_reason = pVM->get_error(VM_ENV).c_str();
         } else if (ERR_INVALID_PARAM == retval) {
-			error_reason = pVM->get_error(2);
+			error_reason = pVM->get_error(NO_HA);
             skip_cleanup = true;
             retval = ERR_EXEC;
         } else if (retval == (int)RPC_S_SERVER_UNAVAILABLE) {
-			error_reason = pVM->get_error(3);
+			error_reason = pVM->get_error(VBOX_SNAPSHOT);
             skip_cleanup = true;
             retval = ERR_EXEC;
         } else if (retval == (int)VBOX_E_INVALID_OBJECT_STATE) {
-			error_reason = pVM->get_error(4);
+			error_reason = pVM->get_error(SESSION_LOCK);
             unrecoverable_error = false;
-			temp_reason = pVM->get_error(10).c_str();
+			temp_reason = pVM->get_error(VM_ENV).c_str();
         } else {
             do_dump_hypervisor_logs = true;
         }
@@ -863,24 +864,24 @@ int main(int argc, char** argv) {
         const char*  temp_reason = "";
 
         if (pVM->is_logged_failure_vm_extensions_disabled()) {
-	    error_reason = pVM->get_error(5);
+	    error_reason = pVM->get_error(HA_OFF);
             retval = ERR_EXEC;
         } else if (pVM->is_logged_failure_vm_extensions_not_supported()) {
-	    error_reason = pVM->get_error(6);
+	    error_reason = pVM->get_error(NO_HA);
         } else if (pVM->is_logged_failure_vm_extensions_in_use()) {
-	    error_reason = pVM->get_error(7);
+	    error_reason = pVM->get_error(LOCKED_HA);
             unrecoverable_error = false;
-	    temp_reason = pVM->get_error(11).c_str();
+	    temp_reason = pVM->get_error(FOREIGN_HYPERV).c_str();
             temp_delay = 86400;
         } else if (pVM->is_logged_failure_host_out_of_memory()) {
-	    error_reason = pVM->get_error(8);
+	    error_reason = pVM->get_error(NO_MEM);
             unrecoverable_error = false;
-            temp_reason = pVM->get_error(12).c_str();
+            temp_reason = pVM->get_error(TEMP_NO_MEM).c_str();
         } else if (timeout <= dtime()) {
-	    error_reason = pVM->get_error(9);
+	    error_reason = pVM->get_error(NOT_ONLINE);
             unrecoverable_error = false;
             do_dump_hypervisor_logs = true;
-	    temp_reason = pVM->get_error(13).c_str();
+	    temp_reason = pVM->get_error(NO_ONLINE).c_str();
             temp_delay = 86400;
         }
 
