@@ -162,6 +162,10 @@ td {
   border-bottom: 1px dotted #aaa;
   vertical-align: top;
 }
+td.task-name,
+td.task-app {
+  word-break: break-all;
+}
 tr.heading {
   font-weight: bold;
 }

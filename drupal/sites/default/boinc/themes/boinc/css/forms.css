@@ -621,3 +621,9 @@ html.js fieldset.collapsible legend a,
 #recaptcha_response_field {
 	left: 0;
 }
+
+/* Task App filter */
+select.task-app-filter {
+  width: 120px;
+  white-space: nowrap;
+}
