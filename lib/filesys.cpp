@@ -351,7 +351,7 @@ int boinc_delete_file(const char* path) {
 //
 int file_size(const char* path, double& size) {
 #if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
-    HANDLE h = CreateFileA(path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    HANDLE h = CreateFileA(path, 0, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, 0, OPEN_EXISTING, 0, 0);
     if (h == INVALID_HANDLE_VALUE) return ERR_STAT;
     LARGE_INTEGER lisize;
     if (GetFileSizeEx(h, &lisize)) {
