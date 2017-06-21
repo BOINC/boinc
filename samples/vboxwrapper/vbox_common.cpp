@@ -200,7 +200,6 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     vm_name = vm_master_name;
 
     // Check to see if the VM is already in a running state, if so, poweroff.
-    //poll(false);
     if (online) {
         vboxlog_msg("VM was running");
         retval = poweroff();
