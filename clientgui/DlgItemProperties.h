@@ -35,6 +35,7 @@
 #include <wx/string.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
+#include <wx/wxhtml.h>
 
 #include "MainDocument.h"
 
@@ -49,21 +50,22 @@ public:
 	void renderInfos(RESULT* result);
     void show_rsc(wxString rsc_name, RSC_DESC rsc_desc);
 private:
-	int m_current_row;
+       std::vector<struct ITEM> m_items;
 	//formatting methods
 	wxString FormatDiskSpace(double bytes);
 	wxString FormatApplicationName(RESULT* result );
 	//generic layout methods
     bool SaveState();
     bool RestoreState();
+       void renderInfos();
 	void addSection(const wxString& title);
 	void addProperty(const wxString& name, const wxString& value);
 protected:
         wxBoxSizer* m_bSizer1;
         wxScrolledWindow* m_scrolledWindow;
-        wxGridBagSizer* m_gbSizer;
         wxButton* m_btnClose;
         wxString m_strBaseConfigLocation;
+        wxHtmlWindow* m_txtInformation;
 };
 
 #endif
