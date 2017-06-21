@@ -1838,7 +1838,7 @@ function boincwork_selectapp_form_submit($form, &$form_state) {
  * 'title' for the Application drop down box.
  */
 function _boincwork_selectapp_form_callback($theContent, $theElement) {
-  $disabled = '<option value="-1" disabled';
+  $disabled = '<option value="-1" disabled hidden';
   $newContent = preg_replace('/<option value="-1"/', $disabled, $theContent);
   return $newContent;
 }

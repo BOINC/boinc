@@ -1503,11 +1503,6 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
     return '';
   }
 
-  // App ID of zero maps to "-1" for drop-down box.
-  if ($app_id==0) {
-    $app_id=-1;
-  }
-
   require_boinc( array('util', 'result') );
 
   global $language;
@@ -1798,6 +1793,10 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
 
   // Application select-drop down form
   // Hack to place Application form into header
+  // App ID of zero maps to "-1" for drop-down box.
+  if ($app_id==0) {
+    $app_id=-1;
+  }
   $resultheader[] = drupal_get_form('boincwork_selectapp_form', $applications, $app_id);
 
   // Begin table of results
@@ -1810,7 +1809,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
     }
 
     $output .= theme_table($resultheader, $resultdata);
-    if (count($myd) > 0) {
+    if (count($resultdata) > 0) {
       $output .= theme('pager');
     }
   }
