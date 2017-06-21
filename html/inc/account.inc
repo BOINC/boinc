@@ -20,76 +20,51 @@
 
 function create_account_form($teamid, $next_url) {
     global $recaptcha_public_key;
-    echo "
-        <form action=\"create_account_action.php\" method=\"post\">
-        <input type=hidden name=next_url value=\"$next_url\">
-    ";
+    form_input_hidden('next_url', $next_url);
 
     if ($teamid) {
-        echo "
-            <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-        ";
+        form_input_hidden('teamid', $teamid);
     }
-    start_table();
 
     // Using invitation codes to restrict access?
     //
     if (defined('INVITE_CODES')) {
-         row2(
+        form_input_text(
              tra("Invitation Code")."<br><small>".tra("A valid invitation code is required to create an account.")."</small>",
-             '<input class="form-control" type="text" name="invite_code" size="30" >'
-         );
+             "invite_code"
+        );
     }
 
-    row2(
-        tra("Name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
-        '<input class="form-control" type="text" name="new_name" width="10">'
+    form_input_text(
+        tra("Screen name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
+        "new_name"
     );
-    row2(
+    form_input_text(
         tra("Email Address")."<br><small>".tra("Must be a valid address of the form 'name@domain'.")."</small>",
-        '<input class="form-control" type="text" name="new_email_addr" size="50">'
+        "new_email_addr"
     );
     $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
     if (!$min_passwd_length) {
         $min_passwd_length = 6;
     }
 
-    row2(
+    form_input_text(
         tra("Password")
         ."<br><small>".tra("Must be at least %1 characters", $min_passwd_length)."</small>",
-        '<input class="form-control" type="password" name="passwd">'
+        "passwd", "", "password"
     );
-    row2(
-        tra("Confirm password"),
-        '<input class="form-control" type="password" name="passwd2">'
-    );
-    row2_init(
+    form_input_text(tra("Confirm password"), "passwd2", "", "password");
+    form_select(
         tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
-        '<select class="form-control" style="width:240px;" name="country">'
+        "country",
+        country_select_options()
     );
-    echo country_select_options();
-    echo "</select></td></tr>\n";
     if (POSTAL_CODE) {
-        row2(
+        form_input_text(
             tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",
-            "<input type=\"text\" name=\"postal_code\" size=\"20\">"
+            "postal_code"
         );
     }
-
-    // Check if we're using reCaptcha to prevent spam accounts
-    //
-    if ($recaptcha_public_key) {
-        row2(
-            "",
-            boinc_recaptcha_get_html($recaptcha_public_key)
-        );
-    }
-
-    row2("",
-        "<input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create account")."\">"
-    );
-    end_table();
-    echo "</form>\n";
 }
 
 function login_form($next_url) {

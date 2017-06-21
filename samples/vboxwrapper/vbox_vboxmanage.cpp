@@ -153,11 +153,13 @@ namespace vboxmanage {
         }
 
 #ifdef _WIN32
+
         // Launch vboxsvc manually so that the DCOM subsystem won't be able too.  Our version
         // will have permission and direction to write its state information to the BOINC
         // data directory.
         //
         launch_vboxsvc();
+#endif
 #endif
 
         rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
@@ -199,6 +201,7 @@ namespace vboxmanage {
             }
         }
 
+
         // Create and register the VM
         //
         command  = "createvm ";
@@ -217,10 +220,12 @@ namespace vboxmanage {
 
         vbm_popen(command, output, "modifydescription", false, false);
 
+
         // Tweak the VM's Memory Size
         //
         vboxlog_msg("Setting Memory Size for VM. (%dMB)", (int)memory_size_mb);
         sprintf(buf, "%d", (int)memory_size_mb);
+
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--memory " + string(buf) + " ";
 
@@ -373,11 +378,13 @@ namespace vboxmanage {
             vboxlog_msg("Running under Hypervisor. Disabling VirtualBox hardware acceleration support.");
             disable_acceleration = true;
         }
+
         if (is_boinc_client_version_newer(aid, 7, 2, 16)) {
             if (aid.vm_extensions_disabled) {
                 vboxlog_msg("Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.");
                 disable_acceleration = true;
             }
+
         } else {
             if (vm_cpu_count == "1") {
                 // Keep this around for older clients.  Removing this for older clients might
@@ -495,6 +502,7 @@ namespace vboxmanage {
             // Adding virtual hard drive to VM
             //
             vboxlog_msg("Adding virtual disk drive to VM. (%s)", image_filename.c_str());
+
             command  = "storageattach \"" + vm_name + "\" ";
             command += "--storagectl \"Hard Disk Controller\" ";
             command += "--port 0 ";
@@ -672,6 +680,7 @@ namespace vboxmanage {
         command  = "registervm ";
         command += "\"" + virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox\" ";
 
+
         retval = vbm_popen(command, output, "register");
         if (retval) return retval;
 
@@ -714,6 +723,7 @@ namespace vboxmanage {
             vbm_popen(command, output, "deregister storage controller (floppy disk)", false, false);
         }
 
+
         // Next, delete VM
         //
         vboxlog_msg("Removing VM from VirtualBox.");
@@ -752,7 +762,6 @@ namespace vboxmanage {
 
             vbm_popen(command, output, "remove virtual floppy disk", false, false);
         }
-
         return 0;
     }
 
@@ -987,9 +996,9 @@ namespace vboxmanage {
 
         boinc_get_init_data_p(&aid);
 
+
         log_pointer = 0;
         vboxlog_msg("Starting VM using VBoxManage interface. (%s, slot#%d)", vm_name.c_str(), aid.slot);
-
 
         command = "startvm \"" + vm_name + "\"";
         if (headless) {
@@ -1209,6 +1218,7 @@ namespace vboxmanage {
 
         vboxlog_msg("Checkpoint completed.");
 
+
         return 0;
     }
 
@@ -1252,6 +1262,7 @@ namespace vboxmanage {
         eol_pos = snapshotlist.rfind("\n", eol_prev_pos - 1);
         while (eol_pos != string::npos) {
             line = snapshotlist.substr(eol_pos, eol_prev_pos - eol_pos);
+
 
             // Find the previous line to use in the next iteration
             eol_prev_pos = eol_pos;
@@ -1345,6 +1356,7 @@ namespace vboxmanage {
                 );
 
         return retval;
+
     }
 
     // Attempt to detect any condition that would prevent VirtualBox from running a VM properly, like:
@@ -1396,6 +1408,7 @@ namespace vboxmanage {
             vboxlog_msg("WARNING: VirtualBox incompatible dependencies detected.");
             message = "Please update/reinstall VirtualBox";
             rc = false;
+
         }
 
         return rc;
@@ -1410,7 +1423,9 @@ namespace vboxmanage {
 
         command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
         if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
+
             if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
+
                     (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
                     (output.find("does not match the value") == string::npos)
                ) {
@@ -1451,6 +1466,7 @@ namespace vboxmanage {
 
     int VBOX_VM::get_install_directory(string& install_directory) {
 #ifdef _WIN32
+
         LONG    lReturnValue;
         HKEY    hkSetupHive;
         LPTSTR  lpszRegistryValue = NULL;
@@ -1491,6 +1507,7 @@ namespace vboxmanage {
 
                 install_directory = lpszRegistryValue;
             }
+
         }
 
         if (hkSetupHive) RegCloseKey(hkSetupHive);
@@ -1897,6 +1914,4 @@ namespace vboxmanage {
         }
 #endif
     }
-
 }
-

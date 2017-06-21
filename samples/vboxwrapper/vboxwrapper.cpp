@@ -31,7 +31,7 @@
 // --register_only  Register the VM but don't run it.
 //                  Useful for debugging; see the wiki page
 // --memory_size_mb How much memory (in MB) to give the VM. Overrides the
-//                  value in vbox_job.xml if its present. 
+//                  value in vbox_job.xml if its present.
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -80,6 +80,7 @@
 #include "vboxcheckpoint.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
+
 
 //Use of COM_OFF to choose between COM 
 //and VboxManage interfaces
@@ -313,8 +314,10 @@ void check_trickle_triggers(VBOX_VM& vm) {
             vboxlog_msg("ERROR: can't read trickle trigger file %s", filename);
         } else {
             retval = boinc_send_trickle_up(
+
                     filename, const_cast<char*>(text.c_str())
                     );
+
             if (retval) {
                 vboxlog_msg("boinc_send_trickle_up() failed: %s (%d)", boincerror(retval), retval);
             }
@@ -366,8 +369,10 @@ void check_trickle_period(double& elapsed_time, double& trickle_period) {
             "<cpu_time>%f</cpu_time>", last_trickle_report_time
            );
     int retval = boinc_send_trickle_up(
+
             const_cast<char*>("cpu_time"), buf
             );
+
     if (retval) {
         vboxlog_msg("Sending Trickle-Up Event failed (%d).", retval);
     }
@@ -429,9 +434,11 @@ int main(int argc, char** argv) {
     vboxlog_msg("Detected: vboxwrapper %d", VBOXWRAPPER_RELEASE);
 
     // Initialize system services
-    // 
+    //
 #ifdef _WIN32
+#ifndef COM_OFF
     CoInitialize(NULL);
+#endif
 #ifdef USE_WINSOCK
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -539,7 +546,7 @@ int main(int argc, char** argv) {
     }    
 
     // Check for architecture incompatibilities
-    // 
+    //
 #if defined(_WIN32) && defined(_M_IX86)
     if (strstr(aid.host_info.os_version, "x64")) {
         vboxlog_msg("64-bit version of BOINC is required, please upgrade. Rescheduling execution for a later date.");
@@ -548,13 +555,13 @@ int main(int argc, char** argv) {
 #endif
 
     // Record what version of VirtualBox was used.
-    // 
+    //
     if (!pVM->virtualbox_version_display.empty()) {
         vboxlog_msg("Detected: %s", pVM->virtualbox_version_display.c_str());
     }
 
     // Record if anonymous platform was used.
-    // 
+    //
     if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
         vboxlog_msg("Detected: Anonymous Platform Enabled");
     }
@@ -580,10 +587,11 @@ int main(int argc, char** argv) {
         boinc_temporary_exit(86400, "Incompatible configuration detected.");
     }
 
-    // Check against known incompatible versions of VirtualBox.  
+    // Check against known incompatible versions of VirtualBox.
     // VirtualBox 4.2.6 crashes during snapshot operations
     // and 4.2.18 fails to restore from snapshots properly.
     //
+
     if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) || 
             (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) || 
             (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
@@ -821,6 +829,7 @@ int main(int argc, char** argv) {
             if (pVM->online) pVM->capture_screenshot();
 
             checkpoint.update(elapsed_time, current_cpu_time);
+
         }
     }
 
@@ -828,6 +837,7 @@ int main(int argc, char** argv) {
     //
     vboxlog_msg("Reporting VM Process ID to BOINC.");
     retval = boinc_report_app_status_aux(
+
             current_cpu_time,
             last_checkpoint_cpu_time,
             fraction_done,
@@ -989,8 +999,10 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (pVM->heartbeat_filename.size()) {
+
             if (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval))
             {
+
                 bool should_exit = false;
                 struct stat heartbeat_stat;
 
@@ -1167,7 +1179,7 @@ int main(int argc, char** argv) {
             }
 
             // Real VM checkpoints (snapshots) are expensive, don't do them very often.
-            // 
+            //
             // If the project has disabled automatic checkpoints, just report that we have
             // successfully completed the checkpoint as soon as the API reports that we should
             // checkpoint.
@@ -1290,6 +1302,7 @@ int main(int argc, char** argv) {
 
         if (report_net_usage) {
             retval = boinc_report_app_status_aux(
+
                     elapsed_time,
                     last_checkpoint_cpu_time,
                     fraction_done,
@@ -1297,6 +1310,7 @@ int main(int argc, char** argv) {
                     bytes_sent,
                     bytes_received
                     );
+
             if (!retval) {
                 report_net_usage = false;
             }
@@ -1333,7 +1347,9 @@ int main(int argc, char** argv) {
     }
 
 #ifdef _WIN32
+#ifndef COM_OFF
     CoUninitialize();
+#endif
 #ifdef USE_WINSOCK
     WSACleanup();
 #endif
@@ -1341,4 +1357,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-

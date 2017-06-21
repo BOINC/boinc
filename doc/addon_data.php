@@ -59,7 +59,7 @@ array(
     1371112500
 ),
 array(
-    'http://www.myfavoritegadgets.info/monitors/BOINCMonitor/BOINCMonitor.html',
+    'https://windows10gadgets.pro/toolsandutils/boincmonitor/boincmonitor.html',
     'BOINC Monitor',
     '',
     'A desktop gadget that shows the status of running tasks',

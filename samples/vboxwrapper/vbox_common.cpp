@@ -161,7 +161,9 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
         if (is_vm_machine_configuration_available()) {
             retval = register_vm();
+          
             if (retval){
+
                 vboxlog_msg("Could not register");
                 return retval;
             }
@@ -171,18 +173,21 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
                 // was already initialized for the current slot directory but aborted
                 // while the task was suspended and unloaded from memory.
                 retval = deregister_stale_vm();
+              
                 if (retval){
+
                     vboxlog_msg("Could not deregister stale VM");
                     return retval;
                 }
             }
             retval = create_vm();
+
             if (retval){
+
                 vboxlog_msg("Could not create VM");
                 return retval;
             }
         }
-
     }
 
     // The user has requested that we exit after registering the VM, so return an
@@ -199,7 +204,9 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     if (online) {
         vboxlog_msg("VM was running");
         retval = poweroff();
+
         if (retval){
+
             vboxlog_msg("Could not stop running VM");
             return ERR_NOT_EXITED;
         }
@@ -209,7 +216,9 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     // saved snapshot
     if (do_restore_snapshot) {
         retval = restore_snapshot();
+
         if (retval){
+
             vboxlog_msg("Could not restore from snapshot");
             return retval;
         }
@@ -217,7 +226,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
     // Has BOINC signaled that we should quit?
     // Try to prevent starting the VM in an environment where we might be terminated any
-    // second.  This can happen if BOINC has been told to shutdown or the volunteer has 
+    // second.  This can happen if BOINC has been told to shutdown or the volunteer has
     // told BOINC to switch to a different project.
     //
     if (boinc_status.no_heartbeat || boinc_status.quit_request) {
@@ -226,7 +235,9 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
     // Start the VM
     retval = start();
+
     if (retval){
+
         vboxlog_msg("Could not start ");
         return retval;
     }
@@ -408,6 +419,7 @@ string VBOX_BASE::read_vm_log(){
     string msg;
     string virtualbox_vm_log;
     virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
+
     string console = "Console: Machine state changed to \'";
 
     std::ifstream  src(virtualbox_vm_log.c_str(), std::ios::binary);
@@ -443,6 +455,7 @@ string VBOX_BASE::read_vm_log(){
             }
             log_pointer = src.tellg();
         }
+
         return state;
     }
     else return "Error in parsing the log file";
@@ -1021,6 +1034,7 @@ int VBOX_BASE::launch_vboxvm() {
 
     // Execute command
     if (!CreateProcess(
+
                 NULL, 
                 cmdline,
                 NULL,
@@ -1031,7 +1045,9 @@ int VBOX_BASE::launch_vboxvm() {
                 NULL,
                 &si,
                 &pi
+
                 )) {
+
         vboxlog_msg(
                 "Status Report: Launching virtualbox.exe/vboxheadless.exe failed!."
                 );
@@ -1041,7 +1057,7 @@ int VBOX_BASE::launch_vboxvm() {
                 GetLastError()
                 );
         goto CLEANUP;
-    } 
+    }
 
     while(1) {
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
@@ -1162,7 +1178,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             // lock is held by a previous instance of vboxmanage whos instance data hasn't been
             // cleaned up within vboxsvc yet.
             //
-            // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007) 
+            // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007)
             //
             if (VBOX_E_INVALID_OBJECT_STATE == (unsigned int)retval) {
                 if (retry_notes.find("Another VirtualBox management") == string::npos) {
@@ -1183,7 +1199,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             // Experiments performed by jujube suggest changing the sleep interval to an exponential
             // style backoff would increase our chances of success.
             //
-            // Error Code: CO_E_SERVER_EXEC_FAILURE (0x80080005) 
+            // Error Code: CO_E_SERVER_EXEC_FAILURE (0x80080005)
             //
             if (CO_E_SERVER_EXEC_FAILURE == (unsigned int)retval) {
                 if (retry_notes.find("Unable to communicate with VirtualBox") == string::npos) {
@@ -1196,6 +1212,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             }
 
             // Retry?
+
             if (!retry_failures && 
                     (VBOX_E_INVALID_OBJECT_STATE != (unsigned int)retval) && 
                     (CO_E_SERVER_EXEC_FAILURE != (unsigned int)retval)
@@ -1287,7 +1304,9 @@ int VBOX_BASE::vbm_popen_raw(
 
     // Execute command
     if (!CreateProcess(
+
                 NULL, 
+
                 (LPTSTR)command.c_str(),
                 NULL,
                 NULL,
@@ -1298,6 +1317,7 @@ int VBOX_BASE::vbm_popen_raw(
                 &si,
                 &pi
                 )) {
+
         vboxlog_msg("CreateProcess failed! (%d).", GetLastError());
         goto CLEANUP;
     }
@@ -1374,7 +1394,7 @@ CLEANUP:
 
     // Execute command
     fp = popen(modified_command.c_str(), "r");
-    if (fp == NULL){
+    if (fp == NULL) {
         vboxlog_msg("vbm_popen popen failed! (%d).", errno);
         retval = ERR_FOPEN;
     } else {

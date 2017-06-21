@@ -107,7 +107,7 @@ function display_team_page($team, $user) {
         row2(tra('Web site'), "<a href=$x>$x</a>");
     }
 
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
         if (function_exists('project_team_credit')) {
@@ -223,7 +223,7 @@ function display_team_members($team, $offset, $sort_by) {
     start_table();
     $x = array();
     $x[] = tra('Name');
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         if ($nosort) {
             $x[] = tra('Total credit');
             $x[] = tra('Recent average credit');
@@ -269,7 +269,7 @@ function display_team_members($team, $offset, $sort_by) {
         echo "<tr class=row1>
             <td align=left>$j) $x
         </td>";
-        if (!no_computing()) {
+        if (!NO_COMPUTING) {
             echo "
                 <td align=right>$user_total_credit</td>
                 <td align=right>$user_expavg_credit</td>

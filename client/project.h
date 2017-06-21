@@ -199,6 +199,7 @@ struct PROJECT : PROJ_AM {
     bool attached_via_acct_mgr;
     bool detach_when_done;
         // when no results for this project, detach it.
+        // if using AM, do AM RPC before detaching
     bool ended;
         // project has ended; advise user to detach
     char code_sign_key[MAX_KEY_LEN];

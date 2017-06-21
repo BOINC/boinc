@@ -65,6 +65,7 @@ int ACCT_MGR_OP::do_rpc(
     strlcpy(url, _url.c_str(), sizeof(url));
 
     error_num = ERR_IN_PROGRESS;
+    error_str = "";
     via_gui = _via_gui;
     if (global_prefs_xml) {
         free(global_prefs_xml);
