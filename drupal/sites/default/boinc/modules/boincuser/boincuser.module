@@ -1329,8 +1329,11 @@ function boincuser_create_account() {
   if (user_validate_mail($params['email_addr']) or !is_valid_email_addr($params['email_addr'])) {
     xml_error(-205);
   }
-  if ($error = user_validate_name($params['user_name'])) {
-    xml_error(-205, $error);
+
+  $decode_name = urldecode($params['user_name']);
+  $cleaned_name = preg_replace('/[^a-zA-Z0-9_ \.-]/s', '_', $decode_name);
+  if ($error = user_validate_name($cleaned_name)) {
+    xml_error(-188, $error);
   }
   if (strlen($params['passwd_hash']) != 32) {
     xml_error(-1, 'password hash length not 32');
