@@ -160,7 +160,6 @@ namespace vboxmanage {
         //
         launch_vboxsvc();
 #endif
-#endif
 
         rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
         if (rc) return rc;
