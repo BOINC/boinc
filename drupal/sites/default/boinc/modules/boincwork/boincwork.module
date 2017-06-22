@@ -162,7 +162,6 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
-  // @todo - change URL of routes
   $items['account/tasks/%/%'] = array(
     'title' => 'Account Tasks Table',
     'description' => '',
@@ -1031,7 +1030,7 @@ function boincwork_host_task_table($host_id = NULL, $tselect = NULL, $app_id = N
  * Page callback for workunit task table
  */
 function boincwork_workunit_task_table($workunit_id = NULL, $tselect = NULL, $app_id = NULL) {
-  $title = bts('Tasks for computer @workunit_id', array('@workunit_id' => $workunit_id), NULL, 'boinc:workunit-task-table');
+  $title = bts('Tasks for workunit @workunit_id', array('@workunit_id' => $workunit_id), NULL, 'boinc:workunit-task-table');
   drupal_set_title($title);
 
   if (is_null($workunit_id)) {
