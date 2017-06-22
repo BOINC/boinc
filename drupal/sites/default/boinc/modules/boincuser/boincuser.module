@@ -314,7 +314,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
               'opinions' => $edit['field_opinions'][0]['value']
             );
             // With BOINC validation passed, make sure name is unique
-            $edit['name'] = find_unique_name($edit['boincuser_name']);
+            $edit['name'] = create_proper_drupalname($edit['boincuser_name']);
           }
           break;
           
@@ -1330,9 +1330,9 @@ function boincuser_create_account() {
     xml_error(-205);
   }
 
-  $decode_name = urldecode($params['user_name']);
-  $cleaned_name = preg_replace('/[^a-zA-Z0-9_ \.-]/s', '_', $decode_name);
-  if ($error = user_validate_name($cleaned_name)) {
+  // Make sure user_name is unique and cleaned
+  $unique_name = create_proper_drupalname($params['user_name']);
+  if ($error = user_validate_name($unique_name)) {
     xml_error(-188, $error);
   }
   if (strlen($params['passwd_hash']) != 32) {
@@ -1357,9 +1357,6 @@ function boincuser_create_account() {
     // Create new account
     $unrestricted_role = array_search('community member', user_roles(true));
 
-    // Make sure user_name is unique
-    $unique_name = find_unique_name($params['user_name']);
-
     $newUser = array(
       'name' => $unique_name,
       'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
@@ -1382,7 +1379,10 @@ function boincuser_create_account() {
         }
       }
       else {
-        xml_error(-137);
+        // Delete the drupal user just created.
+        user_delete(array(), $user->uid);
+
+        xml_error(-137, 'error creating BOINC account');
       }// if boinc user created.
     }
     else {

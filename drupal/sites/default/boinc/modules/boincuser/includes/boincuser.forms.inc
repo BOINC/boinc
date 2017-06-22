@@ -159,7 +159,7 @@ function boincuser_create_drupal_user($boinc_user) {
   }
   
   // Make sure name is unique
-  $unique_name = find_unique_name($boinc_user->name);
+  $unique_name = create_proper_drupalname($boinc_user->name);
   
   $userinfo = array(
     'name' => $unique_name,
