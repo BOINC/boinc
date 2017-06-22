@@ -63,6 +63,7 @@ if (LDAP_HOST && $ldap_auth) {
     if (!$passwd_hash) {
         echo "<account_out>\n";
         echo "   <success/>\n";
+        echo "   <id>$user->id</id>\n";
         echo "</account_out>\n";
         exit();
     }
