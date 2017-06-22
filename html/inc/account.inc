@@ -30,7 +30,7 @@ function create_account_form($teamid, $next_url) {
     //
     if (defined('INVITE_CODES')) {
         form_input_text(
-             tra("Invitation Code")."<br><small>".tra("A valid invitation code is required to create an account.")."</small>",
+             tra("Invitation Code")."<br><small>".tra("An invitation code is required to create an account.")."</small>",
              "invite_code"
         );
     }

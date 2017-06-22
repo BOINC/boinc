@@ -408,7 +408,7 @@ function form_checkboxes($label, $items) {
 
 // $items is list of (value, label)
 //
-function form_radio_buttons($label, $name, $items) {
+function form_radio_buttons($label, $name, $items, $selected) {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
@@ -417,9 +417,10 @@ function form_radio_buttons($label, $name, $items) {
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     foreach ($items as $i) {
-        echo sprintf('<input type="radio" name="%s" value="%s"> %s <br>
+        $checked = ($selected == $i[0])?"checked":"";
+        echo sprintf('<input type="radio" name="%s" value="%s" %s> %s <br>
             ',
-            $name, $i[0], $i[1]
+            $name, $i[0], $checked, $i[1]
         );
     }
     echo '</div>
