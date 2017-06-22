@@ -630,7 +630,7 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
       // Sender accepted recipient's friend request
       $email['subject'] = bts('!name accepted your friend request [!site]', array(
         '!name' => $sender->boincuser_name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         ), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name confirmed you as a friend on !site.
 
@@ -642,7 +642,7 @@ Follow this link to view his or her profile:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
         ), array(), NULL, 'boinc:friend-request-email');
@@ -650,7 +650,7 @@ The !site team', array(
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')), NULL, 'boinc:friend-request-email');
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
@@ -661,7 +661,7 @@ Follow the link below to view this request:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
         ),

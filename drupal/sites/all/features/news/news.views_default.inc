@@ -431,7 +431,7 @@ function news_views_default_views() {
       'default_argument_fixed' => '',
       'default_argument_php' => '// Use this to set a custom feed title that works both in the feed and
 // in the auto discovery link in the page header
-return variable_get(\'site_name\', \'BOINC\');
+return variable_get(\'site_name\', \'Drupal-BOINC\');
 ',
       'validate_argument_node_type' => array(
         'page' => 0,

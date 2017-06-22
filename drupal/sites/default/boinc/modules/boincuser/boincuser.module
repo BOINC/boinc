@@ -1564,7 +1564,7 @@ function boincuser_moderate_user_ban($uid, $reason = '', $duration = '') {
       global $user;
       global $base_url;
       global $base_path;
-      $site_name = variable_get('site_name',  'Drupal-BOINC');
+      $site_name = variable_get('site_name', 'Drupal-BOINC');
       $site_url = $base_url . $base_path;
       $moderator = user_load($user->uid);
       $settings = array(

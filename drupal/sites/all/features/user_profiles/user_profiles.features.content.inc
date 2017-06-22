@@ -496,7 +496,7 @@ Zimbabwe|Zimbabwe',
    1. Why do you run @this_project?
    2. What are your views about the project?
    3. Any suggestions?',
-      array('@this_project' => variable_get('site_name','')), NULL, 'boinc:account-profile-edit'),
+      array('@this_project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-profile-edit'),
       'type' => 'text_textarea',
       'module' => 'text',
     ),

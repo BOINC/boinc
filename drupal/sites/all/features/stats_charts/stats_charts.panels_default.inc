@@ -40,7 +40,7 @@ function stats_charts_default_panels_mini() {
     $pane->access = array();
     $pane->configuration = array(
       'admin_title' => 'Project stats overview',
-      'title' => bts('@this_project Progress', array('@this_project' => variable_get('site_name', '')), NULL, 'boinc:frontpage'),
+      'title' => bts('@this_project Progress', array('@this_project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:frontpage'),
       'body' => '<?php echo boincstats_get_project_stats_overview(); ?>',
       'format' => '3',
       'substitute' => TRUE,
