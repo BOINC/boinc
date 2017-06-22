@@ -507,7 +507,7 @@ void CDlgItemProperties::renderInfos() {
     std::string content;
     content += "<html>";
     content += "<body>";
-    content += "<table style='widht:100%'>";
+    content += "<table style='width:100%'>";
     for (size_t i = 0; i < m_items.size(); ++i) {
         if (m_items[i].item_type == ItemTypeSection) {
             content += "<tr>";
