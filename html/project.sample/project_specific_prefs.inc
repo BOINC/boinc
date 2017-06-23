@@ -136,8 +136,8 @@ function project_specific_prefs_edit($prefs, $error=false) {
             $x .= "<input type=checkbox name=app_id_$app_id $checked> $app_name<br>";
         }
         tooltip_row2(APP_SELECT_TOOLTIP, APP_SELECT_DESC, $x);
-        $checked = $prefs->allow_non_preferred_apps?"checked":"";
-        row2(ACCEPT_ANY_DESC, "<input type=checkbox name=allow_non_preferred_apps $checked>");
+        $checked = $prefs->allow_non_selected_apps?"checked":"";
+        row2(ACCEPT_ANY_DESC, "<input type=checkbox name=allow_non_selected_apps $checked>");
     }
     if (NON_GRAPHICAL_PREF) {
         $checked = $prefs->non_graphical?"checked":"";
@@ -194,8 +194,8 @@ function project_specific_prefs_parse_form(&$error) {
         if ($some_unchecked) {
             $x .= $y;
         }
-        if (isset($_GET["allow_non_preferred_apps"])) {
-            $x .= "<allow_non_preferred_apps>1</allow_non_preferred_apps>\n";
+        if (isset($_GET["allow_non_selected_apps"])) {
+            $x .= "<allow_non_selected_apps>1</allow_non_selected_apps>\n";
         }
     }
 
@@ -231,7 +231,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
             if ($prefs->school) $prefs->school->app_id_text = selected_app_text($prefs->school);
             if ($prefs->work) $prefs->work->app_id_text = selected_app_text($prefs->work);
             row_defs(APP_SELECT_DESC, "app_id_text", "", "", $prefs, APP_SELECT_TOOLTIP);
-            row_defs(ACCEPT_ANY_DESC, "allow_non_preferred_apps_text", "", "", $prefs);
+            row_defs(ACCEPT_ANY_DESC, "allow_non_selected_apps_text", "", "", $prefs);
         }
         if (NON_GRAPHICAL_PREF) {
             row_defs(NON_GRAPHICAL_DESC, "non_graphical", "", "yesno", $prefs);
@@ -251,7 +251,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
         }
         if (APP_SELECT_PREFS) {
             tooltip_row2(APP_SELECT_TOOLTIP, APP_SELECT_DESC, selected_app_text($prefs));
-            row2(ACCEPT_ANY_DESC, $prefs->allow_non_preferred_apps_text);
+            row2(ACCEPT_ANY_DESC, $prefs->allow_non_selected_apps_text);
         }
         if (NON_GRAPHICAL_PREF) {
             row2(NON_GRAPHICAL_DESC, $prefs->non_graphical?tra("yes"):tra("no"));
@@ -281,8 +281,8 @@ function project_specific_prefs_parse($prefs_xml) {
                 $prefs->app_ids[] = $n;
             }
         }
-        $prefs->allow_non_preferred_apps = parse_element($prefs_xml, "<allow_non_preferred_apps>");
-        $prefs->allow_non_preferred_apps_text = $prefs->allow_non_preferred_apps?"yes":"no";
+        $prefs->allow_non_selected_apps = parse_element($prefs_xml, "<allow_non_selected_apps>");
+        $prefs->allow_non_selected_apps_text = $prefs->allow_non_selected_apps?"yes":"no";
     }
     if (NON_GRAPHICAL_PREF) {
         $prefs->non_graphical = parse_bool($prefs_xml, "non_graphical");
