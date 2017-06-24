@@ -78,7 +78,7 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    if (!parse_bool(get_config(), "no_computing")) {
+    if (!NO_COMPUTING) {
         $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
     }
     row2($x, '<input class="form-control" name=email_addr type="text" size=40 tabindex=1>');

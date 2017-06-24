@@ -602,7 +602,7 @@ function show_post(
         // by displaying the  user id of the poster.
         //
         //echo "ID: ".$user->id."<br>";
-        if (!no_computing()) {
+        if (NO_COMPUTING) {
             echo tra("Credit: %1", number_format($user->total_credit)) ."<br>";
             echo tra("RAC: %1",    number_format($user->expavg_credit))."<br>";
         }
