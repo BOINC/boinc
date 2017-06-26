@@ -162,7 +162,8 @@ void escape_url(const char *in, char*out, int out_size) {
     char buf[256];
     int x, y;
     for (x=0, y=0; in[x] && (y<out_size-3); ++x) {
-        if (isalnum(in[x])) {
+        unsigned char c = (unsigned char)in[x];
+        if (c < 0x80 && isalnum(c)) {
             out[y] = in[x];
             ++y;
         } else {
