@@ -4,8 +4,6 @@
 // look at https://boinc.berkeley.edu/project_list.php in a browser to make sure
 // you didn't mess up the XML
 
-require_once("../inc/translation.inc");
-
 // 0: name
 // 1: web site URL
 // 2: home

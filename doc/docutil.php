@@ -56,12 +56,16 @@ function page_head($title, $extra="") {
     html_tag();
     echo "
         <head>
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"bootstrap.min.css\">
         <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
         <title>$title</title>
         $extra
         </head>
-        <body bgcolor='ffffff'>
+        <body>
+    ";
+    echo '<div class="container-fluid">
+    ';
+    echo "
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
@@ -125,6 +129,7 @@ function page_tail($translatable=false, $is_main=false) {
     echo "
         </font>
         </span>
+        </div>
         </body>
         </html>
     ";

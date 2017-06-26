@@ -1,13 +1,19 @@
 <?php
-require_once("docutil.php");
+$dir = getcwd();
+chdir("/mydisks/a/users/boincadm/projects/dev/html/user");
+require_once("../inc/util.inc");
+chdir($dir);
+
 require_once("projects.inc");
 require_once("get_platforms.inc");
 page_head("Choosing BOINC projects",
+    null, false, "",
     '<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="popup.js"></script>'
 );
 
 echo "
+<script src=\"wz_tooltip.js\"></script>
 <p>
 BOINC is used by many volunteer computing <b>projects</b>.
 Some are based at universities and research labs,
@@ -49,13 +55,14 @@ If your computer is equipped with a Graphics Processing Unit
 // Randomize order of areas, and of projects within an area
 //
 function grouped_display($areas) {
-    list_start("cellpadding=2 width=100%");
-    list_heading_array(array(
-        "Project<br><span class=note>Mouse over for details; click to visit web site</span>",
+    start_table("table-striped");
+    row_heading_array(array(
+        "Project<br><small>Mouse over for details; click to visit web site</small>",
         "Home",
         "Research area",
         "Supported platforms"
-        )
+        ),
+        'bg-default'
     );
     shuffle($areas);
     foreach ($areas as $area) {
@@ -71,7 +78,7 @@ function grouped_display($areas) {
                 $img= "<img align=right vspace=4 hspace=4 src=images/$p[5]>";
             }
             $desc = addslashes($p[4]);
-            $x = "<a href=$p[1] onmouseover=\"popup('$img <b>Sponsor:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $desc')\">$p[0]</a>";
+            $x = "<a href=$p[1] onmouseover=\"Tip('$img <b>Sponsor:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $desc')\">$p[0]</a>";
             $home = $p[2];
             $area = $p[3];
             $master_url = $p[1];
@@ -89,7 +96,7 @@ function grouped_display($areas) {
             $n = 1-$n;
         }
     }
-    list_end();
+    end_table();
 }
 
 function comp_name($p1, $p2) {
@@ -115,15 +122,17 @@ function ordered_display($areas, $sort) {
         }
     }
     usort($projects, $sort=="area"?'comp_area':'comp_name');
-    list_start("cellpadding=2 width=100%");
-    list_heading_array(array(
+    start_table("table-striped");
+    row_heading_array(array(
         (($sort=="area")?"<a title='Sort by name' href=projects.php>Name</a>":"Name")
             ."<br><span class=note>Mouse over for details; click to visit web site</span>",
         ($sort!="area")?"<a title='Sort by category' href=projects.php?sort=area>Category</a>":"Category",
         "Area",
         "Sponsor",
         "Supported platforms"
-        )
+        ),
+        null,
+        'bg-default'
     );
     $n = 0;
     foreach ($projects as $p) {
@@ -131,9 +140,9 @@ function ordered_display($areas, $sort) {
         if (array_key_exists(5, $p) && $p[5]) {
             $img= "<img align=right vspace=4 hspace=4 src=images/$p[5]>";
         }
-        $arg = "$img <b>Sponsor:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]";
+        $arg = "$img <b>Sponsor:</b> $p[2]<br><b>Area:</b> $p[3]<br><b>Goal:</b> $p[4]";
         $arg = addslashes($arg);
-        $x = "<a href=$p[1] onmouseover=\"popup('$arg')\">$p[0]</a>";
+        $x = "<a href=$p[1] onmouseover=\"Tip('$arg', WIDTH, 500)\" onmouseout=\"UnTip()\">$p[0]</a>";
         $home = $p[2];
         $area = $p['area'];
         $spec_area = $p[3];
@@ -158,7 +167,7 @@ function ordered_display($areas, $sort) {
         ";
         $n = 1-$n;
     }
-    list_end();
+    end_table();
 }
 
 //grouped_display($areas);
@@ -172,7 +181,7 @@ echo "
 If you run a BOINC-based project
 and would like it to be included on this list,
 please <a href=trac/wiki/ProjectPeople>contact us</a>.
-<script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
+
 ";
 page_tail();
 ?>

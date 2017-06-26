@@ -1,3 +1,5 @@
+<?php
+
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2017 University of California
@@ -19,10 +21,9 @@
 
 // show a download link as a button or table row
 //
-function download_link($pname, $button=false) {
+function download_link($client_info, $pname, $button=false, $vbox_req=false) {
     global $platforms;
     global $url_base;
-    global $client_info;
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
@@ -46,51 +47,51 @@ function download_link($pname, $button=false) {
     $s = number_format(filesize($path)/1000000, 2);
 
     if ($button) {
-        if ($vbox_file) {
+        if ($vbox_file && !$vbox_req) {
             echo tra("We recommend that you also install %1VirtualBox%2, so your computer can work on science projects that require it.", "<a href=https://www.virtualbox.org/>", "</a>");
             echo " <a href=http://boinc.berkeley.edu/wiki/VirtualBox>";
             echo tra("Learn more about VirtualBox.");
             echo "</a>";
+        }
 
-            echo "<table><tr valign=top><td>\n";
+        echo "<table width=100%><tr valign=top align=center><td>\n";
 
-            // the current BOINC VBox doesn't work on Win 10
+        if ($vbox_file) {
+            // the current BOINC VBox doesn't work on Win 10,
+            // so don't show the VBox button.
             // remove this when we make a new release
             //
             if (!strstr($client_info, "Windows NT 10")) {
                 echo "
-                    <table cellpadding=10><tr valign=top><td class=button_green>
-                    <a href=\"$vbox_url\"><font size=5em><u>"
+                    <a href=\"$vbox_url\" class=\"btn btn-success\"><font size=+1><u>"
                     .tra("Download BOINC + VirtualBox")
-                    ."</u></font></a>
+                    ."</u></font>
                     <br>"
                     // "for %s" identifies the operating system, e.g. "for Windows"
                     .sprintf(tra("for %s"), $long_name)
                     ." ($vbox_size MB)"
-                    ."<br><span class=note>"
+                    ."<br><small>"
                     .sprintf(tra("BOINC %s"), $num)
                     .", "
                     .sprintf(tra("VirtualBox %s"), $vbox_version)
-                    ."</span></td></tr>
-                    </table>
+                    ."</small></a>
+                    &nbsp;
+                    &nbsp;
                 ";
             }
-            echo "</td><td>\n";
         }
-        echo "
-            <table cellpadding=10><tr valign=top><td class=button>
-            <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
-            <br>"
-            .sprintf(tra("for %s"), $long_name)
-            ." ($s MB)"
-            ."<br><span class=note>"
-            .sprintf(tra("BOINC %s"), $num)
-            ."</span></td></tr>
-            </table>
-        ";
-        if ($vbox_file) {
-            echo "</td></tr></table>\n";
+        if (!$vbox_file || !$vbox_req) {
+            echo "
+                <a href=\"$url\" class=\"btn btn-info\"><font size=2><u>".tra("Download BOINC")."</u></font>
+                <br>"
+                .sprintf(tra("for %s"), $long_name)
+                ." ($s MB)"
+                ."<br><small>"
+                .sprintf(tra("BOINC %s"), $num)
+                ."</small></a>
+            ";
         }
+        echo "</td></tr></table>\n";
         if ($pname == 'linux'||$pname == 'linuxx64') {
             echo "<p>", linux_info();
         }
