@@ -19,7 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
-require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
 
 check_get_args(array());
 
