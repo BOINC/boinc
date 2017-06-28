@@ -78,7 +78,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
 
     if (app_not_selected(app->id)) {
-        if (g_wreq->project_prefs.allow_non_selected_apps) {
+        if (g_wreq->project_prefs.allow_non_preferred_apps) {
             score -= 1;
         } else {
             if (config.debug_send_job) {

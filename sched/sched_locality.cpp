@@ -296,7 +296,7 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    // This doesn't take into account g_wreq->allow_non_selected_apps,
+    // This doesn't take into account g_wreq->allow_non_preferred_apps,
     // however Einstein@Home, which is the only project that currently uses
     // this locality scheduler, doesn't support the respective project-specific
     // preference setting
