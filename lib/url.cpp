@@ -117,9 +117,9 @@ static char x2c(char *what) {
 
 void c2x(char *what) {
     char buf[3];
-    char num = atoi(what);
-    char d1 = num / 16;
-    char d2 = num % 16;
+    unsigned char num = atoi(what);
+    unsigned char d1 = num / 16;
+    unsigned char d2 = num % 16;
     int abase1, abase2;
     if (d1 < 10) abase1 = 48;
     else abase1 = 55;
@@ -162,14 +162,15 @@ void escape_url(const char *in, char*out, int out_size) {
     char buf[256];
     int x, y;
     for (x=0, y=0; in[x] && (y<out_size-3); ++x) {
-        if (isalnum(in[x])) {
+        unsigned char c = (unsigned char)in[x];
+        if (c < 0x80 && isalnum(c)) {
             out[y] = in[x];
             ++y;
         } else {
             out[y] = '%';
             ++y;
             out[y] = 0;
-            snprintf(buf, sizeof(buf), "%d", (char)in[x]);
+            snprintf(buf, sizeof(buf), "%u", (unsigned char)in[x]);
             c2x(buf);
             strlcat(out, buf, out_size);
             y += 2;
