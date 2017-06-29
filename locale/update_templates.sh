@@ -79,7 +79,7 @@ cd ${srcdir}
 echo "building localization template for BOINC website"
 TMPL_NAME="website"
 TMPL_FILE="${srcdir}/locale/templates/BOINC-Web.pot"
-FILE_LIST="doc/account_managers.inc doc/addons.php doc/docutil.php doc/download.php doc/index.php doc/help.php doc/help_funcs.php doc/links.php doc/logo.php doc/projects.inc html/inc/news.inc"
+FILE_LIST="doc/account_managers.inc doc/addons.php doc/docutil.php doc/download.php doc/index.php doc/help.php doc/help_funcs.php doc/links.php doc/logo.php doc/projects.php doc/download_util.inc doc/projects.inc html/inc/news.inc"
 
 sed -e "s/@YEAR@/$YEAR/" -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
 cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
