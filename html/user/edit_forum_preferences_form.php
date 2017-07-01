@@ -84,7 +84,7 @@ $signature=$user->prefs->signature;
 $maxlen=250;
 row2(
     tra("Signature for message board posts")
-    .html_info()
+    .bbcode_info()
     ."<br><br>"
     .tra("Check out %1various free services%2
 <br> providing dynamic 'signature images'

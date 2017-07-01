@@ -27,6 +27,27 @@ function pm_header() {
     echo "</div>\n";
 }
 
+function pm_rules() {
+    $x = "<table><tr><td align=left><small>";
+    $x .= tra("
+        <ul>
+        <li> Messages may not contain content that is obscene, hate-related,
+            sexually explicit or suggestive.
+        <li> No commercial advertisements.
+        <li> No links to web sites involving sexual content,
+            gambling, or intolerance of others.
+        <li> No messages intended to annoy or antagonize other people.
+        <li> No messages that are deliberately hostile, threatening, or insulting.
+        <li> No abusive comments involving race, religion,
+            nationality, gender, class or sexuality.
+        <li> The privileges of violators may be suspended or revoked.
+        <li> If your account is suspended, don't create a new one.
+        </ul>
+    ");
+    $x .= "</small></td></tr></table>\n";
+    return $x;
+}
+
 function pm_team_form($user, $teamid, $error=null) {
     global $bbcode_html, $bbcode_js;
     $team = BoincTeam::lookup_id($teamid);
@@ -62,7 +83,7 @@ function pm_team_form($user, $teamid, $error=null) {
         "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
         null, '20%'
     );
-    row2_init(tra("Message")."<small>".html_info()."</small>", "", '20%');
+    row2_init(tra("Message")."<small>".bbcode_info()."</small>", "", '20%');
     start_table();
     echo $bbcode_html;
     echo "<tr><td>\n";
@@ -143,7 +164,7 @@ function pm_form($replyto, $userid, $error = null) {
         null, '20%'
     );
     row2_init(
-        tra("Message")."<small>".html_info()."</small>",
+        tra("Message")."<small>".bbcode_info().pm_rules()."</small>",
         "",
         '20%'
     );

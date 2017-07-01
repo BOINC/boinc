@@ -177,10 +177,10 @@ function show_questions($profile) {
     }
 
     row1(show_profile_heading1());
-    rowify(show_profile_question1().html_info());
+    rowify(show_profile_question1().bbcode_info());
     show_textarea("response1", $response1);
     row1( show_profile_heading2());
-    rowify( show_profile_question2().html_info());
+    rowify( show_profile_question2().bbcode_info());
     show_textarea("response2", $response2);
     show_language_selection($profile);
 }

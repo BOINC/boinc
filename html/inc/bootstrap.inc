@@ -218,10 +218,10 @@ function sample_navbar(
 // output a panel.
 // $content_func is a function that generates the panel contents
 //
-function panel($title, $content_func) {
-    echo '
-    <div class="panel panel-primary">
-    ';
+function panel($title, $content_func, $class="panel-primary") {
+    echo sprintf('<div class="panel %s">
+        ', $class
+    );
     if ($title) {
         echo '
             <div class="panel-heading">

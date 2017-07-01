@@ -114,12 +114,12 @@ if ($can_edit_title) {
     //If this is the user can edit the thread title display a way of doing so
     if ($preview) {
         row2(
-            tra("Title").html_info(),
+            tra("Title").bbcode_info(),
             "<input type=\"text\" name=\"title\" value=\"".htmlspecialchars($title)."\">"
         );
     } else {
         row2(
-            tra("Title").html_info(),
+            tra("Title").bbcode_info(),
             '<input type="text" name="title" value="'.htmlspecialchars($thread->title).'">'
         );
     }
@@ -127,12 +127,12 @@ if ($can_edit_title) {
 
 if ($preview) {
     row2(
-        tra("Message").html_info().post_warning(),
+        tra("Message").bbcode_info().post_warning(),
         start_table_str().$bbcode_html.end_table_str()."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
-        tra("Message").html_info().post_warning(),
+        tra("Message").bbcode_info().post_warning(),
         start_table_str().$bbcode_html.end_table_str().'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }

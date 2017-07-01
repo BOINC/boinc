@@ -613,7 +613,7 @@ function close_output_buffer($filename) {
     fclose($fh);
 }
 
-function html_info() {
+function bbcode_info() {
     return "<br><a href=bbcode.php target=new><small>".tra("Use BBCode tags to format your text")."</small></a>\n";
 }
 
