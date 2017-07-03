@@ -496,9 +496,10 @@ function row_heading_array($x, $attrs=null, $class='bg-primary') {
     echo "</tr>\n";
 }
 
-function row_heading($x) {
-    echo '<tr><th class="bg-primary" colspan=99>'.$x.'</th></tr>
-    ';
+function row_heading($x, $class='bg-primary') {
+    echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
+        ', $class, $x
+    );
 }
 
 function random_string() {
