@@ -10,16 +10,20 @@
 // version=x        show version x
 // platform=x       show only versions for platform x (win/mac/linux/solaris)
 
-require_once("docutil.php");
+$dir = getcwd();
+chdir("/mydisks/a/users/boincadm/projects/dev/html/user");
+require_once("../inc/util.inc");
+chdir($dir);
+
 require_once("versions.inc");
 
-$xml = get_str2("xml");
-$dev = get_str2("dev");
-$pname = get_str2("platform");
-$min_version = get_str2("min_version");
-$max_version = get_str2("max_version");
-$version = get_str2("version");
-$type_name = get_str2("type");
+$xml = get_str("xml", true);
+$dev = get_str("dev", true);
+$pname = get_str("platform", true);
+$min_version = get_str("min_version", true);
+$max_version = get_str("max_version", true);
+$version = get_str("version", true);
+$type_name = get_str("type", true);
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
 // if not XML, dev defaults to 1
@@ -55,11 +59,11 @@ function show_detail($v) {
     $date = $v["date"];
     $type = type_text($v["type"]);
 
-    list_start();
+    table_start();
     dl_item("File (click to download)", "$dlink ($s MB)");
     dl_item("Version number", $num);
     dl_item("Release date", $date);
-    list_end();
+    table_end();
 }
 
 
@@ -118,7 +122,7 @@ function show_version($pname, $i, $v) {
         $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
         $link = "<a href=\"$vbox_url\"><b>Download BOINC + VirtualBox $vbox_version</b></a> ($vbox_size MB)<br>";
     }
-    $link .= "<a href=\"$url\"><b>Download</b></a> ($s MB)";
+    $link .= "<a href=\"$url\"><b>Download BOINC</b></a> ($s MB)";
     echo "<tr>
        <td class=rowlineleft>$num</td>
         <td class=rowline>$status</td>
@@ -137,7 +141,7 @@ function show_platform($short_name, $p, $dev) {
         $url = $p["url"];
         $long_name .= " <a href=$url><span class=description>details</span></a>";
     }
-    list_bar($long_name, $description);
+    row1("<center>$long_name<br><small>$description</small></center>", 99, "info");
     foreach ($p["versions"] as $i=>$v) {
         if ($min_version && version_compare($v['num'], $min_version, "<")) continue;
         if ($max_version && version_compare($v['num'], $max_version, ">")) continue;
@@ -195,18 +199,16 @@ if ($xml) {
         $p = $platforms[$pname];
         $name = $p['name'];
         page_head("Download BOINC client software for $name");
-        echo "<table width=\"100%\" cellpadding=4 >";
+        start_table("table-striped");
         show_platform($pname, $p, $dev);
-        list_end();
+        end_table();
     } else {
         page_head("Download BOINC client software");
-        echo "
-            <table width=\"100%\" cellpadding=4 >
-        ";
+        start_table("table-striped");
         foreach($platforms as $short_name=>$p) {
             show_platform($short_name, $p, $dev);
         }
-        list_end();
+        end_table();
         echo "
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can

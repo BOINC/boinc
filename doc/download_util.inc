@@ -19,9 +19,39 @@
 
 // utility functions for download links
 
-// show a download link as a button or table row
+function regular_link() {
+}
+
+function concierge_link($concierge, $download_url) {
+    return sprintf(
+        '<form action="https://boinc.berkeley.edu/concierge.php" method="post">
+        <input type=hidden name=master_url value="%s">
+        <input type=hidden name=user_name value="%s">
+        <input type=hidden name=auth value="%s">
+        <input type=hidden name=download_url value="%s">
+        ',
+        $concierge->master_url,
+        $concierge->user_name,
+        $concierge->auth,
+        $download_url
+    );
+}
+
+// Show download link(s) for the given platform,
+// showing version and download size information.
+// Show both VBox and non-VBox links if available.
+// If via concierge, show links as form submit buttons
 //
-function download_link($client_info, $pname, $button=false, $vbox_req=false) {
+function download_link(
+    $client_info,
+    $pname,
+    $button=false,
+        // show as button (else table row)
+    $vbox_req=false,
+        // if vbox version is available, show only it
+    $concierge = null
+        // download via concierge w/ info given by this object
+) {
     global $platforms;
     global $url_base;
     $p = $platforms[$pname];
@@ -46,6 +76,13 @@ function download_link($client_info, $pname, $button=false, $vbox_req=false) {
     $dlink = "<a href=\"$url\">$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
 
+    if ($concierge) {
+        $url = concierge_url($concierge, $url);
+        if ($vbox_file) {
+            $vbox_url = concierge_url($concierge, $vbox_url);
+        }
+    }
+
     if ($button) {
         if ($vbox_file && !$vbox_req) {
             echo tra("We recommend that you also install %1VirtualBox%2, so your computer can work on science projects that require it.", "<a href=https://www.virtualbox.org/>", "</a>");
@@ -59,7 +96,7 @@ function download_link($client_info, $pname, $button=false, $vbox_req=false) {
         if ($vbox_file) {
             // the current BOINC VBox doesn't work on Win 10,
             // so don't show the VBox button.
-            // remove this when we make a new release
+            // TODO: remove this when we make a new release
             //
             if (!strstr($client_info, "Windows NT 10")) {
                 echo "
@@ -113,6 +150,9 @@ function download_link($client_info, $pname, $button=false, $vbox_req=false) {
     }
 }
 
+// take the client info string reported by web browser,
+// and return best guess for platform
+//
 function client_info_to_platform($client_info) {
     if (strstr($client_info, 'Windows')) {
         if (strstr($client_info, 'Win64')||strstr($client_info, 'WOW64')) {

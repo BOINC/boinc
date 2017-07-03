@@ -6,11 +6,7 @@ chdir($dir);
 
 require_once("projects.inc");
 require_once("get_platforms.inc");
-page_head("Choosing BOINC projects",
-    null, false, "",
-    '<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="popup.js"></script>'
-);
+page_head("Choosing BOINC projects");
 
 echo "
 <script src=\"wz_tooltip.js\"></script>
@@ -155,7 +151,7 @@ function ordered_display($areas, $sort) {
             $p = tra("Unknown");
         } else {
             $pd = get_platforms_string($master_url, false);
-            $p .= "<br><a href=projects.php onmouseover=\"popup('Supported platforms:<br>$pd', 240)\">Details</a>";
+            $p .= "<br><a href=projects.php onmouseover=\"Tip('Supported platforms:<br>$pd', WIDTH, 240)\">Details</a>";
         }
         echo "<tr class=row$n>
             <td valign=top>$x</td>
@@ -175,8 +171,6 @@ function ordered_display($areas, $sort) {
 $sort = @$_GET['sort'];
 ordered_display($areas, $sort);
 echo "
-</ul>
-
 <p>
 If you run a BOINC-based project
 and would like it to be included on this list,
