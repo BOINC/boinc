@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 71a5dcee4b8d7c69f317ad418444b94a66a7ae8e\n"
+"Project-Id-Version: BOINC 11a37bd1d068991f0ae2241cfdb4984f0c9131c8\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2017-06-29 06:42 UTC\n"
+"POT-Creation-Date: 2017-07-04 11:20 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -446,7 +446,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: html/inc/forum.inc:410 html/inc/pm.inc:65 html/inc/pm.inc:146
+#: html/inc/forum.inc:410 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:130
 #: html/user/forum_edit.php:135 html/user/forum_post.php:122
 #: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
@@ -454,7 +454,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: html/inc/forum.inc:590 html/inc/pm.inc:74 html/inc/pm.inc:156
+#: html/inc/forum.inc:590 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr ""
 
@@ -517,8 +517,8 @@ msgstr ""
 
 #: html/inc/forum.inc:658
 msgid ""
-"This post is hidden because the sender is on your 'ignore' list.  Click "
-"%1here%2 to view hidden posts"
+"This post is hidden because the sender is on your 'ignore' list.  Click %1 "
+"here %2 to view hidden posts"
 msgstr ""
 
 #: html/inc/forum.inc:696 html/inc/forum.inc:707
@@ -1106,21 +1106,42 @@ msgstr ""
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:250 html/user/pm.php:57
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
 #: html/user/pm.php:142
 msgid "Inbox"
 msgstr ""
 
-#: html/inc/pm.inc:26 html/inc/pm.inc:254
+#: html/inc/pm.inc:26 html/inc/pm.inc:275
 msgid "Write"
 msgstr ""
 
-#: html/inc/pm.inc:40 html/user/team_manage.php:33
+#: html/inc/pm.inc:32
+msgid ""
+"\n"
+"        <ul>\n"
+"        <li> Messages may not contain content that is obscene, hate-"
+"related,\n"
+"            sexually explicit or suggestive.\n"
+"        <li> No commercial advertisements.\n"
+"        <li> No links to web sites involving sexual content,\n"
+"            gambling, or intolerance of others.\n"
+"        <li> No messages intended to annoy or antagonize other people.\n"
+"        <li> No messages that are deliberately hostile, threatening, or "
+"insulting.\n"
+"        <li> No abusive comments involving race, religion,\n"
+"            nationality, gender, class or sexuality.\n"
+"        <li> The privileges of violators may be suspended or revoked.\n"
+"        <li> If your account is suspended, don't create a new one.\n"
+"        </ul>\n"
+"    "
+msgstr ""
+
+#: html/inc/pm.inc:61 html/user/team_manage.php:33
 msgid "Send message to team"
 msgstr ""
 
-#: html/inc/pm.inc:44 html/inc/pm.inc:45 html/inc/pm.inc:73 html/inc/pm.inc:86
-#: html/inc/pm.inc:88 html/inc/pm.inc:156 html/user/forum_edit.php:101
+#: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94 html/inc/pm.inc:107
+#: html/inc/pm.inc:109 html/inc/pm.inc:177 html/user/forum_edit.php:101
 #: html/user/forum_edit.php:102 html/user/forum_edit.php:147
 #: html/user/forum_post.php:65 html/user/forum_post.php:93
 #: html/user/forum_post.php:94 html/user/forum_post.php:139
@@ -1130,54 +1151,54 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: html/inc/pm.inc:61 html/inc/pm.inc:141 html/user/ffmail_form.php:57
+#: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
 #: html/user/pm.php:79 html/user/pm.php:133
 msgid "Subject"
 msgstr ""
 
-#: html/inc/pm.inc:84 html/inc/user.inc:501
+#: html/inc/pm.inc:105 html/inc/user.inc:501
 msgid "Send private message"
 msgstr ""
 
-#: html/inc/pm.inc:100 html/user/pm.php:125
+#: html/inc/pm.inc:121 html/user/pm.php:125
 msgid "no such message"
 msgstr ""
 
-#: html/inc/pm.inc:136
+#: html/inc/pm.inc:157
 msgid "To"
 msgstr ""
 
-#: html/inc/pm.inc:136
+#: html/inc/pm.inc:157
 msgid "User IDs or unique usernames, separated with commas"
 msgstr ""
 
-#: html/inc/pm.inc:189
+#: html/inc/pm.inc:210
 msgid "sent you a private message; subject:"
 msgstr ""
 
-#: html/inc/pm.inc:196
+#: html/inc/pm.inc:217
 msgid "Private message%1 from %2, subject:"
 msgstr ""
 
-#: html/inc/pm.inc:204
+#: html/inc/pm.inc:225
 msgid "Couldn't create message"
 msgstr ""
 
-#: html/inc/pm.inc:242
+#: html/inc/pm.inc:263
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
 
-#: html/inc/pm.inc:252 html/user/forum_forum.php:194
+#: html/inc/pm.inc:273 html/user/forum_forum.php:194
 msgid "unread"
 msgstr ""
 
-#: html/inc/pm.inc:262
-msgid "For email notification, %1edit community prefs%2"
+#: html/inc/pm.inc:283
+msgid "For email notification, %1 edit community prefs %2"
 msgstr ""
 
-#: html/inc/pm.inc:278
+#: html/inc/pm.inc:299
 msgid "Private message"
 msgstr ""
 
@@ -1491,8 +1512,8 @@ msgstr ""
 
 #: html/inc/prefs.inc:250
 msgid ""
-"%1Unable to update preferences.%2 The values marked in red below were out of "
-"range or not numeric."
+"%1 Unable to update preferences. %2 The values marked in red below were out "
+"of range or not numeric."
 msgstr ""
 
 #: html/inc/prefs.inc:494
@@ -1700,7 +1721,7 @@ msgid "Recommend this profile for User of the Day:"
 msgstr ""
 
 #: html/inc/profile.inc:270
-msgid "I %1like%2 this profile"
+msgid "I %1 like %2 this profile"
 msgstr ""
 
 #: html/inc/profile.inc:273
@@ -1708,7 +1729,7 @@ msgid "Alert administrators to an offensive profile:"
 msgstr ""
 
 #: html/inc/profile.inc:274
-msgid "I %1do not like%2 this profile"
+msgid "I %1 do not like %2 this profile"
 msgstr ""
 
 #: html/inc/result.inc:58
@@ -2091,7 +2112,7 @@ msgstr ""
 msgid "Show only active teams"
 msgstr ""
 
-#: html/inc/team.inc:53 html/inc/util.inc:1092 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1093 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr ""
@@ -2245,12 +2266,12 @@ msgstr ""
 #: html/inc/team.inc:434
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
-"be overwritten. Edit the %1BOINC-wide team%2 instead."
+"be overwritten. Edit the %1 BOINC-wide team %2 instead."
 msgstr ""
 
 #: html/inc/team.inc:440
 msgid ""
-"%1Privacy note%2: if you create a team, your project preferences (resource "
+"%1 Privacy note %2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
 
@@ -2267,7 +2288,7 @@ msgid "Team name, HTML version"
 msgstr ""
 
 #: html/inc/team.inc:450 html/inc/team.inc:460
-msgid "You may use %1limited HTML tags%2."
+msgid "You may use %1 limited HTML tags %2."
 msgstr ""
 
 #: html/inc/team.inc:451
@@ -2640,31 +2661,31 @@ msgstr ""
 msgid "sec"
 msgstr ""
 
-#: html/inc/util.inc:542
+#: html/inc/util.inc:543
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
 
-#: html/inc/util.inc:617
+#: html/inc/util.inc:618
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
-#: html/inc/util.inc:872
+#: html/inc/util.inc:873
 msgid "Project down for maintenance"
 msgstr ""
 
-#: html/inc/util.inc:875
+#: html/inc/util.inc:876
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
 
-#: html/inc/util.inc:893
+#: html/inc/util.inc:894
 msgid "Unable to connect to database - please try again later"
 msgstr ""
 
-#: html/inc/util.inc:897
+#: html/inc/util.inc:898
 msgid "Unable to select database - please try again later"
 msgstr ""
 
-#: html/inc/util.inc:1071
+#: html/inc/util.inc:1072
 msgid "characters remaining"
 msgstr ""
 
@@ -2826,8 +2847,8 @@ msgstr ""
 
 #: html/user/create_account_form.php:48
 msgid ""
-"If you already have an account and want to run %1 on this computer, %2go here"
-"%3."
+"If you already have an account and want to run %1 on this computer, %2 go "
+"here %3."
 msgstr ""
 
 #: html/user/create_account_form.php:65
@@ -2882,7 +2903,7 @@ msgstr ""
 
 #: html/user/create_profile.php:164
 msgid ""
-"Your %1profile%2 lets you share your opinions and background with the %3 "
+"Your %1 profile %2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
 
@@ -3136,11 +3157,11 @@ msgid ""
 msgstr ""
 
 #: html/user/download_network.php:36
-msgid "Instructions for installing and running BOINC are %1here%2."
+msgid "Instructions for installing and running BOINC are %1 here %2."
 msgstr ""
 
 #: html/user/download_network.php:38
-msgid "This list is managed centrally at %1the BOINC website%2."
+msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr ""
 
 #: html/user/edit_email_action.php:31
@@ -3168,7 +3189,7 @@ msgid "The email address of your account is now %1."
 msgstr ""
 
 #: html/user/edit_email_action.php:64
-msgid "Please %1validate this email address%2."
+msgid "Please %1 validate this email address %2."
 msgstr ""
 
 #: html/user/edit_email_action.php:67
@@ -3285,7 +3306,7 @@ msgstr ""
 
 #: html/user/edit_forum_preferences_form.php:89
 msgid ""
-"Check out %1various free services%2\n"
+"Check out %1 various free services %2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
 msgstr ""
@@ -3622,8 +3643,8 @@ msgstr ""
 
 #: html/user/ffmail_action.php:57
 msgid ""
-"You forgot to enter email addresses; Please %1return to the form%2 and enter "
-"them."
+"You forgot to enter email addresses; Please %1 return to the form %2 and "
+"enter them."
 msgstr ""
 
 #: html/user/ffmail_form.php:33
@@ -3687,7 +3708,7 @@ msgstr ""
 
 #: html/user/forum_banishment_vote.php:62 html/user/forum_moderate_post.php:86
 msgid ""
-"Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
+"Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
 msgstr ""
@@ -3762,7 +3783,7 @@ msgid "Add a new thread to this forum"
 msgstr ""
 
 #: html/user/forum_forum.php:123
-msgid "This message board is available as an %1RSS feed%2"
+msgid "This message board is available as an %1 RSS feed %2"
 msgstr ""
 
 #: html/user/forum_forum.php:182
@@ -3835,8 +3856,8 @@ msgstr ""
 
 #: html/user/forum_help_desk.php:32
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to "
-"%1BOINC Online Help%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to %1 "
+"BOINC Online Help %2."
 msgstr ""
 
 #: html/user/forum_help_desk.php:47 html/user/forum_index.php:95
@@ -3853,7 +3874,7 @@ msgstr ""
 
 #: html/user/forum_index.php:80
 msgid ""
-"If you have a question or problem, please use the %1Questions & Answers%2 "
+"If you have a question or problem, please use the %1 Questions & Answers %2 "
 "section of the message boards."
 msgstr ""
 
@@ -4078,7 +4099,7 @@ msgid "Message:"
 msgstr ""
 
 #: html/user/forum_reply.php:145
-msgid "reply to %1Message ID%2:"
+msgid "reply to %1 Message ID %2:"
 msgstr ""
 
 #: html/user/forum_reply.php:171
@@ -4124,9 +4145,9 @@ msgstr ""
 
 #: html/user/forum_report_post.php:93
 msgid ""
-"Why do you find the post offensive: %1Please include enough information so "
+"Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
-"identify the issue.%2"
+"identify the issue. %2"
 msgstr ""
 
 #: html/user/forum_report_post.php:104
@@ -4185,7 +4206,7 @@ msgid ""
 msgstr ""
 
 #: html/user/forum_search_action.php:221
-msgid "You can also %1try the same search on Google.%2"
+msgid "You can also %1 try the same search on Google. %2"
 msgstr ""
 
 #: html/user/forum_search_action.php:226
@@ -4636,7 +4657,7 @@ msgid "View and edit your account preferences using the links below."
 msgstr ""
 
 #: html/user/home.php:46
-msgid "If you have not already done so, %1download BOINC client software%2."
+msgid "If you have not already done so, %1 download BOINC client software %2."
 msgstr ""
 
 #: html/user/home.php:49
@@ -4899,14 +4920,14 @@ msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
 "recipient.  %1 does not examine or police the content of private messages.  "
 "If you receive unwanted private messages from another %1 user, you may add "
-"them to your %2message filter%3.  This will prevent you from seeing any "
+"them to your %2 message filter %3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
 
 #: html/user/info.php:47
 msgid ""
-"If you use our web site forums you must follow the %2posting guidelines%3.  "
-"Messages posted to the %1 forums are visible to everyone, including non-"
+"If you use our web site forums you must follow the %2 posting guidelines "
+"%3.  Messages posted to the %1 forums are visible to everyone, including non-"
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
@@ -4929,7 +4950,8 @@ msgstr ""
 #: html/user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
-"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+"happens, stop running %1 or use a %2 utility program %3 that limits CPU "
+"usage."
 msgstr ""
 
 #: html/user/info.php:51
@@ -4975,7 +4997,7 @@ msgid "I'm a BOINC user"
 msgstr ""
 
 #: html/user/join.php:46
-msgid "Read our %1Rules and Policies%2."
+msgid "Read our %1 Rules and Policies %2."
 msgstr ""
 
 #: html/user/join.php:48
@@ -5010,8 +5032,9 @@ msgstr ""
 
 #: html/user/join.php:76
 msgid ""
-"If you're running a command-line version of BOINC on this computer, %1create "
-"an account%2, then use %3boinccmd --project_attach%4 to add the project."
+"If you're running a command-line version of BOINC on this computer, %1 "
+"create an account %2, then use %3 boinccmd --project_attach %4 to add the "
+"project."
 msgstr ""
 
 #: html/user/join.php:91 html/user/sample_index.php:95
@@ -5050,11 +5073,11 @@ msgstr ""
 #: html/user/language_select.php:85
 msgid ""
 "Translations are done by volunteers.  If your native language is missing or "
-"incomplete, %1you can help translate%2."
+"incomplete, %1 you can help translate %2."
 msgstr ""
 
 #: html/user/login_form.php:59
-msgid "or %1create an account%2."
+msgid "or %1 create an account %2."
 msgstr ""
 
 #: html/user/merge_by_name.php:31
@@ -5304,7 +5327,7 @@ msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
 
 #: html/user/pm.php:303
-msgid "To unblock, visit %1message board preferences%2"
+msgid "To unblock, visit %1 message board preferences %2"
 msgstr ""
 
 #: html/user/pm.php:365
@@ -5323,14 +5346,14 @@ msgstr ""
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
-"          or you issue the %2Update%3 command from the BOINC Manager."
+"          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr ""
 
 #: html/user/prefs.php:42
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
-"          or you issue the %2Update%3 command from the BOINC Manager."
+"          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr ""
 
 #: html/user/prefs_remove.php:46
@@ -5351,7 +5374,7 @@ msgstr ""
 
 #: html/user/profile_menu.php:37
 msgid ""
-"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
+"%1 Profiles %2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
 
@@ -5363,8 +5386,8 @@ msgstr ""
 
 #: html/user/profile_menu.php:39
 msgid ""
-"If you haven't already, you can %1create your own user profile%2 for others "
-"to see!"
+"If you haven't already, you can %1 create your own user profile %2 for "
+"others to see!"
 msgstr ""
 
 #: html/user/profile_menu.php:44
@@ -5376,17 +5399,17 @@ msgid "User Profile Explorer"
 msgstr ""
 
 #: html/user/profile_menu.php:62
-msgid "View the %1User Picture Gallery%2."
+msgid "View the %1 User Picture Gallery %2."
 msgstr ""
 
 #: html/user/profile_menu.php:63
-msgid "Browse profiles %1by country%2."
+msgid "Browse profiles %1 by country %2."
 msgstr ""
 
 #: html/user/profile_menu.php:64
 msgid ""
-"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
-"without pictures%2."
+"Browse profiles %1 at random %2, %3 at random with pictures %2, or %4 at "
+"random without pictures %2."
 msgstr ""
 
 #: html/user/profile_menu.php:68
@@ -5573,7 +5596,7 @@ msgstr ""
 #: html/user/stats.php:59
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
-"projects from several sites; see your %1home page%2."
+"projects from several sites; see your %1 home page %2."
 msgstr ""
 
 #: html/user/team_admins.php:36
@@ -5723,7 +5746,7 @@ msgstr ""
 #: html/user/team_change_founder_form.php:71
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
-"member name and click %1Change founder%2 below."
+"member name and click %1 Change founder %2 below."
 msgstr ""
 
 #: html/user/team_change_founder_form.php:81
@@ -5756,7 +5779,7 @@ msgstr ""
 
 #: html/user/team_create_form.php:41
 msgid ""
-"You belong to %1. You must %2quit this team%3 before creating a new one."
+"You belong to %1. You must %2 quit this team %3 before creating a new one."
 msgstr ""
 
 #: html/user/team_delta.php:66
@@ -5892,7 +5915,8 @@ msgstr ""
 
 #: html/user/team_forum.php:132
 msgid ""
-"Your team's message board has been removed. You may now %1create a new one%2."
+"Your team's message board has been removed. You may now %1 create a new one "
+"%2."
 msgstr ""
 
 #: html/user/team_forum.php:151
@@ -5938,8 +5962,8 @@ msgstr ""
 
 #: html/user/team_founder_transfer_action.php:121
 msgid ""
-"Congratulations, you are now the founder of team %1. Go to %2Your Account "
-"page%3 to find the Team Admin options."
+"Congratulations, you are now the founder of team %1. Go to %2 Your Account "
+"page %3 to find the Team Admin options."
 msgstr ""
 
 #: html/user/team_founder_transfer_action.php:130
@@ -6079,7 +6103,7 @@ msgstr ""
 #: html/user/team_lookup.php:108
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may "
-"%2create a team%3 yourself."
+"%2 create a team %3 yourself."
 msgstr ""
 
 #: html/user/team_manage.php:28
@@ -6161,13 +6185,13 @@ msgstr ""
 #: html/user/team_manage.php:75
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
-"make it into a %1BOINC-wide team%2."
+"make it into a %1 BOINC-wide team %2."
 msgstr ""
 
 #: html/user/team_manage.php:77
 msgid ""
-"Team admins are encouraged to join and participate in the Google %1boinc-"
-"team-founders%2 group."
+"Team admins are encouraged to join and participate in the Google %1 boinc-"
+"team-founders %2 group."
 msgstr ""
 
 #: html/user/team_manage.php:93
@@ -6183,7 +6207,7 @@ msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr ""
 
 #: html/user/team.php:29
-msgid "%1 participants may form %2teams%3."
+msgid "%1 participants may form %2 teams %3."
 msgstr ""
 
 #: html/user/team.php:31
@@ -6192,7 +6216,7 @@ msgid ""
 msgstr ""
 
 #: html/user/team.php:33
-msgid "Each team has a %1founder%2 who may:"
+msgid "Each team has a %1 founder %2 who may:"
 msgstr ""
 
 #: html/user/team.php:35
@@ -6212,7 +6236,7 @@ msgid "disband a team if it has no members"
 msgstr ""
 
 #: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1Join this team%2."
+msgid "To join a team, visit its team page and click %1 Join this team %2."
 msgstr ""
 
 #: html/user/team.php:42 html/user/team_search.php:203
@@ -6233,7 +6257,7 @@ msgstr ""
 
 #: html/user/team.php:60
 msgid ""
-"If you cannot find a team that is right for you, you can %1create a team%2."
+"If you cannot find a team that is right for you, you can %1 create a team %2."
 msgstr ""
 
 #: html/user/team_quit_action.php:34
@@ -6312,14 +6336,14 @@ msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
 
 #: html/user/team_search.php:119
-msgid "Or you can %1create a new team%2."
+msgid "Or you can %1 create a new team %2."
 msgstr ""
 
 #: html/user/team_search.php:123
 msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
-"               then click %1Join this team%2."
+"               then click %1 Join this team %2."
 msgstr ""
 
 #: html/user/team_search.php:130
@@ -6337,7 +6361,7 @@ msgid "Use this form to find teams that might be right for you."
 msgstr ""
 
 #: html/user/team_search.php:211
-msgid "%1I'm not interested%2 in joining a team right now."
+msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr ""
 
 #. Now display what we've got (either gotten from cache or from DB)
@@ -6629,7 +6653,7 @@ msgstr ""
 
 #: html/project.sample/project_specific_prefs.inc:42
 #, no-php-format
-msgid "Maximum CPU % for graphics%10 ... 100%2"
+msgid "Maximum CPU % for graphics %1 0...100 %2"
 msgstr ""
 
 #: html/project.sample/project_specific_prefs.inc:43
