@@ -280,7 +280,7 @@ function pm_email_remind($user) {
     if (!$user->prefs->pm_notification) {
         return "<br><small>" .
             tra(
-                "For email notification, %1edit community prefs%2",
+                "For email notification, %1 edit community prefs %2",
                 '<a href="edit_forum_preferences_form.php">', '</a>'
             ) .
             "</small>"

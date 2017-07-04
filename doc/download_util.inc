@@ -85,7 +85,7 @@ function download_link(
 
     if ($button) {
         if ($vbox_file && !$vbox_req) {
-            echo tra("We recommend that you also install %1VirtualBox%2, so your computer can work on science projects that require it.", "<a href=https://www.virtualbox.org/>", "</a>");
+            echo tra("We recommend that you also install %1 VirtualBox %2, so your computer can work on science projects that require it.", "<a href=https://www.virtualbox.org/>", "</a>");
             echo " <a href=http://boinc.berkeley.edu/wiki/VirtualBox>";
             echo tra("Learn more about VirtualBox.");
             echo "</a>";

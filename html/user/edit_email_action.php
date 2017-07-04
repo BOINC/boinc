@@ -61,7 +61,7 @@ if (!is_valid_email_addr($email_addr)) {
             if ($result) {
                 echo tra("The email address of your account is now %1.", $email_addr);
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
-                    echo "<p>".tra("Please %1validate this email address%2.", "<a href=validate_email_addr.php>", "</a>")."\n";
+                    echo "<p>".tra("Please %1 validate this email address %2.", "<a href=validate_email_addr.php>", "</a>")."\n";
                 }
             } else {
                 echo tra("We can't update your email address due to a database problem.  Please try again later.");

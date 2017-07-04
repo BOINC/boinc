@@ -45,7 +45,7 @@ page_head(
 if (!NO_COMPUTING) {
     echo "<p class=\"lead\">"
         .tra(
-            "If you already have an account and want to run %1 on this computer, %2go here%3.",
+            "If you already have an account and want to run %1 on this computer, %2 go here %3.",
             PROJECT,
             '<a href=join.php>',
             '</a>'

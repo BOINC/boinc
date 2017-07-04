@@ -161,7 +161,7 @@ function getImages($fileName) {
 
 function show_description() {
     echo "
-        <p>" .tra("Your %1profile%2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
+        <p>" .tra("Your %1 profile %2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
         <p>
     ";
 }

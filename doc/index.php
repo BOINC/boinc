@@ -99,14 +99,14 @@ function show_participate() {
                 <p></p>
             ';
             echo tra(
-                "You can choose to support %1projects%2 such as %3, %4, and %5, among many others.",
+                "You can choose to support %1 projects %2 such as %3, %4, and %5, among many others.",
                 '<a href="projects.php">', '</a>',
                 '<a href="https://einsteinathome.org">Einstein@Home</a>',
                 '<a href="https://worldcommunitygrid.org">IBM World Community Grid</a>',
                 '<a href="https://setiathome.berkeley.edu">SETI@home</a>'
             );
             echo " ";
-            echo tra("If you run several projects, try an %1account manager%2 such as %3GridRepublic%4 or %5BAM!%6. ",
+            echo tra("If you run several projects, try an %1 account manager %2 such as %3 GridRepublic %4 or %5 BAM! %6. ",
                 "<a href=\"wiki/Account_managers\">", "</a>",
                 "<a href=\"https://www.gridrepublic.org\">", "</a>",
                 "<a href=\"https://bam.boincstats.com/\">", "</a>"
@@ -147,16 +147,16 @@ function show_science() {
         tra("High-throughput computing with BOINC"),
         function() {
             echo 
-                tra("%1Scientists%2: use BOINC to create a %3volunteer computing project%4, giving you the power of thousands of CPUs and GPUs.",
+                tra("%1 Scientists %2: use BOINC to create a %3 volunteer computing project %4, giving you the power of thousands of CPUs and GPUs.",
                     "<b>", "</b>", "<a href=volunteer.php>", "</a>"
                 )
                 .'<p></p>'.
-                tra("%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4.",
+                tra("%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing Center %4.",
                     "<b>", "</b>",
                     "<a href=\"trac/wiki/VirtualCampusSupercomputerCenter\">", "</a>"
                 )
                 .'<p></p>'.
-                tra("%1Companies%2: use BOINC for %3desktop Grid computing%4.",
+                tra("%1 Companies %2: use BOINC for %3 desktop Grid computing %4.",
                     "<b>", "</b>", "<a href=dg.php>", "</a>"
                 )
                 .'<p></p>

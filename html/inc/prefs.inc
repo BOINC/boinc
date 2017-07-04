@@ -247,7 +247,7 @@ define("NETWORK_LIMIT_DESC", tra("Network"));
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
 define("PREFS_FORM_ERROR_DESC",
     tra(
-        "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.",
+        "%1 Unable to update preferences. %2 The values marked in red below were out of range or not numeric.",
         "<strong>",
         "</strong>"
     ).

@@ -655,7 +655,7 @@ function show_post(
     }
     if ($ignore_poster && $filter){
         echo "<br>" .tra(
-            "This post is hidden because the sender is on your 'ignore' list.  Click %1here%2 to view hidden posts",
+            "This post is hidden because the sender is on your 'ignore' list.  Click %1 here %2 to view hidden posts",
             "<a href=\"?id=".$thread->id."&amp;filter=false&amp;start=$start#".$post->id."\">",
             "</a>"
         );
