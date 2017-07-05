@@ -251,7 +251,7 @@ $astro_phys_chem = array(
     tra("Physical Science"),
     array(
         array("XANSONS for COD",
-            "http://xansons4cod.com/xansons4cod",
+            "http://xansons4cod.com/xansons4cod/",
             "Private; supported by the Russian Foundation for Basic Research.",
             "Crystallography",
             "XANSONS for COD is a research project aimed to create an open access database of simulated x-ray and neutron powder diffraction patterns for nanocrystalline phase of the materials presented in the Crystallography Open Database (COD).",
