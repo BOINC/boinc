@@ -333,6 +333,7 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
     MFILE mf;
     int n;
 
+    mf.puts("");    // make sure buffer is non-NULL
     while (1) {
         n = recv(sock, buf, 8192, 0);
         if (n <= 0) return ERR_READ;
