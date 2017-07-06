@@ -42,9 +42,8 @@
  */
 ?>
 <?php
-
 global $user;
-drupal_set_title('');
+drupal_set_title('Profile');
 $account = user_load($account->uid);
 $content_profile = content_profile_load('profile', $account->uid);
 $name = check_plain($account->boincuser_name);
