@@ -886,11 +886,14 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
     "SELECT userid FROM {host} WHERE id = '%d'",
     $host_id
   ));
+  db_set_active('default');
   if ($host_owner AND $host_owner == $account->boincuser_id) {
+    db_set_active('boinc');
     $updated = db_query(
       "UPDATE {host} SET venue = '%s' WHERE id = '%d'",
       $venue, $host_id
     );
+    db_set_active('default');
     if ($updated) {
       drupal_set_message(
         bts('The location for this host has been updated.', array(), NULL, 'boinc:account-host-details')
@@ -910,7 +913,6 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
       'warning'
     );
   }
-  db_set_active('default');
   drupal_goto("host/{$host_id}");
 }
 
