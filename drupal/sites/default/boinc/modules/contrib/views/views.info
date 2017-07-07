@@ -7,4 +7,4 @@ core = 6.x
 version = "6.x-2.18-boinc-3-dev"
 core = "6.x"
 project = "views"
-datestamp = "1497457987"
+datestamp = "1498143782"

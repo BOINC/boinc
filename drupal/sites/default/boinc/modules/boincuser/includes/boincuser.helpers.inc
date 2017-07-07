@@ -188,15 +188,23 @@ function boincuser_select_user_of_the_day() {
 }
 
 /**
- * Determine the first unique name from a given base
+ * Determine the first unique name from a given base. Also cleans the
+ * username so that it will be valid for drupal. And truncates user
+ * name to 50 characters.
+ *
  */
-function find_unique_name($requested_name) {
+function create_proper_drupalname($requested_name) {
   if (!$requested_name) {
     // If the name is empty, set it
     $requested_name = 'anonymous';
   }
   $same_name_tally = 1;
-  $cleaned_name = preg_replace('/[^a-zA-Z0-9_ \.-]/s', '_', $requested_name);
+
+  // Remove extra spaces
+  $name2 = preg_replace("/ {2,}/", " ", trim($requested_name));
+  // Remove any non-valid characters
+  $cleaned_name = preg_replace('/[^a-zA-Z0-9_ \.-]/s', '_', $name2);
+  // Truncate name
   $name_length = strlen($cleaned_name);
   if ($name_length > 56) {
     // Name is limited to 60 characters, but we want to leave space to add a
@@ -204,6 +212,8 @@ function find_unique_name($requested_name) {
     // replace the middle of the string with "..." if too long
     $cleaned_name = substr_replace($cleaned_name, '...', 28, ($name_length-56)+3);
   }
+
+  // Determine if there are duplicate names, if so append a number to end.
   $unique_name = $cleaned_name;
   while (db_result(db_query("SELECT uid FROM {users} WHERE name = '{$unique_name}' LIMIT 1"))) {
     $same_name_tally++;

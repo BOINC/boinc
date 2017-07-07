@@ -57,7 +57,7 @@ class views_handler_relationship_node_term_data extends views_handler_relationsh
       $def['field'] = 'revision';
       // fapi ensures vids are safe here.
       $vids = implode(', ', array_filter($this->options['vids']));
-      $def['table formula'] = "(SELECT td.*, tn.vid AS revision FROM {term_data} td INNER JOIN {term_node} tn ON tn.tid = td.tid WHERE td.vid IN ($vids))";
+      $def['table formula'] = "(SELECT t.*, tn.vid AS revision FROM {term_data} t INNER JOIN {term_node} tn ON tn.tid = t.tid WHERE t.vid IN ($vids))";
     }
 
     $join = new views_join();
