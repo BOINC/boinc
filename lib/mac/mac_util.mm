@@ -81,16 +81,16 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
     if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
-//LSFindApplicationForInfo is deprecated in OS 10.10, so may not be available in the future
-    OSStatus (*LSFindAppForInfo)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*) = NULL;
-    if (LSlib) {
-        LSFindAppForInfo = (OSStatus(*)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*))
-                    dlsym(LSlib, "LSFindApplicationForInfo");
-    }
-    if (LSFindAppForInfo == NULL) {
-        return fnfErr;
-    }
-    err = (*LSFindAppForInfo)(creator, bundleID, NULL, NULL, &appURL);
+        //LSFindApplicationForInfo is deprecated in OS 10.10, so may not be available in the future
+        OSStatus (*LSFindAppForInfo)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*) = NULL;
+        if (LSlib) {
+            LSFindAppForInfo = (OSStatus(*)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*))
+                        dlsym(LSlib, "LSFindApplicationForInfo");
+        }
+        if (LSFindAppForInfo == NULL) {
+            return fnfErr;
+        }
+        err = (*LSFindAppForInfo)(creator, bundleID, NULL, NULL, &appURL);
     } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
 #endif
     {
@@ -100,6 +100,7 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
                 err = fnfErr;
             } else {
                 appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
+                CFRetain(appURL);
                 CFRelease(appRefs);
             }
         }
