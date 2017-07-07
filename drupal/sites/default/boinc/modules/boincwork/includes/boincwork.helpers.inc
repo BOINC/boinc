@@ -1606,7 +1606,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   // Entry for all applications.
   $allcount = $application_select_count ? array_sum($application_select_count) : 0;
   $applications[-1] = bts('Application', array(), NULL, 'boinc:task-table');
-  $applications[0] = bts('All applications', array(), NULL, 'boinc:task-table') . '(' . $allcount . ')';
+  $applications[0] = bts('All applications', array(), NULL, 'boinc:task-table') . ' (' . $allcount . ')';
   // Create application filter from application_map and application_select_count.
   foreach($application_map as $akey => $aname) {
     $acount = 0;
@@ -1771,7 +1771,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   foreach ($taskstates as $state => $numstates) {
     $mypath = $pathprefix . '/' . $state . '/' . $app_id;
     if ($state==STATE_ALL) {
-      $ltext = '<span class="tab task-app-name">' . bts('All', array(), NULL, 'boinc:task-table') . '(' . $numstates . ')</span>';
+      $ltext = '<span class="tab task-app-name">' . bts('All', array(), NULL, 'boinc:task-table') . ' (' . $numstates . ')</span>';
     }
     else {
       $ltext = '<span class="tab">' . bts($state_hnames[$state], array(), NULL, 'boinc:task-table') . ' (' . $numstates . ')</span>';
