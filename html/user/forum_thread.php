@@ -115,6 +115,8 @@ case 1:
     show_team_forum_title($forum, $thread);
     break;
 }
+echo "<br><small><a href=moderation.php>".tra("Message board moderation")."</a></small>
+";
 
 if (false) {
 if ($forum->parent_type == 0) {
@@ -285,7 +287,7 @@ show_posts(
 );
 
 if ($reply_url) {
-    echo "<br>";
+    //echo "<br>";
     show_button(
         $reply_url,
         tra("Post to thread"),
@@ -293,7 +295,7 @@ if ($reply_url) {
     );
 }
 
-echo "<p>";
+echo "<p></p>";
 switch ($forum->parent_type) {
 case 0:
     show_forum_title($category, $forum, $thread);
