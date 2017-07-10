@@ -252,6 +252,9 @@ function boinctranslate_filter($op, $delta = 0, $format = -1, $text = '', $cache
       else {
         return _boinctranslate_filter_process($text, $format, $mynid);
       }// if debug
+    }
+    else {
+      return $text;
     }// if type
     break;
 
