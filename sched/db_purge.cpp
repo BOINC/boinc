@@ -67,6 +67,130 @@
 #define COMPRESSION_ZIP     2
 #define COMPRESSION_ZLIB    3
 
+#define WU_ARCHIVE_DATA \
+        "<workunit_archive>\n" \
+        "  <id>%lu</id>\n" \
+        "  <create_time>%d</create_time>\n" \
+        "  <appid>%lu</appid>\n" \
+        "  <name>%s</name>\n" \
+        "  <xml_doc>%s</xml_doc>\n" \
+        "  <batch>%d</batch>\n" \
+        "  <rsc_fpops_est>%.15e</rsc_fpops_est>\n" \
+        "  <rsc_fpops_bound>%.15e</rsc_fpops_bound>\n" \
+        "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n" \
+        "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n" \
+        "  <need_validate>%d</need_validate>\n" \
+        "  <canonical_resultid>%lu</canonical_resultid>\n" \
+        "  <canonical_credit>%.15e</canonical_credit>\n" \
+        "  <transition_time>%d</transition_time>\n" \
+        "  <delay_bound>%d</delay_bound>\n" \
+        "  <error_mask>%d</error_mask>\n" \
+        "  <file_delete_state>%d</file_delete_state>\n" \
+        "  <assimilate_state>%d</assimilate_state>\n" \
+        "  <hr_class>%d</hr_class>\n" \
+        "  <opaque>%f</opaque>\n" \
+        "  <min_quorum>%d</min_quorum>\n" \
+        "  <target_nresults>%d</target_nresults>\n" \
+        "  <max_error_results>%d</max_error_results>\n" \
+        "  <max_total_results>%d</max_total_results>\n" \
+        "  <max_success_results>%d</max_success_results>\n" \
+        "  <result_template_file>%s</result_template_file>\n" \
+        "  <priority>%d</priority>\n" \
+        "  <mod_time>%s</mod_time>\n" \
+        "</workunit_archive>\n", \
+        wu.id, \
+        wu.create_time, \
+        wu.appid, \
+        wu.name, \
+        wu.xml_doc, \
+        wu.batch, \
+        wu.rsc_fpops_est, \
+        wu.rsc_fpops_bound, \
+        wu.rsc_memory_bound, \
+        wu.rsc_disk_bound, \
+        wu.need_validate, \
+        wu.canonical_resultid, \
+        wu.canonical_credit, \
+        wu.transition_time, \
+        wu.delay_bound, \
+        wu.error_mask, \
+        wu.file_delete_state, \
+        wu.assimilate_state, \
+        wu.hr_class, \
+        wu.opaque, \
+        wu.min_quorum, \
+        wu.target_nresults, \
+        wu.max_error_results, \
+        wu.max_total_results, \
+        wu.max_success_results, \
+        wu.result_template_file, \
+        wu.priority, \
+        wu.mod_time
+
+#define RESULT_ARCHIVE_DATA \
+        "<result_archive>\n" \
+        "  <id>%lu</id>\n" \
+        "  <create_time>%d</create_time>\n" \
+        "  <workunitid>%lu</workunitid>\n" \
+        "  <server_state>%d</server_state>\n" \
+        "  <outcome>%d</outcome>\n" \
+        "  <client_state>%d</client_state>\n" \
+        "  <hostid>%lu</hostid>\n" \
+        "  <userid>%lu</userid>\n" \
+        "  <report_deadline>%d</report_deadline>\n" \
+        "  <sent_time>%d</sent_time>\n" \
+        "  <received_time>%d</received_time>\n" \
+        "  <name>%s</name>\n" \
+        "  <cpu_time>%.15e</cpu_time>\n" \
+        "  <xml_doc_in>%s</xml_doc_in>\n" \
+        "  <xml_doc_out>%s</xml_doc_out>\n" \
+        "  <stderr_out>%s</stderr_out>\n" \
+        "  <batch>%d</batch>\n" \
+        "  <file_delete_state>%d</file_delete_state>\n" \
+        "  <validate_state>%d</validate_state>\n" \
+        "  <claimed_credit>%.15e</claimed_credit>\n" \
+        "  <granted_credit>%.15e</granted_credit>\n" \
+        "  <opaque>%f</opaque>\n" \
+        "  <random>%d</random>\n" \
+        "  <app_version_num>%d</app_version_num>\n" \
+        "  <app_version_id>%lu</app_version_id>\n" \
+        "  <appid>%lu</appid>\n" \
+        "  <exit_status>%d</exit_status>\n" \
+        "  <teamid>%lu</teamid>\n" \
+        "  <priority>%d</priority>\n" \
+        "  <mod_time>%s</mod_time>\n" \
+        "</result_archive>\n", \
+        result.id, \
+        result.create_time, \
+        result.workunitid, \
+        result.server_state, \
+        result.outcome, \
+        result.client_state, \
+        result.hostid, \
+        result.userid, \
+        result.report_deadline, \
+        result.sent_time, \
+        result.received_time, \
+        result.name, \
+        result.cpu_time, \
+        result.xml_doc_in, \
+        result.xml_doc_out, \
+        stderr_out_escaped, \
+        result.batch, \
+        result.file_delete_state, \
+        result.validate_state, \
+        result.claimed_credit, \
+        result.granted_credit, \
+        result.opaque, \
+        result.random, \
+        result.app_version_num, \
+        result.app_version_id, \
+        result.appid, \
+        result.exit_status, \
+        result.teamid, \
+        result.priority, \
+        result.mod_time
+
 /* will be FILE* or gzFile, depending on compression_type */
 void*wu_stream=NULL;
 void*re_stream=NULL;
@@ -310,74 +434,10 @@ int archive_result(DB_RESULT& result) {
 
     // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
     //
-    char buf[BLOB_SIZE*6];
-    xml_escape(result.stderr_out, buf, sizeof(buf));
+    char stderr_out_escaped[BLOB_SIZE*6];
+    xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
 
-    if (n >= 0) n = fprintf((FILE*)
-        re_stream,
-        "  <create_time>%d</create_time>\n"
-        "  <workunitid>%lu</workunitid>\n"
-        "  <server_state>%d</server_state>\n"
-        "  <outcome>%d</outcome>\n"
-        "  <client_state>%d</client_state>\n"
-        "  <hostid>%lu</hostid>\n"
-        "  <userid>%lu</userid>\n"
-        "  <report_deadline>%d</report_deadline>\n"
-        "  <sent_time>%d</sent_time>\n"
-        "  <received_time>%d</received_time>\n"
-        "  <name>%s</name>\n"
-        "  <cpu_time>%.15e</cpu_time>\n"
-        "  <xml_doc_in>%s</xml_doc_in>\n"
-        "  <xml_doc_out>%s</xml_doc_out>\n"
-        "  <stderr_out>%s</stderr_out>\n"
-        "  <batch>%d</batch>\n"
-        "  <file_delete_state>%d</file_delete_state>\n"
-        "  <validate_state>%d</validate_state>\n"
-        "  <claimed_credit>%.15e</claimed_credit>\n"
-        "  <granted_credit>%.15e</granted_credit>\n"
-        "  <opaque>%f</opaque>\n"
-        "  <random>%d</random>\n"
-        "  <app_version_num>%d</app_version_num>\n"
-        "  <app_version_id>%ld</app_version_id>\n"
-        "  <appid>%lu</appid>\n"
-        "  <exit_status>%d</exit_status>\n"
-        "  <teamid>%lu</teamid>\n"
-        "  <priority>%d</priority>\n"
-        "  <mod_time>%s</mod_time>\n",
-        result.create_time,
-        result.workunitid,
-        result.server_state,
-        result.outcome,
-        result.client_state,
-        result.hostid,
-        result.userid,
-        result.report_deadline,
-        result.sent_time,
-        result.received_time,
-        result.name,
-        result.cpu_time,
-        result.xml_doc_in,
-        result.xml_doc_out,
-        buf,
-        result.batch,
-        result.file_delete_state,
-        result.validate_state,
-        result.claimed_credit,
-        result.granted_credit,
-        result.opaque,
-        result.random,
-        result.app_version_num,
-        result.app_version_id,
-        result.appid,
-        result.exit_status,
-        result.teamid,
-        result.priority,
-        result.mod_time
-    );
-
-    if (n >= 0) n = fprintf((FILE*)re_stream,
-        "</result_archive>\n"
-    );
+    n = fprintf((FILE*)re_stream, RESULT_ARCHIVE_DATA);
 
     if (n >= 0) {
         n = fprintf((FILE*)re_index_stream,
@@ -393,71 +453,8 @@ int archive_result(DB_RESULT& result) {
 
 int archive_wu(DB_WORKUNIT& wu) {
     int n;
-    n = fprintf((FILE*)wu_stream,
-        "<workunit_archive>\n"
-        "    <id>%lu</id>\n",
-        wu.id
-    );
-    if (n >= 0) n = fprintf((FILE*)wu_stream,
-        "  <create_time>%d</create_time>\n"
-        "  <appid>%lu</appid>\n"
-        "  <name>%s</name>\n"
-        "  <xml_doc>%s</xml_doc>\n"
-        "  <batch>%d</batch>\n"
-        "  <rsc_fpops_est>%.15e</rsc_fpops_est>\n"
-        "  <rsc_fpops_bound>%.15e</rsc_fpops_bound>\n"
-        "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n"
-        "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n"
-        "  <need_validate>%d</need_validate>\n"
-        "  <canonical_resultid>%lu</canonical_resultid>\n"
-        "  <canonical_credit>%.15e</canonical_credit>\n"
-        "  <transition_time>%d</transition_time>\n"
-        "  <delay_bound>%d</delay_bound>\n"
-        "  <error_mask>%d</error_mask>\n"
-        "  <file_delete_state>%d</file_delete_state>\n"
-        "  <assimilate_state>%d</assimilate_state>\n"
-        "  <hr_class>%d</hr_class>\n"
-        "  <opaque>%f</opaque>\n"
-        "  <min_quorum>%d</min_quorum>\n"
-        "  <target_nresults>%d</target_nresults>\n"
-        "  <max_error_results>%d</max_error_results>\n"
-        "  <max_total_results>%d</max_total_results>\n"
-        "  <max_success_results>%d</max_success_results>\n"
-        "  <result_template_file>%s</result_template_file>\n"
-        "  <priority>%d</priority>\n"
-        "  <mod_time>%s</mod_time>\n",
-        wu.create_time,
-        wu.appid,
-        wu.name,
-        wu.xml_doc,
-        wu.batch,
-        wu.rsc_fpops_est,
-        wu.rsc_fpops_bound,
-        wu.rsc_memory_bound,
-        wu.rsc_disk_bound,
-        wu.need_validate,
-        wu.canonical_resultid,
-        wu.canonical_credit,
-        wu.transition_time,
-        wu.delay_bound,
-        wu.error_mask,
-        wu.file_delete_state,
-        wu.assimilate_state,
-        wu.hr_class,
-        wu.opaque,
-        wu.min_quorum,
-        wu.target_nresults,
-        wu.max_error_results,
-        wu.max_total_results,
-        wu.max_success_results,
-        wu.result_template_file,
-        wu.priority,
-        wu.mod_time
-    );
 
-    if (n >= 0) n = fprintf((FILE*)wu_stream,
-        "</workunit_archive>\n"
-    );
+    n = gzprintf((gzFile)wu_stream, WU_ARCHIVE_DATA);
 
     if (n >= 0) {
         n = fprintf((FILE*)wu_index_stream,
@@ -476,74 +473,10 @@ int archive_result_gz (DB_RESULT& result) {
 
     // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
     //
-    char buf[BLOB_SIZE*6];
-    xml_escape(result.stderr_out, buf, sizeof(buf));
+    char stderr_out_escaped[BLOB_SIZE*6];
+    xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
 
-    n = gzprintf(
-        (gzFile)re_stream,
-        "<result_archive>\n"
-        "  <id>%lu</id>\n",
-        "  <create_time>%d</create_time>\n"
-        "  <workunitid>%lu</workunitid>\n"
-        "  <server_state>%d</server_state>\n"
-        "  <outcome>%d</outcome>\n"
-        "  <client_state>%d</client_state>\n"
-        "  <hostid>%lu</hostid>\n"
-        "  <userid>%lu</userid>\n"
-        "  <report_deadline>%d</report_deadline>\n"
-        "  <sent_time>%d</sent_time>\n"
-        "  <received_time>%d</received_time>\n"
-        "  <name>%s</name>\n"
-        "  <cpu_time>%.15e</cpu_time>\n"
-        "  <xml_doc_in>%s</xml_doc_in>\n"
-        "  <xml_doc_out>%s</xml_doc_out>\n"
-        "  <stderr_out>%s</stderr_out>\n"
-        "  <batch>%d</batch>\n"
-        "  <file_delete_state>%d</file_delete_state>\n"
-        "  <validate_state>%d</validate_state>\n"
-        "  <claimed_credit>%.15e</claimed_credit>\n"
-        "  <granted_credit>%.15e</granted_credit>\n"
-        "  <opaque>%f</opaque>\n"
-        "  <random>%d</random>\n"
-        "  <app_version_num>%d</app_version_num>\n"
-        "  <app_version_id>%ld</app_version_id>\n"
-        "  <appid>%lu</appid>\n"
-        "  <exit_status>%d</exit_status>\n"
-        "  <teamid>%lu</teamid>\n"
-        "  <priority>%d</priority>\n"
-        "  <mod_time>%s</mod_time>\n"
-        "</result_archive>\n",
-        result.id,
-        result.create_time,
-        result.workunitid,
-        result.server_state,
-        result.outcome,
-        result.client_state,
-        result.hostid,
-        result.userid,
-        result.report_deadline,
-        result.sent_time,
-        result.received_time,
-        result.name,
-        result.cpu_time,
-        result.xml_doc_in,
-        result.xml_doc_out,
-        buf,
-        result.batch,
-        result.file_delete_state,
-        result.validate_state,
-        result.claimed_credit,
-        result.granted_credit,
-        result.opaque,
-        result.random,
-        result.app_version_num,
-        result.app_version_id,
-        result.appid,
-        result.exit_status,
-        result.teamid,
-        result.priority,
-        result.mod_time
-    );
+    n = gzprintf((gzFile)re_stream, RESULT_ARCHIVE_DATA);
 
     if ((n=gzflush((gzFile)re_stream,Z_FULL_FLUSH)))
         fail("ERROR: writing result archive failed\n");
@@ -564,66 +497,7 @@ int archive_result_gz (DB_RESULT& result) {
 
 int archive_wu_gz (DB_WORKUNIT& wu) {
     int n;
-    n = gzprintf((gzFile)wu_stream,
-        "<workunit_archive>\n"
-        "  <id>%lu</id>\n"
-        "  <create_time>%d</create_time>\n"
-        "  <appid>%lu</appid>\n"
-        "  <name>%s</name>\n"
-        "  <xml_doc>%s</xml_doc>\n"
-        "  <batch>%d</batch>\n"
-        "  <rsc_fpops_est>%.15e</rsc_fpops_est>\n"
-        "  <rsc_fpops_bound>%.15e</rsc_fpops_bound>\n"
-        "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n"
-        "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n"
-        "  <need_validate>%d</need_validate>\n"
-        "  <canonical_resultid>%lu</canonical_resultid>\n"
-        "  <canonical_credit>%.15e</canonical_credit>\n"
-        "  <transition_time>%d</transition_time>\n"
-        "  <delay_bound>%d</delay_bound>\n"
-        "  <error_mask>%d</error_mask>\n"
-        "  <file_delete_state>%d</file_delete_state>\n"
-        "  <assimilate_state>%d</assimilate_state>\n"
-        "  <hr_class>%d</hr_class>\n"
-        "  <opaque>%f</opaque>\n"
-        "  <min_quorum>%d</min_quorum>\n"
-        "  <target_nresults>%d</target_nresults>\n"
-        "  <max_error_results>%d</max_error_results>\n"
-        "  <max_total_results>%d</max_total_results>\n"
-        "  <max_success_results>%d</max_success_results>\n"
-        "  <result_template_file>%s</result_template_file>\n"
-        "  <priority>%d</priority>\n"
-        "  <mod_time>%s</mod_time>\n"
-        "</workunit_archive>\n",
-     wu.id,
-        wu.create_time,
-        wu.appid,
-        wu.name,
-        wu.xml_doc,
-        wu.batch,
-        wu.rsc_fpops_est,
-        wu.rsc_fpops_bound,
-        wu.rsc_memory_bound,
-        wu.rsc_disk_bound,
-        wu.need_validate,
-        wu.canonical_resultid,
-        wu.canonical_credit,
-        wu.transition_time,
-        wu.delay_bound,
-        wu.error_mask,
-        wu.file_delete_state,
-        wu.assimilate_state,
-        wu.hr_class,
-        wu.opaque,
-        wu.min_quorum,
-        wu.target_nresults,
-        wu.max_error_results,
-        wu.max_total_results,
-        wu.max_success_results,
-        wu.result_template_file,
-        wu.priority,
-        wu.mod_time
-    );
+    n = gzprintf((gzFile)wu_stream, WU_ARCHIVE_DATA);
 
     if ((n=gzflush((gzFile)re_stream,Z_FULL_FLUSH)))
         fail("ERROR: writing workunit index failed\n");
