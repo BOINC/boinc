@@ -39,6 +39,7 @@
 #include <string>
 #include <time.h>
 #include <errno.h>
+#include <string.h>
 #include "zlib.h"
 
 #include "boinc_db.h"
@@ -292,10 +293,9 @@ void open_archive(const char* filename_prefix, void*& f){
     } else if (compression_type == COMPRESSION_ZLIB) {
         f = gzopen(path,"w");
         if (!f) {
-	    int err = 0;
             log_messages.printf(MSG_CRITICAL,
-                "Can't open file %s: %s\n",
-                path, gzerror((gzFile)f,&err)
+                "Can't open file %s: %d:%s\n",
+                path, errno, strerror(errno)
             );
             exit(4);
         }
@@ -310,11 +310,27 @@ void open_archive(const char* filename_prefix, void*& f){
         }
     }
 
-    // set buffering to line buffered, since we are outputing XML on a
-    // line-by-line basis.
-    //
     if (compression_type != COMPRESSION_ZLIB) {
+        //
+        // set buffering to line buffered, since we are outputing XML on a
+        // line-by-line basis.
+        //
         setlinebuf((FILE*)f);
+    } else {
+        //
+        // the default zlib buffer size is 8k, which means we can't
+        // gzprintf more than 8k characters at a time.
+        // extend that buffer such that an escaped stderr blob (and
+        // a little more) can be written
+        //
+        int err = gzbuffer((gzFile)f,BLOB_SIZE*7);
+        if (err != Z_OK) {
+            log_messages.printf(MSG_CRITICAL,
+                "Can't set buffer size for file %s: %s\n",
+                path, gzerror((gzFile)f,&err)
+            );
+            exit(4);
+        }
     }
 
     return;
@@ -477,41 +493,40 @@ int archive_result_gz (DB_RESULT& result) {
     xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
 
     n = gzprintf((gzFile)re_stream, RESULT_ARCHIVE_DATA);
+    if (n <= 0) fail("ERROR: writing result archive failed\n");
 
-    if ((n=gzflush((gzFile)re_stream,Z_FULL_FLUSH)))
-        fail("ERROR: writing result archive failed\n");
+    n = gzflush((gzFile)re_stream, Z_FULL_FLUSH);
+    if (n != Z_OK) fail("ERROR: writing result archive failed (flush)\n");
 
-    if (n >= 0) {
-        n = gzprintf((gzFile)re_index_stream,
+    n = gzprintf((gzFile)re_index_stream,
             "%lu     %d    %s\n",
             result.id, time_int, result.name
         );
-	if ((n=gzflush((gzFile)re_stream,Z_SYNC_FLUSH)))
-	    fail("ERROR: writing result index failed\n");
-    }
+    if (n <= 0) fail("ERROR: writing result index failed\n");
 
-    if (n < 0) fail("gzprintf((gzFile)) failed\n");
+    n = gzflush((gzFile)re_index_stream, Z_SYNC_FLUSH);
+    if (n != Z_OK) fail("ERROR: writing result index failed (flush)\n");
 
     return 0;
 }
 
 int archive_wu_gz (DB_WORKUNIT& wu) {
     int n;
+
     n = gzprintf((gzFile)wu_stream, WU_ARCHIVE_DATA);
+    if (n <= 0) fail("ERROR: writing workunit archive failed\n");
 
-    if ((n=gzflush((gzFile)re_stream,Z_FULL_FLUSH)))
-        fail("ERROR: writing workunit index failed\n");
+    n = gzflush((gzFile)re_stream,Z_FULL_FLUSH);
+    if (n != Z_OK) fail("ERROR: writing workunit archive failed (flush)\n");
 
-    if (n >= 0) {
-        n = gzprintf((gzFile)wu_index_stream,
+    n = gzprintf((gzFile)wu_index_stream,
             "%lu     %d    %s\n",
             wu.id, time_int, wu.name
         );
-	if ((n=gzflush((gzFile)re_stream,Z_SYNC_FLUSH)))
-	    fail("ERROR: writing workunit index failed\n");
-    }
+    if (n <= 0) fail("ERROR: writing workunit index failed\n");
 
-    if (n < 0) fail("gzprintf() failed\n");
+    n = gzflush((gzFile)re_stream,Z_SYNC_FLUSH);
+    if (n != Z_OK) fail("ERROR: writing workunit index failed (flush)\n");
 
     return 0;
 }
