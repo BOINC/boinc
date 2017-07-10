@@ -6359,7 +6359,29 @@ else {
     ),
   ));
   $handler->override_option('arguments', array());
-  $handler->override_option('filters', array());
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'host',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('items_per_page', 50);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_options', array(
@@ -7200,6 +7222,47 @@ else {
     ),
   ));
   $handler->override_option('arguments', array());
+  $handler->override_option('filters', array(
+    'show_hosts' => array(
+      'operator' => '=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'show_hosts',
+      'table' => 'user',
+      'field' => 'show_hosts',
+      'relationship' => 'userid',
+    ),
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'host',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('title', 'Top computers');
   $handler->override_option('items_per_page', 10);
   $handler->override_option('use_pager', '0');
@@ -10248,6 +10311,26 @@ else {
       'id' => 'create_time',
       'table' => 'user',
       'field' => 'create_time',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'user',
+      'field' => 'total_credit',
       'relationship' => 'none',
     ),
   ));
