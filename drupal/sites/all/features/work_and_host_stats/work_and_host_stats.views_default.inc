@@ -10383,7 +10383,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'create_time' => array(
@@ -10748,7 +10748,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'expavg_credit' => array(

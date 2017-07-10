@@ -3161,7 +3161,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'nusers' => array(
@@ -3258,7 +3258,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'nusers' => array(
@@ -4351,7 +4351,7 @@ echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'expavg_credit' => array(
