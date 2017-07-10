@@ -1647,10 +1647,6 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       'field'=>'cpu_time',
     ),
     array(
-      'data' => bts('Claimed Credit', array(), NULL, 'boinc:task-table'),
-      'field'=>'claimed_credit',
-    ),
-    array(
       'data' => bts('Granted Credit', array(), NULL, 'boinc:task-table'),
       'field'=>'granted_credit',
     ),
@@ -1673,7 +1669,6 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       ."r.exit_status AS exit_status,"
       ."r.elapsed_time AS elapsed_time,"
       ."r.cpu_time AS cpu_time,"
-      ."r.claimed_credit AS claimed_credit,"
       ."r.granted_credit AS granted_credit,"
       ."r.appid AS appid,"
       ."r.app_version_id AS app_version_id,"
@@ -1740,7 +1735,6 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
           state_string($result),
           $nf->format($result->elapsed_time),
           $nf->format($result->result_cpu_time),
-          $nf->format($result->claimed_credit),
           $nf->format($result->granted_credit),
           array(
             'data' => $result->user_friendly_name,
