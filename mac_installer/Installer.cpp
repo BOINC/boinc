@@ -61,7 +61,8 @@ void strip_cr(char *buf);
 #define REPORT_ERROR(isError) if (isError) ShowError(__LINE__)
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
-static char * Catalogs_Dir = (char *)"/tmp/BOINC_payload/Library/Application Support/BOINC Data/locale/";
+static char Catalogs_Dir[MAXPATHLEN];
+static char loginName[256];
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -85,6 +86,14 @@ int main(int argc, char *argv[])
     if (Initialize() != noErr) {
         return 0;
     }
+
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    REPORT_ERROR(loginName[0] == '\0');
+    
+    snprintf(Catalogs_Dir, sizeof(Catalogs_Dir),
+            "/tmp/%s/BOINC_payload/Library/Application Support/BOINC Data/locale/",
+            loginName);
+
     // Get the full path to Installer package inside this application's bundle
     getPathToThisApp(pkgPath, sizeof(pkgPath));
     strlcpy(temp, pkgPath, sizeof(temp));
@@ -109,22 +118,36 @@ int main(int argc, char *argv[])
         *p = '\0'; 
     
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
-    // Expand the installer package
-    err = callPosixSpawn("rm -dfR /tmp/BOINC.pkg");
-    REPORT_ERROR(err);
-    err = callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg");
-    REPORT_ERROR(err);
-    err = callPosixSpawn("rm -dfR /tmp/PostInstall.app");
-    REPORT_ERROR(err);
-    err =     callPosixSpawn("rm -f /tmp/BOINC_preferred_languages");
-    REPORT_ERROR(err);
-    err =     callPosixSpawn("rm -f /tmp/BOINC_restart_flag");
-    REPORT_ERROR(err);
     
-    sprintf(temp, "cp -fpR \"%s\" /tmp/PostInstall.app", postInstallAppPath);
+    // In the unlikely situation that /tmp has files from an earlier attempt to install
+    // BOINC by a different user, we won't have permission to delete or overwrite them,
+    // so include the current user's name as part of the paths to our temporary files.
+    
+    // Expand the installer package
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC.pkg", loginName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", loginName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/PostInstall.app", loginName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_preferred_languages", loginName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_restart_flag", loginName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    
+    snprintf(temp, sizeof(temp), "/tmp/%s", loginName);
+    mkdir(temp, 0777);
+    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    
+    sprintf(temp, "cp -fpR \"%s\" /tmp/%s/PostInstall.app", postInstallAppPath, loginName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    sprintf(temp, "pkgutil --expand \"%s\" /tmp/%s/expanded_BOINC.pkg", pkgPath, loginName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
     if (err == noErr) {
@@ -138,12 +161,14 @@ int main(int argc, char *argv[])
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
-        err = callPosixSpawn("rm -dfR /tmp/BOINC_payload");
+        snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", loginName);
+        err = callPosixSpawn(temp);
         REPORT_ERROR(err);
         return -1;
     }
 
-    err = callPosixSpawn("rm -dfR /tmp/BOINC_payload");
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", loginName);
+    err = callPosixSpawn(temp);
     REPORT_ERROR(err);
 
     // Remove previous installer package receipt so we can run installer again
@@ -156,7 +181,8 @@ int main(int argc, char *argv[])
     restartNeeded = IsRestartNeeded();
     
     // Write a temp file to tell our PostInstall.app whether restart is needed
-    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_restart_flag", loginName);
+    restartNeededFile = fopen(temp, "w");
     if (restartNeededFile) {
         fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
         fclose(restartNeededFile);
@@ -165,29 +191,33 @@ int main(int argc, char *argv[])
     if (restartNeeded) {
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
-            err = callPosixSpawn("sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/expanded_BOINC.pkg/Distribution");
+            snprintf(temp, sizeof(temp), "sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/%s/expanded_BOINC.pkg/Distribution", loginName);
+            err = callPosixSpawn(temp);
             REPORT_ERROR(err);
         }
         if (err == noErr) {
-            callPosixSpawn("rm -dfR /tmp/expanded_BOINC.pkg/Distribution.bak");
+            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg/Distribution.bak", loginName);
+            err = callPosixSpawn(temp);
             REPORT_ERROR(err);
             // Flatten the installer package
-            sprintf(temp, "pkgutil --flatten /tmp/expanded_BOINC.pkg /tmp/%s.pkg", brand);
+            sprintf(temp, "pkgutil --flatten /tmp/%s/expanded_BOINC.pkg /tmp/%s/%s.pkg", loginName, loginName, brand);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
         }
 
         if (err == noErr) {
-            err = callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
+            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", loginName);
+            err = callPosixSpawn(temp);
             REPORT_ERROR(err);
-            sprintf(temp, "open \"/tmp/%s.pkg\"", brand);
+            sprintf(temp, "open \"/tmp/%s/%s.pkg\"", loginName, brand);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
             return err;
         }
     }
 
-    err = callPosixSpawn("rm -fR /tmp/expanded_BOINC.pkg");
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", loginName);
+    err = callPosixSpawn(temp);
     REPORT_ERROR(err);
 
     sprintf(temp, "open \"%s\"", pkgPath);
@@ -226,7 +256,6 @@ Boolean IsRestartNeeded()
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
-    char            loginName[256];
 
     if (compareOSVersionTo(10, 9) >= 0) {
         return false;
@@ -274,7 +303,6 @@ Boolean IsRestartNeeded()
 }
     
     #ifdef SANDBOX
-    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0]) {
         if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
             return false;   // Logged in user is already a member of group boinc_master
@@ -302,6 +330,7 @@ OSErr Initialize()	/* Initialize some managers */
 static void GetPreferredLanguages() {
     DIR *dirp;
     struct dirent *dp;
+    char temp[MAXPATHLEN];
     char searchPath[MAXPATHLEN];
     char savedWD[MAXPATHLEN];
     struct stat sbuf;
@@ -315,11 +344,14 @@ static void GetPreferredLanguages() {
     FILE *f;
 
     getcwd(savedWD, sizeof(savedWD));
-    callPosixSpawn("rm -dfR /tmp/BOINC_payload");
-    mkdir("/tmp/BOINC_payload", 0777);
-    chmod("/tmp/BOINC_payload", 0777);  // Why doesn't mkdir set permissions correctly?
-    chdir("/tmp/BOINC_payload");
-    callPosixSpawn("cpio -i -I /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", loginName);
+    callPosixSpawn(temp);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_payload", loginName);
+    mkdir(temp, 0777);
+    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    chdir(temp);
+    snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", loginName);
+    callPosixSpawn(temp);
     chdir(savedWD);
 
     // Create an array of all our supported languages
@@ -371,7 +403,8 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    f = fopen("/tmp/BOINC_preferred_languages", "w");
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", loginName);
+    f = fopen(temp, "w");
     if (!f) {
         REPORT_ERROR(true);
         goto cleanup;
@@ -445,11 +478,13 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    char temp[MAXPATHLEN];
 
     BOINCTranslationInit();
 
     // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
-    f = fopen("/tmp/BOINC_preferred_languages", "r");
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", loginName);
+    f = fopen(temp, "r");
     if (!f) {
         REPORT_ERROR(true);
         return;

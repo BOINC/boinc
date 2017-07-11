@@ -77,7 +77,6 @@ static char gAppName[256];
 static char gBrandName[256];
 static char gCatalogsDir[MAXPATHLEN];
 static char * gCatalog_Name = (char *)"BOINC-Setup";
-static char * gTempFileName = "/tmp/BOINC_preferred_languages";
 
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
@@ -1316,6 +1315,8 @@ static void GetPreferredLanguages() {
     char * language;
     char *uscore;
     FILE *f;
+    char loginName[256];
+    char tempFileName[MAXPATHLEN];
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
@@ -1361,7 +1362,13 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    f = fopen(gTempFileName, "w");
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/%s", loginName);
+    mkdir(tempFileName, 0777);
+    chmod(tempFileName, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/%s/BOINC_preferred_languages", loginName);
+    f = fopen(tempFileName, "w");
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
@@ -1427,11 +1434,15 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    char loginName[256];
+    char tempFileName[MAXPATHLEN];
 
     BOINCTranslationInit();
 
     // First pass wrote a list of our preferred languages to a temp file
-    f = fopen(gTempFileName, "r");
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/%s/BOINC_preferred_languages", loginName);
+    f = fopen(tempFileName, "r");
     if (!f) return;
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
