@@ -308,7 +308,7 @@ bool CBOINCGUIApp::OnInit() {
             );
 #else   // ! (defined(__WXMAC__) && defined (_DEBUG))
             strDialogMessage.Printf(
-                _("You currently are not authorized to manage the client.\n\nTo run %s as this user, please:\n  - reinstall %s answering \"Yes\" to the question about\n     non-administrative users\n or\n  - contact your administrator to add you to the 'boinc_master'\n     user group."),
+                _("You currently are not authorized to manage the client.\n\nTo run %s as this user, please:\n- reinstall %s answering \"Yes\" to the question about non-administrative users\n or\n- contact your administrator to add you to the 'boinc_master' user group."),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str()
             );
