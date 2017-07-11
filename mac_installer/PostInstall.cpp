@@ -614,6 +614,27 @@ int DeleteReceipt()
     REPORT_ERROR(err);
 
     if (!restartNeeded) {
+        // If system is set up to run BOINC Client as a daemon using launchd, launch it 
+        //  as a daemon and allow time for client to start before launching BOINC Manager.
+        err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
+        if (err == noErr) {
+            callPosixSpawn("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist");
+            i = callPosixSpawn("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
+            if (i == 0) sleep (2);
+        }
+
+#ifdef SANDBOX
+        passwd *pw = NULL;
+        pw = getpwnam(loginName);
+        REPORT_ERROR(!pw);
+        if (pw) {
+            Boolean isBMGroupMember = IsUserMemberOfGroup(pw->pw_name, boinc_master_group_name);
+            if (!isBMGroupMember){
+                return 0;   // Current user is not authorized to run BOINC Manager
+            }
+        }
+#endif
+
         installerPID = getPidIfRunning("com.apple.installer");
         if (installerPID) {
            // Launch BOINC Manager when user closes installer or after 15 seconds
@@ -623,15 +644,6 @@ int DeleteReceipt()
                     break;
                 }
             }
-        }
-
-        // If system is set up to run BOINC Client as a daemon using launchd, launch it 
-        //  as a daemon and allow time for client to start before launching BOINC Manager.
-        err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
-        if (err == noErr) {
-            callPosixSpawn("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist");
-            i = callPosixSpawn("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
-            if (i == 0) sleep (2);
         }
 
         CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
@@ -654,13 +666,12 @@ int DeleteReceipt()
 
 // BOINC Installer.app wrote a file to tell us whether a restart is required
 Boolean IsRestartNeeded() {
+    char s[MAXPATHLEN];
     FILE *restartNeededFile;
     int value;
 
-    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "r");
-    if (!restartNeededFile) {
-        restartNeededFile = fopen("/private/tmp/BOINC_restart_flag", "r");
-    }
+    snprintf(s, sizeof(s), "/tmp/%s/BOINC_restart_flag", loginName);
+    restartNeededFile = fopen(s, "r");
     if (restartNeededFile) {
         fscanf(restartNeededFile,"%d", &value);
         fclose(restartNeededFile);
@@ -1118,6 +1129,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // calling SetEUIDBackToUser() after running as root.
 //
 static void LoadPreferredLanguages(){
+    char s[MAXPATHLEN];
     FILE *f;
     int i;
     char *p;
@@ -1126,7 +1138,9 @@ static void LoadPreferredLanguages(){
     BOINCTranslationInit();
 
     // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
-    f = fopen("/tmp/BOINC_preferred_languages", "r");
+
+    snprintf(s, sizeof(s), "/tmp/%s/BOINC_preferred_languages", loginName);
+    f = fopen(s, "r");
     if (!f) return;
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
@@ -1240,7 +1254,7 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
         return false;  // Group not found
     }
 
-    while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
+    while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group groupName
         if (strcmp(p, userName) == 0) {
             return true;
         }
