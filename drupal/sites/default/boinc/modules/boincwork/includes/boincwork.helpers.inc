@@ -1549,8 +1549,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       ."r.exit_status AS exit_status "
       ."FROM {result} AS r "
       ."INNER JOIN {app} AS a "
-      ."ON r.appid=a.id "
-      ."WHERE deprecated=0 ";
+      ."ON r.appid=a.id ";
 
   // Use userid, hostid, or workunitid
   if ($category==0) {
@@ -1630,7 +1629,8 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       'field' => 'hostid',
     ),
     array(
-      'data' => bts('Sent', array(), NULL, 'boinc:task-table')
+      'data' => bts('Sent', array(), NULL, 'boinc:task-table'),
+      'field' => 'sent_time',
     ),
     array(
       'data' => bts('Time Reported or Deadline', array(), NULL, 'boinc:task-table')
@@ -1640,15 +1640,15 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
     ),
     array(
       'data' => bts('Run time', array(), NULL, 'boinc:task-table'),
-      'field'=>'elapsed_time',
+      'field'=> 'elapsed_time',
     ),
     array(
       'data' => bts('CPU time', array(), NULL, 'boinc:task-table'),
-      'field'=>'cpu_time',
+      'field'=> 'cpu_time',
     ),
     array(
       'data' => bts('Granted Credit', array(), NULL, 'boinc:task-table'),
-      'field'=>'granted_credit',
+      'field'=> 'granted_credit',
     ),
     // Application is a column, but won't be added until after tablesort_sql().
   );
@@ -1672,11 +1672,17 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       ."r.granted_credit AS granted_credit,"
       ."r.appid AS appid,"
       ."r.app_version_id AS app_version_id,"
-      ."a.user_friendly_name "
+      ."a.user_friendly_name,"
+      ."av.version_num AS version_number,"
+      ."av.plan_class AS plan_class,"
+      ."pl.name AS platform "
       ."FROM {result} AS r "
       ."INNER JOIN {app} AS a "
       ."ON r.appid=a.id "
-      ."WHERE a.deprecated = 0 ";
+      ."INNER JOIN {app_version} AS av "
+      ."ON r.app_version_id=av.id "
+      ."INNER JOIN {platform} AS pl "
+      ."ON av.platformid=pl.id ";
 
   // Use userid, hostid, or workunitid
   if ($category==0) {
@@ -1709,7 +1715,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   }
 
   if (is_numeric($app_id) AND $app_id>0 ) {
-    $sqlsub .= " AND appid = '%s'";
+    $sqlsub .= " AND r.appid = '%s'";
     $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), 20, 0, NULL, $queryid, $app_id);
   }
   else {
@@ -1734,12 +1740,12 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
           boincwork_task_time_reported($result->received_time, $result->report_deadline),
           state_string($result),
           $nf->format($result->elapsed_time),
-          $nf->format($result->result_cpu_time),
+          $nf->format($result->cpu_time),
           $nf->format($result->granted_credit),
           array(
-            'data' => $result->user_friendly_name,
+            'data' => $result->user_friendly_name . " " . pretty_application_version($result->version_number, $result->plan_class, $result->platform),
             'class' => 'task-app',
-          )
+          ),
         );
         $resultdata[] = array_values($prettyresult);
       }
@@ -1817,4 +1823,13 @@ function delete_col(&$array, $offset) {
   return array_walk($array, function (&$v) use ($offset) {
      array_splice($v, $offset, 1);
   });
+}
+
+/**
+ * Pretty print the application version
+ */
+function pretty_application_version($vernum, $plan_class, $plfm) {
+  $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
+  $prettyc = ($plan_class) ? "($av->plan_class)" : '';
+  return "v$prettyv $prettyc $plfm";
 }
