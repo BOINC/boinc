@@ -71,7 +71,7 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
 
     // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
     CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
-    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
+    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW | RTLD_NODELETE);
     if (LSlib) {
         LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
     }
@@ -88,6 +88,7 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
                         dlsym(LSlib, "LSFindApplicationForInfo");
         }
         if (LSFindAppForInfo == NULL) {
+            if (LSlib) dlclose(LSlib);
             return fnfErr;
         }
         err = (*LSFindAppForInfo)(creator, bundleID, NULL, NULL, &appURL);
@@ -105,6 +106,7 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
             }
         }
         if (err != noErr) {
+            if (LSlib) dlclose(LSlib);
             return err;
         }
     }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
@@ -117,6 +119,7 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
     if (appURL) {
         CFRelease(appURL);
     }
+    if (LSlib) dlclose(LSlib);
     return err;
 }
 
