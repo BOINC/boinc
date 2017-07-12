@@ -17,8 +17,8 @@
 
 /* Installer.cpp */
 
-#define CREATE_LOG 0    /* for debugging */
-#define VERBOSE_TEST 0
+#define CREATE_LOG 0    /* for general debugging */
+#define VERBOSE_TEST 0  /* for debugging callPosixSpawn */
 
 #include <Carbon/Carbon.h>
 #include <grp.h>
@@ -48,7 +48,6 @@ Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
-static void ShowError(int lineNum);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
 void print_to_log_file(const char *format, ...);
@@ -58,7 +57,7 @@ void strip_cr(char *buf);
 // have not yet been installed when this application is run.
 #define MAX_LANGUAGES_TO_TRY 5
 
-#define REPORT_ERROR(isError) if (isError) ShowError(__LINE__)
+#define REPORT_ERROR(isError) if (isError) print_to_log_file("BOINC Installer error at line %d", __LINE__);
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char Catalogs_Dir[MAXPATHLEN];
@@ -88,7 +87,17 @@ int main(int argc, char *argv[])
     }
 
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
-    REPORT_ERROR(loginName[0] == '\0');
+    if (loginName[0] == '\0') {
+        ShowMessage((char *)_("Could not get user login name"));
+        return 0;
+    }
+    
+    snprintf(temp, sizeof(temp), "/tmp/%s", loginName);
+    mkdir(temp, 0777);
+    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_Installer_Errors", loginName);
+    err = callPosixSpawn(temp);
     
     snprintf(Catalogs_Dir, sizeof(Catalogs_Dir),
             "/tmp/%s/BOINC_payload/Library/Application Support/BOINC Data/locale/",
@@ -139,10 +148,6 @@ int main(int argc, char *argv[])
     snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_restart_flag", loginName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    
-    snprintf(temp, sizeof(temp), "/tmp/%s", loginName);
-    mkdir(temp, 0777);
-    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
     
     sprintf(temp, "cp -fpR \"%s\" /tmp/%s/PostInstall.app", postInstallAppPath, loginName);
     err = callPosixSpawn(temp);
@@ -433,7 +438,9 @@ static void GetPreferredLanguages() {
             }
             if (f && language) {
                 fprintf(f, "%s\n", language);
+#if CREATE_LOG
                 print_to_log_file("Adding language: %s\n", language);
+#endif
             }
             // Remove all copies of this language from our list of supported languages
             // so we can get the next preferred language in order of priority
@@ -469,7 +476,9 @@ cleanup:
     CFArrayRemoveAllValues(supportedLanguages);
     CFRelease(supportedLanguages);
     supportedLanguages = NULL;
+#if CREATE_LOG
     print_to_log_file("Exiting GetPreferredLanguages");
+#endif
 }
 
 
@@ -544,11 +553,6 @@ static void ShowMessage(const char *format, ...) {
     
     if (myIconURLRef) CFRelease(myIconURLRef);
     if (myString) CFRelease(myString);
-}
-
-
-static void ShowError(int lineNum) {
-    ShowMessage((char *)_("BOINC Installer error at line %d"), lineNum);
 }
 
 
@@ -690,13 +694,14 @@ int callPosixSpawn(const char *cmdline) {
 
 // For debugging
 void print_to_log_file(const char *format, ...) {
-#if CREATE_LOG
     FILE *f;
     va_list args;
-    char buf[256];
+    char buf[MAXPATHLEN];
     time_t t;
-    strlcpy(buf, getenv("HOME"), sizeof(buf));
-    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
+//    strlcpy(buf, getenv("HOME"), sizeof(buf));
+//    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
+
+    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", loginName);
     f = fopen(buf, "a");
     if (!f) return;
 
@@ -717,10 +722,8 @@ void print_to_log_file(const char *format, ...) {
     fputs("\n", f);
     fflush(f);
     fclose(f);
-#endif
 }
 
-#if CREATE_LOG
 void strip_cr(char *buf)
 {
     char *theCR;
@@ -732,4 +735,3 @@ void strip_cr(char *buf)
     if (theCR)
         *theCR = '\0';
 }
-#endif	// CREATE_LOG
