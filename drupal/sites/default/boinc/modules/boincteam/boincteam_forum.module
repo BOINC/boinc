@@ -386,7 +386,7 @@ function boincteam_forum_topic_overview_panel($nid = NULL) {
   if ($nid) {
     $team = node_load($nid);
     $output .= '<p>' . bts('You may create a message board for use by @team',
-      array('@team' => $team->title), array(), NULL, 'boinc:team-forum') . ':</p>';
+      array('@team' => $team->title), NULL, 'boinc:team-forum') . ':</p>';
   }
   else {
     $output .= '<p>' . bts('This is a team-only message board', array(), NULL, 'boinc:team-forum') . ':</p>';
