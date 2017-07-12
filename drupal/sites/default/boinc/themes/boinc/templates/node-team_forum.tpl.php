@@ -77,6 +77,7 @@
 
 <?php if ($subscribe_link): ?>
   <div class="subscribe">
+    <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
     <?php print $subscribe_link; ?>
   </div>
 <?php endif; ?>
@@ -116,7 +117,9 @@
     }
   ?>
   
-  <h2 class="title"><?php print $subtitle; ?></h2>
+  <div class="breadcrumb">
+    <h2 class="title"><?php print $subtitle; ?></h2>
+  </div>
   
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
@@ -226,5 +229,9 @@
       print comment_render($node);
     }
   ?>
-  
+
+  <div class="breadcrumb">
+    <h2 class="title"><?php print $subtitle; ?><br>
+  </div>
+
 </div> <!-- /.node -->
