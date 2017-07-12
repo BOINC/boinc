@@ -140,7 +140,7 @@ function boincteam_create_form_validate($form, &$form_state) {
     require_boinc('boinc_db');
     if (BoincTeam::lookup_name($name)) {
       form_set_error('name', bts('A team named "@name" already exists.',
-        array('@name' => $name), array(), NULL, 'boinc:team-create/edit'));
+        array('@name' => $name), NULL, 'boinc:team-create/edit'));
     }
   }
   
@@ -424,7 +424,7 @@ function boincteam_edit_form_validate($form, &$form_state) {
         require_boinc('boinc_db');
         if (BoincTeam::lookup_name($name)) {
           form_set_error('name', bts('A team named "@name" already exists.',
-            array('@name' => $name), array(), NULL, 'boinc:team-create/edit'));
+            array('@name' => $name), NULL, 'boinc:team-create/edit'));
         }
       }
     }

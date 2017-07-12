@@ -369,7 +369,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
-                array('@name' => ucfirst($pref_set)), array(), NULL, 'boinc:account-computing-preferences') . '\')'
+                array('@name' => ucfirst($pref_set)), NULL, 'boinc:account-computing-preferences') . '\')'
             )
           )
         );
@@ -532,7 +532,7 @@ function projectprefs_page($action = null, $venue = null) {
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
-                array('@name' => ucfirst($pref_set)), array(), NULL, 'boinc:account-preferences-project') . '\')'
+                array('@name' => ucfirst($pref_set)), NULL, 'boinc:account-preferences-project') . '\')'
             )
           )
         );

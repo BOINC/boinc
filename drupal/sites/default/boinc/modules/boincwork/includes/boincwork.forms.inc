@@ -540,7 +540,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
           'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/computing/combined')),
           'attributes' => array(
             'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the @name preference set. Are you sure?',
-              array('@name' => $venue), array(), NULL, 'boinc:account-preferences') . '\')'
+              array('@name' => $venue), NULL, 'boinc:account-preferences') . '\')'
           )
         )
       ) . '</li>';
