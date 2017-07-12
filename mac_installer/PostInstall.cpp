@@ -112,8 +112,7 @@ Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void LoadPreferredLanguages();
-static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
-static void ShowError(int lineNum);
+static Boolean ShowMessage(Boolean askYesNo, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -124,8 +123,9 @@ static double dtime(void);
 static void SleepSeconds(double seconds);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
-void print_to_log_file(const char *format, ...);
+void print_to_log(const char *format, ...);
 void strip_cr(char *buf);
+void CopyPreviousErrorsToLog(void);
 
 extern int check_security(
     char *bundlePath, char *dataPath, 
@@ -148,7 +148,7 @@ void notused() {
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
-#define REPORT_ERROR(isError) if (isError) ShowError(__LINE__)
+#define REPORT_ERROR(isError) if (isError) print_to_log("BOINC PostInstall error at line %d", __LINE__);
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -221,12 +221,19 @@ int main(int argc, char *argv[])
     receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
     skinName[3] = "Charity Engine";
 
-    puts("Starting PostInstall app\n");
+    printf("\nStarting PostInstall app %s\n\n", argv[1]);
     fflush(stdout);
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    if (loginName[0] == '\0') {
+        ShowMessage(false, (char *)_("Could not get user login name"));
+        return 0;
+    }
+
     printf("login name = %s\n", loginName);
     fflush(stdout);
+
+    CopyPreviousErrorsToLog();
 
     if (getenv("COMMAND_LINE_INSTALL") != NULL) {
         gCommandLineInstall = true;
@@ -348,7 +355,7 @@ int main(int argc, char *argv[])
             REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
         }
-        
+
         // err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/GridRepublic Desktop.app");
         err = SetBOINCAppOwnersGroupsAndPermissions(appPath[brandID]);
         
@@ -881,9 +888,9 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 
 #if CREATE_LOG
     if (err == noErr) {
-        print_to_log_file("SystemEvents is at %s\n", systemEventsPath);
+        print_to_log("SystemEvents is at %s\n", systemEventsPath);
     } else {
-        print_to_log_file("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
+        print_to_log("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
     }
 #endif
 
@@ -1160,7 +1167,7 @@ static void LoadPreferredLanguages(){
 }
 
 
-static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
+static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
   // CAUTION: vsprintf will produce undesirable results if the string
   // contains a % character that is not a format specification!
   // But CFString is OK!
@@ -1203,7 +1210,7 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
     BringAppToFront();
     SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
                 myIconURLRef, NULL, NULL, CFSTR(" "), myString,
-                yes, allowCancel ? no : NULL, NULL,
+                askYesNo ? yes : NULL, askYesNo ? no : NULL, NULL,
                 &responseFlags);
     
        
@@ -1214,31 +1221,6 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
 
     if (retval) return false;
     return (responseFlags == kCFUserNotificationDefaultResponse);
-}
-
-
-static void ShowError(int lineNum) {
-    char                    s[1024];
-    CFOptionFlags           responseFlags;
-    CFURLRef                myIconURLRef = NULL;
-    CFBundleRef             myBundleRef;
-   
-    myBundleRef = CFBundleGetMainBundle();
-    if (myBundleRef) {
-        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
-    }
-    
-    sprintf(s, (char *)_("BOINC PostInstall error at line %d"), lineNum);
-    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
-
-    BringAppToFront();
-    CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
-                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
-                NULL, NULL, NULL,
-                &responseFlags);
-    
-    if (myIconURLRef) CFRelease(myIconURLRef);
-    if (myString) CFRelease(myString);
 }
 
 
@@ -2009,19 +1991,19 @@ int callPosixSpawn(const char *cmdline) {
     }
     
 #if VERBOSE_TEST
-    print_to_log_file("***********");
+    print_to_log("***********");
     for (int i=0; i<argc; ++i) {
-        print_to_log_file("argv[%d]=%s", i, argv[i]);
+        print_to_log("argv[%d]=%s", i, argv[i]);
     }
-    print_to_log_file("***********\n");
+    print_to_log("***********\n");
 #endif
 
     errno = 0;
 
     result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
 #if VERBOSE_TEST
-    print_to_log_file("callPosixSpawn command: %s", cmdline);
-    print_to_log_file("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+    print_to_log("callPosixSpawn command: %s", cmdline);
+    print_to_log("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
 #endif
     if (result) {
         return result;
@@ -2031,7 +2013,7 @@ int callPosixSpawn(const char *cmdline) {
 // CAF        if (val < 0) printf("first waitpid returned %d\n", val);
     if (status != 0) {
 #if VERBOSE_TEST
-        print_to_log_file("waitpid() returned status=%d", status);
+        print_to_log("waitpid() returned status=%d", status);
 #endif
         result = status;
     } else {
@@ -2039,13 +2021,13 @@ int callPosixSpawn(const char *cmdline) {
             result = WEXITSTATUS(status);
             if (result == 1) {
 #if VERBOSE_TEST
-                print_to_log_file("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+                print_to_log("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
 #endif
                 result = errno;
             }
 #if VERBOSE_TEST
             else if (result) {
-                print_to_log_file("WEXITSTATUS(status) returned %d", result);
+                print_to_log("WEXITSTATUS(status) returned %d", result);
             }
 #endif
         }   // end if (WIFEXITED(status)) else
@@ -2068,37 +2050,36 @@ void strip_cr(char *buf)
 }
 
 // For debugging
-void print_to_log_file(const char *format, ...) {
-#if CREATE_LOG
-    FILE *f;
+void print_to_log(const char *format, ...) {
     va_list args;
-    char path[256], buf[256];
+    char buf[256];
     time_t t;
-    strcpy(path, "/Users/Shared/test_log.txt");
-//    strcpy(path, "/Users/");
-//    strcat(path, getlogin());
-//    strcat(path, "/Documents/test_log.txt");
-    f = fopen(path, "a");
-    if (!f) return;
-
-//  freopen(buf, "a", stdout);
-//  freopen(buf, "a", stderr);
 
     time(&t);
     strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
 
-    fputs(buf, f);
-    fputs("   ", f);
+    fputs(buf, stdout);
+    fputs("   ", stdout);
 
     va_start(args, format);
-    vfprintf(f, format, args);
+    vprintf(format, args);
     va_end(args);
     
-    fputs("\n", f);
-    fflush(f);
-    fclose(f);
-    chmod(path, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+    fputs("\n", stdout);
+    fflush(stdout);
+}
 
-#endif
+
+void CopyPreviousErrorsToLog() {
+    FILE *f;
+    char buf[MAXPATHLEN];
+    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", loginName);
+    f = fopen(buf, "r");
+    if (!f) return;
+    while (PersistentFGets(buf, sizeof(buf), f)) {
+        printf("%s", buf);
+    }
+    fflush(stdout);
+    fclose(f);
 }
