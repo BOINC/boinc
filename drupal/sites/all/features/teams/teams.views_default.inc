@@ -3094,6 +3094,29 @@ else {
   $handler->override_option('header_format', '1');
   $handler->override_option('header_empty', 1);
   $handler = $view->new_display('panel_pane', 'Top teams overview pane', 'panel_pane_1');
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('use_more', 1);
   $handler->override_option('use_more_always', 1);
   $handler->override_option('use_more_text', 'view more');
@@ -3138,7 +3161,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'nusers' => array(
@@ -3169,6 +3192,29 @@ else {
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
   $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('items_per_page', 100);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_plugin', 'table');
@@ -3212,7 +3258,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'nusers' => array(
@@ -4241,6 +4287,29 @@ echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('title', 'Top teams');
   $handler->override_option('use_more', 1);
   $handler->override_option('use_more_always', 1);
@@ -4282,7 +4351,7 @@ echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'expavg_credit' => array(
