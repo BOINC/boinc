@@ -6326,9 +6326,9 @@ else {
   $handler->override_option('arguments', array());
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
@@ -7207,9 +7207,9 @@ else {
       'relationship' => 'userid',
     ),
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
@@ -10211,9 +10211,9 @@ else {
   ));
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),

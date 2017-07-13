@@ -3096,9 +3096,9 @@ else {
   $handler = $view->new_display('panel_pane', 'Top teams overview pane', 'panel_pane_1');
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
@@ -3194,9 +3194,9 @@ else {
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
@@ -4289,9 +4289,9 @@ echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/
   ));
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
