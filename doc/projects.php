@@ -151,7 +151,7 @@ function ordered_display($areas, $sort) {
             $p = tra("Unknown");
         } else {
             $pd = get_platforms_string($master_url, false);
-            $p .= "<br><a href=projects.php onmouseover=\"Tip('Supported platforms:<br>$pd', WIDTH, 240)\">Details</a>";
+            $p .= "<br><a href=projects.php onmouseover=\"Tip('Supported platforms:<br>$pd', WIDTH, 240)\" onmouseout=\"UnTip()\">Details</a>";
         }
         echo "<tr class=row$n>
             <td valign=top>$x</td>
