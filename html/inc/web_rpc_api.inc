@@ -74,10 +74,10 @@ function create_account(
 ) {
     $url = $project_url."/create_account.php?email_addr=".urlencode($email_addr)."&passwd_hash=$passwd_hash&user_name=".urlencode($user_name);
 
-    echo "url: $url\n";
+    //echo "url: $url\n";
     $reply = fetch_url($url);
     if (!$reply) return array(null, -1, "HTTP error");
-    echo "reply: $reply\n";
+    //echo "reply: $reply\n";
     $r = @simplexml_load_string($reply);
     if (!$r) {
         return array(null, -1, "Can't parse reply XML:\n$reply");
