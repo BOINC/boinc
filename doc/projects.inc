@@ -750,7 +750,7 @@ $math = array(
         ),
         array(
             "SRBase",
-            "http://srbase.myfirewall.org/sr5/",
+            "http://srbase.my-firewall.org/sr5/",
             "Independent",
             "Mathematics",
             "SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.",
