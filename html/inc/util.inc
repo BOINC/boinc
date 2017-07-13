@@ -82,6 +82,9 @@ if (!defined('POSTAL_CODE')) {
 if (!defined('NO_COMPUTING')) {
     define('NO_COMPUTING', false);
 }
+if (!defined('USER_HOME')) {
+    define('USER_HOME', 'home.php');
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
@@ -1001,7 +1004,6 @@ function redirect_to_secure_url($url) {
     ) {
         Header("Location: ".SECURE_URL_BASE."/$url");
         exit;
-
     }
 }
 

@@ -219,7 +219,6 @@ function normalize_user_url($url) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    row1(tra("Account information"), 2, 'heading');
     row2(tra("Name"), $user->name);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         row2("LDAP ID", ldap_email_to_uid($user->email_addr));
@@ -260,7 +259,9 @@ function show_user_info_private($user) {
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
         );
     }
+}
 
+function show_preference_links() {
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
     if (!NO_COMPUTING) {
         row2(
@@ -339,9 +340,6 @@ function user_links($user, $badge_height=0) {
 }
 
 function show_community_private($user) {
-    start_table();
-    row1(tra("Community"));
-
     show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         if ($user->has_profile) {
@@ -419,7 +417,6 @@ function show_community_private($user) {
     } else {
         row2(tra("Friends"), $x);
     }
-    end_table();
 }
 
 // show summary of dynamic and static info (public)
@@ -531,7 +528,9 @@ function show_account_private($user) {
         false,
         function() use ($user) {
             start_table();
+            row1(tra("Account information"), 2, 'heading');
             show_user_info_private($user);
+            show_preference_links();
             if (!NO_COMPUTING) {
                 show_user_stats_private($user);
             }
@@ -548,7 +547,10 @@ function show_account_private($user) {
             //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
+            start_table();
+            row1(tra("Community"));
             show_community_private($user);
+            end_table();
         }
     );
 }

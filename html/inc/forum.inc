@@ -85,14 +85,15 @@ define('RATE_NEGATIVE_IMAGE_HEIGHT','9');
 define('REPORT_POST_IMAGE', 'img/report_post.png');
 define('REPORT_POST_IMAGE_HEIGHT','9');
 
-define ('SOLUTION', 'This answered my question');
-define ('SUFFERER', 'I also have this question');
-define ('OFF_TOPIC', 'Off-topic');
+define('SOLUTION', tra('This answered my question'));
+define('SUFFERER', tra('I also have this question'));
+define('OFF_TOPIC', tra('Off-topic'));
 
 define ('DEFAULT_LOW_RATING_THRESHOLD', -25);
 define ('DEFAULT_HIGH_RATING_THRESHOLD', 5);
 
-// A list of what kind of special users exist
+// special user attributes
+//
 define('S_MODERATOR', 0);
 define('S_ADMIN', 1);
 define('S_DEV', 2);

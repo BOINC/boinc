@@ -208,7 +208,10 @@ if ($submit || $xml) {
     team_search_form(null);
     if (isset($_COOKIE['init'])) {
         echo "<p>
-            ".tra("%1 I'm not interested %2 in joining a team right now.", "<a href=home.php>", "</a>");
+            ".tra("%1 I'm not interested %2 in joining a team right now.",
+                sprintf('<a href="%s">', USER_HOME),
+                "</a>"
+            );
     }
     page_tail();
 }

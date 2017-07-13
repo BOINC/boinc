@@ -146,7 +146,7 @@ try {
         if ($next_url) {
             Header("Location: ".url_base()."$next_url");
         } else {
-            Header("Location: ".url_base()."home.php");
+            Header("Location: ".url_base().USER_HOME);
             send_cookie('init', "1", true);
             send_cookie('via_web', "1", true);
         }
