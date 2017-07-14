@@ -30,6 +30,8 @@ extern "C" {
     void        getPathToThisApp(char* pathBuf, size_t bufSize);
     void        BringAppToFront();
     void        BringAppWithPidToFront(pid_t pid);
+    void        getFrontMostApp(char * appName, size_t maxLen);
+    void        getActiveAppApp(char * appName, size_t maxLen);
     pid_t       getPidIfRunning(char * bundleID);
 
     OSStatus    GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, size_t maxLen);

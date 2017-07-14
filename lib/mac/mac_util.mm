@@ -49,6 +49,29 @@ void BringAppWithPidToFront(pid_t pid) {
 }
 
 
+void getFrontMostApp(char * appName, size_t maxLen) {
+    NSRunningApplication * frontApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
+    NSString * name = [frontApp localizedName];
+    strlcpy(appName, [name UTF8String], maxLen);
+}
+
+
+void getActiveAppApp(char * appName, size_t maxLen) {
+    NSArray * runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
+    unsigned int i;
+    unsigned int n = [ runningApps count ];
+    for (i=0; i<n; i++) {
+        NSRunningApplication * theApp = (NSRunningApplication *)[ runningApps objectAtIndex:i ];
+        if ([ theApp isActive ]) {
+            NSString * name = [theApp localizedName];
+            strlcpy(appName, [name UTF8String], maxLen);
+            return;
+        }
+    }
+    appName[0] = '\0';
+}
+
+
 pid_t getPidIfRunning(char * bundleID) {
     NSString *NSBundleID = [[NSString alloc] initWithUTF8String:bundleID];
     NSArray * runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:NSBundleID];
