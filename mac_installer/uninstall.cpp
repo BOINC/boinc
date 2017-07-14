@@ -91,6 +91,8 @@ int main(int argc, char *argv[])
     char                        pathToSelf[MAXPATHLEN], pathToVBoxUninstallTool[MAXPATHLEN], *p;
     char                        cmd[MAXPATHLEN+64];
     Boolean                     cancelled = false;
+    pid_t                       frontAppPID = 0;
+    pid_t                       activeAppPID = 0;
     struct stat                 sbuf;
     OSStatus                    err = noErr;
 
@@ -126,7 +128,17 @@ int main(int argc, char *argv[])
     strlcpy(gBrandName, p, sizeof(gBrandName));
         
     // Determine whether this is the intial launch or the relaunch with privileges
-    if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
+    if ( (argc == 4) && (strcmp(argv[1], "--privileged") == 0) ) {
+        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
+        activeAppPID = (pid_t)atol(argv[2]);
+        if (activeAppPID) {
+            BringAppWithPidToFront(activeAppPID);   // Usually Finder
+        }
+        frontAppPID = (pid_t)atol(argv[3]); // UserNotificationCenter
+        if (frontAppPID) {
+            BringAppWithPidToFront(frontAppPID);
+        }
+
         LoadPreferredLanguages();
         
         if (geteuid() != 0) {        // Confirm that we are running as root
@@ -154,9 +166,18 @@ int main(int argc, char *argv[])
             "This will remove the executables but will not touch %s data files."), p, p);
 
     if (! cancelled) {
-        // The "activate" comand brings the password dialog to the front and makes it the active window.
+        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
+        getFrontMostApp(cmd, sizeof(cmd));
+        activeAppPID = FindProcessPID(cmd, 0);
+//        ShowMessage(false, true, false, "frontmost = %s", cmd);   // for debugging
+        
+        getActiveAppApp(cmd, sizeof(cmd));
+        frontAppPID = FindProcessPID(cmd, 0);
+//        ShowMessage(false, true, false, "active app = %s", cmd);  // for debugging
+
+        // The "activate" command brings the password dialog to the front and makes it the active window.
         // "with administrator privileges" launches the helper application as user root.
-        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged\" with administrator privileges'", pathToSelf);
+        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged %d %d\" with administrator privileges'", pathToSelf, activeAppPID, frontAppPID);
         err = callPosixSpawn(cmd, true);
     }
     
