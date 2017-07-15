@@ -139,6 +139,11 @@ int main(int argc, char *argv[])
             BringAppWithPidToFront(frontAppPID);
         }
 
+        // Give the run loop a chance to handle the BringAppWithPidToFront calls
+//        CFRunLoopRunInMode(kCFRunLoopCommonModes, (CFTimeInterval)0.5, false);
+        // Apparently, usleep() lets run loop run
+        usleep(100000);
+
         LoadPreferredLanguages();
         
         if (geteuid() != 0) {        // Confirm that we are running as root
