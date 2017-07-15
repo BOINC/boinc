@@ -194,8 +194,8 @@ void PROJECT_PREFS::parse() {
 
         pos = str.find("<app_id>", pos) + 1;
     }
-    if (parse_bool(buf,"allow_non_selected_apps", flag)) {
-        allow_non_selected_apps = flag;
+    if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
+        allow_non_preferred_apps = flag;
     }
     if (parse_bool(buf,"allow_beta_work", flag)) {
         allow_beta_work = flag;

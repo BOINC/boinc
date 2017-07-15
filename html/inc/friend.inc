@@ -61,7 +61,7 @@ $src_user->name says: $msg
 
     $message .= "
 Please accept or decline by visiting
-".secure_url_base()."home.php
+".secure_url_base().USER_HOME."
 
 --------------------------
 To change email preferences, visit:
@@ -83,7 +83,7 @@ $dest_user->name says: $msg
 
     $message .= "
 Visit your Account page at
-".secure_url_base()."home.php
+".secure_url_base().USER_HOME."
 
 --------------------------
 To change email preferences, visit:
@@ -112,7 +112,7 @@ function friend_accept_rss($notify, &$title, &$msg, &$url) {
     }
     $title = "Friendship confirmation";
     $msg = "$src_user->name has confirmed you as a friend";
-    $url = secure_url_base()."home.php";
+    $url = secure_url_base().USER_HOME;
 }
 
 ?>

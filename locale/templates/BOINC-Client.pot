@@ -1,19 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 539caba937f5f02b5d46af9244ac276c68fa1f3b\n"
+"Project-Id-Version: BOINC 11a37bd1d068991f0ae2241cfdb4984f0c9131c8\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
+"POT-Creation-Date: 2017-07-04 11:20 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:485 client/acct_mgr.cpp:502
 msgid "Message from account manager"
 msgstr ""
 
@@ -21,13 +21,13 @@ msgstr ""
 msgid "Message from server"
 msgstr ""
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:312
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:649
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 
@@ -35,23 +35,23 @@ msgstr ""
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr ""
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:619
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then "
 "add %s"
 msgstr ""
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr ""
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr ""
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
+msgid "A new version of BOINC is available"
 msgstr ""
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
@@ -63,39 +63,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr ""
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr ""
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr ""
 
-#: client/project.cpp:967
+#: client/project.cpp:987
 msgid "To fix this, you can "
 msgstr ""
 
-#: client/project.cpp:970
+#: client/project.cpp:990
 msgid "change Project Preferences on the project's web site"
 msgstr ""
 
-#: client/project.cpp:976
+#: client/project.cpp:996
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr ""
 
-#: client/project.cpp:983
+#: client/project.cpp:1003
 msgid "change your settings at your account manager web site"
 msgstr ""
 

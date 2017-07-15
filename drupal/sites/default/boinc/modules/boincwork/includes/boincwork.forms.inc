@@ -540,7 +540,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
           'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/computing/combined')),
           'attributes' => array(
             'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the @name preference set. Are you sure?',
-              array('@name' => $venue), array(), NULL, 'boinc:account-preferences') . '\')'
+              array('@name' => $venue), NULL, 'boinc:account-preferences') . '\')'
           )
         )
       ) . '</li>';
@@ -1791,4 +1791,54 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
   db_set_active('default');
   
   drupal_set_message(t('Your privacy preferences have been updated.'));
+}
+
+/**
+ * Structure of the select application form in the task table.
+ */
+function boincwork_selectapp_form(&$form_state, $apps, $current_app) {
+
+  $form['selectapp'] = array(
+    '#type' => 'select',
+    '#attributes' => array(
+      'class' => 'task-app-filter',
+      'onchange' => 'this.form.submit();',
+    ),
+    '#default_value' => $current_app,
+    '#options' => $apps,
+    '#post_render' => array('_boincwork_selectapp_form_callback'),
+  );
+
+  // Class task-app-filter-submit for this form is used in
+  // theming. CSS sets 'display:none' if javascript is present. Thus
+  // only non-js users/browsers will see the Apply Filter button.
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => bts('Apply Filter', array(), NULL, 'boinc:form-save'),
+    '#attributes' => array('class' => 'js-hide',),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit function for select appliacation form.
+ */
+function boincwork_selectapp_form_submit($form, &$form_state) {
+  $myargs = arg();
+  array_pop($myargs);
+  $newpath = implode('/', $myargs ) . '/' . $form['selectapp']['#value'];
+  $form_state['redirect'] = $newpath;
+}
+
+/**
+ * Select application helper callback.
+ *
+ * Manually disables the option with value -1, which acts as the
+ * 'title' for the Application drop down box.
+ */
+function _boincwork_selectapp_form_callback($theContent, $theElement) {
+  $disabled = '<option value="-1" disabled hidden';
+  $newContent = preg_replace('/<option value="-1"/', $disabled, $theContent);
+  return $newContent;
 }

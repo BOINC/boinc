@@ -114,7 +114,7 @@
   </p>
   <p>
     <?php print bts('We also ask that you keep all discussion on the message boards related to @project or BOINC with the small exception of the Science message board where you are free to discuss anything relevant to the underlying science. Participants interested in broader discussions should post to unofficial forums for @project.',
-      array('@project' => variable_get('site_name', bts('this project'))), NULL, 'boinc:forum-fine-print'); ?>
+      array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:forum-fine-print'); ?>
   </p>
   <p>
     <?php print bts('These message boards now support BBCode tags only.', array(), NULL, 'boinc:forum-fine-print'); ?>

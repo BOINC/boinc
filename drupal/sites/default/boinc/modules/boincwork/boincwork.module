@@ -162,6 +162,31 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['account/tasks/%/%'] = array(
+    'title' => 'Account Tasks Table',
+    'description' => '',
+    'page callback' => 'boincwork_account_task_table',
+    'page arguments' => array(2,3),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['host/%/tasks/%/%'] = array(
+    'title' => 'Host Tasks Table',
+    'description' => '',
+    'page callback' => 'boincwork_host_task_table',
+    'page arguments' => array(1,3,4),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  // Workunit task table disabled
+  //$items['workunit/%/tasks/%/%'] = array(
+  //  'title' => 'Workunit Tasks Table',
+  //  'description' => '',
+  //  'page callback' => 'boincwork_workunit_task_table',
+  //  'page arguments' => array(1,3,4),
+  //  'access arguments' => array('access content'),
+  //  'type' => MENU_CALLBACK,
+  //);
   return $items;
 }
 
@@ -344,7 +369,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
-                array('@name' => ucfirst($pref_set)), array(), NULL, 'boinc:account-computing-preferences') . '\')'
+                array('@name' => ucfirst($pref_set)), NULL, 'boinc:account-computing-preferences') . '\')'
             )
           )
         );
@@ -507,7 +532,7 @@ function projectprefs_page($action = null, $venue = null) {
             'query' => drupal_get_destination(),
             'attributes' => array(
               'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
-                array('@name' => ucfirst($pref_set)), array(), NULL, 'boinc:account-preferences-project') . '\')'
+                array('@name' => ucfirst($pref_set)), NULL, 'boinc:account-preferences-project') . '\')'
             )
           )
         );
@@ -886,11 +911,14 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
     "SELECT userid FROM {host} WHERE id = '%d'",
     $host_id
   ));
+  db_set_active('default');
   if ($host_owner AND $host_owner == $account->boincuser_id) {
+    db_set_active('boinc');
     $updated = db_query(
       "UPDATE {host} SET venue = '%s' WHERE id = '%d'",
       $venue, $host_id
     );
+    db_set_active('default');
     if ($updated) {
       drupal_set_message(
         bts('The location for this host has been updated.', array(), NULL, 'boinc:account-host-details')
@@ -910,7 +938,6 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
       'warning'
     );
   }
-  db_set_active('default');
   drupal_goto("host/{$host_id}");
 }
 
@@ -973,6 +1000,50 @@ function boincwork_user_wap() {
 
 
 /**
+ * Page callback for user account task table
+ */
+function boincwork_account_task_table($tselect = NULL, $app_id = NULL) {
+  $title = bts('Tasks for your account', array(), NULL, 'boinc:account-task-table');
+  drupal_set_title($title);
+
+  global $user;
+  $account = user_load($user->uid);
+  return boincwork_tasktable(0, $account->boincuser_id, $tselect, $app_id);
+}
+
+/**
+ * Page callback for host task table
+ */
+function boincwork_host_task_table($host_id = NULL, $tselect = NULL, $app_id = NULL) {
+  require_boinc( array('util', 'result') );
+
+  $title = bts('Tasks for computer @host_id', array('@host_id' => $host_id), NULL, 'boinc:host-task-table');
+  drupal_set_title($title);
+
+  if (is_null($host_id)) {
+    drupal_set_message(bts('ERROR: Invalid host ID', array(), NULL, 'boinc:host-task-table'), 'error');
+    return '';
+  }
+
+  return boincwork_tasktable(2, $host_id, $tselect, $app_id);
+}
+
+/**
+ * Page callback for workunit task table
+ */
+function boincwork_workunit_task_table($workunit_id = NULL, $tselect = NULL, $app_id = NULL) {
+  $title = bts('Tasks for workunit @workunit_id', array('@workunit_id' => $workunit_id), NULL, 'boinc:workunit-task-table');
+  drupal_set_title($title);
+
+  if (is_null($workunit_id)) {
+    drupal_set_message(bts('ERROR: Invalid workunit ID', array(), NULL, 'boinc:workunit-task-table'), 'error');
+    return '';
+  }
+  
+  return boincwork_tasktable(1, $workunit_id, $tselect, $app_id);
+}
+
+/**
  * Generic page callback
  * Take a node ID and render that node as a page
  */
@@ -1003,4 +1074,3 @@ function boincwork_select_venue(&$venue) {
     $_SESSION['prefs venue'] = $venue;
   }
 }
-  

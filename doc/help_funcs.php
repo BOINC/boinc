@@ -136,7 +136,7 @@ function help_warning() {
         . tra("BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC.")
         ." <li>"
         .tra(
-            "%1Never%2 give email address or password information to BOINC helpers.",
+            "%1 Never %2 give email address or password information to BOINC helpers.",
             "<span class=emphasize2>",
             "</span>"
         )

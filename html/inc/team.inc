@@ -431,13 +431,13 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
         if ($team->seti_id) {
-            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
+            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1 BOINC-wide team %2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
             ."</p>";
         }
     }
     echo '
         <p>
-        '.tra('%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
+        '.tra('%1 Privacy note %2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
         <p>
     ';
     start_table();
@@ -447,7 +447,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('Team name, HTML version').'
         <br><p class=\"text-muted\">
-        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('You may use %1 limited HTML tags %2.', '<a href="html.php" target="_new">', '</a>').'
         '.tra('If you don\'t know HTML, leave this box blank.').'</p>',
         '<input class="form-control" name="name_html" type="text" size="50" value="'.str_replace('"',"'",($team?$team->name_html:"")).'">'
     );
@@ -457,7 +457,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('Description of team').':
         <br><p class=\"text-muted\">
-        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('You may use %1 limited HTML tags %2.', '<a href="html.php" target="_new">', '</a>').'
         </p>',
         '<textarea class="form-control" name="description" rows=10>'.($team?$team->description:"").'</textarea>'
     );

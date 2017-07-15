@@ -633,41 +633,6 @@ function work_and_host_stats_views_default_views() {
       'field' => 'cpu_time',
       'relationship' => 'none',
     ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
-      'relationship' => 'none',
-    ),
     'granted_credit' => array(
       'label' => 'Granted credit',
       'alter' => array(
@@ -3248,7 +3213,7 @@ function work_and_host_stats_views_default_views() {
     $host->id = $data->id;
     $nresults = host_nresults($host);
     if ($nresults) {
-      echo l($nresults, "host/{$host->id}/tasks");
+      echo l($nresults, "host/{$host->id}/tasks/0/0");
     }
   //}
 ?>',
@@ -4965,7 +4930,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -5884,7 +5849,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -6359,7 +6324,29 @@ else {
     ),
   ));
   $handler->override_option('arguments', array());
-  $handler->override_option('filters', array());
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'host',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('items_per_page', 50);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_options', array(
@@ -6706,7 +6693,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 1,
       'id' => 'phpcode_3',
@@ -7200,6 +7187,47 @@ else {
     ),
   ));
   $handler->override_option('arguments', array());
+  $handler->override_option('filters', array(
+    'show_hosts' => array(
+      'operator' => '=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'show_hosts',
+      'table' => 'user',
+      'field' => 'show_hosts',
+      'relationship' => 'userid',
+    ),
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'host',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('title', 'Top computers');
   $handler->override_option('items_per_page', 10);
   $handler->override_option('use_pager', '0');
@@ -7909,41 +7937,6 @@ else {
       'id' => 'cpu_time',
       'table' => 'result',
       'field' => 'cpu_time',
-      'relationship' => 'none',
-    ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
       'relationship' => 'none',
     ),
     'granted_credit' => array(
@@ -9633,41 +9626,6 @@ else {
       'field' => 'phpcode',
       'relationship' => 'none',
     ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
-      'relationship' => 'none',
-    ),
     'granted_credit' => array(
       'label' => 'Granted credit',
       'alter' => array(
@@ -10251,6 +10209,26 @@ else {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'user',
+      'field' => 'total_credit',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('access', array(
     'type' => 'none',
   ));
@@ -10300,7 +10278,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'create_time' => array(
@@ -10665,7 +10643,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'expavg_credit' => array(
@@ -12121,41 +12099,6 @@ else {
       'id' => 'cpu_time',
       'table' => 'result',
       'field' => 'cpu_time',
-      'relationship' => 'none',
-    ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
       'relationship' => 'none',
     ),
     'granted_credit' => array(

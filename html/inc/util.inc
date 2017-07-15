@@ -82,6 +82,9 @@ if (!defined('POSTAL_CODE')) {
 if (!defined('NO_COMPUTING')) {
     define('NO_COMPUTING', false);
 }
+if (!defined('USER_HOME')) {
+    define('USER_HOME', 'home.php');
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
@@ -342,7 +345,7 @@ function error_page($msg) {
 // takes argument in second and returns a human formatted time string
 // in the form D days + h Hours + m Min + s sec.
 
-function time_diff($x) {
+function time_diff($x, $res=3) {
     $days    = (int)($x/86400);
     $hours   = (int)(($x-$days*86400)/3600);
     $minutes = (int)(($x-$days*86400-$hours*3600)/60);
@@ -352,13 +355,13 @@ function time_diff($x) {
     if ($days) {
         $datestring .= "$days ".tra("days")." ";
     }
-    if ($hours || strlen($datestring)) {
+    if ($res>0 && ($hours || strlen($datestring))) {
         $datestring .= "$hours ".tra("hours")." ";
     }
-    if ($minutes || strlen($datestring)) {
+    if ($res>1 && ($minutes || strlen($datestring))) {
         $datestring .= "$minutes ".tra("min")." ";
     }
-    if ($seconds) {
+    if ($res>2 && ($seconds)) {
         $datestring .= "$seconds ".tra("sec")." ";
     }
 
@@ -496,9 +499,10 @@ function row_heading_array($x, $attrs=null, $class='bg-primary') {
     echo "</tr>\n";
 }
 
-function row_heading($x) {
-    echo '<tr><th class="bg-primary" colspan=99>'.$x.'</th></tr>
-    ';
+function row_heading($x, $class='bg-primary') {
+    echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
+        ', $class, $x
+    );
 }
 
 function random_string() {
@@ -613,7 +617,7 @@ function close_output_buffer($filename) {
     fclose($fh);
 }
 
-function html_info() {
+function bbcode_info() {
     return "<br><a href=bbcode.php target=new><small>".tra("Use BBCode tags to format your text")."</small></a>\n";
 }
 
@@ -1000,7 +1004,6 @@ function redirect_to_secure_url($url) {
     ) {
         Header("Location: ".SECURE_URL_BASE."/$url");
         exit;
-
     }
 }
 

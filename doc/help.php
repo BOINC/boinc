@@ -16,7 +16,7 @@ echo "
 <li> ".tra("by email")."
 <li>
 ".tra("
-by voice, using %1Skype%2, a free Internet-based telephone system. If you don't already have Skype, you can %3download and install it now%4.  When you're finished, return to this page.",
+by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page.",
     "<a href=\"https://www.skype.com\">",
     "</a>",
     "<a href=\"https://www.skype.com\">",

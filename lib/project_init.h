@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,7 +20,8 @@
 
 #define PROJECT_INIT_FILENAME       "project_init.xml"
 
-// represents the contents of project_init.xml
+// represents the contents of project_init.xml,
+// specifying an account to attach to initially
 //
 class PROJECT_INIT {
 public:
@@ -28,13 +29,15 @@ public:
     char name[256];
     char team_name[256];
     char account_key[256];
-    
-    // Opaque piece of project specific data passed to the lookup_account web 
-    // RPC to retrieve an account autheticator.
+
+    // Opaque data, project-supplied, that must be passed to
+    // Web RPC along with account key
+    //
     char setup_cookie[256];
 
-    // Is the project_init.xml file embedded in the installer?  Or was it generated
-    // off of the command line of the install.
+    // Is the project_init.xml file embedded in the installer?
+    // Or was it generated from of the command line of the install.
+    //
     bool embedded;
 
     PROJECT_INIT();
@@ -43,8 +46,8 @@ public:
     void clear();
 
 	// Used by installers to create/modify project_init.xml in the data
-	// directory at install time.  Useful for creating automated install
-	// processes.
+	// directory at install time.
+    // Useful for creating automated install processes.
     int write();
 };
 

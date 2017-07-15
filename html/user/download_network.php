@@ -33,9 +33,9 @@ echo "
     tra("We do not provide instructions for installing these applications.
 However, the author may have provided some help on installing or uninstalling the application. 
 If this is not enough you should contact the author.").
-    tra("Instructions for installing and running BOINC are %1here%2.", "<a href=https://boinc.berkeley.edu/download.php>", "</a>")
+    tra("Instructions for installing and running BOINC are %1 here %2.", "<a href=https://boinc.berkeley.edu/download.php>", "</a>")
     . "<li>" . 
-    tra("This list is managed centrally at %1the BOINC website%2.", "<a href=\"https://boinc.berkeley.edu/addons.php\">", "</a>") ."
+    tra("This list is managed centrally at %1 the BOINC website %2.", "<a href=\"https://boinc.berkeley.edu/addons.php\">", "</a>") ."
     </ul>
 ";
 

@@ -63,8 +63,8 @@ array(
     'BOINC Monitor',
     '',
     'A desktop gadget that shows the status of running tasks',
-    'http://www.myfavoritegadgets.info/',
-    'Windows Vista/7',
+    'https://windows10gadgets.pro/',
+    'Windows Vista/7/8.1/10',
     'BOINC Monitor shows BOINC tasks progress. Resizable! Save settings to file.  Color changeable for all gadget\'s elements, include background. You can add new BOINC projects in XML list file.',
     '1305409902'
 ),

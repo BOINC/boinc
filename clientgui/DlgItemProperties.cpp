@@ -33,6 +33,19 @@ BEGIN_EVENT_TABLE(CDlgItemProperties, wxDialog)
 
 END_EVENT_TABLE()
 
+typedef enum _ITEM_TYPE {
+    ItemTypeSection,
+    ItemTypeProperty
+} ITEM_TYPE;
+
+struct ITEM {
+    ITEM(ITEM_TYPE _item_type, const wxString &_name, const wxString &_value = wxEmptyString) :
+        item_type(_item_type), name(_name), value(_value) {}
+    ITEM_TYPE item_type;
+    wxString name;
+    wxString value;
+};
+
 /* Constructor */
 CDlgItemProperties::CDlgItemProperties(wxWindow* parent) : 
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
@@ -51,14 +64,11 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     wxBoxSizer* m_bSizer2;
     m_bSizer2 = new wxBoxSizer( wxVERTICAL );
     
-    m_gbSizer = new wxGridBagSizer( 0, 0 );
-    m_gbSizer->SetCols(2);
-    m_gbSizer->AddGrowableCol( 1 );
-    m_gbSizer->SetFlexibleDirection( wxBOTH );
-    m_gbSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-    
-    m_bSizer2->Add( m_gbSizer, 1, wxEXPAND, 5 );
-    
+    const long style = wxBORDER_NONE;
+    m_txtInformation = new wxHtmlWindow( m_scrolledWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, style, "" );
+
+    m_bSizer2->Add( m_txtInformation, 1, wxEXPAND, 5 );
+
     m_scrolledWindow->SetSizer( m_bSizer2 );
     m_scrolledWindow->Layout();
     m_bSizer2->Fit( m_scrolledWindow );
@@ -71,8 +81,6 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     SetSizer( m_bSizer1 );
     Layout();
     
-    m_current_row=0;
-
     int currentTabView = pFrame->GetCurrentViewPage();
     switch(currentTabView) {
     case VW_PROJ:
@@ -348,7 +356,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         dt.Set((time_t)project->last_rpc_time);
         addProperty(_("Last scheduler reply"), dt.Format());
     }
-    m_gbSizer->Layout();
+    renderInfos();
     m_scrolledWindow->FitInside();
 }
 
@@ -420,7 +428,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     if (avp) {
         addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
     }
-    m_gbSizer->Layout();
+    renderInfos();
     m_scrolledWindow->FitInside();
 }
 
@@ -495,24 +503,44 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
 }
 
 
+void CDlgItemProperties::renderInfos() {
+    std::string content;
+    content += "<html>";
+    content += "<body>";
+    content += "<table style='width:100%'>";
+    for (size_t i = 0; i < m_items.size(); ++i) {
+        if (m_items[i].item_type == ItemTypeSection) {
+            content += "<tr>";
+            content += "<td colspan='2'>";
+            content += "<b>";
+            content += m_items[i].name;
+            content += "</b>";
+            content += "</td>";
+            content += "</tr>";
+        } else if (m_items[i].item_type == ItemTypeProperty) {
+            content += "<tr>";
+            content += "<td>";
+            content += m_items[i].name;
+            content += "</td>";
+            content += "<td>";
+            content += m_items[i].value;
+            content += "</td>";
+            content += "</tr>";
+        }        
+    }
+    content += "</table>";
+    content += "</body>";
+    content += "</html>";
+    m_txtInformation->SetPage(content);
+}
+
+
 // adds a title section label to the dialog 
 void CDlgItemProperties::addSection(const wxString& title) {
-    wxStaticText* staticText = new wxStaticText(m_scrolledWindow, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, 0);
-    staticText->Wrap(-1);
-    staticText->SetFont(wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString));    
-    m_gbSizer->Add(staticText, wxGBPosition( m_current_row, 0), wxGBSpan(1, 2), wxALL|wxEXPAND, 3);
-    m_current_row++;
+    m_items.push_back(ITEM(ItemTypeSection, title));
 }
 
 // adds a property row to the dialog 
 void CDlgItemProperties::addProperty(const wxString& name, const wxString& value) {
-    
-    wxStaticText* staticText = new wxStaticText( m_scrolledWindow, wxID_ANY, name, wxDefaultPosition, wxDefaultSize, 0 );
-    staticText->Wrap( -1 );
-    m_gbSizer->Add( staticText, wxGBPosition( m_current_row, 0 ), wxGBSpan( 1, 1 ), wxALL, 3 );
-    
-    staticText = new wxStaticText( m_scrolledWindow, wxID_ANY, value, wxDefaultPosition, wxDefaultSize, 0 );
-    staticText->Wrap( -1 );
-    m_gbSizer->Add( staticText, wxGBPosition( m_current_row, 1 ), wxGBSpan( 1, 1 ), wxALL|wxEXPAND, 3 );
-    m_current_row++;
+    m_items.push_back(ITEM(ItemTypeProperty, name, value));
 }

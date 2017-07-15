@@ -4,8 +4,6 @@
 // look at https://boinc.berkeley.edu/project_list.php in a browser to make sure
 // you didn't mess up the XML
 
-require_once("../inc/translation.inc");
-
 // 0: name
 // 1: web site URL
 // 2: home
@@ -252,6 +250,15 @@ $earth = array(
 $astro_phys_chem = array(
     tra("Physical Science"),
     array(
+        array("XANSONS for COD",
+            "http://xansons4cod.com/xansons4cod/",
+            "Private; supported by the Russian Foundation for Basic Research.",
+            "Crystallography",
+            "XANSONS for COD is a research project aimed to create an open access database of simulated x-ray and neutron powder diffraction patterns for nanocrystalline phase of the materials presented in the Crystallography Open Database (COD).",
+            "",
+            "",
+            "Study nano-materials"
+        ),
 //        array(
 //            "CONVECTOR",
 //            "http://convector.fsv.cvut.cz/",
@@ -743,7 +750,7 @@ $math = array(
         ),
         array(
             "SRBase",
-            "http://srbase.myfirewall.org/sr5/",
+            "http://srbase.my-firewall.org/sr5/",
             "Independent",
             "Mathematics",
             "SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.",

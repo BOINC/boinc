@@ -120,7 +120,7 @@ show_forum($forum, $start, $sort_style, $user);
 
 echo "
     <p>".
-    tra("This message board is available as an %1RSS feed%2", "<a href=forum_rss.php?forumid=$forum->id&setup=1>", " <img src=img/feed_logo.png></a>");
+    tra("This message board is available as an %1 RSS feed %2", "<a href=forum_rss.php?forumid=$forum->id&setup=1>", "<img src=img/feed_logo.png></a>");
 
 page_tail();
 

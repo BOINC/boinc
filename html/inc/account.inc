@@ -30,7 +30,7 @@ function create_account_form($teamid, $next_url) {
     //
     if (defined('INVITE_CODES')) {
         form_input_text(
-             tra("Invitation Code")."<br><small>".tra("A valid invitation code is required to create an account.")."</small>",
+             tra("Invitation Code")."<br><small>".tra("An invitation code is required to create an account.")."</small>",
              "invite_code"
         );
     }
@@ -78,7 +78,7 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    if (!parse_bool(get_config(), "no_computing")) {
+    if (!NO_COMPUTING) {
         $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
     }
     row2($x, '<input class="form-control" name=email_addr type="text" size=40 tabindex=1>');

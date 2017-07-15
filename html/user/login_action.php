@@ -93,7 +93,7 @@ function login_via_link($id, $t, $h) {
         );
     }
     send_cookie('auth', $user->authenticator, true);
-    Header("Location: home.php");
+    Header("Location: ".USER_HOME);
 }
 
 function login_with_auth($authenticator, $next_url, $perm) {
@@ -147,7 +147,9 @@ if ($id && $t && $h) {
 $next_url = post_str("next_url", true);
 $next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
-if (strlen($next_url) == 0) $next_url = "home.php";
+if (strlen($next_url) == 0) {
+    $next_url = USER_HOME;
+}
 
 $perm = false;
 if (isset($_POST['stay_logged_in'])) {

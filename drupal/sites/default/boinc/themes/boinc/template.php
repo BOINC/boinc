@@ -206,8 +206,24 @@ function boinc_preprocess_page(&$vars, $hook) {
   }
   $vars['app_list_url'] = $app_list_url;
 
-  // Remove title from search page
-  if (arg(0) == 'search') {
+  // Remove title from certain pages using URL.
+  // This is a kludge to remove the title of the page but not the
+  // "head_title" which is placed in the HTML <head> section. Most of
+  // these pages are defined in the Page Manager module.
+  // See: https://dev.gridrepublic.org/browse/DBOINC-65
+  if (arg(0) == 'search') { 
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (is_numeric(arg(1))) AND (empty(arg(2))) ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (arg(1)=='profile') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='dashboard') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='community') AND ( (arg(1)=='teams') OR (arg(1)=='stats') ) ) {
     unset($vars['title']);
   }
 
@@ -630,7 +646,7 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
       // Sender accepted recipient's friend request
       $email['subject'] = bts('!name accepted your friend request [!site]', array(
         '!name' => $sender->boincuser_name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         ), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name confirmed you as a friend on !site.
 
@@ -642,7 +658,7 @@ Follow this link to view his or her profile:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
         ), array(), NULL, 'boinc:friend-request-email');
@@ -650,7 +666,7 @@ The !site team', array(
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')), NULL, 'boinc:friend-request-email');
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
@@ -661,7 +677,7 @@ Follow the link below to view this request:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
         ),

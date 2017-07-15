@@ -92,7 +92,7 @@ For further information and assistance with ".PROJECT.", visit
 // and C doesn't contain @ and is at least 2 chars
 //
 function is_valid_email_addr($addr) {
-    if (defined("USE_STOPFORUMSPAM") && USE_STOPFORUMSPAM) {
+    if (defined("USE_STOPFORUMSPAM") && USE_STOPFORUMSPAM && array_key_exists('REMOTE_ADDR', $_SERVER)) {
         $ip_addr = $_SERVER['REMOTE_ADDR'];
         $x = @file_get_contents("https://www.stopforumspam.com/api?ip=".$ip_addr."&email=".$addr);
         if (substr_count($x, '<appears>yes</appears>')) {

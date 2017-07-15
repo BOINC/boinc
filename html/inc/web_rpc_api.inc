@@ -29,8 +29,17 @@ function fetch_url($url) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        // the following 2 lines are needed for https URLs to work on my system.
+        // In general they should not be on.
+        //
+        if (0) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        }
         $x = curl_exec($ch);
         curl_close($ch);
+        //echo "curl return: $x\n";
         return $x;
     }
 }

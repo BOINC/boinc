@@ -139,10 +139,10 @@ function show_message_row($thread, $parent_post) {
     global $logged_in_user, $bbcode_html;
     global $content, $preview;
 
-    $x1 = tra("Message:").html_info().post_warning();
+    $x1 = tra("Message:").bbcode_info().post_warning();
     $x2 = "";
     if ($parent_post) {
-        $x2 .=" ".tra("reply to %1Message ID%2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
+        $x2 .=" ".tra("reply to %1 Message ID %2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
     }
     $x2 .= "<form action=forum_reply.php?thread=".$thread->id;
 

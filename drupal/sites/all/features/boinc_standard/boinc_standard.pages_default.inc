@@ -106,7 +106,7 @@ function boinc_standard_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Dashboard';
   $display->storage_type = 'page_manager';
   $display->storage_id = 'page_account_dashboard_panel_context';
   $display->content = array();
@@ -120,7 +120,7 @@ function boinc_standard_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => bts('My stats', array(), NULL, 'boinc:account-dashboard'),
+      'override_title_text' => 'My stats',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -316,8 +316,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->position = 4;
     $display->content['new-7'] = $pane;
     $display->panels['sidebar_first'][4] = 'new-7';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['account_dashboard'] = $page;
@@ -373,7 +373,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Account';
   $display->storage_type = 'page_manager';
   $display->storage_id = 'page_boinc_user_panel_context_2';
   $display->content = array();
@@ -554,7 +554,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->position = 4;
     $display->content['new-6'] = $pane;
     $display->panels['sidebar_first'][4] = 'new-6';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

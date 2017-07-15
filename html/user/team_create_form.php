@@ -38,7 +38,7 @@ page_head(
 );
 
 if ($user->teamid && ($team = BoincTeam::lookup_id($user->teamid))) {
-    echo tra("You belong to %1. You must %2quit this team%3 before creating a new one.", "<a href=\"team_display.php?teamid=".$team->id."\">".$team->name."</a>", "<a href=\"team_quit_form.php\">", "</a>");
+    echo tra("You belong to %1. You must %2 quit this team %3 before creating a new one.", "<a href=\"team_display.php?teamid=".$team->id."\">".$team->name."</a>", "<a href=\"team_quit_form.php\">", "</a>");
 } else {
     team_edit_form(null, tra("Create a team"), "team_create_action.php");
 }
