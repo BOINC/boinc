@@ -62,6 +62,7 @@ void strip_cr(char *buf);
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char Catalogs_Dir[MAXPATHLEN];
 static char loginName[256];
+static char tempDirName[MAXPATHLEN];
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -91,17 +92,19 @@ int main(int argc, char *argv[])
         ShowMessage((char *)_("Could not get user login name"));
         return 0;
     }
+
+    snprintf(tempDirName, sizeof(tempDirName), "InstallBOINC-%s", loginName);
     
-    snprintf(temp, sizeof(temp), "/tmp/%s", loginName);
+    snprintf(temp, sizeof(temp), "/tmp/%s", tempDirName);
     mkdir(temp, 0777);
     chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
 
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_Installer_Errors", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_Installer_Errors", tempDirName);
     err = callPosixSpawn(temp);
     
     snprintf(Catalogs_Dir, sizeof(Catalogs_Dir),
             "/tmp/%s/BOINC_payload/Library/Application Support/BOINC Data/locale/",
-            loginName);
+            tempDirName);
 
     // Get the full path to Installer package inside this application's bundle
     getPathToThisApp(pkgPath, sizeof(pkgPath));
@@ -133,26 +136,26 @@ int main(int argc, char *argv[])
     // so include the current user's name as part of the paths to our temporary files.
     
     // Expand the installer package
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC.pkg", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC.pkg", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/PostInstall.app", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/PostInstall.app", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_preferred_languages", loginName);
+    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_preferred_languages", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_restart_flag", loginName);
+    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_restart_flag", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
     
-    sprintf(temp, "cp -fpR \"%s\" /tmp/%s/PostInstall.app", postInstallAppPath, loginName);
+    sprintf(temp, "cp -fpR \"%s\" /tmp/%s/PostInstall.app", postInstallAppPath, tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    sprintf(temp, "pkgutil --expand \"%s\" /tmp/%s/expanded_BOINC.pkg", pkgPath, loginName);
+    sprintf(temp, "pkgutil --expand \"%s\" /tmp/%s/expanded_BOINC.pkg", pkgPath, tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
     if (err == noErr) {
@@ -166,13 +169,13 @@ int main(int argc, char *argv[])
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
-        snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", loginName);
+        snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
         err = callPosixSpawn(temp);
         REPORT_ERROR(err);
         return -1;
     }
 
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
 
@@ -186,7 +189,7 @@ int main(int argc, char *argv[])
     restartNeeded = IsRestartNeeded();
     
     // Write a temp file to tell our PostInstall.app whether restart is needed
-    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_restart_flag", loginName);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_restart_flag", tempDirName);
     restartNeededFile = fopen(temp, "w");
     if (restartNeededFile) {
         fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
@@ -196,32 +199,32 @@ int main(int argc, char *argv[])
     if (restartNeeded) {
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
-            snprintf(temp, sizeof(temp), "sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/%s/expanded_BOINC.pkg/Distribution", loginName);
+            snprintf(temp, sizeof(temp), "sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/%s/expanded_BOINC.pkg/Distribution", tempDirName);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
         }
         if (err == noErr) {
-            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg/Distribution.bak", loginName);
+            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg/Distribution.bak", tempDirName);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
             // Flatten the installer package
-            sprintf(temp, "pkgutil --flatten /tmp/%s/expanded_BOINC.pkg /tmp/%s/%s.pkg", loginName, loginName, brand);
+            sprintf(temp, "pkgutil --flatten /tmp/%s/expanded_BOINC.pkg /tmp/%s/%s.pkg", tempDirName, tempDirName, brand);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
         }
 
         if (err == noErr) {
-            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", loginName);
+            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", tempDirName);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
-            sprintf(temp, "open \"/tmp/%s/%s.pkg\"", loginName, brand);
+            sprintf(temp, "open \"/tmp/%s/%s.pkg\"", tempDirName, brand);
             err = callPosixSpawn(temp);
             REPORT_ERROR(err);
             return err;
         }
     }
 
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
 
@@ -349,13 +352,13 @@ static void GetPreferredLanguages() {
     FILE *f;
 
     getcwd(savedWD, sizeof(savedWD));
-    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", loginName);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
     callPosixSpawn(temp);
-    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_payload", loginName);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_payload", tempDirName);
     mkdir(temp, 0777);
     chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
     chdir(temp);
-    snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", loginName);
+    snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", tempDirName);
     callPosixSpawn(temp);
     chdir(savedWD);
 
@@ -408,7 +411,7 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", loginName);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", tempDirName);
     f = fopen(temp, "w");
     if (!f) {
         REPORT_ERROR(true);
@@ -492,7 +495,7 @@ static void LoadPreferredLanguages(){
     BOINCTranslationInit();
 
     // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
-    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", loginName);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", tempDirName);
     f = fopen(temp, "r");
     if (!f) {
         REPORT_ERROR(true);
@@ -701,7 +704,7 @@ void print_to_log_file(const char *format, ...) {
 //    strlcpy(buf, getenv("HOME"), sizeof(buf));
 //    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
 
-    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", loginName);
+    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", tempDirName);
     f = fopen(buf, "a");
     if (!f) return;
 

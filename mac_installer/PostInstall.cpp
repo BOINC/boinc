@@ -155,6 +155,7 @@ static Boolean                  gCommandLineInstall = false;
 static Boolean                  gQuitFlag = false;
 static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
+static char                     tempDirName[MAXPATHLEN];
 static time_t                   waitPermissionsStartTime;
 
 static char *saverName[NUMBRANDS];
@@ -233,6 +234,8 @@ int main(int argc, char *argv[])
     printf("login name = %s\n", loginName);
     fflush(stdout);
 
+    snprintf(tempDirName, sizeof(tempDirName), "InstallBOINC-%s", loginName);
+    
     CopyPreviousErrorsToLog();
 
     if (getenv("COMMAND_LINE_INSTALL") != NULL) {
@@ -677,7 +680,7 @@ Boolean IsRestartNeeded() {
     FILE *restartNeededFile;
     int value;
 
-    snprintf(s, sizeof(s), "/tmp/%s/BOINC_restart_flag", loginName);
+    snprintf(s, sizeof(s), "/tmp/%s/BOINC_restart_flag", tempDirName);
     restartNeededFile = fopen(s, "r");
     if (restartNeededFile) {
         fscanf(restartNeededFile,"%d", &value);
@@ -1146,7 +1149,7 @@ static void LoadPreferredLanguages(){
 
     // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
 
-    snprintf(s, sizeof(s), "/tmp/%s/BOINC_preferred_languages", loginName);
+    snprintf(s, sizeof(s), "/tmp/%s/BOINC_preferred_languages", tempDirName);
     f = fopen(s, "r");
     if (!f) return;
     
@@ -2074,7 +2077,7 @@ void print_to_log(const char *format, ...) {
 void CopyPreviousErrorsToLog() {
     FILE *f;
     char buf[MAXPATHLEN];
-    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", loginName);
+    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", tempDirName);
     f = fopen(buf, "r");
     if (!f) return;
     while (PersistentFGets(buf, sizeof(buf), f)) {

@@ -1389,11 +1389,11 @@ static void GetPreferredLanguages() {
 
     // Write a temp file to tell our PostInstall.app our preferred languages
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
-    snprintf(tempFileName, sizeof(tempFileName), "/tmp/%s", loginName);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s", loginName);
     mkdir(tempFileName, 0777);
     chmod(tempFileName, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
     
-    snprintf(tempFileName, sizeof(tempFileName), "/tmp/%s/BOINC_preferred_languages", loginName);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
     f = fopen(tempFileName, "w");
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
@@ -1467,7 +1467,7 @@ static void LoadPreferredLanguages(){
 
     // First pass wrote a list of our preferred languages to a temp file
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
-    snprintf(tempFileName, sizeof(tempFileName), "/tmp/%s/BOINC_preferred_languages", loginName);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
     f = fopen(tempFileName, "r");
     if (!f) return;
     
