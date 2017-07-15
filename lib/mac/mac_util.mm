@@ -50,9 +50,14 @@ void BringAppWithPidToFront(pid_t pid) {
 
 
 void getFrontMostApp(char * appName, size_t maxLen) {
-    NSRunningApplication * frontApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
-    NSString * name = [frontApp localizedName];
-    strlcpy(appName, [name UTF8String], maxLen);
+    if ([[NSWorkspace sharedWorkspace] respondsToSelector: @selector(frontmostApplication)]){
+        NSRunningApplication * frontApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
+        NSString * name = [frontApp localizedName];
+        strlcpy(appName, [name UTF8String], maxLen);
+    } else {
+        // NSWorkspace frontmostApplication is not available in OS 10.6
+        strlcpy(appName, "UserNotificationCenter", maxLen);
+    }
 }
 
 
