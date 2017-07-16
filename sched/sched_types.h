@@ -25,6 +25,7 @@
 #include "common_defs.h"
 #include "md5_file.h"
 #include "coproc.h"
+#include "keyword.h"
 
 #include "edf_sim.h"
 
@@ -345,7 +346,7 @@ struct SCHEDULER_REQUEST {
         // Don't modify user prefs or CPID
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
-    std::string client_opaque;
+    USER_KEYWORDS user_keywords;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};

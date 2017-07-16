@@ -246,6 +246,8 @@ void AM_ACCOUNT::handle_no_rsc(const char* name, bool value) {
     no_rsc[i] = value;
 }
 
+// parse account from AM reply
+//
 int AM_ACCOUNT::parse(XML_PARSER& xp) {
     char buf[256];
     bool btemp;
@@ -331,12 +333,6 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         }
         if (xp.parse_bool("abort_not_started", btemp)) {
             abort_not_started.set(btemp);
-            continue;
-        }
-        if (xp.parse_string("sci_keywords", sci_keywords)) {
-            continue;
-        }
-        if (xp.parse_string("loc_keywords", loc_keywords)) {
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -435,6 +431,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
         }
         if (xp.parse_bool("no_project_notices", ami.no_project_notices)) {
             continue;
+        }
+        if (xp.match_tag("user_keywords")) {
+            retval = ami.user_keywords.parse(xp);
+            if (retval) return retval;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
@@ -655,8 +655,6 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     for (int j=0; j<MAX_RSC; j++) {
                         pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
-                    pp->sci_keywords = acct.sci_keywords;
-                    pp->loc_keywords = acct.loc_keywords;
                 }
             } else {
                 // here we don't already have the project.
@@ -740,6 +738,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     } else {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + 86400;
     }
+    gstate.acct_mgr_info.user_keywords = ami.user_keywords;
     gstate.acct_mgr_info.write_info();
     gstate.set_client_state_dirty("account manager RPC");
 #endif
@@ -808,12 +807,7 @@ int ACCT_MGR_INFO::write_info() {
             opaque,
             no_project_notices?1:0
         );
-        if (!sched_req_opaque.empty()) {
-            fprintf(f,
-                "<sched_req_opaque>\n<![CDATA[\n%s\n]]>\n</sched_req_opaque>\n",
-                sched_req_opaque.c_str()
-            );
-        }
+        user_keywords.write(f);
         fprintf(f,
             "</acct_mgr_login>\n"
         );
@@ -831,7 +825,6 @@ void ACCT_MGR_INFO::clear() {
     safe_strcpy(signing_key, "");
     safe_strcpy(previous_host_cpid, "");
     safe_strcpy(opaque, "");
-    sched_req_opaque.clear();
     safe_strcpy(cookie_failure_url, "");
     next_rpc_time = 0;
     nfailures = 0;
@@ -839,6 +832,7 @@ void ACCT_MGR_INFO::clear() {
     password_error = false;
     no_project_notices = false;
     cookie_required = false;
+    user_keywords.clear();
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -875,20 +869,15 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
             }
             continue;
         }
-        else if (xp.match_tag("sched_req_opaque")) {
-            char buf[65536];
-            retval = xp.element_contents(
-                "</sched_req_opaque>", buf, sizeof(buf)
-            );
+        else if (xp.parse_bool("no_project_notices", no_project_notices)) continue;
+        else if (xp.match_tag("user_keywords")) {
+            retval = user_keywords.parse(xp);
             if (retval) {
                 msg_printf(NULL, MSG_INFO,
-                    "error parsing <sched_req_opaque> in acct_mgr_login.xml"
+                    "error parsing user keywords in acct_mgr_login.xml"
                 );
             }
-            sched_req_opaque = string(buf);
-            continue;
         }
-        else if (xp.parse_bool("no_project_notices", no_project_notices)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] unrecognized %s in acct_mgr_login.xml",

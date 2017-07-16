@@ -22,6 +22,7 @@ libfcgi_sources = \
     coproc.cpp \
     filesys.cpp \
     hostinfo.cpp \
+	keyword.cpp \
     md5.cpp \
     md5_file.cpp \
     mfile.cpp \
@@ -48,6 +49,7 @@ generic_sources = \
     gui_rpc_client_ops.cpp \
     gui_rpc_client_print.cpp \
     hostinfo.cpp \
+	keyword.cpp \
     md5.cpp \
     md5_file.cpp \
     mem_usage.cpp \

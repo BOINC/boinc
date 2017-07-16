@@ -383,10 +383,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "    <client_brand>%s</client_brand>\n", client_brand);
     }
 
-    if (acct_mgr_info.using_am() && !acct_mgr_info.sched_req_opaque.empty()) {
-        fprintf(f, "<am_opaque>\n<![CDATA[\n");
-        fprintf(f, "%s", acct_mgr_info.sched_req_opaque.c_str());
-        fprintf(f, "\n]]>\n</am_opaque>\n");
+    if (acct_mgr_info.using_am()) {
+        acct_mgr_info.user_keywords.write(f);
     }
 
     fprintf(f, "</scheduler_request>\n");

@@ -312,7 +312,7 @@ int RPC_CLIENT::send_request(const char* p) {
     buf = "<boinc_gui_rpc_request>\n";
     buf += p;
     buf += "</boinc_gui_rpc_request>\n\003";
-    int n = send(sock, buf.c_str(), buf.size(), 0);
+    int n = send(sock, buf.c_str(), (int)buf.size(), 0);
     if (n < 0) {
         //printf("send: %d\n", n);
         //perror("send");
