@@ -24,6 +24,7 @@
 #include "str_replace.h"
 #include "miofile.h"
 #include "parse.h"
+#include "keyword.h"
 #include "gui_http.h"
 #include "client_types.h"
 
@@ -39,8 +40,6 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // md5 of password.lowercase(login_name)
     char opaque[256];
         // opaque data, from the AM, to be included in future AM requests
-    std::string sched_req_opaque;
-        // opaque data to be sent in scheduler requests, in CDATA
     char signing_key[MAX_KEY_LEN];
     char previous_host_cpid[64];
         // the host CPID sent in last RPC
@@ -61,6 +60,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // what login name and password they have been assigned
     bool password_error;
     bool send_rec;
+        // send REC in AM RPCs
+    USER_KEYWORDS user_keywords;
 
     inline bool using_am() {
         if (!strlen(master_url)) return false;
@@ -108,8 +109,7 @@ struct OPTIONAL_DOUBLE {
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
-    std::string sci_keywords;
-    std::string loc_keywords;
+
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
@@ -141,7 +141,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     int error_num;
     ACCT_MGR_INFO ami;
         // a temporary copy while doing RPC.
-        // CLIENT_STATE::acct_mgr_info is authoratative
+        // CLIENT_STATE::acct_mgr_info is authoritative
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;
