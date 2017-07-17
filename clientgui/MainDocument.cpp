@@ -1235,6 +1235,7 @@ int CMainDocument::CoreClientQuit() {
 bool CMainDocument::IsUserAuthorized() {
 #ifndef _WIN32
 #ifdef SANDBOX
+#ifndef __WXMAC__   // Currently unauthorized users can't run Manager, so this would be redundant
     static bool         sIsAuthorized = false;
     group               *grp;
     gid_t               rgid, boinc_master_gid;
@@ -1281,6 +1282,7 @@ bool CMainDocument::IsUserAuthorized() {
     }       // if (g_use_sandbox)
 #endif      // SANDBOX
 #endif      // #ifndef _WIN32
+#endif      // #ifndef __WXMAC__
 
     return true;
 }

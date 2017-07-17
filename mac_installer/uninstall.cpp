@@ -91,7 +91,6 @@ int main(int argc, char *argv[])
     char                        pathToSelf[MAXPATHLEN], pathToVBoxUninstallTool[MAXPATHLEN], *p;
     char                        cmd[MAXPATHLEN+64];
     Boolean                     cancelled = false;
-    pid_t                       frontAppPID = 0;
     pid_t                       activeAppPID = 0;
     struct stat                 sbuf;
     OSStatus                    err = noErr;
@@ -128,18 +127,13 @@ int main(int argc, char *argv[])
     strlcpy(gBrandName, p, sizeof(gBrandName));
         
     // Determine whether this is the intial launch or the relaunch with privileges
-    if ( (argc == 4) && (strcmp(argv[1], "--privileged") == 0) ) {
+    if ( (argc == 3) && (strcmp(argv[1], "--privileged") == 0) ) {
         // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
         activeAppPID = (pid_t)atol(argv[2]);
-        if (activeAppPID) {
+        if (activeAppPID > 0) {
             BringAppWithPidToFront(activeAppPID);   // Usually Finder
         }
-        frontAppPID = (pid_t)atol(argv[3]); // UserNotificationCenter
-        if (frontAppPID) {
-            BringAppWithPidToFront(frontAppPID);
-        }
-
-        // Give the run loop a chance to handle the BringAppWithPidToFront calls
+        // Give the run loop a chance to handle the BringAppWithPidToFront call
 //        CFRunLoopRunInMode(kCFRunLoopCommonModes, (CFTimeInterval)0.5, false);
         // Apparently, usleep() lets run loop run
         usleep(100000);
@@ -172,17 +166,12 @@ int main(int argc, char *argv[])
 
     if (! cancelled) {
         // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
-        getFrontMostApp(cmd, sizeof(cmd));
-        activeAppPID = FindProcessPID(cmd, 0);
-//        ShowMessage(false, true, false, "frontmost = %s", cmd);   // for debugging
-        
-        getActiveAppApp(cmd, sizeof(cmd));
-        frontAppPID = FindProcessPID(cmd, 0);
-//        ShowMessage(false, true, false, "active app = %s", cmd);  // for debugging
+        activeAppPID = getActiveAppPid();
+//        ShowMessage(false, true, false, "active app = %d", activeAppPID);  // for debugging
 
         // The "activate" command brings the password dialog to the front and makes it the active window.
         // "with administrator privileges" launches the helper application as user root.
-        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged %d %d\" with administrator privileges'", pathToSelf, activeAppPID, frontAppPID);
+        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged %d\" with administrator privileges'", pathToSelf, activeAppPID);
         err = callPosixSpawn(cmd, true);
     }
     
