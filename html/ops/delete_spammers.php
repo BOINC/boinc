@@ -96,6 +96,7 @@ ini_set('memory_limit', '4G');
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
+require_once("../inc/user_util.inc");
 db_init();
 
 $min_days = 0;
