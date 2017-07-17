@@ -45,43 +45,34 @@ void BringAppToFront() {
 
 
 void BringAppWithPidToFront(pid_t pid) {
-    [ [NSRunningApplication runningApplicationWithProcessIdentifier:pid] activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
-}
-
-
-void getFrontMostApp(char * appName, size_t maxLen) {
-    if ([[NSWorkspace sharedWorkspace] respondsToSelector: @selector(frontmostApplication)]){
-        NSRunningApplication * frontApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
-        NSString * name = [frontApp localizedName];
-        strlcpy(appName, [name UTF8String], maxLen);
-    } else {
-        // NSWorkspace frontmostApplication is not available in OS 10.6
-        strlcpy(appName, "UserNotificationCenter", maxLen);
+    NSRunningApplication * theRunningApp = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
+    if (theRunningApp) {
+        [ theRunningApp activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
     }
 }
 
 
-void getActiveAppApp(char * appName, size_t maxLen) {
+pid_t getActiveAppPid() {
     NSArray * runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
     unsigned int i;
     unsigned int n = [ runningApps count ];
     for (i=0; i<n; i++) {
         NSRunningApplication * theApp = (NSRunningApplication *)[ runningApps objectAtIndex:i ];
         if ([ theApp isActive ]) {
-            NSString * name = [theApp localizedName];
-            strlcpy(appName, [name UTF8String], maxLen);
-            return;
+            return [theApp processIdentifier];
         }
     }
-    appName[0] = '\0';
+    return 0;
 }
 
 
 pid_t getPidIfRunning(char * bundleID) {
     NSString *NSBundleID = [[NSString alloc] initWithUTF8String:bundleID];
     NSArray * runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:NSBundleID];
-    if ([runningApps count] > 0) {
-        return [((NSRunningApplication *)[runningApps firstObject]) processIdentifier];
+    if (runningApps) {
+        if ([runningApps count] > 0) {
+            return [((NSRunningApplication *)[runningApps firstObject]) processIdentifier];
+        }
     }
     return 0;
 }
