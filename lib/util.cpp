@@ -631,7 +631,7 @@ double rand_normal() {
 //
 #ifdef HAVE__PROC_SELF_EXE
 int get_real_executable_path(char* path, size_t max_len) {
-    int ret = readlink("/proc/self/exe", path, max_len);
+    int ret = readlink("/proc/self/exe", path, max_len - 1);
     if ( ret >= 0) {
         path[ret] = '\0'; // readlink does not null terminate
         return 0;
