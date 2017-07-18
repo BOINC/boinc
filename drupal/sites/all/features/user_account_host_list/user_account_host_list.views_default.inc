@@ -990,7 +990,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '0',
+      'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,

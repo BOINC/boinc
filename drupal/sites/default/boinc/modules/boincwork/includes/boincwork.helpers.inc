@@ -1508,6 +1508,8 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   global $language;
   $locality=$language->language;
   $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL);
+  $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0);
+  $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
 
   $output = '';
 
