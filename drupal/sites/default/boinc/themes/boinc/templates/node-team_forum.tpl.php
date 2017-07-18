@@ -117,7 +117,7 @@
     }
   ?>
   
-  <div class="breadcrumb">
+  <div class="top-breadcrumb">
     <h2 class="title"><?php print $subtitle; ?></h2>
   </div>
   
@@ -230,7 +230,7 @@
     }
   ?>
 
-  <div class="breadcrumb">
+  <div class="bottom-breadcrumb">
     <h2 class="title"><?php print $subtitle; ?><br>
   </div>
 
