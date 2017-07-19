@@ -1640,15 +1640,15 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
     ),
     array(
       'data' => bts('Run time', array(), NULL, 'boinc:task-table'),
-      'field'=> 'elapsed_time',
+      'field' => 'elapsed_time',
     ),
     array(
       'data' => bts('CPU time', array(), NULL, 'boinc:task-table'),
-      'field'=> 'cpu_time',
+      'field' => 'cpu_time',
     ),
     array(
       'data' => bts('Granted Credit', array(), NULL, 'boinc:task-table'),
-      'field'=> 'granted_credit',
+      'field' => 'granted_credit',
     ),
     // Application is a column, but won't be added until after tablesort_sql().
   );
