@@ -860,7 +860,7 @@ function boincteam_dashboard_panel($uid = NULL) {
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
     $output .= '  <label>' . bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits') . ': </label>';
-    $output .= '  <span>' . number_format($team->total_credit, 2) . '</span>';
+    $output .= '  <span>' . number_format($team->total_credit, 0) . '</span>';
     $output .= '</div>' . "\n";
   }
   return $output;
@@ -1278,7 +1278,7 @@ function boincteam_view_team_panel($team_id) {
   $output .= '<div>';
   $output .= '<div class="left-column">';
   $output .= '<ul class="stats">';
-  $output .= '  <li>' . bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits') . ': ' . number_format($boincteam->total_credit, 2) . '</li>';
+  $output .= '  <li>' . bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits') . ': ' . number_format($boincteam->total_credit, 0) . '</li>';
   $output .= '  <li>' . bts('Recent average credit', array(), NULL, 'boinc:user-or-team-RAC') . ': ' . number_format($boincteam->expavg_credit, 2) . '</li>';
   $output .= '  <li>' . bts('Country', array(), NULL, 'boinc:country-of-origin') . ': ' . $boincteam->country . '</li>';
   $output .= '  <li>' . bts('Type', array(), NULL, 'boinc:view-team-info') . ': ' . boincteam_get_type($team_id) . '</li>';

@@ -149,7 +149,7 @@ function teams_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -493,7 +493,7 @@ function teams_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -506,6 +506,9 @@ function teams_views_default_views() {
       'table' => 'user',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'expavg_credit' => array(
       'label' => 'Recent average credit',
@@ -1052,7 +1055,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -1065,6 +1068,9 @@ else {
       'table' => 'user',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'expavg_credit' => array(
       'label' => 'Recent average credit',
@@ -1904,7 +1910,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -2444,7 +2450,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -2979,7 +2985,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -3096,9 +3102,9 @@ else {
   $handler = $view->new_display('panel_pane', 'Top teams overview pane', 'panel_pane_1');
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
@@ -3194,9 +3200,9 @@ else {
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
@@ -3496,7 +3502,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -4272,7 +4278,7 @@ echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -4285,13 +4291,16 @@ echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/
       'table' => 'team',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
   ));
   $handler->override_option('filters', array(
     'total_credit' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => '0',
+        'value' => '1',
         'min' => '',
         'max' => '',
       ),
