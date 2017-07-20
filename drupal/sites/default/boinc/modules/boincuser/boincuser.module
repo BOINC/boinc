@@ -1201,43 +1201,62 @@ function boincuser_edit_profile($account = null) {
   */
 function join_page($type = null) {
   global $base_url;
+  $ruleslink = '/content/rules-and-policies';
+  $site_name = variable_get('site_name', 'Drupal-BOINC');
   $registration_enabled = variable_get('user_register', 0);
   $output = '<div class="join">';
   switch ($type) {
   case 'boinc':
-    $output .= '<p>' . bts("If you're already running BOINC, select <i>Add
-      Project</i>.", array(), NULL, 'boinc:join-page') . '</p>';
+    $output .= '<ol>';
+    $output .= '  <li>' . bts("Install BOINC on this device if not already present.", array(), NULL, 'boinc:join-page') . '</li>';
+    $output .= '  <li>' . bts("Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter @siteurl.",
+    array(
+      '@sitename' => $site_name,
+      '@siteurl' => $base_url,
+    ), NULL, 'boinc:join-page') . '</li>';
     if ($registration_enabled) {
-      $output .= '<p>' . bts("If you're running a command-line or pre-5.0 version
-        of BOINC, !create_an_account first.", array('!create_an_account' => 
-        l(bts('create an account'), 'user/registration')), array(), NULL, 'boinc:join-page') . '</p>';
+      $output .= '<li>' . bts("If you're running a command-line or pre-5.0 version
+        of BOINC, !create_an_account first. Then use <b>!boinccmd</b> to add the project.",
+        array(
+          '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
+          '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
+        ), array(), NULL, 'boinc:join-page') . '</li>';
     }
     else {
-      $output .= '<p>' . bts("If you're running a command-line version of BOINC,
+      $output .= '<li>' . bts("If you're running a command-line version of BOINC,
         first use the BOINC Manager software (elsewhere if necessary) to create an
         an account at this project, then use that account to connect with the
-        command-line version.", array(), NULL, 'boinc:join-page') . '</p>';
-      $output .= '<p>' . bts("If you're running a pre-5.0 version of BOINC, please
-        upgrade to a more recent version to create an account
-        at this project.", array(), NULL, 'boinc:join-page') . '</p>';
+        command-line version using <b>!boinccmd</b>.",
+        array(
+          '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
+        ), NULL, 'boinc:join-page') . '</li>';
+      $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
+        upgrade to a more recent version of BOINC to create an account
+        at @this_project.",
+        array(
+          '@this_project' => $site_name,
+        ), NULL, 'boinc:join-page') . '</li>';
     }
     break;
   case 'new':
   default:
     $output .= '<ol>';
-    $output .= '  <li>' . bts('Download the desktop software', array(), NULL, 'boinc:join-page');
+    if (menu_valid_path(array('link_path' => $ruleslink))) {
+      $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
+        '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslink),
+      ), NULL, 'boinc:join-page') . '</li>';
+    }
+    $output .= '  <li>' . bts('Download the BOINC desktop software.', array(), NULL, 'boinc:join-page');
     $output .= '    <p>';
     $output .= '      <a class="button" href="http://boinc.berkeley.edu/download.php">Download</a>';
     $output .= '    </p>';
-    //$output .= '    <p class="platforms">';
-    //$output .= '      <a href="files/boinc_windows_intelx86.exe" class="platform windows">Windows</a>';
-    //$output .= '      <a href="files/boinc_macOSX_universal.zip" class="platform mac">Mac</a>';
-    //$output .= '      <a href="files/boinc_i686-pc-linux-gnu.sh" class="platform linux">Linux</a>';
-    //$output .= '    </p>';
+    $output .= '    ' . bts("For Android devices, download BOINC from the Google Play Store or Amazon App Store.", array(), NULL, 'boinc:join-page');
     $output .= '  </li>';
-    $output .= '  <li>' . bts('Run the installer', array(), NULL, 'boinc:join-page') . '</li>';
-    $output .= '  <li>' . bts('When prompted enter @siteurl', array(
-        '@siteurl' => $base_url), NULL, 'boinc:join-page') . '</li>';
+    $output .= '  <li>' . bts('Run the installer.', array(), NULL, 'boinc:join-page') . '</li>';
+    $output .= '  <li>' . bts('Choose @sitename from the list, or enter @siteurl.', array(
+      '@sitename' => $site_name,
+      '@siteurl' => $base_url,
+    ), NULL, 'boinc:join-page') . '</li>';
     $output .=  '</ol>';
   }
   $output .= '</div>';
