@@ -143,7 +143,7 @@
     <?php endif; ?>
 
     <div class="submitted">
-      <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
+      <?php print date('j M Y G:i:s T', $comment->timestamp); ?>
     </div>
     <div class="comment-id">
       <?php echo l(bts('Message @id', array('@id' => $comment->cid), NULL, 'boinc:message-header'),

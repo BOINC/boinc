@@ -97,11 +97,11 @@
         <span class="submitted">
           <?php
             if ($type == 'news') {
-              print bts('Submitted on !datetime', array('!datetime' => date('j M Y H:i:s T', $node->created)), NULL, 'boinc:news-submitted-info');
+              print bts('Submitted on !datetime', array('!datetime' => date('j M Y G:i:s T', $node->created)), NULL, 'boinc:news-submitted-info');
             }
             else {
               print bts('Submitted by !username on !datetime',
-                array('!username' => $name, '!datetime' => date('j M Y H:i:s T', $node->created)), NULL, 'boinc:page-submitted-info');
+                array('!username' => $name, '!datetime' => date('j M Y G:i:s T', $node->created)), NULL, 'boinc:page-submitted-info');
             }
           ?>
         </span>

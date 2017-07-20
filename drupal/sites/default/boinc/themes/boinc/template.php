@@ -495,7 +495,7 @@ function boinc_preprocess_privatemsg_view(&$vars, $hook) {
   }
   $author_picture .= '</div>';
   $vars['author_picture'] = $author_picture;
-  $vars['message_timestamp'] = date('j M Y H:i:s T', $vars['message']['timestamp']);
+  $vars['message_timestamp'] = date('j M Y G:i:s T', $vars['message']['timestamp']);
 }
 // */
 

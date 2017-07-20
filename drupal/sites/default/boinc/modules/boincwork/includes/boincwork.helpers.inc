@@ -1410,7 +1410,7 @@ function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NUL
   $root_log_dir = variable_get('boinc_host_sched_logs_dir', '');
   $log = '';
   if ($timestamp) {
-    $output = gmdate('j M Y | G:i:s', $timestamp) . ' UTC';
+    $output = date('j M Y G:i:s T', $timestamp);
   }
   if ($root_log_dir AND $host_id) {
     $subdir = substr($host_id, 0, -3) OR $subdir = 0;
@@ -1457,7 +1457,7 @@ function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $
   $output = '---';
   if ($received_time OR $deadline) {
     $timestamp = ($received_time) ? $received_time : $deadline;
-    $output = gmdate('j M Y, G:i:s', $timestamp) . ' UTC';
+    $output = date('j M Y G:i:s T', $timestamp);
     // Add a wrapper to deadline text
     if (!$received_time) {
       if (time() < $deadline) {
@@ -1738,7 +1738,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
           ),
           l($result->workunitid, "workunit/{$result->workunitid}"),
           l($result->hostid, "host/{$result->hostid}"),
-          time_str($result->sent_time),
+          date('j M Y G:i:s T', $result->sent_time),
           boincwork_task_time_reported($result->received_time, $result->report_deadline),
           state_string($result),
           $nf->format($result->elapsed_time),

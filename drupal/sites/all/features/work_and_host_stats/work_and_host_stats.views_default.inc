@@ -196,7 +196,7 @@ function work_and_host_stats_views_default_views() {
       'hide_empty' => 0,
       'empty_zero' => 0,
       'date_format' => 'custom',
-      'custom_date_format' => 'j M Y G:i:s e',
+      'custom_date_format' => 'j M Y G:i:s T',
       'exclude' => 1,
       'id' => 'sent_time',
       'table' => 'result',
@@ -272,8 +272,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -288,9 +290,10 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'util\');
-  echo time_str($data->result_sent_time);
+  echo date(\'j M Y G:i:s T\', $data->result_sent_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -7602,8 +7605,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -7618,9 +7623,10 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'util\');
-  echo time_str($data->result_sent_time);
+  echo date(\'j M Y G:i:s T\', $data->result_sent_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -11779,8 +11785,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -11795,9 +11803,10 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'util\');
-  echo time_str($data->result_sent_time);
+  echo date(\'j M Y G:i:s T\', $data->result_sent_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
