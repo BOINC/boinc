@@ -126,6 +126,9 @@ div#site-name /* The name of the website */ {
 .breadcrumb /* The path to the current page in the form of a list of links */ {
   padding-bottom: 0; /* Undo system.css */
 }
+.breadcrumb.bottom-breadcrumb {
+  margin-top: 25px
+}
 
 a:link, a:visited {
   color: #faa341;
