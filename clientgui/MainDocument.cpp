@@ -169,7 +169,6 @@ void CNetworkConnection::Poll() {
             if (!retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));
                 SetStateSuccess(m_strNewComputerName, m_strNewComputerPassword);
-                m_pDocument->CheckForVersionUpdate();
             } else if (ERR_AUTHENTICATOR == retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR"));
                 SetStateErrorAuthentication();
