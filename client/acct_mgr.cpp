@@ -54,8 +54,7 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // if URL is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
-    string _url, string name, string password_hash,
-    bool _via_gui
+    string _url, string name, string password_hash, bool _via_gui
 ) {
     int retval;
     unsigned int i;
@@ -246,7 +245,7 @@ void AM_ACCOUNT::handle_no_rsc(const char* name, bool value) {
     no_rsc[i] = value;
 }
 
-// parse account from AM reply
+// parse a project account from AM reply
 //
 int AM_ACCOUNT::parse(XML_PARSER& xp) {
     char buf[256];
@@ -745,9 +744,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 }
 
 // write AM info to files.
-// This is done after each AM RPC,
-// perhaps overkill since the info doesn't generally change.
-// But doesn't matter since infrequent.
+// This is done after each AM RPC.
 //
 int ACCT_MGR_INFO::write_info() {
     FILE* f;
@@ -961,7 +958,9 @@ int ACCT_MGR_INFO::init() {
 
 bool ACCT_MGR_INFO::poll() {
     if (!using_am()) return false;
-    if (gstate.acct_mgr_op.gui_http->is_busy()) return false;
+    if (gstate.acct_mgr_op.gui_http->is_busy()) {
+        return false;
+    }
 
     if (gstate.now > next_rpc_time) {
 
