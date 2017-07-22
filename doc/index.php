@@ -187,6 +187,7 @@ function show_software() {
                 <center>
                 <a class="btn btn-xs btn-primary" href="trac/wiki/DevProcess">'.tra("Development process").'</a>
                 <a class="btn btn-xs btn-primary" href="trac/wiki/DevProjects">'.tra("Development tasks").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/AdminTasks">'.tra("Maintenance tasks").'</a>
                 </center>
                 <p></p>
                 '.tra("BOINC is distributed under the LGPL open-source license.").'
