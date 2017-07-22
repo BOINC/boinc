@@ -1373,6 +1373,7 @@ int HOST::parse(XML_PARSER& xp) {
     p_ncpus = 1;
     double dtemp;
     string stemp;
+    int x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_int("timezone", timezone)) continue;
@@ -1403,6 +1404,10 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
+
+        // unused fields
+        //
+        if (xp.parse_int("n_usable_coprocs", x)) continue;
 
         // parse deprecated fields to avoid error messages
         //

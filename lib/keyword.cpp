@@ -18,7 +18,6 @@
 // utility functions for keywords
 
 #include <stdio.h>
-#include <algorithm>
 
 #include "parse.h"
 #include "keyword.h"
@@ -54,15 +53,13 @@ void USER_KEYWORDS::write(FILE* f) {
     fprintf(f, "</user_keywords>\n");
 }
 
-double keyword_score(USER_KEYWORDS& user_keywords, JOB_KEYWORDS& job_keywords) {
-    double score = 0;
-    for (unsigned int i=0; i<job_keywords.ids.size(); i++) {
-        int jk = job_keywords.ids[i];
-        if (std::find(user_keywords.yes.begin(), user_keywords.yes.end(), jk) != user_keywords.yes.end()) {
-            score += 1;
-        } else if (std::find(user_keywords.no.begin(), user_keywords.no.end(), jk) != user_keywords.no.end()) {
-            return -1;
-        }
+void JOB_KEYWORDS::parse_str(char* buf) {
+    char* p = strtok(buf, " ");
+    if (!p) return;
+    ids.push_back(atoi(p));
+    while (true) {
+        p = strtok(NULL, " ");
+        if (!p) break;
+        ids.push_back(atoi(p));
     }
-    return score;
 }

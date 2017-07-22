@@ -42,6 +42,10 @@ extern char* precision_time_to_string(double);
 extern void secs_to_hmsf(double, char*);
 extern std::string timediff_format(double);
 
+inline bool empty(char* p) {
+    return p[0] == 0;
+}
+
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return
         s.size()>=suffix.size() &&

@@ -298,6 +298,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_double("version_select_random_factor", version_select_random_factor)) continue;
         if (xp.parse_double("maintenance_delay", maintenance_delay)) continue;
         if (xp.parse_bool("credit_by_app", credit_by_app)) continue;
+        if (xp.parse_bool("keyword_sched", keyword_sched)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 
@@ -308,6 +309,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("debug_edf_sim_workload", debug_edf_sim_workload)) continue;
         if (xp.parse_bool("debug_fcgi", debug_fcgi)) continue;
         if (xp.parse_bool("debug_handle_results", debug_handle_results)) continue;
+        if (xp.parse_bool("debug_keyword", debug_keyword)) continue;
         if (xp.parse_bool("debug_locality", debug_locality)) continue;
         if (xp.parse_bool("debug_locality_lite", debug_locality_lite)) continue;
         if (xp.parse_bool("debug_prefs", debug_prefs)) continue;

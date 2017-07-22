@@ -24,7 +24,7 @@ struct JOB {
     APP* app;
     BEST_APP_VERSION* bavp;
 
-    bool get_score(WU_RESULT&);
+    bool get_score(int);
 };
 
 extern void send_work_score();

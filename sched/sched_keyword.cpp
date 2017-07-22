@@ -16,23 +16,32 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // code related to keyword-based job scoring
+//
+// A job's keywords are stored in workunit.keywords as a char string.
+// We don't want to parse that every time we score the job,
+// so we maintain a list of JOB_KEYWORDs paralleling the job array.
 
 #include <algorithm>
+#include <iterator>
 
 #include "sched_main.h"
 #include "keyword.h"
 
 JOB_KEYWORDS *job_keywords_array;
 
+// compute the score increment for the given job and user keywords
+// (or -1 if the keywords are incompatible)
+//
 double keyword_score_aux(
-    USER_KEYWORDS& user_keywords, JOB_KEYWORDS& job_keywords
+    USER_KEYWORDS& uks, JOB_KEYWORDS& jks
 ) {
     double score = 0;
-    for (unsigned int i=0; i<job_keywords.ids.size(); i++) {
-        int jk = job_keywords.ids[i];
-        if (std::find(user_keywords.yes.begin(), user_keywords.yes.end(), jk) != user_keywords.yes.end()) {
+
+    for (unsigned int i=0; i<jks.ids.size(); i++) {
+        int jk = jks.ids[i];
+        if (std::find(uks.yes.begin(), uks.yes.end(), jk) != uks.yes.end()) {
             score += 1;
-        } else if (std::find(user_keywords.no.begin(), user_keywords.no.end(), jk) != user_keywords.no.end()) {
+        } else if (std::find(uks.no.begin(), uks.no.end(), jk) != uks.no.end()) {
             return -1;
         }
     }
@@ -76,6 +85,8 @@ void keyword_sched_remove_job(int i) {
     job_keywords_array[i].clear();
 }
 
+// called at CGI start to initialize job keyword array
+//
 void keyword_sched_init() {
     job_keywords_array = new JOB_KEYWORDS[ssp->max_wu_results];
 }

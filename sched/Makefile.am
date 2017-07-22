@@ -167,6 +167,7 @@ cgi_sources = \
     sched_customize.cpp \
     sched_files.cpp \
     sched_hr.cpp \
+    sched_keyword.cpp \
     sched_limit.cpp \
     sched_locality.cpp \
     sched_main.cpp \

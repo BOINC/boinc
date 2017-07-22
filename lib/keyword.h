@@ -17,6 +17,9 @@
 
 // utility classes for keywords
 
+#ifndef BOINC_KEYWORD_H
+#define BOINC_KEYWORD_H
+
 #include <vector>
 #include "parse.h"
 
@@ -24,12 +27,12 @@ struct USER_KEYWORDS {
     std::vector<int> yes;
     std::vector<int> no;
     int parse(XML_PARSER&);
-    void clear() {
+    inline void clear() {
         yes.clear();
         no.clear();
     }
     void write(FILE*);
-    bool empty() {
+    inline bool empty() {
         return yes.empty() && no.empty();
     }
 };
@@ -38,6 +41,12 @@ struct JOB_KEYWORDS {
     std::vector<int> ids;
     void parse_str(char*);
         // parse space-separated list
+    inline bool empty() {
+        return ids.empty();
+    }
+    inline void clear() {
+        ids.clear();
+    }
 };
 
-extern double keyword_score(USER_KEYWORDS&, JOB_KEYWORDS&);
+#endif

@@ -480,9 +480,9 @@ struct WORKUNIT {
     int size_class;
         // -1 means none; encode this here so that transitioner
         // doesn't have to look up app
+    char keywords[256];
+        // keywords, as space-separated integers
 
-    // the following not used in the DB
-    char app_name[256];
     void clear();
     WORKUNIT(){clear();}
 };
