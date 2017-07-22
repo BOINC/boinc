@@ -245,7 +245,7 @@ function host_nresults($host) {
 // Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],
 // return a human-readable version of the GPU info
 //
-function gpu_desc($x) {
+function gpu_desc($x, $detail=true) {
     $descs = explode("]", $x);
     array_pop($descs);
     $str = "";
@@ -267,35 +267,35 @@ function gpu_desc($x) {
             $str .= $d[0];
         }
         $str .= " ".$d[1];
-        $str .= " (".$d[3].")";
-        if (array_key_exists(4, $d)) {
-            if ($d[4] != "" && $d[4] != 0) {
-                // if version has no '.', assume it's in 100*maj+min form
-                //
-                if (strchr($d[4], '.')) {
-                    $str .= " driver: ".$d[4];
-                } else {
-                    $i = (int)$d[4];
-                    $maj = (int)($i/100);
-                    $min = $i%100;
-                    $str .= sprintf(" driver: %d.%02d", $maj, $min);
+        if ($detail) {
+            $str .= " (".$d[3].")";
+            if (array_key_exists(4, $d)) {
+                if ($d[4] != "" && $d[4] != 0) {
+                    // if version has no '.', assume it's in 100*maj+min form
+                    //
+                    if (strchr($d[4], '.')) {
+                        $str .= " driver: ".$d[4];
+                    } else {
+                        $i = (int)$d[4];
+                        $maj = (int)($i/100);
+                        $min = $i%100;
+                        $str .= sprintf(" driver: %d.%02d", $maj, $min);
+                    }
+                }
+            }
+            if (array_key_exists(5, $d)) {
+                if ($d[5] != "" && $d[5] != 0) {
+                    if (strchr($d[5], '.')) {
+                        $str .= " OpenCL: ".$d[5];
+                    } else {
+                        $i = (int)$d[5];
+                        $maj = (int)($i/100);
+                        $min = $i%100;
+                        $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
+                    }
                 }
             }
         }
-        if (array_key_exists(5, $d)) {
-            if ($d[5] != "" && $d[5] != 0) {
-                if (strchr($d[5], '.')) {
-                    $str .= " OpenCL: ".$d[5];
-                } else {
-                    $i = (int)$d[5];
-                    $maj = (int)($i/100);
-                    $min = $i%100;
-                    $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
-                }
-            }
-        }
-
-
     }
     if (!$str) $str = "---";
     return $str;

@@ -222,7 +222,7 @@ function page_head(
     $did_page_head = true;
     $url_base = url_base();
 
-    $rssname = PROJECT . " RSS 2.0";
+    $rssname = "RSS 2.0";
     $rsslink = $url_base."rss_main.php";
 
     if (!$caching) {
