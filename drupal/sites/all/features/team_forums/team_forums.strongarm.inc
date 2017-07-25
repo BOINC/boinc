@@ -85,5 +85,12 @@ function team_forums_strongarm() {
   );
   $export['node_options_team_forum'] = $strongarm;
 
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_team_forum';
+  $strongarm->value = '0';
+  $export['upload_team_forum'] = $strongarm;
+
   return $export;
 }
