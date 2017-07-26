@@ -31,6 +31,18 @@ Translators should see the node body split into separate chunks. If
 only one chunk changes, then only that one translation needs to be
 updated.
 
+When creating or editting nodes, there is an option: "Export for
+translation". Only nodes which have this "Export for translation"
+checked will be translated. This option is selected by default for new
+nodes. This option is only available for the 'Page' content-type. It
+can be added to other content types in Admin > Content Managnement >
+Content Types > (Choose type) > Manage Fields > Add existing field:
+select field_boinctranslate_transifex. Tip: Place this existing field
+in a New group for better organization.
+
+Make sure you hide this field by going to Admin > Content Managnement
+> Content Types > (Choose type) > Display fields and hiding this field
+in all instances.
 
 Copy of the help page for this input filter:
 
@@ -47,6 +59,4 @@ add and remove them at your discretion. It is permitted for a page as
 no tokens, as the entire content will be a single chunk- such as for a
 shorter page.
 
-In the administrator interface for this filter, admins may choose what
-content (node) types to filter. By default only the 'page' and 'story'
-content types are filtered in this manner.
+
