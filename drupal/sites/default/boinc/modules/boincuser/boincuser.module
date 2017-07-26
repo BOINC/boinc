@@ -1205,7 +1205,7 @@ function join_page($type = null) {
    * here. An improvement would be admin settings for the Join Page
    * where this path could be set.
    */
-  $ruleslinkA = '/rules-and-poilicies';
+  $ruleslinkA = '/rules-and-policies';
   $ruleslinkB = '/content/rules-and-policies';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $registration_enabled = variable_get('user_register', 0);
