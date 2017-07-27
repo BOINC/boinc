@@ -1056,6 +1056,90 @@ function boinc_standard_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'upload_extensions_2938987599';
+  $strongarm->value = 'jpg jpeg gif png txt doc xls pdf ppt pps odt ods odp';
+  $export['upload_extensions_2938987599'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_extensions_3519698132';
+  $strongarm->value = 'jpg jpeg gif png txt doc xls pdf ppt pps odt ods odp';
+  $export['upload_extensions_3519698132'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_extensions_default';
+  $strongarm->value = 'jpg jpeg gif png txt pdf';
+  $export['upload_extensions_default'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_forum';
+  $strongarm->value = '0';
+  $export['upload_forum'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_list_default';
+  $strongarm->value = '0';
+  $export['upload_list_default'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_max_resolution';
+  $strongarm->value = '0';
+  $export['upload_max_resolution'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_uploadsize_2938987599';
+  $strongarm->value = '2';
+  $export['upload_uploadsize_2938987599'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_uploadsize_3519698132';
+  $strongarm->value = '2';
+  $export['upload_uploadsize_3519698132'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_uploadsize_default';
+  $strongarm->value = '2';
+  $export['upload_uploadsize_default'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_usersize_2938987599';
+  $strongarm->value = '1000';
+  $export['upload_usersize_2938987599'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_usersize_3519698132';
+  $strongarm->value = '1000';
+  $export['upload_usersize_3519698132'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_usersize_default';
+  $strongarm->value = '10';
+  $export['upload_usersize_default'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_email_verification';
   $strongarm->value = 0;
   $export['user_email_verification'] = $strongarm;
