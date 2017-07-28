@@ -72,6 +72,8 @@ function boinc_standard_input_formats() {
       'tableofcontents_id_generator' => 'title',
       // List of tags allowed in table headers
       'tableofcontents_allowed_tags' => '<em> <i> <strong> <b> <u> <del> <ins> <sub> <sup> <cite> <strike> <s> <tt> <span> <font> <abbr> <acronym> <dfn> <q> <bdo> <big> <small>',
+      // Attachments
+      'tableofcontents_attachments' => 0,
       // Add the comments to the table of contents
       'tableofcontents_comments' => 0,
       // Select header level at which comments start
