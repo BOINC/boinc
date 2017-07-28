@@ -328,7 +328,9 @@ void send_work_score_type(int rt) {
             // (since otherwise feeder might overwrite it)
             //
             wu_result.state = WR_STATE_EMPTY;
-            keyword_sched_remove_job(job.index);
+            if (config.keyword_sched) {
+                keyword_sched_remove_job(job.index);
+            }
 
             // reread result from DB, make sure it's still unsent
             // TODO: from here to end of add_result_to_reply()

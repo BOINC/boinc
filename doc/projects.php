@@ -136,9 +136,9 @@ function ordered_display($areas, $sort) {
         if (array_key_exists(5, $p) && $p[5]) {
             $img= "<img align=right vspace=4 hspace=4 src=images/$p[5]>";
         }
-        $arg = "$img <b>Sponsor:</b> $p[2]<br><b>Area:</b> $p[3]<br><b>Goal:</b> $p[4]";
+        $arg = "$img <font size=.8em><b>Goal:</b> $p[4] <br> <b>Sponsor:</b> $p[2]<br><b>Area:</b> $p[3]";
         $arg = addslashes($arg);
-        $x = "<a href=$p[1] onmouseover=\"Tip('$arg', WIDTH, 500)\" onmouseout=\"UnTip()\">$p[0]</a>";
+        $x = "<a href=$p[1] onmouseover=\"Tip('$arg', WIDTH, 500, FONTSIZE, '12px', BGCOLOR, '#eeddcc')\" onmouseout=\"UnTip()\">$p[0]</a>";
         $home = $p[2];
         $area = $p['area'];
         $spec_area = $p[3];
