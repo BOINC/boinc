@@ -1205,8 +1205,8 @@ function join_page($type = null) {
    * here. An improvement would be admin settings for the Join Page
    * where this path could be set.
    */
-  $ruleslinkA = '/rules-and-policies';
-  $ruleslinkB = '/content/rules-and-policies';
+  $ruleslinkA = $base_url . '/rules-and-policies';
+  $ruleslinkB = $base_url . '/content/rules-and-policies';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $registration_enabled = variable_get('user_register', 0);
   $output = '<div class="join">';
@@ -1246,14 +1246,16 @@ function join_page($type = null) {
   case 'new':
   default:
     $output .= '<ol>';
+    $ruleslink="";
     if ( menu_valid_path(array('link_path' => $ruleslinkA)) ) {
-      $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
-        '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslinkA),
-      ), NULL, 'boinc:join-page') . '</li>';
+      $ruleslink = $ruleslinkA;
+    } else if ( menu_valid_path(array('link_path' => $ruleslinkB)) ) {
+      $ruleslink = $ruleslinkB;
     }
-    else if (menu_valid_path(array('link_path' => $ruleslinkB))) {
+    dd($ruleslink, 'ruleslink');
+    if ($ruleslink) {
       $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
-        '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslinkB),
+        '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslink),
       ), NULL, 'boinc:join-page') . '</li>';
     }
     $output .= '  <li>' . bts('Download the BOINC desktop software.', array(), NULL, 'boinc:join-page');
