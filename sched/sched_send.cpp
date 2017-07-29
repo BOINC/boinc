@@ -553,6 +553,14 @@ static int insert_wu_tags(WORKUNIT& wu, APP& app) {
         wu.name,
         app.name
     );
+    if (!empty(wu.keywords)) {
+        char buf2[1024];
+        sprintf(buf2,
+            "    <job_keywords>%s</job_keywords>\n",
+            wu.keywords
+        );
+        strcat(buf, buf2);
+    }
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
