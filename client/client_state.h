@@ -511,6 +511,8 @@ struct CLIENT_STATE {
     void get_workload(vector<IP_RESULT>&);
     bool simulate_rpc(PROJECT*);
 #endif
+
+    KEYWORDS keywords;
 };
 
 extern CLIENT_STATE gstate;

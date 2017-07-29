@@ -23,6 +23,28 @@
 #include <vector>
 #include "parse.h"
 
+struct KEYWORD {
+    int id;
+    std::string name;
+    std::string description;
+    int parent;
+    int level;
+    int category;
+
+    void write_xml(MIOFILE&);
+    int parse(XML_PARSER&);
+};
+
+struct KEYWORDS {
+    std::map<int, KEYWORD> keywords;
+    bool present;
+    KEYWORDS() {
+        present = false;
+    }
+    int parse(XML_PARSER&);
+    inline KEYWORD& get(int id) {return keywords[id];}
+};
+
 struct USER_KEYWORDS {
     std::vector<int> yes;
     std::vector<int> no;
@@ -47,6 +69,8 @@ struct JOB_KEYWORDS {
     inline void clear() {
         ids.clear();
     }
+    void write_xml_text(MIOFILE&, KEYWORDS&);
+    void write_xml_num(MIOFILE&);
 };
 
 #endif
