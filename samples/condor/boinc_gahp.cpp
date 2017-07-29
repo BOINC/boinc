@@ -245,7 +245,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
             INFILE& infile = job.infiles[j];
             map<string, LOCAL_FILE>::iterator iter = local_files.find(infile.src_path);
             LOCAL_FILE& lf = iter->second;
-            sprintf(infile.physical_name, "jf_%s", lf.boinc_name);
+            sprintf(infile.physical_name, "%s", lf.boinc_name);
         }
     }
 
