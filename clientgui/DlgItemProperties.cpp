@@ -393,6 +393,22 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         addProperty(_("Estimated computation size"),
             wxString::Format(wxT("%s GFLOPs"), format_number(wup->rsc_fpops_est/1e9, 0))
         );
+        if (!wup->job_keywords.empty()) {
+            bool first = true;
+            std::string buf;
+            for (unsigned int i=0; i<wup->job_keywords.keywords.size(); i++) {
+                KEYWORD& kw = wup->job_keywords.keywords[i];
+                if (first) {
+                    first = false;
+                } else {
+                    buf += std::string(", ");
+                }
+                buf += kw.name;
+            }
+            addProperty(_("Keywords"),
+                wxString(buf.c_str(), wxConvUTF8)
+            );
+        }
     }
     if (result->active_task) {
         addProperty(_("CPU time"), FormatTime(result->current_cpu_time));
