@@ -556,7 +556,7 @@ static int insert_wu_tags(WORKUNIT& wu, APP& app) {
     if (!empty(wu.keywords)) {
         char buf2[1024];
         sprintf(buf2,
-            "    <job_keywords>%s</job_keywords>\n",
+            "    <job_keyword_ids>%s</job_keyword_ids>\n",
             wu.keywords
         );
         strcat(buf, buf2);

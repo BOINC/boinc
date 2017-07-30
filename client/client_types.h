@@ -368,7 +368,7 @@ struct WORKUNIT {
     double rsc_fpops_bound;
     double rsc_memory_bound;
     double rsc_disk_bound;
-    JOB_KEYWORDS job_keywords;
+    JOB_KEYWORD_IDS job_keyword_ids;
 
     WORKUNIT(){
         safe_strcpy(name, "");
@@ -376,7 +376,7 @@ struct WORKUNIT {
         version_num = 0;
         command_line = "";
         input_files.clear();
-        job_keywords.clear();
+        job_keyword_ids.clear();
         project = NULL;
         app = NULL;
         ref_cnt = 0;

@@ -39,6 +39,7 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "hostinfo.h"
+#include "keyword.h"
 #include "miofile.h"
 #include "network.h"
 #include "notice.h"
@@ -232,6 +233,7 @@ struct WORKUNIT {
     double rsc_disk_bound;
     PROJECT* project;
     APP* app;
+    JOB_KEYWORDS job_keywords;
 
     WORKUNIT();
 

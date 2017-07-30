@@ -484,6 +484,26 @@ int CLIENT_STATE::init() {
         fclose(f);
     }
 
+    // parse keyword file if present
+    //
+    f = fopen(KEYWORD_FILENAME, "r");
+    if (f) {
+        MIOFILE mf;
+        mf.init_file(f);
+        XML_PARSER xp(&mf);
+        retval = keywords.parse(xp);
+        if (!retval) keywords.present = true;
+        fclose(f);
+#if 0
+        std::map<int, KEYWORD>::iterator it;
+        for (it = keywords.keywords.begin(); it != keywords.keywords.end(); it++) {
+            int id = it->first;
+            KEYWORD& kw = it->second;
+            printf("keyword %d: %s\n", id, kw.name.c_str());
+        }
+#endif
+    }
+
     parse_account_files();
     parse_statistics_files();
 

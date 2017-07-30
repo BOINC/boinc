@@ -1125,8 +1125,8 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 #endif
             continue;
         }
-        if (xp.parse_str("job_keywords", buf, sizeof(buf))) {
-            job_keywords.parse_str(buf );
+        if (xp.parse_str("job_keyword_ids", buf, sizeof(buf))) {
+            job_keyword_ids.parse_str(buf );
             continue;
         }
         // unused stuff
@@ -1176,13 +1176,13 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
         input_files[i].write(out);
     }
 
-    if (!job_keywords.empty()) {
+    if (!job_keyword_ids.empty()) {
         if (gui) {
             if (gstate.keywords.present) {
-                job_keywords.write_xml_text(out, gstate.keywords);
+                job_keyword_ids.write_xml_text(out, gstate.keywords);
             }
         } else {
-            job_keywords.write_xml_num(out);
+            job_keyword_ids.write_xml_num(out);
         }
     }
     out.printf("</workunit>\n");

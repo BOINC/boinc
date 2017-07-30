@@ -27,6 +27,7 @@ int KEYWORD::parse(XML_PARSER& xp) {
         if (xp.match_tag("/keyword")) {
             return 0;
         }
+        if (xp.parse_int("id", id)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("description", description)) continue;
         if (xp.parse_int("parent", parent)) continue;
@@ -43,15 +44,26 @@ void KEYWORD::write_xml(MIOFILE& mf) {
         "   <description>%s</description>\n"
         "   <parent>%d</parent>\n"
         "   <level>%d</level>\n"
-        "   <category>%d</category>\n",
-        name, description, parent, level, category
+        "   <category>%d</category>\n"
+        "</keyword>\n",
+        name.c_str(), description.c_str(), parent, level, category
     );
 }
 
 int KEYWORDS::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
-        if (xp.match_tag("/keyword")) {
+        if (xp.match_tag("/keywords")) {
             return 0;
+        }
+        if (xp.match_tag("keyword")) {
+            KEYWORD kw;
+            int retval = kw.parse(xp);
+            if (retval) {
+                printf("KEYWORD parse fail: %d\n", retval);
+                return retval;
+            }
+            keywords[kw.id] = kw;
+            continue;
         }
     }
     return ERR_XML_PARSE;
@@ -88,7 +100,7 @@ void USER_KEYWORDS::write(FILE* f) {
     fprintf(f, "</user_keywords>\n");
 }
 
-void JOB_KEYWORDS::parse_str(char* buf) {
+void JOB_KEYWORD_IDS::parse_str(char* buf) {
     char* p = strtok(buf, " ");
     if (!p) return;
     ids.push_back(atoi(p));
@@ -99,7 +111,9 @@ void JOB_KEYWORDS::parse_str(char* buf) {
     }
 }
 
-void JOB_KEYWORDS::write_xml_text(MIOFILE& mf, KEYWORDS& k) {
+// write list of full keywords
+//
+void JOB_KEYWORD_IDS::write_xml_text(MIOFILE& mf, KEYWORDS& k) {
     mf.printf("<job_keywords>\n");
     for (unsigned int i=0; i<ids.size(); i++) {
         int id = ids[i];
@@ -108,9 +122,11 @@ void JOB_KEYWORDS::write_xml_text(MIOFILE& mf, KEYWORDS& k) {
     mf.printf("</job_keywords>\n");
 }
 
-void JOB_KEYWORDS::write_xml_num(MIOFILE& out) {
+// write 1-line list of keyword IDs
+//
+void JOB_KEYWORD_IDS::write_xml_num(MIOFILE& out) {
     bool first = true;
-    out.printf("    <keywords>");
+    out.printf("    <job_keyword_ids>");
     for (unsigned int i=0; i<ids.size(); i++) {
         if (first) {
             out.printf("%d", ids[i]);
@@ -119,5 +135,20 @@ void JOB_KEYWORDS::write_xml_num(MIOFILE& out) {
             out.printf(", %d", ids[i]);
         }
     }
-    out.printf("</keywords>\n");
+    out.printf("</job_keyword_ids>\n");
+}
+
+int JOB_KEYWORDS::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/job_keywords")) {
+            return 0;
+        }
+        if (xp.match_tag("keyword")) {
+            KEYWORD kw;
+            int retval = kw.parse(xp);
+            if (retval) return retval;
+            keywords.push_back(kw);
+        }
+    }
+    return ERR_XML_PARSE;
 }

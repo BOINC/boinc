@@ -19,7 +19,7 @@
 //
 // A job's keywords are stored in workunit.keywords as a char string.
 // We don't want to parse that every time we score the job,
-// so we maintain a list of JOB_KEYWORDs paralleling the job array.
+// so we maintain a list of JOB_KEYWORD_IDS paralleling the job array.
 
 #include <algorithm>
 #include <iterator>
@@ -27,13 +27,13 @@
 #include "sched_main.h"
 #include "keyword.h"
 
-JOB_KEYWORDS *job_keywords_array;
+JOB_KEYWORD_IDS *job_keywords_array;
 
 // compute the score increment for the given job and user keywords
 // (or -1 if the keywords are incompatible)
 //
 double keyword_score_aux(
-    USER_KEYWORDS& uks, JOB_KEYWORDS& jks
+    USER_KEYWORDS& uks, JOB_KEYWORD_IDS& jks
 ) {
     double score = 0;
 
@@ -61,7 +61,7 @@ double keyword_score(int i) {
 
     // parse job keywords if not already done
     //
-    JOB_KEYWORDS& jk = job_keywords_array[i];
+    JOB_KEYWORD_IDS& jk = job_keywords_array[i];
     if (jk.empty()) {
         WU_RESULT& wr = ssp->wu_results[i];
         if (empty(wr.workunit.keywords)) {
@@ -88,5 +88,5 @@ void keyword_sched_remove_job(int i) {
 // called at CGI start to initialize job keyword array
 //
 void keyword_sched_init() {
-    job_keywords_array = new JOB_KEYWORDS[ssp->max_wu_results];
+    job_keywords_array = new JOB_KEYWORD_IDS[ssp->max_wu_results];
 }

@@ -21,8 +21,11 @@
 #define BOINC_KEYWORD_H
 
 #include <vector>
+#include <map>
 #include "parse.h"
 
+// a keyword
+//
 struct KEYWORD {
     int id;
     std::string name;
@@ -35,6 +38,8 @@ struct KEYWORD {
     int parse(XML_PARSER&);
 };
 
+// the set of all keywords
+//
 struct KEYWORDS {
     std::map<int, KEYWORD> keywords;
     bool present;
@@ -45,6 +50,8 @@ struct KEYWORDS {
     inline KEYWORD& get(int id) {return keywords[id];}
 };
 
+// a user's keyword preferences
+//
 struct USER_KEYWORDS {
     std::vector<int> yes;
     std::vector<int> no;
@@ -59,7 +66,9 @@ struct USER_KEYWORDS {
     }
 };
 
-struct JOB_KEYWORDS {
+// the keywords IDs associated with a job (workunit)
+//
+struct JOB_KEYWORD_IDS {
     std::vector<int> ids;
     void parse_str(char*);
         // parse space-separated list
@@ -72,5 +81,19 @@ struct JOB_KEYWORDS {
     void write_xml_text(MIOFILE&, KEYWORDS&);
     void write_xml_num(MIOFILE&);
 };
+
+// same, but the entire keyword objects (for GUI RPC client)
+//
+struct JOB_KEYWORDS {
+    std::vector<KEYWORD> keywords;
+    inline bool empty() {
+        return keywords.empty();
+    }
+    inline void clear() {
+        keywords.clear();
+    }
+    int parse(XML_PARSER&);
+};
+
 
 #endif
