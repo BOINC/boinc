@@ -334,7 +334,6 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
         if (n <= 0) return ERR_READ;
         buf[n]=0;
         mf.puts(buf);
-        printf("%s\n", buf);
         if (strchr(buf, '\003')) break;
     }
     mf.get_buf(mbuf, n);
