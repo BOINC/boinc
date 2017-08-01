@@ -51,6 +51,32 @@ define('KW_AEI',            26);
 define('KW_CERN',           27);
 define('KW_UW',             28);
 define('KW_EARTH_SCI',      29);
+define('KW_SPAIN',          30);
+define('KW_SAN_JORGE',      31);
+define('KW_NUMBER_THEORY',  32);
+define('KW_CRYPTO',         33);
+define('KW_ENV_RESEARCH',   34);
+define('KW_CLIMATE',        35);
+define('KW_CZECH',          36);
+define('KW_CHARLES_PRAGUE', 37);
+define('KW_RECHENKRAFT',    38);
+define('KW_RHEINMAIN',      39);
+define('KW_HUNGARY',        40);
+define('KW_IRELAND',        41);
+define('KW_UC_DUBLIN',      42);
+define('KW_POLAND',         43);
+define('KW_RUSSIA',         44);
+define('KW_SW_STATE_RUSSIA', 45);
+define('KW_RAS',            46);
+define('KW_PRBB',           47);
+define('KW_UK',             48);
+define('KW_OXFORD',         49);
+define('KW_CHINA',          50);
+define('KW_U_DAYTON',       51);
+define('KW_WRIGHT_STATE',   52);
+define('KW_USC',            53);
+define('KW_FULLERTON',      54);
+define('KW_ARIZONA_STATE',  55);
 
 $job_keywords = array();
 
@@ -120,32 +146,95 @@ keyword('KW_BIOMED', KW_CATEGORY_SCIENCE, 0, 0,
 keyword('KW_MATH_CS', KW_CATEGORY_SCIENCE, 0, 0,
     'Mathematics and Computer Science'
 );
+    keyword('KW_NUMBER_THEORY', KW_CATEGORY_SCIENCE, 1, KW_MATH_CS,
+        'Number Theory'
+    );
+    keyword('KW_CRYPTO', KW_CATEGORY_SCIENCE, 1, KW_MATH_CS,
+        'Cryptography'
+    );
 keyword('KW_AI', KW_CATEGORY_SCIENCE, 0, 0,
     'Artificial Intelligence and Cognitive Science'
 );
 keyword('KW_EARTH_SCI', KW_CATEGORY_SCIENCE, 0, 0,
     'Earth sciences'
 );
+    keyword('KW_ENV_RESEARCH', KW_CATEGORY_SCIENCE, 1, KW_EARTH_SCI,
+        'Environmental research'
+    );
+    keyword('KW_CLIMATE', KW_CATEGORY_SCIENCE, 1, KW_EARTH_SCI,
+        'Climate research'
+    );
 
 // Locations
 
 keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
     'Europe'
 );
+    keyword('KW_CERN', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'CERN'
+    );
+    keyword('KW_CZECH', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Czech Republic'
+    );
+        keyword('KW_CHARLES_PRAGUE', KW_CATEGORY_LOC, 2, KW_GERMANY,
+            'Charles University in Prague'
+        );
     keyword('KW_GERMANY', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Germany'
     );
         keyword('KW_AEI', KW_CATEGORY_LOC, 2, KW_GERMANY,
             'Albert Einstein Institute for Gravitational Physics'
         );
-    keyword('KW_CERN', KW_CATEGORY_LOC, 1, KW_EUROPE,
-        'CERN'
+        keyword('KW_RECHENKRAFT', KW_CATEGORY_LOC, 2, KW_GERMANY,
+            'Rechenkraft.net e.V'
+        );
+        keyword('KW_RHEINMAIN', KW_CATEGORY_LOC, 2, KW_GERMANY,
+            'Hochschule RheinMain University of Applied Sciences'
+        );
+    keyword('KW_HUNGARY', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Hungary'
     );
+    keyword('KW_IRELAND', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Ireland'
+    );
+        keyword('KW_UC_DUBLIN', KW_CATEGORY_LOC, 2, KW_IRELAND,
+            'University College Dublin'
+        );
+    keyword('KW_POLAND', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Poland'
+    );
+    keyword('KW_RUSSIA', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Russia'
+    );
+        keyword('KW_SW_STATE_RUSSIA', KW_CATEGORY_LOC, 2, KW_SPAIN,
+            'Southwest State University, Russia'
+        );
+        keyword('KW_RAS', KW_CATEGORY_LOC, 2, KW_SPAIN,
+            'Russian Academy of Science'
+        );
+    keyword('KW_SPAIN', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Spain'
+    );
+        keyword('KW_SAN_JORGE', KW_CATEGORY_LOC, 2, KW_SPAIN,
+            'San Jorge University, Zaragoza, Spain'
+        );
+        keyword('KW_PRBB', KW_CATEGORY_LOC, 2, KW_SPAIN,
+            'Barcelona Biomedical Research Park'
+        );
+    keyword('KW_UK', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'United Kingdom'
+    );
+        keyword('KW_OXFORD', KW_CATEGORY_LOC, 2, KW_UK,
+            'Oxford University'
+        );
 keyword('KW_ASIA', KW_CATEGORY_LOC, 0, 0,
     'Asia'
 );
+    keyword('KW_CHINA', KW_CATEGORY_LOC, 1, KW_ASIA,
+        'China'
+    );
 keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
-    'The Americas'
+    'Americas'
 );
     keyword('KW_US', KW_CATEGORY_LOC, 1, KW_AMERICAS,
         'United States'
@@ -155,5 +244,20 @@ keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
         );
         keyword('KW_UW', KW_CATEGORY_LOC, 2, KW_US,
             'University of Washington'
+        );
+        keyword('KW_U_DAYTON', KW_CATEGORY_LOC, 2, KW_US,
+            'University of Dayton'
+        );
+        keyword('KW_WRIGHT_STATE', KW_CATEGORY_LOC, 2, KW_US,
+            'Wright State University'
+        );
+        keyword('KW_USC', KW_CATEGORY_LOC, 2, KW_US,
+            'University of Southern California'
+        );
+        keyword('KW_FULLERTON', KW_CATEGORY_LOC, 2, KW_US,
+            'California State University Fullerton'
+        );
+        keyword('KW_ARIZONA_STATE', KW_CATEGORY_LOC, 2, KW_US,
+            'Arizona State University'
         );
 ?>
