@@ -26,6 +26,7 @@
 // if you add anything here, initialize if in the constructor
 //
 struct PLAN_CLASS_SPEC {
+    bool disabled;
     char name[256];
     char gpu_type[256];
     bool cuda;
@@ -63,6 +64,10 @@ struct PLAN_CLASS_SPEC {
     regex_t host_summary_regex;
     int user_id;
     double infeasible_random;
+    int min_wu_id;
+    int max_wu_id;
+    int min_batch;
+    int max_batch;
 
     // GPU apps
     //
@@ -115,7 +120,7 @@ struct PLAN_CLASS_SPEC {
 
     int parse(XML_PARSER&);
     bool opencl_check(OPENCL_DEVICE_PROP&);
-    bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
+    bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu);
     PLAN_CLASS_SPEC();
 };
 
@@ -123,6 +128,7 @@ struct PLAN_CLASS_SPECS {
     std::vector<PLAN_CLASS_SPEC> classes;
     int parse_file(const char*);
     int parse_specs(FILE*);
-    bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu);
+    bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu);
+    bool wu_is_infeasible(char* plan_class, const WORKUNIT* wu);
     PLAN_CLASS_SPECS(){};
 };

@@ -155,7 +155,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
 // See whether the given host/user can be sent this plan class.
 // If so return the resource usage and estimated FLOPS in hu.
 //
-bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
+bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu) {
     COPROC* cpp = NULL;
     bool can_use_multicore = true;
 
@@ -175,6 +175,35 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     // default is sequential app
     //
     hu.sequential_app(sreq.host.p_fpops);
+
+    // disabled by configuration
+    if (disabled) {
+        if (config.debug_version_select)
+	    log_messages.printf(MSG_NORMAL, "[version] Plan class disabled\n");
+	return false;
+    }
+
+    // WU restriction
+    if (min_wu_id && wu->id < min_wu_id) {
+        if (config.debug_version_select)
+	    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old\n", wu->id);
+	return false;
+    }
+    if (max_wu_id && wu->id > max_wu_id) {
+        if (config.debug_version_select)
+	    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new\n", wu->id);
+	return false;
+    }
+    if (min_batch && wu->batch < min_batch) {
+        if (config.debug_version_select)
+	    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old\n", wu->id);
+	return false;
+    }
+    if (max_batch && wu->batch > max_batch) {
+        if (config.debug_version_select)
+	    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new\n", wu->id);
+	return false;
+    }
 
     // CPU features
     //
@@ -922,16 +951,44 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
 }
 
-
 bool PLAN_CLASS_SPECS::check(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu
 ) {
     for (unsigned int i=0; i<classes.size(); i++) {
         if (!strcmp(classes[i].name, plan_class)) {
-            return classes[i].check(sreq, hu);
+            return classes[i].check(sreq, hu, wu);
         }
     }
     log_messages.printf(MSG_CRITICAL, "Unknown plan class: %s\n", plan_class);
+    return false;
+}
+
+bool PLAN_CLASS_SPECS::wu_is_infeasible(char* plan_class, const WORKUNIT* wu) {
+    for (unsigned int i=0; i<classes.size(); i++) {
+        if(!strcmp(classes[i].name, plan_class)) {
+            if (classes[i].min_wu_id && wu->id < classes[i].min_wu_id) {
+                if (config.debug_version_select)
+                    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old for plan class '%s'\n", wu->id, plan_class);
+                return true;
+            }
+            if (classes[i].max_wu_id && wu->id > classes[i].max_wu_id) {
+                if (config.debug_version_select)
+                    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new for plan class '%s'\n", wu->id, plan_class);
+                return true;
+            }
+            if (classes[i].min_batch && wu->batch < classes[i].min_batch) {
+                if (config.debug_version_select)
+                    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old for plan class '%s'\n", wu->id, plan_class);
+                return true;
+            }
+            if (classes[i].max_batch && wu->batch > classes[i].max_batch) {
+                if (config.debug_version_select)
+                    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new for plan class '%s'\n", wu->id, plan_class);
+                return true;
+            }
+            break;
+        }
+    }
     return false;
 }
 
@@ -943,6 +1000,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_bool("disabled", disabled)) continue;
         if (xp.parse_int("min_core_client_version", min_core_client_version)) continue;
         if (xp.parse_int("max_core_client_version", max_core_client_version)) continue;
         if (xp.parse_str("gpu_type", gpu_type, sizeof(gpu_type))) continue;
@@ -1027,6 +1085,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_driver_version", min_driver_version)) continue;
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
+        if (xp.parse_int("min_wu_id", min_wu_id)) continue;
+        if (xp.parse_int("max_wu_id", max_wu_id)) continue;
+        if (xp.parse_int("min_batch", min_batch)) continue;
+        if (xp.parse_int("max_batch", max_batch)) continue;
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
