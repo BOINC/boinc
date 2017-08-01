@@ -38,6 +38,8 @@ define('KW_DISEASE',        13);
 define('KW_CANCER',         14);
 define('KW_MATH_CS',        15);
 define('KW_AI',             16);
+define('KW_OCEANIA',        17);
+define('KW_AUSTRALIA',      18);
 
 define('KW_EUROPE',         20);
 define('KW_GERMANY',        21);
@@ -221,6 +223,12 @@ keyword('KW_ASIA', KW_CATEGORY_LOC, 0, 0,
 );
     keyword('KW_CHINA', KW_CATEGORY_LOC, 1, KW_ASIA,
         'China'
+    );
+keyword('KW_OCEANIA', KW_CATEGORY_LOC, 0, 0,
+    'Oceania'
+);
+    keyword('KW_AUSTRALIA', KW_CATEGORY_LOC, 1, KW_OCEANIA,
+        'Australia'
     );
 keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
     'Americas'
