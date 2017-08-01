@@ -38,9 +38,7 @@ define('KW_DISEASE',        13);
 define('KW_CANCER',         14);
 define('KW_MATH_CS',        15);
 define('KW_AI',             16);
-define('KW_DIABETES',       17);
-define('KW_CANCER_PROSTATE', 18);
-define('KW_CANCER_BREAST',  19);
+
 define('KW_EUROPE',         20);
 define('KW_GERMANY',        21);
 define('KW_ASIA',           22);
@@ -131,18 +129,9 @@ keyword('KW_BIOMED', KW_CATEGORY_SCIENCE, 0, 0,
     keyword('KW_DISEASE', KW_CATEGORY_SCIENCE, 1, KW_BIOMED,
         'Disease research'
     );
-        keyword('KW_DIABETES', KW_CATEGORY_SCIENCE, 2, KW_DISEASE,
-            'Diabetes research'
-        );
         keyword('KW_CANCER', KW_CATEGORY_SCIENCE, 2, KW_DISEASE,
             'Cancer research'
         );
-            keyword('KW_CANCER_PROSTATE', KW_CATEGORY_SCIENCE, 3, KW_CANCER,
-                'Prostate cancer research'
-            );
-            keyword('KW_CANCER_BREAST', KW_CATEGORY_SCIENCE, 3, KW_CANCER,
-                'Breast cancer research'
-            );
 keyword('KW_MATH_CS', KW_CATEGORY_SCIENCE, 0, 0,
     'Mathematics and Computer Science'
 );
