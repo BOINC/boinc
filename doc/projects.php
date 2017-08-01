@@ -121,7 +121,7 @@ function ordered_display($areas, $sort) {
     start_table("table-striped");
     row_heading_array(array(
         (($sort=="area")?"<a title='Sort by name' href=projects.php>Name</a>":"Name")
-            ."<br><span class=note>Mouse over for details; click to visit web site</span>",
+            ."<br><small>Mouse over for details; click to visit web site</small>",
         ($sort!="area")?"<a title='Sort by category' href=projects.php?sort=area>Category</a>":"Category",
         "Area",
         "Sponsor",
@@ -151,7 +151,7 @@ function ordered_display($areas, $sort) {
             $p = tra("Unknown");
         } else {
             $pd = get_platforms_string($master_url, false);
-            $p .= "<br><a href=projects.php onmouseover=\"Tip('Supported platforms:<br>$pd', WIDTH, 240)\" onmouseout=\"UnTip()\">Details</a>";
+            $p .= "<br><a href=projects.php onmouseover=\"Tip('Supported platforms:<br>$pd', WIDTH, 240, FONTSIZE, '12px', BGCOLOR, '#eeddcc')\" onmouseout=\"UnTip()\"><small>Details</small></a>";
         }
         echo "<tr class=row$n>
             <td valign=top>$x</td>
