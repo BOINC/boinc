@@ -20,8 +20,8 @@
 // show keywords as XML or as C or Python defines
 
 require_once("../inc/xml.inc");
-require_once("../inc/util_basic.inc");
-require_once("keywords.inc");
+require_once("../inc/util.inc");
+require_once("../inc/keywords.inc");
 
 function kw_xml($id, $kw) {
     echo "<keyword>
@@ -79,6 +79,42 @@ function show_php() {
     }
 }
 
+function show_kw_html($id, $kw) {
+    global $job_keywords;
+    $x = "";
+    for ($i=0; $i<$kw->level; $i++) {
+        $x .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+    }
+    row_array(array($x.$kw->name, $kw->symbol, $id));
+    foreach ($job_keywords as $id2=>$kw2) {
+        if ($kw2->parent == $id) {
+            show_kw_html($id2, $kw2);
+        }
+    }
+}
+
+function show_category_html($category) {
+    global $job_keywords;
+    foreach ($job_keywords as $id=>$kw) {
+        if ($kw->level) continue;
+        if ($kw->category != $category) continue;
+        show_kw_html($id, $kw);
+    }
+}
+
+function show_html() {
+    page_head("Keywords");
+    start_table('table-striped');
+    row_heading("Science Area");
+    row_array(array("name", "symbol", "ID"));
+    show_category_html(KW_CATEGORY_SCIENCE);
+    row_heading("Location");
+    row_array(array("name", "symbol", "ID"));
+    show_category_html(KW_CATEGORY_LOC);
+    end_table();
+    page_tail();
+}
+
 $header = get_str('header', true);
 if ($header == 'c') {
     show_c();
@@ -88,6 +124,8 @@ if ($header == 'c') {
     show_bash();
 } else if ($header == 'php') {
     show_php();
+} else if ($header == 'html') {
+    show_html();
 } else {
     show_xml();
 }
