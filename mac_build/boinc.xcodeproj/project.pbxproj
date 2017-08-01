@@ -458,6 +458,9 @@
 		DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDC2053183B560B00CB5845 /* mac_address.cpp */; };
 		DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
+		DDDEDF6F1F2F353B00614748 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
+		DDDEDF701F2F354000614748 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
+		DDDEDF711F2F354C00614748 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
 		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
 		DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDE1373210DC5EA400161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
@@ -1519,7 +1522,6 @@
 				DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */,
 				DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */,
 				DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */,
-				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 				DD81C43B07C5D2240098A04D /* BOINCGUIApp.h */,
 				DD81C40407C5D1020098A04D /* BOINCListCtrl.cpp */,
 				DD81C43A07C5D2240098A04D /* BOINCListCtrl.h */,
@@ -1999,6 +2001,7 @@
 				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
 				DDA12A910A369AB500FBDD12 /* SetupSecurity.h */,
 				DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */,
+				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 			);
 			name = mac;
 			sourceTree = SOURCE_ROOT;
@@ -2846,6 +2849,7 @@
 				DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */,
 				DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */,
 				DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */,
+				DDDEDF711F2F354C00614748 /* keyword.cpp in Sources */,
 				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
 				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
@@ -3039,6 +3043,7 @@
 				DD8917A30F3B207800DE5B1C /* diagnostics.cpp in Sources */,
 				DD8917A50F3B207E00DE5B1C /* filesys.cpp in Sources */,
 				DD8917A70F3B208500DE5B1C /* gui_rpc_client.cpp in Sources */,
+				DDDEDF701F2F354000614748 /* keyword.cpp in Sources */,
 				DD8917AB0F3B209500DE5B1C /* hostinfo.cpp in Sources */,
 				DD8917AE0F3B20B100DE5B1C /* md5.cpp in Sources */,
 				DD8917B00F3B20B500DE5B1C /* md5_file.cpp in Sources */,
@@ -3077,6 +3082,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD9917271E69A8D100555337 /* mac_spawn.cpp in Sources */,
+				DDDEDF6F1F2F353B00614748 /* keyword.cpp in Sources */,
 				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */,
 				DDE900261E643E39003728F2 /* mac_util.mm in Sources */,
 				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */,
