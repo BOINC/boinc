@@ -952,7 +952,7 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
     if (!is_numeric($data)) {
       return FALSE;
     }
-    $data += 0;
+    $data += 0.0;
     if (!is_float($data)) {
       return FALSE;
     }
