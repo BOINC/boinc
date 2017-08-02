@@ -1681,20 +1681,20 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       ."FROM {result} AS r "
       ."INNER JOIN {app} AS a "
       ."ON r.appid=a.id "
-      ."INNER JOIN {app_version} AS av "
+      ."LEFT JOIN {app_version} AS av "
       ."ON r.app_version_id=av.id "
-      ."INNER JOIN {platform} AS pl "
+      ."LEFT JOIN {platform} AS pl "
       ."ON av.platformid=pl.id ";
 
   // Use userid, hostid, or workunitid
   if ($category==0) {
-    $sqlsub .= "AND r.userid = '%s' ";
+    $sqlsub .= "WHERE r.userid = '%s' ";
   }
   elseif ($category==1) {
-    $sqlsub .= "AND r.workunitid = '%s' ";
+    $sqlsub .= "WHERE r.workunitid = '%s' ";
   }
   elseif ($category==2) {
-    $sqlsub .= "AND r.hostid = '%s' ";
+    $sqlsub .= "WHERE r.hostid = '%s' ";
   }
 
   // Append additional where clauses based on task selection.
@@ -1728,8 +1728,10 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   // Loop 2 over DB results.
   if ($dbres_sub) {
     while ($result = db_fetch_object($dbres_sub)) {
+      // state_num() function changes $result object, clone $result
+      // object for use in state_num()
       // check if state matches selection
-      if ( (state_num($result) == $tselect) OR ($tselect==STATE_ALL) ) {
+      if ( (state_num(clone $result) == $tselect) OR ($tselect==STATE_ALL) ) {
         // create pretty result row
         $prettyresult = array(
           array(
@@ -1745,7 +1747,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
           $nf->format($result->cpu_time),
           $nf->format($result->granted_credit),
           array(
-            'data' => $result->user_friendly_name . " " . pretty_application_version($result->version_number, $result->plan_class, $result->platform),
+            'data' => $result->user_friendly_name . " " . pretty_application_version($result->app_version_id,$result->version_number, $result->plan_class, $result->platform),
             'class' => 'task-app',
           ),
         );
@@ -1791,7 +1793,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   $ltext = '<span class="tab">' . bts('Reset', array(), NULL, 'boinc:task-table') . '</span>';
   $stitems[] = array( 'data' => l($ltext, $mypath, array('html' => TRUE) ) );
 
-  $output .= theme_item_list($stitems, $title = NULL, $type='ul'. $attributes=' class="tabs secondary clearfix"');
+  $output .= theme_item_list($stitems, NULL, 'ul' . ' class="tabs secondary clearfix"');
 
   // Application select-drop down form
   // Hack to place Application form into header
@@ -1829,9 +1831,43 @@ function delete_col(&$array, $offset) {
 
 /**
  * Pretty print the application version
+ *
+ * Parameters are obtained from the BOINC project database, result,
+ * app, app_version, and platform tables.
+ *
+ * Parameters
+ * @param int $appverid
+ *  app_version_id field, may be negative- anonymous platforms.
+ * @param int $versnum
+ *  version_num field, application version number, may be NULL
+ * @param int $plan_class
+ *  plan_class field, applcation plan class, may be NULL
+ * @param string $platform
+ *  platform name, may be NULL
  */
-function pretty_application_version($vernum, $plan_class, $plfm) {
-  $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
-  $prettyc = ($plan_class) ? "($av->plan_class)" : '';
-  return "v$prettyv $prettyc $plfm";
+function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
+  switch ($appverid) {
+    case ANON_PLATFORM_UNKNOWN:
+      return "Anonymous platform";
+      break;
+    case ANON_PLATFORM_CPU:
+      return "Anonymous platform CPU";
+      break;
+    case ANON_PLATFORM_NVIDIA:
+      return "Anonymous platform NVIDIA GPU";
+      break;
+    case ANON_PLATFORM_ATI:
+      return "Anonymous platform ATI GPU";
+      break;
+    case ANON_PLATFORM_INTEL:
+      return "Anonymous platform Intel GPU";
+      break;
+    case 0:
+      return "---";
+      break;
+    default:
+      $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
+      $prettyc = ($plan_class) ? "($av->plan_class)" : '';
+      return "v$prettyv $prettyc $plfm";
+  }
 }
