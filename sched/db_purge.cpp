@@ -455,8 +455,15 @@ int archive_result(DB_RESULT& result) {
 
     // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
     //
-    char stderr_out_escaped[BLOB_SIZE*6];
-    xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
+    char stderr_out_escaped[BLOB_SIZE*6+12];
+
+    // enclose stderr_out in CDATA tags
+    // xml_escape_cdata will xml-conformant escape possible
+    // "<![CDATA[" and "]]>" in the data
+    //
+    strcpy(stderr_out_escaped, "<![CDATA[");
+    xml_escape_cdata(result.stderr_out, stderr_out_escaped+9, sizeof(stderr_out_escaped));
+    strcat(stderr_out_escaped, "]]>");
 
     n = fprintf((FILE*)re_stream, RESULT_ARCHIVE_DATA);
 
@@ -492,8 +499,15 @@ int archive_result_gz (DB_RESULT& result) {
 
     // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
     //
-    char stderr_out_escaped[BLOB_SIZE*6];
-    xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
+    char stderr_out_escaped[BLOB_SIZE*6+12];
+
+    // enclose stderr_out in CDATA tags
+    // xml_escape_cdata will xml-conformant escape possible
+    // "<![CDATA[" and "]]>" in the data
+    //
+    strcpy(stderr_out_escaped, "<![CDATA[");
+    xml_escape_cdata(result.stderr_out, stderr_out_escaped+9, sizeof(stderr_out_escaped));
+    strcat(stderr_out_escaped, "]]>");
 
     n = snprintf(buf, sizeof(buf), RESULT_ARCHIVE_DATA);
     if ((n <= 0) || n > (int)sizeof(buf)) {
