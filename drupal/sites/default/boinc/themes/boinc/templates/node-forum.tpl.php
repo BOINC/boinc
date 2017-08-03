@@ -75,13 +75,6 @@
 ?>
 <div id="top"></div>
 
-<?php if ($subscribe_link): ?>
-  <div class="subscribe">
-    <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
-    <?php print $subscribe_link; ?>
-  </div>
-<?php endif; ?>
-
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
   
   <?php 
@@ -100,9 +93,18 @@
       $subtitle = implode(' &rsaquo; ', $subtitle);
     }
   ?>
-  
-  <div class="breadcrumb">
-    <h2 class="title"><?php print $subtitle; ?></h2>
+
+  <div class="forum-links">
+    <div class="breadcrumb">
+      <h2 class="title"><?php print $subtitle; ?></h2>
+    </div>
+    <div class="subscribe">
+      <?php if ($subscribe_link): ?>
+        <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
+        <?php print $subscribe_link; ?>
+      <?php endif; ?>
+    </div>
+    <div class="clearfix"></div>
   </div>
 
   <?php if ($unpublished): ?>
