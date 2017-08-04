@@ -28,6 +28,7 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 require_once("../inc/ldap.inc");
+include_once("../inc/recaptchalib.php");
 
 check_get_args(array("id", "t", "h", "key"));
 
@@ -36,7 +37,6 @@ check_get_args(array("id", "t", "h", "key"));
 function login_with_email($email_addr, $passwd, $next_url, $perm) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         page_head("No such account");
         echo "No account with email address <b>$email_addr</b> exists.
             Please go back and try again.
@@ -45,14 +45,12 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
         exit;
     }
     if (substr($user->authenticator, 0, 1) == 'x'){
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("This account has been administratively disabled.");
     }
     // allow authenticator as password
     if ($passwd != $user->authenticator) {
         $passwd_hash = md5($passwd.$email_addr);
         if ($passwd_hash != $user->passwd_hash) {
-            sleep(LOGIN_FAIL_SLEEP_SEC);
             page_head("Password incorrect");
             echo "The password you entered is incorrect. Please go back and try again.\n";
             page_tail();
@@ -69,7 +67,6 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
 function login_via_link($id, $t, $h) {
     $user = BoincUser::lookup_id($id);
     if (!$user) {
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Invalid user ID.
             Please make sure you visited the complete URL;
             it may have been split across lines by your email reader."
@@ -79,34 +76,30 @@ function login_via_link($id, $t, $h) {
     $x = md5($x);
     $x = substr($x, 0, 16);
     if ($x != $h) {
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Invalid authenticator.
             Please make sure you visited the complete URL;
             it may have been split across lines by your email reader."
         );
     }
     if (time() - $t > 86400) {
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Link has expired;
             go <a href=get_passwd.php>here</a> to
             get a new login link by email."
         );
     }
     send_cookie('auth', $user->authenticator, true);
-    Header("Location: ".USER_HOME);
+    Header("Location: home.php");
 }
 
 function login_with_auth($authenticator, $next_url, $perm) {
     $user = BoincUser::lookup_auth($authenticator);
     if (!$user) {
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         page_head("Login failed");
         echo "There is no account with that authenticator.
             Please <a href=get_passwd.php>try again</a>.
         ";
         page_tail();
     } else if (substr($user->authenticator, 0, 1) == 'x'){
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("This account has been administratively disabled.");
     } else {
         Header("Location: $next_url");
@@ -117,7 +110,6 @@ function login_with_auth($authenticator, $next_url, $perm) {
 function login_with_ldap($uid, $passwd, $next_url, $perm) {
     list ($ldap_user, $error_msg) = ldap_auth($uid, $passwd);
     if ($error_msg) {
-        sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page($error_msg);
     }
     $x = ldap_email_string($uid);
@@ -147,9 +139,7 @@ if ($id && $t && $h) {
 $next_url = post_str("next_url", true);
 $next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
-if (strlen($next_url) == 0) {
-    $next_url = USER_HOME;
-}
+if (strlen($next_url) == 0) $next_url = "home.php";
 
 $perm = false;
 if (isset($_POST['stay_logged_in'])) {
@@ -166,6 +156,26 @@ if (!$authenticator) {
 if ($authenticator) {
     login_with_auth($authenticator, $next_url, $perm);
     exit;
+}
+
+//Recaptcha functionality! 1/2
+//Catch incorrect captcha
+function show_error($str) {
+    page_head(tra("Can't login"));
+    echo "$str<br>\n";
+    echo BoincDb::error();
+    echo "<p>".tra("Click your browser's <b>Back</b> button to try again.")."\n</p>\n";
+    page_tail();
+    exit();
+}
+
+//Recaptcha functionality! 2/2
+$config = get_config();
+$privatekey = parse_config($config, "<recaptcha_private_key>");
+if ($privatekey) {
+    if (!boinc_recaptcha_isValidated($privatekey)) {
+        show_error(tra("Your reCAPTCHA response was not correct. Please try again."));
+    }
 }
 
 $email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));

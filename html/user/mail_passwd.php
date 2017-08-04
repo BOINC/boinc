@@ -20,6 +20,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
+include_once("../inc/recaptchalib.php");
 
 check_get_args(array());
 
@@ -66,6 +67,25 @@ if (!$user) {
             page_head("Email failed");
             echo "Can't send email to $user->email_addr";
         }
+    }
+}
+
+//Catch incorrect captcha
+function show_error($str) {
+    page_head(tra("Can't login"));
+    echo "$str<br>\n";
+    echo BoincDb::error();
+    echo "<p>".tra("Click your browser's <b>Back</b> button to try again.")."\n</p>\n";
+    page_tail();
+    exit();
+}
+
+//Recaptcha functionality!
+$config = get_config();
+$privatekey = parse_config($config, "<recaptcha_private_key>");
+if ($privatekey) {
+    if (!boinc_recaptcha_isValidated($privatekey)) {
+        show_error(tra("Your reCAPTCHA response was not correct. Please try again."));
     }
 }
 

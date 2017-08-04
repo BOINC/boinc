@@ -236,7 +236,7 @@ class SqlQueryString {
     var $query;
     var $urlquery;
 
-    function __construct() {
+    function SqlQueryString() {
         if (isset($_GET['table'])) {
             $this->table = $_GET['table'];
         } else {
@@ -1162,7 +1162,7 @@ function show_result_short($result) {
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
-    $granted_credit = "<a href=credit.php?wu_id=$result->workunitid>".credit_str($result->granted_credit)."</a>";
+    $granted_credit = "<a href=credit.php?resultid=$result->id>".credit_str($result->granted_credit)."</a>";
     $delete_state = file_delete_state_str($result->file_delete_state);
 
     echo "
@@ -1206,6 +1206,54 @@ function show_user($user) {
         row("Password Hash", $user->passwd_hash);
     }
     row("Donated", $user->donated);
+    end_table();
+}
+
+function show_project_rain($project_rain) {
+    start_table();
+    row("ID", $project_rain->id);
+    row("Bitshares", $project_rain->bitshares);
+    row("Steem", $project_rain->steem);
+    row("Gridcoin", $project_rain->gridcoin);
+    row("Ethereum", $project_rain->ethereum);
+    row("Ethereum Classic", $project_rain->ethereum_classic);
+    row("Golem", $project_rain->golem);
+    row("NXT", $project_rain->nxt);
+    row("Ardor", $project_rain->ardor);
+    row("Hyperledger Sawtooth Lake", $project_rain->hyperledger_sawtooth_lake);
+    row("Hyperledger Fabric", $project_rain->hyperledger_fabric);
+    row("Hyperledger MISC", $project_rain->hyperledger_fabric);
+    row("Waves", $project_rain->waves);
+    row("Peershares", $project_rain->peershares);
+    row("Omnilayer", $project_rain->omnilayer);
+    row("Counterparty", $project_rain->counterparty);
+    row("Heat Ledger", $project_rain->heat_ledger);    
+    row("Peerplays", $project_rain->peerplays);
+    row("Storj", $project_rain->storj);
+    row("NEM", $project_rain->nem);
+    row("IBM Bluemix_blockchain", $project_rain->ibm_bluemix_blockchain);
+    row("Coloredcoins", $project_rain->coloredcoins);
+    row("Antshares", $project_rain->antshares);
+    row("Lisk", $project_rain->lisk);
+    row("Decent", $project_rain->decent);
+    row("Synereo", $project_rain->synereo);
+    row("LBRY", $project_rain->lbry);
+    row("Wings", $project_rain->wings);
+    row("Hong", $project_rain->hong);
+    row("BoardRoom", $project_rain->boardroom);
+    row("Expanse", $project_rain->expanse);
+    row("Expanse", $project_rain->expanse);
+    row("Akasha", $project_rain->akasha);
+    row("Cosmos", $project_rain->cosmos);
+    row("Metaverse", $project_rain->metaverse);
+    row("Zcash", $project_rain->zcash);
+    row("Stratis", $project_rain->stratis);
+    row("Echo", $project_rain->echo);
+    row("TOX", $project_rain->tox);
+    row("RetroShare", $project_rain->retroshare);
+    row("Wickr", $project_rain->wickr);
+    row("Ring", $project_rain->ring);
+    row("PGP", $project_rain->pgp);
     end_table();
 }
 

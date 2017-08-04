@@ -89,6 +89,47 @@ function handle_team($team, $f) {
    <user_name>".escape($user->name)."</user_name>
    <user_country>".escape($user->country)."</user_country>
    <user_postal_code>".escape($user->postal_code)."</user_postal_code>
+   <user_bitshares>".escape($project_rain->bitshares)."</user_bitshares>
+   <user_steem>".escape($project_rain->steem)."</user_steem>
+   <user_gridcoin>".escape($project_rain->gridcoin)."</user_gridcoin>
+   <user_ethereum>".escape($project_rain->ethereum)."</user_ethereum>
+   <user_ethereum_classic>".escape($project_rain->ethereum_classic)."</user_ethereum_classic>    
+   <user_golem>".escape($project_rain->golem)."</user_golem>
+   <user_nxt>".escape($project_rain->nxt)."</user_nxt>
+   <user_ardor>".escape($project_rain->ardor)."</user_ardor>
+   <user_hyperledger_sawtooth_lake>".escape($project_rain->hyperledger_sawtooth_lake)."</user_hyperledger_sawtooth_lake>
+   <user_hyperledger_fabric>".escape($project_rain->hyperledger_fabric)."</user_hyperledger_fabric>
+   <user_hyperledger_misc>".escape($project_rain->hyperledger_misc)."</user_hyperledger_misc>
+   <user_waves>".escape($project_rain->waves)."</user_waves>
+   <user_peershares>".escape($project_rain->peershares)."</user_peershares>
+   <user_omnilayer>".escape($project_rain->omnilayer)."</user_omnilayer>
+   <user_counterparty>".escape($project_rain->counterparty)."</user_counterparty>
+   <user_heat_ledger>".escape($project_rain->heat_ledger)."</user_heat_ledger>
+   <user_peerplays>".escape($project_rain->peerplays)."</user_peerplays>
+   <user_storj>".escape($project_rain->storj)."</user_storj>
+   <user_nem>".escape($project_rain->nem)."</user_nem>
+   <user_ibm_bluemix_blockchain>".escape($project_rain->ibm_bluemix_blockchain)."</user_ibm_bluemix_blockchain>
+   <user_coloredcoins>".escape($project_rain->coloredcoins)."</user_coloredcoins>
+   <user_antshares>".escape($project_rain->antshares)."</user_antshares>
+   <user_lisk>".escape($project_rain->lisk)."</user_lisk>
+   <user_decent>".escape($project_rain->decent)."</user_decent>
+   <user_synereo>".escape($project_rain->synereo)."</user_synereo>
+   <user_lbry>".escape($project_rain->lbry)."</user_lbry>
+   <user_wings>".escape($project_rain->wings)."</user_wings>
+   <user_hong>".escape($project_rain->hong)."</user_hong>
+   <user_boardroom>".escape($project_rain->boardroom)."</user_boardroom>
+   <user_expanse>".escape($project_rain->expanse)."</user_expanse>
+   <user_akasha>".escape($project_rain->akasha)."</user_akasha>
+   <user_cosmos>".escape($project_rain->cosmos)."</user_cosmos>
+   <user_metaverse>".escape($project_rain->metaverse)."</user_metaverse>
+   <user_zcash>".escape($project_rain->zcash)."</user_zcash>
+   <user_stratis>".escape($project_rain->stratis)."</user_stratis>
+   <user_echo>".escape($project_rain->echo)."</user_echo>
+   <user_tox>".escape($project_rain->tox)."</user_tox>
+   <user_retroshare>".escape($project_rain->retroshare)."</user_retroshare>
+   <user_wickr>".escape($project_rain->wickr)."</user_wickr>
+   <user_ring>".escape($project_rain->ring)."</user_ring>
+   <user_pgp>".escape($project_rain->pgp)."</user_pgp>    
    <user_url>".escape($user->url)."</user_url>
 </team>
 "

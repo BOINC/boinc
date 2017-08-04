@@ -29,9 +29,6 @@ if (!defined('REMOTE_PROJECTS_TTL')) {
     define('REMOTE_PROJECTS_TTL', 86400);
 }
 
-// add an element "projects" to user consisting of array of projects
-// they've participated in
-//
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
@@ -42,6 +39,8 @@ function get_other_projects($user) {
     if ($cacheddata){
         $remote = unserialize($cacheddata);
     } else {
+        $xml_object = null;
+        $remote = false;
         // Fetch the XML, use curl if fopen() is disallowed
         //
         if (ini_get('allow_url_fopen')) {
@@ -77,9 +76,6 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
-        if (count($remote) == 1) {
-            $remote = array($remote);
-        }
         
         if (!$remote) {
             return $user;
@@ -199,26 +195,10 @@ function weak_auth($user) {
     return "{$user->id}_$x";
 }
 
-// originally user URLs were assumed to be http://,
-// and this prefix wasn't stored.
-// Now the prefix can be http:// or https://.
-// This function takes a user URL in any form and converts
-// it to a canonical form, with the protocol prefix.
-//
-function normalize_user_url($url) {
-    $x = strtolower($url);
-    if (substr($x, 0, 7) == 'http://') {
-        return 'http://'.substr($url, 7);
-    }
-    if (substr($x, 0, 8) == 'https://') {
-        return 'https://'.substr($url, 8);
-    }
-    return 'http://'.$url;
-}
-
 // show static user info (private)
 //
 function show_user_info_private($user) {
+    row1(tra("Account information"), 2, 'heading');
     row2(tra("Name"), $user->name);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         row2("LDAP ID", ldap_email_to_uid($user->email_addr));
@@ -230,13 +210,11 @@ function show_user_info_private($user) {
         row2(tra("Email address"), $email_text);
     }
     if (strlen($user->url)) {
-        $u = normalize_user_url($user->url);
-        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+        $x = "<a href=http://$user->url>http://$user->url</a>";
+        row2(tra("URL"), $x);
     }
     row2(tra("Country"), $user->country);
-    if (POSTAL_CODE) {
-        row2(tra("Postal code"), $user->postal_code);
-    }
+    row2(tra("Postal code"), $user->postal_code);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
@@ -253,17 +231,15 @@ function show_user_info_private($user) {
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
-    if (!NO_COMPUTING) {
+    if (!no_computing()) {
         row2(
             tra("Account keys"),
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
         );
     }
-}
 
-function show_preference_links() {
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
-    if (!NO_COMPUTING) {
+    if (!no_computing()) {
         row2(
             tra("When and how BOINC uses your computer"),
             "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
@@ -272,11 +248,309 @@ function show_preference_links() {
     row2(tra("Message boards and private messages"),
         "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
     );
-    if (!NO_COMPUTING) {
+    if (!no_computing()) {
         row2(tra("Preferences for this project"),
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
+}
+
+function show_project_rain_crypto_private($project_rain) {
+    
+    if (($project_rain->gridcoin) || ($project_rain->bitshares) || ($project_rain->peerplays) || ($project_rain->nxt) || ($project_rain->ardor) || ($project_rain->golem) || ($project_rain->ethereum) || ($project_rain->ethereum_classic) || ($project_rain->expanse) || ($project_rain->ethereum_classic) || ($project_rain->expanse) || ($project_rain->storj) || ($project_rain->nem) || ($project_rain->hyperledger_sawtooth_lake) || ($project_rain->hyperledger_fabric) || ($project_rain->ibm_bluemix_blockchain) || ($project_rain->hyperledger_misc) || ($project_rain->waves) || ($project_rain->peershares) || ($project_rain->omnilayer) || ($project_rain->counterparty) || ($project_rain->coloredcoins) || ($project_rain->antshares) || ($project_rain->lisk) || ($project_rain->heat_ledger) || ($project_rain->metaverse) || ($project_rain->cosmos) || ($project_rain->stratis) || ($project_rain->zcash)) {
+        row1(tra("Cryptocurrency addresses/accounts"));
+        if ($project_rain->gridcoin) {
+            row2(tra("<img src=\"img/gridcoin.png\" alt=\"GRC\" /> <a href='https://gridcoin.us/'>Gridcoin</a>"), $project_rain->gridcoin);
+        }
+        if ($project_rain->bitshares) {
+            row2(tra("<img src=\"img/bitshares.png\" alt=\"BTS\" /> <a href='https://bitshares.org'>Bitshares</a>"), $project_rain->bitshares);
+        }
+        if ($project_rain->peerplays) {
+            row2(tra("<img src=\"img/peerplays.png\" alt=\"ppl\" /> <a href='http://www.peerplays.com/'>Peerplays</a>"), $project_rain->peerplays);
+        }
+        if ($project_rain->nxt) {
+            row2(tra("<img src=\"img/nxt.png\" alt=\"NXT\" /> <a href='https://nxt.org/'>NXT</a>"), $project_rain->nxt);
+        }
+        if ($project_rain->ardor) {
+            row2(tra("<img src=\"img/ardor.png\" alt=\"Ardor\" /> <a href='https://ardorplatform.org/'>Ardor</a>"), $project_rain->ardor);
+        }
+        if ($project_rain->golem) {
+            row2(tra("<img src=\"img/golem.png\" alt=\"Gol\" /> <a href='http://golemproject.net/'>Golem</a>"), $project_rain->golem);
+        }
+        if ($project_rain->ethereum) {
+            row2(tra("<img src=\"img/ethereum.png\" alt=\"ETH\" /> <a href='https://www.ethereum.org/'>Ethereum</a>"), $project_rain->ethereum);
+        }
+        if ($project_rain->ethereum_classic) {
+            row2(tra("<img src=\"img/ethereum-classic.png\" alt=\"ETC\" /> <a href='https://ethereumclassic.github.io/'>Ethereum Classic</a>"), $project_rain->ethereum_classic);
+        }
+        if ($project_rain->expanse) {
+            row2(tra("<img src=\"img/expanse.png\" alt=\"EXP\" /> <a href='http://www.expanse.tech/'>Expanse</a>"), $project_rain->expanse);
+        }
+        if ($project_rain->storj) {
+            row2(tra("<img src=\"img/storjcoin-x.png\" alt=\"STRJ\" /> <a href='https://storj.io/'>Storj</a>"), $project_rain->storj);
+        }
+        if ($project_rain->nem) {
+            row2(tra("<img src=\"img/nem.png\" alt=\"NEM\" /> <a href='http://nem.io/'>NEM</a>"), $project_rain->nem);
+        }
+        if ($project_rain->hyperledger_sawtooth_lake) {
+            row2(tra("<img src=\"img/hyperledger.png\" alt=\"HLSL\" /> <a href='https://github.com/intelledger'>Hyperledger Sawtooth Lake</a>"), $project_rain->hyperledger_sawtooth_lake);
+        }
+        if ($project_rain->hyperledger_fabric) {
+            row2(tra("<img src=\"img/hyperledger.png\" alt=\"HLSL\" /> <a href='https://github.com/hyperledger/fabric'>Hyperledger Fabric</a>"), $project_rain->hyperledger_fabric);
+        }
+        if ($project_rain->ibm_bluemix_blockchain) {
+            row2(tra("<img src=\"img/IBMBM.png\" alt=\"\" /> <a href='https://www.ibm.com/blockchain/bluemix.html'>IBM Bluemix Blockchain</a>"), $project_rain->ibm_bluemix_blockchain);
+        }
+        if ($project_rain->hyperledger_misc) {
+            row2(tra("<img src=\"img/hyperledger.png\" alt=\"HLSL\" /> <a href='https://www.hyperledger.org/'>Hylerledger (MISC)</a>"), $project_rain->hyperledger_misc);
+        }
+        if ($project_rain->waves) {
+            row2(tra("<img src=\"img/waves.png\" alt=\"Waves\" /> <a href='https://wavesplatform.com/'>Waves</a>"), $project_rain->waves);
+        }
+        if ($project_rain->peershares) {
+            row2(tra("<img src=\"img/peercoin.png\" alt=\"PPC\" /> <a href='http://peershares.net/'>Peershares</a>"), $project_rain->peershares);
+        }
+        if ($project_rain->omnilayer) {
+            row2(tra("<img src=\"img/omni.png\" alt=\"OMNI\" /> <a href='http://www.omnilayer.org/'>Omnilayer</a>"), $project_rain->omnilayer);
+        }
+        if ($project_rain->counterparty) {
+            row2(tra("<img src=\"img/counterparty.png\" alt=\"CP\" /> <a href='http://counterparty.io/'>Counterparty</a>"), $project_rain->counterparty);
+        }
+        if ($project_rain->coloredcoins) {
+            row2(tra("<img src=\"img/coloredcoins.png\" alt=\"CC\" /> <a href='http://coloredcoins.org/'>ColoredCoins</a>"), $project_rain->coloredcoins);
+        }
+        if ($project_rain->antshares) {
+            row2(tra("<img src=\"img/antshares.png\" alt=\"ANT\" /> <a href='https://www.antshares.org/'>Antshares</a>"), $project_rain->antshares);
+        }
+        if ($project_rain->lisk) {
+            row2(tra("<img src=\"img/lisk.png\" alt=\"LSK\" /> <a href='https://lisk.io/'>Lisk</a>"), $project_rain->lisk);
+        }
+        if ($project_rain->heat_ledger) {
+            row2(tra("<img src=\"img/heat_ledger.png\" alt=\"Heat\" /> <a href='http://heatledger.com/'>Heat Ledger</a>"), $project_rain->heat_ledger);
+        }
+        if ($project_rain->metaverse) {
+            row2(tra("<img src=\"img/metaverse.png\" alt=\"Meta\" /> <a href='http://viewfin.com/'>Metaverse</a>"), $project_rain->metaverse);
+        }
+        if ($project_rain->cosmos) {
+            row2(tra("<a href='http://cosmos.network/'>Cosmos</a>"), $project_rain->cosmos);
+        }
+        if ($project_rain->stratis) {
+            row2(tra("<img src=\"img/stratis.png\" alt=\"STRA\" /> <a href='http://stratisplatform.com/'>Stratis</a>"), $project_rain->stratis);
+        }
+        if ($project_rain->zcash) {
+            row2(tra("<img src=\"img/zcash.png\" alt=\"ZC\" /> <a href='https://z.cash/'>Zcash</a>"), $project_rain->zcash);
+        }
+    }
+
+    $url_tokens = url_tokens($project_rain->authenticator);
+    row2(tra("Change"),
+        "<a href=\"edit_project_rain_form.php?$url_tokens\">".tra("Edit your cryptocurrency addresses/accounts")."</a>"
+    );
+}
+
+function show_project_rain_crypto_public($project_rain) {
+    if (($project_rain->gridcoin) || ($project_rain->bitshares) || ($project_rain->peerplays) || ($project_rain->nxt) || ($project_rain->ardor) || ($project_rain->golem) || ($project_rain->ethereum) || ($project_rain->ethereum_classic) || ($project_rain->expanse) || ($project_rain->ethereum_classic) || ($project_rain->expanse) || ($project_rain->storj) || ($project_rain->nem) || ($project_rain->hyperledger_sawtooth_lake) || ($project_rain->hyperledger_fabric) || ($project_rain->ibm_bluemix_blockchain) || ($project_rain->hyperledger_misc) || ($project_rain->waves) || ($project_rain->peershares) || ($project_rain->omnilayer) || ($project_rain->counterparty) || ($project_rain->coloredcoins) || ($project_rain->antshares) || ($project_rain->lisk) || ($project_rain->heat_ledger) || ($project_rain->metaverse) || ($project_rain->cosmos) || ($project_rain->stratis) || ($project_rain->zcash)) {
+        row1(tra("Cryptocurrency addresses/accounts"));
+        if ($project_rain->gridcoin) {
+            row2(tra("<img src=\"img/gridcoin.png\" alt=\"GRC\" /> <a href='https://gridcoin.us/'>Gridcoin</a>"), $project_rain->gridcoin);
+        }
+        if ($project_rain->bitshares) {
+            row2(tra("<img src=\"img/bitshares.png\" alt=\"BTS\" /> <a href='https://bitshares.org'>Bitshares</a>"), $project_rain->bitshares);
+        }
+        if ($project_rain->peerplays) {
+            row2(tra("<img src=\"img/peerplays.png\" alt=\"ppl\" /> <a href='http://www.peerplays.com/'>Peerplays</a>"), $project_rain->peerplays);
+        }
+        if ($project_rain->nxt) {
+            row2(tra("<img src=\"img/nxt.png\" alt=\"NXT\" /> <a href='https://nxt.org/'>NXT</a>"), $project_rain->nxt);
+        }
+        if ($project_rain->ardor) {
+            row2(tra("<img src=\"img/ardor.png\" alt=\"Ardor\" /> <a href='https://ardorplatform.org/'>Ardor</a>"), $project_rain->ardor);
+        }
+        if ($project_rain->golem) {
+            row2(tra("<img src=\"img/golem.png\" alt=\"Gol\" /> <a href='http://golemproject.net/'>Golem</a>"), $project_rain->golem);
+        }
+        if ($project_rain->ethereum) {
+            row2(tra("<img src=\"img/ethereum.png\" alt=\"ETH\" /> <a href='https://www.ethereum.org/'>Ethereum</a>"), $project_rain->ethereum);
+        }
+        if ($project_rain->ethereum_classic) {
+            row2(tra("<img src=\"img/ethereum-classic.png\" alt=\"ETC\" /> <a href='https://ethereumclassic.github.io/'>Ethereum Classic</a>"), $project_rain->ethereum_classic);
+        }
+        if ($project_rain->expanse) {
+            row2(tra("<img src=\"img/expanse.png\" alt=\"EXP\" /> <a href='http://www.expanse.tech/'>Expanse</a>"), $project_rain->expanse);
+        }
+        if ($project_rain->storj) {
+            row2(tra("<img src=\"img/storjcoin-x.png\" alt=\"STRJ\" /> <a href='https://storj.io/'>Storj</a>"), $project_rain->storj);
+        }
+        if ($project_rain->nem) {
+            row2(tra("<img src=\"img/nem.png\" alt=\"NEM\" /> <a href='http://nem.io/'>NEM</a>"), $project_rain->nem);
+        }
+        if ($project_rain->hyperledger_sawtooth_lake) {
+            row2(tra("<img src=\"img/hyperledger.png\" alt=\"HLSL\" /> <a href='https://github.com/intelledger'>Hyperledger Sawtooth Lake</a>"), $project_rain->hyperledger_sawtooth_lake);
+        }
+        if ($project_rain->hyperledger_fabric) {
+            row2(tra("<img src=\"img/hyperledger.png\" alt=\"HLSL\" /> <a href='https://github.com/hyperledger/fabric'>Hyperledger Fabric</a>"), $project_rain->hyperledger_fabric);
+        }
+        if ($project_rain->ibm_bluemix_blockchain) {
+            row2(tra("<img src=\"img/IBMBM.png\" alt=\"\" /> <a href='https://www.ibm.com/blockchain/bluemix.html'>IBM Bluemix Blockchain</a>"), $project_rain->ibm_bluemix_blockchain);
+        }
+        if ($project_rain->hyperledger_misc) {
+            row2(tra("<img src=\"img/hyperledger.png\" alt=\"HLSL\" /> <a href='https://www.hyperledger.org/'>Hylerledger (MISC)</a>"), $project_rain->hyperledger_misc);
+        }
+        if ($project_rain->waves) {
+            row2(tra("<img src=\"img/waves.png\" alt=\"Waves\" /> <a href='https://wavesplatform.com/'>Waves</a>"), $project_rain->waves);
+        }
+        if ($project_rain->peershares) {
+            row2(tra("<img src=\"img/peercoin.png\" alt=\"PPC\" /> <a href='http://peershares.net/'>Peershares</a>"), $project_rain->peershares);
+        }
+        if ($project_rain->omnilayer) {
+            row2(tra("<img src=\"img/omni.png\" alt=\"OMNI\" /> <a href='http://www.omnilayer.org/'>Omnilayer</a>"), $project_rain->omnilayer);
+        }
+        if ($project_rain->counterparty) {
+            row2(tra("<img src=\"img/counterparty.png\" alt=\"CP\" /> <a href='http://counterparty.io/'>Counterparty</a>"), $project_rain->counterparty);
+        }
+        if ($project_rain->coloredcoins) {
+            row2(tra("<img src=\"img/coloredcoins.png\" alt=\"CC\" /> <a href='http://coloredcoins.org/'>ColoredCoins</a>"), $project_rain->coloredcoins);
+        }
+        if ($project_rain->antshares) {
+            row2(tra("<img src=\"img/antshares.png\" alt=\"ANT\" /> <a href='https://www.antshares.org/'>Antshares</a>"), $project_rain->antshares);
+        }
+        if ($project_rain->lisk) {
+            row2(tra("<img src=\"img/lisk.png\" alt=\"LSK\" /> <a href='https://lisk.io/'>Lisk</a>"), $project_rain->lisk);
+        }
+        if ($project_rain->heat_ledger) {
+            row2(tra("<img src=\"img/heat_ledger.png\" alt=\"Heat\" /> <a href='http://heatledger.com/'>Heat Ledger</a>"), $project_rain->heat_ledger);
+        }
+        if ($project_rain->metaverse) {
+            row2(tra("<img src=\"img/metaverse.png\" alt=\"Meta\" /> <a href='http://viewfin.com/'>Metaverse</a>"), $project_rain->metaverse);
+        }
+        if ($project_rain->cosmos) {
+            row2(tra("<a href='http://cosmos.network/'>Cosmos</a>"), $project_rain->cosmos);
+        }
+        if ($project_rain->stratis) {
+            row2(tra("<img src=\"img/stratis.png\" alt=\"STRA\" /> <a href='http://stratisplatform.com/'>Stratis</a>"), $project_rain->stratis);
+        }
+        if ($project_rain->zcash) {
+            row2(tra("<img src=\"img/zcash.png\" alt=\"ZC\" /> <a href='https://z.cash/'>Zcash</a>"), $project_rain->zcash);
+        }
+    }
+}
+
+function show_project_rain_dao_message_private($project_rain) {
+    if (($project_rain->wings) || ($project_rain->hong) || ($project_rain->boardroom)) {
+        row1(tra("DAC/DAO platforms"));
+        if ($project_rain->wings) {
+            row2(tra("<img src=\"img/wings.png\" alt=\"Wings\" /> <a href='https://wings.ai/'>Wings</a>"), $project_rain->wings);
+        }
+        if ($project_rain->hong) {
+            row2(tra("<img src=\"img/hong.png\" alt=\"hong\" /> <a href='http://www.hongcoin.org/'>Hong</a>"), $project_rain->hong);
+        }
+        if ($project_rain->boardroom) {
+            row2(tra("<img src=\"img/boardroom.png\" alt=\"\" /> <a href='http://boardroom.to/'>BoardRoom</a>"), $project_rain->boardroom);
+        }
+    }
+
+    if (($project_rain->steem) || ($project_rain->decent) || ($project_rain->synereo) || ($project_rain->akasha) || ($project_rain->lbry)) {
+        row1(tra("Crypto media"));
+        if ($project_rain->steem) {
+            row2(tra("<img src=\"img/steem.png\" alt=\"STEEM\" /> <a href='https://steemit.com/?r=cm-steem'>Steem</a>"), $project_rain->steem);
+        }
+        if ($project_rain->decent) {
+            row2(tra("<img src=\"img/decent.png\" alt=\"DC\" /> <a href='http://decent.ch/'>Decent</a>"), $project_rain->decent);
+        }
+        if ($project_rain->synereo) {
+            row2(tra("<img src=\"img/synereo.png\" alt=\"SYN\" /> <a href='https://www.synereo.com/'>Synereo</a>"), $project_rain->synereo);
+        }
+        if ($project_rain->akasha) {
+            row2(tra("<img src=\"img/akasha.png\" alt=\"aka\" /> <a href='http://akasha.world/'>Akasha</a>"), $project_rain->akasha);
+        }
+        if ($project_rain->lbry) {
+            row2(tra("<img src=\"img/lbry.png\" alt=\"LBRY\" /> <a href='https://lbry.io/'>LBRY</a>"), $project_rain->lbry);
+        }
+    }
+
+    if (($project_rain->echo) || ($project_rain->tox) || ($project_rain->retroshare) || ($project_rain->wickr) || ($project_rain->ring) || ($project_rain->pgp)) {
+        row1(tra("Secure messaging"));
+        if ($project_rain->echo) {
+            row2(tra("<img src=\"img/echo.png\" alt=\"Echo\" /> <a href='https://my-echo.com/'>Echo</a>"), $project_rain->echo);
+        }
+        if ($project_rain->tox) {
+            row2(tra("<img src=\"img/tox.png\" alt=\"TOX\" /> <a href='https://tox.chat/'>TOX</a>"), $project_rain->tox);
+        }
+        if ($project_rain->retroshare) {
+            row2(tra("<img src=\"img/retroshare.png\" alt=\"RS\" /> <a href='https://retroshare.github.io/index.html'>RetroShare</a>"), $project_rain->retroshare);
+        }
+        if ($project_rain->wickr) {
+            row2(tra("<img src=\"img/wickr.png\" alt=\"Wickr\" /> <a href='https://www.wickr.com/'>Wickr</a>"), $project_rain->wickr);
+        }
+        if ($project_rain->ring) {
+            row2(tra("<img src=\"img/ring.png\" alt=\"Ring\" /> <a href='https://ring.cx/'>Ring</a>"), $project_rain->ring);
+        }
+        if ($project_rain->pgp) {
+            pgpfield(tra("<img src=\"img/pgp.png\" alt=\"PGP\" /> <a href='https://ssd.eff.org/en/module/introduction-public-key-cryptography-and-pgp'>PGP</a>"), $project_rain->pgp);
+        }
+    }
+
+
+    $url_tokens = url_tokens($project_rain->authenticator);
+    row2(tra("Change"),
+        "<a href=\"edit_project_rain_form.php?$url_tokens\">".tra("Edit your cryptocurrency addresses/accounts")."</a>"
+    );
+}
+
+function show_project_rain_dao_message_public($project_rain) {
+    if (($project_rain->wings) || ($project_rain->hong) || ($project_rain->boardroom)) {
+        row1(tra("DAC/DAO platforms"));
+        if ($project_rain->wings) {
+            row2(tra("<img src=\"img/wings.png\" alt=\"Wings\" /> <a href='https://wings.ai/'>Wings</a>"), $project_rain->wings);
+        }
+        if ($project_rain->hong) {
+            row2(tra("<img src=\"img/hong.png\" alt=\"hong\" /> <a href='http://www.hongcoin.org/'>Hong</a>"), $project_rain->hong);
+        }
+        if ($project_rain->boardroom) {
+            row2(tra("<img src=\"img/boardroom.png\" alt=\"\" /> <a href='http://boardroom.to/'>BoardRoom</a>"), $project_rain->boardroom);
+        }
+    }
+
+    if (($project_rain->steem) || ($project_rain->decent) || ($project_rain->synereo) || ($project_rain->akasha) || ($project_rain->lbry)) {
+        row1(tra("Crypto media"));
+        if ($project_rain->steem) {
+            row2(tra("<img src=\"img/steem.png\" alt=\"STEEM\" /> <a href='https://steemit.com/?r=cm-steem'>Steem</a>"), $project_rain->steem);
+        }
+        if ($project_rain->decent) {
+            row2(tra("<img src=\"img/decent.png\" alt=\"DC\" /> <a href='http://decent.ch/'>Decent</a>"), $project_rain->decent);
+        }
+        if ($project_rain->synereo) {
+            row2(tra("<img src=\"img/synereo.png\" alt=\"SYN\" /> <a href='https://www.synereo.com/'>Synereo</a>"), $project_rain->synereo);
+        }
+        if ($project_rain->akasha) {
+            row2(tra("<img src=\"img/akasha.png\" alt=\"aka\" /> <a href='http://akasha.world/'>Akasha</a>"), $project_rain->akasha);
+        }
+        if ($project_rain->lbry) {
+            row2(tra("<img src=\"img/lbry.png\" alt=\"LBRY\" /> <a href='https://lbry.io/'>LBRY</a>"), $project_rain->lbry);
+        }
+    }
+    
+    if (($project_rain->echo) || ($project_rain->tox) || ($project_rain->retroshare) || ($project_rain->wickr) || ($project_rain->ring) || ($project_rain->pgp)) {
+            row1(tra("Secure messaging"));
+            if ($project_rain->echo) {
+                row2(tra("<img src=\"img/echo.png\" alt=\"Echo\" /> <a href='https://my-echo.com/'>Echo</a>"), $project_rain->echo);
+            }
+            if ($project_rain->tox) {
+                row2(tra("<img src=\"img/tox.png\" alt=\"TOX\" /> <a href='https://tox.chat/'>TOX</a>"), $project_rain->tox);
+            }
+            if ($project_rain->retroshare) {
+                row2(tra("<img src=\"img/retroshare.png\" alt=\"RS\" /> <a href='https://retroshare.github.io/index.html'>RetroShare</a>"), $project_rain->retroshare);
+            }
+            if ($project_rain->wickr) {
+                row2(tra("<img src=\"img/wickr.png\" alt=\"Wickr\" /> <a href='https://www.wickr.com/'>Wickr</a>"), $project_rain->wickr);
+            }
+            if ($project_rain->ring) {
+                row2(tra("<img src=\"img/ring.png\" alt=\"Ring\" /> <a href='https://ring.cx/'>Ring</a>"), $project_rain->ring);
+            }
+            if ($project_rain->pgp) {
+                pgpfield(tra("<img src=\"img/pgp.png\" alt=\"PGP\" /> <a href='https://ssd.eff.org/en/module/introduction-public-key-cryptography-and-pgp'>PGP</a>"), $project_rain->pgp);
+            }
+        }
 }
 
 function friend_links($user) {
@@ -340,6 +614,9 @@ function user_links($user, $badge_height=0) {
 }
 
 function show_community_private($user) {
+    start_table();
+    row1(tra("Community"));
+
     show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         if ($user->has_profile) {
@@ -417,6 +694,7 @@ function show_community_private($user) {
     } else {
         row2(tra("Friends"), $x);
     }
+    end_table();
 }
 
 // show summary of dynamic and static info (public)
@@ -429,12 +707,11 @@ function show_user_summary_public($user) {
     // don't show URL if user has no recent credit (spam suppression)
     //
     if (strlen($user->url)) {
-        if (!NO_COMPUTING || $user->expavg_credit > 1) {
-            $u = normalize_user_url($user->url);
-            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+        if (no_computing() || $user->expavg_credit > 1) {
+            row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
         }
     }
-    if (!NO_COMPUTING) {
+    if (!no_computing()) {
         show_credit($user);
 
         if ($user->show_hosts) {
@@ -528,10 +805,8 @@ function show_account_private($user) {
         false,
         function() use ($user) {
             start_table();
-            row1(tra("Account information"), 2, 'heading');
             show_user_info_private($user);
-            show_preference_links();
-            if (!NO_COMPUTING) {
+            if (!no_computing()) {
                 show_user_stats_private($user);
             }
 
@@ -547,12 +822,140 @@ function show_account_private($user) {
             //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
-            start_table();
-            row1(tra("Community"));
             show_community_private($user);
-            end_table();
         }
     );
+}
+
+function show_rain_private($project_rain) {
+    start_table();
+    echo "<tr><td valign=top>";
+    start_table();
+    show_project_rain_crypto_private($project_rain);
+    end_table();
+    echo "</td><td valign=top>";
+    start_table();
+    show_project_rain_dao_message_private($project_rain);
+    end_table();
+    echo "</td></tr></table>";
+}
+
+function show_rain_public($project_rain) {
+    start_table();
+    echo "<tr><td valign=top>";
+    start_table();
+    show_project_rain_crypto_public($project_rain);
+    end_table();
+    echo "</td><td valign=top>";
+    start_table();
+    show_project_rain_dao_message_public($project_rain);
+    end_table();
+    echo "</td></tr></table>";
+}
+
+function is_banned_email_addr($email_addr) {
+    global $banned_email_domains;
+    if (isset($banned_email_domains)) {
+        foreach($banned_email_domains as $d) {
+            $x = strstr($email_addr, $d);
+            if ($x == $d) return true;
+        }
+    }
+    return false;
+}
+
+function is_valid_user_name($name, &$reason) {
+    if (trim($name) !== $name) {
+        $reason = tra("user name cannot have leading or trailing white space");
+        return false;
+    }
+    if (strlen($name) == 0) {
+        $reason = tra("user name must be nonempty");
+        return false;
+    }
+    if (sanitize_tags($name) !== $name) {
+        $reason = tra("user name may not contain HTML tags");
+        return false;
+    }
+    return true;
+}
+
+// the following DB-escapes its args
+//
+function make_user(
+    $email_addr, $name, $passwd_hash,
+    $country=null, $postal_code=null, $project_prefs=null, $teamid=0
+) {
+    if (!is_valid_email_addr($email_addr)) return null;
+    if (is_banned_email_addr($email_addr)) return null;
+
+    $authenticator = random_string();
+    $cross_project_id = random_string();
+    $now = time();
+    if (!is_valid_country($country)) return null;
+
+    $email_addr = BoincDb::escape_string($email_addr);
+    $name = sanitize_tags($name);
+    $name = BoincDb::escape_string($name);
+    $passwd_hash = BoincDb::escape_string($passwd_hash);
+
+    $country = BoincDb::escape_string($country);
+    $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
+
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
+
+    $rainid = BoincRain::insert("(authenticator, bitshares, steem, peerplays, storj, nem, ibm_bluemix_blockchain, coloredcoins, antshares, lisk, decent, synereo, lbry, wings, hong, boardroom, gridcoin, ethereum, ethereum_classic, expanse, golem, nxt, ardor, hyperledger_sawtooth_lake, hyperledger_fabric, hyperledger_misc, waves, akasha, cosmos, metaverse, zcash, stratis, peershares, omnilayer, counterparty, heat_ledger, echo, tox, retroshare, wickr, ring, pgp) values('$authenticator', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')");
+
+    if (!$uid) {
+        return null;
+    }
+    $user = BoincUser::lookup_id($uid);
+    if (defined('RECORD_USER_IP')) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = BoincDb::escape_string($ip);
+        $user->update("venue='$ip'");
+    }
+    return $user;
+}
+
+function make_user_ldap($email_addr, $name) {
+    $email_addr = BoincDb::escape_string($email_addr);
+    $name = sanitize_tags($name);
+    $name = BoincDb::escape_string($name);
+    $authenticator = random_string();
+    $cross_project_id = random_string();
+    $passwd_hash = random_string();
+    $now = time();
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, 1, '$cross_project_id', '$passwd_hash')");
+
+    if ($uid) {
+        return BoincUser::lookup_id($uid);
+    } else {
+        return null;
+    }
+}
+
+// delete a user and all associated records except
+// result
+// host
+// batch
+// team
+// user_submit
+// user_submit_app
+// credited_job
+// donation_paypal
+// sent_email
+//
+function delete_user($user) {
+    delete_profile($user);
+    forum_delete_user($user);
+        // deletes post, thread, subscription, forum_preferences, forum_logging
+    BoincPrivateMessage::delete_aux("userid=$user->id or senderid=$user->id");
+    BoincNotify::delete_aux("userid=$user->id");
+    BoincCreditUser::delete_user($user);
+    BoincBadgeUser::delete("user_id=$user->id");
+    BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+    $user->delete();
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
