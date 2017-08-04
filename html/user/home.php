@@ -28,6 +28,7 @@ check_get_args(array());
 $user = get_logged_in_user();
 BoincForumPrefs::lookup($user);
 $user = get_other_projects($user);
+$project_rain = get_project_rain_details();
 
 $init = isset($_COOKIE['init']);
 $via_web = isset($_COOKIE['via_web']);
@@ -43,13 +44,15 @@ if ($init) {
     echo "<p>".tra("View and edit your account preferences using the links below.")."</p>\n";
     if ($via_web) {
         echo "<p> "
-        .tra("If you have not already done so, %1 download BOINC client software %2.", "<a href=\"https://boinc.berkeley.edu/download.php\">", "</a>")."</p>";
+        .tra("If you have not already done so, %1download BOINC client software%2.", "<a href=\"https://boinc.berkeley.edu/download.php\">", "</a>")."</p>";
     }
 } else {
     page_head(tra("Your account"));
 }
 
 show_account_private($user);
+
+show_rain_private($project_rain);
 
 page_tail();
 

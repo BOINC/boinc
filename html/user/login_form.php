@@ -19,6 +19,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
+require_once('../inc/recaptchalib.php');
 
 check_get_args(array("next_url"));
 
@@ -40,7 +41,11 @@ if ($user) {
     exit;
 }
 
-page_head(tra("Log in"));
+//NOTE: THIS MAY INTRODUCE A BUG!
+//page_head(tra("Log in"));
+//ABOVE IS THE ORIGINAL CODE!
+
+page_head(tra("Log in"), null, null, null, boinc_recaptcha_get_head_extra());
 
 if (0) {
 echo '
@@ -56,7 +61,7 @@ $config = get_config();
 if (!parse_bool($config, "disable_account_creation")
     && !parse_bool($config, "no_web_account_creation")
 ) {
-    echo tra("or %1 create an account %2.", "<a href=\"create_account_form.php?next_url=$next_url\">","</a>");
+    echo tra("or %1create an account%2.", "<a href=\"create_account_form.php?next_url=$next_url\">","</a>");
 }
 
 echo "

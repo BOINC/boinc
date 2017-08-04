@@ -90,6 +90,7 @@ void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void HOST_APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void USER_SUBMIT::clear() {memset(this, 0, sizeof(*this));}
+void PROJECT_RAIN::clear() {memset(this, 0, sizeof(*this));}
 void STATE_COUNTS::clear() {memset(this, 0, sizeof(*this));}
 void FILE_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void FILESET_ITEM::clear() {memset(this, 0, sizeof(*this));}
@@ -833,14 +834,6 @@ int DB_HOST::update_diff_sched(HOST& h) {
         sprintf(buf, " gpu_active_frac=%.15e,", gpu_active_frac);
         strcat(updates, buf);
     }
-    if (p_ngpus != h.p_ngpus) {
-        sprintf(buf, " p_ngpus=%d,", p_ngpus);
-        strcat(updates, buf);
-    }
-    if (p_gpu_fpops != h.p_gpu_fpops) {
-        sprintf(buf, " p_gpu_fpops=%.15e,", p_gpu_fpops);
-        strcat(updates, buf);
-    }
 
     int n = strlen(updates);
     if (n == 0) return 0;
@@ -901,8 +894,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "fileset_id=%lu, "
         "app_version_id=%ld, "
         "transitioner_flags=%d, "
-        "size_class=%d, "
-        "keywords='%s' ",
+        "size_class=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -922,8 +914,7 @@ void DB_WORKUNIT::db_print(char* buf){
         fileset_id,
         app_version_id,
         transitioner_flags,
-        size_class,
-        keywords
+        size_class
     );
 }
 
@@ -946,8 +937,7 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         "%lu, "
         "%ld, "
         "%d, "
-        "%d, "
-        "'%s')",
+        "%d)",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound,
@@ -968,8 +958,7 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         fileset_id,
         app_version_id,
         transitioner_flags,
-        size_class,
-        keywords
+        size_class
     );
 }
 
@@ -1009,7 +998,6 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     app_version_id = atol(r[i++]);
     transitioner_flags = atoi(r[i++]);
     size_class = atoi(r[i++]);
-    strcpy2(keywords, r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -1482,6 +1470,221 @@ void DB_USER_SUBMIT::db_parse(MYSQL_ROW& r) {
     logical_start_time = atof(r[i++]);
     submit_all = (atoi(r[i++]) != 0);
     manage_all = (atoi(r[i++]) != 0);
+}
+
+void DB_PROJECT_RAIN::db_print(char* buf) {
+    ESCAPE(bitshares);
+    ESCAPE(steem);
+    ESCAPE(peerplays);
+    ESCAPE(storj);
+    ESCAPE(nem);
+    ESCAPE(ibm_bluemix_blockchain);
+    ESCAPE(coloredcoins);
+    ESCAPE(antshares);
+    ESCAPE(lisk);
+    ESCAPE(decent);
+    ESCAPE(synereo);
+    ESCAPE(lbry);
+    ESCAPE(wings);
+    ESCAPE(hong);
+    ESCAPE(boardroom);
+    ESCAPE(gridcoin);
+    ESCAPE(ethereum);
+    ESCAPE(ethereum_classic);
+    ESCAPE(expanse);
+    ESCAPE(golem);
+    ESCAPE(nxt);
+    ESCAPE(ardor);
+    ESCAPE(hyperledger_sawtooth_lake);
+    ESCAPE(hyperledger_fabric);
+    ESCAPE(hyperledger_misc);
+    ESCAPE(waves);
+    ESCAPE(peershares);
+    ESCAPE(omnilayer);
+    ESCAPE(counterparty);
+    ESCAPE(heat_ledger);
+    ESCAPE(akasha);
+    ESCAPE(cosmos);
+    ESCAPE(metaverse);
+    ESCAPE(zcash);
+    //Chat
+    ESCAPE(echo);
+    ESCAPE(tox);
+    ESCAPE(retroshare);
+    ESCAPE(wickr);
+    ESCAPE(ring);
+    ESCAPE(pgp);
+    sprintf(buf,
+        "id=%lu, "
+        "bitshares='%s', "
+        "steem='%s', "
+        "peerplays='%s', "
+        "storj='%s', "
+        "nem='%s', "
+        "ibm_bluemix_blockchain='%s', "
+        "coloredcoins='%s', "
+        "antshares='%s', "
+        "lisk='%s', "
+        "decent='%s', "
+        "synereo='%s', "
+        "lbry='%s', "
+        "wings='%s', "
+        "hong='%s', "
+        "boardroom='%s', "
+        "gridcoin='%s', "
+        "ethereum='%s', "
+        "ethereum_classic='%s', "
+        "expanse='%s', "
+        "golem='%s', "
+        "nxt='%s', "
+        "ardor='%s', "
+        "hyperledger_sawtooth_lake='%s', "
+        "hyperledger_fabric='%s', "
+        "waves='%s', "
+        "peershares='%s', "
+        "omnilayer='%s', "
+        "counterparty='%s', "
+        "heat_ledger='%s', "
+        "akasha='%s', "
+        "cosmos='%s', "
+        "metaverse='%s', "
+        "zcash='%s', "
+        "stratis='%s', "
+        "hyperledger_misc='%s', "
+        "echo='%s', "
+        "tox='%s', "
+        "retroshare='%s', "
+        "wickr='%s', "
+        "ring='%s', "
+        "pgp='%s' ",
+        id,
+        bitshares,
+        steem,
+        peerplays,
+        storj,
+        nem,
+        ibm_bluemix_blockchain,
+        coloredcoins,
+        antshares,
+        lisk,
+        decent,
+        synereo,
+        lbry,
+        wings,
+        hong,
+        boardroom,
+        gridcoin,
+        ethereum,
+        ethereum_classic,
+        expanse,
+        golem,
+        nxt,
+        ardor,
+        hyperledger_sawtooth_lake,
+        hyperledger_fabric,
+        waves,
+        peershares,
+        omnilayer,
+        counterparty,
+        heat_ledger,
+        akasha,
+        cosmos,
+        metaverse,
+        zcash,
+        stratis,
+        hyperledger_misc,
+        echo,
+        tox,
+        retroshare,
+        wickr,
+        ring,
+        pgp
+    );
+    UNESCAPE(bitshares);
+    UNESCAPE(steem);
+    UNESCAPE(peerplays);
+    UNESCAPE(storj);
+    UNESCAPE(nem);
+    UNESCAPE(ibm_bluemix_blockchain);
+    UNESCAPE(coloredcoins);
+    UNESCAPE(antshares);
+    UNESCAPE(lisk);
+    UNESCAPE(decent);
+    UNESCAPE(synereo);
+    UNESCAPE(lbry);
+    UNESCAPE(wings);
+    UNESCAPE(hong);
+    UNESCAPE(boardroom);
+    UNESCAPE(gridcoin);
+    UNESCAPE(ethereum);
+    UNESCAPE(ethereum_classic);
+    UNESCAPE(expanse);
+    UNESCAPE(nxt);
+    UNESCAPE(ardor);
+    UNESCAPE(hyperledger_sawtooth_lake);
+    UNESCAPE(hyperledger_fabric);
+    UNESCAPE(hyperledger_misc);
+    UNESCAPE(waves);
+    UNESCAPE(peershares);
+    UNESCAPE(omnilayer);
+    UNESCAPE(counterparty);
+    UNESCAPE(heat_ledger);
+    UNESCAPE(echo);
+    UNESCAPE(tox);
+    UNESCAPE(retroshare);
+    UNESCAPE(wickr);
+    UNESCAPE(ring);
+    UNESCAPE(pgp);
+    UNESCAPE(akasha);
+    UNESCAPE(cosmos);
+    UNESCAPE(metaverse);
+    UNESCAPE(zcash);
+}
+
+void DB_PROJECT_RAIN::db_parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    strcpy2(bitshares, r[i++]);
+    strcpy2(steem, r[i++]);
+    strcpy2(peerplays, r[i++]);
+    strcpy2(storj, r[i++]);
+    strcpy2(nem, r[i++]);
+    strcpy2(ibm_bluemix_blockchain, r[i++]);
+    strcpy2(coloredcoins, r[i++]);
+    strcpy2(antshares, r[i++]);
+    strcpy2(lisk, r[i++]);
+    strcpy2(decent, r[i++]);
+    strcpy2(synereo, r[i++]);
+    strcpy2(lbry, r[i++]);
+    strcpy2(wings, r[i++]);
+    strcpy2(hong, r[i++]);
+    strcpy2(boardroom, r[i++]);
+    strcpy2(gridcoin, r[i++]);
+    strcpy2(ethereum, r[i++]);
+    strcpy2(ethereum_classic, r[i++]);
+    strcpy2(expanse, r[i++]);
+    strcpy2(nxt, r[i++]);    
+    strcpy2(ardor, r[i++]);    
+    strcpy2(hyperledger_sawtooth_lake, r[i++]);    
+    strcpy2(hyperledger_fabric, r[i++]);    
+    strcpy2(hyperledger_misc, r[i++]);    
+    strcpy2(waves, r[i++]);    
+    strcpy2(peershares, r[i++]);    
+    strcpy2(omnilayer, r[i++]);    
+    strcpy2(counterparty, r[i++]);
+    strcpy2(heat_ledger, r[i++]);    
+    strcpy2(akasha, r[i++]); 
+    strcpy2(cosmos, r[i++]); 
+    strcpy2(metaverse, r[i++]); 
+    strcpy2(zcash, r[i++]); 
+    strcpy2(stratis, r[i++]); 
+    strcpy2(echo, r[i++]); 
+    strcpy2(tox, r[i++]); 
+    strcpy2(retroshare, r[i++]); 
+    strcpy2(wickr, r[i++]); 
+    strcpy2(ring, r[i++]); 
+    strcpy2(pgp, r[i++]); 
 }
 
 void DB_STATE_COUNTS::db_print(char* buf) {
@@ -2025,7 +2228,6 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.app_version_id = atol(r[i++]);
     wu.transitioner_flags = atoi(r[i++]);
     wu.size_class = atoi(r[i++]);
-    strcpy2(wu.keywords, r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(

@@ -38,6 +38,7 @@ if (!$auth) {
     $id = get_int("userid");
 }
 $format = get_str("format", true);
+$project_rain = get_project_rain_details();
 
 if ($format=="xml"){
     // don't do caching for XML
@@ -53,7 +54,7 @@ if ($format=="xml"){
     }
     if (!$user) xml_error(ERR_DB_NOT_FOUND);
 
-    show_user_xml($user, $show_hosts);
+    show_user_xml($user, $show_hosts, $project_rain);
 } else {
     // The page may be presented in many different languages,
     // so here we cache the data instead
@@ -102,8 +103,12 @@ if ($format=="xml"){
     }
     community_links($community_links, $logged_in_user);
     end_table();
-    echo "</td></tr>";
+    echo "</td></tr></table>";
+
+    start_table();
+    show_rain_public($project_rain);
     end_table();
+    
     page_tail(true);
 }
 

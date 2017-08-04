@@ -31,12 +31,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config (do it here for efficiency)
-//
-$config = get_config();
-$master_url = parse_config($config , "<master_url>");
-$recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
-$recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
+$master_url = parse_config(get_config(), "<master_url>");
 
 // don't allow /... at the end of URL
 
@@ -76,20 +71,6 @@ if (!defined('BADGE_HEIGHT_LARGE')) {
 if (!defined('LDAP_HOST')) {
     define('LDAP_HOST', null);
 }
-if (!defined('POSTAL_CODE')) {
-    define('POSTAL_CODE', false);
-}
-if (!defined('NO_COMPUTING')) {
-    define('NO_COMPUTING', false);
-}
-if (!defined('USER_HOME')) {
-    define('USER_HOME', 'home.php');
-}
-
-// sleep this long on any login failure
-// (slow the rate of hacker attacks)
-//
-define('LOGIN_FAIL_SLEEP_SEC', 5);
 
 $caching = false;
     // if set, we're writing to a file rather than to client
@@ -140,6 +121,9 @@ function clear_cookie($name, $ops=false) {
     setcookie($name, '', time()-3600, $path);
 }
 
+// We want to check if users are logged in before showing project rain details
+// Preventing bots from scraping the website
+
 $g_logged_in_user = null;
 $got_logged_in_user = false;
 
@@ -147,7 +131,9 @@ function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user, $got_logged_in_user;
     if ($got_logged_in_user) return $g_logged_in_user;
 
-    if (web_stopped()) return null;
+    if (web_stopped()) {
+        return null;
+    }
 
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
@@ -166,11 +152,50 @@ function get_logged_in_user($must_be_logged_in=true) {
             }
         }
         $next_url = urlencode($next_url);
-        Header("Location: ".url_base()."login_form.php?next_url=$next_url");
+        Header("Location: login_form.php?next_url=$next_url");
         exit;
     }
     $got_logged_in_user = true;
     return $g_logged_in_user;
+}
+
+$g_project_rain_details = null;
+$got_project_rain_details = false;
+
+function get_project_rain_details($must_be_logged_in=true) {
+    global $g_project_rain_details, $got_project_rain_details;
+    if ($got_project_rain_details) return $g_project_rain_details;
+
+    check_web_stopped();
+    $authenticator = null;
+    if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
+
+    $authenticator = BoincDb::escape_string($authenticator);
+    if ($authenticator) {
+        $g_project_rain_details = BoincRain::lookup("authenticator='$authenticator'");
+    }
+
+    if ($must_be_logged_in && !$g_project_rain_details) {
+        $next_url = '';
+        if (array_key_exists('REQUEST_URI', $_SERVER)) {
+            $next_url = $_SERVER['REQUEST_URI'];
+            $n = strrpos($next_url, "/");
+            if ($n) {
+                $next_url = substr($next_url, $n+1);
+            }
+        }
+        $next_url = urlencode($next_url);
+        Header("Location: login_form.php?next_url=$next_url");
+        exit;
+    }
+    $got_project_rain_details = true;
+    return $g_project_rain_details;
+}
+
+// strip non-alphanumeric characters 
+//
+function strip_non_alphanumeric($x) {
+    return preg_replace("/[^a-zA-Z0-9]+/", "", strip_tags($x));
 }
 
 function show_login_info($prefix="") {
@@ -222,7 +247,7 @@ function page_head(
     $did_page_head = true;
     $url_base = url_base();
 
-    $rssname = "RSS 2.0";
+    $rssname = PROJECT . " RSS 2.0";
     $rsslink = $url_base."rss_main.php";
 
     if (!$caching) {
@@ -345,7 +370,7 @@ function error_page($msg) {
 // takes argument in second and returns a human formatted time string
 // in the form D days + h Hours + m Min + s sec.
 
-function time_diff($x, $res=3) {
+function time_diff($x) {
     $days    = (int)($x/86400);
     $hours   = (int)(($x-$days*86400)/3600);
     $minutes = (int)(($x-$days*86400-$hours*3600)/60);
@@ -355,13 +380,13 @@ function time_diff($x, $res=3) {
     if ($days) {
         $datestring .= "$days ".tra("days")." ";
     }
-    if ($res>0 && ($hours || strlen($datestring))) {
+    if ($hours || strlen($datestring)) {
         $datestring .= "$hours ".tra("hours")." ";
     }
-    if ($res>1 && ($minutes || strlen($datestring))) {
+    if ($minutes || strlen($datestring)) {
         $datestring .= "$minutes ".tra("min")." ";
     }
-    if ($res>2 && ($seconds)) {
+    if ($seconds) {
         $datestring .= "$seconds ".tra("sec")." ";
     }
 
@@ -448,24 +473,36 @@ function row1($x, $ncols=2, $class="heading") {
     }
 }
 
-define('NAME_ATTRS', 'class="text-right " style="padding-right:12px"');
+define('NAME_ATTRS', 'class="text-right active" style="padding-right:12px"');
 define('VALUE_ATTRS', 'style="padding-left:12px"');
 define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 
 function row2($x, $y, $show_error=false, $lwidth='40%') {
     if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
-    $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
     echo "<tr>
         <td width=\"$lwidth\" ".NAME_ATTRS.">$x</td>
-        <td $attrs >$y</td>
+        <td ".VALUE_ATTRS." >$y</td>
         </tr>
     ";
 }
 
+function pgpfield($x, $y, $show_error=false) {
+    if ($x=="") $x="<br>";
+    if ($y==="") $y="";
+    if ($show_error) {
+        $class1 = 'fieldname_error';
+        $class2 = 'fieldvalue_error';
+    } else {
+        $class1 = 'fieldname';
+        $class2 = 'fieldvalue';
+    }
+    echo "<tr><td width=\"40%\" class=$class1>$x</td><td class=$class2><textarea readonly name=\"textarea\" style=\"width:350px;height:150px;\">$y</textarea></td></tr>\n";
+}
+
 function row2_init($x, $y, $lwidth='40%') {
     echo '<tr>
-        <td class="text-right " width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
+        <td class="text-right active" width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
         <td '.VALUE_ATTRS.'>'.$y.'
     ';
 }
@@ -488,21 +525,20 @@ function row_array($x) {
 
 define ('ALIGN_RIGHT', 'style="text-align:right;"');
 
-function row_heading_array($x, $attrs=null, $class='bg-primary') {
+function row_heading_array($x, $attrs=null) {
     echo "<tr>";
     $i = 0;
     foreach ($x as $h) {
         $a = $attrs?$attrs[$i]:"";
-        echo "<th $a class=\"$class\">$h</th>";
+        echo "<th $a class=\"bg-primary\">$h</th>";
         $i++;
     }
     echo "</tr>\n";
 }
 
-function row_heading($x, $class='bg-primary') {
-    echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
-        ', $class, $x
-    );
+function row_heading($x) {
+    echo '<tr><th class="bg-primary" colspan=99>'.$x.'</th></tr>
+    ';
 }
 
 function random_string() {
@@ -545,6 +581,10 @@ function check_tokens($auth) {
     error_page(
         tra("Link has timed out. Please click Back, refresh the page, and try again.")
     );
+}
+
+function no_computing() {
+    return parse_bool(get_config(), "no_computing");
 }
 
 // Generates a legal filename from a parameter string.
@@ -617,7 +657,7 @@ function close_output_buffer($filename) {
     fclose($fh);
 }
 
-function bbcode_info() {
+function html_info() {
     return "<br><a href=bbcode.php target=new><small>".tra("Use BBCode tags to format your text")."</small></a>\n";
 }
 
@@ -687,14 +727,6 @@ function post_int($name, $optional=false) {
     return $y;
 }
 
-function get_array($name) {
-    if (isset($_GET[$name])) {
-        return $_GET[$name];
-    } else {
-        return array();
-    }
-}
-
 function get_str($name, $optional=false) {
     if (isset($_GET[$name])) {
         $x = $_GET[$name];
@@ -758,16 +790,16 @@ function verify_numeric(&$value, $low, $high = false) {
     $number = str_replace('x', '', $number); //if someone enters '0x100'
     $number = str_replace(',', '.', $number); // replace the german decimal separator
     // if no value was entered and this is ok
-    //
-    if ($number=='' && !$low) return true;
+    if ($number=='' && $low=='') return true;
 
     // the supplied value contains alphabetic characters
-    //
     if (!is_numeric($number)) return false;
 
+    //if ($number < $low) $number = $low;
     if ($number < $low) return false;
 
     if ($high) {
+        //if ($number > $high) $number = $high;
         if ($number > $high) return false;
     }
     $value = (double)$number;
@@ -958,8 +990,6 @@ function sanitize_tags($x) {
 function sanitize_numeric($x) {
     if (is_numeric($x)) {
         return $x;
-    } else if (trim($x) == '' ) {
-        return '';
     } else {
         return "not numeric";
     }
@@ -1004,6 +1034,7 @@ function redirect_to_secure_url($url) {
     ) {
         Header("Location: ".SECURE_URL_BASE."/$url");
         exit;
+
     }
 }
 

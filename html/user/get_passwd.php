@@ -19,6 +19,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
+require_once('../inc/recaptchalib.php');
 
 check_get_args(array());
 
@@ -29,6 +30,16 @@ function show_email_form() {
     start_table();
     echo "<form method=post action=mail_passwd.php>\n";
     row2(tra("Email address"), '<input class="form-control" type="text" size="40" name="email_addr">');
+    //
+    // Recaptcha!
+    //
+    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
+    if ($publickey) {
+        row2(
+            "",
+            boinc_recaptcha_get_html($publickey)
+        );
+    }
     row2("", '<input class="btn btn-success" type="submit" value="'.tra("OK").'">');
     echo "</form>";
     end_table();
@@ -75,6 +86,16 @@ function show_auth_form() {
     row2(tra("Stay logged in on this computer"),
         "<input type=checkbox name=\"stay_logged_in\" checked>"
     );
+    //
+    // Recaptcha
+    //
+    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
+    if ($publickey) {
+        row2(
+            "",
+            boinc_recaptcha_get_html($publickey)
+        );
+    }
     row2("", "<input class=\"btn btn-success\" type=submit value=\"".tra("OK")."\">");
     echo "</form>";
 
@@ -83,7 +104,7 @@ function show_auth_form() {
 
 page_head(tra("Forgot your account info?"));
 show_email_form();
-if (!NO_COMPUTING) {
+if (!no_computing()) {
     show_auth_form();
 }
 page_tail();

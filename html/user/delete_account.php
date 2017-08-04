@@ -38,7 +38,7 @@ die("This feature has been disabled.  Please contact project administators.");
 
 function delete_account($user) {
     $x = "deleted_".time()."_".random_string();
-    $retval = $user->update("email_addr='$x', authenticator='$x', name='', country='', postal_code='', has_profile=0");
+    $retval = $user->update("email_addr='$x', authenticator='$x', name='', country='', postal_code='', bitshares='', heat_ledger='', steem='', gridcoin='', ethereum='', ethereum_classic='', nxt='', golem='', ardor='', hyperledger_sawtooth_lake='', hyperledger_fabric='', hyperledger_misc='', waves='', peershares='', omnilayer='', counterparty='', peerplays='', storj='', nem='', ibm_bluemix_blockchain='', coloredcoins='', antshares='', lisk='', decent='', synereo='', lbry='', wings='', hong='', boardroom='', expanse='', akasha='', cosmos='', metaverse='', zcash='', stratis='', echo='', tox='', retroshare='', wickr='', ring='', pgp='', has_profile=0");    
     if (!$retval) return false;
     user_quit_team($user);
     forum_delete_user($user);

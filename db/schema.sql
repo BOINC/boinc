@@ -149,7 +149,6 @@ create table host (
     timezone                integer         not null,
     domain_name             varchar(254),
     serialnum               varchar(254),
-        /* now used to encode stuff related to GPUs and VBox */
     last_ip_addr            varchar(254),
     nsame_ip_addr           integer         not null,
 
@@ -191,8 +190,6 @@ create table host (
     error_rate              double          not null default 0,
     product_name            varchar(254)    not null,
     gpu_active_frac         double          not null,
-    p_ngpus                 integer         not null,
-    p_gpu_fpops             double          not null,
 
     primary key (id)
 ) engine=InnoDB;
@@ -256,7 +253,6 @@ create table workunit (
     app_version_id          integer         not null,
     transitioner_flags      tinyint         not null,
     size_class              smallint        not null default -1,
-    keywords                varchar(254)    not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -338,6 +334,54 @@ create table user_submit (
     max_jobs_in_progress    integer         not null,
     primary key (user_id)
 ) engine = InnoDB;
+
+create table project_rain (
+    id                      integer         not null auto_increment,
+    cross_project_id        varchar(254),
+    authenticator           varchar(254),
+    bitshares               varchar(254),
+    steem                   varchar(254),
+    peerplays               varchar(254),
+    storj                   varchar(34),
+    nem                     varchar(46),
+    ibm_bluemix_blockchain  varchar(254),
+    coloredcoins            varchar(34),
+    antshares               varchar(34),
+    lisk                    varchar(21),
+    decent                  varchar(254),
+    synereo                 varchar(34),
+    lbry                    varchar(34),
+    wings                   varchar(254),
+    hong                    varchar(254),
+    boardroom               varchar(254),
+    gridcoin                varchar(34),
+    ethereum                varchar(42),
+    ethereum_classic        varchar(42),
+    expanse                 varchar(42),
+    golem                   varchar(42),
+    nxt                     varchar(24),
+    ardor                   varchar(24),
+    hyperledger_sawtooth_lake   varchar(254),
+    hyperledger_fabric      varchar(34),
+    hyperledger_misc      varchar(254),
+    waves                   varchar(37),
+    peershares              varchar(34),
+    omnilayer               varchar(34),
+    counterparty            varchar(34),
+    heat_ledger             varchar(34),
+    akasha                  varchar(254),
+    cosmos                  varchar(254),
+    metaverse               varchar(254),
+    zcash                   varchar(95),
+    stratis                 varchar(34),
+    echo                    varchar(254),
+    tox                     varchar(72),
+    retroshare              varchar(1024),
+    wickr                   varchar(254),
+    ring                    varchar(40),
+    pgp                     varchar(4096),
+    primary key (id)
+) engine=InnoDB;
 
 -- (user, app) submit permissions
 -- The existence of the record implies permission to submit jobs

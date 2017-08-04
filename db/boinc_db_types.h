@@ -347,8 +347,6 @@ struct HOST {
         // DEPRECATED
     char product_name[256];
     double gpu_active_frac;
-    int p_ngpus;
-    double p_gpu_fpops;
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
@@ -480,9 +478,9 @@ struct WORKUNIT {
     int size_class;
         // -1 means none; encode this here so that transitioner
         // doesn't have to look up app
-    char keywords[256];
-        // keywords, as space-separated integers
 
+    // the following not used in the DB
+    char app_name[256];
     void clear();
     WORKUNIT(){clear();}
 };
@@ -665,6 +663,55 @@ struct USER_SUBMIT {
     double logical_start_time;
     bool submit_all;
     bool manage_all;
+    void clear();
+};
+
+// Adding cryptocurrency for project rain
+struct PROJECT_RAIN {
+    DB_ID_TYPE id;
+    char bitshares[254];
+    char steem[254];
+    char peerplays[254];
+    char storj[34];
+    char nem[46];
+    char ibm_bluemix_blockchain[254];
+    char coloredcoins[34];
+    char antshares[34];
+    char lisk[21];
+    char decent[254];
+    char synereo[34];
+    char lbry[34];
+    char wings[254];
+    char hong[254];
+    char boardroom[254];
+    char gridcoin[34];
+    char ethereum[42];
+    char ethereum_classic[42];
+    char expanse[42];
+    char golem[42];
+    char nxt[24];
+    char ardor[24];
+    char hyperledger_sawtooth_lake[34];
+    char hyperledger_fabric[34];
+    char hyperledger_misc[254];
+    char waves[37];
+    char peershares[34];
+    char omnilayer[34];
+    char counterparty[34];
+    char heat_ledger[254];
+    //
+    char akasha[254];
+    char cosmos[254];
+    char metaverse[254];
+    char zcash[95];
+    char stratis[34];
+    //
+    char echo[254];
+    char tox[72];
+    char retroshare[1024];
+    char wickr[254];
+    char ring[40];
+    char pgp[4096];
     void clear();
 };
 

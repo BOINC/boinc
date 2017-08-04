@@ -18,14 +18,7 @@
 #ifndef _BOINC_DB_
 #define _BOINC_DB_
 
-// Structures passed to and from DB queries.
-//
-// Mostly these correspond to DB tables, and inherit structs
-// defined in boinc_db_types.h
-// But some of them - TRANSITIONER_ITEM, STATE_COUNTS, SCHED_RESULT_ITEM, etc. -
-// combine the info from multiple tables (from joins)
-// or have subsets of table data.
-//
+// Structures corresponding to database records.
 // Some of these types have counterparts in client/types.h,
 // but don't be deceived - client and server have different variants.
 
@@ -157,6 +150,15 @@ public:
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(USER& r) {USER::operator=(r);}
+};
+
+struct DB_PROJECT_RAIN : public DB_BASE, public PROJECT_RAIN {
+public:
+    DB_PROJECT_RAIN(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(PROJECT_RAIN& r) {PROJECT_RAIN::operator=(r);}
 };
 
 class DB_TEAM : public DB_BASE, public TEAM {
