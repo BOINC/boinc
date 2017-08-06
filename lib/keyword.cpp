@@ -37,6 +37,7 @@ int KEYWORD::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+#ifndef _USING_FCGI_
 void KEYWORD::write_xml(MIOFILE& mf) {
     mf.printf(
         "<keyword>\n"
@@ -49,6 +50,7 @@ void KEYWORD::write_xml(MIOFILE& mf) {
         name.c_str(), description.c_str(), parent, level, category
     );
 }
+#endif
 
 int KEYWORDS::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
@@ -111,6 +113,8 @@ void JOB_KEYWORD_IDS::parse_str(char* buf) {
     }
 }
 
+#ifndef _USING_FCGI_
+
 // write list of full keywords
 //
 void JOB_KEYWORD_IDS::write_xml_text(MIOFILE& mf, KEYWORDS& k) {
@@ -137,6 +141,7 @@ void JOB_KEYWORD_IDS::write_xml_num(MIOFILE& out) {
     }
     out.printf("</job_keyword_ids>\n");
 }
+#endif
 
 int JOB_KEYWORDS::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {

@@ -1,6 +1,10 @@
 <?php
 
-require_once("docutil.php");
+$dir = getcwd();
+chdir("/mydisks/a/users/boincadm/projects/dev/html/user");
+require_once("../inc/util.inc");
+chdir($dir);
+
 require_once("help_db.php");
 require_once("help_funcs.php");
 require_once("spoken_languages.php");
@@ -89,7 +93,7 @@ function info($vol) {
 function show_vol($vol) {
     $status = $vol->status;
     $image = button_image($status);
-    list_item_array(array(
+    row_array(array(
         vol_info($vol),
         vol_modes($vol),
         info($vol),
@@ -109,8 +113,8 @@ function show_vols($vols) {
         <a href=https://boinc.berkeley.edu/email_lists.php>boinc_projects</a>
         email list.
     ";
-    list_start("border=0");
-    list_heading_array(array(
+    start_table("table-striped");
+    row_heading_array(array(
         "Volunteer name<br><font size=2>click to contact</font>",
         "Voice/Text",
         "Info",
@@ -119,7 +123,7 @@ function show_vols($vols) {
     foreach ($vols as $vol) {
         show_vol($vol);
     }
-    list_end();
+    end_table();
 }
 
 if ($lang) {
