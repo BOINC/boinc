@@ -62,10 +62,9 @@ private:
 	void addProperty(const wxString& name, const wxString& value);
 protected:
         wxBoxSizer* m_bSizer1;
-        wxScrolledWindow* m_scrolledWindow;
         wxButton* m_btnClose;
         wxString m_strBaseConfigLocation;
-        wxHtmlWindow* m_txtInformation;
+        wxWebView* m_txtInformation;
 };
 
 #endif

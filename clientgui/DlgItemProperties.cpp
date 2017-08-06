@@ -59,20 +59,11 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     
     m_bSizer1 = new wxBoxSizer( wxVERTICAL );
     
-    m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-    m_scrolledWindow->SetScrollRate( 5, 5 );
-    wxBoxSizer* m_bSizer2;
-    m_bSizer2 = new wxBoxSizer( wxVERTICAL );
-    
     const long style = wxBORDER_NONE;
-    m_txtInformation = new wxHtmlWindow( m_scrolledWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, style, "" );
+    m_txtInformation = wxWebView::New( this, wxID_ANY, wxWebViewDefaultURLStr, wxDefaultPosition, wxDefaultSize, wxWebViewBackendDefault, style );
+    m_txtInformation->EnableContextMenu( false );
 
-    m_bSizer2->Add( m_txtInformation, 1, wxEXPAND, 5 );
-
-    m_scrolledWindow->SetSizer( m_bSizer2 );
-    m_scrolledWindow->Layout();
-    m_bSizer2->Fit( m_scrolledWindow );
-    m_bSizer1->Add( m_scrolledWindow, 1, wxEXPAND | wxALL, 5 );
+    m_bSizer1->Add( m_txtInformation, 1, wxEXPAND | wxALL, 5 );
     
     m_btnClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClose->SetDefault(); 
@@ -357,7 +348,6 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         addProperty(_("Last scheduler reply"), dt.Format());
     }
     renderInfos();
-    m_scrolledWindow->FitInside();
 }
 
 // show task properties
@@ -429,7 +419,6 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
     }
     renderInfos();
-    m_scrolledWindow->FitInside();
 }
 
 //
@@ -504,26 +493,55 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
 
 
 void CDlgItemProperties::renderInfos() {
+    wxString str_bg;
+    str_bg.Printf(wxT("#%x"), this->GetBackgroundColour().GetRGB());
+    wxFont font = this->GetFont();
+    wxString font_name = font.GetFaceName();
+    wxString font_size;
+    font_size.Printf(wxT("%d"), font.GetPointSize());
+
     std::string content;
     content += "<html>";
+    content += "<head>";
+    content += "<style>";
+    content += " body { ";
+    content += " background-color: " + str_bg + "; ";
+    content += " overflow : auto; ";
+    content += " } ";
+    content += " table { ";
+    content += " width: 100%; ";
+    content += " } ";
+    content += " span { ";
+    content += " white-space: nowrap; ";
+    content += " font-family: '" + font_name + "'; ";
+    content += " font-size: " + font_size + "pt; ";
+    content += " } ";
+    content += "</style>";
+    content += "</head>";
     content += "<body>";
-    content += "<table style='width:100%'>";
+    content += "<table>";
     for (size_t i = 0; i < m_items.size(); ++i) {
         if (m_items[i].item_type == ItemTypeSection) {
             content += "<tr>";
             content += "<td colspan='2'>";
+            content += "<span>";
             content += "<b>";
             content += m_items[i].name;
             content += "</b>";
+            content += "</span>";
             content += "</td>";
             content += "</tr>";
         } else if (m_items[i].item_type == ItemTypeProperty) {
             content += "<tr>";
             content += "<td>";
+            content += "<span>";
             content += m_items[i].name;
+            content += "</span>";
             content += "</td>";
             content += "<td>";
+            content += "<span>";
             content += m_items[i].value;
+            content += "</span>";
             content += "</td>";
             content += "</tr>";
         }        
@@ -531,7 +549,7 @@ void CDlgItemProperties::renderInfos() {
     content += "</table>";
     content += "</body>";
     content += "</html>";
-    m_txtInformation->SetPage(content);
+    m_txtInformation->SetPage(wxString(content), "");
 }
 
 
