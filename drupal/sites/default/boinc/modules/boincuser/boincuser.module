@@ -1201,7 +1201,12 @@ function boincuser_edit_profile($account = null) {
   */
 function join_page($type = null) {
   global $base_url;
-  $ruleslink = '/content/rules-and-policies';
+  /* The paths/links to the rules-and-policies page is hardcoded
+   * here. An improvement would be admin settings for the Join Page
+   * where this path could be set.
+   */
+  $ruleslinkA = 'rules-and-policies';
+  $ruleslinkB = 'content/rules-and-policies';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $registration_enabled = variable_get('user_register', 0);
   $output = '<div class="join">';
@@ -1240,8 +1245,17 @@ function join_page($type = null) {
     break;
   case 'new':
   default:
+    // Determine if there is a link to rules-and-policies
+    $ruleslink="";
+    if (drupal_lookup_path('source', $ruleslinkA)) {
+      $ruleslink = drupal_lookup_path('source', $ruleslinkA);
+    } else if (drupal_lookup_path('source', $ruleslinkB)) {
+      $ruleslink = drupal_lookup_path('source', $ruleslinkB);
+    }
+
+    // Join page output
     $output .= '<ol>';
-    if (menu_valid_path(array('link_path' => $ruleslink))) {
+    if ( menu_valid_path(array('link_path' => $ruleslink)) ) {
       $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
         '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslink),
       ), NULL, 'boinc:join-page') . '</li>';
