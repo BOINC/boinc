@@ -273,7 +273,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
 
     $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.', array(), NULL, 'boinc:account-preferences-computing') . '<br/>';
     $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.', array(), NULL, 'boinc:account-preferences-computing') . '</p>';
-    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value'])), NULL, 'boinc:account-preferences-computing') . '</p>';
+    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value'])), NULL, 'boinc:account-preferences') . '</p>';
     $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table class="preferences combined">';
@@ -474,7 +474,8 @@ function projectprefs_page($action = null, $venue = null) {
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_projectprefs_form', $prefs[$pref_set], $form_state);
     }
-    
+
+    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['modified']['#value'])), NULL, 'boinc:account-preferences') . '</p>';
     $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/project') . '</h2>';
     
     $output .= '<table class="preferences combined">';
