@@ -163,11 +163,11 @@ function boincuser_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
   );
-  $items['admin/boinc/other'] = array(
-    'title' => 'Other Options',
-    'description' => 'Set other BOINC options.',
+  $items['admin/boinc/weboptions'] = array(
+    'title' => 'Environment: Website Options',
+    'description' => 'Set options configuring this Drupal-BOINC Web site.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('boincuser_admin_other'),
+    'page arguments' => array('boincuser_admin_weboptions'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
@@ -1253,12 +1253,14 @@ function join_page($type = null) {
   case 'new':
   default:
     // Determine if there is a link to rules-and-policies
-    $ruleslink="";
-    if (drupal_lookup_path('source', $ruleslinkA)) {
-      $ruleslink = drupal_lookup_path('source', $ruleslinkA);
-    } else if (drupal_lookup_path('source', $ruleslinkB)) {
-      $ruleslink = drupal_lookup_path('source', $ruleslinkB);
-    }
+    //$ruleslink='';
+    //if (drupal_lookup_path('source', $ruleslinkA)) {
+    //  $ruleslink = drupal_lookup_path('source', $ruleslinkA);
+    //} else if (drupal_lookup_path('source', $ruleslinkB)) {
+    //  $ruleslink = drupal_lookup_path('source', $ruleslinkB);
+    //}
+
+    $ruleslink = drupal_lookup_path('source', variable_get('boinc_weboptions_rulespolicies', '') );
 
     // Join page output
     $output .= '<ol>';
@@ -1468,9 +1470,8 @@ function boincuser_account_finish() {
     drupal_goto();
   }
 
-  // Improvement: Have the path to the account_finish node be a path
-  // the admin can specify in the admin interface.
-  $customaccountfinishpath = drupal_lookup_path('source', 'account_finish');
+  // Lookup path to custom account finish page
+  $customaccountfinishpath = drupal_lookup_path('source', variable_get('boinc_weboptions_accountfinish', '') );
   if ( menu_valid_path(array('link_path' => $customaccountfinishpath)) ) {
     $node = menu_get_object('node', 1, $customaccountfinishpath);
     if ($node) {
@@ -1479,7 +1480,7 @@ function boincuser_account_finish() {
   }
 
   // Check moderation page exists
-  $moderationpath = drupal_lookup_path('source', 'moderation');
+  $moderationpath = drupal_lookup_path('source', variable_get('boinc_weboptions_moderationpage', '') );
   if ( menu_valid_path(array('link_path' => $moderationpath)) ) {
     $modsentence = bts('Please note: user profiles are subject to @moderation.', array('@moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), 'moderate')), NULL, 'boinc:account-finish');
   } else {

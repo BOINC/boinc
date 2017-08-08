@@ -312,17 +312,38 @@ function boincuser_admin_scheduler_submit($form, &$form_state) {
 
 
 /**
-  * Other BOINC options that don't fit elsewhere
+  * Drupal-BOINC Web site related options.
   */
-function boincuser_admin_other(&$form_state) {
+function boincuser_admin_weboptions(&$form_state) {
   $form = array();
 
   //form defaults
   $default = array(
-      'boinc_other_frontpage' => variable_get('boinc_other_frontpage', ''),
+    'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
+    'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
+    'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
+    'boinc_other_frontpage' => variable_get('boinc_other_frontpage', ''),
   );
   
   // Define the form
+  $form['boinc_weboptions_accountfinish'] = array (
+    '#type' => 'textfield',
+    '#title' => t('Path to a custom account_finish.php page, should be a path to a node'),
+    '#description' => t('Provide a path to a node which will serve as your site\'s landing page for users create an account using the BOINC client manager. They will be directed to this page after the account is created. If blank, a default account_finish page will be used.<br>Examples: account_finish, content/welcome, node/123'),
+    '#default_value' => $default['boinc_weboptions_accountfinish'],
+  );
+  $form['boinc_weboptions_moderate'] = array (
+    '#type' => 'textfield',
+    '#title' => t('Path to the site\'s content moderation info page, should be a path to a node'),
+    '#description' => t('Provide a path to a node which will serve as your site\'s page for account/content moderation information. This will be used on the default account_finish page. If blank, no link to a moderation page will be provided. If a path is provided to the custom account_finish.php page (above), this field will be ignored.<br>Examples: moderation, content/moderation, node/456'),
+    '#default_value' => $default['boinc_weboptions_moderationpage'],
+  );
+  $form['boinc_weboptions_rulespolicies'] = array (
+    '#type' => 'textfield',
+    '#title' => t('Path to the site\'s rule and policies page, should be a path to a node'),
+    '#description' => t('Provide a path to a node which will serve as your site\'s rules and policies page. This will be used on the Join page shown to new users. If blank, no link to a rules and policies page will be provided.<br>Examples: rules-and-policies, node/789'),
+    '#default_value' => $default['boinc_weboptions_rulespolicies'],
+  );
   $form['boinc_other_frontpage'] = array (
     '#type' => 'textarea',
     '#title' => bts('Message for site\'s Home Page', array(), NULL, 'boinc:admin-boinc-other-options'),
@@ -338,12 +359,28 @@ function boincuser_admin_other(&$form_state) {
 /**
   * Validate BOINC other form
   */
-function boincuser_admin_other_validate($form, &$form_state) {
+function boincuser_admin_weboptions_validate($form, &$form_state) {
+  $values = $form_state['values'];
+
+  $accountfinish = $values['boinc_weboptions_accountfinish'];
+  if ( ($accountfinish) AND (!drupal_lookup_path('source', $accountfinish)) ) {
+    form_set_error('boinc weboptions_accountfinish', t('Path to custom account finish page not found. Please provide a valid path, or leave blank to unset.'));
+  }
+
+  $moderationpage = $values['boinc_weboptions_moderationpage'];
+  if ( ($moderationpage) AND (!drupal_lookup_path('source', $moderationpage)) ) {
+    form_set_error('boinc weboptions_moderationpage', t('Path to moderation page not found. Please provide a valid path, or leave blank to unset.'));
+  }
+
+  $rulespolicies = $values['boinc_weboptions_rulespolicies'];
+  if ( ($rulespolicies) AND (!drupal_lookup_path('source', $rulespolicies)) ) {
+    form_set_error('boinc weboptions_rulespolicies', t('Path to rules and policies page not found. Please provide a valid path, or leave blank to unset.'));
+  }
 }
 
 /**
   * Submit BOINC other form
   */
-function boincuser_admin_other_submit($form, &$form_state) {
-  drupal_set_message( bts("Status: BOINC other settings have been updated", array(), NULL, 'boinc:admin-boinc-other-options') );
+function boincuser_admin_weboptions_submit($form, &$form_state) {
+  drupal_set_message( bts("Status: Drupa-BOINC Web site options have been updated", array(), NULL, 'boinc:admin-boinc-website-options') );
 }
