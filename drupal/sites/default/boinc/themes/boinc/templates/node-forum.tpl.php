@@ -76,8 +76,8 @@
 <div id="top"></div>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
-  
-  <?php 
+
+  <?php
     if ($page) {
       // Set topic title as page title
       drupal_set_title($title);
@@ -100,7 +100,7 @@
     </div>
     <div class="subscribe">
       <?php if ($subscribe_link): ?>
-        <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
+        <a href="#block-comment_form_block-comment_form">Post new comment</a>
         <?php print $subscribe_link; ?>
       <?php endif; ?>
     </div>
@@ -110,8 +110,8 @@
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
   <?php endif; ?>
-  
-  <?php 
+
+  <?php
     if (!$oldest_post_first) {
       print comment_render($node);
     }
@@ -128,7 +128,7 @@
         <div id="content-area-alt">
           <div id="node-<?php print $node->nid; ?>-alt" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
     <?php endif; ?>
-    
+
     <div class="user">
       <?php
         $account = user_load(array('uid' => $uid));
@@ -173,13 +173,13 @@
         </div>
       <?php endif; ?>
     </div>
-    
+
     <div class="node-body">
-      
+
       <?php /* if ($terms): ?>
         <div class="terms terms-inline"><?php print $terms; ?></div>
       <?php endif; */ ?>
-      
+
       <?php if ($display_submitted): ?>
         <div class="submitted">
           <?php print date('j M Y G:i:s T', $node->created); ?>
@@ -198,7 +198,7 @@
           <span class="label">)</span>
         </div>
       <?php endif; ?>
-      
+
       <div class="content">
         <?php print $content; ?>
         <?php if ($signature AND $show_signatures): ?>
@@ -208,12 +208,12 @@
         <?php endif; ?>
       </div>
 
-      
+
     </div> <!-- /.node-body -->
-    
+
   <?php endif; // page with topic starter post ?>
-  
-  <?php 
+
+  <?php
     if ($oldest_post_first) {
       print comment_render($node);
     }
