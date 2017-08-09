@@ -390,12 +390,12 @@ void ACTIVE_TASK::handle_temporary_exit(
     } else {
         if (is_notice) {
             msg_printf(result->project, MSG_USER_ALERT,
-                "Task postponed: %s", reason
+                "Task %s postponed for %.f seconds: %s", result->name, backoff, reason
             );
         } else {
             if (log_flags.task) {
                 msg_printf(result->project, MSG_INFO,
-                    "task postponed %f sec: %s", backoff, reason
+                    "Task %s postponed for %.f seconds: %s", result->name, backoff, reason
                 );
             }
         }
