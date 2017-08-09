@@ -53,6 +53,7 @@ void usage() {
         "Options:\n"
         "   --appname name\n"
         "   [ --additional_xml x ]\n"
+        "   [ --app_version_num N ]\n"
         "   [ --batch n ]\n"
         "   [ --broadcast ]\n"
         "   [ --broadcast_user ID ]\n"
@@ -266,6 +267,8 @@ int main(int argc, char** argv) {
             jd.wu.rsc_memory_bound = atof(argv[++i]);
         } else if (arg(argv, i, "size_class")) {
             jd.wu.size_class = atoi(argv[++i]);
+        } else if (arg(argv, i, "app_version_num")) {
+            jd.wu.app_version_num = atoi(argv[++i]);
         } else if (arg(argv, i, "rsc_disk_bound")) {
             jd.wu.rsc_disk_bound = atof(argv[++i]);
         } else if (arg(argv, i, "delay_bound")) {

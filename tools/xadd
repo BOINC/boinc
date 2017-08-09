@@ -47,11 +47,15 @@ foreach ($x->platform as $platform) {
 foreach ($x->app as $app) {
     $n = (string)$app->name;
     $ufn = (string)$app->user_friendly_name;
+    $min_version = (int)$app->min_version;
     $a = BoincApp::lookup("name='$n'");
     if ($a) {
         if ($a->user_friendly_name != $ufn) {
             $a->update("user_friendly_name='$ufn'");
             echo "updated user friendly name of app $n\n";
+        } else if ($a->min_version != $min_version) {
+            $a->update("min_version = $min_version");
+            echo "updated min_version of app $n\n";
         } else {
             echo "app $n already in DB\n";
         }

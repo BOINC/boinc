@@ -182,6 +182,10 @@ int SCHED_SHMEM::scan_tables() {
     // for each (app, platform) pair,
     // get all versions with numbers maximal in their plan class.
     //
+    // If the app is using version-specific WUs,
+    // get all versions >= min_version,
+    // and flag the latest ones
+    //
     for (i=0; i<nplatforms; i++) {
         PLATFORM& splatform = platforms[i];
         for (j=0; j<napps; j++) {
@@ -195,6 +199,9 @@ int SCHED_SHMEM::scan_tables() {
             while (!app_version.enumerate(query)) {
                 avs.push_back(app_version);
             }
+
+            // flag non-latest versions as deprecated
+            //
             for (unsigned int k=0; k<avs.size(); k++) {
                 APP_VERSION& av1 = avs[k];
                 for (unsigned int kk=0; kk<avs.size(); kk++) {
@@ -207,7 +214,16 @@ int SCHED_SHMEM::scan_tables() {
             }
             for (unsigned int k=0; k<avs.size(); k++) {
                 APP_VERSION& av1 = avs[k];
-                if (av1.deprecated) continue;
+                if (sapp.min_version) {
+                    if (av1.version_num < sapp.min_version) {
+                        fprintf(stderr, "version too small %d < %d\n",
+                            av1.version_num, sapp.min_version
+                        );
+                        continue;
+                    }
+                } else {
+                    if (av1.deprecated) continue;
+                }
                 if (av1.min_core_version && av1.min_core_version < 10000) {
                     fprintf(stderr, "min core version too small - multiplying by 100\n");
                     av1.min_core_version *= 100;
@@ -379,7 +395,7 @@ void SCHED_SHMEM::show(FILE* f) {
     for (int i=0; i<max_wu_results; i++) {
         if (i%24 == 0) {
             fprintf(f,
-                "%4s %12s %10s %10s %10s %8s %10s %8s %12s %12s %9s\n",
+                "%4s %12s %10s %10s %10s %8s %10s %8s %12s %12s %9s %9s\n",
                 "slot",
                 "app",
                 "WU ID",
@@ -390,7 +406,8 @@ void SCHED_SHMEM::show(FILE* f) {
                 "in shmem",
                 "size class",
                 "need reliable",
-                "inf count"
+                "inf count",
+                "version"
             );
         }
         WU_RESULT& wu_result = wu_results[i];
@@ -403,7 +420,7 @@ void SCHED_SHMEM::show(FILE* f) {
             appname = app?app->name:"missing";
             delta_t = dtime() - wu_result.time_added_to_shared_memory;
             fprintf(f,
-                "%4d %12.12s %10lu %10lu %10d %8d %10d %7ds %9d %12s %9d\n",
+                "%4d %12.12s %10lu %10lu %10d %8d %10d %7ds %9d %12s %9d %9d\n",
                 i,
                 appname,
                 wu_result.workunit.id,
@@ -414,7 +431,8 @@ void SCHED_SHMEM::show(FILE* f) {
                 delta_t,
                 wu_result.workunit.size_class,
                 wu_result.need_reliable?"yes":"no",
-                wu_result.infeasible_count
+                wu_result.infeasible_count,
+                wu_result.workunit.app_version_num
             );
             break;
         case WR_STATE_EMPTY:

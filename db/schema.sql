@@ -257,6 +257,7 @@ create table workunit (
     transitioner_flags      tinyint         not null,
     size_class              smallint        not null default -1,
     keywords                varchar(254)    not null,
+    app_version_num         integer         not null,
     primary key (id)
 ) engine=InnoDB;
 

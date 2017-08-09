@@ -145,7 +145,7 @@ struct APP_VERSION {
     double expavg_time;
     bool beta;
 
-    // the following used by scheduler, not in DB
+    // the following used by scheduler (add_wu_to_reply()), not in DB
     //
     BEST_APP_VERSION* bavp;
 
@@ -482,6 +482,8 @@ struct WORKUNIT {
         // doesn't have to look up app
     char keywords[256];
         // keywords, as space-separated integers
+    int app_version_num;
+        // if nonzero, use only this version num
 
     void clear();
     WORKUNIT(){clear();}

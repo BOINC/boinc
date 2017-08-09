@@ -1055,6 +1055,12 @@ function update_7_21_2017() {
     ");
 }
 
+function update_8_9_2017() {
+    do_query("alter table workunit
+        add column app_version_num integer not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1105,6 +1111,7 @@ $db_updates = array (
     array(27016, "update_3_17_2017"),
     array(27017, "update_6_13_2017"),
     array(27018, "update_7_21_2017"),
+    array(27019, "update_8_9_2017"),
 );
 
 ?>
