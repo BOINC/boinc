@@ -1,6 +1,6 @@
 # Status
 
-[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master)
+[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc) [![Build status](https://ci.appveyor.com/api/projects/status/9dgoc9h5ppos8vcy/branch/master?svg=true)](https://ci.appveyor.com/project/BOINC/boinc/branch/master) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master)
 
 # BOINC
 
