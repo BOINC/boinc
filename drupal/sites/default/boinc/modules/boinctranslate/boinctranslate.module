@@ -96,11 +96,9 @@ function boinctranslate_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
  * is updated (forward compatible to Drupal 7)
  */
 function boinctranslate_node_update($node) {
-  // Only process nodes of certain types as defined by the
-  // boinctranslate input filter.
-  $node_types = _boinctranlsate_get_node_types();
-
-  if (array_key_exists($node->type, $node_types) and $node_types[$node->type]) {
+  // Only process nodes of certain types as defined by the individual
+  // node's setting for field_boinctranslate_transifex.
+  if ( ($node->field_boinctranslate_transifex) and ($node->field_boinctranslate_transifex[0]['value']=='1') ) {
     // Add page content to translation table.
     $textgroup = 'project';
     $location = "node:{$node->nid}:body";
@@ -189,7 +187,6 @@ function boinctranslate_node_view($node, $view_mode, $langcode) {
 }
 
 
-
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Implementation of hook_filter() and associated functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
@@ -230,15 +227,18 @@ function boinctranslate_filter($op, $delta = 0, $format = -1, $text = '', $cache
     return bts('Splits node content into chunks for translation.', array(), NULL, 'boinc:input-filter-help');
 
   case 'process':
-    // Only process nodes of certain types
+    /* Only process nodes of certain types. On an individual
+     * node-by-node level, content editors may choose to select
+     * "Export for translation", which will allow this specific node
+     * to be translated. By default this is enabled.
+     */
     if ($node = menu_get_object()) {
       $mynid = $node->nid;
     } else {
       return $text;
     }
 
-    $node_types = _boinctranlsate_get_node_types();
-    if (array_key_exists($node->type, $node_types) and $node_types[$node->type]) {
+    if ( ($node->field_boinctranslate_transifex) and ($node->field_boinctranslate_transifex[0]['value']=='1') ) {
       if (variable_get("boinctranslate_filter_debug_$format", 0)) {
         $timing_start = explode(' ', microtime());
         $ret = _boinctranslate_filter_process($text, $format, $mynid);
@@ -323,23 +323,6 @@ function boinctranslate_splitfortranslation($instring) {
   return $chunks;
 }
 
-
-/**
- * Returns the node types that have been selected for the
- * boinctranslate input filter. Defaults to page and story.
- */
-function _boinctranlsate_get_node_types() {
-  $node_types = variable_get('boinctranslate_filter_nodetypes', '');
-  if (empty($node_types)) {
-    // If the variable is not been set, only filter node types
-    // page and story.
-    $node_types = array(
-      'page' => 'page',
-      'story' => 'story',
-    );
-  }
-  return $node_types;
-}
 
 /**
  * Helper function to actually process the input text. Splits the text

@@ -167,6 +167,26 @@ function boinc_standard_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'content_extra_weights_page';
+  $strongarm->value = array(
+    'apachesolr' => '100',
+    'title' => '-5',
+    'body_field' => '0',
+    'revision_information' => '20',
+    'author' => '20',
+    'options' => '25',
+    'comment_settings' => '30',
+    'language' => '0',
+    'translation' => '30',
+    'menu' => '-2',
+    'path' => '30',
+    'attachments' => '30',
+  );
+  $export['content_extra_weights_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'error_level';
   $strongarm->value = '0';
   $export['error_level'] = $strongarm;
