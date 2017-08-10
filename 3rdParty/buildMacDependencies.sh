@@ -61,6 +61,7 @@ fi
 ROOTDIR=$(pwd)
 cache_dir=""
 doclean=""
+extra_options=""
 wxoption="--nodebug"
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -74,6 +75,9 @@ while [[ $# -gt 0 ]]; do
         ;;
         --debug)
         wxoption=""
+        ;;
+        -q|--quiet)
+        extra_options="${extra_options} --quiet"
         ;;
         *)
         echo "unrecognized option $key"
@@ -111,7 +115,7 @@ download_and_build() {
         tar -xf ${FILENAME}
     fi
     cd ${DIRNAME} || exit 1
-    source ${BUILDSCRIPT} --prefix ${PREFIX}
+    source ${BUILDSCRIPT} --prefix ${PREFIX} ${extra_options}
     if [ $? -ne 0 ]; then exit 1; fi
     cd ../.. || exit 1
     touch ${FLAGFILE}

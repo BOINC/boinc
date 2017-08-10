@@ -43,6 +43,7 @@
 ## the -clean argument will force a full rebuild.
 ## the -nodebug argument will ommit building the debug version of the library
 ## if --prefix is given as absolute path the library is installed into there
+## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 #
 
 SRCDIR=$PWD
@@ -144,6 +145,7 @@ fi
 echo ""
 
 doclean=""
+stdout_target="/dev/stdout"
 lprefix=""
 libPathRel="build/osx/build/Release"
 libPathDbg="build/osx/build/Debug"
@@ -163,6 +165,9 @@ while [[ $# -gt 0 ]]; do
         libPathRel="${lprefix}/lib"
         libPathDbg="${lprefix}/lib/debug"
         shift
+        ;;
+        -q|--quiet)
+        stdout_target="/dev/null"
         ;;
     esac
     shift # past argument or value

@@ -42,9 +42,11 @@
 ##
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
+## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
 
 doclean=""
+stdout_target="/dev/stdout"
 lprefix="/tmp/installed-c-ares"
 libPath=".libs"
 while [[ $# -gt 0 ]]; do
@@ -57,6 +59,9 @@ while [[ $# -gt 0 ]]; do
         lprefix="$2"
         libPath="${lprefix}/lib"
         shift
+        ;;
+        -q|--quiet)
+        stdout_target="/dev/null"
         ;;
     esac
     shift # past argument or value
@@ -124,9 +129,9 @@ if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
-make 1>/dev/null
+make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
-make install 1>/dev/null
+make install 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
 
 lprefix=""

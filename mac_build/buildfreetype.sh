@@ -41,6 +41,7 @@
 ##
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
+## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
 
 
@@ -60,6 +61,7 @@ if [ "$?" -eq "0" ]; then
 fi
 
 doclean=""
+stdout_target="/dev/stdout"
 lprefix="`pwd`/../freetype_install/"
 libPath="objs/.libs"
 while [[ $# -gt 0 ]]; do
@@ -72,6 +74,9 @@ while [[ $# -gt 0 ]]; do
         lprefix="$2"
         libPath="${lprefix}/lib"
         shift
+        ;;
+        -q|--quiet)
+        stdout_target="/dev/null"
         ;;
     esac
     shift # past argument or value
@@ -141,14 +146,14 @@ if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
-make 1>/dev/null
+make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
 
 # save i386 lib for later use
 mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_i386.a
 
 # Build for x86_64 architecture
-make clean 1>/dev/null
+make clean 1>$stdout_target
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
@@ -159,7 +164,7 @@ export MACOSX_DEPLOYMENT_TARGET=10.6
 
 ./configure --enable-shared=NO --prefix=${lprefix} --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
-make 1>/dev/null
+make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
 
 mv -f objs/.libs/libfreetype.a objs/.libs/libfreetype_x86_64.a
@@ -172,7 +177,7 @@ rm -f objs/.libs/libfreetype_x86_64.a
 
 # Building ftgl requires [install-path]/bin/freetype-config
 # this installs the modified library
-make install 1>/dev/null
+make install 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
 
 # remove installed items not needed by ftgl build

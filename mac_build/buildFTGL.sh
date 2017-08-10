@@ -39,9 +39,11 @@
 ##
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
+## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
 
 doclean=""
+stdout_target="/dev/stdout"
 lprefix=""
 libPath="src/.libs"
 libftpath="`pwd`/../freetype_install/"
@@ -56,6 +58,9 @@ while [[ $# -gt 0 ]]; do
         libPath="${lprefix}/lib"
         libftpath="${lprefix}"
         shift
+        ;;
+        -q|--quiet)
+        stdout_target="/dev/null"
         ;;
     esac
     shift # past argument or value
@@ -120,11 +125,11 @@ else
 fi
 
 if [ "${doclean}" = "yes" ]; then
-    make clean 1>/dev/null
+    make clean 1>$stdout_target
 fi
 
 cd src || return 1
-make 1>/dev/null
+make 1>$stdout_target
 if [ $? -ne 0 ]; then
     cd "${SRCDIR}" || return 1
     return 1;
@@ -135,7 +140,7 @@ mv -f .libs/libftgl.a libftgl_i386.a
 cd "${SRCDIR}" || return 1
 
 # Build for x86_64 architecture
-make clean 1>/dev/null
+make clean 1>$stdout_target
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
@@ -157,7 +162,7 @@ if [ $retval -ne 0 ]; then
 fi
 
 cd src || return 1
-make 1>/dev/null
+make 1>$stdout_target
 if [ $? -ne 0 ]; then
     rm -f libftgl_i386.a
     cd "${SRCDIR}" || return 1
@@ -178,7 +183,7 @@ rm -f .libs/libftgl_x86_64.a
 
 if [ "x${lprefix}" != "x" ]; then
     # this installs the modified library
-    make install 1>/dev/null
+    make install 1>$stdout_target
     if [ $? -ne 0 ]; then
         cd "${SRCDIR}" || return 1
         return 1;
