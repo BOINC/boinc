@@ -566,22 +566,14 @@ bool do_pass() {
             }
             if (config.enable_assignment) {
                 DB_ASSIGNMENT asg;
-                sprintf(buf, "where workunitid=%lu", wu.id);
-                retval = asg.lookup(buf);
-                if (!retval) {
-                    asg.delete_from_db();
-                }
+                sprintf(buf2, "workunitid=%lu", wu.id);
+                asg.delete_from_db_multi(buf2);
             }
+
         }
         log_messages.printf(MSG_DEBUG,
             "Purged workunit [%lu] from database\n", wu.id
         );
-
-        if (config.enable_assignment) {
-            DB_ASSIGNMENT asg;
-            sprintf(buf2, "workunitid=%lu", wu.id);
-            asg.delete_from_db_multi(buf2);
-        }
 
         purged_workunits++;
         do_pass_purged_workunits++;
