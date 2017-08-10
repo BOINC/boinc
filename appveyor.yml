@@ -1,3 +1,4 @@
+# NOTE: settings in this file have precedence over settings on the website
 image: Visual Studio 2013
 
 matrix:
@@ -6,6 +7,15 @@ matrix:
 platform:
 #  - Win32
   - x64
+
+pull_requests:
+  do_not_increment_build_number: true
+
+branches:
+  only:
+  - master
+
+skip_tags: true
 
 configuration:
   - Debug
@@ -30,5 +40,6 @@ build_script:
 
 build:
   parallel: true
+  verbosity: minimal
 
 test: off
