@@ -115,20 +115,20 @@ download_and_build() {
         tar -xf ${FILENAME}
     fi
     cd ${DIRNAME} || exit 1
-    source ${BUILDSCRIPT} --prefix ${PREFIX} ${extra_options}
+    source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options}
     if [ $? -ne 0 ]; then exit 1; fi
     cd ../.. || exit 1
     touch ${FLAGFILE}
 }
 
 mkdir -p 3rdParty/mac
-mkdir -p ${PREFIX}
+mkdir -p "${PREFIX}"
 cd "${ROOTDIR}/3rdParty/mac" || exit 1
 
 if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
-    rm -rf ${PREFIX}
-    mkdir -p ${PREFIX}
+    rm -rf "${PREFIX}"
+    mkdir -p "${PREFIX}"
 fi
 
 # this will pull in the variables used below
