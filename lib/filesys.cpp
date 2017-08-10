@@ -547,9 +547,7 @@ int boinc_file_exists(const char* path) {
 #ifdef _WIN32
     // don't use _stat64 because it doesn't work with VS2015, XP client
     DWORD dwAttrib = GetFileAttributesA(path);
-    return (dwAttrib != INVALID_FILE_ATTRIBUTES
-        && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
-    );
+    return dwAttrib != INVALID_FILE_ATTRIBUTES;
 #else
     struct stat buf;
     if (stat(path, &buf)) {
