@@ -42,9 +42,8 @@
  */
 ?>
 <?php
-
 global $user;
-drupal_set_title('');
+drupal_set_title('Profile');
 $account = user_load($account->uid);
 $content_profile = content_profile_load('profile', $account->uid);
 $name = check_plain($account->boincuser_name);
@@ -62,7 +61,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
   if (module_exists('private_messages')) {
   // if (function_exists('privatemsg_get_link')) {
     $user_links[] = array(
-      'title' => bts('Send message'),
+      'title' => bts('Send message', array(), NULL, 'boinc:private-message'),
       'href' => privatemsg_get_link(array($account))
     );
   }
@@ -74,26 +73,26 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     case FLAG_FRIEND_BOTH:
     case FLAG_FRIEND_FLAGGED:
       $user_links[] = array(
-        'title' => bts('Remove friend'),
+        'title' => bts('Remove friend', array(), NULL, 'boinc:friend-remove'),
         'href' => "flag/confirm/unfriend/friend/{$account->uid}"
       );
       break;
     case FLAG_FRIEND_PENDING:
       $user_links[] = array(
-        'title' => bts('Cancel friend request'),
+        'title' => bts('Cancel friend request', array(), NULL, 'boinc:friend-cancel'),
         'href' => "flag/confirm/unflag/friend/{$account->uid}"
       );
       break;
     case FLAG_FRIEND_APPROVAL:
        $user_links[] = array(
-        'title' => bts('Approve friend request'),
+        'title' => bts('Approve friend request', array(), NULL, 'boinc:friend-approve'),
         'href' => "flag/confirm/flag/friend/{$account->uid}"
       );
       break;
     case FLAG_FRIEND_UNFLAGGED:
     default:
       $user_links[] = array(
-        'title' => bts('Add as friend'),
+        'title' => bts('Add as friend', array(), NULL, 'boinc:friend-add'),
         'href' => "flag/confirm/flag/friend/{$account->uid}"
       );
     }
@@ -103,13 +102,13 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       OR user_access('assign all roles')) {
     if (array_search('community member', $account->roles)) {
       $user_links[] = array(
-        'title' => bts('Ban user'),
+        'title' => bts('Ban user', array(), NULL, 'boinc:moderate-ban-user'),
         'href' => "moderate/user/{$account->uid}/ban"
       );
     }
     else {
       $user_links[] = array(
-        'title' => bts('Lift user ban'),
+        'title' => bts('Lift user ban', array(), NULL, 'boinc:moderate-unban-user'),
         'href' => "user_control/{$account->uid}/lift-ban"
       );
     }
@@ -131,16 +130,16 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="value"><?php print $name; ?></span>
     </div>
     <div class="join-date">
-      <span class="label"><?php print bts('Member since'); ?>:</span>
+      <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-info'); ?>:</span>
       <span class="value"><?php print $join_date; ?></span>
     </div>
     <div class="country">
-      <span class="label"><?php print bts('Country'); ?>:</span>
+      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
       <span class="value"><?php print $country; ?></span>
     </div>
     <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
       <div class="website">
-        <span class="label"><?php print bts('Website'); ?>:</span>
+        <span class="label"><?php print bts('Website', array(), NULL, 'boinc:website-of-user-of-team'); ?>:</span>
         <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
       </div>
     <?php endif; ?>
@@ -152,36 +151,42 @@ if ($user->uid AND ($user->uid != $account->uid)) {
           </li>
           <!--
           <?php if (module_exists('private_messages')): ?>
-            <li class="first tab"><?php print l(bts('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
+            <li class="first tab"><?php print l(bts('Send message', array(), NULL, 'boinc:private-message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
           <?php endif; ?>
-          <li class="last tab"><?php print l(bts('Add as friend'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>
+          <li class="last tab"><?php print l(bts('Add as friend', array(), NULL, 'boinc:friend-add'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>
           -->
         <?php endforeach; ?>
       </ul>
     <?php endif; ?>
     <div class="clearfix"></div>
   </div>
-  <?php if ($background OR $opinions): ?>
-    <div class="bio">
-      <?php if (!$profile_is_approved): ?>
-        <div class="messages warning">
-          <?php print bts('Profile awaiting moderator approval'); ?>
-        </div>
-      <?php endif; ?>
-      <?php if ($profile_is_approved OR $user_is_moderator OR $is_own_profile): ?>
-        <?php if ($background): ?>
-          <div class="background">
-            <span class="label"><?php print bts('Background'); ?></span>
-            <span class="value"><?php print $background; ?></span>
+  <?php if ($content_profile): ?>
+    <?php if ($background OR $opinions): ?>
+      <div class="bio">
+        <?php if (!$profile_is_approved): ?>
+          <div class="messages warning">
+            <?php print bts('Profile awaiting moderator approval', array(), NULL, 'boinc:user-profile:-1:message-shown-when-awating-moderation'); ?>
           </div>
         <?php endif; ?>
-        <?php if ($opinions): ?>
-          <div class="opinions">
-            <span class="label"><?php print bts('Opinion'); ?></span>
-            <span class="value"><?php print $opinions; ?></span>
-          </div>
+        <?php if ($profile_is_approved OR $user_is_moderator OR $is_own_profile): ?>
+          <?php if ($background): ?>
+            <div class="background">
+              <span class="label"><?php print bts('Background', array(), NULL, 'boinc:user-profile'); ?></span>
+              <span class="value"><?php print $background; ?></span>
+            </div>
+          <?php endif; ?>
+          <?php if ($opinions): ?>
+            <div class="opinions">
+              <span class="label"><?php print bts('Opinion', array(), NULL, 'boinc:user-profile'); ?></span>
+              <span class="value"><?php print $opinions; ?></span>
+            </div>
+          <?php endif; ?>
         <?php endif; ?>
-      <?php endif; ?>
+      </div>
+    <?php endif; ?>
+  <?php else: ?>
+    <div class="messages warning">
+      <?php print bts('Profile does not exist.', array(), NULL, 'boinc:user-profile:-1:message-shown-when-there-is-no-profile'); ?>
     </div>
   <?php endif; ?>
 </div>

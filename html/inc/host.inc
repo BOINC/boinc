@@ -125,9 +125,9 @@ function show_host($host, $user, $ipprivate) {
     if ($v) {
         row2(tra("BOINC version"), $v);
     }
-    $x = $host->m_nbytes/MEGA;
+    $x = $host->m_nbytes/GIGA;
     $y = round($x, 2);
-    row2(tra("Memory"), tra("%1 MB", $y));
+    row2(tra("Memory"), tra("%1 GB", $y));
     if ($host->m_cache > 0) {
         $x = $host->m_cache/KILO;
         $y = round($x, 2);
@@ -135,9 +135,9 @@ function show_host($host, $user, $ipprivate) {
     }
 
     if ($user) {
-        $x = $host->m_swap/MEGA;
+        $x = $host->m_swap/GIGA;
         $y = round($x, 2);
-        row2(tra("Swap space"), tra("%1 MB", $y));
+        row2(tra("Swap space"), tra("%1 GB", $y));
         $x = $host->d_total/GIGA;
         $y = round($x, 2);
         row2(tra("Total disk space"), tra("%1 GB", $y));
@@ -145,12 +145,12 @@ function show_host($host, $user, $ipprivate) {
         $y = round($x, 2);
         row2(tra("Free Disk Space"), tra("%1 GB", $y));
     }
-    $x = $host->p_fpops/(1000*1000);
+    $x = $host->p_fpops/1e9;
     $y = round($x, 2);
-    row2(tra("Measured floating point speed"), tra("%1 million ops/sec", $y));
-    $x = $host->p_iops/(1000*1000);
+    row2(tra("Measured floating point speed"), tra("%1 billion ops/sec", $y));
+    $x = $host->p_iops/1e9;
     $y = round($x, 2);
-    row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
+    row2(tra("Measured integer speed"), tra("%1 billion ops/sec", $y));
     $x = $host->n_bwup/KILO;
     $y = round($x, 2);
     if ($y > 0) {
@@ -235,7 +235,7 @@ function top_host_table_start($sort_by) {
     $x[] = tra("Operating system");
     $s = 'style="text-align:right;"';
     $a = array("", "", "", $s, $s, "", "", "", "");
-    row_heading_array($x, $a);
+    row_heading_array($x, $a, "bg-default");
 }
 
 function host_nresults($host) {
@@ -245,7 +245,7 @@ function host_nresults($host) {
 // Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],
 // return a human-readable version of the GPU info
 //
-function gpu_desc($x) {
+function gpu_desc($x, $detail=true) {
     $descs = explode("]", $x);
     array_pop($descs);
     $str = "";
@@ -267,35 +267,35 @@ function gpu_desc($x) {
             $str .= $d[0];
         }
         $str .= " ".$d[1];
-        $str .= " (".$d[3].")";
-        if (array_key_exists(4, $d)) {
-            if ($d[4] != "" && $d[4] != 0) {
-                // if version has no '.', assume it's in 100*maj+min form
-                //
-                if (strchr($d[4], '.')) {
-                    $str .= " driver: ".$d[4];
-                } else {
-                    $i = (int)$d[4];
-                    $maj = (int)($i/100);
-                    $min = $i%100;
-                    $str .= sprintf(" driver: %d.%02d", $maj, $min);
+        if ($detail) {
+            $str .= " (".$d[3].")";
+            if (array_key_exists(4, $d)) {
+                if ($d[4] != "" && $d[4] != 0) {
+                    // if version has no '.', assume it's in 100*maj+min form
+                    //
+                    if (strchr($d[4], '.')) {
+                        $str .= " driver: ".$d[4];
+                    } else {
+                        $i = (int)$d[4];
+                        $maj = (int)($i/100);
+                        $min = $i%100;
+                        $str .= sprintf(" driver: %d.%02d", $maj, $min);
+                    }
+                }
+            }
+            if (array_key_exists(5, $d)) {
+                if ($d[5] != "" && $d[5] != 0) {
+                    if (strchr($d[5], '.')) {
+                        $str .= " OpenCL: ".$d[5];
+                    } else {
+                        $i = (int)$d[5];
+                        $maj = (int)($i/100);
+                        $min = $i%100;
+                        $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
+                    }
                 }
             }
         }
-        if (array_key_exists(5, $d)) {
-            if ($d[5] != "" && $d[5] != 0) {
-                if (strchr($d[5], '.')) {
-                    $str .= " OpenCL: ".$d[5];
-                } else {
-                    $i = (int)$d[5];
-                    $maj = (int)($i/100);
-                    $min = $i%100;
-                    $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
-                }
-            }
-        }
-
-
     }
     if (!$str) $str = "---";
     return $str;
@@ -706,7 +706,7 @@ function user_host_table_start(
     $url = link_url_rev($sort, "rpc_time", $rev, $show_all);
     $x[] = "<a href=$url>".tra("Last contact")."</a>";
     $a[] = null;
-    row_heading_array($x, $a);
+    row_heading_array($x, $a, "bg-default");
 }
 
 function show_user_hosts($userid, $private, $show_all, $sort, $rev) {

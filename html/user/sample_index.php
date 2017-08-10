@@ -35,7 +35,6 @@ require_once("../project/project.inc");
 require_once("../inc/bootstrap.inc");
 
 $config = get_config();
-$no_computing = parse_config($config, "<no_computing>");
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
     
 $stopped = web_stopped();
@@ -59,12 +58,12 @@ function top() {
 }
 
 function left(){
-    global $user, $no_computing, $no_web_account_creation, $master_url;
+    global $user, $no_web_account_creation, $master_url;
     panel(
         tra("What is %1?", PROJECT),
         function() use($user) {
-            global $no_computing, $no_web_account_creation, $master_url;
-            if ($no_computing) {
+            global $no_web_account_creation, $master_url;
+            if (NO_COMPUTING) {
                 echo "
                     XXX is a research project that uses volunteers
                     to do research in XXX.
@@ -88,7 +87,7 @@ function left(){
             ";
             echo "</ul>";
             if (!$user) {
-                if ($no_computing) {
+                if (NO_COMPUTING) {
                     echo "
                         <a href=\"create_account_form.php\">Create an account</a>
                     ";

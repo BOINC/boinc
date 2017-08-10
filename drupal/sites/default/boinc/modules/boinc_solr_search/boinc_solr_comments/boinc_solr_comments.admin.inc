@@ -39,7 +39,7 @@ function boinc_solr_comments_form(&$form_state) {
   // Define the form
   $form['config']['nodes'] = array(
     '#type'  => 'markup',
-    '#value' => bts('Select the content types where the comments are indexed by Apace Solr. Your content must be re-indexed after changing this configuration.'),
+    '#value' => bts('Select the content types where the comments are indexed by Apace Solr. Your content must be re-indexed after changing this configuration.', array(), NULL, 'boinc:admin-solr-search-comments-option'),
   );
       
   $form['config']['boinc_solr_comments_nodetypes'] = array(

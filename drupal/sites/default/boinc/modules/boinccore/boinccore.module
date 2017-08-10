@@ -327,7 +327,7 @@ function boinccore_cron() {
   if ($items_in_queue AND $last_notification < time() - 24*60*60) {
     global $base_url;
     global $base_path;
-    $site_name = variable_get('site_name', bts('project'));
+    $site_name = variable_get('site_name', 'Drupal-BOINC');
     $site_url = $base_url . $base_path;
     $settings = array(
       'from' => '',
@@ -406,7 +406,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     module_load_include('inc', 'bbcode', 'bbcode-help');
     $form['bbcode_help'] = array(
-      '#title' => bts('BBcode help'),
+      '#title' => bts('BBcode help', array(), NULL, 'boinc:help-with-user-input-with-BBCode'),
       '#type' => 'fieldset',
       '#attributes' => array(
         'class' => 'bbcode_help',
@@ -434,7 +434,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['submit'] = $form['submit'];
     unset($form['submit']);
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = bts('Post comment');
+    $form['buttons']['submit']['#value'] = bts('Post comment', array(), NULL, 'boinc:post-forum-comment');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     // We want all these buttons together under the "buttons" array, but the
@@ -448,7 +448,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview']['#suffix'] = '</li>';
     $form['buttons']['preview']['#weight'] = 1003;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), $cancel_url) . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $cancel_url) . '</li>',
       '#weight' => 1004,
     );
     $form['buttons']['form control tabs suffix'] = array(
@@ -476,7 +476,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = bts('Post topic');
+    $form['buttons']['submit']['#value'] = bts('Post topic', array(), NULL, 'boinc:post-forum-comment');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     $form['buttons']['preview']['#prefix'] = '<li class="tab">';
@@ -486,7 +486,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview_changes']['#suffix'] = '</li>';
     $form['buttons']['preview_changes']['#weight'] = 1004;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), "community/forum/{$forum_id}") . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "community/forum/{$forum_id}") . '</li>',
       '#weight' => 1005,
     );
     $form['buttons']['form control tabs suffix'] = array(
@@ -514,15 +514,15 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
   if (!($comment)) {
     // modify the comment_add link
     if (isset($links['comment_add'])) {
-      $links['comment_add']['title'] = bts('reply');
+      $links['comment_add']['title'] = bts('reply', array(), NULL, 'boinc:forum-reply-to-comment');
       $links['comment_add']['attributes'] = array(
-          'title' => bts('Reply to this comment')
+          'title' => bts('Reply to this comment', array(), NULL, 'boinc:forum-reply-to-comment')
       );
     }
     // modify quote link
     if (isset($links['quote'])) {
       $links['quote']['attributes'] = array(
-          'title' => bts('Reply to this topic with a quote')
+          'title' => bts('Reply to this topic with a quote', array(), NULL, 'boinc:forum-reply-to-comment')
       );
     }
   }
@@ -530,17 +530,17 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
     // Standard EDIT, DELETE, and REPLY links are created by Drupal, but we want to alter them
     if (isset($links['comment_delete'])) {
       $links['comment_delete']['attributes'] = array(
-          'title' => bts('Delete this comment')
+          'title' => bts('Delete this comment', array(), NULL, 'boinc:forum-delete-comment')
       );
     }
     if (isset($links['comment_edit'])) {
       $links['comment_edit']['attributes'] = array(
-          'title' => bts('Edit this comment')
+          'title' => bts('Edit this comment', array(), NULL, 'boinc:forum-edit-comment')
       );
     }
     if (isset($links['comment_reply'])) {
       $links['comment_reply']['attributes'] = array(
-          'title' => bts('Reply to this comment')
+          'title' => bts('Reply to this comment', array(), NULL, 'boinc:forum-reply-to-comment')
       );
     }
   }// if !$comment
@@ -552,7 +552,7 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
 function boinccore_locale($op = 'groups', $group = NULL) {
   switch ($op) {
     case 'groups':
-      return array('boinc' => bts('BOINC'));
+        return array('boinc' => 'BOINC');
     case 'info':
       //$info['boinc']['refresh callback'] = 'boinccore_locale_refresh';
       $info['boinc']['format'] = FALSE;
@@ -574,55 +574,55 @@ function boinccore_link($type, $object, $teaser = FALSE) {
         $node_control = "node_control/{$object->nid}";
         if ($object->sticky) {
           $links['make_unsticky'] = array(
-              'title' => bts('Make unsticky'),
+              'title' => bts('Make unsticky', array(), NULL, 'boinc:forum-unsticky-comment'),
               'href' => "{$node_control}/unsticky",
               'attributes' => array(
-                  'title' => bts('Remove sticky status from this topic')
+                  'title' => bts('Remove sticky status from this topic', array(), NULL, 'boinc:forum-unsticky-comment')
               )
           );
         }
         else {
           $links['make_sticky'] = array(
-              'title' => bts('Make sticky'),
+              'title' => bts('Make sticky', array(), NULL, 'boinc:forum-sticky-comment'),
               'href' => "{$node_control}/sticky",
               'attributes' => array(
-                  'title' => bts('Make this topic sticky')
+                  'title' => bts('Make this topic sticky', array(), NULL, 'boinc:forum-sticky-comment')
               )
           );
         }
         if ($object->comment == COMMENT_NODE_READ_WRITE) {
           $links['lock'] = array(
-              'title' => bts('Lock'),
+              'title' => bts('Lock', array(), NULL, 'boinc:forum-lock-comment'),
               'href' => "{$node_control}/lock",
               'attributes' => array(
-                  'title' => bts('Lock this thread for comments')
+                  'title' => bts('Lock this thread for comments', array(), NULL, 'boinc:forum-lock-comment')
               )
           );
         }
         else {
           $links['unlock'] = array(
-              'title' => bts('Unlock'),
+              'title' => bts('Unlock', array(), NULL, 'boinc:forum-unlock-comment'),
               'href' => "{$node_control}/unlock",
               'attributes' => array(
-                  'title' => bts('Unlock this thread for comments')
+                  'title' => bts('Unlock this thread for comments', array(), NULL, 'boinc:forum-unlock-comment')
               )
           );
         }
         if ($object->status) {
           $links['hide'] = array(
-              'title' => bts('Hide'),
+              'title' => bts('Hide', array(), NULL, 'boinc:forum-hide-comment'),
               'href' => "{$node_control}/hide",
               'attributes' => array(
-                  'title' => bts('Hide this topic')
+                  'title' => bts('Hide this topic', array(), NULL, 'boinc:forum-hide-comment')
               )
           );
         }
         else {
           $links['unhide'] = array(
-              'title' => bts('Unhide'),
+              'title' => bts('Unhide', array(), NULL, 'boinc:forum-unhide-comment'),
               'href' => "{$node_control}/unhide",
               'attributes' => array(
-                  'title' => bts('Unhide this topic')
+                  'title' => bts('Unhide this topic', array(), NULL, 'boinc:forum-unhide-comment')
               )
           );
         }
@@ -637,10 +637,10 @@ function boinccore_link($type, $object, $teaser = FALSE) {
     // QUOTE
     if ($node->comment == COMMENT_NODE_READ_WRITE) {
         $links['quote'] = array(
-            'title' => bts('Quote'),
+            'title' => bts('Quote', array(), NULL, 'boinc:forum-reply-to-comment-with-quote'),
             'href' => "comment/reply/{$nid}/{$cid}",
             'attributes' => array(
-                'title' => bts('Reply to this comment with a quote')
+                'title' => bts('Reply to this comment with a quote', array(), NULL, 'boinc:forum-reply-to-comment')
             ),
             'fragment' => 'comment-form',
             'query' => 'quote=1',
@@ -654,29 +654,29 @@ function boinccore_link($type, $object, $teaser = FALSE) {
       $reply_count = db_result(db_query(' SELECT COUNT(*) FROM comments WHERE pid = %d', $cid ));
       if ($reply_count == 0) {
         $links['convert'] = array(
-            'title' => bts('Convert'),
+            'title' => bts('Convert', array(), NULL, 'boinc:forum-convert-comment-to-topic'),
             'href' => "{$comment_control}/convert",
             'attributes' => array(
-                'title' => bts('Convert this comment to a new topic')
+                'title' => bts('Convert this comment to a new topic', array(), NULL, 'boinc:forum-convert-comment-to-topic')
             )
         );
       }
       // Add hide link
       if ($object->status == 0) {
         $links['hide'] = array(
-            'title' => bts('Hide'),
+            'title' => bts('Hide', array(), NULL, 'boinc:forum-hide-comment'),
             'href' => "{$comment_control}/hide",
             'attributes' => array(
-                'title' => bts('Hide this comment')
+                'title' => bts('Hide this comment', array(), NULL, 'boinc:forum-hide-comment')
             )
         );
       }
       else {
         $links['unhide'] = array(
-            'title' => bts('Unhide'),
+            'title' => bts('Unhide', array(), NULL, 'boinc:forum-unhide-comment'),
             'href' => "{$comment_control}/unhide",
             'attributes' => array(
-                'title' => bts('Unhide this comment')
+                'title' => bts('Unhide this comment', array(), NULL, 'boinc:forum-unhide-comment')
             )
         );
       }
@@ -1913,7 +1913,7 @@ function bts($string, $args = array(), $langcode = NULL, $context = 'boinc: ', $
  * Overview of moderation queues
  */               
 function boinccore_moderation_overview_panel() {
-  $output = '<h2 class="pane-title">' . bts('Moderation') . '</h2>';
+  $output = '<h2 class="pane-title">' . bts('Moderation', array(), NULL, 'boinc:moderate-profiles') . '</h2>';
   $output .= '<ul class="tab-list action-list">';
   if (module_exists('user_profiles')) {
     $profile_count = db_result(db_query("
@@ -1922,7 +1922,7 @@ function boinccore_moderation_overview_panel() {
       WHERE n.type = 'profile' AND n.moderate = 1"
     ));
     $output .= '<li class="tab primary">';
-    $output .= l(bts('Unvetted profiles'), 'moderate/profiles');
+    $output .= l(bts('Unvetted profiles', array(), NULL, 'boinc:moderate-profiles'), 'moderate/profiles');
     $output .= '<div class="item-count-wrapper">';
     $output .= '<span class="item-count">' . $profile_count . '</span>';
     $output .= '</div>';

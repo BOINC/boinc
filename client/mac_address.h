@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MAC_ADDRESS_H
-#define MAC_ADDRESS_H
+#ifndef BOINC_MAC_ADDRESS_H
+#define BOINC_MAC_ADDRESS_H
 
 // Get the MAC address of a network interface.
 // If there's more than one, prefer eth0
@@ -25,4 +25,4 @@
 //
 int get_mac_address(char* address);
 
-#endif // MAC_ADDRESS_H
+#endif

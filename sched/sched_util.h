@@ -17,8 +17,8 @@
 
 // server utility functions that refer to the DB
 
-#ifndef SCHED_UTIL_H
-#define SCHED_UTIL_H
+#ifndef BOINC_SCHED_UTIL_H
+#define BOINC_SCHED_UTIL_H
 
 #include "boinc_db_types.h"
 #include "util.h"
@@ -41,7 +41,9 @@ struct PERF_INFO {
 // make a "pseudo ID" that combines the app ID and the resource type
 // else just used the app_version ID
 //
-inline DB_ID_TYPE generalized_app_version_id(DB_ID_TYPE avid, DB_ID_TYPE appid) {
+inline DB_ID_TYPE generalized_app_version_id(
+    DB_ID_TYPE avid, DB_ID_TYPE appid
+) {
     if (avid < 0) {
         return appid*1000000 - avid;
     }

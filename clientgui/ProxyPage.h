@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_PROXYPAGE_H_
-#define _WIZ_PROXYPAGE_H_
+
+#ifndef BOINC_PROXYPAGE_H
+#define BOINC_PROXYPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ProxyPage.cpp"
@@ -132,4 +133,4 @@ public:
 ////@end CErrProxyPage member variables
 };
 
-#endif // _WIZ_PROXYPAGE_H_
+#endif

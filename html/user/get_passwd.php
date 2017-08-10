@@ -83,7 +83,7 @@ function show_auth_form() {
 
 page_head(tra("Forgot your account info?"));
 show_email_form();
-if (!no_computing()) {
+if (!NO_COMPUTING) {
     show_auth_form();
 }
 page_tail();

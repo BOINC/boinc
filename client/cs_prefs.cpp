@@ -47,28 +47,28 @@
 #include "project.h"
 
 using std::min;
+using std::max;
 using std::string;
 
 #define MAX_PROJ_PREFS_LEN  65536
     // max length of project-specific prefs
 
-// Return the maximum allowed disk usage as determined by user preferences.
+// Return the maximum allowed disk usage by projects as determined by user preferences.
 // There are three different settings in the prefs;
 // return the least of the three.
 //
 double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
-    double limit_pct, limit_min_free, limit_abs;
-
-    limit_pct = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
-    limit_min_free = boinc_total + host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
-
-    double size = min(limit_pct, limit_min_free);
-    if (global_prefs.disk_max_used_gb) {
-        limit_abs = global_prefs.disk_max_used_gb*(GIGA);
-        size = min(size, limit_abs);
+    double limit = boinc_total + host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
+    if (global_prefs.disk_max_used_pct) {
+        double limit_pct = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
+        limit = min(limit, limit_pct);
     }
-    if (size < 0) size = 0;
-    return size;
+
+    if (global_prefs.disk_max_used_gb) {
+        double limit_abs = global_prefs.disk_max_used_gb*(GIGA);
+        limit = min(limit, limit_abs);
+    }
+    return max(limit, 0.);
 }
 
 #ifndef SIM
@@ -656,17 +656,17 @@ void CLIENT_STATE::read_global_prefs(
 
     msg_printf(NULL, MSG_INFO, "Preferences:");
     msg_printf(NULL, MSG_INFO,
-        "   max memory usage when active: %.2fMB",
+        "   max memory usage when active: %.2f MB",
         (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
-        "   max memory usage when idle: %.2fMB",
+        "   max memory usage when idle: %.2f MB",
         (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
 #ifndef SIM
     get_disk_usages();
     msg_printf(NULL, MSG_INFO,
-        "   max disk usage: %.2fGB",
+        "   max disk usage: %.2f GB",
         allowed_disk_usage(total_disk_usage)/GIGA
     );
 #endif

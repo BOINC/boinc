@@ -1,0 +1,10 @@
+name = Flag actions
+description = Execute actions on Flag events.
+core = 6.x
+dependencies[] = flag
+package = Flags
+; Information added by Drupal.org packaging script on 2015-07-12
+version = "6.x-2.2-boinc-1-dev"
+core = "6.x"
+project = "flag"
+datestamp = "1494857819"

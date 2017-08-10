@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef STR_UTIL_H
-#define STR_UTIL_H
+#ifndef BOINC_STR_UTIL_H
+#define BOINC_STR_UTIL_H
 
 #include <string>
 #include <vector>
@@ -41,6 +41,10 @@ extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern void secs_to_hmsf(double, char*);
 extern std::string timediff_format(double);
+
+inline bool empty(char* p) {
+    return p[0] == 0;
+}
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return

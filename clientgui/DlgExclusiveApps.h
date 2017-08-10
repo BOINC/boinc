@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _DLGEXCLUSIVEAPPS_H_
-#define _DLGEXCLUSIVEAPPS_H_
+#ifndef BOINC_DLGEXCLUSIVEAPPS_H
+#define BOINC_DLGEXCLUSIVEAPPS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgExclusiveApps.cpp"
@@ -69,5 +69,4 @@ private:
 
 };
 
-#endif // _DLGEXCLUSIVEAPPS_H_
-
+#endif

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef H_VALIDATE_UTIL
-#define H_VALIDATE_UTIL
+#ifndef BOINC_VALIDATE_UTIL_H
+#define BOINC_VALIDATE_UTIL_H
 
 #include <vector>
 #include <string>
@@ -38,9 +38,13 @@ struct OUTPUT_FILE_INFO {
 };
 
 extern int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO&);
-extern int get_output_file_infos(RESULT const& result, std::vector<OUTPUT_FILE_INFO>&);
+extern int get_output_file_infos(
+    RESULT const& result, std::vector<OUTPUT_FILE_INFO>&
+);
 extern int get_output_file_path(RESULT const& result, std::string&);
-extern int get_output_file_paths(RESULT const& result, std::vector<std::string>&);
+extern int get_output_file_paths(
+    RESULT const& result, std::vector<std::string>&
+);
 extern int get_logical_name(
     RESULT& result, std::string& path, std::string& name
 );
@@ -57,4 +61,3 @@ extern int validate_handler_init(int argc, char** argv);
 extern void validate_handler_usage();
 
 #endif
-

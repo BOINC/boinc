@@ -107,7 +107,7 @@ function display_team_page($team, $user) {
         row2(tra('Web site'), "<a href=$x>$x</a>");
     }
 
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
         if (function_exists('project_team_credit')) {
@@ -223,7 +223,7 @@ function display_team_members($team, $offset, $sort_by) {
     start_table();
     $x = array();
     $x[] = tra('Name');
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         if ($nosort) {
             $x[] = tra('Total credit');
             $x[] = tra('Recent average credit');
@@ -269,7 +269,7 @@ function display_team_members($team, $offset, $sort_by) {
         echo "<tr class=row1>
             <td align=left>$j) $x
         </td>";
-        if (!no_computing()) {
+        if (!NO_COMPUTING) {
             echo "
                 <td align=right>$user_total_credit</td>
                 <td align=right>$user_expavg_credit</td>
@@ -426,18 +426,18 @@ function user_quit_team($user) {
 }
 
 function team_edit_form($team, $label, $url) {
-    global $team_types;
+    global $team_types, $recaptcha_public_key;
     echo "<form method=post action=$url>\n";
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
         if ($team->seti_id) {
-            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
+            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1 BOINC-wide team %2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
             ."</p>";
         }
     }
     echo '
         <p>
-        '.tra('%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
+        '.tra('%1 Privacy note %2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
         <p>
     ';
     start_table();
@@ -447,7 +447,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('Team name, HTML version').'
         <br><p class=\"text-muted\">
-        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('You may use %1 limited HTML tags %2.', '<a href="html.php" target="_new">', '</a>').'
         '.tra('If you don\'t know HTML, leave this box blank.').'</p>',
         '<input class="form-control" name="name_html" type="text" size="50" value="'.str_replace('"',"'",($team?$team->name_html:"")).'">'
     );
@@ -457,7 +457,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('Description of team').':
         <br><p class=\"text-muted\">
-        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('You may use %1 limited HTML tags %2.', '<a href="html.php" target="_new">', '</a>').'
         </p>',
         '<textarea class="form-control" name="description" rows=10>'.($team?$team->description:"").'</textarea>'
     );
@@ -472,6 +472,14 @@ function team_edit_form($team, $label, $url) {
     echo "</select></td></tr>\n";
     $x = (!$team || $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
+    // Check if we're using reCaptcha to prevent spam accounts
+    //
+    if (!$team && $recaptcha_public_key) {
+        row2(
+            "",
+            boinc_recaptcha_get_html($recaptcha_public_key)
+        );
+    }
     row2("",
         "<input class=\"btn btn-primary\" type=submit name=new value='$label'>"
     );

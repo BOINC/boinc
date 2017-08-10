@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _ACCT_MGR_
-#define _ACCT_MGR_
+#ifndef BOINC_ACCT_MGR_H
+#define BOINC_ACCT_MGR_H
 
 #include <string>
 #include <vector>
@@ -24,6 +24,7 @@
 #include "str_replace.h"
 #include "miofile.h"
 #include "parse.h"
+#include "keyword.h"
 #include "gui_http.h"
 #include "client_types.h"
 
@@ -33,11 +34,12 @@ struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
     // were mysterious bugs where setting it to "" didn't work
     //
-    char login_name[256];
+    char login_name[256];   // unique name (could be email addr)
+    char user_name[256];    // non-unique name
     char password_hash[256];
         // md5 of password.lowercase(login_name)
     char opaque[256];
-        // whatever the AMS sends us
+        // opaque data, from the AM, to be included in future AM requests
     char signing_key[MAX_KEY_LEN];
     char previous_host_cpid[64];
         // the host CPID sent in last RPC
@@ -58,11 +60,19 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // what login name and password they have been assigned
     bool password_error;
     bool send_rec;
+        // send REC in AM RPCs
+    USER_KEYWORDS user_keywords;
 
     inline bool using_am() {
         if (!strlen(master_url)) return false;
         if (!strlen(login_name)) return false;
         if (!strlen(password_hash)) return false;
+        return true;
+    }
+    inline bool same_am(const char* mu, const char* ln, const char* ph) {
+        if (strcmp(mu, master_url)) return false;
+        if (strcmp(ln, login_name)) return false;
+        if (strcmp(ph, password_hash)) return false;
         return true;
     }
     inline bool get_no_project_notices() {
@@ -99,8 +109,7 @@ struct OPTIONAL_DOUBLE {
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
-    std::string sci_keywords;
-    std::string loc_keywords;
+
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
@@ -132,7 +141,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     int error_num;
     ACCT_MGR_INFO ami;
         // a temporary copy while doing RPC.
-        // CLIENT_STATE::acct_mgr_info is authoratative
+        // CLIENT_STATE::acct_mgr_info is authoritative
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;

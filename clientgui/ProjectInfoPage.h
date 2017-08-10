@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_PROJECTINFOPAGE_H_
-#define _WIZ_PROJECTINFOPAGE_H_
+#ifndef BOINC_PROJECTINFOPAGE_H
+#define BOINC_PROJECTINFOPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ProjectInfoPage.cpp"
@@ -125,4 +125,4 @@ private:
     bool m_bProjectListPopulated;
 };
 
-#endif // _WIZ_PROJECTINFOPAGE_H_
+#endif

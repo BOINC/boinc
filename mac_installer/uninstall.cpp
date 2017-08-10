@@ -77,7 +77,6 @@ static char gAppName[256];
 static char gBrandName[256];
 static char gCatalogsDir[MAXPATHLEN];
 static char * gCatalog_Name = (char *)"BOINC-Setup";
-static char * gTempFileName = "/tmp/BOINC_preferred_languages";
 
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
@@ -92,6 +91,7 @@ int main(int argc, char *argv[])
     char                        pathToSelf[MAXPATHLEN], pathToVBoxUninstallTool[MAXPATHLEN], *p;
     char                        cmd[MAXPATHLEN+64];
     Boolean                     cancelled = false;
+    pid_t                       activeAppPID = 0;
     struct stat                 sbuf;
     OSStatus                    err = noErr;
 
@@ -127,7 +127,17 @@ int main(int argc, char *argv[])
     strlcpy(gBrandName, p, sizeof(gBrandName));
         
     // Determine whether this is the intial launch or the relaunch with privileges
-    if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
+    if ( (argc == 3) && (strcmp(argv[1], "--privileged") == 0) ) {
+        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
+        activeAppPID = (pid_t)atol(argv[2]);
+        if (activeAppPID > 0) {
+            BringAppWithPidToFront(activeAppPID);   // Usually Finder
+        }
+        // Give the run loop a chance to handle the BringAppWithPidToFront call
+//        CFRunLoopRunInMode(kCFRunLoopCommonModes, (CFTimeInterval)0.5, false);
+        // Apparently, usleep() lets run loop run
+        usleep(100000);
+
         LoadPreferredLanguages();
         
         if (geteuid() != 0) {        // Confirm that we are running as root
@@ -155,9 +165,13 @@ int main(int argc, char *argv[])
             "This will remove the executables but will not touch %s data files."), p, p);
 
     if (! cancelled) {
-        // The "activate" comand brings the password dialog to the front and makes it the active window.
+        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
+        activeAppPID = getActiveAppPid();
+//        ShowMessage(false, true, false, "active app = %d", activeAppPID);  // for debugging
+
+        // The "activate" command brings the password dialog to the front and makes it the active window.
         // "with administrator privileges" launches the helper application as user root.
-        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged\" with administrator privileges'", pathToSelf);
+        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged %d\" with administrator privileges'", pathToSelf, activeAppPID);
         err = callPosixSpawn(cmd, true);
     }
     
@@ -1316,6 +1330,8 @@ static void GetPreferredLanguages() {
     char * language;
     char *uscore;
     FILE *f;
+    char loginName[256];
+    char tempFileName[MAXPATHLEN];
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
@@ -1361,7 +1377,13 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    f = fopen(gTempFileName, "w");
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s", loginName);
+    mkdir(tempFileName, 0777);
+    chmod(tempFileName, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
+    f = fopen(tempFileName, "w");
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
@@ -1427,11 +1449,15 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    char loginName[256];
+    char tempFileName[MAXPATHLEN];
 
     BOINCTranslationInit();
 
     // First pass wrote a list of our preferred languages to a temp file
-    f = fopen(gTempFileName, "r");
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
+    f = fopen(tempFileName, "r");
     if (!f) return;
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {

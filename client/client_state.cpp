@@ -223,7 +223,7 @@ void CLIENT_STATE::show_host_info() {
     FILE *f = popen("sw_vers -productVersion", "r");
     fgets(buf, sizeof(buf), f);
     strip_whitespace(buf);
-    fclose(f);
+    pclose(f);
     msg_printf(NULL, MSG_INFO,
         "OS: Mac OS X %s (%s %s)", buf,
         host_info.os_name, host_info.os_version
@@ -482,6 +482,26 @@ int CLIENT_STATE::init() {
         strip_whitespace(client_brand);
         msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
         fclose(f);
+    }
+
+    // parse keyword file if present
+    //
+    f = fopen(KEYWORD_FILENAME, "r");
+    if (f) {
+        MIOFILE mf;
+        mf.init_file(f);
+        XML_PARSER xp(&mf);
+        retval = keywords.parse(xp);
+        if (!retval) keywords.present = true;
+        fclose(f);
+#if 0
+        std::map<int, KEYWORD>::iterator it;
+        for (it = keywords.keywords.begin(); it != keywords.keywords.end(); it++) {
+            int id = it->first;
+            KEYWORD& kw = it->second;
+            printf("keyword %d: %s\n", id, kw.name.c_str());
+        }
+#endif
     }
 
     parse_account_files();
@@ -1416,11 +1436,27 @@ bool CLIENT_STATE::garbage_collect() {
     // because detach_project() calls garbage_collect_always(),
     // and we need to avoid infinite recursion
     //
-    for (unsigned i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->detach_when_done && !nresults_for_project(p)) {
-            detach_project(p);
-            action = true;
+    if (acct_mgr_info.using_am()) {
+        // If we're using an AM,
+        // start an AM RPC rather than detaching the projects;
+        // the RPC completion handler will detach them.
+        // This way the AM will be informed of their work done.
+        //
+        for (unsigned i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            if (p->detach_when_done && !nresults_for_project(p)) {
+                acct_mgr_info.next_rpc_time = 0;
+                acct_mgr_info.poll();
+                break;
+            }
+        }
+    } else {
+        for (unsigned i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            if (p->detach_when_done && !nresults_for_project(p)) {
+                detach_project(p);
+                action = true;
+            }
         }
     }
 #endif

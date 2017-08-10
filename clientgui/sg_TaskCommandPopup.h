@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef __sg_TaskCommandPopup__
-#define __sg_TaskCommandPopup__
+#ifndef BOINC_SG_TASKCOMMANDPOPUP_H
+#define BOINC_SG_TASKCOMMANDPOPUP_H
 
 #include "sg_CustomControls.h"
 
@@ -59,4 +59,4 @@ class CSimpleTaskPopupButton : public CTransparentButton
         bool                        m_TaskSuspendedViaGUI;
 };
 
-#endif // __sg_TaskCommandPopup__
+#endif

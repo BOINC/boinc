@@ -750,7 +750,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
             }
         }
         for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f);
+            if (workunits[i]->project == p) workunits[i]->write(f, false);
         }
         for (i=0; i<results.size(); i++) {
             if (results[i]->project == p) results[i]->write(f, false);
@@ -997,7 +997,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
             if (app_versions[i]->project == p) app_versions[i]->write(f);
         }
         for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f);
+            if (workunits[i]->project == p) workunits[i]->write(f, true);
         }
         for (i=0; i<results.size(); i++) {
             if (results[i]->project == p) results[i]->write_gui(f);

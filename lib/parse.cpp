@@ -623,17 +623,20 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
 // same, for std::string
 //
 bool XML_PARSER::parse_string(const char* start_tag, string& str) {
+    bool flag = false;
     if (is_empty_string(parsed_tag, start_tag)) {
         str = "";
         return true;
     }
     if (strcmp(parsed_tag, start_tag)) return false;
     char *buf=(char *)malloc(MAX_XML_STRING);
-    bool flag = parse_str_aux(start_tag, buf, MAX_XML_STRING);
-    if (flag) {
-        str = buf;
+    if (buf) {
+        flag = parse_str_aux(start_tag, buf, MAX_XML_STRING);
+        if (flag) {
+            str = buf;
+        }
+        free(buf);
     }
-    free(buf);
     return flag;
 }
 
@@ -905,7 +908,7 @@ void XML_PARSER::skip_unexpected(
 // copy this entire element, including start and end tags, to the buffer
 //
 int XML_PARSER::copy_element(string& out) {
-    char end_tag[TAG_BUF_LEN], buf[1024];
+    char end_tag[TAG_BUF_LEN], buf[ELEMENT_BUF_LEN];
 
     // handle <foo/> case
     //

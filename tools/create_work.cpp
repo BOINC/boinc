@@ -62,6 +62,7 @@ void usage() {
         "   [ -d n ]\n"
         "   [ --delay_bound x ]\n"
         "   [ --hr_class n ]\n"
+        "   [ --keywords 'n1 n2 ...' ]\n"
         "   [ --max_error_results n ]\n"
         "   [ --max_success_results n ]\n"
         "   [ --max_total_results n ]\n"
@@ -336,6 +337,8 @@ int main(int argc, char** argv) {
             verbose = true;
         } else if (arg(argv, i, "continue_on_error")) {
             continue_on_error = true;
+        } else if (arg(argv, i, "keywords")) {
+            strcpy(jd.wu.keywords, argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);

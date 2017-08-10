@@ -27,6 +27,8 @@ function user_account_project_list_default_panels_mini() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'user_project_list';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -38,7 +40,7 @@ function user_account_project_list_default_panels_mini() {
     $pane->access = array();
     $pane->configuration = array(
       'admin_title' => 'Dashboard project table',
-      'title' => 'Projects',
+      'title' => bts('Projects', array(), NULL, 'boinc:account-dashboard'),
       'body' => '<?php echo boincuser_get_projects_table(); ?>',
       'format' => '3',
       'substitute' => TRUE,

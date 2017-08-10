@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_CONFIG_
-#define _SCHED_CONFIG_
+#ifndef BOINC_SCHED_CONFIG_H
+#define BOINC_SCHED_CONFIG_H
 
 #include <regex.h>
 #include <vector>
@@ -180,6 +180,8 @@ struct SCHED_CONFIG {
         // to calculate projected_flops when choosing version.
     bool credit_by_app;
         // store per-app credit info in credit_user and credit_team
+    bool keyword_sched;
+        // score jobs based on keywords
 
     // time intervals
     double maintenance_delay;
@@ -194,6 +196,7 @@ struct SCHED_CONFIG {
     bool debug_fcgi;
     bool debug_client_files;        // stuff related to sticky files on client
     bool debug_handle_results;
+    bool debug_keyword;
     bool debug_locality;            // locality scheduling
     bool debug_locality_lite;       // locality scheduling Lite
     bool debug_prefs;

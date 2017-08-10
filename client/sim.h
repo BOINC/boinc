@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef _SIM_H_
-#define _SIM_H_
+#ifndef BOINC_SIM_H
+#define BOINC_SIM_H
 
 #include <vector>
 

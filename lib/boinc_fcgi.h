@@ -35,6 +35,7 @@
 #undef feof
 #undef perror
 #endif
+
 #ifndef BOINC_FCGI_H
 #define BOINC_FCGI_H
 

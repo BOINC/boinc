@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _APP_IPC_
-#define _APP_IPC_
+#ifndef BOINC_APP_IPC_H
+#define BOINC_APP_IPC_H
 
 #ifdef __cplusplus
 

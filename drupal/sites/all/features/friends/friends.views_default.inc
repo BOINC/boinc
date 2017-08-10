@@ -95,7 +95,7 @@ function friends_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('empty', 'No Friends have been added.');
+  $handler->override_option('empty', bts('No Friends have been added.', array(), NULL, 'boinc:friends-page'));
   $handler->override_option('empty_format', '5');
   $handler->override_option('use_pager', '1');
   $handler->override_option('distinct', 1);
@@ -294,7 +294,7 @@ function friends_views_default_views() {
   $handler->override_option('path', 'account/%/friends/all');
   $handler->override_option('menu', array(
     'type' => 'default tab',
-    'title' => 'View All Friends',
+    'title' => bts('View All Friends', array(), NULL, 'boinc:friends-page'),
     'description' => '',
     'weight' => '-10',
     'name' => 'navigation',
@@ -523,7 +523,7 @@ function friends_views_default_views() {
   $handler->override_option('path', 'account/%/friends/pending');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'Friend Requests',
+    'title' => bts('Friend Requests', array(), NULL, 'boinc:friends-page'),
     'description' => '',
     'weight' => '0',
     'name' => 'navigation',
@@ -718,7 +718,7 @@ function friends_views_default_views() {
   $handler->override_option('path', 'account/%/friends/flagged');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'Awaiting Friend Approvals',
+    'title' => bts('Awaiting Friend Approvals', array(), NULL, 'boinc:friends-page'),
     'description' => '',
     'weight' => '0',
     'name' => 'navigation',

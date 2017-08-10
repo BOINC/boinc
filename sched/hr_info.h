@@ -22,8 +22,8 @@
 // The RAC info is obtained by census.php,
 // which writes it to a file read by the feeder.
 
-#ifndef _HR_INFO_
-#define _HR_INFO_
+#ifndef BOINC_HR_INFO_H
+#define BOINC_HR_INFO_H
 
 #include "hr.h"
 

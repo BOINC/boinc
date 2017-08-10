@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef H_CRYPT
-#define H_CRYPT
+#ifndef BOINC_CRYPT_H
+#define BOINC_CRYPT_H
 
 // We're set up to use either RSAEuro or the OpenSSL crypto library.
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)

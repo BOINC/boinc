@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __sg_PanelBase__
-#define __sg_PanelBase__
+#ifndef BOINC_SG_PANELBASE_H
+#define BOINC_SG_PANELBASE_H
 
 #include "sg_CustomControls.h" 
 #include "sg_BoincSimpleFrame.h"
@@ -75,4 +75,4 @@ class CSimplePanelBase : public wxPanel
         bool                        m_GotBGBitMap;
 };
 
-#endif //__sg_PanelBase__
+#endif

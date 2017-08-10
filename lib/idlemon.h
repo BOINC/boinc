@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINC_IDLEMONITOR_H_
-#define _BOINC_IDLEMONITOR_H_
+#ifndef BOINC_IDLEMON_H
+#define BOINC_IDLEMON_H
 
 extern bool startup_idle_monitor();
 extern bool attach_idle_monitor();

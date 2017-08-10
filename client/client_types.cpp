@@ -1089,6 +1089,7 @@ int FILE_REF::write(MIOFILE& out) {
 int WORKUNIT::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
+    char buf[1024];
 
     safe_strcpy(name, "");
     safe_strcpy(app_name, "");
@@ -1124,6 +1125,10 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 #endif
             continue;
         }
+        if (xp.parse_str("job_keyword_ids", buf, sizeof(buf))) {
+            job_keyword_ids.parse_str(buf );
+            continue;
+        }
         // unused stuff
         if (xp.parse_double("credit", dtemp)) continue;
         if (log_flags.unparsed_xml) {
@@ -1137,7 +1142,7 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int WORKUNIT::write(MIOFILE& out) {
+int WORKUNIT::write(MIOFILE& out, bool gui) {
     unsigned int i;
 
     out.printf(
@@ -1169,6 +1174,16 @@ int WORKUNIT::write(MIOFILE& out) {
     }
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
+    }
+
+    if (!job_keyword_ids.empty()) {
+        if (gui) {
+            if (gstate.keywords.present) {
+                job_keyword_ids.write_xml_text(out, gstate.keywords);
+            }
+        } else {
+            job_keyword_ids.write_xml_num(out);
+        }
     }
     out.printf("</workunit>\n");
     return 0;

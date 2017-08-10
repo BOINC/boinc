@@ -106,6 +106,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
     m_iDisplayExitDialog = 1;
+    m_iDisplayShutdownConnectedClientDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
     m_bRunDaemon = true;
@@ -116,8 +117,9 @@ bool CBOINCGUIApp::OnInit() {
     int      iDesiredLanguageCode = 0;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
+#ifdef SANDBOX
     wxString strDialogMessage = wxEmptyString;
-    wxString strOldLanguageCode = wxEmptyString;
+#endif
     bool     success = false;
 
 
@@ -163,6 +165,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->SetPath(wxT("/"));
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
+    m_pConfig->Read(wxT("DisplayShutdownConnectedClientDialog"), &m_iDisplayShutdownConnectedClientDialog, 1L);
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
@@ -305,7 +308,8 @@ bool CBOINCGUIApp::OnInit() {
             );
 #else   // ! (defined(__WXMAC__) && defined (_DEBUG))
             strDialogMessage.Printf(
-                _("You currently are not authorized to manage the client.\n\nTo run %s as this user, please:\n  - reinstall %s answering \"Yes\" to the question about\n     non-administrative users\n or\n  - contact your administrator to add you to the 'boinc_master'\n     user group."),
+                _("You currently are not authorized to manage %s.\n\nTo run %s as this user, please:\n- reinstall %s answering \"Yes\" to the question about non-administrative users\n or\n- contact your administrator to add you to the 'boinc_master' user group."),
+                m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str()
             );
@@ -567,6 +571,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
 }
@@ -721,6 +726,16 @@ void CBOINCGUIApp::DetectExecutableName() {
 
     // Store the root directory for later use.
     m_strBOINCMGRExecutableName = pszProg;
+#elif defined(__WXGTK__)
+    char path[PATH_MAX];
+    if (!get_real_executable_path(path, PATH_MAX)) {
+        // find filename component
+        char* name = strrchr(path, '/');
+        if (name) {
+            name++;
+            m_strBOINCMGRExecutableName = name;
+        }
+    }
 #endif
 }
 
@@ -742,6 +757,17 @@ void CBOINCGUIApp::DetectRootDirectory() {
 
     // Store the root directory for later use.
     m_strBOINCMGRRootDirectory = szPath;
+#elif defined(__WXGTK__)
+    char path[PATH_MAX];
+    if (!get_real_executable_path(path, PATH_MAX)) {
+        // find path component
+        char* name = strrchr(path, '/');
+        if (name) {
+            name++;
+            *name = '\0';
+            m_strBOINCMGRRootDirectory = path;
+        }
+    }
 #endif
 }
 

@@ -1,0 +1,209 @@
+div.panels-ipe-handlebar-wrapper {
+  border-bottom: #898AAB solid 2px;
+}
+
+.panels-ipe-editing div.panels-ipe-portlet-wrapper {
+  margin-top: 1em;
+  border: #898AAB solid 2px;
+  -moz-border-radius-bottomleft:8px;
+  -moz-border-radius-bottomright:8px;
+  -moz-border-radius-topleft:2px;
+  -moz-border-radius-topright:2px;
+
+  -webkit-border-radius-bottomleft:8px;
+  -webkit-border-radius-bottomright:8px;
+  -webkit-border-radius-topleft:2px;
+  -webkit-border-radius-topright:2px;
+}
+
+/* Hide empty panes when not editing them. */
+.panels-ipe-empty-pane {
+  display: none;
+}
+
+.panels-ipe-editing .panels-ipe-empty-pane {
+  display: block;
+}
+
+
+.panels-ipe-editing div.panels-ipe-portlet-wrapper:hover {
+  border: #FF000A solid 2px;
+}
+
+.panels-ipe-editing .panels-ipe-sort-container .ui-sortable-helper {
+  background: white;
+}
+
+.panels-ipe-editing div.panel-pane div.admin-links {
+  display: none !important;
+}
+
+.panels-ipe-editing .panels-ipe-sort-container .ui-sortable-placeholder {
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border: 1px dotted red;
+  background-color: white;
+}
+
+div.panels-ipe-handlebar-wrapper ul {
+  float: left;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+}
+
+div.panels-ipe-handlebar-wrapper li {
+  background: none repeat scroll 0 0 transparent;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  float: left;
+  font: 12px/170% Verdana,sans-serif !important;
+}
+
+div.panels-ipe-handlebar-wrapper li {
+  border-top: 1px solid #CCC;
+  border-right: 1px solid #CCC;
+}
+
+div.panels-ipe-handlebar-wrapper li.first {
+  border-left: 1px solid #CCC;
+}
+
+div.panels-ipe-draghandle {
+  background: #898AAB url(../images/dragger.png) top right no-repeat;
+  cursor: move;
+  height: 24px;
+}
+
+div.panels-ipe-placeholder {
+  border: 1px solid black;
+  padding: .5em;
+  margin-top: .5em;
+  background-color: #f6f6f6;
+  color: black;
+  background-color: white;
+  font: 12px/170% Verdana,sans-serif !important;
+  text-transform: none;
+  letter-spacing: 0;
+  text-align: left;
+  word-spacing: 0;
+}
+
+div.panels-ipe-placeholder h3 {
+  font-weight: bold;
+}
+
+/* Hide editor-state-on elements initially */
+body .panels-ipe-on {
+  display: none;
+}
+
+body .panels-ipe-editing .panels-ipe-on {
+	display: block;
+}
+
+/* Show editor-state-off elements initially */
+.panels-ipe-off {
+  display: block;
+}
+
+div.panels-ipe-handlebar-wrapper li a,
+div.panels-ipe-draghandle span,
+div.panels-ipe-newblock a {
+  background-color: #f6f6f6;
+  color: blue;
+  display: block;
+  padding: 0.1em 0.5em;
+  font: 12px/170% Verdana,sans-serif !important;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+div.panels-ipe-newblock a {
+  display: inline;
+  border: 1px solid #CCC;
+  color: blue;
+}
+
+.panels-ipe-editing .panels-ipe-portlet-content {
+  margin-bottom: 10px;
+  border: transparent dotted 1px;
+  overflow: hidden;
+}
+
+.panels-ipe-editing .panels-ipe-region {
+  border: transparent dotted 1px;
+  float: left;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+div.panels-ipe-draghandle {
+  border: none;
+}
+
+.ui-sortable-placeholder {
+  margin: 1em;
+  border: 1px dotted black;
+  visibility: visible !important;
+  height: 50px !important;
+}
+.ui-sortable-placeholder * {
+  visibility: hidden;
+}
+
+/* counteract panels_dnd.css - temporary */
+div.panels-ipe-display-container .panel-pane .pane-title {
+  padding: 0;
+}
+
+/** ============================================================================
+ * Controller form markup
+ */
+
+div#panels-ipe-control-container {
+  z-index: 100;
+  position: fixed;
+  margin: auto;
+  bottom: 0;
+  left: 50%;
+  display: block;
+  background-color: #000;
+  padding: 0.5em 1em;
+  min-width: 9.5em;
+  max-width: 12.5em;
+  min-height: 2em;
+  max-height: 2.5em;
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  -moz-box-shadow: #333 0px 1px 0px;
+  -webkit-border-radius-topleft:5px;
+  -webkit-border-radius-topright:5px;
+  -webkit-box-shadow: #333 0px 1px 0px;
+}
+
+div.panels-ipe-pseudobutton {
+  cursor: pointer;
+  background-color: #333;
+  font:normal 11px/15px "Lucida Grande",Tahoma,Verdana,sans-serif;
+  color: #FFF;
+  -moz-border-radius:5px;
+  -moz-box-shadow: #333 0px 1px 0px;
+  -webkit-border-radius:5px;
+  -webkit-box-shadow: #333 0px 1px 0px;
+  padding: 0.3em 0.8em;
+  float: left;
+}
+
+div.panels-ipe-control .form-submit {
+  float: left;
+  margin: 0.3em 0.5em;
+}
+
+div.panels-ipe-form-container {
+  min-width: 12.5em;
+  min-height: 2em;
+  margin-left: auto;
+  margin-right: auto;
+}

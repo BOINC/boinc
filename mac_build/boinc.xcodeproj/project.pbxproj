@@ -330,6 +330,8 @@
 		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
 		DDA45500140F7DE200D97676 /* synch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AED07D2FE7200163EF5 /* synch.cpp */; };
 		DDA45501140F7E7900D97676 /* reduce_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.cpp */; };
+		DDA674851F1C70C800C95646 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
+		DDA674861F1C70C800C95646 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
 		DDA6BD130BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
 		DDA6BD140BD4551F008F7921 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD080BD4551F008F7921 /* QCrashReport.c */; };
@@ -456,6 +458,9 @@
 		DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDC2053183B560B00CB5845 /* mac_address.cpp */; };
 		DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
+		DDDEDF6F1F2F353B00614748 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
+		DDDEDF701F2F354000614748 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
+		DDDEDF711F2F354C00614748 /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA674831F1C70C800C95646 /* keyword.cpp */; };
 		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
 		DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDE1373210DC5EA400161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
@@ -1056,6 +1061,8 @@
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
 		DDA45502140F85DD00D97676 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str_replace.h; sourceTree = "<group>"; };
+		DDA674831F1C70C800C95646 /* keyword.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = keyword.cpp; sourceTree = "<group>"; };
+		DDA674841F1C70C800C95646 /* keyword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyword.h; sourceTree = "<group>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
 		DDA6BD050BD4551F008F7921 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
@@ -1515,7 +1522,6 @@
 				DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */,
 				DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */,
 				DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */,
-				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 				DD81C43B07C5D2240098A04D /* BOINCGUIApp.h */,
 				DD81C40407C5D1020098A04D /* BOINCListCtrl.cpp */,
 				DD81C43A07C5D2240098A04D /* BOINCListCtrl.h */,
@@ -1802,6 +1808,8 @@
 				DD81C60307C5D8630098A04D /* gui_rpc_client.h */,
 				DD344BB607C5AEEE0043025C /* hostinfo.cpp */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
+				DDA674831F1C70C800C95646 /* keyword.cpp */,
+				DDA674841F1C70C800C95646 /* keyword.h */,
 				DDA6BCED0BD4546D008F7921 /* mac */,
 				F5159562029EB02001F5651B /* md5.cpp */,
 				F5159563029EB02001F5651B /* md5.h */,
@@ -1993,6 +2001,7 @@
 				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
 				DDA12A910A369AB500FBDD12 /* SetupSecurity.h */,
 				DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */,
+				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 			);
 			name = mac;
 			sourceTree = SOURCE_ROOT;
@@ -2840,6 +2849,7 @@
 				DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */,
 				DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */,
 				DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */,
+				DDDEDF711F2F354C00614748 /* keyword.cpp in Sources */,
 				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
 				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
@@ -2886,6 +2896,7 @@
 				DD52C81108B5D44D008D9AA4 /* gui_rpc_client.cpp in Sources */,
 				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.cpp in Sources */,
 				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.cpp in Sources */,
+				DDA674861F1C70C800C95646 /* keyword.cpp in Sources */,
 				DD407A5807D2FB8D00163EF5 /* hostinfo.cpp in Sources */,
 				DD407A5B07D2FBA000163EF5 /* md5.cpp in Sources */,
 				DD407A5D07D2FBA300163EF5 /* md5_file.cpp in Sources */,
@@ -3032,6 +3043,7 @@
 				DD8917A30F3B207800DE5B1C /* diagnostics.cpp in Sources */,
 				DD8917A50F3B207E00DE5B1C /* filesys.cpp in Sources */,
 				DD8917A70F3B208500DE5B1C /* gui_rpc_client.cpp in Sources */,
+				DDDEDF701F2F354000614748 /* keyword.cpp in Sources */,
 				DD8917AB0F3B209500DE5B1C /* hostinfo.cpp in Sources */,
 				DD8917AE0F3B20B100DE5B1C /* md5.cpp in Sources */,
 				DD8917B00F3B20B500DE5B1C /* md5_file.cpp in Sources */,
@@ -3070,6 +3082,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD9917271E69A8D100555337 /* mac_spawn.cpp in Sources */,
+				DDDEDF6F1F2F353B00614748 /* keyword.cpp in Sources */,
 				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */,
 				DDE900261E643E39003728F2 /* mac_util.mm in Sources */,
 				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */,
@@ -3243,6 +3256,7 @@
 				DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */,
 				DD30CACF1C6B3C7F00AE1D14 /* project_init.cpp in Sources */,
 				DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */,
+				DDA674851F1C70C800C95646 /* keyword.cpp in Sources */,
 				DD6A829C181103990037172D /* thread.cpp in Sources */,
 				DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */,
 				DD55AF6D1916248200259439 /* coproc_sched.cpp in Sources */,
@@ -3796,8 +3810,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_ENABLE_OBJC_ARC = NO;
-				GCC_ENABLE_OBJC_GC = supported;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3968,8 +3981,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_ENABLE_OBJC_ARC = NO;
-				GCC_ENABLE_OBJC_GC = supported;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (

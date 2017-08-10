@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _LOCALIZATION_H_
-#define _LOCALIZATION_H_
+#ifndef BOINC_LOCALIZATION_H
+#define BOINC_LOCALIZATION_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "Localization.cpp"
@@ -101,6 +101,4 @@ public:
     wxString m_strWCGResearchDesc;
 };
 
-
 #endif
-

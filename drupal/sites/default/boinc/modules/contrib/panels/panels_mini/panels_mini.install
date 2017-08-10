@@ -1,0 +1,239 @@
+<?php
+
+/**
+ * Implementation of hook_schema().
+ */
+function panels_mini_schema() {
+  // This should always point to our 'current' schema. This makes it relatively easy
+  // to keep a record of schema as we make changes to it.
+  return panels_mini_schema_1();
+}
+
+/**
+ * Schema version 1 for Panels in D6.
+ */
+function panels_mini_schema_1() {
+  $schema = array();
+
+  $schema['panels_mini'] = array(
+    'export' => array(
+      'identifier' => 'mini',
+      'load callback' => 'panels_mini_load',
+      'load all callback' => 'panels_mini_load_all',
+      'save callback' => 'panels_mini_save',
+      'delete callback' => 'panels_mini_delete',
+      'export callback' => 'panels_mini_export',
+      'api' => array(
+        'owner' => 'panels_mini',
+        'api' => 'panels_default',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'no export' => TRUE,
+        'description' => 'The primary key for uniqueness.',
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'description' => 'The unique name of the mini panel.',
+      ),
+      'category' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'description' => 'The category this mini panel appears in on the add content pane.',
+      ),
+      'did' => array(
+        'type' => 'int',
+        'no export' => TRUE,
+        'description' => 'The display ID of the panel.',
+      ),
+      'admin_title' => array(
+        'type' => 'varchar',
+        'length' => '128',
+        'description' => 'The administrative title of the mini panel.',
+      ),
+      'admin_description' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Administrative title of this mini panel.',
+        'object default' => '',
+      ),
+      'requiredcontexts' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'serialize' => TRUE,
+        'object default' => array(),
+        'description' => 'An array of required contexts.',
+      ),
+      'contexts' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'serialize' => TRUE,
+        'object default' => array(),
+        'description' => 'An array of contexts embedded into the panel.',
+      ),
+      'relationships' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'serialize' => TRUE,
+        'object default' => array(),
+        'description' => 'An array of relationships embedded into the panel.',
+      ),
+    ),
+    'primary key' => array('pid'),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function panels_mini_install() {
+  drupal_install_schema('panels_mini');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function panels_mini_uninstall() {
+  $result = db_query("SELECT * FROM {panels_mini}");
+  $panels_exists = db_table_exists('panels_display');
+  while ($panel_mini = db_fetch_object($result)) {
+    // Delete all associated displays.
+    if (!function_exists('panels_delete_display')) {
+      require_once drupal_get_path('module', 'panels') .'/panels.module';
+    }
+    if ($panels_exists) {
+      panels_delete_display($panel_mini->did);
+    }
+
+    // Delete all configured blocks.
+    db_query("DELETE FROM {blocks} WHERE module = 'panels_mini' AND delta = %d", $panel_mini->pid);
+  }
+
+  // Finally, delete all mini panels.
+  drupal_uninstall_schema('panels_mini');
+}
+
+/**
+ * Update all blocks to use 'name' as delta, not 'pid'.
+ */
+function panels_mini_update_6300() {
+  $ret = array();
+  $result = db_query("SELECT name, pid from {panels_mini}");
+  while ($mini = db_fetch_object($result)) {
+    db_query("UPDATE {blocks} SET delta = '%s' WHERE module = 'panels_mini' AND delta = %d", $mini->name, $mini->pid);
+  }
+  return $ret;
+}
+
+/**
+ * Update all panel mini blocks to not use block caching.
+ */
+function panels_mini_update_6301() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {blocks} SET cache = -1 WHERE module = 'panels_mini'");
+  return $ret;
+}
+
+/**
+ * Add the admin description field.
+ */
+function panels_mini_update_6302() {
+  $ret = array();
+  $field = array(
+    'type' => 'text',
+    'size' => 'big',
+    'description' => 'Administrative description of this mini panel.',
+    'object default' => '',
+  );
+
+  db_add_field($ret, 'panels_mini', 'admin_description', $field);
+  return $ret;
+}
+
+/**
+ * Add the admin description field.
+ */
+function panels_mini_update_6303() {
+  $ret = array();
+  $field = array(
+    'type' => 'varchar',
+    'length' => '128',
+    'description' => 'The administrative title of the mini panel.',
+  );
+
+  db_add_field($ret, 'panels_mini', 'admin_title', $field);
+
+  $result = db_query("SELECT pid, did, title FROM {panels_mini}");
+  while ($mini = db_fetch_object($result)) {
+    db_query("UPDATE {panels_mini} SET admin_title = '%s' WHERE pid = %d", $mini->title, $mini->pid);
+    db_query("UPDATE {panels_display} SET title = '%s' WHERE did = %d", $mini->title, $mini->pid);
+  }
+
+  db_drop_field($ret, 'panels_mini', 'title');
+  return $ret;
+}
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function panels_mini_update_dependencies() {
+  // Update 6304 requires panels storage support
+  $dependencies['panels_mini'][6304] = array(
+    'panels' => 6313,
+  );
+
+  return $dependencies;
+}
+
+/**
+ * Set the storage type and id on existing mini panels.
+ */
+function panels_mini_update_6304() {
+  if (!isset($sandbox['progress'])) {
+     // Initialize batch update information.
+     $sandbox['progress'] = (float)0;
+     $sandbox['current_did'] = -1;
+     $sandbox['max'] = db_result(db_query("SELECT COUNT(pd.did)
+         FROM {panels_display} pd
+           JOIN {panels_mini} pm ON pm.did = pd.did
+         WHERE pd.storage_type = ''"));
+   }
+
+  // Set a limit of how many rows to process per batch.
+  $limit = 1000;
+
+  // Run the query
+  $result = db_query_range("SELECT pd.did, pm.name
+      FROM {panels_display} pd
+        JOIN {panels_mini} pm ON pm.did = pd.did
+      WHERE pd.storage_type = '' AND pd.did > %d", $sandbox['current_did'], 0, $limit);
+
+  while ($row = db_fetch_object($result)) {
+    db_query("UPDATE {panels_display} SET storage_type = '%s', storage_id = '%s' WHERE did = %d",
+      'panels_mini', $row->name, $row->did);
+
+    // Update our progress information.
+    $sandbox['progress']++;
+    $sandbox['current_did'] = $row->did;
+  }
+
+  // Set the "finished" status, to tell batch engine whether this function
+  // needs to run again.
+  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+
+  if ($sandbox['#finished']) {
+    $ret[] = array('success' => TRUE, 'query' => t('Added the storage type for panels_mini to relevant panels displays'));
+    return $ret;
+  }
+}

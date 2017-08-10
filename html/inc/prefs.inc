@@ -195,13 +195,13 @@ $net_prefs = array(
         tra("Limit download rate to"),
         tra("Limit the download rate of file transfers."),
         "max_bytes_sec_down",
-        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1024, 100)
     ),
     new PREF_OPT_NUM(
         tra("Limit upload rate to"),
         tra("Limit the upload rate of file transfers."),
         "max_bytes_sec_up",
-        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1024, 100)
     ),
     new PREF_NUM2(
         tra("Limit usage to"),
@@ -247,7 +247,7 @@ define("NETWORK_LIMIT_DESC", tra("Network"));
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
 define("PREFS_FORM_ERROR_DESC",
     tra(
-        "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.",
+        "%1 Unable to update preferences. %2 The values marked in red below were out of range or not numeric.",
         "<strong>",
         "</strong>"
     ).

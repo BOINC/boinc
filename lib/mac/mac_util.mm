@@ -45,15 +45,34 @@ void BringAppToFront() {
 
 
 void BringAppWithPidToFront(pid_t pid) {
-    [ [NSRunningApplication runningApplicationWithProcessIdentifier:pid] activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
+    NSRunningApplication * theRunningApp = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
+    if (theRunningApp) {
+        [ theRunningApp activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
+    }
+}
+
+
+pid_t getActiveAppPid() {
+    NSArray * runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
+    unsigned int i;
+    unsigned int n = [ runningApps count ];
+    for (i=0; i<n; i++) {
+        NSRunningApplication * theApp = (NSRunningApplication *)[ runningApps objectAtIndex:i ];
+        if ([ theApp isActive ]) {
+            return [theApp processIdentifier];
+        }
+    }
+    return 0;
 }
 
 
 pid_t getPidIfRunning(char * bundleID) {
     NSString *NSBundleID = [[NSString alloc] initWithUTF8String:bundleID];
     NSArray * runningApps = [NSRunningApplication runningApplicationsWithBundleIdentifier:NSBundleID];
-    if ([runningApps count] > 0) {
-        return [((NSRunningApplication *)[runningApps firstObject]) processIdentifier];
+    if (runningApps) {
+        if ([runningApps count] > 0) {
+            return [((NSRunningApplication *)[runningApps firstObject]) processIdentifier];
+        }
     }
     return 0;
 }
@@ -71,7 +90,7 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
 
     // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
     CFArrayRef (*LSCopyAppURLsForBundleID)(CFStringRef, CFErrorRef) = NULL;
-    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
+    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW | RTLD_NODELETE);
     if (LSlib) {
         LSCopyAppURLsForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
     }
@@ -81,16 +100,17 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
     if (err != noErr) {     // LSCopyAppURLsForBundleID == NULL
-//LSFindApplicationForInfo is deprecated in OS 10.10, so may not be available in the future
-    OSStatus (*LSFindAppForInfo)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*) = NULL;
-    if (LSlib) {
-        LSFindAppForInfo = (OSStatus(*)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*))
-                    dlsym(LSlib, "LSFindApplicationForInfo");
-    }
-    if (LSFindAppForInfo == NULL) {
-        return fnfErr;
-    }
-    err = (*LSFindAppForInfo)(creator, bundleID, NULL, NULL, &appURL);
+        //LSFindApplicationForInfo is deprecated in OS 10.10, so may not be available in the future
+        OSStatus (*LSFindAppForInfo)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*) = NULL;
+        if (LSlib) {
+            LSFindAppForInfo = (OSStatus(*)(OSType, CFStringRef, CFStringRef, FSRef*, CFURLRef*))
+                        dlsym(LSlib, "LSFindApplicationForInfo");
+        }
+        if (LSFindAppForInfo == NULL) {
+            if (LSlib) dlclose(LSlib);
+            return fnfErr;
+        }
+        err = (*LSFindAppForInfo)(creator, bundleID, NULL, NULL, &appURL);
     } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
 #endif
     {
@@ -100,10 +120,12 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
                 err = fnfErr;
             } else {
                 appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
+                CFRetain(appURL);
                 CFRelease(appRefs);
             }
         }
         if (err != noErr) {
+            if (LSlib) dlclose(LSlib);
             return err;
         }
     }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
@@ -116,5 +138,44 @@ OSStatus GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, si
     if (appURL) {
         CFRelease(appURL);
     }
+    if (LSlib) dlclose(LSlib);
     return err;
+}
+
+// Test OS version number on all versions of OS X without using deprecated Gestalt
+// compareOSVersionTo(x, y) returns:
+// -1 if the OS version we are running on is less than x.y
+//  0 if the OS version we are running on is equal to x.y
+// +1 if the OS version we are running on is lgreater than x.y
+int compareOSVersionTo(int toMajor, int toMinor) {
+    static SInt32 major = -1;
+    static SInt32 minor = -1;
+
+    if (major < 0) {
+        char vers[100], *p1 = NULL;
+        FILE *f;
+        vers[0] = '\0';
+        f = popen("sw_vers -productVersion", "r");
+        if (f) {
+            fscanf(f, "%s", vers);
+            pclose(f);
+        }
+        if (vers[0] == '\0') {
+            fprintf(stderr, "popen(\"sw_vers -productVersion\" failed\n");
+            fflush(stderr);
+            return 0;
+        }
+        // Extract the major system version number
+        major = atoi(vers);
+        // Extract the minor system version number
+        p1 = strchr(vers, '.');
+        minor = atoi(p1+1);
+    }
+    
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    // if (major == toMajor) compare minor version numbers
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
 }

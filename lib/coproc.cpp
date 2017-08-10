@@ -106,8 +106,9 @@ void COPROC::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc>\n"
         "   <type>%s</type>\n"
-        "   <count>%d</count>\n",
-        type, count
+        "   <count>%d</count>\n"
+        "   <peak_flops>%f</peak_flops>\n",
+        type, count, peak_flops
     );
     
     if (scheduler_rpc) {

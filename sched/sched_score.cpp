@@ -31,6 +31,7 @@
 #include "sched_check.h"
 #include "sched_config.h"
 #include "sched_hr.h"
+#include "sched_keyword.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
@@ -54,7 +55,8 @@ static int get_size_class(APP& app, double es) {
 // Also do some initial screening,
 // and return false if can't send the job to host
 //
-bool JOB::get_score(WU_RESULT& wu_result) {
+bool JOB::get_score(int array_index) {
+    WU_RESULT& wu_result = ssp->wu_results[array_index];
     score = 0;
 
     if (!app->beta && wu_result.need_reliable) {
@@ -78,7 +80,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
 
     if (app_not_selected(app->id)) {
-        if (g_wreq->project_prefs.allow_non_selected_apps) {
+        if (g_wreq->project_prefs.allow_non_preferred_apps) {
             score -= 1;
         } else {
             if (config.debug_send_job) {
@@ -129,6 +131,14 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
 
     score += wu_result.res_priority;
+
+    if (config.keyword_sched) {
+        double x = keyword_score(array_index);
+        if (x < 0) {
+            return false;
+        }
+        score += x;
+    }
 
     if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
@@ -215,7 +225,7 @@ void send_work_score_type(int rt) {
 
         job.index = i;
         job.result_id = wu_result.resultid;
-        if (!job.get_score(wu_result)) {
+        if (!job.get_score(i)) {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
                     "[send_job] [RESULT#%lu] get_score() returned false\n",
@@ -298,11 +308,14 @@ void send_work_score_type(int rt) {
         sema_locked = false;
 
         switch (slow_check(wu_result, job.app, job.bavp)) {
-        case 1:
+        case CHECK_NO_HOST:
             wu_result.state = WR_STATE_PRESENT;
             break;
-        case 2:
+        case CHECK_NO_ANY:
             wu_result.state = WR_STATE_EMPTY;
+            if (config.keyword_sched) {
+                keyword_sched_remove_job(job.index);
+            }
             break;
         default:
             // slow_check() refreshes fields of wu_result.workunit;
@@ -315,6 +328,9 @@ void send_work_score_type(int rt) {
             // (since otherwise feeder might overwrite it)
             //
             wu_result.state = WR_STATE_EMPTY;
+            if (config.keyword_sched) {
+                keyword_sched_remove_job(job.index);
+            }
 
             // reread result from DB, make sure it's still unsent
             // TODO: from here to end of add_result_to_reply()

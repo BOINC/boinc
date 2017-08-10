@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _VBOX_MSCOM42_H_
-#define _VBOX_MSCOM42_H_
+#ifndef BOINC_VBOX_MSCOM42_H
+#define BOINC_VBOX_MSCOM42_H
 
 #include "floppyio.h"
 #include "vbox_common.h"

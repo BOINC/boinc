@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef _DLGGENERICMESSAGE_H_
-#define _DLGGENERICMESSAGE_H_
+#ifndef BOINC_DLGGENERICMESSAGE_H
+#define BOINC_DLGGENERICMESSAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgGenericMessage.cpp"
@@ -109,4 +109,3 @@ public:
 };
 
 #endif
-    // _DLGGENERICMESSAGE_H_

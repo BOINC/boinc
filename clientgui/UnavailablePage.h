@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_UNAVAILABLEPAGE_H_
-#define _WIZ_UNAVAILABLEPAGE_H_
+#ifndef BOINC_UNAVAILABLEPAGE_H
+#define BOINC_UNAVAILABLEPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "UnavailablePage.cpp"
@@ -78,4 +78,3 @@ public:
 };
 
 #endif
-    // _DLGABOUT_H_

@@ -18,8 +18,8 @@
 // general back-end utility functions (not scheduler-specific)
 // No database-related stuff here; put that in sched_util.h
 
-#ifndef SCHED_UTIL_BASIC_H
-#define SCHED_UTIL_BASIC_H
+#ifndef BOINC_SCHED_UTIL_BASIC_H
+#define BOINC_SCHED_UTIL_BASIC_H
 
 #include "util.h"
 

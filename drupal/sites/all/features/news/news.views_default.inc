@@ -431,7 +431,7 @@ function news_views_default_views() {
       'default_argument_fixed' => '',
       'default_argument_php' => '// Use this to set a custom feed title that works both in the feed and
 // in the auto discovery link in the page header
-return variable_get(\'site_name\', \'BOINC\');
+return variable_get(\'site_name\', \'Drupal-BOINC\');
 ',
       'validate_argument_node_type' => array(
         'page' => 0,
@@ -458,6 +458,60 @@ return variable_get(\'site_name\', \'BOINC\');
       'validate_argument_user_flag_id_type' => 'id',
       'validate_argument_php' => '',
       'me_validate_user_restrict_roles' => 0,
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'type' => array(
+      'operator' => 'in',
+      'value' => array(
+        'news' => 'news',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'relationship' => 'none',
+    ),
+    'status' => array(
+      'operator' => '=',
+      'value' => '1',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+    ),
+    'changed' => array(
+      'operator' => '>=',
+      'value' => array(
+        'type' => 'offset',
+        'value' => '-90 days',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'changed',
+      'table' => 'node',
+      'field' => 'changed',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
     ),
   ));
   $handler->override_option('style_plugin', 'rss');
@@ -733,7 +787,7 @@ return variable_get(\'site_name\', \'BOINC\');
   if ($data->node_comment == COMMENT_NODE_READ_WRITE) {
     $cid = boincuser_get_first_unread_comment_id($data->nid);
     $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
-    return l(bts(\'discuss\'), $link);
+    return l(bts(\'discuss\', array(), NULL, \'boinc:front-page-discuss-news\'), $link);
   }
 ?>',
       'exclude' => 0,

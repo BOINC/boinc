@@ -13,7 +13,8 @@ MAKECLEAN="yes"
 
 export BOINC=".." #BOINC source code
 
-export ANDROIDTC="$HOME/androidmips-tc"
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROIDTC="${ANDROID_TC_MIPS:-$ANDROID_TC/mips}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mipsel-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _MAINDOCUMENT_H_
-#define _MAINDOCUMENT_H_
+#ifndef BOINC_MAINDOCUMENT_H
+#define BOINC_MAINDOCUMENT_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "MainDocument.cpp"
@@ -437,4 +437,3 @@ wxString format_number(double x, int nprec);
 #endif
 
 #endif
-

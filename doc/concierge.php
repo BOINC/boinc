@@ -16,122 +16,73 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script gets some info about a project and account.
-// It
-// - send cookies to the user's browser containing the project/account info,
-// - optionally starts a download of the appropriate client installer.
+// concierge is a mechanism for downloading an installer
+// pre-configured for a particular project or AM account
+//
+// This script gets (via POST)
+//  - info about a project or AM
+//  - optional account info
+//  - the name of an installer file
+// Action:
+// - look up the URL in a list of vetted entities
+// - start a download of the requested installer,
+//   with a filename that encodes the entity and account info
+//
+// The installer looks at its own filename and creates init files accordingly
 
+require_once("../inc/util.inc");
 require_once("versions.inc");
 require_once("projects.inc");
+require_once("concierge.inc");
 
-function get_str($name) {
-    if (isset($_GET[$name])) {
-        return $_GET[$name];
-    }
-    return null;
-}
+$master_url = urldecode(post_str("master_url"));
 
-function get_download_url($pname, $need_vbox) {
-    global $platforms;
-    global $url_base;
-
-    $need_vbox = get_str("need_vbox", true);
-    $p = $platforms[$pname];
-    $v = latest_version($p);
-    $file = $v['file'];
-    if ($need_vbox && array_key_exists('vbox_file', $v)) {
-        $file = $v['vbox_file'];
-    }
-    $url = $url_base.$file;
-    return $url;
-}
-
-// based on the agent string, return name of file to download,
-// or null if can't figure it out
+// check if URL is in vetted list
 //
-function url_to_download() {
-    $client_info = $_SERVER['HTTP_USER_AGENT'];
-    if (strstr($client_info, 'Windows')) {
-        if (strstr($client_info, 'Win64')||strstr($client_info, 'WOW64')) {
-            return get_download_url('winx64');
-        } else {
-            return get_download_url('win');
-        }
-    } else if (strstr($client_info, 'Mac')) {
-        if (strstr($client_info, 'PPC Mac OS X')) {
-            return get_download_url('macppc');
-        } else {
-            return get_download_url('mac');
-        }
-    } else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
-        // Check for Android before Linux,
-        // since Android contains the Linux kernel and the
-        // web browser user agent string list Linux too.
-        return get_download_url('androidarm');
-    } else if (strstr($client_info, 'Linux')) {
-        if (strstr($client_info, 'x86_64')) {
-            return get_download_url('linuxx64');
-        } else {
-            return get_download_url('linux');
-        }
-    }
-    return null;
-}
-
-$master_url = get_str("master_url");
-$project_name = get_str("project_name");
-$auth = get_str("auth");
-$user_name = get_str("user_name");
-$project_desc = get_str("project_desc");
-$project_inst = get_str("project_inst");
-$download = get_str("download");
-
-if (!$master_url || !$project_name) {
-    echo "missing arg";
+$vp = vps_lookup($master_url);
+if (!$vp) {
+    echo "URL not found";
     exit;
 }
-$master_url = urldecode($master_url);
-$project_name = urldecode($project_name);
+
+// could also check HTTP_REFERER here, but that can be forged
+
+$auth = post_str("auth", true);
 if ($auth) $auth = urldecode($auth);
+
+$user_name = post_str("user_name", true);
 if ($user_name) $user_name = urldecode($user_name);
-if ($project_desc) $project_desc = urldecode($project_desc);
-if ($project_inst) $project_inst = urldecode($project_inst);
 
-if ($download) {
-    $download_url = url_to_download();
-    if (!$download_url) {
-        echo "no file to download";
-        exit;
-    }
-}
+$download_filename = post_str("download_filename");
 
-// see if this project is in BOINC's list;
-// if so, use the info there if the project didn't supply it
+$download_url = "https://boinc.berkeley.edu/dl/$filename";
+
+// add info to filename.
+// We should keep the filename as short as possible;
+// long filenames are unexpected and might scare people off.
+// So add only the basics:
+// - entity URL
+// - whether it's an AM
+// - account user name and account token
 //
-$p = lookup_project($master_url);
-if ($p) {
-    setcookie('attach_known', "1");
-    if (!$project_inst) {
-        $project_inst = $p[2];
-    }
-    if (!$project_desc) {
-        $project_desc = $p[4];
-    }
-} else {
-    setcookie('attach_known', "0");
+// Would be nice to include other stuff (entity institution/description)
+// to show on the welcome screen.
+// Can get that by other means (e.g. get_config RPC)
+
+$info = sprintf("pu=%s&am=%d",
+    $master_url,
+    $vp->is_am?1:0
+);
+
+if ($auth && $user_name) {
+    $info .= sprintf("&ut=%s&un=%s",
+        $auth,
+        $user_name
+    );
 }
 
-$expire = time() + 24*86400;
-
-setrawcookie('attach_master_url', rawurlencode($master_url), $expire);
-setrawcookie('attach_project_name', rawurlencode($project_name), $expire);
-setrawcookie('attach_auth', rawurlencode($auth), $expire);
-setrawcookie('attach_user_name', rawurlencode($user_name), $expire);
-setrawcookie('attach_project_desc', rawurlencode($project_desc), $expire);
-setrawcookie('attach_project_inst', rawurlencode($project_inst), $expire);
-
-if ($download) {
-Header("Location: ".$download_url);
-}
+$filename .= '__'.base64_encode($info);
+header("Location: ".$download_url);
+header(sprintf('Content-Disposition: attachment; filename="%s"', $filename));
 
 ?>

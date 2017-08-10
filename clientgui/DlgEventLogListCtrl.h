@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _DLGEVENTLOGLISTCTRL_H_
-#define _DLGEVENTLOGLISTCTRL_H_
+#ifndef BOINC_DLGEVENTLOGLISTCTRL_H
+#define BOINC_DLGEVENTLOGLISTCTRL_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgEventLogListCtrl.cpp"

@@ -40,7 +40,9 @@ using std::vector;
 
 // look for file named FILENAME.md5 containing md5sum and length.
 // If found, and newer mod time than file,
-// read md5 sum and file length from it.
+// read md5 sum and file length from it, and return true.
+// Else return false
+//
 // See checkin notes Dec 30 2004
 //
 static bool got_md5_info(
@@ -230,7 +232,7 @@ static int process_file_info(
                     fprintf(stderr, "missing MD5 info file for %s\n",
                         physical_name
                     );
-                    return ERR_XML_PARSE;
+                    return ERR_FILE_MISSING;
                 }
 
                 dir_hier_url(

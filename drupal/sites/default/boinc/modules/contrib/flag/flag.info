@@ -1,0 +1,12 @@
+name = Flag
+description = Create customized flags that users can set on content.
+core = 6.x
+package = Flags
+php = 5
+
+; Information added by Drupal.org packaging script on 2015-07-12
+version = "6.x-2.2-boinc-1-dev"
+core = "6.x"
+project = "flag"
+datestamp = "1494857819"
+

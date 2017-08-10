@@ -174,8 +174,8 @@ function state_num($result) {
     }
     if ($result->server_state == RESULT_SERVER_STATE_OVER
         && ($result->outcome == RESULT_OUTCOME_CLIENT_ERROR
-            || $result->outcome = RESULT_OUTCOME_NO_REPLY
-            || $result->outcome = RESULT_OUTCOME_CLIENT_DETACHED
+            || $result->outcome == RESULT_OUTCOME_NO_REPLY
+            || $result->outcome == RESULT_OUTCOME_CLIENT_DETACHED
         )
     ) {
         return STATE_ERROR;

@@ -89,11 +89,11 @@ function flag_comment_notify_mail($key, &$message, $params) {
   switch($key) {
   case 'comment_posted':
     $message['subject'] = bts('!site: comment posted to "!topic_name"', $variables,
-      $language->language);
+      $language->language, 'boinc:forum-topic-subscription-email-notification');
     $message['body'][] = bts('!author has posted a reply to "!topic_name".',
-      $variables, $language->language);
+      $variables, $language->language, 'boinc:forum-topic-subscription-email-notification');
     $message['body'][] = bts("To view this topic at !site, click here: \n!comment_url",
-      $variables, $language->language);
+      $variables, $language->language, 'boinc:forum-topic-subscription-email-notification');
     break;
   default:
   }

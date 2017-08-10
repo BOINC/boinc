@@ -35,11 +35,15 @@ if (!is_valid_country($country)) {
     error_page("invalid country");
 }
 $country = BoincDb::escape_string($country);
-$postal_code = BoincDb::escape_string(sanitize_tags(post_str("postal_code", true)));
+if (POSTAL_CODE) {
+    $postal_code = BoincDb::escape_string(sanitize_tags(post_str("postal_code", true)));
+} else {
+    $postal_code = '';
+}
+
 $auth = BoincDb::escape_string($auth);
 
 $name = BoincDb::escape_string($name);
-$postal_code = BoincDb::escape_string($postal_code);
 
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {
@@ -54,7 +58,7 @@ if (!$retval) {
 // if so, skip team-finder
 //
 if ($user->teamid) {
-    Header("Location: home.php");
+    Header("Location: ".USER_HOME);
 } else {
     Header("Location: team_search.php");
 }

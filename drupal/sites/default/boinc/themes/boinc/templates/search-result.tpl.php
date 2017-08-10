@@ -45,26 +45,13 @@
  *
  * @see template_preprocess_search_result()
  */
- 
- global $base_path;
- 
 ?>
-<?php switch ($info_split['type']): ?>
+<?php switch ($result['bundle']): ?>
 <?php
   case 'Profile':
   case 'profile':
   case 'User':
   case 'user':
-    $nid = $result['fields']['entity_id'];
-    $node = node_load($nid);
-    $account = user_load($node->uid);
-    if (isset($account)) {
-      $user_image = boincuser_get_user_profile_image($account->uid);
-      $url = "{$base_path}account/{$account->uid}";
-      if (empty($title)) {
-        $title = $account->boincuser_name;
-      }
-    }
   ?>
   <div class="result user">
     <?php if ($user_image['image']['filepath']): ?>
@@ -75,10 +62,14 @@
     <div class="name"><a href="<?php print $url; ?>"><?php print $title; ?></a></div>
     <div class="details">
       <div class="user-stats">
-        <div class="join-date"><?php print bts('Joined') . ': ' . date('j M y', $account->created); ?></div>
-        <div class="post-count"><?php print bts('Posts') . ': ' . $account->post_count; ?></div>
-        <div class="credit"><?php print bts('Credit') . ': ' . $account->boincuser_total_credit; ?></div>
-        <div class="rac"><?php print bts('RAC') . ': ' . $account->boincuser_expavg_credit; ?></div>
+        <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
+        <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
+        <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>
+        <?php $nf2 = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
+        <div class="join-date"><?php print bts('Joined: @join_date', array( '@join_date' => date('j M y', $account->created) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="post-count"><?php print bts('Posts: @post_count', array( '@post_count' => $nf->format($account->post_count) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="credit"><?php print bts('Credit: @user_credits', array( '@user_credits' => $nf->format($account->boincuser_total_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $nf2->format($account->boincuser_expavg_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
       </div>
     </div>
     <?php if ($snippet) : ?>
@@ -89,14 +80,8 @@
   <?php break; ?>
   
 <?php
-  case 'Forum topic':
-    $nid = $result['fields']['entity_id'];
-    $node = node_load($nid);
-    // Get the taxonomy for the node, creates a link to the parent forum
-    $taxonomy = reset($node->taxonomy);
-    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
-      $parent_forum = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
-    }
+  case 'Forum':
+  case 'forum':
   ?>
   <div class="result forum">
     <dt class="title">
@@ -118,23 +103,14 @@
 
 <?php
   case 'Comment':
-    // Get the node if for this comment
-    $nid = $result['fields']['tos_content_extra'];
-    $node = node_load($nid);
-    // Link to the parent forum topic
-    $parent_topic = l($node->title, drupal_get_path_alias('node/' . $nid) );
-    // Get the taxonomy for the node, creates a link to the parent forum
-    $taxonomy = reset($node->taxonomy);
-    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
-      $parent_forum = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
-    }
+  case 'comment':
   ?>
   <div class="result">
     <dt class="title">
       <?php if ($parent_forum): ?>
         <?php print $parent_forum . " : "; ?>
       <?php endif; ?>
-      <a href="<?php print $url; ?>"><?php print $node->title; ?></a>
+      <a href="<?php print $url; ?>"><?php print $parent_title; ?></a>
     </dt>
     <dd>
       <?php if ($snippet) : ?>
@@ -142,7 +118,6 @@
       <?php endif; ?>
       <?php if ($info) : ?>
         <p class="search-info"><?php print $info; ?>
-<?php //print " - " . $parent_forum . " : " . $parent_topic; ?>
         </p>
       <?php endif; ?>
     </dd>

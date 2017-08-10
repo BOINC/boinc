@@ -196,7 +196,9 @@ return boincteam_is_founder($team_id);',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_team_forums_panel_context_2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -251,7 +253,7 @@ return boincteam_is_founder($team_id);',
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -384,7 +386,9 @@ return boincteam_is_founder($team_id);',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_team_forums_panel_context_3';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -439,7 +443,7 @@ return boincteam_is_founder($team_id);',
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -581,7 +585,9 @@ return FALSE;',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Team Forums';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_team_forums_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -607,7 +613,7 @@ return FALSE;',
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

@@ -383,6 +383,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "    <client_brand>%s</client_brand>\n", client_brand);
     }
 
+    if (acct_mgr_info.using_am()) {
+        acct_mgr_info.user_keywords.write(f);
+    }
+
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);

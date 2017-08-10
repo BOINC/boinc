@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROJECT_
-#define _PROJECT_
+#ifndef BOINC_PROJECT_H
+#define BOINC_PROJECT_H
 
 #include "app_config.h"
 #include "client_types.h"
@@ -26,9 +26,6 @@
 struct PROJECT : PROJ_AM {
     char _project_dir[MAXPATHLEN];
     char _project_dir_absolute[MAXPATHLEN];
-
-    std::string sci_keywords;
-    std::string loc_keywords;
 
     // the following items come from the account file
     // They are a function of the user and the project (not host)
@@ -199,6 +196,7 @@ struct PROJECT : PROJ_AM {
     bool attached_via_acct_mgr;
     bool detach_when_done;
         // when no results for this project, detach it.
+        // if using AM, do AM RPC before detaching
     bool ended;
         // project has ended; advise user to detach
     char code_sign_key[MAX_KEY_LEN];
@@ -313,7 +311,7 @@ struct PROJECT : PROJ_AM {
     // job counting
     //
     int njobs_success;
-    int njobs_fail;
+    int njobs_error;
 
     // total elapsed time of this project's jobs (for export to GUI)
     //

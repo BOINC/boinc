@@ -1042,6 +1042,19 @@ function update_3_17_2017() {
     ");
 }
 
+function update_6_13_2017() {
+    do_query("alter table host
+        add column p_ngpus integer not null,
+        add column p_gpu_fpops double not null
+    ");
+}
+
+function update_7_21_2017() {
+    do_query("alter table workunit
+        add column keywords varchar(254) not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1090,6 +1103,8 @@ $db_updates = array (
     array(27014, "update_1_27_2016"),
     array(27015, "update_2_17_2017"),
     array(27016, "update_3_17_2017"),
+    array(27017, "update_6_13_2017"),
+    array(27018, "update_7_21_2017"),
 );
 
 ?>

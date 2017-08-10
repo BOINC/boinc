@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_ACCOUNTMANAGERPROCESSINGPAGE_H_
-#define _WIZ_ACCOUNTMANAGERPROCESSINGPAGE_H_
+#ifndef BOINC_ACCOUNTMANAGERPROCESSINGPAGE_H
+#define BOINC_ACCOUNTMANAGERPROCESSINGPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "AccountManagerProcessingPage.cpp"
@@ -144,4 +144,4 @@ public:
     int m_iCurrentState;
 };
 
-#endif // _WIZ_ACCOUNTMANAGERPROCESSINGPAGE_H_
+#endif

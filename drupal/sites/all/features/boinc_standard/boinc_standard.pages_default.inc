@@ -106,7 +106,9 @@ function boinc_standard_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Dashboard';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_account_dashboard_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -257,7 +259,7 @@ if (module_exists(\'boincteam\')) {
 global $user;
 $uid = $user->uid;
 $account = user_load($uid);
-echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
+echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\', array(), NULL, \'boinc:account-dashboard\'), "account/{$uid}/posts") . \'</h2>\';
 echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->post_count . \'</div></div>\';
 
 ?>',
@@ -314,8 +316,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->position = 4;
     $display->content['new-7'] = $pane;
     $display->panels['sidebar_first'][4] = 'new-7';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['account_dashboard'] = $page;
@@ -371,7 +373,9 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Account';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_boinc_user_panel_context_2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -467,7 +471,7 @@ if (module_exists(\'boincteam\')) {
 
 $uid = arg(1);
 $account = user_load($uid);
-echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
+echo \'<h2 class="pane-title compound-heading">\' . l(bts(\'Posts contributed\', array(), NULL, \'boinc:account-dashboard\'), "account/{$uid}/posts") . \'</h2>\';
 echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->post_count . \'</div></div>\';
 
 ?>',
@@ -550,7 +554,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->position = 4;
     $display->content['new-6'] = $pane;
     $display->panels['sidebar_first'][4] = 'new-6';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -612,6 +616,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_home_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;

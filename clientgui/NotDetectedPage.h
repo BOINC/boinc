@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_NOTDETECTEDPAGE_H_
-#define _WIZ_NOTDETECTEDPAGE_H_
+#ifndef BOINC_NOTDETECTEDPAGE_H
+#define BOINC_NOTDETECTEDPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "NotDetectedPage.cpp"
@@ -78,4 +78,3 @@ public:
 };
 
 #endif
-    // _WIZ_NOTDETECTEDPAGE_H_

@@ -90,6 +90,7 @@ function stage_file($path) {
             if (!$ret) error_exit("    copy failed\n");
             if ($verbose) echo "    moved file\n";
         }
+        touch("$path.md5");
         break;
     case -1:
         error_exit("

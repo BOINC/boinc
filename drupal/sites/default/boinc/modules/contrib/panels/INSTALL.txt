@@ -1,0 +1,8 @@
+
+Place the module files in the appropriate directory. If you're not sure,
+try 'sites/all/modules'. 
+
+Then navigate to administer >> site building >> modules and activate
+the panels module, along with any of the accompanying side modules you'd like to use.
+The Panels module itself only provides an API - you MUST install these other modules
+if you want to do much of anything.

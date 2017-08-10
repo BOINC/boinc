@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _DLGDIAGNOSTICLOGFLAGS_H_
-#define _DLGDIAGNOSTICLOGFLAGS_H_
+#ifndef BOINC_DLGDIAGNOSTICLOGFLAGS_H
+#define BOINC_DLGDIAGNOSTICLOGFLAGS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgDiagnosticLogFlags.cpp"
@@ -73,5 +73,4 @@ protected:
     wxGridSizer*        m_checkboxSizer;
 };
 
-#endif // _DLGDIAGNOSTICLOGFLAGS_H_
-
+#endif

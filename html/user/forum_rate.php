@@ -25,10 +25,7 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 $config = get_config();
 if (parse_bool($config, "no_forum_rating")) {
-    page_head(tra("Rating offline"));
-    echo tra("This function is turned off by the project");
-    page_tail();
-    exit(0);
+    error_page("disabled");
 }
 
 if (!empty($_GET['post'])) {

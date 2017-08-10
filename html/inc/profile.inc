@@ -267,11 +267,11 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
         row1(tra("Your feedback on this profile"));
         row2(
             tra("Recommend this profile for User of the Day:"),
-            tra("I %1like%2 this profile", "<a href=\"profile_rate.php?userid=".$user->id."&vote=recommend\">", "</a>")
+            tra("I %1 like %2 this profile", "<a href=\"profile_rate.php?userid=".$user->id."&vote=recommend\">", "</a>")
         );
         row2(
             tra("Alert administrators to an offensive profile:"),
-            tra("I %1do not like%2 this profile", "<a href=\"profile_rate.php?userid=".$user->id."&vote=reject\">", "</a>")
+            tra("I %1 do not like %2 this profile", "<a href=\"profile_rate.php?userid=".$user->id."&vote=reject\">", "</a>")
         );
     }
 }

@@ -178,7 +178,7 @@ function user_profiles_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('empty', 'No content is in the queue for moderation.');
+  $handler->override_option('empty', bts('No content is in the queue for moderation.', array(), NULL, 'boinc:moderate-user-page'));
   $handler->override_option('empty_format', '4');
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
@@ -357,7 +357,7 @@ function user_profiles_views_default_views() {
       'relationship' => 'none',
     ),
   ));
-  $handler->override_option('title', 'User profile moderation queue');
+  $handler->override_option('title', bts('User profile moderation queue', array(), NULL, 'boinc:moderate-user-page'));
   $handler->override_option('path', 'moderate/profiles');
   $handler->override_option('menu', array(
     'type' => 'default tab',
@@ -591,7 +591,7 @@ function user_profiles_views_default_views() {
 
 switch($data->node_type) {
 case \'forum\':
-  $action = bts(\'started discussion\');
+  $action = bts(\'started discussion\', array(), NULL, \'boinc:recent-posts\');
   $url = "node/{$data->node_nid}";
   break;
 //case \'wiki_page\':
@@ -599,17 +599,17 @@ case \'forum\':
 //  $url = \'/\' . drupal_lookup_path(\'alias\',"node/{$data->node_nid}");
 //  break;
 case \'story\':
-  $action = bts(\'published\');
+  $action = bts(\'published\', array(), NULL, \'boinc:recent-posts\');
   //$url = \'/news/blogs/\' . basename(drupal_lookup_path(\'alias\',"node/{$data->node_nid}"));
   $url = "node/{$data->node_nid}";
   break;
 case \'comment\':
-  $action = bts(\'commented on\');
+  $action = bts(\'commented on\', array(), NULL, \'boinc:recent-posts\');
   $url = "node/{$data->node_nid}";
   $fragment = "comment-{$data->vid}";
   break;
 default:
-  $action = bts(\'posted\');
+  $action = bts(\'posted\', array(), NULL, \'boinc:recent-posts\');
 }
 
 $uid = $data->users_node_uid;

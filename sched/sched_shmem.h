@@ -21,8 +21,8 @@
 // small static tables like app_version,
 // and a queue of results waiting to be sent.
 
-#ifndef _SCHED_SHMEM_H_
-#define _SCHED_SHMEM_H_
+#ifndef BOINC_SCHED_SHMEM_H
+#define BOINC_SCHED_SHMEM_H
 
 #include "boinc_db.h"
 #include "sched_util.h"

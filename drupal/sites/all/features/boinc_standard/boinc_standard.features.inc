@@ -230,7 +230,7 @@ function boinc_standard_rules_defaults() {
               'subject' => 'Report of offensive [node:type] comment at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
 
-[:global:site-url]goto/comment/[comment:comment-cid]
+[:global:site-url]/goto/comment/[comment:comment-cid]
 
 Total reports of this comment: [comment:flag-abuse-comment-count]',
               '#eval input' => array(
@@ -277,7 +277,7 @@ Total reports of this comment: [comment:flag-abuse-comment-count]',
               'subject' => 'Report of offensive [node:type] content at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported the following [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
 
-[:global:site-url][node:node-path]
+[:global:site-url]/[node:node-path]
 
 Total reports of this content: [node:flag-abuse-node-count]',
               '#eval input' => array(
@@ -332,7 +332,7 @@ Total reports of this content: [node:flag-abuse-node-count]',
               'subject' => 'Report of offensive user at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported [account:display-name] for inappropriate behavior:
 
-[:global:site-url]account/[account:uid]
+[:global:site-url]/account/[account:uid]
 
 Total current reports of this user: [account:flag-abuse-user-count]',
               '#eval input' => array(

@@ -125,6 +125,13 @@ div#site-name /* The name of the website */ {
 
 .breadcrumb /* The path to the current page in the form of a list of links */ {
   padding-bottom: 0; /* Undo system.css */
+  display: inline-block;
+  float: left;
+  width: 60%;
+}
+.breadcrumb.bottom-breadcrumb {
+  margin-top: 39px;
+  width: 100%;
 }
 
 a:link, a:visited {
@@ -161,6 +168,10 @@ td {
   padding: 7px 5px;
   border-bottom: 1px dotted #aaa;
   vertical-align: top;
+}
+td.task-name,
+td.task-app {
+  word-break: break-all;
 }
 tr.heading {
   font-weight: bold;
@@ -887,6 +898,10 @@ table.user-projects {
   text-transform: uppercase;
   color: #808080;
   letter-spacing: 1px; 
+}
+
+.forum-links {
+  width: 100%;
 }
 
 /* Join */

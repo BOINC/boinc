@@ -18,8 +18,8 @@
 // asynchronous file operations
 //
 
-#ifndef _ASYNC_FILE_
-#define _ASYNC_FILE_
+#ifndef BOINC_ASYNC_FILE_H
+#define BOINC_ASYNC_FILE_H
 
 #include <vector>
 

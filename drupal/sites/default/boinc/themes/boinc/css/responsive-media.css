@@ -36,6 +36,11 @@
     margin: 16px 12px 12px;
   }
 
+  /* Header adjustment when hamburger menu is onscreen. */
+  #header {
+    max-width: none;
+  }
+
   /* Hide the mobile menu icon. Hide the mobile navigation menu. */
   #navigation-mmt {
     display: none;
@@ -71,6 +76,11 @@
   #sub-menu ul,
   #action-links ul {
     display: none;
+  }
+
+  /* Header adjustment when hamburger menu is onscreen. */
+  #header {
+    max-width: none;
   }
 
   /* Set the navigation bar space for the mobile menu.*/
@@ -109,13 +119,6 @@
     padding: 0 20px;
   }
   
-  /* Remove height style for navigation <a> links, 
-   Remove padding as well. */
-  #navigation li a {
-    height: auto;
-    padding: 0;
-  }
-
   /* Set base mobile menu font color and size. */
   #navigation .block .menu li a {
     color: #faa341;

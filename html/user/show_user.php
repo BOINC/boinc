@@ -102,7 +102,8 @@ if ($format=="xml"){
     }
     community_links($community_links, $logged_in_user);
     end_table();
-    echo "</td></tr></table>";
+    echo "</td></tr>";
+    end_table();
     page_tail(true);
 }
 

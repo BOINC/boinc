@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef H_BOINC_GLUT
-#define H_BOINC_GLUT
+#ifndef BOINC_BOINC_GLUT_H
+#define BOINC_BOINC_GLUT_H
 
 
 #ifdef _WIN32

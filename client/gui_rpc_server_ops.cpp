@@ -925,6 +925,12 @@ static void handle_project_attach_poll(GUI_RPC_CONN& grc) {
     );
 }
 
+// This RPC, regrettably, serves 3 purposes
+// - to join an account manager
+// - to trigger an RPC to the current account manager
+//   (perhaps with "use_config_file")
+// - to quit an account manager (with null args)
+//
 static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     string url, name, password;
     string password_hash, name_lc;
@@ -973,6 +979,11 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     }
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
+    } else if (gstate.acct_mgr_info.using_am()
+        && !url.empty()
+        && !gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str())
+    ){
+        grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
         gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
         grc.mfout.printf("<success/>\n");
@@ -1063,15 +1074,6 @@ static void handle_set_global_prefs_override(GUI_RPC_CONN& grc) {
     }
 }
 
-static void handle_get_cc_config(GUI_RPC_CONN& grc) {
-    string s;
-    int retval = read_file_string(CONFIG_FILE, s);
-    if (!retval) {
-        strip_whitespace(s);
-        grc.mfout.printf("%s\n", s.c_str());
-    }
-}
-
 static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
     string s;
     int retval = read_file_string(ALL_PROJECTS_LIST_FILENAME, s);
@@ -1085,6 +1087,36 @@ static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
 
 static void handle_get_state(GUI_RPC_CONN& grc) {
     gstate.write_state_gui(grc.mfout);
+}
+
+static void handle_get_cc_config(GUI_RPC_CONN& grc) {
+    string s;
+    int retval = read_file_string(CONFIG_FILE, s);
+    if (!retval) {
+        strip_whitespace(s);
+        grc.mfout.printf("%s\n", s.c_str());
+    }
+}
+
+static void handle_get_app_config(GUI_RPC_CONN& grc) {
+    string url;
+    string s;
+    char path[MAXPATHLEN];
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.parse_string("url", url)) continue;
+    }
+    PROJECT* p = gstate.lookup_project(url.c_str());
+    if (!p) {
+        grc.mfout.printf("<error>no such project</error>");
+        return;
+    }
+    sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
+    printf("path: %s\n", path);
+    int retval = read_file_string(path, s);
+    if (!retval) {
+        strip_whitespace(s);
+        grc.mfout.printf("%s\n", s.c_str());
+    }
 }
 
 static void handle_set_cc_config(GUI_RPC_CONN& grc) {
@@ -1113,6 +1145,47 @@ static void handle_set_cc_config(GUI_RPC_CONN& grc) {
         grc.mfout.printf("<success/>\n");
     }
 }
+
+static void handle_set_app_config(GUI_RPC_CONN& grc) {
+    APP_CONFIGS ac;
+    string url;
+    MSG_VEC mv;
+    LOG_FLAGS lf;
+    int parse_retval = -1;
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("app_config")) {
+            lf.init();
+            parse_retval = ac.parse(grc.xp, mv, lf);
+        } else if (grc.xp.parse_string("url", url)) {
+            continue;
+        }
+    }
+    if (parse_retval) {
+        grc.mfout.printf("<error>XML parse failed<error/>\n");
+        return;
+    }
+    PROJECT* p = gstate.lookup_project(url.c_str());
+    if (!p) {
+        grc.mfout.printf("<error>no such project<error/>\n");
+        return;
+    }
+    char path[MAXPATHLEN];
+    sprintf(path, "%s/app_config.xml", p->project_dir());
+    FILE* f = fopen(path, "w");
+    if (!f) {
+        msg_printf(p, MSG_INTERNAL_ERROR,
+            "Can't open app config file %s", path
+        );
+        grc.mfout.printf("<error>can't open app_config.xml file<error/>\n");
+        return;
+
+    }
+    MIOFILE mf;
+    mf.init_file(f);
+    ac.write(mf);
+    grc.mfout.printf("<success/>\n");
+}
+
 
 static void handle_get_notices(GUI_RPC_CONN& grc) {
     int seqno = 0;
@@ -1331,6 +1404,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("abort_file_transfer", handle_abort_file_transfer,      true,   false,  false),
     GUI_RPC("abort_result", handle_abort_result,                    true,   false,  false),
     GUI_RPC("acct_mgr_info", handle_acct_mgr_info,                  true,   false,  true),
+    GUI_RPC("get_app_config", handle_get_app_config,                true,   false,  false),
     GUI_RPC("get_cc_config", handle_get_cc_config,                  true,   false,  false),
     GUI_RPC("get_global_prefs_file", handle_get_global_prefs_file,  true,   false,  false),
     GUI_RPC("get_global_prefs_override", handle_get_global_prefs_override,
@@ -1358,6 +1432,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("report_device_status", handle_report_device_status,    true,   false,  false),
     GUI_RPC("resume_result", handle_resume_result,                  true,   false,  false),
     GUI_RPC("run_benchmarks", handle_run_benchmarks,                true,   false,  false),
+    GUI_RPC("set_app_config", handle_set_app_config,                true,   false,  false),
     GUI_RPC("set_cc_config", handle_set_cc_config,                  true,   false,  false),
     GUI_RPC("set_global_prefs_override", handle_set_global_prefs_override,
                                                                     true,   false,  false),

@@ -22,15 +22,15 @@ echo "PostInstall.app path = $pipath"
 
 # Run the Postinstall Application
 if [ "${COMMAND_LINE_INSTALL}" = "1" ]; then
-"$pipath" -part1 >> /tmp/BOINCInstallLog.txt
+"$pipath" -part1 > /tmp/BOINCInstallLog.txt 2>&1
 sleep 2
-"$pipath" -part2 >> /tmp/BOINCInstallLog.txt &
+"$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
 else
-"$pipath" -part1
+"$pipath" -part1 2>&1 | tee /tmp/BOINCInstallLog.txt
 sleep 2
 # part2 continues to run after Installer finishes, 
 # and fails unless we redirect stdout to a file
-"$pipath" -part2 >> /tmp/BOINCInstallLog.txt &
+"$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
 fi
 
 exit 0

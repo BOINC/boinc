@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _RESULT_
-#define _RESULT_
+#ifndef BOINC_RESULT_H
+#define BOINC_RESULT_H
 
 #include "project.h"
 

@@ -86,11 +86,11 @@ if ($success_page==1) {
     echo "<tr><th width=20% class=\"bg-primary\">".tra("Author")."</th>
         <th class=\"bg-primary\">".tra("Message")."</th></tr>
     ";
-    show_post($post, $thread, $forum, $user, 0);
+    show_post($post, $thread, $forum, $user);
     row1(tra("Report post"));
     echo "<tr><td>
     ";
-    echo tra("Why do you find the post offensive: %1Please include enough information so that a person that has not yet read the thread will quickly be able to identify the issue.%2", "<p><small>", "</small>");
+    echo tra("Why do you find the post offensive: %1 Please include enough information so that a person that has not yet read the thread will quickly be able to identify the issue. %2", "<p><small>", "</small>");
     echo '</td><td>
         <textarea name="reason" rows="12" class="form-control"></textarea>
         </td></tr>

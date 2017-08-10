@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef URL_H
-#define URL_H
+#ifndef BOINC_URL_H
+#define BOINC_URL_H
 
 #include <string>
 

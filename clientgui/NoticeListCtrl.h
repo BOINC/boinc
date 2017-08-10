@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _NOTICELISTCTRL_H_
-#define _NOTICELISTCTRL_H_
+#ifndef BOINC_NOTICELISTCTRL_H
+#define BOINC_NOTICELISTCTRL_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "NoticeListCtrl.cpp"
@@ -62,4 +62,4 @@ private:
     wxString    m_noticesBody;
 };
 
-#endif // _NOTICELISTCTRL_H_
+#endif

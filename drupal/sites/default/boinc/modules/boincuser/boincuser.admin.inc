@@ -325,11 +325,11 @@ function boincuser_admin_other(&$form_state) {
   // Define the form
   $form['boinc_other_frontpage'] = array (
     '#type' => 'textarea',
-    '#title' => bts('Message for site\'s Home Page'),
+    '#title' => bts('Message for site\'s Home Page', array(), NULL, 'boinc:admin-boinc-other-options'),
     '#default_value' => $default['boinc_other_frontpage'],
     '#cols' => 60,
     '#rows' => 8,
-    '#description' => bts('Text to be displayed on the site\'s Home landing page.'),
+    '#description' => bts('Text to be displayed on the site\'s Home landing page.', array(), NULL, 'boinc:admin-boinc-other-options'),
   );
     
   return system_settings_form($form);
@@ -345,5 +345,5 @@ function boincuser_admin_other_validate($form, &$form_state) {
   * Submit BOINC other form
   */
 function boincuser_admin_other_submit($form, &$form_state) {
-  drupal_set_message( bts("Status: BOINC other settings have been updated") );
+  drupal_set_message( bts("Status: BOINC other settings have been updated", array(), NULL, 'boinc:admin-boinc-other-options') );
 }

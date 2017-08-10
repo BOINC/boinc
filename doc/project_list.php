@@ -4,6 +4,7 @@
 // which it does every 14 days.
 // Don't break backwards compatibility!
 
+require_once("../inc/translation.inc");
 require_once("projects.inc");
 require_once("account_managers.inc");
 require_once("get_platforms.inc");

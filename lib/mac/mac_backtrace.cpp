@@ -368,54 +368,38 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
 // This is an alternative to using Gestalt(gestaltSystemVersion,..) so 
 // we don't need the Carbon Framework
 static void PrintOSVersion(int *majorVersion, int *minorVersion) {
-    char buf[1024], *p1 = NULL, *p2 = NULL, *p3;
+    char vers[100], build[100], *p1 = NULL;
     FILE *f;
-    int n;
     
 //ToDo: f = popen("/usr/libexec/PlistBuddy -c \"Print :ProductUserVisibleVersion\" /System/Library/CoreServices/SystemVersion.plist");
 //      fgets(buf, f);
 //      flcose(f);
 
-    f = fopen("/System/Library/CoreServices/SystemVersion.plist", "r");
-    if (!f)
-        return;
-        
-    n = fread(buf, 1, sizeof(buf)-1, f);
-    buf[n] = '\0';
-    p1 = strstr(buf, "<key>ProductUserVisibleVersion</key>");
-    if (p1) {
-        p1 = strstr(p1, "<string>") + 8;
-        p2 = strstr(p1, "</string>");
-        if (p2) {
-            // Extract the major system version number
-            *majorVersion = atoi(p1);
-            // Extract the minor system version number
-            p3 = strchr(p2, '.');
-            *minorVersion = atoi(p3+1);    // Pass minor version number back to caller
-            // Now print the full OS version string
-            fputs("System version: Macintosh OS ", stderr);
-            while (p1 < p2) {
-                fputc(*p1++, stderr);
-            }
-        }
-    }
+    vers[0] = '\0';
+    f = popen("sw_vers -productVersion", "r");
+    if (!f) return;
+    fscanf(f, "%s", vers);
+    pclose(f);
+
+    if (vers[0] == '\0') return;
+    // Extract the major system version number
+    *majorVersion = atoi(vers);    // Pass major version number back to caller
+    // Extract the minor system version number
+    p1 = strchr(vers, '.');
+    *minorVersion = atoi(p1+1);    // Pass minor version number back to caller
     
-    if (p2) {
-        p2 = NULL;
-        p1 = strstr(buf, "<key>ProductBuildVersion</key>");
-        if (p1) {
-            p1 = strstr(p1, "<string>") + 8;
-            p2 = strstr(p1, "</string>");
-            if (p2) {
-                fputs(" build ", stderr);
-                while (p1 < p2) {
-                    fputc(*p1++, stderr);
-                }
-            }
-        }
+    // Now print the full OS version string
+    fputs("System version: Macintosh OS ", stderr);
+    fputs(vers, stderr);
+    
+    build[0] = '\0';
+    f = popen("sw_vers -buildVersion", "r");
+    if (f) {
+        fscanf(f, "%s", build);
+        pclose(f);
+        fputs(" build ", stderr);
+        fputs(build, stderr);
     }
     
     fputc('\n', stderr);
-
-    fclose(f);
 }

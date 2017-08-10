@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINC_DAEMONMANAGEMENT_H_
-#define _BOINC_DAEMONMANAGEMENT_H_
+#ifndef BOINC_DAEMONMGT_H
+#define BOINC_DAEMONMGT_H
 
 extern bool is_daemon_installed();
 extern bool is_daemon_starting();

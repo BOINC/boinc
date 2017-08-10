@@ -8,7 +8,7 @@ page_head(tra("Live help via Skype or email"));
 
 echo "
 <p>
-".tra("BOINC Live Help lets get one-on-one help from an experienced BOINC user, who can answer questions about BOINC, help you install and use BOINC, and troubleshoot problems.")."
+".tra("BOINC Live Help lets you get one-on-one help from an experienced BOINC user who can answer questions about BOINC, help you install BOINC, and troubleshoot problems.")."
 </ul>
 <p>
 ".tra("You can communicate with a helper")."
@@ -16,7 +16,7 @@ echo "
 <li> ".tra("by email")."
 <li>
 ".tra("
-by voice, using %1Skype%2, a free Internet-based telephone system. If you don't already have Skype, you can %3download and install it now%4.  When you're finished, return to this page.",
+by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page.",
     "<a href=\"https://www.skype.com\">",
     "</a>",
     "<a href=\"https://www.skype.com\">",

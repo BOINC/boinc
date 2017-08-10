@@ -39,6 +39,21 @@
 /win_build/installerv2/redist/Windows/src/boinccas/*.filters
 /win_build/installerv2/redist/Windows/src/boinccas/boinccas.sdf
 
+# Android (Studio, build scripts, artefacts, redundancies)
+/android/**/*.iml
+/android/**/.gradle
+/android/**/local.properties
+/android/**/.idea
+/android/**/build
+/android/**/captures
+/android/**/.externalNativeBuild
+/stage
+/android/BOINC/app/src/main/assets/arm*
+/android/BOINC/app/src/main/assets/mips*
+/android/BOINC/app/src/main/assets/x86*
+/android/BOINC/app/src/main/assets/all_projects_list.xml
+/android/BOINC/app/src/main/assets/ca-bundle.crt
+
 ## files created by _autosetup (autoreconf):
 *.in
 *.in~
@@ -89,6 +104,11 @@ drupal/sites/default/project
 
 ## translation system
 locale/*/*.flag
+
+## dependency builds and CI cache directories
+3rdParty/linux/
+3rdParty/mac/
+3rdParty/buildCache/
 
 .libs/
 svn_version.h
@@ -168,3 +188,6 @@ vda/ssim
 vda/vda
 vda/vdad
 /win_build/*.sdf
+
+# OS-specific files
+.DS_Store

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __STDWX_H__
-#define __STDWX_H__
+#ifndef BOINC_STDWX_H
+#define BOINC_STDWX_H
 
 
 #ifdef _WIN32
@@ -267,5 +267,4 @@
 
 #endif //__WIN32__ && __VISUALC && !__AFX_H__
 
-#endif //__STDWX_H__
-
+#endif

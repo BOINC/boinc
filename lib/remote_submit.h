@@ -18,8 +18,8 @@
 // C++ interfaces to remote job submission and file management RPCs
 // See http://boinc.berkeley.edu/trac/wiki/RemoteJobs#Cinterface
 
-#ifndef REMOTE_SUBMIT_H
-#define REMOTE_SUBMIT_H
+#ifndef BOINC_REMOTE_SUBMIT_H
+#define BOINC_REMOTE_SUBMIT_H
 
 #include <stdio.h>
 #include <string>

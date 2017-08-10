@@ -15,14 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CLIENT_MSG_LOG_H
-#define CLIENT_MSG_LOG_H
+#ifndef BOINC_CLIENT_MSGS_H
+#define BOINC_CLIENT_MSGS_H
 
 #include <algorithm>
 #include <deque>
 #include <string>
 #include <string.h>
 
+#include "client_types.h"
 #include "common_defs.h"
 #include "log_flags.h"
 

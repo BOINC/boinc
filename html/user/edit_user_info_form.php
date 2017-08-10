@@ -30,13 +30,13 @@ form_start('edit_user_info_action.php', 'post');
 echo form_tokens($user->authenticator);
 
 form_input_text(
-    tra("Name %1 real name or nickname%2", "<br><p class=\"text-muted\">", "</p>"),
+    tra("Screen name %1 real name or nickname%2", "<br><p class=\"small\">", "</p>"),
     'user_name',
     $user->name
 );
 
 form_input_text(
-    tra("URL %1 of your web page; optional%2", "<br><p class=\"text-muted\">", "</p>"),
+    tra("URL %1 of your personal web page; optional%2", "<br><p class=\"small\">", "</p>"),
     'url',
     $user->url
 );
@@ -47,11 +47,13 @@ form_select(
     country_select_options($user->country)
 );
 
-form_input_text(
-    tra("Postal (ZIP) code %1 Optional%2", "<br><p class=\"text-muted\">", "</p>"),
-    'postal_code',
-    $user->postal_code
-);
+if (POSTAL_CODE) {
+    form_input_text(
+        tra("Postal (ZIP) code %1 Optional%2", "<br><p class=\"small\">", "</p>"),
+        'postal_code',
+        $user->postal_code
+    );
+}
 
 form_submit('Update info');
 form_end();

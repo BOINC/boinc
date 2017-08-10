@@ -47,8 +47,7 @@ while (1) {
         $b = _mysql_fetch_object($result);
         if (!$b) continue;
 
-        $fname = job_file_name($file->md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
+        $path = dir_hier_path($file->name, "../../download", $fanout);
         unlink($path);
         echo "deleted $path\n";
         BoincBatchFileAssoc::delete_aux("job_file_id=$file->id");

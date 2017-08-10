@@ -149,9 +149,9 @@ function teams_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -192,7 +192,7 @@ function teams_views_default_views() {
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -493,9 +493,9 @@ function teams_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -506,6 +506,9 @@ function teams_views_default_views() {
       'table' => 'user',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'expavg_credit' => array(
       'label' => 'Recent average credit',
@@ -536,7 +539,7 @@ function teams_views_default_views() {
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -1013,7 +1016,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . bts(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\', array(), NULL, \'boinc:team-emails-are-hidden\') . \')\';
 }
 ?>',
       'exclude' => 0,
@@ -1052,9 +1055,9 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -1065,6 +1068,9 @@ else {
       'table' => 'user',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'expavg_credit' => array(
       'label' => 'Recent average credit',
@@ -1095,7 +1101,7 @@ else {
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -1210,7 +1216,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 1,
@@ -1865,7 +1871,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . bts(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\', array(), NULL, \'boinc:team-emails-are-hidden\') . \')\';
 }
 ?>',
       'exclude' => 0,
@@ -1904,9 +1910,9 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -1950,7 +1956,7 @@ else {
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -2033,7 +2039,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 0,
@@ -2405,7 +2411,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . bts(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\', array(), NULL, \'boinc:team-emails-are-hidden\') . \')\';
 }
 ?>',
       'exclude' => 1,
@@ -2444,9 +2450,9 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -2490,7 +2496,7 @@ else {
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
-      'separator' => '',
+      'separator' => ',',
       'format_plural' => 0,
       'format_plural_singular' => '1',
       'format_plural_plural' => '@count',
@@ -2573,7 +2579,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(bts(\'Make founder\'), "community/teams/{$team_id}/edit/founder/set/{$user_id}");
+    echo l(bts(\'Make founder\', array(), NULL, \'boinc:team-make-founder\'), "community/teams/{$team_id}/edit/founder/set/{$user_id}");
   }
 ?>',
       'exclude' => 0,
@@ -2979,7 +2985,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -3094,6 +3100,29 @@ else {
   $handler->override_option('header_format', '1');
   $handler->override_option('header_empty', 1);
   $handler = $view->new_display('panel_pane', 'Top teams overview pane', 'panel_pane_1');
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('use_more', 1);
   $handler->override_option('use_more_always', 1);
   $handler->override_option('use_more_text', 'view more');
@@ -3138,7 +3167,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'nusers' => array(
@@ -3169,6 +3198,29 @@ else {
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
   $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('items_per_page', 100);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_plugin', 'table');
@@ -3212,7 +3264,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'nusers' => array(
@@ -3450,7 +3502,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -3818,7 +3870,7 @@ else {
       'value' => '<?php
 $team_id = boincteam_lookup_nid($data->id);
 $user_id = get_drupal_id($data->team_admin_userid);
-echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}");
+echo l(bts(\'Remove\', array(), NULL, \'boinc:remove-team-member\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -4226,7 +4278,7 @@ echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -4238,6 +4290,32 @@ echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id
       'id' => 'total_credit',
       'table' => 'team',
       'field' => 'total_credit',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
       'relationship' => 'none',
     ),
   ));
@@ -4282,7 +4360,7 @@ echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'expavg_credit' => array(

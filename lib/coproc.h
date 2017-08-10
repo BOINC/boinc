@@ -67,8 +67,8 @@
 //  COPROCS::coprocs[] array and copying the device name COPROC::opencl_prop.name 
 //  into the COPROC::type field (instead of the vendor name.)
 
-#ifndef _COPROC_
-#define _COPROC_
+#ifndef BOINC_COPROC_H
+#define BOINC_COPROC_H
 
 #include <vector>
 #include <string>

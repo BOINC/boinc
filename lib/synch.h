@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SYNCH_H_
-#define _SYNCH_H_
+#ifndef BOINC_SYNCH_H
+#define BOINC_SYNCH_H
 
 #include <sys/sem.h>
 

@@ -429,7 +429,7 @@ void send_work_old() {
     // If user has selected apps but will accept any,
     // and we haven't found any jobs for selected apps, try others
     //
-    if (!g_wreq->njobs_sent && g_wreq->project_prefs.allow_non_selected_apps ) {
+    if (!g_wreq->njobs_sent && g_wreq->project_prefs.allow_non_preferred_apps ) {
         g_wreq->user_apps_only = false;
         selected_app_message_index = g_wreq->no_work_messages.size();
         if (config.debug_send_scan) {

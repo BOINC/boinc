@@ -119,7 +119,7 @@ if ($force_title && $title){
     );
 }
 
-row2_init(tra("Message").html_info().post_warning($forum).$body_help, "");
+row2_init(tra("Message").bbcode_info().post_warning($forum).$body_help, "");
 start_table();
 echo $bbcode_html;
 end_table();

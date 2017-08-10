@@ -38,19 +38,21 @@ echo "
 ";
 start_table();
 row2(
-    tra("Name")."<br><p class=\"text-info\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</p>",
-    "<input name=\"name\" size=\"30\" value=\"$user->name\">"
+    tra("Name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
+    sprintf('<input name="name" class="form-control" value="%s">', $user->name)
 );
 row2_init(
-    tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
+    tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
     '<select name="country" class="form-control">'
 );
 echo country_select_options();
 echo "</select></td></tr>\n";
-row2(
-    tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</span>",
-    "<input name=\"postal_code\" size=\"20\">"
-);
+if (POSTAL_CODE) {
+    row2(
+        tra("Postal or ZIP Code")."<br><small>".tra("Optional; not shown to others")."</small>",
+        '<input name="postal_code" class="form-control">'
+    );
+}
 row2("",
     "<input class=\"btn btn-primary\" type=\"submit\" value=\"OK\">"
 );

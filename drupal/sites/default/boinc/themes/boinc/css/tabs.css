@@ -175,3 +175,10 @@ ul.content-footer-menu {
 ul.content-footer-menu li {
   font-size: 9px;
 }
+
+/* Custom tab class */
+span.task-app-name {
+  max-width: 160px;
+  word-wrap: break-word;
+  white-space: normal;
+}

@@ -62,6 +62,7 @@ Commands:\n\
  --create_account URL email passwd name\n\
  --file_transfer URL filename op    file transfer operation\n\
    op = retry | abort\n\
+ --get_app_config URL               show app config for given project\n\
  --get_cc_status\n\
  --get_daily_xfer_history           show network traffic history\n\
  --get_disk_usage                   show disk usage\n\
@@ -480,6 +481,7 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc(am_url, am_name, am_passwd);
         if (!retval) {
             while (1) {
+                printf("polling for reply\n");
                 ACCT_MGR_RPC_REPLY amrr;
                 retval = rpc.acct_mgr_rpc_poll(amrr);
                 if (retval) {
@@ -585,6 +587,24 @@ int main(int argc, char** argv) {
         printf("retval %d\n", retval);
     } else if (!strcmp(cmd, "--network_available")) {
         retval = rpc.network_available();
+    } else if (!strcmp(cmd, "--set_app_config")) {
+        // for testing purposes only
+        //
+        APP_CONFIGS ac;
+        APP_CONFIG a;
+        ac.clear();
+        strcpy(a.name, "uppercase");
+        a.max_concurrent = 2;
+        ac.app_configs.push_back(a);
+        retval = rpc.set_app_config(argv[2], ac);
+    } else if (!strcmp(cmd, "--get_app_config")) {
+        APP_CONFIGS ac;
+        retval = rpc.get_app_config(argv[2], ac);
+        if (!retval) {
+            MIOFILE mf;
+            mf.init_file(stdout);
+            ac.write(mf);
+        }
     } else if (!strcmp(cmd, "--get_cc_status")) {
         CC_STATUS cs;
         retval = rpc.get_cc_status(cs);

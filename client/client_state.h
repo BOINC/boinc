@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _CLIENT_STATE_
-#define _CLIENT_STATE_
+#ifndef BOINC_CLIENT_STATE_H
+#define BOINC_CLIENT_STATE_H
 
 #define NEW_CPU_THROTTLE
 // do CPU throttling using a separate thread.
@@ -511,6 +511,8 @@ struct CLIENT_STATE {
     void get_workload(vector<IP_RESULT>&);
     bool simulate_rpc(PROJECT*);
 #endif
+
+    KEYWORDS keywords;
 };
 
 extern CLIENT_STATE gstate;

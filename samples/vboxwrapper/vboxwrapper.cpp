@@ -31,7 +31,7 @@
 // --register_only  Register the VM but don't run it.
 //                  Useful for debugging; see the wiki page
 // --memory_size_mb How much memory (in MB) to give the VM. Overrides the
-//                  value in vbox_job.xml if its present. 
+//                  value in vbox_job.xml if its present.
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -80,11 +80,17 @@
 #include "vboxcheckpoint.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
+//Use of COM_OFF to choose between COM
+//and VboxManage interfaces
+//
+//Default is COM
 #ifdef _WIN32
+#ifndef COM_OFF
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
 #include "vbox_mscom50.h"
 #include "vbox_mscom51.h"
+#endif
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -139,7 +145,7 @@ bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     }
 
     frac_done = frac;
-	return true;
+    return true;
 }
 
 void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string& message, VBOX_VM& vm) {
@@ -305,8 +311,8 @@ void check_trickle_triggers(VBOX_VM& vm) {
             vboxlog_msg("ERROR: can't read trickle trigger file %s", filename);
         } else {
             retval = boinc_send_trickle_up(
-                filename, const_cast<char*>(text.c_str())
-            );
+                         filename, const_cast<char*>(text.c_str())
+                     );
             if (retval) {
                 vboxlog_msg("boinc_send_trickle_up() failed: %s (%d)", boincerror(retval), retval);
             }
@@ -355,11 +361,11 @@ void check_trickle_period(double& elapsed_time, double& trickle_period) {
     last_trickle_report_time = elapsed_time;
     vboxlog_msg("Status Report: Trickle-Up Event.");
     sprintf(buf,
-        "<cpu_time>%f</cpu_time>", last_trickle_report_time
-    );
+            "<cpu_time>%f</cpu_time>", last_trickle_report_time
+           );
     int retval = boinc_send_trickle_up(
-        const_cast<char*>("cpu_time"), buf
-    );
+                     const_cast<char*>("cpu_time"), buf
+                 );
     if (retval) {
         vboxlog_msg("Sending Trickle-Up Event failed (%d).", retval);
     }
@@ -395,7 +401,7 @@ int main(int argc, char** argv) {
     bool report_net_usage = false;
     bool initial_heartbeat_check = true;
     double net_usage_timer = 600;
-	int vm_image = 0;
+    int vm_image = 0;
     unsigned long vm_exit_code = 0;
     bool is_notice = false;
     int temp_delay = 86400;
@@ -421,9 +427,11 @@ int main(int argc, char** argv) {
     vboxlog_msg("vboxwrapper (%d.%d.%d): starting", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, VBOXWRAPPER_RELEASE);
 
     // Initialize system services
-    // 
+    //
 #ifdef _WIN32
+#ifndef COM_OFF
     CoInitialize(NULL);
+#endif
 #ifdef USE_WINSOCK
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -439,7 +447,9 @@ int main(int argc, char** argv) {
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
 
+    //Use COM_OFF to choose how we initialize() the VM
 #ifdef _WIN32
+#ifndef COM_OFF
     // Determine what version of VirtualBox we are using via the registry. Use a
     // namespace specific version of the function because VirtualBox has been known
     // to change the registry location from time to time.
@@ -455,8 +465,8 @@ int main(int argc, char** argv) {
     if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
         if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
             if (BOINC_SUCCESS != vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-				vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-			}
+                vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+            }
         }
     }
     if (!vbox_version_raw.empty()) {
@@ -473,14 +483,15 @@ int main(int argc, char** argv) {
         if ((5 == vbox_major) && (1 <= vbox_minor)) {
             pVM = (VBOX_VM*) new vbox51::VBOX_VM();
         }
-		if (pVM) {
+        if (pVM) {
             retval = pVM->initialize();
             if (retval) {
                 delete pVM;
                 pVM = NULL;
             }
-		}
+        }
     }
+#endif
 #endif
     // Initialize VM Hypervisor
     //
@@ -516,7 +527,7 @@ int main(int argc, char** argv) {
 
     // Choose a random interleave value for checkpoint intervals
     // to stagger disk I/O.
-    // 
+    //
     srand((int)getpid());
     random_checkpoint_factor = drand() * 600;
 
@@ -534,7 +545,7 @@ int main(int argc, char** argv) {
     }
 
     // Check for architecture incompatibilities
-    // 
+    //
 #if defined(_WIN32) && defined(_M_IX86)
     if (strstr(aid.host_info.os_version, "x64")) {
         vboxlog_msg("64-bit version of BOINC is required, please upgrade. Rescheduling execution for a later date.");
@@ -543,13 +554,13 @@ int main(int argc, char** argv) {
 #endif
 
     // Record what version of VirtualBox was used.
-    // 
+    //
     if (!pVM->virtualbox_version_display.empty()) {
         vboxlog_msg("Detected: %s", pVM->virtualbox_version_display.c_str());
     }
 
     // Record if anonymous platform was used.
-    // 
+    //
     if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
         vboxlog_msg("Detected: Anonymous Platform Enabled");
     }
@@ -575,18 +586,18 @@ int main(int argc, char** argv) {
         boinc_temporary_exit(86400, "Incompatible configuration detected.");
     }
 
-    // Check against known incompatible versions of VirtualBox.  
+    // Check against known incompatible versions of VirtualBox.
     // VirtualBox 4.2.6 crashes during snapshot operations
     // and 4.2.18 fails to restore from snapshots properly.
     //
-    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) || 
-        (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) || 
-        (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
+    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) ||
+            (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) ||
+            (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
-            "Incompatible version of VirtualBox detected; please upgrade.",
-            true
-        );
+                             "Incompatible version of VirtualBox detected; please upgrade.",
+                             true
+                            );
     }
 
     // Check to see if the system is in a state in which
@@ -680,24 +691,24 @@ int main(int argc, char** argv) {
         pVM->vm_master_description = "standalone";
         if (pVM->enable_floppyio) {
             sprintf(buf, "%s.%s",
-                FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
-            );
+                    FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
+                   );
             pVM->floppy_image_filename = buf;
         }
     } else {
         pVM->vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         pVM->vm_master_description = aid.result_name;
-		if (vm_image) {
+        if (vm_image) {
             sprintf(buf, "%s_%d.%s",
-                IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
-            );
+                    IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
+                   );
             pVM->image_filename = buf;
-		}
+        }
         if (pVM->enable_floppyio) {
             sprintf(buf, "%s_%d.%s",
-                FLOPPY_IMAGE_FILENAME, aid.slot,
-                FLOPPY_IMAGE_FILENAME_EXTENSION
-            );
+                    FLOPPY_IMAGE_FILENAME, aid.slot,
+                    FLOPPY_IMAGE_FILENAME_EXTENSION
+                   );
             pVM->floppy_image_filename = buf;
         }
     }
@@ -711,10 +722,10 @@ int main(int argc, char** argv) {
     // cpu count: cmdline arg overrides config file
     //
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
-		if (ncpus > 32.0) {
+        if (ncpus > 32.0) {
             vboxlog_msg("WARNING: Virtualbox only allows up to 32 processors to be allocated to a VM, resetting to 32.  (%f allocated)", ncpus);
-			ncpus = 32.0;
-		}
+            ncpus = 32.0;
+        }
         if (ncpus) {
             sprintf(buf, "%d", (int)ceil(ncpus));
         } else {
@@ -828,15 +839,15 @@ int main(int argc, char** argv) {
             //
             if (pVM->vm_pid) {
                 retval = boinc_report_app_status_aux(
-                    current_cpu_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done,
-                    pVM->vm_pid,
-                    bytes_sent,
-                    bytes_received
-                );
+                             current_cpu_time,
+                             last_checkpoint_cpu_time,
+                             fraction_done,
+                             pVM->vm_pid,
+                             bytes_sent,
+                             bytes_received
+                         );
             }
- 
+
             // Give the BOINC API time to report the pid to BOINC.
             //
             boinc_sleep(5.0);
@@ -859,13 +870,13 @@ int main(int argc, char** argv) {
     //
     vboxlog_msg("Reporting VM Process ID to BOINC.");
     retval = boinc_report_app_status_aux(
-        current_cpu_time,
-        last_checkpoint_cpu_time,
-        fraction_done,
-        pVM->vm_pid,
-        bytes_sent,
-        bytes_received
-    );
+                 current_cpu_time,
+                 last_checkpoint_cpu_time,
+                 fraction_done,
+                 pVM->vm_pid,
+                 bytes_sent,
+                 bytes_received
+             );
 
     // Wait for up to 5 minutes for the VM to switch states.
     // A system under load can take a while.
@@ -884,7 +895,7 @@ int main(int argc, char** argv) {
     //
     pVM->lower_vm_process_priority();
 
-    // Log our current state 
+    // Log our current state
     pVM->poll(true);
 
     // Is the VM still running? If not, why not?
@@ -959,15 +970,15 @@ int main(int argc, char** argv) {
             //
             if (pVM->vm_pid) {
                 retval = boinc_report_app_status_aux(
-                    current_cpu_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done,
-                    pVM->vm_pid,
-                    bytes_sent,
-                    bytes_received
-                );
+                             current_cpu_time,
+                             last_checkpoint_cpu_time,
+                             fraction_done,
+                             pVM->vm_pid,
+                             bytes_sent,
+                             bytes_received
+                         );
             }
- 
+
             // Give the BOINC API time to report the pid to BOINC.
             //
             boinc_sleep(5.0);
@@ -1040,7 +1051,7 @@ int main(int argc, char** argv) {
             if (
                 (initial_heartbeat_check && (elapsed_time >= (last_heartbeat_elapsed_time + 600.0))) ||
                 (!initial_heartbeat_check && (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval)))
-            ){
+            ) {
                 bool should_exit = false;
                 struct stat heartbeat_stat;
 
@@ -1157,7 +1168,7 @@ int main(int argc, char** argv) {
                     vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
-               }
+                }
             }
         } else {
             if (pVM->suspended) {
@@ -1166,7 +1177,7 @@ int main(int argc, char** argv) {
                     vboxlog_msg("ERROR: VM task failed to resume, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
-               }
+                }
             }
 
             // stuff to do every 10 secs (everything else is 1/sec)
@@ -1181,12 +1192,12 @@ int main(int argc, char** argv) {
                 fraction_done = elapsed_time / pVM->job_duration;
             } else if (pVM->fraction_done_filename.size() > 0) {
                 if (!read_fraction_done(fraction_done, *pVM)) {
-					// Report a non-zero fraction done so that BOINC will not attempt to use CPU Time and
-					// deadline as a means to calculate fraction done when a fraction done file is
-					// specified.
-					//
-					fraction_done = 0.001;
-				}
+                    // Report a non-zero fraction done so that BOINC will not attempt to use CPU Time and
+                    // deadline as a means to calculate fraction done when a fraction done file is
+                    // specified.
+                    //
+                    fraction_done = 0.001;
+                }
             }
             if (fraction_done > 1.0) {
                 fraction_done = 1.0;
@@ -1217,7 +1228,7 @@ int main(int argc, char** argv) {
             }
 
             // Real VM checkpoints (snapshots) are expensive, don't do them very often.
-            // 
+            //
             // If the project has disabled automatic checkpoints, just report that we have
             // successfully completed the checkpoint as soon as the API reports that we should
             // checkpoint.
@@ -1318,9 +1329,9 @@ int main(int argc, char** argv) {
         // report network usage every 10 min so the client can enforce quota
         //
         if (aid.global_prefs.daily_xfer_limit_mb
-            && pVM->enable_network
-            && !pVM->suspended
-        ) {
+                && pVM->enable_network
+                && !pVM->suspended
+           ) {
             net_usage_timer -= POLL_PERIOD;
             if (net_usage_timer <= 0) {
                 net_usage_timer = 600;
@@ -1340,13 +1351,13 @@ int main(int argc, char** argv) {
 
         if (report_net_usage) {
             retval = boinc_report_app_status_aux(
-                elapsed_time,
-                last_checkpoint_cpu_time,
-                fraction_done,
-                pVM->vm_pid,
-                bytes_sent,
-                bytes_received
-            );
+                         elapsed_time,
+                         last_checkpoint_cpu_time,
+                         fraction_done,
+                         pVM->vm_pid,
+                         bytes_sent,
+                         bytes_received
+                     );
             if (!retval) {
                 report_net_usage = false;
             }
@@ -1383,7 +1394,9 @@ int main(int argc, char** argv) {
     }
 
 #ifdef _WIN32
+#ifndef COM_OFF
     CoUninitialize();
+#endif
 #ifdef USE_WINSOCK
     WSACleanup();
 #endif

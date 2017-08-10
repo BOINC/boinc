@@ -83,6 +83,10 @@ void log_message_startup(const char* msg) {
     );
     if (!gstate.executing_as_daemon) {
         fprintf(stdout, "%s", evt_msg);
+#ifdef _MSC_VER
+        // MSVCRT doesn't support line buffered streams
+        fflush(stdout);
+#endif
     } else {
 #ifdef _WIN32
         LogEventInfoMessage(evt_msg);
@@ -373,8 +377,6 @@ int boinc_main_loop() {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
         }
-        fflush(stderr);
-        fflush(stdout);
 
         if (gstate.time_to_exit()) {
             msg_printf(NULL, MSG_INFO, "Time to exit");

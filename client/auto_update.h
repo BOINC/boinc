@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _AUTO_UPDATE_
-#define _AUTO_UPDATE_
+#ifndef BOINC_AUTO_UPDATE_H
+#define BOINC_AUTO_UPDATE_H
 
 #include <string>
 #include <vector>

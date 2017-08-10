@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _CS_NOTICE_
-#define _CS_NOTICE_
+#ifndef BOINC_CS_NOTICE_H
+#define BOINC_CS_NOTICE_H
 
 // Code related to "notices", which come from
 // 1) RSS feeds specified by projects and account managers

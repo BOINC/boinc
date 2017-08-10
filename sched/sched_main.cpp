@@ -61,6 +61,7 @@
 #include "handle_request.h"
 #include "sched_config.h"
 #include "sched_files.h"
+#include "sched_keyword.h"
 #include "sched_msgs.h"
 #include "sched_types.h"
 #include "sched_util.h"
@@ -542,6 +543,9 @@ int main(int argc, char** argv) {
     if (!ssp) {
         send_message("Server error: can't attach shared memory", config.maintenance_delay);
         goto done;
+    }
+    if (config.keyword_sched) {
+        keyword_sched_init();
     }
 
     if (strlen(config.debug_req_reply_dir)) {

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef H_BOINC_GL
-#define H_BOINC_GL
+#ifndef BOINC_BOINC_GL_H
+#define BOINC_BOINC_GL_H
 
 #if defined(_WIN32)
 #  include <GL/gl.h>

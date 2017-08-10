@@ -138,7 +138,9 @@ function teams_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_create_team_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -193,7 +195,7 @@ function teams_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -334,7 +336,9 @@ function teams_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_teams_landing_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -493,7 +497,7 @@ return ($account->team == 0);',
     $pane->position = 2;
     $display->content['new-5'] = $pane;
     $display->panels['right'][2] = 'new-5';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -612,7 +616,9 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_2';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -667,7 +673,7 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -735,7 +741,9 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_8';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -762,7 +770,7 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -830,7 +838,9 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_4';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -857,7 +867,7 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -916,7 +926,9 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_3';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -991,7 +1003,7 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     $pane->position = 1;
     $display->content['new-2'] = $pane;
     $display->panels['middle'][1] = 'new-2';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -1059,7 +1071,9 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_5';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1086,7 +1100,7 @@ return (boincteam_is_founder($team_id) OR boincteam_is_admin($team_id));',
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -1154,7 +1168,9 @@ return boincteam_is_founder($team_id);',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_6';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1207,7 +1223,7 @@ return boincteam_is_founder($team_id);',
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -1275,7 +1291,9 @@ return boincteam_is_founder($team_id);',
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_9';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1354,7 +1372,7 @@ return boincteam_is_founder($team_id);',
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -1423,7 +1441,9 @@ return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_i
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context_7';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1449,7 +1469,7 @@ return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_i
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -1565,7 +1585,9 @@ return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_i
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Teams';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_view_team_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1847,7 +1869,7 @@ return boincteam_is_founder($team_id, $uid);',
     $pane->position = 5;
     $display->content['new-7'] = $pane;
     $display->panels['right'][5] = 'new-7';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

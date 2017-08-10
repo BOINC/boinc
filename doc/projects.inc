@@ -4,8 +4,6 @@
 // look at https://boinc.berkeley.edu/project_list.php in a browser to make sure
 // you didn't mess up the XML
 
-require_once("../inc/translation.inc");
-
 // 0: name
 // 1: web site URL
 // 2: home
@@ -169,16 +167,16 @@ $biomed = array(
 //            tra("By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit."),
 //            "proteinsathome.gif"
 //        ),
-        array(
-            "The Lattice Project",
-            "http://boinc.umiacs.umd.edu/",
-            tra("University of Maryland Center for Bioinformatics and Computational Biology"),
-            tra("Life science research"),
-            tra("The Lattice Project, developed and administered at the University of Maryland, supplies computing power to researchers worldwide who are studying evolutionary relationships using DNA and protein sequence data."),
-            "lattice.gif",
-            "",
-            "Study evolution using genetics"
-        ),
+//        array(
+//            "The Lattice Project",
+//            "http://boinc.umiacs.umd.edu/",
+//            tra("University of Maryland Center for Bioinformatics and Computational Biology"),
+//            tra("Life science research"),
+//            tra("The Lattice Project, developed and administered at the University of Maryland, supplies computing power to researchers worldwide who are studying evolutionary relationships using DNA and protein sequence data."),
+//            "lattice.gif",
+//            "",
+//            "Study evolution using genetics"
+//        ),
 //        array(
 //            "Malariacontrol.net",
 //            "http://www.malariacontrol.net/",
@@ -252,6 +250,15 @@ $earth = array(
 $astro_phys_chem = array(
     tra("Physical Science"),
     array(
+        array("XANSONS for COD",
+            "http://xansons4cod.com/xansons4cod/",
+            "Private; supported by the Russian Foundation for Basic Research.",
+            "Crystallography",
+            "XANSONS for COD is a research project aimed to create an open access database of simulated x-ray and neutron powder diffraction patterns for nanocrystalline phase of the materials presented in the Crystallography Open Database (COD).",
+            "",
+            "",
+            "Study nano-materials"
+        ),
 //        array(
 //            "CONVECTOR",
 //            "http://convector.fsv.cvut.cz/",
@@ -361,10 +368,10 @@ $astro_phys_chem = array(
 //        ),
         array(
             "Einstein@home",
-            "http://einstein.phys.uwm.edu/",
-            tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
+            "https://einsteinathome.org/",
+            tra("University of Wisconsin - Milwaukee (USA), Max Planck Institute for Gravitational Physics - Hanover (Germany)"),
             tra("Astrophysics"),
-            tra("Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."),
+            tra("Einstein@Home uses your computer's idle time to search for weak astrophysical signals from spinning neutron stars (often called pulsars) using data from the LIGO gravitational-wave detectors, the Arecibo radio telescope, and the Fermi gamma-ray satellite."),
             "einstein.jpg",
             "",
             tra("Help detect pulsars and gravitational waves")
@@ -397,16 +404,16 @@ $astro_phys_chem = array(
 //            "",
 //            tra("Simulate high-energy particle collisions")
 //        ),
-        array(
-            "ATLAS@Home",
-            "http://atlasathome.cern.ch/",
-            tra("CERN (European Organization for Nuclear Research)"),
-            tra("Physics"),
-            tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
-            "atlas_at_home.jpg",
-            "",
-            tra("Simulate high-energy particle collisions for CERN")
-        ),
+//        array(
+//            "ATLAS@Home",
+//            "http://atlasathome.cern.ch/",
+//            tra("CERN (European Organization for Nuclear Research)"),
+//            tra("Physics"),
+//            tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
+//            "atlas_at_home.jpg",
+//            "",
+//            tra("Simulate high-energy particle collisions for CERN")
+//        ),
         array(
             "SETI@home",
             "http://setiathome.berkeley.edu/",
@@ -481,16 +488,16 @@ $mixed = array(
 //            "",
 //            tra("Help European researchers")
 //        ),
-        array(
-            "Ibercivis",
-            "http://registro.ibercivis.es/",
-            tra("Spanish universities and research centers"),
-            tra("Various Spanish research projects"),
-            tra("Research in physics, material science, and biomedicine"),
-            "cabecera2.jpg",
-            "",
-            tra("Help Spanish researchers")
-        ),
+//        array(
+//            "Ibercivis",
+//            "http://registro.ibercivis.es/",
+//            tra("Spanish universities and research centers"),
+//            tra("Various Spanish research projects"),
+//            tra("Research in physics, material science, and biomedicine"),
+//            "cabecera2.jpg",
+//            "",
+//            tra("Help Spanish researchers")
+//        ),
         array(
             "World Community Grid",
             "http://www.worldcommunitygrid.org/",
@@ -743,7 +750,7 @@ $math = array(
         ),
         array(
             "SRBase",
-            "http://srbase.myfirewall.org/sr5/",
+            "http://srbase.my-firewall.org/sr5/",
             "Independent",
             "Mathematics",
             "SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.",

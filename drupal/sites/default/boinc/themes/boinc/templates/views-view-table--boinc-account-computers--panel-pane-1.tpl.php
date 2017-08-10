@@ -15,9 +15,9 @@
 <table>
 <thead>
   <tr>
-    <th><?php print bts('Name'); ?></th>
-    <th class="numeric"><?php print bts('Avg credit'); ?></th>
-    <th class="numeric"><?php print bts('Total credit'); ?></th>
+    <th><?php print bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'); ?></th>
+    <th class="numeric"><?php print bts('Avg credit', array(), NULL, 'boinc:account-dashboard'); ?></th>
+    <th class="numeric"><?php print bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits'); ?></th>
   </tr>
 </thead>
 <tbody>
@@ -32,9 +32,9 @@
 </table>
 <ul class="more-link tab-list">
   <li class="first tab">
-    <?php print l(bts('More'), 'account/computers'); ?>
+    <?php print l(bts('More', array(), NULL, 'boinc:account-dashboard'), 'account/computers'); ?>
   </li>
   <li class="first alt tab">
-    <?php print l(bts('Tasks'), 'account/tasks/active'); ?>
+    <?php print l(bts('Tasks', array(), NULL, 'boinc:host-tasks-link'), 'account/tasks/0/0'); ?>
   </li>
 </ul>

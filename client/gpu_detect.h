@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _GPU_DETECT_H_
-#define _GPU_DETECT_H_
+#ifndef BOINC_GPU_DETECT_H
+#define BOINC_GPU_DETECT_H
 
 #include "coproc.h"
 
