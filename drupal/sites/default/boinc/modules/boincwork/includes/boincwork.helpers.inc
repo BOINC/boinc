@@ -846,9 +846,14 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $main_prefs['venue'][] = $prefs;
     }
   }
-  
+
   // Set modified time
-  if ($type == 'general') {
+  if ($type == 'project') {
+    if (!isset($main_prefs['modified'])) {
+      $main_prefs = array_merge(array('modified' => 0), $main_prefs);
+    }
+    $main_prefs['modified'] = time();
+  } else {
     if (!isset($main_prefs['mod_time'])) {
       $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
     }
@@ -861,7 +866,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       unset($main_prefs['source_scheduler']);
     }
   }
-  
+
   // Convert prefs back to XML and save to database
   $result = null;
   if ($type == 'project') {

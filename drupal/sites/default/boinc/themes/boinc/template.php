@@ -438,6 +438,12 @@ function boinc_preprocess_views_view(&$vars, $hook) {
       $vars['header'] = boincuser_views_friends_block_header(); 
     }
     break;
+  case 'boinc_host':
+      $view = views_get_current_view();
+      if (!($view->result)) {
+        $vars['footer'] = '<h3>' . bts ('Host not found in database.', array(), NULL, 'boinc:host-details') . '</h3>';
+      }
+    break;
   case 'boinc_host_list':
     if ($vars['display_id'] == 'page_2') {
      $vars['empty'] = boincwork_views_host_list_empty_text();
@@ -451,9 +457,14 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $view = views_get_current_view();
     $view->execute();
     $result = reset($view->result);
-    // Display the stderr output in the footer
-    $vars['footer'] = '<h3>' . bts('Stderr output', array(), NULL, 'boinc:task-dtails-errorlog') .'</h3>';
-    $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+
+    if ($result) {
+      // Display the stderr output in the footer
+      $vars['footer'] = '<h3>' . bts('Stderr output', array(), NULL, 'boinc:task-details-errorlog') .'</h3>';
+      $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+    } else {
+      $vars['footer'] = '<h3>' . bts ('Task not found in database.', array(), NULL, 'boinc:task-details') . '</h3>';
+    }
     break;
   case 'boinc_teams':
     if ($vars['display_id'] == 'panel_pane_3') {
@@ -467,9 +478,14 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $result_id = arg(1);
     require_boinc(array('util','boinc_db'));
     $wu = BoincWorkunit::lookup_id($result_id);
-    project_workunit($wu);
-    // Output of project_workunit() gets caught in the buffer
-    $vars['footer'] = ob_get_clean();
+    if ($wu) {
+      // Output from admin defined BOINC project-specific function
+      project_workunit($wu);
+      // Output of project_workunit() gets caught in the buffer
+      $vars['footer'] = ob_get_clean();
+    } else {
+      $vars['footer'] = '<h3>' . bts ('Workunit not found in database.', array(), NULL, 'boinc:workunit-details') . '</h3>';
+    }
   default:
   }
 }

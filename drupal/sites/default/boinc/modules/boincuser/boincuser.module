@@ -163,11 +163,11 @@ function boincuser_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
   );
-  $items['admin/boinc/other'] = array(
-    'title' => 'Other Options',
-    'description' => 'Set other BOINC options.',
+  $items['admin/boinc/weboptions'] = array(
+    'title' => 'Environment: Website Options',
+    'description' => 'Set options configuring this Drupal-BOINC Web site.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('boincuser_admin_other'),
+    'page arguments' => array('boincuser_admin_weboptions'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
@@ -179,6 +179,13 @@ function boincuser_menu() {
     'page callback' => 'boincuser_create_account',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
+  );
+  $items['account_finish.php'] = array(
+    'title' => 'Welcome to ' . variable_get('site_name', 'Drupal-BOINC'),
+    'description' => 'RPC for after a user has created an account.',
+    'page callback' => 'boincuser_account_finish',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
@@ -1201,7 +1208,12 @@ function boincuser_edit_profile($account = null) {
   */
 function join_page($type = null) {
   global $base_url;
-  $ruleslink = '/content/rules-and-policies';
+  /* The paths/links to the rules-and-policies page is hardcoded
+   * here. An improvement would be admin settings for the Join Page
+   * where this path could be set.
+   */
+  $ruleslinkA = 'rules-and-policies';
+  $ruleslinkB = 'content/rules-and-policies';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $registration_enabled = variable_get('user_register', 0);
   $output = '<div class="join">';
@@ -1240,8 +1252,19 @@ function join_page($type = null) {
     break;
   case 'new':
   default:
+    // Determine if there is a link to rules-and-policies
+    //$ruleslink='';
+    //if (drupal_lookup_path('source', $ruleslinkA)) {
+    //  $ruleslink = drupal_lookup_path('source', $ruleslinkA);
+    //} else if (drupal_lookup_path('source', $ruleslinkB)) {
+    //  $ruleslink = drupal_lookup_path('source', $ruleslinkB);
+    //}
+
+    $ruleslink = drupal_lookup_path('source', variable_get('boinc_weboptions_rulespolicies', '') );
+
+    // Join page output
     $output .= '<ol>';
-    if (menu_valid_path(array('link_path' => $ruleslink))) {
+    if ( menu_valid_path(array('link_path' => $ruleslink)) ) {
       $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
         '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslink),
       ), NULL, 'boinc:join-page') . '</li>';
@@ -1412,6 +1435,137 @@ function boincuser_create_account() {
   echo " <account_out>\n";
   echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
   echo "</account_out>\n";
+}
+
+/**
+ * RPC for account_finish.php, the page user is sent to once an
+ * account is created using the BOINC clinet.
+ */
+function boincuser_account_finish() {
+  global $user;
+
+  $authtoken = isset($_GET['auth']) ? $_GET['auth'] : '';
+
+  // Ensure there is a authentication token before continuing
+  if (empty($authtoken)) {
+    drupal_not_found();
+    return ;
+  }
+
+  if (strlen($authtoken) != 32) {
+    drupal_set_message(bts('ERROR: There is no account with that authenticator.', array(), NULL, 'boinc:account-finish'), 'error');
+    drupal_goto();
+  }
+
+  require_boinc('boinc_db');
+  $boinc_user = BoincUser::lookup("authenticator='".addslashes($authtoken)."'");
+  if (!$boinc_user) {
+    drupal_set_message(bts('ERROR: There is no account with that authenticator.', array(), NULL, 'boinc:account-finish'), 'error');
+    drupal_goto();
+  }
+  $user = user_load(get_drupal_id($boinc_user->id));
+
+  if (!$user) {
+    drupal_set_message(bts('ERROR: There was a problem loading your account. Try logging in with your user name and password.', array(), NULL, 'boinc:account-finish'), 'error');
+    drupal_goto();
+  }
+
+  // Lookup path to custom account finish page
+  $customaccountfinishpath = drupal_lookup_path('source', variable_get('boinc_weboptions_accountfinish', '') );
+  if ( menu_valid_path(array('link_path' => $customaccountfinishpath)) ) {
+    $node = menu_get_object('node', 1, $customaccountfinishpath);
+    if ($node) {
+      return node_page_view($node);
+    }
+  }
+
+  // Check moderation page exists
+  $moderationpath = drupal_lookup_path('source', variable_get('boinc_weboptions_moderationpage', '') );
+  if ( menu_valid_path(array('link_path' => $moderationpath)) ) {
+    $modsentence = bts('Please note: user profiles are subject to @moderation.', array('@moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), 'moderate')), NULL, 'boinc:account-finish');
+  } else {
+    $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
+  }
+
+  // @todo - add bts() function calls
+  $username = $user->boincuser_name;
+  $site_name = variable_get('site_name', 'Drupal-BOINC');
+  $output = "<p>" . bts('Thank you @user_name for joining @site_name. Your account has been created. Your BOINC client should start working on assigned tasks soon, without any additional action or configuration. Please visit the links below for more information and additional options. (Links will open in a new window.)',
+  array(
+    '@user_name' => $username,
+    '@site_name' => $site_name,
+  ), NULL, 'boinc:account-finish') . "</p>";
+
+  $options = array(
+    'attributes' => array( 'target' => '_blank' ),
+  );
+  $links = array(
+    array(
+      'data' => bts('Change your username at !community_preferences.', array(
+        '!community_preferences' => l(bts('Community Preferences', array(), NULL, 'boinc:account-fininsh'), 'account/prefs/community', $options),
+      ), NULL, 'boinc:account-finish'),
+      'children' => array(
+        bts('Your username is used to identify yourself to other volunteers on this Web site.', array(), NULL, 'boinc:account-finish'),
+        bts('In addition, you may set your account\'s default language and adjust notification settings.', array(), NULL, 'boinc:account-finish'),
+      ),
+    ),
+    array(
+      'data' => bts('Change your !computing_preferences.', array(
+        '!computing_preferences' => l(bts('Computing Preferences', array(), NULL, 'boinc:account-finish'), 'account/prefs', $options),
+      ), NULL, 'boinc:account-finish'),
+      'children' => array(
+        bts('You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed to use for tasks on your computer.', array(), NULL, 'boinc:account-finish'),
+        bts('By default, you will run @site_name tasks without any additional configuration.', array(
+          '@site_name' => $site_name,
+        ), NULL, 'boinc:account-finish'),
+        bts('It is recommended new volunteers leave the default settings until they gain experience running some tasks. Ask questions in the !forums to get advice before making changes to a setting you don\'t understand.', array(
+          '!forums' => l(bts('forums', array(), NULL, 'boinc:account-finish'), 'community/forum', $options),
+        ), NULL, 'boinc:account-finish'),
+      ),
+    ),
+    array(
+        'data' => bts('Create a !user_profile.', array(
+          '!user_profile' => l(bts('User Profile', array(), NULL, 'boinc:account-finish'), '/account/profile/edit', $options),
+        ), NULL, 'boinc:account-finish'),
+      'children' => array(
+        bts('A user profile will inform other volunteers who you are and why you joined @site_name.', array(
+          '@site_name' => $site_name,
+        ), NULL, 'boinc:account-finish'),
+        $modsentence,
+      ),
+    ),
+    array(
+      'data' => bts('Join a !team.', array(
+        '!team' => l(bts('Team', array(), NULL, 'boinc:account-finish'), '/community/teams', $options),
+      ), NULL, 'boinc:account-finish'),
+      'children' => array(
+        bts('You may join a team, made up of other volunteers.', array(), NULL, 'boinc:account-finish'),
+      ),
+    ),
+    array(
+      'data' => bts('Go to your !account_dashboard.', array(
+        '!account_dashboard'=> l(bts('Account Dashboard', array(), NULL, 'boinc:account-finish'), 'account/dashboard', $options),
+      ), NULL, 'boinc:account-finish'),
+      'children' => array(
+        bts('Your account dashboard has information and links about your computer(s) and task(s) assigned.', array(), NULL, 'boinc:account-finish'),
+      ),
+    ),
+    array(
+      'data' => bts('Visit our !help pages.', array(
+        '!help' => l(bts('Help', array(), NULL, 'boinc:account-finish'), '/help', $options)
+      ), NULL, 'boinc:account-finish'),
+      'children' => array(
+        bts('Ask for help in our community\'s !forums.', array(
+          '!forums' => l(bts('forums', array(), NULL, 'boinc:account-finish'), 'community/forum', $options)
+        ), NULL, 'boinc:account-finish'),
+      ),
+    ),
+  );
+
+  //List of links
+  $output .= theme_item_list($links, $title = NULL, $type='ul');
+
+  return $output;
 }
 
 /**

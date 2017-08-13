@@ -1389,7 +1389,5 @@ function _boinctranslate_filter_tips_long() {
 <p>Use this filter to split the body of a node into chunks to make translations easier. Add the token '#SPLIT_TOKEN#', without the quotes in the editor when creating or editing a Web page. The filter will then split the text chunks using these tokens as delimiters. Each chunk is translated separately. Example: if a long page as five paragraphs, and each is a chunk, and paragraphs 2 and 3 are edited, chunks 1, 4, and 5 will not require re-translation.</p>
 
 <p>The editor/admin may add as many of these tokens as you wish. You may add and remove them at your discretion. It is permitted for a page as no tokens, as the entire content will be a single chunk- such as for a shorter page.</p>
-
-<p>In the administrator interface for this filter, admins may choose what content (node) types to filter. By default only the 'page' and 'story' content types are filtered in this manner.</p>
 ");
 }

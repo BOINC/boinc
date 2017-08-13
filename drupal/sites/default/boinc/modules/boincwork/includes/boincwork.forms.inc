@@ -1011,7 +1011,13 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   if (isset($prefs['@attributes']['cleared'])) {
     $established = FALSE;
   }
-  
+
+  // Extract modified tag if present
+  $modified = NULL;
+  if (isset($prefs['modified']['@value'])) {
+    $modified = $prefs['modified']['@value'];
+  }
+
   $venue_is_default = FALSE;
   if ($account->boincuser_default_pref_set) {
     if ($account->boincuser_default_pref_set == $venue) {
@@ -1062,9 +1068,13 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $form['#tree'] = TRUE;
   
   // Hidden elements
+  $form['modified'] = array(
+    '#type' => 'hidden',
+    '#value' => $modified,
+  );
   $form['venue'] = array(
     '#type' => 'hidden',
-    '#value' => $venue
+    '#value' => $venue,
   );
   
   $form['separator_top'] = array(

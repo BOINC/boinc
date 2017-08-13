@@ -23,12 +23,6 @@ function boinc_standard_input_formats() {
   $input_format->settings = array(
     // Settings for: boinctranslate module
     'boinctranslate' => array(
-      // Content types to filter
-      'boinctranslate_filter_nodetyp' => array(
-          'page' => 'page',
-          'story' => 'story',
-          'news' => 0,
-        ),
       // Print debugging info
       'boinctranslate_filter_debug' => '0',
     ),
@@ -187,15 +181,6 @@ function boinc_standard_input_formats() {
   );
   $input_format->cache = FALSE;
   $input_format->settings = array(
-    // Settings for: boinctranslate module
-    'boinctranslate' => array(
-      // Content types to filter
-      'boinctranslate_filter_nodetyp' => array(
-          'page' => 'page',
-          'story' => 'story',
-          'news' => 0,
-        ),
-    ),
   );
   $input_format->filters = array(
     'boinctranslate' => array(
