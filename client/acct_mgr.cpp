@@ -66,10 +66,7 @@ int ACCT_MGR_OP::do_rpc(
     error_num = ERR_IN_PROGRESS;
     error_str = "";
     via_gui = _via_gui;
-    if (global_prefs_xml) {
-        free(global_prefs_xml);
-        global_prefs_xml = 0;
-    }
+    global_prefs_xml = "";
 
     // if null URL, detach from current AMS
     //
@@ -406,10 +403,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
             continue;
         }
         if (xp.match_tag("global_preferences")) {
-            retval = dup_element_contents(
+            retval = copy_element_contents(
                 f,
                 "</global_preferences>",
-                &global_prefs_xml
+                global_prefs_xml
             );
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -434,6 +431,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.match_tag("user_keywords")) {
             retval = ami.user_keywords.parse(xp);
             if (retval) return retval;
+            continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
@@ -705,9 +703,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
         // process prefs if any
         //
-        if (global_prefs_xml) {
+        if (!global_prefs_xml.empty()) {
             retval = gstate.save_global_prefs(
-                global_prefs_xml, ami.master_url, ami.master_url
+                global_prefs_xml.c_str(), ami.master_url, ami.master_url
             );
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");

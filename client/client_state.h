@@ -418,7 +418,7 @@ struct CLIENT_STATE {
         const char* fname = GLOBAL_PREFS_FILE_NAME,
         const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
     );
-    int save_global_prefs(char* prefs, char* url, char* sched);
+    int save_global_prefs(const char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
     int check_suspend_processing();

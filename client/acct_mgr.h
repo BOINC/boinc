@@ -145,7 +145,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;
-    char* global_prefs_xml;
+    std::string global_prefs_xml;
     char host_venue[256];
     bool got_rss_feeds;
     std::vector<RSS_FEED>rss_feeds;
@@ -162,7 +162,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         via_gui = false;
         error_num = BOINC_SUCCESS;
         repeat_sec = 60.0;
-        global_prefs_xml = 0;
+        global_prefs_xml = "";
         safe_strcpy(host_venue, "");
         got_rss_feeds = false;
     }
