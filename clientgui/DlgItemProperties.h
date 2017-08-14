@@ -39,6 +39,9 @@
 
 #include "MainDocument.h"
 
+#define ID_COPYSELECTED 10001
+#define ID_COPYALL 10002
+
 class CDlgItemProperties : public wxDialog {
 	DECLARE_DYNAMIC_CLASS( CDlgItemProperties )
     DECLARE_EVENT_TABLE()
@@ -49,6 +52,11 @@ public:
 	void renderInfos(PROJECT* project);
 	void renderInfos(RESULT* result);
     void show_rsc(wxString rsc_name, RSC_DESC rsc_desc);
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
+    void OnCopySelected( wxCommandEvent& event );
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYALL
+    void OnCopyAll( wxCommandEvent& event );
+
 private:
        std::vector<struct ITEM> m_items;
 	//formatting methods
@@ -63,6 +71,8 @@ private:
 protected:
         wxBoxSizer* m_bSizer1;
         wxButton* m_btnClose;
+        wxButton* m_pCopySelectedButton;
+        wxButton* m_pCopyAllButton;
         wxString m_strBaseConfigLocation;
         wxWebView* m_txtInformation;
 };
