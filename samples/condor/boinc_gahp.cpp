@@ -34,6 +34,7 @@
 #include "md5_file.h"
 #include "parse.h"
 #include "remote_submit.h"
+#include "svn_version.h"
 
 using std::map;
 using std::pair;
@@ -702,8 +703,7 @@ int COMMAND::parse_command() {
 }
 
 void print_version(bool startup) {
-    BPRINTF("%s$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", startup ? "" : "S ",
-            __DATE__);
+    BPRINTF("%s$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", startup ? "" : "S ", __DATE__);
 }
 
 int n_results() {
@@ -859,7 +859,13 @@ void read_config() {
     }
 }
 
-int main() {
+int main(int argc, char*argv[]) {
+    if (argc>1) {
+        if (!strcmp(argv[1],"--version")) {
+            fprintf(stderr,SVN_VERSION"\n");
+            return 0;
+        }
+    }
     read_config();
     strcpy(response_prefix, "");
     print_version(true);
@@ -870,4 +876,5 @@ int main() {
         handle_command(p);
         fflush(stdout);
     }
+    return 0;
 }

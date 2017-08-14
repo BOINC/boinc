@@ -210,13 +210,13 @@ void CDlgOptions::CreateControls() {
 #endif
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Run daemon?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Run the client?"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_EnableRunDaemonCtrl = new wxCheckBox;
     m_EnableRunDaemonCtrl->Create( itemPanel4, ID_ENABLERUNDAEMON, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     if (ShowToolTips())
-        m_EnableRunDaemonCtrl->SetToolTip(_("Run daemon when launching the Manager."));
+        m_EnableRunDaemonCtrl->SetToolTip(_("Run the client when launching the Manager."));
     itemFlexGridSizer6->Add(m_EnableRunDaemonCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText12 = new wxStaticText;
