@@ -50,9 +50,9 @@
 //  GPUs can also be explicitly described in cc_config.xml
 
 
-#ifndef _DEBUG
+// uncomment to do GPU detection in same process (for debugging)
+//
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
-#endif
 
 #include "cpp.h"
 
@@ -656,12 +656,8 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         client_dir,
         client_path,
         argc,
-        argv, 
-#ifdef _DEBUG
-        1,
-#else
+        argv,
         0,
-#endif
         prog
     );
 
