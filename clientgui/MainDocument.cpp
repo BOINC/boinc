@@ -2024,8 +2024,10 @@ int CMainDocument::ResetNoticeState() {
 // Replace CRLFs and LFs with HTML breaks.
 //
 void eol_to_br(wxString& strMessage) {
-    strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
-    strMessage.Replace(wxT("\n"), wxT("<BR>"));
+    strMessage.Replace(wxT("\r\n"), wxT("<br>"));
+    strMessage.Replace(wxT("\n"), wxT("<br>"));
+    strMessage.Replace(wxT("<br />"), wxT("<br>"));
+    strMessage.Replace(wxT("<br><br>"), wxT("<br>"));
 }
 
 // Remove CRLFs and LFs
