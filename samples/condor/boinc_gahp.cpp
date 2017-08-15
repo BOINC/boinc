@@ -36,6 +36,8 @@
 #include "remote_submit.h"
 #include "svn_version.h"
 
+#define BOINC_GAHP_VERSION "1.0.1"
+
 using std::map;
 using std::pair;
 using std::set;
@@ -703,7 +705,7 @@ int COMMAND::parse_command() {
 }
 
 void print_version(bool startup) {
-    BPRINTF("%s$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", startup ? "" : "S ", __DATE__);
+    BPRINTF("%s$GahpVersion: %s %s BOINC\\ GAHP\\ GIT:%x $\n", startup ? "" : "S ", BOINC_GAHP_VERSION, __DATE__, GIT_REVISION);
 }
 
 int n_results() {
