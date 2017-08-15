@@ -422,8 +422,8 @@ $android = array(
 );
 
 $platforms = array(
-    "win"=>$windows,
     "winx64"=>$windowsx64,
+    "win"=>$windows,
     "mac"=>$mac,
     "mac32"=>$mac32,
     "macppc"=>$macppc,
