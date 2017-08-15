@@ -131,6 +131,14 @@ extern int upload_files (
     std::string& error_msg
 );
 
+extern int upload_template (
+    const char* project_url,
+    const char* authenticator,
+    std::string path,
+    int batch_id,
+    std::string& error_msg
+);
+
 extern int create_batch(
     const char* project_url,
     const char* authenticator,
@@ -147,7 +155,8 @@ extern int submit_jobs(
     char app_name[256],
     int batch_id,
     std::vector<JOB> jobs,
-    std::string& error_msg
+    std::string& error_msg,
+    const char* wu_template = NULL
 );
 
 extern int estimate_batch(
@@ -247,6 +256,16 @@ extern int query_completed_job(
 );
 
 extern int get_templates(
+    const char* project_url,
+    const char* authenticator,
+    const char* app_name,   // either this
+    const char* job_name,   // or this must be non-NULL
+    TEMPLATE_DESC&,
+    std::string& error_msg,
+    bool output_only = false
+);
+
+extern int get_output_template(
     const char* project_url,
     const char* authenticator,
     const char* app_name,   // either this

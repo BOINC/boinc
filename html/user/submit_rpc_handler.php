@@ -841,7 +841,7 @@ function handle_set_expire_time($r) {
     echo "</set_expire_time>\n";
 }
 
-function get_templates($r) {
+function get_templates($r, $get_input=true) {
     xml_start_tag("get_templates");
     $app_name = (string)($r->app_name);
     if ($app_name) {
@@ -853,14 +853,20 @@ function get_templates($r) {
     }
 
     list($user, $user_submit) = authenticate_user($r, $app);
-    $in = file_get_contents(project_dir() . "/templates/".$app->name."_in");
+    if ($get_input) {
+        $in = file_get_contents(project_dir() . "/templates/".$app->name."_in");
+    }
     $out = file_get_contents(project_dir() . "/templates/".$app->name."_out");
-    if ($in === false || $out === false) {
+    if (($get_input && $in === false) || $out === false) {
         xml_error(-1, "template file missing");
     }
     echo "<templates>\n$in\n$out\n</templates>
         </get_templates>
     ";
+}
+
+function get_output_template($r) {
+    return get_templates($r, false);
 }
 
 function ping($r) {
@@ -956,6 +962,7 @@ switch ($r->getName()) {
     case 'create_batch': create_batch($r); break;
     case 'estimate_batch': estimate_batch($r); break;
     case 'get_templates': get_templates($r); break;
+    case 'get_output_template': get_output_template($r); break;
     case 'ping': ping($r); break;
     case 'query_batch': query_batch($r); break;
     case 'query_batch2': query_batch2($r); break;

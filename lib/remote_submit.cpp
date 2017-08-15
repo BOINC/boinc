@@ -271,6 +271,59 @@ int upload_files (
     return retval;
 }
 
+int upload_template (
+    const char* project_url,
+    const char* authenticator,
+    string path,
+    int batch_id,
+    string &error_msg
+) {
+    char buf[1024];
+    vector<string> paths;
+    string req_msg = "<upload_template>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    req_msg += string(buf);
+    if (batch_id) {
+        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        req_msg += string(buf);
+    }
+    req_msg += "</upload_template>\n";
+    FILE* reply = tmpfile();
+    char url[256];
+    sprintf(url, "%sjob_file.php", project_url);
+    paths.push_back(path);
+    int retval = do_http_post(url, req_msg.c_str(), reply, paths);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = -1;
+    bool success;
+    MIOFILE mf;
+    mf.init_file(reply);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+#ifdef SHOW_REPLY
+        printf("upload_template reply: %s\n", xp.parsed_tag);
+#endif
+        if (xp.parse_bool("success", success)) {
+            retval = 0;
+            continue;
+        }
+        if (xp.match_tag("error")) {
+            ERROR error;
+            error.parse(xp);
+            if (error.error_num) {
+                retval = error.error_num;
+                error_msg = error.error_msg;
+            }
+        }
+    }
+    fclose(reply);
+    return retval;
+}
+
 int create_batch(
     const char* project_url,
     const char* authenticator,
@@ -395,7 +448,8 @@ int submit_jobs(
     char app_name[256],
     int batch_id,
     vector<JOB> jobs,
-    string& error_msg
+    string& error_msg,
+    const char* wu_template
 ) {
     char buf[1024], url[1024];
     sprintf(buf,
@@ -409,6 +463,9 @@ int submit_jobs(
         app_name
     );
     string request = buf;
+    if (wu_template) {
+        request += "  <workunit_template_file>" + (string)wu_template + "</workunit_template_file>\n";
+    }
     for (unsigned int i=0; i<jobs.size(); i++) {
         JOB job = jobs[i];
         request += "<job>\n";
@@ -807,11 +864,12 @@ int get_templates(
     const char* app_name,
     const char* job_name,
     TEMPLATE_DESC &td,
-    string &error_msg
+    string &error_msg,
+    bool output_only
 ) {
     string request;
     char url[1024], buf[256];
-    request = "<get_templates>\n";
+    request = output_only?"<get_output_template>\n":"<get_templates>\n";
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
     if (app_name) {
@@ -821,7 +879,7 @@ int get_templates(
         sprintf(buf, "<job_name>%s</job_name>\n", job_name);
         request += string(buf);
     }
-    request += "</get_templates>\n";
+    request += output_only?"</get_output_template>\n":"</get_templates>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
@@ -837,7 +895,7 @@ int get_templates(
     mf.init_file(reply);
     while (!xp.get_tag()) {
 #ifdef SHOW_REPLY
-        printf("get_templates reply: %s\n", xp.parsed_tag);
+        printf(output_only?"get_templates reply: %s\n":"get_output_template reply: %s\n", xp.parsed_tag);
 #endif
         if (xp.match_tag("templates")) {
             retval = td.parse(xp);
@@ -853,6 +911,17 @@ int get_templates(
     }
     fclose(reply);
     return retval;
+}
+
+int get_output_template(
+    const char* project_url,
+    const char* authenticator,
+    const char* app_name,
+    const char* job_name,
+    TEMPLATE_DESC &td,
+    string &error_msg
+) {
+    return get_templates(project_url, authenticator, app_name, job_name, td, error_msg, true);
 }
 
 int TEMPLATE_DESC::parse(XML_PARSER& xp) {

@@ -20,6 +20,7 @@
 // server-side utility functions for remote job submissions and control
 
 require_once("../inc/submit_db.inc");
+require_once("../inc/util_basic.inc");
 
 // in remote job submission,
 // for input files of type local, semilocal, and inline,
@@ -137,6 +138,8 @@ function retire_batch($batch) {
             "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
         );
     }
+    $path = project_dir() . "/templates/batch_" . $batch->id . "_in";
+    if (file_exists($path)) unlink($path);
     $batch->update("state=".BATCH_STATE_RETIRED);
 }
 

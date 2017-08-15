@@ -253,6 +253,65 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     return 0;
 }
 
+// check the input files for a possible local input template file,
+// i.e. a file with name ending in "_input_template.xml"
+// if such a file is found, remove it from the list of input files
+// and return the path in wu_template. Otherwise set wu_tempate to NULL.
+//
+void process_local_input_template(SUBMIT_REQ& req, char*& wu_template, string& error_msg) {
+    unsigned int i, j;
+
+    if (wu_template) free(wu_template);
+    wu_template = NULL;
+
+    // scan for input files beginning with "WU_TEMPLATE:"
+    //
+    for (i=0; i<req.jobs.size(); i++) {
+        JOB& job = req.jobs[i];
+        vector<INFILE> infiles;
+        for (j=0; j<job.infiles.size(); j++) {
+            INFILE& infile = job.infiles[j];
+            char* c = strstr(infile.src_path, "_input_template.xml");
+            if (c && (strlen(c) == strlen("_input_template.xml"))) {
+                wu_template = strdup(infile.src_path);
+            } else {
+                infiles.push_back(infile);
+            }
+        }
+        // if we found a TEMPLATE, eliminate this from the input file list
+        //
+        if (wu_template) {
+            req.jobs[i].infiles = infiles;
+        }
+    }
+}
+
+// upload wu_template as batch_<batch_id>_in
+//
+int upload_input_template(SUBMIT_REQ& req, char*& wu_template, string& error_msg) {
+    int retval;
+    char buf[64];
+
+    retval = upload_template(
+        project_url,
+        authenticator,
+        wu_template,
+        req.batch_id,
+        error_msg
+    );
+    if (retval) {
+#ifdef DEBUG
+        printf("upload_template() failed (%d): %s\n", retval, error_msg.c_str());
+#endif
+        return retval;
+    }
+
+    free(wu_template);
+    sprintf(buf,"batch_%d_in", req.batch_id);
+    wu_template = strdup(buf);
+    return 0;
+}
+
 // parse the text coming from Condor
 //
 int COMMAND::parse_submit(char* p) {
@@ -291,9 +350,14 @@ void handle_submit(COMMAND& c) {
     int retval;
     string error_msg, s;
     char buf[1024];
+    char*wu_template = NULL;
 
+    // check for a possibe local input template
+    process_local_input_template(req, wu_template, error_msg);
+
+    // if there is a local input template file, only check a remote output template
     retval = get_templates(
-        project_url, authenticator, req.app_name, NULL, td, error_msg
+        project_url, authenticator, req.app_name, NULL, td, error_msg, wu_template
     );
     if (retval) {
         sprintf(buf, "error\\ getting\\ templates:\\ %d\\ ", retval);
@@ -301,6 +365,8 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
+
+    // create batch
     double expire_time = time(0) + 3600;
     retval = create_batch(
         project_url, authenticator, req.batch_name, req.app_name, expire_time,
@@ -312,6 +378,19 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
+
+    // now that we have a batch_id, we can uplaod a possible template as "batch_<batch_id>_in"
+    if (wu_template) {
+        retval = upload_input_template(req, wu_template, error_msg);
+        if (retval) {
+            sprintf(buf, "error\\ uploading\\ input\\ template:\\ %d\\ ", retval);
+            s = string(buf) + escape_str(error_msg);
+            c.out = strdup(s.c_str());
+            return;
+        }
+    }
+
+    // process remaining input files
     retval = process_input_files(req, error_msg);
     if (retval) {
         sprintf(buf, "error\\ processing\\ input\\ files:\\ %d\\ ", retval);
@@ -320,10 +399,12 @@ void handle_submit(COMMAND& c) {
         return;
     }
 
+    // submit
     retval = submit_jobs(
         project_url, authenticator,
-        req.app_name, req.batch_id, req.jobs, error_msg
+        req.app_name, req.batch_id, req.jobs, error_msg, wu_template
     );
+    if (wu_template) free(wu_template);
     if (retval) {
         sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);
         s = string(buf) + escape_str(error_msg);
@@ -442,7 +523,7 @@ void handle_fetch_output(COMMAND& c) {
     // get the output template
     //
     retval = get_templates(
-        project_url, authenticator, NULL, req.job_name, td, error_msg
+        project_url, authenticator, NULL, req.job_name, td, error_msg, true
     );
     if (retval) {
         sprintf(buf, "error\\ getting\\ templates:\\ %d\\ ", retval);
