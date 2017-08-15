@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 628e5e596048c8be4de994178af34de60ac6cc54\n"
+"Project-Id-Version: BOINC 49ea483abdded96da746bca19e597bdf95f9fc06\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2017-08-15 02:03 UTC\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
