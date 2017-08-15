@@ -461,13 +461,7 @@ int main(int argc, char** argv) {
 
             argv[index] = "-detach_phase_two";
 
-            commandLine[0] = '"';
-            // OK, we can safely use strcpy and strcat, since we know that we allocated enough
-            strlcpy(commandLine, argv[0], len);
-            if (!strstr(commandLine, ".exe")) {
-                strlcat(commandLine, ".exe", len);
-            }
-            strlcat(commandLine, "\"", len);
+            sprintf(commandLine, "\"%s\"", CLIENT_EXEC_FILENAME);
             for (i = 1; i < argc; i++) {
                 strlcat(commandLine, " ", len);
                 strlcat(commandLine, argv[i], len);
