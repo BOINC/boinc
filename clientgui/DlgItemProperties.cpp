@@ -96,10 +96,6 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
         break;
     }
 
-#ifdef __WXMAC__
-     m_txtInformation->SetEditable(true);
-#endif
-
     RestoreState();
 }
 
