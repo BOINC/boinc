@@ -1836,9 +1836,10 @@ bool CLIENT_STATE::time_to_exit() {
 //   so that we don't try to run it again.
 //
 int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
-    char buf[4096],  err_msg[4096];
+    char buf[4160],  err_msg[4096];
         // The above store 1-line messages and short XML snippets.
         // Shouldn't exceed a few hundred bytes.
+        // buf has to be larger in case err_msg max out
     unsigned int i;
     int failnum;
 
