@@ -72,12 +72,13 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
             continue;
         }
         bool found = false;
+        const size_t cmdline_len = strlen(avc.cmdline);
         for (unsigned int j=0; j<gstate.app_versions.size(); j++) {
             APP_VERSION* avp = gstate.app_versions[j];
             if (avp->app != app) continue;
             if (strcmp(avp->plan_class, avc.plan_class)) continue;
             found = true;
-            if (strlen(avc.cmdline)) {
+            if (cmdline_len) {
                 safe_strcpy(avp->cmdline, avc.cmdline);
             }
             if (avc.avg_ncpus) {

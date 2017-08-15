@@ -1089,13 +1089,14 @@ static void handle_upload_file_status() {
     char path[MAXPATHLEN], buf[256], log_name[256], *p, log_buf[256];
     std::string filename;
     int status;
+    const size_t prefix_len = strlen(UPLOAD_FILE_STATUS_PREFIX);
 
     relative_to_absolute("", path);
     DirScanner dirscan(path);
     while (dirscan.scan(filename)) {
         strlcpy(buf, filename.c_str(), sizeof(buf));
         if (strstr(buf, UPLOAD_FILE_STATUS_PREFIX) != buf) continue;
-        strlcpy(log_name, buf+strlen(UPLOAD_FILE_STATUS_PREFIX), sizeof(log_name));
+        strlcpy(log_name, buf+prefix_len, sizeof(log_name));
         FILE* f = boinc_fopen(filename.c_str(), "r");
         if (!f) {
             fprintf(stderr,

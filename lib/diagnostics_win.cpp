@@ -1552,6 +1552,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
     CONTEXT      c;
     BOINC_WINDOWCAPTURE window_info;
     BOINC_THREADLISTENTRY *pThreadEntry = NULL;
+    const size_t boinc_install_dir_len = strlen(diagnostics_get_boinc_install_dir());
 
     // We should not suspend our crash dump thread.
     diagnostics_set_thread_exempt_suspend();
@@ -1614,7 +1615,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 // Kickstart the debugger extensions, look for the debugger files
                 //   in the install directory if it is defined, otherwise look
                 //   in the data directory.
-                if (0 != strlen(diagnostics_get_boinc_install_dir())) {
+                if (0 != boinc_install_dir_len) {
  	                bDebuggerInitialized = !DebuggerInitialize(
                         diagnostics_get_boinc_install_dir(),
                         diagnostics_get_symstore(),
