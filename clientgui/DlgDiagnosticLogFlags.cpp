@@ -118,7 +118,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxButton* btnOK = new wxButton( this, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* btnOK = new wxButton( this, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
     btnOK->SetToolTip( _("Save all values and close the dialog") );
     buttonSizer->Add( btnOK, 0, wxALL, 5 );
 

@@ -350,11 +350,12 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
 
-    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
 
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton45->SetDefault();
     itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
 

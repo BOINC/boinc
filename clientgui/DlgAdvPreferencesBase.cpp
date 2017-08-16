@@ -159,14 +159,14 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_panelButtons = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnOK->SetToolTip( _("Save all values and close the dialog.") );
-    m_btnOK->SetDefault();
     
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnCancel->SetToolTip( _("Close the dialog without saving.") );
+    m_btnCancel->SetDefault();
 
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
