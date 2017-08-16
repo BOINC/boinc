@@ -49,10 +49,12 @@ if (isset($defaults)) {
 if ($subset == "global") {
     print_prefs_display_global($user, $columns);
     if (!$defaults) {
+        echo "<p>";
         show_button(
             "prefs_default.php",
             "Restore defaults",
-            "Restore default preferences"
+            "Restore default preferences",
+            "btn-warning btn-sm"
         );
     }
 } else {
