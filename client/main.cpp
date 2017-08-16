@@ -454,27 +454,14 @@ int main(int argc, char** argv) {
         if (strcmp(argv[index], "-detach") == 0 || strcmp(argv[index], "--detach") == 0 ||
             strcmp(argv[index], "-detach_console") == 0 || strcmp(argv[index], "--detach_console") == 0
         ) {
-            int i, len;
-            char *commandLine;
+            int i, len=1024;
+            char commandLine[1024];
             STARTUPINFO si;
             PROCESS_INFORMATION pi;
 
             argv[index] = "-detach_phase_two";
 
-            // start with space for two '"'s
-            len = 2;
-            for (i = 0; i < argc; i++) {
-                len += (int)strlen(argv[i]) + 1;
-            }
-            if ((commandLine = (char *) malloc(len)) == NULL) {
-                // Drop back ten and punt.  Can't do the detach thing, so we just carry on.
-                // At least the program will start.
-                break;
-            }
-            commandLine[0] = '"';
-            // OK, we can safely use strcpy and strcat, since we know that we allocated enough
-            strlcpy(&commandLine[1], argv[0], len);
-            strlcat(commandLine, "\"", len);
+            sprintf(commandLine, "\"%s\"", CLIENT_EXEC_FILENAME);
             for (i = 1; i < argc; i++) {
                 strlcat(commandLine, " ", len);
                 strlcat(commandLine, argv[i], len);
@@ -489,6 +476,7 @@ int main(int argc, char** argv) {
                 exit(0);
             }
             break;
+
         }
 #endif
 

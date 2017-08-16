@@ -639,11 +639,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             
     int argc = 4;
     char* const argv[5] = {
-#ifdef _WIN32
-         const_cast<char *>("boinc.exe"), 
-#else
-         const_cast<char *>("boinc"), 
-#endif
+         const_cast<char *>(CLIENT_EXEC_FILENAME), 
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
          const_cast<char *>(quoted_data_dir),
