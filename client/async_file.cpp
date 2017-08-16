@@ -160,7 +160,9 @@ int ASYNC_COPY::copy_chunk() {
 void ASYNC_COPY::error(int retval) {
     char err_msg[4096];
     atp->set_task_state(PROCESS_COULDNT_START, "ASYNC_COPY::error");
-    sprintf(err_msg, "Couldn't copy file: %s", boincerror(retval));
+    snprintf(err_msg, sizeof(err_msg),
+        "Couldn't copy file: %s", boincerror(retval)
+    );
     gstate.report_result_error(*(atp->result), err_msg);
     gstate.request_schedule_cpus("start failed");
 }

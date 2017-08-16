@@ -1167,7 +1167,7 @@ error:
     //
     gstate.input_files_available(result, true);
     char err_msg[4096];
-    sprintf(err_msg, "couldn't start app: %s", buf);
+    snprintf(err_msg, sizeof(err_msg), "couldn't start app: %s", buf);
     gstate.report_result_error(*result, err_msg);
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,

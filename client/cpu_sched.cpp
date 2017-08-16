@@ -1443,7 +1443,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
             if (retval) {
                 char err_msg[4096];
-                sprintf(err_msg, "Couldn't start or resume: %d", retval);
+                snprintf(err_msg, sizeof(err_msg),
+                    "Couldn't start or resume: %d", retval
+                );
                 report_result_error(*(atp->result), err_msg);
                 request_schedule_cpus("start failed");
                 continue;

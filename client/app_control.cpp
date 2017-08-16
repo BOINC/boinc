@@ -492,7 +492,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         default:
             char szError[1024];
             set_task_state(PROCESS_EXITED, "handle_exited_app");
-            sprintf(err_msg,
+            snprintf(err_msg, sizeof(err_msg),
                 "%s - exit code %d (0x%x)",
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
@@ -529,7 +529,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 }
                 if (result->exit_status) {
                     set_task_state(PROCESS_EXITED, "handle_exited_app");
-                    sprintf(err_msg,
+                    snprintf(err_msg, sizeof(err_msg),
                         "process exited with code %d (0x%x, %d)",
                         result->exit_status, result->exit_status,
                         (-1<<8)|result->exit_status
@@ -568,7 +568,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 result->exit_status = stat;
                 set_task_state(PROCESS_WAS_SIGNALED, "handle_exited_app");
                 signal = got_signal;
-                sprintf(err_msg, "process got signal %d", signal);
+                snprintf(err_msg, sizeof(err_msg),
+                    "process got signal %d", signal
+                );
                 gstate.report_result_error(*result, err_msg);
             }
         } else {
