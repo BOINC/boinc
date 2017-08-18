@@ -434,6 +434,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.match_tag("user_keywords")) {
             retval = ami.user_keywords.parse(xp);
             if (retval) return retval;
+            continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
