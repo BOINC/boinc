@@ -46,6 +46,7 @@ def make_batch_desc(batch_name):
     [batch.project, batch.authenticator] = get_auth()
     batch.app_name = "uppercase"
     batch.batch_name = batch_name
+    batch.app_version_num = 710;
     batch.jobs = []
 
     for i in range(2):
@@ -191,5 +192,5 @@ def test_get_output_files():
     print(r)
 
 #test_query_batch(328)
-#test_submit_batch('batch_32')
-test_create_batch('batch_33')
+test_submit_batch('batch_35')
+#test_create_batch('batch_33')

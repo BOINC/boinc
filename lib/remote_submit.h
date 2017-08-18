@@ -147,7 +147,8 @@ extern int submit_jobs(
     char app_name[256],
     int batch_id,
     std::vector<JOB> jobs,
-    std::string& error_msg
+    std::string& error_msg,
+    int app_version_num = 0
 );
 
 extern int estimate_batch(
