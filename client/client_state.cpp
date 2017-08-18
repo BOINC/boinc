@@ -712,10 +712,12 @@ int CLIENT_STATE::init() {
 
     // set up the project and slot directories
     //
+    msg_printf(NULL, MSG_INFO, "Setting up project and slot directories");
     delete_old_slot_dirs();
     retval = make_project_dirs();
     if (retval) return retval;
 
+    msg_printf(NULL, MSG_INFO, "Checking active tasks");
     active_tasks.init();
     active_tasks.report_overdue();
     active_tasks.handle_upload_files();
@@ -733,6 +735,7 @@ int CLIENT_STATE::init() {
     // set up for handling GUI RPCs
     //
     if (!no_gui_rpc) {
+        msg_printf(NULL, MSG_INFO, "Setting up GUI RPC socket");
         if (gui_rpc_unix_domain) {
             retval = gui_rpcs.init_unix_domain();
         } else {
@@ -753,9 +756,12 @@ int CLIENT_STATE::init() {
     if (g_use_sandbox) get_project_gid();
 #ifdef _WIN32
     get_sandbox_account_service_token();
-    if (sandbox_account_service_token != NULL) g_use_sandbox = true;
+    if (sandbox_account_service_token != NULL) {
+        g_use_sandbox = true;
+    }
 #endif
 
+    msg_printf(NULL, MSG_INFO, "Checking presence of project files");
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;

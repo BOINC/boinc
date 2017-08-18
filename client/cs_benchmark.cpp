@@ -311,6 +311,7 @@ void CLIENT_STATE::check_if_need_benchmarks() {
     if (diff < 0) {
         run_cpu_benchmarks = true;
     } else if (diff > BENCHMARK_PERIOD) {
+        msg_printf(NULL, MSG_INFO, "Last benchmark was %s ago", timediff_format(diff).c_str());
         run_cpu_benchmarks = true;
     }
 }
