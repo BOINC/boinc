@@ -57,7 +57,7 @@ default:
 }
 
 $type = get_int("type", true);
-if ($type < 1 || $type > 7) {
+if ($type < 0 || $type >= count($team_types)) {
     $type = 0;
 }
 $type_url="";

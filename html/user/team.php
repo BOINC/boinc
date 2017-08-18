@@ -49,7 +49,7 @@ echo "
     <li> <a href=\"top_teams.php\">" . tra("All teams") . "</a>
 ";
 
-for ($i=1; $i<8; $i++) {
+for ($i=1; $i<count($team_types); $i++) {
     echo "<li> <a href=\"top_teams.php?type=".$i."\">".tra("%1 teams", team_type_name($i))."</a>
     ";
 }
