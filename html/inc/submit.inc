@@ -50,6 +50,10 @@ function req_to_xml($req, $op) {
         $x .= "    <workunit_template_file>$req->workunit_template_file</workunit_template_file>
 ";
     }
+    if ((isset($req->app_version_num)) && ($req->app_version_num)) {
+        $x .= "    <app_version_num>$req->app_version_num</app_version_num>
+";
+    }
     foreach ($req->jobs as $job) {
         $x .= "    <job>
         <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
@@ -332,7 +336,8 @@ if (0) {
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name3";
+    $req->batch_name = "batch_name5";
+    $req->app_version_num = 710;
     $req->jobs = array();
 
     $job = new StdClass;
