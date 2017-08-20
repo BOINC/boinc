@@ -50,7 +50,7 @@ function show_wu($wu) {
     row2(tra("name"), $wu->name);
     row2(tra("application"), $app->user_friendly_name);
     row2(tra("created"), time_str($wu->create_time));
-    if ($wu->keywords) {
+    if (isset($wu->keywords) && $wu->keywords) {
         row2(tra("keywords"), keyword_string($wu->keywords));
     }
     if ($wu->canonical_resultid) {
