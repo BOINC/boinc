@@ -104,7 +104,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
         if (!usingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                     _("Set values and click OK to use local preferences instead."),
+                     _("Set values and click Save to use local preferences instead."),
                      wxDefaultPosition, wxDefaultSize, 0 ),
                 0, wxALL, 1
             );
