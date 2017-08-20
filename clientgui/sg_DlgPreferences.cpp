@@ -186,7 +186,7 @@ void CPanelPreferences::CreateControls()
         if (!usingLocalPrefs) {
             legendSizer->Add(
                 new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
-                     _("Set values and click OK to use local preferences instead."),
+                     _("Set values and click Save to use local preferences instead."),
                      wxDefaultPosition, wxDefaultSize, 0 ),
                 0, wxALL, 1
             );
