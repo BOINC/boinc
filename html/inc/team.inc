@@ -147,7 +147,7 @@ function display_team_page($team, $user) {
             if ($team->joinable) {
                 $tokens = url_tokens($user->authenticator);
                 row2("",
-                    '<a href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
+                    '<a class="btn btn-success" href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
                     <br><p class=\"text-muted\">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</p>'
                 );
             } else {
@@ -500,7 +500,7 @@ function team_edit_form($team, $label, $url) {
         );
     }
     row2("",
-        "<input class=\"btn btn-primary\" type=submit name=new value='$label'>"
+        "<input class=\"btn btn-success\" type=submit name=new value='$label'>"
     );
     end_table();
     echo "</form>\n";

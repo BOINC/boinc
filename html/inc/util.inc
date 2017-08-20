@@ -852,6 +852,12 @@ function show_button($url, $text, $desc=null, $class="btn-success btn-sm") {
     echo button_text($url, $text, $desc=null, $class);
 }
 
+// for places with a bunch of buttons, like forum posts
+//
+function show_button_small($url, $text, $desc=null) {
+    echo button_text($url, $text, $desc, "btn-primary btn-xs");
+}
+
 // When multiple buttons (or actions) are presented in a list you can
 // use this convenience method to avoid having to wrap each button in <li></li> elements
 // @param url The destination URL of the button
