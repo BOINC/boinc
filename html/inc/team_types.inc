@@ -18,10 +18,9 @@
 
 include_once("../inc/translation.inc");
 
-global $team_types;
 $team_types = array(
     "",
-    tra("None"),
+    tra("Other"),
     tra("Company"),
     tra("Primary school"),
     tra("Secondary school"),
