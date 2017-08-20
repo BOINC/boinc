@@ -761,7 +761,9 @@ int CLIENT_STATE::init() {
     }
 #endif
 
-    msg_printf(NULL, MSG_INFO, "Checking presence of project files");
+    msg_printf(NULL, MSG_INFO,
+        "Checking presence of %d project files", (int)file_infos.size()
+    );
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
