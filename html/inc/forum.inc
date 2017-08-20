@@ -588,7 +588,7 @@ function show_post(
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
-    show_button($url, tra("Send message"), tra("Send %1 a private message",$name));
+    show_button_small($url, tra("Send message"), tra("Send %1 a private message",$name));
     echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {

@@ -843,7 +843,7 @@ function button_text($url, $text, $desc=null, $class="btn-success btn-sm") {
     if (!$desc) {
         $desc = $text;
     }
-    return sprintf(' <a href="%s" title="%s" class="btn %s"><span style="font-size:1.2em">%s</span></a>',
+    return sprintf(' <a href="%s" title="%s" class="btn %s">%s</a>',
         $url, $desc, $class, $text
     );
 }
