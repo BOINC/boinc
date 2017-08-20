@@ -156,28 +156,42 @@ require_once("../inc/stats_sites.inc");
 //
 function show_user_stats_private($user) {
     global $cpid_stats_sites;
-    row1(tra("Computing and credit"));
-    show_credit($user);
-    $config = get_config();
-    row2(tra("Computers on this account"), "<a href=\"hosts_user.php\">".tra("View")."</a>");
-    row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
-    $cpid = md5($user->cross_project_id . $user->email_addr);
-    $x = "";
-    shuffle($cpid_stats_sites);
-    foreach ($cpid_stats_sites as $site) {
-        $name = $site[0];
-        $y = sprintf($site[1], $cpid);
-        $x .= "<a href=\"$y\">$name</a><br/>\n";
+
+    if (NO_COMPUTING && NO_STATS && NO_HOSTS) {
+        return;
     }
-    $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
-    row2(tra("Cross-project statistics"), $x);
-    $x = '<a href="cert1.php">'.tra("Account").'</a>';
-    if ($user->teamid) {
-        $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
+    row1(tra("Computing"));
+
+    if (!NO_STATS) {
+        show_credit($user);
     }
-    $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
-    row2(tra("Certificate"), $x);
-    row2(tra("Stats on your cell phone"), url_base()."userw.php?id=$user->id");
+
+    if (!NO_HOSTS) {
+        row2(tra("Computers on this account"), "<a href=\"hosts_user.php\">".tra("View")."</a>");
+    }
+    if (!NO_COMPUTING) {
+        row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
+    }
+
+    if (!NO_STATS) {
+        $cpid = md5($user->cross_project_id . $user->email_addr);
+        $x = "";
+        shuffle($cpid_stats_sites);
+        foreach ($cpid_stats_sites as $site) {
+            $name = $site[0];
+            $y = sprintf($site[1], $cpid);
+            $x .= "<a href=\"$y\">$name</a><br/>\n";
+        }
+        $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
+        row2(tra("Cross-project statistics"), $x);
+        $x = '<a href="cert1.php">'.tra("Account").'</a>';
+        if ($user->teamid) {
+            $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
+        }
+        $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
+        row2(tra("Certificate"), $x);
+        row2(tra("Stats on your cell phone"), url_base()."userw.php?id=$user->id");
+    }
 }
 
 function notify_description($notify) {
@@ -263,7 +277,7 @@ function show_user_info_private($user) {
 
 function show_preference_links() {
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
-    if (!NO_COMPUTING) {
+    if (!NO_GLOBAL_PREFS) {
         row2(
             tra("When and how BOINC uses your computer"),
             "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
@@ -531,9 +545,7 @@ function show_account_private($user) {
             row1(tra("Account information"), 2, 'heading');
             show_user_info_private($user);
             show_preference_links();
-            if (!NO_COMPUTING) {
-                show_user_stats_private($user);
-            }
+            show_user_stats_private($user);
 
             if (file_exists("../project/donations.inc")) {
                 require_once("../project/donations.inc");
@@ -542,7 +554,9 @@ function show_account_private($user) {
                 }
             }
             end_table();
-            show_other_projects($user, true);
+            if (!NO_COMPUTING) {
+                show_other_projects($user, true);
+            }
             project_user_page_private($user);
             //echo "<a href=delete_account.php>Delete account</a>\n";
         },

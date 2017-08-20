@@ -82,6 +82,15 @@ if (!defined('POSTAL_CODE')) {
 if (!defined('NO_COMPUTING')) {
     define('NO_COMPUTING', false);
 }
+if (!defined('NO_HOSTS')) {
+    define('NO_HOSTS', false);
+}
+if (!defined('NO_STATS')) {
+    define('NO_STATS', false);
+}
+if (!defined('NO_GLOBAL_PREFS')) {
+    define('NO_GLOBAL_PREFS', false);
+}
 if (!defined('USER_HOME')) {
     define('USER_HOME', 'home.php');
 }
@@ -834,7 +843,7 @@ function button_text($url, $text, $desc=null, $class="btn-success btn-sm") {
     if (!$desc) {
         $desc = $text;
     }
-    return sprintf('<a href="%s" title="%s" class="btn %s"><span style="font-size:1.2em">%s</span></a>',
+    return sprintf(' <a href="%s" title="%s" class="btn %s"><span style="font-size:1.2em">%s</span></a>',
         $url, $desc, $class, $text
     );
 }

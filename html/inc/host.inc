@@ -110,10 +110,12 @@ function show_host($host, $user, $ipprivate) {
         }
     }
     row2(tra("Created"), time_str($host->create_time));
-    row2(tra("Total credit"), format_credit_large($host->total_credit));
-    row2(tra("Average credit"), format_credit($host->expavg_credit));
-    if (!$anonymous) {
-        row2(tra("Cross project credit"), cross_project_links($host));
+    if (!NO_STATS) {
+        row2(tra("Total credit"), format_credit_large($host->total_credit));
+        row2(tra("Average credit"), format_credit($host->expavg_credit));
+        if (!$anonymous) {
+            row2(tra("Cross project credit"), cross_project_links($host));
+        }
     }
     row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
     row2(tra("Number of processors"), $host->p_ncpus);
@@ -166,19 +168,21 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Average download rate"), tra("Unknown"));
     }
     $x = $host->avg_turnaround/86400;
-    row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
-    row2(tra("Application details"),
-        "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
-    );
-    $config = get_config();
-    if (parse_bool($config, "show_results")) {
-        $nresults = host_nresults($host);
-        if ($nresults) {
-            $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
-        } else {
-            $results = "0";
+    if (!NO_COMPUTING) {
+        row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
+        row2(tra("Application details"),
+            "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
+        );
+        $config = get_config();
+        if (parse_bool($config, "show_results")) {
+            $nresults = host_nresults($host);
+            if ($nresults) {
+                $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
+            } else {
+                $results = "0";
+            }
+            row2(tra("Tasks"), $results);
         }
-        row2(tra("Tasks"), $results);
     }
 
     if ($user) {
@@ -193,8 +197,10 @@ function show_host($host, $user, $ipprivate) {
         if ($host->cpu_efficiency) {
             row2(tra("Average CPU efficiency"), $host->cpu_efficiency);
         }
-        if ($host->duration_correction_factor) {
-            row2(tra("Task duration correction factor"), $host->duration_correction_factor);
+        if (!NO_COMPUTING) {
+            if ($host->duration_correction_factor) {
+                row2(tra("Task duration correction factor"), $host->duration_correction_factor);
+            }
         }
         row2(tra("Location"), location_form($host));
         if ($nresults == 0) {
@@ -222,12 +228,14 @@ function top_host_table_start($sort_by) {
         tra("Rank"),
         tra("Owner"),
     );
-    if ($sort_by == 'total_credit') {
-        $x[] = "<a href=top_hosts.php?sort_by=expavg_credit>".tra("Avg. credit")."</a>";
-        $x[] = tra("Total credit");
-    } else {
-        $x[] = tra("Recent average credit");
-        $x[] = "<a href=top_hosts.php?sort_by=total_credit>".tra("Total credit")."</a>";
+    if (!NO_STATS) {
+        if ($sort_by == 'total_credit') {
+            $x[] = "<a href=top_hosts.php?sort_by=expavg_credit>".tra("Avg. credit")."</a>";
+            $x[] = tra("Total credit");
+        } else {
+            $x[] = tra("Recent average credit");
+            $x[] = "<a href=top_hosts.php?sort_by=total_credit>".tra("Total credit")."</a>";
+        }
     }
     $x[] = tra("BOINC version");
     $x[] = tra("CPU");
@@ -336,12 +344,18 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
         }
     }
     echo "<tr><td>ID: $host->id
-        <br><a href=show_host_detail.php?hostid=$host->id>".tra("Details")."</a> |
-        <a href=results.php?hostid=$host->id>".tra("Tasks")."</a>
+        <br><a href=show_host_detail.php?hostid=$host->id>".tra("Details")."</a>
     ";
-    if (!$anonymous) {
+    if (!NO_COMPUTING) {
         echo "
-            <br><nobr><small>".tra("Cross-project stats:")."</small></nobr><br>".cross_project_links($host);
+        | <a href=results.php?hostid=$host->id>".tra("Tasks")."</a>
+        ";
+    }
+    if (!NO_STATS) {
+        if (!$anonymous) {
+            echo "
+                <br><nobr><small>".tra("Cross-project stats:")."</small></nobr><br>".cross_project_links($host);
+        }
     }
     echo "
         </td>
@@ -365,15 +379,19 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
     if ($show_owner) {
         // This is used in the "top computers" display
         //
+        if (!NO_STATS) {
+            printf("
+                <td align=right>%s</td>
+                <td align=right>%s</td>",
+                format_credit($host->expavg_credit),
+                format_credit_large($host->total_credit)
+            );
+        }
         printf("
-            <td align=right>%s</td>
-            <td align=right>%s</td>
             <td>%s</td>
             <td>%s</td>
             <td>%s</td>
             <td>%s <br> %s</td>",
-            format_credit($host->expavg_credit),
-            format_credit_large($host->total_credit),
             boinc_version($host->serialnum),
             cpu_desc($host),
             gpu_desc($host->serialnum),
@@ -382,17 +400,21 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
     } else {
         // This is used to show the computers of a given user
         //
+        if (!NO_STATS) {
+            printf("
+                <td align=right>%s</td>
+                <td align=right>%s</td>",
+                format_credit($host->expavg_credit),
+                format_credit_large($host->total_credit)
+            );
+        }
         printf("
-            <td align=right>%s</td>
-            <td align=right>%s</td>
             <td>%s</td>
             <td>%s</td>
             <td>%s</td>
             <td>%s<br><small>%s</small></td>
             <td>%s</td>
             ",
-            format_credit($host->expavg_credit),
-            format_credit_large($host->total_credit),
             boinc_version($host->serialnum),
             cpu_desc($host),
             gpu_desc($host->serialnum),
@@ -687,12 +709,14 @@ function user_host_table_start(
         $x[] = tra("Rank");
         $a[] = null;
     }
-    $url = link_url_rev($sort, "expavg_credit", $rev, $show_all);
-    $x[] = "<a href=$url>".tra("Avg. credit")."</a>";
-    $a[] = ALIGN_RIGHT;
-    $url = link_url_rev($sort, "total_credit", $rev, $show_all);
-    $x[] = "<a href=$url>".tra("Total credit")."</a>";
-    $a[] = ALIGN_RIGHT;
+    if (!NO_STATS) {
+        $url = link_url_rev($sort, "expavg_credit", $rev, $show_all);
+        $x[] = "<a href=$url>".tra("Avg. credit")."</a>";
+        $a[] = ALIGN_RIGHT;
+        $url = link_url_rev($sort, "total_credit", $rev, $show_all);
+        $x[] = "<a href=$url>".tra("Total credit")."</a>";
+        $a[] = ALIGN_RIGHT;
+    }
     $x[] = tra("BOINC<br>version");
     $a[] = null;
     $url = link_url_rev($sort, "cpu", $rev, $show_all);
