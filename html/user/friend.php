@@ -145,8 +145,18 @@ function handle_query($user) {
         echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";
     }
     echo "<p>";
-    show_button("friend.php?action=accept&userid=".$srcid, tra("Accept friendship"), tra("Click accept if %1 is in fact a friend", $srcuser->name));
-    show_button("friend.php?action=ignore&userid=".$srcid, tra("Decline"), tra("Click decline if %1 is not a friend", $srcuser->name));
+    show_button(
+        "friend.php?action=accept&userid=".$srcid, tra("Accept friendship"),
+        tra("Click accept if %1 is in fact a friend",
+        $srcuser->name)
+    );
+    echo " ";
+    show_button(
+        "friend.php?action=ignore&userid=".$srcid, tra("Decline"),
+        tra("Click decline if %1 is not a friend",
+        $srcuser->name),
+        "btn-sm btn-warning"
+    );
     echo "    <p>
     ";
     page_tail();

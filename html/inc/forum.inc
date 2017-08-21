@@ -588,7 +588,7 @@ function show_post(
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
-    show_button($url, tra("Send message"), tra("Send %1 a private message",$name));
+    show_button_small($url, tra("Send message"), tra("Send %1 a private message",$name));
     echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {
@@ -646,7 +646,7 @@ function show_post(
         echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>. &nbsp; ";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
-        show_button("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
+        show_button_small("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
     }
     if (is_moderator($logged_in_user, $forum)) {
         show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
@@ -1128,40 +1128,40 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_button("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
+        show_button_small("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
     } else {
-        show_button("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
+        show_button_small("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
     }
 
-    show_button(
+    show_button_small(
         "forum_moderate_post.php?action=move&amp;id=".$post->id."$tokens",
         tra("Move"), tra("Move post to a different thread")
     );
 
     if ($forum->parent_type == 0) {
         if (is_admin($logged_in_user) || $moderators_allowed_to_ban) {
-            show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
+            show_button_small("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
         }
         if ($moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=yes&amp;userid=".$post->user,
                     tra("Vote to banish author")
                 );
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=no&amp;userid=".$post->user,
                     tra("Vote not to banish author")
                 );
             } else {
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=start&amp;userid=".$post->user,
                     tra("Start vote to banish author")
                 );
             }
         }
         if (is_admin($logged_in_user)) {
-            show_button("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
+            show_button_small("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
         }
     }
 }

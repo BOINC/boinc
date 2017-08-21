@@ -107,7 +107,7 @@ echo '</td>
 ';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
 echo '
-    <input class="btn btn-default btn-sm" type="submit" value="Sort">
+    <input class="btn btn-success btn-sm" type="submit" value="Sort">
     </div>
     </td>
     </tr>

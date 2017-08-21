@@ -110,7 +110,7 @@ function show_submit() {
     if ($publickey) {
         table_row(boinc_recaptcha_get_html($publickey));
     }
-    table_row("<p><input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
+    table_row("<p><input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
 
 // Returns an array containing:

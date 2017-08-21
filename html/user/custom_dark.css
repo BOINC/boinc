@@ -1,6 +1,6 @@
 # fixes to dark-backround themes to increase legibility
 
-body, navbar-text, panel {
+body, navbar-text, panel, a:btn {
     color:white;
 }
 
