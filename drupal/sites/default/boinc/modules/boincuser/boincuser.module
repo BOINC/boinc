@@ -1829,7 +1829,8 @@ function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
     $user_image['image'] = $content_node_widget_settings['default_image'];
   }
   $user = user_load($uid);
-  $user_image['alt'] = $user->name;
+  // Use boinc username for image alt/title attributes
+  $user_image['alt'] = $user->boincuser_name;
   return $user_image;
 }
 

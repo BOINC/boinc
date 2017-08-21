@@ -10089,7 +10089,7 @@ else {
   $uid = boincuser_lookup_uid($data->id);
   if ($uid) {
     $account = user_load($uid);
-    print l($account->name, "account/{$uid}");
+    print l($account->boincuser_name, "account/{$uid}");
   }
   else {
     // No Drupal account
@@ -10483,7 +10483,7 @@ else {
   $uid = boincuser_lookup_uid($data->id);
   if ($uid) {
     $account = user_load($uid);
-    print l($account->name, "account/{$uid}");
+    print l($account->boincuser_name, "account/{$uid}");
   }
   else {
     // No Drupal account
