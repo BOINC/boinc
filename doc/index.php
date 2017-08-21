@@ -107,7 +107,7 @@ function show_participate() {
             );
             echo " ";
             echo tra("If you run several projects, try an %1 account manager %2 such as %3 GridRepublic %4 or %5 BAM! %6. ",
-                "<a href=\"wiki/Account_managers\">", "</a>",
+                "<a href=\"http://boinc.berkeley.edu/wiki/Account_managers\">", "</a>",
                 "<a href=\"https://www.gridrepublic.org\">", "</a>",
                 "<a href=\"https://bam.boincstats.com/\">", "</a>"
             );
@@ -267,7 +267,7 @@ function right() {
     echo '</div>';
 }
 
-page_head("BOINC", null, true);
+page_head(tra("Open-source software for volunteer computing"), null, true);
 
 grid(null, 'left', 'right');
 

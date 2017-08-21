@@ -1,1 +1,0 @@
-/home/boincadm/boinc/doc/sim/sim_web.php
