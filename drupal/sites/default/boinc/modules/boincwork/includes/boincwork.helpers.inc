@@ -618,15 +618,10 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       if ($user_applications) {
         $checked = in_array($app_id, $user_applications);
       } else {
-        $checked = TRUE;
         // If user_applications is not defined, it means there are no
         // app_ids set in the user's project preferences payload
         // XML. Thus all Web form values should be checked.
-
-        //if (isset($app['@attributes']['selected']) AND
-        //    $app['@attributes']['selected'] == 'false') {
-        //  $checked = FALSE;
-        //}
+        $checked = TRUE;
       }
       $form['applications']["app_{$app_id}"] = array(
         '#title' => $app_name,
