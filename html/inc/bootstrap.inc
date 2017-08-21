@@ -161,7 +161,7 @@ function sample_navbar(
     $x[] = array(tra("Help"), $url_prefix."help.php");
     navbar_menu(tra("Project"), $x);
 
-    if (defined('NO_COMPUTING')) {
+    if (NO_COMPUTING) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
         if (defined('BOSSA')) {
