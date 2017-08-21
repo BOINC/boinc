@@ -1,19 +1,20 @@
 # BOINC website localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Christian Beer <christian.beer@posteo.de>, 2017
 # Frederic94500 <frederictran@hotmail.fr>, 2017
 # Jerome Cadet <jerome.cadet@pobox.com>, 2015,2017
-# Philippe Janocha, 2016
+# Philippe Janocha, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-02-07 20:23+0000\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgid ""
 "helps you with setting preferences, joining or creating teams, connecting "
 "your computers to projects, and much more.  Whether you're a new or an "
 "existing BOINC user, BAM will help you get the most out of BOINC."
-msgstr "BAM! vous aide à créer et gérer vos comptes de projet BOINC et vous aide au réglage des préférences, à rejoindre ou créer des équipes, à rattacher vos ordinateurs aux projets et bien plus encore.  Que vous soyez un nouvel utilisateur ou bien un utilisateur existant de BOINC, BAM vous aidera à tirer le meilleur parti de BOINC."
+msgstr "BAM! vous aide à créer et à gérer vos comptes de projets BOINC et vous aide aux réglages des préférences, à rejoindre ou à créer des équipes, à rattacher vos ordinateurs aux projets et bien plus encore.  Que vous soyez un nouvel utilisateur ou bien un utilisateur existant de BOINC, BAM! vous aidera à tirer le meilleur parti de BOINC."
 
 #: doc/account_managers.inc:13
 msgid ""
@@ -42,7 +43,7 @@ msgid ""
 "on public-interest research projects when the machines are not otherwise in "
 "use. This screensaver does not affect performance of the host computer any "
 "more than an ordinary screensaver does."
-msgstr "Les membres de GridRepublic exécutent un économiseur d’écran qui permet à leurs ordinateurs pour travailler sur des projets de recherche d’intérêt public lorsque les machines ne sont pas en cours d’utilisation. Cet économiseur d’écran n’affecte pas plus les performances de l’ordinateur hôte qu’un économiseur d’écran ordinaire."
+msgstr "Les membres de GridRepublic exécutent un économiseur d’écran qui permet à leurs ordinateurs de travailler sur des projets de recherche d’intérêt public lorsque les machines ne sont pas en cours d’utilisation. Cet économiseur d’écran n’affecte pas plus les performances de l’ordinateur hôte qu’un économiseur d’écran ordinaire."
 
 #: doc/docutil.php:21
 msgid "Search"
@@ -59,88 +60,88 @@ msgstr "Cette page est %straduisible%s."
 
 #: doc/download.php:42
 msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "Nous vous recommandons d'installer également VirtualBox afin que votre ordinateur puisse aussi faire fonctionner les projets qui le nécessitent."
+"We recommend that you also install %1VirtualBox%2, so your computer can work"
+" on science projects that require it."
+msgstr "Nous vous recommandons d'installer également %1VirtualBox%2 afin que votre ordinateur puisse aussi faire fonctionner les projets qui le nécessitent."
 
 #: doc/download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "En savoir plus sur VirtualBox."
 
-#: doc/download.php:52
+#: doc/download.php:56
 msgid "Download BOINC + VirtualBox"
 msgstr "Télécharger BOINC + VirtualBox"
 
 #. "for %s" identifies the operating system, e.g. "for Windows"
-#: doc/download.php:56 doc/download.php:71
+#: doc/download.php:60 doc/download.php:76
 #, php-format
 msgid "for %s"
 msgstr "pour %s"
 
-#: doc/download.php:59 doc/download.php:74
+#: doc/download.php:63 doc/download.php:79
 #, php-format
 msgid "BOINC %s"
 msgstr "BOINC %s"
 
-#: doc/download.php:61
+#: doc/download.php:65
 #, php-format
 msgid "VirtualBox %s"
 msgstr "VirtualBox %s"
 
-#: doc/download.php:69
+#: doc/download.php:74
 msgid "Download BOINC"
 msgstr "Télécharger BOINC"
 
-#: doc/download.php:133
+#: doc/download.php:138
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC est un programme qui vous permet d'offrir le temps de calcul inutilisé de votre ordinateur  à des projets scientifiques comme SETI@home, Climateprediction.net, Rosetta@home, World Community Grid et beaucoup d'autres."
 
-#: doc/download.php:135
+#: doc/download.php:140
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "Après avoir installé BOINC sur votre ordinateur, vous pouvez le connecter à autant de projets que vous le désirez."
 
-#: doc/download.php:137
+#: doc/download.php:142
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Vous ne devez faire fonctionner ce logiciel sur un ordinateur que s'il vous appartient ou si vous  avez la permission de son propriétaire."
 
-#: doc/download.php:142
+#: doc/download.php:147
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Nous vous recommandons de télécharger BOINC depuis le site de Google Play ou d'Amazon Appstore, et non d'ici."
 
-#: doc/download.php:177
+#: doc/download.php:182
 msgid "System requirements"
 msgstr "Prérequis système"
 
-#: doc/download.php:178
+#: doc/download.php:183
 msgid "Release notes"
 msgstr "Notes de publication"
 
-#: doc/download.php:179 doc/index.php:122
+#: doc/download.php:184 doc/index.php:122
 msgid "Help"
 msgstr "Aide"
 
-#: doc/download.php:180
+#: doc/download.php:185
 msgid "All versions"
 msgstr "Toutes les versions"
 
-#: doc/download.php:181
+#: doc/download.php:186
 msgid "Version history"
 msgstr "Historique des versions"
 
-#: doc/download.php:182
+#: doc/download.php:187
 msgid "GPU computing"
 msgstr "calcul du processeur graphique"
 
-#: doc/download.php:200
+#: doc/download.php:205
 msgid "BOINC: compute for science"
 msgstr "BOINC : calculez pour la science"
 
@@ -194,7 +195,7 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Utilise les ressources inexploitées de votre ordinateur (Windows, Mac, Linux ou Android) pour guérir des maladies, étudier le réchauffement planétaire, découvrir des pulsars et participer à beaucoup d'autres types de recherche scientifique. C'est sans danger, sécurisé et facile :"
+msgstr "Utilisez les ressources inexploitées de votre ordinateur (Windows, Mac, Linux ou Android) pour guérir des maladies, étudier le réchauffement planétaire, découvrir des pulsars et participer à beaucoup d'autres types de recherche scientifique. C'est sans danger, sécurisé et facile :"
 
 #: doc/index.php:95
 msgid "Download"
@@ -204,23 +205,23 @@ msgstr "Téléchargement"
 msgid ""
 "For Android devices, get the BOINC app from the Google Play Store; for "
 "Kindle, get it from the Amazon App Store."
-msgstr "Pour les appareils Android, obtenez l’application BOINC depuis le Google Play Store ; pour Kindle, obtenez le depuis l’Amazon App Store."
+msgstr "Pour les appareils Android, obtenez l’application BOINC depuis le Google Play Store ; pour les Kindle, obtenez-le depuis l’Amazon App Store."
 
 #: doc/index.php:102
 msgid ""
 "You can choose to support %1projects%2 such as %3, %4, and %5, among many "
 "others."
-msgstr "Vous pouvez choisir de soutenir  1projects%2 comme les 3%, 4% et 5%, parmi beaucoup d’autres."
+msgstr "Vous pouvez choisir de soutenir %1projets%2 comme les %3, %4 et %5 parmi beaucoup d’autres."
 
 #: doc/index.php:109
 msgid ""
 "If you run several projects, try an %1account manager%2 such as "
 "%3GridRepublic%4 or %5BAM!%6. "
-msgstr "Si vous exécutez plusieurs projets, essayez un %1gestionnaire de compte%2 tel que %3GridRepublic4 % ou %5BAM !%6. "
+msgstr "Si vous exécutez plusieurs projets, essayez un %1gestionnaire de compte%2 tel que %3GridRepublic%4 ou %5BAM!%6. "
 
 #: doc/index.php:116
 msgid "Learn more:"
-msgstr "Pour en savoir plus"
+msgstr "Pour en savoir plus :"
 
 #: doc/index.php:119
 msgid "Message boards"
@@ -278,7 +279,7 @@ msgstr "Calcul haute intensité avec BOINC"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Scientifiques%2 : utilisez BOINC pour créer un %3projet de calcul bénévole%4 vous procurant ainsi la puissance de calcul de milliers de processeurs."
+msgstr "%1Scientifiques%2 : utilisez BOINC pour créer un %3projet de calcul bénévole%4, vous procurant ainsi la puissance de calcul de milliers de processeurs."
 
 #: doc/index.php:154
 msgid ""
@@ -306,7 +307,7 @@ msgstr "Développement logiciel"
 msgid ""
 "BOINC is a software platform for volunteer computing. It includes client, "
 "server, and web components, and APIs for connecting other components."
-msgstr "BOINC est une plate-forme logicielle pour le calcul volontaire. Il inclut les composants client, serveur et web, et des API pour connecter d'autres composants."
+msgstr "BOINC est une plate-forme logicielle pour le calcul volontaire. Il inclut les composants client, serveur et Web, et des API pour connecter d'autres composants."
 
 #: doc/index.php:179
 msgid "Source code"
@@ -314,7 +315,7 @@ msgstr "Code source"
 
 #: doc/index.php:180
 msgid "Building BOINC"
-msgstr "Fabriquer BOINC"
+msgstr "Compiler BOINC"
 
 #: doc/index.php:182
 msgid "Design documents"
@@ -348,7 +349,7 @@ msgstr "BOINC est un projet communautaire.  Chacun est invité à participer."
 
 #: doc/index.php:207
 msgid "Email lists"
-msgstr "Listes email"
+msgstr "Listes d'emails"
 
 #: doc/index.php:208
 msgid "Events"
@@ -371,11 +372,11 @@ msgid ""
 "BOINC Live Help lets get one-on-one help from an experienced BOINC user, who"
 " can answer questions about BOINC, help you install and use BOINC, and "
 "troubleshoot problems."
-msgstr "BOINC Live Help permet d’obtenir de l’aide individuelle d’un utilisateur expérimenté de BOINC, qui peut répondre aux questions sur BOINC, vous aider à installez et utilisez BOINC, et résoudre les problèmes."
+msgstr "BOINC Live Help permet d’obtenir l'aide individuelle d’un utilisateur expérimenté de BOINC, qui peut répondre aux questions sur BOINC, vous aider à installer et utiliser BOINC et résoudre vos problèmes."
 
 #: doc/help.php:14
 msgid "You can communicate with a helper"
-msgstr "Vous pouvez communiquer avec une application d’assistance"
+msgstr "Vous pouvez communiquer avec un bénévole"
 
 #: doc/help.php:16
 msgid "by email"
@@ -385,11 +386,11 @@ msgstr "par e-mail"
 msgid ""
 "\n"
 "by voice, using %1Skype%2, a free Internet-based telephone system. If you don't already have Skype, you can %3download and install it now%4.  When you're finished, return to this page."
-msgstr "\npar la voix, à l’aide de % 1Skype%2, un système de téléphone gratuit sur Internet. Si vous n’avez pas déjà Skype, vous pouvez le %3télécharger et l'installez maintenant%4.  Lorsque vous avez terminé, revenez à cette page."
+msgstr "\npar la voix, à l’aide de %1Skype%2, un système de téléphonie gratuit sur Internet. Si vous n’avez pas déjà Skype, vous pouvez le %3télécharger et l'installer maintenant%4.  Lorsque vous aurez terminé, revenez à cette page."
 
 #: doc/help.php:25
 msgid "using Skype chat"
-msgstr "à l’aide de Skype chat"
+msgstr "par clavardage à l’aide de Skype"
 
 #: doc/help.php:28
 msgid ""
@@ -407,30 +408,30 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr "Si vous êtes un utilisateur expérimenté de BOINC, nous vous encourageons à %sdevenir un volontaire de support%s.  C'est un bon moyen d'aider la recherche scientifique et le calcul distribué bénévole - et c'est sympathique !"
+msgstr "Si vous êtes un utilisateur expérimenté de BOINC, nous vous encourageons à %soffrir votre aide bénévole%s.  C'est un bon moyen d'aider la recherche scientifique et le calcul distribué bénévole - et c'est sympa !"
 
 #: doc/help.php:52
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Si vous êtes un bénévole de support : pour éditer vos paramètres, %scliquez ici%s."
+msgstr "Si vous êtes déjà un bénévole de support : pour éditer vos paramètres, %scliquez ici%s."
 
 #: doc/help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC."
-msgstr "Les assistants BOINC sont bénévoles.  Leurs conseils ne sont pas cautionnés par BOINC."
+msgstr "Les assistants BOINC sont bénévoles.  Leurs conseils ne sont pas avalisés par BOINC."
 
 #: doc/help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1Ne jamais%2 donner votre adresse email ou votre mot de passe aux bénévoles de support BOINC."
+msgstr "%1Ne jamais%2 donner votre adresse email ou votre mot de passe aux bénévoles de support de BOINC."
 
 #: doc/projects.inc:19
 msgid "Distributed sensing"
 msgstr "Réseau de capteurs"
 
 #: doc/projects.inc:24
-msgid "Caltech"
-msgstr "Caltech "
+msgid "University of Southern California"
+msgstr "Université de Californie du Sud"
 
 #: doc/projects.inc:25
 msgid "Seismology"
@@ -515,7 +516,7 @@ msgstr "RNA World cherche à identifier, analyser, prévoir structurellement et 
 
 #: doc/projects.inc:107
 msgid "University College Dublin"
-msgstr "University College Dublin"
+msgstr "University College de Dublin"
 
 #: doc/projects.inc:108
 msgid "Antimalarial drug discovery"
@@ -528,23 +529,6 @@ msgid ""
 " proteins in the parasite. The FiND@Home project is aimed at finding these "
 "new targets."
 msgstr "Le parasite qui cause la malaria continue de faire évoluer sa résistance aux médicaments disponibles. Il est donc urgent de découvrir de nouveaux médicaments, cibler de nouvelles protéines chez le parasite. Le projet FiND@Home vise à trouver ces nouvelles cibles."
-
-#: doc/projects.inc:117
-msgid "University of Karlsruhe (Germany)"
-msgstr "Université de Karlsruhe (Allemagne)"
-
-#: doc/projects.inc:118
-msgid "Protein structure prediction"
-msgstr "Prédiction de la structure des protéines"
-
-#: doc/projects.inc:119
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME utilise une approche informatique pour prédire la structure des protéines biologiquement actives, pour comprendre les mécanismes de traitement du signal lorsque les protéines interagissent les unes avec les autres, pour comprendre les maladies liées à un dysfonctionnement des protéines ou l'agrégation, et à développer de nouveaux médicaments sur la base de structures tridimensionnelles des protéines biologiquement importantes."
 
 #: doc/projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -561,41 +545,6 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr "GPUGrid.net ouvre des nouveaux scénarios informatiques par l'emploi du premier code dynamique moléculaire atomique (CeIIMD) spécialement optimisé pour fonctionner sur les processeurs graphiques NVIDIA. De nouvelles applications biomédicales deviennent alors possibles donnant un nouveau rôle à la biologie informatique pour la recherche biomédicale."
-
-#: doc/projects.inc:175
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "Centre Universitaire du Maryland pour la bio-informatique et la biologie informatique"
-
-#: doc/projects.inc:176
-msgid "Life science research"
-msgstr "Recherche en sciences de la vie"
-
-#: doc/projects.inc:177
-msgid ""
-"The Lattice Project, developed and administered at the University of "
-"Maryland, supplies computing power to researchers worldwide who are studying"
-" evolutionary relationships using DNA and protein sequence data."
-msgstr "Le projet Lattice, développé et administré à l'Université du Maryland, fournit de la puissance de calcul aux chercheurs du monde entier qui étudient les relations évolutives en utilisant des données d'ADN et de séquences de protéines."
-
-#: doc/projects.inc:185
-msgid "The Swiss Tropical Institute"
-msgstr "L'institut Tropical Suisse"
-
-#: doc/projects.inc:186
-msgid "Epidemiology"
-msgstr "Épidémiologie"
-
-#: doc/projects.inc:187
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "Les modèles de simulation dynamique de transmission et d'effets sur la santé de la malaria sont un outil important pour le contrôle de la malaria. Ils peuvent être utilisés pour déterminer les stratégies optimales pour livrer des moustiquaires, la chimiothérapie ou de nouveaux vaccins qui sont actuellement en cours de développement et de test. Une telle modélisation est extrêmement gourmande en puissance de calcul, exigeant des simulations sur de larges populations humaines avec un ensemble de paramètres divers liés aux facteurs biologiques et sociaux qui influencent la diffusion de la maladie."
 
 #: doc/projects.inc:211
 msgid "University of Washington"
@@ -641,7 +590,7 @@ msgstr "Étudier les approximations des modèles climatiques les plus pointus. E
 
 #: doc/projects.inc:253
 msgid "Physical Science"
-msgstr "Sciences Physiques"
+msgstr "Sciences physiques"
 
 #: doc/projects.inc:269 doc/projects.inc:318 doc/projects.inc:328
 #: doc/projects.inc:338
@@ -705,7 +654,7 @@ msgstr "Le but de Milkyway@Home est de créer un modèle tridimensionnel de haut
 
 #: doc/projects.inc:342
 msgid "Study the structure of the Milky Way galaxy"
-msgstr "Étudier la structure de la galaxie de la Voie Lactée"
+msgstr "Étudier la structure de la galaxie de la Voie lactée"
 
 #: doc/projects.inc:347
 msgid "Leiden University, The Netherlands"
@@ -730,27 +679,28 @@ msgid "Help students do atomic simulations"
 msgstr "Aider les étudiants à faire des simulations atomiques"
 
 #: doc/projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "Université du Wisconsin - Milwaukee, Institut Max Planck"
+msgid ""
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "Université du Wisconsin, Milwaukee (USA) - Institut Max Planck pour la Physique Gravitationnelle, Hanovre (Allemagne)"
 
 #: doc/projects.inc:367
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "Recherche d'étoiles à neutrons en rotation (également appelées pulsars) en utilisant les données des détecteurs d'ondes gravitationnelles LIGO et GEO, et de l'observatoire radio d'Arecibo. Einstein@Home est un projet de l'Année Mondiale de la Physique 2005 soutenu par l'American Physical Society (APS) et par un certain nombre d'organisations internationales."
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Einstein@Home est un programme qui utilise les temps d'inactivité de votre ordinateur afin de rechercher des signaux astrophysiques faibles provenant d'étoiles à neutrons en rotation (également appelées pulsars) à l'aide de données provenant des détecteurs d'ondes gravitationnelles du LIGO, le radiotélescope d'Arecibo et le télescope spatial Fermi destiné à l'étude des rayons gamma."
 
 #: doc/projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
 msgstr "Aider à détecter les pulsars et les ondes gravitationnelles "
 
-#: doc/projects.inc:383 doc/projects.inc:393 doc/projects.inc:403
+#: doc/projects.inc:383
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Organisation Européenne pour la Recherche Nucléaire)"
 
-#: doc/projects.inc:384 doc/projects.inc:394 doc/projects.inc:404
+#: doc/projects.inc:384
 msgid "Physics"
 msgstr "Physique"
 
@@ -766,29 +716,6 @@ msgstr "Le grand collisionneur de hadrons (LHC) est un accélérateur de particu
 #: doc/projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
 msgstr "Améliorer le design du Large Hadron Collider"
-
-#: doc/projects.inc:395
-msgid ""
-"This project uses CERN-developed virtual machine technology for LHC event "
-"physics simulation on volunteer computers.  Requires that you install "
-"VirtualBox on your computer"
-msgstr "Ce projet utilise la technologie de machines virtuelles développées par le CERN pour simuler sur les ordinateurs des participants des évènements physiques propres au LHC. Cela requiert l'installation de VirtualBox sur votre ordinateur"
-
-#: doc/projects.inc:398
-msgid "Simulate high-energy particle collisions"
-msgstr "Simuler des collisions de particules à haute énergie"
-
-#: doc/projects.inc:405
-msgid ""
-"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
-" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
-" particles and processes using head-on collisions of protons of "
-"extraordinary high energy."
-msgstr "ATLAS@Home utilise le calcul bénévole pour exécuter des simulations pour ATLAS, une expérience de physique des particules au Grand collisionneur de hadrons du CERN. ATLAS recherche de nouvelles particules et des procédés à l'aide de collisions frontales de protons à des énergies extraordinairement hautes."
-
-#: doc/projects.inc:408
-msgid "Simulate high-energy particle collisions for CERN"
-msgstr "Simuler des collisions de particules à haute énergie pour le CERN"
 
 #: doc/projects.inc:413
 msgid "University of California, Berkeley"
@@ -862,22 +789,6 @@ msgstr "Yoyo@home est un adaptateur entre BOINC et plusieurs projets existants d
 #: doc/projects.inc:472
 msgid "Do research in math, physics, and evolution"
 msgstr "Faire des recherches en mathématiques, en physique et sur l'évolution"
-
-#: doc/projects.inc:487
-msgid "Spanish universities and research centers"
-msgstr "Centres de recherche et universités espagnols"
-
-#: doc/projects.inc:488
-msgid "Various Spanish research projects"
-msgstr "Plusieurs projets de recherche espagnols"
-
-#: doc/projects.inc:489
-msgid "Research in physics, material science, and biomedicine"
-msgstr "Recherche en physique, science des matériaux et biomédecine"
-
-#: doc/projects.inc:492
-msgid "Help Spanish researchers"
-msgstr "Aider les chercheurs espagnols"
 
 #: doc/projects.inc:497
 msgid "IBM Corporate Citizenship"

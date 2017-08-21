@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">Adaugă proiect</string>
   <string name="projects_icon">Icoană proiect</string>
   <string name="projects_credits">Credit:</string>
-  <string name="projects_credits_host_and_user">%1$,d (pe acest dispozitiv) %2$,d (total)</string>
+  <string name="projects_credits_host_and_user">%1$,d (pe acest echipament) %2$,d (în total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendat de utilizator</string>
   <string name="projects_status_dontrequestmorework">Nu se preiau noi task-uri</string>
@@ -334,11 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versiune</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">© 2003–2016 Universitatea din California, Berkeley.\nToate Drepturile Rezervate.</string>
   <string name="about_copyright_reserved">Toate Drepturile Rezervate.</string>
   <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC Corporation pentru suportul lor.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Notificare nouă de la %1$s</item>
+    <item quantity="few">%2$,d noi notificări</item>
+    <item quantity="other">%2$,d noi notificări</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Aplicație calcule voluntare detectată</string>
   <string name="nonexcl_dialog_text">O altă aplicație de calcule voluntare rulează pe acest echipament. Doar o singură versiune poate rula la un moment dat.</string>
   <string name="nonexcl_dialog_exit">Ieșire</string>
@@ -348,5 +352,6 @@
   <string name="social_invite_content_title">Fac cercetări pe smartphone-ul meu!</string>
   <string name="social_invite_content_body">Folosesc %1$s pentru a calcula pentru știință. Poți și tu! Descarcă aplicația de la: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

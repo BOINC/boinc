@@ -3,13 +3,13 @@
 # 
 # Translators:
 # D c <onlinegamesdavey@gmail.com>, 2015
-# Jord <elst93@gmail.com>, 2015-2016
+# Jord <elst93@gmail.com>, 2015-2017
 # Martin L <martinlievense@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-09-05 20:36+0000\n"
+"PO-Revision-Date: 2017-08-03 11:47+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -557,7 +557,7 @@ msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home is een programma dat de inactieve tijd van uw computer gebruikt om een screensaver te draaien om te zoeken naar zwaartekrachtgolven uit draaiende neutronensterren (ook wel pulsars genaamd) met behulp van gegevens van de LIGO gravitatiegolven detector."
+msgstr "Einstein@Home is een programma dat de inactieve tijd van je computer gebruikt om een screensaver te draaien om te zoeken naar zwaartekrachtgolven uit draaiende neutronensterren (ook wel pulsars genaamd) met behulp van gegevens van de LIGO gravitatiegolven detector."
 
 msgid "Learn more"
 msgstr "Meer weten"
@@ -596,7 +596,7 @@ msgid "Opinion"
 msgstr "Mening"
 
 msgid "Enter your password to save changes"
-msgstr "Voer uw wachtwoord in om wijzigingen op te slaan"
+msgstr "Voer je wachtwoord in om wijzigingen op te slaan"
 
 msgid ""
 "Enter your current password if changing your email\n"
@@ -1352,7 +1352,7 @@ msgstr "Als je het e-mailadres van je account bent vergeten, of als je daar geen
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
 "how:"
-msgstr "Om met deze gegevens toch toegang te krijgen tot uw BOINC-account, gaat u als volgt te werk: "
+msgstr "Om met deze gegevens toch toegang te krijgen tot je BOINC-account, ga je als volgt te werk: "
 
 msgid "BOINC documentation"
 msgstr "BOINC documentatie"
@@ -1382,7 +1382,7 @@ msgstr "Plak deze tekenreeks in het onderstaande veld en klik op OK."
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "U wordt nu aangemeld bij uw account; wijzig de betreffende e-mail- en wachtwoordgegevens."
+msgstr "Je wordt nu aangemeld bij je account; wijzig de betreffende e-mail- en wachtwoordgegevens."
 
 msgid "Log in with authenticator"
 msgstr "Aanmelden met authentificatie"
@@ -1558,7 +1558,7 @@ msgid "@email is not a well formed email address, please verify"
 msgstr "@email is geen correct gevormd e-mail adres, controleer het a.u.b."
 
 msgid "Please enter your email address"
-msgstr "Vul alstublieft uw emailadres in"
+msgstr "Vul alstublieft je e-mailadres in"
 
 msgid "There is no account with that authenticator."
 msgstr "Er is geen account met die authenticatie."

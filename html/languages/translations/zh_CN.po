@@ -1,19 +1,20 @@
 # BOINC project generic website localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Hansong Zhang, 2017
 # Yin Gang <zenith.yin@gmail.com>, 2017
 # Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
-# 秦赫阳 <qysnn1@gmail.com>, 2015-2016
+# 秦赫阳 <qysnn1@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-01-29 09:14+0000\n"
-"Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-15 07:40+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,69 +29,70 @@ msgstr "简体中文"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Simplified Chinese"
 
-#: html/inc/account.inc:38
+#: html/inc/account.inc:39
 msgid "Invitation Code"
 msgstr "邀请码"
 
-#: html/inc/account.inc:38
+#: html/inc/account.inc:39
 msgid "A valid invitation code is required to create an account."
 msgstr "创建帐户时需要一个正确的邀请码。"
 
-#: html/inc/account.inc:44 html/inc/host.inc:676 html/inc/result.inc:692
-#: html/inc/team.inc:225 html/inc/team.inc:369 html/inc/user.inc:202
-#: html/user/account_finish.php:41 html/user/team_admins.php:65
-#: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
-#: html/user/top_users.php:48 html/user/user_search.php:128
+#: html/inc/account.inc:45 html/inc/host.inc:677 html/inc/result.inc:692
+#: html/inc/team.inc:225 html/inc/team.inc:369 html/inc/user.inc:223
+#: html/user/account_finish.php:41 html/user/per_app_list.php:61
+#: html/user/team_admins.php:65 html/user/team_change_founder_form.php:82
+#: html/user/team_email_list.php:74 html/user/top_users.php:48
+#: html/user/user_search.php:128
 msgid "Name"
 msgstr "用户名"
 
-#: html/inc/account.inc:44 html/user/account_finish.php:41
+#: html/inc/account.inc:45 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "你在我们网站上的标识，可以使用你的真实姓名或是昵称。"
 
-#: html/inc/account.inc:48
+#: html/inc/account.inc:49
 msgid "Email Address"
 msgstr "电子邮件地址"
 
-#: html/inc/account.inc:48
+#: html/inc/account.inc:49
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
 
-#: html/inc/account.inc:57 html/user/edit_email_form.php:47
+#: html/inc/account.inc:58 html/user/edit_email_form.php:47
 msgid "Password"
 msgstr "用户口令"
 
-#: html/inc/account.inc:58
+#: html/inc/account.inc:59
 msgid "Must be at least %1 characters"
 msgstr "必须至少包含 %1 个字符"
 
-#: html/inc/account.inc:62
+#: html/inc/account.inc:63
 msgid "Confirm password"
 msgstr "确认用户口令"
 
-#: html/inc/account.inc:66 html/inc/team.inc:44 html/inc/team.inc:135
+#: html/inc/account.inc:67 html/inc/team.inc:44 html/inc/team.inc:135
 #: html/inc/team.inc:244 html/inc/team.inc:378 html/inc/team.inc:467
-#: html/inc/user.inc:216 html/inc/user.inc:408 html/user/account_finish.php:45
-#: html/user/edit_user_info_form.php:39 html/user/profile_search_action.php:44
+#: html/inc/user.inc:237 html/inc/user.inc:431 html/user/account_finish.php:45
+#: html/user/edit_user_info_form.php:45 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
 #: html/user/user_search.php:132
 msgid "Country"
 msgstr "国家或地区"
 
-#: html/inc/account.inc:66 html/user/account_finish.php:45
+#: html/inc/account.inc:67 html/user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
 msgstr "选择你所希望代表的国家或地区。"
 
-#: html/inc/account.inc:73 html/user/account_finish.php:51
+#: html/inc/account.inc:74 html/user/account_finish.php:52
 msgid "Postal or ZIP Code"
 msgstr "邮编"
 
-#: html/inc/account.inc:73 html/user/account_finish.php:51
+#: html/inc/account.inc:74
 msgid "Optional"
 msgstr "可选的"
 
-#: html/inc/account.inc:89 html/user/create_account_form.php:41
+#: html/inc/account.inc:89 html/user/create_account_form.php:42
 msgid "Create account"
 msgstr "创建帐户"
 
@@ -115,7 +117,7 @@ msgid "Stay logged in"
 msgstr "保持登录状态"
 
 #. kludge
-#: html/inc/account.inc:118 html/inc/util.inc:268 html/user/login_form.php:43
+#: html/inc/account.inc:118 html/inc/util.inc:282 html/user/login_form.php:43
 msgid "Log in"
 msgstr "登录"
 
@@ -250,113 +252,118 @@ msgstr "闭合所有的 bbCode 标签"
 msgid "Close Tags"
 msgstr "闭合标签"
 
-#: html/inc/bootstrap.inc:150 html/inc/user.inc:170
+#: html/inc/bootstrap.inc:156 html/inc/user.inc:174
 msgid "Account"
 msgstr "帐户"
 
-#: html/inc/bootstrap.inc:151
+#: html/inc/bootstrap.inc:157
 msgid "Join"
 msgstr "加入"
 
-#: html/inc/bootstrap.inc:153
+#: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
+#: html/inc/bootstrap.inc:202 html/inc/user.inc:264
+msgid "Preferences"
+msgstr "参数设置"
+
+#: html/inc/bootstrap.inc:160
 msgid "About %1"
 msgstr "关于 %1"
 
-#: html/inc/bootstrap.inc:154
+#: html/inc/bootstrap.inc:161
 msgid "Help"
 msgstr "帮助"
 
-#: html/inc/bootstrap.inc:155 html/inc/user.inc:125
+#: html/inc/bootstrap.inc:162 html/inc/user.inc:129
 msgid "Project"
 msgstr "项目"
 
-#. this is for projects that don't do computing, e.g. BOSSA-based
-#: html/inc/bootstrap.inc:160
+#: html/inc/bootstrap.inc:168
 msgid "Participate"
 msgstr "参与"
 
-#: html/inc/bootstrap.inc:161
+#: html/inc/bootstrap.inc:169
 msgid "Do work"
 msgstr "执行任务"
 
-#: html/inc/bootstrap.inc:165 html/user/server_status.php:109
+#: html/inc/bootstrap.inc:175 html/user/server_status.php:109
+#: html/user/server_status_old.php:310 html/user/temp.php:62
 msgid "Server status"
 msgstr "服务器状态"
 
-#: html/inc/bootstrap.inc:166
+#: html/inc/bootstrap.inc:176
 msgid "Statistics"
 msgstr "统计"
 
-#: html/inc/bootstrap.inc:167 html/user/apps.php:32
+#: html/inc/bootstrap.inc:177 html/user/apps.php:32
 msgid "Applications"
 msgstr "计算程序"
 
-#: html/inc/bootstrap.inc:178
+#: html/inc/bootstrap.inc:187
 msgid "Participants"
 msgstr "参与者"
 
-#: html/inc/bootstrap.inc:179 html/inc/user.inc:420 html/inc/user.inc:422
-#: html/user/server_status.php:152
+#: html/inc/bootstrap.inc:188 html/inc/user.inc:444 html/inc/user.inc:446
+#: html/user/server_status.php:152 html/user/server_status_old.php:459
 msgid "Computers"
 msgstr "计算机"
 
 #. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-#: html/inc/bootstrap.inc:180 html/inc/bootstrap.inc:191 html/user/team.php:27
+#: html/inc/bootstrap.inc:189 html/inc/bootstrap.inc:200 html/user/team.php:27
 msgid "Teams"
 msgstr "团队"
 
-#: html/inc/bootstrap.inc:181 html/user/stats.php:48
+#: html/inc/bootstrap.inc:190 html/user/stats.php:48
 msgid "GPU models"
 msgstr "GPU 型号"
 
-#: html/inc/bootstrap.inc:182 html/user/stats.php:49
+#: html/inc/bootstrap.inc:191 html/user/stats.php:49
 msgid "CPU models"
 msgstr "CPU 型号"
 
-#: html/inc/bootstrap.inc:185 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/bootstrap.inc:194 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/user/explain_state.php:94
 msgid "Computing"
 msgstr "计算"
 
-#: html/inc/bootstrap.inc:188 html/inc/user.inc:320
+#: html/inc/bootstrap.inc:197 html/inc/user.inc:343
 msgid "Community"
 msgstr "社区"
 
-#: html/inc/bootstrap.inc:189 html/inc/forum.inc:158 html/inc/forum.inc:190
-#: html/inc/user.inc:334 html/inc/user.inc:473 html/user/forum_forum.php:76
+#: html/inc/bootstrap.inc:198 html/inc/forum.inc:158 html/inc/forum.inc:190
+#: html/inc/user.inc:357 html/inc/user.inc:497 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "留言板"
 
-#: html/inc/bootstrap.inc:191
+#: html/inc/bootstrap.inc:200
 msgid "create or join a team"
 msgstr "创建或加入一个团队"
 
-#: html/inc/bootstrap.inc:192 html/user/profile_menu.php:34
+#: html/inc/bootstrap.inc:201 html/user/profile_menu.php:34
 msgid "Profiles"
 msgstr "用户档案"
 
-#: html/inc/bootstrap.inc:193
+#: html/inc/bootstrap.inc:203
 msgid "User search"
 msgstr "用户搜索"
 
-#: html/inc/bootstrap.inc:194
+#: html/inc/bootstrap.inc:204
 msgid "User of the day"
 msgstr "今日用户"
 
-#: html/inc/bootstrap.inc:195 html/inc/user.inc:175
+#: html/inc/bootstrap.inc:205 html/inc/user.inc:179
 msgid "Certificate"
 msgstr "计算证书"
 
-#: html/inc/bootstrap.inc:197
+#: html/inc/bootstrap.inc:207
 msgid "Site"
 msgstr "网站"
 
-#: html/inc/bootstrap.inc:198
+#: html/inc/bootstrap.inc:208
 msgid "Site search"
 msgstr "网站搜索"
 
-#: html/inc/bootstrap.inc:199
+#: html/inc/bootstrap.inc:209
 msgid "Languages"
 msgstr "语言"
 
@@ -430,8 +437,8 @@ msgstr "搜索论坛"
 msgid "Advanced search"
 msgstr "高级搜索"
 
-#: html/inc/forum.inc:139 html/inc/user.inc:338 html/user/pm.php:57
-#: html/user/pm.php:127
+#: html/inc/forum.inc:139 html/inc/user.inc:361 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:105 html/user/pm.php:57 html/user/pm.php:127
 msgid "Private messages"
 msgstr "私人消息"
 
@@ -451,21 +458,22 @@ msgstr "前"
 msgid "Next"
 msgstr "后"
 
-#: html/inc/forum.inc:410 html/inc/forum.inc:1258
-#: html/user/forum_forum.php:144 html/user/forum_reply.php:128
+#: html/inc/forum.inc:410 html/inc/forum.inc:1263
+#: html/user/forum_forum.php:145 html/user/forum_reply.php:127
 #: html/user/forum_report_post.php:86
 msgid "Author"
 msgstr "作者"
 
-#: html/inc/forum.inc:410 html/inc/pm.inc:64 html/inc/pm.inc:143
+#: html/inc/forum.inc:410 html/inc/pm.inc:65 html/inc/pm.inc:146
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:130
-#: html/user/forum_edit.php:135 html/user/forum_post.php:118
-#: html/user/forum_reply.php:128 html/user/forum_report_post.php:87
+#: html/user/forum_edit.php:135 html/user/forum_pm.php:65
+#: html/user/forum_pm.php:114 html/user/forum_post.php:122
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "消息"
 
-#: html/inc/forum.inc:590 html/inc/pm.inc:73 html/inc/pm.inc:153
+#: html/inc/forum.inc:590 html/inc/pm.inc:74 html/inc/pm.inc:156
 msgid "Send message"
 msgstr "发送消息"
 
@@ -497,11 +505,11 @@ msgstr "你还没有阅读过该消息"
 msgid "Unread"
 msgstr "未读"
 
-#: html/inc/forum.inc:640 html/inc/forum.inc:645 html/inc/forum.inc:754
+#: html/inc/forum.inc:640 html/inc/forum.inc:645 html/inc/forum.inc:758
 msgid "Message %1"
 msgstr "消息 %1"
 
-#: html/inc/forum.inc:641 html/inc/user.inc:422 html/user/forum_forum.php:181
+#: html/inc/forum.inc:641 html/inc/user.inc:446 html/user/forum_forum.php:182
 msgid "hidden"
 msgstr "隐藏"
 
@@ -526,75 +534,76 @@ msgstr "编辑该消息"
 msgid "Last modified: %1"
 msgstr "最近的修改日期：%1"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click "
-"%1here%2 to view this post"
-msgstr "该篇帖子未显示是因为其作者在您的忽略列表里。点击%1这里%2来查看"
+"This post is hidden because the sender is on your 'ignore' list.  Click "
+"%1here%2 to view hidden posts"
+msgstr ""
 
-#: html/inc/forum.inc:692 html/inc/forum.inc:703
+#: html/inc/forum.inc:696 html/inc/forum.inc:707
 msgid "Report this post as offensive"
 msgstr "举报违规帖子"
 
-#: html/inc/forum.inc:692 html/inc/forum.inc:703
+#: html/inc/forum.inc:696 html/inc/forum.inc:707
 msgid "Report as offensive"
 msgstr "举报违规帖子"
 
-#: html/inc/forum.inc:696
+#: html/inc/forum.inc:700
 msgid "Rating: %1"
 msgstr "评分：%1"
 
-#: html/inc/forum.inc:696
+#: html/inc/forum.inc:700
 msgid "rate: "
 msgstr "评分："
 
-#: html/inc/forum.inc:699
+#: html/inc/forum.inc:703
 msgid "Click if you like this message"
 msgstr "如果你喜欢该消息请点击"
 
-#: html/inc/forum.inc:699
+#: html/inc/forum.inc:703
 msgid "Rate +"
 msgstr "加分"
 
-#: html/inc/forum.inc:701
+#: html/inc/forum.inc:705
 msgid "Click if you don't like this message"
 msgstr "如果你不喜欢该消息请点击"
 
-#: html/inc/forum.inc:701
+#: html/inc/forum.inc:705
 msgid "Rate -"
 msgstr "减分"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:710 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:714 html/user/forum_pm.php:79 html/user/forum_pm.php:117
+#: html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "回复"
 
-#: html/inc/forum.inc:710
+#: html/inc/forum.inc:714
 msgid "Post a reply to this message"
 msgstr "回复该消息"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:713
+#: html/inc/forum.inc:717
 msgid "Quote"
 msgstr "引用"
 
-#: html/inc/forum.inc:713
+#: html/inc/forum.inc:717
 msgid "Post a reply by quoting this message"
 msgstr "回复并引用该消息"
 
-#: html/inc/forum.inc:735
+#: html/inc/forum.inc:739
 msgid "Hidden by a moderator"
 msgstr "被管理员隐藏"
 
-#: html/inc/forum.inc:756
+#: html/inc/forum.inc:760
 msgid "Posted %1 by %2"
 msgstr "发表于：%1 作者：%2"
 
-#: html/inc/forum.inc:776
+#: html/inc/forum.inc:780
 msgid "You may not post or rate messages until %1"
 msgstr "你必须等到 %1 后才能回复帖子或给帖子评分"
 
-#: html/inc/forum.inc:787
+#: html/inc/forum.inc:791
 msgid ""
 "\n"
 "        <ul>\n"
@@ -610,127 +619,130 @@ msgid ""
 "        <li> No abusive comments involving race, religion,\n"
 "            nationality, gender, class or sexuality.\n"
 "        <li> The posting privileges of violators may be suspended or revoked.\n"
+"        <li> If your account is suspended, don't create a new one.\n"
 "        "
-msgstr "\n<ul>\n<li>帖子不能包含儿童不宜的内容：不能包含色情、 煽动仇恨、 色情或性暗示的内容。\n        <li>禁止商业广告。\n        <li>禁止涉及到色情、赌博，或种族歧视的网站的链接。\n        <li>禁止挑衅、攻击其他用户的帖子，禁止在一个主题中搞破坏。\n        <li>禁止有敌意、恐吓或侮辱性的帖子。\n        <li>禁止与种族、宗教、国籍、性别、阶层或性相关的辱骂性评论。\n        <li>违反规定者的发帖权限可能会被暂时或永久吊销。\n        "
+msgstr ""
 
-#: html/inc/forum.inc:820
+#: html/inc/forum.inc:825
 msgid "Rules:"
 msgstr "规则："
 
-#: html/inc/forum.inc:821
+#: html/inc/forum.inc:826
 msgid "More info"
 msgstr "更多信息"
 
-#: html/inc/forum.inc:1119 html/user/forum_thread.php:193
+#: html/inc/forum.inc:1124 html/user/forum_thread.php:193
 msgid "Unhide"
 msgstr "取消隐藏"
 
-#: html/inc/forum.inc:1119
+#: html/inc/forum.inc:1124
 msgid "Unhide this post"
 msgstr "取消隐藏帖子"
 
-#: html/inc/forum.inc:1121 html/user/forum_thread.php:199
+#: html/inc/forum.inc:1126 html/user/forum_thread.php:199
 msgid "Hide"
 msgstr "隐藏"
 
-#: html/inc/forum.inc:1121
+#: html/inc/forum.inc:1126
 msgid "Hide this post"
 msgstr "隐藏帖子"
 
-#: html/inc/forum.inc:1126 html/user/forum_thread.php:232
+#: html/inc/forum.inc:1131 html/user/forum_thread.php:232
 msgid "Move"
 msgstr "移动"
 
-#: html/inc/forum.inc:1126
+#: html/inc/forum.inc:1131
 msgid "Move post to a different thread"
 msgstr "移动帖子到其它主题"
 
-#: html/inc/forum.inc:1131
+#: html/inc/forum.inc:1136
 msgid "Banish author"
 msgstr "封禁作者"
 
-#: html/inc/forum.inc:1138
+#: html/inc/forum.inc:1143
 msgid "Vote to banish author"
 msgstr "投票封禁作者"
 
-#: html/inc/forum.inc:1142
+#: html/inc/forum.inc:1147
 msgid "Vote not to banish author"
 msgstr "投票不要封禁作者"
 
-#: html/inc/forum.inc:1147
+#: html/inc/forum.inc:1152
 msgid "Start vote to banish author"
 msgstr "开始投票封禁作者"
 
-#: html/inc/forum.inc:1152 html/inc/user.inc:325
-#: html/user/forum_thread.php:246 html/user/pm.php:100 html/user/pm.php:141
+#: html/inc/forum.inc:1157 html/inc/user.inc:348 html/user/forum_pm.php:78
+#: html/user/forum_pm.php:89 html/user/forum_pm.php:116
+#: html/user/forum_pm.php:282 html/user/forum_thread.php:246
+#: html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "删除"
 
-#: html/inc/forum.inc:1152
+#: html/inc/forum.inc:1157
 msgid "Delete this post"
 msgstr "删除这个帖子"
 
-#: html/inc/forum.inc:1192
+#: html/inc/forum.inc:1197
 msgid "Only team members can post to the team message board"
 msgstr "只有团队成员才能在团队的留言板中发帖"
 
-#: html/inc/forum.inc:1202
+#: html/inc/forum.inc:1207
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "你必须在已经获得了一定的平均积分后才能在 %1 发表新主题。这是为了防止对论坛系统的滥用。"
 
-#: html/inc/forum.inc:1209
+#: html/inc/forum.inc:1214
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "你暂时不能发表新主题，请稍后再试。这是为了防止对论坛系统的滥用。"
 
-#: html/inc/forum.inc:1216
+#: html/inc/forum.inc:1221
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "该主题已被锁定，只有论坛管理员能够在该主题下发帖。"
 
-#: html/inc/forum.inc:1221
+#: html/inc/forum.inc:1226
 msgid "Can't post to a hidden thread."
 msgstr "不能回复隐藏主题。"
 
-#: html/inc/forum.inc:1256
+#: html/inc/forum.inc:1261
 msgid "Thread"
 msgstr "主题"
 
-#: html/inc/forum.inc:1257 html/inc/team.inc:141 html/user/forum_forum.php:143
+#: html/inc/forum.inc:1262 html/inc/team.inc:141 html/user/forum_forum.php:144
 #: html/user/forum_index.php:97
 msgid "Posts"
 msgstr "贴数"
 
-#: html/inc/forum.inc:1259 html/user/forum_forum.php:145
+#: html/inc/forum.inc:1264 html/user/forum_forum.php:146
 msgid "Views"
 msgstr "查看次数"
 
-#: html/inc/forum.inc:1260 html/inc/team.inc:141 html/user/forum_forum.php:146
+#: html/inc/forum.inc:1265 html/inc/team.inc:141 html/user/forum_forum.php:147
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:98
 msgid "Last post"
 msgstr "最近发贴"
 
-#: html/inc/forum.inc:1317
+#: html/inc/forum.inc:1322
 msgid "New posts in the thread %1"
 msgstr "主题 %1 的新回复"
 
-#: html/inc/forum.inc:1322
+#: html/inc/forum.inc:1327
 msgid "New posts in subscribed thread"
 msgstr "已订阅主题的新回复"
 
-#: html/inc/forum.inc:1323
+#: html/inc/forum.inc:1328
 msgid "There are new posts in the thread '%1'"
 msgstr "主题“%1”有新的回帖"
 
-#: html/inc/forum.inc:1333
+#: html/inc/forum.inc:1338
 msgid "Mark all threads as read"
 msgstr "标记所有主题为已读"
 
-#: html/inc/forum.inc:1334
+#: html/inc/forum.inc:1339
 msgid "Mark all threads in all message boards as read."
 msgstr "标记所有留言板块的所有主题为已读。"
 
@@ -747,7 +759,7 @@ msgid "Home"
 msgstr "家庭"
 
 #: html/inc/host.inc:57 html/inc/prefs.inc:675 html/inc/prefs_util.inc:541
-#: html/user/server_status.php:136
+#: html/user/server_status.php:136 html/user/server_status_old.php:382
 msgid "Work"
 msgstr "工作"
 
@@ -755,63 +767,62 @@ msgstr "工作"
 msgid "School"
 msgstr "学校"
 
-#: html/inc/host.inc:60 html/user/edit_forum_preferences_form.php:161
-#: html/user/edit_forum_preferences_form.php:162
-msgid "Update"
-msgstr "更新"
+#: html/inc/host.inc:61
+msgid "Update location"
+msgstr "更新位置"
 
-#: html/inc/host.inc:84
+#: html/inc/host.inc:85
 msgid "Computer information"
 msgstr "计算机信息"
 
-#: html/inc/host.inc:88 html/inc/host.inc:93
+#: html/inc/host.inc:89 html/inc/host.inc:94
 msgid "IP address"
 msgstr "IP 地址"
 
-#: html/inc/host.inc:88
+#: html/inc/host.inc:89
 msgid "(same the last %1 times)"
 msgstr "（最近 %1 次相同）"
 
-#: html/inc/host.inc:90
+#: html/inc/host.inc:91
 msgid "External IP address"
 msgstr "外部 IP 地址"
 
-#: html/inc/host.inc:93
+#: html/inc/host.inc:94
 msgid "Show IP address"
 msgstr "显示 IP 地址"
 
-#: html/inc/host.inc:95
+#: html/inc/host.inc:96
 msgid "Domain name"
 msgstr "域名"
 
-#: html/inc/host.inc:97
+#: html/inc/host.inc:98
 msgid "Product name"
 msgstr "产品名称"
 
-#: html/inc/host.inc:101
+#: html/inc/host.inc:102
 msgid "Local Standard Time"
 msgstr "当地标准时间"
 
-#: html/inc/host.inc:101
+#: html/inc/host.inc:102
 msgid "UTC %1 hours"
 msgstr "UTC 时间 %1 时"
 
-#: html/inc/host.inc:105 html/inc/host.inc:107 html/inc/host.inc:222
+#: html/inc/host.inc:106 html/inc/host.inc:108 html/inc/host.inc:223
 msgid "Owner"
 msgstr "用户"
 
-#: html/inc/host.inc:107 html/inc/host.inc:358
+#: html/inc/host.inc:108 html/inc/host.inc:359
 msgid "Anonymous"
 msgstr "匿名"
 
-#: html/inc/host.inc:111 html/inc/result.inc:694 html/user/apps.php:57
+#: html/inc/host.inc:112 html/inc/result.inc:694 html/user/apps.php:57
 msgid "Created"
 msgstr "创建时间"
 
-#: html/inc/host.inc:112 html/inc/host.inc:226 html/inc/host.inc:229
-#: html/inc/host.inc:693 html/inc/team.inc:111 html/inc/team.inc:228
+#: html/inc/host.inc:113 html/inc/host.inc:227 html/inc/host.inc:230
+#: html/inc/host.inc:694 html/inc/team.inc:111 html/inc/team.inc:228
 #: html/inc/team.inc:232 html/inc/team.inc:234 html/inc/team.inc:373
-#: html/inc/team.inc:376 html/inc/user.inc:126 html/inc/user.inc:143
+#: html/inc/team.inc:376 html/inc/user.inc:130 html/inc/user.inc:147
 #: html/user/profile_search_action.php:45
 #: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
 #: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
@@ -819,285 +830,282 @@ msgstr "创建时间"
 msgid "Total credit"
 msgstr "总积分"
 
-#: html/inc/host.inc:113 html/inc/user.inc:127 html/user/team_search.php:84
+#: html/inc/host.inc:114 html/inc/user.inc:131 html/user/team_search.php:84
 #: html/user/user_search.php:130
 msgid "Average credit"
 msgstr "平均积分"
 
-#: html/inc/host.inc:115
+#: html/inc/host.inc:116
 msgid "Cross project credit"
 msgstr "跨项目积分"
 
-#: html/inc/host.inc:117
+#: html/inc/host.inc:118
 msgid "CPU type"
 msgstr "CPU 类型"
 
-#: html/inc/host.inc:118
+#: html/inc/host.inc:119
 msgid "Number of processors"
 msgstr "数据器数量"
 
-#: html/inc/host.inc:120
+#: html/inc/host.inc:121
 msgid "Coprocessors"
 msgstr "协处理器"
 
-#: html/inc/host.inc:122 html/inc/host.inc:703
+#: html/inc/host.inc:123 html/inc/host.inc:704
 msgid "Operating System"
 msgstr "操作系统"
 
-#: html/inc/host.inc:125 html/inc/host.inc:231
+#: html/inc/host.inc:126 html/inc/host.inc:232
 msgid "BOINC version"
 msgstr "BOINC 版本"
 
-#: html/inc/host.inc:129 html/inc/prefs.inc:243
+#: html/inc/host.inc:130 html/inc/prefs.inc:243
 msgid "Memory"
 msgstr "内存"
 
-#: html/inc/host.inc:129 html/inc/host.inc:139
-msgid "%1 MB"
-msgstr "%1 MB"
-
-#: html/inc/host.inc:133
-msgid "Cache"
-msgstr "缓存"
-
-#: html/inc/host.inc:133
-msgid "%1 KB"
-msgstr "%1 KB"
-
-#: html/inc/host.inc:139
-msgid "Swap space"
-msgstr "交换空间"
-
-#: html/inc/host.inc:142
-msgid "Total disk space"
-msgstr "总磁盘空间"
-
-#: html/inc/host.inc:142 html/inc/host.inc:145
+#: html/inc/host.inc:130 html/inc/host.inc:140 html/inc/host.inc:143
+#: html/inc/host.inc:146
 msgid "%1 GB"
 msgstr "%1 GB"
 
-#: html/inc/host.inc:145
+#: html/inc/host.inc:134
+msgid "Cache"
+msgstr "缓存"
+
+#: html/inc/host.inc:134
+msgid "%1 KB"
+msgstr "%1 KB"
+
+#: html/inc/host.inc:140
+msgid "Swap space"
+msgstr "交换空间"
+
+#: html/inc/host.inc:143
+msgid "Total disk space"
+msgstr "总磁盘空间"
+
+#: html/inc/host.inc:146
 msgid "Free Disk Space"
 msgstr "空闲磁盘空间"
 
-#: html/inc/host.inc:149
+#: html/inc/host.inc:150
 msgid "Measured floating point speed"
 msgstr "浮点运算速度"
 
-#: html/inc/host.inc:149 html/inc/host.inc:152
-msgid "%1 million ops/sec"
-msgstr "每秒 %1 百万次运算"
+#: html/inc/host.inc:150 html/inc/host.inc:153
+msgid "%1 billion ops/sec"
+msgstr "%1 十亿操作每秒"
 
-#: html/inc/host.inc:152
+#: html/inc/host.inc:153
 msgid "Measured integer speed"
 msgstr "整数运算速度"
 
-#: html/inc/host.inc:156 html/inc/host.inc:158
+#: html/inc/host.inc:157 html/inc/host.inc:159
 msgid "Average upload rate"
 msgstr "平均上传速度"
 
-#: html/inc/host.inc:156 html/inc/host.inc:163
+#: html/inc/host.inc:157 html/inc/host.inc:164
 msgid "%1 KB/sec"
 msgstr "%1 KB/秒"
 
-#: html/inc/host.inc:158 html/inc/host.inc:165 html/inc/result.inc:230
+#: html/inc/host.inc:159 html/inc/host.inc:166 html/inc/result.inc:230
 #: html/inc/result.inc:240 html/inc/result.inc:258 html/inc/result.inc:276
 #: html/inc/result.inc:292 html/user/explain_state.php:56
 #: html/user/host_app_versions.php:28
 msgid "Unknown"
 msgstr "未知"
 
-#: html/inc/host.inc:163 html/inc/host.inc:165
+#: html/inc/host.inc:164 html/inc/host.inc:166
 msgid "Average download rate"
 msgstr "平均下载速度"
 
-#: html/inc/host.inc:168 html/user/host_app_versions.php:82
+#: html/inc/host.inc:169 html/user/host_app_versions.php:82
 msgid "Average turnaround time"
 msgstr "平均任务周转时间"
 
-#: html/inc/host.inc:168 html/user/forum_search.php:48
+#: html/inc/host.inc:169 html/user/forum_search.php:48
 #: html/user/forum_search.php:49 html/user/forum_search.php:50
 #: html/user/forum_search.php:51
 msgid "%1 days"
 msgstr "%1 天"
 
-#: html/inc/host.inc:169
+#: html/inc/host.inc:170
 msgid "Application details"
 msgstr "计算程序"
 
-#: html/inc/host.inc:170
+#: html/inc/host.inc:171
 msgid "Show"
 msgstr "查看"
 
-#: html/inc/host.inc:180 html/inc/host.inc:339 html/inc/user.inc:159
+#: html/inc/host.inc:181 html/inc/host.inc:340 html/inc/user.inc:163
 msgid "Tasks"
 msgstr "任务"
 
-#: html/inc/host.inc:184 html/inc/host.inc:206
+#: html/inc/host.inc:185 html/inc/host.inc:207
 msgid "Number of times client has contacted server"
 msgstr "客户端连接服务端的次数"
 
-#: html/inc/host.inc:185
+#: html/inc/host.inc:186
 msgid "Last time contacted server"
 msgstr "最近一次连接服务端的时间"
 
-#: html/inc/host.inc:186
+#: html/inc/host.inc:187
 msgid "Fraction of time BOINC is running"
 msgstr "BOINC运行的时间"
 
-#: html/inc/host.inc:188
+#: html/inc/host.inc:189
 msgid ""
 "While BOINC is running, fraction of time computer has an Internet connection"
 msgstr "BOINC在运行时，计算机有互联网连接的时间"
 
-#: html/inc/host.inc:190
+#: html/inc/host.inc:191
 msgid "While BOINC is running, fraction of time computing is allowed"
 msgstr "BOINC在运行时，允许计算的时间"
 
-#: html/inc/host.inc:191
+#: html/inc/host.inc:192
 msgid "While is BOINC running, fraction of time GPU computing is allowed"
 msgstr "BOINC在运行时，允许GPU计算的时间"
 
-#: html/inc/host.inc:193
+#: html/inc/host.inc:194
 msgid "Average CPU efficiency"
 msgstr "平均的 CPU 运行效率"
 
-#: html/inc/host.inc:196
+#: html/inc/host.inc:197
 msgid "Task duration correction factor"
 msgstr "任务时长校正因子"
 
-#: html/inc/host.inc:198 html/inc/host.inc:683
+#: html/inc/host.inc:199 html/inc/host.inc:684
 msgid "Location"
 msgstr "位置"
 
-#: html/inc/host.inc:200
+#: html/inc/host.inc:201
 msgid "Delete this computer"
 msgstr "删除当前计算机"
 
-#: html/inc/host.inc:204
+#: html/inc/host.inc:205
 msgid "Merge duplicate records of this computer"
 msgstr "合并该计算机的冗余记录"
 
-#: html/inc/host.inc:204
+#: html/inc/host.inc:205
 msgid "Merge"
 msgstr "合并"
 
-#: html/inc/host.inc:207 html/inc/host.inc:706
+#: html/inc/host.inc:208 html/inc/host.inc:707
 msgid "Last contact"
 msgstr "最近一次通讯"
 
-#: html/inc/host.inc:220
+#: html/inc/host.inc:221
 msgid "Computer info"
 msgstr "计算机信息"
 
-#: html/inc/host.inc:221 html/inc/host.inc:686 html/inc/team.inc:368
-#: html/user/top_users.php:47
+#: html/inc/host.inc:222 html/inc/host.inc:687 html/inc/team.inc:368
+#: html/user/per_app_list.php:61 html/user/top_users.php:47
 msgid "Rank"
 msgstr "名次"
 
-#: html/inc/host.inc:225 html/inc/host.inc:690
+#: html/inc/host.inc:226 html/inc/host.inc:691
 msgid "Avg. credit"
 msgstr "平均积分"
 
-#: html/inc/host.inc:228 html/inc/team.inc:112 html/inc/team.inc:229
+#: html/inc/host.inc:229 html/inc/team.inc:112 html/inc/team.inc:229
 #: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:372
-#: html/inc/team.inc:375 html/inc/user.inc:144
+#: html/inc/team.inc:375 html/inc/user.inc:148
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
 #: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
 #: html/user/top_users.php:53
 msgid "Recent average credit"
 msgstr "近期平均积分"
 
-#: html/inc/host.inc:232 html/inc/host.inc:698 html/inc/result.inc:74
+#: html/inc/host.inc:233 html/inc/host.inc:699 html/inc/result.inc:74
 #: html/user/host_app_versions.php:23
 msgid "CPU"
 msgstr "CPU"
 
-#: html/inc/host.inc:233 html/inc/host.inc:700
+#: html/inc/host.inc:234 html/inc/host.inc:701
 msgid "GPU"
 msgstr "GPU"
 
-#: html/inc/host.inc:234
+#: html/inc/host.inc:235
 msgid "Operating system"
 msgstr "操作系统"
 
-#: html/inc/host.inc:319
+#: html/inc/host.inc:320
 msgid "(%1 processors)"
 msgstr "（%1 处理器）"
 
-#: html/inc/host.inc:338
+#: html/inc/host.inc:339
 msgid "Details"
 msgstr "详细"
 
-#: html/inc/host.inc:343
+#: html/inc/host.inc:344
 msgid "Cross-project stats:"
 msgstr "跨项目的统计信息："
 
-#: html/inc/host.inc:518
+#: html/inc/host.inc:519
 msgid "Host %1 has overlapping lifetime:"
 msgstr "主机 %1 的活跃期有重叠："
 
-#: html/inc/host.inc:525
+#: html/inc/host.inc:526
 msgid "Host %1 has an incompatible OS:"
 msgstr "主机 %1 的操作系统不兼容："
 
-#: html/inc/host.inc:531
+#: html/inc/host.inc:532
 msgid "Host %1 has an incompatible CPU:"
 msgstr "主机 %1 的 CPU 类型不兼容："
 
-#: html/inc/host.inc:598
+#: html/inc/host.inc:599
 msgid "same host"
 msgstr "相同的主机"
 
-#: html/inc/host.inc:601
+#: html/inc/host.inc:602
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "无法将主机 %1 合并至 主机 %2 - 主机不兼容"
 
-#: html/inc/host.inc:604
+#: html/inc/host.inc:605
 msgid "Merging host %1 into host %2"
 msgstr "正在将主机 %1 合并至主机 %2"
 
-#: html/inc/host.inc:621
+#: html/inc/host.inc:622
 msgid "Couldn't update credit of new computer"
 msgstr "无法更新新计算机的积分"
 
-#: html/inc/host.inc:625
+#: html/inc/host.inc:626
 msgid "Couldn't update results"
 msgstr "无法更新任务拷贝"
 
-#: html/inc/host.inc:630
+#: html/inc/host.inc:631
 msgid "Couldn't retire old computer"
 msgstr "无法撤销旧的计算机"
 
-#: html/inc/host.inc:632
+#: html/inc/host.inc:633
 msgid "Retired old computer %1"
 msgstr "旧的计算机 %1 已撤销"
 
-#: html/inc/host.inc:655 html/inc/host.inc:658
+#: html/inc/host.inc:656 html/inc/host.inc:659
 msgid "Show:"
 msgstr "显示："
 
-#: html/inc/host.inc:655 html/inc/host.inc:658
+#: html/inc/host.inc:656 html/inc/host.inc:659
 msgid "All computers"
 msgstr "所有计算机"
 
-#: html/inc/host.inc:655 html/inc/host.inc:658
+#: html/inc/host.inc:656 html/inc/host.inc:659
 msgid "Only computers active in past 30 days"
 msgstr "仅显示最近 30 天内活跃的计算机"
 
-#: html/inc/host.inc:671 html/inc/result.inc:702
+#: html/inc/host.inc:672 html/inc/result.inc:702
 msgid "Computer ID"
 msgstr "计算机 ID"
 
-#: html/inc/host.inc:680
+#: html/inc/host.inc:681
 msgid "Model"
 msgstr "型号"
 
-#: html/inc/host.inc:695
+#: html/inc/host.inc:696
 msgid "BOINC<br>version"
 msgstr "BOINC<br>版本"
 
-#: html/inc/host.inc:764 html/user/merge_by_name.php:65
+#: html/inc/host.inc:765 html/user/merge_by_name.php:65
 msgid "Merge computers by name"
 msgstr "通过名称合并计算机"
 
@@ -1110,12 +1118,12 @@ msgstr "讨论"
 msgid "News is available as an %sRSS feed%s"
 msgstr "新闻还可以通过 %sRSS%s 来获取"
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:247 html/user/pm.php:57
-#: html/user/pm.php:142
+#: html/inc/pm.inc:25 html/inc/pm.inc:250 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
 msgid "Inbox"
 msgstr "收件箱"
 
-#: html/inc/pm.inc:26 html/inc/pm.inc:251
+#: html/inc/pm.inc:26 html/inc/pm.inc:254
 msgid "Write"
 msgstr "写信"
 
@@ -1123,65 +1131,66 @@ msgstr "写信"
 msgid "Send message to team"
 msgstr "向团队发送消息"
 
-#: html/inc/pm.inc:44 html/inc/pm.inc:46 html/inc/pm.inc:72 html/inc/pm.inc:85
-#: html/inc/pm.inc:87 html/inc/pm.inc:153 html/user/forum_edit.php:99
+#: html/inc/pm.inc:44 html/inc/pm.inc:45 html/inc/pm.inc:73 html/inc/pm.inc:86
+#: html/inc/pm.inc:88 html/inc/pm.inc:156 html/user/forum_edit.php:101
 #: html/user/forum_edit.php:102 html/user/forum_edit.php:147
-#: html/user/forum_post.php:65 html/user/forum_post.php:91
-#: html/user/forum_post.php:93 html/user/forum_post.php:135
-#: html/user/forum_reply.php:77 html/user/forum_reply.php:110
-#: html/user/forum_reply.php:116 html/user/forum_reply.php:171
-#: html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_pm.php:148 html/user/forum_post.php:65
+#: html/user/forum_post.php:93 html/user/forum_post.php:94
+#: html/user/forum_post.php:139 html/user/forum_reply.php:77
+#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
+#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
 msgid "Preview"
 msgstr "预览"
 
-#: html/inc/pm.inc:60 html/inc/pm.inc:138 html/user/ffmail_form.php:57
-#: html/user/pm.php:79 html/user/pm.php:133
+#: html/inc/pm.inc:61 html/inc/pm.inc:141 html/user/ffmail_form.php:57
+#: html/user/forum_pm.php:65 html/user/forum_pm.php:109 html/user/pm.php:79
+#: html/user/pm.php:133
 msgid "Subject"
 msgstr "标题"
 
-#: html/inc/pm.inc:83 html/inc/user.inc:477
+#: html/inc/pm.inc:84 html/inc/user.inc:501
 msgid "Send private message"
 msgstr "发送私人消息"
 
-#: html/inc/pm.inc:97 html/user/pm.php:125
+#: html/inc/pm.inc:100 html/user/pm.php:125
 msgid "no such message"
 msgstr "消息不存在"
 
-#: html/inc/pm.inc:133
+#: html/inc/pm.inc:136
 msgid "To"
 msgstr "收件人"
 
-#: html/inc/pm.inc:133
+#: html/inc/pm.inc:136
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "用户ID或唯一的用户名，多个收件人之间用逗号分开"
 
-#: html/inc/pm.inc:186
+#: html/inc/pm.inc:189
 msgid "sent you a private message; subject:"
 msgstr "给你发送了一条私人消息，标题是："
 
-#: html/inc/pm.inc:193
+#: html/inc/pm.inc:196
 msgid "Private message%1 from %2, subject:"
 msgstr "私人消息 %1 来自 %2，标题是："
 
-#: html/inc/pm.inc:201
+#: html/inc/pm.inc:204
 msgid "Couldn't create message"
 msgstr "无法创建消息"
 
-#: html/inc/pm.inc:239
+#: html/inc/pm.inc:242
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr "你发送消息的间隔时间太短，请等待一段时间再发送更多的消息。"
 
-#: html/inc/pm.inc:249 html/user/forum_forum.php:193
+#: html/inc/pm.inc:252 html/user/forum_forum.php:194
 msgid "unread"
 msgstr "未读"
 
-#: html/inc/pm.inc:259
+#: html/inc/pm.inc:262
 msgid "For email notification, %1edit community prefs%2"
 msgstr "如需要电子邮件通知，请%1编辑社区参数设置%2。"
 
-#: html/inc/pm.inc:275
+#: html/inc/pm.inc:278
 msgid "Private message"
 msgstr "私人消息"
 
@@ -1286,9 +1295,9 @@ msgid "Compute only during a particular period each day."
 msgstr "仅在每天的特定时间段内计算。"
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220
+#: html/user/forum_banishment_vote.php:70
 #: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
-#: html/user/forum_moderate_thread.php:61
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr "其它"
 
@@ -1445,7 +1454,7 @@ msgstr "例如： 限制BOINC在30天内最多传输2000 MB数据。"
 msgid "MB every"
 msgstr "MB 每"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:339
+#: html/inc/prefs.inc:212 html/inc/util.inc:353
 msgid "days"
 msgstr "天"
 
@@ -1556,15 +1565,15 @@ msgstr "更新参数设置"
 
 #: html/inc/prefs.inc:637 html/inc/prefs_util.inc:575
 #: html/inc/prefs_util.inc:578
-#: html/project.sample/project_specific_prefs.inc:88
-#: html/project.sample/project_specific_prefs.inc:272
+#: html/project.sample/project_specific_prefs.inc:71
+#: html/project.sample/project_specific_prefs.inc:257
 msgid "yes"
 msgstr "是"
 
 #: html/inc/prefs.inc:639 html/inc/prefs_util.inc:575
 #: html/inc/prefs_util.inc:578
-#: html/project.sample/project_specific_prefs.inc:90
-#: html/project.sample/project_specific_prefs.inc:272
+#: html/project.sample/project_specific_prefs.inc:73
+#: html/project.sample/project_specific_prefs.inc:257
 msgid "no"
 msgstr "否"
 
@@ -1992,6 +2001,7 @@ msgid "explain"
 msgstr "解释"
 
 #: html/inc/result.inc:397 html/user/server_status.php:112
+#: html/user/server_status_old.php:312
 msgid "Status"
 msgstr "状态"
 
@@ -2096,7 +2106,7 @@ msgstr "团队类型"
 msgid "Show only active teams"
 msgstr "只显示活跃的团队"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1071 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1092 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "搜索"
@@ -2117,8 +2127,8 @@ msgstr "请求已由你发起过"
 msgid "founder response deadline is %1"
 msgstr "原创建人的回复期限是 %1"
 
-#: html/inc/team.inc:73 html/inc/team.inc:567 html/inc/team_types.inc:24
-#: html/inc/user.inc:370 html/inc/user.inc:468
+#: html/inc/team.inc:73 html/inc/team.inc:575 html/inc/team_types.inc:24
+#: html/inc/user.inc:393 html/inc/user.inc:492
 msgid "None"
 msgstr "未加入团队"
 
@@ -2155,7 +2165,7 @@ msgstr "类型"
 msgid "Message board"
 msgstr "留言板"
 
-#: html/inc/team.inc:141 html/user/forum_forum.php:142
+#: html/inc/team.inc:141 html/user/forum_forum.php:143
 #: html/user/forum_index.php:96
 msgid "Threads"
 msgstr "主题"
@@ -2223,14 +2233,15 @@ msgid "Admin"
 msgstr "管理员"
 
 #: html/inc/team.inc:288 html/user/forum_user_posts.php:124
-#: html/user/top_hosts.php:94 html/user/top_teams.php:125
-#: html/user/top_users.php:122
+#: html/user/per_app_list.php:248 html/user/top_hosts.php:86
+#: html/user/top_teams.php:115 html/user/top_users.php:122
 msgid "Previous %1"
 msgstr "前 %1"
 
 #: html/inc/team.inc:292 html/user/forum_user_posts.php:133
-#: html/user/profile_search_action.php:63 html/user/top_hosts.php:100
-#: html/user/top_teams.php:130 html/user/top_users.php:127
+#: html/user/per_app_list.php:253 html/user/profile_search_action.php:63
+#: html/user/top_hosts.php:92 html/user/top_teams.php:120
+#: html/user/top_users.php:127
 msgid "Next %1"
 msgstr "后面 %1"
 
@@ -2346,294 +2357,298 @@ msgstr "社会/政治/宗教"
 msgid "User profile"
 msgstr "用户档案"
 
-#: html/inc/user.inc:118
+#: html/inc/user.inc:122
 msgid "Projects in which you are participating"
 msgstr "你已参与的项目"
 
-#: html/inc/user.inc:120
+#: html/inc/user.inc:124
 msgid "Projects in which %1 is participating"
 msgstr "%1 已参与的项目"
 
-#: html/inc/user.inc:125
+#: html/inc/user.inc:129
 msgid "Click for user page"
 msgstr "点击访问用户页面"
 
-#: html/inc/user.inc:128
+#: html/inc/user.inc:132
 msgid "Since"
 msgstr "加入日期"
 
-#: html/inc/user.inc:155
+#: html/inc/user.inc:159
 msgid "Computing and credit"
 msgstr "计算和积分情况"
 
-#: html/inc/user.inc:158
+#: html/inc/user.inc:162
 msgid "Computers on this account"
 msgstr "本帐户所属的计算机"
 
-#: html/inc/user.inc:158 html/inc/user.inc:159 html/inc/user.inc:237
-#: html/inc/user.inc:325 html/inc/user.inc:420 html/inc/user.inc:501
+#: html/inc/user.inc:162 html/inc/user.inc:163 html/inc/user.inc:260
+#: html/inc/user.inc:348 html/inc/user.inc:444 html/inc/user.inc:525
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "查看"
 
-#: html/inc/user.inc:168
+#: html/inc/user.inc:172
 msgid "Cross-project ID"
 msgstr "跨项目标识符（CPID）"
 
-#: html/inc/user.inc:169
+#: html/inc/user.inc:173
 msgid "Cross-project statistics"
 msgstr "跨项目的统计网站"
 
-#: html/inc/user.inc:172 html/inc/user.inc:370 html/inc/user.inc:466
-#: html/inc/user.inc:468 html/user/user_search.php:129
+#: html/inc/user.inc:176 html/inc/user.inc:393 html/inc/user.inc:490
+#: html/inc/user.inc:492 html/user/user_search.php:129
 msgid "Team"
 msgstr "团队"
 
-#: html/inc/user.inc:174
+#: html/inc/user.inc:178
 msgid "Cross-project"
 msgstr "跨项目"
 
-#: html/inc/user.inc:176
+#: html/inc/user.inc:180
 msgid "Stats on your cell phone"
 msgstr "用手机查看你的统计信息"
 
-#: html/inc/user.inc:201
+#: html/inc/user.inc:222
 msgid "Account information"
 msgstr "帐户信息"
 
-#: html/inc/user.inc:210 html/user/get_passwd.php:31
+#: html/inc/user.inc:231 html/user/get_passwd.php:31
 msgid "Email address"
 msgstr "电子邮件地址"
 
-#: html/inc/user.inc:214 html/inc/user.inc:413
+#: html/inc/user.inc:235 html/inc/user.inc:437
 msgid "URL"
 msgstr "网址"
 
-#: html/inc/user.inc:217
+#: html/inc/user.inc:239
 msgid "Postal code"
 msgstr "邮编"
 
-#: html/inc/user.inc:218 html/inc/user.inc:407
+#: html/inc/user.inc:241 html/inc/user.inc:430
 msgid "%1 member since"
 msgstr "加入 %1 的日期"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:223 html/inc/user.inc:227
+#: html/inc/user.inc:246 html/inc/user.inc:250
 msgid "Change"
 msgstr "修改"
 
-#: html/inc/user.inc:228
+#: html/inc/user.inc:251
 msgid "email address"
 msgstr "电子邮件地址"
 
-#: html/inc/user.inc:229
+#: html/inc/user.inc:252
 msgid "password"
 msgstr "用户口令"
 
-#: html/inc/user.inc:230
+#: html/inc/user.inc:253
 msgid "other account info"
 msgstr "其它帐户信息"
 
-#: html/inc/user.inc:233 html/inc/user.inc:406
+#: html/inc/user.inc:256 html/inc/user.inc:429
 msgid "User ID"
 msgstr "用户 ID"
 
-#: html/inc/user.inc:233
+#: html/inc/user.inc:256
 msgid "Used in community functions"
 msgstr "在社区功能中使用"
 
-#: html/inc/user.inc:236 html/user/weak_auth.php:23
+#: html/inc/user.inc:259 html/user/weak_auth.php:23
 msgid "Account keys"
 msgstr "帐户密钥"
 
-#: html/inc/user.inc:241
-msgid "Preferences"
-msgstr "参数设置"
-
-#: html/inc/user.inc:244
+#: html/inc/user.inc:267
 msgid "When and how BOINC uses your computer"
 msgstr "BOINC 如何使用你的计算机"
 
-#: html/inc/user.inc:245
+#: html/inc/user.inc:268
 msgid "Computing preferences"
 msgstr "计算参数设置"
 
-#: html/inc/user.inc:248
+#: html/inc/user.inc:271
 msgid "Message boards and private messages"
 msgstr "留言板和私人消息"
 
-#: html/inc/user.inc:249 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:272 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "社区参数设置"
 
-#: html/inc/user.inc:252
+#: html/inc/user.inc:275
 msgid "Preferences for this project"
 msgstr "本项目的参数设置"
 
-#: html/inc/user.inc:253 html/user/prefs.php:30
+#: html/inc/user.inc:276 html/user/prefs.php:30
 msgid "%1 preferences"
 msgstr "%1参数设置"
 
-#: html/inc/user.inc:270
+#: html/inc/user.inc:293
 msgid "View the profile of %1"
 msgstr "查看 %1 的用户档案"
 
-#: html/inc/user.inc:271 html/inc/user.inc:329 html/inc/user.inc:501
+#: html/inc/user.inc:294 html/inc/user.inc:352 html/inc/user.inc:525
 msgid "Profile"
 msgstr "用户档案"
 
-#: html/inc/user.inc:327
+#: html/inc/user.inc:350
 msgid "Create"
 msgstr "创建"
 
-#: html/inc/user.inc:334 html/inc/user.inc:473
+#: html/inc/user.inc:357 html/inc/user.inc:497
 msgid "%1 posts"
 msgstr "%1 个帖子"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:352 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:375 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "通知"
 
-#: html/inc/user.inc:358
+#: html/inc/user.inc:381
 msgid "Quit team"
 msgstr "退出团队"
 
-#: html/inc/user.inc:360 html/inc/user.inc:377
+#: html/inc/user.inc:383 html/inc/user.inc:400
 msgid "Administer"
 msgstr "管理"
 
-#: html/inc/user.inc:366 html/inc/user.inc:379
+#: html/inc/user.inc:389 html/inc/user.inc:402
 msgid "(foundership change request pending)"
 msgstr "（创建人转换请求待处理）"
 
-#: html/inc/user.inc:368
+#: html/inc/user.inc:391
 msgid "Member of team"
 msgstr "团队成员"
 
-#: html/inc/user.inc:370
+#: html/inc/user.inc:393
 msgid "find a team"
 msgstr "寻找团队"
 
-#: html/inc/user.inc:381
+#: html/inc/user.inc:404
 msgid "Founder but not member of"
 msgstr "创建人（已退出团队）"
 
-#: html/inc/user.inc:387
+#: html/inc/user.inc:410
 msgid "Find friends"
 msgstr "寻找好友"
 
-#: html/inc/user.inc:395 html/inc/user.inc:397 html/inc/user.inc:484
-#: html/inc/user.inc:486 html/inc/user.inc:495
+#: html/inc/user.inc:418 html/inc/user.inc:420 html/inc/user.inc:508
+#: html/inc/user.inc:510 html/inc/user.inc:519
 msgid "Friends"
 msgstr "好友"
 
-#: html/inc/user.inc:428 html/inc/user.inc:434
+#: html/inc/user.inc:452 html/inc/user.inc:458
 msgid "Donor"
 msgstr "捐助者"
 
-#: html/inc/user.inc:477
+#: html/inc/user.inc:501
 msgid "Contact"
 msgstr "联系"
 
-#: html/inc/user.inc:480
+#: html/inc/user.inc:504
 msgid "This person is a friend"
 msgstr "这是一位好友"
 
-#: html/inc/user.inc:481 html/user/friend.php:240
+#: html/inc/user.inc:505 html/user/friend.php:240
 msgid "Cancel friendship"
 msgstr "删除该好友"
 
-#: html/inc/user.inc:484 html/user/friend.php:39
+#: html/inc/user.inc:508 html/user/friend.php:39
 msgid "Request pending"
 msgstr "请求待处理"
 
-#: html/inc/user.inc:486
+#: html/inc/user.inc:510
 msgid "Add as friend"
 msgstr "添加为好友"
 
-#: html/inc/user.inc:545
+#: html/inc/user.inc:569
 msgid "user name cannot have leading or trailing white space"
 msgstr "用户名前后不能有空格"
 
-#: html/inc/user.inc:549
+#: html/inc/user.inc:573
 msgid "user name must be nonempty"
 msgstr "用户名不得为空"
 
-#: html/inc/user.inc:553
+#: html/inc/user.inc:577
 msgid "user name may not contain HTML tags"
 msgstr "用户名不得含有 HTML 标签"
 
-#: html/inc/util.inc:163
+#: html/inc/util.inc:177
 msgid "log out"
 msgstr "注销"
 
-#: html/inc/util.inc:165
+#: html/inc/util.inc:179
 msgid "log in"
 msgstr "登录"
 
-#: html/inc/util.inc:269
+#: html/inc/util.inc:283
 msgid "Create an account"
 msgstr "创建帐户"
 
-#: html/inc/util.inc:270
+#: html/inc/util.inc:284
 msgid "Server status page"
 msgstr "服务器状态页面"
 
-#: html/inc/util.inc:313
+#: html/inc/util.inc:327
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "服务器在处理你的请求过程中发生了一次数据库错误，请稍后重试。"
 
-#: html/inc/util.inc:322
+#: html/inc/util.inc:336
 msgid "Unable to handle request"
 msgstr "无法处理请求"
 
-#: html/inc/util.inc:342
+#: html/inc/util.inc:356
 msgid "hours"
 msgstr "时"
 
-#: html/inc/util.inc:345
+#: html/inc/util.inc:359
 msgid "min"
 msgstr "分"
 
-#: html/inc/util.inc:348
+#: html/inc/util.inc:362
 msgid "sec"
 msgstr "秒"
 
-#: html/inc/util.inc:527
+#: html/inc/util.inc:542
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "链接已经超时，请点击返回并刷新页面后再重试。"
 
-#: html/inc/util.inc:606
+#: html/inc/util.inc:617
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化你的正文"
 
-#: html/inc/util.inc:853
+#: html/inc/util.inc:872
 msgid "Project down for maintenance"
 msgstr "项目已停止进行维护"
 
-#: html/inc/util.inc:856
+#: html/inc/util.inc:875
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 已经临时关闭并进行维护工作，请稍后重试。"
 
-#: html/inc/util.inc:874
+#: html/inc/util.inc:893
 msgid "Unable to connect to database - please try again later"
 msgstr "无法连接数据库 - 请稍后重试"
 
-#: html/inc/util.inc:878
+#: html/inc/util.inc:897
 msgid "Unable to select database - please try again later"
 msgstr "无法选择数据库 - 请稍后重试"
 
-#: html/inc/util.inc:1050
+#: html/inc/util.inc:1071
 msgid "characters remaining"
 msgstr "剩余字符数"
 
 #: html/inc/util_ops.inc:115 html/user/get_passwd.php:75
 msgid "Stay logged in on this computer"
 msgstr "保持这台计算机上的登录状态"
+
+#: html/user/account_finish.php:34
+msgid "Finish account setup"
+msgstr "完成账户设定"
+
+#: html/user/account_finish.php:52
+msgid "Optional; not shown to others"
+msgstr "可选；不对他人显示"
 
 #: html/user/account_finish_action.php:27
 msgid "You must supply a name for your account"
@@ -2642,10 +2657,6 @@ msgstr "你必须为你的帐户提供一个名称"
 #: html/user/account_finish_action.php:30
 msgid "HTML tags not allowed in name"
 msgstr "名称中不允许使用 HTML 标记"
-
-#: html/user/account_finish.php:34
-msgid "Finish account setup"
-msgstr "完成账户设定"
 
 #: html/user/add_venue.php:40 html/user/add_venue.php:64
 #: html/user/prefs_edit.php:41 html/user/prefs_edit.php:65
@@ -2787,50 +2798,50 @@ msgstr "无法创建账户"
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr "点击浏览器的<b>返回</b>按钮以重试。"
 
-#: html/user/create_account_action.php:44
+#: html/user/create_account_action.php:44 html/user/team_create_action.php:43
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr "你输入的验证字符不正确，请重试。"
 
-#: html/user/create_account_action.php:67
+#: html/user/create_account_action.php:68
 msgid "You must supply an invitation code to create an account."
 msgstr "你必须提供一个邀请码才能创建帐户。"
 
-#: html/user/create_account_action.php:70
+#: html/user/create_account_action.php:71
 msgid "The invitation code you gave is not valid."
 msgstr "你提供的邀请码是错误的。"
 
-#: html/user/create_account_action.php:81
+#: html/user/create_account_action.php:82
 msgid ""
 "Invalid email address: you must enter a valid address of the form "
 "name@domain"
 msgstr "电子邮件地址错误：你必须输入一个合法的地址，形式如 '用户名@域名'"
 
-#: html/user/create_account_action.php:85
+#: html/user/create_account_action.php:86
 msgid "There's already an account with that email address."
 msgstr "已有账户关联至该电子邮箱地址。"
 
-#: html/user/create_account_action.php:91 html/user/edit_passwd_action.php:32
+#: html/user/create_account_action.php:92 html/user/edit_passwd_action.php:32
 msgid "New passwords are different"
 msgstr "新输入的口令不相符"
 
-#: html/user/create_account_action.php:98 html/user/edit_passwd_action.php:40
+#: html/user/create_account_action.php:99 html/user/edit_passwd_action.php:40
 msgid "Passwords may only include ASCII characters."
 msgstr "登录口令中只允许包含 ASCII 字符。"
 
-#: html/user/create_account_action.php:103 html/user/edit_passwd_action.php:44
+#: html/user/create_account_action.php:104 html/user/edit_passwd_action.php:44
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr "新口令长度过短：最少的口令长度为 %1 字符。"
 
-#: html/user/create_account_action.php:124
+#: html/user/create_account_action.php:129
 msgid "Couldn't create account"
 msgstr "无法创建帐户"
 
-#: html/user/create_account_form.php:46
+#: html/user/create_account_form.php:48
 msgid ""
 "NOTE: to run %1 on your computer, %2go here%3 instead of using this form."
 msgstr "注意︰ 要在您的计算机上运行%1，%2请点击这里%3 而不是填这个表格。"
 
-#: html/user/create_account_form.php:63
+#: html/user/create_account_form.php:65
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -3221,7 +3232,7 @@ msgid "Your signature was too long, please keep it less than 250 characters."
 msgstr "你和签名太长，请将其限制在 250 个字符内。"
 
 #: html/user/edit_forum_preferences_action.php:139
-#: html/user/edit_forum_preferences_action.php:153
+#: html/user/edit_forum_preferences_action.php:154
 msgid "No such user:"
 msgstr "没有这个用户："
 
@@ -3372,9 +3383,15 @@ msgstr "忽略这些用户在留言板中的帖子和私人消息。"
 msgid "User ID (For instance: 123456789)"
 msgstr "用户 ID（比如：123456789）"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/forum_pm.php:213
+#: html/user/pm.php:287
 msgid "Add user to filter"
 msgstr "添加用户到过滤器"
+
+#: html/user/edit_forum_preferences_form.php:161
+#: html/user/edit_forum_preferences_form.php:162
+msgid "Update"
+msgstr "更新"
 
 #: html/user/edit_forum_preferences_form.php:162
 msgid "Click here to update preferences"
@@ -3420,7 +3437,7 @@ msgstr "帐户名称中不允许使用 HTML 标记"
 msgid "You must supply a name for your account."
 msgstr "你必须为你的帐户提供一个名称。"
 
-#: html/user/edit_user_info_action.php:58
+#: html/user/edit_user_info_action.php:61
 msgid "Couldn't update user info."
 msgstr "无法更新用户信息。"
 
@@ -3428,21 +3445,17 @@ msgstr "无法更新用户信息。"
 msgid "Edit account information"
 msgstr "编辑帐户信息"
 
-#: html/user/edit_user_info_form.php:32
+#: html/user/edit_user_info_form.php:33
 msgid "Name %1 real name or nickname%2"
 msgstr "名称 %1真名或昵称%2"
 
-#: html/user/edit_user_info_form.php:35
+#: html/user/edit_user_info_form.php:39
 msgid "URL %1 of your web page; optional%2"
 msgstr "网址（URL） %1你的个人网页地址，可选%2"
 
-#: html/user/edit_user_info_form.php:44
+#: html/user/edit_user_info_form.php:52
 msgid "Postal (ZIP) code %1 Optional%2"
 msgstr "邮编 %1可选%2"
-
-#: html/user/edit_user_info_form.php:48
-msgid "Update info"
-msgstr "更新信息"
 
 #: html/user/explain_state.php:27
 msgid "Server states"
@@ -3644,32 +3657,10 @@ msgid "Send"
 msgstr "发送"
 
 #. Can't moderate without being moderator
-#: html/user/forum_banishment_vote_action.php:35
 #: html/user/forum_banishment_vote.php:37
+#: html/user/forum_banishment_vote_action.php:35
 msgid "You are not authorized to banish users."
 msgstr "你没有权限封禁用户。"
-
-#: html/user/forum_banishment_vote_action.php:41
-#: html/user/forum_moderate_post_action.php:66
-msgid "You must specify an action..."
-msgstr "你必须指定一个操作..."
-
-#: html/user/forum_banishment_vote_action.php:59
-#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
-#: html/user/forum_moderate_thread.php:58
-msgid "Obscene"
-msgstr "淫秽的"
-
-#: html/user/forum_banishment_vote_action.php:61
-#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
-#: html/user/forum_moderate_thread.php:59
-msgid "Flame/Hate mail"
-msgstr "有侮辱性的"
-
-#: html/user/forum_banishment_vote_action.php:63
-#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
-msgid "User Request"
-msgstr "用户请求"
 
 #: html/user/forum_banishment_vote.php:43
 #: html/user/forum_banishment_vote.php:48
@@ -3702,6 +3693,24 @@ msgstr "选择原因分类，可以附上为什么要封禁该用户的原因。
 msgid "Category"
 msgstr "分类"
 
+#: html/user/forum_banishment_vote.php:67
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_moderate_post.php:60 html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "淫秽的"
+
+#: html/user/forum_banishment_vote.php:68
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_moderate_post.php:61 html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "有侮辱性的"
+
+#: html/user/forum_banishment_vote.php:69
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "用户请求"
+
 #: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
 #: html/user/forum_moderate_thread.php:100
 msgid "Reason"
@@ -3715,6 +3724,11 @@ msgstr "非空则写入电子邮件"
 #: html/user/forum_banishment_vote.php:78
 msgid "Proceed with vote"
 msgstr "继续投票"
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "你必须指定一个操作..."
 
 #: html/user/forum_edit.php:41
 msgid ""
@@ -3735,12 +3749,12 @@ msgid "Edit your message"
 msgstr "编辑你的消息"
 
 #: html/user/forum_edit.php:117 html/user/forum_edit.php:122
-#: html/user/forum_post.php:111 html/user/forum_post.php:113
+#: html/user/forum_post.php:115 html/user/forum_post.php:117
 #: html/user/team_forum.php:72
 msgid "Title"
 msgstr "标题"
 
-#: html/user/forum_edit.php:146 html/user/forum_post.php:134
+#: html/user/forum_edit.php:146 html/user/forum_post.php:138
 msgid "Add my signature to this post"
 msgstr "在帖子后附上我的个性签名"
 
@@ -3760,71 +3774,71 @@ msgstr "新主题"
 msgid "Add a new thread to this forum"
 msgstr "在本论坛发布一个新主题"
 
-#: html/user/forum_forum.php:122
+#: html/user/forum_forum.php:123
 msgid "This message board is available as an %1RSS feed%2"
 msgstr "留言板的更新还可以通过 %sRSS%s 来获取"
 
-#: html/user/forum_forum.php:181
+#: html/user/forum_forum.php:182
 msgid "This thread is hidden"
 msgstr "该主题已被隐藏"
 
-#: html/user/forum_forum.php:185
+#: html/user/forum_forum.php:186
 msgid "This thread is sticky and locked, and you haven't read it yet"
 msgstr "该主题已置顶和锁定，你当前尚未阅读"
 
-#: html/user/forum_forum.php:185
+#: html/user/forum_forum.php:186
 msgid "sticky/locked/unread"
 msgstr "置顶/锁定/未读"
 
-#: html/user/forum_forum.php:187
+#: html/user/forum_forum.php:188
 msgid "This thread is sticky and you haven't read it yet"
 msgstr "该主题已置顶，你当前尚未阅读"
 
-#: html/user/forum_forum.php:187
+#: html/user/forum_forum.php:188
 msgid "sticky/unread"
 msgstr "置顶/未读"
 
-#: html/user/forum_forum.php:191
+#: html/user/forum_forum.php:192
 msgid "You haven't read this thread yet, and it's locked"
 msgstr "你还没有阅读该主题，而且这个主题已被锁定"
 
-#: html/user/forum_forum.php:191
+#: html/user/forum_forum.php:192
 msgid "unread/locked"
 msgstr "未读/锁定"
 
-#: html/user/forum_forum.php:193
+#: html/user/forum_forum.php:194
 msgid "You haven't read this thread yet"
 msgstr "你还没有阅读过该主题"
 
-#: html/user/forum_forum.php:199
+#: html/user/forum_forum.php:200
 msgid "This thread is sticky and locked"
 msgstr "该主题已被置顶和锁定"
 
-#: html/user/forum_forum.php:199
+#: html/user/forum_forum.php:200
 msgid "sticky/locked"
 msgstr "置顶/锁定"
 
-#: html/user/forum_forum.php:201
+#: html/user/forum_forum.php:202
 msgid "This thread is sticky"
 msgstr "该主题已被置顶"
 
-#: html/user/forum_forum.php:201
+#: html/user/forum_forum.php:202
 msgid "sticky"
 msgstr "置顶"
 
-#: html/user/forum_forum.php:205
+#: html/user/forum_forum.php:206
 msgid "This thread is locked"
 msgstr "该主题已被锁定"
 
-#: html/user/forum_forum.php:205
+#: html/user/forum_forum.php:206
 msgid "locked"
 msgstr "锁定"
 
-#: html/user/forum_forum.php:207
+#: html/user/forum_forum.php:208
 msgid "You read this thread"
 msgstr "你已阅读过本主题"
 
-#: html/user/forum_forum.php:207
+#: html/user/forum_forum.php:208
 msgid "read"
 msgstr "已读"
 
@@ -3859,34 +3873,6 @@ msgstr "如果你有问题希望得到解答，请使用留言板中的 %1问题
 #: html/user/forum_index.php:125
 msgid "Subscribed threads"
 msgstr "已订阅的主题"
-
-#: html/user/forum_moderate_post_action.php:60
-msgid "You are not authorized to moderate this post."
-msgstr "你没有权限来处理当前帖子。"
-
-#: html/user/forum_moderate_post_action.php:105
-msgid "Can't move to different category type"
-msgstr "无法移动到不同的版面类型"
-
-#: html/user/forum_moderate_post_action.php:109
-msgid "Can't move to different category"
-msgstr "无法移动到不同的版面"
-
-#: html/user/forum_moderate_post_action.php:130
-msgid "Not authorized to banish users"
-msgstr "没有权限封禁用户"
-
-#: html/user/forum_moderate_post_action.php:146
-msgid "Banishment"
-msgstr "封禁"
-
-#: html/user/forum_moderate_post_action.php:148
-msgid "User %1 has been banished."
-msgstr "用户 %1 已被封禁。"
-
-#: html/user/forum_moderate_post_action.php:151
-msgid "Action failed: possible database problem"
-msgstr "操作失败：可能是数据库故障"
 
 #: html/user/forum_moderate_post.php:45
 msgid "Moderate post"
@@ -3949,7 +3935,7 @@ msgid "Forever"
 msgstr "永久"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
-#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:135
+#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:139
 #: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
 #: html/user/friend.php:83 html/user/get_passwd.php:32
 #: html/user/get_passwd.php:78
@@ -3959,6 +3945,34 @@ msgstr "确定"
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr "封禁原因 %1将显示在发送给用户的电子邮件中。%2"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "你没有权限来处理当前帖子。"
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr "无法移动到不同的版面类型"
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "无法移动到不同的版面"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "没有权限封禁用户"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "封禁"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "用户 %1 已被封禁。"
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr "操作失败：可能是数据库故障"
 
 #: html/user/forum_moderate_thread.php:38
 msgid "not authorized"
@@ -3986,6 +4000,100 @@ msgstr "目的论坛"
 msgid "New title:"
 msgstr "新的标题："
 
+#: html/user/forum_pm.php:54 html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "你的消息已被发送。"
+
+#: html/user/forum_pm.php:60 html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "你目前没有私人消息。"
+
+#: html/user/forum_pm.php:65 html/user/pm.php:79
+msgid "Sender and date"
+msgstr "发送人及日期"
+
+#: html/user/forum_pm.php:102
+msgid "No such message"
+msgstr ""
+
+#: html/user/forum_pm.php:110 html/user/pm.php:134
+msgid "Sender"
+msgstr "发送人"
+
+#: html/user/forum_pm.php:113 html/user/pm.php:137
+msgid "Date"
+msgstr "日期"
+
+#: html/user/forum_pm.php:152 html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "要发送私人消息，你必须填写所有字段"
+
+#: html/user/forum_pm.php:167 html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "无法找到用户ID为 %1 的用户"
+
+#: html/user/forum_pm.php:172 html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "无法找到用户名为 %1 的用户"
+
+#. Non-unique username
+#: html/user/forum_pm.php:174 html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "因为 %1 不是唯一的用户名，你将只能使用用户ID"
+
+#: html/user/forum_pm.php:182 html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "用户 %1（ID 为 %2）已禁止接受你的私人消息。"
+
+#: html/user/forum_pm.php:204 html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "确定要阻止 %1 吗？"
+
+#: html/user/forum_pm.php:205 html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "你确定要阻止用户 %1 向你发送私人消息吗？"
+
+#: html/user/forum_pm.php:206 html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "请注意你只有阻止有限数量的用户。"
+
+#: html/user/forum_pm.php:207 html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "一旦该用户被你阻止，你可以在论坛的参数设置页面中解除该阻止。"
+
+#: html/user/forum_pm.php:214 html/user/pm.php:288
+msgid "No, cancel"
+msgstr "不，取消"
+
+#: html/user/forum_pm.php:217 html/user/pm.php:276
+#: html/user/view_profile.php:28
+msgid "No such user"
+msgstr "没有这个用户"
+
+#: html/user/forum_pm.php:228 html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "用户 %1 已被阻止"
+
+#: html/user/forum_pm.php:230 html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "用户 %1 已被阻止向你发送私人消息。"
+
+#: html/user/forum_pm.php:231 html/user/pm.php:303
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
+
+#: html/user/forum_pm.php:284
+msgid "Mark as read"
+msgstr ""
+
+#: html/user/forum_pm.php:286
+msgid "Mark as unread"
+msgstr ""
+
 #: html/user/forum_post.php:44
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
@@ -4002,19 +4110,19 @@ msgstr "你的消息已被 Akismet 防垃圾信息系统标记为垃圾信息，
 msgid "Create new thread"
 msgstr "创建新主题"
 
-#: html/user/forum_post.php:102
+#: html/user/forum_post.php:106
 msgid "Create a new thread"
 msgstr "创建新主题"
 
-#: html/user/forum_post.php:107
+#: html/user/forum_post.php:111
 msgid "Remember to add a title"
 msgstr "记得写上标题"
 
-#: html/user/forum_post.php:132
+#: html/user/forum_post.php:136
 msgid "Show this item as a Notice in the BOINC Manager"
 msgstr "将该条目显示为 BOINC 客户端的通知"
 
-#: html/user/forum_post.php:132
+#: html/user/forum_post.php:136
 msgid "Do so only for items likely to be of interest to all volunteers."
 msgstr "仅在所有志愿者都可能对该条目感兴趣的时候使用"
 
@@ -4072,19 +4180,19 @@ msgstr "你的帖子已被 Akismet 防垃圾信息系统标记为垃圾信息，
 msgid "Post to thread"
 msgstr "回复该主题"
 
-#: html/user/forum_reply.php:143
+#: html/user/forum_reply.php:142
 msgid "Message:"
 msgstr "消息："
 
-#: html/user/forum_reply.php:146
+#: html/user/forum_reply.php:145
 msgid "reply to %1Message ID%2:"
 msgstr "回复%1消息 ID%2："
 
-#: html/user/forum_reply.php:172
+#: html/user/forum_reply.php:171
 msgid "Post reply"
 msgstr "发表回复"
 
-#: html/user/forum_reply.php:175
+#: html/user/forum_reply.php:174
 msgid "Add my signature to this reply"
 msgstr "在回复中附上我的个性签名"
 
@@ -4166,32 +4274,6 @@ msgstr "只包含最近多少天内的帖子（默认：30）。"
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr "仅主题：%1（只包含每个主题的第一篇帖子）"
 
-#: html/user/forum_search_action.php:143
-msgid "Forum search results"
-msgstr "论坛搜索结果"
-
-#: html/user/forum_search_action.php:177
-msgid "Thread titles matching your query:"
-msgstr "符合你的查询条件的主题："
-
-#: html/user/forum_search_action.php:196
-msgid "Messages matching your query:"
-msgstr "符合你的查询条件的消息："
-
-#: html/user/forum_search_action.php:219
-msgid ""
-"Sorry, couldn't find anything matching your search query. You can try to "
-"broaden your search by using less words (or less specific words)."
-msgstr "对不起，无法根据你的查询条件找到任何结果。你可以试着将查询条件放宽，比如使用更少的关键字词或者更宽泛的字词。"
-
-#: html/user/forum_search_action.php:221
-msgid "You can also %1try the same search on Google.%2"
-msgstr "你也可以%1用 Google 进行同样的搜索。%2"
-
-#: html/user/forum_search_action.php:226
-msgid "Perform another search"
-msgstr "重新搜索"
-
 #: html/user/forum_search.php:29
 msgid "Forum search"
 msgstr "搜索论坛"
@@ -4259,6 +4341,32 @@ msgstr "排序"
 #: html/user/forum_search.php:90
 msgid "Start the search"
 msgstr "开始搜索"
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "论坛搜索结果"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "符合你的查询条件的主题："
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "符合你的查询条件的消息："
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr "对不起，无法根据你的查询条件找到任何结果。你可以试着将查询条件放宽，比如使用更少的关键字词或者更宽泛的字词。"
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1try the same search on Google.%2"
+msgstr "你也可以%1用 Google 进行同样的搜索。%2"
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "重新搜索"
 
 #: html/user/forum_subscribe.php:48
 msgid "Subscription successful"
@@ -4618,11 +4726,11 @@ msgstr "忘记了你的账户信息？"
 msgid "No GPU tasks reported"
 msgstr "还没有已上报的 GPU 计算任务"
 
-#: html/user/gpu_list.php:206
+#: html/user/gpu_list.php:209
 msgid "Top GPU models"
 msgstr "GPU 型号排名"
 
-#: html/user/gpu_list.php:207
+#: html/user/gpu_list.php:210
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -4747,23 +4855,6 @@ msgstr "无主机名"
 msgid "Merge hosts"
 msgstr "合并主机"
 
-#: html/user/hosts_user.php:53
-msgid "Computers belonging to %1"
-msgstr "%1 的计算机"
-
-#: html/user/hosts_user.php:55
-msgid "Computers hidden"
-msgstr "计算机已隐藏"
-
-#: html/user/hosts_user.php:56
-msgid ""
-"This user has chosen not to show information about his or her computers."
-msgstr "该用户已设定为不显示其计算机的详细信息。"
-
-#: html/user/hosts_user.php:64
-msgid "Your computers"
-msgstr "你的计算机"
-
 #: html/user/host_update_credit.php:27
 msgid "Updating computer credit"
 msgstr "正在更新计算机积分"
@@ -4793,6 +4884,23 @@ msgstr "更改将在该主机下一次和项目通讯的时候生效。"
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
 msgstr "返回主机页面"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "%1 的计算机"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "计算机已隐藏"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "该用户已设定为不显示其计算机的详细信息。"
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "你的计算机"
 
 #: html/user/html.php:23
 msgid "Allowed HTML tags"
@@ -5159,6 +5267,27 @@ msgstr "申请积分"
 msgid "Pending credit: %1"
 msgstr "待授予的积分：%1"
 
+#: html/user/per_app_list.php:42
+msgid "Total"
+msgstr "总计"
+
+#: html/user/per_app_list.php:42
+msgid "Average"
+msgstr "平均"
+
+#: html/user/per_app_list.php:203
+msgid "Top teams by application"
+msgstr ""
+
+#: html/user/per_app_list.php:203
+msgid "Top participants by application"
+msgstr ""
+
+#: html/user/per_app_list.php:228 html/user/top_hosts.php:59
+#: html/user/top_teams.php:92 html/user/top_users.php:105
+msgid "Limit exceeded - Sorry, first %1 items only"
+msgstr "超出限制 - 对不起，仅显示前 %1 个条目"
+
 #: html/user/pm.php:29
 msgid "Block messages from this user"
 msgstr "阻止该用户的消息"
@@ -5166,18 +5295,6 @@ msgstr "阻止该用户的消息"
 #: html/user/pm.php:29
 msgid "Block user"
 msgstr "阻止用户"
-
-#: html/user/pm.php:61
-msgid "Your message has been sent."
-msgstr "你的消息已被发送。"
-
-#: html/user/pm.php:71
-msgid "You have no private messages."
-msgstr "你目前没有私人消息。"
-
-#: html/user/pm.php:79
-msgid "Sender and date"
-msgstr "发送人及日期"
 
 #: html/user/pm.php:99
 msgid "Reply to this message"
@@ -5199,18 +5316,6 @@ msgstr "取消全选"
 msgid "Delete selected messages"
 msgstr "删除选中的消息"
 
-#: html/user/pm.php:134
-msgid "Sender"
-msgstr "发送人"
-
-#: html/user/pm.php:137
-msgid "Date"
-msgstr "日期"
-
-#: html/user/pm.php:190 html/user/pm.php:220
-msgid "You need to fill all fields to send a private message"
-msgstr "要发送私人消息，你必须填写所有字段"
-
 #: html/user/pm.php:202
 msgid "Message sent"
 msgstr "消息已发送"
@@ -5226,78 +5331,13 @@ msgid ""
 "            Please modify your text and try again."
 msgstr "您的邮件已被Akismet 反垃圾邮件系统标记为垃圾邮件。请修改您的文本，然后再试一次。"
 
-#: html/user/pm.php:241
-msgid "Could not find user with id %1"
-msgstr "无法找到用户ID为 %1 的用户"
-
-#: html/user/pm.php:246
-msgid "Could not find user with username %1"
-msgstr "无法找到用户名为 %1 的用户"
-
-#. Non-unique username
-#: html/user/pm.php:248
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "因为 %1 不是唯一的用户名，你将只能使用用户ID"
-
-#: html/user/pm.php:254
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "用户 %1（ID 为 %2）已禁止接受你的私人消息。"
-
-#: html/user/pm.php:276 html/user/view_profile.php:28
-msgid "No such user"
-msgstr "没有这个用户"
-
-#: html/user/pm.php:278
-msgid "Really block %1?"
-msgstr "确定要阻止 %1 吗？"
-
-#: html/user/pm.php:279
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
-msgstr "你确定要阻止用户 %1 向你发送私人消息吗？"
-
-#: html/user/pm.php:280
-msgid "Please note that you can only block a limited amount of users."
-msgstr "请注意你只有阻止有限数量的用户。"
-
-#: html/user/pm.php:281
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
-msgstr "一旦该用户被你阻止，你可以在论坛的参数设置页面中解除该阻止。"
-
-#: html/user/pm.php:288
-msgid "No, cancel"
-msgstr "不，取消"
-
 #: html/user/pm.php:297 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "没有这个用户"
 
-#: html/user/pm.php:300
-msgid "User %1 blocked"
-msgstr "用户 %1 已被阻止"
-
-#: html/user/pm.php:302
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "用户 %1 已被阻止向你发送私人消息。"
-
-#: html/user/pm.php:303
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
-
 #: html/user/pm.php:365
 msgid "Unknown action"
 msgstr "未知的操作"
-
-#: html/user/prefs_edit.php:66 html/user/prefs_edit.php:94
-msgid "%1 for %2"
-msgstr "%1（用于%2）"
-
-#: html/user/prefs_edit.php:112
-msgid "Back to preferences"
-msgstr "返回参数设置"
 
 #: html/user/prefs.php:33
 msgid ""
@@ -5312,6 +5352,14 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr "你的偏好设置已经复位为缺省值\n这将在您的计算机与%1通信时生效\n或者你可以直接使用BOINC客户端的%2更新%3命令。"
+
+#: html/user/prefs_edit.php:66 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1（用于%2）"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "返回参数设置"
 
 #: html/user/prefs_remove.php:46
 msgid "Confirm delete preferences"
@@ -5449,7 +5497,7 @@ msgstr "无法访问"
 msgid "Missing user ID or host ID"
 msgstr "用户 ID 或 主机 ID 丢失"
 
-#: html/user/results.php:105
+#: html/user/results.php:106
 msgid "No tasks to display"
 msgstr "没有任务可以显示"
 
@@ -5465,39 +5513,45 @@ msgstr "%1 是什么？"
 msgid "News"
 msgstr "新闻"
 
-#: html/user/server_status.php:57
+#: html/user/server_status.php:57 html/user/server_status_old.php:160
+#: html/user/temp.php:24
 msgid "Not Running"
 msgstr "未运行"
 
-#: html/user/server_status.php:61
+#: html/user/server_status.php:61 html/user/server_status_old.php:156
+#: html/user/temp.php:27
 msgid "Running"
 msgstr "运行中"
 
-#: html/user/server_status.php:65
+#: html/user/server_status.php:65 html/user/server_status_old.php:164
+#: html/user/temp.php:30
 msgid "Disabled"
 msgstr "已禁用"
 
-#: html/user/server_status.php:103
+#: html/user/server_status.php:103 html/user/server_status_old.php:302
+#: html/user/temp.php:56
 msgid "Project status"
 msgstr "项目状态"
 
-#: html/user/server_status.php:112
+#: html/user/server_status.php:112 html/user/server_status_old.php:312
+#: html/user/temp.php:65
 msgid "Program"
 msgstr "程序"
 
-#: html/user/server_status.php:112
+#: html/user/server_status.php:112 html/user/server_status_old.php:312
+#: html/user/temp.php:65
 msgid "Host"
 msgstr "主机"
 
-#: html/user/server_status.php:135
+#: html/user/server_status.php:135 html/user/server_status_old.php:372
 msgid "Computing status"
 msgstr "计算状态"
 
-#: html/user/server_status.php:146
+#: html/user/server_status.php:146 html/user/server_status_old.php:441
 msgid "Users"
 msgstr "用户"
 
-#: html/user/server_status.php:161
+#: html/user/server_status.php:161 html/user/server_status_old.php:487
 msgid "Tasks by application"
 msgstr "按计算程序分类的任务"
 
@@ -5512,6 +5566,114 @@ msgstr "在过去的 24 小时中的用户"
 #: html/user/server_status.php:187
 msgid "Database schema version: "
 msgstr "数据库架构版本："
+
+#: html/user/server_status_old.php:304 html/user/temp.php:58
+msgid "Server software version: %1"
+msgstr "服务端软件版本：%1"
+
+#: html/user/server_status_old.php:322
+msgid "data-driven web pages"
+msgstr "数据驱动的网页"
+
+#: html/user/server_status_old.php:327
+msgid "upload/download server"
+msgstr "上传/下载服务器"
+
+#: html/user/server_status_old.php:330
+msgid "scheduler"
+msgstr "调度程序"
+
+#: html/user/server_status_old.php:363
+msgid "Running:"
+msgstr "运行中："
+
+#: html/user/server_status_old.php:364
+msgid "Program is operating normally"
+msgstr "程序当前运行正常"
+
+#: html/user/server_status_old.php:365
+msgid "Not Running:"
+msgstr "未运行："
+
+#: html/user/server_status_old.php:366
+msgid "Program failed or the project is down"
+msgstr "程序出错或者项目已停机"
+
+#: html/user/server_status_old.php:367
+msgid "Disabled:"
+msgstr "已禁用："
+
+#: html/user/server_status_old.php:368
+msgid "Program is disabled"
+msgstr "程序已禁用"
+
+#: html/user/server_status_old.php:377
+msgid "The database server is not accessible"
+msgstr "数据库服务器当前无法访问"
+
+#: html/user/server_status_old.php:394
+msgid "Tasks ready to send"
+msgstr "准备分发的任务"
+
+#: html/user/server_status_old.php:399 html/user/workunit.php:55
+msgid "Tasks in progress"
+msgstr "任务处理中"
+
+#: html/user/server_status_old.php:404
+msgid "Workunits waiting for validation"
+msgstr "等待验证的任务"
+
+#: html/user/server_status_old.php:409
+msgid "Workunits waiting for assimilation"
+msgstr "等待回收的任务"
+
+#: html/user/server_status_old.php:414
+msgid "Workunits waiting for file deletion"
+msgstr "等待删除的任务"
+
+#: html/user/server_status_old.php:419
+msgid "Tasks waiting for file deletion"
+msgstr "等待删除的任务"
+
+#: html/user/server_status_old.php:434
+msgid "Transitioner backlog (hours)"
+msgstr "服务端事务积压（小时）"
+
+#: html/user/server_status_old.php:444 html/user/server_status_old.php:462
+msgid "with recent credit"
+msgstr "近期得到过积分的"
+
+#: html/user/server_status_old.php:449 html/user/server_status_old.php:467
+msgid "with credit"
+msgstr "得到过积分的"
+
+#: html/user/server_status_old.php:454 html/user/server_status_old.php:472
+msgid "registered in past 24 hours"
+msgstr "过去 24 小时内注册的"
+
+#: html/user/server_status_old.php:478
+msgid "current GigaFLOPs"
+msgstr "当前处理能力（GFLOPs）"
+
+#: html/user/server_status_old.php:490 html/user/workunit.php:40
+msgid "application"
+msgstr "计算程序"
+
+#: html/user/server_status_old.php:491
+msgid "unsent"
+msgstr "未发送的"
+
+#: html/user/server_status_old.php:492
+msgid "in progress"
+msgstr "计算中"
+
+#: html/user/server_status_old.php:493
+msgid "avg runtime of last 100 results in h (min-max)"
+msgstr "最近 100 个计算结果的平均处理时间（单位：小时）"
+
+#: html/user/server_status_old.php:494
+msgid "users in last 24h"
+msgstr "最近 24 小时的用户"
 
 #: html/user/show_host_detail.php:40
 msgid "Computer %1"
@@ -5555,6 +5717,60 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr "另外，你还可以在你的 %1帐户主页面%2 中查看所有你参加的 BOINC 项目中的个人统计信息。"
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2teams%3."
+msgstr "%1 的用户可以组成 %2团队%3"
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "你最多只能加入一个团队。你可以在任何时候加入或退出一个团队。"
+
+#: html/user/team.php:33
+msgid "Each team has a %1founder%2 who may:"
+msgstr "每个团队都有一个 %1创建人%2，他可以："
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "编辑团队的名称及描述"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "增加或移除团队管理员"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "移除团队中的成员"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "解散没有成员的团队"
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1Join this team%2."
+msgstr "要加入一个团队，请访问该团队的页面并点击 %1加入该团队%2。"
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "寻找团队"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "所有团队"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "%1 团队"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "创建新团队"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1create a team%2."
+msgstr "如果你找不到适合你的团队，你可以 %1创建一个团队%2。"
 
 #: html/user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
@@ -5651,7 +5867,7 @@ msgid "No such team"
 msgstr "没有匹配的团队"
 
 #: html/user/team_change_founder_action.php:32
-#: html/user/team_change_founder_form.php:35 html/user/team_display.php:69
+#: html/user/team_change_founder_form.php:35 html/user/team_display.php:72
 #: html/user/team_edit_action.php:32 html/user/team_edit_form.php:31
 #: html/user/team_email_list.php:64
 msgid "no such team"
@@ -5717,23 +5933,23 @@ msgstr "更改团队创建人"
 msgid "There are no users to transfer team to."
 msgstr "目前没有用户更换了团队。"
 
-#: html/user/team_create_action.php:35
+#: html/user/team_create_action.php:50
 msgid "You must choose a non-blank team name"
 msgstr "你必须选择一个非空的团队名称"
 
-#: html/user/team_create_action.php:40
+#: html/user/team_create_action.php:55
 msgid "A team named %1 already exists - try another name"
 msgstr "名为 %1 的团队已经存在 - 请尝试其它的名称"
 
-#: html/user/team_create_action.php:60
+#: html/user/team_create_action.php:75
 msgid "Could not create team - please try later."
 msgstr "无法创建团队 - 请稍后再试。"
 
-#: html/user/team_create_form.php:29 html/user/team_create_form.php:33
+#: html/user/team_create_form.php:37 html/user/team_create_form.php:43
 msgid "Create a team"
 msgstr "创建一个团队"
 
-#: html/user/team_create_form.php:31
+#: html/user/team_create_form.php:41
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr "你当前加入了 %1，你在创建新团队之前必须先 %2退出这个团队%3。"
@@ -5993,18 +6209,22 @@ msgid ""
 "are not allowed. Please try again later."
 msgstr "因为过去 90 天已经有过程创建人资格更改请求，目前不允许发起新的请求，请稍后再试。"
 
-#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
-#: html/user/team_join.php:34
+#: html/user/team_join.php:34 html/user/team_join_action.php:34
+#: html/user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "团队 %1 不允许加入。"
 
-#: html/user/team_join_action.php:37 html/user/team_join.php:37
+#: html/user/team_join.php:37 html/user/team_join_action.php:37
 msgid "Already a member"
 msgstr "已经是团队成员"
 
-#: html/user/team_join_action.php:38 html/user/team_join.php:38
+#: html/user/team_join.php:38 html/user/team_join_action.php:38
 msgid "You are already a member of %1."
 msgstr "你已经是 %1 的成员了。"
+
+#: html/user/team_join.php:44 html/user/team_join_action.php:45
+msgid "Couldn't join team - please try again later."
+msgstr "无法加入团队 - 请稍后再试。"
 
 #: html/user/team_join_action.php:42
 msgid "Joined %1"
@@ -6013,10 +6233,6 @@ msgstr "已加入 %1"
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
 msgstr "你已经加入了 %1。"
-
-#: html/user/team_join_action.php:45 html/user/team_join.php:44
-msgid "Couldn't join team - please try again later."
-msgstr "无法加入团队 - 请稍后再试。"
 
 #: html/user/team_join_form.php:35
 msgid "Please note:"
@@ -6156,60 +6372,6 @@ msgstr "团队 %1 已删除"
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "超出限制：只能显示前 1000 名成员。"
 
-#: html/user/team.php:29
-msgid "%1 participants may form %2teams%3."
-msgstr "%1 的用户可以组成 %2团队%3"
-
-#: html/user/team.php:31
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
-msgstr "你最多只能加入一个团队。你可以在任何时候加入或退出一个团队。"
-
-#: html/user/team.php:33
-msgid "Each team has a %1founder%2 who may:"
-msgstr "每个团队都有一个 %1创建人%2，他可以："
-
-#: html/user/team.php:35
-msgid "edit the team's name and description"
-msgstr "编辑团队的名称及描述"
-
-#: html/user/team.php:36
-msgid "add or remove team admins"
-msgstr "增加或移除团队管理员"
-
-#: html/user/team.php:37
-msgid "remove members from the team"
-msgstr "移除团队中的成员"
-
-#: html/user/team.php:38
-msgid "disband a team if it has no members"
-msgstr "解散没有成员的团队"
-
-#: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr "要加入一个团队，请访问该团队的页面并点击 %1加入该团队%2。"
-
-#: html/user/team.php:42 html/user/team_search.php:203
-msgid "Find a team"
-msgstr "寻找团队"
-
-#: html/user/team.php:49
-msgid "All teams"
-msgstr "所有团队"
-
-#: html/user/team.php:53
-msgid "%1 teams"
-msgstr "%1 团队"
-
-#: html/user/team.php:59
-msgid "Create a new team"
-msgstr "创建新团队"
-
-#: html/user/team.php:60
-msgid ""
-"If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr "如果你找不到适合你的团队，你可以 %1创建一个团队%2。"
-
 #: html/user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "不能退出团队"
@@ -6312,22 +6474,17 @@ msgstr "使用该表单来寻找可能适合你的团队。"
 msgid "%1I'm not interested%2 in joining a team right now."
 msgstr "我现在对加入团队%1没兴趣%2。"
 
-#: html/user/top_hosts.php:67 html/user/top_teams.php:102
-#: html/user/top_users.php:105
-msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr "超出限制 - 对不起，仅显示前 %1 个条目"
-
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_hosts.php:82
+#: html/user/top_hosts.php:74
 msgid "Top hosts"
 msgstr "主机排名"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_teams.php:108
+#: html/user/top_teams.php:98
 msgid "Top %1 teams"
 msgstr "%s 团队排名"
 
-#: html/user/top_teams.php:111
+#: html/user/top_teams.php:101
 msgid "There are no %1 teams"
 msgstr "没有 %1 团队"
 
@@ -6525,10 +6682,6 @@ msgstr "找不到任务单元"
 msgid "Workunit %1"
 msgstr "任务单元 %1"
 
-#: html/user/workunit.php:40
-msgid "application"
-msgstr "计算程序"
-
 #: html/user/workunit.php:43
 msgid "canonical result"
 msgstr "规范结果"
@@ -6536,10 +6689,6 @@ msgstr "规范结果"
 #: html/user/workunit.php:46
 msgid "granted credit"
 msgstr "授予积分"
-
-#: html/user/workunit.php:55
-msgid "Tasks in progress"
-msgstr "任务处理中"
 
 #: html/user/workunit.php:55
 msgid "suppressed pending completion"
@@ -6569,25 +6718,25 @@ msgstr "验证"
 msgid "Pending"
 msgstr "等待中"
 
-#: html/project.sample/project.inc:95
+#: html/project.sample/project.inc:132
 msgid "Generated"
 msgstr "生成时间"
 
-#: html/project.sample/project.inc:126
+#: html/project.sample/project.inc:167
 msgid "Your personal background."
 msgstr "你的个人背景。"
 
-#: html/project.sample/project.inc:130
+#: html/project.sample/project.inc:171
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr "简单介绍一下你自己，比如从哪里来，年龄，职业，兴趣爱好，或者其它任何事情。"
 
-#: html/project.sample/project.inc:134
+#: html/project.sample/project.inc:175
 msgid "Your opinions about %1"
 msgstr "你对 %1 的看法"
 
-#: html/project.sample/project.inc:138
+#: html/project.sample/project.inc:179
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"
@@ -6596,58 +6745,58 @@ msgid ""
 "    </ol>"
 msgstr "告诉我们你对 %1 的想法<ol>\n    <li>你为什么运行 %1？\n    <li>你对这个项目的观点是什么？\n    <li>有什么建议吗？\n    </ol>"
 
-#: html/project.sample/project_specific_prefs.inc:57
+#: html/project.sample/project_specific_prefs.inc:40
 msgid "Color scheme for graphics"
 msgstr "图像的色彩方案"
 
-#: html/project.sample/project_specific_prefs.inc:59
+#: html/project.sample/project_specific_prefs.inc:42
 #, no-php-format
 msgid "Maximum CPU % for graphics%10 ... 100%2"
 msgstr "显示图像时最多可以使用的 CPU 资源%10 ... 100%2"
 
-#: html/project.sample/project_specific_prefs.inc:60
+#: html/project.sample/project_specific_prefs.inc:43
 msgid "Run only the selected applications"
 msgstr "仅运行选中的计算程序"
 
-#: html/project.sample/project_specific_prefs.inc:61
+#: html/project.sample/project_specific_prefs.inc:44
 msgid ""
 "Only get tasks for certain applications. Useful to focus on particular "
 "applications, or to exclude them."
 msgstr "只接受使用特定计算程序的任务。用于关注特定的计算程序，或者排除它们。"
 
-#: html/project.sample/project_specific_prefs.inc:62
+#: html/project.sample/project_specific_prefs.inc:45
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr "如果选中的计算程序暂时没有计算任务，是否从其它计算程序接收任务？"
 
-#: html/project.sample/project_specific_prefs.inc:63
+#: html/project.sample/project_specific_prefs.inc:46
 msgid "Use faster non-graphical applications if available?"
 msgstr "是否使用更快的非图形化计算程序（如果可用）？"
 
-#: html/project.sample/project_specific_prefs.inc:94
+#: html/project.sample/project_specific_prefs.inc:77
 msgid "(all applications)"
 msgstr "（所有计算程序）"
 
-#: html/project.sample/project_specific_prefs.inc:112
-#: html/project.sample/project_specific_prefs.inc:123
+#: html/project.sample/project_specific_prefs.inc:95
+#: html/project.sample/project_specific_prefs.inc:106
 msgid "No limit"
 msgstr "无限制"
 
-#: html/project.sample/project_specific_prefs.inc:169
+#: html/project.sample/project_specific_prefs.inc:152
 msgid "Max # of jobs for this project"
 msgstr "最多从此项目中获取#个运算任务"
 
-#: html/project.sample/project_specific_prefs.inc:176
+#: html/project.sample/project_specific_prefs.inc:159
 msgid "Max # of CPUs for this project"
 msgstr "最多允许#个CPU为此项目计算"
 
-#: html/project.sample/project_specific_prefs.inc:255
-#: html/project.sample/project_specific_prefs.inc:275
+#: html/project.sample/project_specific_prefs.inc:240
+#: html/project.sample/project_specific_prefs.inc:260
 msgid "Max # jobs"
 msgstr "最多#个任务"
 
-#: html/project.sample/project_specific_prefs.inc:258
-#: html/project.sample/project_specific_prefs.inc:278
+#: html/project.sample/project_specific_prefs.inc:243
+#: html/project.sample/project_specific_prefs.inc:263
 msgid "Max # CPUs"
 msgstr "最多#个CPU"

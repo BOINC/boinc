@@ -1,5 +1,5 @@
 # BOINC website localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -7,14 +7,14 @@
 # Hanlin Yang <mattoncis@hotmail.com>, 2016
 # Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
 # 李泽林, 2015
-# 秦赫阳 <qysnn1@gmail.com>, 2015-2016
+# 秦赫阳 <qysnn1@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-15 19:08+0000\n"
-"Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,88 +60,88 @@ msgstr "当前页面%s提供翻译接口%s。"
 
 #: doc/download.php:42
 msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "我们建议你同时安装 VirtualBox，这样你的计算机就可以运行那些需要该软件的科学项目了。"
+"We recommend that you also install %1VirtualBox%2, so your computer can work"
+" on science projects that require it."
+msgstr "我们建议你同时安装 %1VirtualBox%2，这样你的计算机就可以运行一些需要它的科学项目了。"
 
 #: doc/download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "了解更多关于VirtualBox的信息。"
 
-#: doc/download.php:52
+#: doc/download.php:56
 msgid "Download BOINC + VirtualBox"
 msgstr "下载 BOINC + VirtualBox"
 
 #. "for %s" identifies the operating system, e.g. "for Windows"
-#: doc/download.php:56 doc/download.php:71
+#: doc/download.php:60 doc/download.php:76
 #, php-format
 msgid "for %s"
 msgstr "用于 %s"
 
-#: doc/download.php:59 doc/download.php:74
+#: doc/download.php:63 doc/download.php:79
 #, php-format
 msgid "BOINC %s"
 msgstr "BOINC %s"
 
-#: doc/download.php:61
+#: doc/download.php:65
 #, php-format
 msgid "VirtualBox %s"
 msgstr "VirtualBox %s"
 
-#: doc/download.php:69
+#: doc/download.php:74
 msgid "Download BOINC"
 msgstr "下载 BOINC"
 
-#: doc/download.php:133
+#: doc/download.php:138
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "通过 BOINC 你可以将闲置的计算机时间贡献给 SETI@home, Climateprediction.net, Rosetta@home, World Community Grid 等科学研究项目。"
 
-#: doc/download.php:135
+#: doc/download.php:140
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "在计算机上安装好 BOINC 之后，你可以加入各式各样你喜欢的项目。"
 
-#: doc/download.php:137
+#: doc/download.php:142
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "你应该在自己拥有的计算机或得到使用许可的计算机上运行这个软件。"
 
-#: doc/download.php:142
+#: doc/download.php:147
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "我们推荐你从Google Play商店或亚马逊应用市场下载 BOINC，而不是在这里。"
 
-#: doc/download.php:177
+#: doc/download.php:182
 msgid "System requirements"
 msgstr "系统要求"
 
-#: doc/download.php:178
+#: doc/download.php:183
 msgid "Release notes"
 msgstr "发行说明"
 
-#: doc/download.php:179 doc/index.php:122
+#: doc/download.php:184 doc/index.php:122
 msgid "Help"
 msgstr "帮助"
 
-#: doc/download.php:180
+#: doc/download.php:185
 msgid "All versions"
 msgstr "所有版本"
 
-#: doc/download.php:181
+#: doc/download.php:186
 msgid "Version history"
 msgstr "版本历史"
 
-#: doc/download.php:182
+#: doc/download.php:187
 msgid "GPU computing"
 msgstr "GPU 计算"
 
-#: doc/download.php:200
+#: doc/download.php:205
 msgid "BOINC: compute for science"
 msgstr "BOINC：为科学而计算"
 
@@ -430,8 +430,8 @@ msgid "Distributed sensing"
 msgstr "分布式传感"
 
 #: doc/projects.inc:24
-msgid "Caltech"
-msgstr "加州理工学院"
+msgid "University of Southern California"
+msgstr "南加利福尼亚大学"
 
 #: doc/projects.inc:25
 msgid "Seismology"
@@ -530,23 +530,6 @@ msgid ""
 "new targets."
 msgstr "引起疟疾的寄生虫正在对现有可用药物产生新的抗药性。因此，我们迫切需要研究针对寄生虫中的新的蛋白质的药物。FiND@Home项目致力于寻找这些新的可用于研发药物的靶点。"
 
-#: doc/projects.inc:117
-msgid "University of Karlsruhe (Germany)"
-msgstr "德国卡尔斯鲁厄（Karlsruhe）大学"
-
-#: doc/projects.inc:118
-msgid "Protein structure prediction"
-msgstr "蛋白质结构预测"
-
-#: doc/projects.inc:119
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME 通过计算的途径来预测蛋白质的生物结构、理解蛋白质之间交互的信号传递机制、理解疾病相关的蛋白质变异，并在生物学重要的蛋白质的三维结构的基础上开发新的药物。"
-
 #: doc/projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "巴塞罗那生物医学研究园区（PRBB）"
@@ -562,41 +545,6 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr "GPUGrid.net 利用 NVIDIA 显卡（GPU）来进行全原子的分子动力学模拟。计算生物学的应用给生物医药学带来了新的研究方向。"
-
-#: doc/projects.inc:175
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "美国马里兰大学生物信息学和计算生物学中心"
-
-#: doc/projects.inc:176
-msgid "Life science research"
-msgstr "生命科学研究"
-
-#: doc/projects.inc:177
-msgid ""
-"The Lattice Project, developed and administered at the University of "
-"Maryland, supplies computing power to researchers worldwide who are studying"
-" evolutionary relationships using DNA and protein sequence data."
-msgstr "The Lattice Project，由马里兰大学开发并管理。为使用DNA和蛋白质的序列数据的进化论研究者们提供世界范围内的算力。"
-
-#: doc/projects.inc:185
-msgid "The Swiss Tropical Institute"
-msgstr "瑞士热带研究所"
-
-#: doc/projects.inc:186
-msgid "Epidemiology"
-msgstr "流行病学"
-
-#: doc/projects.inc:187
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "模拟疟疾的传播动力学模型，用于对疟疾的控制，包括如何才能对蚊帐、药物和正在研发测试过程中的疫苗等进行最优化的分发。相关的建模过程非常耗费计算资源，除了需要模拟相当大的人群分布之外，还要考虑生物学和社会学方面对疾病传播可能有影响的相关因素。"
 
 #: doc/projects.inc:211
 msgid "University of Washington"
@@ -731,27 +679,28 @@ msgid "Help students do atomic simulations"
 msgstr "帮助学生做原子模拟"
 
 #: doc/projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "美国威斯康星大学密尔沃基分校，德国马克斯普朗克研究所"
+msgid ""
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "威斯康星大学密尔沃基分校（美国），马克斯-普朗克引力物理研究所-汉诺威（德国）"
 
 #: doc/projects.inc:367
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "分析 LIGO 和 GEO 引力波探测器以及阿雷西波观测站采集到的数据，以寻找自旋中子星（也称为脉冲星）。Einstein@Home 是 2005 世界物理学年的推荐项目，由美国物理学会（APS）和一些相关的国际组织发起。"
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Einstein@Home利用你计算机的空闲时间来寻找旋转中子星（通常称为脉冲星）的微弱的天体物理信号。所使用的数据来自激光干涉引力波天文台引力波探测器、阿雷西沃射电望远镜以及费米伽马射线卫星"
 
 #: doc/projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
 msgstr "帮助检测脉冲星和引力波"
 
-#: doc/projects.inc:383 doc/projects.inc:393 doc/projects.inc:403
+#: doc/projects.inc:383
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN（欧洲核子研究组织）"
 
-#: doc/projects.inc:384 doc/projects.inc:394 doc/projects.inc:404
+#: doc/projects.inc:384
 msgid "Physics"
 msgstr "物理学"
 
@@ -767,29 +716,6 @@ msgstr "大型强子对撞机（LHC）是 CERN（欧洲核子研究组织）的�
 #: doc/projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
 msgstr "提高大型强子对撞机的设计"
-
-#: doc/projects.inc:395
-msgid ""
-"This project uses CERN-developed virtual machine technology for LHC event "
-"physics simulation on volunteer computers.  Requires that you install "
-"VirtualBox on your computer"
-msgstr "该项目使用由CERN开发的虚拟机技术为志愿者在计算机内运行LHC事件模拟。这需要在计算机内已经安装Virtualbox虚拟化软件。"
-
-#: doc/projects.inc:398
-msgid "Simulate high-energy particle collisions"
-msgstr "模拟高能粒子碰撞"
-
-#: doc/projects.inc:405
-msgid ""
-"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
-" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
-" particles and processes using head-on collisions of protons of "
-"extraordinary high energy."
-msgstr "ATLAS@Home 使用志愿计算网格来运行ATLAS模拟，一个CERN（欧洲核子研究组织）大型强子对撞机的物理学实验。ATLAS 探测器研究使用特别的高能质子与新粒子正面碰撞的过程。"
-
-#: doc/projects.inc:408
-msgid "Simulate high-energy particle collisions for CERN"
-msgstr "欧洲核子研究中心的高能粒子对撞模拟"
 
 #: doc/projects.inc:413
 msgid "University of California, Berkeley"
@@ -863,22 +789,6 @@ msgstr "Yoyo@home 项目将包括 ECM、Muon、Evolution@home 和 distributed.ne
 #: doc/projects.inc:472
 msgid "Do research in math, physics, and evolution"
 msgstr "研究数学，物理和进化"
-
-#: doc/projects.inc:487
-msgid "Spanish universities and research centers"
-msgstr "西班牙的大学和研究中心"
-
-#: doc/projects.inc:488
-msgid "Various Spanish research projects"
-msgstr "各种西班牙的研究项目"
-
-#: doc/projects.inc:489
-msgid "Research in physics, material science, and biomedicine"
-msgstr "物理学、材料科学和生物医药学方面的研究。"
-
-#: doc/projects.inc:492
-msgid "Help Spanish researchers"
-msgstr "帮助西班牙研究人员"
 
 #: doc/projects.inc:497
 msgid "IBM Corporate Citizenship"

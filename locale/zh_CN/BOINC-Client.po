@@ -1,17 +1,17 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
-# 秦赫阳 <qysnn1@gmail.com>, 2016
+# 秦赫阳 <qysnn1@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-09 14:04+0000\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-20 07:12+0000\n"
 "Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:485 client/acct_mgr.cpp:502
 msgid "Message from account manager"
 msgstr "来自账户管理器的消息"
 
@@ -29,13 +29,13 @@ msgstr "来自账户管理器的消息"
 msgid "Message from server"
 msgstr "来自服务器的消息"
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:312
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "部分计算任务所需要的内存超出了你的设定值，请检查参数设置中的相关选项。"
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:649
 msgid "Couldn't write state file; check directory permissions"
 msgstr "无法写入状态文件，请检查目录权限"
 
@@ -43,24 +43,24 @@ msgstr "无法写入状态文件，请检查目录权限"
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "必须在环境变量 HTTP_PROXY 中指定一个 HTTP 代理服务器"
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:619
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
 msgstr "此项目目前使用的是旧的项目网址。在方便时，请删除该项目，然后用新网址%s重新添加此项目。"
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml中存在语法错误"
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml 中引用的下列文件不存在："
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "检测到新版本的 BOINC。"
+msgid "A new version of BOINC is available"
+msgstr "BOINC有新版本可用"
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
@@ -71,39 +71,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "不能在CUDA驱动程序6.5或更高版本中用于CUDA或 OpenCL计算"
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml 中有异常文本"
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml 中有无法识别的标签"
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml 中有起始标签丢失"
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 中有错误的选项"
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml 中有结束标签丢失"
 
-#: client/project.cpp:967
+#: client/project.cpp:987
 msgid "To fix this, you can "
 msgstr "若要解决此问题，您可以"
 
-#: client/project.cpp:970
+#: client/project.cpp:990
 msgid "change Project Preferences on the project's web site"
 msgstr "在项目的网站上更改项目首选项（Project Preferences）"
 
-#: client/project.cpp:976
+#: client/project.cpp:996
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "在cc_config.xml文件中删除GPU排除（<exclude_gpu>）"
 
-#: client/project.cpp:983
+#: client/project.cpp:1003
 msgid "change your settings at your account manager web site"
 msgstr "更改您的帐户管理器网站中的设置"
 

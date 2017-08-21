@@ -3,15 +3,16 @@
 # 
 # Translators:
 # Alessandro Caiulo <alessandro.caiulo@gmail.com>, 2015
-# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
+# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015,2017
 # Pietro <bongiovanni.pietro.vc@gmail.com>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
+# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
+# Stefano B <boboviz75@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2017-02-24 11:33+0000\n"
-"Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
+"PO-Revision-Date: 2017-08-11 10:51+0000\n"
+"Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Reject profile"
-msgstr "Boccia profilo"
+msgstr "Rimuovi profilo"
 
 msgid "Ban user"
 msgstr "Banna utente"
@@ -42,7 +43,7 @@ msgid "Generic"
 msgstr "Generico"
 
 msgid "Home"
-msgstr "Casa"
+msgstr "Pagina iniziale"
 
 msgid "Work"
 msgstr "Lavoro"
@@ -114,7 +115,7 @@ msgid "Cancel"
 msgstr "Annulla"
 
 msgid "Show comparison view"
-msgstr "Visualizza confronto vista"
+msgstr "Mostra visualizzazione di confronto"
 
 msgid "Comment form"
 msgstr "Form commenti"
@@ -169,7 +170,7 @@ msgid ""
 msgstr "Se avete un <a href=\"@gravatar-check\"> indirizzo Gravatar valido</a> associato con l'indirizzo di posta elettronica, verrà utilizzato per l'immagine dell'utente."
 
 msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Il tuo Gravatar non verrà mostrato se si caricherete un'immagine manualmente."
+msgstr "Il tuo Gravatar non verrà mostrato se caricherai un'immagine dell'utente."
 
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
@@ -234,7 +235,7 @@ msgid "Founder"
 msgstr "Fondatore"
 
 msgid "Country"
-msgstr "Stato"
+msgstr "Nazione"
 
 msgid "Recent average credit"
 msgstr "Media dei crediti recenti"
@@ -264,7 +265,7 @@ msgid "Timestamp"
 msgstr "Timestamp"
 
 msgid "Account Key"
-msgstr "Chiave account"
+msgstr "Chiave di accesso"
 
 msgid "Member since"
 msgstr "Membro dal"
@@ -291,7 +292,7 @@ msgid "URL"
 msgstr "URL"
 
 msgid "Computer ID"
-msgstr "ID del computer "
+msgstr "ID computer"
 
 msgid "Location"
 msgstr "Luogo"
@@ -312,7 +313,7 @@ msgid "Average CPU efficiency"
 msgstr "Efficienza media CPU"
 
 msgid "Free disk space"
-msgstr "Spazio su disco libero"
+msgstr "Spazio libero su disco"
 
 msgid "Total disk space"
 msgstr "Spazio totale su disco"
@@ -354,7 +355,7 @@ msgid "Same IP address count"
 msgstr "Numero di indirizzi IP uguali"
 
 msgid "% of time BOINC client is running"
-msgstr "% di tempo che il client BOINC è in esecuzione"
+msgstr "% di tempo in cui il client BOINC è in esecuzione"
 
 msgid "Operating system"
 msgstr "Sistema operativo"
@@ -408,7 +409,7 @@ msgid "Application version"
 msgstr "Versione dell'applicazione"
 
 msgid "Claimed credit"
-msgstr "Credito garantito"
+msgstr "Credito richiesto"
 
 msgid "Client state"
 msgstr "Stato del client"
@@ -507,7 +508,7 @@ msgid "Max tasks per day"
 msgstr "WU massime giornaliere"
 
 msgid "Number of tasks today"
-msgstr "WU giornaliere"
+msgstr "WU odierne"
 
 msgid "Manage subscriptions"
 msgstr "Imposta le sottoscrizioni"
@@ -549,7 +550,7 @@ msgid "Posts contributed"
 msgstr "Post inviati"
 
 msgid "Friends (@count)"
-msgstr "(@count) amici "
+msgstr "(@count) amici"
 
 msgid "Welcome back!"
 msgstr "Bentornato!"
@@ -597,7 +598,7 @@ msgid "Opinion"
 msgstr "Opinione"
 
 msgid "Enter your password to save changes"
-msgstr "Inserisci la tua password per salvare i cambiamenti\t"
+msgstr "Inserisci la tua password per salvare i cambiamenti"
 
 msgid ""
 "Enter your current password if changing your email\n"
@@ -611,7 +612,7 @@ msgid "Drupal user ID"
 msgstr "ID utente Drupal"
 
 msgid "Account key"
-msgstr "Chiave account"
+msgstr "Chiave di accesso"
 
 msgid "Weak account key"
 msgstr "Chiave di accesso debole"
@@ -692,7 +693,7 @@ msgid "Leave tasks in memory while suspended?"
 msgstr "Lasciare i processi in memoria mentre sono sospesi?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "Segnando \"si\" i processi sospesi utilizzeranno spazio di swap"
+msgstr "Segnando \"sì\" i processi sospesi utilizzeranno spazio di swap"
 
 msgid "Switch between tasks every"
 msgstr "Cambia applicazione ogni"
@@ -746,10 +747,10 @@ msgid "Swap space: use at most"
 msgstr "Spazio di swap: utilizza al massimo"
 
 msgid "Memory: when computer is in use, use at most"
-msgstr "Memoria: quando il computer è 'in uso', utilizza al massimo"
+msgstr "Memoria: quando il computer è \"in uso\", utilizza al massimo"
 
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Memoria: quando il computer non è 'in uso', utilizza al massimo "
+msgstr "Memoria: quando il computer non è \"in uso\", utilizza al massimo"
 
 msgid "Network usage"
 msgstr "Utilizzo rete"
@@ -763,7 +764,7 @@ msgstr "giorni"
 msgid ""
 "Leave blank or 0 if always connected. @project will try to maintain at least"
 " this much work."
-msgstr "Lasciare vuoto o 0 se sempre connesso. @project cercherà di mantenere almeno questa quantità di lavoro."
+msgstr "Lasciare vuoto o 0 se sempre connesso. @project cercherà di mantenere almeno questa quantità di WU."
 
 msgid "Maintain enough work for an additional"
 msgstr "Mantenere abbastanza lavoro per ulteriori"
@@ -997,7 +998,7 @@ msgstr "Posta un commento"
 #: preference set
 msgctxt "preference set"
 msgid "Home"
-msgstr "Casa"
+msgstr "Home"
 
 msgid "The latest news from the @site_name project"
 msgstr "Le ultime notizie dal progetto @site_name"
@@ -1063,7 +1064,7 @@ msgid "message @id"
 msgstr "messaggio @id"
 
 msgid " in response to !parent"
-msgstr "in risposta a !parent"
+msgstr " in risposta a !parent"
 
 msgid "Post new comment"
 msgstr "Posta un nuovo commento"
@@ -1442,7 +1443,7 @@ msgstr "Modifica o posta commento"
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
-msgstr "A volte BOINC assegna identità separate allo stesso computer per errore. Puoi correggere questo unendo le vecchie identità con le nuove"
+msgstr "A volte BOINC assegna per errore diverse identità allo stesso computer. Si può risolvere questo problema unendo le vecchie identità con le nuove."
 
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
