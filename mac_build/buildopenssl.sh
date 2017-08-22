@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2014 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -35,21 +35,47 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the openssl-1.1.0 directory.
 ##     cd [path]/openssl-1.1.0/
 ## then run this script:
-##     source [path]/buildopenssl.sh [ -clean ]
+##     source [path]/buildopenssl.sh [ -clean ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
+## if --prefix is given as absolute path the library is installed into there
+## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
 
-if [ "$1" != "-clean" ]; then
-    if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
-        echo "openssl-1.1.0 libraries already built"
+doclean=""
+stdout_target="/dev/stdout"
+lprefix=""
+libPath="."
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -clean|--clean)
+        doclean="yes"
+        ;;
+        -prefix|--prefix)
+        lprefix="$2"
+        libPath="${lprefix}/lib"
+        shift
+        ;;
+        -q|--quiet)
+        stdout_target="/dev/null"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "${doclean}" != "yes" ]; then
+    if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi
@@ -57,19 +83,19 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -77,7 +103,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -88,10 +114,10 @@ SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-rm -f libssl.a
-rm -f libcrypto.a
-
-if [  $? -ne 0 ]; then return 1; fi
+if [ -d "${libPath}" ]; then
+    rm -f ${libPath}/libssl.a
+    rm -f ${libPath}/libcrypto.a
+fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
@@ -101,16 +127,27 @@ export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
-./configure no-shared darwin64-x86_64-cc
-if [  $? -ne 0 ]; then return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    ./configure --prefix=${lprefix} no-shared darwin64-x86_64-cc
+    if [ $? -ne 0 ]; then return 1; fi
+else
+    ./configure no-shared darwin64-x86_64-cc
+    if [ $? -ne 0 ]; then return 1; fi
+fi
 
-if [ "$1" = "-clean" ]; then
+if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
-make
-if [  $? -ne 0 ]; then return 1; fi
+make 1>$stdout_target
+if [ $? -ne 0 ]; then return 1; fi
 
+if [ "x${lprefix}" != "x" ]; then
+    make install 1>$stdout_target
+    if [ $? -ne 0 ]; then return 1; fi
+fi
+
+lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
