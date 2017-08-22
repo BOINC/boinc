@@ -625,6 +625,10 @@ void boinc_catch_signal(int signal_num) {
         buffer, get_remote_addr(),
         signal_num, strsignal(signal_num)
     );
+#ifdef _USING_FCGI_
+    // flush log for FCGI, otherwise it just buffers a lot
+    log_messages.flush();
+#endif
 
     // there is no point in trying to return an error.
     // At this point Apache has broken the connection
@@ -634,60 +638,13 @@ void boinc_catch_signal(int signal_num) {
     _exit(1);
 }
 
-void installer() {
-    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
-    signal(SIGINT, boinc_catch_signal);  // interrupt program
-    signal(SIGQUIT, boinc_catch_signal); // quit program
-    signal(SIGILL, boinc_catch_signal);  // illegal instruction
-    signal(SIGTRAP, boinc_catch_signal); // illegal instruction
-    signal(SIGABRT, boinc_catch_signal); // abort(2) call
-    signal(SIGFPE, boinc_catch_signal);  // bus error
-    signal(SIGKILL, boinc_catch_signal); // bus error
-    signal(SIGBUS, boinc_catch_signal);  // bus error
-    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
-    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
-    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
-    signal(SIGTERM, boinc_catch_signal); // terminate process
-}
-
-void usage(char *name) {
-    fprintf(stderr,
-        "This is the BOINC file upload handler.\n"
-        "It receives the results from the clients\n"
-        "and puts them on the file server.\n\n"
-        "Normally this is run as a CGI program.\n\n"
-        "Usage: %s [OPTION]...\n\n"
-        "Options:\n"
-        "  [ -h | --help ]        Show this help text.\n"
-        "  [ -v | --version ]     Show version information.\n",
-        name
-    );
-}
-
-int main(int argc, char *argv[]) {
-    int retval;
-    R_RSA_PUBLIC_KEY key;
+void boinc_reopen_logfile(int signal_num) {
     char log_path[MAXPATHLEN];
-#ifdef _USING_FCGI_
-    unsigned int counter=0;
-#endif
 
-    for(int c = 1; c < argc; c++) {
-        string option(argv[c]);
-        if(option == "-v" || option == "--version") {
-            printf("%s\n", SVN_VERSION);
-            exit(0);
-        } else if(option == "-h" || option == "--help") {
-            usage(argv[0]);
-            exit(0);
-        } else if (option.length()){
-            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
-            usage(argv[0]);
-            exit(1);
-        }
+    // only handle SIGUSR1 here
+    if (signal_num != SIGUSR2) {
+        boinc_catch_signal(signal_num);
     }
-
-    installer();
 
     if (get_log_path(log_path, "file_upload_handler.log") == ERR_MKDIR) {
         fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
@@ -713,11 +670,73 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+}
+
+void installer() {
+    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
+    signal(SIGINT, boinc_catch_signal);  // interrupt program
+    signal(SIGQUIT, boinc_catch_signal); // quit program
+    signal(SIGILL, boinc_catch_signal);  // illegal instruction
+    signal(SIGTRAP, boinc_catch_signal); // illegal instruction
+    signal(SIGABRT, boinc_catch_signal); // abort(2) call
+    signal(SIGFPE, boinc_catch_signal);  // bus error
+    signal(SIGKILL, boinc_catch_signal); // bus error
+    signal(SIGBUS, boinc_catch_signal);  // bus error
+    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
+    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
+    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGTERM, boinc_catch_signal); // terminate process
+#ifdef _USING_FCGI_
+    signal(SIGUSR1, boinc_catch_signal); // user defined 1
+    signal(SIGUSR2, boinc_reopen_logfile); // user defined 2
+#endif
+}
+
+void usage(char *name) {
+    fprintf(stderr,
+        "This is the BOINC file upload handler.\n"
+        "It receives the results from the clients\n"
+        "and puts them on the file server.\n\n"
+        "Normally this is run as a CGI program.\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  [ -h | --help ]        Show this help text.\n"
+        "  [ -v | --version ]     Show version information.\n",
+        name
+    );
+}
+
+int main(int argc, char *argv[]) {
+    int retval;
+    R_RSA_PUBLIC_KEY key;
+#ifdef _USING_FCGI_
+    unsigned int counter=0;
+#endif
+
+    for(int c = 1; c < argc; c++) {
+        string option(argv[c]);
+        if(option == "-v" || option == "--version") {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if(option == "-h" || option == "--help") {
+            usage(argv[0]);
+            exit(0);
+        } else if (option.length()){
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
+            usage(argv[0]);
+            exit(1);
+        }
+    }
+
+    installer();
+
+    boinc_reopen_logfile(SIGUSR2);
+
     retval = config.parse_file();
     if (retval) {
         fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
         return_error(ERR_TRANSIENT,
-            "can't parse config file", log_path, errno
+            "can't parse config file"
         );
         exit(1);
     }
