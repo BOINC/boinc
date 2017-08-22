@@ -60,6 +60,7 @@ using std::string;
 #define ERR_PERMANENT   false
 
 char this_filename[256];
+string variety = "";
 double start_time();
 
 inline static const char* get_remote_addr() {
@@ -639,14 +640,15 @@ void boinc_catch_signal(int signal_num) {
 }
 
 void boinc_reopen_logfile(int signal_num) {
+    char log_name[MAXPATHLEN];
     char log_path[MAXPATHLEN];
 
     // only handle SIGUSR1 here
     if (signal_num != SIGUSR2) {
         boinc_catch_signal(signal_num);
     }
-
-    if (get_log_path(log_path, "file_upload_handler.log") == ERR_MKDIR) {
+    sprintf(log_name, "file_upload_handler%s.log", variety.c_str());
+    if (get_log_path(log_path, log_name) == ERR_MKDIR) {
         fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
     }
 #ifndef _USING_FCGI_
@@ -701,7 +703,8 @@ void usage(char *name) {
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  [ -h | --help ]        Show this help text.\n"
-        "  [ -v | --version ]     Show version information.\n",
+        "  [ -v | --version ]     Show version information.\n"
+        "  [ -u V | --variety V]  Use V to construct logfile name and upload_dir from config.xml (FCGI only)\n",
         name
     );
 }
@@ -721,6 +724,10 @@ int main(int argc, char *argv[]) {
         } else if(option == "-h" || option == "--help") {
             usage(argv[0]);
             exit(0);
+#ifdef _USING_FCGI_
+        } else if(option == "-u" || option == "--variety") {
+            variety = "_" + string(argv[++c]);
+#endif
         } else if (option.length()){
             fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
             usage(argv[0]);
@@ -739,6 +746,12 @@ int main(int argc, char *argv[]) {
             "can't parse config file"
         );
         exit(1);
+    }
+
+    // check if --variety was specified and add it to config.upload_dir
+    if (!variety.empty()) {
+        log_messages.printf(MSG_NORMAL, "Using variety: %s\n", variety.c_str());
+        strcat(config.upload_dir, variety.c_str());
     }
 
     log_messages.pid = getpid();
@@ -768,6 +781,7 @@ int main(int argc, char *argv[]) {
     }
 
 #ifdef _USING_FCGI_
+    log_messages.flush();
     while(FCGI_Accept() >= 0) {
         counter++;
         //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
