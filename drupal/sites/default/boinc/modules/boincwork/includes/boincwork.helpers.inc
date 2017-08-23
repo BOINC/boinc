@@ -210,10 +210,6 @@ function boincwork_get_project_specific_config() {
   // upload is an override.
   if (!array_key_exists('app_overrides', $xml['project_specific_preferences'])) {
     $simpleapps = array(
-      'title' => array(
-        '@value' => 'Run only the selected applications',
-        '@position' => 1,
-      ),
       '@position' => 0,
     );
     $xml['project_specific_preferences']['app_overrides'] = $simpleapps;
@@ -556,7 +552,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     break;
     
   case 'app_overrides':
-    $title = is_array($elements['title']) ? $elements['title']['@value'] : $elements['title'];
+    $title = "Run only the selected applications.";
 
     // Translate elements as appropriate
     if ($title) {
@@ -576,6 +572,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     // Two different XML formats are supported. The newer format has
     // an <apps_selected> container with <app_id> elements as
     // children. The older format has <app_id> elements only.
+    $myapp_ids = NULL;
     if (is_array($user_prefs['apps_selected']['app_id'])) {
       $myapp_ids = $user_prefs['apps_selected']['app_id'];
     }
@@ -729,6 +726,9 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
  *
  * Function returns an array of the merged list of applciations from
  * both sources.
+ *
+ * @param array $ppapps
+ *   Array of applications obtained from project-specific XML upload.
  */
 function boincwork_query_app_for_project_specific_prefs($ppapps) {
 
@@ -756,7 +756,6 @@ function boincwork_query_app_for_project_specific_prefs($ppapps) {
     }
   }
   $dbapps = array(
-    'title' => $ppapps['title'],
     'app' => $dbapp,
     '@position' => $ppapps['@position'],
   );

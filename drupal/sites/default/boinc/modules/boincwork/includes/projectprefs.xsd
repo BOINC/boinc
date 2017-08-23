@@ -137,7 +137,6 @@
     <xs:element name="app_overrides">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1" />
                 <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>

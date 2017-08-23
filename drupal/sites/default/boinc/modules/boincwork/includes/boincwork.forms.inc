@@ -1250,7 +1250,7 @@ function boincwork_add_project_specific_prefs(&$form, $prefs) {
   foreach ($xml['project_specific_preferences'] as $wrapped_element) {
     $type = key($wrapped_element);
     $element = reset($wrapped_element);
-    if ($type=='app_overrides') {
+    if ($type == 'app_overrides') {
       $element = boincwork_query_app_for_project_specific_prefs($element);
     }
     boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
