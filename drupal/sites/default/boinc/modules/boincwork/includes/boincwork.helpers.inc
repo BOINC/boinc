@@ -1849,33 +1849,27 @@ function delete_col(&$array, $offset) {
  * Parameters
  * @param int $appverid
  *  app_version_id field, may be negative- anonymous platforms.
- * @param int $versnum
+ * @param int $vernum
  *  version_num field, application version number, may be NULL
  * @param int $plan_class
  *  plan_class field, applcation plan class, may be NULL
- * @param string $platform
+ * @param string $plfm
  *  platform name, may be NULL
  */
 function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
   switch ($appverid) {
     case ANON_PLATFORM_UNKNOWN:
       return "Anonymous platform";
-      break;
     case ANON_PLATFORM_CPU:
       return "Anonymous platform CPU";
-      break;
     case ANON_PLATFORM_NVIDIA:
       return "Anonymous platform NVIDIA GPU";
-      break;
     case ANON_PLATFORM_ATI:
       return "Anonymous platform ATI GPU";
-      break;
     case ANON_PLATFORM_INTEL:
       return "Anonymous platform Intel GPU";
-      break;
     case 0:
       return "---";
-      break;
     default:
       // Handle the case where the appversid is still negative. This
       // may be cause BOINC has introduced a new anonymous platform
