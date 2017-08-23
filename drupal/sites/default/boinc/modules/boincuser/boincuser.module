@@ -759,12 +759,15 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     if ($reset_pass) {
       $_SESSION['reset_pass'] = 1;
     }
-    
+
+    // Adjust form elements already present
+    $form['account']['name']['#title'] = 'Drupal Username';
     $form['account']['name']['#size'] = 40;
     $form['account']['name']['#attributes']['autocomplete'] = 'off';
+    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publically that the user can change in Community Preferences.';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
-    
+
     if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
       $form['account']['current_pass'] = array(
@@ -880,7 +883,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
-    
+
     break;
     
   case 'profile_node_form':

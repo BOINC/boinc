@@ -85,6 +85,47 @@ function boinc_standard_views_default_views() {
       'field' => 'name',
       'relationship' => 'none',
     ),
+    'phpcode' => array(
+      'label' => 'BOINC user name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 1,
+        'path' => 'account/[uid]',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'value' => '<?php
+  $myuser = user_load($data->uid);
+  echo $myuser->boincuser_name;
+?>',
+      'exclude' => 0,
+      'id' => 'phpcode',
+      'table' => 'customfield',
+      'field' => 'phpcode',
+      'relationship' => 'none',
+    ),
+    'mail' => array(
+      'id' => 'mail',
+      'table' => 'users',
+      'field' => 'mail',
+    ),
     'rid' => array(
       'label' => 'Roles',
       'alter' => array(
@@ -345,10 +386,12 @@ function boinc_standard_views_default_views() {
     'columns' => array(
       'uid' => 'uid',
       'name' => 'name',
-      'status' => 'status',
+      'phpcode' => 'phpcode',
+      'mail' => 'mail',
       'rid' => 'rid',
-      'login' => 'login',
+      'status' => 'status',
       'access' => 'access',
+      'login' => 'login',
       'created' => 'created',
       'edit_node' => 'edit_node',
     ),
@@ -361,18 +404,25 @@ function boinc_standard_views_default_views() {
         'sortable' => 1,
         'separator' => '',
       ),
-      'status' => array(
+      'phpcode' => array(
+        'separator' => '',
+      ),
+      'mail' => array(
         'sortable' => 1,
         'separator' => '',
       ),
       'rid' => array(
         'separator' => '',
       ),
-      'login' => array(
+      'status' => array(
         'sortable' => 1,
         'separator' => '',
       ),
       'access' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'login' => array(
         'sortable' => 1,
         'separator' => '',
       ),
