@@ -204,10 +204,10 @@ function boincwork_get_project_specific_config() {
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
   // By default the returned array should have an 'app_overrides'
-  // element. Even if the admin did not specificy an <apps> container
-  // in the XML, a basic one is added. This is because applications
-  // are now queried from the database, and the content of the XML
-  // upload is an override.
+  // element. Even if the admin did not specificy an <app_overrides>
+  // container in the XML, a basic one is added. This is because
+  // applications are now queried from the database, and the content
+  // of the XML upload is an override.
   if (!array_key_exists('app_overrides', $xml['project_specific_preferences'])) {
     $simpleapps = array(
       '@position' => 0,
