@@ -902,7 +902,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "app_version_id=%ld, "
         "transitioner_flags=%d, "
         "size_class=%d, "
-        "keywords='%s' ",
+        "keywords='%s', "
+        "app_version_num=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -923,7 +924,8 @@ void DB_WORKUNIT::db_print(char* buf){
         app_version_id,
         transitioner_flags,
         size_class,
-        keywords
+        keywords,
+        app_version_num
     );
 }
 
@@ -947,7 +949,8 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         "%ld, "
         "%d, "
         "%d, "
-        "'%s')",
+        "'%s', "
+        "%d )",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound,
@@ -969,7 +972,8 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         app_version_id,
         transitioner_flags,
         size_class,
-        keywords
+        keywords,
+        app_version_num
     );
 }
 
@@ -1010,6 +1014,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     transitioner_flags = atoi(r[i++]);
     size_class = atoi(r[i++]);
     strcpy2(keywords, r[i++]);
+    app_version_num = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -1024,7 +1029,7 @@ void DB_CREDITED_JOB::db_parse(MYSQL_ROW &r) {
     clear();
     userid = atol(r[i++]);
     workunitid = atol(r[i++]);
-};
+}
 
 void DB_RESULT::db_print(char* buf){
     ESCAPE(xml_doc_out);
@@ -2026,6 +2031,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.transitioner_flags = atoi(r[i++]);
     wu.size_class = atoi(r[i++]);
     strcpy2(wu.keywords, r[i++]);
+    wu.app_version_num = atoi(r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(

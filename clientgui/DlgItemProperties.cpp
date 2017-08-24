@@ -30,6 +30,8 @@
 IMPLEMENT_DYNAMIC_CLASS(CDlgItemProperties, wxDialog)
 
 BEGIN_EVENT_TABLE(CDlgItemProperties, wxDialog)
+    EVT_BUTTON(ID_COPYSELECTED, CDlgItemProperties::OnCopySelected)
+    EVT_BUTTON(ID_COPYALL, CDlgItemProperties::OnCopyAll)
 
 END_EVENT_TABLE()
 
@@ -65,9 +67,18 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 
     m_bSizer1->Add( m_txtInformation, 1, wxEXPAND | wxALL, 5 );
     
+    wxBoxSizer *bSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    m_bSizer1->Add(bSizer2, 0, wxALIGN_BOTTOM | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 12);
+
+    m_pCopyAllButton = new wxButton(this, ID_COPYALL, _("Copy &All"), wxDefaultPosition, wxDefaultSize);
+    bSizer2->Add(m_pCopyAllButton, 0, wxALIGN_BOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+
+    m_pCopySelectedButton = new wxButton(this, ID_COPYSELECTED, _("Copy &Selected"), wxDefaultPosition, wxDefaultSize);
+    bSizer2->Add(m_pCopySelectedButton, 0, wxALIGN_BOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+
     m_btnClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClose->SetDefault(); 
-    m_bSizer1->Add( m_btnClose, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+    bSizer2->Add( m_btnClose, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
     
     SetSizer( m_bSizer1 );
     Layout();
@@ -577,4 +588,22 @@ void CDlgItemProperties::addSection(const wxString& title) {
 // adds a property row to the dialog 
 void CDlgItemProperties::addProperty(const wxString& name, const wxString& value) {
     m_items.push_back(ITEM(ItemTypeProperty, name, value));
+}
+
+void CDlgItemProperties::OnCopySelected( wxCommandEvent& ) {
+    if (m_txtInformation->HasSelection()) {
+        m_txtInformation->Copy();
+    } else {
+        if (wxTheClipboard->Open()) {
+            wxTheClipboard->Clear();
+            wxTheClipboard->SetData(new wxTextDataObject(wxEmptyString));
+            wxTheClipboard->Close();
+        }
+    }
+}
+
+void CDlgItemProperties::OnCopyAll( wxCommandEvent& ) {
+    m_txtInformation->SelectAll();
+    m_txtInformation->Copy();
+    m_txtInformation->ClearSelection();
 }

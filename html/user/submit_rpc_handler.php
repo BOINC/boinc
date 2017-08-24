@@ -192,7 +192,7 @@ function stage_files(&$jobs) {
 // submit a list of jobs with a single create_work command.
 //
 function submit_jobs(
-    $jobs, $template, $app, $batch_id, $priority,
+    $jobs, $template, $app, $batch_id, $priority, $app_version_num,
     $result_template_file,      // batch-level; can also specify per job
     $workunit_template_file
 ) {
@@ -241,6 +241,9 @@ function submit_jobs(
     }
     if ($workunit_template_file) {
         $cmd .= " --wu_template templates/$workunit_template_file";
+    }
+    if ($app_version_num) {
+        $cmd .= " --app_version_num $app_version_num";
     }
     $cmd .= " --stdin >$errfile 2>&1";
     $h = popen($cmd, "w");
@@ -353,6 +356,8 @@ function xml_get_jobs($r) {
     return $jobs;
 }
 
+// $r is a simplexml object for the request message
+//
 function submit_batch($r) {
     xml_start_tag("submit_batch");
     $app = get_submit_app((string)($r->batch->app_name));
@@ -365,6 +370,7 @@ function submit_batch($r) {
     stage_files($jobs);
     $njobs = count($jobs);
     $now = time();
+    $app_version_num = (int)($r->batch->app_version_num);
     $batch_id = (int)($r->batch->batch_id);
     if ($batch_id) {
         $batch = BoincBatch::lookup_id($batch_id);
@@ -432,7 +438,7 @@ function submit_batch($r) {
     }
 
     submit_jobs(
-        $jobs, $template, $app, $batch_id, $let,
+        $jobs, $template, $app, $batch_id, $let, $app_version_num,
         $result_template_file, $workunit_template_file
     );
 

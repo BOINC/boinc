@@ -48,7 +48,7 @@ row2(
     "<br><a href=".secure_url_base()."/edit_passwd_form.php><p class=\"text-muted\">".tra("No password?")."</p></a>",
     "<input type=password name=passwd>"
 );
-row2("", "<input class=\"btn btn-default\" type=submit value='".tra("Change email address")."'>");
+row2("", "<input class=\"btn btn-success\" type=submit value='".tra("Change email address")."'>");
 end_table();
 echo "</form>\n";
 page_tail();

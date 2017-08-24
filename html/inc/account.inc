@@ -90,7 +90,7 @@ function login_form($next_url) {
     );
 
     row2("",
-        "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
+        "<input class=\"btn btn-success\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
     );
 
     end_table();

@@ -80,7 +80,9 @@ struct OPENCL_DEVICE_PROP {
     int opencl_device_index;            // zero-based device number within this OpenCL platform
     bool warn_bad_cuda;                 // If true, warn we can't use GPU due to CUDA version
 
+#ifndef _USING_FCGI_
     void write_xml(MIOFILE&, const char* tag, bool temp_file=false);
+#endif
     int parse(XML_PARSER&, const char* end_tag);
     void description(char* buf, int buflen, const char* type);
     void clear() {

@@ -1644,8 +1644,10 @@ function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $
  * @param int $app_id
  *   Application id of the application chosen by user. 0 and -1 are
  *   for all applications.
+ * @param int $tablerows
+ *   Number of table row to display per page. Defaults to 20.
  */
-function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_id = 0) {
+function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_id = 0, $tablerows = 20) {
   // Check type parameter, if not (0,2) then return an error.
   if ( ($category!=0) AND ($category!=1) AND ($category!=2) ) {
     watchdog('boincwork', 'task table called with invalid category = %category', array('%category' => $category), WATCHDOG_WARNING);
@@ -1704,15 +1706,15 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
 
   // Use userid, hostid, or workunitid
   if ($category==0) {
-    $sqlall .= "AND r.userid='%s' ";
+    $sqlall .= " WHERE r.userid='%s' ";
   }
   elseif ($category==1) {
-    $sqlall .= "AND r.workunitid='%s' ";
+    $sqlall .= " WHERE r.workunitid='%s' ";
   }
   elseif ($category==2) {
-    $sqlall .= "AND r.hostid='%s' ";
+    $sqlall .= " WHERE r.hostid='%s' ";
   }
-  $sqlall .= "ORDER BY user_friendly_name";
+  $sqlall .= " ORDER BY user_friendly_name";
   $dbres_all = db_query($sqlall, $queryid);
   db_set_active('default');
 
@@ -1830,55 +1832,66 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
       ."FROM {result} AS r "
       ."INNER JOIN {app} AS a "
       ."ON r.appid=a.id "
-      ."INNER JOIN {app_version} AS av "
+      ."LEFT JOIN {app_version} AS av "
       ."ON r.app_version_id=av.id "
-      ."INNER JOIN {platform} AS pl "
+      ."LEFT JOIN {platform} AS pl "
       ."ON av.platformid=pl.id ";
+
+  // Build an array for the WHERE clauses. The individual clauses are
+  // placed into an array, and implode() is used to combine them into
+  // a WHERE statement for the sql query. If no such clauses are added
+  // to the array, then no WHERE statement will be included.
+  $sqlwhere = array();
 
   // Use userid, hostid, or workunitid
   if ($category==0) {
-    $sqlsub .= "AND r.userid = '%s' ";
+    $sqlwhere[] = "r.userid = '%s'";
   }
   elseif ($category==1) {
-    $sqlsub .= "AND r.workunitid = '%s' ";
+    $sqlwhere[] = "r.workunitid = '%s'";
   }
   elseif ($category==2) {
-    $sqlsub .= "AND r.hostid = '%s' ";
+    $sqlwhere[] = "r.hostid = '%s'";
   }
 
   // Append additional where clauses based on task selection.
   switch ($tselect) {
   case STATE_IN_PROGRESS:
-    $sqlsub .= "AND r.server_state = 4 ";
+    $sqlwhere[] = "r.server_state = 4";
     break;
   case STATE_PENDING:
-    $sqlsub .= "AND (r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state >= 0) AND (r.validate_state <= 0 OR r.validate_state >= 4) AND (r.validate_state <= 4) ";
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state >= 0) AND (r.validate_state <= 0 OR r.validate_state >= 4) AND (r.validate_state <= 4)";
     break;
   case STATE_VALID:
-    $sqlsub .= "AND (r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state = 1) ";
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state = 1)";
     break;
   case STATE_INVALID:
-    $sqlsub .= "AND (r.server_state = 5) AND ((r.outcome = 6) OR ((r.outcome = 1) AND ((r.validate_state = 2) OR (r.validate_state = 3) OR (r.validate_state = 5)))) ";
+    $sqlwhere[] = "(r.server_state = 5) AND ((r.outcome = 6) OR ((r.outcome = 1) AND ((r.validate_state = 2) OR (r.validate_state = 3) OR (r.validate_state = 5))))";
     break;
   case STATE_ERROR:
-    $sqlsub .= "AND (r.server_state = 5) AND (r.outcome >= 3) AND (r.outcome <= 4 OR r.outcome >= 7) AND (r.outcome <= 7) ";
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome >= 3) AND (r.outcome <= 4 OR r.outcome >= 7) AND (r.outcome <= 7)";
     break;
+  default:
   }
 
   if (is_numeric($app_id) AND $app_id>0 ) {
-    $sqlsub .= " AND r.appid = '%s'";
-    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), 20, 0, NULL, $queryid, $app_id);
+    $sqlwhere[] = "r.appid = '%s'";
+    if ($sqlwhere)  $sqlsub .= " WHERE " . implode(' AND ', $sqlwhere);
+    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), $tablerows, 0, NULL, $queryid, $app_id);
   }
   else {
-    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), 20, 0, NULL, $queryid);
+    if ($sqlwhere)  $sqlsub .= " WHERE " . implode(' AND ', $sqlwhere);
+    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), $tablerows, 0, NULL, $queryid);
   }
   db_set_active('default');
 
   // Loop 2 over DB results.
   if ($dbres_sub) {
     while ($result = db_fetch_object($dbres_sub)) {
+      // state_num() function changes $result object, clone $result
+      // object for use in state_num()
       // check if state matches selection
-      if ( (state_num($result) == $tselect) OR ($tselect==STATE_ALL) ) {
+      if ( (state_num(clone $result) == $tselect) OR ($tselect==STATE_ALL) ) {
         // create pretty result row
         $prettyresult = array(
           array(
@@ -1894,7 +1907,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
           $nf->format($result->cpu_time),
           $nf->format($result->granted_credit),
           array(
-            'data' => $result->user_friendly_name . " " . pretty_application_version($result->version_number, $result->plan_class, $result->platform),
+            'data' => $result->user_friendly_name . " " . pretty_application_version($result->app_version_id,$result->version_number, $result->plan_class, $result->platform),
             'class' => 'task-app',
           ),
         );
@@ -1940,7 +1953,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   $ltext = '<span class="tab">' . bts('Reset', array(), NULL, 'boinc:task-table') . '</span>';
   $stitems[] = array( 'data' => l($ltext, $mypath, array('html' => TRUE) ) );
 
-  $output .= theme_item_list($stitems, $title = NULL, $type='ul'. $attributes=' class="tabs secondary clearfix"');
+  $output .= theme_item_list($stitems, NULL, 'ul' . ' class="tabs secondary clearfix"');
 
   // Application select-drop down form
   // Hack to place Application form into header
@@ -1978,13 +1991,50 @@ function delete_col(&$array, $offset) {
 
 /**
  * Pretty print the application version
+ *
+ * Parameters are obtained from the BOINC project database, result,
+ * app, app_version, and platform tables.
+ *
+ * Parameters
+ * @param int $appverid
+ *  app_version_id field, may be negative- anonymous platforms.
+ * @param int $vernum
+ *  version_num field, application version number, may be NULL
+ * @param int $plan_class
+ *  plan_class field, applcation plan class, may be NULL
+ * @param string $plfm
+ *  platform name, may be NULL
  */
-function pretty_application_version($vernum, $plan_class, $plfm) {
-  $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
-  $prettyc = ($plan_class) ? "($av->plan_class)" : '';
-  return "v$prettyv $prettyc $plfm";
-}
 
+function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
+  switch ($appverid) {
+    case ANON_PLATFORM_UNKNOWN:
+      return "Anonymous platform";
+    case ANON_PLATFORM_CPU:
+      return "Anonymous platform CPU";
+    case ANON_PLATFORM_NVIDIA:
+      return "Anonymous platform NVIDIA GPU";
+    case ANON_PLATFORM_ATI:
+      return "Anonymous platform ATI GPU";
+    case ANON_PLATFORM_INTEL:
+      return "Anonymous platform Intel GPU";
+    case 0:
+      return "---";
+    default:
+      // Handle the case where the appversid is still negative. This
+      // may be cause BOINC has introduced a new anonymous platform
+      // that is not handled by the above case statements.
+      if ($appverid < 0) {
+        return "Unknown Anonymous platform";
+      }
+      else {
+        $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
+        $prettyc = ($plan_class) ? "($av->plan_class)" : '';
+        return "v$prettyv $prettyc $plfm";
+      }
+  }
+}
+  
 /**
  * uasort() compare function for dbapps array.
  */

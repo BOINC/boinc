@@ -210,13 +210,13 @@ void CDlgOptions::CreateControls() {
 #endif
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Run daemon?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Run the client?"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_EnableRunDaemonCtrl = new wxCheckBox;
     m_EnableRunDaemonCtrl->Create( itemPanel4, ID_ENABLERUNDAEMON, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     if (ShowToolTips())
-        m_EnableRunDaemonCtrl->SetToolTip(_("Run daemon when launching the Manager."));
+        m_EnableRunDaemonCtrl->SetToolTip(_("Run the client when launching the Manager."));
     itemFlexGridSizer6->Add(m_EnableRunDaemonCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText12 = new wxStaticText;
@@ -407,12 +407,12 @@ void CDlgOptions::CreateControls() {
     itemBoxSizer2->Add(itemBoxSizer59, 0, wxALIGN_RIGHT|wxALL, 5);
 
     wxButton* itemButton60 = new wxButton;
-    itemButton60->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton60->SetDefault();
+    itemButton60->Create( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer59->Add(itemButton60, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton61 = new wxButton;
     itemButton61->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton61->SetDefault();
     itemBoxSizer59->Add(itemButton61, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators

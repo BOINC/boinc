@@ -599,7 +599,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 #if (defined(__WXMAC__) && defined(_DEBUG))
     parser.AddLongOption("NSDocumentRevisionsDebugMode", _("Not used: workaround for bug in XCode 4.2"));
 #endif
-    parser.AddSwitch("nd", "no-daemon", _("Not run the daemon"));
+    parser.AddSwitch("nd", "no-daemon", _("Don't run the client"));
 }
 
 

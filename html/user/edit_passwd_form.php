@@ -31,7 +31,7 @@ echo "
 start_table();
 row2(tra("New password"), "<input type=password name=passwd size=40>");
 row2(tra("New password, again"), "<input type=password name=passwd2 size=40>");
-row2("", "<input class=\"btn btn-default\" type=submit value='".tra("Change password")."'>");
+row2("", "<input class=\"btn btn-success\" type=submit value='".tra("Change password")."'>");
 end_table();
 echo "</form>\n";
 page_tail();

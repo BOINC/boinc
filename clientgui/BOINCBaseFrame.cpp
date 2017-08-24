@@ -642,7 +642,7 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     );
 #else
     strDialogMessage.Printf(
-        _("%s is not able to start a %s client.\nPlease start the daemon and try again."),
+        _("%s is not able to start a %s client.\nPlease run the client and try again."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );

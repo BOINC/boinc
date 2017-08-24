@@ -631,6 +631,12 @@ BEST_APP_VERSION* get_app_version(
                 }
             }
 
+            if (wu.app_version_num) {
+                if (bavp->avp->version_num != wu.app_version_num) {
+                    break;
+                }
+            }
+
             if (config.debug_version_select) {
                 app_version_desc(*bavp, buf);
                 log_messages.printf(MSG_NORMAL,
@@ -698,6 +704,17 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+
+            if (wu.app_version_num) {
+                if (av.version_num != wu.app_version_num) {
+                    continue;
+                }
+            } else {
+                if (av.deprecated) {
+                    continue;
+                }
+            }
+
             if (av.beta) {
                 if (!g_wreq->project_prefs.allow_beta_work) {
                     continue;

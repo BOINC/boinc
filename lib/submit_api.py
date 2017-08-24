@@ -82,6 +82,10 @@ class BATCH_DESC:
             xml += '<batch_id>%s</batch_id>\n'%(self.batch_id)
         elif hasattr(self, 'batch_name'):
             xml += '<batch_name>%s</batch_name>\n'%(self.batch_name)
+
+        if hasattr(self, 'app_version_num'):
+            xml += '<app_version_num>%d</app_version_num>\n'%(self.app_version_num)
+
         for job in self.jobs:
             xml += job.to_xml()
         xml += '</batch>\n</%s>\n' %(op)

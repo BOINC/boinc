@@ -91,8 +91,8 @@ function pm_team_form($user, $teamid, $error=null) {
     echo "</td></tr>\n";
     end_table();
     echo "<tr><td></td><td>
-        <input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Send message")."\">
+        <input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Send message")."\">
         </td></tr>\n
     ";
     end_table();
@@ -174,7 +174,7 @@ function pm_form($replyto, $userid, $error = null) {
     echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
     echo "</td></tr>\n";
     end_table();
-    echo "<tr><td></td><td><input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
+    echo "<tr><td></td><td><input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();
     
     page_tail();

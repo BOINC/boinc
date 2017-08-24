@@ -265,7 +265,7 @@ struct CLIENT_STATE {
         APP*, char* platform, int ver, char* plan_class
     );
     int detach_project(PROJECT*);
-    int report_result_error(RESULT&, const char *format, ...);
+    int report_result_error(RESULT&, const char* err_msg);
     int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
     bool gui_rpc_unix_domain;

@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2015 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -29,11 +29,12 @@
 # Updated 11/28/15 to build ScreenSaver with ARC under Xcode 6 or later
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
 # Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
+# Updated 3/13/16 to add -target and -setting optional arguments
 #
 ## This script requires OS 10.8 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 ##
 
@@ -42,13 +43,13 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
-## -dev         build the development (debug) version. 
+## -dev         build the development (debug) version.
 ##              default is deployment (release) version.
 ##
 ## -noclean     don't do a "clean" of each target before building.
@@ -63,12 +64,19 @@
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
-##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a
+##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
 ##
 ## Both -lib and -client may be specified to build seven targets (no BOINC Manager)
+##
+## The following are used mainly for building the daily test builds:
+##
+## -target targetName build ONLY the one target specified by targetName
+##
+## -setting name value override setting 'name' to have the value 'value'
+## Usually used along with -target, You can pass multipe -setting arguments.
 ##
 
 targets=""
@@ -78,8 +86,10 @@ uselibcplusplus=""
 buildall=0
 buildlibs=0
 buildclient=0
+buildzip=1
 style="Deployment"
 isXcode6orLater=0
+unset settings
 
 xcodeversion=`xcodebuild -version`
 xcodeMajorVersion=`echo $xcodeversion | cut -d ' ' -f 2 | cut -d '.' -f 1`
@@ -89,7 +99,7 @@ isXcode6orLater=1
 fi
 
 while [ $# -gt 0 ]; do
-  case "$1" in 
+  case "$1" in
     -noclean ) doclean="" ; shift 1 ;;
     -dev ) style="Development" ; shift 1 ;;
     -libc++ ) uselibcplusplus="CLANG_CXX_LIBRARY=libc++ MACOSX_DEPLOYMENT_TARGET=10.7" ; shift 1 ;;
@@ -97,7 +107,12 @@ while [ $# -gt 0 ]; do
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]" ; return 1 ;;
+    -target ) shift 1 ; targets="-target $1" ; buildzip=0 ; shift 1 ;;
+    -setting ) shift 1 ; name="$1" ;
+                shift 1 ; unset value ; value=("$1");
+                settings+=("$name=""${value[@]}") ;
+                shift 1 ;;
+    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]  [-target targetName] [-setting name value] [-help]" ; return 1 ;;
   esac
 done
 
@@ -156,34 +171,35 @@ fi
 echo ""
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=0
 
 if [ $isXcode6orLater = 0 ]; then
     ## echo "Xcode version < 6"
     ## Build the screensaver using our standard settings (with Garbage Collection)
-    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ${uselibcplusplus} ${cplusplus11dialect}
+    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
+    result=$?
 else
     ## echo "Xcode version > 5"
     ## We must modify the build settings for the screensaver only, to build it with ARC
-    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean}  build ${uselibcplusplus} ${cplusplus11dialect}
-
+    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean}  build ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
     result=$?
 
     if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
         if [ $result -eq 0 ]; then
-            xcodebuild -project boinc.xcodeproj -target ScreenSaver -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ARCHS=x86_64 GCC_ENABLE_OBJC_GC=unsupported ${uselibcplusplus} ${cplusplus11dialect}
+            xcodebuild -project boinc.xcodeproj -target ScreenSaver -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ARCHS=x86_64 GCC_ENABLE_OBJC_GC=unsupported ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
+            result=$?
         fi
     fi
 fi
-
-result=$?
 
 if [ $result -eq 0 ]; then
     # build ibboinc_zip.a for -all or -lib or default, where
     # default is none of { -all, -lib, -client }
     if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "0" ]; then
-        xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk "${SDKPATH}" ${doclean} build  ${uselibcplusplus} ${cplusplus11dialect}
-
-        result=$?
+        if [ "${buildzip}" = "1" ]; then
+            xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk "${SDKPATH}" ${doclean} build  ${uselibcplusplus} ${cplusplus11dialect}
+            result=$?
+        fi
     fi
 fi
 

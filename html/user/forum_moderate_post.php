@@ -114,7 +114,7 @@ if ($get_reason) {
     );
     row2(
         "",
-        "<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-success\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
 }
 
