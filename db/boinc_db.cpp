@@ -56,6 +56,17 @@ static struct random_init {
 #define ESCAPE(x) escape_string(x, sizeof(x))
 #define UNESCAPE(x) unescape_string(x, sizeof(x))
 
+#define strcpy2(x, y) \
+    { \
+        const char* z = y; \
+        if (!z) { \
+            x[0]=0; \
+        } else { \
+            strlcpy(x, z, sizeof(x)); \
+        } \
+    }
+
+
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
@@ -822,6 +833,14 @@ int DB_HOST::update_diff_sched(HOST& h) {
         sprintf(buf, " gpu_active_frac=%.15e,", gpu_active_frac);
         strcat(updates, buf);
     }
+    if (p_ngpus != h.p_ngpus) {
+        sprintf(buf, " p_ngpus=%d,", p_ngpus);
+        strcat(updates, buf);
+    }
+    if (p_gpu_fpops != h.p_gpu_fpops) {
+        sprintf(buf, " p_gpu_fpops=%.15e,", p_gpu_fpops);
+        strcat(updates, buf);
+    }
 
     int n = strlen(updates);
     if (n == 0) return 0;
@@ -882,7 +901,9 @@ void DB_WORKUNIT::db_print(char* buf){
         "fileset_id=%lu, "
         "app_version_id=%ld, "
         "transitioner_flags=%d, "
-        "size_class=%d ",
+        "size_class=%d, "
+        "keywords='%s', "
+        "app_version_num=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -902,7 +923,9 @@ void DB_WORKUNIT::db_print(char* buf){
         fileset_id,
         app_version_id,
         transitioner_flags,
-        size_class
+        size_class,
+        keywords,
+        app_version_num
     );
 }
 
@@ -925,7 +948,9 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         "%lu, "
         "%ld, "
         "%d, "
-        "%d)",
+        "%d, "
+        "'%s', "
+        "%d )",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound,
@@ -946,7 +971,9 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         fileset_id,
         app_version_id,
         transitioner_flags,
-        size_class
+        size_class,
+        keywords,
+        app_version_num
     );
 }
 
@@ -986,6 +1013,8 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     app_version_id = atol(r[i++]);
     transitioner_flags = atoi(r[i++]);
     size_class = atoi(r[i++]);
+    strcpy2(keywords, r[i++]);
+    app_version_num = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -1000,7 +1029,7 @@ void DB_CREDITED_JOB::db_parse(MYSQL_ROW &r) {
     clear();
     userid = atol(r[i++]);
     workunitid = atol(r[i++]);
-};
+}
 
 void DB_RESULT::db_print(char* buf){
     ESCAPE(xml_doc_out);
@@ -1754,6 +1783,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     wu.rsc_fpops_bound = atof(r[i++]);
 
     res.id = atol(r[i++]);
+    res.workunitid = atol(r[i++]);
     strcpy2(res.name, r[i++]);
     res.validate_state = atoi(r[i++]);
     res.server_state = atoi(r[i++]);
@@ -1836,6 +1866,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   wu.rsc_fpops_est, "
             "   wu.rsc_fpops_bound, "
             "   res.id, "
+            "   res.workunitid, "
             "   res.name, "
             "   res.validate_state, "
             "   res.server_state, "
@@ -1999,6 +2030,8 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.app_version_id = atol(r[i++]);
     wu.transitioner_flags = atoi(r[i++]);
     wu.size_class = atoi(r[i++]);
+    strcpy2(wu.keywords, r[i++]);
+    wu.app_version_num = atoi(r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(

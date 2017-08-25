@@ -183,7 +183,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4127;4702;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>

@@ -24,7 +24,7 @@ function user_permissions_form() {
     global $special_user_bitfield;
     page_head('Manage user privileges');
 
-    start_table();
+    start_table('table-striped');
     row1("Current special users", 99);
 
     echo "<tr><th>User</th>";
@@ -38,9 +38,8 @@ function user_permissions_form() {
         FROM forum_preferences as prefs, user 
         WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
     );
-    $i = 0;
     while ($foo = _mysql_fetch_object($result)) {
-        echo "<tr class=row$i>
+        echo "<tr>
             <td>$foo->name ($foo->id)</td>
             <form action=\"user_permissions.php\" method=\"POST\">
             <input type=\"hidden\" name=\"userid\" value=\"$foo->userid\">
@@ -55,11 +54,10 @@ function user_permissions_form() {
         }
         echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></td>";
         echo "</form></tr>\n";
-        $i = 1 - $i;
     }
 
     echo "
-        <tr class=row$i>
+        <tr>
         <form action=\"user_permissions.php\" method=\"POST\">
         <td>Add User ID:<input type=\"text\" name=\"userid\" size=\"6\"></td>
     ";

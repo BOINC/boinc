@@ -21,8 +21,8 @@
 // NOTE: all writes to stdout should have an if (log_flags.*) {} around them.
 //
 
-#ifndef _CC_CONFIG_H_
-#define _CC_CONFIG_H_
+#ifndef BOINC_CC_CONFIG_H
+#define BOINC_CC_CONFIG_H
 
 #include <vector>
 #include <string>
@@ -33,6 +33,8 @@
 #define DEFAULT_MAX_EVENT_LOG_LINES 2000
 
 struct XML_PARSER;
+struct PROJECT;
+struct RESULT;
 
 #define MAX_FILE_XFERS_PER_PROJECT      2
 #define MAX_FILE_XFERS                  8
@@ -88,6 +90,7 @@ struct LOG_FLAGS {
     bool mem_usage_debug;
         // memory usage
     bool network_status_debug;
+    bool notice_debug;
     bool poll_debug;
         // show what polls are responding
     bool proxy_debug;
@@ -117,7 +120,6 @@ struct LOG_FLAGS {
         // show unparsed XML lines
     bool work_fetch_debug;
         // work fetch policy 
-    bool notice_debug;
 
     LOG_FLAGS();
     void init();
@@ -209,6 +211,50 @@ struct CC_CONFIG {
     int parse_options_client(XML_PARSER&);
     int write(MIOFILE&, LOG_FLAGS&);
     void show();
+};
+
+//  Stuff related to app_config.xml
+
+typedef std::vector<std::string> MSG_VEC;
+
+struct APP_CONFIG {
+    char name[256];
+    int max_concurrent;
+    double gpu_gpu_usage;
+    double gpu_cpu_usage;
+    bool fraction_done_exact;
+    bool report_results_immediately;
+
+    int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
+    int parse_gpu_versions(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
+};
+
+struct APP_VERSION_CONFIG {
+    char app_name[256];
+    char plan_class[256];
+    char cmdline[256];
+    double avg_ncpus;
+    double ngpus;
+
+    int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
+};
+
+struct APP_CONFIGS {
+    std::vector<APP_CONFIG> app_configs;
+    std::vector<APP_VERSION_CONFIG> app_version_configs;
+    int project_max_concurrent;
+    bool report_results_immediately;
+
+    int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
+    int parse_file(FILE*, MSG_VEC&, LOG_FLAGS&);
+    int config_app_versions(PROJECT*, bool show_warnings);
+    void write(MIOFILE&);
+    void clear() {
+        app_configs.clear();
+        app_version_configs.clear();
+        project_max_concurrent = 0;
+        report_results_immediately = false;
+    }
 };
 
 #endif

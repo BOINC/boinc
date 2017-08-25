@@ -41,8 +41,9 @@ SELECT
        case
            when INSTR(host.os_name, 'Linux') then 
                case
-                   when INSTR(LEFT(host.os_version, 6), '-') then LEFT(host.os_version, (INSTR(LEFT(host.os_version, 6), '-') - 1))
-                   else LEFT(host.os_version, 6)
+                   when RIGHT(host.os_version, 1) = ']' then REVERSE(SUBSTR(REVERSE(host.os_version), 2, INSTR(REVERSE(host.os_version), '[') - 2))
+                   when INSTR(LEFT(host.os_version, 10), '-') then LEFT(host.os_version, (INSTR(LEFT(host.os_version, 10), '-') - 1))
+                   else LEFT(host.os_version, 8)
                end
            else host.os_version
        end AS OS_Version,

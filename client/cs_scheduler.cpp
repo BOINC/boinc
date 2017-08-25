@@ -383,6 +383,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "    <client_brand>%s</client_brand>\n", client_brand);
     }
 
+    if (acct_mgr_info.using_am()) {
+        acct_mgr_info.user_keywords.write(f);
+    }
+
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);
@@ -557,7 +561,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     unsigned int i;
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[1024], filename[256];
-    std::string old_gui_urls = project->gui_urls;
+    string old_gui_urls = project->gui_urls;
     PROJECT* p2;
     vector<RESULT*>new_results;
 
@@ -679,10 +683,20 @@ int CLIENT_STATE::handle_scheduler_reply(
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-        // skip this if we have host-specific prefs
-        // and we're talking to an old scheduler
-        //
-        if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
+        // ignore prefs if we're using prefs from account mgr
+        // BAM! currently has mixed http, https; trim off
+        char* p = strchr(global_prefs.source_project, '/');
+        char* q = strchr(gstate.acct_mgr_info.master_url, '/');
+        if (gstate.acct_mgr_info.using_am() && p && q && !strcmp(p, q)) {
+            if (log_flags.sched_op_debug) {
+                msg_printf(project, MSG_INFO,
+                    "ignoring prefs from project; using prefs from AM"
+                );
+            }
+        } else if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
+            // ignore prefs if we have host-specific prefs
+            // and we're talking to an old scheduler
+            //
             retval = save_global_prefs(
                 sr.global_prefs_xml, project->master_url, scheduler_url
             );
@@ -1295,6 +1309,14 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
         }
 
         if (cc_config.report_results_immediately) {
+            return p;
+        }
+
+        if (p->report_results_immediately) {
+            return p;
+        }
+
+        if (r->app->report_results_immediately) {
             return p;
         }
 

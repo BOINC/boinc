@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VIEWMESSAGES_H_
-#define _VIEWMESSAGES_H_
+#ifndef BOINC_VIEWMESSAGES_H
+#define BOINC_VIEWMESSAGES_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ViewMessages.cpp"
@@ -87,4 +87,3 @@ protected:
 };
 
 #endif
-

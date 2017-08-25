@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _GRAPHICS2_H_
-#define _GRAPHICS2_H_
+#ifndef BOINC_GRAPHICS2_H
+#define BOINC_GRAPHICS2_H
 
 struct BOINC_STATUS;
 

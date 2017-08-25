@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __sg_ProjectCommandPopup__
-#define __sg_ProjectCommandPopup__
+#ifndef BOINC_SG_PROJECTCOMMANDPOPUP_H
+#define BOINC_SG_PROJECTCOMMANDPOPUP_H
 
 #include "sg_CustomControls.h"
 
@@ -61,4 +61,4 @@ class CSimpleProjectCommandPopupButton : public CTransparentButton
         wxMenuItem*                 m_ShowPropertiesMenuItem;
 };
 
-#endif // __sg_ProjectCommandPopup__
+#endif

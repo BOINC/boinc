@@ -19,8 +19,8 @@
 // namely exponentially weighted averages of upload and download speeds
 //
 
-#ifndef _NET_STATS_
-#define _NET_STATS_
+#ifndef BOINC_NET_STATS_H
+#define BOINC_NET_STATS_H
 
 #include <deque>
 using std::deque;

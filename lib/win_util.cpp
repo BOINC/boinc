@@ -21,15 +21,12 @@
 #include "stdwx.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#endif
-
 #include "diagnostics.h"
 #include "util.h"
 #include "filesys.h"
 #include "win_util.h"
 #include "str_replace.h"
+#include "str_util.h"
 
 
 /**

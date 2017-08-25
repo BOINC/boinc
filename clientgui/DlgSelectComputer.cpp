@@ -236,8 +236,9 @@ void CDlgSelectComputer::OnComputerNameUpdated( wxCommandEvent& WXUNUSED(event) 
 
     wxString name = m_ComputerNameCtrl->GetValue();
     if (pDoc->IsComputerNameLocal(name)) {
-        pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
-        m_ComputerPasswordCtrl->SetValue(strPassword);
+        if (pDoc->m_pNetworkConnection->GetLocalPassword(strPassword) == 0) {
+            m_ComputerPasswordCtrl->SetValue(strPassword);
+        }
     }
 }
 

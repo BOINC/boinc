@@ -87,15 +87,15 @@ static void show_newer_version_msg(const char* new_vers) {
     if (cc_config.client_new_version_text.empty()) {
         msg_printf_notice(0, true,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
-            "%s (%s) <a href=%s>%s</a>",
-            _("A new version of BOINC is available."),
+            "%s (%s). <a href=%s>%s</a>",
+            _("A new version of BOINC is available"),
             new_vers,
             cc_config.client_download_url.c_str(),
             _("Download")
         );
     } else {
         msg_printf_notice(0, true, NULL,
-            "%s (%s) <a href=%s>%s</a>",
+            "%s (%s). <a href=%s>%s</a>",
             cc_config.client_new_version_text.c_str(),
             new_vers,
             cc_config.client_download_url.c_str(),
@@ -140,8 +140,8 @@ void newer_version_startup_check() {
 
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
 
-void CLIENT_STATE::new_version_check() {
-    if ((new_version_check_time == 0) ||
+void CLIENT_STATE::new_version_check(bool force) {
+    if (force || (new_version_check_time == 0) ||
         (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
             // get_current_version_op.handle_reply()
             // updates new_version_check_time

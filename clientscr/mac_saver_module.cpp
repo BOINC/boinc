@@ -51,6 +51,7 @@ extern "C" {
 #include "screensaver.h"
 #include "diagnostics.h"
 #include "str_replace.h"
+#include "mac_util.h"
 
 //#include <drivers/event_status_driver.h>
 
@@ -222,6 +223,11 @@ double getDTime() {
 }
 
 
+void doBoinc_Sleep(double seconds) {
+    boinc_sleep(seconds);
+}
+
+
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     
@@ -258,8 +264,6 @@ CScreensaver::CScreensaver() {
 
 
 int CScreensaver::Create() {
-    ProcessSerialNumber psn;
-    ProcessInfoRec pInfo;
     OSStatus err;
     
     // Ugly workaround for a problem with the System Preferences app
@@ -274,12 +278,8 @@ int CScreensaver::Create() {
     // fails to run and stderr shows the message: 
     // "The process has forked and you cannot use this CoreFoundation 
     // functionality safely. You MUST exec()" 
-    GetCurrentProcess(&psn);
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    pInfo.processName = NULL;
-    err = GetProcessInformation(&psn, &pInfo);
-    if ( (err == noErr) && (pInfo.processSignature == 'sprf') ) {
+    pid_t SystemPrefsPID = getPidIfRunning("com.apple.systempreferences");
+    if (SystemPrefsPID == getpid()) {
         saverState = SaverState_ControlPanelTestMode;
     }
 
@@ -383,7 +383,7 @@ OSStatus CScreensaver::initBOINCApp() {
 
     // If not at default path, search for it by creator code and bundle identifier
     if (!boinc_file_exists(boincPath)) {
-        err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
+        err = GetPathToAppFromID('BNC!', CFSTR("edu.berkeley.boinc"),  boincPath, sizeof(boincPath));
         if (err) {
             saverState = SaverState_CantLaunchCoreClient;
             return err;
@@ -805,7 +805,7 @@ int CScreensaver::GetBrandID()
     if (f == NULL) {
        // If we couldn't find our Branding file in the BOINC Data Directory,  
        // look in our application bundle
-        err = GetpathToBOINCManagerApp(buf, sizeof(buf));
+        err = GetPathToAppFromID('BNC!', CFSTR("edu.berkeley.boinc"),  buf, sizeof(buf));
         if (err == noErr) {
             strcat(buf, "/Contents/Resources/Branding");
             f = fopen(buf, "r");
@@ -875,32 +875,15 @@ pid_t CScreensaver::FindProcessPID(char* name, pid_t thePID)
 }
 
 
-OSErr CScreensaver::GetpathToBOINCManagerApp(char* path, int maxLen)
-{
-    CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
-    OSType creator = 'BNC!';
-    FSRef theFSRef;
-    OSStatus status = noErr;
-
-    status = LSFindApplicationForInfo(creator, bundleID, NULL, &theFSRef, NULL);
-    if (status == noErr)
-        status = FSRefMakePath(&theFSRef, (unsigned char *)path, maxLen);
-    return status;
-}
-
-
 // Send a Quit AppleEvent to the process which called this module
 // (i.e., tell the ScreenSaver engine to quit)
-OSErr CScreensaver::KillScreenSaver() {
-    ProcessSerialNumber         thisPSN;
+int CScreensaver::KillScreenSaver() {
     pid_t                       thisPID;
-    OSErr                       err = noErr;
+    int                         retval;
 
-    GetCurrentProcess(&thisPSN);
-    err = GetProcessPID(&thisPSN , &thisPID);
-    if (err == noErr)
-        err = kill(thisPID, SIGABRT);   // SIGINT
-    return err;
+    thisPID = getpid();
+    retval = kill(thisPID, SIGABRT);   // SIGINT
+    return retval;
 }
 
 

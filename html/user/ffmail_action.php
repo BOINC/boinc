@@ -18,6 +18,8 @@
 
 require_once("../inc/email.inc");
 
+error_page("This feature is deprecated");
+
 $text = get_str('text');
 $subject = get_str('subject');
 
@@ -52,7 +54,7 @@ if ($found) {
     echo "
         <p>".tra("Thanks for telling your friends about %1", PROJECT);
 } else {
-    echo tra("You forgot to enter email addresses; Please %1return to the form%2 and enter them.", "<a href=ffmail_form.php>", "</a>");
+    echo tra("You forgot to enter email addresses; Please %1 return to the form %2 and enter them.", "<a href=ffmail_form.php>", "</a>");
 }
 page_tail();
 

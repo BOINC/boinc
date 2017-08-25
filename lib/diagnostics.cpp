@@ -24,12 +24,6 @@
 #include "stdwx.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#endif
-
 #ifdef __EMX__
 #include <sys/stat.h>
 #endif
@@ -52,7 +46,7 @@
 #include "mac_backtrace.h"
 #endif
 
-#ifdef __GLIBC__
+#ifdef HAVE_EXECINFO_H
 #include <execinfo.h>
 #endif
 
@@ -67,7 +61,7 @@
 
 #include "diagnostics.h"
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 // for signal handler backtrace
 unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
 acquire_my_map_info_list_t acquire_my_map_info_list;
@@ -109,7 +103,7 @@ static double      max_stderr_file_size = 2048*1024;
 static double      stdout_file_size = 0;
 static double      max_stdout_file_size = 2048*1024;
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 static void*       libhandle;
 #endif
 
@@ -358,6 +352,7 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
@@ -365,14 +360,20 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
 
 #if defined(_WIN32)
 
     //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
+#ifdef __MINGW32__
+    std::set_terminate(boinc_term_func);
+    std::set_unexpected(boinc_term_func);
+#else
     set_terminate(boinc_term_func);
     set_unexpected(boinc_term_func);
+#endif
 
 #if defined(_DEBUG)
 
@@ -409,7 +410,7 @@ int diagnostics_init(
 
 #endif // defined(_WIN32)
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 #define resolve_func(l,x) \
   x=(x##_t)dlsym(l,#x); \
   if (!x) {\
@@ -430,7 +431,7 @@ int diagnostics_init(
     } else {
         fprintf(stderr,"stackdumps unavailable\n");
     }
-#endif // ANDROID
+#endif // ANDROID_VOODOO
 
     // Install unhandled exception filters and signal traps.
     if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
@@ -567,7 +568,7 @@ int diagnostics_finish() {
 #endif // defined(_DEBUG)
 #endif // defined(_WIN32)
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
     if (libhandle) {
       dlclose(libhandle);
     }
@@ -730,7 +731,7 @@ void set_signal_exit_code(int x) {
     signal_exit_code = x;
 }
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 const char *argv0;
 
 static char *xtoa(size_t x) {
@@ -751,10 +752,14 @@ static char *xtoa(size_t x) {
 #endif
 
 #ifdef HAVE_SIGACTION
+#ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
+void boinc_catch_signal(int signal, struct siginfo *, void *) {
+#endif  // ANDROID
+#else
 void boinc_catch_signal(int signal) {
-#endif
+#endif  // HAVE_SIGACTION
     switch(signal) {
     case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
          return;
@@ -772,7 +777,7 @@ void boinc_catch_signal(int signal) {
     default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
 
-#ifdef __GLIBC__
+#ifdef HAVE_EXECINFO_H
     void *array[64];
     size_t size;
     size = backtrace (array, 64);
@@ -798,25 +803,33 @@ void boinc_catch_signal(int signal) {
     PrintBacktrace();
 #endif
 
-#ifdef ANDROID
-    // this is some dark undocumented Android voodoo that uses libcorkscrew.so
-    // minimal use of library functions because they may not work in an signal
+#ifdef ANDROID_VOODOO
+    // this is some dark undocumented Android voodoo that uses libcorkscrew.so.
+    // Minimal use of library functions because they may not work in a signal
     // handler.
+    //
 #define DUMP_LINE_LEN 256
     static backtrace_frame_t backtrace[64];
     static backtrace_symbol_t backtrace_symbols[64]; 
     if (unwind_backtrace_signal_arch != NULL) {
-        map_info_t *map_info=acquire_my_map_info_list();
-        ssize_t size=unwind_backtrace_signal_arch(siginfo,sigcontext,map_info,backtrace,0,64);
-        get_backtrace_symbols(backtrace,size,backtrace_symbols);
+        map_info_t *map_info = acquire_my_map_info_list();
+        ssize_t size = unwind_backtrace_signal_arch(
+            siginfo, sigcontext, map_info, backtrace, 0, 64
+        );
+        get_backtrace_symbols(backtrace, size, backtrace_symbols);
         char line[DUMP_LINE_LEN];
-        for (int i=0;i<size;i++) {
-            format_backtrace_line(i,&backtrace[i],&backtrace_symbols[i],line,DUMP_LINE_LEN);
-            line[DUMP_LINE_LEN-1]=0;
+        for (int i=0; i<size; i++) {
+            format_backtrace_line(
+                i, &backtrace[i], &backtrace_symbols[i], line, DUMP_LINE_LEN
+            );
+            line[DUMP_LINE_LEN-1] = 0;
             if (backtrace_symbols[i].symbol_name) {
                 strlcat(line," ",DUMP_LINE_LEN);
                 if (backtrace_symbols[i].demangled_name) {
-                   strlcat(line,backtrace_symbols[i].demangled_name,DUMP_LINE_LEN);
+                    strlcat(
+                        line, backtrace_symbols[i].demangled_name,
+                        DUMP_LINE_LEN
+                    );
                 }
             } else {
                 symbol_table_t* symbols = NULL;
@@ -831,28 +844,32 @@ void boinc_catch_signal(int signal) {
                 }
                 if (symbol) {
                     int offset = backtrace[i].absolute_pc - symbol->start;
-                    strlcat(line," (",DUMP_LINE_LEN);
-                    strlcat(line,symbol->name,DUMP_LINE_LEN);
-                    strlcat(line,"+",DUMP_LINE_LEN);
-                    strlcat(line,xtoa(offset),DUMP_LINE_LEN);
-                    strlcat(line,")",DUMP_LINE_LEN);
-                    line[DUMP_LINE_LEN-1]=0;
+                    strlcat(line, " (", DUMP_LINE_LEN);
+                    strlcat(line, symbol->name, DUMP_LINE_LEN);
+                    strlcat(line, "+", DUMP_LINE_LEN);
+                    strlcat(line, xtoa(offset), DUMP_LINE_LEN);
+                    strlcat(line, ")", DUMP_LINE_LEN);
+                    line[DUMP_LINE_LEN-1] = 0;
                 } else {
-                    strlcat(line, " (\?\?\?)",DUMP_LINE_LEN);
+                    strlcat(line, " (\?\?\?)", DUMP_LINE_LEN);
                 }
                 if (symbols) free_symbol_table(symbols);
             }
             if (backtrace[i].absolute_pc) {
-              strlcat(line," [",DUMP_LINE_LEN);
-              strlcat(line,xtoa(*reinterpret_cast<unsigned int *>(backtrace[i].absolute_pc)),DUMP_LINE_LEN);
-              strlcat(line,"]",DUMP_LINE_LEN);
+                strlcat(line, " [", DUMP_LINE_LEN);
+                strlcat(
+                    line,
+                    xtoa(*reinterpret_cast<unsigned int *>(backtrace[i].absolute_pc)),
+                    DUMP_LINE_LEN
+                );
+                strlcat(line, "]", DUMP_LINE_LEN);
             }
-            strlcat(line,"\n",DUMP_LINE_LEN);
-            write(fileno(stderr),line,strlen(line));
+            strlcat(line, "\n", DUMP_LINE_LEN);
+            write(fileno(stderr),line, strlen(line));
             fflush(stderr);
         }
     }
-#endif // ANDROID
+#endif // ANDROID_VOODOO
 
     fprintf(stderr, "\nExiting...\n");
     _exit(signal_exit_code);

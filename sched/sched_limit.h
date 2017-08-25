@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_LIMIT_
-#define _SCHED_LIMIT_
+#ifndef BOINC_SCHED_LIMIT_H
+#define BOINC_SCHED_LIMIT_H
 
 #include <vector>
 
@@ -30,6 +30,8 @@
 
 using std::vector;
 
+// represents a limit on # of jobs in progress for a given processor type
+//
 struct RSC_JOB_LIMIT {
     int base_limit;     // 0 means no limit
     int scaled_limit;   // the actual limit
@@ -69,6 +71,8 @@ struct RSC_JOB_LIMIT {
     }
 };
 
+// represents limits for a given app (or overall, if app_name is empty)
+//
 struct JOB_LIMIT {
     char app_name[256];
     RSC_JOB_LIMIT total;
@@ -105,6 +109,8 @@ struct JOB_LIMIT {
     void print_log();
 };
 
+// combined limits, overall and per app
+//
 struct JOB_LIMITS {
     JOB_LIMIT project_limits;      // project-wide limits
     vector<JOB_LIMIT> app_limits;  // per-app limits

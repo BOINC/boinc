@@ -463,7 +463,8 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
 // after a timeout, so we must call Notification Manager directly on Mac
 void CTaskBarIcon::MacRequestUserAttention()
 {
-    m_pNotificationRequest = (NMRecPtr) NewPtrClear( sizeof( NMRec) ) ;
+    m_pNotificationRequest = (NMRecPtr)malloc(sizeof(NMRec));
+    bzero(m_pNotificationRequest, sizeof(NMRec));
     m_pNotificationRequest->qType = nmType ;
     m_pNotificationRequest->nmMark = 1;
 
@@ -474,7 +475,7 @@ void CTaskBarIcon::MacCancelUserAttentionRequest()
 {
     if (m_pNotificationRequest) {
         NMRemove(m_pNotificationRequest);
-        DisposePtr((Ptr)m_pNotificationRequest);
+        free(m_pNotificationRequest);
         m_pNotificationRequest = NULL;
     }
 }
@@ -697,7 +698,6 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
 #else
     wxString       strMachineName       = wxEmptyString;
     wxString       strMessage           = wxEmptyString;
-    wxString       strBuffer            = wxEmptyString;
     wxIcon         icnIcon;
 
     pDoc->GetConnectedComputerName(strMachineName);

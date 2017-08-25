@@ -145,7 +145,7 @@ struct APP_VERSION {
     double expavg_time;
     bool beta;
 
-    // the following used by scheduler, not in DB
+    // the following used by scheduler (add_wu_to_reply()), not in DB
     //
     BEST_APP_VERSION* bavp;
 
@@ -347,6 +347,8 @@ struct HOST {
         // DEPRECATED
     char product_name[256];
     double gpu_active_frac;
+    int p_ngpus;
+    double p_gpu_fpops;
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
@@ -478,9 +480,11 @@ struct WORKUNIT {
     int size_class;
         // -1 means none; encode this here so that transitioner
         // doesn't have to look up app
+    char keywords[256];
+        // keywords, as space-separated integers
+    int app_version_num;
+        // if nonzero, use only this version num
 
-    // the following not used in the DB
-    char app_name[256];
     void clear();
     WORKUNIT(){clear();}
 };

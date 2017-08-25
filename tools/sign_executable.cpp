@@ -17,14 +17,10 @@
 
 // syntax: sign_executable data_file private_key_file
 
-#include <cstdlib>
-#include <string>
-#include <cstring>
+#include <stdio.h>
 
 #include "config.h"
 #include "crypt.h"
-#include "backend_lib.h"
-#include <cstdlib>
 
 int sign_executable(char* path, char* code_sign_keyfile, char* signature_text) {
     DATA_BLOCK signature;

@@ -29,13 +29,13 @@ function boincteam_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
-    '#value' => array(0 => bts('Choose type'))
+    '#value' => array(0 => bts('Choose type', array(), NULL, 'boinc:form-choose'))
   );
   $vocabs = taxonomy_get_vocabularies(NULL);
   foreach ($vocabs as $vocab) {
@@ -59,40 +59,40 @@ function boincteam_create_form(&$form_state) {
   
   // Form elements
   $form['name'] = array(
-    '#title' => bts('Team name'),
+    '#title' => bts('Team name', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['name'],
     '#size' => 34,
-    '#description' => bts('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags', array(), NULL, 'boinc:team-form-help'),
   );
   $form['name_html'] = array(
-    '#title' => bts('Team name -- HTML version (optional)'),
+    '#title' => bts('Team name -- HTML version (optional)', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['name_html'],
     '#size' => 34,
-    '#description' => bts('You may use limited HTML tags'),
+    '#description' => bts('You may use limited HTML tags', array(), NULL, 'boinc:team-form-help'),
   );
   $form['website'] = array(
-    '#title' => bts('Team website (optional)'),
+    '#title' => bts('Team website (optional)', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['website'],
     '#size' => 34,
-    '#description' => bts("Displayed on the team's page"),
+    '#description' => bts("Displayed on the team's page", array(), NULL, 'boinc:team-create/edit'),
   );
   $form['type'] = array(
-    '#title' => bts('Type of team'),
+    '#title' => bts('Type of team', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'select',
     '#options' => $form['type_options']['#value'],
     '#default_value' => $default['type'],
   );
   $form['country'] = array(
-    '#title' => bts('Country'),
+    '#title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
   );
   $form['joinable'] = array(
-    '#title' => bts('Accept new members?'),
+    '#title' => bts('Accept new members?', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
@@ -100,7 +100,7 @@ function boincteam_create_form(&$form_state) {
     '#size' => 34,
   );
   $form['description'] = array(
-    '#title' => bts('Description of team'),
+    '#title' => bts('Description of team', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -115,11 +115,11 @@ function boincteam_create_form(&$form_state) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Save team'),
+    '#value' => bts('Save team', array(), NULL, 'boinc:team-form-save'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>'
   );
   
   return $form;
@@ -134,18 +134,18 @@ function boincteam_create_form_validate($form, &$form_state) {
   $name = $values['name'];
   
   if (!$name) {
-    form_set_error('name', bts('Team name is required.'));
+    form_set_error('name', bts('Team name is required.', array(), NULL, 'boinc:team-create/edit'));
   }
   else {
     require_boinc('boinc_db');
     if (BoincTeam::lookup_name($name)) {
       form_set_error('name', bts('A team named "@name" already exists.',
-        array('@name' => $name)));
+        array('@name' => $name), NULL, 'boinc:team-create/edit'));
     }
   }
   
   if (!$values['type'] OR !isset($values['type_options'][$values['type']])) {
-    form_set_error('type', bts('Please select a team type.'));
+    form_set_error('type', bts('Please select a team type.', array(), NULL, 'boinc:team-create/edit'));
   }
 }
 
@@ -282,13 +282,13 @@ function boincteam_edit_form(&$form_state, $team_id) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
-    '#value' => array(0 => bts('Choose type'))
+    '#value' => array(0 => bts('Choose type', array(), NULL, 'boinc:form-choose'))
   );
   $vocabs = taxonomy_get_vocabularies(NULL);
   foreach ($vocabs as $vocab) {
@@ -312,45 +312,45 @@ function boincteam_edit_form(&$form_state, $team_id) {
   
   // Form elements
   $form['name'] = array(
-    '#title' => bts('Team name'),
+    '#title' => bts('Team name', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['name'],
     '#size' => 34,
-    '#description' => bts('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags', array(), NULL, 'boinc:team-form-help'),
     '#disabled' => $is_boinc_wide,
   );
   $form['name_html'] = array(
-    '#title' => bts('Team name -- HTML version (optional)'),
+    '#title' => bts('Team name -- HTML version (optional)', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['name_html'],
     '#size' => 34,
-    '#description' => bts('You may use limited HTML tags'),
+    '#description' => bts('You may use limited HTML tags', array(), NULL, 'boinc:team-form-help'),
     '#disabled' => $is_boinc_wide,
   );
   $form['website'] = array(
-    '#title' => bts('Team website (optional)'),
+    '#title' => bts('Team website (optional)', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['website'],
     '#size' => 34,
-    '#description' => bts("Displayed on the team's page"),
+    '#description' => bts("Displayed on the team's page", array(), NULL, 'boinc:team-create/edit'),
     '#disabled' => $is_boinc_wide,
   );
   $form['type'] = array(
-    '#title' => bts('Type of team'),
+    '#title' => bts('Type of team', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'select',
     '#options' => $form['type_options']['#value'],
     '#default_value' => $default['type'],
     '#disabled' => $is_boinc_wide,
   );
   $form['country'] = array(
-    '#title' => bts('Country'),
+    '#title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
     '#disabled' => $is_boinc_wide,
   );
   $form['joinable'] = array(
-    '#title' => bts('Accept new members?'),
+    '#title' => bts('Accept new members?', array(), NULL, 'boinc:team-create/edit'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
@@ -360,7 +360,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
   );
   if (!$is_boinc_wide) {
     $form['description'] = array(
-      '#title' => bts('Description of team'),
+      '#title' => bts('Description of team', array(), NULL, 'boinc:team-create/edit'),
       '#type' => 'textarea',
       '#default_value' => $default['description'],
       '#size' => 5,
@@ -375,25 +375,25 @@ function boincteam_edit_form(&$form_state, $team_id) {
     $form['submit'] = array(
       '#prefix' => '<li class="first tab">',
       '#type' => 'submit',
-      '#value' => bts('Save changes'),
+      '#value' => bts('Save changes', array(), NULL, 'boinc:form-save'),
       '#suffix' => '</li>',
     );
     $form['form control tabs'] = array(
-      '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
     );
   }
   else {
     $form['description'] = array(
-      '#prefix' => '<div class="form-item"><label>' . bts('Description') . ':</label></div><div class="form-item">',
+      '#prefix' => '<div class="form-item"><label>' . bts('Description', array(), NULL, 'boinc:team-description') . ':</label></div><div class="form-item">',
       '#value' => $default['description'],
       '#suffix' => '</div>',
     );
     drupal_set_message(
       bts('This is a BOINC-wide team. Changes can be made at the !site.',
-        array('!site' => l(bts('BOINC-wide teams site'),
+        array('!site' => l(bts('BOINC-wide teams site', array(), NULL, 'boinc:link-to-BOINC-wide-teams-Website'),
           'http://boinc.berkeley.edu/teams/'
-        ))
-      ),
+        )),
+        NULL, 'boinc:team-edit-warning-message'),
       'warning');
   }
   
@@ -411,11 +411,11 @@ function boincteam_edit_form_validate($form, &$form_state) {
   $name = $values['name'];
   
   if ($form_state['storage']['is_boinc_wide']) {
-    form_set_error('none', bts('This team is managed by the BOINC-wide teams system and cannot be updated here.'));
+    form_set_error('none', bts('This team is managed by the BOINC-wide teams system and cannot be updated here.', array(), NULL, 'boinc:team-create/edit'));
   }
   else {
     if (!$name) {
-      form_set_error('name', bts('Team name is required.'));
+      form_set_error('name', bts('Team name is required.', array(), NULL, 'boinc:team-create/edit'));
     }
     else {
       $team = node_load($form_state['storage']['team_id']);
@@ -424,13 +424,13 @@ function boincteam_edit_form_validate($form, &$form_state) {
         require_boinc('boinc_db');
         if (BoincTeam::lookup_name($name)) {
           form_set_error('name', bts('A team named "@name" already exists.',
-            array('@name' => $name)));
+            array('@name' => $name), NULL, 'boinc:team-create/edit'));
         }
       }
     }
   
     if (!$values['type'] OR !isset($values['type_options'][$values['type']])) {
-      form_set_error('type', bts('Please select a team type.'));
+      form_set_error('type', bts('Please select a team type.', array(), NULL, 'boinc:team-create/edit'));
     }
   }
 }
@@ -521,7 +521,7 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   
   // Form elements
   $form['email'] = array(
-    '#title' => bts('Enter email address'),
+    '#title' => bts('Enter email address', array(), NULL, 'boinc:team--add-admin'),
     '#type' => 'textfield',
     '#default_value' => $default['email'],
     '#size' => 34,
@@ -534,11 +534,11 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Add'),
+    '#value' => bts('Add', array(), NULL, 'boinc:form-add'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
   );
   
   //$form['#redirect'] = "community/teams/{$team_id}";
@@ -557,28 +557,28 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
   $team = node_load($team_id);
   
   if (!$values['email']) {
-    form_set_error('email', bts('Email address is required.'));
+    form_set_error('email', bts('Email address is required.', array(), NULL, 'boinc:team-add-admin'));
   }
   else {
     $account = user_load(array('mail' => $values['email']));
     if ((!$account) OR ($account->team != $team_id)) {
-      form_set_error('email', bts('There is no user on your team with that email address.'));
+      form_set_error('email', bts('There is no user on your team with that email address.', array(), NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_founder($team_id, $account->uid)) {
       form_set_error('email', bts('@user is the founder of @team!',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
-        )
-      ));
+        ),
+        NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_admin($team_id, $account->uid)) {
       form_set_error('email', bts('@user is already an admin of @team.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
-        )
-      ));
+        ),
+        NULL, 'boinc:team-add-admin'));
     }
     else {
       $form_state['storage']['boincuser_id'] = $account->boincuser_id;

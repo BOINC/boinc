@@ -29,7 +29,7 @@ $user = get_logged_in_user(false);
 page_head(tra("Questions and answers"));
 
 echo "<p>".
-    tra("Talk live via Skype with a volunteer, in any of several languages. Go to %1BOINC Online Help%2.", "<a href=\"https://boinc.berkeley.edu/help.php\">", "</a>").
+    tra("Talk live via Skype with a volunteer, in any of several languages. Go to %1 BOINC Online Help %2.", "<a href=\"https://boinc.berkeley.edu/help.php\">", "</a>").
     "</p>";
 
 show_forum_header($user);
@@ -42,7 +42,8 @@ foreach ($categories as $category) {
         show_forum_title($category, null, null);
         echo "<p>";
         show_mark_as_read_button($user);
-        start_forum_table(array(
+        start_table('table-striped');
+        row_heading_array(array(
             tra("Topic"),
             tra("Questions"),
             tra("Last post")
@@ -50,25 +51,22 @@ foreach ($categories as $category) {
     }
     if (strlen($category->name)) {
         echo "
-            <tr class=\"subtitle\">
-            <td class=\"category\" colspan=\"4\">", $category->name, "</td>
+            <tr>
+            <td colspan=\"4\">", $category->name, "</td>
             </tr>
         ";
     }
 
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
-	$i = 1;
     foreach ($forums as $forum) {
-		$j = $i % 2;
-		$i++;
         echo "
-        <tr class=\"row$j\">
+        <tr>
         <td>
             <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a>
             <br><small>", $forum->description, "</small>
         </td>
-        <td class=\"numbers\">", $forum->threads, "</td>
-        <td class=\"lastpost\">", time_diff_str($forum->timestamp, time()), "</td>
+        <td>", $forum->threads, "</td>
+        <td>", time_diff_str($forum->timestamp, time()), "</td>
     </tr>
         ";
     }

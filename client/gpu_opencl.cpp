@@ -57,35 +57,35 @@ typedef cl_int (__stdcall *CL_PLATFORMINFO) (cl_platform_id, cl_platform_info, s
 typedef cl_int (__stdcall *CL_DEVICEIDS)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
 typedef cl_int (__stdcall *CL_INFO) (cl_device_id, cl_device_info, size_t, void*, size_t*);
 
-CL_PLATFORMIDS  __clGetPlatformIDs = NULL;
-CL_PLATFORMINFO __clGetPlatformInfo = NULL;
-CL_DEVICEIDS    __clGetDeviceIDs = NULL;
-CL_INFO         __clGetDeviceInfo = NULL;
+CL_PLATFORMIDS  p_clGetPlatformIDs = NULL;
+CL_PLATFORMINFO p_clGetPlatformInfo = NULL;
+CL_DEVICEIDS    p_clGetDeviceIDs = NULL;
+CL_INFO         p_clGetDeviceInfo = NULL;
 
 #else
 
 void* opencl_lib = NULL;
 
-cl_int (*__clGetPlatformIDs)(
+cl_int (*p_clGetPlatformIDs)(
     cl_uint,         // num_entries,
     cl_platform_id*, // platforms
     cl_uint *        // num_platforms
 );
-cl_int (*__clGetPlatformInfo)(
+cl_int (*p_clGetPlatformInfo)(
     cl_platform_id,  // platform
     cl_platform_info, // param_name
     size_t,          // param_value_size
     void*,           // param_value
     size_t*          // param_value_size_ret
 );
-cl_int (*__clGetDeviceIDs)(
+cl_int (*p_clGetDeviceIDs)(
     cl_platform_id,  // platform
     cl_device_type,  // device_type
     cl_uint,         // num_entries
     cl_device_id*,   // devices
     cl_uint*         // num_devices
 );
-cl_int (*__clGetDeviceInfo)(
+cl_int (*p_clGetDeviceInfo)(
     cl_device_id,    // device
     cl_device_info,  // param_name
     size_t,          // param_value_size
@@ -175,10 +175,10 @@ void COPROCS::get_opencl(
         return;
     }
 
-    __clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
-    __clGetPlatformInfo = (CL_PLATFORMINFO)GetProcAddress( opencl_lib, "clGetPlatformInfo" );
-    __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
-    __clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
+    p_clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
+    p_clGetPlatformInfo = (CL_PLATFORMINFO)GetProcAddress( opencl_lib, "clGetPlatformInfo" );
+    p_clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
+    p_clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
 #else
 #ifdef __APPLE__
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
@@ -193,30 +193,30 @@ void COPROCS::get_opencl(
         warnings.push_back(buf);
         return;
     }
-    __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
-    __clGetPlatformInfo = (cl_int(*)(cl_platform_id, cl_platform_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetPlatformInfo" );
-    __clGetDeviceIDs = (cl_int(*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*)) dlsym( opencl_lib, "clGetDeviceIDs" );
-    __clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
+    p_clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
+    p_clGetPlatformInfo = (cl_int(*)(cl_platform_id, cl_platform_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetPlatformInfo" );
+    p_clGetDeviceIDs = (cl_int(*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*)) dlsym( opencl_lib, "clGetDeviceIDs" );
+    p_clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
 #endif
 
-    if (!__clGetPlatformIDs) {
+    if (!p_clGetPlatformIDs) {
         warnings.push_back("clGetPlatformIDs() missing from OpenCL library");
         goto leave;
     }
-    if (!__clGetPlatformInfo) {
+    if (!p_clGetPlatformInfo) {
         warnings.push_back("clGetPlatformInfo() missing from OpenCL library");
         goto leave;
     }
-    if (!__clGetDeviceIDs) {
+    if (!p_clGetDeviceIDs) {
         warnings.push_back("clGetDeviceIDs() missing from OpenCL library");
         goto leave;
     }
-    if (!__clGetDeviceInfo) {
+    if (!p_clGetDeviceInfo) {
         warnings.push_back("clGetDeviceInfo() missing from OpenCL library");
         goto leave;
     }
 
-    ciErrNum = (*__clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
+    ciErrNum = (*p_clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
         warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
         goto leave;
@@ -236,7 +236,7 @@ void COPROCS::get_opencl(
     }
 
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
-        ciErrNum = (*__clGetPlatformInfo)(
+        ciErrNum = (*p_clGetPlatformInfo)(
             platforms[platform_index], CL_PLATFORM_VERSION,
             sizeof(platform_version), &platform_version, NULL
         );
@@ -249,7 +249,7 @@ void COPROCS::get_opencl(
             continue;
         }
 
-        ciErrNum = (*__clGetPlatformInfo)(
+        ciErrNum = (*p_clGetPlatformInfo)(
             platforms[platform_index], CL_PLATFORM_VENDOR,
             sizeof(platform_vendor), &platform_vendor, NULL
         );
@@ -263,7 +263,7 @@ void COPROCS::get_opencl(
 
         //////////// CPU //////////////
 
-        ciErrNum = (*__clGetDeviceIDs)(
+        ciErrNum = (*p_clGetDeviceIDs)(
             platforms[platform_index], (CL_DEVICE_TYPE_CPU),
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
@@ -301,7 +301,7 @@ void COPROCS::get_opencl(
 
         //////////// GPUs and Accelerators //////////////
         
-        ciErrNum = (*__clGetDeviceIDs)(
+        ciErrNum = (*p_clGetDeviceIDs)(
             platforms[platform_index],
             (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR),
             MAX_COPROC_INSTANCES, devices, &num_devices
@@ -666,7 +666,7 @@ cl_int COPROCS::get_opencl_info(
     cl_int ciErrNum;
     char buf[256];
 
-    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_NAME, sizeof(prop.name), prop.name, NULL);
+    ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_NAME, sizeof(prop.name), prop.name, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.name[0] == 0)) {
         snprintf(buf, sizeof(buf),
             "clGetDeviceInfo failed to get name for device %d",
@@ -676,7 +676,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR, sizeof(prop.vendor), prop.vendor, NULL);
+    ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR, sizeof(prop.vendor), prop.vendor, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.vendor[0] == 0)) {
         snprintf(buf, sizeof(buf),
             "clGetDeviceInfo failed to get vendor for device %d",
@@ -686,7 +686,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR_ID, sizeof(prop.vendor_id), &prop.vendor_id, NULL);
+    ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR_ID, sizeof(prop.vendor_id), &prop.vendor_id, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
             "clGetDeviceInfo failed to get vendor ID for device %d",
@@ -696,7 +696,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_AVAILABLE, sizeof(prop.available), &prop.available, NULL);
+    ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_AVAILABLE, sizeof(prop.available), &prop.available, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
             "clGetDeviceInfo failed to get availability for device %d",
@@ -706,7 +706,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_HALF_FP_CONFIG,
         sizeof(prop.half_fp_config), &prop.half_fp_config, NULL
     );
@@ -723,7 +723,7 @@ cl_int COPROCS::get_opencl_info(
         }
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_SINGLE_FP_CONFIG,
         sizeof(prop.single_fp_config), &prop.single_fp_config, NULL
     );
@@ -736,7 +736,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_DOUBLE_FP_CONFIG,
         sizeof(prop.double_fp_config), &prop.double_fp_config, NULL
     );
@@ -753,7 +753,7 @@ cl_int COPROCS::get_opencl_info(
         }
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_ENDIAN_LITTLE, sizeof(prop.endian_little),
         &prop.endian_little, NULL
     );
@@ -766,7 +766,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_EXECUTION_CAPABILITIES,
         sizeof(prop.execution_capabilities), &prop.execution_capabilities, NULL
     );
@@ -779,7 +779,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_EXTENSIONS, sizeof(prop.extensions),
         prop.extensions, NULL
     );
@@ -792,7 +792,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_GLOBAL_MEM_SIZE,
         sizeof(prop.global_mem_size), &prop.global_mem_size, NULL
     );
@@ -805,7 +805,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_LOCAL_MEM_SIZE,
         sizeof(prop.local_mem_size), &prop.local_mem_size, NULL
     );
@@ -818,7 +818,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_MAX_CLOCK_FREQUENCY,
         sizeof(prop.max_clock_frequency), &prop.max_clock_frequency, NULL
     );
@@ -831,7 +831,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(
+    ciErrNum = (*p_clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_MAX_COMPUTE_UNITS,
         sizeof(prop.max_compute_units), &prop.max_compute_units, NULL
     );
@@ -844,7 +844,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VERSION, sizeof(prop.opencl_device_version), prop.opencl_device_version, NULL);
+    ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_VERSION, sizeof(prop.opencl_device_version), prop.opencl_device_version, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
             "clGetDeviceInfo failed to get OpenCL version supported by device %d",
@@ -854,7 +854,7 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DRIVER_VERSION, sizeof(prop.opencl_driver_version), prop.opencl_driver_version, NULL);
+    ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DRIVER_VERSION, sizeof(prop.opencl_driver_version), prop.opencl_driver_version, NULL);
     if (ciErrNum != CL_SUCCESS) {
         snprintf(buf, sizeof(buf),
             "clGetDeviceInfo failed to get OpenCL driver version for device %d",
@@ -867,7 +867,7 @@ cl_int COPROCS::get_opencl_info(
     // Nvidia Specific Extensions
     if (strstr(prop.extensions, "cl_nv_device_attribute_query") != NULL) {
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV, sizeof(prop.nv_compute_capability_major), &prop.nv_compute_capability_major, NULL);
+        ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV, sizeof(prop.nv_compute_capability_major), &prop.nv_compute_capability_major, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV for device %d",
@@ -877,7 +877,7 @@ cl_int COPROCS::get_opencl_info(
             return ciErrNum;
         }
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV, sizeof(prop.nv_compute_capability_minor), &prop.nv_compute_capability_minor, NULL);
+        ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV, sizeof(prop.nv_compute_capability_minor), &prop.nv_compute_capability_minor, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV for device %d",
@@ -892,7 +892,7 @@ cl_int COPROCS::get_opencl_info(
     // AMD Specific Extensions
     if (strstr(prop.extensions, "cl_amd_device_attribute_query") != NULL) {
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_BOARD_NAME_AMD, sizeof(buf), buf, NULL);
+        ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_BOARD_NAME_AMD, sizeof(buf), buf, NULL);
         if (strlen(buf) && ciErrNum == CL_SUCCESS) {
             safe_strcpy(prop.name, buf);
         } else if (ciErrNum != CL_SUCCESS) {
@@ -904,7 +904,7 @@ cl_int COPROCS::get_opencl_info(
             return ciErrNum;
         }
     
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD, sizeof(prop.amd_simd_per_compute_unit), &prop.amd_simd_per_compute_unit, NULL);
+        ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD, sizeof(prop.amd_simd_per_compute_unit), &prop.amd_simd_per_compute_unit, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD for device %d",
@@ -914,7 +914,7 @@ cl_int COPROCS::get_opencl_info(
             return ciErrNum;
         }
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_WIDTH_AMD, sizeof(prop.amd_simd_width), &prop.amd_simd_width, NULL);
+        ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_WIDTH_AMD, sizeof(prop.amd_simd_width), &prop.amd_simd_width, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get CL_DEVICE_SIMD_WIDTH_AMD for device %d",
@@ -924,7 +924,7 @@ cl_int COPROCS::get_opencl_info(
             return ciErrNum;
         }
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD, sizeof(prop.amd_simd_instruction_width), &prop.amd_simd_instruction_width, NULL);
+        ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD, sizeof(prop.amd_simd_instruction_width), &prop.amd_simd_instruction_width, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD for device %d",
@@ -1034,6 +1034,29 @@ void COPROC::find_best_opencls(
     }
 }
 
+void fake_opencl_gpu(char* type) {
+    OPENCL_DEVICE_PROP op;
+    op.clear();
+    strcpy(op.name, type);
+    strcpy(op.vendor, "ARM");
+    op.vendor_id = 102760464;
+    op.available = 1;
+    op.half_fp_config = 63;
+    op.single_fp_config = 63;
+    op.double_fp_config = 63;
+    op.endian_little = 1;
+    op.execution_capabilities = 1;
+    strcpy(op.extensions, "cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics cl_khr_local_int32_base_atomics cl_khr_local_int32_extended_atomics cl_khr_byte_addressable_store cl_khr_3d_image_writes cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics cl_khr_fp16 cl_khr_gl_sharing cl_khr_icd cl_khr_egl_event cl_khr_egl_image cl_khr_image2d_from_buffer cl_arm_core_id cl_arm_printf cl_arm_thread_limit_hint cl_arm_non_uniform_work_group_size cl_arm_import_memory");
+    op.global_mem_size = 2086998016;
+    op.local_mem_size = 32768;
+    op.max_clock_frequency = 600;
+    op.max_compute_units = 2;
+    strcpy(op.opencl_platform_version, "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
+    strcpy(op.opencl_device_version,   "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
+    strcpy(op.opencl_driver_version, "1.2");
+    op.is_used = COPROC_USED;
+    other_opencls.push_back(op);
+}
 
 #ifdef __APPLE__
 // OpenCL returns incorrect total RAM size for some
@@ -1043,6 +1066,9 @@ void COPROC::find_best_opencls(
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <Carbon/Carbon.h>
+#include <IOKit/graphics/IOGraphicsLib.h>
+
+static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID);
 
 void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
     CGLRendererInfoObj info;
@@ -1067,7 +1093,9 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
             theErr2 = CGLQueryRendererInfo(myMask, &info, &numRenderers);
             if ((displayID != kCGNullDirectDisplay) && (theErr2 == kCGLNoError)) {
                 // Get the I/O Kit service port for the display
-                io_registry_entry_t dspPort = CGDisplayIOServicePort(displayID);
+//                io_registry_entry_t dspPort = CGDisplayIOServicePort(displayID);  // Deprecated in OS 10.9
+                io_registry_entry_t dspPort = IOServicePortFromCGDisplayID(displayID);
+
                 for (j = 0; j < numRenderers; j++) {
                     // find accelerated renderer (assume only one)
                     CGLDescribeRenderer (info, j, kCGLRPAcceleratedCompute, &rv);
@@ -1098,8 +1126,19 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
             if (true == rv) { // if openCL-capable
                 // what is the renderer ID
                 CGLDescribeRenderer (info, i, kCGLRPRendererID, &rendererID);
-               // what is the VRAM?
-                CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+                // what is the VRAM?
+                CGLError notAvail = CGLDescribeRenderer (info, i, kCGLRPVideoMemoryMegabytes, &deviceVRAM);
+                if (notAvail == kCGLNoError) {
+                    deviceVRAM = deviceVRAM * (1024*1024);
+                } else {	// kCGLRPVideoMemoryMegabytes is not available before OS 10.7
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    // kCGLRPVideoMemory=120 is deprecated in OS 10.7 and may not be
+                    // defined in later SDKs, so use a literal value here instead
+                    // CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+                    CGLDescribeRenderer (info, i, (CGLRendererProperty)120, &deviceVRAM);
+#pragma clang diagnostic pop
+                }
 
                 // build context and context specific info
                 CGLPixelFormatAttribute attribs[] = {
@@ -1118,7 +1157,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                     CGLDestroyPixelFormat (pixelFormat);
                     CGLSetCurrentContext (cglContext);
                     if (cglContext) {
-                        // get vendor string from renderer
+                       // get vendor string from renderer
                         const GLubyte * strVend = glGetString (GL_VENDOR);
                         if (is_AMD((char *)strVend)) {
                             ati_opencls[ati_gpu_index].global_mem_size = deviceVRAM;
@@ -1201,4 +1240,105 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
     }
     CGLSetCurrentContext (curr_ctx); // restore current CGL context
 }
-#endif
+
+
+
+// The following replaces CGDisplayIOServicePort which is deprecated in OS 10.9
+//
+//========================================================================
+// GLFW 3.1 OS X - www.glfw.org
+//------------------------------------------------------------------------
+// Copyright (c) 2002-2006 Marcus Geelnard
+// Copyright (c) 2006-2010 Camilla Berglund <elmindreda@elmindreda.org>
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would
+//    be appreciated but is not required.
+//
+// 2. Altered source versions must be plainly marked as such, and must not
+//    be misrepresented as being the original software.
+//
+// 3. This notice may not be removed or altered from any source
+//    distribution.
+//
+//========================================================================
+
+// Returns the io_service_t corresponding to a CG display ID, or 0 on failure.
+// The io_service_t should be released with IOObjectRelease when not needed.
+//
+
+static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
+{
+    io_iterator_t iter;
+    io_service_t serv, servicePort = 0;
+    
+    CFMutableDictionaryRef matching = IOServiceMatching("IODisplayConnect");
+    
+    // releases matching for us
+    kern_return_t err = IOServiceGetMatchingServices(kIOMasterPortDefault,
+                                                     matching,
+                                                     &iter);
+    if (err)
+        return 0;
+    
+    while ((serv = IOIteratorNext(iter)) != 0)
+    {
+        CFDictionaryRef info;
+        CFIndex vendorID, productID, serialNumber;
+        CFNumberRef vendorIDRef, productIDRef, serialNumberRef;
+        Boolean success;
+        
+        info = IODisplayCreateInfoDictionary(serv,
+                                             kIODisplayOnlyPreferredName);
+        
+        vendorIDRef = (CFNumberRef)CFDictionaryGetValue(info,
+                                           CFSTR(kDisplayVendorID));
+        productIDRef = (CFNumberRef)CFDictionaryGetValue(info,
+                                            CFSTR(kDisplayProductID));
+        serialNumberRef = (CFNumberRef)CFDictionaryGetValue(info,
+                                               CFSTR(kDisplaySerialNumber));
+        
+        success = CFNumberGetValue(vendorIDRef, kCFNumberCFIndexType,
+                                   &vendorID);
+        success &= CFNumberGetValue(productIDRef, kCFNumberCFIndexType,
+                                    &productID);
+        success &= CFNumberGetValue(serialNumberRef, kCFNumberCFIndexType,
+                                    &serialNumber);
+        
+        if (!success)
+        {
+            CFRelease(info);
+            continue;
+        }
+        // If the vendor and product id along with the serial don't match
+        // then we are not looking at the correct monitor.
+        // NOTE: The serial number is important in cases where two monitors
+        //       are the exact same.
+        if (CGDisplayVendorNumber(displayID) != vendorID  ||
+            CGDisplayModelNumber(displayID) != productID  ||
+            CGDisplaySerialNumber(displayID) != serialNumber)
+        {
+            CFRelease(info);
+            continue;
+        }
+        
+        // The VendorID, Product ID, and the Serial Number all Match Up!
+        // Therefore we have found the appropriate display io_service
+        servicePort = serv;
+        CFRelease(info);
+        break;
+    }
+    
+    IOObjectRelease(iter);
+    return servicePort;
+}
+#endif// __APPLE__

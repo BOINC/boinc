@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _DLGABOUT_H_
-#define _DLGABOUT_H_
+#ifndef BOINC_DLGABOUT_H
+#define BOINC_DLGABOUT_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgAbout.cpp"
@@ -112,4 +112,3 @@ public:
 };
 
 #endif
-    // _DLGABOUT_H_

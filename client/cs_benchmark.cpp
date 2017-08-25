@@ -276,7 +276,9 @@ void CLIENT_STATE::start_cpu_benchmarks() {
             NULL, 0, win_cpu_benchmarks, benchmark_descs+i, 0,
             &benchmark_descs[i].pid
         );
-        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<i);
+        int n = host_info.p_ncpus;
+        int j = (i >= n/2)? 2*i+1-n : 2*i;
+        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
@@ -309,6 +311,7 @@ void CLIENT_STATE::check_if_need_benchmarks() {
     if (diff < 0) {
         run_cpu_benchmarks = true;
     } else if (diff > BENCHMARK_PERIOD) {
+        msg_printf(NULL, MSG_INFO, "Last benchmark was %s ago", timediff_format(diff).c_str());
         run_cpu_benchmarks = true;
     }
 }

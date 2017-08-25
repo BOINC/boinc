@@ -119,13 +119,16 @@ void VBOX_JOB::clear() {
     network_bridged_mode = false;
     enable_remotedesktop = false;
     enable_gbac = false;
+    enable_screenshots_on_error = false;
     enable_graphics_support = false;
     enable_vm_savestate_usage = false;
     disable_automatic_checkpoints = false;
+    boot_iso = false;
     pf_guest_port = 0;
     pf_host_port = 0;
     port_forwards.clear();
     intermediate_upload_files.clear();
+    copy_cmdline_to_shared = false;
 
     // Initialize default values
     vm_disk_controller_type = "ide";
@@ -177,15 +180,18 @@ int VBOX_JOB::parse() {
         else if (xp.parse_bool("enable_isocontextualization", enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", enable_remotedesktop)) continue;
         else if (xp.parse_bool("enable_gbac", enable_gbac)) continue;
+        else if (xp.parse_bool("enable_screenshots_on_error", enable_screenshots_on_error)) continue;
         else if (xp.parse_bool("enable_graphics_support", enable_graphics_support)) continue;
         else if (xp.parse_bool("enable_vm_savestate_usage", enable_vm_savestate_usage)) continue;
         else if (xp.parse_bool("disable_automatic_checkpoints", disable_automatic_checkpoints)) continue;
+        else if (xp.parse_bool("boot_iso", boot_iso)) continue;
         else if (xp.parse_int("pf_guest_port", pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", pf_host_port)) continue;
         else if (xp.parse_string("copy_to_shared", str)) {
             copy_to_shared.push_back(str);
             continue;
         }
+        else if (xp.parse_bool("copy_cmdline_to_shared", copy_cmdline_to_shared)) continue;
         else if (xp.parse_string("trickle_trigger_file", str)) {
             trickle_trigger_files.push_back(str);
             continue;

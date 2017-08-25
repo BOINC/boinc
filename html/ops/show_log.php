@@ -28,12 +28,14 @@ if (!$log_dir) {
 }
 
 if( isset($_GET["f"]) ){
-   $f = $_GET["f"];
+    $f = $_GET["f"];
+    $f = escapeshellcmd($f);
 } else {
-   $f = "";
+    $f = "";
 }
 if( isset($_GET["s"]) ){
     $s = $_GET["s"];
+    $s = escapeshellcmd($s);
 } else {
     $s = "";
 }

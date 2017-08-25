@@ -47,16 +47,6 @@ function get_top_teams($offset, $sort_by, $type){
     return BoincTeam::enum($type_clause, "order by $sort_order limit $offset, $teams_per_page");
 }
 
-// These converter functions are here in case we later decide to use something 
-// else than serializing to save temp data
-//
-function teams_to_store($participants){
-    return serialize($participants);
-}
-function store_to_teams($data){
-    return unserialize($data);
-}
-
 $sort_by = get_str("sort_by", true);
 switch ($sort_by) {
 case "total_credit":
@@ -67,7 +57,7 @@ default:
 }
 
 $type = get_int("type", true);
-if ($type < 1 || $type > 7) {
+if ($type < 0 || $type >= count($team_types)) {
     $type = 0;
 }
 $type_url="";
@@ -86,7 +76,7 @@ if ($offset < ITEM_LIMIT) {
     $cacheddata = get_cached_data(TOP_PAGES_TTL,$cache_args);
     //If we have got the data in cache
     if ($cacheddata){
-        $data = store_to_teams($cacheddata); // use the cached data
+        $data = unserialize($cacheddata); // use the cached data
     } else {
         //if not do queries etc to generate new data
         $data = get_top_teams($offset,$sort_by,$type);
@@ -96,7 +86,7 @@ if ($offset < ITEM_LIMIT) {
             $team->nusers = team_count_members($team->id);
         }
         //save data in cache
-        set_cached_data(TOP_PAGES_TTL, teams_to_store($data), $cache_args);
+        set_cached_data(TOP_PAGES_TTL, serialize($data), $cache_args);
     }
 } else {
     error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));
@@ -104,12 +94,13 @@ if ($offset < ITEM_LIMIT) {
 
 
 // Now display what we've got (either gotten from cache or from DB)
+//
 page_head(tra("Top %1 teams", $type_name));
 
 if (count($data) == 0) {
     echo tra("There are no %1 teams", $type_name);
 } else {
-    start_table();
+    start_table('table-striped');
     team_table_start($sort_by, $type_url);
     $i = 1 + $offset;
     $n = sizeof($data);
@@ -117,7 +108,8 @@ if (count($data) == 0) {
         show_team_row($team, $i);
         $i++;
     }
-    echo "</table>\n<p>";
+    end_table();
+    echo "<p>";
     if ($offset > 0) {
         $new_offset = $offset - $teams_per_page;
         echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">".tra("Previous %1", $teams_per_page)."</a> &middot; ";

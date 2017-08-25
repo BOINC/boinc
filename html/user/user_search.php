@@ -22,7 +22,7 @@ require_once("../inc/user.inc");
 
 function show_user($user) {
     echo "
-        <tr class=row1>
+        <tr>
         <td>", user_links($user, BADGE_HEIGHT_MEDIUM), " (ID $user->id)</td>
     ";
     if ($user->teamid) {
@@ -42,32 +42,35 @@ function show_user($user) {
     ";
 }
 
-function search_form() {
+function user_search_form() {
     page_head("User search");
     echo "<form name=f method=get action=user_search.php>
         <input type=hidden name=action value=search>
     ";
     start_table();
     row1(tra("Filters"), 2, "heading");
-    row2(tra("User name starts with"), "<input type=text name=search_string>");
-    row2_init(tra("Country"), "<select name=country><option value=\"any\" selected>".tra("Any")."</option>");
-    print_country_select("asdf");
+    row2(
+        tra("User name starts with"),
+        '<input class="form-control" type="text" name="search_string">'
+    );
+    row2_init(tra("Country"), "<select class=\"form-control\" name=\"country\"><option value=\"any\" selected>".tra("Any")."</option>");
+    echo country_select_options("asdf");
     echo "</select></td></tr>";
     row2(tra("With profile?"),
         "<input type=radio name=profile value=either checked=1> ".tra("Either")."
-        <input type=radio name=profile value=no> ".tra("No")."
-        <input type=radio name=profile value=yes> ".tra("Yes")."
+        &nbsp;<input type=radio name=profile value=no> ".tra("No")."
+        &nbsp;<input type=radio name=profile value=yes> ".tra("Yes")."
     ");
     row2(tra("On a team?"),
         "<input type=radio name=team value=either checked=1> ".tra("Either")."
-        <input type=radio name=team value=no> ".tra("No")."
-        <input type=radio name=team value=yes> ".tra("Yes")."
+        &nbsp;<input type=radio name=team value=no> ".tra("No")."
+        &nbsp;<input type=radio name=team value=yes> ".tra("Yes")."
     ");
     row1(tra("Ordering"), 2, "heading");
     row2(tra("Decreasing sign-up time"), "<input type=radio name=search_type value=\"date\" checked>");
     row2(tra("Decreasing average credit"), "<input type=radio name=search_type value=\"rac\">");
     row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
-    row2("", "<input class=\"btn btn-default\" type=submit name=action value=".tra("Search").">");
+    row2("", "<input class=\"btn btn-success\" type=submit name=action value=".tra("Search").">");
     end_table();
     echo "
         <script>document.f.search_string.focus()</script>
@@ -119,10 +122,17 @@ function search_action() {
     $n=0;
     foreach ($users as $user) {
         if ($n==0) {
-            start_table();
-            table_header(
-                tra("Name"), tra("Team"), tra("Average credit"),
-                tra("Total credit"), tra("Country"), tra("Joined")
+            start_table('table-striped');
+            row_heading_array(
+                array(
+                    tra("Name"),
+                    tra("Team"),
+                    tra("Average credit"),
+                    tra("Total credit"),
+                    tra("Country"),
+                    tra("Joined")
+                ),
+                array(null, null, ALIGN_RIGHT, ALIGN_RIGHT, null, null)
             );
         }
         show_user($user);
@@ -139,7 +149,7 @@ $action = get_str('action', true);
 if ($action) {
     search_action();
 } else {
-    search_form();
+    user_search_form();
 }
 
 $cvs_version_tracker[]="\$Id: user_search.php 13586 2007-09-13 09:46:36Z Rytis $";  //Generated automatically - do not edit

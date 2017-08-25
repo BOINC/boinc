@@ -10,9 +10,9 @@
  // that works there, this works here. Setting title here does not set the
  // title in the RSS auto discovery link on the front page, and setting the
  // description in the view does not allow the site_name variable.
- $site_name = variable_get('site_name', 'BOINC');
+ $site_name = variable_get('site_name', 'Drupal-BOINC');
  $description = bts('The latest news from the @site_name project',
-    array('@site_name' => $site_name));
+    array('@site_name' => $site_name), NULL, 'boinc:rss-feed-description');
   
 ?>
 <?php print "<?xml"; ?> version="1.0" encoding="utf-8" <?php print "?>"; ?>

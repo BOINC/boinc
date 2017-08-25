@@ -107,14 +107,14 @@ if ($avatar_type==0){
     }
 }
 
-$images_as_links = ($_POST["forum_images_as_links"]!="")?1:0;
-$link_popup = ($_POST["forum_link_popup"]!="")?1:0;
-$hide_avatars = ($_POST["forum_hide_avatars"]!="")?1:0;
-$hide_signatures = ($_POST["forum_hide_signatures"]!="")?1:0;
-$highlight_special = ($_POST["forum_highlight_special"]!="")?1:0;
-$jump_to_unread = ($_POST["forum_jump_to_unread"]!="")?1:0;
-$ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="")?1:0;
-$no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
+$images_as_links = (isset($_POST["forum_images_as_links"]) && $_POST["forum_images_as_links"]!="")?1:0;
+$link_popup = (isset($_POST["forum_link_popup"]) && $_POST["forum_link_popup"]!="")?1:0;
+$hide_avatars = (isset($_POST["forum_hide_avatars"]) && $_POST["forum_hide_avatars"]!="")?1:0;
+$hide_signatures = (isset($_POST["forum_hide_signatures"]) && $_POST["forum_hide_signatures"]!="")?1:0;
+$highlight_special = (isset($_POST["forum_highlight_special"]) && $_POST["forum_highlight_special"]!="")?1:0;
+$jump_to_unread = (isset($_POST["forum_jump_to_unread"]) && $_POST["forum_jump_to_unread"]!="")?1:0;
+$ignore_sticky_posts = (isset($_POST["forum_ignore_sticky_posts"]) && $_POST["forum_ignore_sticky_posts"]!="")?1:0;
+$no_signature_by_default = (isset($_POST["signature_by_default"]) && $_POST["signature_by_default"]!="")?0:1;
 $signature = post_str("signature", true);
 if (strlen($signature)>250) {
     error_page(tra("Your signature was too long, please keep it less than 250 characters."));
@@ -130,7 +130,7 @@ $user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, 
 
 }   // DISABLE_FORUMS
 
-$add_user_to_filter = ($_POST["add_user_to_filter"]!="");
+$add_user_to_filter = (isset($_POST["add_user_to_filter"]) && $_POST["add_user_to_filter"]!="");
 if ($add_user_to_filter){
     $user_to_add = trim($_POST["forum_filter_user"]);
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
@@ -147,7 +147,8 @@ if ($add_user_to_filter){
 //
 $ignored_users = get_ignored_list($user);
 for ($i=0;$i<sizeof($ignored_users);$i++){
-    if ($_POST["remove".trim($ignored_users[$i])]!=""){
+    $remove = "remove".trim($ignored_users[$i]);
+    if (isset($_POST[$remove]) && $_POST[$remove]!=""){
         $other_user = BoincUser::lookup_id($ignored_users[$i]);
         if (!$other_user) {
             echo tra("No such user:")." ".$ignored_users[$j];

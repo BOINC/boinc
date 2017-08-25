@@ -601,6 +601,10 @@ int WORKUNIT::parse(XML_PARSER& xp) {
         if (xp.parse_double("rsc_fpops_bound", rsc_fpops_bound)) continue;
         if (xp.parse_double("rsc_memory_bound", rsc_memory_bound)) continue;
         if (xp.parse_double("rsc_disk_bound", rsc_disk_bound)) continue;
+        if (xp.match_tag("job_keywords")) {
+            job_keywords.parse(xp);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -703,6 +707,7 @@ void RESULT::clear() {
     version_num = 0;
     safe_strcpy(plan_class, "");
     safe_strcpy(project_url, "");
+    safe_strcpy(platform, "");
     safe_strcpy(graphics_exec_path, "");
     safe_strcpy(web_graphics_url, "");
     safe_strcpy(remote_desktop_addr, "");
@@ -845,7 +850,6 @@ GR_PROXY_INFO::GR_PROXY_INFO() {
 }
 
 int GR_PROXY_INFO::parse(XML_PARSER& xp) {
-	std::string noproxy;
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
@@ -855,6 +859,7 @@ int GR_PROXY_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_int("socks_server_port", socks_server_port)) continue;
         if (xp.parse_string("socks5_user_name", socks5_user_name)) continue;
         if (xp.parse_string("socks5_user_passwd", socks5_user_passwd)) continue;
+        if (xp.parse_bool("socks5_remote_dns", socks5_remote_dns)) continue;
         if (xp.parse_string("http_server_name", http_server_name)) continue;
         if (xp.parse_int("http_server_port", http_server_port)) continue;
         if (xp.parse_string("http_user_name", http_user_name)) continue;
@@ -879,6 +884,7 @@ void GR_PROXY_INFO::clear() {
     http_user_passwd.clear();
     socks5_user_name.clear();
     socks5_user_passwd.clear();
+    socks5_remote_dns = false;
 	noproxy_hosts.clear();
 }
 
@@ -968,13 +974,18 @@ int CC_STATE::parse(XML_PARSER& xp) {
             }
             result->app = result->wup->app;
             APP_VERSION* avp;
-            if (result->version_num) {
+            if (strlen(result->platform)) {
                 avp = lookup_app_version(
                     project, result->app,
                     result->platform, result->version_num, result->plan_class
                 );
+            } else if (result->version_num) {
+                avp = lookup_app_version(
+                    project, result->app,
+                    result->version_num, result->plan_class
+                );
             } else {
-                avp = lookup_app_version_old(
+                avp = lookup_app_version(
                     project, result->app, result->wup->version_num
                 );
             }
@@ -1072,7 +1083,22 @@ APP_VERSION* CC_STATE::lookup_app_version(
     return 0;
 }
 
-APP_VERSION* CC_STATE::lookup_app_version_old(
+APP_VERSION* CC_STATE::lookup_app_version(
+    PROJECT* project, APP* app,
+    int version_num, char* plan_class
+) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        if (app_versions[i]->project != project) continue;
+        if (app_versions[i]->app != app) continue;
+        if (app_versions[i]->version_num != version_num) continue;
+        if (strcmp(app_versions[i]->plan_class, plan_class)) continue;
+        return app_versions[i];
+    }
+    return 0;
+}
+
+APP_VERSION* CC_STATE::lookup_app_version(
     PROJECT* project, APP* app, int version_num
 ) {
     unsigned int i;
@@ -1956,6 +1982,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
         "        <socks_server_port>%d</socks_server_port>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
         "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
+        "        <socks5_remote_dns>%d</socks5_remote_dns>\n"		
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
@@ -1970,6 +1997,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
         procinfo.socks_server_port,
         procinfo.socks5_user_name.c_str(),
         procinfo.socks5_user_passwd.c_str(),
+        procinfo.socks5_remote_dns?1:0,
 		procinfo.noproxy_hosts.c_str()
     );
     buf[sizeof(buf)-1] = 0;
@@ -2368,14 +2396,19 @@ int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_dow
     RPC rpc(this);
 
     version = "";
+    version_download_url = "";
+
     retval = rpc.do_rpc("<get_newer_version/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
+            if (!version.empty() && !version_download_url.empty()) {
+                break;
+            }
             if (parse_str(buf, "<newer_version>", version)) {
-                return ERR_XML_PARSE;
+                continue;
             }
             if (parse_str(buf, "<download_url>", version_download_url)) {
-                return ERR_XML_PARSE;
+                continue;
             }
         }
     }
@@ -2577,10 +2610,58 @@ int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     mf.init_buf_write(buf, sizeof(buf));
     config.write(mf, log_flags);
 
-    retval = rpc.do_rpc(buf);
+    string x = string("<set_cc_config>\n")+buf+string("</set_cc_config>\n");
+    retval = rpc.do_rpc(x.c_str());
     if (retval) return retval;
     return rpc.parse_reply();
 }
+
+int RPC_CLIENT::get_app_config(const char* url, APP_CONFIGS& config) {
+    int retval;
+    static LOG_FLAGS log_flags;
+    SET_LOCALE sl;
+    RPC rpc(this);
+    MSG_VEC mv;
+    char buf[1024];
+
+    sprintf(buf,
+        "<get_app_config>\n"
+        "    <url>%s</url>\n"
+        "</get_app_config>\n",
+        url
+    );
+    retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+
+    while (!rpc.xp.get_tag()) {
+        if (rpc.xp.match_tag("app_config")) {
+            return config.parse(rpc.xp, mv, log_flags);
+        } else if (rpc.xp.match_tag("error")) {
+            rpc.xp.element_contents("</error>", buf, sizeof(buf));
+            printf("get_app_config error: %s\n", buf);
+            return -1;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int RPC_CLIENT::set_app_config(const char* url, APP_CONFIGS& config) {
+    SET_LOCALE sl;
+    char buf[64000];
+    MIOFILE mf;
+    int retval;
+    RPC rpc(this);
+
+    mf.init_buf_write(buf, sizeof(buf));
+    mf.printf("<url>%s</url>\n", url);
+    config.write(mf);
+
+    string x = string("<set_app_config>\n")+buf+string("</set_app_config>\n");
+    retval = rpc.do_rpc(x.c_str());
+    if (retval) return retval;
+    return rpc.parse_reply();
+}
+
 
 static int parse_notices(XML_PARSER& xp, NOTICES& notices) {
     int retval;

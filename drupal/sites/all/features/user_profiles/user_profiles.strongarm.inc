@@ -116,5 +116,12 @@ function user_profiles_strongarm() {
   $strongarm->value = 0;
   $export['show_preview_changes_profile'] = $strongarm;
 
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'upload_profile';
+  $strongarm->value = '0';
+  $export['upload_profile'] = $strongarm;
+
   return $export;
 }

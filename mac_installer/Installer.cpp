@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,7 +17,8 @@
 
 /* Installer.cpp */
 
-#define CREATE_LOG 1    /* for debugging */
+#define CREATE_LOG 0    /* for general debugging */
+#define VERBOSE_TEST 0  /* for debugging callPosixSpawn */
 
 #include <Carbon/Carbon.h>
 #include <grp.h>
@@ -32,6 +33,7 @@
 
 #include "str_util.h"
 #include "str_replace.h"
+#include "mac_util.h"
 #include "translate.h"
 
 #define boinc_master_user_name "boinc_master"
@@ -39,14 +41,15 @@
 #define boinc_project_user_name "boinc_project"
 #define boinc_project_group_name "boinc_project"
 
-void Initialize(void);	/* function prototypes */
+
+OSErr Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
-static int compareOSVersionTo(int toMajor, int toMinor);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
+int callPosixSpawn(const char *cmd);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
@@ -54,8 +57,12 @@ void strip_cr(char *buf);
 // have not yet been installed when this application is run.
 #define MAX_LANGUAGES_TO_TRY 5
 
+#define REPORT_ERROR(isError) if (isError) print_to_log_file("BOINC Installer error at line %d", __LINE__);
+
 static char * Catalog_Name = (char *)"BOINC-Setup";
-static char * Catalogs_Dir = (char *)"/tmp/BOINC_payload/Library/Application Support/BOINC Data/locale/";
+static char Catalogs_Dir[MAXPATHLEN];
+static char loginName[256];
+static char tempDirName[MAXPATHLEN];
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -72,22 +79,35 @@ int main(int argc, char *argv[])
     char                    temp[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
-    ProcessSerialNumber     ourPSN;
-    FSRef                   ourFSRef;
     OSStatus                err = noErr;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
 
-    Initialize();
+    if (Initialize() != noErr) {
+        return 0;
+    }
+
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    if (loginName[0] == '\0') {
+        ShowMessage((char *)_("Could not get user login name"));
+        return 0;
+    }
+
+    snprintf(tempDirName, sizeof(tempDirName), "InstallBOINC-%s", loginName);
+    
+    snprintf(temp, sizeof(temp), "/tmp/%s", tempDirName);
+    mkdir(temp, 0777);
+    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_Installer_Errors", tempDirName);
+    err = callPosixSpawn(temp);
+    
+    snprintf(Catalogs_Dir, sizeof(Catalogs_Dir),
+            "/tmp/%s/BOINC_payload/Library/Application Support/BOINC Data/locale/",
+            tempDirName);
 
     // Get the full path to Installer package inside this application's bundle
-    err = GetCurrentProcess (&ourPSN);
-    if (err == noErr)
-        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-
-    if (err == noErr)
-        err = FSRefMakePath (&ourFSRef, (UInt8*)pkgPath, sizeof(pkgPath));
-
+    getPathToThisApp(pkgPath, sizeof(pkgPath));
     strlcpy(temp, pkgPath, sizeof(temp));
 
     strlcat(pkgPath, "/Contents/Resources/", sizeof(pkgPath));
@@ -110,46 +130,67 @@ int main(int argc, char *argv[])
         *p = '\0'; 
     
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
+    
+    // In the unlikely situation that /tmp has files from an earlier attempt to install
+    // BOINC by a different user, we won't have permission to delete or overwrite them,
+    // so include the current user's name as part of the paths to our temporary files.
+    
     // Expand the installer package
-    system("rm -dfR /tmp/BOINC.pkg");
-    system("rm -dfR /tmp/expanded_BOINC.pkg");
-    system("rm -dfR /tmp/PostInstall.app");
-    system("rm -f /tmp/BOINC_preferred_languages");
-    system("rm -f /tmp/BOINC_restart_flag");
-
-    sprintf(temp, "cp -fpR \"%s\" /tmp/PostInstall.app", postInstallAppPath);
-    err = system(temp);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC.pkg", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/PostInstall.app", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_preferred_languages", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_restart_flag", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
     
-    sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
-    err = system(temp);
-    
+    sprintf(temp, "cp -fpR \"%s\" /tmp/%s/PostInstall.app", postInstallAppPath, tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
+    sprintf(temp, "pkgutil --expand \"%s\" /tmp/%s/expanded_BOINC.pkg", pkgPath, tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
     if (err == noErr) {
         GetPreferredLanguages();
     }
     if (compareOSVersionTo(10, 6) < 0) {
         LoadPreferredLanguages();
-        ::SetFrontProcess(&ourPSN);
+        BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
-        system("rm -dfR /tmp/BOINC_payload");
+        snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
+        err = callPosixSpawn(temp);
+        REPORT_ERROR(err);
         return -1;
     }
 
-    system("rm -dfR /tmp/BOINC_payload");
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
 
     // Remove previous installer package receipt so we can run installer again
     // (affects only older versions of OS X and fixes a bug in those versions)
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
-    system (s);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     restartNeeded = IsRestartNeeded();
     
     // Write a temp file to tell our PostInstall.app whether restart is needed
-    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_restart_flag", tempDirName);
+    restartNeededFile = fopen(temp, "w");
     if (restartNeededFile) {
         fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
         fclose(restartNeededFile);
@@ -158,27 +199,38 @@ int main(int argc, char *argv[])
     if (restartNeeded) {
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
-            err = system("sed -i \"\" s/\"onConclusion=\\\"none\\\"\"/\"onConclusion=\\\"RequireRestart\\\"\"/g /tmp/expanded_BOINC.pkg/Distribution");
+            snprintf(temp, sizeof(temp), "sed -i \".bak\" s/onConclusion=\"none\"/onConclusion=\"RequireRestart\"/g /tmp/%s/expanded_BOINC.pkg/Distribution", tempDirName);
+            err = callPosixSpawn(temp);
+            REPORT_ERROR(err);
         }
         if (err == noErr) {
+            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg/Distribution.bak", tempDirName);
+            err = callPosixSpawn(temp);
+            REPORT_ERROR(err);
             // Flatten the installer package
-            sprintf(temp, "pkgutil --flatten /tmp/expanded_BOINC.pkg /tmp/%s.pkg", brand);
-            err = system(temp);
-            
-            system("rm -fR /tmp/expanded_BOINC.pkg");
+            sprintf(temp, "pkgutil --flatten /tmp/%s/expanded_BOINC.pkg /tmp/%s/%s.pkg", tempDirName, tempDirName, brand);
+            err = callPosixSpawn(temp);
+            REPORT_ERROR(err);
         }
 
         if (err == noErr) {
-            sprintf(temp, "open \"/tmp/%s.pkg\" &", brand);
-            system(temp);
-            return 0;
+            snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", tempDirName);
+            err = callPosixSpawn(temp);
+            REPORT_ERROR(err);
+            sprintf(temp, "open \"/tmp/%s/%s.pkg\"", tempDirName, brand);
+            err = callPosixSpawn(temp);
+            REPORT_ERROR(err);
+            return err;
         }
     }
 
-    system("rm -fR /tmp/expanded_BOINC.pkg");
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/expanded_BOINC.pkg", tempDirName);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
 
-    sprintf(temp, "open \"%s\" &", pkgPath);
-    system(temp);
+    sprintf(temp, "open \"%s\"", pkgPath);
+    err = callPosixSpawn(temp);
+    REPORT_ERROR(err);
     
     return err;
 }
@@ -212,8 +264,7 @@ Boolean IsRestartNeeded()
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
-    char            loginName[256];
-    
+
     if (compareOSVersionTo(10, 9) >= 0) {
         return false;
     }
@@ -260,7 +311,6 @@ Boolean IsRestartNeeded()
 }
     
     #ifdef SANDBOX
-    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0]) {
         if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
             return false;   // Logged in user is already a member of group boinc_master
@@ -272,15 +322,11 @@ Boolean IsRestartNeeded()
 }
 
 
-void Initialize()	/* Initialize some managers */
+OSErr Initialize()	/* Initialize some managers */
 {
-    OSErr	err;
-        
 //    InitCursor();
 
-    err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
-    if (err != noErr)
-        ExitToShell();
+    return AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 }
 
 
@@ -292,6 +338,7 @@ void Initialize()	/* Initialize some managers */
 static void GetPreferredLanguages() {
     DIR *dirp;
     struct dirent *dp;
+    char temp[MAXPATHLEN];
     char searchPath[MAXPATHLEN];
     char savedWD[MAXPATHLEN];
     struct stat sbuf;
@@ -305,10 +352,14 @@ static void GetPreferredLanguages() {
     FILE *f;
 
     getcwd(savedWD, sizeof(savedWD));
-    system("rm -dfR /tmp/BOINC_payload");
-    mkdir("/tmp/BOINC_payload", 0777);
-    chdir("/tmp/BOINC_payload");
-    system("cpio -i < /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
+    callPosixSpawn(temp);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_payload", tempDirName);
+    mkdir(temp, 0777);
+    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    chdir(temp);
+    snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", tempDirName);
+    callPosixSpawn(temp);
     chdir(savedWD);
 
     // Create an array of all our supported languages
@@ -320,7 +371,10 @@ static void GetPreferredLanguages() {
     aLanguage = NULL;
 
     dirp = opendir(Catalogs_Dir);
-    if (!dirp) goto cleanup;
+    if (!dirp) {
+        REPORT_ERROR(true);
+        goto cleanup;
+    }
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
@@ -357,7 +411,12 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    f = fopen("/tmp/BOINC_preferred_languages", "w");
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", tempDirName);
+    f = fopen(temp, "w");
+    if (!f) {
+        REPORT_ERROR(true);
+        goto cleanup;
+    }
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
@@ -382,9 +441,11 @@ static void GetPreferredLanguages() {
             }
             if (f && language) {
                 fprintf(f, "%s\n", language);
+#if CREATE_LOG
+                print_to_log_file("Adding language: %s\n", language);
+#endif
             }
-            
-            // Remove all copies of this language from our list of supported languages 
+            // Remove all copies of this language from our list of supported languages
             // so we can get the next preferred language in order of priority
             for (k=CFArrayGetCount(supportedLanguages)-1; k>=0; --k) {
                 if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
@@ -418,6 +479,9 @@ cleanup:
     CFArrayRemoveAllValues(supportedLanguages);
     CFRelease(supportedLanguages);
     supportedLanguages = NULL;
+#if CREATE_LOG
+    print_to_log_file("Exiting GetPreferredLanguages");
+#endif
 }
 
 
@@ -426,12 +490,17 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    char temp[MAXPATHLEN];
 
     BOINCTranslationInit();
 
     // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
-    f = fopen("/tmp/BOINC_preferred_languages", "r");
-    if (!f) return;
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_preferred_languages", tempDirName);
+    f = fopen(temp, "r");
+    if (!f) {
+        REPORT_ERROR(true);
+        return;
+    }
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
         fgets(language, sizeof(language), f);
@@ -441,6 +510,7 @@ static void LoadPreferredLanguages(){
         if (p) *p = '\0';           // Replace newline with null terminator 
         if (language[0]) {
             if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                REPORT_ERROR(true);
                 printf("could not load catalog for langage %s\n", language);
             }
         }
@@ -457,7 +527,13 @@ static void ShowMessage(const char *format, ...) {
     va_list                 args;
     char                    s[1024];
     CFOptionFlags           responseFlags;
-    ProcessSerialNumber     ourProcess;
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+   
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
+    }
    
 #if 1
     va_start(args, format);
@@ -472,38 +548,14 @@ static void ShowMessage(const char *format, ...) {
     
     CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
 
-    ::GetCurrentProcess (&ourProcess);
-    ::SetFrontProcess(&ourProcess);
+    BringAppToFront();
     CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
-                NULL, NULL, NULL, CFSTR(" "), myString,
+                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
                 NULL, NULL, NULL,
                 &responseFlags);
     
+    if (myIconURLRef) CFRelease(myIconURLRef);
     if (myString) CFRelease(myString);
-}
-
-
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMinor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
 }
 
 
@@ -515,15 +567,144 @@ static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* repl
 }
 
 
+#define NOT_IN_TOKEN                0
+#define IN_SINGLE_QUOTED_TOKEN      1
+#define IN_DOUBLE_QUOTED_TOKEN      2
+#define IN_UNQUOTED_TOKEN           3
+
+static int parse_posic_spawn_command_line(char* p, char** argv) {
+    int state = NOT_IN_TOKEN;
+    int argc=0;
+
+    while (*p) {
+        switch(state) {
+        case NOT_IN_TOKEN:
+            if (isspace(*p)) {
+            } else if (*p == '\'') {
+                p++;
+                argv[argc++] = p;
+                state = IN_SINGLE_QUOTED_TOKEN;
+                break;
+            } else if (*p == '\"') {
+                p++;
+                argv[argc++] = p;
+                state = IN_DOUBLE_QUOTED_TOKEN;
+                break;
+            } else {
+                argv[argc++] = p;
+                state = IN_UNQUOTED_TOKEN;
+            }
+            break;
+        case IN_SINGLE_QUOTED_TOKEN:
+            if (*p == '\'') {
+                if (*(p-1) == '\\') break;
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_DOUBLE_QUOTED_TOKEN:
+            if (*p == '\"') {
+                if (*(p-1) == '\\') break;
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_UNQUOTED_TOKEN:
+            if (isspace(*p)) {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        }
+        p++;
+    }
+    argv[argc] = 0;
+    return argc;
+}
+
+#include <spawn.h>
+
+int callPosixSpawn(const char *cmdline) {
+    char command[1024];
+    char progName[1024];
+    char progPath[MAXPATHLEN];
+    char* argv[100];
+    int argc = 0;
+    char *p;
+    pid_t thePid = 0;
+    int result = 0;
+    int status = 0;
+    extern char **environ;
+
+    // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
+    strlcpy(command, cmdline, sizeof(command));
+    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    strlcpy(progPath, argv[0], sizeof(progPath));
+    strlcpy(progName, argv[0], sizeof(progName));
+    p = strrchr(progName, '/');
+    if (p) {
+        argv[0] = p+1;
+    } else {
+        argv[0] = progName;
+    }
+    
+#if VERBOSE_TEST
+    print_to_log_file("***********");
+    for (int i=0; i<argc; ++i) {
+        print_to_log_file("argv[%d]=%s", i, argv[i]);
+    }
+    print_to_log_file("***********\n");
+#endif
+
+    errno = 0;
+
+    result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
+#if VERBOSE_TEST
+    print_to_log_file("callPosixSpawn command: %s", cmdline);
+    print_to_log_file("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+#endif
+    if (result) {
+        return result;
+    }
+// CAF    int val =
+    waitpid(thePid, &status, WUNTRACED);
+// CAF        if (val < 0) printf("first waitpid returned %d\n", val);
+    if (status != 0) {
+#if VERBOSE_TEST
+        print_to_log_file("waitpid() returned status=%d", status);
+#endif
+        result = status;
+    } else {
+        if (WIFEXITED(status)) {
+            result = WEXITSTATUS(status);
+            if (result == 1) {
+#if VERBOSE_TEST
+                print_to_log_file("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+#endif
+                result = errno;
+            }
+#if VERBOSE_TEST
+            else if (result) {
+                print_to_log_file("WEXITSTATUS(status) returned %d", result);
+            }
+#endif
+        }   // end if (WIFEXITED(status)) else
+    }       // end if waitpid returned 0 sstaus else
+    
+    return result;
+}
+
+
 // For debugging
 void print_to_log_file(const char *format, ...) {
-#if CREATE_LOG
     FILE *f;
     va_list args;
-    char buf[256];
+    char buf[MAXPATHLEN];
     time_t t;
-    safe_strcpy(buf, getenv("HOME"));
-    safe_strcat(buf, "/Documents/test_log.txt");
+//    strlcpy(buf, getenv("HOME"), sizeof(buf));
+//    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
+
+    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", tempDirName);
     f = fopen(buf, "a");
     if (!f) return;
 
@@ -531,7 +712,7 @@ void print_to_log_file(const char *format, ...) {
 //  freopen(buf, "a", stderr);
 
     time(&t);
-    safe_strcpy(buf, asctime(localtime(&t)));
+    strlcpy(buf, asctime(localtime(&t)),sizeof(buf));
     strip_cr(buf);
 
     fputs(buf, f);
@@ -544,10 +725,8 @@ void print_to_log_file(const char *format, ...) {
     fputs("\n", f);
     fflush(f);
     fclose(f);
-#endif
 }
 
-#if CREATE_LOG
 void strip_cr(char *buf)
 {
     char *theCR;
@@ -559,4 +738,3 @@ void strip_cr(char *buf)
     if (theCR)
         *theCR = '\0';
 }
-#endif	// CREATE_LOG

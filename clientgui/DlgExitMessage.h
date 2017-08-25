@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef _DLGEXITMESSAGE_H_
-#define _DLGEXITMESSAGE_H_
+#ifndef BOINC_DLGEXITMESSAGE_H
+#define BOINC_DLGEXITMESSAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgExitMessage.cpp"
@@ -111,4 +111,3 @@ public:
 };
 
 #endif
-    // _DLGEXITMESSAGE_H_

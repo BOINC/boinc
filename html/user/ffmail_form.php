@@ -22,7 +22,11 @@
 
 require_once("../inc/util.inc");
 
-$master_url = parse_config(get_config(), "<master_url>");
+// Spammers were abusing this feature,
+// and AFAIK it was never used much.
+// Screw it.
+
+error_page("This feature is deprecated");
 
 $user = get_logged_in_user();
 

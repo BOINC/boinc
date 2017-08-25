@@ -256,8 +256,10 @@ function news_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -272,7 +274,8 @@ function news_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'text' => 'discuss',
+      'hide_alter_empty' => 1,
+      'text' => 'more',
       'exclude' => 0,
       'id' => 'view_node',
       'table' => 'node',
@@ -305,7 +308,7 @@ function news_views_default_views() {
         'strip_tags' => 0,
       ),
       'empty' => '0',
-      'hide_empty' => 0,
+      'hide_empty' => 1,
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => FALSE,
@@ -362,7 +365,7 @@ function news_views_default_views() {
   $handler->override_option('row_plugin', 'fields');
   $handler->override_option('path', 'news');
   $handler->override_option('menu', array(
-    'type' => 'default tab',
+    'type' => 'normal',
     'title' => 'News',
     'description' => '',
     'weight' => '0',
@@ -428,7 +431,7 @@ function news_views_default_views() {
       'default_argument_fixed' => '',
       'default_argument_php' => '// Use this to set a custom feed title that works both in the feed and
 // in the auto discovery link in the page header
-return variable_get(\'site_name\', \'BOINC\');
+return variable_get(\'site_name\', \'Drupal-BOINC\');
 ',
       'validate_argument_node_type' => array(
         'page' => 0,
@@ -455,6 +458,60 @@ return variable_get(\'site_name\', \'BOINC\');
       'validate_argument_user_flag_id_type' => 'id',
       'validate_argument_php' => '',
       'me_validate_user_restrict_roles' => 0,
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'type' => array(
+      'operator' => 'in',
+      'value' => array(
+        'news' => 'news',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'relationship' => 'none',
+    ),
+    'status' => array(
+      'operator' => '=',
+      'value' => '1',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+    ),
+    'changed' => array(
+      'operator' => '>=',
+      'value' => array(
+        'type' => 'offset',
+        'value' => '-90 days',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'changed',
+      'table' => 'node',
+      'field' => 'changed',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
     ),
   ));
   $handler->override_option('style_plugin', 'rss');
@@ -522,6 +579,41 @@ return variable_get(\'site_name\', \'BOINC\');
       'id' => 'nid',
       'table' => 'node',
       'field' => 'nid',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'comment' => array(
+      'label' => 'Comment status',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'exclude' => 1,
+      'id' => 'comment',
+      'table' => 'node',
+      'field' => 'comment',
       'override' => array(
         'button' => 'Use default',
       ),
@@ -692,9 +784,11 @@ return variable_get(\'site_name\', \'BOINC\');
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  $cid = boincuser_get_first_unread_comment_id($data->nid);
-  $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
-  return l(bts(\'discuss\'), $link);
+  if ($data->node_comment == COMMENT_NODE_READ_WRITE) {
+    $cid = boincuser_get_first_unread_comment_id($data->nid);
+    $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
+    return l(bts(\'discuss\', array(), NULL, \'boinc:front-page-discuss-news\'), $link);
+  }
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -728,7 +822,7 @@ return variable_get(\'site_name\', \'BOINC\');
         'strip_tags' => 0,
       ),
       'empty' => '0',
-      'hide_empty' => 0,
+      'hide_empty' => 1,
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => FALSE,

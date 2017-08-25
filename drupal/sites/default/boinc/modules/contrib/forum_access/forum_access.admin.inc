@@ -64,8 +64,8 @@ function _forum_access_forum_form(&$form, &$form_state, $is_container) {
       '#value' => '<div>'. t('Note that users need') .'<ul style="margin-top: 0"><li>'.
                            t('the !access_content and !access_comments permissions <strong>AND <em>View</em></strong> to be able to see this forum and its content at all,', $variables) .'</li><li>'.
                            t('the !create_forum_topics (and similar) permissions <strong>AND <em>Post</em></strong> to be able to create forum content, and', $variables) .'</li><li>'.
-                           t('the !post_comments and (probably) !post_comments_without_approval permission <!TAG>AND <em>Post</em></!TAG> to be able to post comments/replies;', $variables + array('!TAG' => (variable_get('forum_access_D5_legacy_mode', FALSE) ? 'del title="'. t('Drupal 5 legacy mode') .'"' : 'strong'))) .'</li><li>'.
-                           t('the !edit_own_forum_topics or !edit_any_forum_topics (and similar) permissions (<strong>OR <em>Edit</em></strong>) can be added if desired, <strong>plus</strong>', $variables) .'</li><li>'.
+                           t('the !post_comments and (probably) !post_comments_without_approval permission <!TAG>AND <em>Comment</em></!TAG> to be able to post comments/replies;', $variables + array('!TAG' => (variable_get('forum_access_D5_legacy_mode', FALSE) ? 'del title="'. t('Drupal 5 legacy mode') .'"' : 'strong'))) .'</li><li>'.
+                           t('the !edit_own_forum_topics or !edit_any_forum_topics (and similar) permissions <strong>AND (<em>Edit</em> AND <em>Comment</em></strong>) can be added if desired, <strong>plus</strong>', $variables) .'</li><li>'.
                            t('the !delete_own_forum_topics or !delete_any_forum_topics (and similar) permissions (<strong>OR <em>Delete</em></strong>) if desired;', $variables) .'</li><li>'.
                            t('the !administer_comments (global!) permission <strong>OR <em>Edit</em>/<em>Delete</em></strong> to be able to edit/delete comments;', $variables) .'</li><li>'.
                            t('the !administer_forums permission <strong>AND <em>View</em></strong> to be able to administer forums (and change access!).', $variables) .'</li></ul>'.
@@ -126,6 +126,12 @@ function _forum_access_forum_form(&$form, &$form_state, $is_container) {
       '#title' => t('Post in this forum'),
       '#suffix' => '</div>',
     );
+    $form['forum_access']['headers']['comment_create'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div class="forum-access-div">',
+      '#title' => t('Comment on posts'),
+      '#suffix' => '</div>',
+    );
     $form['forum_access']['headers']['update'] = array(
       '#type' => 'item',
       '#prefix' => '<div class="forum-access-div">',
@@ -140,9 +146,9 @@ function _forum_access_forum_form(&$form, &$form_state, $is_container) {
     );
   }
   $form['forum_access']['headers']['clearer'] = array(
-    '#value' => '<div class="forum-access-clearer"></div>',
+      '#value' => '<div class="forum-access-clearer"></div>',
   );
-
+  
   // Column content (checkboxes):
   $form['forum_access']['view'] = array(
     '#type' => 'checkboxes',
@@ -161,6 +167,14 @@ function _forum_access_forum_form(&$form, &$form_state, $is_container) {
     '#process' => array('expand_checkboxes', '_forum_access_forum_form_disable_checkboxes'),
   );
   if (!$is_container) {
+    $form['forum_access']['comment_create'] = array(
+      '#type' => 'checkboxes',
+      '#prefix' => '<div class="forum-access-div">',
+      '#suffix' => '</div>',
+      '#options' => $roles,
+      '#default_value' => $settings['comment_create'],
+      '#process' => array('expand_checkboxes', '_forum_access_forum_form_disable_checkboxes'),
+    );
     $form['forum_access']['update'] = array(
       '#type' => 'checkboxes',
       '#prefix' => '<div class="forum-access-div">',
@@ -435,6 +449,8 @@ function _forum_access_forum_form_disable_checkboxes($element) {
     elseif ($element['#parents'][1] == 'create') {
       // Do nothing (Post is always mutable).
     }
+    elseif ($element['#parents'][1] == 'comment_create') {
+    }
     elseif ($element['#parents'][1] == 'view' && isset($permissions[$rid]['administer forums'])) {
       $element[$rid]['#title'] = '<em>'. $element[$rid]['#title'] .'</em>';
       $element[$rid]['#prefix'] = '<span title="'. t("This role has the '@administer_forums' permission, and granting '@View' enables the role holders to change the settings on this page, including @Access_control!", array('@administer_forums' => $tr('administer forums'), '@View' => t('View'), '@Access_control' => t('Access control'))) .'">';
@@ -458,7 +474,8 @@ function _forum_access_forum_form_disable_checkboxes($element) {
 function _forum_access_forum_form_after_build_acl0($form, $form_state) {
   if (isset($form['#post']['forum_access']['template']['taxonomy'])) {
     // Get ACL's user_list for the template and replace it before ACL's after_build function gets its shot at it.
-    $template_tid = reset(array_values($form['#post']['forum_access']['template']['taxonomy']));
+    $imv = array_values($form['#post']['forum_access']['template']['taxonomy']);
+    $template_tid = reset($imv);
     if ($acl_id = acl_get_id_by_number('forum_access', $template_tid)) {
       $f = acl_edit_form($acl_id, 'DUMMY');
       $form['user_list']['#value'] = $f['user_list']['#default_value'];
@@ -485,7 +502,7 @@ function _forum_access_forum_form_after_build($form, &$form_state) {
     $form['template']['#collapsed'] = FALSE;
 
     $settings = _forum_access_get_settings($template_tid);
-    foreach (array('view', 'create', 'update', 'delete') as $grant_type) {
+    foreach (array('view', 'create', 'comment_create', 'update', 'delete') as $grant_type) {
       if (empty($form[$grant_type])) {
         continue;
       }
@@ -500,7 +517,8 @@ function _forum_access_forum_form_after_build($form, &$form_state) {
     }
   }
   elseif (is_array(reset($form_state['values']['forum_access']['template']['taxonomy']))) {
-    $template_tid = reset(reset($form_state['values']['forum_access']['template']['taxonomy']));
+      $imv = reset($form_state['values']['forum_access']['template']['taxonomy']);
+    $template_tid = reset($imv);
   }
   if (isset($template_tid)) {
     $form['template']['select_by_default']['#value'] = ($template_tid && $template_tid == variable_get('forum_access_default_template_tid', 0));
@@ -549,7 +567,7 @@ function _forum_access_form_submit($form, &$form_state) {
   $is_changed = $is_changed || !empty($access['force_update']);
   $form_initial_values = $form;  // avoid Coder warning
   $form_initial_values = $form_initial_values['forum_access'];
-  foreach (array('view', 'create', 'update', 'delete') as $grant_type) {
+  foreach (array('view', 'create', 'comment_create', 'update', 'delete') as $grant_type) {
     if (isset($form_initial_values[$grant_type])) {
       $defaults = $form_initial_values[$grant_type]['#default_value'];
       $defaults = array_flip($defaults);
@@ -585,14 +603,14 @@ function _forum_access_form_submit($form, &$form_state) {
         // ... otherwise forget View.
         $access['view'][$rid] = FALSE;
       }
-      if ($access['view'][$rid] || $access['create'][$rid]) {
-        db_query("INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d)",
-          $tid, $rid, !empty($access['view'][$rid]), 0, 0, !empty($access['create'][$rid]), $fa_priority);
+      if ($access['view'][$rid] || $access['create'][$rid] || $access['comment_create'][$rid]) {
+        db_query("INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, grant_comment_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d, %d)",
+        $tid, $rid, !empty($access['view'][$rid]), 0, 0, !empty($access['create'][$rid]), !empty($access['comment_create'][$rid]), $fa_priority);
       }
     }
     else {
-      db_query("INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d)",
-        $tid, $rid, (bool) $checked, !empty($access['update'][$rid]), !empty($access['delete'][$rid]), !empty($access['create'][$rid]), $fa_priority);
+      db_query("INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, grant_comment_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d, %d)",
+      $tid, $rid, (bool) $checked, !empty($access['update'][$rid]), !empty($access['delete'][$rid]), !empty($access['create'][$rid]), !empty($access['comment_create'][$rid]), $fa_priority);
     }
   }
   $tr = 't';
@@ -720,11 +738,12 @@ function _forum_access_forum_admin_settings_form(&$form, &$form_state) {
  * Helper function to retrieve the settings for a forum.
  */
 function _forum_access_get_settings($tid = NULL) {
-  $return = array('view' => array(), 'create' => array(), 'update' => array(), 'delete' => array(), 'priority' => 0);
+    $return = array('view' => array(), 'create' => array(), 'comment_create' => array(), 'update' => array(), 'delete' => array(), 'priority' => 0);
   if (!isset($tid)) {
-    // Default to all users can read; all logged in users can post.
+    // Default to all users can read; all logged in users can post and comment.
     $return['view'] = array(DRUPAL_ANONYMOUS_RID, DRUPAL_AUTHENTICATED_RID);
     $return['create'] = array(DRUPAL_AUTHENTICATED_RID);
+    $return['comment_create'] = array(DRUPAL_AUTHENTICATED_RID);
   }
   else {
     $result = db_query("SELECT * FROM {forum_access} where tid = %d", $tid);
@@ -740,6 +759,9 @@ function _forum_access_get_settings($tid = NULL) {
       }
       if ($access->grant_create) {
         $return['create'][] = $access->rid;
+      }
+      if ($access->grant_comment_create) {
+        $return['comment_create'][] = $access->rid;
       }
       if ($access->rid == DRUPAL_AUTHENTICATED_RID) {  // this is our reference
         $return['priority'] = $access->priority;

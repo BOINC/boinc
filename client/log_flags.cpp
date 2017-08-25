@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -195,6 +195,11 @@ void CC_CONFIG::show() {
     }
     if (dont_use_vbox) {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
+    }
+    for (i=0; i<alt_platforms.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: alternate platform: %s", alt_platforms[i].c_str()
+        );
     }
     for (i=0; i<exclude_gpus.size(); i++) {
         show_exclude_gpu(exclude_gpus[i]);

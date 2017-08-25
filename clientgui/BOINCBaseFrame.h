@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINCBASEFRAME_H_
-#define _BOINCBASEFRAME_H_
+#ifndef BOINC_BOINCBASEFRAME_H
+#define BOINC_BOINCBASEFRAME_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCBaseFrame.cpp"
@@ -203,4 +203,3 @@ END_DECLARE_EVENT_TYPES()
 #define EVT_FRAME_NOTIFICATION(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_NOTIFICATION, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 #endif
-

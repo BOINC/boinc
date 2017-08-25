@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _APP_H_
-#define _APP_H_
+#ifndef BOINC_APP_H
+#define BOINC_APP_H
 
 #ifndef _WIN32
 #include <cstdio>
@@ -137,7 +137,12 @@ struct ACTIVE_TASK {
     bool have_trickle_down;
     bool send_upload_file_status;
     bool too_large;
-        // working set too large to run now
+        // Working set too large to run now; waiting for RAM
+        // This is a slight misnomer.
+        // It doesn't mean that this job itself is too large;
+        // rather, it means that the last time we did CPU scheduling,
+        // the set of jobs we tried to run was too big,
+        // and this one came after we ran out of mem.
     bool needs_shmem;               // waiting for a free shared memory segment
     int want_network;
         // This task wants to do network comm (for F@h)

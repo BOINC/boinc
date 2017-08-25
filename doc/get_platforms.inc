@@ -40,6 +40,7 @@ function friendly_name($p) {
     }
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";
+        else if (strstr($pc, 'nvidia')) $q .= " (NVIDIA GPU)";
         else if (strstr($pc, 'ati')) $q .= " (AMD/ATI GPU)";
         else if (strstr($pc, 'intel_gpu')) $q .= " (Intel GPU)";
         else if (strstr($pc, 'mt')) $q .= " (multicore)";
@@ -49,6 +50,8 @@ function friendly_name($p) {
     return $q;
 }
 
+// return an array of bools for the supported platforms
+//
 function get_platform_icon_flags($l) {
     $x = new StdClass;
     $x->windows = false;
@@ -78,6 +81,7 @@ function get_platform_icon_flags($l) {
         if (strstr($p, "armv6")) $x->rasp_pi = true;
         if (strstr($pc, "ati")) $x->amd_gpu = true;
         if (strstr($pc, "cuda")) $x->nvidia_gpu = true;
+        if (strstr($pc, "nvidia")) $x->nvidia_gpu = true;
         if (strstr($pc, "intel_gpu")) $x->intel_gpu = true;
         if (strstr($pc, "vbox")) $x->vbox = true;
     }
@@ -95,7 +99,7 @@ function platform_icons($f) {
         $x .= "<img hspace=$hs height=$ht src=images/mac.jpg title=\"Supports Mac OS X\">";
     }
     if ($f->linux) {
-        $x .= "<img hspace=$hs height=$ht src=images/linux.jpg title=\"Supports Linux\">";
+        $x .= "<img hspace=$hs height=$ht src=images/linux.jpg title=\"Supports Linux on Intel\">";
     }
     if ($f->android) {
         $x .= "<img hspace=$hs height=$ht src=images/android.png title=\"Supports Android\">";
@@ -104,7 +108,7 @@ function platform_icons($f) {
         $x .= "<img hspace=$hs height=$ht src=images/freebsd.png title=\"Supports FreeBSD\">";
     }
     if ($f->rasp_pi) {
-        $x .= "<img hspace=$hs height=$ht src=images/raspberry-pi.jpg title=\"Supports Raspberry Pi\">";
+        $x .= "<img hspace=$hs height=$ht src=images/linux_arm.png title=\"Supports Linux on ARM (e.g. Raspberry Pi)\">";
     }
     if ($f->nvidia_gpu) {
         $x .= "<img hspace=$hs height=$ht src=images/nvidia.jpg title=\"Supports NVIDIA GPUs\">";
@@ -126,6 +130,18 @@ function canonical_plan_class($pc) {
 	if (strstr($pc, "nvidiaOpenCL")) return "opencl_nvidia";
 	if (strstr($pc, "intelOpenCL")) return "opencl_intel_gpu";
     return $pc;
+}
+
+// some specific cases where we know the project doesn't have jobs
+//
+function valid($url, $plat) {
+    if (strstr($url, "gpugrid.net")) {
+        if (strstr($plat, "android")) return false;
+        if (strstr($plat, "vbox")) return false;
+    } else if (strstr($url, "csgrid")) {
+        if (strstr($plat, "android")) return false;
+    }
+    return true;
 }
 
 // get platforms from get_project_config.php (preferred method)
@@ -192,7 +208,9 @@ function get_platforms($url) {
                     $plat .= "[".$pc."]";
                 }
             }
-            $list[] = $plat;
+            if (valid($url, $plat)) {
+                $list[] = $plat;
+            }
         }
     }
     return array_unique($list);
@@ -263,22 +281,21 @@ function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
     $t = @filemtime($fname);
-	if ($t && $t > time() - 604800) {
-        $l = json_decode(file_get_contents($fname));
+	if (strstr($url, "gpugrid") || ($t && $t > time() - 604800)) {
+        return json_decode(file_get_contents($fname));
+    }
+    $l = get_platforms($url);
+    if (!$l) {
+        $l = get_platforms2($url);
+    }
+    if ($l) {
+        file_put_contents($fname, json_encode($l));
     } else {
-        $l = get_platforms($url);
-        if (!$l) {
-            $l = get_platforms2($url);
-        }
-        if ($l) {
-            file_put_contents($fname, json_encode($l));
+        if (file_exists($fname)) {
+            touch($fname);
         } else {
-            if (file_exists($fname)) {
-                touch($fname);
-            } else {
-                $l[] = "Unknown";
-                file_put_contents($fname, json_encode($l));
-            }
+            $l[] = "Unknown";
+            file_put_contents($fname, json_encode($l));
         }
     }
     return $l;
@@ -313,6 +330,7 @@ function get_platform_icons($url) {
 
 
 // Mediawiki extension to show a project's platforms.
+// Doesn't seem to work anymore.
 //
 function wfPlatforms() {
     global $wgParser;

@@ -14,7 +14,7 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26016
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26184
+VBOXWRAPPER_RELEASE=26197
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -438,10 +438,17 @@ if test "x${enable_fcgi}" = xyes ; then
 dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
 fi
+dnl ---------- SSL (m4/check_ssl.m4)
+if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
+then
+    CHECK_SSL
+fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
-dnl curl is needed for libraries and those are needed by everything else
+dnl curl is needed for client
 
+if [[ "x${enable_client}" = "xyes" ]]
+then
 LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
 if test "${haveCurl}" != yes; then
@@ -469,16 +476,12 @@ else
       echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
       echo "LDFLAGS = ${LDFLAGS}"
    fi
-      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+fi
 fi
 
-dnl ---------- SSL (m4/check_ssl.m4)
-if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
-then
-    CHECK_SSL
-    if test "x${found_ssl}" = "xyes"; then
-       BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
-    fi
+if test "x${found_ssl}" = "xyes"; then
+   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
 fi
 
 dnl save the libs, since SAH_CHECK_LIB() will change them
@@ -673,7 +676,7 @@ AC_TYPE_SIGNAL
 if test "${isWIN32}" = "yes" ; then
   AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h)
 fi
-AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h)
+AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h)
 
 save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
@@ -1012,6 +1015,11 @@ fi
 dnl Check for /proc/self/stat (Linux)
 if test -e "/proc/self/stat"; then
     AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
+fi
+
+dnl Check for /proc/self/exe (Linux)
+if test -e "/proc/self/exe"; then
+    AC_DEFINE(HAVE__PROC_SELF_EXE, 1, [Define to 1 if /proc/self/exe exists])
 fi
 
 dnl Check for /proc/meminfo (Linux)

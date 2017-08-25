@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _WIN_UTIL_
-#define _WIN_UTIL_
+#ifndef BOINC_WIN_UTIL_H
+#define BOINC_WIN_UTIL_H
 
 extern BOOL TerminateProcessById(DWORD dwProcessId);
 extern void chdir_to_data_dir();
@@ -28,4 +28,4 @@ extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
 );
 
-#endif // _WIN_UTIL_
+#endif

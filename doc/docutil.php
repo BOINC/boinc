@@ -11,7 +11,7 @@ if (0) {
     fclose($f);
 }
 
-function search_form() {
+function boinc_google_search_form() {
     echo "
     <form method=get action=\"https://google.com/search\">
     <input type=hidden name=domains value=\"https://boinc.berkeley.edu\">
@@ -56,19 +56,23 @@ function page_head($title, $extra="") {
     html_tag();
     echo "
         <head>
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"bootstrap.min.css\">
         <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
         <title>$title</title>
         $extra
         </head>
-        <body bgcolor='ffffff'>
+        <body>
+    ";
+    echo '<div class="container-fluid">
+    ';
+    echo "
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
         <td align=right><a href=index.php><img src=\"logo/www_logo.gif\" alt=\"BOINC logo\"></a>
         <br>
 ";
-        search_form();
+        boinc_google_search_form();
 echo "
         </td>
         </tr></table>
@@ -125,6 +129,7 @@ function page_tail($translatable=false, $is_main=false) {
     echo "
         </font>
         </span>
+        </div>
         </body>
         </html>
     ";

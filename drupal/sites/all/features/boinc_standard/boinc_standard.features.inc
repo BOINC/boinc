@@ -35,6 +35,7 @@ function boinc_standard_flag_default_flags() {
     'types' => array(
       '0' => 'forum',
       '1' => 'news',
+      '2' => 'team_forum',
     ),
     'flag_short' => 'Report',
     'flag_long' => 'Report this content as offensive.',
@@ -69,6 +70,7 @@ function boinc_standard_flag_default_flags() {
     'types' => array(
       '0' => 'forum',
       '1' => 'profile',
+      '2' => 'team_forum',
     ),
     'flag_short' => 'Report',
     'flag_long' => 'Report this content as offensive.',
@@ -137,8 +139,9 @@ function boinc_standard_flag_default_flags() {
     'title' => 'Subscriptions',
     'global' => '0',
     'types' => array(
-      '0' => 'news',
-      '1' => 'forum',
+      '0' => 'forum',
+      '1' => 'news',
+      '2' => 'team_forum',
     ),
     'flag_short' => 'subscribe',
     'flag_long' => 'Subscribe to this topic',
@@ -161,7 +164,7 @@ function boinc_standard_flag_default_flags() {
     'show_on_teaser' => 1,
     'show_on_form' => 0,
     'access_author' => '',
-    'i18n' => 0,
+    'i18n' => '0',
     'module' => 'boinc_standard',
     'locked' => array(
       '0' => 'name',
@@ -227,7 +230,7 @@ function boinc_standard_rules_defaults() {
               'subject' => 'Report of offensive [node:type] comment at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
 
-[:global:site-url]goto/comment/[comment:comment-cid]
+[:global:site-url]/goto/comment/[comment:comment-cid]
 
 Total reports of this comment: [comment:flag-abuse-comment-count]',
               '#eval input' => array(
@@ -244,9 +247,9 @@ Total reports of this comment: [comment:flag-abuse-comment-count]',
                   ),
                   'from' => array(
                     '0' => ':global',
-          ),
-        ),
-        ),
+                  ),
+                ),
+              ),
             ),
             '#type' => 'action',
             '#weight' => 0,
@@ -274,7 +277,7 @@ Total reports of this comment: [comment:flag-abuse-comment-count]',
               'subject' => 'Report of offensive [node:type] content at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported the following [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
 
-[:global:site-url][node:node-path]
+[:global:site-url]/[node:node-path]
 
 Total reports of this content: [node:flag-abuse-node-count]',
               '#eval input' => array(
@@ -329,7 +332,7 @@ Total reports of this content: [node:flag-abuse-node-count]',
               'subject' => 'Report of offensive user at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported [account:display-name] for inappropriate behavior:
 
-[:global:site-url]account/[account:uid]
+[:global:site-url]/account/[account:uid]
 
 Total current reports of this user: [account:flag-abuse-user-count]',
               '#eval input' => array(

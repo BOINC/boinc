@@ -113,9 +113,9 @@ if (project_has_beta()) {
     );
 }
 if (defined("EMAIL_FROM")) {
-    $x = "<br><p class=\"text-muted\">"
+    $x = "<br><small>"
         .tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM)
-        ."</p>";
+        ."</small>";
 } else {
     $x = "";
 }
@@ -271,8 +271,8 @@ function print_prefs_display_project($user, $columns=false) {
 
     $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
     if ($columns) {
-        echo "<h2>".tra("Combined preferences").$switch_link."</h2>";
         start_table();
+        row_heading(tra("Combined preferences").$switch_link);
         prefs_show_privacy($user, true);
         venue_show($user);
         row_top(tra("Project specific settings"));
@@ -281,10 +281,10 @@ function print_prefs_display_project($user, $columns=false) {
         row_links("project", $project_prefs);
         end_table();
     } else {
-        if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
-            echo "<h2>".tra("Primary (default) preferences").$switch_link."</h2>";
-        }
         start_table();
+        if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
+            row_heading(tra("Primary (default) preferences").$switch_link);
+        }
         prefs_show_project($project_prefs, false);
         prefs_show_privacy($user, false);
         venue_show($user);

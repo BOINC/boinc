@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_TYPES_
-#define _SCHED_TYPES_
+#ifndef BOINC_SCHED_TYPES_H
+#define BOINC_SCHED_TYPES_H
 
 #include <cstdio>
 #include <vector>
@@ -25,6 +25,7 @@
 #include "common_defs.h"
 #include "md5_file.h"
 #include "coproc.h"
+#include "keyword.h"
 
 #include "edf_sim.h"
 
@@ -66,6 +67,9 @@ struct HOST_USAGE {
     double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
+    double mem_usage;
+        // mem usage if specified by the plan class
+        // (overrides wu.rsc_memory_bound)
     double projected_flops;
         // the scheduler's best estimate of wu.rsc_fpops_est/elapsed_time.
         // Taken from host_app_version elapsed time statistics if available,
@@ -74,7 +78,7 @@ struct HOST_USAGE {
         // stored in result.flops_estimate, and used for credit calculations
     char cmdline[256];
     char custom_coproc_type[256];
-        // if we're using a custom GPU type, it's name
+        // if we're using a custom GPU type, its name
         // TODO: get rid of PROC_TYPE_*, and this
 
     HOST_USAGE() {
@@ -83,6 +87,7 @@ struct HOST_USAGE {
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
+        mem_usage = 0;
         projected_flops = 0;
         peak_flops = 0;
         strcpy(cmdline, "");
@@ -94,6 +99,7 @@ struct HOST_USAGE {
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
+        mem_usage = 0;
         if (flops <= 0) flops = 1e9;
         projected_flops = flops;
         peak_flops = flops;
@@ -340,7 +346,7 @@ struct SCHEDULER_REQUEST {
         // Don't modify user prefs or CPID
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
-    std::string client_opaque;
+    USER_KEYWORDS user_keywords;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};
@@ -357,8 +363,30 @@ struct DISK_LIMITS {
     double min_free;
 };
 
+// parsed version of project prefs that relate to scheduling
+//
+struct PROJECT_PREFS {
+    std::vector<APP_INFO> selected_apps;
+    bool dont_use_proc_type[NPROC_TYPES];
+    bool allow_non_preferred_apps;
+    bool allow_beta_work;
+    int max_jobs_in_progress;
+    int max_cpus;
+
+    void parse();
+
+    PROJECT_PREFS() {
+        memset(&dont_use_proc_type, 0, sizeof(dont_use_proc_type));
+        allow_non_preferred_apps = false;
+        allow_beta_work = false;
+        max_jobs_in_progress = 0;
+        max_cpus = 0;
+    }
+};
+
 // summary of a client's request for work, and our response to it
-// Note: this is zeroed out in SCHEDULER_REPLY constructor
+// Note: this is zeroed out in SCHEDULER_REPLY constructor,
+// so don't put any vectors here
 //
 struct WORK_REQ_BASE {
     bool anonymous_platform;
@@ -383,12 +411,6 @@ struct WORK_REQ_BASE {
         // This is evidence that the earlier reply was not received
         // by the client.  It may have contained results,
         // so check and resend just in case.
-
-    // user preferences
-    //
-    bool dont_use_proc_type[NPROC_TYPES];
-    bool allow_non_preferred_apps;
-    bool allow_beta_work;
 
     bool has_reliable_version;
         // whether the host has a reliable app version
@@ -468,7 +490,6 @@ struct WORK_REQ_BASE {
     bool max_jobs_on_host_proc_type_exceeded[NPROC_TYPES];
     bool no_jobs_available;     // project has no work right now
     int max_jobs_per_rpc;
-    void get_job_limits();
 
     bool max_jobs_exceeded() {
         if (max_jobs_on_host_exceeded) return true;
@@ -484,12 +505,13 @@ struct WORK_REQ_BASE {
 };
 
 struct WORK_REQ : public WORK_REQ_BASE {
-    std::vector<APP_INFO> preferred_apps;
+    PROJECT_PREFS project_prefs;
     std::vector<USER_MESSAGE> no_work_messages;
     std::vector<BEST_APP_VERSION*> best_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
 
+    void get_job_limits();
     void add_no_work_message(const char*);
 
     ~WORK_REQ() {}
@@ -566,4 +588,5 @@ inline bool is_64b_platform(const char* name) {
 }
 
 extern double available_frac(BEST_APP_VERSION&);
+
 #endif

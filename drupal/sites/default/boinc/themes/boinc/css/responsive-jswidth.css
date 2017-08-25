@@ -1,0 +1,117 @@
+/* Id */
+
+/**
+ * @file
+ * Responsive Javascript Styling
+ *
+ * Contains CSS styles to handle different screen sizes. This CSS file is used
+ * for the responsive Javascript width theme. 
+ */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * CSS Style with menu links in navigation bar
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* Hide the mobile menu icon. */
+.has-js #block-mobile_menu_toggle-0.usenavbar {
+  display: none;
+}
+
+.has-js #navigation-mmt.usenavbar {
+  display: none;
+}
+
+/* Show the non-mobile menus in the navigation bar. */
+.has-js #main-menu.usenavbar ul,
+.has-js #sub-menu.usenavbar ul,
+.has-js #action-links.usenavbar ul {
+  display: block;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * CSS Style with hamburger menu
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* Set the navigation bar space for the mobile menu. */
+.has-js #navigation.usehamburger {
+  overflow: visible;
+  min-height: 31px;
+}
+
+/* Show the hamburger menu and the menu block. */
+.has-js #block-mobile_menu_toggle-0.usehamburger {
+  display: block;
+  position: relative;
+  padding-top: 3px;
+  margin: 0 auto;
+  max-width: 980px;
+  padding-left: 20px;
+}
+
+.has-js #mobile-menu-toggle {
+  text-decoration: none; /* Removes the underline beneath links. */
+}
+
+/* By default, hide the mobile menu. User must click the menu to
+   toggle its visibility. */
+.has-js #navigation-mmt.usehamburger {
+  display: none;
+  margin-left: 39px;
+  padding-top: 31px;
+}
+
+/* Hide the non-mobiles menus. */
+.has-js #main-menu.usehamburger ul,
+.has-js #sub-menu.usehamburger ul,
+.has-js #action-links.usehamburger ul {
+  display: none;
+}
+
+/* Modifty the navigation CSS so that mobile menu links are arranged
+   vertically.*/
+.has-js #navigation.usehamburger .block .menu {
+  width: auto;
+  float: none;
+  border: none;
+  padding: 2px 0 0 0;
+}
+
+.has-js #navigation.usehamburger .block .menu li {
+  float: none;
+  border: none;
+}
+
+.has-js #navigation.usehamburger li.expanded ul.menu {
+  padding: 0 20px;
+}
+  
+/* Set base mobile menu font color and size. */
+.has-js #navigation.usehamburger .block .menu li a {
+  color: #faa341;
+  font-size: 14px;
+  height: auto;
+  padding: 0;
+}
+
+/* Add active and hover color for links in mobile menu. */
+.has-js #navigation.usehamburger .block .menu li a.active,
+.has-js #navigation.usehamburger .block .menu li a:hover {
+  color: black;
+}
+
+/* Add caret left/down icons to the mobile menu for items that
+   expand. */
+.has-js #navigation.usehamburger li.dhtml-menu.collapsed>a:after {
+    /* Caret left */
+    content: "\f0da";
+    font-family: FontAwesome;
+    padding-left: 5px;
+}
+
+.has-js #navigation.usehamburger li.dhtml-menu.expanded>a:after {
+    /* Caret down */
+    content: "\f0d7";
+    font-family: FontAwesome;
+    padding-left: 5px;
+}

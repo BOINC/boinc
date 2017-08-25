@@ -19,6 +19,7 @@
   * the view is modified.
   */
 ?>
-<span class="task-name">
+<?php // Fix wrapping issue in Firefox (see DBOINCP-244) - replaced span tag with div ?>
+<div class="task-name">
   <?php print l($row->result_name, "task/{$row->id}"); ?>
-</span>
+</div>

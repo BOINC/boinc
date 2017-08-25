@@ -32,7 +32,7 @@ check_get_args(array());
 // it will be selected by default.
 //
 function show_combo_box($name, $filename, $selection=null) {
-    echo "<select name=\"$name\">\n";
+    echo "<select name=\"$name\" class=\"form-control\">\n";
 
     $file = fopen($filename, "r");
 
@@ -110,7 +110,7 @@ function show_submit() {
     if ($publickey) {
         table_row(boinc_recaptcha_get_html($publickey));
     }
-    table_row("<p><input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
+    table_row("<p><input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
 
 // Returns an array containing:
@@ -161,7 +161,7 @@ function getImages($fileName) {
 
 function show_description() {
     echo "
-        <p>" .tra("Your %1profile%2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
+        <p>" .tra("Your %1 profile %2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
         <p>
     ";
 }
@@ -177,16 +177,16 @@ function show_questions($profile) {
     }
 
     row1(show_profile_heading1());
-    rowify(show_profile_question1().html_info());
+    rowify(show_profile_question1().bbcode_info());
     show_textarea("response1", $response1);
     row1( show_profile_heading2());
-    rowify( show_profile_question2().html_info());
+    rowify( show_profile_question2().bbcode_info());
     show_textarea("response2", $response2);
     show_language_selection($profile);
 }
 
 function show_textarea($name, $text) {
-    rowify("<textarea name=\"$name\" cols=80 rows=20>" . $text . "</textarea>");
+    rowify("<textarea name=\"$name\" class=\"form-control\" rows=\"10\">" . $text . "</textarea>");
 }
 
 // $profile is null if user doesn't already have a profile.
@@ -326,7 +326,7 @@ function show_profile_form($profile, $warning=null) {
     echo "
         <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
     ";
-    start_table_noborder();
+    start_table();
     show_description();
     show_questions($profile);
     show_picture_option($profile);

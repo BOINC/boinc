@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Utility classes for the BOINC scheduler
+
 #include "config.h"
 #include <cstdlib>
 #include <cassert>
@@ -167,6 +169,64 @@ int CLIENT_PLATFORM::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// Parse user's project preferences.
+// TODO: use XML_PARSER
+//
+void PROJECT_PREFS::parse() {
+    char buf[8096];
+    std::string str;
+    unsigned int pos = 0;
+    int temp_int=0;
+    bool flag;
+
+    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
+    str = buf;
+
+    // scan user's project prefs for elements of the form <app_id>N</app_id>,
+    // indicating the apps they want to run.
+    //
+    selected_apps.clear();
+    while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
+        APP_INFO ai;
+        ai.appid = temp_int;
+        ai.work_available = false;
+        selected_apps.push_back(ai);
+
+        pos = str.find("<app_id>", pos) + 1;
+    }
+    if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
+        allow_non_preferred_apps = flag;
+    }
+    if (parse_bool(buf,"allow_beta_work", flag)) {
+        allow_beta_work = flag;
+    }
+    if (parse_bool(buf,"no_gpus", flag)) {
+        // deprecated, but need to handle
+        if (flag) {
+            for (int i=1; i<NPROC_TYPES; i++) {
+                dont_use_proc_type[i] = true;
+            }
+        }
+    }
+    if (parse_bool(buf,"no_cpu", flag)) {
+        dont_use_proc_type[PROC_TYPE_CPU] = flag;
+    }
+    if (parse_bool(buf,"no_cuda", flag)) {
+        dont_use_proc_type[PROC_TYPE_NVIDIA_GPU] = flag;
+    }
+    if (parse_bool(buf,"no_ati", flag)) {
+        dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
+    }
+    if (parse_bool(buf,"no_intel_gpu", flag)) {
+        dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
+    }
+    if (parse_int(buf, "<max_cpus>", temp_int)) {
+        max_cpus = temp_int;
+    }
+    if (parse_int(buf, "<max_jobs>", temp_int)) {
+        max_jobs_in_progress = temp_int;
+    }
+}
 
 void WORK_REQ::add_no_work_message(const char* message) {
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
@@ -348,7 +408,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             );
             if (retval) return "error copying global prefs";
             safe_strcat(global_prefs_xml, buf);
-            safe_strcat(global_prefs_xml, "</global_preferences>\n");
+            // xp.element_contents() strips the linebreak from buf so we add it back because it is essential
+            safe_strcat(global_prefs_xml, "\n</global_preferences>\n");
             continue;
         }
         if (xp.match_tag("working_global_preferences")) {
@@ -477,7 +538,10 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_bool("client_cap_plan_class", client_cap_plan_class)) continue;
         if (xp.parse_int("sandbox", sandbox)) continue;
         if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
-        if (xp.parse_string("client_opaque", client_opaque)) continue;
+        if (xp.match_tag("user_keywords")) {
+            user_keywords.parse(xp);
+            continue;
+        }
         if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
 
         // unused or deprecated stuff follows
@@ -1309,6 +1373,7 @@ int HOST::parse(XML_PARSER& xp) {
     p_ncpus = 1;
     double dtemp;
     string stemp;
+    int x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_int("timezone", timezone)) continue;
@@ -1339,6 +1404,10 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
+
+        // unused fields
+        //
+        if (xp.parse_int("n_usable_coprocs", x)) continue;
 
         // parse deprecated fields to avoid error messages
         //

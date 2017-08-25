@@ -33,6 +33,9 @@
 //// Implementation stuff follows
 
 function req_to_xml($req, $op) {
+    if (!isset($req->batch_name)) {
+        $req->batch_name = "batch_".time();
+    }
     $x = "<$op>
     <authenticator>$req->authenticator</authenticator>
     <batch>
@@ -45,6 +48,10 @@ function req_to_xml($req, $op) {
     }
     if ((isset($req->workunit_template_file)) && ($req->workunit_template_file)) {
         $x .= "    <workunit_template_file>$req->workunit_template_file</workunit_template_file>
+";
+    }
+    if ((isset($req->app_version_num)) && ($req->app_version_num)) {
+        $x .= "    <app_version_num>$req->app_version_num</app_version_num>
 ";
     }
     foreach ($req->jobs as $job) {
@@ -73,6 +80,14 @@ function req_to_xml($req, $op) {
                 $x .= "            <source>$file->source</source>\n";
             }
             $x .= "        </input_file>\n";
+        }
+        // send templates for both estimate and submit ops
+        //
+        if (isset($job->wu_template)) {
+            $x .= "    <wu_template>\n$job->wu_template\n    </wu_template>\n";
+        }
+        if (isset($job->result_template)) {
+            $x .= "    <result_template>\n$job->result_template\n    </result_template>\n";
         }
         $x .= "    </job>
 ";
@@ -159,45 +174,54 @@ function batch_xml_to_object($batch) {
     return $b;
 }
 
+// if RPC had a fatal error, return the message
+//
+function get_error($reply, $outer_tag) {
+    $name = $reply->getName();
+    if ($name != $outer_tag) {
+        return "Bad reply outer tag";
+    }
+    foreach ($reply->error as $error) {
+        if (isset($error->error_num)) {
+            return (string)$error->error_msg;
+        }
+    }
+    return null;
+}
+
 //// API functions follow
 
 function boinc_estimate_batch($req) {
     list($reply, $errmsg) = do_batch_op($req, "estimate_batch");
     if ($errmsg) return array(0, $errmsg);
-    $name = $reply->getName();
-    if ($name == 'estimate') {
-        return array((string)$reply->seconds, null);
-    } else if ($name == 'error') {
-        return array(null, (string)$reply->message);
-    } else {
-        return array(null, "Bad reply message");
+    if ($x = get_error($reply, "estimate_batch")) {
+        return array(null, $x);
     }
+    return array((string)$reply->seconds, null);
 }
 
 function boinc_submit_batch($req) {
     list($reply, $errmsg) = do_batch_op($req, "submit_batch");
     if ($errmsg) return array(0, $errmsg);
-    $name = $reply->getName();
-    if ($name == 'batch_id') {
-        return array((int)$reply, null);
-    }  else if ($name == 'error') {
-        return array(null, (string)$reply->err_message);
-    } else {
-        return array(null, "Bad reply message");
+    if ($x = get_error($reply, "submit_batch")) {
+        return array(null, $x);
     }
+    return array((int)$reply->batch_id, null);
 }
 
 function boinc_query_batches($req) {
-    $get_cpu_time =
-        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
-    ;
     $req_xml = "<query_batches>
     <authenticator>$req->authenticator</authenticator>
-$get_cpu_time
-</query_batches>
 ";
+    if (!empty($req->get_cpu_time)) {
+        $req_xml .= "   <get_cpu_time>1</get_cpu_time>\n";
+    }
+    $req_xml .= "</query_batches>\n";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
+    if ($x = get_error($reply, "query_batches")) {
+        return array(null, $x);
+    }
     $batches = array();
     foreach ($reply->batch as $batch) {
         $b = batch_xml_to_object($batch);
@@ -207,17 +231,22 @@ $get_cpu_time
 }
 
 function boinc_query_batch($req) {
-    $get_cpu_time =
-        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
-    ;
     $req_xml = "<query_batch>
     <authenticator>$req->authenticator</authenticator>
     <batch_id>$req->batch_id</batch_id>
-$get_cpu_time
-</query_batch>
 ";
+    if (!empty($req->get_cpu_time)) {
+        $req_xml .= "   <get_cpu_time>1</get_cpu_time>\n";
+    }
+    if (!empty($req->get_job_details)) {
+        $req_xml .= "   <get_job_details>1</get_job_details>\n";
+    }
+    echo "</query_batch>\n";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
+    if ($x = get_error($reply, "query_batch")) {
+        return array(null, $x);
+    }
     $jobs = array();
     foreach ($reply->job as $job) {
         $j = new StdClass;
@@ -238,6 +267,9 @@ function boinc_query_job($req) {
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
+    if ($x = get_error($reply, "query_job")) {
+        return array(null, $x);
+    }
     $instances = array();
     foreach ($reply->instance as $instance) {
         $i = new StdClass;
@@ -265,11 +297,10 @@ function boinc_abort_batch($req) {
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return $errmsg;
-    $name = $reply->getName();
-    if ($name == 'error') {
-        return (string)($reply->message);
+    if ($x = get_error($reply, "abort_batch")) {
+        return array(null, $x);
     }
-    return null;
+    return array(true, null);
 }
 
 function boinc_get_output_file($req) {
@@ -293,36 +324,78 @@ function boinc_retire_batch($req) {
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return $errmsg;
-    $name = $reply->getName();
-    if ($name == 'error') {
-        return (string)($reply->message);
+    if ($x = get_error($reply, "retire_batch")) {
+        return array(null, $x);
     }
-    return null;
+    return array(true, null);
 }
 
 //// example usage follows
-/*
-$req->project = "http://isaac.ssl.berkeley.edu/test/";
-$req->authenticator = "x";
 if (0) {
+    $req = new StdClass;
+    $req->project = "http://isaac.ssl.berkeley.edu/test/";
+    $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name3";
+    $req->batch_name = "batch_name5";
+    $req->app_version_num = 710;
     $req->jobs = array();
 
+    $job = new StdClass;
     $job->input_files = array();
+
+    $f = new StdClass;
     $f->mode = "remote";
     $f->url = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
     $f->nbytes = 4250;
     $job->input_files[] = $f;
+
     $f = new StdClass;
     $f->mode = "local";
     $f->source = "foobar";
     //$job->input_files[] = $f;
 
-    for ($i=10; $i<11; $i++) {
+    $it = "
+<input_template>
+    <file_info>
+    </file_info>
+    <workunit>
+        <file_ref>
+            <open_name>in</open_name>
+        </file_ref>
+        <target_nresults>1</target_nresults>
+        <min_quorum>1</min_quorum>
+        <rsc_fpops_est>   60e9  </rsc_fpops_est>
+        <rsc_fpops_bound> 60e12 </rsc_fpops_bound>
+        <rsc_disk_bound>2e6</rsc_disk_bound>
+        <rsc_memory_bound>1e6</rsc_memory_bound>
+        <delay_bound>3600</delay_bound>
+        <credit>1</credit>
+    </workunit>
+</input_template>
+";
+    $ot = "
+<output_template>
+    <file_info>
+        <name><OUTFILE_0/></name>
+        <generated_locally/>
+        <upload_when_present/>
+        <max_nbytes>5000000</max_nbytes>
+        <url><UPLOAD_URL/></url>
+    </file_info>
+    <result>
+        <file_ref>
+            <file_name><OUTFILE_0/></file_name>
+            <open_name>out</open_name>
+        </file_ref>
+    </result>
+</output_template>
+";
+    for ($i=0; $i<2; $i++) {
         $job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
+        $job->wu_template = $it;
+        $job->result_template = $ot;
         $req->jobs[] = $job;
     }
 
@@ -361,5 +434,4 @@ if (0) {
         print_r($jobs);
     }
 }
-*/
 ?>

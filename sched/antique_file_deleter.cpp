@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 // antique_file deleter
 // removes files from the upload/download hierarchies that are
 // older than any WU (except "no_delete" WUs)

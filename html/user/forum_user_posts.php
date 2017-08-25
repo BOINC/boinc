@@ -76,7 +76,7 @@ page_head(tra("Posts by %1", $user->name));
 
 $posts = BoincPost::enum("user=$userid order by id desc limit 10000");
 $n = 0;
-start_table();
+start_table('table-striped');
 $options = get_output_options($logged_in_user);
 
 $show_next = false;

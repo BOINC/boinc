@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _THREAD_H_
-#define _THREAD_H_
+#ifndef BOINC_THREAD_H
+#define BOINC_THREAD_H
 
 #ifdef _WIN32
 #else

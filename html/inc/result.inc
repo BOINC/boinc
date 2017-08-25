@@ -145,42 +145,42 @@ $state_clause = array(
 );
 
 function state_num($result) {
-	if ($result->server_state == RESULT_SERVER_STATE_IN_PROGRESS) return 1;
-	if ($result->server_state == RESULT_SERVER_STATE_OVER && $result->outcome == RESULT_OUTCOME_SUCCESS) {
+    if ($result->server_state == RESULT_SERVER_STATE_IN_PROGRESS) return 1;
+    if ($result->server_state == RESULT_SERVER_STATE_OVER && $result->outcome == RESULT_OUTCOME_SUCCESS) {
         if ($result->validate_state == VALIDATE_STATE_INIT) {
             return STATE_PENDING;
         }
         if ($result->validate_state == VALIDATE_STATE_INCONCLUSIVE) {
             return STATE_INCONCLUSIVE;
         }
-	}
-	if ($result->server_state == RESULT_SERVER_STATE_OVER
-		&& $result->outcome == RESULT_OUTCOME_SUCCESS
-		&& $result->validate_state == VALIDATE_STATE_VALID
-	) {
-		return STATE_VALID;
-	}
-	if ($result->server_state == RESULT_SERVER_STATE_OVER
-		&& ($result->outcome == RESULT_OUTCOME_VALIDATE_ERROR
-			|| ($result->outcome == RESULT_OUTCOME_SUCCESS
-				&& ($result->validate_state == VALIDATE_STATE_INVALID
-					|| $result->validate_state == VALIDATE_STATE_NO_CHECK
-					|| $result->validate_state == VALIDATE_STATE_TOO_LATE
-				)
-			)
-		)
-	) {
-		return STATE_INVALID;
-	}
-	if ($result->server_state == RESULT_SERVER_STATE_OVER
-		&& ($result->outcome == RESULT_OUTCOME_CLIENT_ERROR
-			|| $result->outcome = RESULT_OUTCOME_NO_REPLY
-			|| $result->outcome = RESULT_OUTCOME_CLIENT_DETACHED
-		)
-	) {
-		return STATE_ERROR;
-	}
-	return 0;
+    }
+    if ($result->server_state == RESULT_SERVER_STATE_OVER
+        && $result->outcome == RESULT_OUTCOME_SUCCESS
+        && $result->validate_state == VALIDATE_STATE_VALID
+    ) {
+        return STATE_VALID;
+    }
+    if ($result->server_state == RESULT_SERVER_STATE_OVER
+        && ($result->outcome == RESULT_OUTCOME_VALIDATE_ERROR
+            || ($result->outcome == RESULT_OUTCOME_SUCCESS
+                && ($result->validate_state == VALIDATE_STATE_INVALID
+                    || $result->validate_state == VALIDATE_STATE_NO_CHECK
+                    || $result->validate_state == VALIDATE_STATE_TOO_LATE
+                )
+            )
+        )
+    ) {
+        return STATE_INVALID;
+    }
+    if ($result->server_state == RESULT_SERVER_STATE_OVER
+        && ($result->outcome == RESULT_OUTCOME_CLIENT_ERROR
+            || $result->outcome == RESULT_OUTCOME_NO_REPLY
+            || $result->outcome == RESULT_OUTCOME_CLIENT_DETACHED
+        )
+    ) {
+        return STATE_ERROR;
+    }
+    return 0;
 }
 
 function state_string($result) {
@@ -357,47 +357,56 @@ function result_page_url($info) {
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
-    start_table();
-    echo "<tr>";
+    start_table('table-striped');
+    $x = array();
+    $a = array(null);
+
     if ($info) {
         if ($info->show_names) {
             $i2 = clone $info;
             $i2->show_names = 0;
             $url = result_page_url($i2);
-            echo "<th>".tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small></th>\n";
+            $x[] = tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small>";
         } else {
             $i2 = clone $info;
             $i2->show_names = 1;
             $url = result_page_url($i2);
-            echo "<th>Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small></th>\n";
+            $x[] = "Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small>";
         }
     } else {
-        echo "<th>".tra("Task")."<br><small>".tra("click for details")."</small></th>\n";
+        $x[] = tra("Task")."<br><small>".tra("click for details")."</small>";
     }
     if ($show_wu_link) {
-        echo "<th>".tra("Work unit")."<br><small>".tra("click for details")."</small></th>\n";
+        $x[] = tra("Work unit")."<br><small>".tra("click for details")."</small>";
+        $a[] = null;
         if (function_exists('project_result_info_heading')) {
-            $x = project_result_info_heading();
-            if ($x) {
-                echo "<th>$x</th>\n";
+            $y = project_result_info_heading();
+            if ($y) {
+                $x[] = $y;
+                $a[] = null;
             }
         }
     }
     if ($show_host_link) {
-        echo "<th>".tra("Computer")."</th>\n";
+        $x[] = tra("Computer");
+        $a[] = null;
     }
-    echo "
-        <th>".tra("Sent")."</th>
-        <th>".tra("Time reported<br />or deadline")."
-            <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>
-        </th>
-        <th>".tra("Status")."</th>
-        <th>".tra("Run time<br />(sec)")."</th>
-        <th>".tra("CPU time<br />(sec)")."</th>
-        <th>".tra("Credit")."</th>
-        <th>".tra("Application")."</th>
-        </tr>
-    ";
+    $x[] = tra("Sent");
+    $x[] = tra("Time reported<br />or deadline")."
+        <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>";
+    $x[] = tra("Status");
+    $a[] = null;
+    $a[] = null;
+    $a[] = null;
+    $x[] = tra("Run time<br />(sec)");
+    $x[] = tra("CPU time<br />(sec)");
+    $x[] = tra("Credit");
+    $a[] = ALIGN_RIGHT;
+    $a[] = ALIGN_RIGHT;
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("Application");
+    $a[] = null;
+    row_heading_array($x, $a);
 }
 
 // was result invalid or timed out?
@@ -408,9 +417,7 @@ function bad_result($result) {
     return false;
 }
 
-function show_result_row(
-    $result, $show_wu_link, $show_host_link, $show_name, $i
-) {
+function show_result_row($result, $show_wu_link, $show_host_link, $show_name) {
     $s = time_str($result->sent_time);
     // if result has been reported, show the received time,
     // else show the reporting deadline in green if in the future
@@ -430,8 +437,7 @@ function show_result_row(
     $ss = state_string($result);
     $result_granted_credit = format_credit($result->granted_credit);
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit);
-    $j = $i % 2;
-    echo "<tr class=row$j>";
+    echo "<tr>";
     if ($show_name) {
         $x = $result->name;
     } else {
@@ -478,29 +484,69 @@ function version_string($version_num) {
     }
 }
 
-// Decode ErrorNumber into semi-human-readable,
-// taken from lib/error_numbers.h keep this up to date
+// transform a 4byte integer to an 8 character hex representation
+//
+// @return String The hex representation (uppercased) starting with 0x. Length is always 10 characters!
+// @param Integer $dec A signed integer
+//
+function int2hex($dec) {
+    return "0x".strtoupper(substr(sprintf("%08x",$dec), -8));
+}
+
+// Decode a windows error number into semi-human-readable,
+// taken from ntstatus.h for selected codes
+// They need to be uppercase after 0x!
+//
 // @return String A human readable error message
 // @param Integer $x An error number
 //
-function result_error_mask_str($x){
+function windows_error_code_str($x){
+    $h=int2hex($x);
+    switch($h){
+    case "0xC0000005": return "STATUS_ACCESS_VIOLATION";
+    case "0xC000001D": return "STATUS_ILLEGAL_INSTRUCTION";
+    case "0xC0000094": return "STATUS_INTEGER_DIVIDE_BY_ZERO";
+    case "0xC00000FD": return "STATUS_STACK_OVERFLOW";
+    case "0xC0000135": return "STATUS_DLL_NOT_FOUND";
+    case "0xC0000139": return "STATUS_ENTRYPOINT_NOT_FOUND";
+    case "0xC0000142": return "STATUS_DLL_INIT_FAILED";
+    case "0xC000026B": return "STATUS_DLL_INIT_FAILED_LOGOFF";
+    case "0xC0000409": return "STATUS_STACK_BUFFER_OVERRUN";
+    //case "": return "";
+    default: return "Unknown error code";
+    }
+}
+
+// Decode ErrorNumber into semi-human-readable,
+// taken from lib/error_numbers.h keep this up to date
+//
+// @return String A human readable error message
+// @param Integer $x An error number
+//
+function error_code_str($x){
+    // severe Windows error numbers are always large negative integers
+    if ($x<-400) return windows_error_code_str($x);
     switch($x){
     case 0: return "";
-	case 192: return "EXIT_STATEFILE_WRITE";
-	case 193: return "EXIT_SIGNAL";
-	case 194: return "EXIT_ABORTED_BY_CLIENT";
-	case 195: return "EXIT_CHILD_FAILED";
-	case 196: return "EXIT_DISK_LIMIT_EXCEEDED";
-	case 197: return "EXIT_TIME_LIMIT_EXCEEDED";
-	case 198: return "EXIT_MEM_LIMIT_EXCEEDED";
-	case 199: return "EXIT_CLIENT_EXITING";
-	case 200: return "EXIT_UNSTARTED_LATE";
-	case 201: return "EXIT_MISSING_COPROC";
-	case 202: return "EXIT_ABORTED_BY_PROJECT";
-	case 203: return "EXIT_ABORTED_VIA_GUI";
-	case 204: return "EXIT_UNKNOWN";
-	case -100: return "ERR_SELECT";
-	case -102: return "ERR_READ";
+    case 192: return "EXIT_STATEFILE_WRITE";
+    case 193: return "EXIT_SIGNAL";
+    case 194: return "EXIT_ABORTED_BY_CLIENT";
+    case 195: return "EXIT_CHILD_FAILED";
+    case 196: return "EXIT_DISK_LIMIT_EXCEEDED";
+    case 197: return "EXIT_TIME_LIMIT_EXCEEDED";
+    case 198: return "EXIT_MEM_LIMIT_EXCEEDED";
+    case 199: return "EXIT_CLIENT_EXITING";
+    case 200: return "EXIT_UNSTARTED_LATE";
+    case 201: return "EXIT_MISSING_COPROC";
+    case 202: return "EXIT_ABORTED_BY_PROJECT";
+    case 203: return "EXIT_ABORTED_VIA_GUI";
+    case 204: return "EXIT_UNKNOWN";
+    case 205: return "EXIT_OUT_OF_MEMORY";
+    case 206: return "EXIT_INIT_FAILURE";
+    case 207: return "EXIT_NO_SUB_TASKS";
+    case 208: return "EXIT_SUB_TASK_FAILURE";
+    case -100: return "ERR_SELECT";
+    case -102: return "ERR_READ";
     case -103: return "ERR_WRITE";
     case -104: return "ERR_FREAD";
     case -105: return "ERR_FWRITE";
@@ -633,12 +679,12 @@ function result_error_mask_str($x){
     case -233: return "ERR_UNSTARTED_LATE";
     case -234: return "ERR_MISSING_COPROC";
     case -235: return "ERR_PROC_PARSE";
-    default: return "Unknown error number";
+    default: return "Unknown error code";
     }
 }
 
 function exit_status_string($x) {
-    return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
+    return $x." (".int2hex($x).") ".error_code_str($x);
 }
 
 function show_result($result, $show_outfile_links=false) {
@@ -699,34 +745,34 @@ function show_result($result, $show_outfile_links=false) {
 
 function result_navigation($info, $where_clause) {
     global $state_name;
-	$state_count = array();
-	$app_count = array();
-	$x = "";
+    $state_count = array();
+    $app_count = array();
+    $x = "";
 
     $apps = BoincApp::enum('deprecated=0 ORDER BY user_friendly_name');
 
     for ($i=0; $i<NSTATES; $i++) {
-		$state_count[$i] = 0;
-	}
+        $state_count[$i] = 0;
+    }
     foreach ($apps as $app) {
-		$app_count[$app->id] = 0;
-	}
-	$app_count[0] = 0;
+        $app_count[$app->id] = 0;
+    }
+    $app_count[0] = 0;
 
-	$results = BoincResult::enum_fields(
+    $results = BoincResult::enum_fields(
         "appid, server_state, outcome, validate_state",
         $where_clause, null
     );
-	foreach ($results as $r) {
+    foreach ($results as $r) {
         if (array_key_exists($r->appid, $app_count)) {
             $app_count[$r->appid]++;
         }
-		$app_count[0]++;
+        $app_count[0]++;
         if (!$info->appid || ($r->appid == $info->appid)) {
             $state_count[state_num($r)]++;
             $state_count[0]++;
         }
-	}
+    }
 
     $x .= "<br><center>";
     $show_prev = ($info->offset >= $info->results_per_page);
@@ -758,7 +804,7 @@ function result_navigation($info, $where_clause) {
             $url = result_page_url($i2);
             $x .= "<a href=$url>".$state_name[$i]."</a>";
         }
-		$x .= " (".$state_count[$i].") ";
+        $x .= " (".$state_count[$i].") ";
     }
 
     if (count($apps) > 1) {
@@ -772,7 +818,7 @@ function result_navigation($info, $where_clause) {
         } else {
             $x .= 'All';
         }
-		$x .= " (".$app_count[0].") ";
+        $x .= " (".$app_count[0].") ";
 
         foreach ($apps as $app) {
             $i2->appid = $app->id;
@@ -783,13 +829,13 @@ function result_navigation($info, $where_clause) {
             } else {
                 $x .= '<a href="'.$url.'">'.$app->user_friendly_name.'</a>';
             }
-			$x .= " (".$app_count[$app->id].") ";
+            $x .= " (".$app_count[$app->id].") ";
         }
     }
 
-    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input class=\"btn btn-primary\" type=submit value='OK'></form>";
+    $x .= '<form action="result.php">'.tra("Task name:").' <input "size=40" name="result_name"> <input class="btn btn-primary" type="submit" value="OK"></form>';
     $x .= "</center><br>";
-	return $x;
+    return $x;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

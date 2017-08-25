@@ -284,7 +284,7 @@ def double_fork():
 
     # Decouple from parent environment.
     os.chdir("/")
-    os.umask(0)
+    os.umask(02)
     os.setsid()
 
     # Do second fork.
@@ -312,6 +312,7 @@ def is_pid_running(pid):
 locks = []
 def lock_file(filename):
     global locks
+    os.umask(02)
     file = open(filename,'w')
     locks.append(file)
     try:

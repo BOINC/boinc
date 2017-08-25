@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PARSE_H
-#define PARSE_H
+#ifndef BOINC_PARSE_H
+#define BOINC_PARSE_H
 
 #include <cstdio>
 #include <stdlib.h>
@@ -36,12 +36,15 @@
 #define XML_PARSE_DATA      5
 #define XML_PARSE_OVERFLOW  6
 
-#define TAG_BUF_LEN         256
+#define TAG_BUF_LEN         4096
+    // max tag length
+#define ELEMENT_BUF_LEN     65536
+    // max element length (matches BLOB_SIZE, max size of XML fields in DB)
 
 struct XML_PARSER {
     int scan_comment();
     int scan_cdata(char*, int);
-    char parsed_tag[4096];
+    char parsed_tag[TAG_BUF_LEN];
     bool is_tag;
     MIOFILE* f;
     XML_PARSER(MIOFILE*);
@@ -217,7 +220,7 @@ struct XML_PARSER {
 
     // copy everything up to (but not including) the given end tag.
     // The copied text may include XML tags.
-    // strips whitespace.
+    // strips start/end whitespace.
     //
     inline int element_contents(const char* end_tag, char* buf, int buflen) {
         int n=0;

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _CURRENT_VERSION_
-#define _CURRENT_VERSION_
+#ifndef BOINC_CURRENT_VERSION_H
+#define BOINC_CURRENT_VERSION_H
 
 #include "gui_http.h"
 

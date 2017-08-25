@@ -324,6 +324,7 @@
     <ClCompile Include="..\lib\filesys.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
     <ClCompile Include="..\lib\idlemon_win.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
     <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
@@ -432,6 +433,7 @@
     <ClInclude Include="..\lib\filesys.h" />
     <ClInclude Include="..\lib\hostinfo.h" />
     <ClInclude Include="..\lib\idlemon.h" />
+    <ClInclude Include="..\lib\keyword.h" />
     <ClInclude Include="..\lib\md5.h" />
     <ClInclude Include="..\lib\md5_file.h" />
     <ClInclude Include="..\lib\mfile.h" />

@@ -16,14 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once('../inc/sanitize_html.inc');
-
 // Functions that process user-supplied text (e.g. messages)
 // prior to displaying it to users.
 // Goals:
 // - Security (don't send evil javascript)
 // - obey user preferences
 // - improve formatting (e.g., convert newlines to <br> tags)
+
+require_once('../inc/sanitize_html.inc');
 
 class output_options {
     var $bb2html;            // BBCode as HTML? (on)
@@ -36,7 +36,7 @@ class output_options {
 
     // Constructor - set the defaults.
 
-    function output_options() {
+    function __construct() {
         $this->bb2html = 1;
         $this->images_as_links = 0;
         $this->link_popup = 0;
@@ -134,7 +134,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 5, -6));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<div class=\"pre\">$x</div>";
+                return "<pre>$x</pre>";
             },
             $text
         );
@@ -144,7 +144,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 6, -7));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<div class=\"code\">$x</div>";
+                return "<pre style=\"white-space:pre-wrap; \">$x</pre>";
             },
             $text
         );
@@ -239,11 +239,11 @@ function bb2html($text, $export=false) {
             "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
             "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
             "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
-            "<div style='font-style: oblique'>\\1 wrote:</div><blockquote class='postbody'>\\2</blockquote>",
-            "<blockquote class='postbody'>\\1</blockquote>",
+            "<em>\\1 wrote:</em><blockquote>\\2</blockquote>",
+            "<blockquote>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            "<img hspace=\"8\" src=\"\\1\\2\"> ",
+            "<img hspace=\"8\" class=\"img-responsive\" src=\"\\1\\2\"> ",
             "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
             "\\1<li>\\2\n\\3",
@@ -316,7 +316,7 @@ function highlight_terms($text, $terms) {
     $replace = array();
 
     foreach ($search as $key => $value) {
-        $replace[$key] = "<span class=\"highlight\">".$value."</span>";
+        $replace[$key] = "<span class=\"mark\">".$value."</span>";
     }
     if (substr(phpversion(), 0, 1) > 4) {   // PHP 4.x doesn't support str_ireplace
         return str_ireplace($search, $replace, $text);

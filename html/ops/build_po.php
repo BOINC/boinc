@@ -19,17 +19,15 @@ if (!isset($FILE_LIST)) {
 
 $date = strftime('%Y-%m-%d %H:%M %Z');
 $header = <<<HDR
-# BOINC web translation
-# Copyright (C) 2008 University of California
+# PROJECT translation
+# Copyright (C) PROJECT
 #
 # This file is distributed under the same license as BOINC.
 #
-# FileID  : \$Id\$
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC \$Id\$\\n"
-"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\\n"
+"Project-Id-Version: PROJECT"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\\n"
 "POT-Creation-Date: $date\\n"
 "Last-Translator: Generated automatically from source files\\n"
 "MIME-Version: 1.0\\n"

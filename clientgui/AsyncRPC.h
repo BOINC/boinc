@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _ASYNCRPC_H_
-#define _ASYNCRPC_H_
+#ifndef BOINC_ASYNCRPC_H
+#define BOINC_ASYNCRPC_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "AsyncRPC.cpp"
@@ -402,4 +402,4 @@ END_DECLARE_EVENT_TYPES()
 
 
 
-#endif // _ASYNCRPC_H_
+#endif

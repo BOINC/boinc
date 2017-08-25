@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2014 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -28,21 +28,47 @@
 #
 ## This script requires OS 10.6 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
-## and clicked the Install button on the dialog which appears to 
+## If you drag-install Xcode 4.3 or later, you must have opened Xcode
+## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the sqlite-autoconf-3110000 directory.
 ##     cd [path]/sqlite-autoconf-3110000/
 ## then run this script:
-##     source [path]/buildsqlite3.sh [ -clean ]
+##     source [path]/buildsqlite3.sh [ -clean ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
+## if --prefix is given as absolute path the library is installed into there
+## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
 
-if [ "$1" != "-clean" ]; then
-    if [ -f .libs/libsqlite3.a ]; then
-        echo "sqlite-3.11.0 already built"
+doclean=""
+stdout_target="/dev/stdout"
+lprefix=""
+libPath=".libs"
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -clean|--clean)
+        doclean="yes"
+        ;;
+        -prefix|--prefix)
+        lprefix="$2"
+        libPath="${lprefix}/lib"
+        shift
+        ;;
+        -q|--quiet)
+        stdout_target="/dev/null"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "${doclean}" != "yes" ]; then
+    if [ -f "${libPath}/libsqlite3.a" ]; then
+        cwd=$(pwd)
+        dirname=${cwd##*/}
+        echo "${dirname} already built"
         return 0
     fi
 fi
@@ -50,19 +76,19 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 GCCPATH=`xcrun -find gcc`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
 GPPPATH=`xcrun -find g++`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
     return 1
 fi
 
 MAKEPATH=`xcrun -find make`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find make tool"
     return 1
 fi
@@ -70,7 +96,7 @@ fi
 TOOLSPATH1=${MAKEPATH%/make}
 
 ARPATH=`xcrun -find ar`
-if [  $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "ERROR: can't find ar tool"
     return 1
 fi
@@ -81,28 +107,38 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-rm -f .libs/libsqlite3.a
-
-if [  $? -ne 0 ]; then return 1; fi
+if [ -d "${libPath}" ]; then
+    rm -f "${libPath}/libsqlite3.a"
+fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
-export CFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export CPPFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
+export MACOSX_DEPLOYMENT_TARGET=10.6
 
-./configure --enable-shared=NO --host=i386
-if [  $? -ne 0 ]; then return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    ./configure --prefix=${lprefix} --enable-shared=NO --host=i386
+    if [ $? -ne 0 ]; then return 1; fi
+else
+    ./configure --enable-shared=NO --host=i386
+    if [ $? -ne 0 ]; then return 1; fi
+fi
 
-if [ "$1" = "-clean" ]; then
+if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
-make
-if [  $? -ne 0 ]; then return 1; fi
+make 1>$stdout_target
+if [ $? -ne 0 ]; then return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    make install 1>$stdout_target
+    if [ $? -ne 0 ]; then return 1; fi
+fi
 
+lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""

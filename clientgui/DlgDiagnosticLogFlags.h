@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _DLGDIAGNOSTICLOGFLAGS_H_
-#define _DLGDIAGNOSTICLOGFLAGS_H_
+#ifndef BOINC_DLGDIAGNOSTICLOGFLAGS_H
+#define BOINC_DLGDIAGNOSTICLOGFLAGS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgDiagnosticLogFlags.cpp"
@@ -49,18 +49,22 @@ public:
     void OnSize(wxSizeEvent& event);
 	void OnOK(wxCommandEvent& event);
 	void OnSetDefaults(wxCommandEvent& event);
+    void OnApply(wxCommandEvent& event);
+    void OnCheckBox(wxCommandEvent& event);
 private:
 	//generic layout methods
     bool SaveState();
     bool RestoreState();
     
     void CreateCheckboxes();
+    void SaveFlags();
     
     LOG_FLAGS           log_flags;
     CC_CONFIG           m_cc_config;
     
     wxGridSizer*        m_headingSizer;
     std::vector <wxCheckBox*> m_checkbox_list;
+    wxButton*           m_btnApply;
 
 protected:
     wxString            m_headingText;
@@ -69,5 +73,4 @@ protected:
     wxGridSizer*        m_checkboxSizer;
 };
 
-#endif // _DLGDIAGNOSTICLOGFLAGS_H_
-
+#endif

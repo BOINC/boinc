@@ -172,13 +172,13 @@ if ($search_author) {
 $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort, $show_hidden_posts);
 
 // Display the threads while we search for posts
+//
 if (count($threads)){
-    echo "<span class=title>" . tra("Thread titles matching your query:") . "</span>";
+    echo "<h3>" . tra("Thread titles matching your query:") . "</h3>";
     show_thread_and_context_header();
-    $i = 0;
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
-        show_thread_and_context($thread, $logged_in_user, $i++);
+        show_thread_and_context($thread, $logged_in_user);
     }
     end_table();
     echo "<br /><br />";
@@ -193,7 +193,7 @@ $posts = search_post_content(
 );
 
 if (count($posts)){
-    echo "<span class=title>" . tra("Messages matching your query:") . "</span>";
+    echo "<h3>" . tra("Messages matching your query:") . "</h3>";
     start_table();
     $n = 1;
     $options = get_output_options($logged_in_user);
@@ -218,7 +218,7 @@ if (count($posts)){
 if (!count($threads) && !count($posts)){
     echo "<p>".tra("Sorry, couldn't find anything matching your search query. You can try to broaden your search by using less words (or less specific words).")."</p>
     <p>"
-    .tra("You can also %1try the same search on Google.%2",
+    .tra("You can also %1 try the same search on Google. %2",
          "<a href=\"https://www.google.com/search?domains=".url_base()."&sitesearch=".url_base()."forum_thread.php&q=".htmlentities($search_keywords)."\">",
          "</a>")
     ."</p>";

@@ -72,13 +72,14 @@ if ($xml) {
 } else {
     page_head(tra("Team history for %1", $team->name));
     start_table();
-    echo "<tr>
-        <th>".tra("When")."</th>
-        <th>".tra("User")."</th>
-        <th>".tra("Action")."</th>
-        <th>".tra("Total credit at time of action")."</th>
-        </tr>
-    ";
+    row_heading_array(
+        array(
+            tra("When"),
+            tra("User"),
+            tra("Action"),
+            tra("Total credit at time of action"),
+        )
+    );
 }
 $deltas = BoincTeamDelta::enum("teamid=$teamid order by timestamp");
 foreach($deltas as $delta) {

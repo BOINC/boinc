@@ -83,7 +83,7 @@ if (post_str('submit',true) && (!$preview)) {
     }
 }
 
-page_head(tra("Forum"),'','','', $bbcode_js);
+page_head(tra("Edit post"),'','','', $bbcode_js);
 
 show_forum_header($logged_in_user);
 switch ($forum->parent_type) {
@@ -96,12 +96,14 @@ case 1:
     break;
 }
 
+echo "<p></p>";
+
 if ($preview == tra("Preview")) {
-    $options = null;
-	echo "<h2>".tra("Preview")."</h2>\n";
-    echo "<div class=pm_preview>";
-    echo output_transform($content, $options);
-    echo "</div>\n";
+    panel(tra('Preview'),
+        function() use($content) {
+            echo output_transform($content, null);
+        }
+    );
 }
 
 echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
@@ -112,12 +114,12 @@ if ($can_edit_title) {
     //If this is the user can edit the thread title display a way of doing so
     if ($preview) {
         row2(
-            tra("Title").html_info(),
+            tra("Title").bbcode_info(),
             "<input type=\"text\" name=\"title\" value=\"".htmlspecialchars($title)."\">"
         );
     } else {
         row2(
-            tra("Title").html_info(),
+            tra("Title").bbcode_info(),
             '<input type="text" name="title" value="'.htmlspecialchars($thread->title).'">'
         );
     }
@@ -125,13 +127,13 @@ if ($can_edit_title) {
 
 if ($preview) {
     row2(
-        tra("Message").html_info().post_warning(),
-        $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\" class=\"message_field\">".htmlspecialchars($content)."</textarea>"
+        tra("Message").bbcode_info().post_warning(),
+        start_table_str().$bbcode_html.end_table_str()."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
-        tra("Message").html_info().post_warning(),
-        $bbcode_html.'<textarea name="content" rows="12" cols="80" class="message_field">'.htmlspecialchars($post->content).'</textarea>'
+        tra("Message").bbcode_info().post_warning(),
+        start_table_str().$bbcode_html.end_table_str().'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }
 
@@ -142,7 +144,7 @@ if ($post->signature) {
 }
 row2("", "<input id=\"add_signature\" name=\"add_signature\" value=\"1\" ".$enable_signature." type=\"checkbox\">
     <label for=\"add_signature\">".tra("Add my signature to this post")."</label>");
-row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"><input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"OK\">"
+row2("", "<input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">&nbsp;<input class=\"btn btn-success\" type=\"submit\" name=\"submit\" value=\"OK\">"
 );
 
 end_table();

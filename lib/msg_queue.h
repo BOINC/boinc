@@ -17,8 +17,8 @@
 
 // DEPRECATED
 
-#ifndef _MSG_QUEUE_
-#define _MSG_QUEUE_
+#ifndef BOINC_MSG_QUEUE_H
+#define BOINC_MSG_QUEUE_H
 
 #include <sys/types.h>
 #include <sys/ipc.h>

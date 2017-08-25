@@ -170,29 +170,37 @@ struct PROC_RESOURCES {
 
     // we've decided to add this to the runnable list; update bookkeeping
     //
-    void schedule(RESULT* rp, bool is_edf) {
+    void schedule(RESULT* rp, ACTIVE_TASK* atp, bool is_edf) {
         int rt = rp->avp->gpu_usage.rsc_type;
-        if (rt) {
-            // if the resource type has exclusions, don't reserve instances.
-            // It means that the run list will include all jobs
-            // for that resource type.
-            // Inefficient, but necessary to avoid starvation cases.
-            //
-            if (! rsc_work_fetch[rt].has_exclusions) {
-                reserve_coprocs(*rp);
-            }
-            //ncpus_used_st += rp->avp->avg_ncpus;
-            // don't increment CPU usage.
-            // This may seem odd; the reason is the following scenario:
-            // - this job uses lots of CPU (say, a whole one)
-            // - there's an uncheckpointed GPU job that uses little CPU
-            // - we end up running the uncheckpointed job
-            // - this causes all or part of a CPU to be idle
 
-        } else if (rp->avp->avg_ncpus > 1) {
-            ncpus_used_mt += rp->avp->avg_ncpus;
-        } else {
-            ncpus_used_st += rp->avp->avg_ncpus;
+        // see if it's possible this job will be ruled out
+        // when we try to actually run it
+        // (e.g. it won't fit in RAM, or it uses GPU type w/ exclusions)
+        // If so, don't reserve CPU/GPU for it, to avoid starvation scenario
+        //
+        bool may_not_run = false;
+        if (atp && atp->too_large) {
+            may_not_run = true;
+        }
+        if (rt && rsc_work_fetch[rt].has_exclusions) {
+            may_not_run = true;
+        }
+
+        if (!may_not_run) {
+            if (rt) {
+                reserve_coprocs(*rp);
+                // don't increment CPU usage.
+                // This may seem odd; the reason is the following scenario:
+                // - this job uses lots of CPU (say, a whole one)
+                // - there's an uncheckpointed GPU job that uses little CPU
+                // - we end up running the uncheckpointed job
+                // - this causes all or part of a CPU to be idle
+                //
+            } else if (rp->avp->avg_ncpus > 1) {
+                ncpus_used_mt += rp->avp->avg_ncpus;
+            } else {
+                ncpus_used_st += rp->avp->avg_ncpus;
+            }
         }
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
@@ -554,17 +562,30 @@ void CLIENT_STATE::reset_rec_accounting() {
     rec_interval_start = now;
 }
 
-// update REC (recent estimated credit)
+// update per-project accounting:
+//  - recent estimated credit (EC)
+//  - total CPU and GPU EC
+//  - total CPU and GPU time
 //
 static void update_rec() {
     double f = gstate.host_info.p_fpops;
+    double on_frac = gstate.global_prefs.cpu_usage_limit / 100;
 
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
 
         double x = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
-            x += p->rsc_pwf[j].secs_this_rec_interval * f * rsc_work_fetch[j].relative_speed;
+            double dt = p->rsc_pwf[j].secs_this_rec_interval * on_frac;
+            double flops = dt * f * rsc_work_fetch[j].relative_speed;
+            x += flops;
+            if (j) {
+                p->gpu_ec += flops*COBBLESTONE_SCALE;
+                p->gpu_time += dt;
+            } else {
+                p->cpu_ec += flops*COBBLESTONE_SCALE;
+                p->cpu_time += dt;
+            }
         }
         x *= COBBLESTONE_SCALE;
         double old = p->pwf.rec;
@@ -821,7 +842,7 @@ void add_coproc_jobs(
         rp->already_selected = true;
         atp = gstate.lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, true);
+        proc_rsc.schedule(rp, atp, true);
         rp->project->rsc_pwf[rsc_type].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
@@ -838,7 +859,7 @@ void add_coproc_jobs(
         rp->already_selected = true;
         atp = gstate.lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, false);
+        proc_rsc.schedule(rp, atp, false);
         run_list.push_back(rp);
     }
 }
@@ -885,6 +906,10 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
             p->rsc_pwf[j].deadlines_missed_copy = p->rsc_pwf[j].deadlines_missed;
         }
     }
+
+    // compute max working set size for app versions
+    // (max of working sets of currently running jobs)
+    //
     for (i=0; i<app_versions.size(); i++) {
         app_versions[i]->max_working_set_size = 0;
     }
@@ -922,7 +947,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         rp->already_selected = true;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, true);
+        proc_rsc.schedule(rp, atp, true);
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
@@ -939,7 +964,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         if (!rp) break;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, false);
+        proc_rsc.schedule(rp, atp, false);
         run_list.push_back(rp);
     }
 
@@ -1084,7 +1109,6 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //
 bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
-    vector<ACTIVE_TASK*> preemptable_tasks;
     int retval;
     double ncpus_used=0;
     ACTIVE_TASK* atp;
@@ -1244,6 +1268,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
 #endif
 
+        // skip jobs whose working set is too large to fit in available RAM
+        //
         double wss = 0;
         if (atp) {
             atp->too_large = false;
@@ -1251,13 +1277,16 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         } else {
             wss = rp->avp->max_working_set_size;
         }
+        if (wss == 0) {
+            wss = rp->wup->rsc_memory_bound;
+        }
         if (wss > ram_left) {
             if (atp) {
                 atp->too_large = true;
             }
             if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] enforce: result %s can't run, too big %.2fMB > %.2fMB",
+                    "[cpu_sched_debug] enforce: task %s can't run, too big %.2fMB > %.2fMB",
                     rp->name,  wss/MEGA, ram_left/MEGA
                 );
             }
@@ -1413,9 +1442,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 continue;
             }
             if (retval) {
-                report_result_error(
-                    *(atp->result), "Couldn't start or resume: %d", retval
+                char err_msg[4096];
+                snprintf(err_msg, sizeof(err_msg),
+                    "Couldn't start or resume: %d", retval
                 );
+                report_result_error(*(atp->result), err_msg);
                 request_schedule_cpus("start failed");
                 continue;
             }

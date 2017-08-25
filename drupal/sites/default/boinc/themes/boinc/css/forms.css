@@ -219,6 +219,9 @@ form ul.tab-list {
   padding-bottom: 0;
   border-left: 1px dotted #aaa;
 }
+#comment-form .form-item input[type="text"] {
+  width: 100%;
+}
 
 
 /*
@@ -617,4 +620,10 @@ html.js fieldset.collapsible legend a,
 }
 #recaptcha_response_field {
 	left: 0;
+}
+
+/* Task App filter */
+select.task-app-filter {
+  width: 120px;
+  white-space: nowrap;
 }

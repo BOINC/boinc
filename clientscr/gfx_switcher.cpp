@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,9 +18,9 @@
 // gfx_switcher.C
 //
 // Used by screensaver to:
-//  - launch graphics application at given slot number as user & owner boinc_project
-//  - launch default graphics application as user & owner boinc_project
-//  - kill graphics application with given process ID as user & owner boinc_project
+//  - launch graphics application at given slot number as user & group boinc_project
+//  - launch default graphics application as user & group boinc_project
+//  - kill graphics application with given process ID as user & group boinc_project
 //
 #include <unistd.h>
 #include <cstdio>

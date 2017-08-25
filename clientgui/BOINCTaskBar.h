@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINCTASKBAR_H_
-#define _BOINCTASKBAR_H_
+#ifndef BOINC_BOINCTASKBAR_H
+#define BOINC_BOINCTASKBAR_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCTaskBar.cpp"
@@ -148,6 +148,4 @@ END_DECLARE_EVENT_TYPES()
 #define EVT_TASKBAR_RELOADSKIN(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_TASKBAR_REFRESH(fn)  DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_REFRESH, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
-
 #endif
-

@@ -1,8 +1,12 @@
 <?php
-require_once("docutil.php");
+$dir = getcwd();
+chdir("/mydisks/a/users/boincadm/projects/dev/html/user");
+require_once("../inc/util.inc");
+chdir($dir);
+
 require_once("addon_data.php");
 
-$strip_header = $_GET['strip_header'];
+$strip_header = get_str('strip_header', true);
 
 if (!$strip_header) {
 page_head('BOINC add-on software');
@@ -35,7 +39,9 @@ developing add-on software</a>.
 function show_group($name, $list, $short_name) {
 	echo "
 		<h2>$name</h2>
-		<table border=1 cellpadding=6 width=100%>
+    ";
+    start_table("table-striped");
+    echo "
 		<tr>
 			<th>Add-on<br><font size=-2>click for info</font></th>
 			<th>Description</th>
@@ -53,8 +59,7 @@ function show_group($name, $list, $short_name) {
 			</tr>
 		";
 	}
-	echo "</table>
-	";
+    end_table();
 }
 
 echo "<a name=windows></a>\n";

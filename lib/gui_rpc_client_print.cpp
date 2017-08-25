@@ -118,9 +118,22 @@ void APP::print() {
 }
 
 void APP_VERSION::print() {
-    printf("   application: %s\n", app->name);
-    printf("   version: %.2f\n", version_num/100.0);
     printf("   project: %s\n", project->project_name.c_str());
+    printf("   application: %s\n", app->name);
+    printf("   platform: %s\n", platform);
+    if (strlen(plan_class)) {
+        printf("   plan class: %s\n", plan_class);
+    }
+    printf("   version: %.2f\n", version_num/100.0);
+    if (avg_ncpus != 1) {
+        printf("   avg #CPUS: %.3f\n", avg_ncpus);
+    }
+    if (gpu_type != PROC_TYPE_CPU) {
+        printf("   coprocessor type: %s\n", proc_type_name(gpu_type));
+        printf("   coprocessor usage: %.3f\n", gpu_usage);
+    }
+    printf("   estimated GFLOPS: %.2f\n", flops/1e9);
+    printf("   filename: %s\n", exec_filename);
 }
 
 void WORKUNIT::print() {
@@ -129,13 +142,22 @@ void WORKUNIT::print() {
     printf("   FP bound: %e\n", rsc_fpops_bound);
     printf("   memory bound: %.2f MB\n", rsc_memory_bound/MEGA);
     printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
+    if (!job_keywords.empty()) {
+        printf("   keywords:\n");
+        for (unsigned int i=0; i<job_keywords.keywords.size(); i++) {
+            KEYWORD &kw = job_keywords.keywords[i];
+            printf("      %s\n", kw.name.c_str());
+        }
+    }
 }
 
 void RESULT::print() {
     printf("   name: %s\n", name);
     printf("   WU name: %s\n", wu_name);
     printf("   project URL: %s\n", project_url);
-    time_t foo = (time_t)report_deadline;
+    time_t foo = (time_t)received_time;
+    printf("   received: %s", ctime(&foo));
+    foo = (time_t)report_deadline;
     printf("   report deadline: %s", ctime(&foo));
     printf("   ready to report: %s\n", ready_to_report?"yes":"no");
     printf("   got server ack: %s\n", got_server_ack?"yes":"no");

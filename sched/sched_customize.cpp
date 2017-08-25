@@ -94,7 +94,11 @@ using std::string;
 
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
-bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
+bool wu_is_infeasible_custom(
+    WORKUNIT& /*wu*/,
+    APP& /*app*/,
+    BEST_APP_VERSION& /*bav*/
+) {
 #if 0
     // example 1: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.
@@ -846,8 +850,10 @@ static inline bool app_plan_vbox(
     }
 
     // host must have VM acceleration in order to run hwaccel jobs
+    // NOTE: 64-bit VM's require hard acceleration extensions or they fail
+    // to boot.
     //
-    if (strstr(plan_class, "hwaccel")) {
+    if (strstr(plan_class, "hwaccel") || strstr(plan_class, "64")) {
         if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
             || sreq.host.p_vm_extensions_disabled
         ) {
@@ -887,11 +893,8 @@ static inline bool app_plan_vbox(
         if (can_use_multicore) {
             // Use number of usable CPUs, taking user prefs into account
             double ncpus = g_wreq->effective_ncpus;
-            // CernVM on average uses between 25%-50% of a second core
-            // Total on a dual-core machine is between 65%-75%
-            if (ncpus > 1.5) ncpus = 1.5;
             hu.avg_ncpus = ncpus;
-            hu.max_ncpus = 2.0;
+            hu.max_ncpus = ncpus;
             sprintf(hu.cmdline, "--nthreads %f", ncpus);
         }
         // use the non-mt version rather than the mt version with 1 CPU

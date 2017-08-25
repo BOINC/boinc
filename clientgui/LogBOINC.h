@@ -15,16 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _LOGBOINC_H_
-#define _LOGBOINC_H_
+#ifndef BOINC_LOGBOINC_H
+#define BOINC_LOGBOINC_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "LogBOINC.cpp"
 #endif
 
-
-class wxLogBOINC : public wxLogStderr
-{
+class wxLogBOINC : public wxLogStderr {
     DECLARE_NO_COPY_CLASS(wxLogBOINC)
 
 public:
@@ -33,7 +31,6 @@ public:
 protected:
     virtual void DoLogText(const wxString& msg);
 };
-
 
 #endif
 

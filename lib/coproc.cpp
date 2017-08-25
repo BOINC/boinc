@@ -106,8 +106,9 @@ void COPROC::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc>\n"
         "   <type>%s</type>\n"
-        "   <count>%d</count>\n",
-        type, count
+        "   <count>%d</count>\n"
+        "   <peak_flops>%f</peak_flops>\n",
+        type, count, peak_flops
     );
     
     if (scheduler_rpc) {
@@ -148,6 +149,10 @@ int COPROC::parse(XML_PARSER& xp) {
             clear_usage();
             return 0;
         }
+        if (xp.match_tag("coproc_opencl")) {
+            opencl_prop.parse(xp, "/coproc_opencl");
+            continue;
+        }
         if (xp.parse_str("type", type, sizeof(type))) continue;
         if (xp.parse_int("count", count)) continue;
         if (xp.parse_double("req_secs", req_secs)) continue;
@@ -167,6 +172,9 @@ int COPROC::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// return a string, to be stored in host.serialnum,
+// describing the host's coprocessors
+//
 void COPROCS::summary_string(char* buf, int len) {
     char buf2[1024];
 
@@ -197,6 +205,25 @@ void COPROCS::summary_string(char* buf, int len) {
             (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
             intel_gpu.opencl_prop.opencl_device_version_int
+        );
+        strlcat(buf, buf2, len);
+    }
+
+    // add OpenCL devices other than nvidia/amd/intel
+    //
+    for (int i=1; i<n_rsc; i++) {
+        COPROC& cp = coprocs[i];
+        int type = coproc_type_name_to_num(cp.type);
+        if (type == PROC_TYPE_NVIDIA_GPU) continue;
+        if (type == PROC_TYPE_AMD_GPU) continue;
+        if (type == PROC_TYPE_INTEL_GPU) continue;
+        if (!strlen(cp.opencl_prop.name)) continue;
+        snprintf(buf2, sizeof(buf2),
+            "[opencl_gpu|%s|%d|%dMB|%d]",
+            cp.type,
+            cp.count,
+            (int)(cp.opencl_prop.global_mem_size/MEGA),
+            cp.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }
@@ -252,8 +279,11 @@ int COPROCS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+#ifdef _USING_FCGI_
+void COPROCS::write_xml(MIOFILE&, bool) {
+}
+#else
 void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
-#ifndef _USING_FCGI_
     mf.printf("    <coprocs>\n");
     
     for (int i=1; i<n_rsc; i++) {
@@ -273,8 +303,8 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     }
     
     mf.printf("    </coprocs>\n");
-#endif
 }
+#endif
 
 void COPROC_NVIDIA::description(char* buf, int buflen) {
     char vers[256], cuda_vers[256];
@@ -541,7 +571,7 @@ void COPROC_NVIDIA::set_peak_flops() {
         // OpenCL w/ cl_nv_device_attribute_query extension
         // Per: https://www.khronos.org/registry/cl/extensions/nv/cl_nv_device_attribute_query.txt
         //
-        // The theoretical single-precision processing power of a Maxwell GPU in GFLOPS is computed as 2 (operations per FMA instruction per CUDA core per cycle) × number of CUDA cores × core clock speed (in GHz).
+        // The theoretical single-precision processing power of a Maxwell GPU in GFLOPS is computed as 2 (operations per FMA instruction per CUDA core per cycle) Ã— number of CUDA cores Ã— core clock speed (in GHz).
         // Per: https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)#Performance
         // Per: https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units
         //
@@ -666,7 +696,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
     }
         
     f.printf("</coproc_ati>\n");
-};
+}
 #endif
 
 void COPROC_ATI::clear() {
@@ -875,7 +905,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
     }
         
     f.printf("</coproc_intel_gpu>\n");
-};
+}
 #endif
 
 void COPROC_INTEL::clear() {

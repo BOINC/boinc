@@ -12,7 +12,10 @@ function work_and_host_stats_default_page_manager_pages() {
   $page->admin_title = 'Stats';
   $page->admin_description = '';
   $page->path = 'community/stats';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'Statistics',
@@ -56,6 +59,8 @@ function work_and_host_stats_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = 'Statistics and Leaderboards';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_page_stats_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -126,7 +131,7 @@ function work_and_host_stats_default_page_manager_pages() {
     $pane->position = 2;
     $display->content['new-3'] = $pane;
     $display->panels['middle'][2] = 'new-3';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

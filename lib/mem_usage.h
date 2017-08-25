@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __MEM_USAGE__
-#define __MEM_USAGE__
+#ifndef BOINC_MEM_USAGE_H
+#define BOINC_MEM_USAGE_H
 
 extern int mem_usage(double& vm_usage, double& resident_set);
 

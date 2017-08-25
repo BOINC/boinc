@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -57,4 +57,5 @@ void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
 bool            validateNumericString(CFStringRef s);
 double          getDTime();
+void            doBoinc_Sleep(double seconds);
 extern void     print_to_log_file(const char *format, ...);

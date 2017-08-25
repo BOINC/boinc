@@ -27,7 +27,6 @@
   $topic_count = count($topics);
   $topic_index = 0;
   $first_non_sticky = FALSE;
-  
 ?>
 
 <table id="forum-topic-<?php print $team_forum_id; ?>">
@@ -42,53 +41,63 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($topics as $topic): ?>
+  <?php foreach ($topics as $id => $topic): ?>
     <?php
       $topic = (object) $topic;
-      
+      $author = user_load($topic->uid);
       $topic_index++;
-      $row_class = $topic->zebra;
+      $row_class = 'topic ' . $topic->zebra;
       if ($topic_index == 1) {
         $row_class .= ' first';
       }
-      if ($topic->sticky) {
+      if ($result[$id]->node_boincteam_forum_node_sticky) {
         $row_class .= ' sticky';
       }
-      elseif (!$first_non_sticky AND !$topic->sticky) {
+      elseif (!$first_non_sticky AND !($result[$id]->node_boincteam_forum_node_sticky)) {
         $row_class .= ' first-non-sticky';
         $first_non_sticky = TRUE;
       }
       if ($topic_index == $topic_count) {
         $row_class .= ' last';
       }
+      if (!empty($topic->timestamp) OR $topic->new_comments) {
+        $row_class .= ' updated';
+      }
     ?>
     <tr class="<?php print $row_class;?>">
-      <td class="icon"><?php //print $topic->icon; ?></td>
-      <td class="title"><?php print $topic->title; ?></td>
+      <td class="icon"><?php //print $topic->icon; ?>
+        <?php if ($result[$id]->node_boincteam_forum_node_sticky): ?>
+          <span class='fa fa-thumb-tack'></span>
+        <?php endif; ?>
+        <?php if ($result[$id]->node_boincteam_forum_node_comment != COMMENT_NODE_READ_WRITE): ?>
+          <span class='fa fa-lock'></span>
+        <?php endif; ?>
+        <?php if (!empty($topic->timestamp)): ?>
+            <span class='fa fa-star-o'></span>
+        <?php elseif ($topic->new_comments): ?>
+            <span class='fa fa-bell-o'></span>
+        <?php endif; ?>
+      </td>
+      <td class="title" title="<?php print $author->boincuser_name; ?>">
+        <?php print $topic->title; ?>
+      </td>
     <?php if ($topic->moved): ?>
       <td colspan="3"><?php print $topic->message; ?></td>
     <?php else: ?>
       <td class="replies">
-        <?php if ($topic->new_replies): ?>
-          <a href="<?php print $topic->new_url; ?>">
+        <?php if ($topic->new_comments): ?>
+          <?php preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $topic->new_comments, $myresult); ?>
+          <a href="<?php print $myresult[2][0]; ?>">
         <?php endif; ?>
         <?php print $topic->comment_count; ?>
-        <?php if ($topic->new_replies): ?>
-          <?php //print $topic->new_text; ?>
-          </a>
+        <?php if ($topic->new_comments): ?>
+          </a>           
         <?php endif; ?>
       </td>
-      <td class="created"><?php print $topic->created; ?></td>
+      <td class="created">
+        <?php print $topic->created; ?></td>
       <td class="last-reply">
-        <?php if ($topic->sticky AND $topic->comment == 'Read only'): ?>
-          <?php print bts('Featured') . ' / ' . bts('Locked'); ?>
-        <?php elseif ($topic->sticky): ?>
-          <?php print bts('Featured'); ?>
-        <?php elseif ($topic->comment == 'Read only'): ?>
-          <?php print bts('Locked'); ?>
-        <?php else: ?>
-          <?php print $topic->last_comment_timestamp; ?>
-        <?php endif; ?>
+        <?php print $topic->last_comment_timestamp; ?>
       </td>
     <?php endif; ?>
     </tr>

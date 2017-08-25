@@ -52,8 +52,7 @@
 
 #ifdef __WXMAC__
 #include "util.h"
-
-static int compareOSVersionTo(int toMajor, int toMinor);
+#include "mac_util.h"
 #endif
 
 // Workaround for Linux refresh problem
@@ -84,6 +83,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+    EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
 	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
@@ -259,6 +259,21 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     menuHelp->AppendSeparator();
 
     strMenuName.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    strMenuDescription.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    menuHelp->Append(
+        ID_CHECK_VERSION,
+        strMenuName,
+        strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
@@ -390,6 +405,7 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     wxMenu* menuFile = NULL;
     wxMenu* menuHelp = NULL;
+    wxMenu* menuChangeGUI = NULL;
     
     wxASSERT(pDoc);
     
@@ -398,13 +414,14 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     
     menu->FindItem(ID_CLOSEWINDOW, &menuFile);
     menu->FindItem(ID_HELPBOINC, &menuHelp);
+    menu->FindItem(ID_CHANGEGUI, &menuChangeGUI);
     size_t numItems = menu->GetMenuItemCount();
     for (size_t pos = 0; pos < numItems; ++pos) {
         wxMenuItem * item = menu->FindItemByPosition(pos);
-        if ((menu == menuFile) || (menu == menuHelp)) {
+        if ((menu == menuFile) || (menu == menuHelp) || (menu == menuChangeGUI)) {
             // Always enable all items in File menu or Help menu:
             // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
-            // ID_HELPBOINCWEBSITE, wxID_ABOUT
+            // ID_HELPBOINCWEBSITE, wxID_ABOUT, ID_CHANGEGUI
             item->Enable(true);
         } else {
             // Disable other menu items if not connected to client
@@ -609,6 +626,14 @@ void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpAbout - Function End"));
 }
 
+void CSimpleFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function Begin"));
+
+    wxGetApp().GetDocument()->CheckForVersionUpdate(true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function End"));
+}
+
 
 void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
@@ -729,9 +754,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CWizardAttach*     pWizard = NULL;
     wxString strComputer = wxEmptyString;
-    wxString strName = wxEmptyString;
-    wxString strURL = wxEmptyString;
-    wxString strTeamName = wxEmptyString;
     std::string strProjectName;
     std::string strProjectURL;
     std::string strProjectAuthenticator;
@@ -1325,29 +1347,3 @@ void CSimpleGUIPanel::OnEraseBackground(wxEraseEvent& event) {
 #endif
     dc->DrawBitmap(m_bmpBg, 0, 0);
 }
-
-
-#ifdef __WXMAC__
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
-}
-#endif

@@ -547,7 +547,11 @@ static int modify_host_struct(HOST& host) {
     strlcpy(host.serialnum, buf, sizeof(host.serialnum));
     strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf2, "[vbox|%s]", g_request->host.virtualbox_version);
+        sprintf(buf2, "[vbox|%s|%d|%d]",
+            g_request->host.virtualbox_version,
+            (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?1:0,
+            g_request->host.p_vm_extensions_disabled?0:1
+        );
         strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     }
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
@@ -1439,6 +1443,16 @@ void process_request(char* code_sign_key) {
     handle_msgs_from_host();
     if (config.msg_to_host) {
         handle_msgs_to_host();
+    }
+
+    // compute GPU params
+    //
+    g_reply->host.p_ngpus = 0;
+    g_reply->host.p_gpu_fpops = 0;
+    for (int j=1; j<g_request->coprocs.n_rsc; j++) {
+        int n = g_request->coprocs.coprocs[j].count;
+        g_reply->host.p_ngpus += n;
+        g_reply->host.p_gpu_fpops += n*g_request->coprocs.coprocs[j].peak_flops;
     }
 
     update_host_record(initial_host, g_reply->host, g_reply->user);

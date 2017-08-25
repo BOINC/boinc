@@ -89,7 +89,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -830,7 +830,7 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('path', 'account/computers/all');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'All computers',
+    'title' => bts('All computers', array(), NULL, 'boinc:account-host-list'),
     'description' => 'Show all computers associated with the account',
     'weight' => '1',
     'name' => 'navigation',
@@ -870,7 +870,7 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('path', 'account/computers/active');
   $handler->override_option('menu', array(
     'type' => 'default tab',
-    'title' => 'Computers active in past 30 days',
+    'title' => bts('Computers active in past 30 days', array(), NULL, 'boinc:account-host-list'),
     'description' => '',
     'weight' => '0',
     'name' => 'navigation',
@@ -990,7 +990,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '0',
+      'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,

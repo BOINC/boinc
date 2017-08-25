@@ -2420,7 +2420,7 @@
 		<row><td>WEBx86</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx86</td><td>ProductName</td><td/></row>
 		<row><td>WEBx86</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_7.6.22_windows_intelx86</td></row>
+		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_7.6.28_windows_intelx86</td></row>
 		<row><td>WEBx86</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4520,11 +4520,11 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{F4BA4AC3-570A-4B8C-BC55-A19F1DE02B6D}</td><td/></row>
+		<row><td>ProductCode</td><td>{76611F90-554F-420B-9753-EF47AFF76789}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>World Community Grid</td><td/></row>
-		<row><td>ProductVersion</td><td>7.6.22</td><td/></row>
+		<row><td>ProductVersion</td><td>7.6.28</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>

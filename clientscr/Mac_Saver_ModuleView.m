@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,6 +27,7 @@
 #include <IOKit/hidsystem/IOHIDLib.h>
 #include <IOKit/hidsystem/IOHIDParameter.h>
 #include <IOKit/hidsystem/event_status_driver.h>
+#include "mac_util.h"
 
 #ifndef NSInteger
 #if __LP64__ || NS_BUILD_32_LIKE_64
@@ -40,7 +41,23 @@ typedef int NSInteger;
 typedef float CGFloat;
 #endif
 
-static int compareOSVersionTo(int toMajor, int toMinor);
+// NSCompositeSourceOver is deprecated in OS 10.12 and is replaced by
+// NSCompositingOperationSourceOver, which is not defined before OS 10.12
+#ifndef NSCompositingOperationSourceOver
+#define NSCompositingOperationSourceOver NSCompositeSourceOver
+#endif
+
+// NSCompositeCopy is deprecated in OS 10.12 and is replaced by
+// NSCompositingOperationCopy, which is not defined before OS 10.12
+#ifndef NSCompositingOperationCopy
+#define NSCompositingOperationCopy NSCompositeCopy
+#endif
+
+// NSCriticalAlertStyle is deprecated in OS 10.12 and is replaced by
+// NSAlertStyleCritical, which is not defined before OS 10.12
+#ifndef NSAlertStyleCritical
+#define NSAlertStyleCritical NSCriticalAlertStyle
+#endif
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -56,6 +73,7 @@ NSImage *gBOINC_Logo = NULL;
 NSImage *gPreview_Image = NULL;
 
 int gTopWindowListIndex = -1;
+NSInteger myWindowNumber;
 
 NSRect gMovingRect;
 float gImageXIndent;
@@ -238,17 +256,12 @@ int signof(float x) {
     int newFrequency = 0;
     int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
-    NSInteger myWindowNumber;
-    NSInteger windowList[20];
-    NSInteger i, n;
+    NSUInteger n;
     NSRect currentDrawingRect, eraseRect;
     NSPoint imagePosition;
     char *msg;
     CFStringRef cf_msg;
-    AbsoluteTime timeToUnblock, frameStartTime = UpTime();
-    kern_return_t   kernResult = kIOReturnError; 
-    UInt64          params;
-    IOByteCount     rcnt = sizeof(UInt64);
+    double timeToBlock, frameStartTime = getDTime();
     double          idleTime = 0;
     HIThemeTextInfo textInfo;
 
@@ -261,7 +274,6 @@ int signof(float x) {
             }
         }
         if (gPreview_Image) {
-            [ gPreview_Image setScalesWhenResized:YES ];
             [ gPreview_Image setSize:theFrame.size ];
             [ gPreview_Image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
         }
@@ -274,18 +286,16 @@ int signof(float x) {
         return;
     }
 
-    // For unkown reasons, OS 10.7 Lion screensaver delays several seconds after 
-    // user activity before calling stopAnimation, so we check user activity here
+    // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
+    // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-        kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
-        if ( kernResult == kIOReturnSuccess ) {
-            idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
-            if (idleTime < 1.5) {
-                [ NSApp terminate:nil ];
-            }
+           idleTime =  CGEventSourceSecondsSinceLastEventType
+                    (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+        if (idleTime < 1.5) {
+            [ NSApp terminate:nil ];
         }
     }
-    
+
    myContext = [[NSGraphicsContext currentContext] graphicsPort];
 //    [myContext retain];
     
@@ -305,14 +315,15 @@ int signof(float x) {
 
     newFrequency = getSSMessage(&msg, &coveredFreq);
 
-    // NOTE: My tests seem to confirm that the top window is always the first 
-    // window returned by NSWindowList under OS 10.5 and the second window 
-    // returned by NSWindowList under OS 10.3.9 and OS 10.4.  However, Apple's 
+    // NOTE: My tests seem to confirm that the top window is always the first
+    // window returned by [NSWindow windowNumbersWithOptions:] However, Apple's
     // documentation is unclear whether we can depend on this.  So I have 
     // added some safety by doing two things:
-    // [1] Only use the NSWindowList test when we have started project graphics.
+    // [1] Only use the windowNumbersWithOptions test when we have started
+    //     project graphics.
     // [2] Assume that our window is covered 45 seconds after starting project 
-    //     graphics even if the NSWindowList test did not indicate that is so.
+    //     graphics even if the windowNumbersWithOptions test did not indicate
+    //     that is so.
     //
     // getSSMessage() returns a non-zero value for coveredFreq only if we have started 
     // project graphics.
@@ -320,31 +331,20 @@ int signof(float x) {
     // If we should use a different frequency when our window is covered by another 
     // window, then check whether there is a window at a higher z-level than ours.
 
-    // Assuming our window(s) are initially the top window(s), 
-    // determine our position in the window list when no graphics 
-    // applications have covered us.
+    // Assuming our window(s) are initially the top window(s), determine our position
+    // in the window list when no graphics applications have covered us.
     if (gTopWindowListIndex < 0) {
+        NSArray *theWindowList = [NSWindow windowNumbersWithOptions:NSWindowNumberListAllApplications];
         myWindowNumber = [ myWindow windowNumber ];
-        NSWindowList(20, windowList);
-        NSCountWindows(&n);
-        if (n > 20) n = 20; 
-        for (i=0; i<n; i++) {
-            if (windowList[i] == myWindowNumber) {
-                gTopWindowListIndex = i;
-                break;
-            }
-        }
+        gTopWindowListIndex = [theWindowList indexOfObjectIdenticalTo:[NSNumber numberWithInt:myWindowNumber]];
     }
 
     if (coveredFreq) {
         if ( (msg != NULL) && (msg[0] != '\0') ) {
-            myWindowNumber = [ myWindow windowNumber ];
-
-            windowList[0] = 0;
-            NSWindowList(20, windowList);
-            NSCountWindows(&n);
-            if (gTopWindowListIndex < n) { 
-                if (windowList[gTopWindowListIndex] != myWindowNumber) {
+            NSArray *theWindowList = [NSWindow windowNumbersWithOptions:NSWindowNumberListAllApplications];
+            n = [theWindowList count];
+            if (gTopWindowListIndex < n) {
+                if ([(NSNumber*)[theWindowList objectAtIndex:gTopWindowListIndex] integerValue] != myWindowNumber) {
                     // Project graphics application has a window open above ours
                     // Don't waste CPU cycles since our window is obscured by application graphics
                     newFrequency = coveredFreq;
@@ -356,7 +356,7 @@ int signof(float x) {
             newFrequency = coveredFreq;
         }
     }
-    
+
     // Clear the previous drawing area
     currentDrawingRect = gMovingRect;
     currentDrawingRect.origin.x = (float) ((int)gCurrentPosition.x);
@@ -502,8 +502,10 @@ int signof(float x) {
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
         // setAnimationTimeInterval does not seem to be working, so we 
         // throttle the screensaver directly here.
-        timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
-        MPDelayUntil(&timeToUnblock);
+        timeToBlock = (1.0/newFrequency) - (getDTime() - frameStartTime);
+        if (timeToBlock > 0.0) {
+            doBoinc_Sleep(timeToBlock);
+        }
     }
 }
 
@@ -517,8 +519,25 @@ int signof(float x) {
     int period;
 
 	// if we haven't loaded our configure sheet, load the nib named MyScreenSaver.nib
-	if (!mConfigureSheet)
-        [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
+	if (!mConfigureSheet) {
+        if ([[ NSBundle bundleForClass:[ self class ]] respondsToSelector: @selector(loadNibNamed: owner: topLevelObjects:)]) {
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+            // [NSBundle loadNibNamed: owner: topLevelObjects:] is not available before OS 10.8
+            [ [ NSBundle bundleForClass:[ self class ]] loadNibNamed:@"BOINCSaver" owner:self topLevelObjects:NULL ];
+#pragma clang diagnostic pop
+        }
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1080
+         else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            // [NSBundle loadNibNamed: owner:] is deprecated in OS 10.8
+            [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
+#pragma clang diagnostic pop
+        }
+#endif
+    }
 	// set the UI state
 	[ mGoToBlankCheckbox setState:gGoToBlank ];
 
@@ -603,7 +622,23 @@ Bad:
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+    
+    if ([alert respondsToSelector: @selector(beginSheetModalForWindow: completionHandler:)]){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+        // [NSAlert beginSheetModalForWindow: completionHandler:] is not available before OS 10.9
+        [alert beginSheetModalForWindow:mConfigureSheet completionHandler:^(NSModalResponse returnCode){}];
+#pragma clang diagnostic pop
+    }
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1090
+        else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            // [NSAlert beginSheetModalForWindow: modalDelegate: didEndSelector: contextInfo:] is deprecated in OS 10.9
+            [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+#pragma clang diagnostic pop
+        }
+#endif
 }
 
 // Called when the user clicked the CANCEL button
@@ -614,27 +649,3 @@ Bad:
 }
 
 @end
-
-
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    SInt32 major, minor;
-    OSStatus err = noErr;
-    
-    err = Gestalt(gestaltSystemVersionMajor, &major);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", (long)err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    err = Gestalt(gestaltSystemVersionMinor, &minor);
-    if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", (long)err);
-        fflush(stderr);
-        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
-    }
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
-}

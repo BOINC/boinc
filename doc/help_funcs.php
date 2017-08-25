@@ -51,7 +51,7 @@ function online($status) {
 // Instead we now have the following
 
 function skype_script() {
-    echo '<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+    echo '<script type="text/javascript" src="https://secure.skypeassets.com/i/scom/js/skype-uri.js"></script>
 ';
 }
 
@@ -136,7 +136,7 @@ function help_warning() {
         . tra("BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC.")
         ." <li>"
         .tra(
-            "%1Never%2 give email address or password information to BOINC helpers.",
+            "%1 Never %2 give email address or password information to BOINC helpers.",
             "<span class=emphasize2>",
             "</span>"
         )

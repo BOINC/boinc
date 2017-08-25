@@ -76,7 +76,7 @@ body {
 h1#site-name,
 div#site-name /* The name of the website */ {
   margin: 0 auto;
-  width: 960px;
+  max-width: 960px;
   font-size: 45px;
   line-height: 96px;
 }
@@ -125,6 +125,13 @@ div#site-name /* The name of the website */ {
 
 .breadcrumb /* The path to the current page in the form of a list of links */ {
   padding-bottom: 0; /* Undo system.css */
+  display: inline-block;
+  float: left;
+  width: 60%;
+}
+.breadcrumb.bottom-breadcrumb {
+  margin-top: 39px;
+  width: 100%;
 }
 
 a:link, a:visited {
@@ -161,6 +168,10 @@ td {
   padding: 7px 5px;
   border-bottom: 1px dotted #aaa;
   vertical-align: top;
+}
+td.task-name,
+td.task-app {
+  word-break: break-all;
 }
 tr.heading {
   font-weight: bold;
@@ -452,7 +463,7 @@ ul.links li a {
  * Footer
  */
 #footer {
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 50px 5px;
 }
@@ -805,8 +816,8 @@ table.user-projects {
   border-top: none;
 }
 #forum tr.sticky {
-  background-color: #f8f8f4;
 }
+
 #forum tr.sticky:hover {
   background-color: #f6f6f2;
 }
@@ -818,6 +829,9 @@ table.user-projects {
 }
 #forum tr.last td {
   border-bottom: 1px dotted #aaa;
+}
+#forum td.icon {
+    color: #5A5758;
 }
 #forum td.title a {
   color: #5A5758;
@@ -884,6 +898,10 @@ table.user-projects {
   text-transform: uppercase;
   color: #808080;
   letter-spacing: 1px; 
+}
+
+.forum-links {
+  width: 100%;
 }
 
 /* Join */

@@ -97,7 +97,7 @@ CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
     
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_btnOK = new wxButton( this, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnOK = new wxButton( this, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnOK->SetToolTip( _("Save all values and close the dialog") );
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
@@ -184,7 +184,6 @@ void CDlgHiddenColumns::CreateCheckboxes() {
 
         CBOINCListCtrl* listCtrl = pView->GetListCtrl();
         wxInt32 iShownColumnCount = listCtrl->GetColumnCount();
-        wxString strHiddenColumns;
         wxArrayInt aOrder(iShownColumnCount);
 
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
@@ -303,11 +302,11 @@ void CDlgHiddenColumns::OnSize(wxSizeEvent& event) {
 void CDlgHiddenColumns::OnCheckboxClick(wxCommandEvent& event){
     bool bAllOffInGroup, bEnableOK = true;
     
-    int actualCount = m_checkbox_list.size();
-    for (int i=0; i<actualCount; ++i) {
+    size_t actualCount = m_checkbox_list.size();
+    for (size_t i=0; i<actualCount; ++i) {
         std::vector <wxCheckBox*> *checkbox_list = m_checkbox_list[i];
         bAllOffInGroup = true;
-        for (int j=0; j<checkbox_list->size(); ++j) {
+        for (size_t j=0; j<checkbox_list->size(); ++j) {
             wxCheckBox* ckbox = (*checkbox_list)[j];
             if (ckbox->GetValue()) {
                 bAllOffInGroup = false;
@@ -326,14 +325,14 @@ void CDlgHiddenColumns::OnCheckboxClick(wxCommandEvent& event){
 
 
 void CDlgHiddenColumns::OnOK(wxCommandEvent& event) {
-    int actualCount = m_checkbox_list.size();
+    size_t actualCount = m_checkbox_list.size();
     wxASSERT (m_pBOINCBaseView.size() == actualCount);
     
-    for (int i=0; i<actualCount; ++i) {
+    for (size_t i=0; i<actualCount; ++i) {
         CBOINCBaseView* pView = m_pBOINCBaseView[i];
         std::vector <wxCheckBox*> *checkbox_list = m_checkbox_list[i];
         wxArrayString orderArray;
-        for (int j=0; j<checkbox_list->size(); ++j) {
+        for (size_t j=0; j<checkbox_list->size(); ++j) {
             wxCheckBox* ckbox = (*checkbox_list)[j];
             if (ckbox->GetValue()) {
                 wxString name = ckbox->GetLabel();

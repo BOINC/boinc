@@ -67,9 +67,8 @@ function header_row($mode) {
     echo "</th><th>CUDA Credit</th><th>Number of CUDA jobs</th></tr>\n";
 }
 
-function show_row($x, $y, $mode, $i) {
-    $class = $i%2?"row0":"row1";
-    echo "<tr class=$class><td>";
+function show_row($x, $y, $mode) {
+    echo "<tr><td>";
     switch ($mode) {
     case 'host':
         echo "<a href=show_host_detail.php?hostid=$x>$x</a>";
@@ -118,12 +117,10 @@ $array = unserialize($data);
 
 page_head(title($mode));
 
-start_table();
+start_table('table-striped');
 header_row($mode);
-$i = 0;
 foreach ($array as $x=>$y) {
-    show_row($x, $y, $mode, $i);
-    $i++;
+    show_row($x, $y, $mode);
 }
 end_table();
 

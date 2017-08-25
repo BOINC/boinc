@@ -118,7 +118,11 @@ case "finalize_transfer":
     if ($user->id == $team->ping_user && transfer_ok($team, $now)) {
         page_head(tra("Assumed foundership of %1", $team->name));
         $team->update("userid=$user->id, ping_user=0, ping_time=0");
-        echo tra("Congratulations, you are now the founder of team %1. Go to %2Your Account page%3 to find the Team Admin options.", $team->name, "<a href=\"".secure_url_base()."home.php\">", "</a>");
+        echo tra("Congratulations, you are now the founder of team %1. Go to %2 Your Account page %3 to find the Team Admin options.",
+            $team->name,
+            sprintf('<a href="%s%s">', secure_url_base(), USER_HOME),
+            "</a>"
+        );
     } else {
         error_page(tra("Foundership request not allowed now"));
     }

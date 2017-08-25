@@ -15,15 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BOINCCLIENTMANAGER_H_
-#define _BOINCCLIENTMANAGER_H_
+#ifndef BOINC_BOINCCLIENTMANAGER_H
+#define BOINC_BOINCCLIENTMANAGER_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCClientManager.cpp"
 #endif
 
-class CBOINCClientManager : public wxObject
-{
+class CBOINCClientManager : public wxObject {
 public:
 
     CBOINCClientManager();
@@ -53,8 +52,7 @@ protected:
 
 };
 
-class ClientCrashDlg : public wxDialog
-{
+class ClientCrashDlg : public wxDialog {
     DECLARE_DYNAMIC_CLASS( ClientCrashDlg )
     DECLARE_EVENT_TABLE()
 
@@ -63,7 +61,4 @@ public:
     void                        OnHelp(wxCommandEvent& event);
 };
 
-
-
 #endif
-

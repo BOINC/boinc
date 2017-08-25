@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROXY_INFO_
-#define _PROXY_INFO_
+#ifndef BOINC_PROXY_INFO_H
+#define BOINC_PROXY_INFO_H
 
 struct XML_PARSER;
 class MIOFILE;
@@ -44,18 +44,24 @@ struct PROXY_INFO {
     int socks_server_port;
     char socks5_user_name[256];
     char socks5_user_passwd[256];
+    bool socks5_remote_dns;
+        // send DNS requests to the proxy
 
     // a list of hosts for which we should NOT go through a proxy
     // (e.g. a company PC attached to both local and remote projects)
     //
     char noproxy_hosts[256];
 
+    // don't autodetect proxy (Win)
+    //
+    bool no_autodetect;
+
     // On Windows, if neither HTTP nor SOCKS proxy is specified,
     // we try the "autodetect" mechanism.
     // If it gets anything, the info is filled in below
     //
     bool autodetect_proxy_supported;
-        // if true, some mechinism for detecting proxy servers is
+        // if true, some mechanism for detecting proxy servers is
         // supported by the client.
     int autodetect_protocol;
         // URL_PROTOCOL_SOCKS, URL_PROTOCOL_HTTP, or URL_PROTOCOL_HTTPS

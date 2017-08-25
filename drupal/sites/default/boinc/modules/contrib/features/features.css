@@ -1,0 +1,295 @@
+/**
+ * Features packages.
+ */
+div.features-form-links {
+  float: left;
+  width: 20%;
+}
+
+div.features-form-content {
+  float: right;
+  width: 80%;
+}
+
+/**
+ * Package links.
+ */
+div.features-form-links ul#features-form-links,
+div.features-form-links ul#features-form-links li,
+div.features-form-links ul#features-form-links li a {
+  display: block;
+  float: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+div.features-form-links ul#features-form-links {
+  margin: 0px 0px 10px;
+}
+
+div.features-form-links ul#features-form-links li a {
+  background: #f8f8f8;
+  border-left: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  padding: 5px 5px 4px 4px;
+}
+
+div.features-form-links ul#features-form-links li a.features-package-active {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-right: 0px;
+  margin-right: -1px;
+  padding: 4px 5px 4px 4px;
+}
+
+/* Packages */
+div.features-form-package {
+  background: #fff;
+  border: 1px solid #ccc;
+  display: none;
+  margin: 0px 0px 20px;
+  padding: 10px;
+}
+
+div.features-package-active {
+  display: block;
+}
+
+/**
+ * Features management form (admin/build/features).
+ */
+div.features-empty {
+  color: #999;
+  font-size: 1.5em;
+  margin: 15px 0px;
+  text-align: center;
+}
+
+form div.buttons {
+  text-align: center;
+}
+
+table.features .admin-loading,
+table.features tr.disabled {
+  color: #999;
+}
+
+table.features a.configure {
+  float:right;
+  font-style: italic;
+}
+table.features div.feature {
+  float:left;
+  width: 85%;
+}
+table.features div.feature strong {
+  font-size: 13px;
+}
+table.features div.feature div.description {
+  font-size:11px;
+  margin: 0px;
+}
+
+table.features-manage td.name {
+  width: 80%;
+}
+table.features-manage td.sign {
+  width: 20%;
+}
+
+table.features-admin td.name {
+  width: 60%;
+}
+table.features-admin td.sign {
+  width: 20%;
+}
+table.features-admin td.state {
+  width: 10%;
+}
+table.features-admin td.actions {
+  width: 10%;
+}
+
+table.features td.sign {
+  font-size: 9px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+table.features td.sign * {
+  margin: 0px;
+}
+
+table.features .admin-check,
+table.features .admin-default,
+table.features .admin-overridden,
+table.features .admin-rebuilding,
+table.features .admin-needs-review {
+  display: none;
+}
+
+/**
+ * Feature export form (admin/build/features/export).
+ */
+form.features-export-form table td {
+  width: 50%;
+}
+form.features-export-form table td {
+  vertical-align: top;
+}
+form.features-export-form table div.description {
+  white-space: normal;
+}
+
+table.features-export div.form-item {
+  white-space: normal;
+}
+table.features-export select {
+  width: 90%;
+}
+table.features-export td {
+  vertical-align: top;
+}
+
+form.features-export-form div.features-select {
+  display: none;
+}
+
+form.features-export-form div.form-checkboxes {
+  height: 20em;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+form.features-export-form div#edit-components-wrapper,
+form.features-export-form div.features-select {
+  padding-right: 20px;
+}
+
+/**
+ * Feature component display (admin/build/features/%feature).
+ */
+div.features-components div.column {
+  float: left;
+  width: 50%;
+}
+
+div.features-components div.column div.info {
+  padding-right: 20px;
+}
+div.features-components div.column div.components {
+  padding-left: 20px;
+}
+
+h3.features-download,
+div.features-comparison h3,
+div.features-components h3 {
+  font-size: 2em;
+  font-weight: bold;
+  letter-spacing: -1px;
+  margin: 15px 0px;
+}
+
+h3.features-download {
+  text-align: center;
+}
+
+div.features-components div.description {
+  font-size: 11px;
+  margin: 15px 0px;
+}
+
+div.features-components table td {
+  font-size: 11px;
+}
+div.features-components table td.component {
+  padding-left: 20px;
+}
+
+/**
+ * Features component lists.
+ */
+span.features-component-key {
+  font-size: 11px;
+}
+
+a.admin-update,
+a.features-storage,
+span.features-storage,
+span.features-component-list span {
+  background: #eee;
+  margin-right: 5px;
+  padding: 2px 5px;
+  white-space: nowrap;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+div.features-key span.admin-conflict,
+span.features-component-list span.features-conflict {
+  background-color: #c30;
+  color: #fff;
+}
+
+a.admin-update {
+  background: transparent;
+}
+
+/* These pseudo selectors are necessary for themes like Garland. */
+a.admin-overridden:link,
+a.admin-overridden:visited,
+span.admin-overridden {
+  background: #666;
+  color: #fff;
+}
+
+a.admin-needs-review:link,
+a.admin-needs-review:visited,
+span.admin-needs-review {
+  background: #fe6;
+  color: #963;
+}
+
+a.admin-rebuilding:link,
+a.admin-rebuilding:visited,
+span.admin-rebuilding {
+  background: #699;
+  color: #fff;
+}
+
+a.admin-conflict:link,
+a.admin-conflict:visited,
+span.admin-conflict {
+  color: #c30;
+}
+
+table.features-diff td.diff-addedline,
+span.features-component-list .features-detected {
+  background: #def;
+  color: #68a;
+}
+
+table.features-diff td.diff-deletedline,
+span.features-component-list .features-dependency {
+  background: #f8f8f8;
+  color: #999;
+}
+
+/**
+ * Features diff.
+ */
+table.features-diff {
+  font-size: 11px;
+}
+
+table.features-diff td {
+  padding: 0px 5px;
+}
+
+table.features-diff td.diff-deletedline,
+table.features-diff td.diff-addedline,
+table.features-diff td.diff-context {
+  font-family: 'Andale Mono', monospace;
+  width: 50%;
+}

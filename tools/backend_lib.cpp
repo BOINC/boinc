@@ -224,6 +224,9 @@ int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config_loc) {
     return 0;
 }
 
+// variant where input files are described by a list of names,
+// for use by work generators
+//
 int create_work(
     DB_WORKUNIT& wu,
     const char* _wu_template,
@@ -254,6 +257,13 @@ int create_work(
     );
 }
 
+// variant where input files are described by INFILE_DESCS,
+// so you can have remote files etc.
+//
+// If query_string is present, don't actually create the job;
+// instead, append to the query string.
+// The caller is responsible for doing the query.
+//
 int create_work2(
     DB_WORKUNIT& wu,
     const char* _wu_template,

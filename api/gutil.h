@@ -19,8 +19,8 @@
 // used in Astropulse and SETI@home
 // See also graphics_data.C,h
 
-#ifndef GUTIL_H
-#define GUTIL_H
+#ifndef BOINC_GUTIL_H
+#define BOINC_GUTIL_H
 
 #include <cstdio>
 #include <cstdlib>

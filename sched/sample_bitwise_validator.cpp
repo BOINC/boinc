@@ -38,7 +38,6 @@
 using std::string;
 using std::vector;
 
-bool first = true;
 bool is_gzip = false;
     // if true, files are gzipped; skip header when comparing
 
@@ -46,6 +45,25 @@ struct FILE_CKSUM_LIST {
     vector<string> files;   // list of MD5s of files
     ~FILE_CKSUM_LIST(){}
 };
+
+int validate_handler_init(int argc, char** argv) {
+    // handle project specific arguments here
+    for (int i=1; i<argc; i++) {
+        if (is_arg(argv[i], "is_gzip")) {
+            is_gzip = true;
+        }
+    }
+    return 0;
+}
+
+void validate_handler_usage() {
+    // describe the project specific arguments here
+    fprintf(stderr,
+        "    Custom options:\n"
+        "    [--is_gzip]  files are gzipped; skip header when comparing\n"
+    );
+}
+
 
 bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
     if (f1.files.size() != f2.files.size()) return false;
@@ -55,25 +73,12 @@ bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
     return true;
 }
 
-void parse_cmdline() {
-    for (int i=1; i<g_argc; i++) {
-        if (!strcmp(g_argv[i], "--is_gzip")) {
-            is_gzip = true;
-        }
-    }
-}
-
 int init_result(RESULT& result, void*& data) {
     int retval;
     FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
     vector<OUTPUT_FILE_INFO> files;
     char md5_buf[MD5_LEN];
     double nbytes;
-
-    if (first) {
-        parse_cmdline();
-        first = false;
-    }
 
     retval = get_output_file_infos(result, files);
     if (retval) {

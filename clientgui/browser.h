@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BROWSER_
-#define _BROWSER_
+#ifndef BOINC_BROWSER_H
+#define BOINC_BROWSER_H
 
 //
 // The BOINC client now supports the ability to lookup a users

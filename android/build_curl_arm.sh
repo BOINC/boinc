@@ -10,9 +10,10 @@ COMPILECURL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-CURL="/home/boincadm/src/curl-7.48.0" #CURL sources, required by BOINC
+CURL="${CURL_SRC:-$HOME/src/curl-7.48.0}" #CURL sources, required by BOINC
 
-export ANDROIDTC="$HOME/androidarm-tc"
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
@@ -22,9 +23,9 @@ export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
 export CC=arm-linux-androideabi-gcc
 export CXX=arm-linux-androideabi-g++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
+export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
@@ -37,7 +38,7 @@ if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib
 fi
 make
 make install

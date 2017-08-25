@@ -149,6 +149,7 @@ create table host (
     timezone                integer         not null,
     domain_name             varchar(254),
     serialnum               varchar(254),
+        /* now used to encode stuff related to GPUs and VBox */
     last_ip_addr            varchar(254),
     nsame_ip_addr           integer         not null,
 
@@ -190,6 +191,8 @@ create table host (
     error_rate              double          not null default 0,
     product_name            varchar(254)    not null,
     gpu_active_frac         double          not null,
+    p_ngpus                 integer         not null,
+    p_gpu_fpops             double          not null,
 
     primary key (id)
 ) engine=InnoDB;
@@ -253,6 +256,8 @@ create table workunit (
     app_version_id          integer         not null,
     transitioner_flags      tinyint         not null,
     size_class              smallint        not null default -1,
+    keywords                varchar(254)    not null,
+    app_version_num         integer         not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -349,12 +354,11 @@ create table user_submit_app (
     primary key (user_id, app_id)
 ) engine = InnoDB;
 
--- Record files present on server.
--- Files are named jf_(md5)
+-- Record files (created by remote file mgt) present on server.
 --
 create table job_file (
     id                      integer         not null auto_increment,
-    md5                     char(64)        not null,
+    name                    varchar(255)    not null,
     create_time             double          not null,
     delete_time             double          not null,
     primary key (id)

@@ -19,6 +19,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 
+BoincDb::get(true);
 xml_header();
 
 // This all needs to work even when DB is down.
@@ -54,7 +55,6 @@ if (!$min_passwd_length) {
     $min_passwd_length = 6;
 }
 $disable_account_creation = parse_bool($config, "disable_account_creation");
-$master_url = parse_config($config, "<master_url>");
 
 echo "<project_config>
     <name>$long_name</name>
@@ -109,6 +109,10 @@ if (file_exists($tou_file)) {
 
 if (LDAP_HOST) {
     echo "<ldap_auth/>\n";
+}
+
+if (file_exists("../../project_keywords.xml")) {
+    readfile("../../project_keywords.xml");
 }
 
 echo "</project_config>";

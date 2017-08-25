@@ -21,8 +21,14 @@ function boincwork_ahah_helper_venue_submit($form, &$form_state) {
 function boincwork_get_preset_prefs($preset = null) {
   $saved_state = variable_get('boincwork_preset_prefs', null);
   
-  // If not configured yet, use these defaults
+  // If not configured yet, use these values as for inital
+  // computing/general preferences.
   if (!$saved_state) {
+    // Get BOINC project disk space configurations from config.xml to
+    // fill in initial preference values.
+    require_boinc(array('db', 'prefs'));
+    $disk_space_config = get_disk_space_config();
+
     $saved_state = '
       <general_preferences>
         <preset name="standard">
@@ -36,12 +42,11 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
-          <disk_max_used_gb>8</disk_max_used_gb>
-          <disk_min_free_gb>4</disk_min_free_gb>
-          <disk_max_used_pct>10</disk_max_used_pct>
+          <disk_max_used_gb>'.$disk_space_config->disk_max_used_gb.'</disk_max_used_gb>
+          <disk_min_free_gb>'.$disk_space_config->disk_min_free_gb.'</disk_min_free_gb>
+          <disk_max_used_pct>'.$disk_space_config->disk_max_used_pct.'</disk_max_used_pct>
           <disk_interval>60</disk_interval>
           <vm_max_used_pct>0</vm_max_used_pct>
           <ram_max_used_busy_pct>15</ram_max_used_busy_pct>
@@ -69,7 +74,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>100</cpu_usage_limit>
           <disk_max_used_gb>100</disk_max_used_gb>
@@ -102,7 +106,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
           <disk_max_used_gb>8</disk_max_used_gb>
@@ -135,7 +138,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>8</end_hour>
           <leave_apps_in_memory>0</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>120</cpu_scheduling_period_minutes>
-          <max_cpus>4</max_cpus>
           <max_ncpus_pct>25</max_ncpus_pct>
           <cpu_usage_limit>40</cpu_usage_limit>
           <disk_max_used_gb>2</disk_max_used_gb>
@@ -201,6 +203,17 @@ function boincwork_get_project_specific_config() {
   
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
+  // By default the returned array should have an 'app_overrides'
+  // element. Even if the admin did not specificy an <app_overrides>
+  // container in the XML, a basic one is added. This is because
+  // applications are now queried from the database, and the content
+  // of the XML upload is an override.
+  if (!array_key_exists('app_overrides', $xml['project_specific_preferences'])) {
+    $simpleapps = array(
+      '@position' => 0,
+    );
+    $xml['project_specific_preferences']['app_overrides'] = $simpleapps;
+  }
   return $xml;
 }
 
@@ -258,13 +271,16 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
       }
       break;
     */
-    case 'apps':
+    case 'app_overrides':
       // At least one app needs to be selected
       $rules['apps'] = array(
         'minimum selected' => 1,
         'list' => array()
       );
       foreach ($elements as $element) {
+        // Query database for application list and merge with elements
+        // from project-specific upload XML application list.
+        $element = boincwork_query_app_for_project_specific_prefs($element);
         foreach ($element['app'] as $app) {
           $name = "app_{$app['@attributes']['id']}";
           $rules['apps']['list'][] = $name;
@@ -337,13 +353,19 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
       }
       break;
     
-    case 'apps':
-      foreach ($elements as $element) {
-        $defaults['app_id'] = array();
-        foreach ($element['app'] as $app) {
-          $app_id = $app['@attributes']['id'];
-          if ($values['applications']["app_{$app_id}"]) {
-            $defaults['app_id'][] = $app_id;
+    case 'app_overrides':
+      if ($values['applications']) {
+        foreach ($elements as $element) {
+          // Query database for application list and merge with elements
+          // from project-specific upload XML application list.
+          $element = boincwork_query_app_for_project_specific_prefs($element);
+          $defaults['apps_selected'] = array();
+          $defaults['apps_selected']['app_id'] = array();
+          foreach ($element['app'] as $app) {
+            $app_id = $app['@attributes']['id'];
+            if ($values['applications']["app_{$app_id}"]) {
+              $defaults['apps_selected']['app_id'][] = $app_id;
+            }
           }
         }
       }
@@ -418,7 +440,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#type' => 'textfield',
         '#default_value' => $value,
         '#size' => 5,
-        '#description' => $description . bts(' Default value: @default', array('@default' => $default))
+        '#description' => $description . bts(' Default value: @default', array('@default' => $default), NULL, 'boinc:account-preferences-project')
       );
     }
     break;
@@ -464,7 +486,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $form[$name] = array(
         '#title' => $title,
         '#type' => 'radios',
-        '#options' => array(1 => bts('yes'), 0 => bts('no')),
+        '#options' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
         '#description' => $description
@@ -524,38 +546,64 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#options' => $options,
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
-        '#description' => $description . bts(' Default value: @default', array('@default' =>$default))
+        '#description' => $description . bts(' Default value: @default', array('@default' =>$default), NULL, 'boinc:account-preferences-project')
       );
     }
     break;
     
-  case 'apps':
-    $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
-    
-      // Translate elements as appropriate
-      if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
-      }
-    
+  case 'app_overrides':
+    $title = "Run only the selected applications.";
+
+    // Translate elements as appropriate
+    if ($title) {
+      i18nstrings_update('project:prefs_xml', $title);
+      $title = i18nstrings('project:prefs_xml', $title);
+    }
+
+    // Create the application section of the form
     $form['applications'] = array(
-      '#title' => bts('Applications'),
+      '#title' => bts('Applications', array(), NULL, 'boinc:account-preferences'),
       '#type' => 'fieldset',
       '#description' => $title,
       '#collapsible' => TRUE,
       '#collapsed' => FALSE
     );
-    $applications = array();
-    if (!is_array($user_prefs['app_id'])) {
-      $user_prefs['app_id'] = array($user_prefs['app_id']);
+
+    // Two different XML formats are supported. The newer format has
+    // an <apps_selected> container with <app_id> elements as
+    // children. The older format has <app_id> elements only.
+    $myapp_ids = NULL;
+    if (is_array($user_prefs['apps_selected']['app_id'])) {
+      $myapp_ids = $user_prefs['apps_selected']['app_id'];
     }
-    foreach ($user_prefs['app_id'] as $app) {
+    else if (is_array($user_prefs['app_id'])) {
+      $myapp_ids = $user_prefs['app_id'];
+    }
+    // Fix the array in the case where there is exactly one
+    // app_id. myapp_ids should be an associative array where the
+    // values are themselves an array. In effect the app_id array
+    // needs to be pushed down onre more level in the tree.
+    if (is_array($myapp_ids) AND !is_array($myapp_ids[1])) {
+      $temp = $myapp_ids;
+      $myapp_ids = array();
+      $myapp_ids[1] = $temp;
+    }
+    // Fill in the user_appplications array with the saved user project
+    // preferences from the database.
+    $user_applications = array();
+    foreach ($myapp_ids as $app) {
       if (!$app) continue;
       if (is_array($app) AND isset($app['@value'])) {
         $app = $app['@value'];
       }
-      $applications[] = $app;
+      $user_applications[] = $app;
     }
+    // For each application element, which comes from the project
+    // database list of apps, create and fill in the applications
+    // section of the form. The user_applications array is used to
+    // determine if the application should be selected. If no
+    // user_applications are set in the database, all applications
+    // will be selected.
     foreach ($elements['app'] as $app) {
       $app_id = $app['@attributes']['id'];
       $app_name = $app['@value'];
@@ -564,14 +612,13 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           $app['@attributes']['enabled'] == 'false') {
         $app_enabled = FALSE;
       }
-      if ($applications) {
-        $checked = in_array($app_id, $applications);
+      if ($user_applications) {
+        $checked = in_array($app_id, $user_applications);
       } else {
+        // If user_applications is not defined, it means there are no
+        // app_ids set in the user's project preferences payload
+        // XML. Thus all Web form values should be checked.
         $checked = TRUE;
-        if (isset($app['@attributes']['selected']) AND
-            $app['@attributes']['selected'] == 'false') {
-          $checked = FALSE;
-        }
       }
       $form['applications']["app_{$app_id}"] = array(
         '#title' => $app_name,
@@ -646,6 +693,106 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
   }
 }
 
+
+/**
+ * Queries the BOINC project database database, app table for the list
+ * of applications. Input parameter is a list of apps elements from
+ * the project-specific XML upload admin page.
+ *
+ * The list of apps from the database and the list of apps from the
+ * project-specific XML are merged together with the following algorithm.
+ *   - The algorithm uses applications in the database to determine
+ *     what applications are listed in the Web form. If an application
+ *     is present in the project-specific XML but not in the database,
+ *     it is ignored. The field 'id' is used to match the
+ *     applications between the two.
+ *   - If an application is in the database, the other attributes are
+ *     obtained from the project-specific XML. The list of
+ *     applications in this XML are overrides. Of importance, the name
+ *     in the XML configuration will override the name found in the
+ *     database.
+ *   - The attributes for an application are obtained from the
+ *     project-specific XML. However, if they are not present, the
+ *     defaults are:
+ *     - selected: true
+ *     - enabled: true
+ *     - weight: 100
+ *
+ * The list of applications is sorted for display. The sort comparison
+ * function _dbapps_compare() is used. It sorts first by weight:
+ * smaller numbers float up, larger numbers sink down; then
+ * alphabetically by name using strnatcmp(); and finally by app
+ * id. Weight defaults to 100, and must be a positive integer.
+ *
+ * Function returns an array of the merged list of applciations from
+ * both sources.
+ *
+ * @param array $ppapps
+ *   Array of applications obtained from project-specific XML upload.
+ */
+function boincwork_query_app_for_project_specific_prefs($ppapps) {
+
+  // Query the project database for the list of applications.
+  db_set_active('boinc');
+  $sql = 'SELECT id, user_friendly_name FROM app WHERE deprecated = 0 ORDER BY user_friendly_name';
+  $dbres = db_query($sql);
+  db_set_active('default');
+
+  $dbapp = array();
+  if ($dbres) {
+    $position = 1;
+    while ($result = db_fetch_object($dbres)) {
+      $dbapp[$position] = array(
+        '@value' => $result->user_friendly_name,
+        '@attributes' => array(
+          'id' => $result->id,
+          'selected' => 'true',
+          'enabled' => 'true',
+          'weight' => 100,
+        ),
+        '@position' => $position,
+      );
+      $position++;
+    }
+  }
+  $dbapps = array(
+    'app' => $dbapp,
+    '@position' => $ppapps['@position'],
+  );
+
+  // Fix the array in the case where there is exactly one
+  // app_id.
+  if (is_array($ppapps['app']) AND !is_array($ppapps['app'][1])) {
+    $temp = $ppapps['app'];
+    $ppapps['app'] = array();
+    $ppapps['app'][1] = $temp;
+  }
+
+  // Loop over dbapps and attempt to match ids with the ppapps
+  // (project-specific XML upload list of applications).
+  $position = 1;
+  foreach ($dbapps['app'] as &$dbapp) {
+    foreach ($ppapps['app'] as $ppapp) {
+      // Match app ids from both arrays
+      if ($dbapp['@attributes']['id'] == $ppapp['@attributes']['id']) {
+        // Set name from ppapp data (if present)
+        if (array_key_exists('@value', $ppapp)) {
+          $dbapp['@value'] = $ppapp['@value'];
+        }
+        // Set the attributes from the ppapp data.
+        $dbapp['@attributes'] = array_replace($dbapp['@attributes'], $ppapp['@attributes']);
+        $dbapp['@position'] = $position;
+      }
+    }
+    $position++;
+  }
+
+  // Sort the apppliations by: weight, then alphabetical name, then id
+  uasort($dbapps['app'], '_dbapps_compare');
+  $dbapps['app'] = array_values($dbapps['app']);
+  return $dbapps;
+}
+
 /**
  * Generate a tabular structure out of preferences for use in comparison
  * views of preference sets
@@ -678,10 +825,10 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
       if (in_array($key, array('start_hour', 'net_start_hour'))) {
         switch ($key) {
         case 'start_hour':
-          $element['#title'] = bts('Do work only between the hours of:');
+          $element['#title'] = bts('Compute only between:', array(), NULL, 'boinc:account-preferences-computing');
           break;
         case 'net_start_hour':
-          $element['#title'] = bts('Use network only between the hours of:');
+          $element['#title'] = bts('Transfer files only between:', array(), NULL, 'boinc:account-preferences-comuting');
           break;
         default:
         }
@@ -705,14 +852,14 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
   if ($prefs_table AND $uncategorized) {
     // Throw any settings that don't fit elsewhere into "other"
     $prefs_table['other'] = array(
-      'name' => bts('Other settings'),
+      'name' => bts('Other settings', array(), NULL, 'boinc:account-preferences'),
       'elements' => $uncategorized,
     );
   }
   elseif ($uncategorized) {
     // If nothing is categorized, output all prefs under a general "settings"
     $prefs_table['settings'] = array(
-      'name' => bts('Settings'),
+      'name' => bts('Settings', array(), NULL, 'boinc:account-preferences'),
       'elements' => $uncategorized,
     );
   }
@@ -753,6 +900,11 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
   // Return general preferences or a subset based on venue
   if (!$venue OR $venue == 'generic') {
     unset($main_prefs['venue']);
+    // Use the length of the $main_prefs array as a condition as to
+    // whether the preferences have already been set. This is
+    // HARDCODED here.
+    if (count($main_prefs) < 3)
+        $main_prefs['@attributes'] = array('cleared' => 1);
     return $main_prefs;
   }
   else {
@@ -767,9 +919,10 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
       }
     }
   }
-  return array('@attributes' => array(
-    'name' => $venue, 'preset' => 'standard', 'cleared' => 1
-  ));
+
+  return array(
+    '@attributes' => array('name' => $venue, 'cleared' => 1)
+  );
 }
 
 /**
@@ -837,15 +990,27 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $main_prefs['venue'][] = $prefs;
     }
   }
-  
+
   // Set modified time
-  if ($type == 'general') {
+  if ($type == 'project') {
+    if (!isset($main_prefs['modified'])) {
+      $main_prefs = array_merge(array('modified' => 0), $main_prefs);
+    }
+    $main_prefs['modified'] = time();
+  } else {
     if (!isset($main_prefs['mod_time'])) {
       $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
     }
     $main_prefs['mod_time'] = time();
+    // unset source information, the Client will fill this in again
+    if (isset($main_prefs['source_project'])) {
+      unset($main_prefs['source_project']);
+    }
+    if (isset($main_prefs['source_scheduler'])) {
+      unset($main_prefs['source_scheduler']);
+    }
   }
-  
+
   // Convert prefs back to XML and save to database
   $result = null;
   if ($type == 'project') {
@@ -915,13 +1080,13 @@ function boincwork_validate_form($validation_rules, $values, $path = array()) {
         $form_field = $field;
       }
       if (isset($rules['datatype']) AND !boincwork_validate_datatype($values[$field], $rules['datatype'])) {
-        form_set_error($form_field, bts('Invalid data type for @field', array('@field' => $field)));
+        form_set_error($form_field, bts('Invalid data type for @field', array('@field' => $field), NULL, 'boinc:account-preferences'));
       }
       if (isset($rules['min']) AND $values[$field] < $rules['min']) {
-        form_set_error($form_field, bts('Minimum value not met for @field', array('@field' => $field)));
+        form_set_error($form_field, bts('Minimum value not met for @field', array('@field' => $field), NULL, 'boinc:account-preferences'));
       }
       if (isset($rules['max']) AND $values[$field] > $rules['max']) {
-        form_set_error($form_field, bts('Maximum value exceeded for @field', array('@field' => $field)));
+        form_set_error($form_field, bts('Maximum value exceeded for @field', array('@field' => $field), NULL, 'boinc:account-preferences'));
       }
     }
   }
@@ -936,7 +1101,7 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
     if (!is_numeric($data)) {
       return FALSE;
     }
-    $data += 0;
+    $data += 0.0;
     if (!is_float($data)) {
       return FALSE;
     }
@@ -1161,7 +1326,8 @@ function boincwork_format_stats($number, $max_digits = 4) {
   //------------------------------------------------------------------------------------------------
   
   function text_to_xml($text) {
-    if (!$xml = DomDocument::loadXML($text)) return false;
+    $xml = new DomDocument();
+    if ( !($xml->loadXML($text)) ) return false;
     return $xml;
   }
   
@@ -1267,28 +1433,28 @@ function boincwork_views_host_list_empty_text($context = NULL) {
   if ($boincuser->show_hosts) {
     switch($context) {
     case 'active':
-      $output .=  '<h2>' . bts('No active computers') . '</h2>';
+      $output .=  '<h2>' . bts('No active computers', array(), NULL, 'boinc:host-list') . '</h2>';
       $output .=  '<p>' . bts('This user has no computers that have been'
-      . ' active in the last 30 days.') . '</p>';
+      . ' active in the last 30 days.', array(), NULL, 'boinc:host-list') . '</p>';
       break;
       
     case 'preferences':
-      $output .=  '<h2>' . bts('No computers') . '</h2>';
+      $output .=  '<h2>' . bts('No computers', array(), NULL, 'boinc:host-list') . '</h2>';
       $output .=  '<p>' . bts('There are no computers assigned to this'
-      . ' preference set.') . '</p>';
+      . ' preference set.', array(), NULL, 'boinc:host-list') . '</p>';
       break;
     
     default:
-      $output .=  '<h2>' . bts('Computers pending') . '</h2>';
+      $output .=  '<h2>' . bts('Computers pending', array(), NULL, 'boinc:host-list') . '</h2>';
       $output .=  '<p>' . bts('This user does not yet have any associated'
       . ' computers. Computers will be displayed when they have earned their'
-      . ' first credits.') . '</p>';
+      . ' first credits.', array(), NULL, 'boinc:host-list') . '</p>';
     }
   }
   else {
-    $output .=  '<h2>' . bts('Computers hidden') . '</h2>';
+    $output .=  '<h2>' . bts('Computers hidden', array(), NULL, 'boinc:host-list') . '</h2>';
     $output .=  '<p>' . bts('This user has chosen not to show information'
-    . ' about their computers.') . '</p>';
+    . ' about their computers.', array(), NULL, 'boinc:host-list') . '</p>';
   }
   return $output;
 }
@@ -1302,9 +1468,9 @@ function boincwork_views_task_list_empty_text($context = NULL) {
   $output = '';
   switch($context) {
   default:
-    $output .=  '<h2>' . bts('No @type tasks', array('@type' => $context))
+    $output .=  '<h2>' . bts('No @type tasks', array('@type' => $context), NULL, 'boinc:task-list')
     . '</h2>';
-    $output .=  '<p>' . bts('There are no tasks of this type on record')
+    $output .=  '<p>' . bts('There are no tasks of this type on record', array(), NULL, 'boinc:task-list')
     . '</p>';
   }
   return $output;
@@ -1318,18 +1484,18 @@ function boincwork_host_action_links($host_id) {
   if (boincwork_host_user_is_owner($host_id)) {
     // Show merge hosts option
     $output = '<ul class="tab-list"><li class="first tab">';
-    $output .= l(bts('Merge'), "host/{$host_id}/merge");
+    $output .= l(bts('Merge', array(), NULL, 'boinc:form-merge'), "host/{$host_id}/merge");
     $output .= '</li>';
     // If host has no tasks, allow the host to be deleted
     if (!boincwork_host_get_task_count($host_id)) {
       $output .= '<li class="tab">';
-      $output .= l(bts('Delete'), "host/{$host_id}/delete",
+      $output .= l(bts('Delete', array(), NULL, 'boinc:form-delete'), "host/{$host_id}/delete",
         array(
           'attributes' => array(
             'onclick' => 'return confirm(\'' . bts('This will delete host @id'
               . ' from your account forever. Are you sure this is OK?',
-              array('@id' => $host_id)
-            ) . '\')'
+              array('@id' => $host_id),
+              NULL, 'boinc:account-host-delete') . '\')'
           )
         )
       );
@@ -1393,7 +1559,7 @@ function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NUL
   $root_log_dir = variable_get('boinc_host_sched_logs_dir', '');
   $log = '';
   if ($timestamp) {
-    $output = gmdate('j M Y | G:i:s', $timestamp) . ' UTC';
+    $output = date('j M Y G:i:s T', $timestamp);
   }
   if ($root_log_dir AND $host_id) {
     $subdir = substr($host_id, 0, -3) OR $subdir = 0;
@@ -1413,10 +1579,10 @@ function boincwork_host_venue_selector($host_id) {
   if (function_exists('jump_quickly')) {
     $path = "host/{$host_id}/set-venue";
     $venues = array(
-      "{$path}/generic" => bts('Generic'),
-      "{$path}/home" => bts('Home'),
-      "{$path}/work" => bts('Work'),
-      "{$path}/school" => bts('School')
+      "{$path}/generic" => bts('Generic', array(), NULL, 'boinc:account-preferences-location'),
+      "{$path}/home" => bts('Home', array(), NULL, 'boinc:account-preferences-location:-1:ignoreoverwrite'),
+      "{$path}/work" => bts('Work', array(), NULL, 'boinc:account-preferences-location'),
+      "{$path}/school" => bts('School', array(), NULL, 'boinc:account-preferences-location')
     );
     variable_set('jump_use_js_venues-Array', 1);
     drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -1440,7 +1606,7 @@ function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $
   $output = '---';
   if ($received_time OR $deadline) {
     $timestamp = ($received_time) ? $received_time : $deadline;
-    $output = gmdate('j M Y, G:i:s', $timestamp) . ' UTC';
+    $output = date('j M Y G:i:s T', $timestamp);
     // Add a wrapper to deadline text
     if (!$received_time) {
       if (time() < $deadline) {
@@ -1452,4 +1618,437 @@ function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $
     }
   }
   return $output;
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Functions for creating a task table for users, hosts, and workunits
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * boincwork_tasktable
+ *
+ * Given two DB results, generates a table of tasks with a navigation
+ * header, and application filter.
+ *
+ * Parameters
+ *
+ * @param int $category
+ *   An integer specifying the category of task table to display: 0 =>
+ *   account, 1=> workunit, 2=> host. These are hardcoded.
+ * @param int $queryid
+ *   The id of the user, host, or workunit to query. Will be added to
+ *   the SQL query.
+ * @param int $tselect
+ *   The task selection state chosen by the user. 0 is for all states,
+ *   other states are defined in html/inc/result.inc
+ * @param int $app_id
+ *   Application id of the application chosen by user. 0 and -1 are
+ *   for all applications.
+ * @param int $tablerows
+ *   Number of table row to display per page. Defaults to 20.
+ */
+function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_id = 0, $tablerows = 20) {
+  // Check type parameter, if not (0,2) then return an error.
+  if ( ($category!=0) AND ($category!=1) AND ($category!=2) ) {
+    watchdog('boincwork', 'task table called with invalid category = %category', array('%category' => $category), WATCHDOG_WARNING);
+    return '';
+  }
+
+  require_boinc( array('util', 'result') );
+
+  global $language;
+  $locality=$language->language;
+  $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL);
+  $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0);
+  $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
+
+  $output = '';
+
+  $state_hnames = array(
+    STATE_ALL => 'All',
+    STATE_IN_PROGRESS => 'In progress',
+    STATE_PENDING => 'Pending',
+    STATE_VALID => 'Valid',
+    STATE_INVALID => 'Invalid',
+    STATE_ERROR => 'Error',
+  );
+  // Array (hash) to count total number of results/tasks, and their states.
+  $taskstates = array(
+    STATE_ALL => 0,
+    STATE_IN_PROGRESS => 0,
+    STATE_PENDING => 0,
+    STATE_VALID => 0,
+    STATE_INVALID => 0,
+    STATE_ERROR => 0,
+  );
+  // Array to hold pretty-print result data to be displayed in a table.
+  $resultdata = array();
+  // Arrays for applications. Form below uses $applications as parameter.
+  $application_map = array();
+  $application_select_count = array();
+  $applications = array();
+
+  // BOINC DB queries for results, application names
+  db_set_active('boinc');
+
+  // Query to retreive all results, in order to calculate status for a
+  // host with application names for each result.
+  $sqlall = "SELECT user_friendly_name,"
+      ."r.appid as appid,"
+      ."r.server_state AS server_state,"
+      ."r.outcome AS outcome,"
+      ."r.client_state AS client_state,"
+      ."r.validate_state AS validate_state,"
+      ."r.exit_status AS exit_status "
+      ."FROM {result} AS r "
+      ."INNER JOIN {app} AS a "
+      ."ON r.appid=a.id ";
+
+  // Use userid, hostid, or workunitid
+  if ($category==0) {
+    $sqlall .= " WHERE r.userid='%s' ";
+  }
+  elseif ($category==1) {
+    $sqlall .= " WHERE r.workunitid='%s' ";
+  }
+  elseif ($category==2) {
+    $sqlall .= " WHERE r.hostid='%s' ";
+  }
+  $sqlall .= " ORDER BY user_friendly_name";
+  $dbres_all = db_query($sqlall, $queryid);
+  db_set_active('default');
+
+  // Loop 1 of DB results
+  if ($dbres_all) {
+    while ($result = db_fetch_object($dbres_all)) {
+      $mystate = state_num($result);
+      if ( ($result->appid==$app_id) OR ($app_id==0) OR ($app_id==-1) ) {
+        $taskstates[STATE_ALL]++;
+        switch ($mystate) {
+        case STATE_IN_PROGRESS:
+          $taskstates[STATE_IN_PROGRESS]++;
+          break;
+        case STATE_PENDING:
+          $taskstates[STATE_PENDING]++;
+          break;
+        case STATE_VALID:
+          $taskstates[STATE_VALID]++;
+          break;
+        case STATE_INVALID:
+          $taskstates[STATE_INVALID]++;
+          break;
+        case STATE_ERROR:
+          $taskstates[STATE_ERROR]++;
+          break;
+        }
+      }// if app_id
+
+      //map holds a map between app ids and user friendly names for all applications.
+      $application_map[$result->appid] = $result->user_friendly_name;
+      if ( ($mystate == $tselect) OR ($tselect==STATE_ALL) ) {
+        //count of appids in the results.
+        $application_select_count[$result->appid]++;
+      }// if mystate
+
+    }// while
+  }
+  else {
+  }
+  
+  // Entry for all applications.
+  $allcount = $application_select_count ? array_sum($application_select_count) : 0;
+  $applications[-1] = bts('Application', array(), NULL, 'boinc:task-table');
+  $applications[0] = bts('All applications', array(), NULL, 'boinc:task-table') . ' (' . $allcount . ')';
+  // Create application filter from application_map and application_select_count.
+  foreach($application_map as $akey => $aname) {
+    $acount = 0;
+    if ( $application_select_count and array_key_exists($akey, $application_select_count) ) {
+      $acount = $application_select_count[$akey];
+    }
+    $applications[$akey] = $aname . ' ('. $acount . ')';
+  }
+  // Header array for (sub) results table.
+  $resultheader = array(
+    array(
+      'data' => bts('Task ID', array(), NULL, 'boinc:task-table'),
+      'field' => 'id',
+    ),
+    array(
+      'data' => bts('Workunit ID', array(), NULL, 'boinc:task-table'),
+      'field' => 'workunitid',
+    ),
+    array(
+      'data' => bts('Computer', array(), NULL, 'boinc:task-table'),
+      'field' => 'hostid',
+    ),
+    array(
+      'data' => bts('Sent', array(), NULL, 'boinc:task-table'),
+      'field' => 'sent_time',
+    ),
+    array(
+      'data' => bts('Time Reported or Deadline', array(), NULL, 'boinc:task-table')
+    ),
+    array(
+      'data' => bts('Status', array(), NULL, 'boinc:task-table')
+    ),
+    array(
+      'data' => bts('Run time', array(), NULL, 'boinc:task-table'),
+      'field' => 'elapsed_time',
+    ),
+    array(
+      'data' => bts('CPU time', array(), NULL, 'boinc:task-table'),
+      'field' => 'cpu_time',
+    ),
+    array(
+      'data' => bts('Granted Credit', array(), NULL, 'boinc:task-table'),
+      'field' => 'granted_credit',
+    ),
+    // Application is a column, but won't be added until after tablesort_sql().
+  );
+
+  // Query to retreive a subset of the total results for the results table.
+  db_set_active('boinc');
+  $sqlsub = "SELECT r.id AS id,"
+      ."r.name AS name,"
+      ."r.workunitid AS workunitid,"
+      ."r.hostid as hostid,"
+      ."r.sent_time AS sent_time,"
+      ."r.received_time AS received_time,"
+      ."r.report_deadline AS report_deadline,"
+      ."r.server_state AS server_state,"
+      ."r.outcome AS outcome,"
+      ."r.client_state AS client_state,"
+      ."r.validate_state AS validate_state,"
+      ."r.exit_status AS exit_status,"
+      ."r.elapsed_time AS elapsed_time,"
+      ."r.cpu_time AS cpu_time,"
+      ."r.granted_credit AS granted_credit,"
+      ."r.appid AS appid,"
+      ."r.app_version_id AS app_version_id,"
+      ."a.user_friendly_name,"
+      ."av.version_num AS version_number,"
+      ."av.plan_class AS plan_class,"
+      ."pl.name AS platform "
+      ."FROM {result} AS r "
+      ."INNER JOIN {app} AS a "
+      ."ON r.appid=a.id "
+      ."LEFT JOIN {app_version} AS av "
+      ."ON r.app_version_id=av.id "
+      ."LEFT JOIN {platform} AS pl "
+      ."ON av.platformid=pl.id ";
+
+  // Build an array for the WHERE clauses. The individual clauses are
+  // placed into an array, and implode() is used to combine them into
+  // a WHERE statement for the sql query. If no such clauses are added
+  // to the array, then no WHERE statement will be included.
+  $sqlwhere = array();
+
+  // Use userid, hostid, or workunitid
+  if ($category==0) {
+    $sqlwhere[] = "r.userid = '%s'";
+  }
+  elseif ($category==1) {
+    $sqlwhere[] = "r.workunitid = '%s'";
+  }
+  elseif ($category==2) {
+    $sqlwhere[] = "r.hostid = '%s'";
+  }
+
+  // Append additional where clauses based on task selection.
+  switch ($tselect) {
+  case STATE_IN_PROGRESS:
+    $sqlwhere[] = "r.server_state = 4";
+    break;
+  case STATE_PENDING:
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state >= 0) AND (r.validate_state <= 0 OR r.validate_state >= 4) AND (r.validate_state <= 4)";
+    break;
+  case STATE_VALID:
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state = 1)";
+    break;
+  case STATE_INVALID:
+    $sqlwhere[] = "(r.server_state = 5) AND ((r.outcome = 6) OR ((r.outcome = 1) AND ((r.validate_state = 2) OR (r.validate_state = 3) OR (r.validate_state = 5))))";
+    break;
+  case STATE_ERROR:
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome >= 3) AND (r.outcome <= 4 OR r.outcome >= 7) AND (r.outcome <= 7)";
+    break;
+  default:
+  }
+
+  if (is_numeric($app_id) AND $app_id>0 ) {
+    $sqlwhere[] = "r.appid = '%s'";
+    if ($sqlwhere)  $sqlsub .= " WHERE " . implode(' AND ', $sqlwhere);
+    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), $tablerows, 0, NULL, $queryid, $app_id);
+  }
+  else {
+    if ($sqlwhere)  $sqlsub .= " WHERE " . implode(' AND ', $sqlwhere);
+    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), $tablerows, 0, NULL, $queryid);
+  }
+  db_set_active('default');
+
+  // Loop 2 over DB results.
+  if ($dbres_sub) {
+    while ($result = db_fetch_object($dbres_sub)) {
+      // state_num() function changes $result object, clone $result
+      // object for use in state_num()
+      // check if state matches selection
+      if ( (state_num(clone $result) == $tselect) OR ($tselect==STATE_ALL) ) {
+        // create pretty result row
+        $prettyresult = array(
+          array(
+            'data' => l($result->name, "task/{$result->id}"),
+            'class' => 'task-name',
+          ),
+          l($result->workunitid, "workunit/{$result->workunitid}"),
+          l($result->hostid, "host/{$result->hostid}"),
+          date('j M Y G:i:s T', $result->sent_time),
+          boincwork_task_time_reported($result->received_time, $result->report_deadline),
+          state_string($result),
+          $nf->format($result->elapsed_time),
+          $nf->format($result->cpu_time),
+          $nf->format($result->granted_credit),
+          array(
+            'data' => $result->user_friendly_name . " " . pretty_application_version($result->app_version_id,$result->version_number, $result->plan_class, $result->platform),
+            'class' => 'task-app',
+          ),
+        );
+        $resultdata[] = array_values($prettyresult);
+      }
+    }// while
+  }
+  else {
+  }
+  // Begin result navigation
+
+  // Set pathprefix based on type
+  if ($category==0) {
+    $pathprefix = 'account/tasks';
+  }
+  elseif ($category==1) {
+    $pathprefix = 'workunit/' . $queryid . '/tasks';
+  }
+  elseif ($category==2) {
+    $pathprefix = 'host/' . $queryid . '/tasks';
+  }
+  // Need an "All" tab as well, maps to app_id of zero.
+  $application_map[0] = bts('All', array(), NULL, 'boinc:task-table');
+  $stitems = array();
+  foreach ($taskstates as $state => $numstates) {
+    $mypath = $pathprefix . '/' . $state . '/' . $app_id;
+    if ($state==STATE_ALL) {
+      $ltext = '<span class="tab task-app-name">' . bts('All', array(), NULL, 'boinc:task-table') . ' (' . $numstates . ')</span>';
+    }
+    else {
+      $ltext = '<span class="tab">' . bts($state_hnames[$state], array(), NULL, 'boinc:task-table') . ' (' . $numstates . ')</span>';
+    }
+    $myitem = array(
+      'data' => l($ltext, $mypath, array('html' => TRUE) ),
+    );
+    if ($state==$tselect) {
+      $myitem['class'] = 'active';
+    }
+    $stitems[] = $myitem;
+  }
+  // Add reset button
+  $mypath = $pathprefix . '/0/0';
+  $ltext = '<span class="tab">' . bts('Reset', array(), NULL, 'boinc:task-table') . '</span>';
+  $stitems[] = array( 'data' => l($ltext, $mypath, array('html' => TRUE) ) );
+
+  $output .= theme_item_list($stitems, NULL, 'ul' . ' class="tabs secondary clearfix"');
+
+  // Application select-drop down form
+  // Hack to place Application form into header
+  // App ID of zero maps to "-1" for drop-down box.
+  if ($app_id==0) {
+    $app_id=-1;
+  }
+  $resultheader[] = drupal_get_form('boincwork_selectapp_form', $applications, $app_id);
+
+  // Begin table of results
+  if ( is_array($resultheader) AND is_array($resultdata) ) {
+
+    // Take advantage of the fact that $category is the same as the row/column we want to remove.
+    if ( ($category==1) OR ($category==2) ) {
+      unset($resultheader[$category]);
+      delete_col($resultdata, $category);
+    }
+
+    $output .= theme_table($resultheader, $resultdata);
+    if (count($resultdata) > 0) {
+      $output .= theme('pager');
+    }
+  }
+  return $output;
+}
+
+/**
+ * Function to delete a column from an array.
+ */
+function delete_col(&$array, $offset) {
+  return array_walk($array, function (&$v) use ($offset) {
+     array_splice($v, $offset, 1);
+  });
+}
+
+/**
+ * Pretty print the application version
+ *
+ * Parameters are obtained from the BOINC project database, result,
+ * app, app_version, and platform tables.
+ *
+ * Parameters
+ * @param int $appverid
+ *  app_version_id field, may be negative- anonymous platforms.
+ * @param int $vernum
+ *  version_num field, application version number, may be NULL
+ * @param int $plan_class
+ *  plan_class field, applcation plan class, may be NULL
+ * @param string $plfm
+ *  platform name, may be NULL
+ */
+
+function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
+  switch ($appverid) {
+    case ANON_PLATFORM_UNKNOWN:
+      return "Anonymous platform";
+    case ANON_PLATFORM_CPU:
+      return "Anonymous platform CPU";
+    case ANON_PLATFORM_NVIDIA:
+      return "Anonymous platform NVIDIA GPU";
+    case ANON_PLATFORM_ATI:
+      return "Anonymous platform ATI GPU";
+    case ANON_PLATFORM_INTEL:
+      return "Anonymous platform Intel GPU";
+    case 0:
+      return "---";
+    default:
+      // Handle the case where the appversid is still negative. This
+      // may be cause BOINC has introduced a new anonymous platform
+      // that is not handled by the above case statements.
+      if ($appverid < 0) {
+        return "Unknown Anonymous platform";
+      }
+      else {
+        $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
+        $prettyc = ($plan_class) ? "($av->plan_class)" : '';
+        return "v$prettyv $prettyc $plfm";
+      }
+  }
+}
+  
+/**
+ * uasort() compare function for dbapps array.
+ */
+function _dbapps_compare($a, $b) {
+  if ($a['@attributes']['weight'] == $b['@attributes']['weight']) {
+    $alphabetize = strnatcmp($a['@value'], $b['@value']);
+
+    if ($alphabetize==0) {
+      return ($a['@attributes']['id'] - $b['@attributes']['id']);
+    }
+    else {
+      return $alphabetize;
+    }
+
+  }
+  return ($a['@attributes']['weight'] - $b['@attributes']['weight']);
 }

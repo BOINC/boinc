@@ -15,12 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A very crude interface for parsing XML files;
-// assumes all elements are either single-line or
+// This file contains two XML parsers:
+//
+// 1) a very crude one, which assumes all elements are either single-line or
 // have start and end tags on separate lines.
 // This is meant to be used ONLY for parsing XML files produced
 // by the BOINC scheduling server or client.
-// Could replace this with a more general parser.
+//
+// 2) a better one (class XML_PARSER) which parses arbitrary XML
 
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
@@ -37,14 +39,6 @@
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
-#if !defined(HAVE_STRDUP) && defined(HAVE__STRDUP)
-#define strdup _strdup
 #endif
 
 #ifdef _USING_FCGI_
@@ -327,6 +321,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
     const char* p, *q;
     char* wp;
     char buf[256];
+    const size_t venue_close_tag_len = strlen("</venue>");
     snprintf(buf, sizeof(buf), "<venue name=\"%s\">", venue_name);
     p = strstr(in, buf);
     if (p) {
@@ -350,7 +345,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
                strncat(out, q, p-q);
                q = strstr(p, "</venue>");
                if (!q) break;
-               q += strlen("</venue>");
+               q += venue_close_tag_len;
            }
     }
 }
@@ -629,17 +624,20 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
 // same, for std::string
 //
 bool XML_PARSER::parse_string(const char* start_tag, string& str) {
+    bool flag = false;
     if (is_empty_string(parsed_tag, start_tag)) {
         str = "";
         return true;
     }
     if (strcmp(parsed_tag, start_tag)) return false;
     char *buf=(char *)malloc(MAX_XML_STRING);
-    bool flag = parse_str_aux(start_tag, buf, MAX_XML_STRING);
-    if (flag) {
-        str = buf;
+    if (buf) {
+        flag = parse_str_aux(start_tag, buf, MAX_XML_STRING);
+        if (flag) {
+            str = buf;
+        }
+        free(buf);
     }
-    free(buf);
     return flag;
 }
 
@@ -911,7 +909,7 @@ void XML_PARSER::skip_unexpected(
 // copy this entire element, including start and end tags, to the buffer
 //
 int XML_PARSER::copy_element(string& out) {
-    char end_tag[TAG_BUF_LEN], buf[1024];
+    char end_tag[TAG_BUF_LEN], buf[ELEMENT_BUF_LEN];
 
     // handle <foo/> case
     //

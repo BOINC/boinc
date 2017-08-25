@@ -162,13 +162,14 @@ void GUI_RPC_CONN_SET::get_password() {
         msg_printf(NULL, MSG_USER_ALERT,
             "Can't open gui_rpc_auth.cfg - fix permissions"
         );
-    }
-    retval = fputs(password, f);
-    fclose(f);
-    if (retval == EOF) {
-        msg_printf(NULL, MSG_USER_ALERT,
-            "Can't write gui_rpc_auth.cfg - fix permissions"
-        );
+    } else {
+        retval = fputs(password, f);
+        fclose(f);
+        if (retval == EOF) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't write gui_rpc_auth.cfg - fix permissions"
+            );
+        }
     }
 #ifndef _WIN32
     // if someone can read the password,

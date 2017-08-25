@@ -19,74 +19,52 @@
 // forms for account creation and login
 
 function create_account_form($teamid, $next_url) {
-    echo "
-        <form action=\"create_account_action.php\" method=\"post\">
-        <input type=hidden name=next_url value=\"$next_url\">
-    ";
+    global $recaptcha_public_key;
+    form_input_hidden('next_url', $next_url);
 
     if ($teamid) {
-        echo "
-            <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-        ";
+        form_input_hidden('teamid', $teamid);
     }
-    start_table();
 
     // Using invitation codes to restrict access?
     //
     if (defined('INVITE_CODES')) {
-         row2(
-             tra("Invitation Code")."<br><p class=\"text-info\">".tra("A valid invitation code is required to create an account.")."</p>",
-             "<input type=\"text\" name=\"invite_code\" size=\"30\" >"
-         );
+        form_input_text(
+             tra("Invitation Code")."<br><small>".tra("An invitation code is required to create an account.")."</small>",
+             "invite_code"
+        );
     }
 
-    row2(
-        tra("Name")."<br><p class=\"text-info\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</p>",
-        "<input type=\"text\" name=\"new_name\" size=\"30\">"
+    form_input_text(
+        tra("Screen name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
+        "new_name"
     );
-    row2(
-        tra("Email Address")."<br><p class=\"text-info\">".tra("Must be a valid address of the form 'name@domain'.")."</p>",
-        "<input type=\"text\" name=\"new_email_addr\" size=\"50\">"
+    form_input_text(
+        tra("Email Address")."<br><small>".tra("Must be a valid address of the form 'name@domain'.")."</small>",
+        "new_email_addr"
     );
     $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
     if (!$min_passwd_length) {
         $min_passwd_length = 6;
     }
 
-    row2(
+    form_input_text(
         tra("Password")
-        ."<br><p class=\"text-info\">".tra("Must be at least %1 characters", $min_passwd_length)."</p>",
-        "<input type=\"password\" name=\"passwd\">"
+        ."<br><small>".tra("Must be at least %1 characters", $min_passwd_length)."</small>",
+        "passwd", "", "password"
     );
-    row2(tra("Confirm password"), "<input type=\"password\" name=\"passwd2\">");
-    row2_init(
-        tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
-        "<select name=\"country\">"
+    form_input_text(tra("Confirm password"), "passwd2", "", "password");
+    form_select(
+        tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
+        "country",
+        country_select_options()
     );
-    print_country_select();
-    echo "</select></td></tr>\n";
-    if (0) {
-        row2(
-            tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</p>",
-            "<input type=\"text\" name=\"postal_code\" size=\"20\">"
+    if (POSTAL_CODE) {
+        form_input_text(
+            tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",
+            "postal_code"
         );
     }
-
-    // Check if we're reCaptcha to prevent spam accounts
-    //
-    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
-    if ($publickey) {
-        row2(
-            "",
-            boinc_recaptcha_get_html($publickey)
-        );
-    }
-
-    row2("",
-        "<input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create account")."\">"
-    );
-    end_table();
-    echo "</form>\n";
 }
 
 function login_form($next_url) {
@@ -100,19 +78,19 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    if (!parse_bool(get_config(), "no_computing")) {
-        $x .= '<br><p class="text-muted"><a href="get_passwd.php">'.tra("forgot email address?")."</a></p>";
+    if (!NO_COMPUTING) {
+        $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
     }
-    row2($x, "<input name=email_addr type=\"text\" size=40 tabindex=1>");
-    row2(tra("Password:") . '<br><p class="text-muted"><a href="get_passwd.php">' . tra("forgot password?") . "</a></p>",
-        '<input type="password" name="passwd" size="40" tabindex="2">'
+    row2($x, '<input class="form-control" name=email_addr type="text" size=40 tabindex=1>');
+    row2(tra("Password:") . '<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
+        '<input class="form-control" type="password" name="passwd" size="40" tabindex="2">'
     );
     row2(tra("Stay logged in"),
         '<input type="checkbox" name="stay_logged_in" checked>'
     );
 
     row2("",
-        "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
+        "<input class=\"btn btn-success\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
     );
 
     end_table();

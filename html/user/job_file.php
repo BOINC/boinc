@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -78,29 +78,46 @@ require_once("../inc/dir_hier.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/submit_util.inc");
 
+function upload_error_description($errno) {
+    switch($errno) {
+        case UPLOAD_ERR_INI_SIZE:
+            return "The uploaded file exceeds upload_max_filesize of php.ini."; break;
+        case UPLOAD_ERR_FORM_SIZE:
+            return "The uploaded file exceeds the MAX_FILE_SIZE specified in the HTML form."; break;
+        case UPLOAD_ERR_PARTIAL:
+            return "The uploaded file was only partially uploaded."; break;
+        case UPLOAD_ERR_NO_FILE:
+            return "No file was uploaded."; break;
+        case UPLOAD_ERR_NO_TMP_DIR:
+            return "Missing a temporary folder."; break;
+        case UPLOAD_ERR_CANT_WRITE:
+            return "Failed to write file to disk."; break;
+        case UPLOAD_ERR_EXTENSION:
+            return "A PHP extension stopped the file upload."; break;
+    }
+}
+
 function query_files($r) {
+    xml_start_tag("query_files");
     list($user, $user_submit) = authenticate_user($r, null);
     $absent_files = array();
     $now = time();
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $i = 0;
-    $md5s= array();
-    foreach($r->md5 as $f) {
-        $md5 = (string)$f;
-        $md5s[] = $md5;
+    $phys_names= array();
+    foreach($r->phys_name as $f) {
+        $phys_names[] = (string)$f;
     }
-    $md5s = array_unique($md5s);
-    foreach($md5s as $md5) {
-        $fname = job_file_name($md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
+    $i = 0;
+    foreach($phys_names as $fname) {
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
 
         // if the job_file record is there,
         // update the delete time first to avoid race condition
         // with job file deleter
         //
-        $job_file = BoincJobFile::lookup_md5($md5);
+        $job_file = BoincJobFile::lookup_name($fname);
         if ($job_file && $job_file->delete_time < $delete_time) {
             $retval = $job_file->update("delete_time=$delete_time");
             if ($retval) {
@@ -114,24 +131,28 @@ function query_files($r) {
                 $jf_id = $job_file->id;
             } else {
                 $jf_id = BoincJobFile::insert(
-                    "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
+                    "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
                 );
+                if (!$jf_id) {
+                    xml_error(-1, "query_files(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
+                }
             }
             // create batch association if needed
             //
             if ($batch_id) {
-                $ret = BoincBatchFileAssoc::insert(
+                BoincBatchFileAssoc::insert(
                     "(batch_id, job_file_id) values ($batch_id, $jf_id)"
                 );
-                if (!$ret) {
-                    xml_error(-1,
-                        "BoincBatchFileAssoc::insert() failed: ".BoincDb::error()
-                    );
-                }
+                // this return error if assoc already exists; ignore
             }
         } else {
             if ($job_file) {
-                $job_file->delete();
+                $ret = $job_file->delete();
+                if (!$ret) {
+                    xml_error(-1,
+                        "BoincJobFile::delete() failed: ".BoincDb::error()
+                    );
+                }
             }
             $absent_files[] = $i;
         }
@@ -141,32 +162,82 @@ function query_files($r) {
     foreach ($absent_files as $i) {
         echo "<file>$i</file>\n";
     }
-    echo "</absent_files>\n";
+    echo "</absent_files>
+        </query_files>
+    ";
+}
+
+function delete_uploaded_files() {
+    foreach ($_FILES as $f) {
+        unlink($f['tmp_name']);
+    }
 }
 
 function upload_files($r) {
+    xml_start_tag("upload_files");
     list($user, $user_submit) = authenticate_user($r, null);
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
     //print_r($_FILES);
-    $i = 0;
-    foreach ($r->md5 as $f) {
-        $md5 = (string)$f;
-        $name = "file_$i";
-        $tmp_name = $_FILES[$name]['tmp_name'];
-        if (!is_uploaded_file($tmp_name)) {
-            xml_error(-1, "$tmp_name is not an uploaded file");
+
+    if (count($_FILES) != count($r->phys_name)) {
+        delete_uploaded_files();
+        xml_error(-1,
+            sprintf("# of uploaded files (%d) doesn't agree with request (%d)",
+                count($_FILES), count($r->phys_name)
+            )
+        );
+    }
+
+    $phys_names = array();
+    foreach ($r->phys_name as $cs) {
+        $phys_names[] = (string)$cs;
+    }
+
+    foreach ($_FILES as $f) {
+        $name = $f['name'];
+        $tmp_name = $f['tmp_name'];
+
+        if ($f['error'] != UPLOAD_ERR_OK) {
+            delete_uploaded_files();
+            $reason = upload_error_description($f['error']);
+            xml_error(-1, "$name upload failed because: $reason");
         }
-        $fname = job_file_name($md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
-        rename($tmp_name, $path);
-        $now = time();
+
+        if (!is_uploaded_file($tmp_name)) {
+            delete_uploaded_files();
+            xml_error(-1, "$name was not uploaded correctly");
+        }
+    }
+
+    $i = 0;
+    $now = time();
+    foreach ($_FILES as $f) {
+        $tmp_name = $f['tmp_name'];
+        $fname = $phys_names[$i];
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
+
+        switch(check_download_file($tmp_name, $path)) {
+        case 0:
+            break;
+        case 1:
+            if (!move_uploaded_file($tmp_name, $path)) {
+                xml_error(-1, "could not move $tmp_name to $path");
+            }
+            touch("$path.md5");
+            break;
+        case -1:
+            xml_error(-1, "file immutability violation for $fname");
+        case -2:
+            xml_error(-1, "file operation failed; check permissions in download/*");
+        }
+
         $jf_id = BoincJobFile::insert(
-            "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
+            "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($md5) failed: ".BoincDb::error());
+            xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(
@@ -175,7 +246,10 @@ function upload_files($r) {
         }
         $i++;
     }
-    echo "<success/>\n";
+
+    echo "<success/>
+        </upload_files>
+    ";
 }
 
 if (0) {
@@ -189,10 +263,23 @@ if (0) {
     exit;
 }
 
+$request_log = parse_config(get_config(), "<remote_submission_log>");
+if ($request_log) {
+    $request_log_dir = parse_config(get_config(), "<log_dir>");
+    if ($request_log_dir) {
+        $request_log = $request_log_dir . "/" . $request_log;
+    }
+    if ($file = fopen($request_log, "a+")) {
+        fwrite($file, "\n<job_file date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</job_file>\n");
+        fclose($file);
+    }
+}
+
 xml_header();
-$r = simplexml_load_string($_POST['request']);
+$req = $_POST['request'];
+$r = simplexml_load_string($req);
 if (!$r) {
-    xml_error(-1, "can't parse request message");
+    xml_error(-1, "can't parse request message: $req", __FILE__, __LINE__);
 }
 
 switch($r->getName()) {

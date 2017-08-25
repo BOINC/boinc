@@ -297,24 +297,6 @@ int parse_command_line(char* p, char** argv) {
 
 // remove whitespace from start and end of a string
 //
-void strip_whitespace(char *str) {
-    char *s = str;
-    while (*s) {
-        if (!isascii(*s)) break;
-        if (!isspace(*s)) break;
-        s++;
-    }
-    if (s != str) strcpy_overlap(str, s);
-
-    size_t n = strlen(str);
-    while (n>0) {
-        n--;
-        if (!isascii(str[n])) break;
-        if (!isspace(str[n])) break;
-        str[n] = 0;
-    }
-}
-
 void strip_whitespace(string& str) {
     while (1) {
         if (str.length() == 0) break;
@@ -330,6 +312,96 @@ void strip_whitespace(string& str) {
         n--;
     }
     str.erase(n, str.length()-n);
+}
+
+void strip_whitespace(char *str) {
+    string s = str;
+    strip_whitespace(s);
+    strcpy(str, s.c_str());
+}
+
+// remove whitespace and quotes from start and end of a string
+//
+void strip_quotes(string& str) {
+    while (1) {
+        if (str.length() == 0) break;
+        if (str[0] == '"' || str[0] == '\'') {
+            str.erase(0, 1);
+            continue;
+        }
+        if (!isascii(str[0])) break;
+        if (!isspace(str[0])) break;
+        str.erase(0, 1);
+    }
+
+    int n = (int) str.length();
+    while (n>0) {
+        if (str[n-1] == '"' || str[n-1] == '\'') {
+            if (str[n-2] != '\\') {
+                n--;
+                continue;
+            }
+        }
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
+        n--;
+    }
+    str.erase(n, str.length()-n);
+}
+
+void strip_quotes(char *str) {
+    string s = str;
+    strip_quotes(s);
+    strcpy(str, s.c_str());
+}
+
+// This only unescapes some special shell characters used in /etc/os-release
+// see https://www.freedesktop.org/software/systemd/man/os-release.html
+void unescape_os_release(char* buf) {
+    char* out = buf;
+    char* in = buf;
+    while (*in) {
+        if (*in != '\\') {
+            *out++ = *in++;
+        } else if (*(in+1) == '$') {
+            *out++ = '$';
+            in += 2;
+        } else if (*(in+1) == '\'') {
+            *out++ = '\'';
+            in += 2;
+        } else if (*(in+1) == '"') {
+            *out++ = '"';
+            in += 2;
+        } else if (*(in+1) == '\\') {
+            *out++ = '\\';
+            in += 2;
+        } else if (*(in+1) == '`') {
+            *out++ = '`';
+            in += 2;
+        } else {
+            *out++ = *in++;
+        }
+    }
+    *out = 0;
+}
+
+// collapse multiple whitespace into one (will not strip_whitespace)
+//
+void collapse_whitespace(string& str) {
+    int n = (int) str.length();
+    if (n<2) return;
+    for (int i=1; i<n; i++) {
+        if (isspace(str[i-1]) && isspace(str[i])) {
+            str.erase(i, 1);
+            n--; i--;
+        }
+    }
+}
+
+void collapse_whitespace(char *str) {
+    string s = str;
+    collapse_whitespace(s);
+    strcpy(str, s.c_str());
 }
 
 char* time_to_string(double t) {
@@ -543,6 +615,7 @@ const char* boincerror(int which_error) {
         case ERR_NEED_HTTPS: return "HTTPS needed";
         case ERR_CHMOD : return "chmod() failed";
         case ERR_STAT : return "stat() failed";
+        case ERR_FCLOSE : return "fclose() failed";
         case HTTP_STATUS_NOT_FOUND: return "HTTP file not found";
         case HTTP_STATUS_PROXY_AUTH_REQ: return "HTTP proxy authentication failure";
         case HTTP_STATUS_RANGE_REQUEST_ERROR: return "HTTP range request error";
@@ -772,8 +845,8 @@ vector<string> split(string s, char delim) {
 // - can't have ..
 //
 bool is_valid_filename(const char* name) {
-    int n = strlen(name);
-    for (int i=0; i<n; i++) {
+    size_t n = strlen(name);
+    for (size_t i=0; i<n; i++) {
         if (iscntrl(name[i])) {
             return false;
         }
@@ -785,4 +858,39 @@ bool is_valid_filename(const char* name) {
         return false;
     }
     return true;
+}
+
+// get the name part of a filepath
+// returns:
+//   0 on success
+//  -1 when fpath is empty
+//  -2 when fpath is a directory
+int path_to_filename(string fpath, string& fname) {
+    std::string::size_type n;
+    if (fpath.size() == 0) {
+        return -1;
+    }
+    n = fpath.rfind("/");
+    if (n == std::string::npos) {
+        fname = fpath;
+    } else if (n == fpath.size()-1) {
+        return -2;
+    } else {
+        fname = fpath.substr(n+1);
+    }
+    return 0;
+}
+
+// get the name part of a filepath
+//
+// wrapper for path_to_filename(string, string&)
+int path_to_filename(string fpath, char* &fname) {
+    string name;
+    int retval = path_to_filename(fpath, name);
+    if (retval) {
+        return retval;
+    }
+    fname = new char[name.size()+1];
+    strcpy(fname, name.c_str());
+    return 0;
 }

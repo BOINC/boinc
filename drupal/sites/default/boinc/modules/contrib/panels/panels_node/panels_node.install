@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * Implementation of hook_schema().
+ */
+function panels_node_schema() {
+  // This should always point to our 'current' schema. This makes it relatively easy
+  // to keep a record of schema as we make changes to it.
+  return panels_node_schema_1();
+}
+
+/**
+ * Schema version 1 for Panels in D6.
+ */
+function panels_node_schema_1() {
+  $schema = array();
+
+  $schema['panels_node'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'css_id' => array(
+        'type' => 'varchar',
+        'length' => '255',
+      ),
+      'did' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'pipeline' => array(
+        'type' => 'varchar',
+        'length' => '255',
+      ),
+    ),
+    'primary key' => array('did'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function panels_node_install() {
+  db_query("UPDATE {system} SET weight = 11 WHERE name = 'panels_node'");
+  drupal_install_schema('panels_node');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function panels_node_uninstall() {
+  // TODO: Delete all actual nodes that are panels_nodes.
+  db_query("DELETE FROM {node} WHERE type = 'panel'");
+  drupal_uninstall_schema('panels_node');
+}
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function panels_node_update_dependencies() {
+  // Update 6002 requires panels storage support
+  $dependencies['panels_node'][6002] = array(
+    'panels' => 6313,
+  );
+
+  return $dependencies;
+}
+
+/**
+ * Implementation of hook_update to handle adding a pipeline
+ */
+function panels_node_update_6001() {
+  $ret = array();
+  $field = array(
+    'type' => 'varchar',
+    'length' => '255',
+  );
+
+  db_add_field($ret, 'panels_node', 'pipeline', $field);
+  return $ret;
+}
+
+/**
+ * Set the storage type and id on existing panels nodes.
+ */
+function panels_node_update_6002() {
+  if (!isset($sandbox['progress'])) {
+     // Initialize batch update information.
+     $sandbox['progress'] = (float)0;
+     $sandbox['current_did'] = -1;
+     $sandbox['max'] = db_result(db_query("SELECT COUNT(pd.did)
+         FROM {panels_display} pd
+           JOIN {panels_node} pn ON pn.did = pd.did
+         WHERE pd.storage_type = ''"));
+   }
+
+  // Set a limit of how many rows to process per batch.
+  $limit = 1000;
+
+  // Run the query
+  $result = db_query_range("SELECT pd.did, pn.nid
+      FROM {panels_display} pd
+        JOIN {panels_node} pn ON pn.did = pd.did
+      WHERE pd.storage_type = '' AND pd.did > %d", $sandbox['current_did'], 0, $limit);
+
+  while ($row = db_fetch_object($result)) {
+    db_query("UPDATE {panels_display} SET storage_type = '%s', storage_id = '%s' WHERE did = %d",
+      'panels_node', $row->nid, $row->did);
+
+    // Update our progress information.
+    $sandbox['progress']++;
+    $sandbox['current_did'] = $row->did;
+  }
+
+  // Set the "finished" status, to tell batch engine whether this function
+  // needs to run again.
+  $sandbox['#finished'] = ($sandbox['progress'] >= $sandbox['max']) ? TRUE : ($sandbox['progress'] / $sandbox['max']);
+
+  if ($sandbox['#finished']) {
+    $ret[] = array('success' => TRUE, 'query' => t('Added the storage type for panels_node to relevant panels displays'));
+    return $ret;
+  }
+}

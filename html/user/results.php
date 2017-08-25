@@ -45,10 +45,10 @@ if (!$show_names) $show_names=0;
 
 $s = $state_name[$state];
 if ($appid) {
-	$app = BoincApp::lookup_id($appid);
-	if ($app) {
-		$s .= " $app->user_friendly_name ";
-	}
+    $app = BoincApp::lookup_id($appid);
+    if ($app) {
+        $s .= " $app->user_friendly_name ";
+    }
 }
 
 if ($hostid) {
@@ -92,16 +92,15 @@ $info->state = $state;
 $info->appid = $appid;
 
 $nav = result_navigation($info, $clause);
+$i = 0;
 if (count($results)) {
     echo $nav;
     result_table_start(true, $show_host_link, $info);
-    $i = 0;
     foreach ($results as $result) {
-        if ($i >= $results_per_page) break;
-        show_result_row($result, true, $show_host_link, $show_names, $i);
-        $i++;
+        if ($i++ >= $results_per_page) break;
+        show_result_row($result, true, $show_host_link, $show_names);
     }
-    echo "</table>\n";
+    end_table();
 } else {
     start_table();
     row1(tra("No tasks to display"));

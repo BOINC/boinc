@@ -57,9 +57,8 @@ $info_sites = array(
     //    "BOINC mini-FAQ"
     //),
     array(
-        "http://boincfaq.mundayweb.com/",
-        "The BOINC FAQ Service",
-        "(English, German, Dutch, Spanish and French)"
+        "https://boinc.mundayweb.com/wiki/index.php?title=BOINC_FAQs_Central",
+        "The BOINC FAQ Service"
     ),
     array(
         "http://www.seti-argentina.com.ar/instrucciones-boinc-manager",

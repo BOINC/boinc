@@ -85,14 +85,15 @@ define('RATE_NEGATIVE_IMAGE_HEIGHT','9');
 define('REPORT_POST_IMAGE', 'img/report_post.png');
 define('REPORT_POST_IMAGE_HEIGHT','9');
 
-define ('SOLUTION', 'This answered my question');
-define ('SUFFERER', 'I also have this question');
-define ('OFF_TOPIC', 'Off-topic');
+define('SOLUTION', tra('This answered my question'));
+define('SUFFERER', tra('I also have this question'));
+define('OFF_TOPIC', tra('Off-topic'));
 
 define ('DEFAULT_LOW_RATING_THRESHOLD', -25);
 define ('DEFAULT_HIGH_RATING_THRESHOLD', 5);
 
-// A list of what kind of special users exist
+// special user attributes
+//
 define('S_MODERATOR', 0);
 define('S_ADMIN', 1);
 define('S_DEV', 2);
@@ -115,23 +116,24 @@ $special_user_bitfield[S_HELP_DESK_EXPERT] = tra("Help desk expert");
 // show a banner with search form on left and PM info on right
 //
 function show_forum_header($user) {
-    echo "<form action=\"forum_search_action.php\" method=\"POST\">
-    ";
-    echo "<table cellpadding=\"5\" width=\"100%\" class=\"forum_header\">";
-    echo "<tr>
-    ";
+    echo '<form action="forum_search_action.php" method="POST">
+    ';
+    start_table();
+    echo '
+        <tr>
+    ';
 
     // Search
-    echo "
+    echo '
         <td>
-        <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-        <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-        <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-        <input type=\"text\" name=\"search_keywords\">
-        <input class=\"btn btn-default\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
-        <small><a href=\"forum_search.php\">".tra("Advanced search")."</a></small>
+        <input type="hidden" name="search_max_time" value="30">
+        <input type="hidden" name="search_forum" value="-1">
+        <input type="hidden" name="search_sort" value="5">
+        <input type="text" class="" name="search_keywords">
+        <input class="btn btn-primary btn-sm" title="'.tra("Search for words in forum messages").'" type="submit" value="'.tra("Search forums").'"><br>
+        <small><a href="forum_search.php">'.tra("Advanced search").'</a></small>
         </td>
-    ";
+    ';
 
     if ($user) {
         echo "<td align=\"right\">\n";
@@ -203,27 +205,18 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-function start_forum_table($headings, $extra=null) {
-    $span = null;
-    
-    start_table($extra." width=\"100%\"");
-    echo "<tr>";
-
-    for ($i=0; $i<count($headings); $i++) {
-        if (is_array($headings[$i])){
-            $title = $headings[$i][0];
-            $class = $headings[$i][1]?$headings[$i][1]:"heading";
-            if (isset($headings[$i][2])) {
-                $span = " colspan=\"".$headings[$i][2]."\" ";
-            }
-        } else {
-            $title = $headings[$i];
-            $class = "heading";
-            $span="";
-        }
-        echo "<th class=$class$span>$title</th>\n";
+// start a table containing messages, where the layout is fixed
+// (to accommodate long [pre] lines)
+// and the left column (author info) has fixed size
+//
+function start_forum_table($headings) {
+    $a = array();
+    foreach ($headings as $h) {
+        $a[] = null;
     }
-    echo "</tr>\n";
+    $a[0] = 'style="width: 10em;"';
+    start_table('table-striped', 'table-layout:fixed');
+    row_heading_array($headings, $a);
 }
 
 function page_link($url, $page_num, $items_per_page, $text) {
@@ -323,8 +316,6 @@ function can_reply($thread, $forum, $user) {
 function show_posts(
     $thread, $forum, $start, $postid, $sort_style, $filter, $logged_in_user
 ) {
-    $n = 1;
-
     $num_to_show = 20;
     if ($logged_in_user && $logged_in_user->prefs->display_wrap_postcount > 0) {
         $num_to_show = $logged_in_user->prefs->display_wrap_postcount;
@@ -394,6 +385,8 @@ function show_posts(
                 }
                 $i++;
             }
+            // if jump to post, figure out what page to show
+            //
             if ($jump_to_post) {
                 $start = $ibest - ($ibest % $num_to_show);
             } else {
@@ -415,8 +408,8 @@ function show_posts(
 
     $num_shown = 0;
     $num_skipped = 0;
-    $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
-    start_forum_table($headings, "id=\"thread\" cellspacing=0");
+    $headings = array(tra("Author"), tra("Message"));
+    start_forum_table($headings);
 
     $latest_shown_timestamp = 0;
     foreach ($posts as $post) {
@@ -428,10 +421,9 @@ function show_posts(
             break;
         }
         show_post(
-            $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
+            $post, $thread, $forum, $logged_in_user, $start, $latest_viewed,
             FORUM_CONTROLS, $filter
         );
-        $n = ($n+1)%2;
         
         if ($post->timestamp > $latest_shown_timestamp) {
             $latest_shown_timestamp = $post->timestamp;
@@ -494,11 +486,12 @@ function avatar_url($url) {
     return str_replace('http:', 'https:', $url);
 }
 
-// Display an individual post
+// Display an individual post.
+// Generates a table row with two cells: author and message
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
-    $controls=FORUM_CONTROLS, $filter=true
+    $post, $thread, $forum, $logged_in_user, $start=0,
+    $latest_viewed=0, $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
 
@@ -570,29 +563,33 @@ function show_post(
     } else {
         $highlight = $is_posted_by_special;
     }
+    $class = $highlight?' style="border-left: 5px solid LightGreen" ':'';
+
+    // row and start of author col
+    //
     echo "
         <tr>
-        <td class=\"leftcol ".($highlight?"highlighted_":"")."row$n\" rowspan=\"3\">
+        <td $class>
         <a name=\"$post->id\"></a>
-        <div class=\"authorcol\">
     ";
 
     echo user_links($user, 0);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
-    if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
+    echo "<span class=\"small\">";
+    if ($fstatus) echo "$fstatus";
 
-    echo "<span class=\"authorinfo\">";
     if (!$filter || !$ignore_poster){
         if ($user->prefs && $user->prefs->avatar!="" && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
-            echo "<img class=authorinfo width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".avatar_url($user->prefs->avatar)."\" alt=\"Avatar\"><br>";
+            echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".avatar_url($user->prefs->avatar)."\" alt=\"Avatar\"><br>";
         }
     }
+    echo "<p> </p>";
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
-    show_button($url, tra("Send&nbsp;message"), tra("Send %1 a private message",$name));
-    echo "<br>".tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
+    show_button_small($url, tra("Send message"), tra("Send %1 a private message",$name));
+    echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
@@ -606,7 +603,7 @@ function show_post(
         // by displaying the  user id of the poster.
         //
         //echo "ID: ".$user->id."<br>";
-        if (!no_computing()) {
+        if (!NO_COMPUTING) {
             echo tra("Credit: %1", number_format($user->total_credit)) ."<br>";
             echo tra("RAC: %1",    number_format($user->expavg_credit))."<br>";
         }
@@ -624,14 +621,20 @@ function show_post(
         }
         echo badges_string(true, $user, BADGE_HEIGHT_SMALL);
     }
-    echo "</span></div></td>";
 
-    echo "<td class=\"postheader\">";
+    // end of author col, start of message col
+    //
+    echo '</span>
+        </td>
+        <td height="1%">
+        <div class="small">
+    ';
+
     if ($controls == FORUM_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
 
-    if ($logged_in_user && $post->timestamp>$latest_viewed){
+    if ($logged_in_user && $post->timestamp > $latest_viewed){
         show_image(NEW_IMAGE, tra("You haven't read this message yet"), tra("Unread"), NEW_IMAGE_HEIGHT);
     }
 
@@ -640,10 +643,10 @@ function show_post(
     echo tra("Posted: %1", pretty_time_str($post->timestamp)), " ";
 
     if ($post->parent_post) {
-        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>.";
+        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>. &nbsp; ";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
-        show_button("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
+        show_button_small("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
     }
     if (is_moderator($logged_in_user, $forum)) {
         show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
@@ -652,15 +655,17 @@ function show_post(
         echo "<br>".tra("Last modified: %1", pretty_time_Str($post->modified));
     }
     if ($ignore_poster && $filter){
-        echo "<br>".tra("This post is not shown because the sender is on your 'ignore' list.  Click %1here%2 to view this post","<a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">","</a>");
+        echo "<br>" .tra(
+            "This post is hidden because the sender is on your 'ignore' list.  Click %1 here %2 to view hidden posts",
+            "<a href=\"?id=".$thread->id."&amp;filter=false&amp;start=$start#".$post->id."\">",
+            "</a>"
+        );
     }
     if ($controls == FORUM_CONTROLS) {
         echo "</form>\n";
     }
-    echo "</td>
-        </tr>
-        <tr class=\"".($highlight?"highlighted_":"")."row$n\">
-        <td class=\"postbody\">
+    echo "</div>
+        <p>
     ";
 
     if (!$filter || !$ignore_poster){
@@ -670,21 +675,30 @@ function show_post(
         // wants it to be shown for this post AND the logged in
         // user has signatures enabled: show it
         //
+        $posttext = output_transform($posttext, $options);
         if ($post->signature && (!$logged_in_user || !$logged_in_user->prefs->hide_signatures)){
-            $posttext.="\n____________\n".$user->prefs->signature;
+            $sig = output_transform($user->prefs->signature, $options);
+            $posttext .= "<hr>$sig\n";
         }
 
-        $posttext = output_transform($posttext, $options);
-        
-        echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"postfooter\"><span>ID: <i>", $post->id;
+        // show message in a panel
+        //
+        echo '<div class="panel panel-default">
+            <div class="panel-body">'
+            .$posttext
+            .'</div></div>
+        ';
+
+        echo '<div class="small"
+            <span>ID: '. $post->id
+        ;
         if ($no_forum_rating) {
             echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         } else {
             $rating = $post->rating();
-            echo " &middot; ".tra("Rating: %1", $rating)."</i> &middot; ".tra("rate: ")."
+            echo " &middot; ".tra("Rating: %1", $rating)." &middot; ".tra("rate: ")."
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
             show_image(RATE_POSITIVE_IMAGE, tra("Click if you like this message"), tra("Rate +"), RATE_POSITIVE_IMAGE_HEIGHT);
@@ -703,11 +717,13 @@ function show_post(
             // "Quote" is used as a verb
             show_button($url, tra("Quote"), tra("Post a reply by quoting this message"));
         }
-        echo "</span></td></tr>";
-    } else {
-        echo "</td></tr><tr><td class=\"postfooter\">";
+        echo "</span>";
     }
-    echo "<tr class=\"postseparator\"><td colspan=2></td></tr>";
+    // end of message col and row; add separator row
+    //
+    echo "</td></tr>
+        <tr><td colspan=2></td></tr>
+    ";
 }
 
 // Show a post and its context (e.g. for search results, user posts)
@@ -720,14 +736,13 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     $when = time_diff_str($post->timestamp, time());
     $user = BoincUser::lookup_id($post->user);
     $title = cleanup_title($thread->title);
-    $m = $n%2;
     if ($post->hidden) {
         $deleted = "<br><font color=red>[".tra("Hidden by a moderator")."]</font>";
     } else {
         $deleted = "";
     }
     echo "
-        <tr class=row$m>
+        <tr>
         <td>
             $n)
     ";
@@ -744,6 +759,8 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
         (<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->id."\">".tra("Message %1", $post->id)."</a>)
         <br>
         ".tra("Posted %1 by %2", $when, user_links($user))." $deleted
+        <br>
+        Post:
         <hr>
         $content
         </td></tr>
@@ -772,23 +789,31 @@ function post_rules() {
     } else {
       $project_rules="";
     }
-    return tra("
+    return sprintf("
         <ul>
-        <li> Posts must be 'kid friendly': they may not contain
-            content that is obscene, hate-related,
-            sexually explicit or suggestive.
-        <li> No commercial advertisements.
-        <li> No links to web sites involving sexual content,
-            gambling, or intolerance of others.
-        <li> No messages intended to annoy or antagonize other people,
-            or to hijack a thread.
-        <li> No messages that are deliberately hostile, threatening, or insulting.
-        <li> No abusive comments involving race, religion,
-            nationality, gender, class or sexuality.
-        <li> The posting privileges of violators may be suspended or revoked.
-        ").$project_rules."
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        %s
         </ul>
-    ";
+        ",
+        tra("Posts must be 'kid friendly': they may not contain content that is obscene, hate-related, sexually explicit or suggestive."),
+        tra("No commercial advertisements."),
+        tra("No links to web sites involving sexual content, gambling, or intolerance of others."),
+        tra("No messages intended to annoy or antagonize other people, or to hijack a thread."),
+        tra("No messages that are deliberately hostile, threatening, or insulting."),
+        tra("No abusive messages involving race, religion, nationality, gender, class or sexuality."),
+        tra("Posts that violate these rules may be deleted."),
+        tra("The posting privileges of violators may be suspended or revoked."),
+        tra("If your account is suspended, don't create a new one."),
+        $project_rules
+    );
 }
 
 function post_warning($forum=null) {
@@ -806,7 +831,6 @@ function post_warning($forum=null) {
     $x .= "
         <font size=-2>
         ".tra("Rules:").post_rules()."
-        <a href=moderation.php>".tra("More info")."</a>
         </font>
         </td></tr></table>
     ";
@@ -1104,40 +1128,40 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_button("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
+        show_button_small("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
     } else {
-        show_button("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
+        show_button_small("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
     }
 
-    show_button(
+    show_button_small(
         "forum_moderate_post.php?action=move&amp;id=".$post->id."$tokens",
         tra("Move"), tra("Move post to a different thread")
     );
 
     if ($forum->parent_type == 0) {
         if (is_admin($logged_in_user) || $moderators_allowed_to_ban) {
-            show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
+            show_button_small("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
         }
         if ($moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=yes&amp;userid=".$post->user,
                     tra("Vote to banish author")
                 );
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=no&amp;userid=".$post->user,
                     tra("Vote not to banish author")
                 );
             } else {
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=start&amp;userid=".$post->user,
                     tra("Start vote to banish author")
                 );
             }
         }
         if (is_admin($logged_in_user)) {
-            show_button("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
+            show_button_small("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
         }
     }
 }
@@ -1239,7 +1263,8 @@ function is_moderator($user, $forum) {
 }
 
 function show_thread_and_context_header() {
-    start_forum_table(array(
+    start_table('table-striped');
+    row_heading_array(array(
         tra("Thread"),
         tra("Posts"),
         tra("Author"),
@@ -1251,13 +1276,12 @@ function show_thread_and_context_header() {
 // show a 1-line summary of thread and its forum.
 // Used for search results and subscription list
 //
-function show_thread_and_context($thread, $user, $i) {
+function show_thread_and_context($thread, $user) {
     $thread_forum = BoincForum::lookup_id($thread->forum);
     if (!$thread_forum) return;
     if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
-    $j = $i % 2;
-    echo "<tr class=row$j><td>\n";
+    echo "<tr><td>\n";
     switch($thread_forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($thread_forum->category);

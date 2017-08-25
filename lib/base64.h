@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef h_BASE64
-#define h_BASE64
+#ifndef BOINC_BASE64_H
+#define BOINC_BASE64_H
 
 #ifndef _WIN32
 #include <cstdio>
@@ -28,12 +28,18 @@ class InvalidBase64Exception
 {
 };
 
-std::string r_base64_encode (const char* from, size_t length);
-  std::string r_base64_decode (const char* from, size_t length);
-inline std::string r_base64_decode (std::string const& from)
+
+std::string r_base64_encode(const char* from, size_t length);
+std::string r_base64_decode(const char* from, size_t length);
+
+
+inline std::string r_base64_encode(std::string const& from)
+{
+    return r_base64_encode(from.c_str(), from.length());
+}
+inline std::string r_base64_decode(std::string const& from)
 {
     return r_base64_decode(from.c_str(), from.length());
 }
-
 
 #endif

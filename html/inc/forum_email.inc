@@ -37,7 +37,9 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
         }
         $emails = explode("|", POST_REPORT_EMAILS);
         foreach ($emails as $email) {
+            $admin = new StdClass;
             $admin->email_addr = $email;
+            $admin->name = "Admin";
             if (!send_email($admin, $subject, $body)) {
                 $success = false;
             }
@@ -60,7 +62,8 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
 //////////////////// post hidden/unhidden ///////////
 //
 function send_moderation_email($forum, $post, $thread, $explanation, $action) {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
+
     $moderator=get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
@@ -98,7 +101,8 @@ $body
 function send_thread_moderation_email(
     $forum, $thread, $message, $action_name, $explanation
 ) {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
+
     $moderator = get_logged_in_user();
     $user = BoincUser::lookup_id($thread->owner);
     $body = "";
@@ -139,7 +143,8 @@ Do not reply to this message.
 //////////////////// a user clicks the red "x" to report a post ///////////
 //
 function send_report_post_email($user, $forum, $thread,  $post, $message) {
-	$master_url = parse_config(get_config(), "<master_url>");
+	global $master_url;
+
     $body = "";
     $owner = BoincUser::lookup_id($post->user);
 
@@ -194,7 +199,7 @@ because your postings have not followed our guidelines.
 //////////////////// a banishment vote has been started  ///////////
 //
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
-	$master_url = parse_config(get_config(), "<master_url>");
+	global $master_url;
     $now=time();
     $subject = PROJECT." banishment vote underway";
     $vote_url = $master_url."forum_banishment_vote.php";

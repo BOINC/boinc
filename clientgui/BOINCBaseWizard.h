@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _WIZ_BOINCBASEWIZARD_H_
-#define _WIZ_BOINCBASEWIZARD_H_
+#ifndef BOINC_BOINCBASEWIZARD_H
+#define BOINC_BOINCBASEWIZARD_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCBaseWizard.cpp"
@@ -26,8 +26,7 @@
  * CBOINCBaseWizard class declaration
  */
 
-class CBOINCBaseWizard: public wxWizardEx
-{    
+class CBOINCBaseWizard: public wxWizardEx {    
     DECLARE_DYNAMIC_CLASS( CBOINCBaseWizard )
 
 public:
@@ -63,4 +62,4 @@ public:
     void DisableCancelButton();
 };
 
-#endif // _WIZ_BOINCBASEWIZARD_H_
+#endif

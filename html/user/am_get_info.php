@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
+BoincDb::get(true);
 xml_header();
 
 $retval = db_init_xml();
@@ -34,7 +35,6 @@ if (!$user) {
 
 $name = urlencode($user->name);
 $country = urlencode($user->country);
-$postal_code = urlencode($user->postal_code);
 $url = urlencode($user->url);
 $weak_auth = weak_auth($user);
 $cpid = md5($user->cross_project_id.$user->email_addr);
@@ -43,7 +43,6 @@ $ret = "<id>$user->id</id>
 <name>$name</name>
 <country>$country</country>
 <weak_auth>$weak_auth</weak_auth>
-<postal_code>$postal_code</postal_code>
 <cpid>$cpid</cpid>
 <has_profile>$user->has_profile</has_profile>
 <create_time>$user->create_time</create_time>
@@ -59,10 +58,15 @@ $user->project_prefs
 <teamid>$user->teamid</teamid>
 <venue>$user->venue</venue>";
 
+if (POSTAL_CODE) {
+    $postal_code = urlencode($user->postal_code);
+    $ret .= "<postal_code>$postal_code</postal_code>\n";
+}
+
 if ($user->teamid) {
     $team = BoincTeam::lookup_id_nocache($user->teamid);
     if ($team->userid == $user->id) {
-        $ret = $ret . "<teamfounder/>\n";
+        $ret .= "<teamfounder/>\n";
     }
 }
 

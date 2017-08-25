@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _EVENTS_H_
-#define _EVENTS_H_
+#ifndef BOINC_EVENTS_H
+#define BOINC_EVENTS_H
 
 // Common Events across GUIs
 #define ID_CLOSEWINDOW                          6100
@@ -95,6 +95,7 @@
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
 #define ID_HELPBOINCWEBSITE                     6024  // Locked: Used by manager_links.php
 #define ID_HELPBOINCMANAGER                     6025  // Locked: Used by manager_links.php
+#define ID_CHECK_VERSION                        6026
 //#define wxID_ABOUT
 
 // Views
@@ -195,4 +196,3 @@
 #define ID_ANYDIALOG                            10000
 
 #endif
-

@@ -6,15 +6,159 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-05-07 12:21+0000\n"
-"PO-Revision-Date: 2015-06-29 09:55+0000\n"
-"Last-Translator: Jihyuk Lee <ysjbserver@naver.com>\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/boinc/language/ko/)\n"
+"POT-Creation-Date: 2016-08-16 12:17+0000\n"
+"PO-Revision-Date: 2017-01-13 21:58+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
+"Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Reject profile"
+msgstr "프로필 거부"
+
+msgid "Ban user"
+msgstr "사용자 추방"
+
+msgid "I'm new"
+msgstr "새 사용"
+
+msgid "I'm a BOINC user"
+msgstr "BOINC 사용자입니다"
+
+msgid "Authenticator login"
+msgstr "인증 부호 로그인"
+
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "이 사이트에서 코멘트를 작성하려면 @count 이상의 크레딧을 벌어야 됩니다."
+
+msgid "Generic"
+msgstr "일반"
+
+msgid "Home"
+msgstr "집"
+
+msgid "Work"
+msgstr "직장"
+
+msgid "School"
+msgstr "학교"
+
+msgid "yes"
+msgstr "예"
+
+msgid "no"
+msgstr "아니오"
+
+msgid "Resource settings"
+msgstr "자원 설정"
+
+msgid "Resource share"
+msgstr "자원 공유"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "이 프로젝트에서 사용할 자원 배분치를 결정하세요. 예: 여러분이 각각 100과 200의 자원을 공유하기로 한 BOINC 프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고, 두 번째는 2/3를 쓰게 됩니다."
+
+msgid "Use CPU"
+msgstr "CPU 사용"
+
+msgid "Enforced by version @number"
+msgstr "@number 버전 이상이 필요함"
+
+msgid "Use NVIDIA GPU"
+msgstr "NVIDIA GPU 사용"
+
+msgid "Use ATI GPU"
+msgstr "ATI GPU 사용"
+
+msgid "Use INTEL GPU"
+msgstr "Intel GPU 사용"
+
+msgid "Beta settings"
+msgstr "베타 설정"
+
+msgid "Run test applications?"
+msgstr "테스트 프로그램을 실행합니까?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "이는 프로그램 개발에 도움을 주지만, 해당 컴퓨터에서 실행에 실패할 수도 있습니다"
+
+msgid " Default value: @default"
+msgstr " 기본 값: @default"
+
+msgid "Applications"
+msgstr "응용 프로그램"
+
+msgid "Default set"
+msgstr "기본 "
+
+msgid "Set used for new computers"
+msgstr "새 컴퓨터 설정"
+
+msgid "Save changes"
+msgstr "변경사항 저장"
+
+msgid "Cancel"
+msgstr "취소"
+
+msgid "Show comparison view"
+msgstr "비교 모드로 보여주기"
+
+msgid "Comment form"
+msgstr "코멘트 양식"
+
+msgid "Logout"
+msgstr "로그아웃"
+
+msgid "Join now"
+msgstr "지금 "
+
+msgid "Account"
+msgstr "계정"
+
+msgid "Server status"
+msgstr "서버 상태"
+
+msgid "Language"
+msgstr "언어"
+
+msgid "Create content"
+msgstr "생성 시각"
+
+msgid "General settings"
+msgstr "일반 설정"
+
+msgid "Name"
+msgstr "이름"
+
+msgid "Time zone"
+msgstr "시간대"
+
+msgid "Notification settings"
+msgstr "알림 설정"
+
+msgid "Receive email notification for private messages?"
+msgstr "쪽지 수신시 이메일 알림을 받겠습니까?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "친구 요청시 이메일 알림을 받겠습니까?"
+
+msgid "Language settings"
+msgstr "언어 설정"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "이메일 및 사이트 전반에 적용되는 이 계정의 기본 언어."
 
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
@@ -32,55 +176,284 @@ msgstr "만약 이메일 주소와 연관되고 <a href=\"@gravatar-check\">인�
 msgid "Gravatar will not be shown if an avatar is uploaded."
 msgstr "아바타를 올리면 그라바타는 보이지 않을 것입니다."
 
+msgid "Avatar settings"
+msgstr "아바타 설정"
+
 msgid "This is not available until your profile is set up."
 msgstr "사용자 프로필이 설정되기 전에는 사용할 수 없습니다."
+
+msgid "Create a profile"
+msgstr "프로필 만들기"
+
+msgid "Upload an avatar"
+msgstr "아바타 업로드"
+
+msgid "Forum settings"
+msgstr "포럼 설정"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "토론 주제에서는 최대 @comments_per_page 를 보여줍니다"
+
+msgid "comments per page"
+msgstr "페이지당 코멘트 수"
+
+msgid "Sort comments in discussions"
+msgstr "토론 속 코멘트 정렬"
+
+msgid "Newest post first"
+msgstr "최신 포스트 순"
+
+msgid "Oldest post first"
+msgstr "오래된 포스트 순"
+
+msgid "Signature"
+msgstr "서명"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "작성한 서명은 여러분이 쓴 코멘트 하단에 공개되며 표시됩니다."
+
+msgid "Hide signatures in forums"
+msgstr "포럼에서 서명 숨기기"
+
+msgid "Privacy settings"
+msgstr "개인정보 설정"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "@project와 소속 팀(전부)에서 이메일을 받길 원하십니까?"
 
 msgid "Should @project show your computers on its web site?"
 msgstr "@project의 컴퓨터 목록을 웹 사이트 상에 공개하시겠습니까?"
 
-msgid "Click here to revoke your membership with @this_team"
-msgstr "@this_team에서 탈퇴하길 원하시면 여기를 클릭하세요"
+msgid "Id"
+msgstr "Id"
 
-msgid "Minimum avg credit to post"
-msgstr "포스팅에 필요한 최소 평균 크레딧"
+msgid "Founder"
+msgstr "창설자"
 
-msgid "Founder & Team Admins have moderator privileges"
-msgstr "창설자 & 팀 관리자는 관리자 권한을 가집니다"
+msgid "Country"
+msgstr "국가"
 
-msgid "Notes about changes in foundership:"
-msgstr "창설자 변경에 대한 설명:"
+msgid "Recent average credit"
+msgstr "최근 평균 크레딧"
 
-msgid "Foundership can be requested by team members:"
-msgstr "팀 회원에게서 요청받은 창설자 후보:"
+msgid "Members"
+msgstr "맴버"
 
-msgid "One request is allowed at a time"
-msgstr "한 번에 하나의 요청만 허용됩니다"
+msgid "Total Credit"
+msgstr "총 크레딧"
 
-msgid "Any active request must be older than 90 days"
-msgstr "활성화된 요청은 90일 이상 지나야 됩니다"
+msgid "User ID"
+msgstr "사용자 ID"
 
-msgid "Current founder has 60 days to respond to a request"
-msgstr "현재 창설자는 요청 후 60일 안에 답해야 합니다"
+msgid "User"
+msgstr "사용자"
 
-msgid ""
-"If a team admin quits the team, they cease to be a team admin. We recommend "
-"only selecting people you know and trust"
-msgstr "만약 팀 관리자가 팀을 나가면, 팀 관리자가 직책이 사라지게 됩니다. 잘 알고 믿을 수 있는 사람만 선택하길 추천합니다."
+msgid "Admin since"
+msgstr "관리자 시작 시간:"
 
-msgid "You may create a message board for use by @team"
-msgstr "@team에서 사용할 메세지 게시판을 만들 수 있습니다"
+msgid "Team ID"
+msgstr "팀 ID"
 
-msgid "parent removed"
-msgstr "영구적으로 삭제됨"
+msgid "User joined"
+msgstr "사용자가 가입함"
+
+msgid "Timestamp"
+msgstr "타임스탬프"
+
+msgid "Account Key"
+msgstr "계정 키"
+
+msgid "Member since"
+msgstr "참여 시작일"
+
+msgid "CPID"
+msgstr "CPID"
+
+msgid "Email Address"
+msgstr "Email 주소"
+
+msgid "Password Hash"
+msgstr "비밀번호 해시"
+
+msgid "Postal Code"
+msgstr "우편 번호"
+
+msgid "Send Email"
+msgstr "이메일 보내기"
+
+msgid "Show Hosts"
+msgstr "호스트 보여주기"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Computer ID"
+msgstr "컴퓨터 ID"
+
+msgid "Location"
+msgstr "위치"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "BOINC가 실행되는 동안 허가된 작업의 시간(%)"
+
+msgid "Average turnaround time"
+msgstr "평균 반환 시간"
+
+msgid "Created"
+msgstr "생성 시각"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "BOINC가 실행되는 동안, 호스트가 인터넷에 연결된 시간(%)"
+
+msgid "Average CPU efficiency"
+msgstr "평균 CPU 효율"
+
+msgid "Free disk space"
+msgstr "사용 가능한 공간"
+
+msgid "Total disk space"
+msgstr "전체 디스크 용량"
+
+msgid "Task duration correction factor"
+msgstr "태스크 지연 보정값"
+
+msgid "Avg. credit"
+msgstr "평균 크레딧"
+
+msgid "External IP address"
+msgstr "외부 IP 주소"
+
+msgid "Cross project ID"
+msgstr "공유-프로젝트 ID"
+
+msgid "Last IP address"
+msgstr "마지막 IP 주소"
+
+msgid "Cache"
+msgstr "캐시"
+
+msgid "Memory"
+msgstr "메모리"
+
+msgid "Swap space"
+msgstr "스왑 영역"
 
 msgid "Maximum daily WU quota per CPU"
 msgstr "CPU당 최대 일일 WU 할당량"
 
+msgid "Average download rate"
+msgstr "평균 다운로드 속도"
+
+msgid "Average upload rate"
+msgstr "평균 업로드 속"
+
+msgid "Same IP address count"
+msgstr "동일 IP 주소 카운트"
+
+msgid "% of time BOINC client is running"
+msgstr "BOINC 클라이언트가 동작한 시간(%)"
+
+msgid "Operating system"
+msgstr "운영체제(OS)"
+
+msgid "Operating system version"
+msgstr "운영 체제 버전"
+
+msgid "Measured floating point speed"
+msgstr "부동소수점 연산 속도"
+
+msgid "Measured integer speed"
+msgstr "정수 연산 속도"
+
+msgid "CPU model"
+msgstr "CPU 종류"
+
+msgid "Number of processors"
+msgstr "프로세서 수"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Number of times client has contacted server"
+msgstr "클라이언트가 서버와 통신한 횟수"
+
+msgid "Last contact"
+msgstr "마지막 통신"
+
+msgid "Serial number"
+msgstr "시리얼 번호"
+
+msgid "Timezone"
+msgstr "시간대"
+
+msgid "Platform ID"
+msgstr "플랫폼 ID"
+
+msgid "Task ID"
+msgstr "태스크 ID"
+
+msgid "Workunit ID"
+msgstr "작업 유닛 ID"
+
+msgid "Host ID"
+msgstr "호스트 ID"
+
+msgid "Application ID"
+msgstr "응용 프로그램 ID"
+
+msgid "Application version"
+msgstr "응용 프로그램 버전"
+
+msgid "Claimed credit"
+msgstr "요청된 크레딧"
+
+msgid "Client state"
+msgstr "클라이언트 상태"
+
+msgid "CPU time"
+msgstr "CPU 시간"
+
+msgid "Run time"
+msgstr "실행 시간"
+
+msgid "Exit status"
+msgstr "마감 결과"
+
+msgid "Granted credit"
+msgstr "획득 크레딧"
+
+msgid "Outcome"
+msgstr "결과"
+
 msgid "Received time"
 msgstr "전송 시각"
 
+msgid "Report deadline"
+msgstr "리포트 마감 시각"
+
+msgid "Sent"
+msgstr "전송 시각"
+
+msgid "Server state"
+msgstr "서버 상태"
+
+msgid "Stderr out"
+msgstr "Stderr out"
+
+msgid "Validation state"
+msgstr "인증 현황"
+
 msgid "App ID"
 msgstr "App ID"
+
+msgid "Canonical credit"
+msgstr "인증된 결과"
+
+msgid "Canonical result ID"
+msgstr "인정받은 결과 ID"
+
+msgid "Created time"
+msgstr "생성 시각"
 
 msgid "Error mask"
 msgstr "오류 마스크"
@@ -97,6 +470,12 @@ msgstr "최대 성공 태스크 수"
 msgid "Max total tasks"
 msgstr "최대 총합 태스크 수"
 
+msgid "Needs validation"
+msgstr "인증이 필요합니다"
+
+msgid "Initial replication"
+msgstr "초기 복제물"
+
 msgid "Target number of results"
 msgstr "결과물 목표치"
 
@@ -109,164 +488,65 @@ msgstr "프로그램 종류"
 msgid "Version number"
 msgstr "버전 숫자"
 
+msgid "Computer"
+msgstr "컴퓨터"
+
 msgid "App version ID"
 msgstr "App  ID"
 
-msgid "@count million ops/sec"
-msgstr "@count 백만 ops/초"
+msgid "Consecutive valid tasks"
+msgstr "연속적으로 유효한 태스크"
 
-msgid "@rate KiB/sec"
-msgstr "@rate KiB/초"
+msgid "Number of tasks completed"
+msgstr "완료된 태스크 수"
 
-msgid "@count days"
-msgstr "@count 일"
+msgid "Max tasks per day"
+msgstr "하루 태스크 최대량"
 
-msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (최근 @count 시간동안 동일)"
+msgid "Number of tasks today"
+msgstr "오늘의 태스크 수"
 
-msgid "commented on"
-msgstr "코멘트함"
+msgid "Manage subscriptions"
+msgstr "구독 관리"
 
-msgid "Remove sticky status from this topic"
-msgstr "이 주제에서 찐득이 상태 제거"
+msgid "Avg credit"
+msgstr "평균 "
 
-msgid ""
-"Check the computers that are the same as @name (created on @date at @time "
-"with computer ID @id)"
-msgstr "@name과 동일한 컴퓨터인지 체크하세요 (컴퓨터 ID @id 생성시각: @date @time)"
+msgid "Total credit"
+msgstr "총 크레딧"
 
-msgid "Computer @old_id has been merged successfully into @id."
-msgstr "@old_id가 성공적으로 @id에 병합되었습니다."
+msgid "More"
+msgstr "자세히"
 
-msgid "started discussion"
-msgstr "토론이 시작되었습니다"
+msgid "Tasks"
+msgstr "태스크"
 
-msgid "posted"
-msgstr "작성됨"
+msgid "Computers hidden"
+msgstr "컴퓨터가 숨겨짐"
 
-msgid "Minimum value not met for @field"
-msgstr "@field 최소값을 채우지 못했습니다"
+msgid "This user has chosen not to show information about their computers."
+msgstr "이 사용자는 컴퓨터 정보를 보여주지 않기로 정해놓았습니다."
 
-msgid "Invalid data type for @field"
-msgstr "유효하지 않은 데이터 종류 @field"
+msgid "no projects..."
+msgstr "프로젝트 없음..."
 
-msgid ""
-"Authentication is required when changing E-mail address or setting new "
-"password."
-msgstr "이메일 주소를 변경하거나 새로운 비밀번호를 설정할 때는 인증이 필요합니다."
+msgid "Moderation"
+msgstr "편집"
 
-msgid "Request foundership"
-msgstr "창설자 요청하기"
+msgid "Unvetted profiles"
+msgstr "검사되지 않은 프로필"
 
-msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click below to request foundership of @this_team."
-msgstr "팀 창설자가 미활동중이고 창설자 직을 맡길 원한다면, 하단의 @this_team 창설자 요청을 클릭하세요."
+msgid "Inbox"
+msgstr "쪽지함"
 
-msgid "Initiate request"
-msgstr "요청 보내기"
-
-msgid "A BOINC account already exists for @email."
-msgstr "@email 를 사용한 BOINC 계정이 이미 있습니다."
-
-msgid ""
-"Please be responsible in what you write and do not create posts which are "
-"offensive or insulting. Offensive posts or threads may be deleted by forum "
-"moderators without warning or discussion. Do not respond to offensive "
-"postings. Click on the \"report\" button at the bottom of the post to call "
-"it to the attention of the moderators."
-msgstr "공격적이거나 무례한 포스트를 작성하지 마시고 여러분이 쓰는 글에 책임을 지세요. 공격적인 포스트나 스레드는 토론이나 경고없이 포럼 관리자가 삭제할 수도 있습니다. 공격적인 포스트에는 응답하지 마십시오. 포스트 하단의 \"신고\" 버튼을 클릭해서 관리자를 호출할 수 있습니다."
-
-msgid "this project"
-msgstr "이 프로젝트"
-
-msgid ""
-"We also ask that you keep all discussion on the message boards related to "
-"@project or BOINC with the small exception of the Science message board "
-"where you are free to discuss anything relevant to the underlying science. "
-"Participants interested in broader discussions should post to unofficial "
-"forums for @project."
-msgstr "우리는 또한 기본 과학에 관련된 어떤 논의 자유롭게 위치를 과학 메시지 보드 작은 제외 @project 또는 BOINC 관련 게시판의 모든 논의를 계속 부탁드립니다. 폭 넓은 토론에 관심이 참가자 @project에 대한 비공식 포럼에 게시해야합니다."
-
-msgid "These message boards now support BBCode tags only."
-msgstr "이 메세지 게시판은 이제 BB코드 태그만 지원합니다."
+msgid "Compose new"
+msgstr "신규 "
 
 msgid "Posts contributed"
 msgstr "포스트가 투고됨"
 
-msgid "Profile awaiting moderator approval"
-msgstr "관리자 승인을 기다리는 프로필"
-
-msgid "Approve profile"
-msgstr "프로필 승인"
-
-msgid "Approve this profile content"
-msgstr "이 프로필 내용 승인"
-
-msgid "Edit profile"
-msgstr "프로필 수정하기"
-
-msgid "Edit the content of this profile"
-msgstr "이 프로필 내용 수정하기"
-
-msgid "Remove profile"
-msgstr "프로필 제거"
-
-msgid "Remove this profile content from the system"
-msgstr "이 프로필 내용을 시스템에서 제거하기"
-
-msgid "The team founder has @count days to respond to your transfer request."
-msgstr "현재 창설자는 @count 일 안에 전달받은 요청에 응답해야 합니다."
-
-msgid "Reject profile"
-msgstr "프로필 거부"
-
-msgid "Reject this profile content"
-msgstr "이 프로필 내용 거부"
-
-msgid "Reason for rejecting this profile"
-msgstr "이 프로필의 거절 사유"
-
-msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of the problem and how to fix it."
-msgstr "사용자에게 거절 사유가 포함되어서 이메일로 전송됩니다. 간단한 문제 설명과 어떻게 고칠 수 있는지를 적어 주세요."
-
-msgid "Submit"
-msgstr "제출"
-
-msgid "project"
-msgstr "프로젝트"
-
-msgid "Email address"
-msgstr "Email 주소"
-
-msgid "Home"
-msgstr "집"
-
-msgid "Login"
-msgstr "로그인"
-
-msgid "search"
-msgstr "검색"
-
-msgid "Server status"
-msgstr "서버 상태"
-
-msgid "Language"
-msgstr "언어"
-
-msgid "Enter your @s email address."
-msgstr "@s 이메일 주소를 입력하세요."
-
-msgid "Join now"
-msgstr "지금 "
-
-msgid "I'm new"
-msgstr "새 사용"
-
-msgid "I'm a BOINC user"
-msgstr "BOINC 사용자입니다"
+msgid "Friends (@count)"
+msgstr "친구 (@count)"
 
 msgid "Welcome back!"
 msgstr "재방문을 환영합니다!"
@@ -283,8 +563,8 @@ msgstr "더 "
 msgid "View account"
 msgstr "계정 "
 
-msgid "About our screensaver"
-msgstr "화면 보호기에 대해 알아보기"
+msgid "User of the day"
+msgstr "오늘의 사용자"
 
 msgid "Over 500,000 volunteers and counting."
 msgstr "5십만 이상의 기여자 혹은 그 이상."
@@ -298,17 +578,20 @@ msgstr "Mac"
 msgid "Linux"
 msgstr "Linux"
 
-msgid "Logout"
-msgstr "로그아웃"
+msgid "Credits per day"
+msgstr "일별 크레딧"
 
-msgid "Name"
-msgstr "이름"
+msgid "View user profile."
+msgstr "사용자의 프로필을 봅니다."
 
-msgid "Avg credit"
-msgstr "평균 "
+msgid "Profile awaiting moderator approval"
+msgstr "관리자 승인을 기다리는 프로필"
 
-msgid "Total credit"
-msgstr "총 크레딧"
+msgid "Background"
+msgstr "배경"
+
+msgid "Opinion"
+msgstr "의견"
 
 msgid "Enter your password to save changes"
 msgstr "변경사항을 저장하려면 비밀번호를 입력하세요"
@@ -333,270 +616,8 @@ msgstr "약한 계정 키"
 msgid "Cross-project ID"
 msgstr "공유-프로젝트 ID"
 
-msgid "Save changes"
-msgstr "변경사항 저장"
-
-msgid "Cancel"
-msgstr "취소"
-
 msgid "Change password"
 msgstr "비밀번호 변경"
-
-msgid "What is @this_project?"
-msgstr "@this_project은 무엇입니까?"
-
-msgid "no projects..."
-msgstr "프로젝트 없음..."
-
-msgid "Download the desktop software"
-msgstr "데스크탑 소프트웨어를 다운로드하세요"
-
-msgid "Run the installer"
-msgstr "설치 프로그램 실행"
-
-msgid "When prompted enter @siteurl"
-msgstr "명령창이 뜨면 @siteurl을 입력하세요"
-
-msgid "Password"
-msgstr "비밀번호"
-
-msgid "Enter the password that accompanies your username."
-msgstr "사용자 이름에 맞는 비밀번호를 입력하세요."
-
-msgid "Request new password"
-msgstr "새 비밀번호 요청"
-
-msgid ""
-"If you're already running BOINC, select <i>Add\n"
-"      Project</i>."
-msgstr "이미 BOINC를 실행하고 있다면, <i>프로젝트\n      추가</i>를 선택하세요."
-
-msgid ""
-"If you're running a command-line version of BOINC,\n"
-"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
-"        an account at this project, then use that account to connect with the\n"
-"        command-line version."
-msgstr "만약 커맨드라인 버전 BOINC를 실행하고 있다면,\n        "
-
-msgid ""
-"If you're running a pre-5.0 version of BOINC, please\n"
-"        upgrade to a more recent version to create an account\n"
-"        at this project."
-msgstr "만약 BOINC 5.0이전 버전을 실행하고 있는데,\n        이 프로젝트에 계정을 생성하고자 한다면 보다 최신 버전으로\n        업그레이드하세요."
-
-msgid ""
-"1) If you know your account&apos;s email address, and you can receive email "
-"there:"
-msgstr "1) 만약 계정과 이메일 주소를 알고 있다면, 수신 가능한 이메일 주소를 여기에 적어 주세요:"
-
-msgid ""
-"Enter the email address and click OK. You will be sent email instructions "
-"for resetting your password."
-msgstr "이메일 주소를 입력하고 OK를 누르세요. 비밀번호를 재설정하는 절차 안내문이 이메일로 보내집니다."
-
-msgid "OK"
-msgstr "확인"
-
-msgid "The latest news from the @site_name project"
-msgstr "@site_name 프로젝트에서 온 최신 뉴스"
-
-msgid "Comment form"
-msgstr "코멘트 양식"
-
-msgid "Total credits"
-msgstr "총 크레딧"
-
-msgid "Recent avg credits"
-msgstr "최근 평균 크레딧"
-
-msgid "Country"
-msgstr "국가"
-
-msgid "Type"
-msgstr "종류"
-
-msgid "Founder"
-msgstr "창설자"
-
-msgid "New members in last day"
-msgstr "전 날의 새로운 맴버"
-
-msgid "Total members"
-msgstr "전체 맴버"
-
-msgid "Active members"
-msgstr "활동하는 맴버"
-
-msgid "Members with credit"
-msgstr "크레딧을 가진 맴버"
-
-msgid "Description"
-msgstr "개요"
-
-msgid "Search teams"
-msgstr "팀 검색"
-
-msgid "Send message"
-msgstr "메세지 전송"
-
-msgid "BOINC"
-msgstr "BOINC"
-
-msgid "Project"
-msgstr "프로젝트"
-
-msgid "Web site"
-msgstr "웹 사이트"
-
-msgid "No active computers"
-msgstr "활동 중인 컴퓨터 없음"
-
-msgid "This user has no computers that have been active in the last 30 days."
-msgstr "이 사용자는 최근 30일이내에 활동 중인 컴퓨터가 없습니다."
-
-msgid " Default value: @default"
-msgstr " 기본 값: @default"
-
-msgid "Applications"
-msgstr "응용 프로그램"
-
-msgid "yes"
-msgstr "예"
-
-msgid "no"
-msgstr "아니오"
-
-msgid "Message @id"
-msgstr "메세지 @id"
-
-msgid "message @id"
-msgstr "메세지 @id"
-
-msgid " in response to !parent"
-msgstr " !parent 의 응답"
-
-msgid "Credits per day"
-msgstr "일별 크레딧"
-
-msgid "Computers hidden"
-msgstr "컴퓨터가 숨겨짐"
-
-msgid "This user has chosen not to show information about their computers."
-msgstr "이 사용자는 컴퓨터 정보를 보여주지 않기로 정해놓았습니다."
-
-msgid "Stderr output"
-msgstr "Stderr 출력 값"
-
-msgid "@time ago"
-msgstr "@time 전"
-
-msgid "n/a"
-msgstr "없음"
-
-msgid "Submitted by !username on !datetime"
-msgstr "!username 이 !datetime 에 제출함"
-
-msgid "Member since"
-msgstr "참여 시작일"
-
-msgid "View team"
-msgstr "팀 보기"
-
-msgid "Friends (@count)"
-msgstr "친구 (@count)"
-
-msgid "Website"
-msgstr "웹 사이트"
-
-msgid "Locked"
-msgstr "잠김"
-
-msgid "Computers pending"
-msgstr "보류된 컴퓨터"
-
-msgid ""
-"This user does not yet have any associated computers. Computers will be "
-"displayed when they have earned their first credits."
-msgstr "이 사용자는 아직 연동된 컴퓨터가 없습니다. 컴퓨터는 첫 크레딧을 번 이후에 표시됩니다."
-
-msgid "No results found..."
-msgstr "결과"
-
-msgid "Background"
-msgstr "배경"
-
-msgid "Teams"
-msgstr "팀"
-
-msgid ""
-"@project participants may form teams. You may belong to only one team. You "
-"can join or quit a team at any time. To join a team, visit its team page and"
-" click \"Join this team\". Each team has a founder who may:"
-msgstr "@projec 참여자는 팀을 결성할 수 있습니다. 사용자는 단 하나의 팀에만 속할 수 있습니다. 팀은 언제든지 가입하거나 탈퇴할 수 있습니다. 팀에 가입하려면, 팀 페이지를 방문하고 \"이 팀에 가입\" 버튼을 클릭하세요. 각 팀은 다음 창설자가 있습니다:"
-
-msgid "access team members' email addresses"
-msgstr "팀 멤버가 가진 이메일 주소를 열람"
-
-msgid "edit the team's name and description"
-msgstr "팀 이름과 개요를 수정합니다"
-
-msgid "add or remove team admins"
-msgstr "팀 관리자 추가/삭제"
-
-msgid "remove members from the team"
-msgstr "팀에서 멤버 추방하기"
-
-msgid "disband a team if it has no members"
-msgstr "만약 팀 멤버가 없으면 팀을 해산할 수 있습니다"
-
-msgid "Create a new team"
-msgstr "새로운 팀 만들기"
-
-msgid ""
-"If you cannot find a team that is right for you, you can create a team."
-msgstr "만약 여러분에게 맞는 팀을 찾지 못했다면, 팀을 생성할 수 있습니다."
-
-msgid "You must earn @count more credits!"
-msgstr "@count 이상의 크레딧을 벌어야 됩니다!"
-
-msgid "Threads"
-msgstr "스레드"
-
-msgid "Posts"
-msgstr "포스트"
-
-msgid "Last post"
-msgstr "마지막 포스트"
-
-msgid "Manage subscriptions"
-msgstr "구독 관리"
-
-msgid "Featured"
-msgstr "특집"
-
-msgid "Submitted on !datetime"
-msgstr "!datetime 에 제출됨"
-
-msgid "Comments"
-msgstr "코멘트"
-
-msgid "Opinion"
-msgstr "의견"
-
-msgid "More"
-msgstr "자세히"
-
-msgid "Tasks"
-msgstr "태스크"
-
-msgid "Generic"
-msgstr "일반"
-
-msgid "Work"
-msgstr "직장"
-
-msgid "School"
-msgstr "학교"
 
 msgid "Presets"
 msgstr "프리셋"
@@ -636,9 +657,6 @@ msgstr "컴퓨터를 사용하는 동안 GPU 사용"
 
 msgid "Run GPU work while computer is in use?"
 msgstr "컴퓨터를 사용하는 동안에도 GPU를 사용합니까?"
-
-msgid "Enforced by version @number"
-msgstr "@number 버전 이상이 필요함"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
 msgstr "\"사용 중\"은 마우스/키보드 입력 시간을 뜻합니다"
@@ -776,61 +794,38 @@ msgid ""
 "this, for example). Skipping verification reduces the security of BOINC."
 msgstr "인터넷 제공자가 이미지 파일을 변경할 경우에만 체크하세요.(예를 들어 UMTS가 이렇게 합니다)검증을 건너뛸 경우에는 BOINC의 보안성이 감소됩니다."
 
-msgid "Show comparison view"
-msgstr "비교 모드로 보여주기"
+msgid "search"
+msgstr "검색"
 
-msgid "Resource settings"
-msgstr "자원 설정"
+msgid "What is @this_project?"
+msgstr "@this_project은 무엇입니까?"
 
-msgid "Resource share"
-msgstr "자원 공유"
+msgid "Login"
+msgstr "로그인"
 
-msgid ""
-"Determines the proportion of your computer's resources allocated to this "
-"project. Example: if you participate in two BOINC projects with resource "
-"shares of 100 and 200, the first will get 1/3 of your resources and the "
-"second will get 2/3."
-msgstr "이 프로젝트에서 사용할 자원 배분치를 결정하세요. 예: 여러분이 각각 100과 200의 자원을 공유하기로 한 BOINC 프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고, 두 번째는 2/3를 쓰게 됩니다."
+msgid "BOINC"
+msgstr "BOINC"
 
-msgid "Use CPU"
-msgstr "CPU 사용"
+msgid "Project"
+msgstr "프로젝트"
 
-msgid "Use NVIDIA GPU"
-msgstr "NVIDIA GPU 사용"
+msgid "No @type tasks"
+msgstr "@type 태스크 없음"
 
-msgid "Use ATI GPU"
-msgstr "ATI GPU 사용"
+msgid "There are no tasks of this type on record"
+msgstr "레코드상에 이 유형의 태스크가 없습니다"
 
-msgid "Use INTEL GPU"
-msgstr "Intel GPU 사용"
+msgid "Details"
+msgstr "자세히"
 
-msgid "Beta settings"
-msgstr "베타 설정"
+msgid "Password"
+msgstr "비밀번호"
 
-msgid "Run test applications?"
-msgstr "테스트 프로그램을 실행합니까?"
+msgid "Enter the password that accompanies your username."
+msgstr "사용자 이름에 맞는 비밀번호를 입력하세요."
 
-msgid ""
-"This helps us develop applications, but may cause jobs to fail on your "
-"computer"
-msgstr "이는 프로그램 개발에 도움을 주지만, 해당 컴퓨터에서 실행에 실패할 수도 있습니다"
-
-msgid "Default set"
-msgstr "기본 "
-
-msgid "Set used for new computers"
-msgstr "새 컴퓨터 설정"
-
-msgid "Merge"
-msgstr "병합"
-
-msgid "Delete"
-msgstr "삭제"
-
-msgid ""
-"This will delete host @id from your account forever. Are you sure this is "
-"OK?"
-msgstr "호스트 @id를 여러분 계정에서 영원히 삭제합니다. 계속해도 괜찮습니까?"
+msgid "Request new password"
+msgstr "새 비밀번호 요청"
 
 msgid "Mark all topics read"
 msgstr "모든 주제를 읽음으로 표시"
@@ -858,8 +853,137 @@ msgstr "리치 텍스트 비활성화"
 msgid "Enable rich-text"
 msgstr "리치 텍스트 활성화"
 
-msgid "View user profile."
-msgstr "사용자의 프로필을 봅니다."
+msgid "Teams"
+msgstr "팀"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "@projec 참여자는 팀을 결성할 수 있습니다. 사용자는 단 하나의 팀에만 속할 수 있습니다. 팀은 언제든지 가입하거나 탈퇴할 수 있습니다. 팀에 가입하려면, 팀 페이지를 방문하고 \"이 팀에 가입\" 버튼을 클릭하세요. 각 팀은 다음 창설자가 있습니다:"
+
+msgid "access team members' email addresses"
+msgstr "팀 멤버가 가진 이메일 주소를 열람"
+
+msgid "edit the team's name and description"
+msgstr "팀 이름과 개요를 수정합니다"
+
+msgid "add or remove team admins"
+msgstr "팀 관리자 추가/삭제"
+
+msgid "remove members from the team"
+msgstr "팀에서 멤버 추방하기"
+
+msgid "disband a team if it has no members"
+msgstr "만약 팀 멤버가 없으면 팀을 해산할 수 있습니다"
+
+msgid "Search teams"
+msgstr "팀 검색"
+
+msgid "Create a new team"
+msgstr "새로운 팀 만들기"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "만약 여러분에게 맞는 팀을 찾지 못했다면, 팀을 생성할 수 있습니다."
+
+msgid "You must earn 1 more credit!"
+msgstr "반드시 크레딧 1이상 벌어야 됩니다"
+
+msgid "@count million ops/sec"
+msgstr "@count 백만 ops/초"
+
+msgid "@rate KiB/sec"
+msgstr "@rate KiB/초"
+
+msgid "@count days"
+msgstr "@count 일"
+
+msgid "Stderr output"
+msgstr "Stderr 출력 값"
+
+msgid "Email address"
+msgstr "Email 주소"
+
+msgid "Enter your @s email address."
+msgstr "@s 이메일 주소를 입력하세요."
+
+msgid "Log in"
+msgstr "로그인"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "죄송합니다. 틀린 이메일 주소 혹은 비밀번호입니다."
+
+msgid "Have you forgotten your password?"
+msgstr "비밀번호를 잊어 버렸습니까?"
+
+msgid "No results found..."
+msgstr "결과"
+
+msgid "Anonymous"
+msgstr "익명"
+
+msgid "Forgot password"
+msgstr "비밀번호를 잊어버렸습니까"
+
+msgid "authenticator-based login"
+msgstr "인증 부호로 로그인 하기"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "비밀번호 재설정 절차 안내문을 받을 이메일 주소를 입력하세요(혹은 !authenticator_login을 사용하세요)."
+
+msgid "Send"
+msgstr "보내기"
+
+msgid "Submitted by !username on !datetime"
+msgstr "!username 이 !datetime 에 제출함"
+
+msgid "Send message"
+msgstr "메세지 전송"
+
+msgid "Add as friend"
+msgstr "친구로 추가"
+
+msgid "Website"
+msgstr "웹 사이트"
+
+msgid "Team"
+msgstr "팀"
+
+msgid "Create new team"
+msgstr "새로운 팀 만들기"
+
+msgid "Search"
+msgstr "검색"
+
+msgid "Total credits"
+msgstr "총 크레딧"
+
+msgid "Recent avg credits"
+msgstr "최근 평균 크레딧"
+
+msgid "Type"
+msgstr "종류"
+
+msgid "New members in last day"
+msgstr "전 날의 새로운 맴버"
+
+msgid "Total members"
+msgstr "전체 맴버"
+
+msgid "Active members"
+msgstr "활동하는 맴버"
+
+msgid "Members with credit"
+msgstr "크레딧을 가진 맴버"
+
+msgid "Web site"
+msgstr "웹 사이트"
+
+msgid "Description"
+msgstr "개요"
 
 msgid "BBcode help"
 msgstr "BB코드 도움말"
@@ -867,115 +991,13 @@ msgstr "BB코드 도움말"
 msgid "Post comment"
 msgstr "코멘트 쓰기"
 
-msgid "No @type tasks"
-msgstr "@type 태스크 없음"
+#: preference set
+msgctxt "preference set"
+msgid "Home"
+msgstr "집"
 
-msgid "There are no tasks of this type on record"
-msgstr "레코드상에 이 유형의 태스크가 없습니다"
-
-msgid "Clear"
-msgstr "지우기"
-
-msgid ""
-"This will remove all of your settings from the @name preference set. Are you"
-" sure?"
-msgstr "계속 진행하면 @name 환경설정 세트에서 설정값들이 모두 제거됩니다. 계속하시겠습니까?"
-
-msgid "These apply to all BOINC projects in which you participate."
-msgstr "이 값들은 여러분이 참여하는 모든 BOINC 프로젝트에 적용됩니다."
-
-msgid ""
-"On computers attached to multiple projects, the most recently modified "
-"preferences will be used."
-msgstr "여러 프로젝트에 연결된 컴퓨터는 가장 최근에 수정된 환경설정을 사용하게 될 것입니다."
-
-msgid "Preferences last modified: @mod_time"
-msgstr "마지막으로 환경설정이 수정된 시간: @mod_time"
-
-msgid "Combined preferences"
-msgstr "통합 환경 설정"
-
-msgid "Switch View"
-msgstr "보기 전환"
-
-msgid "every"
-msgstr "매"
-
-msgid "Edit"
-msgstr "수정"
-
-msgid ""
-"This will remove all of your settings from the \"@name\" preference set. Are"
-" you sure?"
-msgstr "계속하면 \"@name\" 로부터 모든 환경 설정값들을 제거하게 됩니다. 계속하시겠습니까?"
-
-msgid "Add"
-msgstr "추가"
-
-msgid "General settings"
-msgstr "일반 설정"
-
-msgid "Time zone"
-msgstr "시간대"
-
-msgid "Notification settings"
-msgstr "알림 설정"
-
-msgid "Receive email notification for private messages?"
-msgstr "쪽지 수신시 이메일 알림을 받겠습니까?"
-
-msgid "Receive email notification for friend requests?"
-msgstr "친구 요청시 이메일 알림을 받겠습니까?"
-
-msgid "Language settings"
-msgstr "언어 설정"
-
-msgid ""
-"This account's default language for e-mails and preferred language for site "
-"presentation."
-msgstr "이메일 및 사이트 전반에 적용되는 이 계정의 기본 언어."
-
-msgid "Avatar settings"
-msgstr "아바타 설정"
-
-msgid "Create a profile"
-msgstr "프로필 만들기"
-
-msgid "Upload an avatar"
-msgstr "아바타 업로드"
-
-msgid "Forum settings"
-msgstr "포럼 설정"
-
-msgid "In discussion topics, show at most @comments_per_page"
-msgstr "토론 주제에서는 최대 @comments_per_page 를 보여줍니다"
-
-msgid "comments per page"
-msgstr "페이지당 코멘트 수"
-
-msgid "Sort comments in discussions"
-msgstr "토론 속 코멘트 정렬"
-
-msgid "Newest post first"
-msgstr "최신 포스트 순"
-
-msgid "Oldest post first"
-msgstr "오래된 포스트 순"
-
-msgid "Signature"
-msgstr "서명"
-
-msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr "작성한 서명은 여러분이 쓴 코멘트 하단에 공개되며 표시됩니다."
-
-msgid "Hide signatures in forums"
-msgstr "포럼에서 서명 숨기기"
-
-msgid "Privacy settings"
-msgstr "개인정보 설정"
-
-msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "@project와 소속 팀(전부)에서 이메일을 받길 원하십니까?"
+msgid "The latest news from the @site_name project"
+msgstr "@site_name 프로젝트에서 온 최신 뉴스"
 
 msgid "Hide"
 msgstr "숨기기"
@@ -998,29 +1020,219 @@ msgstr "이 주제에 찐득이 붙이기"
 msgid "moderation"
 msgstr "편집"
 
+msgid "Reply"
+msgstr "답변"
+
+msgid "Reply to this comment"
+msgstr "이 코멘트에 답변 달기"
+
+msgid "Quote"
+msgstr "인용구"
+
+msgid "Reply to this comment with quote"
+msgstr "이 코멘트를 인용해 답변 달기"
+
+msgid "Edit"
+msgstr "수정"
+
+msgid "Edit this comment"
+msgstr "이 코멘트 수정"
+
+msgid "Delete"
+msgstr "삭제"
+
+msgid "Delete this comment"
+msgstr "이 코멘트 삭제"
+
+msgid "Hide this comment"
+msgstr "이 코멘트 숨기기"
+
+msgid "Message @id"
+msgstr "메세지 @id"
+
+msgid "Convert"
+msgstr "변환하기"
+
+msgid "Convert this comment to a new topic"
+msgstr "이 코멘트를 새 주제로 변환합니다"
+
+msgid "message @id"
+msgstr "메세지 @id"
+
+msgid " in response to !parent"
+msgstr " !parent 의 응답"
+
 msgid "Post new comment"
 msgstr "새 코멘트 쓰기"
 
-msgid "You must earn 1 more credit!"
-msgstr "반드시 크레딧 1이상 벌어야 됩니다"
+msgid "Comments"
+msgstr "코멘트"
 
-msgid "Joined"
-msgstr "가입됨"
+msgid "discuss"
+msgstr "토론하기"
 
-msgid "Credit"
-msgstr "크레딧"
+msgid "n/a"
+msgstr "없음"
 
-msgid "RAC"
-msgstr "RAC"
+msgid "@time ago"
+msgstr "@time 전"
 
-msgid "Join team"
-msgstr "팀 가입"
+msgid "Threads"
+msgstr "스레드"
 
-msgid "Click here to become a member of @this_team"
-msgstr "@this_team에 회원으로 가입하려면 여기를 클릭하세요"
+msgid "Posts"
+msgstr "포스트"
 
-msgid "Join this team"
-msgstr "이 팀에 가입"
+msgid "Last post"
+msgstr "마지막 포스트"
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "공격적이거나 무례한 포스트를 작성하지 마시고 여러분이 쓰는 글에 책임을 지세요. 공격적인 포스트나 스레드는 토론이나 경고없이 포럼 관리자가 삭제할 수도 있습니다. 공격적인 포스트에는 응답하지 마십시오. 포스트 하단의 \"신고\" 버튼을 클릭해서 관리자를 호출할 수 있습니다."
+
+msgid "this project"
+msgstr "이 프로젝트"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "우리는 기초적인 과학에 관련된, 어떠한 것이라도 자유롭게 토론하는 과학 메세지 게시판을 제외하고 @project나 BOINC와 연관된 메세지 게시판 상의 모든 토론을 보존하길 요청합니다. 광범위 토론에 흥미를 가진 참여자들은 @project용 비공식 포럼에 포스팅을 할 수 있습니다."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "이 메세지 게시판은 이제 BB코드 태그만 지원합니다."
+
+msgid "Featured"
+msgstr "특집"
+
+msgid "Locked"
+msgstr "잠김"
+
+msgid "Submitted on !datetime"
+msgstr "!datetime 에 제출됨"
+
+msgid "Computers pending"
+msgstr "보류된 컴퓨터"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "이 사용자는 아직 연동된 컴퓨터가 없습니다. 컴퓨터는 첫 크레딧을 번 이후에 표시됩니다."
+
+msgid "Show IP address"
+msgstr "IP 주소 보이기"
+
+msgid "Download the desktop software"
+msgstr "데스크탑 소프트웨어를 다운로드하세요"
+
+msgid "Run the installer"
+msgstr "설치 프로그램 실행"
+
+msgid "hours"
+msgstr "시간"
+
+msgid "When prompted enter @siteurl"
+msgstr "명령창이 뜨면 @siteurl을 입력하세요"
+
+msgid "Merge"
+msgstr "병합"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "호스트 @id를 여러분 계정에서 영원히 삭제합니다. 계속해도 괜찮습니까?"
+
+msgid "Post topic"
+msgstr "새 주제 포스트하기"
+
+msgid "Leave team"
+msgstr "팀 탈퇴"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "@this_team에서 탈퇴하길 원하시면 여기를 클릭하세요"
+
+msgid "Leave this team"
+msgstr "이 팀 탈퇴"
+
+msgid "Request foundership"
+msgstr "창설자 요청하기"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "팀 창설자가 미활동중이고 창설자 직을 맡길 원한다면, 하단의 @this_team 창설자 요청을 클릭하세요."
+
+msgid "Initiate request"
+msgstr "요청 보내기"
+
+msgid "No active computers"
+msgstr "활동 중인 컴퓨터 없음"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "이 사용자는 최근 30일이내에 활동 중인 컴퓨터가 없습니다."
+
+msgid "Clear"
+msgstr "지우기"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "계속 진행하면 @name 환경설정 세트에서 설정값들이 모두 제거됩니다. 계속하시겠습니까?"
+
+msgid "Your community preferences have been updated."
+msgstr "커뮤니티 환경설정이 업데이트되었습니다."
+
+msgid "Combined preferences"
+msgstr "통합 환경 설정"
+
+msgid "Switch View"
+msgstr "보기 전환"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "계속하면 \"@name\" 로부터 모든 환경 설정값들을 제거하게 됩니다. 계속하시겠습니까?"
+
+msgid "Approve profile"
+msgstr "프로필 승인"
+
+msgid "Approve this profile content"
+msgstr "이 프로필 내용 승인"
+
+msgid "Reject this profile content"
+msgstr "이 프로필 내용 거부"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "이 값들은 여러분이 참여하는 모든 BOINC 프로젝트에 적용됩니다."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "여러 프로젝트에 연결된 컴퓨터는 가장 최근에 수정된 환경설정을 사용하게 될 것입니다."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "마지막으로 환경설정이 수정된 시간: @mod_time"
+
+msgid "every"
+msgstr "매"
+
+msgid "Add"
+msgstr "추가"
+
+msgid "My team"
+msgstr "내 팀"
+
+msgid "You are a member of @team."
+msgstr "@team의 회원입니다."
+
+msgid "View my team"
+msgstr "내 팀 보기"
 
 msgid "Manage team"
 msgstr "팀 관리"
@@ -1067,20 +1279,123 @@ msgstr "팀 회원 전용 토론 포럼이 설정되었습니다."
 msgid "Enter forum"
 msgstr "포럼 "
 
-msgid "Leave team"
-msgstr "팀 탈퇴"
+msgid "Join team"
+msgstr "팀 가입"
 
-msgid "Leave this team"
-msgstr "이 팀 탈퇴"
+msgid "Click here to become a member of @this_team"
+msgstr "@this_team에 회원으로 가입하려면 여기를 클릭하세요"
 
-msgid "Edit message board"
-msgstr "게시판 "
+msgid "Join this team"
+msgstr "이 팀에 가입"
 
-msgid "Message board title"
-msgstr "메세지 게시판 "
+msgid "Choose type"
+msgstr "종류를 선택하세요"
+
+msgid "Team name"
+msgstr "팀 이름"
 
 msgid "Text only, no HTML tags"
 msgstr "텍스트 전용, HTML 태그 미허용"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "팀 이름 -- HTML 버전 (선택 사항)"
+
+msgid "You may use limited HTML tags"
+msgstr "제한된 HTML 태그를 사용할 수 있습니다"
+
+msgid "Team website (optional)"
+msgstr "팀 웹 사이트 (선택 사항)"
+
+msgid "Displayed on the team's page"
+msgstr "팀 페이지 상에 표시됩니다"
+
+msgid "Type of team"
+msgstr "팀 종류"
+
+msgid "Accept new members?"
+msgstr "회원 가입을 허가할까요?"
+
+msgid "Description of team"
+msgstr "팀 개요"
+
+msgid "Create a team"
+msgstr "팀 만들기"
+
+msgid "Save team"
+msgstr "팀 저장"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "이미 BOINC를 실행하고 있다면, <i>프로젝트\n      추가</i>를 선택하세요."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "만약 커맨드라인 버전 BOINC를 실행하고 있다면,\n        "
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "만약 BOINC 5.0이전 버전을 실행하고 있는데,\n        이 프로젝트에 계정을 생성하고자 한다면 보다 최신 버전으로\n        업그레이드하세요."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "만약 해당 계정의 이메일 주소를 잊었거나, 이메일을 받을 수 없는 경우:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "해당 계정으로 BOINC를 실행하고 있다면 계속 접근할 수 있습니다. 방법:"
+
+msgid "BOINC documentation"
+msgstr "BOINC 문서"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "컴퓨터 상의 BOINC 데이터 디렉토리로 이동하세요(해당 항목을 찾는데 도움이 필요하면 !boinc_wiki 를 보세요)."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "이 프로젝트용 계정 파일을 찾으세요. %file 이름을 가지고 있을 것입니다(프로젝트 URL은 %url입니다)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "메모장같은 텍스트 편집기로 파일을 여세요. 다음 내용을 볼 수 있습니다:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "&lt;authenticator&gt; 과 &lt;/authenticator&gt; 사이에 있는 문자열을 선택하고 복사하세요(상단에 있는 %auth는 예제입니다)."
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "하단의 입력란에 문자열을 붙여넣고 확인을 누르세요."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "여러분의 계정으로 로그인할 것입니다. 계정의 메일 주소와 비밀번호를 업데이트하세요."
+
+msgid "Log in with authenticator"
+msgstr "인증 부호로 로그인 하기"
+
+msgid "OK"
+msgstr "확인"
+
+msgid "Post new topic"
+msgstr "새 주제를 포스트하기"
+
+msgid "Create team message board"
+msgstr "팀 메세지 게시판 생성하기"
+
+msgid "Message board title"
+msgstr "메세지 게시판 "
 
 msgid "Minimum time between posts"
 msgstr "포스트 사이의 최소 시간 간격"
@@ -1091,17 +1406,20 @@ msgstr "초"
 msgid "Minimum total credit to post"
 msgstr "포스팅에 필요한 최소 전체 크레딧"
 
+msgid "Minimum avg credit to post"
+msgstr "포스팅에 필요한 최소 평균 크레딧"
+
 msgid "Allow public to read board?"
 msgstr "게시판에서 누구나 읽을 수 있게 할까요?"
 
-msgid "Save message board"
-msgstr "메세지 게시판에 저장"
+msgid "Create message board"
+msgstr "게시판 생성"
 
 msgid "About message boards"
 msgstr "메세지 게시판 정보"
 
-msgid "This is a team-only message board"
-msgstr "이 게시판은 팀 전용 메세지 게시판입니다"
+msgid "You may create a message board for use by @team"
+msgstr "@team에서 사용할 메세지 게시판을 만들 수 있습니다"
 
 msgid "Only members may post"
 msgstr "회원만 포스트할 수 있게 합니다"
@@ -1109,17 +1427,212 @@ msgstr "회원만 포스트할 수 있게 합니다"
 msgid "Only members may read (optional)"
 msgstr "회원만 읽을 수 있게 합니다(선택 사항)"
 
-msgid "Changing the team founder"
-msgstr "팀 창설자 변경하기"
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "창설자 & 팀 관리자는 관리자 권한을 가집니다"
 
-msgid "Any member of the team is eligible"
-msgstr "팀 회원 누구나 자격이 있습니다"
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (최근 @count 시간동안 동일)"
 
-msgid "Current founder becomes a normal user"
-msgstr "현재 창설자는 일반 사용자가 됩니다"
+msgid "Revise or post comment"
+msgstr "코멘트 쓰기 혹은 수정"
 
-msgid "It must be 60 days since any previous request"
-msgstr "이전 요청으로부터 60일이 지나야 됩니다"
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "때때로 BOINC는 실수로 같은 컴퓨터를 개별적인 존재로 인정합니다. 여러분은 오래된 것을 새로운 것으로 통합시켜서 바로잡을 수 있습니다."
+
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "@name과 동일한 컴퓨터인지 체크하세요 (컴퓨터 ID @id 생성시각: @date @time)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "@old_id가 성공적으로 @id에 병합되었습니다."
+
+msgid "parent removed"
+msgstr "영구적으로 삭제됨"
+
+msgid "Remove"
+msgstr "제거"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "이메일 주소를 변경하거나 새로운 비밀번호를 설정할 때는 인증이 필요합니다."
+
+msgid "Make unsticky"
+msgstr "찐득이 떼기"
+
+msgid "Remove sticky status from this topic"
+msgstr "이 주제에서 찐득이 상태 제거"
+
+msgid "Unhide"
+msgstr "숨김 해제"
+
+msgid "Unhide this comment"
+msgstr "이 코멘트 숨기기"
+
+msgid "Unpublished"
+msgstr "미공개됨"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "@old_id가 성공적으로 @id에 병합되었습니다."
+
+msgid "Joined"
+msgstr "가입됨"
+
+msgid "Credit"
+msgstr "크레딧"
+
+msgid "RAC"
+msgstr "RAC"
+
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "@email로 된 계정이 존재하지 않습니다 -- 등록하려면 \"새 계정 만들기\"를 선택하세요."
+
+msgid "started discussion"
+msgstr "토론이 시작되었습니다"
+
+msgid "commented on"
+msgstr "코멘트함"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "입력한 비밀번호가 유효하지 않습니다. 비밀번호가 정확한지 확인해 주세요."
+
+msgid "Minimum value not met for @field"
+msgstr "@field 최소값을 채우지 못했습니다"
+
+msgid "Invalid data type for @field"
+msgstr "유효하지 않은 데이터 종류 @field"
+
+msgid "News"
+msgstr "뉴스"
+
+msgid "Remove friend"
+msgstr "친구 제거"
+
+msgid "ignore list"
+msgstr "무시 목록"
+
+msgid "here"
+msgstr "여기"
+
+msgid "!username is on your !ignore_list. Click !here to view this post."
+msgstr "!username는(은) !ignore_list에 있습니다. 이 포스트를 보려면 !here를 클릭하세요."
+
+msgid "hidden"
+msgstr "숨김"
+
+msgid "Unknown"
+msgstr "불명"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "유효하지 않은 설정값 \"%preference\""
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: \"!topic_name\"에 코멘트 포스트하기"
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "\"!topic_name\"에 !author가 답변을 달았습니다."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "!site에서 이 주제를 보려면 여기를 클릭: \n!comment_url"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "현재 창설자는 @count 일 안에 전달받은 요청에 응답해야 합니다."
+
+msgid "Unlock"
+msgstr "잠금 해제"
+
+msgid "Unlock this thread for comments"
+msgstr "이 스레드에서 코멘트 쓰기 잠금 해제"
+
+msgid "project"
+msgstr "프로젝트"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email 은 올바른 이메일 주소가 아닙니다. 다시 확인해주세요"
+
+msgid "Please enter your email address"
+msgstr " 주소를 입력해 주세요."
+
+msgid "There is no account with that authenticator."
+msgstr "해당 인식 부호를 가진 계정이 없습니다."
+
+msgid "That authenticator is not valid."
+msgstr "이 인증 부호는 유효하지 않습니다. "
+
+msgid "Send request"
+msgstr "요청 보내기"
+
+msgid "Friend request from !name [!site]"
+msgstr "!name 이 친구 요청을 했습니다. [!site]"
+
+msgid "Message"
+msgstr "메시지"
+
+msgid ""
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!site에서 !name이 당신을 친구로 추가했습니다. 이 요청을 승인하거나 거부할 수 있습니다. 요청을 거절해도 통지가 전송되지는 않으나, 해당 요청 또한 이 계정에서 삭제될 것입니다.\n\n이 요청을 보려면 아래 링크를 따라가세요:\n!link\n\n!message\n\n감사합니다.\nThe !site 팀"
+
+msgid "Cancel friend request"
+msgstr "친구 요청 취소"
+
+msgid "Please set the minimum time required between posts."
+msgstr "포스트와 포스트 사이의 최소 시간 간격을 설정하세요."
+
+msgid ""
+"Please set the minimum total credit that a user must earn in order to post "
+"to this message board."
+msgstr "이 메세지 게시판에 글을 쓰기 위해서 사용자가 벌어야 할 최소 전체 크레딧을 설정하세요."
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "이 메세지 게시판에 글을 쓰기 위해서 사용자에게 요구할 최소 평균 크레딧을 설정하세요."
+
+msgid "Edit message board"
+msgstr "게시판 "
+
+msgid "Save message board"
+msgstr "메세지 게시판에 저장"
+
+msgid "This is a team-only message board"
+msgstr "이 게시판은 팀 전용 메세지 게시판입니다"
+
+msgid "Maximum value exceeded for @field"
+msgstr "@field 최대값에 도달했습니다"
+
+msgid "Approve request"
+msgstr " 승인"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name이 친구 요청을 수락했습니다. [!site]"
+
+msgid ""
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!site에서 !name이 당신을 친구로 인정했습니다.\n\n해당 사용자 프로필을 보려면 아래 링크를 따라가세요:\n!link\n\n!message\n\n감사합니다.\nThe !site 팀"
+
+msgid "posted"
+msgstr "작성됨"
 
 msgid "Add team admin"
 msgstr "팀 관리자 추가"
@@ -1160,360 +1673,80 @@ msgstr "팀 창설자 변경"
 msgid "Add / Remove team admins"
 msgstr "팀 관리자 추가 / 삭제"
 
-msgid "Choose type"
-msgstr "종류를 선택하세요"
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "만약 팀 관리자가 팀을 나가면, 팀 관리자가 직책이 사라지게 됩니다. 잘 알고 믿을 수 있는 사람만 선택하길 추천합니다."
 
-msgid "Team name"
-msgstr "팀 이름"
+msgid "Lift user ban"
+msgstr "사용자 차단 해제"
 
-msgid "Team name -- HTML version (optional)"
-msgstr "팀 이름 -- HTML 버전 (선택 사항)"
+msgid "A team named \"@name\" already exists."
+msgstr "\"@name\"로 된 팀 이름이 이미 존재합니다."
 
-msgid "You may use limited HTML tags"
-msgstr "제한된 HTML 태그를 사용할 수 있습니다"
+msgid "A BOINC account already exists for @email."
+msgstr "@email 를 사용한 BOINC 계정이 이미 있습니다."
 
-msgid "Team website (optional)"
-msgstr "팀 웹 사이트 (선택 사항)"
+msgid "Make founder"
+msgstr "창설자 지정"
 
-msgid "Displayed on the team's page"
-msgstr "팀 페이지 상에 표시됩니다"
+msgid "Changing the team founder"
+msgstr "팀 창설자 변경하기"
 
-msgid "Type of team"
-msgstr "팀 종류"
+msgid "Notes about changes in foundership:"
+msgstr "창설자 변경에 대한 설명:"
 
-msgid "Accept new members?"
-msgstr "회원 가입을 허가할까요?"
+msgid "Any member of the team is eligible"
+msgstr "팀 회원 누구나 자격이 있습니다"
 
-msgid "Description of team"
-msgstr "팀 개요"
+msgid "Current founder becomes a normal user"
+msgstr "현재 창설자는 일반 사용자가 됩니다"
 
-msgid "Create new team"
-msgstr "새로운 팀 만들기"
+msgid "Foundership can be requested by team members:"
+msgstr "팀 회원에게서 요청받은 창설자 후보:"
 
-msgid "Create a team"
-msgstr "팀 만들기"
+msgid "One request is allowed at a time"
+msgstr "한 번에 하나의 요청만 허용됩니다"
 
-msgid "Save team"
-msgstr "팀 저장"
+msgid "It must be 60 days since any previous request"
+msgstr "이전 요청으로부터 60일이 지나야 됩니다"
 
-msgid "Create team message board"
-msgstr "팀 메세지 게시판 생성하기"
+msgid "Any active request must be older than 90 days"
+msgstr "활성화된 요청은 90일 이상 지나야 됩니다"
 
-msgid "Create message board"
-msgstr "게시판 생성"
+msgid "Current founder has 60 days to respond to a request"
+msgstr "현재 창설자는 요청 후 60일 안에 답해야 합니다"
+
+msgid "BOINC-wide teams site"
+msgstr "BOINC 전역 팀 사이트"
+
+msgid "This is a BOINC-wide team. Changes can be made at the !site."
+msgstr "이 항목은 BOINC 전역 팀입니다. !site 에서 변경할 수 있습니다."
 
 msgid ""
-"Please set the minimum average credit that a user is required to have in "
-"order to post to this message board."
-msgstr "이 메세지 게시판에 글을 쓰기 위해서 사용자에게 요구할 최소 평균 크레딧을 설정하세요."
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "이미 최근에 창설자 교체가 요청되었습니다. 90일동안에는 오직 하나의 요청만이 허용됩니다."
 
-msgid "Post new topic"
-msgstr "새 주제를 포스트하기"
+msgid "@count days remaining"
+msgstr "@count 일 남음"
 
-msgid "Anonymous"
-msgstr "익명"
+msgid "Team name is required."
+msgstr "팀 이름이 필요합니다."
 
-msgid "Unpublished"
-msgstr "미공개됨"
-
-msgid "Sorry, unrecognized email address or password."
-msgstr "죄송합니다. 틀린 이메일 주소 혹은 비밀번호입니다."
-
-msgid "Have you forgotten your password?"
-msgstr "비밀번호를 잊어 버렸습니까?"
-
-msgid "Id"
-msgstr "Id"
-
-msgid "Recent average credit"
-msgstr "최근 평균 크레딧"
-
-msgid "Members"
-msgstr "맴버"
-
-msgid "Total Credit"
-msgstr "총 크레딧"
-
-msgid "User ID"
-msgstr "사용자 ID"
-
-msgid "User"
-msgstr "사용자"
-
-msgid "Admin since"
-msgstr "관리자 시작 시간:"
-
-msgid "Team ID"
-msgstr "팀 ID"
-
-msgid "User joined"
-msgstr "사용자가 가입함"
-
-msgid "Timestamp"
-msgstr "타임스탬프"
-
-msgid "Account Key"
-msgstr "계정 키"
-
-msgid "CPID"
-msgstr "CPID"
-
-msgid "Email Address"
-msgstr "Email 주소"
-
-msgid "Password Hash"
-msgstr "비밀번호 해시"
-
-msgid "Postal Code"
-msgstr "우편 번호"
-
-msgid "Send Email"
-msgstr "이메일 보내기"
-
-msgid "Show Hosts"
-msgstr "호스트 보여주기"
-
-msgid "URL"
-msgstr "URL"
-
-msgid "Computer ID"
-msgstr "컴퓨터 ID"
-
-msgid "Location"
-msgstr "위치"
-
-msgid "While BOINC running, % of time work is allowed"
-msgstr "BOINC가 실행되는 동안 허가된 작업의 시간(%)"
-
-msgid "Average turnaround time"
-msgstr "평균 반환 시간"
-
-msgid "Created"
-msgstr "생성 시각"
-
-msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "BOINC가 실행되는 동안, 호스트가 인터넷에 연결된 시간(%)"
-
-msgid "Average CPU efficiency"
-msgstr "평균 CPU 효율"
-
-msgid "Free disk space"
-msgstr "사용 가능한 공간"
-
-msgid "Total disk space"
-msgstr "전체 디스크 용량"
-
-msgid "Task duration correction factor"
-msgstr "태스크 지연 보정값"
-
-msgid "Avg. credit"
-msgstr "평균 크레딧"
-
-msgid "External IP address"
-msgstr "외부 IP 주소"
-
-msgid "Cross project ID"
-msgstr "공유-프로젝트 ID"
-
-msgid "Last IP address"
-msgstr "마지막 IP 주소"
-
-msgid "Cache"
-msgstr "캐시"
-
-msgid "Memory"
-msgstr "메모리"
-
-msgid "Swap space"
-msgstr "스왑 영역"
-
-msgid "Average download rate"
-msgstr "평균 다운로드 속도"
-
-msgid "Average upload rate"
-msgstr "평균 업로드 속"
-
-msgid "Same IP address count"
-msgstr "동일 IP 주소 카운트"
-
-msgid "% of time BOINC client is running"
-msgstr "BOINC 클라이언트가 동작한 시간(%)"
-
-msgid "Operating system"
-msgstr "운영체제(OS)"
-
-msgid "Operating system version"
-msgstr "운영 체제 버전"
-
-msgid "Measured floating point speed"
-msgstr "부동소수점 연산 속도"
-
-msgid "Measured integer speed"
-msgstr "정수 연산 속도"
-
-msgid "CPU model"
-msgstr "CPU 종류"
-
-msgid "Number of processors"
-msgstr "프로세서 수"
-
-msgid "CPU"
-msgstr "CPU"
-
-msgid "Number of times client has contacted server"
-msgstr "클라이언트가 서버와 통신한 횟수"
-
-msgid "Last contact"
-msgstr "마지막 통신"
-
-msgid "Serial number"
-msgstr "시리얼 번호"
-
-msgid "Timezone"
-msgstr "시간대"
-
-msgid "Platform ID"
-msgstr "플랫폼 ID"
-
-msgid "Task ID"
-msgstr "태스크 ID"
-
-msgid "Workunit ID"
-msgstr "작업 유닛 ID"
-
-msgid "Host ID"
-msgstr "호스트 ID"
-
-msgid "Application ID"
-msgstr "응용 프로그램 ID"
-
-msgid "Application version"
-msgstr "응용 프로그램 버전"
-
-msgid "Claimed credit"
-msgstr "요청된 크레딧"
-
-msgid "Client state"
-msgstr "클라이언트 상태"
-
-msgid "CPU time"
-msgstr "CPU 시간"
-
-msgid "Run time"
-msgstr "실행 시간"
-
-msgid "Exit status"
-msgstr "마감 결과"
-
-msgid "Granted credit"
-msgstr "획득 크레딧"
-
-msgid "Outcome"
-msgstr "결과"
-
-msgid "Report deadline"
-msgstr "리포트 마감 시각"
-
-msgid "Sent"
-msgstr "전송 시각"
-
-msgid "Server state"
-msgstr "서버 상태"
-
-msgid "Stderr out"
-msgstr "Stderr out"
-
-msgid "Validation state"
-msgstr "인증 현황"
-
-msgid "Canonical credit"
-msgstr "인증된 결과"
-
-msgid "Canonical result ID"
-msgstr "인정받은 결과 ID"
-
-msgid "Created time"
-msgstr "생성 시각"
-
-msgid "Needs validation"
-msgstr "인증이 필요합니다"
-
-msgid "Initial replication"
-msgstr "초기 복제물"
-
-msgid "Computer"
-msgstr "컴퓨터"
-
-msgid "Consecutive valid tasks"
-msgstr "연속적으로 유효한 태스크"
-
-msgid "Number of tasks completed"
-msgstr "완료된 태스크 수"
-
-msgid "Max tasks per day"
-msgstr "하루 태스크 최대량"
-
-msgid "Number of tasks today"
-msgstr "오늘의 태스크 수"
-
-msgid "Show IP address"
-msgstr "IP 주소 보이기"
-
-msgid "hours"
-msgstr "시간"
-
-msgid "Remove friend"
-msgstr "친구 제거"
-
-msgid "Ban user"
-msgstr "사용자 추방"
-
-msgid "Add as friend"
-msgstr "친구로 추가"
-
-msgid "Team"
-msgstr "팀"
-
-msgid "Reply"
-msgstr "답변"
-
-msgid "Reply to this comment"
-msgstr "이 코멘트에 답변 달기"
-
-msgid "Quote"
-msgstr "인용구"
-
-msgid "Reply to this comment with quote"
-msgstr "이 코멘트를 인용해 답변 달기"
-
-msgid "Edit this comment"
-msgstr "이 코멘트 수정"
-
-msgid "Delete this comment"
-msgstr "이 코멘트 삭제"
-
-msgid "Hide this comment"
-msgstr "이 코멘트 숨기기"
-
-msgid "Convert"
-msgstr "변환하기"
-
-msgid "Convert this comment to a new topic"
-msgstr "이 코멘트를 새 주제로 변환합니다"
-
-msgid "Details"
-msgstr "자세히"
-
-msgid "Make unsticky"
-msgstr "찐득이 떼기"
+msgid "Reason for banning this user"
+msgstr "이 사용자의 차단 사유"
 
 msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake."
-" You can correct this by merging old identities with the newest one."
-msgstr "때때로 BOINC는 실수로 같은 컴퓨터를 개별적인 존재로 인정합니다. 여러분은 오래된 것을 새로운 것으로 통합시켜서 바로잡을 수 있습니다."
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "사용자에게 차단 사유가 포함되어서 이메일로 전송됩니다. 왜 사용자가 차단되었는지 믿을 만한 설명을 적어주세요."
 
-msgid "Remove"
-msgstr "제거"
+msgid "Duration of the ban"
+msgstr "차단 기간"
 
-msgid "hidden"
-msgstr "숨김"
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "차단 일수를 선택하세요. 0으로 설정하면 영구적으로 차단됩니다."
+
+msgid "Submit"
+msgstr "제출"

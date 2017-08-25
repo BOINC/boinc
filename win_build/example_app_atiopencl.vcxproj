@@ -111,6 +111,8 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opencl.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -152,6 +154,7 @@
       <PreprocessorDefinitions>ATI_OS_WIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opencl.lib;%(AdditionalDependencies)</AdditionalDependencies>

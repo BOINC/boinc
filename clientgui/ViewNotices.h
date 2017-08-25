@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VIEWNOTIFICATIONS_H_
-#define _VIEWNOTIFICATIONS_H_
+#ifndef BOINC_VIEWNOTICES_H
+#define BOINC_VIEWNOTICES_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ViewNotices.cpp"
@@ -58,6 +58,4 @@ protected:
     void                    OnRetryButton( wxCommandEvent& event );
 };
 
-
 #endif
-

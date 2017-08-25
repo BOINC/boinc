@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/common_defs.inc");
+require_once("../project/project.inc");
 
 function db_init_xml() {
     if (web_stopped()) {
@@ -29,11 +30,37 @@ function db_init_xml() {
     return 0;
 }
 
+// write PHP warnings as XML, so that the reply can be parsed by client
+//
+function error_handler($errno, $errstr, $errfile, $errline) {
+    if ($errno == E_WARNING) $errno = "Warning";
+    if ($errno == E_NOTICE) $errno = "Notice";
+    echo "<error>
+    <error_msg><![CDATA[$errstr]]></error_msg>
+    <type>$errno</type>
+    <file>$errfile</file>
+    <line>$errline</line>
+</error>
+";
+}
+
+
 function xml_header() {
     global $generating_xml;
+    if (defined("RPC_DEBUG") && RPC_DEBUG) {
+        set_error_handler('error_handler', E_WARNING|E_NOTICE);
+    }
     header('Content-type: text/xml');
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
     $generating_xml = true;
+}
+
+$xml_outer_tag = "";
+
+function xml_start_tag($tag) {
+    global $xml_outer_tag;
+    echo "<$tag>\n";
+    $xml_outer_tag = $tag;
 }
 
 // used only if host owner is the requesting user
@@ -68,6 +95,7 @@ function show_host_xml($host) {
 //
 function show_user_xml($user, $show_hosts) {
     $cpid = md5($user->cross_project_id.$user->email_addr);
+    $url = normalize_user_url($user->url);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
@@ -78,7 +106,7 @@ function show_user_xml($user, $show_hosts) {
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>
     <teamid>$user->teamid</teamid>
-    <url>".htmlspecialchars($user->url)."</url>
+    <url>".htmlspecialchars($url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
     if ($show_hosts) {
@@ -92,25 +120,21 @@ echo"</user>
 ";
 }
 
-function show_team_member($user, $show_email, $creditonly = false) {
+function show_team_member($user, $creditonly = false) {
     if ($creditonly && !$user->total_credit) { return; }
     $cpid = md5($user->cross_project_id.$user->email_addr);
+    $url = normalize_user_url($user->url);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
-";
-    if ($show_email && $user->send_email) {
-        echo "    <email_addr>$user->email_addr</email_addr>
-";
-    }
-    echo "    <total_credit>$user->total_credit</total_credit>";
+    <total_credit>$user->total_credit</total_credit>";
     if (!$creditonly) {
         echo "    <create_time>$user->create_time</create_time>
     <name>".htmlspecialchars($user->name)."</name>
     <country>$user->country</country>
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>
-    <url>".htmlspecialchars($user->url)."</url>
+    <url>".htmlspecialchars($url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
     }

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROCINFO_
-#define _PROCINFO_
+#ifndef BOINC_PROCINFO_H
+#define BOINC_PROCINFO_H
 
 #include <vector>
 #include <map>

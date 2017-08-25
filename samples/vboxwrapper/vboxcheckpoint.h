@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VBOXCHECKPOINT_H_
-#define _VBOXCHECKPOINT_H_
+#ifndef BOINC_VBOXCHECKPOINT_H
+#define BOINC_VBOXCHECKPOINT_H
 
 
 #define CHECKPOINT_FILENAME "vbox_checkpoint.xml"

@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _COMMON_DEFS_
-#define _COMMON_DEFS_
+#ifndef BOINC_COMMON_DEFS_H
+#define BOINC_COMMON_DEFS_H
 
 #include "miofile.h"
 #include "parse.h"
-#include "str_replace.h"
 
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
@@ -345,7 +344,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
-        safe_strcpy(device_name, "");
+        strcpy(device_name, "");
     }
 };
 

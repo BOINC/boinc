@@ -1,0 +1,9 @@
+# make sign_executable with minimal dependencies, e.g. no MySQL
+#
+all: sign_executable crypt_prog
+
+sign_executable:
+	g++ -o sign_executable -I.. -I../lib ../lib/crypt.cpp ../lib/md5.cpp ../lib/md5_file.cpp ../lib/filesys.cpp ../lib/util.cpp ../lib/str_util.cpp -lssl -lcrypto sign_executable.cpp
+
+crypt_prog:
+	g++ -o crypt_prog -I.. -I../lib ../lib/crypt.cpp ../lib/md5.cpp ../lib/md5_file.cpp ../lib/filesys.cpp ../lib/util.cpp ../lib/str_util.cpp -lssl -lcrypto ../lib/crypt_prog.cpp

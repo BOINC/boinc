@@ -23,6 +23,7 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/util_basic.inc");
+require_once("../inc/util_ops.inc");
 require_once("../inc/result.inc");
 require_once("../inc/boinc_db.inc");
 
@@ -235,7 +236,7 @@ class SqlQueryString {
     var $query;
     var $urlquery;
 
-    function SqlQueryString() {
+    function __construct() {
         if (isset($_GET['table'])) {
             $this->table = $_GET['table'];
         } else {
@@ -400,7 +401,7 @@ function stderr_error_string($stderr_out){
     if (0<=$x && $x<=9) {
         return FALSE;
     } else {
-        return "$x ".result_error_mask_str($x);
+        return "$x ".error_code_str($x);
     }
 }
 
@@ -1161,7 +1162,7 @@ function show_result_short($result) {
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
-    $granted_credit = "<a href=credit.php?resultid=$result->id>".credit_str($result->granted_credit)."</a>";
+    $granted_credit = "<a href=credit.php?wu_id=$result->workunitid>".credit_str($result->granted_credit)."</a>";
     $delete_state = file_delete_state_str($result->file_delete_state);
 
     echo "
@@ -1188,7 +1189,9 @@ function show_user($user) {
     row("ID", $user->id);
     row("Created", time_str($user->create_time));
     row("Name", $user->name);
-    row("Authenticator", $user->authenticator);
+    if(!in_rops()) {
+        row("Authenticator", $user->authenticator);
+    }
     row("Email address", $user->email_addr);
     row("OK to send Email?", $user->send_email);
     row("Country", $user->country);
@@ -1199,7 +1202,9 @@ function show_user($user) {
     row("Default venue", $user->venue);
     row("Hosts", "<a href=\"db_action.php?table=host&userid=$user->id&detail=low\">click</a>");
     row("Cross project ID", $user->cross_project_id);
-    row("Password Hash", $user->passwd_hash);
+    if(!in_rops()) {
+        row("Password Hash", $user->passwd_hash);
+    }
     row("Donated", $user->donated);
     end_table();
 }

@@ -63,9 +63,10 @@ function show_scenario_summary($f) {
     $user = BoincUser::lookup_id($userid);
     $date = date_str(filemtime("scenarios/$f"));
     $nsims = nsims($f);
+    $name = $user?$user->name:"???";
     echo "<tr>
         <td><a href=sim_web.php?action=show_scenario&name=$f>$f</a></td>
-        <td>$user->name</td>
+        <td>$name</td>
         <td>$date</td>
         <td>$nsims</td>
         <td>$desc</td>
@@ -107,6 +108,14 @@ function show_scenarios() {
         projects with very short or long jobs, and so on).
         See <a href=http://boinc.berkeley.edu/trac/wiki/ClientSim>The
         BCE documentation</a> for details.
+    ";
+    echo '
+        <p>
+        <a href="sim_web.php?action=create_scenario_form"
+            class="btn btn-success">Create a scenario
+        </a>
+    ';
+    echo "
         <h3>Simulations</h3>
         You can run <b>simulations</b> based on existing scenarios
         (including scenarios created by other people).
@@ -149,12 +158,7 @@ function show_scenarios() {
         <li> you have suggestions for new features.
         </ul>
         <hr>
-    ";
-    show_button(
-        "sim_web.php?action=create_scenario_form",
-        "Create a scenario", "Create a new scenario"
-    );
-    echo "
+
         <h3>Existing scenarios</h3>
     ";
     start_table();

@@ -1,0 +1,50 @@
+# fixes to dark-backround themes to increase legibility
+
+body, navbar-text, panel, a:btn {
+    color:white;
+}
+
+table a:not(.btn), .table a:not(.btn), a:not(.btn) {
+    color: sandybrown;
+    text-decoration: none;
+}
+
+table a:hover, .table a:hover, a:hover {
+    color: sandybrown;
+    text-decoration: underline;
+}
+
+table a:visited:not(.btn), .table a:visited:not(.btn), a:visited:not(.btn) {
+    color: sandybrown;
+    text-decoration: underline;
+}
+
+.nav.navbar-nav li a, .nav.navbar-nav li a:hover, .nav.navbar-nav li a:visited {
+    color: white;
+}
+
+.navbar-default .navbar-header, .navbar-brand {
+    color: white !important;
+}
+.navbar-default .navbar-header a:hover {
+    color: white;
+}
+
+hr {
+    border-color: #d0d0d0;
+}
+
+img.icon {
+    padding: 3px;
+    background-color: lightgray;
+}
+
+blockquote {
+    font-size: 15px;
+    border-color: gray;
+}
+
+pre, code {
+    color:white;
+    background-color: #333;
+}

@@ -39,12 +39,6 @@
 #include "vboxwrapper.h"
 #include "vbox_mscom42.h"
 
-
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define stricmp     _stricmp
-#define snprintf    _snprintf
-#endif
-
 #import "file:vbox42.tlb" rename_namespace("vbox42"), named_guids, raw_interfaces_only
 
 using std::string;
@@ -65,4 +59,3 @@ namespace vbox42 {
 #include "vbox_mscom_impl.cpp"
 
 }
-

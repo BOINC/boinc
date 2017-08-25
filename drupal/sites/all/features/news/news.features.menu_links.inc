@@ -26,8 +26,8 @@ function news_menu_default_menu_links() {
     'weight' => '-48',
   );
   // Translatables
-  // Included for use with string extractors like potx.
-  t('News');
+  // Use bts() function to translate additional strings.
+  bts('News', array(), NULL, 'boinc:menu-link');
 
 
   return $menu_links;

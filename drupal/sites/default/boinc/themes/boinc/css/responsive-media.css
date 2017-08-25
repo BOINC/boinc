@@ -1,0 +1,156 @@
+/* Id */
+
+/**
+ * @file
+ * Responsive Media Styling
+ *
+ * Contains CSS styles to handle different screen sizes. This CSS file is 
+ * used mainly for browsers with Javascript DISABLED. 
+ */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * CSS Style designed for large desktop screens
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (min-width: 980px) {
+  #main-wrapper {
+    margin: 16px auto 0;
+  }
+
+  /* Hide the mobile menu icon. Hide the mobile navigation menu. */
+  #navigation-mmt {
+    display: none;
+  }
+  #block-mobile_menu_toggle-0 {
+    display: none;
+  }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * CSS Style designed screens less than 980px. 980px is the fixed
+ * width of the desktop site.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+@media only screen and (max-width: 979px) {
+  /* Main wrapper margin set to 16px top, 12px left & right. */
+  #main-wrapper {
+    margin: 16px 12px 12px;
+  }
+
+  /* Header adjustment when hamburger menu is onscreen. */
+  #header {
+    max-width: none;
+  }
+
+  /* Hide the mobile menu icon. Hide the mobile navigation menu. */
+  #navigation-mmt {
+    display: none;
+  }
+  #block-mobile_menu_toggle-0 {
+    display: none;
+  }
+
+  /* Main content pane should have flexible width. */
+  #content,
+  .no-sidebars #content {
+    width: auto;
+  }
+
+  /* Adjust forum wrapping for smaller screens. */
+  #forum td.created,
+  #forum td.posts,
+  #forum td.topics,
+  #forum td.last-reply,
+  #forum td.replies,
+  #forum td.pager,
+  #forum td.icon {
+    white-space: normal;
+  }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * CSS Style designed for mobile screens
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+@media only screen and (max-width: 750px) {
+  /* Hide the primary and secondary menus */
+  #main-menu ul,
+  #sub-menu ul,
+  #action-links ul {
+    display: none;
+  }
+
+  /* Header adjustment when hamburger menu is onscreen. */
+  #header {
+    max-width: none;
+  }
+
+  /* Set the navigation bar space for the mobile menu.*/
+  #navigation {
+    overflow: visible;
+    min-height: 31px;
+  }
+
+  /* Hide the hamburger menu icon. */
+  #block-mobile_menu_toggle-0 {
+    display: none;
+  }
+
+  /* Show the mobile menu always, instead of being toggled by JS. */
+  #navigation-mmt {
+    display: block;
+    margin-left: 39px;
+    padding-top: 31px;
+  }
+
+  /* Modifty the navigation/mobile menu CSS so that menu links are
+   arranged vertically.*/
+  #navigation .block .menu {
+    width: auto;
+    float: none;
+    border: none;
+    padding: 2px 0 0 0;
+  }
+
+  #navigation .block .menu li {
+    float: none;
+    border: none;
+  }
+
+  #navigation li.expanded ul.menu {
+    padding: 0 20px;
+  }
+  
+  /* Set base mobile menu font color and size. */
+  #navigation .block .menu li a {
+    color: #faa341;
+    font-size: 14px;
+    height: auto;
+  }
+
+  /* Add active and hover color for links in mobile menu. */
+  #navigation .block .menu li a.active,
+  #navigation .block .menu li a:hover {
+    color: black;
+  }
+  
+  /* Add caret left/down icons to the mobile menu for items that
+   expand. */
+  #navigation li.expanded.dhtml-menu.collapsed>a:after {
+    /* Caret left */
+    content: "\f0da";
+    font-family: FontAwesome;
+    padding-left: 5px;
+  }
+
+  #navigation li.expanded.dhtml-menu.active-trail>a:after {
+    /* Caret down */
+    content: "\f0d7";
+    font-family: FontAwesome;
+    padding-left: 5px;
+  }
+
+  /* Reset CSS on tabs class for mobile menus. */
+  .tab {
+    all: unset;
+  }
+
+}

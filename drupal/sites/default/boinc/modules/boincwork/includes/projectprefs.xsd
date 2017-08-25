@@ -33,7 +33,7 @@
                 <xs:attribute name="id" type="xs:positiveInteger" use="required" />
                 <xs:attribute name="selected" type="xs:boolean" />
                 <xs:attribute name="enabled" type="xs:boolean" />
-                <xs:attribute name="rank" type="xs:nonNegativeInteger" />
+                <xs:attribute name="weight" type="xs:positiveInteger" />
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -134,10 +134,9 @@
 
     <!-- grouping types -->
 
-    <xs:element name="apps">
+    <xs:element name="app_overrides">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
                 <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
@@ -169,7 +168,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xs:element ref="apps" />
+                    <xs:element ref="app_overrides" />
                     <xs:element name="group" type="group" />
                     <xs:element name="compound" type="compound" />
                 </xs:choice>

@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2015 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -19,7 +19,7 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.47.1 with c-ares-1.10.0, openssl-1.0.2g, wxWidgets-3.0.0,
+# curl-7.47.1 with c-ares-1.10.0, openssl-1.1.0, wxWidgets-3.0.0,
 # sqlite-3.11.0, FreeType-2.4.10 and FTGL-2.1.3
 #
 # by Charlie Fenton 7/21/06
@@ -38,15 +38,12 @@
 # Updated 11/30/15 to return error code indicating which builds failed
 # Updated 1/6/16 for curl 7.46.0, openssl 1.0.2e, sqlite 3.9.2, FreeType-2.6.2
 # Updated 3/2/16 for curl 7.47.1, openssl 1.0.2g, sqlite 3.11.0
+# Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 #
 # Download these seven packages and place them in a common parent directory
-# with the BOINC source tree. For compatibility with Travis CI builds, they
-# can instead be placed in the directory ../mac3rdParty/
+# with the BOINC source tree.
 #
-# When the packages are placed in the parent directory, this script creates
-# symbolic links to them in ../mac3rdParty/.
-#
-## In Terminal, cd to the mac_build directory of the boinc tree; for 
+## In Terminal, cd to the mac_build directory of the boinc tree; for
 ## example:
 ##     cd [path]/boinc/mac_build/
 ## then run this script:
@@ -56,17 +53,6 @@
 #
 # This script will work even if you have renamed the boinc/ directory
 #
-
-function make_symlink_if_needed() {
-    cd ../mac3rdParty/
-    if [ ! -d "${1}" ]; then
-        if [ -d "../../${1}" ]; then
-            ln -s "../../${1}"
-        fi
-    fi
-
-    cd "${SCRIPT_DIR}"
-}
 
 if [ "$1" = "-clean" ]; then
   cleanit="-clean"
@@ -85,55 +71,16 @@ finalResult=0
 
 SCRIPT_DIR=`pwd`
 
-if [ ! -d ../mac3rdParty ]; then
-    mkdir ../mac3rdParty
-fi
+# this will pull in the variables used below
+source "${SCRIPT_DIR}/dependencyNames.sh"
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD C-ARES-1.10.0 ------"
+echo "--------- BUILD OPENSSL ----------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed c-ares-1.10.0
-
-cd ../mac3rdParty/c-ares-1.10.0/
-if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
-    if [  $? -eq 0 ]; then
-        caresOK="YES"
-    fi
-fi
-
-cd "${SCRIPT_DIR}"
-
-echo ""
-echo "----------------------------------"
-echo "------- BUILD CURL-7.47.1 --------"
-echo "----------------------------------"
-echo ""
-
-make_symlink_if_needed curl-7.47.1
-
-cd ../mac3rdParty/curl-7.47.1/
-if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
-    if [  $? -eq 0 ]; then
-        curlOK="YES"
-    fi
-fi
-
-cd "${SCRIPT_DIR}"
-
-echo ""
-echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.0.2g -------"
-echo "----------------------------------"
-echo ""
-
-make_symlink_if_needed openssl-1.0.2g
-
-cd ../mac3rdParty/openssl-1.0.2g/
+cd "../../${opensslDirName}"
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -145,13 +92,43 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD wxWidgets-3.0.0 ------"
+echo "---------- BUILD C-ARES- ---------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed wxWidgets-3.0.0
+cd "../../${caresDirName}"
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
+    if [  $? -eq 0 ]; then
+        caresOK="YES"
+    fi
+fi
 
-cd ../mac3rdParty/wxWidgets-3.0.0/
+cd "${SCRIPT_DIR}"
+
+echo ""
+echo "----------------------------------"
+echo "----------- BUILD CURL -----------"
+echo "----------------------------------"
+echo ""
+
+cd "../../${curlDirName}"
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
+    if [  $? -eq 0 ]; then
+        curlOK="YES"
+    fi
+fi
+
+cd "${SCRIPT_DIR}"
+
+echo ""
+echo "----------------------------------"
+echo "-------- BUILD wxWidgets ---------"
+echo "----------------------------------"
+echo ""
+
+cd "../../${wxWidgetsDirName}"
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildWxMac.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -163,13 +140,11 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD sqlite-3.11.0 -------"
+echo "---------- BUILD sqlite ----------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed sqlite-autoconf-3110000
-
-cd ../mac3rdParty/sqlite-autoconf-3110000/
+cd "../../${sqliteDirName}"
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -181,13 +156,11 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD FreeType-2.6.2 ------"
+echo "--------- BUILD FreeType ---------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed freetype-2.6.2
-
-cd ../mac3rdParty/freetype-2.6.2/
+cd "../../${freetypeDirName}"
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildfreetype.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -199,13 +172,11 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "------ BUILD FTGL-2.1.3~rc5 ------"
+echo "----------- BUILD FTGL -----------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed ftgl-2.1.3~rc5
-
-cd ../mac3rdParty/ftgl-2.1.3~rc5/
+cd "../../${ftglDirName}"
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildFTGL.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -220,7 +191,7 @@ if [ "${caresOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "-- COULD NOT BUILD C-ARES-1.10.0 --"
+    echo "-- COULD NOT BUILD ${caresDirName} --"
     echo "-----------------------------------"
     echo ""
 
@@ -232,7 +203,7 @@ if [ "${curlOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "--- COULD NOT BUILD CURL-7.47.1 ---"
+    echo "--- COULD NOT BUILD ${curlDirName} ---"
     echo "-----------------------------------"
     echo ""
 
@@ -244,10 +215,10 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.0.2g -"
+    echo "- COULD NOT BUILD ${opensslDirName} -"
     echo "----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 4 ]
 fi
 
@@ -256,10 +227,10 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "- COULD NOT BUILD wxWidgets-3.0.0 -"
+    echo "- COULD NOT BUILD ${wxWidgetsDirName} -"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 8 ]
 fi
 
@@ -268,10 +239,10 @@ if [ "${sqlite3OK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "-- COULD NOT BUILD sqlite-3.11.0 -"
+    echo "-- COULD NOT BUILD ${sqliteDirName} -"
     echo "----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 16 ]
 fi
 
@@ -280,10 +251,10 @@ if [ "${freetypeOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "- COULD NOT BUILD FreeType-2.6.2 -"
+    echo "- COULD NOT BUILD ${freetypeDirName} -"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 32 ]
 fi
 
@@ -292,10 +263,10 @@ if [ "${ftglOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "- COULD NOT BUILD FTGL-2.1.3~rc5 --"
+    echo "- COULD NOT BUILD ${ftglDirName} --"
     echo "-----------------------------------"
     echo ""
-    
+
     finalResult=$[ finalResult | 64 ]
 fi
 

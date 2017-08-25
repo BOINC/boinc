@@ -15,16 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VALIDATEURL_H_
-#define _VALIDATEURL_H_
+#ifndef BOINC_VALIDATEURL_H
+#define BOINC_VALIDATEURL_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ValidateURL.cpp"
 #endif
 
 
-class CValidateURL : public wxValidator
-{
+class CValidateURL : public wxValidator {
     DECLARE_DYNAMIC_CLASS( CValidateURL )
 
 public:
@@ -49,7 +48,6 @@ protected:
     virtual bool      CheckValidator() const;
 
 };
-
 
 #endif
 

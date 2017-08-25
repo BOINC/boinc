@@ -18,8 +18,8 @@
 // asynchronous file operations
 //
 
-#ifndef _ASYNC_FILE_
-#define _ASYNC_FILE_
+#ifndef BOINC_ASYNC_FILE_H
+#define BOINC_ASYNC_FILE_H
 
 #include <vector>
 
@@ -91,6 +91,9 @@ extern std::vector<ASYNC_COPY*> async_copies;
 
 extern void remove_async_copy(ASYNC_COPY*);
 extern void remove_async_verify(ASYNC_VERIFY*);
-extern bool do_async_file_ops();
+inline bool have_async_file_op() {
+    return (async_verifies.size() || async_copies.size());
+}
+extern void do_async_file_op();
 
 #endif

@@ -49,7 +49,49 @@ function boincwork_admin_prefs_upload_form(&$form_state) {
     '#type' => 'textarea',
     '#title' => t('Project specific preferences XML'),
     '#default_value' => variable_get('boinc_project_specific_prefs_config', "<project_specific_preferences>\n\n</project_specific_preferences>"),
-    '#required' => TRUE
+    '#required' => TRUE,
+    '#rows' => 14,
+  );
+  $form['help'] = array(
+    '#title' => t('Help'),
+    '#type' => 'fieldset',
+    '#description' => '',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['help']['text'] = array(
+    '#title' => t('Instructions'),
+    '#type' => 'item',
+    '#value' => '
+Copy and paste an XML file into the textfield above. The XML must have at least one of three containers: &lt;app_overrides&gt;,  &lt;group&gt;, and &lt;compound&gt;.</p>
+<p>The list of apps from the database and the list of apps, listed within &lt;app_overrides&gt;, from the project-specific XML (above) are merged together with the following algorithm.
+<ul>
+  <li> The algorithm uses applications in the database to determine
+    what applications are listed in the Web form. If an application
+    is present in the project-specific XML but not in the database,
+    it is ignored. The field \'id\' is used to match the
+    applications between the two.
+  <li> If an application is in the database, the other attributes are
+    obtained from the project-specific XML. The list of
+    applications in this XML are overrides. Of importance, the name
+    in the XML configuration will override the name found in the
+    database.
+  <li> The attributes for an application are obtained from the
+    project-specific XML. However, if they are not present, the
+    defaults are:
+  <ul>
+    <li> selected: true
+    <li> enabled: true
+    <li> weight: 100
+  </ul>
+</ul></p>
+
+<p>The list of applications is sorted for display. The sort comparison
+function _dbapps_compare() is used. It sorts first by weight:
+smaller numbers float up, larger numbers sink down; then
+alphabetically by name using strnatcmp(); and finally by app
+id. Weight defaults to 100, and must be a positive integer.</p>
+',
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -108,6 +150,12 @@ function boincwork_admin_prefs_presets_page($preset = 'standard') {
     $output .= '</div></div>';
   }
   $output .= drupal_get_form('boincwork_admin_prefs_presets_form', $preset);
+
+  $output .= '<div>';
+  $output .= bts('Usage: \'Save configuration\' will save the above preferences into the drupal database. These will be the preset computing (global) preferences that will fill in the preferences form once a user loads the Account Preferences page.', array(), NULL, 'boinc:admin-boinc-preference-presets');
+  $output .= '<p>';
+  $output .= bts('\'Save configuration with disk usage settings from config.xml\' will save the above preferences into the drupal database, but also load disk usage settings from the BOINC project\'s config.xml file. These will overwrite any disk usage settings you have placed above. Caution: A user\'s personal preferences will not change if you load the disk usage settings from config.xml here into the drupal database. They must change their preference settings manually.', array(), NULL, 'boinc:admin-boinc-preference-presets');
+  $output .= '</div>';
   return $output;
 }
 
@@ -115,7 +163,11 @@ function boincwork_admin_prefs_presets_page($preset = 'standard') {
  * 
  */
 function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') {
-  
+
+  // Check database for preset prefs
+  if (!variable_get('boincwork_preset_prefs', null))
+    drupal_set_message(bts('No presets found in database, loading a default set of preferences for each preset. These will be saved to the database once you click \'Save configuration\'.', array(), NULL, 'boinc:admin-boinc-preference-presets'), 'status');
+
   // Load a copy of the general prefs form
   $form = boincwork_generalprefs_form($form_state, NULL, $preset);
   if ($key = array_search('boincwork_generalprefs_form_submit', $form['#submit'])) {
@@ -139,6 +191,11 @@ function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') 
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save configuration')
+  );
+  $form['saveuseconfigxml'] = array (
+      '#type' => 'submit',
+      '#value' => t('Save configuration with disk usage settings from config.xml'),
+      '#validate' => array('boincwork_admin_prefs_preset_saveuseconfigxml'),
   );
   $form['preset'] = array(
     '#type' => 'hidden',
@@ -166,7 +223,6 @@ function boincwork_admin_prefs_presets_form_validate($form, &$form_state) {
   if (!verify_numeric($values['processor']['start_hour'], 0, 23)) form_set_error('start_hour', t('Invalid setting for') . " \"{$form['processor']['start_hour']['#title']} [x] {$form['processor']['start_hour']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['end_hour'], 0, 23)) form_set_error('end_hour', t('Invalid setting for') . " \"{$form['processor']['end_hour']['#title']} [x] {$form['processor']['end_hour']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['cpu_scheduling_period_minutes'], 1, 9999)) form_set_error('cpu_scheduling_period_minutes', t('Invalid setting for') . " \"{$form['processor']['cpu_scheduling_period_minutes']['#title']} [x] {$form['processor']['cpu_scheduling_period_minutes']['#field_suffix']}\"");
-  if (!verify_numeric($values['processor']['max_cpus'], 0, 9999)) form_set_error('max_cpus', t('Invalid setting for') . " \"{$form['processor']['max_cpus']['#title']} [x] {$form['processor']['max_cpus']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['max_ncpus_pct'], 0, 100)) form_set_error('max_ncpus_pct', t('Invalid setting for') . " \"{$form['processor']['max_ncpus_pct']['#title']} [x] {$form['processor']['max_ncpus_pct']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['cpu_usage_limit'], 0, 100)) form_set_error('cpu_usage_limit', t('Invalid setting for') . " \"{$form['processor']['cpu_usage_limit']['#title']} [x] {$form['processor']['cpu_usage_limit']['#field_suffix']}\"");
 
@@ -201,9 +257,9 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs = boincwork_get_preset_prefs($preset);
   
   // Processing preferences
-  $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 1 : 0;
-  $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 1 : 0;
-  $prefs['run_gpu_if_user_active'] = ($values['processor']['run_gpu_if_user_active']) ? 1: 0;
+  $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 0 : 1;
+  $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 0 : 1;
+  $prefs['run_gpu_if_user_active'] = ($values['processor']['run_gpu_if_user_active']) ? 0: 1;
   $prefs['idle_time_to_run'] = $values['processor']['idle_time_to_run'];
   $prefs['suspend_if_no_recent_input'] = $values['processor']['suspend_if_no_recent_input'];
   $prefs['suspend_cpu_usage'] = $values['processor']['suspend_cpu_usage'];
@@ -211,7 +267,6 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['end_hour'] = $values['processor']['end_hour'];
   $prefs['leave_apps_in_memory'] = ($values['processor']['leave_apps_in_memory']) ? 1 : 0;
   $prefs['cpu_scheduling_period_minutes'] = $values['processor']['cpu_scheduling_period_minutes'];
-  $prefs['max_cpus'] = $values['processor']['max_cpus'];
   $prefs['max_ncpus_pct'] = $values['processor']['max_ncpus_pct'];
   $prefs['cpu_usage_limit'] = $values['processor']['cpu_usage_limit'];
   
@@ -237,8 +292,9 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['daily_xfer_period_days'] = $values['network']['daily_xfer_period_days'];
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
   
-  // Throw the preset attribute on there so we know which preset to save
-  $prefs['@attributes']['preset'] = $preset;
+  //Remove @attributes to match new format (see boincwork.forms.inc
+  //function boincwork_generalprefs_form)
+  unset($prefs['@attributes']['preset']);
   
   // Update the configuration
   boincwork_save_preset_prefs($prefs, $preset);
@@ -273,3 +329,18 @@ function boincwork_save_preset_prefs($updated_prefs, $preset = 'standard') {
   variable_set('boincwork_preset_prefs', save_configuration($all_presets));
 }
 
+/**
+ * Saves but also loads disk usage settings from config.xml, and
+ * overwrites whatever values are is in form.
+ */
+function boincwork_admin_prefs_preset_saveuseconfigxml($form, &$form_state) {
+    require_boinc(array('db', 'prefs'));
+    $disk_space_config = get_disk_space_config();
+
+    $form_state['values']['storage']['disk_max_used_gb']  = $disk_space_config->disk_max_used_gb;
+    $form_state['values']['storage']['disk_min_free_gb']  = $disk_space_config->disk_min_free_gb;
+    $form_state['values']['storage']['disk_max_used_pct'] = $disk_space_config->disk_max_used_pct;
+
+    //Run the form validate function
+    boincwork_admin_prefs_presets_form_validate($form, $form_state);
+}

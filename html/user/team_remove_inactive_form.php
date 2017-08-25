@@ -37,13 +37,14 @@ echo "
     <input type=\"hidden\" name=\"id\" value=\"".$team->id."\">
 ";
 start_table();
-echo "<tr>
-    <th>".tra("Remove?")."</th>
-    <th>".tra("Name (ID)")."</th>
-    <th>".tra("Total credit")."</th>
-    <th>".tra("Recent average credit")."</th>
-    </tr>
-";
+row_heading_array(
+    array(
+        tra("Remove?"),
+        tra("Name (ID)"),
+        tra("Total credit"),
+        tra("Recent average credit"),
+    )
+);
 
 $users = BoincUser::enum("teamid=$team->id");
 $ninactive_users = 0;
@@ -54,7 +55,7 @@ foreach($users as $user) {
     $user_expavg_credit = format_credit($user->expavg_credit);
     echo "
         <tr>
-        <td align=center><input type=checkbox name=remove_$ninactive_users value=$user->id>
+        <td><input type=checkbox name=remove_$ninactive_users value=$user->id>
         <td>".user_links($user, BADGE_HEIGHT_MEDIUM)." ($user->id)</td>
         <td>$user_total_credit</td>
         <td>$user_expavg_credit</td>

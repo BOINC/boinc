@@ -59,18 +59,19 @@ if (get_str('action')=="start") {
     //display input that selects reason
     echo "<input type=hidden name=action value=start>";
     echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
-    row1(tra("Are you sure you want to banish %1?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
+    row1(tra("Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
     row2("",
     tra("Select the reason category, optionally write a longer description of why the user should be banished."));
     row2(tra("Category"),
-    "<select name=\"category\">
+    "<select class=\"form-control\" name=\"category\">
     <option value=\"1\">".tra("Obscene")."</option>
     <option value=\"2\">".tra("Flame/Hate mail")."</option>
     <option value=\"3\">".tra("User Request")."</option>
     <option value=\"4\">".tra("Other")."</option>
 </select>");
 row2(tra("Reason")."<br>".tra("Mailed if nonempty"),
-    "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
+    '<textarea name="reason" class="form-control" rows="10"></textarea>'
+);
 
 row2(
     "",

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Standalone utility to set up BOINC security owners, groups, permissions
+// usage:
+// first cd to the dir3ctory containing BOINCManager.app (usually /Applications)
+// then run this application from Terminal
+//
+
 //  SecurityUtility.cpp
 
 #include <sys/param.h>  // for MAXPATHLEN
@@ -23,8 +29,6 @@
 #include <Carbon/Carbon.h>
 
 #include "SetupSecurity.h"
-
-// Standalone utility to set up BOINC security owners, groups, permissions
 
 int main(int argc, char *argv[]) {
     OSStatus            err;

@@ -28,6 +28,8 @@ $format = get_str("format", true);
 $team_id = get_int("team_id", true);
 $team_ids = get_str("team_ids", true);
 
+BoincDb::get(true);
+
 if ($team_id || $team_ids || ($format == 'xml')) {
     require_once ('../inc/xml.inc');
     xml_header();
@@ -103,7 +105,7 @@ if (count($teams)) {
     }
 }
 echo tra(
-    "End of results. %1 If you cannot find the team you are looking for, you may %2create a team%3 yourself.",
+    "End of results. %1 If you cannot find the team you are looking for, you may %2 create a team %3 yourself.",
     "<br>",
     "<a href=team_create_form.php>",
     "</a>"

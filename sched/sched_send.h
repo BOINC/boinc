@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_SEND_
-#define _SCHED_SEND_
+#ifndef BOINC_SCHED_SEND_H
+#define BOINC_SCHED_SEND_H
 
 #include <string.h>
 
@@ -56,7 +56,7 @@ extern const char* find_user_friendly_name(int appid);
 extern bool work_needed(bool);
 extern void send_work_setup();
 extern int effective_ncpus();
-extern int preferred_app_message_index;
+extern int selected_app_message_index;
 extern void update_n_jobs_today();
 extern int nfiles_on_host(WORKUNIT&);
 

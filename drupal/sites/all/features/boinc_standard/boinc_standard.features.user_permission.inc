@@ -493,6 +493,21 @@ function boinc_standard_user_default_permissions() {
     ),
   );
 
+  // Exported permission: upload files
+  $permissions['upload files'] = array(
+    'name' => 'upload files',
+    'roles' => array(
+      '0' => 'administrator',
+      '1' => 'content editor',
+    ),
+  );
+
+  // Exported permission: view uploaded files
+  $permissions['view uploaded files'] = array(
+    'name' => 'view uploaded files',
+    'roles' => array(),
+  );
+
   // Exported permission: use PHP for block visibility
   $permissions['use PHP for block visibility'] = array(
     'name' => 'use PHP for block visibility',

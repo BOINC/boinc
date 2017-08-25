@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __RR_SIM__
-#define __RR_SIM__
+#ifndef BOINC_RR_SIM_H
+#define BOINC_RR_SIM_H
 
 
 extern void rr_simulation();

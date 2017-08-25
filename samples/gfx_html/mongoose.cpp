@@ -2570,6 +2570,7 @@ static int convert_uri_to_file_name(struct connection *conn, char *buf,
   const char *root = conn->server->config_options[DOCUMENT_ROOT];
 #ifndef MONGOOSE_NO_CGI
   const char *cgi_pat = conn->server->config_options[CGI_PATTERN];
+  const size_t cgi_pat_len = strlen(cgi_pat);
   char *p;
 #endif
   const char *uri = conn->mg_conn.uri;
@@ -2611,7 +2612,7 @@ static int convert_uri_to_file_name(struct connection *conn, char *buf,
   for (p = buf + strlen(root) + 2; *p != '\0'; p++) {
     if (*p == '/') {
       *p = '\0';
-      if (mg_match_prefix(cgi_pat, strlen(cgi_pat), buf) > 0 &&
+      if (mg_match_prefix(cgi_pat, cgi_pat_len, buf) > 0 &&
           !stat(buf, st)) {
       DBG(("!!!! [%s]", buf));
         *p = '/';

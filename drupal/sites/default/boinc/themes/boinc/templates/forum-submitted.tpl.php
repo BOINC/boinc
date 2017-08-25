@@ -18,12 +18,12 @@
  */
 ?>
 <?php if ($time): ?>
-  <?php print bts('@time ago', array('@time' => $time)); ?>
+  <?php print bts('@time ago', array('@time' => $time), NULL, 'boinc:forum-post-posted-time-ago'); ?>
   <?php /* print bts(
   '@time ago <br />by !author', array(
     '@time' => $time,
     '!author' => $author,
     )); */ ?>
 <?php else: ?>
-  <?php print bts('n/a'); ?>
+  <?php print bts('n/a', array(), NULL, 'boinc:forum-post-posted-time-not-available'); ?>
 <?php endif; ?>

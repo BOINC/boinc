@@ -31,45 +31,45 @@ function boincteam_forum_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Form elements
   $form['title'] = array(
-    '#title' => bts('Message board title'),
+    '#title' => bts('Message board title', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['title'],
     '#size' => 34,
-    '#description' => bts('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags', array(), NULL, 'boinc:team-form-help'),
   );
   $form['min_time_between_posts'] = array(
-    '#title' => bts('Minimum time between posts'),
+    '#title' => bts('Minimum time between posts', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['min_time_between_posts'],
     '#size' => 12,
-    '#description' => bts('Seconds'),
+    '#description' => bts('seconds', array(), NULL, 'boinc:unit-of-time'),
   );
   $form['min_total_credit_to_post'] = array(
-    '#title' => bts('Minimum total credit to post'),
+    '#title' => bts('Minimum total credit to post', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['min_total_credit_to_post'],
     '#size' => 12,
   );
   $form['min_avg_credit_to_post'] = array(
-    '#title' => bts('Minimum avg credit to post'),
+    '#title' => bts('Minimum avg credit to post', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['min_avg_credit_to_post'],
     '#size' => 12,
   );
   $form['public'] = array(
-    '#title' => bts('Allow public to read board?'),
+    '#title' => bts('Allow public to read board?', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['public'],
   );
   $form['description'] = array(
-    '#title' => bts('Description'),
+    '#title' => bts('Description', array(), NULL, 'boinc:team-forum-create/edit:-1:ignoreoverwrite'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -82,11 +82,11 @@ function boincteam_forum_create_form(&$form_state) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Create message board'),
+    '#value' => bts('Create message board', array(), NULL, 'boinc:team-forum-create/edit'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
   );
   
   $form['#redirect'] = "community/teams/{$account->team}";
@@ -102,28 +102,28 @@ function boincteam_forum_create_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   
   if (!$values['title']) {
-    form_set_error('name', bts('Message board title is required.'));
+    form_set_error('name', bts('Message board title is required.', array(), NULL, 'boinc:team-forum-create/edit'));
   }
   if (!is_numeric($values['min_time_between_posts']) OR
       $values['min_time_between_posts'] < 0) {
     form_set_error('min_time_between_posts',
-      bts('Please set the minimum time required between posts.')
+      bts('Please set the minimum time required between posts.', array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
   if (!is_numeric($values['min_total_credit_to_post']) OR
       $values['min_total_credit_to_post'] < 0) {
     form_set_error('min_total_credit_to_post',
       bts('Please set the minimum total credit that a user'
-        . ' must earn in order to post to this message board.'
-      )
+        . ' must earn in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
     form_set_error('min_avg_credit_to_post',
       bts('Please set the minimum average credit that a user'
-        . ' is required to have in order to post to this message board.'
-      )
+        . ' is required to have in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
 }
@@ -188,45 +188,45 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => bts('yes'), 0 => bts('no')),
+    '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
   
   // Form elements
   $form['title'] = array(
-    '#title' => bts('Message board title'),
+    '#title' => bts('Message board title', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['title'],
     '#size' => 34,
-    '#description' => bts('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags', array(), NULL, 'boinc:team-form-help'),
   );
   $form['min_time_between_posts'] = array(
-    '#title' => bts('Minimum time between posts'),
+    '#title' => bts('Minimum time between posts', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['min_time_between_posts'],
     '#size' => 12,
-    '#description' => bts('Seconds'),
+    '#description' => bts('seconds', array(), NULL, 'boinc:unit-of-time'),
   );
   $form['min_total_credit_to_post'] = array(
-    '#title' => bts('Minimum total credit to post'),
+    '#title' => bts('Minimum total credit to post', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['min_total_credit_to_post'],
     '#size' => 12,
   );
   $form['min_avg_credit_to_post'] = array(
-    '#title' => bts('Minimum avg credit to post'),
+    '#title' => bts('Minimum avg credit to post', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'textfield',
     '#default_value' => $default['min_avg_credit_to_post'],
     '#size' => 12,
   );
   $form['public'] = array(
-    '#title' => bts('Allow public to read board?'),
+    '#title' => bts('Allow public to read board?', array(), NULL, 'boinc:team-forum-create/edit'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['public'],
   );
   $form['description'] = array(
-    '#title' => bts('Description'),
+    '#title' => bts('Description', array(), NULL, 'boinc:team-forum-create/edit:-1:ignoreoverwrite'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -239,11 +239,11 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Save message board'),
+    '#value' => bts('Save message board', array(), NULL, 'boinc:team-forum-create/edit'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/forum', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/forum', TRUE)) . '</li>'
   );
   
   $form['#redirect'] = "community/teams/{$boincteam_forum->nid}";
@@ -259,28 +259,28 @@ function boincteam_forum_edit_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   
   if (!$values['title']) {
-    form_set_error('name', bts('Message board title is required.'));
+    form_set_error('name', bts('Message board title is required.', array(), NULL, 'boinc:team-forum-create/edit'));
   }
   if (!is_numeric($values['min_time_between_posts']) OR
       $values['min_time_between_posts'] < 0) {
     form_set_error('min_time_between_posts', 
-      bts('Please set the minimum time required between posts.')
+      bts('Please set the minimum time required between posts.', array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
   if (!is_numeric($values['min_total_credit_to_post']) OR
       $values['min_total_credit_to_post'] < 0) {
     form_set_error('min_total_credit_to_post',
       bts('Please set the minimum total credit that a user'
-        . ' must earn in order to post to this message board.'
-      )
+        . ' must earn in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
     form_set_error('min_avg_credit_to_post', 
       bts('Please set the minimum average credit that a user'
-        . ' is required to have in order to post to this message board.'
-      )
+        . ' is required to have in order to post to this message board.',
+        array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
 }

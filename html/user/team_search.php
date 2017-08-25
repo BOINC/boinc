@@ -42,7 +42,7 @@ function merge_lists($list1, &$list2, $weight) {
     }
 }
 
-function compare($t1, $t2) {
+function compare_teams($t1, $t2) {
     if ($t1->refcnt > $t2->refcnt) return -1;
     if ($t1->refcnt < $t2->refcnt) return 1;
     if ($t1->rnd > $t2->rnd) return -1;
@@ -56,7 +56,7 @@ function sort_list(&$list) {
     foreach ($list as $a=>$b) {
         $b->rnd = rand();
     }
-    usort($list, 'compare');
+    usort($list, 'compare_teams');
 }
 
 function get_teams($clause, $active) {
@@ -70,26 +70,28 @@ function get_teams($clause, $active) {
 }
 
 function show_list($list) {
-    start_table();
-    echo "
-        <tr>
-        <th>".tra("Team name")."</th>
-    ";
+    start_table('table-striped');
+    $x = array();
+    $a = array();
+    $x[] = tra("Team name");
+    $a[] = null;
     if (defined("SHOW_NONVALIDATED_TEAMS")) {
-        echo "<th>Validated?</th>\n";
+        $x[] = tra("Validated?");
+        $a[] = null;
     }
-    echo "
-        <th>".tra("Description")."</th>
-        <th>".tra("Average credit")."</th>
-        <th>".tra("Type")."</th>
-        <th>".tra("Country")."</th>
-        </tr>
-    ";
-    $i = 0;
+    $x[] = tra("Description");
+    $a[] = null;
+    $x[] = tra("Average credit");
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("Type");
+    $a[] = null;
+    $x[] = tra("Country");
+    $a[] = null;
+    row_heading_array($x, $a);
+
     foreach ($list as $team) {
         $type = team_type_name($team->type);
-        $j = $i++ % 2;
-        echo "<tr class=row$j>
+        echo "<tr>
             <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
         ";
         if (defined("SHOW_NONVALIDATED_TEAMS")) {
@@ -100,7 +102,7 @@ function show_list($list) {
         }
         echo "
             <td><p class=\"text-muted\">".sanitize_html($team->description)."</p></td>
-            <td>".format_credit($team->expavg_credit)."</td>
+            <td align=right>".format_credit($team->expavg_credit)."</td>
             <td>$type</td>
             <td>$team->country</td>
             </tr>
@@ -114,13 +116,13 @@ function show_teams_html($list, $params) {
     if (sizeof($list) == 0) {
         echo tra("No teams were found matching your criteria. Try another search.")
             ."<p>"
-            .tra("Or you can %1create a new team%2.", "<a href=team_create_form.php>", "</a>")
+            .tra("Or you can %1 create a new team %2.", "<a href=team_create_form.php>", "</a>")
             ."</p>\n";
         team_search_form($params);
     } else {
         echo tra("The following teams match one or more of your search criteria.
             To join a team, click its name to go to the team page,
-               then click %1Join this team%2.", "<strong>", "</strong>")
+               then click %1 Join this team %2.", "<strong>", "</strong>")
             ."<p>
         ";
         sort_list($list);
@@ -198,7 +200,7 @@ if ($submit || $xml) {
         show_teams_html($list, $params);
     }
 } else {
-    page_head(tra("Find a team"), 'document.form.keywords.focus()');
+    page_head(tra("Find a team"), 'onload="document.form.keywords.focus()"');
     echo tra("You can team up with other people with similar interests, or from the same country, company, or school.")
         ."<p>"
         .tra("Use this form to find teams that might be right for you.")
@@ -206,7 +208,10 @@ if ($submit || $xml) {
     team_search_form(null);
     if (isset($_COOKIE['init'])) {
         echo "<p>
-            ".tra("%1I'm not interested%2 in joining a team right now.", "<a href=home.php>", "</a>");
+            ".tra("%1 I'm not interested %2 in joining a team right now.",
+                sprintf('<a href="%s">', USER_HOME),
+                "</a>"
+            );
     }
     page_tail();
 }

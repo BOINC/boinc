@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4706)
+#endif
+
 #ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
 
 const char *MachineStateToName(MachineState State) 
@@ -286,7 +290,6 @@ int VBOX_VM::create_vm() {
     HRESULT rc;
     char buf[256];
     APP_INIT_DATA aid;
-    CComBSTR vm_machine_uuid;
     CComPtr<IMachine> pMachineRO;
     CComPtr<IMachine> pMachine;
     CComPtr<ISession> pSession;
@@ -407,10 +410,10 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's Boot Options
     //
     vboxlog_msg("Setting Boot Options for VM.");
-    rc = pMachine->SetBootOrder(1, DeviceType_HardDisk);
+    rc = pMachine->SetBootOrder(boot_iso ? 2 : 1, DeviceType_HardDisk);
     if (CHECK_ERROR(rc)) goto CLEANUP;
     
-    rc = pMachine->SetBootOrder(2, DeviceType_DVD);
+    rc = pMachine->SetBootOrder(boot_iso ? 1 : 2, DeviceType_DVD);
     if (CHECK_ERROR(rc)) goto CLEANUP;
 
     pMachine->SetBootOrder(3, DeviceType_Null);
@@ -903,7 +906,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     CComPtr<IProgress> pProgress;
     CComPtr<IBandwidthControl> pBandwidthControl;
     CComPtr<ISnapshot> pRootSnapshot;
-    std::vector<CComPtr<IMedium>> clean_mediums;
     std::vector<CComPtr<IMedium>> mediums;
     std::vector<std::string> snapshots;
     DeviceType device_type; 
@@ -940,15 +942,16 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             //
             rc = pMachine->FindSnapshot(CComBSTR(""), &pRootSnapshot);
             if (SUCCEEDED(rc) && pRootSnapshot) {
-                TraverseSnapshots(string(""), snapshots, pRootSnapshot);
+                string s = string("");
+                TraverseSnapshots(s, snapshots, pRootSnapshot);
             }
             if (snapshots.size()) {
                 for (size_t i = 0; i < snapshots.size(); i++) {
                     CComPtr<IProgress> pProgress;
-#ifdef _VIRTUALBOX50_
-                    rc = pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
                     rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#else
+                    rc = pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
 #endif
                     if (SUCCEEDED(rc)) {
                         pProgress->WaitForCompletion(-1);
@@ -1435,10 +1438,7 @@ int VBOX_VM::stop() {
     vboxlog_msg("Stopping VM.");
     if (online) {
 
-#ifdef _VIRTUALBOX50_
-        rc = m_pPrivate->m_pMachine->SaveState(&pProgress);
-        if (CHECK_ERROR(rc)) goto CLEANUP;
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
         CComPtr<IConsole> pConsole;
         // Get console object. 
         rc = m_pPrivate->m_pSession->get_Console(&pConsole);
@@ -1446,6 +1446,9 @@ int VBOX_VM::stop() {
 
         // Save the state of the machine.
         rc = pConsole->SaveState(&pProgress);
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+#else
+        rc = m_pPrivate->m_pMachine->SaveState(&pProgress);
         if (CHECK_ERROR(rc)) goto CLEANUP;
 #endif
 
@@ -1602,6 +1605,83 @@ CLEANUP:
     return retval;
 }
 
+
+int VBOX_VM::capture_screenshot() {
+    if (enable_screenshots_on_error) {
+
+#if defined(_VIRTUALBOX50_) || defined(_VIRTUALBOX51_)
+
+        int retval = ERR_EXEC;
+        ULONG width, height, bpp;
+        LONG xOrigin, yOrigin;
+	    GuestMonitorStatus monitorStatus;
+        string virtual_machine_slot_directory;
+	    string screenshot_location;
+        HRESULT rc;
+	    FILE* f = NULL;
+        SAFEARRAY* pScreenshot = NULL;
+        CComSafeArray<BYTE> aScreenshot;
+        CComPtr<IConsole> pConsole;
+        CComPtr<IDisplay> pDisplay;
+        CComPtr<IKeyboard> pKeyboard;
+
+        get_slot_directory(virtual_machine_slot_directory);
+
+        vboxlog_msg("Capturing screenshot.");
+
+        rc = m_pPrivate->m_pSession->get_Console(&pConsole);
+        if (CHECK_ERROR(rc)) {
+        } else {
+            rc = pConsole->get_Display(&pDisplay);
+            if (CHECK_ERROR(rc)) {
+            } else {
+                // Due to a recently fixed bug in VirtualBox we are going to attempt to prevent receiving garbage
+                // by waking up the console.  We'll attempt to virtually tap the 'spacebar'.
+                rc = pConsole->get_Keyboard(&pKeyboard);
+                if (CHECK_ERROR(rc)) {
+                } else {
+                    pKeyboard->PutScancode(0x39);
+                    boinc_sleep(1);
+                }
+
+			    rc = pDisplay->GetScreenResolution(0, &width, &height, &bpp, &xOrigin, &yOrigin, &monitorStatus);
+			    if (CHECK_ERROR(rc)) {
+			    } else {
+                    vboxlog_msg("Retrieving screenshot from VirtualBox.");
+				    rc = pDisplay->TakeScreenShotToArray(0, width, height, BitmapFormat_PNG, &pScreenshot);
+				    if (SUCCEEDED(rc)) {
+					    aScreenshot.Attach(pScreenshot);
+
+                        vboxlog_msg("Writing screenshot to disk.");
+
+					    screenshot_location = virtual_machine_slot_directory;
+					    screenshot_location += "/";
+					    screenshot_location += SCREENSHOT_FILENAME;
+
+					    f = fopen(screenshot_location.c_str(), "wb");
+					    if (f) {
+						    fwrite(aScreenshot.GetSafeArrayPtr(), sizeof(BYTE), aScreenshot.GetCount(), f);
+						    fclose(f);
+					    } else {
+                            vboxlog_msg("Failed to write screenshot to disk.");
+					    }
+				    } else {
+                        vboxlog_msg("Failed to retrieving screenshot from VirtualBox.");
+                    }
+			    }
+
+		    }
+	    }
+
+        vboxlog_msg("Screenshot completed.");
+
+#endif
+
+    }
+	return 0;
+}
+
+
 int VBOX_VM::create_snapshot(double elapsed_time) {
     int retval = ERR_EXEC;
     char buf[256];
@@ -1619,16 +1699,8 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     // Create new snapshot
     sprintf(buf, "%d", (int)elapsed_time);
-#ifdef _VIRTUALBOX50_
-    CComBSTR strUUID;
-    rc = m_pPrivate->m_pMachine->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), true, &strUUID, &pProgress);
-    if (CHECK_ERROR(rc)) {
-    } else {
-        rc = pProgress->WaitForCompletion(-1);
-        if (CHECK_ERROR(rc)) {
-        }
-    }
-#else
+
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (CHECK_ERROR(rc)) {
     } else {
@@ -1638,6 +1710,15 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
             rc = pProgress->WaitForCompletion(-1);
             if (CHECK_ERROR(rc)) {
             }
+        }
+    }
+#else
+    CComBSTR strUUID;
+    rc = m_pPrivate->m_pMachine->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), true, &strUUID, &pProgress);
+    if (CHECK_ERROR(rc)) {
+    } else {
+        rc = pProgress->WaitForCompletion(-1);
+        if (CHECK_ERROR(rc)) {
         }
     }
 #endif
@@ -1698,11 +1779,10 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
             CComPtr<IProgress> pProgress;
 
             vboxlog_msg("Deleting stale snapshot.");
-
-#ifdef _VIRTUALBOX50_
-            rc = m_pPrivate->m_pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
             rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#else
+            rc = m_pPrivate->m_pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
 #endif
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
@@ -1747,10 +1827,10 @@ int VBOX_VM::restore_snapshot() {
         rc = pMachine->get_CurrentSnapshot(&pSnapshot);
         if (SUCCEEDED(rc)) {
             vboxlog_msg("Restore from previously saved snapshot.");
-#ifdef _VIRTUALBOX50_
-            rc = pMachine->RestoreSnapshot(pSnapshot, &pProgress);
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
             rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
+#else
+            rc = pMachine->RestoreSnapshot(pSnapshot, &pProgress);
 #endif
             if (CHECK_ERROR(rc)) goto CLEANUP;
 
@@ -1818,7 +1898,7 @@ int VBOX_VM::is_registered() {
     return retval;
 }
 
-bool VBOX_VM::is_system_ready(std::string& message) {
+bool VBOX_VM::is_system_ready(std::string& ) {
     return true;
 }
 

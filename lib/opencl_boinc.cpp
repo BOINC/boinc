@@ -43,6 +43,7 @@
 
 #include "opencl_boinc.h"
 
+#ifndef _USING_FCGI_
 void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) {
     f.printf(
         "   <%s>\n"
@@ -108,6 +109,7 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
     }
     f.printf("   </%s>\n", tag);
 }
+#endif
 
 int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
     int n;
@@ -306,10 +308,11 @@ void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
 // this is here to take advantage of the other OpenCL code.
 void OPENCL_CPU_PROP::clear() {
     platform_vendor[0] = 0;
-    memset(&opencl_prop, 0, sizeof(opencl_prop));
+    opencl_prop.clear();
 }
 
 void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {
+#ifndef _USING_FCGI_
     f.printf(
         "<opencl_cpu_prop>\n"
         "   <platform_vendor>%s</platform_vendor>\n",
@@ -317,6 +320,7 @@ void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {
     );
     opencl_prop.write_xml(f, "opencl_cpu_info");
     f.printf("</opencl_cpu_prop>\n");
+#endif
 }
 
 int OPENCL_CPU_PROP::parse(XML_PARSER& xp) {

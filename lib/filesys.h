@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _FILESYS_
-#define _FILESYS_
+#ifndef BOINC_FILESYS_H
+#define BOINC_FILESYS_H
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #include "boinc_win.h"
@@ -43,34 +43,44 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  extern int boinc_delete_file(const char*);
-  extern int boinc_touch_file(const char *path);
-  extern FILE* boinc_fopen(const char* path, const char* mode);
-    // like fopen(), except:
-    // retry a few times on failure
-    // Unix: set close-on-exec flag
-  extern int boinc_copy(const char* orig, const char* newf);
-  extern int boinc_rename(const char* old, const char* newf);
-  extern int boinc_mkdir(const char*);
+    extern int boinc_delete_file(const char*);
+    extern int boinc_touch_file(const char *path);
+    extern FILE* boinc_fopen(const char* path, const char* mode);
+        // like fopen(), except:
+        // retry a few times on failure
+        // Unix: set close-on-exec flag
+    extern int boinc_copy(const char* orig, const char* newf);
+    extern int boinc_rename(const char* old, const char* newf);
+    extern int boinc_mkdir(const char*);
 #ifdef _WIN32
-  extern int boinc_allocate_file(const char*, double size);
+    extern int boinc_allocate_file(const char*, double size);
 #else
-  extern int boinc_copy_attributes(const char* orig, const char* newf);
-  extern int boinc_chown(const char*, gid_t);
+    extern int boinc_copy_attributes(const char* orig, const char* newf);
+    extern int boinc_chown(const char*, gid_t);
 #endif
-  extern int boinc_rmdir(const char*);
-  extern void boinc_getcwd(char*);
-  extern void relative_to_absolute(const char* relname, char* path);
-  extern int boinc_make_dirs(const char*, const char*);
-  extern char boinc_failed_file[MAXPATHLEN];
-  extern int is_file(const char* path);
-  extern int is_dir(const char* path);
-  extern int is_file_follow_symlinks(const char* path);
-  extern int is_dir_follow_symlinks(const char* path);
-  extern int is_symlink(const char* path);
-  extern int boinc_truncate(const char*, double);
-  extern int boinc_file_exists(const char* path);
-  extern int boinc_file_or_symlink_exists(const char* path);
+    extern int boinc_rmdir(const char*);
+    extern void boinc_getcwd(char*);
+    extern void relative_to_absolute(const char* relname, char* path);
+    extern int boinc_make_dirs(const char*, const char*);
+    extern char boinc_failed_file[MAXPATHLEN];
+    extern int is_file(const char* path);
+    extern int is_dir(const char* path);
+    extern int is_file_follow_symlinks(const char* path);
+    extern int is_dir_follow_symlinks(const char* path);
+    extern int is_symlink(const char* path);
+    extern int boinc_truncate(const char*, double);
+    extern int boinc_file_exists(const char* path);
+    extern int boinc_file_or_symlink_exists(const char* path);
+#ifdef _WIN32
+    extern FILE* boinc_temp_file(
+        const char* dir, const char* prefix, char* temp_path, double size
+    );
+#else
+    extern FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path);
+#endif
+    extern void boinc_path_to_dir(const char* path, char* dir);
+        // given a file path, get path of its directory
+        // (i.e. remove the last / and what follows)
 
 #ifdef __cplusplus
 }

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_ATTACH_H_
-#define _WIZ_ATTACH_H_
+#ifndef BOINC_WIZARDATTACH_H
+#define BOINC_WIZARDATTACH_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "WizardAttach.cpp"
@@ -378,4 +378,4 @@ public:
     wxString            m_strCookieFailureURL;
 };
 
-#endif // _WIZ_ATTACH_H_
+#endif

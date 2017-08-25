@@ -123,11 +123,9 @@ try {
                 exit();
             }
             
-            $postal_code = '';
-            
             $user = make_user(
                 $new_email_addr, $new_name, $passwd_hash,
-                $country, $postal_code, $project_prefs="", $teamid=0
+                $country, '', $project_prefs="", $teamid=0
             );
             if (!$user) {
                 show_error("Couldn't create account");
@@ -148,7 +146,7 @@ try {
         if ($next_url) {
             Header("Location: ".url_base()."$next_url");
         } else {
-            Header("Location: ".url_base()."home.php");
+            Header("Location: ".url_base().USER_HOME);
             send_cookie('init', "1", true);
             send_cookie('via_web', "1", true);
         }

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef H_CRYPT
-#define H_CRYPT
+#ifndef BOINC_CRYPT_H
+#define BOINC_CRYPT_H
 
 // We're set up to use either RSAEuro or the OpenSSL crypto library.
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
@@ -25,6 +25,11 @@
 #include <cstdio>
 
 #include <openssl/rsa.h>
+
+#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) /* OpenSSL 1.1.0+ */
+#define HAVE_OPAQUE_EVP_PKEY 1 /* since 1.1.0 -pre3 */
+#define HAVE_OPAQUE_RSA_DSA_DH 1 /* since 1.1.0 -pre5 */
+#endif
 
 #define MAX_RSA_MODULUS_BITS 1024
 #define MAX_RSA_MODULUS_LEN ((MAX_RSA_MODULUS_BITS + 7) / 8)

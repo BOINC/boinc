@@ -31,18 +31,26 @@ redirect_to_secure_url("create_account_form.php?next_url=$next_url");
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
-    error_page("This project is not accepting new accounts");
+    error_page("This project has disabled account creation");
 }
 
 if (parse_bool($config, "no_web_account_creation")) {
     error_page("This project has disabled Web account creation");
 }
 
-page_head(tra("Create an account"), null, null, null, boinc_recaptcha_get_head_extra());
+page_head(
+    tra("Create account"), null, null, null, boinc_recaptcha_get_head_extra()
+);
 
-if (!no_computing()) {
-    echo "<p>
-        <b>".tra("NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, select Add Project, and enter an email address and password.")."</b></p>
+if (!NO_COMPUTING) {
+    echo "<p class=\"lead\">"
+        .tra(
+            "If you already have an account and want to run %1 on this computer, %2 go here %3.",
+            PROJECT,
+            '<a href=join.php>',
+            '</a>'
+        )
+        ."</p>
     ";
 }
 
@@ -58,7 +66,13 @@ if ($teamid) {
     }
 }
 
+form_start("create_account_action.php","post");
 create_account_form($teamid, $next_url);
+if ($recaptcha_public_key) {
+    form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+}
+form_submit(tra("Create account"));
+form_end();
 
 page_tail();
 

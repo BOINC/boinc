@@ -9,7 +9,7 @@ $item = $_GET['item'];
 function show_item($y) {
     $d = gmdate("g:i A \U\T\C, F d Y", $y[7]);
     $file = $y[0];
-    if (strstr($file, 'http://')) {
+    if (strstr($file, 'http://') || strstr($file, 'https://')) {
         $url = $file;
     } else {
         $url = "https://boinc.berkeley.edu/addons/$file";

@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_VBOXMANAGE_H_
-#define _VBOX_VBOXMANAGE_H_
+#ifndef BOINC_VBOX_VBOXMANAGE_H
+#define BOINC_VBOX_VBOXMANAGE_H
 
 namespace vboxmanage {
 
@@ -39,6 +39,7 @@ namespace vboxmanage {
         int poweroff();
         int pause();
         int resume();
+	    int capture_screenshot();
         int create_snapshot(double elapsed_time);
         int cleanup_snapshots(bool delete_active);
         int restore_snapshot();

@@ -34,10 +34,9 @@ function show_batch($user) {
     }
     page_head("Batch $batch->id");
     $results = BoincResult::enum("batch=$batch->id order by workunitid");
-    $i = 0;
     result_table_start(true, true, null);
     foreach ($results as $result) {
-        show_result_row($result, true, true, true, $i++);
+        show_result_row($result, true, true, true);
     }
     end_table();
     page_tail();

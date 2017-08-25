@@ -37,6 +37,7 @@ if (LDAP_HOST && $ldap_auth) {
     $passwd = get_str("passwd");
     list ($ldap_user, $error_msg) = ldap_auth($ldap_uid, $passwd);
     if ($error_msg) {
+        sleep(LOGIN_FAIL_SLEEP_SEC);
         xml_error(ERR_BAD_USER_NAME, $error_msg);
     }
     $x = ldap_email_string($ldap_uid);
@@ -55,6 +56,7 @@ if (LDAP_HOST && $ldap_auth) {
     $email_addr = BoincDb::escape_string($email_addr);
     $user = BoincUser::lookup("email_addr='$email_addr'");
     if (!$user) {
+        sleep(LOGIN_FAIL_SLEEP_SEC);
         xml_error(ERR_DB_NOT_FOUND);
     }
 
@@ -77,6 +79,7 @@ if (LDAP_HOST && $ldap_auth) {
     // if the given password hash matches (auth+email), accept it
     //
     if ($user->passwd_hash != $passwd_hash && $auth_hash != $passwd_hash) {
+        sleep(LOGIN_FAIL_SLEEP_SEC);
         xml_error(ERR_BAD_PASSWD);
     }
 }

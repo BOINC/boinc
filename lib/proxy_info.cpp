@@ -39,9 +39,11 @@ int PROXY_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_int("http_server_port", http_server_port)) continue;
         if (xp.parse_str("socks5_user_name", socks5_user_name,sizeof(socks5_user_name))) continue;
         if (xp.parse_str("socks5_user_passwd", socks5_user_passwd,sizeof(socks5_user_passwd))) continue;
+        if (xp.parse_bool("socks5_remote_dns", socks5_remote_dns)) continue;
         if (xp.parse_str("http_user_name", http_user_name,sizeof(http_user_name))) continue;
         if (xp.parse_str("http_user_passwd", http_user_passwd,sizeof(http_user_passwd))) continue;
         if (xp.parse_str("no_proxy", noproxy_hosts, sizeof(noproxy_hosts))) continue;
+        if (xp.parse_bool("no_autodetect", no_autodetect)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -72,9 +74,11 @@ int PROXY_INFO::write(MIOFILE& out) {
         "    <http_server_port>%d</http_server_port>\n"
         "    <socks5_user_name>%s</socks5_user_name>\n"
         "    <socks5_user_passwd>%s</socks5_user_passwd>\n"
+        "    <socks5_remote_dns>%d</socks5_remote_dns>\n"
         "    <http_user_name>%s</http_user_name>\n"
         "    <http_user_passwd>%s</http_user_passwd>\n"
-        "    <no_proxy>%s</no_proxy>\n",
+        "    <no_proxy>%s</no_proxy>\n"
+        "    <no_autodetect>%d</no_autodetect>\n",
         use_http_proxy?"    <use_http_proxy/>\n":"",
         use_socks_proxy?"    <use_socks_proxy/>\n":"",
         use_http_auth?"    <use_http_auth/>\n":"",
@@ -84,9 +88,11 @@ int PROXY_INFO::write(MIOFILE& out) {
         http_server_port,
         s5un,
         s5up,
+        socks5_remote_dns?1:0,
         hun,
         hup,
-        noproxy_hosts
+        noproxy_hosts,
+        no_autodetect?1:0
     );
     if (strlen(autodetect_server_name)) {
         out.printf(
@@ -116,9 +122,11 @@ void PROXY_INFO::clear() {
     http_server_port = 80;
     safe_strcpy(socks5_user_name, "");
     safe_strcpy(socks5_user_passwd, "");
+    socks5_remote_dns = false;
     safe_strcpy(http_user_name, "");
     safe_strcpy(http_user_passwd, "");
     safe_strcpy(noproxy_hosts, "");
+    no_autodetect = false;
     safe_strcpy(autodetect_server_name, "");
     autodetect_proxy_supported = false;
     need_autodetect_proxy_settings = false;
@@ -126,4 +134,3 @@ void PROXY_INFO::clear() {
     autodetect_port = 80;
     autodetect_protocol = 0;
 }
-

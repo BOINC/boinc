@@ -195,13 +195,13 @@ $net_prefs = array(
         tra("Limit download rate to"),
         tra("Limit the download rate of file transfers."),
         "max_bytes_sec_down",
-        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1024, 100)
     ),
     new PREF_OPT_NUM(
         tra("Limit upload rate to"),
         tra("Limit the upload rate of file transfers."),
         "max_bytes_sec_up",
-        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1024, 100)
     ),
     new PREF_NUM2(
         tra("Limit usage to"),
@@ -247,7 +247,7 @@ define("NETWORK_LIMIT_DESC", tra("Network"));
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
 define("PREFS_FORM_ERROR_DESC",
     tra(
-        "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.",
+        "%1 Unable to update preferences. %2 The values marked in red below were out of range or not numeric.",
         "<strong>",
         "</strong>"
     ).
@@ -292,7 +292,7 @@ function get_disk_space_config() {
 }
 
 function group_header($t) {
-    echo "<tr><th class=subheading>$t</th><td colspan=4><br></td></tr>\n";
+    echo "<tr><th class=\"bg-info\">$t</th><td class=\"bg-info\" colspan=4><br></td></tr>\n";
 }
 
 // functions to parse preferences XML into a struct
@@ -490,9 +490,8 @@ function prefs_display_venue($prefs, $venue, $subset) {
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
     if ($x) {
-        echo "<h2>".tra("Separate preferences for %1", $venue)."</h2>";
-        echo "<tr><td colspan=2>";
         start_table();
+        row_heading(tra("Separate preferences for %1", $venue));
         if ($subset == "global") {
             prefs_show_global($x);
         } else {
@@ -506,7 +505,12 @@ function prefs_display_venue($prefs, $venue, $subset) {
         end_table();
         echo "</td></tr>\n";
     } else {
-        echo "<p><a href=add_venue.php?venue=$venue&subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>";
+        echo "<p>";
+        show_button("add_venue.php?venue=$venue&subset=$subset$tokens>",
+            tra("Add separate preferences for %1", $venue),
+            tra("Add separate preferences for %1", $venue),
+            "btn-primary btn-sm"
+        );
     }
 }
 
@@ -522,21 +526,23 @@ function print_prefs_display_global($user, $columns=false) {
     ";
     $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">".tra("(Switch view)")."</a></font>";
     if ($columns) {
-        echo "<h2>".tra("Combined preferences").$switch_link."</h2>";
+        echo "<h3>".tra("Combined preferences").$switch_link."</h3>";
         start_table();
         prefs_show_columns_global($global_prefs);
         end_table();
 
     } else {
         if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
-            echo "<h2>".tra("Primary (default) preferences").$switch_link."</h2>";
+            echo "<h3>".tra("Primary (default) preferences").$switch_link."</h3>";
         }
         start_table();
         prefs_show_global($global_prefs);
         $tokens = url_tokens($user->authenticator);
         row2("<br>",
-            "<a href=prefs_edit.php?subset=global$tokens>".tra("Edit preferences")."</a>
-        ");
+            button_text("prefs_edit.php?subset=global$tokens",
+                tra("Edit preferences")
+            )
+        );
         end_table();
 
         prefs_display_venue($global_prefs, "home", "global");
@@ -566,7 +572,7 @@ function print_prefs_form(
         $script = "prefs_edit.php";
         $submit_value = tra("Update preferences");
     }
-    echo "<form action=$script><input type=hidden name=subset value=$subset>
+    echo "<form class=\"form-inline\" action=$script><input type=hidden name=subset value=$subset>
         ".form_tokens($user->authenticator);
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";
@@ -587,7 +593,7 @@ function print_prefs_form(
         prefs_form_project_specific($prefs->project_specific, $project_error);
     }
 
-    row2("", "<input class=\"btn btn-primary\" type=submit value=\"$submit_value\" name=\"action\">");
+    row2("", "<input class=\"btn btn-success\" type=submit value=\"$submit_value\" name=\"action\">");
     end_table();
     echo "</form>\n";
 }
@@ -650,8 +656,8 @@ define('VENUE_TOOLTIP', tra('New computers will use this location for computing 
 
 function tooltip_row2($t, $x, $y) {
     echo "<tr title=\"$t\">
-        <td class=fieldname>$x</td>
-        <td>$y</td>
+        <td ".NAME_ATTRS.">$x</td>
+        <td ".VALUE_ATTRS.">$y</td>
         </tr>
     ";
 }
@@ -670,7 +676,7 @@ function venue_form($user) {
     tooltip_row2(
         VENUE_TOOLTIP,
         VENUE_DESC,
-        "<select name=default_venue>
+        "<select class=\"form-control input-sm\" name=default_venue>
         <option value=\"\" $n>---
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
