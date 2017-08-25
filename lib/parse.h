@@ -351,7 +351,7 @@ extern int copy_stream(FILE* in, FILE* out);
 extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
 extern int dup_element(FILE* in, const char* end_tag, char** pp);
-extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len);
+extern int copy_element_contents(FILE* in, const char* end_tag, char* p, size_t len);
 extern int copy_element_contents(FILE* in, const char* end_tag, std::string&);
 extern void replace_element_contents(
     char* buf, const char* start, const char* end, const char* replacement
