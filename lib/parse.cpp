@@ -163,90 +163,42 @@ int strcatdup(char*& p, char* buf) {
 // Does NOT copy the start and end tags.
 //
 int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
-    char line[256];
-    int bufsize = 4000000;
-    int nused=0;        // not counting ending NULL
-    char* buf = (char*)malloc(bufsize);
-
-    // Start with a big buffer.
-    // When done, copy to an exact-size buffer
-    //
-    while (fgets(line, 256, in)) {
-        if (strstr(line, end_tag)) {
-            *pp = (char*)malloc(nused+1);
-            strcpy(*pp, buf);
-            free(buf);
-            return 0;
-        }
-        int n = (int)strlen(line);
-        if (nused + n >= bufsize) {
-            bufsize *= 2;
-            char *b = buf;
-            buf = (char*)realloc(b, bufsize);
-            if (!buf) {
-                free(b);
-                return ERR_XML_PARSE;
-            }
-        }
-        strcpy(buf+nused, line);
-        nused += n;
-    }
-    free(buf);
-    return ERR_XML_PARSE;
+    string buf;
+    int retval = copy_element_contents(in, end_tag, buf);
+    if (retval) return retval;
+    *pp = strdup(buf.c_str());
+    return 0;
 }
 
 int dup_element(FILE* in, const char* tag_name, char** pp) {
-    char buf[256], end_tag[256];
-    int retval;
+    char start_tag[256], end_tag[256];
+    string buf, buf2;
 
-    snprintf(buf, sizeof(buf), "<%s>\n", tag_name);
+    snprintf(start_tag, sizeof(start_tag), "<%s>\n", tag_name);
     snprintf(end_tag, sizeof(end_tag), "</%s>", tag_name);
 
-    char* p = strdup(buf);
-    while (fgets(buf, 256, in)) {
-        if (strstr(buf, end_tag)) {
-            snprintf(buf, sizeof(buf), "</%s>\n", tag_name);
-            retval = strcatdup(p, buf);
-            if (retval) {
-                free(p);
-                return retval;
-            }
-            *pp = p;
-            return 0;
-        }
-        retval = strcatdup(p, buf);
-        if (retval) {
-            free(p);
-            return retval;
-        }
-    }
-    free(p);
-    return ERR_XML_PARSE;
+    int retval = copy_element_contents(in, end_tag, buf);
+    if (retval) return retval;
+    buf2 = start_tag + buf + end_tag;
+    *pp = strdup(buf2.c_str());
+    return 0;
 }
 
-// copy from a file to static buffer
+// copy input up to but not including end tag, to a char array
 //
-int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
-    char buf[256];
-    int n;
-    int retval = 0;
-
-    strcpy(p, "");
-    while (fgets(buf, 256, in)) {
-        if (strstr(buf, end_tag)) {
-            return retval;
-        }
-        n = (int)strlen(buf);
-        if (n >= len-1) {
-            retval = ERR_XML_PARSE;
-            continue;
-        }
-        strcat(p, buf);
-        len -= n;
+int copy_element_contents(FILE* in, const char* end_tag, char* p, size_t len) {
+    string buf;
+    int retval = copy_element_contents(in, end_tag, buf);
+    if (retval) return retval;
+    if (buf.size() > len-1) {
+        return ERR_BUFFER_OVERFLOW;
     }
-    return ERR_XML_PARSE;
+    strlcpy(p, buf.c_str(), len);
+    return 0;
 }
 
+// copy input up to but not including end tag, to a string
+//
 int copy_element_contents(FILE* in, const char* end_tag, string& str) {
     int c;
     size_t end_tag_len = strlen(end_tag);
@@ -476,6 +428,7 @@ void xml_unescape(char* buf) {
     *out = 0;
 }
 
+#if 0
 // we got an unrecognized line.
 // If it has two <'s (e.g. <foo>xx</foo>) return 0.
 // If it's of the form <foo/> return 0.
@@ -507,6 +460,7 @@ int skip_unrecognized(char* buf, MIOFILE& fin) {
     }
     return ERR_XML_PARSE;
 }
+#endif
 
 XML_PARSER::XML_PARSER(MIOFILE* _f) {
     strcpy(parsed_tag, "");
