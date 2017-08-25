@@ -256,15 +256,16 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
-        if (n >= end_tag_len) {
-            const char* p = str.c_str() + n - end_tag_len;
-            if (!strcmp(p, end_tag)) {
-                str.erase(n-end_tag_len, end_tag_len);
-                return 0;
-            }
-        }
         str += c;
         n++;
+        if (n < end_tag_len) {
+            continue;
+        }
+        const char* p = str.c_str() + n - end_tag_len;
+        if (!strcmp(p, end_tag)) {
+            str.erase(n-end_tag_len, end_tag_len);
+            return 0;
+        }
     }
     return ERR_XML_PARSE;
 }
