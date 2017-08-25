@@ -1292,12 +1292,6 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
           bts('At least one application must be selected', array(), NULL, 'boinc:account-preferences-project')
         );
       }
-      if ($apps_selected == count($validation_rules['apps']['list'])) {
-        foreach ($validation_rules['apps']['list'] as $app) {
-          unset($form_state['values']['applications'][$app]);
-        }
-        $form_state['storage']['all apps selected'] = TRUE;
-      }
     }
   }
 }
@@ -1339,12 +1333,6 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
     'project_specific' => boincwork_format_project_specific_prefs_data($edit)
   );
   $prefs = $updated_prefs + $prefs;
-  
-  // Don't specify apps if all are selected
-  if (isset($form_state['storage']['all apps selected'])) {
-    unset($prefs['project_specific']['app_id']);
-    unset($form_state['storage']['all apps selected']);
-  }
   
   // If this is a new preference set, be sure to unset the "cleared" attribute
   if (isset($prefs['@attributes']['cleared'])) {
