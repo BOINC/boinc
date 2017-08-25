@@ -6,13 +6,14 @@
 # Frans Ingelstam <02frasse11@gmail.com>, 2016
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
 # Johan Holmström, 2016
+# Josef Andersson <josef.andersson@fripost.org>, 2017
 # Urban Berggren <pudberggren@icloud.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-10-10 12:10+0000\n"
-"Last-Translator: Johan Holmström\n"
+"PO-Revision-Date: 2017-08-03 11:47+0000\n"
+"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +69,7 @@ msgid ""
 "project. Example: if you participate in two BOINC projects with resource "
 "shares of 100 and 200, the first will get 1/3 of your resources and the "
 "second will get 2/3."
-msgstr "Används för att avgöra resurstilldelningen till detta projekt. Exempel: Om du deltar i två BOINC projekt med resursfördelningarna 100 och 200, då kommer det först projektet att tilldelas 1/3 av resurserna och det andra projektet kommer att få 2/3 av resurserna."
+msgstr "Används för att avgöra resurstilldelningen till detta projekt. Exempel: Om du deltar i två BOINC-projekt med resursfördelningarna 100 och 200, då kommer det först projektet att tilldelas 1/3 av resurserna och det andra projektet kommer att få 2/3 av resurserna."
 
 msgid "Use CPU"
 msgstr "Använd CPU"
@@ -89,7 +90,7 @@ msgid "Beta settings"
 msgstr "Beta inställningar"
 
 msgid "Run test applications?"
-msgstr "Använd test applikationer?"
+msgstr "Använd testapplikationer?"
 
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
@@ -298,7 +299,7 @@ msgid "Location"
 msgstr "Plats"
 
 msgid "While BOINC running, % of time work is allowed"
-msgstr "Medan Boinc körs, % av tiden som arbete är tillåtet"
+msgstr "Medan BOINC körs, % av tiden som arbete är tillåtet"
 
 msgid "Average turnaround time"
 msgstr "Genomsnittlig handläggningstid"
@@ -307,7 +308,7 @@ msgid "Created"
 msgstr "Skapades"
 
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "Medan Boinc körs, % av tiden som enheten har tillgång till Internet"
+msgstr "Medan BOINC körs, % av tiden som enheten har tillgång till Internet"
 
 msgid "Average CPU efficiency"
 msgstr "Genomsnittlig CPU-effektivitet"
@@ -346,7 +347,7 @@ msgid "Maximum daily WU quota per CPU"
 msgstr "Maximal daglig jobbkvot per CPU"
 
 msgid "Average download rate"
-msgstr "Genomsnittlig nedladdningshastighet"
+msgstr "Genomsnittlig hämtningshastighet"
 
 msgid "Average upload rate"
 msgstr "Genomsnittlig uppladdningshastighet"
@@ -355,7 +356,7 @@ msgid "Same IP address count"
 msgstr "Samma IP-adress räknare"
 
 msgid "% of time BOINC client is running"
-msgstr "% av tiden som Boinc körs"
+msgstr "% av tiden som BOINC körs"
 
 msgid "Operating system"
 msgstr "Operativsystem"
@@ -840,7 +841,7 @@ msgstr "Markera alla forum som lästa"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr "CAPTCHA verifierings fel: okänt CAPTCHA sessions ID. Kontakta webbplatsens administratör om problemet kvarstår."
+msgstr "CAPTCHA verifieringsfel: okänt CAPTCHA sessions-ID. Kontakta webbplatsens administratör om problemet kvarstår."
 
 msgid "The answer you entered for the CAPTCHA was not correct."
 msgstr "Svaret du angav för CAPTCHA var inte korrekt."
@@ -1096,7 +1097,7 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "Vänligen vara ansvarig i vad du skriver och skriv inte inlägg som är stötande eller kränkande. Offensiva inlägg eller trådar kan raderas av moderatorerna utan förvarning eller diskussion. Svara inte på offensiva inlägg. Klicka på länken \"rapportera\" längst upp i inlägget att uppmärksamma moderatorerna på det."
+msgstr "Ansvara för vad du skriver och skriv inte inlägg som är stötande eller kränkande. Stötande inlägg eller trådar kan raderas av moderatorerna utan förvarning eller diskussion. Svara inte på stötande inlägg. Klicka på länken \"rapportera\" längst upp i inlägget för att uppmärksamma moderatorerna på det."
 
 msgid "this project"
 msgstr "detta projekt"
@@ -1107,10 +1108,10 @@ msgid ""
 "where you are free to discuss anything relevant to the underlying science. "
 "Participants interested in broader discussions should post to unofficial "
 "forums for @project."
-msgstr "Vi ber också att du håller alla diskussioner i forumet relaterade till @project eller BOINC med det lilla undantaget att i Science forumet kan du fritt diskutera allt som är relevant för den underliggande vetenskapen. Deltagare som är intresserade av bredare diskussioner bör göra det i inofficiella forum för @project."
+msgstr "Vi ber också att du håller diskussioner i forumet till @project eller BOINC med det lilla undantaget att i Science-forumet kan du fritt diskutera allt som är relevant för den underliggande vetenskapen. Deltagare som är intresserade av bredare diskussioner bör göra det i inofficiella forum för @project."
 
 msgid "These message boards now support BBCode tags only."
-msgstr "Detta forum stödjer nu endast BBkod taggar."
+msgstr "Detta forum stödjer nu endast BBkod-taggar."
 
 msgid "Featured"
 msgstr "Utvald"
@@ -1299,13 +1300,13 @@ msgid "Team name"
 msgstr "Lagnamn"
 
 msgid "Text only, no HTML tags"
-msgstr "Endast text, inga HTML taggar"
+msgstr "Endast text, inga HTML-taggar"
 
 msgid "Team name -- HTML version (optional)"
-msgstr "Lagets namn - HTML version (frivilligt)"
+msgstr "Lagets namn - HTML-version (frivilligt)"
 
 msgid "You may use limited HTML tags"
-msgstr "Du kan använda begränsade HTML taggar"
+msgstr "Du kan använda begränsade HTML-taggar"
 
 msgid "Team website (optional)"
 msgstr "Lagets webbplats (frivilligt)"
@@ -1338,7 +1339,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "Om du kör kommandorads-versionen av BOINC,\nanvänd först BOINC Mananger-mjukvaran (eller någon annanstans om nödvändigt) för att skapa ett\nett konto till detta projekt, använd sedan det kontot till att ansluta med\nkommandorad-versionen."
+msgstr "Om du kör kommandoradsversionen av BOINC,\nanvänd först programmet BOINC-hanteraren (någon annanstans om nödvändigt) för att skapa ett\nett konto till detta projekt, använd sedan det kontot till att ansluta med\nkommandoradsversionen."
 
 msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
@@ -1362,7 +1363,7 @@ msgstr "BOINC dokumentation"
 msgid ""
 "Go to the BOINC data directory on your computer (see !boinc_wiki for help "
 "finding this)."
-msgstr "Gå till BOINC data mapp på din dator (se !boinc_wiki för hjälp att hitta mappen)."
+msgstr "Gå till BOINCs datamapp på din dator (se !boinc_wiki för hjälp att hitta mappen)."
 
 msgid ""
 "Find your account file for this project; it will have a name like %file "
@@ -1454,7 +1455,7 @@ msgid "Computer @old_id has been merged successfully into @id."
 msgstr "Dator @old_id har slagits ihop till det nya IDt @id."
 
 msgid "parent removed"
-msgstr "förälder borttagen"
+msgstr "överordnad borttagen"
 
 msgid "Remove"
 msgstr "Ta bort"
@@ -1501,7 +1502,7 @@ msgid "commented on"
 msgstr "gjorde ett inlägg i"
 
 msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Det angivna lösenordet är felaktigt. Vänligen kontroller att det är korrekt."
+msgstr "Det angivna lösenordet är felaktigt. Kontrollera att det är korrekt."
 
 msgid "Minimum value not met for @field"
 msgstr "Minsta värdet är inte uppnått för @field"
@@ -1560,7 +1561,7 @@ msgid "@email is not a well formed email address, please verify"
 msgstr "@email är inte en välformad e-postadress, vänligen kontrollera"
 
 msgid "Please enter your email address"
-msgstr "Vänligen ange din e-postadress"
+msgstr "Ange din e-postadress"
 
 msgid "There is no account with that authenticator."
 msgstr "Det finns inget konto med den verifieraren."
@@ -1593,12 +1594,12 @@ msgid "Cancel friend request"
 msgstr "Avbryt vänförfrågan"
 
 msgid "Please set the minimum time required between posts."
-msgstr "Vänligen ange den minsta tiden som krävs mellan inlägg"
+msgstr "Ange den minsta tiden som krävs mellan inlägg"
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr "Vänligen ange den minsta totala poängen en användare måste ha för att få göra inlägg i forumet."
+msgstr "Ange den minsta totala poängen en användare måste ha för att få göra inlägg i forumet."
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
@@ -1730,7 +1731,7 @@ msgstr "Detta är ett BOINC-övergripande lag. Ändringar kan göras på !site."
 msgid ""
 "A team foundership change was already requested recently. Only one request "
 "is allowed within a period of 90 days."
-msgstr "En teamskapar-ändring har redan efterfrågats nyligen. Bara en efterfrågan är tillåten innom en period av 90 dagar."
+msgstr "En lagskaparändring har redan efterfrågats nyligen. Bara en efterfrågan är tillåten inom en period av 90 dagar."
 
 msgid "@count days remaining"
 msgstr "@count dagar kvar"

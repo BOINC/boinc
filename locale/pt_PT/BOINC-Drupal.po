@@ -3,7 +3,7 @@
 # 
 # Translators:
 # Ivo Micael Frazão Costeira <ivo.frazao95@gmail.com>, 2015
-# Manuela Silva <manuela.silva@sky.com>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016-2017
 # Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2017-01-31 16:45+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2017-08-17 15:18+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Identificação de sessão"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "Tem de ganhar mais @count créditos para poder publicar comentários neste site"
+msgstr "Tem de ganhar mais @count créditos para poder publicar comentários neste site."
 
 msgid "Generic"
 msgstr "Genérico"
@@ -84,7 +84,7 @@ msgid "Use ATI GPU"
 msgstr "Utilizar GPU ATI"
 
 msgid "Use INTEL GPU"
-msgstr "Utilizar CPU INTEL"
+msgstr "Utilizar GPU INTEL"
 
 msgid "Beta settings"
 msgstr "Definições da versão beta"
@@ -122,7 +122,7 @@ msgid "Comment form"
 msgstr "Formulário de comentário"
 
 msgid "Logout"
-msgstr "terminar sessão"
+msgstr "Terminar sessão"
 
 msgid "Join now"
 msgstr "Aderir agora"
@@ -937,7 +937,7 @@ msgstr "ID de autenticação"
 msgid ""
 "Enter your email address to receive instructions for resetting your password"
 " (or use the !authenticator_login)."
-msgstr "Introduza o seu endereço de e-mail para receber instruções para repor a sua palavra-passe (ou utilize o !authenticator_login)."
+msgstr "Insira o seu endereço de e-mail para receber instruções para redefinir a sua palavra-passe (ou utilize o !authenticator_login)."
 
 msgid "Send"
 msgstr "Enviar"
@@ -952,7 +952,7 @@ msgid "Add as friend"
 msgstr "Adicionar como amigo"
 
 msgid "Website"
-msgstr "Website"
+msgstr "Site da Web:"
 
 msgid "Team"
 msgstr "Equipa"
@@ -1309,7 +1309,7 @@ msgid "You may use limited HTML tags"
 msgstr "Pode usar tags HTML limitadas"
 
 msgid "Team website (optional)"
-msgstr "Website da equipa (opcional)"
+msgstr "Site da Web da equipa (opcional)"
 
 msgid "Displayed on the team's page"
 msgstr "Mostrado na página da equipa"

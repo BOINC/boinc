@@ -1,20 +1,21 @@
 # BOINC website localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Frans Ingelstam <02frasse11@gmail.com>, 2016
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
-# Johan Holmström, 2016
+# Johan Holmström, 2016-2017
+# Josef Andersson <josef.andersson@fripost.org>, 2017
 # Urban Berggren <pudberggren@icloud.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-20 12:16+0000\n"
-"Last-Translator: Johan Holmström\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,10 +25,10 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Svenska"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Swedish"
 
 #: doc/account_managers.inc:7
 msgid ""
@@ -43,7 +44,7 @@ msgid ""
 "on public-interest research projects when the machines are not otherwise in "
 "use. This screensaver does not affect performance of the host computer any "
 "more than an ordinary screensaver does."
-msgstr "GridRepublic medlemmar kör en skärmsläckare som låter deras datorer arbeta på allmännyttiga forskningsprojekt när maskinerna inte annars används. Denna skärmsläckare påverkar inte prestanda av värddatorn något mera än en vanlig skärmsläckare."
+msgstr "GridRepublic-medlemmar kör en skärmsläckare som låter deras datorer arbeta på allmännyttiga forskningsprojekt när maskinerna inte annars används. Denna skärmsläckare påverkar inte prestanda av värddatorn mer än en vanlig skärmsläckare."
 
 #: doc/docutil.php:21
 msgid "Search"
@@ -60,88 +61,88 @@ msgstr "Den här sidan är %söversättningsbar%s."
 
 #: doc/download.php:42
 msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "Vi rekommenderar att du också installerar VirtualBox, så att din dator kan arbeta med forskningsprojekt som kräver det."
+"We recommend that you also install %1VirtualBox%2, so your computer can work"
+" on science projects that require it."
+msgstr "Vi rekommenderar att du också installerar %1VirtualBox%2, så att din dator kan delta i forskningsprojekt som behöver det."
 
 #: doc/download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "Lär dig mer om VirtualBox."
 
-#: doc/download.php:52
+#: doc/download.php:56
 msgid "Download BOINC + VirtualBox"
-msgstr "Ladda ned BOINC + VirtualBox"
+msgstr "Hämta ned BOINC + VirtualBox"
 
 #. "for %s" identifies the operating system, e.g. "for Windows"
-#: doc/download.php:56 doc/download.php:71
+#: doc/download.php:60 doc/download.php:76
 #, php-format
 msgid "for %s"
 msgstr "för %s"
 
-#: doc/download.php:59 doc/download.php:74
+#: doc/download.php:63 doc/download.php:79
 #, php-format
 msgid "BOINC %s"
 msgstr "BOINC %s"
 
-#: doc/download.php:61
+#: doc/download.php:65
 #, php-format
 msgid "VirtualBox %s"
 msgstr "VirtualBox %s"
 
-#: doc/download.php:69
+#: doc/download.php:74
 msgid "Download BOINC"
 msgstr "Hämta BOINC"
 
-#: doc/download.php:133
+#: doc/download.php:138
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC är ett program som låter dig donera din oanvända datortid till vetenskapliga forskningsprojekt som SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, och många andra."
 
-#: doc/download.php:135
+#: doc/download.php:140
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Efter du installerat BOINC på din dator, kan du ansluta så många av dessa projekt som du vill."
+msgstr "Efter att du installerat BOINC på din dator, kan du ansluta till så många av dessa projekt som du vill."
 
-#: doc/download.php:137
+#: doc/download.php:142
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Du kan bara köra mjukvaran på din dator om du äger datorn eller har tillgång till dess användare."
+msgstr "Du kan bara köra programvaran på din dator om du äger datorn eller har tillgång till dess användare."
 
-#: doc/download.php:142
+#: doc/download.php:147
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Vi rekommenderar att du laddar ned BOINC från Google Play Butik eller Amazon App Butik, inte härifrån."
 
-#: doc/download.php:177
+#: doc/download.php:182
 msgid "System requirements"
 msgstr "Systemkrav"
 
-#: doc/download.php:178
+#: doc/download.php:183
 msgid "Release notes"
 msgstr "Versionsnyheter"
 
-#: doc/download.php:179 doc/index.php:122
+#: doc/download.php:184 doc/index.php:122
 msgid "Help"
 msgstr "Hjälp"
 
-#: doc/download.php:180
+#: doc/download.php:185
 msgid "All versions"
 msgstr "Alla versioner"
 
-#: doc/download.php:181
+#: doc/download.php:186
 msgid "Version history"
 msgstr "Versionshistorik"
 
-#: doc/download.php:182
+#: doc/download.php:187
 msgid "GPU computing"
 msgstr "GPU-beräkning"
 
-#: doc/download.php:200
+#: doc/download.php:205
 msgid "BOINC: compute for science"
 msgstr "BOINC: lös problem för vetenskapen"
 
@@ -195,7 +196,7 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Använd de oanvända resurserna av din dator (Windows, Mac, Linuc, eller Android) till att bota sjukdomar, studera global uppvärmning, upptäck gravitationsvågor, och utför en massa andra typer av forskning. Det är tryggt, säkert, och enkelt: "
+msgstr "Använd de oanvända resurserna av din dator (Windows, Mac, Linux, eller Android) till att bota sjukdomar, studera global uppvärmning, upptäck gravitationsvågor, och utför en massa andra typer av forskning. Det är tryggt, säkert, och enkelt: "
 
 #: doc/index.php:95
 msgid "Download"
@@ -221,7 +222,7 @@ msgstr "Om du kör flera projekt, prova en %1kontohanterare%2 såsom %3GridRepub
 
 #: doc/index.php:116
 msgid "Learn more:"
-msgstr "Lära dig mer:"
+msgstr "Lär dig mer:"
 
 #: doc/index.php:119
 msgid "Message boards"
@@ -245,7 +246,7 @@ msgstr "Länkar"
 
 #: doc/index.php:129
 msgid "Other ways to help:"
-msgstr "Andra sätt att hjälpa:"
+msgstr "Andra sätt att hjälpa till:"
 
 #: doc/index.php:132
 msgid "Overview"
@@ -301,13 +302,13 @@ msgstr "Boinc och Docker"
 
 #: doc/index.php:173
 msgid "Software development"
-msgstr "Mjukvaruutveckling"
+msgstr "Programvaruutveckling"
 
 #: doc/index.php:176
 msgid ""
 "BOINC is a software platform for volunteer computing. It includes client, "
 "server, and web components, and APIs for connecting other components."
-msgstr "BOINC är en mjukvaruplattform för volontära datortjänster. Den innehåller klient, server, webbkomponenter och API:er för att ansluta ytterligare komponenter."
+msgstr "BOINC är en programvaruplattform för volontära datortjänster. Den innehåller klient, server, webbkomponenter och API:er för att ansluta ytterligare komponenter."
 
 #: doc/index.php:179
 msgid "Source code"
@@ -324,7 +325,7 @@ msgstr "Designdokument"
 #: doc/index.php:185
 msgid ""
 "We're always looking for programmers to help us maintain and develop BOINC."
-msgstr "Vi letar alltid efter programmerare att hjälpa oss att upprätthålla och utveckla BOINC."
+msgstr "Vi letar alltid efter programmerare att hjälpa oss att förvalta och utveckla BOINC."
 
 #: doc/index.php:188
 msgid "Development process"
@@ -345,7 +346,7 @@ msgstr "BOINC-projektet"
 #: doc/index.php:203
 msgid ""
 "BOINC is a community-based project.  Everyone is welcome to participate."
-msgstr "BOINC är ett gemenskaps baserat projekt. Alla är välkomna att delta."
+msgstr "BOINC är ett gemenskapsbaserat projekt. Alla är välkomna att delta."
 
 #: doc/index.php:207
 msgid "Email lists"
@@ -390,7 +391,7 @@ msgstr "\nvia röst, med %1Skype%2, ett gratis Internet-baserat telefonsystem. O
 
 #: doc/help.php:25
 msgid "using Skype chat"
-msgstr "via Skype chatt"
+msgstr "via Skype-chatt"
 
 #: doc/help.php:28
 msgid ""
@@ -419,7 +420,7 @@ msgstr "Om du redan är hjälpvolontär: för att redigera dina inställningar, 
 #: doc/help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC."
-msgstr "BOINC hjälpare är oavlönade volontärer.  Deras råd är inte godkänt av BOINC."
+msgstr "BOINCs hjälpare är oavlönade volontärer.  Deras råd är inte godkända av BOINC."
 
 #: doc/help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
@@ -430,8 +431,8 @@ msgid "Distributed sensing"
 msgstr "Distributerad avkänning"
 
 #: doc/projects.inc:24
-msgid "Caltech"
-msgstr "Caltech"
+msgid "University of Southern California"
+msgstr "Universitetet i Södra Kalifornien"
 
 #: doc/projects.inc:25
 msgid "Seismology"
@@ -530,23 +531,6 @@ msgid ""
 "new targets."
 msgstr "Den parasit som orsakar malaria fortsätter att utveckla resistens mot tillgänglig medicinering. Vi behöver därför snarast upptäcka nya mediciner, som riktar in sig på nya proteiner i parasiten. FiND@Home projektet syftar till att hitta dessa nya mål."
 
-#: doc/projects.inc:117
-msgid "University of Karlsruhe (Germany)"
-msgstr "Karlsruhe -Universitetet (Tyskland)"
-
-#: doc/projects.inc:118
-msgid "Protein structure prediction"
-msgstr "Förutsägelser av proteinstrukturer"
-
-#: doc/projects.inc:119
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME använder beräkningskraft för att närma sig förutsägelser av biologiskt aktiva proteinstrukturer, för att lättare förstå den signal-processande mekanismen när proteiner interagerar med andra proteiner, för att på så sätt förstå sjukdomar relaterade till protein-fel eller aggretion, och att få fram nya läkemedel på basen av tredimensionella struktirer av biologiska viktiga protein."
-
 #: doc/projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Barcelona Biomedicinsk Forsknings Park (PRBB)"
@@ -561,42 +545,7 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "GPUGrid.net öppnar nya beräknings scenarier genom den första full atom molekylära dynamik koden (CellMD) speciellt optimerad för att köras på NVIDIA GPUer. Nya biomedicinska tillämpningar har plötsligt blivit möjliga vilket ger en ny roll för beräkningsbiologi inom biomedicinsk forskning."
-
-#: doc/projects.inc:175
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "Maryland Universitet Center för Bioinformatik och Datorberäknande Biologi"
-
-#: doc/projects.inc:176
-msgid "Life science research"
-msgstr "Livsvetenskaps-forskning"
-
-#: doc/projects.inc:177
-msgid ""
-"The Lattice Project, developed and administered at the University of "
-"Maryland, supplies computing power to researchers worldwide who are studying"
-" evolutionary relationships using DNA and protein sequence data."
-msgstr "Lattice Project, utvecklat och administrerat på Maryland Universitet, förenar datorkraft till forskare över hela världen som studerar evolutionära relationer genom att använda proteinsekvensdata."
-
-#: doc/projects.inc:185
-msgid "The Swiss Tropical Institute"
-msgstr "Schweiziska Tropiska Institutet"
-
-#: doc/projects.inc:186
-msgid "Epidemiology"
-msgstr "Epidemiologi"
-
-#: doc/projects.inc:187
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "Simuleringsmodeller för transmissions dynamik och hälsoeffekter av malaria är ett viktigt verktyg för malariakontroll. De kan användas för att bestämma optimala strategier för att leverera myggnät, kemoterapi, eller nya vacciner som för närvarande är under utveckling och testning. Sådan modellering är extremt datorintensiv och kräver simuleringar av stora befolkningsgrupper med en mångfald av parametrar relaterade till biologiska och sociala faktorer som påverkar sjukdomens utbredning."
+msgstr "GPUGrid.net öppnar nya beräkningsscenarier genom den första \"full-atom molecular dynamics code\"  (CellMD) speciellt optimerad för att köras på NVIDIA GPUer. Nya biomedicinska tillämpningar har plötsligt blivit möjliga vilket ger en ny roll för beräkningsbiologi inom biomedicinsk forskning."
 
 #: doc/projects.inc:211
 msgid "University of Washington"
@@ -638,11 +587,11 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Undersöka approximationer som måste göras i toppmoderna klimatmodeller. Genom att köra modell tusentals gånger hoppas vi kunna ta reda på hur modellen svarar på små justeringar av dessa approximationer - små nog att inte göra approximationerna mindre realistisk. Detta gör det möjligt för oss att förbättra vår förståelse för hur känsliga våra modeller är att små förändringar och även för saker som förändringar i koldioxid och svavelcykeln. Detta gör det möjligt för oss att undersöka hur klimatet kan förändras under nästa århundrade med ett brett spektrum av olika scenarier."
+msgstr "Undersöka approximationer som måste göras i toppmoderna klimatmodeller. Genom att köra modellen tusentals gånger hoppas vi kunna ta reda på hur modellen svarar på små justeringar av dessa approximationer - små nog att inte göra approximationerna mindre realistisk. Detta gör det möjligt för oss att förbättra vår förståelse för hur känsliga våra modeller är av små förändringar och även för saker som förändringar i koldioxid och svavelcykeln. Detta gör det möjligt för oss att undersöka hur klimatet kan förändras under nästa århundrade med ett brett spektrum av olika scenarier."
 
 #: doc/projects.inc:253
 msgid "Physical Science"
-msgstr "Fysikvetenskap"
+msgstr "Fysik"
 
 #: doc/projects.inc:269 doc/projects.inc:318 doc/projects.inc:328
 #: doc/projects.inc:338
@@ -724,34 +673,35 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Ytforskningsberäkningar med klassisk dynamik. Leiden Classical tillåter volontärer, studenter och andra forskare att lämna in sina personliga beräkningar genom nätet. Varje användare har sin egen personliga kö för klassiska dynamiska jobb. På detta sätt har elever använt nätet för att simulera flytande argon, eller för att testa giltigheten av den ideala gaslagen genom att faktiskt göra simuleringarna genom nätet."
+msgstr "Ytforskningsberäkningar med klassisk dynamik. Leiden Classical tillåter volontärer, studenter och andra forskare att lämna in sina personliga beräkningar över nätet. Varje användare har sin egen personliga kö för klassiska dynamiska jobb. På detta sätt har elever använt nätet för att simulera flytande argon, eller för att testa giltigheten av den ideala gaslagen genom att faktiskt göra simuleringarna genom nätet."
 
 #: doc/projects.inc:352
 msgid "Help students do atomic simulations"
 msgstr "Hjälp studenter att göra atomsimuleringar"
 
 #: doc/projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "Universitetet i Wisconsin - Milwaukee, Max Planck institutet"
+msgid ""
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "Universitetet i Wisconsin - Milwaukee (USA), Max Planck institutet för gravitationsfysik - Hanover (Tyskland)"
 
 #: doc/projects.inc:367
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "Leta efter roterande neutronstjärnor (även kallade pulsarer) i data från gravitationsvågsdetektorerna LIGO och GEO och i data från radioteleskopet Arecibo. Einstein@home är ett \"Världs-året inom Fysiken 2005\"-projekt som stöds av det Amerikanska Fysikens Sällskap (American Physical Society, APS) och flera andra internationella organisationer."
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Einstein @ Home använder datorns ledig tid för att söka efter svaga astrofysiska signaler från roterande neutronstjärnor (ofta kallade pulsarer) med data från LIGO-gravitationsvågdetektorerna, Arecibo-radioteleskopet och Fermi gamma-ray-satelliten."
 
 #: doc/projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
 msgstr "Hjälp till att upptäcka pulsarer och gravitationsvågor"
 
-#: doc/projects.inc:383 doc/projects.inc:393 doc/projects.inc:403
+#: doc/projects.inc:383
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Europeiska organisationen för kärnfysikalisk forskning)"
 
-#: doc/projects.inc:384 doc/projects.inc:394 doc/projects.inc:404
+#: doc/projects.inc:384
 msgid "Physics"
 msgstr "Fysik"
 
@@ -767,29 +717,6 @@ msgstr "The Large Hadron Collider (LHC) är en partikelaccelerator vid CERN, den
 #: doc/projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
 msgstr "Förbättra designen av \"the Large Hadron Collider\""
-
-#: doc/projects.inc:395
-msgid ""
-"This project uses CERN-developed virtual machine technology for LHC event "
-"physics simulation on volunteer computers.  Requires that you install "
-"VirtualBox on your computer"
-msgstr "Detta projekt använder CERN-utvecklad virtuell maskin teknologi för simulering av LHC händelse fysik på frivilligas datorer. Kräver att du installerar VirtualBox på din dator."
-
-#: doc/projects.inc:398
-msgid "Simulate high-energy particle collisions"
-msgstr "Simulera högenergi partikelkollisioner"
-
-#: doc/projects.inc:405
-msgid ""
-"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
-" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
-" particles and processes using head-on collisions of protons of "
-"extraordinary high energy."
-msgstr "ATLAS@Home använder frivilligas datorer för att köra simuleringar åt ATLAS, ett partikelfysik experiment vid CERNs Large Hadron Collider. ATLAS letar efter nya partiklar och processer genom frontalkollisioner mellan protoner vid extraordinärt hög energi."
-
-#: doc/projects.inc:408
-msgid "Simulate high-energy particle collisions for CERN"
-msgstr "Simulera högenergi partikelkollisioner åt CERN"
 
 #: doc/projects.inc:413
 msgid "University of California, Berkeley"
@@ -844,11 +771,11 @@ msgid ""
 "Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with "
 "projects studying protein structure, nanotechnology, cancer genomics, and "
 "high energy physics."
-msgstr "CAS@Home sköts av datacentralen hos institutet för Högenergi Fysik (IHEP) hos den Kinesiska vetenskapsakademin, för kinesiska forskare som driver projekt för att studera proteiners struktur, nanoteknik, cancer genomik och högenergifysik."
+msgstr "CAS@Home sköts av datacentralen hos institutet för Högenergi Fysik (IHEP) hos den kinesiska vetenskapsakademin, för kinesiska forskare som driver projekt för att studera proteiners struktur, nanoteknik, cancer genomik och högenergifysik."
 
 #: doc/projects.inc:462
 msgid "Help Chinese researchers"
-msgstr "Hjälp Kinesiska forskare"
+msgstr "Hjälp kinesiska forskare"
 
 #: doc/projects.inc:468
 msgid "Mathematics, physics, evolution"
@@ -863,22 +790,6 @@ msgstr "Yoyo@home är en adapter mellan BOINC och flera befintliga volontära da
 #: doc/projects.inc:472
 msgid "Do research in math, physics, and evolution"
 msgstr "Forska i matematik, fysik, och evolution"
-
-#: doc/projects.inc:487
-msgid "Spanish universities and research centers"
-msgstr "Spanska universitet och forskningscentra"
-
-#: doc/projects.inc:488
-msgid "Various Spanish research projects"
-msgstr "Olika spanska forskningsprojekt"
-
-#: doc/projects.inc:489
-msgid "Research in physics, material science, and biomedicine"
-msgstr "Forskning i fysik, materialvetenskap och biomedicin"
-
-#: doc/projects.inc:492
-msgid "Help Spanish researchers"
-msgstr "Hjälp spanska forskare"
 
 #: doc/projects.inc:497
 msgid "IBM Corporate Citizenship"
@@ -932,7 +843,7 @@ msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
-msgstr "Lös svåra och praktiskt viktiga problem (diskreta funktioner inversionsproblem, diskret optimering, bioinformatik, etc.) som effektivt kan reduceras till Boolean satisfierbara problem."
+msgstr "Lös svåra och praktiskt viktiga problem (diskreta funktioner inversionsproblem, diskret optimering, bioinformatik, etc.) som effektivt kan reduceras till Boolean satisfiability problem."
 
 #: doc/projects.inc:557
 msgid "Study computational complexity"
@@ -954,7 +865,7 @@ msgstr "Kryptografi"
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "Försök att avkoda 3 ursprungliga Enigma meddelanden. Signalerna fångades i Nordatlanten 1942 och tros vara olösta."
+msgstr "Försök att avkoda 3 ursprungliga Enigma-meddelanden. Signalerna fångades i Nordatlanten 1942 och tros vara olösta."
 
 #: doc/projects.inc:596
 msgid "Decode WWII submarine messages"
@@ -966,7 +877,7 @@ msgstr "Studera Collatz Conjecture, en olöst antagande inom matematiken"
 
 #: doc/projects.inc:606
 msgid "Study the Collatz Conjecture"
-msgstr "Studera Collatz Problem"
+msgstr "Studera Collatz-problem"
 
 #: doc/projects.inc:611
 msgid "California State University Fullerton"

@@ -2,12 +2,12 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
-# Jihyuk Lee <ysjbserver@naver.com>, 2015
+# Jin Lee <ysjbserver@naver.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2017-01-13 21:58+0000\n"
+"PO-Revision-Date: 2017-08-03 11:47+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"

@@ -1,5 +1,5 @@
 # BOINC website localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-18 02:54+0000\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,88 +56,88 @@ msgstr "이 페이지는 %s번역이 가능합니다%s."
 
 #: doc/download.php:42
 msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "저희는 여러분이 VirtualBox도 같이 설치하길 권장합니다. 그렇게 하면 해당 기능을 요구하는 과학 프로젝트 작업도 수행할 수 있습니다."
+"We recommend that you also install %1VirtualBox%2, so your computer can work"
+" on science projects that require it."
+msgstr ""
 
 #: doc/download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "VirtualBox에 대해서 알아봅니다."
 
-#: doc/download.php:52
+#: doc/download.php:56
 msgid "Download BOINC + VirtualBox"
 msgstr "BOINC + VirtualBox 다운로드"
 
 #. "for %s" identifies the operating system, e.g. "for Windows"
-#: doc/download.php:56 doc/download.php:71
+#: doc/download.php:60 doc/download.php:76
 #, php-format
 msgid "for %s"
 msgstr "%s용"
 
-#: doc/download.php:59 doc/download.php:74
+#: doc/download.php:63 doc/download.php:79
 #, php-format
 msgid "BOINC %s"
 msgstr "BOINC %s"
 
-#: doc/download.php:61
+#: doc/download.php:65
 #, php-format
 msgid "VirtualBox %s"
 msgstr "VirtualBox %s"
 
-#: doc/download.php:69
+#: doc/download.php:74
 msgid "Download BOINC"
 msgstr "BOINC 다운로드"
 
-#: doc/download.php:133
+#: doc/download.php:138
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC는 SETI@home, Climateprediction.net, Rosetta@home, World Community Grid 그 외 다른 많은 과학 프로젝트들에게 여러분의 컴퓨터 대기 시간을 기부하도록 하는 프로그램입니다."
 
-#: doc/download.php:135
+#: doc/download.php:140
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "컴퓨터에 BOINC를 설치한 후에 여러분이 선호하는 수많은 프로젝트에 연결하실 수 있습니다."
 
-#: doc/download.php:137
+#: doc/download.php:142
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "여러분은 이 소프트웨어를 여러분이 소유한 컴퓨터 혹은 소유자로부터 권한을 부여받은 컴퓨터에서만 실행해야 합니다."
 
-#: doc/download.php:142
+#: doc/download.php:147
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "이곳보다는 Google Play Store 또는 Amazon Appstore에서 BOINC를 다운로드하시길 권장합니다."
 
-#: doc/download.php:177
+#: doc/download.php:182
 msgid "System requirements"
 msgstr "시스템 요구 사항"
 
-#: doc/download.php:178
+#: doc/download.php:183
 msgid "Release notes"
 msgstr "릴리즈 노트"
 
-#: doc/download.php:179 doc/index.php:122
+#: doc/download.php:184 doc/index.php:122
 msgid "Help"
 msgstr "도움말"
 
-#: doc/download.php:180
+#: doc/download.php:185
 msgid "All versions"
 msgstr "모든 버전"
 
-#: doc/download.php:181
+#: doc/download.php:186
 msgid "Version history"
 msgstr "버전 이력"
 
-#: doc/download.php:182
+#: doc/download.php:187
 msgid "GPU computing"
 msgstr "GPU 컴퓨팅"
 
-#: doc/download.php:200
+#: doc/download.php:205
 msgid "BOINC: compute for science"
 msgstr "BOINC: 과학을 위한 컴퓨팅"
 
@@ -426,8 +426,8 @@ msgid "Distributed sensing"
 msgstr "분산 검지"
 
 #: doc/projects.inc:24
-msgid "Caltech"
-msgstr "Caltech"
+msgid "University of Southern California"
+msgstr "남부 캘리포니아 대학교(University of Southern California)"
 
 #: doc/projects.inc:25
 msgid "Seismology"
@@ -526,23 +526,6 @@ msgid ""
 "new targets."
 msgstr "말라리야를 유발하는 기생충은 사용가능한 약물에 대한 내성이 계속 진화하고 있습니다. 따라서 우리는 시급히 기생충 안에 있는 새로운 단백질을 대상으로 하는, 새로운 약을 발견할 필요가 있습니다. FiND@Home 프로젝트는 이런 새로운 대상을 찾는 것을 목표로 합니다."
 
-#: doc/projects.inc:117
-msgid "University of Karlsruhe (Germany)"
-msgstr "Karlsruhe 대학교 (독일, University of Karlsruhe)"
-
-#: doc/projects.inc:118
-msgid "Protein structure prediction"
-msgstr "단백질 구조 예측"
-
-#: doc/projects.inc:119
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME은 단백질의 활성 구조를 생물학적으로 예측하기 위해서 컴퓨터를 이용합니다. 또 단백질 간의 상호작용이 일어날 때의 신호처리 메커니즘을 이해하고자 합니다. 이외에 단백질의 기능 저하나 집적과 관련있는 질병을 이해하고 생물학적으로 중요한 단백질들의 3차원 구조에 기반해서 신약을 개발하는데 그 목적이 있습니다."
-
 #: doc/projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "바로셀로나 생물의학 연구 단지(PRBB)"
@@ -558,41 +541,6 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr "GPUGrid.net은 NVIDIA GPU에서 실행시키기 위해 처음으로 분자 속 전체 원자 동적 분석 코드(CellMD)로 특별히 최적화되었습니다. 이로서 새로운 계산 시나리오가 개척되었습니다. 새로운 생물의학 어플리케이션은 생물의학 연구를 위한 전산 생물학에 새로운 역할을 부여할 가능성을 가지고 있습니다."
-
-#: doc/projects.inc:175
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "메릴랜드 대학교 생물정보학과 전산생물학 연구 센터(University of Maryland Center for Bioinformatics and Computational Biology)"
-
-#: doc/projects.inc:176
-msgid "Life science research"
-msgstr "생명 과학 연구"
-
-#: doc/projects.inc:177
-msgid ""
-"The Lattice Project, developed and administered at the University of "
-"Maryland, supplies computing power to researchers worldwide who are studying"
-" evolutionary relationships using DNA and protein sequence data."
-msgstr "매릴랜드 대학교에서 개발하고 운영하는 The Lattice Project는 DNA와 단백질 배열 데이터를 이용해서 진화의 연관성을 연구하는 전세계 연구자들에게 연산력을 제공합니다."
-
-#: doc/projects.inc:185
-msgid "The Swiss Tropical Institute"
-msgstr "스위스 열대 연구소(The Swiss Tropical Institute)"
-
-#: doc/projects.inc:186
-msgid "Epidemiology"
-msgstr "전염병학"
-
-#: doc/projects.inc:187
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "전염 개체들의 시뮬레이션과 말라리아가 건강에 끼치는 영향은 말라리아 통제를 위한 중요한 수단입니다. 이는 현재 개발되고 있거나 시험 중인 새로운 백신, 화학요법, 모기장을 제공하기 위한 최적화된 전략을 정하기 위해서 이용될 수 있습니다. 이러한 모델은 컴퓨터에 매우 의존해야 되며, 질병 분포에 영향을 미치는 생물학적, 사회적 요인들이 관련된 인자를 포함한 여러 종류의 조건을 갖춘 대규모 인구 집단의 시뮬레이션이 요구됩니다."
 
 #: doc/projects.inc:211
 msgid "University of Washington"
@@ -727,27 +675,28 @@ msgid "Help students do atomic simulations"
 msgstr "원자 시뮬레이션을 수행하는 학생을 도와주세요"
 
 #: doc/projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "위스콘신-밀워키 대학교(Univ. of Wisconsin - Milwaukee), 막스 플랑크 연구소(Max Planck Institute)"
+msgid ""
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "위스콘신-밀워키 대학교(Univ. of Wisconsin - Milwaukee, 미국), 막스 플랑크 중력과학 하노버 연구소(Max Planck Institute, 독ㅇ)"
 
 #: doc/projects.inc:367
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "LIGO 및 GEO 중력파 감지기와 아레시보 전파 망원경에서 수집된 데이터를 사용해서 회전하는 중성자 별(펄서라고도 합니다)을 찾습니다.  Einstein@Home은 미국 물리학 협회(APS) 및 수많은 국제 단체로부터 지원을 받는 2005 세계 과학의 해 프로젝트입니다."
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Einstein@Home은 LIGO 중력파 감지기, 아레시보 전파 망원경, 페르미 감마선 위성에서 수집한 데이터를 사용해서 회전하는 중성자 별(흔히 펄서라 불림)에서 나온 약한 천문학적 신호들을 찾기 위해 여러분 컴퓨터의 대기 시간을 이용합니다."
 
 #: doc/projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
 msgstr "중성자 별 및 중력파 탐지를 도와주세요"
 
-#: doc/projects.inc:383 doc/projects.inc:393 doc/projects.inc:403
+#: doc/projects.inc:383
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (유럽 입자 물리 연구소)"
 
-#: doc/projects.inc:384 doc/projects.inc:394 doc/projects.inc:404
+#: doc/projects.inc:384
 msgid "Physics"
 msgstr "물리학"
 
@@ -763,29 +712,6 @@ msgstr "대형 강입자 가속기(LHC)는 CERN(유럽 입자 물리 연구소)�
 #: doc/projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
 msgstr "거대 강입자 가속기의 설계를 개선합니다"
-
-#: doc/projects.inc:395
-msgid ""
-"This project uses CERN-developed virtual machine technology for LHC event "
-"physics simulation on volunteer computers.  Requires that you install "
-"VirtualBox on your computer"
-msgstr "이 프로젝트는 CERN이 개발한, 완전히 독립된 LHC 사건(event) 물리학 시뮬레이션용 가상 머신 기술을 기여자 컴퓨터 상에서 사용합니다. 따라서 여러분 컴퓨터에 VirtualBox를 설치해야 됩니다."
-
-#: doc/projects.inc:398
-msgid "Simulate high-energy particle collisions"
-msgstr "고에너지 입자 충돌 시뮬레이션"
-
-#: doc/projects.inc:405
-msgid ""
-"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
-" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
-" particles and processes using head-on collisions of protons of "
-"extraordinary high energy."
-msgstr "ATLAS@Home은 CERN의 강입자 가속기 상의 입자 물리학 실험 장치인 ATLAS를 위한 시뮬레이션을 수행하고자 기여자의 컴퓨터를 이용합니다. ATLAS는 새로운 입자를 찾고 매우 높은 에너지의 양자 정면 충돌을 처리합니다."
-
-#: doc/projects.inc:408
-msgid "Simulate high-energy particle collisions for CERN"
-msgstr "CERN의 고에너지 입자 충돌 시뮬레이션"
 
 #: doc/projects.inc:413
 msgid "University of California, Berkeley"
@@ -859,22 +785,6 @@ msgstr "Yoyo@home은 BOINC와 기존 기여자 컴퓨팅 프로젝트(ECM, 뮤�
 #: doc/projects.inc:472
 msgid "Do research in math, physics, and evolution"
 msgstr "수학, 물리학, 진화론 분야 연구 수행"
-
-#: doc/projects.inc:487
-msgid "Spanish universities and research centers"
-msgstr "여러 스페인 대학교 및 연구소"
-
-#: doc/projects.inc:488
-msgid "Various Spanish research projects"
-msgstr "스페인의 각종 연구 프로젝트"
-
-#: doc/projects.inc:489
-msgid "Research in physics, material science, and biomedicine"
-msgstr "물리학, 재료 과학, 생물 의학 등의 연구"
-
-#: doc/projects.inc:492
-msgid "Help Spanish researchers"
-msgstr "스페인 연구자들을 "
 
 #: doc/projects.inc:497
 msgid "IBM Corporate Citizenship"

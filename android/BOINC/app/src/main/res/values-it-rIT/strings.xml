@@ -136,7 +136,7 @@
   <string name="status_running_long">Grazie per la partecipazione.</string>
   <string name="status_paused">Sospeso</string>
   <string name="status_idle">Nulla da fare</string>
-  <string name="status_idle_long">In attesa di nuove WU…</string>
+  <string name="status_idle_long">In attesa di nuove elaborazioni…</string>
   <string name="status_computing_disabled">Sospeso</string>
   <string name="status_computing_disabled_long">Premi play per far ripartire la rete e l\'elaborazione</string>
   <string name="status_launching">Avvio in corso…</string>
@@ -205,7 +205,7 @@
   <string name="projects_status_suspendedviagui">Sospeso dall\'utente</string>
   <string name="projects_status_dontrequestmorework">Non chiedere nuove workunit</string>
   <string name="projects_status_ended">Progetto terminato - Può essere rimosso</string>
-  <string name="projects_status_detachwhendone">Verrà rimosso quando le workunit saranno terminate</string>
+  <string name="projects_status_detachwhendone">Verrà rimosso quando le elaborazioni saranno terminate</string>
   <string name="projects_status_schedrpcpending">Richiesta allo scheduler in attesa</string>
   <string name="projects_status_schedrpcinprogress">Richiesta allo scheduler in corso</string>
   <string name="projects_status_trickleuppending">Messaggio trickle in attesa</string>
@@ -241,7 +241,7 @@
   <string name="tasks_header_elapsed_time">Tempo trascorso:</string>
   <string name="tasks_header_project_paused">(sospesa)</string>
   <string name="tasks_header_deadline">Tempo limite:</string>
-  <string name="tasks_result_new">nuova</string>
+  <string name="tasks_result_new">nuovaìo</string>
   <string name="tasks_result_files_downloading">in attesa del download</string>
   <string name="tasks_result_files_downloaded">download completato</string>
   <string name="tasks_result_compute_error">errore elaborazione</string>
@@ -252,8 +252,8 @@
   <string name="tasks_active_uninitialized">pronto</string>
   <string name="tasks_active_executing">elaborazione in corso</string>
   <string name="tasks_active_suspended">sospesa</string>
-  <string name="tasks_active_abort_pending">in sospensione</string>
-  <string name="tasks_active_quit_pending">in sospensione</string>
+  <string name="tasks_active_abort_pending">sospensione in corso</string>
+  <string name="tasks_active_quit_pending">sospensione in corso</string>
   <string name="tasks_custom_suspended_via_gui">sospesa</string>
   <string name="tasks_custom_project_suspended_via_gui">progetto sospeso</string>
   <string name="tasks_custom_ready_to_report">pronto per l\'invio</string>
@@ -291,7 +291,7 @@
   <string name="suspend_batteries">Connetti il tuo dispositivo ad un caricabatterie per continuare l\'eleborazione.</string>
   <string name="suspend_screen_on">Spegni lo schermo per continuare il calcolo.</string>
   <string name="suspend_useractive">L\'utente è attivo.</string>
-  <string name="suspend_tod">Fuori tempo massimo di computazione.</string>
+  <string name="suspend_tod">Fuori tempo massimo di calcolo.</string>
   <string name="suspend_bm">BOINC sta facendo il benchmark del dispositivo…</string>
   <string name="suspend_disksize">Superato lo spazio disco.</string>
   <string name="suspend_cputhrottle">CPU throttle schedulato</string>
@@ -329,12 +329,12 @@
   <string name="menu_about">Informazioni</string>
   <string name="menu_help">Assistenza</string>
   <!--about dialog-->
-  <string name="about_button">Return</string>
+  <string name="about_button">Invio</string>
   <string name="about_title">Informazioni</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versione</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2016 Università della California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003-2017 Università della California, Berkeley</string>
   <string name="about_copyright_reserved">Tutti i diritti riservati.</string>
   <string name="about_credits">Si ringrazia l\'istituto Max Planck per la fisica gravitazionale, IBM Corporation ed HTC Corporation per i loro contributi.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

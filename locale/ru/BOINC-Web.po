@@ -1,5 +1,5 @@
 # BOINC website localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -9,13 +9,14 @@
 # Ivan Nazarenko <nasaivan@mail.ru>, 2017
 # Николай Сахаров <saharovna@gmail.com>, 2015
 # Илья Смирнов <php1602agregator@gmail.com>, 2016
+# Николай Сахаров <saharovna@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-01-01 23:05+0000\n"
-"Last-Translator: Ivan Nazarenko <nasaivan@mail.ru>\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,88 +62,88 @@ msgstr "Эту страницу можно %sперевести%s."
 
 #: doc/download.php:42
 msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "Мы рекомендуем Вам также установить VirtualBox, чтобы ваш компьютер мог участвовать в научных проектах, которые требуют это ПО."
+"We recommend that you also install %1VirtualBox%2, so your computer can work"
+" on science projects that require it."
+msgstr "Мы рекомендуем Вам также установить %1VirtualBox%2, чтобы ваш компьютер мог участвовать в научных проектах, которые требуют это ПО."
 
 #: doc/download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "Узнать больше о VirtualBox."
 
-#: doc/download.php:52
+#: doc/download.php:56
 msgid "Download BOINC + VirtualBox"
 msgstr "Загрузить BOINC + VirtualBox"
 
 #. "for %s" identifies the operating system, e.g. "for Windows"
-#: doc/download.php:56 doc/download.php:71
+#: doc/download.php:60 doc/download.php:76
 #, php-format
 msgid "for %s"
 msgstr "для %s"
 
-#: doc/download.php:59 doc/download.php:74
+#: doc/download.php:63 doc/download.php:79
 #, php-format
 msgid "BOINC %s"
 msgstr "BOINC %s"
 
-#: doc/download.php:61
+#: doc/download.php:65
 #, php-format
 msgid "VirtualBox %s"
 msgstr "VirtualBox %s"
 
-#: doc/download.php:69
+#: doc/download.php:74
 msgid "Download BOINC"
 msgstr "Загрузить BOINC"
 
-#: doc/download.php:133
+#: doc/download.php:138
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC - это программа, предоставляющая неиспользуемое время вашего компьютера для научных проектов, таких как: SETI@home, Climateprediction.net, Rosetta@home, World Community Grid и многих других."
 
-#: doc/download.php:135
+#: doc/download.php:140
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "После установки BOINC на ваш компьютер Вы сможете выбрать и участвовать одновременно в нескольких проектах, каких - решайте сами."
 
-#: doc/download.php:137
+#: doc/download.php:142
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Вы можете запустить это программное обеспечение на компьютере только в том случае, если Вы владеете компьютером или у Вас есть разрешение его владельца."
 
-#: doc/download.php:142
+#: doc/download.php:147
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Мы рекомендуем Вам скачать BOINC из магазина Google Play или Amazon Appstore, а не отсюда."
 
-#: doc/download.php:177
+#: doc/download.php:182
 msgid "System requirements"
 msgstr "Системные требования"
 
-#: doc/download.php:178
+#: doc/download.php:183
 msgid "Release notes"
 msgstr "Описание последней версии"
 
-#: doc/download.php:179 doc/index.php:122
+#: doc/download.php:184 doc/index.php:122
 msgid "Help"
 msgstr "Помощь"
 
-#: doc/download.php:180
+#: doc/download.php:185
 msgid "All versions"
 msgstr "Все версии"
 
-#: doc/download.php:181
+#: doc/download.php:186
 msgid "Version history"
 msgstr "История версий"
 
-#: doc/download.php:182
+#: doc/download.php:187
 msgid "GPU computing"
 msgstr "Вычисления на графических процессорах"
 
-#: doc/download.php:200
+#: doc/download.php:205
 msgid "BOINC: compute for science"
 msgstr "BOINC: вычисления для науки"
 
@@ -234,7 +235,7 @@ msgstr "Проекты"
 
 #: doc/index.php:121
 msgid "Manual"
-msgstr "Вручную"
+msgstr "Руководство"
 
 #: doc/index.php:123
 msgid "Add-ons"
@@ -431,8 +432,8 @@ msgid "Distributed sensing"
 msgstr "Распределённая сеть датчиков"
 
 #: doc/projects.inc:24
-msgid "Caltech"
-msgstr "Калифорнийский технологический институт"
+msgid "University of Southern California"
+msgstr "Университет Южной Калифорнии"
 
 #: doc/projects.inc:25
 msgid "Seismology"
@@ -531,23 +532,6 @@ msgid ""
 "new targets."
 msgstr "Паразит, вызывающий малярию эволюционирует и всё лучше сопротивляется существующим методам лечения. Нам срочно необходимо искать новые лекарства, которые будут нацелены на новые белки из которых состоит паразит. Проект FiND@Home нацелен на то чтобы найти и определить слабые места в новых белковых структурах паразита."
 
-#: doc/projects.inc:117
-msgid "University of Karlsruhe (Germany)"
-msgstr "Университет Карлсруэ (Германия)"
-
-#: doc/projects.inc:118
-msgid "Protein structure prediction"
-msgstr "Предсказание структуры белков"
-
-#: doc/projects.inc:119
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME использует вычислительный подход для предсказания биологически активной структуры белков, для понимания механизма обработки сигналов, когда белки взаимодействуют друг с другом, для понимания болезней, связанных со сбоями или объединением белков, и для разработки новых лекарств на основе трёхмерной структуры биологически важных белков."
-
 #: doc/projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Барселонский Биомедицинский Парк Исследований (PRBB)"
@@ -563,41 +547,6 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr "GPUGrid.net открывает новые вычислительные сценарии посредством первого полно-атомного молекулярного динамического кода (CellMD), специально оптимизированного для запуска на графических процессорах NVIDIA. Новые биомедицинские программные приложения неожиданно сделали возможным достичь новых высот в вычислительной биологии для биомедицинских научных исследований."
-
-#: doc/projects.inc:175
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "Центр биоинформатики и вычислительной биологии университета Мэриленда"
-
-#: doc/projects.inc:176
-msgid "Life science research"
-msgstr "Исследования в науке о жизни"
-
-#: doc/projects.inc:177
-msgid ""
-"The Lattice Project, developed and administered at the University of "
-"Maryland, supplies computing power to researchers worldwide who are studying"
-" evolutionary relationships using DNA and protein sequence data."
-msgstr "Проект Lattice, разработанный и администрируемый в Университете Мэриленд, предоставляет вычислительные мощности для исследователей во всем мире, которые изучают эволюционные отношения, используя данные о ДНК и последовательности белков."
-
-#: doc/projects.inc:185
-msgid "The Swiss Tropical Institute"
-msgstr "Швейцарский Тропический Институт"
-
-#: doc/projects.inc:186
-msgid "Epidemiology"
-msgstr "Эпидемиология"
-
-#: doc/projects.inc:187
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "Симуляционные модели динамики передачи и влияния малярии на здоровье - важный инструмент для контроля малярии. Они могут быть использованы для определения оптимальной стратегии для поставки противомоскитных сеток, химиотерапии или новых вакцин, которые в настоящее время разрабатываются и испытываются. Такое моделирование чрезвычайно требовательно к вычислительным ресурсам, которые необходимы для моделирования больших групп населения с разнообразным набором параметров, связанных с биологическими и социальными факторами, которые влияют на распространение болезни."
 
 #: doc/projects.inc:211
 msgid "University of Washington"
@@ -732,27 +681,28 @@ msgid "Help students do atomic simulations"
 msgstr "Помощь студентам в атомном моделировании"
 
 #: doc/projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "Университет Висконсина - Милуоки, Институт Макса Планка"
+msgid ""
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "Университет Висконсин - Милуоки (США), Институт гравитационной физики Макса Планка - Ганновер (Германия)"
 
 #: doc/projects.inc:367
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "Поиск вращающихся нейтронных звезд (также называющихся пульсарами) используя данные детекторов гравитационных волн LIGO и GEO, а также радиообсерватории Аресибо. Einstein@Home - проект Международного Года Физики 2005, поддержанный Американским Физическим Обществом (APS) и множеством международных организаций."
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Einstein@Home использует время простоя компьютера для поиска слабых астрофизических сигналов от быстро вращающихся нейтронных звёзд (часто называемых пульсарами) и использует данные, полученные с детекторов гравитационных волн LIGO, радиотелескопа в Аресибо и гамма-телескопа Ферми."
 
 #: doc/projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
 msgstr "Помощь в обнаружении пульсаров и гравитационных волн"
 
-#: doc/projects.inc:383 doc/projects.inc:393 doc/projects.inc:403
+#: doc/projects.inc:383
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Европейская Организация Ядерных Исследований)"
 
-#: doc/projects.inc:384 doc/projects.inc:394 doc/projects.inc:404
+#: doc/projects.inc:384
 msgid "Physics"
 msgstr "Физика"
 
@@ -768,29 +718,6 @@ msgstr "Большой Адронный Коллайдер (LHC) - ускори�
 #: doc/projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
 msgstr "Улучшение дизайна Большого Адронного Коллайдера"
-
-#: doc/projects.inc:395
-msgid ""
-"This project uses CERN-developed virtual machine technology for LHC event "
-"physics simulation on volunteer computers.  Requires that you install "
-"VirtualBox on your computer"
-msgstr "Этот проект использует разработанную ЦЕРН технологию виртуализации для симуляции процессов, происходящих на Большом Адронном Коллайдере, на компьютерах волонтеров. Требует наличия установленного VirtualBox на компьютере."
-
-#: doc/projects.inc:398
-msgid "Simulate high-energy particle collisions"
-msgstr "Симуляция столкновений частиц высоких энергий"
-
-#: doc/projects.inc:405
-msgid ""
-"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
-" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
-" particles and processes using head-on collisions of protons of "
-"extraordinary high energy."
-msgstr "ATLAS@Home использует распределенные вычисления для симуляции эксперимента ATLAS - эксперимента в области физики элементарных частиц, проходящего в ЦЕРН на Большом Адронном Коллайдере. ATLAS занимается поиском новых элементарных частиц и процессов с помощью столкновений встречных пучков протонов на сверхвысоких энергиях."
-
-#: doc/projects.inc:408
-msgid "Simulate high-energy particle collisions for CERN"
-msgstr "Симуляция столкновений частиц высоких энергий для CERN"
 
 #: doc/projects.inc:413
 msgid "University of California, Berkeley"
@@ -864,22 +791,6 @@ msgstr "Yoyo@home - адаптер между BOINC и несколькими с
 #: doc/projects.inc:472
 msgid "Do research in math, physics, and evolution"
 msgstr "Исследования в математике, физике и эволюции"
-
-#: doc/projects.inc:487
-msgid "Spanish universities and research centers"
-msgstr "Испанские университеты и исследовательские центры"
-
-#: doc/projects.inc:488
-msgid "Various Spanish research projects"
-msgstr "Различные испанские исследовательские проекты"
-
-#: doc/projects.inc:489
-msgid "Research in physics, material science, and biomedicine"
-msgstr "Исследования в физике, материаловедении, и биомедицине"
-
-#: doc/projects.inc:492
-msgid "Help Spanish researchers"
-msgstr "Помощь испанским исследователям"
 
 #: doc/projects.inc:497
 msgid "IBM Corporate Citizenship"

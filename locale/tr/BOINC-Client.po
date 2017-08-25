@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-01-03 17:51+0000\n"
+"POT-Creation-Date: 2017-08-15 02:04 UTC\n"
+"PO-Revision-Date: 2017-08-20 07:12+0000\n"
 "Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:485 client/acct_mgr.cpp:502
 msgid "Message from account manager"
 msgstr "Hesap yöneticisinden mesaj"
 
@@ -28,13 +28,13 @@ msgstr "Hesap yöneticisinden mesaj"
 msgid "Message from server"
 msgstr "Sunucudan mesaj"
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:312
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Bazı uygulamalar, tercihlerinizde belirttiğinizden daha fazla belleğe ihtiyaç duyuyor.  Lütfen tercihlerinizi kontrol edin."
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:649
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Durum dosyası yazılamadı; klasör izinlerini kontrol edin"
 
@@ -42,24 +42,24 @@ msgstr "Durum dosyası yazılamadı; klasör izinlerini kontrol edin"
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY ortam değişkeni mutlaka bir HTTP vekil sunucusu belirtmeli"
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:619
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
 msgstr "Bu proje eski bir URL kullanıyor. Uygun olduğunda, projeyi kaldırın ve daha sonra bunu ekleyin: %s"
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml dosyasında sözdizimi hatası"
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml dosyasında belirtilen dosya mevcut değil:"
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "BOINC'in yeni bir sürümü mevcut."
+msgid "A new version of BOINC is available"
+msgstr "BOINC'in yeni bir sürümü mevcut"
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
@@ -70,39 +70,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "CUDA sürücüsü 6.5 veya üstü ile CUDA veya OpenCL hesaplaması için kullanılamaz"
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml dosyasında beklenmedik metin"
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml dosyasında tanınmayan etiket"
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml dosyasında eksik başlangıç etiketi"
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml dosyasında tanınmayan ayarlar"
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml dosyasında eksik bitiş etiketi"
 
-#: client/project.cpp:967
+#: client/project.cpp:987
 msgid "To fix this, you can "
 msgstr "Bu sorunu gidermek için yapabilecekleriniz "
 
-#: client/project.cpp:970
+#: client/project.cpp:990
 msgid "change Project Preferences on the project's web site"
 msgstr "Projenin web sitesinde Proje Tercihlerini değiştirin"
 
-#: client/project.cpp:976
+#: client/project.cpp:996
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "cc_config.xml dosyanızdaki GPU hariç tutmalarını kaldırın"
 
-#: client/project.cpp:983
+#: client/project.cpp:1003
 msgid "change your settings at your account manager web site"
 msgstr "Hesap yöneticisi web sitenizdeki ayarlarınızı değiştirin"
 
