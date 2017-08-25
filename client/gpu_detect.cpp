@@ -50,9 +50,9 @@
 //  GPUs can also be explicitly described in cc_config.xml
 
 
-#ifndef _DEBUG
+// uncomment to do GPU detection in same process (for debugging)
+//
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
-#endif
 
 #include "cpp.h"
 
@@ -639,11 +639,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             
     int argc = 4;
     char* const argv[5] = {
-#ifdef _WIN32
-         const_cast<char *>("boinc.exe"), 
-#else
-         const_cast<char *>("boinc"), 
-#endif
+         const_cast<char *>(CLIENT_EXEC_FILENAME), 
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
          const_cast<char *>(quoted_data_dir),
@@ -656,12 +652,8 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         client_dir,
         client_path,
         argc,
-        argv, 
-#ifdef _DEBUG
-        1,
-#else
+        argv,
         0,
-#endif
         prog
     );
 

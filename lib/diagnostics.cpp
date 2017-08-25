@@ -352,6 +352,7 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
@@ -359,6 +360,7 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
 
