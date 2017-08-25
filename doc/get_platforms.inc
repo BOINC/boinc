@@ -41,7 +41,7 @@ function friendly_name($p) {
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";
         else if (strstr($pc, 'nvidia')) $q .= " (NVIDIA GPU)";
-        else if (strstr($pc, 'ati')) $q .= " (AMD/ATI GPU)";
+        else if (strstr($pc, '_ati')) $q .= " (AMD/ATI GPU)";
         else if (strstr($pc, 'intel_gpu')) $q .= " (Intel GPU)";
         else if (strstr($pc, 'mt')) $q .= " (multicore)";
         else if (strstr($pc, 'vbox32')) $q .= " (VirtualBox 32-bit)";
@@ -79,7 +79,7 @@ function get_platform_icon_flags($l) {
         if (strstr($p, "arm-unknown-linux-gnueabihf")) $x->rasp_pi = true;
         if (strstr($p, "armv5")) $x->rasp_pi = true;
         if (strstr($p, "armv6")) $x->rasp_pi = true;
-        if (strstr($pc, "ati")) $x->amd_gpu = true;
+        if (strstr($pc, "_ati")) $x->amd_gpu = true;
         if (strstr($pc, "cuda")) $x->nvidia_gpu = true;
         if (strstr($pc, "nvidia")) $x->nvidia_gpu = true;
         if (strstr($pc, "intel_gpu")) $x->intel_gpu = true;
