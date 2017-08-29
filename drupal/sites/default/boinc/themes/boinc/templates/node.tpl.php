@@ -74,11 +74,14 @@
  */
 ?>
 
-<?php if ($subscribe_link): ?>
-  <div class="subscribe">
+<div class="subscribe">
+  <?php if (user_access('post comments')): ?>
+    <a href="#block-comment_form_block-comment_form">Post new comment</a>
+  <?php endif; ?>
+  <?php if ($subscribe_link): ?>
     <?php print $subscribe_link; ?>
-  </div>
-<?php endif; ?>
+  <?php endif; ?>
+</div>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix">
   <?php print $user_picture; ?>

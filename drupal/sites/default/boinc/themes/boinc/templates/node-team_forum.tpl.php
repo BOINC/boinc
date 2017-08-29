@@ -115,8 +115,10 @@
       <h2 class="title"><?php print $subtitle; ?></h2>
     </div>
     <div class="subscribe">
+      <?php if (user_access('post comments')): ?>
+        <a href="#block-comment_form_block-comment_form">Post new comment</a>
+      <?php endif; ?>
       <?php if ($subscribe_link): ?>
-        <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
         <?php print $subscribe_link; ?>
       <?php endif; ?>
     </div>
