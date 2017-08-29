@@ -102,6 +102,12 @@ function boincteam_menu() {
     'access arguments' => array(2),
     'type' => MENU_CALLBACK
   );
+  $items['community/teams/%/user-name-autocomplete'] = array(
+    'page callback' => '_boincteam_user_name_autocomplete',
+    'access callback' => 'boincteam_is_founder',
+    'access arguments' => array(2),
+    'type' => MENU_CALLBACK,
+  );
    
   return $items;
 }
@@ -929,6 +935,14 @@ function boincteam_manage_admins_panel_header($team_id) {
 function boincteam_management_panel($team_id) {
   $is_founder = boincteam_is_founder($team_id);
   $team = node_load($team_id);
+
+  // Obtain all Drupal uids of team members and construct URL to send
+  // a private message to all.
+  $boinc_id = boincteam_lookup_id($team_id);
+  $member_drupaluids = _boincteam_userids($boinc_id, FALSE);
+  $members = array_map("user_load", $member_drupaluids);
+  $messall = privatemsg_get_link($members);
+
   $output = '';
   $output .= '<h2 class="pane-title">' . bts('Manage team', array(), NULL, 'boinc:team-manage') . '</h2>';
   
@@ -937,15 +951,23 @@ function boincteam_management_panel($team_id) {
   $output .= '  <label>' . bts('View member list', array(), NULL, 'boinc:team-manage') . '</label>';
   $output .= '  <ul class="tab-list">';
   $output .= '    <li class="first tab primary">' . 
-    l('HTML', "community/teams/{$team_id}/members") . '</li>';
-  $output .= '    <li class="last tab primary">' .
-    l('text', "community/teams/{$team_id}/members/email") . '</li>';
+    l('Table', "community/teams/{$team_id}/members") . '</li>';
   $output .= '  </ul>';
-  $output .= '  <div class="description">';
-  $output .=   bts('Member names and emails', array(), NULL, 'boinc:team-manage');
   $output .= '  </div>';
-  $output .= '</div>'; 
-  
+
+  // PM all members
+  if (module_exists('privatemsg')) {
+    $output .= '<div class="form-item">';
+    $output .= '  <ul class="tab-list action-list">';
+    $output .= '    <li class="first tab primary">' .
+      l('Private Message Team', $messall) . '</li>';
+    $output .= '  </ul>';
+    $output .= '  <div class="description">';
+    $output .=   bts('Private message all team members.', array(), NULL, 'boinc:team-manage');
+    $output .= '  </div>';
+    $output .= '</div>';
+  }
+
   // Team history
   $output .= '<div class="form-item">';
   $output .= '  <label>' . bts('View change history', array(), NULL, 'boinc:team-manage') . '</label>';
