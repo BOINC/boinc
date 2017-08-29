@@ -76,8 +76,8 @@
 <?php $first_page = (!isset($_GET['page']) OR ($_GET['page'] < 1)); ?>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
-  
-  <?php 
+
+  <?php
     if ($page) {
       // Set topic title as page title
       drupal_set_title($title);
@@ -109,25 +109,25 @@
       $subtitle = implode(' &rsaquo; ', $subtitle);
     }
   ?>
-  
+
   <div class="forum-links">
     <div class="breadcrumb">
       <h2 class="title"><?php print $subtitle; ?></h2>
     </div>
     <div class="subscribe">
       <?php if ($subscribe_link): ?>
-        <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
+        <a href="#block-comment_form_block-comment_form">Post new comment</a>
         <?php print $subscribe_link; ?>
       <?php endif; ?>
     </div>
     <div class="clearfix"></div>
   </div>
-  
+
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
   <?php endif; ?>
-  
-  <?php 
+
+  <?php
     if (!$oldest_post_first) {
       print comment_render($node);
     }
@@ -189,9 +189,9 @@
         </div>
       <?php endif; ?>
     </div>
-    
+
     <div class="node-body">
-      
+
       <?php /* if ($terms): ?>
         <div class="terms terms-inline"><?php print $terms; ?></div>
       <?php endif; */ ?>
@@ -214,7 +214,7 @@
           <span class="label">)</span>
         </div>
       <?php endif; ?>
-      
+
       <div class="content">
         <?php print $content; ?>
         <?php if ($signature AND $show_signatures): ?>
@@ -224,12 +224,11 @@
         <?php endif; ?>
       </div>
 
-            
     </div> <!-- /.node-body -->
-    
+
   <?php endif; // page with topic starter post ?>
-  
-  <?php 
+
+  <?php
     if ($oldest_post_first) {
       print comment_render($node);
     }

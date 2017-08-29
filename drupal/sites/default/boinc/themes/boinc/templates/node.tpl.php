@@ -76,6 +76,7 @@
 
 <?php if ($subscribe_link): ?>
   <div class="subscribe">
+    <a href="#block-node_comment_block-node_comments">Post new comment</a>
     <?php print $subscribe_link; ?>
   </div>
 <?php endif; ?>
