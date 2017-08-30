@@ -740,7 +740,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	d_oy_count = (int)floor((max_val_y - y_start_val) / d_oy_val);
 
     double temp_int_part;
-    int prec = modf(d_oy_val, &temp_int_part) == 0.0 ? 0 : 2;
+    int prec = modf(d_oy_val, &temp_int_part) < 0.01 ? 0 : 2;
 
 	for (double ny = 0; ny <= double(d_oy_count); ++ny){
 		dc.GetTextExtent(wxString::Format(wxT("%s"), format_number(y_start_val + ny * d_oy_val, prec)), &w_temp, &h_temp, &des_temp, &lead_temp);
