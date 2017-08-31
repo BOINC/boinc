@@ -611,23 +611,19 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
       if ($user_applications) {
         $checked = in_array($app_id, $user_applications);
+        // Even if the user_applications are defined, there is a case
+        // where we override: when the application is disabled but
+        // selected is true, meaning this is a 'mandatory'
+        // application.
+        if ( $app['@attributes']['enabled'] == 'false' AND $app['@attributes']['selected'] == 'true' ) {
+          $checked = TRUE;
+        }
       } else {
         // If user_applications is not defined, it means there are no
         // app_ids set in the user's project preferences payload
         // XML. Thus all Web form values should be determined by the
-        // app_overrides container. If the application is not enabled
-        // then the application is not selected. If the application is
-        // enabled but selected is set to false, then the application
-        // is not selected. If the override doesn't exist for that
-        // particular app, then the application is selected.
-
-        if ( ($app['@attributes']['enabled'] == 'false') OR
-        ( isset($app['@attributes']['enabled']) AND $app['@attributes']['selected'] == 'false' ) ) {
-          $checked = FALSE;
-        }
-        else {
-          $checked = TRUE;
-        }
+        // app_overrides container.
+        $checked = (isset($app['@attributes']['selected']) AND $app['@attributes']['selected'] == 'true') ? TRUE : FALSE;
       }
       $form['applications']["app_{$app_id}"] = array(
         '#title' => $app_name,
