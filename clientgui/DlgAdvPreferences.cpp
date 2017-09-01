@@ -1011,7 +1011,7 @@ bool CDlgAdvPreferences::IsValidTimeValue(const wxString& value) {
             return false;
         }
     }
-    //verify correct diapasone
+    //verify correct format and range of time values
     int h = -1, m = -1;
     //verify the format itself
     int parsed = sscanf(value.c_str(), "%d:%d", &h, &m);
