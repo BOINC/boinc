@@ -677,8 +677,8 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     strMenuDescription.Printf(
-        _("Show information about BOINC and %s"),
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("See more information about %s on the web"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
