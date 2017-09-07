@@ -19,7 +19,7 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
-#if !(defined(_WIN32) || (defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
+#if HAVE_XLOCALE_H
 #include <xlocale.h>
 #endif
 
