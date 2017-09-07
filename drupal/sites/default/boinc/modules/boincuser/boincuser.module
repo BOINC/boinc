@@ -926,7 +926,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['buttons']['delete']['#prefix'] = '<li class="tab">';
     $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#value'] = bts('Clear User Profile', array(), NULL, 'boinc:form-save');
     $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['delete']['#submit'] = array('_boincuser_node_profile_delete_submit');
     $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
@@ -936,9 +938,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
-    
-    // Delete doesn't work, be rid of it
-    unset($form['buttons']['delete']);
     
     unset($form['title']);
     unset($form['body_field']);
