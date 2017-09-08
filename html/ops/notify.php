@@ -43,7 +43,8 @@ function send_notify_email($userid, $message) {
     $user = BoincUser::lookup_id($userid);
     $subject = "Daily notification summary from ".PROJECT;
     $body = "The following events occurred in the past day at ".PROJECT.".
-For details, visit your <a href=/"/home.php/">Account page</a>
+For details, visit your Account page at
+".secure_url_base()."home.php
 
 $message
 ---------------
