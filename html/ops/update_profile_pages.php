@@ -79,7 +79,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
                     $show_picture = false;
                 }
                 if ($show_picture) {
-                    echo "<a href=\"/view_profile.php?userid={$members[$count]}\"><img src=\"".secure_url_base().IMAGE_URL."{$members[$count]}_sm.jpg\"></a>";
+                    echo "<a href=\"view_profile.php?userid={$members[$count]}\"><img src=\"".secure_url_base().IMAGE_URL."{$members[$count]}_sm.jpg\"></a>";
                 } else {
                     echo "&nbsp;";
                 }
