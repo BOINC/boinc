@@ -183,7 +183,7 @@ function get_profile_summary($profile) {
 
     }
 
-    $summary = "<a href=\"".url_base()."view_profile.php?userid=".$profile->userid."\">".$user->name."</a> ".$description;
+    $summary = "<a href=\"view_profile.php?userid=".$profile->userid."\">".$user->name."</a> ".$description;
     return $summary;
 }
 

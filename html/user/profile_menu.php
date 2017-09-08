@@ -105,7 +105,7 @@ function select_profile($cmd) {
 
         shuffle($profiles);
         $userid = $profiles[0]->userid;
-        header("Location: ".url_base()."view_profile.php?userid=$userid");
+        header("Location: view_profile.php?userid=$userid");
         exit();
     }
 }

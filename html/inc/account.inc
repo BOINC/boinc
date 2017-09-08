@@ -69,7 +69,7 @@ function create_account_form($teamid, $next_url) {
 
 function login_form($next_url) {
     echo "
-        <form name=\"f\" method=\"post\" action=\"".secure_url_base()."/login_action.php\">
+        <form name=\"f\" method=\"post\" action=\"login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
     start_table();
