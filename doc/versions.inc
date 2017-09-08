@@ -45,7 +45,7 @@ function linux_info() {
 
 $w78 = array(
     "num"=>"7.8.2",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.8.2_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.8.2_windows_intelx86_vbox.exe",
     "vbox_version"=>"5.1.26",
@@ -65,7 +65,7 @@ $w77 = array(
 
 $w76 = array(
     "num"=>"7.6.33",
-    "status"=>"Recommended version",
+    "status"=>"older version",
     "file"=>"boinc_7.6.33_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.6.33_windows_intelx86_vbox.exe",
     "vbox_version"=>"5.0.18",
@@ -101,7 +101,7 @@ $w5816 = array(
 
 $w78x64 = array(
     "num"=>"7.8.2",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.8.2_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.8.2_windows_x86_64_vbox.exe",
     "vbox_version"=>"5.1.26",
@@ -121,7 +121,7 @@ $w77x64 = array(
 
 $w76x64 = array(
     "num"=>"7.6.33",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_7.6.33_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.6.33_windows_x86_64_vbox.exe",
     "vbox_version"=>"5.0.18",
@@ -151,7 +151,7 @@ $w72x64 = array(
 
 $m78 = array(
     "num"=>"7.8.2",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.8.2_macOSX_x86_64.zip",
     "date"=>"29 Aug 2017",
     "type"=>"mac_advanced",
