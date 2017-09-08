@@ -74,11 +74,20 @@
  */
 ?>
 
-<?php if ($subscribe_link): ?>
-  <div class="subscribe">
-    <?php print $subscribe_link; ?>
-  </div>
-<?php endif; ?>
+<div class="subscribe">
+  <ul class="links">
+    <?php if (user_access('post comments') AND ($comment==COMMENT_NODE_READ_WRITE)): ?>
+      <li class="first"><a href="#block-comment_form_block-comment_form">Post new comment</a></li>
+      <?php if ($subscribe_link): ?>
+        <li class="last"><?php print $subscribe_link; ?></li>
+      <?php endif; ?>
+    <?php else: ?>
+      <?php if ($subscribe_link): ?>
+        <li class="first"><?php print $subscribe_link; ?></li>
+      <?php endif; ?>
+    <?php endif; ?>
+  </ul>
+</div>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix">
   <?php print $user_picture; ?>

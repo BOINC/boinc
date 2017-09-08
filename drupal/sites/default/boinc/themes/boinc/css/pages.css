@@ -331,6 +331,9 @@ ul.links li a {
   right: 0;
   text-align: right;
 }
+.subscribe .flag-subscriptions {
+  padding-left: .5em;
+}
 
 .toc {
   background-color: transparent;
