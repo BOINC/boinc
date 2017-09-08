@@ -262,7 +262,7 @@ function show_user_info_private($user) {
     } else {
         row2(tra("Change"),
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
-            &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
+            &middot; <a href=\"edit_passwd_form.php\">".tra("password")."</a>
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
         );
     }
@@ -307,9 +307,9 @@ function friend_links($user) {
         }
         $title = tra("View the profile of %1", $user->name);
         $alt = tra("Profile");
-        $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
+        $x .= ' <a href="view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $x .= " <a href=\"show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
@@ -333,9 +333,9 @@ function user_links($user, $badge_height=0) {
     $x = "";
     if ($user->has_profile) {
         $img_url = url_base()."img/head_20.png";
-        $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
+        $x .= ' <a href="view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $x .= " <a href=\"show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
@@ -366,7 +366,7 @@ function show_community_private($user) {
     if (!DISABLE_FORUMS) {
         $tot = total_posts($user);
         if ($tot) {
-            row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+            row2(tra("Message boards"), "<a href=\"forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
         }
     }
     
@@ -452,7 +452,7 @@ function show_user_summary_public($user) {
         show_credit($user);
 
         if ($user->show_hosts) {
-            row2(tra("Computers"), "<a href=\"".url_base()."hosts_user.php?userid=$user->id\">".tra("View")."</a>");
+            row2(tra("Computers"), "<a href=\"hosts_user.php?userid=$user->id\">".tra("View")."</a>");
         } else {
             row2(tra("Computers"), tra("hidden"));
         }
@@ -498,14 +498,14 @@ function community_links($clo, $logged_in_user){
     
     if (!DISABLE_TEAMS) {
         if ($user->teamid && $team) {
-            row2(tra("Team"), "<a href=\"".url_base()."team_display.php?teamid=$team->id\">$team->name</a>");
+            row2(tra("Team"), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>");
         } else {
             row2(tra("Team"), tra("None"));
         }
     }
     if (!DISABLE_FORUMS) {
         if ($tot) {
-            row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+            row2(tra("Message boards"), "<a href=\"forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
         }
     }
     if ($logged_in_user && $logged_in_user->id != $user->id) {

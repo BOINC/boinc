@@ -80,19 +80,17 @@ function navbar_right($user) {
     if (!$is_login_page) {
         if ($user) {
             echo sprintf('
-                <li><a href=%s%s>%s</a></li>
-                ', url_base(), USER_HOME, $user->name
+                <li><a href=%s>%s</a></li>
+                ', USER_HOME, $user->name
             );
             $url_tokens = url_tokens($user->authenticator);
-            echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
-                url_base(), $url_tokens
+            echo sprintf('<li><a href="logout.php?%s">Log out</a></li>',
+                $url_tokens
             );
         } else {
             echo sprintf('
-                <li><a href="%screate_account_form.php">Sign Up</a></li>
-                <li><a href="%slogin_form.php">Login</a></li>
-                ', url_base(), url_base()
-            );
+                <li><a href="create_account_form.php">Sign Up</a></li>
+                <li><a href="login_form.php">Login</a></li>');
         }
     }
 }
@@ -124,8 +122,7 @@ function navbar_menu($name, $items) {
 // add a single item (not menu)
 //
 function navbar_item($name, $url) {
-    echo '<li><a href="'.$url.'">'.$name.'</a></li>
-    ';
+    echo '<li><a href="'.$url.'">'.$name.'</a></li>';
 }
 
 // A generic navbar.
@@ -146,19 +143,17 @@ function sample_navbar(
     $inverse=false
         // white on black?
 ) {
-    global $master_url;
-
-    $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
+    $brand = "<a class=\"navbar-brand\" href=index.php>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
 
     $x = array();
     if ($user) {
-        $x[] = array(tra("Account"), $url_prefix.USER_HOME);
-        $x[] = array(tra("Join"), $url_prefix."join.php");
-        $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
+        $x[] = array(tra("Account"), USER_HOME);
+        $x[] = array(tra("Join"), "join.php");
+        $x[] = array(tra("Preferences"), "prefs.php?subset=project");
     }
-    $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
-    $x[] = array(tra("Help"), $url_prefix."help.php");
+    $x[] = array(tra("About %1", PROJECT), "about.php");
+    $x[] = array(tra("Help"), "help.php");
     navbar_menu(tra("Project"), $x);
 
     if (NO_COMPUTING) {
@@ -166,47 +161,47 @@ function sample_navbar(
         //
         if (defined('BOSSA')) {
             navbar_menu(tra("Participate"), array(
-                array(tra("Do work"), $url_prefix."bossa_apps.php"),
+                array(tra("Do work"), "bossa_apps.php"),
             ));
         }
     } else {
         $x = array(
-            array(tra("Preferences"), $url_prefix."prefs.php?subset=global"),
-            array(tra("Server status"), $url_prefix."server_status.php"),
-            array(tra("Statistics"), $url_prefix."stats.php"),
-            array(tra("Applications"), $url_prefix."apps.php"),
+            array(tra("Preferences"), "prefs.php?subset=global"),
+            array(tra("Server status"), "server_status.php"),
+            array(tra("Statistics"), "stats.php"),
+            array(tra("Applications"), "apps.php")
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
-                $x[] = array("Job submission", $url_prefix."submit.php");
+                $x[] = array("Job submission", "submit.php");
             }
         }
         $x = array_merge($x,
             array(
                 'Leader boards:',
-                array(tra("Participants"), $url_prefix."top_users.php"),
-                array(tra("Computers"), $url_prefix."top_hosts.php"),
-                array(tra("Teams"), $url_prefix."top_teams.php"),
-                array(tra("GPU models"), $url_prefix."gpu_list.php"),
-                array(tra("CPU models"), $url_prefix."cpu_list.php"),
+                array(tra("Participants"), "top_users.php"),
+                array(tra("Computers"), "top_hosts.php"),
+                array(tra("Teams"), "top_teams.php"),
+                array(tra("GPU models"), "gpu_list.php"),
+                array(tra("CPU models"), "cpu_list.php"),
             )
         );
         navbar_menu(tra("Computing"), $x);
     }
 
     navbar_menu(tra("Community"), array(
-        array(tra("Message boards"), $url_prefix."forum_index.php"),
-        //array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-        array(tra("Teams"), $url_prefix."team.php", tra("create or join a team")),
-        array(tra("Profiles"), $url_prefix."profile_menu.php"),
-        array(tra("Preferences"), $url_prefix."edit_forum_preferences_form.php"),
-        array(tra("User search"), $url_prefix."user_search.php"),
-        array(tra("User of the day"), $url_prefix."uotd.php"),
-        array(tra("Certificate"), $url_prefix."cert1.php", "", "_blank"),
+        array(tra("Message boards"), "forum_index.php"),
+        //array(tra("Questions and Answers"), "forum_help_desk.php"),
+        array(tra("Teams"), "team.php", tra("create or join a team")),
+        array(tra("Profiles"), "profile_menu.php"),
+        array(tra("Preferences"), "edit_forum_preferences_form.php"),
+        array(tra("User search"), "user_search.php"),
+        array(tra("User of the day"), "uotd.php"),
+        array(tra("Certificate"), "cert1.php", "", "_blank"),
     ));
     navbar_menu(tra("Site"), array(
-        array(tra("Site search"), $url_prefix."site_search.php"),
-        array(tra("Languages"), $url_prefix."language_select.php")
+        array(tra("Site search"), "site_search.php"),
+        array(tra("Languages"), "language_select.php")
     ));
 
     // add your own menu here if you want

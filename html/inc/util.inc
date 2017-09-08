@@ -175,7 +175,7 @@ function get_logged_in_user($must_be_logged_in=true) {
             }
         }
         $next_url = urlencode($next_url);
-        Header("Location: ".url_base()."login_form.php?next_url=$next_url");
+        Header("Location: login_form.php?next_url=$next_url");
         exit;
     }
     $got_logged_in_user = true;
@@ -258,7 +258,7 @@ function page_head(
     echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
-        <link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
+        <link type="text/css" rel="stylesheet" href="bootstrap.min.css" media="all">
     ';
     if (defined('STYLESHEET')) {
         $stylesheet = $url_base.STYLESHEET;
@@ -317,8 +317,8 @@ function page_tail(
 ) {
     project_footer($is_main, $show_date, $url_prefix);
     echo '
-        <script src="'.secure_url_base().'/jquery.min.js"></script>
-        <script src="'.secure_url_base().'/bootstrap.min.js"></script>
+        <script src="jquery.min.js"></script>
+        <script src="bootstrap.min.js"></script>
         </div>
         </body>
         </html>

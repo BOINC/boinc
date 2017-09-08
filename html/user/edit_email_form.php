@@ -31,7 +31,7 @@ if (is_valid_email_addr($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
-echo "<form method=post action=".secure_url_base()."/edit_email_action.php>\n";
+echo "<form method=post action=/edit_email_action.php>\n";
 start_table();
 row1(tra("Change the email address of your account"));
 row2(tra("New email address").
@@ -45,7 +45,7 @@ row2(tra("New email address").
 
 row2(
     tra("Password").
-    "<br><a href=".secure_url_base()."/edit_passwd_form.php><p class=\"text-muted\">".tra("No password?")."</p></a>",
+    "<br><a href=/edit_passwd_form.php><p class=\"text-muted\">".tra("No password?")."</p></a>",
     "<input type=password name=passwd>"
 );
 row2("", "<input class=\"btn btn-success\" type=submit value='".tra("Change email address")."'>");
