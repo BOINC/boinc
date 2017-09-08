@@ -29,7 +29,7 @@ $next_url = sanitize_local_url($next_url);
 if ($next_url) {
     Header("Location: $next_url");
 } else {
-    Header("Location: ".url_base().USER_HOME);
+    Header("Location: "USER_HOME);
     send_cookie('init', "1", true);
     send_cookie('via_web', "1", true);
 }

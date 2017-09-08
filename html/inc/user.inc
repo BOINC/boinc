@@ -333,7 +333,7 @@ function user_links($user, $badge_height=0) {
     $x = "";
     if ($user->has_profile) {
         $img_url = url_base()."img/head_20.png";
-        $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
+        $x .= ' <a href="view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) {
