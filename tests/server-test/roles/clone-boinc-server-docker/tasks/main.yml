@@ -1,0 +1,11 @@
+- name: "Clone boinc-server-docker to {{base_dir}}"
+  git:
+    dest: "{{base_dir}}/boinc-server-docker"
+    repo: https://github.com/marius311/boinc-server-docker.git
+    recursive: yes
+    force: yes
+    
+- name: Checkout boinc source branch {{ boinc_branch }}
+  command: git checkout {{ boinc_branch }} chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+- name: Make sure we have the latest source
+  command: git pull chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"

@@ -1,0 +1,9 @@
+- hosts: localhost
+  become: true
+  roles:
+    - install-prereqs
+    - clone-boinc-server-docker
+    - build-boinc-docker
+  vars:
+    boinc_branch: master
+    base_dir: /tmp

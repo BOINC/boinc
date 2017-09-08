@@ -1,0 +1,2 @@
+- name: Build BOINC in docker container
+  command: docker-compose build chdir="{{base_dir}}/boinc-server-docker"
