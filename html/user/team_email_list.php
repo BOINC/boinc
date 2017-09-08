@@ -49,7 +49,7 @@ if ($xml) {
         xml_error(ERR_DB_NOT_FOUND);
     }
     echo "<users>\n";
-    $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, expavg_time, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
+    $users = BoincUser::enum_fields("id, send_email, name, total_credit, expavg_credit, expavg_time, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $creditonly);
     }
