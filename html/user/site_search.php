@@ -25,7 +25,7 @@ function site_search_form($url) {
         <input type=hidden name=domains value="'.$url.'">
         <input type=hidden name=sitesearch value="'.$url.'">
         <div class="form-group">
-        <input type="text" class="form-control input-sm" name="q" size="20" placeholder="keywords">
+        <input type="text" class="form-control input-sm" name="q" size="20" placeholder="">
         <input class="btn btn-success form-control input-sm" type="submit" value='.tra("Search").'>
         </div>
         </form>
