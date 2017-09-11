@@ -393,7 +393,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_AMD_GPU].push_back(n);
             continue;
         }
-        if (xp.parse_int("ignore_intel_gpu_dev", n)) {
+        if (xp.parse_int("ignore_intel_dev", n)) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
@@ -619,7 +619,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 
     for (i=0; i<ignore_gpu_instance[PROC_TYPE_INTEL_GPU].size(); ++i) {
         out.printf(
-            "        <ignore_intel_gpu_dev>%d</ignore_intel_gpu_dev>\n",
+            "        <ignore_intel_dev>%d</ignore_intel_dev>\n",
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU][i]
         );
     }
