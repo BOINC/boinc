@@ -311,9 +311,7 @@ language("Italian", array(
     site("http://it.groups.yahoo.com/group/BOINC-ITALIA/", "BOINC-ITALIA")
 ));
 language("Japanese", array(
-    site(
-    "http://boinc.oocp.org/",
-        "translation by Komori Hitoshi")
+    site("https://www.boinc.tokyo/", "BOINC@TOKYO"),
 ));
 language("Korean", array(
     site("http://cafe.naver.com/setikah", "SETIKAH@KOREA"),
