@@ -1,4 +1,7 @@
+#! /usr/bin/env php
+
 <?php
+
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2016 University of California
@@ -16,23 +19,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/util.inc");
 
-function site_search_form($url) {
-    page_head("Site search");
-    echo '
-        <form class="form-inline" method="get" action="https://google.com/search">
-        <input type=hidden name=domains value="'.$url.'">
-        <input type=hidden name=sitesearch value="'.$url.'">
-        <div class="form-group">
-        <input type="text" class="form-control input-sm" name="q" size="20" placeholder="">
-        <input class="btn btn-success form-control input-sm" type="submit" value='.tra("Search").'>
-        </div>
-        </form>
-    ';
-    page_tail();
+// Script to create a user
+
+// usage: make_user.php username emailaddr
+
+require_once("../inc/user_util.inc");
+
+if ($argc != 3) die("usage: make_user username email\n");
+
+$user_name = $argv[1];
+$email_addr = $argv[2];
+
+$user = BoincUser::lookup_email_addr($email_addr);
+if ($user) {
+    die("user already exists\n");
 }
-
-site_search_form($master_url);
+$passwd_hash = md5("foobar".$email_addr);
+$user = make_user($email_addr, $user_name, $passwd_hash);
+if (!$user) die("can't create user\n");
+echo "created user $user->id\n";
 
 ?>

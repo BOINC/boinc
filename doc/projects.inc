@@ -442,6 +442,15 @@ $astro_phys_chem = array(
 //            "",
 //            "Study nanoscale magnetism"
 //        ),
+        array(
+            "Acoustics@home",
+            "http://www.acousticsathome.ru/boinc/",
+            "V.I. Ilichev Pacific Oceanological Institute, Far Eastern Federal University, Matrosov Institute for System Dynamics and Control Theory, A.A. Kharkevich Institute for Information Transmission Problems, Dorodnicyn Computing Centre",
+            "Physics, Underwater acoustics",
+            "In underwater acoustics the notion of geoacoustic inversion refers to a collection of techniques that can be used for the reconstruction of medium parameters. The medium parameters are usually understood as the sound speed profile in water (i.e., the dependence of the sound speed on the depth) and the sound speed and density in the sea bottom sediment layers. Medium parameters reconstruction is of great importance for problems of underwater communication and for the development of underwater navigation systems.",
+            "",
+            "Study underwater acoustics"
+        ),
     ),
 );
 
