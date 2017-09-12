@@ -4,8 +4,19 @@
     repo: https://github.com/marius311/boinc-server-docker.git
     recursive: yes
     force: yes
-    
-- name: Checkout boinc source branch {{ boinc_branch }}
-  command: git checkout {{ boinc_branch }} chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+ 
+- name: Checkout master
+  command: git checkout master chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+
 - name: Make sure we have the latest source
   command: git pull chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+
+- name: Delete test branch if already present
+  command: git branch -D test_boinc_server chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  ignore_errors: yes
+
+- name: Create a new branch for testing
+  command: git checkout -b test_boinc_server chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+      
+- name: Pull the code we are testing into our test branch
+  command: git pull {{ boinc_repository }} {{ boinc_branch }} chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"

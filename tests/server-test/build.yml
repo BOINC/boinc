@@ -5,5 +5,6 @@
     - clone-boinc-server-docker
     - build-boinc-docker
   vars:
+    boinc_repository: https://github.com/BOINC/boinc.git
     boinc_branch: master
     base_dir: /tmp
