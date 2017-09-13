@@ -215,7 +215,10 @@ div.node-type-forum.not-first-page {
 .comment-body .moderator-links li.first,
 .node-type-forum .node-body .moderator-links .links li.first,
 .node-type-team-forum .node-body .moderator-links .links li.first,
-.comment-body .links li.comment_forbidden.first.last {
+.comment-body .links li.comment_forbidden.first.last,
+.comment-body .links li.comment_forbidden.last,
+.node-type-forum .node-body .links li.comment_forbidden.last,
+.node-type-team-forum .node-body .links li.comment_forbidden.last {
   border-width: 0;
   margin-left: 0;
   padding-left: 0;
