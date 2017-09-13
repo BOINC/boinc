@@ -23,5 +23,11 @@ If you need to build from a different branch and/or repository, you can specify 
 ansible-playbook -K -i hosts build.yml --extra-vars "boinc_repository=https://github.com/TheAspens/boinc boinc_branch=split_boinc_website
 ```
 
+# Stop docker containers and remove volumes
+If you want to stop the docker containers and remove their associated storage (so that next time you start them, it will be like a brand new website) then run the following command:
+```
+docker-compose down -v
+```
+
 # TBD
 Now that I a specific build of BOINC can be done, I need to add logic to start the docker containers and execute tests.  
