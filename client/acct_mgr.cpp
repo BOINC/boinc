@@ -586,15 +586,6 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         //
         for (i=0; i<accounts.size(); i++) {
             AM_ACCOUNT& acct = accounts[i];
-            retval = check_string_signature2(
-                acct.url.c_str(), acct.url_signature, ami.signing_key, verified
-            );
-            if (retval || !verified) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
-                    "Bad signature for URL %s", acct.url.c_str()
-                );
-                continue;
-            }
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
                 if (acct.detach) {
@@ -630,12 +621,16 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     pp->attached_via_acct_mgr = true;
                     if (acct.dont_request_more_work.present) {
                         pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    } else {
+                        pp->dont_request_more_work = false;
                     }
                     if (acct.detach_when_done.present) {
                         pp->detach_when_done = acct.detach_when_done.value;
                         if (pp->detach_when_done) {
                             pp->dont_request_more_work = true;
                         }
+                    } else {
+                        pp->detach_when_done = false;
                     }
 
                     // initiate a scheduler RPC if requested by AMS
@@ -683,6 +678,15 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             } else {
                 // here we don't already have the project.
                 //
+                retval = check_string_signature2(
+                    acct.url.c_str(), acct.url_signature, ami.signing_key, verified
+                );
+                if (retval || !verified) {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
+                        "Bad signature for URL %s", acct.url.c_str()
+                    );
+                    continue;
+                }
                 if (acct.authenticator.empty()) {
                     msg_printf(NULL, MSG_INFO,
                         "Account manager reply missing authenticator for %s",
