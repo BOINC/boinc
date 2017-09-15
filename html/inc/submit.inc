@@ -56,16 +56,22 @@ function req_to_xml($req, $op) {
     }
     foreach ($req->jobs as $job) {
         $x .= "    <job>
-        <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
-        <command_line>$job->command_line</command_line>
 ";
-        if ((isset($job->target_team)) && ($job->target_team)) {
+        if (!empty($job->rsc_fpops_est)) {
+            $x .= "    <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
+";
+        }
+        if (!empty($job->command_line)) {
+            $x .= "    <command_line>$job->command_line</command_line>
+";
+        }
+        if (!empty($job->target_team)) {
             $x .= "        <target_team>$job->target_team</target_team>
 ";
-        } elseif ((isset($job->target_user)) && ($job->target_user)) {
+        } elseif (!empty($job->target_user)) {
             $x .= "        <target_user>$job->target_user</target_user>
 ";
-        } elseif ((isset($job->target_host)) && ($job->target_host)) {
+        } elseif (!empty($job->target_host)) {
             $x .= "        <target_host>$job->target_host</target_host>
 ";
         }
@@ -81,12 +87,10 @@ function req_to_xml($req, $op) {
             }
             $x .= "        </input_file>\n";
         }
-        // send templates for both estimate and submit ops
-        //
-        if (isset($job->wu_template)) {
+        if (!empty($job->wu_template)) {
             $x .= "    <wu_template>\n$job->wu_template\n    </wu_template>\n";
         }
-        if (isset($job->result_template)) {
+        if (!empty($job->result_template)) {
             $x .= "    <result_template>\n$job->result_template\n    </result_template>\n";
         }
         $x .= "    </job>
@@ -336,7 +340,7 @@ if (0) {
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name5";
+    $req->batch_name = "batch_name7";
     $req->app_version_num = 710;
     $req->jobs = array();
 
@@ -392,7 +396,7 @@ if (0) {
 </output_template>
 ";
     for ($i=0; $i<2; $i++) {
-        $job->rsc_fpops_est = $i*1e9;
+        //$job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
         $job->wu_template = $it;
         $job->result_template = $ot;
