@@ -340,7 +340,7 @@ if (0) {
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name7";
+    $req->batch_name = "batch_name9";
     $req->app_version_num = 710;
     $req->jobs = array();
 
@@ -384,7 +384,7 @@ if (0) {
         <name><OUTFILE_0/></name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
+        <max_nbytes>6000000</max_nbytes>
         <url><UPLOAD_URL/></url>
     </file_info>
     <result>
