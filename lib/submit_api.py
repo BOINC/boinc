@@ -51,6 +51,8 @@ class JOB_DESC:
         return
     def to_xml(self):
         xml = '<job>\n'
+        if hasattr(self, 'name'):
+            xml += '<name>%s</name>\n'%self.name
         if hasattr(self, 'rsc_fpops_est'):
             xml += '<rsc_fpops_est>%f</rsc_fpops_est>\n'%self.rsc_fpops_est
         if hasattr(self, 'command_line'):
