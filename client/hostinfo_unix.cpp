@@ -1367,6 +1367,45 @@ int HOST_INFO::get_memory_info() {
     return 0;
 }
 
+#if LINUX_LIKE_SYSTEM
+// gather libc version from the system installed ldd binary
+// a usual first line looks like: ldd (Debian GLIBC 2.24-11+deb9u1) 2.24
+// where the last part is copied to version and the string between parenthesis
+// is copied to extra_info
+//
+// return 0 if at least version could be found (extra_info may remain empty)
+// return 1 if ldd couldn't be opened or no version infromation was found
+//
+int get_libc_version(string& version, string& extra_info) {
+    char buf[1024];
+    string strbuf;
+    FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
+    if (f) {
+        fgets(buf, sizeof(buf), f);
+        pclose(f);
+        strbuf = (string)buf;
+        strip_whitespace(strbuf);
+        std::string::size_type parens1 = strbuf.find('(');
+        std::string::size_type parens2 = strbuf.rfind(')');
+        std::string::size_type blank = strbuf.rfind(' ');
+
+        if (blank != std::string::npos) {
+            // extract version number
+            version = strbuf.substr(blank+1);
+        } else {
+            return 1;
+        }
+        if (parens1 != std::string::npos && parens2 != std::string::npos && parens1 < parens2) {
+            // extract extra information without parenthesis
+            extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
+        }
+    } else {
+        return 1;
+    }
+    return 0;
+}
+#endif
+
 // get os_name, os_version
 //
 int HOST_INFO::get_os_info() {
@@ -1411,6 +1450,7 @@ int HOST_INFO::get_os_info() {
     bool found_something = false;
     char buf[256],buf2[256];
     char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    string os_version_extra("");
     strcpy(dist_pretty, "");
     strcpy(dist_name, "");
     strcpy(dist_version, "");
@@ -1521,14 +1561,33 @@ int HOST_INFO::get_os_info() {
             }
             strip_whitespace(buf2);
         }
-        strcat(buf2, " [");
-        safe_strcat(buf2, os_version);
-        strcat(buf2, "]");
+        os_version_extra = (string)os_version;
         safe_strcpy(os_version, buf2);
         if (strlen(dist_name)) {
             strcat(os_name, " ");
             safe_strcat(os_name, dist_name);
         }
+    }
+
+    string libc_version(""), libc_extra_info("");
+    if (!get_libc_version(libc_version, libc_extra_info)) {
+        msg_printf(NULL, MSG_INFO,
+                "[libc detection] gathered: %s, %s", libc_version.c_str(), libc_extra_info.c_str()
+            );
+        // add info to os_version_extra
+        if (!os_version_extra.empty()) {
+            os_version_extra += "|";
+        }
+        os_version_extra += "libc " + libc_version;
+        if (!libc_extra_info.empty()) {
+            os_version_extra += " (" + libc_extra_info + ")";
+        }
+    }
+
+    if (!os_version_extra.empty()) {
+        strcat(os_version, " [");
+        strcat(os_version, os_version_extra.c_str());
+        strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     return 0;
