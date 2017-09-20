@@ -114,7 +114,7 @@ double bytes_left=-1;
 int accept_empty_file(char* name, char* path) {
     int fd = open(path,
         O_WRONLY|O_CREAT,
-        S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+        config.fuh_set_initial_permission
     );
     if (fd<0) {
         return return_error(ERR_TRANSIENT,
@@ -169,7 +169,7 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
             // coverity[toctou]
             fd = open(path,
                 O_WRONLY|O_CREAT,
-                S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+                config.fuh_set_initial_permission
             );
             if (fd<0) {
                 if (errno == EACCES) {
@@ -290,10 +290,15 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
 
         bytes_left -= n;
     }
-    // upload complete; make the file read-only so it does not get overwriten by a subsequent upload.
+    // upload complete; set new file permissions if configured
     //
-    if (fchmod(fd, S_IRUSR|S_IRGRP|S_IROTH)) {
-        log_messages.printf(MSG_CRITICAL, "can't make file %s read only: %s\n", path, strerror(errno));
+    if (config.fuh_set_completed_permission >= 0) {
+        if (fchmod(fd, config.fuh_set_completed_permission)) {
+            log_messages.printf(MSG_CRITICAL, "can't set %03o permissions on %s: %s\n",
+                config.fuh_set_completed_permission,
+                path,
+                strerror(errno));
+        }
     }
     close(fd);
     return return_success(0);
@@ -775,6 +780,19 @@ int main(int argc, char *argv[]) {
         log_messages.printf(MSG_CRITICAL, "can't write to upload_dir\n");
         return_error(ERR_TRANSIENT, "can't write to upload_dir");
         exit(1);
+    }
+
+    // intentionally disallows a value of 0 as this would mean we can't write the file in the first place
+    if (config.fuh_set_initial_permission > 0) {
+        // sanitize user input, no execute flags allowed for uploaded files
+        config.fuh_set_initial_permission &= (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+    } else {
+        config.fuh_set_initial_permission = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH;
+    }
+    // intentionally allows a value of 0
+    if (config.fuh_set_completed_permission >= 0) {
+        // sanitize user input, no execute flags allowed for uploaded files
+        config.fuh_set_completed_permission &= (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
     }
 
 #ifdef _USING_FCGI_

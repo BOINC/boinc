@@ -88,6 +88,8 @@ int SCHED_CONFIG::parse(FILE* f) {
     default_disk_min_free_gb = .001;
     sched_debug_level = MSG_NORMAL;
     fuh_debug_level = MSG_NORMAL;
+    fuh_set_initial_permission = -1;
+    fuh_set_completed_permission = -1;
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
     scheduler_log_buffer = 32768;
@@ -150,6 +152,24 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int("uldl_dir_fanout", uldl_dir_fanout)) continue;
         if (xp.parse_bool("cache_md5_info", cache_md5_info)) continue;
         if (xp.parse_int("fuh_debug_level", fuh_debug_level)) continue;
+        if (xp.parse_str("fuh_set_completed_permission", buf, sizeof(buf))) {
+            long int l = strtol(buf, NULL, 8);
+            if (l > 0 && l < LONG_MAX) {
+                fuh_set_completed_permission = (int)l;
+            } else {
+                log_messages.printf(MSG_CRITICAL, "wrong fuh_set_completed_permission: %s\n", buf);
+            }
+            continue;
+        }
+        if (xp.parse_str("fuh_set_initial_permission", buf, sizeof(buf))) {
+            long int l = strtol(buf, NULL, 8);
+            if (l > 0 && l < LONG_MAX) {
+                fuh_set_initial_permission = (int)l;
+            } else {
+                log_messages.printf(MSG_CRITICAL, "wrong fuh_set_initial_permission: %s\n", buf);
+            }
+            continue;
+        }
         if (xp.parse_int("reliable_priority_on_over", reliable_priority_on_over)) continue;
         if (xp.parse_int("reliable_priority_on_over_except_error", reliable_priority_on_over_except_error)) continue;
         if (xp.parse_int("reliable_on_priority", reliable_on_priority)) continue;
