@@ -314,10 +314,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     strcpy(xml_signature, "");
     bool found_data = false;
     while (fgets(buf, 256, in)) {
-        // intentionally set higher than debug as it may produce lots of output
-        if (config.fuh_debug_level > MSG_DEBUG) {
-            log_messages.printf(MSG_DEBUG, "got:%s\n", buf);
-        }
+        log_messages.printf(MSG_DETAIL, "got:%s\n", buf);
         if (match_tag(buf, "<file_info>")) continue;
         if (match_tag(buf, "</file_info>")) continue;
         if (match_tag(buf, "<signed_xml>")) continue;
@@ -562,7 +559,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     log_messages.set_indent_level(1);
 #endif
     while (fgets(buf, 256, in)) {
-        log_messages.printf(MSG_DEBUG, "handle_request: %s", buf);
+        log_messages.printf(MSG_DETAIL, "handle_request: %s", buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
             continue;
         } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
