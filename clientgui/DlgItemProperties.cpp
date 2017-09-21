@@ -524,10 +524,16 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
 void CDlgItemProperties::renderInfos() {
     wxString str_bg;
     str_bg.Printf(wxT("#%x"), this->GetBackgroundColour().GetRGB());
+    wxString str_fg;
+    str_fg.Printf(wxT("#%x"), this->GetForegroundColour().GetRGB());
 
     std::string content;
     content += "<html>";
     content += "<body bgcolor='" + str_bg + "'>";
+    content += "<font";
+    content += " color='" + str_fg + "' ";
+    content += " face='" + this->GetFont().GetFaceName() + "' ";
+    content += ">";
     content += "<table width='100%'>";
     for (size_t i = 0; i < m_items.size(); ++i) {
         if (m_items[i].item_type == ItemTypeSection) {
@@ -550,6 +556,7 @@ void CDlgItemProperties::renderInfos() {
         }        
     }
     content += "</table>";
+    content += "</font>";
     content += "</body>";
     content += "</html>";
     m_txtInformation->SetPage(content);
