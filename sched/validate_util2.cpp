@@ -116,6 +116,16 @@ int check_set(
         good_results += suspicious_results;
     }
 
+    // if there are "suspicious" results and min_quorum < g_app->target_nresults
+    // (i.e. adaptive replication), raise min_quorum to g_app->target_nresults
+    // the abs() is there for Einstein@Home-specific use of app->target_nresults,
+    // please leave it in there.
+    //
+    if (suspicious_results && wu.min_quorum < abs(g_app->target_nresults)) {
+        log_messages.printf(MSG_NORMAL, "suspicious result - raising quorum\n");
+        wu.min_quorum = abs(g_app->target_nresults);
+    }
+
     if (good_results < wu.min_quorum) goto cleanup;
 
     // Compare results
