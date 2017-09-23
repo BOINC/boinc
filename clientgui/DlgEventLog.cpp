@@ -251,14 +251,24 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 #if EVENT_LOG_STRIPES
     m_pMessageInfoGrayAttr = new wxListItemAttr(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
+        wxColour(244, 244, 244),
         wxNullFont
     );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(244, 244, 244), wxNullFont);
 #else
     m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
     m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
 #endif
+    m_pMessageInfoSelectedNonFocusedAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxColour(242, 242, 242),
+        wxNullFont
+    );
+    m_pMessageErrorSelectedNonFocusedAttr = new wxListItemAttr(
+        *wxRED,
+        wxColour(242, 242, 242),
+        wxNullFont
+    );
 
     SetTextColor();
     RestoreState();
@@ -989,10 +999,10 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
         item += s_bIsFiltered ? m_iTotalDeletedFilterRows : m_iPreviousFirstMsgSeqNum;
         switch(message->priority) {
         case MSG_USER_ALERT:
-            pAttribute = (item % 2 && !selected) ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
+            pAttribute = selected ? m_pMessageErrorSelectedNonFocusedAttr : (item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr);
             break;
         default:
-           pAttribute = (item % 2 && !selected) ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
+           pAttribute = selected ? m_pMessageInfoSelectedNonFocusedAttr : (item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr);
             break;
         }
     }
