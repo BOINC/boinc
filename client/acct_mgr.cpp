@@ -170,7 +170,9 @@ int ACCT_MGR_OP::do_rpc(
             "      <gpu_ec>%f</gpu_ec>\n"
             "      <gpu_time>%f</gpu_time>\n"
             "      <njobs_success>%d</njobs_success>\n"
-            "      <njobs_error>%d</njobs_error>\n",
+            "      <njobs_error>%d</njobs_error>\n"
+            "      <disk_usage>%f</disk_usage>\n"
+            "      <disk_share>%f</disk_share>\n",
             p->master_url,
             p->project_name,
             p->suspended_via_gui?1:0,
@@ -187,7 +189,9 @@ int ACCT_MGR_OP::do_rpc(
             p->gpu_ec,
             p->gpu_time,
             p->njobs_success,
-            p->njobs_error
+            p->njobs_error,
+            p->disk_usage,
+            p->disk_share
         );
         if (p->attached_via_acct_mgr) {
             fprintf(f,
@@ -458,54 +462,61 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     bool verified;
     PROJECT* pp;
     bool sig_ok;
+    bool got_error = false;
 
-    if (http_op_retval == 0) {
+    // check for failures of HTTP OP, reply parse
+    //
+    if (http_op_retval) {
+        msg_printf(&ami, MSG_INFO, "AM RPC HTTP failure: %s",
+            boincerror(http_op_retval)
+        );
+        got_error = true;
+    } else {
         FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
         if (f) {
             retval = parse(f);
+            if (retval) {
+                got_error = true;
+                msg_printf(&ami, MSG_INFO, "AM reply parse error");
+            }
             fclose(f);
         } else {
-            retval = ERR_FOPEN;
+            msg_printf(&ami, MSG_INFO, "AM reply file missing");
+            got_error = true;
         }
-    } else {
-        error_num = http_op_retval;
     }
 
-    gstate.acct_mgr_info.password_error = false;
-    if (error_num == ERR_BAD_PASSWD && !via_gui) {
-        gstate.acct_mgr_info.password_error = true;
-    }
-    // check both error_str and error_num since an account manager may only
-    // return a BOINC based error code for password failures or invalid
-    // email addresses
+    // if no errors so far, check for errors from AM
     //
-    if (error_str.size()) {
-        msg_printf(&ami, MSG_USER_ALERT,
-            "%s: %s",
-            _("Message from account manager"),
-            error_str.c_str()
-        );
-        if (!error_num) {
-            error_num = ERR_XML_PARSE;
+    if (!got_error) {
+        gstate.acct_mgr_info.password_error = false;
+        if (error_num == ERR_BAD_PASSWD && !via_gui) {
+            gstate.acct_mgr_info.password_error = true;
         }
-    } else if (error_num) {
-        if (error_num == http_op_retval) {
-            // if it was an HTTP error, don't notify the user;
-            // probably the acct mgr server is down
-            //
-            msg_printf(&ami, MSG_INFO,
-                "Account manager RPC failed: %s", boincerror(error_num)
+
+        // Show error message from AM if available.
+        // check both error_str and error_num since an account manager may only
+        // return a BOINC based error code for password failures or invalid
+        // email addresses
+        //
+        if (error_str.size()) {
+            msg_printf(&ami, MSG_USER_ALERT,
+                "%s: %s",
+                _("Message from account manager"),
+                error_str.c_str()
             );
-        } else {
+            got_error = true;
+        } else if (error_num) {
             msg_printf(&ami, MSG_USER_ALERT,
                 "%s: %s",
                 _("Message from account manager"),
                 boincerror(error_num)
             );
+            got_error = true;
         }
     }
 
-    if (error_num) {
+    if (got_error) {
         gstate.acct_mgr_info.next_rpc_time =
             gstate.now
             + calculate_exponential_backoff(
@@ -516,6 +527,26 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         gstate.acct_mgr_info.nfailures++;
         return;
     }
+
+    // The RPC was successful
+    //
+    // Detach projects that are
+    // - detach_when_done
+    // - done
+    // - attached via AM
+    //
+    while (1) {
+        bool found = false;
+        for (i=0; i<gstate.projects.size(); i++) {
+            PROJECT* p = gstate.projects[i];
+            if (p->detach_when_done && !gstate.nresults_for_project(p) && p->attached_via_acct_mgr) {
+                gstate.detach_project(p);
+                found = true;
+            }
+        }
+        if (!found) break;
+    }
+
     gstate.acct_mgr_info.nfailures = 0;
 
     msg_printf(NULL, MSG_INFO, "Account manager contact succeeded");
@@ -562,15 +593,6 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         //
         for (i=0; i<accounts.size(); i++) {
             AM_ACCOUNT& acct = accounts[i];
-            retval = check_string_signature2(
-                acct.url.c_str(), acct.url_signature, ami.signing_key, verified
-            );
-            if (retval || !verified) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
-                    "Bad signature for URL %s", acct.url.c_str()
-                );
-                continue;
-            }
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
                 if (acct.detach) {
@@ -606,12 +628,16 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     pp->attached_via_acct_mgr = true;
                     if (acct.dont_request_more_work.present) {
                         pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    } else {
+                        pp->dont_request_more_work = false;
                     }
                     if (acct.detach_when_done.present) {
                         pp->detach_when_done = acct.detach_when_done.value;
                         if (pp->detach_when_done) {
                             pp->dont_request_more_work = true;
                         }
+                    } else {
+                        pp->detach_when_done = false;
                     }
 
                     // initiate a scheduler RPC if requested by AMS
@@ -661,6 +687,15 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             } else {
                 // here we don't already have the project.
                 //
+                retval = check_string_signature2(
+                    acct.url.c_str(), acct.url_signature, ami.signing_key, verified
+                );
+                if (retval || !verified) {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
+                        "Bad signature for URL %s", acct.url.c_str()
+                    );
+                    continue;
+                }
                 if (acct.authenticator.empty()) {
                     msg_printf(NULL, MSG_INFO,
                         "Account manager reply missing authenticator for %s",

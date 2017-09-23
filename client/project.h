@@ -153,6 +153,10 @@ struct PROJECT : PROJ_AM {
         // Reasons are enumerated in lib/common_defs.h
     bool trickle_up_pending;
         // have trickle up to send
+    double disk_usage;
+        // computed by get_disk_usages()
+    double disk_share;
+        // computed by get_disk_shares();
 
     ///////  END OF ITEMS STORED IN client_state.xml
 
@@ -174,10 +178,6 @@ struct PROJECT : PROJ_AM {
         // to make sure they haven't been tampered with.
         // This provides only the illusion of security.
     bool use_symlinks;
-    double disk_usage;
-        // computed by get_disk_usages()
-    double disk_share;
-        // computed by get_disk_shares();
     bool report_results_immediately;
 
     // items sent in scheduler replies,
