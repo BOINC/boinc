@@ -126,6 +126,16 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorGrayAttr = NULL;
     }
 
+    if (m_pMessageInfoSelectedNonFocusedAttr) {
+        delete m_pMessageInfoSelectedNonFocusedAttr;
+        m_pMessageInfoSelectedNonFocusedAttr = NULL;
+    }
+
+    if (m_pMessageErrorSelectedNonFocusedAttr) {
+        delete m_pMessageErrorSelectedNonFocusedAttr;
+        m_pMessageErrorSelectedNonFocusedAttr = NULL;
+    }
+
     m_iFilteredIndexes.Clear();
 
     wxGetApp().OnEventLogClose();
@@ -376,12 +386,15 @@ void CDlgEventLog::SetTextColor() {
         m_pMessageErrorAttr->SetTextColour(*wxRED);
         m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
         m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
+        m_pMessageInfoSelectedNonFocusedAttr->SetTextColour(*wxBLACK);
+        m_pMessageErrorSelectedNonFocusedAttr->SetTextColour(*wxRED);
     } else {
-        wxColourDatabase colorBase;
         m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
         m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
         m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
         m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
+        m_pMessageInfoSelectedNonFocusedAttr->SetTextColour(wxColour(128, 128, 128));
+        m_pMessageErrorSelectedNonFocusedAttr->SetTextColour(wxColour(255, 128, 128));
     }
 }
 
