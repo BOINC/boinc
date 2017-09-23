@@ -57,6 +57,10 @@ function req_to_xml($req, $op) {
     foreach ($req->jobs as $job) {
         $x .= "    <job>
 ";
+        if (!empty($job->name)) {
+            $x .= "    <name>$job->name</name>
+";
+        }
         if (!empty($job->rsc_fpops_est)) {
             $x .= "    <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
 ";
@@ -340,24 +344,23 @@ if (0) {
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name7";
+    $req->batch_name = "batch_name_11";
     $req->app_version_num = 710;
     $req->jobs = array();
 
-    $job = new StdClass;
-    $job->input_files = array();
 
     $f = new StdClass;
     $f->mode = "remote";
     $f->url = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
     $f->nbytes = 4250;
-    $job->input_files[] = $f;
 
+if (0) {
     $f = new StdClass;
     $f->mode = "local";
     $f->source = "foobar";
     //$job->input_files[] = $f;
+}
 
     $it = "
 <input_template>
@@ -384,7 +387,7 @@ if (0) {
         <name><OUTFILE_0/></name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
+        <max_nbytes>6000000</max_nbytes>
         <url><UPLOAD_URL/></url>
     </file_info>
     <result>
@@ -396,6 +399,10 @@ if (0) {
 </output_template>
 ";
     for ($i=0; $i<2; $i++) {
+        $job = new StdClass;
+        $job->input_files = array();
+        $job->input_files[] = $f;
+        $job->name = $req->batch_name."_$i";
         //$job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
         $job->wu_template = $it;
