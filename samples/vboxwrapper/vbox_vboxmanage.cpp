@@ -160,7 +160,6 @@ namespace vboxmanage {
         //
         launch_vboxsvc();
 #endif
-#endif
 
         rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
         if (rc) return rc;
@@ -786,7 +785,7 @@ namespace vboxmanage {
         //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
         //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
         //
-        if (enable_isocontextualization && enable_isocontextualization) {
+        if (enable_isocontextualization) {
             command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
             retval = vbm_popen(command, output, "get HDD info");
             if (retval) return retval;
@@ -800,7 +799,15 @@ namespace vboxmanage {
 
                 // Deregister stale VM by UUID
                 return deregister_vm(false);
+            } else {
+                command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+                vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
+                if (enable_cache_disk) {
+                     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                     vbm_popen(command, output, "remove virtual cache disk", false);
+                }
             }
+
         } else {
             command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
             retval = vbm_popen(command, output, "get HDD info");
@@ -823,14 +830,6 @@ namespace vboxmanage {
                 if (enable_floppyio) {
                     command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
                     vbm_popen(command, output, "remove virtual floppy disk", false, false);
-                }
-                if (enable_isocontextualization) {
-                    command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
-                    vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
-                    if (enable_cache_disk) {
-                        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
-                        vbm_popen(command, output, "remove virtual cache disk", false);
-                    }
                 }
             }
         }
@@ -879,84 +878,77 @@ namespace vboxmanage {
             //
             // So for now, go with what VboxManage is reporting.
             //
-            if (vmstate == "Running") {
+            if (vmstate == "running") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Paused") {
+            else if (vmstate == "paused") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = true;
                 crashed = false;
             }
-            else if (vmstate == "Saved") {
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = true;
-                crashed = false;
-            }
-            else if (vmstate == "Starting") {
+            else if (vmstate == "starting") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Stopping") {
+            else if (vmstate == "stopping") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Saving") {
+            else if (vmstate == "saving") {
                 online = true;
                 saving = true;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Restoring") {
+            else if (vmstate == "restoring") {
                 online = true;
                 saving = false;
                 restoring = true;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "LiveSnapshotting") {
+            else if (vmstate == "livesnapshotting") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "DeletingsnapshotOnline") {
+            else if (vmstate == "deletingsnapshotonline" || vmstate == "deletingsnapshotlive") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "DeletingSnapshotPaused") {
+            else if (vmstate == "deletingsnapshotpaused" || vmstate == "deletingsnapshotlivepaused") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Aborted") {
+            else if (vmstate == "aborted") {
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = true;
             }
-            else if (vmstate == "Stuck") {
+            else if (vmstate == "gurumeditation") {
                 online = false;
                 saving = false;
                 restoring = false;

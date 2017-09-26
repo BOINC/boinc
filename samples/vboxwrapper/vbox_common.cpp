@@ -25,6 +25,7 @@
 #endif
 
 #else
+#include <algorithm>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -439,6 +440,8 @@ string VBOX_BASE::read_vm_log(){
                 sanitize_format(msg);
 
                 state = msg.c_str();
+
+		std::transform(state.begin(), state.end(), state.begin(), ::tolower);
             }
 
             line_pos = line.find("Guest Log:");
