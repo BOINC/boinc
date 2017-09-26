@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -81,23 +81,23 @@ if ($detail) {
 
 //echo "<hr>$url<hr><br>\n";
 if ($start_at || $last < $count) {
-    echo "<table border=\"1\"><tr><td width=\"100\">";
     if ($start_at) {
         $prev_pos = $start_at - $page_entries_to_show;
         if ($prev_pos < 0) {
             $prev_pos = 0;
         }
         echo "
-            <a href=\"$url&last_pos=$prev_pos&nresults=$page_entries_to_show\">Previous $page_entries_to_show</a><br>
+            <a href=\"$url&last_pos=$prev_pos&nresults=$page_entries_to_show\">Previous $page_entries_to_show</a>
         ";
+    } else {
+        echo "---";
     }
-    echo "</td><td width=100>";
     if ($last < $count) {
         echo "
-            <a href=\"$url&last_pos=$last&nresults=$page_entries_to_show\">Next $page_entries_to_show</a><br>
+            | <a href=\"$url&last_pos=$last&nresults=$page_entries_to_show\">Next $page_entries_to_show</a>
+            <p>
         ";
     }
-    echo "</td></tr></table>";
 }
 
 if ($table == "result") {
@@ -158,7 +158,7 @@ if ($table == "host") {
 $result = _mysql_query($main_query);
 if ($result) {
     if ($detail == "low") {
-        start_table();
+        start_table('table-striped');
         switch($table) {
         case "result":
             result_short_header();
