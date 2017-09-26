@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_COMMON_H_
-#define _VBOX_COMMON_H_
+#ifndef BOINC_VBOX_COMMON_H
+#define BOINC_VBOX_COMMON_H
 
 #include "vboxjob.h"
 
