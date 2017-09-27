@@ -843,7 +843,7 @@ namespace vboxmanage {
         string output;
         string::iterator iter;
         string vmstate;
-        static string vmstate_old = "PoweredOff";
+        static string vmstate_old = "poweredoff";
 
         boinc_get_init_data_p(&aid);
 
@@ -866,7 +866,7 @@ namespace vboxmanage {
         //
         // What state is the VM in?
         //
-        vmstate =read_vm_log();
+        vmstate = read_vm_log();
         if (vmstate != "Error in parsing the log file") {
 
             // VirtualBox Documentation suggests that that a VM is running when its
@@ -1041,6 +1041,7 @@ namespace vboxmanage {
             if (!retval) {
                 timeout = dtime() + 300;
                 do {
+	            poll(false);
                     if (!online && !saving) break;
                     boinc_sleep(1.0);
                 } while (timeout >= dtime());
@@ -1083,6 +1084,7 @@ namespace vboxmanage {
             if (!retval) {
                 timeout = dtime() + 300;
                 do {
+	            poll(false);
                     if (!online && !saving) break;
                     boinc_sleep(1.0);
                 } while (timeout >= dtime());
@@ -1203,7 +1205,7 @@ namespace vboxmanage {
 
         // Set the suspended flag back to false before deleting the stale
         // snapshot
-        //poll(false);
+        poll(false);
 
         // Delete stale snapshot(s), if one exists
         cleanup_snapshots(false);

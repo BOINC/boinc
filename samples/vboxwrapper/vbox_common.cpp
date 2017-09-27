@@ -123,7 +123,7 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     vboxsvc_pid = 0;
 
     log_pointer = 0;
-    state = "PoweredOff";
+    state = "poweredoff";
 
 #ifdef _WIN32
     vm_pid_handle = 0;
