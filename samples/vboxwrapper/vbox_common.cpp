@@ -123,7 +123,6 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     vboxsvc_pid = 0;
 
     log_pointer = 0;
-    state = "poweredoff";
 
 #ifdef _WIN32
     vm_pid_handle = 0;
@@ -417,6 +416,7 @@ string VBOX_BASE::read_vm_log(){
     size_t line_end;
     size_t line_start;
     string msg;
+    static string state = "poweredoff";
     string virtualbox_vm_log;
     virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 

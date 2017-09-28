@@ -168,7 +168,6 @@ class VBOX_BASE : public VBOX_JOB {
 
 
         std::streamoff log_pointer;
-        std::string state;
 
         int vm_pid;
         int vboxsvc_pid;
