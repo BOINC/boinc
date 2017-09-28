@@ -877,8 +877,9 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
         // Skip putting author in the recipients list for now.
         continue;
       }
-      $to[] = $recipient->boincuser_name;
-      $to_themed[$recipient->uid] = $recipient->boincuser_name;
+      $myuser = user_load(array('uid' => $recipient->uid));
+      $to[] = $myuser->boincuser_name . "_" . $myuser->boincuser_id;
+      $to_themed[$recipient->uid] = $myuser->boincuser_name;
     }
     else {
       // Recipient list contains blocked users.
@@ -888,10 +889,10 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
 
   if (empty($to) && $usercount >= 1 && !$blocked) {
     // Assume the user sent message to own account as if the usercount is one or less, then the user sent a message but not to self.
-    $to[] = $user->boincuser_name;
-    $to_themed[$user->uid] = $user->boincuser_name;
+    $myuser = user_load(array('uid' => $user->uid));
+    $to[] = $myuser->boincuser_name . "_" . $myuser->boincuser_id;
+    $to_themed[$user->uid] = $myuser->boincuser_name;
   }
-
   if (!empty($to)) {
     $recipients_string = implode(', ', $to);
   }
@@ -932,7 +933,7 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
     $form['privatemsg']['recipient'] = array(
       '#type'               => 'textfield',
       '#title'              => t('To'),
-      '#description'        => t('Separate multiple names with commas.'),
+      '#description'        => t('Separate multiple names with commas. The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.'),
       '#default_value'      => $recipients_string,
       '#required'           => TRUE,
       '#weight'             => -10,
@@ -1434,7 +1435,7 @@ function privatemsg_user_name_autocomplete($string) {
     $prefix = count($names) ? implode(", ", $names) .", " : '';
     // 3: Build proper suggestions and print.
     while ($user = db_fetch_object($result)) {
-      $matches[$prefix . $user->name . "_" . $user->id . ", "] = $user->name . ' - BOINC id = ' . $user->id;
+      $matches[$prefix . $user->name . "_" . $user->id . ", "] = $user->name . '(' . $user->id . ')';
     }
   }
   // convert to object to prevent drupal bug, see http://drupal.org/node/175361
