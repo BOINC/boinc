@@ -28,14 +28,12 @@
 #include <Cocoa/Cocoa.h>
 #include <mach/mach_time.h>
 #include <pthread.h>
-#include "x_opengl.h"
 #import <OpenGL/CGLIOSurface.h>
 #import <GLKit/GLKit.h>
 #include <servers/bootstrap.h>
 #import "MultiGPUMig.h"
 #import "MultiGPUMigServer.h"
-
-#include "diagnostics.h"
+#include "x_opengl.h"
 #include "boinc_gl.h"
 #include "boinc_glut.h"
 
