@@ -852,11 +852,16 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
 #ifdef NEW_CPU_THROTTLE
         client_mutex.unlock();
 #endif
-        n = select(
-            all_fds.max_fd+1,
-            &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
-            &tv
-        );
+        if (all_fds.max_fd == -1) {
+            boinc_sleep(time_remaining);
+            n = 0;
+        } else {
+            n = select(
+                all_fds.max_fd+1,
+                &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
+                &tv
+            );
+        }
         //printf("select in %d out %d\n", all_fds.max_fd, n);
 #ifdef NEW_CPU_THROTTLE
         client_mutex.lock();
