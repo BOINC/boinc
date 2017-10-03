@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -118,6 +118,11 @@ static void maybe_render() {
     
     
     if (throttled_app_render(new_width, new_height, dtime())) {
+#ifdef __APPLE__
+        if (UseSharedOffscreenBuffer()) {
+            return; // Don't try to send garbage to screen
+        }
+#endif
         glutSwapBuffers();
         if (! fullscreen) {
             // If user has changed window size, wait until it stops 
@@ -244,3 +249,48 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
 #endif
     glutMainLoop();
 }
+
+#ifdef __APPLE__
+
+bool UseSharedOffscreenBuffer() {
+    static bool alreadyTested = false;
+    static bool needSharedGfxBuffer = false;
+
+//return true;    // FOR TESTING ONLY
+    if (alreadyTested) {
+        return needSharedGfxBuffer;
+    }
+    alreadyTested = true;
+    if (fullscreen) {
+        SInt32 major = -1;
+        SInt32 minor = -1;
+        char vers[100], *p1 = NULL;
+        FILE *f;
+        vers[0] = '\0';
+        f = popen("sw_vers -productVersion", "r");
+        if (f) {
+            fscanf(f, "%s", vers);
+            pclose(f);
+        }
+        if (vers[0] == '\0') {
+            fprintf(stderr, "popen(\"sw_vers -productVersion\" failed\n");
+            fflush(stderr);
+            return false;
+        }
+        // Extract the major system version number
+        major = atoi(vers);
+        if (major > 10) {   // OS 11.0 or later
+            needSharedGfxBuffer = true;
+            return true;
+        }
+        // Extract the minor system version number
+        p1 = strchr(vers, '.');
+        minor = atoi(p1+1);
+        if (minor > 12) {   // OS 10.13 or later
+            needSharedGfxBuffer = true;
+            return true;
+        }
+    }
+    return false;
+}
+#endif
