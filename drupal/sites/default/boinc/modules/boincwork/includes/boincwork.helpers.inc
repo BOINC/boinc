@@ -209,10 +209,7 @@ function boincwork_get_project_specific_config() {
   // applications are now queried from the database, and the content
   // of the XML upload is an override.
   if (!array_key_exists('app_overrides', $xml['project_specific_preferences'])) {
-    $simpleapps = array(
-      '@position' => 0,
-    );
-    $xml['project_specific_preferences']['app_overrides'] = $simpleapps;
+    $xml['project_specific_preferences']['app_overrides'] = array();
   }
   return $xml;
 }
@@ -614,11 +611,19 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
       if ($user_applications) {
         $checked = in_array($app_id, $user_applications);
+        // Even if the user_applications are defined, there is a case
+        // where we override: when the application is disabled but
+        // selected is true, meaning this is a 'mandatory'
+        // application.
+        if ( $app['@attributes']['enabled'] == 'false' AND $app['@attributes']['selected'] == 'true' ) {
+          $checked = TRUE;
+        }
       } else {
         // If user_applications is not defined, it means there are no
         // app_ids set in the user's project preferences payload
-        // XML. Thus all Web form values should be checked.
-        $checked = TRUE;
+        // XML. Thus all Web form values should be determined by the
+        // app_overrides container.
+        $checked = (isset($app['@attributes']['selected']) AND $app['@attributes']['selected'] == 'true') ? TRUE : FALSE;
       }
       $form['applications']["app_{$app_id}"] = array(
         '#title' => $app_name,
