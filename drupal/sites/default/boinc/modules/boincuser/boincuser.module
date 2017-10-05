@@ -2036,3 +2036,27 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
   }
 
 }
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Call backs for private message
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_privatemsg_name_lookup();
+ */
+function boincuser_privatemsg_name_lookup($string) {
+  //Get the BOINC ID from the name string, and lookup the
+  //corresponding drupal user.
+  $boincname = substr($string, 0, strrpos($string, '_'));
+  $boincid = substr($string, strrpos($string, '_') + 1);
+  $drupalid = get_drupal_id($boincid);
+  if ($drupalid>0) {
+    if ($recipient = user_load(array('uid' => $drupalid))) {
+      // Double-check that the loaded user matches both boincuser_id
+      // and boincuser_name.
+      if ( ($boincid == $recipient->boincuser_id) AND ($boincname == $recipient->boincuser_name) ) {
+        return $recipient;
+      }
+    }
+  }
+}
