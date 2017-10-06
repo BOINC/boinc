@@ -896,10 +896,17 @@ void CViewWork::UpdateSelection() {
 
         // Disable Show Graphics button if the selected task can't display graphics
         //
-        if (!strlen(result->web_graphics_url) && !strlen(result->graphics_exec_path)) {
-            enableShowGraphics = false;
+        if (!strlen(result->web_graphics_url)) {
+            if(!strlen(result->graphics_exec_path)) {
+                enableShowGraphics = false;
+            } else {
+                if (!boinc_file_exists(result->graphics_exec_path)) {
+                    // graphics executable is missing (does not exist)
+                    enableShowGraphics = false;
+                }
+            }
         }
-
+        
         if (result->suspended_via_gui ||
             result->project_suspended_via_gui || 
             (result->scheduler_state != CPU_SCHED_SCHEDULED)
