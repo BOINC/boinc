@@ -92,7 +92,7 @@ function req_to_xml($req, $op) {
             $x .= "        </input_file>\n";
         }
         if (!empty($job->input_template)) {
-            $x .= "    $job->input_template>\n";
+            $x .= "    $job->input_template\n";
         }
         if (!empty($job->output_template)) {
             $x .= "    $job->output_template\n";
@@ -339,7 +339,7 @@ function boinc_retire_batch($req) {
 }
 
 //// example usage follows
-if (1) {
+if (0) {
     $req = new StdClass;
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
