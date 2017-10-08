@@ -483,7 +483,7 @@ int main(int argc, char** argv) {
         if ((5 == vbox_major) && (0 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
         }
-        if ((5 == vbox_major) && (1 <= vbox_minor)) {
+        if ((5 == vbox_major) && (1 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox51::VBOX_VM();
         }
         if ((5 == vbox_major) && (2 <= vbox_minor)) {
