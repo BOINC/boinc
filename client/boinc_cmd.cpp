@@ -596,10 +596,10 @@ int main(int argc, char** argv) {
         strcpy(a.name, "uppercase");
         a.max_concurrent = 2;
         ac.app_configs.push_back(a);
-        retval = rpc.set_app_config(argv[2], ac);
+        retval = rpc.set_app_config(next_arg(argc, argv, i), ac);
     } else if (!strcmp(cmd, "--get_app_config")) {
         APP_CONFIGS ac;
-        retval = rpc.get_app_config(argv[2], ac);
+        retval = rpc.get_app_config(next_arg(argc, argv, i), ac);
         if (!retval) {
             MIOFILE mf;
             mf.init_file(stdout);
