@@ -1111,9 +1111,10 @@ static void handle_get_app_config(GUI_RPC_CONN& grc) {
         return;
     }
     sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
-    printf("path: %s\n", path);
     int retval = read_file_string(path, s);
-    if (!retval) {
+    if (retval) {
+        grc.mfout.printf("<app_config></app_config>");
+    } else {
         strip_whitespace(s);
         grc.mfout.printf("%s\n", s.c_str());
     }
