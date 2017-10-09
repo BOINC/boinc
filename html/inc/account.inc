@@ -30,17 +30,26 @@ function create_account_form($teamid, $next_url) {
     //
     if (defined('INVITE_CODES')) {
         form_input_text(
-             tra("Invitation Code")."<br><small>".tra("An invitation code is required to create an account.")."</small>",
-             "invite_code"
+            sprintf('<span title="%s">%s</span>',
+                tra("An invitation code is required to create an account."),
+                tra("Invitation code")
+            ),
+            "invite_code"
         );
     }
 
     form_input_text(
-        tra("Screen name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
+        sprintf('<span title="%s">%s</span>',
+            tra("Identifies you on our web site. Use your real name or a nickname."),
+            tra("Screen name")
+        ),
         "new_name"
     );
     form_input_text(
-        tra("Email Address")."<br><small>".tra("Must be a valid address of the form 'name@domain'.")."</small>",
+        sprintf('<span title="%s">%s</span>',
+            tra("Must be a valid address of the form 'name@domain'."),
+            tra("Email address")
+        ),
         "new_email_addr"
     );
     $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
@@ -49,13 +58,18 @@ function create_account_form($teamid, $next_url) {
     }
 
     form_input_text(
-        tra("Password")
-        ."<br><small>".tra("Must be at least %1 characters", $min_passwd_length)."</small>",
+        sprintf('<span title="%s">%s</span>',
+            tra("Must be at least %1 characters", $min_passwd_length),
+            tra("Password")
+        ),
         "passwd", "", "password"
     );
     form_input_text(tra("Confirm password"), "passwd2", "", "password");
     form_select(
-        tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
+        sprintf('<span title="%s">%s</span>',
+            tra("Select the country you want to represent, if any."),
+            tra("Country")
+        ),
         "country",
         country_select_options()
     );
