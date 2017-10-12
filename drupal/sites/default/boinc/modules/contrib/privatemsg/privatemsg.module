@@ -878,8 +878,9 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
         continue;
       }
       $myuser = user_load(array('uid' => $recipient->uid));
-      $to[] = $myuser->boincuser_name . "_" . $myuser->boincuser_id;
-      $to_themed[$recipient->uid] = $myuser->boincuser_name;
+      $myname = preg_replace("/ /", "\xc2\xa0", $myuser->boincuser_name);
+      $to[] = $myname . "_" . $myuser->boincuser_id;
+      $to_themed[$recipient->uid] = $myname;
     }
     else {
       // Recipient list contains blocked users.
@@ -890,11 +891,13 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
   if (empty($to) && $usercount >= 1 && !$blocked) {
     // Assume the user sent message to own account as if the usercount is one or less, then the user sent a message but not to self.
     $myuser = user_load(array('uid' => $user->uid));
-    $to[] = $myuser->boincuser_name . "_" . $myuser->boincuser_id;
-    $to_themed[$user->uid] = $myuser->boincuser_name;
+    $myname = preg_replace("/ /", "\xc2\xa0", $myuser->boincuser_name);
+    $to[] = $myname . "_" . $myuser->boincuser_id;
+    $to_themed[$user->uid] = $myname;
   }
   if (!empty($to)) {
-    $recipients_string = implode(', ', $to);
+    $recipients_string = implode(' ', $to);
+    $recipients_string .= ' ';
   }
   if (isset($form_state['values'])) {
     if (isset($form_state['values']['recipient'])) {
@@ -933,7 +936,7 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
     $form['privatemsg']['recipient'] = array(
       '#type'               => 'textfield',
       '#title'              => t('To'),
-      '#description'        => t('Separate multiple names with commas. The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.'),
+      '#description'        => t('Separate multiple names with a space. The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.'),
       '#default_value'      => $recipients_string,
       '#required'           => TRUE,
       '#weight'             => -10,
@@ -1086,7 +1089,7 @@ function _privatemsg_load_thread_participants($thread_id) {
  */
 function _privatemsg_parse_userstring($input) {
   if (is_string($input)) {
-    $input = explode(',', $input);
+    $input = explode(' ', $input);
   }
 
   // Start working through the input array.
@@ -1417,7 +1420,7 @@ function privatemsg_sql_deleted(&$fragments, $days) {
 function privatemsg_user_name_autocomplete($string) {
   $names = array();
   // 1: Parse $string and build list of valid user names.
-  $fragments = explode(',', $string);
+  $fragments = explode(' ', $string);
   foreach ($fragments as $index => $name) {
     if ($name = trim($name)) {
       $names[$name] = $name;
@@ -1432,10 +1435,11 @@ function privatemsg_user_name_autocomplete($string) {
     db_set_active('boinc');
     $result = db_query_range($query['query'], $fragment, 0, 10);
     db_set_active('default');
-    $prefix = count($names) ? implode(", ", $names) .", " : '';
+    $prefix = count($names) ? implode(' ', $names) . ' ' : '';
     // 3: Build proper suggestions and print.
     while ($user = db_fetch_object($result)) {
-      $matches[$prefix . $user->name . "_" . $user->id . ", "] = $user->name . '(' . $user->id . ')';
+      $myname = preg_replace("/ /", "\xc2\xa0", $user->name);
+      $matches[$prefix . $myname . "_" . $user->id . ' '] = htmlentities($myname) . '(' . $user->id . ')';
     }
   }
   // convert to object to prevent drupal bug, see http://drupal.org/node/175361
