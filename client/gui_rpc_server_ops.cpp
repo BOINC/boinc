@@ -1113,7 +1113,9 @@ static void handle_get_app_config(GUI_RPC_CONN& grc) {
     sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
     printf("path: %s\n", path);
     int retval = read_file_string(path, s);
-    if (!retval) {
+    if (retval) {
+        grc.mfout.printf("<error>app_config.xml not found</error>\n");
+    } else {
         strip_whitespace(s);
         grc.mfout.printf("%s\n", s.c_str());
     }
@@ -1171,7 +1173,7 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
     }
     char path[MAXPATHLEN];
     sprintf(path, "%s/app_config.xml", p->project_dir());
-    FILE* f = fopen(path, "w");
+    FILE* f = boinc_fopen(path, "w");
     if (!f) {
         msg_printf(p, MSG_INTERNAL_ERROR,
             "Can't open app config file %s", path
@@ -1183,6 +1185,7 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
     MIOFILE mf;
     mf.init_file(f);
     ac.write(mf);
+    fclose(f);
     grc.mfout.printf("<success/>\n");
 }
 
