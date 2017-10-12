@@ -203,17 +203,6 @@ function boincwork_get_project_specific_config() {
   
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
-  // By default the returned array should have an 'app_overrides'
-  // element. Even if the admin did not specificy an <app_overrides>
-  // container in the XML, a basic one is added. This is because
-  // applications are now queried from the database, and the content
-  // of the XML upload is an override.
-  if (!array_key_exists('app_overrides', $xml['project_specific_preferences'])) {
-    $simpleapps = array(
-      '@position' => 0,
-    );
-    $xml['project_specific_preferences']['app_overrides'] = $simpleapps;
-  }
   return $xml;
 }
 
@@ -271,16 +260,13 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
       }
       break;
     */
-    case 'app_overrides':
+    case 'apps':
       // At least one app needs to be selected
       $rules['apps'] = array(
         'minimum selected' => 1,
         'list' => array()
       );
       foreach ($elements as $element) {
-        // Query database for application list and merge with elements
-        // from project-specific upload XML application list.
-        $element = boincwork_query_app_for_project_specific_prefs($element);
         foreach ($element['app'] as $app) {
           $name = "app_{$app['@attributes']['id']}";
           $rules['apps']['list'][] = $name;
@@ -353,19 +339,13 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
       }
       break;
     
-    case 'app_overrides':
-      if ($values['applications']) {
-        foreach ($elements as $element) {
-          // Query database for application list and merge with elements
-          // from project-specific upload XML application list.
-          $element = boincwork_query_app_for_project_specific_prefs($element);
-          $defaults['apps_selected'] = array();
-          $defaults['apps_selected']['app_id'] = array();
-          foreach ($element['app'] as $app) {
-            $app_id = $app['@attributes']['id'];
-            if ($values['applications']["app_{$app_id}"]) {
-              $defaults['apps_selected']['app_id'][] = $app_id;
-            }
+    case 'apps':
+      foreach ($elements as $element) {
+        $defaults['app_id'] = array();
+        foreach ($element['app'] as $app) {
+          $app_id = $app['@attributes']['id'];
+          if ($values['applications']["app_{$app_id}"]) {
+            $defaults['app_id'][] = $app_id;
           }
         }
       }
@@ -551,16 +531,15 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     }
     break;
     
-  case 'app_overrides':
-    $title = "Run only the selected applications.";
-
-    // Translate elements as appropriate
-    if ($title) {
-      i18nstrings_update('project:prefs_xml', $title);
-      $title = i18nstrings('project:prefs_xml', $title);
-    }
-
-    // Create the application section of the form
+  case 'apps':
+    $title = is_array($elements['title']) ? $elements['title']['@value'] : $elements['title'];
+    
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+    
     $form['applications'] = array(
       '#title' => bts('Applications', array(), NULL, 'boinc:account-preferences'),
       '#type' => 'fieldset',
@@ -568,42 +547,17 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       '#collapsible' => TRUE,
       '#collapsed' => FALSE
     );
-
-    // Two different XML formats are supported. The newer format has
-    // an <apps_selected> container with <app_id> elements as
-    // children. The older format has <app_id> elements only.
-    $myapp_ids = NULL;
-    if (is_array($user_prefs['apps_selected']['app_id'])) {
-      $myapp_ids = $user_prefs['apps_selected']['app_id'];
+    $applications = array();
+    if (!is_array($user_prefs['app_id'])) {
+      $user_prefs['app_id'] = array($user_prefs['app_id']);
     }
-    else if (is_array($user_prefs['app_id'])) {
-      $myapp_ids = $user_prefs['app_id'];
-    }
-    // Fix the array in the case where there is exactly one
-    // app_id. myapp_ids should be an associative array where the
-    // values are themselves an array. In effect the app_id array
-    // needs to be pushed down onre more level in the tree.
-    if (is_array($myapp_ids) AND !is_array($myapp_ids[1])) {
-      $temp = $myapp_ids;
-      $myapp_ids = array();
-      $myapp_ids[1] = $temp;
-    }
-    // Fill in the user_appplications array with the saved user project
-    // preferences from the database.
-    $user_applications = array();
-    foreach ($myapp_ids as $app) {
+    foreach ($user_prefs['app_id'] as $app) {
       if (!$app) continue;
       if (is_array($app) AND isset($app['@value'])) {
         $app = $app['@value'];
       }
-      $user_applications[] = $app;
+      $applications[] = $app;
     }
-    // For each application element, which comes from the project
-    // database list of apps, create and fill in the applications
-    // section of the form. The user_applications array is used to
-    // determine if the application should be selected. If no
-    // user_applications are set in the database, all applications
-    // will be selected.
     foreach ($elements['app'] as $app) {
       $app_id = $app['@attributes']['id'];
       $app_name = $app['@value'];
@@ -612,13 +566,14 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           $app['@attributes']['enabled'] == 'false') {
         $app_enabled = FALSE;
       }
-      if ($user_applications) {
-        $checked = in_array($app_id, $user_applications);
+      if ($applications) {
+        $checked = in_array($app_id, $applications);
       } else {
-        // If user_applications is not defined, it means there are no
-        // app_ids set in the user's project preferences payload
-        // XML. Thus all Web form values should be checked.
         $checked = TRUE;
+        if (isset($app['@attributes']['selected']) AND
+            $app['@attributes']['selected'] == 'false') {
+          $checked = FALSE;
+        }
       }
       $form['applications']["app_{$app_id}"] = array(
         '#title' => $app_name,
@@ -627,6 +582,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#disabled' => !$app_enabled
       );
     }
+    
     break;
     
   case 'group':
@@ -691,106 +647,6 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       // Don't generate form elements for things that aren't explicitly form
       // elements (i.e. 'title', '@attributes' keys, and the like)
   }
-}
-
-
-/**
- * Queries the BOINC project database database, app table for the list
- * of applications. Input parameter is a list of apps elements from
- * the project-specific XML upload admin page.
- *
- * The list of apps from the database and the list of apps from the
- * project-specific XML are merged together with the following algorithm.
- *   - The algorithm uses applications in the database to determine
- *     what applications are listed in the Web form. If an application
- *     is present in the project-specific XML but not in the database,
- *     it is ignored. The field 'id' is used to match the
- *     applications between the two.
- *   - If an application is in the database, the other attributes are
- *     obtained from the project-specific XML. The list of
- *     applications in this XML are overrides. Of importance, the name
- *     in the XML configuration will override the name found in the
- *     database.
- *   - The attributes for an application are obtained from the
- *     project-specific XML. However, if they are not present, the
- *     defaults are:
- *     - selected: true
- *     - enabled: true
- *     - weight: 100
- *
- * The list of applications is sorted for display. The sort comparison
- * function _dbapps_compare() is used. It sorts first by weight:
- * smaller numbers float up, larger numbers sink down; then
- * alphabetically by name using strnatcmp(); and finally by app
- * id. Weight defaults to 100, and must be a positive integer.
- *
- * Function returns an array of the merged list of applciations from
- * both sources.
- *
- * @param array $ppapps
- *   Array of applications obtained from project-specific XML upload.
- */
-function boincwork_query_app_for_project_specific_prefs($ppapps) {
-
-  // Query the project database for the list of applications.
-  db_set_active('boinc');
-  $sql = 'SELECT id, user_friendly_name FROM app WHERE deprecated = 0 ORDER BY user_friendly_name';
-  $dbres = db_query($sql);
-  db_set_active('default');
-
-  $dbapp = array();
-  if ($dbres) {
-    $position = 1;
-    while ($result = db_fetch_object($dbres)) {
-      $dbapp[$position] = array(
-        '@value' => $result->user_friendly_name,
-        '@attributes' => array(
-          'id' => $result->id,
-          'selected' => 'true',
-          'enabled' => 'true',
-          'weight' => 100,
-        ),
-        '@position' => $position,
-      );
-      $position++;
-    }
-  }
-  $dbapps = array(
-    'app' => $dbapp,
-    '@position' => $ppapps['@position'],
-  );
-
-  // Fix the array in the case where there is exactly one
-  // app_id.
-  if (is_array($ppapps['app']) AND !is_array($ppapps['app'][1])) {
-    $temp = $ppapps['app'];
-    $ppapps['app'] = array();
-    $ppapps['app'][1] = $temp;
-  }
-
-  // Loop over dbapps and attempt to match ids with the ppapps
-  // (project-specific XML upload list of applications).
-  $position = 1;
-  foreach ($dbapps['app'] as &$dbapp) {
-    foreach ($ppapps['app'] as $ppapp) {
-      // Match app ids from both arrays
-      if ($dbapp['@attributes']['id'] == $ppapp['@attributes']['id']) {
-        // Set name from ppapp data (if present)
-        if (array_key_exists('@value', $ppapp)) {
-          $dbapp['@value'] = $ppapp['@value'];
-        }
-        // Set the attributes from the ppapp data.
-        $dbapp['@attributes'] = array_replace($dbapp['@attributes'], $ppapp['@attributes']);
-        $dbapp['@position'] = $position;
-      }
-    }
-    $position++;
-  }
-
-  // Sort the apppliations by: weight, then alphabetical name, then id
-  uasort($dbapps['app'], '_dbapps_compare');
-  $dbapps['app'] = array_values($dbapps['app']);
-  return $dbapps;
 }
 
 /**
@@ -2005,7 +1861,6 @@ function delete_col(&$array, $offset) {
  * @param string $plfm
  *  platform name, may be NULL
  */
-
 function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
   switch ($appverid) {
     case ANON_PLATFORM_UNKNOWN:
@@ -2033,22 +1888,4 @@ function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
         return "v$prettyv $prettyc $plfm";
       }
   }
-}
-  
-/**
- * uasort() compare function for dbapps array.
- */
-function _dbapps_compare($a, $b) {
-  if ($a['@attributes']['weight'] == $b['@attributes']['weight']) {
-    $alphabetize = strnatcmp($a['@value'], $b['@value']);
-
-    if ($alphabetize==0) {
-      return ($a['@attributes']['id'] - $b['@attributes']['id']);
-    }
-    else {
-      return $alphabetize;
-    }
-
-  }
-  return ($a['@attributes']['weight'] - $b['@attributes']['weight']);
 }
