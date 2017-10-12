@@ -848,7 +848,6 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
 
   $recipients_string = '';
   $body      = '';
-
   // convert recipients to array of user objects
   if (!empty($recipients) && is_string($recipients) || is_int($recipients)) {
     $recipients = _privatemsg_generate_user_array($recipients);
@@ -894,7 +893,8 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
     $to_themed[$user->uid] = $myuser->boincuser_name;
   }
   if (!empty($to)) {
-    $recipients_string = implode(', ', $to);
+    $recipients_string = implode(",\xc2\xa0 ", $to);
+    $recipients_string .= ",\xc2\xa0 ";
   }
   if (isset($form_state['values'])) {
     if (isset($form_state['values']['recipient'])) {
@@ -1086,7 +1086,7 @@ function _privatemsg_load_thread_participants($thread_id) {
  */
 function _privatemsg_parse_userstring($input) {
   if (is_string($input)) {
-    $input = explode(',', $input);
+    $input = explode(",\xc2\xa0", $input);
   }
 
   // Start working through the input array.
@@ -1417,7 +1417,7 @@ function privatemsg_sql_deleted(&$fragments, $days) {
 function privatemsg_user_name_autocomplete($string) {
   $names = array();
   // 1: Parse $string and build list of valid user names.
-  $fragments = explode(',', $string);
+  $fragments = explode(",\xc2\xa0", $string);
   foreach ($fragments as $index => $name) {
     if ($name = trim($name)) {
       $names[$name] = $name;
@@ -1432,10 +1432,10 @@ function privatemsg_user_name_autocomplete($string) {
     db_set_active('boinc');
     $result = db_query_range($query['query'], $fragment, 0, 10);
     db_set_active('default');
-    $prefix = count($names) ? implode(", ", $names) .", " : '';
+    $prefix = count($names) ? implode(",\xc2\xa0 ", $names) .",\xc2\xa0 " : '';
     // 3: Build proper suggestions and print.
     while ($user = db_fetch_object($result)) {
-      $matches[$prefix . $user->name . "_" . $user->id . ", "] = $user->name . '(' . $user->id . ')';
+      $matches[$prefix . $user->name . "_" . $user->id . ",\xc2\xa0 "] = $user->name . '(' . $user->id . ')';
     }
   }
   // convert to object to prevent drupal bug, see http://drupal.org/node/175361
