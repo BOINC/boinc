@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -61,8 +61,8 @@ function show_form($all) {
 
     start_table("");
     table_header(
-        "ID #<br><p class=\"text-muted\">click for details</p>",
-      "Application<br><p class=\"text-muted\">click for details</p>",
+        "ID #<br><small>click for details</small>",
+      "Application<br><small>click for details</small>",
       "Version",
       "Platform",
       "Plan class",

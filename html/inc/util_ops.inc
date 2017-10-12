@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,22 +26,37 @@ require_once("../project/project.inc");
 
 function admin_page_head($title) {
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-    echo "<html><head><title>$title</title>
-        <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
-        <link rel=\"stylesheet\" type=\"text/css\" href=main.css>
-        <link rel=\"stylesheet\" type=\"text/css\" href=white.css>
+    echo sprintf('<html><head><title>%s</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link type="text/css" rel="stylesheet" href="%s/bootstrap.min.css" media="all">
+        <link type="text/css" rel="stylesheet" href="%s/custom.css" media="all">
         </head>
         <body>
-        <h2>".PROJECT.": $title</h2>
-    ";
+        <div class="container-fluid">
+        <h2>%s: %s</h2>
+        ',
+        $title,
+        secure_url_base(),
+        secure_url_base(),
+        PROJECT,
+        $title
+    );
     show_login_info();
+    echo "<p>";
 }
 
 function admin_page_tail() {
-    echo "
-        <hr><center><a href=index.php>Main page</a></center>\n
-        </body></html>
-    ";
+    echo sprintf('
+        <hr><center><a href=index.php>Main page</a></center>
+        <script src="%s/jquery.min.js"></script>
+        <script src="%s/bootstrap.min.js"></script>
+        </div>
+        </body>
+        </html>
+        ',
+        secure_url_base(),
+        secure_url_base()
+    );
 }
 
 // TODO: get rid of all the following
