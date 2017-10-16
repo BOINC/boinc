@@ -1,0 +1,99 @@
+<?php
+// $id$
+
+/**
+ * @file
+ * Module contains boinc-related customizations for apache solr
+ * search.
+ */
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into drupal
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_block()
+ *
+ * Functions are forward compatible with Drupal 7 hooks.
+ */
+function boinc_solr_search_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      return boinc_solr_search_block_info();
+      break;
+    case 'view':
+      return boinc_solr_search_block_view($delta);
+      break;
+    case 'configure':
+    case 'save':
+    default:
+  }
+}
+
+/* 
+ * 
+ */
+function boinc_solr_search_block_info() {
+  $blocks = array();
+  $blocks['boinc_solr_search_0'] = array(
+    // @todo - add bts()
+    'info' => 'BOINC Search Help',
+  );
+  return $blocks;
+}
+
+/*
+ *
+ */
+function boinc_solr_search_block_view($delta = 0) {
+  $block = array();
+  switch($delta) {
+    case 'boinc_solr_search_0':
+      $items = array(
+          "By default a search matches ANY search term. Results with more than one term will be presented higher in the search results.",
+          "You may use 'AND' to have the search engine return results with ALL search terms.",
+          "For example, searching for 'boinc AND client' will only contain results with words boinc and client."
+      );
+
+      drupal_add_js('misc/collapse.js');
+      // @todo - add bts()
+      // For Drupal 7 the format of the array changes, see https://api.drupal.org/api/drupal/includes%21form.inc/function/theme_fieldset/7.x for details.
+      $collapsible_item = array(
+        '#title' => 'Search Help',
+        '#description' => theme_item_list($items),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#attributes' => array(
+          'class' => 'search-help-block',
+        ),
+      );
+      $block['content'] = theme('fieldset', $collapsible_item);
+      break;
+  }
+  return $block;
+}
+
+// @todo - remove function after development
+function _boinc_solr_search_helpform($form, &$form_state) {
+
+  // @todo - add bts()
+  $items = array(
+    "By default a search matches ANY search term. Results with more than one term will be presented higher in the search results.",
+    "You may use 'AND' to have the search engine return results with ALL search terms.",
+    "For example, searching for 'boinc AND client' will only contain results with words boinc and client."
+  );
+
+  $form = array();
+  $form['help'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // @todo - add bts()
+    '#title' => 'Search Help',
+  );
+  $form['help']['text'] = array(
+    '#type' => 'item',
+    '#description' => theme_item_list($items),
+  );
+  return $form;
+}
