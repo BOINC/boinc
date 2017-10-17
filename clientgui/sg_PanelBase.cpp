@@ -44,11 +44,6 @@ CSimplePanelBase::CSimplePanelBase( wxWindow* parent ) :
 #ifdef __WXMSW__
     SetDoubleBuffered(true);
 #endif
-
-#ifdef __WXMAC__
-    // Tell accessibility aids to ignore this panel (but not its contents)
-    HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-#endif
 }
 
 

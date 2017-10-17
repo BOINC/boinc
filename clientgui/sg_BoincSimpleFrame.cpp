@@ -984,9 +984,6 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     SetBackgroundBitmap();   
 
 #ifdef __WXMAC__
-    // Tell accessibility aids to ignore this panel (but not its contents)
-    HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-    
     if (compareOSVersionTo(10, 7) >= 0) {
         m_iRedRingRadius = 4;
     } else {
