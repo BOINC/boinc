@@ -100,6 +100,17 @@ int CScreensaver::count_active_graphic_apps(RESULTS& res, RESULT* exclude) {
 
         if (!strlen(res.results[i]->graphics_exec_path)) continue;
         if (is_same_task(res.results[i], exclude)) continue;
+        if (!boinc_file_exists(res.results[i]->graphics_exec_path)) {
+            // Remove it from the vector if graphics executable is missing (does not exist)
+            BOINCTRACE(
+                _T("count_active_graphic_apps -- removing missing GFX app name = '%s', path = '%s'\n"),
+                res.results[i]->name, res.results[i]->graphics_exec_path
+            );
+            RESULT *rp = res.results[i];
+            res.results.erase(res.results.begin()+i);
+            delete rp;
+            continue;
+        }
 #ifdef __APPLE__
         // Remove it from the vector if incompatible with current version of OS X
         if (isIncompatible(res.results[i]->graphics_exec_path)) {
