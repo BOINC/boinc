@@ -786,11 +786,6 @@ bool CAdvancedFrame::CreateNotebook() {
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
 
-#ifdef __WXMAC__
-    //Accessibility
-    HIObjectSetAccessibilityIgnored((HIObjectRef)pPanel->GetHandle(), true);
-#endif
-
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
     return true;
 }
