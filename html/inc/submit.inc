@@ -91,8 +91,13 @@ function req_to_xml($req, $op) {
             }
             $x .= "        </input_file>\n";
         }
+<<<<<<< HEAD
+        if (!empty($job->input_template)) {
+            $x .= "    $job->input_template\n";
+=======
         if (!empty($job->wu_template)) {
             $x .= "    <wu_template>\n$job->wu_template\n    </wu_template>\n";
+>>>>>>> parent of 9bbeb05... Remote job submission: fix bugs when using per-job templates
         }
         if (!empty($job->result_template)) {
             $x .= "    <result_template>\n$job->result_template\n    </result_template>\n";
