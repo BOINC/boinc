@@ -595,6 +595,7 @@ function show_job_details($wu) {
 // return a batch specified by the command, using either ID or name
 //
 function get_batch($r) {
+    $batch = NULL;
     if (!empty($r->batch_id)) {
         $batch_id = (int)($r->batch_id);
         $batch = BoincBatch::lookup_id($batch_id);
