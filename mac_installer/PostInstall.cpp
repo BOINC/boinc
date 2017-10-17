@@ -183,7 +183,6 @@ enum { launchWhenDone,
 int main(int argc, char *argv[])
 {
     Boolean                 Success;
-    short                   itemHit;
     long                    brandID = 0;
     int                     i;
     pid_t                   managerPID = 0, installerPID = 0, coreClientPID = 0;
@@ -279,8 +278,7 @@ int main(int argc, char *argv[])
         BringAppToFront();
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
-        StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
+        ShowMessage(false, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
 
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
@@ -353,7 +351,7 @@ int main(int argc, char *argv[])
     for (i=0; i<RETRY_LIMIT; ++i) {
         err = CreateBOINCUsersAndGroups();
         if (err != noErr) {
-            printf("CreateBOINCUsersAndGroups returned %ld (repetition=%d)", err, i);
+            printf("CreateBOINCUsersAndGroups returned %d (repetition=%d)", err, i);
             fflush(stdout);
             REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
@@ -363,7 +361,7 @@ int main(int argc, char *argv[])
         err = SetBOINCAppOwnersGroupsAndPermissions(appPath[brandID]);
         
         if (err != noErr) {
-            printf("SetBOINCAppOwnersGroupsAndPermissions returned %ld (repetition=%d)", err, i);
+            printf("SetBOINCAppOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
             fflush(stdout);
             REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
@@ -371,7 +369,7 @@ int main(int argc, char *argv[])
 
         err = SetBOINCDataOwnersGroupsAndPermissions();
         if (err != noErr) {
-            printf("SetBOINCDataOwnersGroupsAndPermissions returned %ld (repetition=%d)", err, i);
+            printf("SetBOINCDataOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
             fflush(stdout);
             REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
@@ -383,7 +381,7 @@ int main(int argc, char *argv[])
             true, false, NULL, 0
         );
         if (err != noErr) {
-            printf("check_security returned %ld (repetition=%d)", err, i);
+            printf("check_security returned %d (repetition=%d)", err, i);
             fflush(stdout);
             REPORT_ERROR(i >= RETRY_LIMIT);
         } else {
