@@ -250,7 +250,7 @@
   <string name="tasks_result_aborted">abortado</string>
   <string name="tasks_result_upload_failed">falha no upload</string>
   <string name="tasks_active_uninitialized">pronto</string>
-  <string name="tasks_active_executing">executando</string>
+  <string name="tasks_active_executing">em execução</string>
   <string name="tasks_active_suspended">suspenso</string>
   <string name="tasks_active_abort_pending">suspendendo</string>
   <string name="tasks_active_quit_pending">suspendendo</string>
@@ -297,7 +297,7 @@
   <string name="suspend_cputhrottle">Controle da CPU agendado.</string>
   <string name="suspend_noinput">Sem atividades recentes do usuário.</string>
   <string name="suspend_delay">Adiamento da inicialização.</string>
-  <string name="suspend_exclusiveapp">Um aplicativo exclusivo está em operação.</string>
+  <string name="suspend_exclusiveapp">Um aplicativo exclusivo está em execução.</string>
   <string name="suspend_cpu">Seu dispositivo está ocupado com outros apps.</string>
   <string name="suspend_network_quota">BOINC alcançou o limite de transferência por rede.</string>
   <string name="suspend_os">Interrompido pelo Android.</string>

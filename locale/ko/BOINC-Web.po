@@ -4,13 +4,14 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Kangsan Lee <treppolse@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-21 02:56+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2017-10-02 03:40+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +59,7 @@ msgstr "이 페이지는 %s번역이 가능합니다%s."
 msgid ""
 "We recommend that you also install %1VirtualBox%2, so your computer can work"
 " on science projects that require it."
-msgstr ""
+msgstr "저희는 여러분이 %1VirtualBox%2도 같이 설치하길 권장합니다. 그렇게 하면 해당 기능을 요구하는 과학 프로젝트도 수행할 수 있습니다."
 
 #: doc/download.php:44
 msgid "Learn more about VirtualBox."

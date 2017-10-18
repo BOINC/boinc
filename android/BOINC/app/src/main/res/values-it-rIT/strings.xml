@@ -57,7 +57,7 @@
   <string name="attachproject_login_category_terms_of_use">Licenza per</string>
   <string name="attachproject_login_accept_terms_of_use">Creando un account per questo progetto, accetti i termini della licenza visualizzata sotto.</string>
   <string name="attachproject_login_category_login">Fai il login con un account esistente</string>
-  <string name="attachproject_login_header_id_email">e-mail:</string>
+  <string name="attachproject_login_header_id_email">email:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Password:</string>
   <string name="attachproject_login_category_creation">Nuovo</string>
@@ -103,7 +103,7 @@
   <string name="attachproject_error_email_bad_syntax">email rifiutata</string>
   <string name="attachproject_error_bad_pwd">Password rifiutata</string>
   <string name="attachproject_error_creation_disabled">La creazione di nuovi account è disabilitata su questo progetto</string>
-  <string name="attachproject_error_invalid_url">URL invalido</string>
+  <string name="attachproject_error_invalid_url">URL non valido</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Indietro</string>
   <string name="attachproject_working_finish_button">Fine</string>
@@ -122,7 +122,7 @@
   <string name="main_noproject_warning">Premi qui per scegliere un progetto.</string>
   <string name="main_error">Ops</string>
   <string name="main_error_long">…questo non dovrebbe succedere!\nClicca sull\'icona per riprovare.</string>
-  <string name="main_title_icon_desc">icona BOINC</string>
+  <string name="main_title_icon_desc">Icona di BOINC</string>
   <!--tab names-->
   <string name="tab_status">Stato</string>
   <string name="tab_projects">Progetti</string>
@@ -136,7 +136,7 @@
   <string name="status_running_long">Grazie per la partecipazione.</string>
   <string name="status_paused">Sospeso</string>
   <string name="status_idle">Nulla da fare</string>
-  <string name="status_idle_long">In attesa di nuove elaborazioni…</string>
+  <string name="status_idle_long">In attesa di nuove WU…</string>
   <string name="status_computing_disabled">Sospeso</string>
   <string name="status_computing_disabled_long">Premi play per far ripartire la rete e l\'elaborazione</string>
   <string name="status_launching">Avvio in corso…</string>
@@ -178,9 +178,9 @@
   <string name="prefs_disk_access_interval_description">Suggerisci un intervallo tra le scritture su disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite trasferimento giornaliero</string>
   <string name="prefs_network_daily_xfer_limit_mb_description">Limita il traffico giornaliero di BOINC.</string>
-  <string name="prefs_network_wifi_only_header">Trasferisci le WU solo tramite WiFi</string>
+  <string name="prefs_network_wifi_only_header">Trasferisci WU solo tramite WiFi</string>
   <string name="prefs_autostart_header">Avvio automatico</string>
-  <string name="prefs_show_notification_notices_header">Visualizza notifiche per nuove notizie</string>
+  <string name="prefs_show_notification_notices_header">Visualizza notifiche delle notizie</string>
   <string name="prefs_show_notification_suspended_header">Visualizza notifiche quando sospeso</string>
   <string name="prefs_cpu_number_cpus_header">Usa questo numero di core CPU</string>
   <string name="prefs_cpu_number_cpus_description">Limita il numero di core CPU che BOINC usa per l\'elaborazione.</string>

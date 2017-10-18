@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
 "Last-Translator: Wiri Marcolan Kamei <wirimk@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -183,7 +183,7 @@ msgstr "Notícias"
 
 #: doc/index.php:81
 msgid "Database not available; please try again later."
-msgstr "Base de dados indisponível; por favor tente mais tarde."
+msgstr "Banco de dados indisponível; por favor tente mais tarde."
 
 #. "Volunteer" is used as a verb
 #: doc/index.php:90
@@ -635,7 +635,7 @@ msgid ""
 "Universe@Home aims to create the first database of the simulated stellar "
 "content of the Universe, from the earliest stars to the most exotic black "
 "hole binaries."
-msgstr "Universe@Home pretende criar a primeira base de dados do conteúdo estelar simulado do Universo, desde as primeiras estrelas aos mais exóticos buracos negros binários."
+msgstr "Universe@Home pretende criar o primeiro banco de dados do conteúdo estelar simulado do Universo, desde as primeiras estrelas aos mais exóticos buracos negros binários."
 
 #: doc/projects.inc:332
 msgid "Do research in physics and astronomy"
