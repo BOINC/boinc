@@ -136,6 +136,11 @@ void CBOINCGUIApp::ShowApplication(bool bShow) {
     }
 }
 
+CGFloat CBOINCGUIApp::GetMenuBarHeight() {
+    CGFloat menuBarHeight = [[[NSApplication sharedApplication] mainMenu] menuBarHeight];
+    return menuBarHeight;
+}
+
 
 extern bool s_bSkipExitConfirmation;
 
