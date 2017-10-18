@@ -96,7 +96,7 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     CGDisplayCount numDisplays;
     CGDisplayCount i;
     CGRect displayRect, intersectedRect;
-    CGFloat mBarHeight = GetMBarHeight();
+    CGFloat mBarHeight = wxGetApp().GetMenuBarHeight();
 
     CGRect titleRect = CGRectMake(iLeft, iTop, iWidth, 22);
     // Make sure at least a 5X5 piece of title bar is visible
