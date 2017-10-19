@@ -30,6 +30,7 @@
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
 # Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
 # Updated 3/13/16 to add -target and -setting optional arguments
+# Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
 #
 ## This script requires OS 10.8 or later
 #
@@ -130,6 +131,7 @@ fi
 
 ## "-all" overrides "-lib" and "-client" since it includes those targets
 if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
+    buildall=1
     if [ $isXcode6orLater = 0 ]; then
         ## We can build the screensaver using our standard settings (with Garbage Collection)
         targets="-target Build_All"
