@@ -223,7 +223,6 @@ public:
     //
     bool                WasFileModifiedBeforeSystemBoot(char * filePath);
     void                HideThisApp(void);
-    CGFloat             GetMenuBarHeight(void);
 
 #if !wxCHECK_VERSION(3,0,1)
 // This should be fixed after wxCocoa 3.0.0:

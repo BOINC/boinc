@@ -136,9 +136,39 @@ void CBOINCGUIApp::ShowApplication(bool bShow) {
     }
 }
 
-CGFloat CBOINCGUIApp::GetMenuBarHeight() {
-    CGFloat menuBarHeight = [[[NSApplication sharedApplication] mainMenu] menuBarHeight];
-    return menuBarHeight;
+
+// Returns true if at least a 5 X 5 pixel area of the 
+// window's title bar is entirely on the displays
+// Note: Arguments are Quickdraw-style coordinates, 
+// but CGDisplayBounds() sets top left corner as (0, 0)
+Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
+    CGRect intersectedRect;
+    CGRect titleRect = CGRectMake(iLeft, iTop, iWidth, 22);
+    // Make sure at least a 5X5 piece of title bar is visible
+    titleRect = CGRectInset(titleRect, 5, 5);   
+
+    
+    NSArray *allScreens = [NSScreen screens];
+    unsigned int i;
+    // The geometries of windows and display arangements are such
+    // that even if the title bar spans multiple windows, a 5X5
+    // section is on-screen only if at least one 5X5 section is
+    // entirely on one or more displays, so this test is sufficient.
+    unsigned int numDisplays = [ allScreens count ];
+    for (i=0; i<numDisplays; i++) {
+        NSScreen *aScreen = (NSScreen *)[ allScreens objectAtIndex:i ];
+        NSRect visibleRect = [aScreen visibleFrame];    // Usable area of screen
+        // Convert to QuickDraw coordinates (Y=0 at top of screen)
+        NSRect fullScreenRect = [aScreen frame];
+        visibleRect.origin.y = fullScreenRect.size.height - visibleRect.origin.y - visibleRect.size.height;
+
+        intersectedRect = CGRectIntersection(visibleRect, titleRect);
+        if (! CGRectIsNull(intersectedRect)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
