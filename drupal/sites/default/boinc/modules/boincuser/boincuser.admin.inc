@@ -332,7 +332,7 @@ function boincuser_admin_weboptions(&$form_state) {
     '#description' => t('Provide a path to a node which will serve as your site\'s landing page for users create an account using the BOINC client manager. They will be directed to this page after the account is created. If blank, a default account_finish page will be used.<br>Examples: account_finish, content/welcome, node/123'),
     '#default_value' => $default['boinc_weboptions_accountfinish'],
   );
-  $form['boinc_weboptions_moderate'] = array (
+  $form['boinc_weboptions_moderationpage'] = array (
     '#type' => 'textfield',
     '#title' => t('Path to the site\'s content moderation info page, should be a path to a node'),
     '#description' => t('Provide a path to a node which will serve as your site\'s page for account/content moderation information. This will be used on the default account_finish page. If blank, no link to a moderation page will be provided. If a path is provided to the custom account_finish.php page (above), this field will be ignored.<br>Examples: moderation, content/moderation, node/456'),
