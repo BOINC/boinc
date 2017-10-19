@@ -141,11 +141,6 @@ int CTaskBarIcon::SetDockBadge(wxBitmap* bmp) {
     NSImage *badge = bmp->GetNSImage();
 
     [buf lockFocus];
-    [appIcon drawAtPoint:NSMakePoint(0, 0)
-            fromRect:NSZeroRect
-            operation:NSCompositeSourceOver
-            fraction:1.0f
-    ];
     [badge drawAtPoint:NSMakePoint(0, 0)
             fromRect:NSZeroRect
             operation:NSCompositeSourceOver
