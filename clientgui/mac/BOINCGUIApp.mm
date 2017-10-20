@@ -137,17 +137,25 @@ void CBOINCGUIApp::ShowApplication(bool bShow) {
 }
 
 
+// NSTitledWindowMask is deprecated in OS 10.12 and is replaced by
+// NSWindowStyleMaskTitled, which is not defined before OS 10.12
+#ifndef NSWindowStyleMaskTitled
+#define NSWindowStyleMaskTitled NSTitledWindowMask
+#endif
+
 // Returns true if at least a 5 X 5 pixel area of the 
 // window's title bar is entirely on the displays
-// Note: Arguments are Quickdraw-style coordinates, 
-// but CGDisplayBounds() sets top left corner as (0, 0)
+// Note: Arguments are wxWidgets / Quickdraw-style coordinates
+// (y=0 at top) but NSScreen coordinates have y=0 at bottom
 Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
-    CGRect intersectedRect;
-    CGRect titleRect = CGRectMake(iLeft, iTop, iWidth, 22);
+    NSRect testFrameRect = NSMakeRect(100, 100, 200, 200);
+    NSRect testContentRect = [NSWindow contentRectForFrameRect:testFrameRect
+                                styleMask:NSWindowStyleMaskTitled];
+    CGFloat titleBarHeight = testFrameRect.size.height - testContentRect.size.height;
     // Make sure at least a 5X5 piece of title bar is visible
-    titleRect = CGRectInset(titleRect, 5, 5);   
+    NSRect titleRect = NSMakeRect(iLeft, iTop, iWidth, titleBarHeight);
+    titleRect = NSInsetRect(titleRect, 5, 5);
 
-    
     NSArray *allScreens = [NSScreen screens];
     unsigned int i;
     // The geometries of windows and display arangements are such
@@ -158,12 +166,11 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     for (i=0; i<numDisplays; i++) {
         NSScreen *aScreen = (NSScreen *)[ allScreens objectAtIndex:i ];
         NSRect visibleRect = [aScreen visibleFrame];    // Usable area of screen
-        // Convert to QuickDraw coordinates (Y=0 at top of screen)
+        // Convert to wxWidgets coordinates (Y=0 at top of screen)
         NSRect fullScreenRect = [aScreen frame];
         visibleRect.origin.y = fullScreenRect.size.height - visibleRect.origin.y - visibleRect.size.height;
 
-        intersectedRect = CGRectIntersection(visibleRect, titleRect);
-        if (! CGRectIsNull(intersectedRect)) {
+        if (NSIntersectsRect(visibleRect, titleRect)) {
             return true;
         }
     }
