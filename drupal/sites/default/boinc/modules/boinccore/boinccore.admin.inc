@@ -104,7 +104,7 @@ function boinccore_admin_default_content(&$form_state) {
   $form['page'] = array(
     '#type' => 'select',
     '#title' => t('Generate default content for'),
-    '#description' => t('Generate some standard pages for a Drupal-BOINC Web site. You may generate all pages or specific pages. If a page already exists, it will <b>not</b> be overwritten. Pages will be generated with the path \'/page\', e.g., \'/help\'. Note the absense of \'content/\'.<p>The pages generated here will have vare minimum content. Most will have content such as \'Add a link to your FAQ here.\', and it is the admin or editors responsibility to add the necessary content.'),
+    '#description' => t('Generate some standard pages for a Drupal-BOINC Web site. You may generate all pages or specific pages. If a page already exists, it will <b>not</b> be overwritten. Pages will be generated with the path \'/page\', e.g., \'/help\'. Note the absense of \'content/\'.<p>The pages generated here will have very limited content. Most will have content such as \'Add a link to your FAQ here.\', and it is the admin or editors responsibility to add the necessary content.'),
     '#options' => array(
       0 => t('All standard pages'),
 //      'about' => t('About page'),
