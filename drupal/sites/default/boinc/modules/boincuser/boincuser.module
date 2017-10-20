@@ -2045,11 +2045,16 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
  * Implementation of hook_privatemsg_name_lookup();
  */
 function boincuser_privatemsg_name_lookup($string) {
-  //Get the BOINC ID from the name string, and lookup the
-  //corresponding drupal user.
+  // Get the BOINC ID from the name string, and lookup the
+  // corresponding drupal user.
   $boincname = substr($string, 0, strrpos($string, '_'));
   $boincid = substr($string, strrpos($string, '_') + 1);
   $drupalid = get_drupal_id($boincid);
+
+  // Name has spaced replaced with special UTF-8 characters in
+  // privatemsg module. We need to convert them back to spaces for the
+  // check below.
+  $boincname = preg_replace("/\\xc2\\xa0/", " ", $boincname);
   if ($drupalid>0) {
     if ($recipient = user_load(array('uid' => $drupalid))) {
       // Double-check that the loaded user matches both boincuser_id
