@@ -84,6 +84,21 @@ function global_search_solr_default_fe_block_settings() {
     'cache' => '-1',
   );
 
+  $theme['boinc_solr_search-boinc_solr_search_0'] = array(
+    'module' => 'boinc_solr_search',
+    'delta' => 'boinc_solr_search_0',
+    'theme' => 'boinc',
+    'status' => '1',
+    'weight' => '0',
+    'region' => 'sidebar_second',
+    'custom' => '0',
+    'throttle' => '0',
+    'visibility' => '1',
+    'pages' => 'search/*',
+    'title' => '',
+    'cache' => '1',
+  );
+
   $export['boinc'] = $theme;
 
   // einstein
@@ -164,6 +179,21 @@ function global_search_solr_default_fe_block_settings() {
     'cache' => '-1',
   );
 
+  $theme['boinc_solr_search-boinc_solr_search_0'] = array(
+    'module' => 'boinc_solr_search',
+    'delta' => 'boinc_solr_search_0',
+    'theme' => 'einstein',
+    'status' => '1',
+    'weight' => '-20',
+    'region' => 'sidebar_second',
+    'custom' => '0',
+    'throttle' => '0',
+    'visibility' => '1',
+    'pages' => 'search/*',
+    'title' => '',
+    'cache' => '1',
+  );
+
   $export['einstein'] = $theme;
 
   // garland
@@ -242,6 +272,21 @@ function global_search_solr_default_fe_block_settings() {
     'pages' => '',
     'title' => '',
     'cache' => '-1',
+  );
+
+  $theme['boinc_solr_search-boinc_solr_search_0'] = array(
+    'module' => 'boinc_solr_search',
+    'delta' => 'boinc_solr_search_0',
+    'theme' => 'garland',
+    'status' => 0,
+    'weight' => '0',
+    'region' => '',
+    'custom' => '0',
+    'throttle' => '0',
+    'visibility' => '1',
+    'pages' => 'search/*',
+    'title' => '',
+    'cache' => '1',
   );
 
   $export['garland'] = $theme;

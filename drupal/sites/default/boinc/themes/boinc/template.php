@@ -534,6 +534,12 @@ function boinc_preprocess_search_result(&$variables) {
   // Locality
   $variables['locality'] = $language->language;
 
+  // Change the format of the search result date/time in the info string.
+  if ($variables['result']['date']) {
+    $variables['info_split']['date'] = date('j M Y G:i:s T', $variables['result']['date']);
+  }
+  $variables['info'] = implode(' - ', $variables['info_split']);
+
   $type = strtolower($variables['result']['bundle']);
   switch ($type) {
   case 'profile':
