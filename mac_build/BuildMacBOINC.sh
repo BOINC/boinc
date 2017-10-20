@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2015 University of California
+# Copyright (C) 2017 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -29,6 +29,7 @@
 # Updated 11/28/15 to build ScreenSaver with ARC under Xcode 6 or later
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
 # Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
+# Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
 #
 ## This script requires OS 10.8 or later
 #
@@ -115,6 +116,7 @@ fi
 
 ## "-all" overrides "-lib" and "-client" since it includes those targets
 if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
+    buildall=1
     if [ $isXcode6orLater = 0 ]; then
         ## We can build the screensaver using our standard settings (with Garbage Collection)
         targets="-target Build_All"
