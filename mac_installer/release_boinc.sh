@@ -45,6 +45,7 @@
 ## updated 4/7/15 by Charlie Fenton to comment on problem with BOINC+VBox installer
 ## updated 7/1/15 by Charlie Fenton for compatibility with OS 10.11
 ## updated 6/4/17 by Charlie Fenton for compatibility with Xcode versions > 5.0.2
+## updated 10/19/17 by Charlie Fenton for different path to boinc_logo_black.jpg
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -216,7 +217,7 @@ cp -fp curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Suppo
 
 cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
 
-cp -fp doc/logo/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+cp -fp clientscr/res/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fp api/ttf/liberation-fonts-ttf-2.00.0/LiberationSans-Regular.ttf ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/LiberationSans-Regular.ttf
 cp -fp clientscr/ss_config.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fpRL $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/

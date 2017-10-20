@@ -215,11 +215,6 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     m_bGotAllProjectsList = false;
     m_bHasBeenDrawn = false;
 
-#ifdef __WXMAC__
-    // Tell accessibility aids to ignore this panel (but not its contents)
-    HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-#endif    
-
     m_ChangeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
     m_ChangeSlideTimer->Start(10000);
 }
