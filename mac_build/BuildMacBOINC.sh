@@ -30,6 +30,7 @@
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
 # Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
 # Updated 3/13/16 to add -target and -setting optional arguments
+# Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
 # Updated 10/19/17 Special handling of screensaver build is no longer needed
 #
 ## This script requires OS 10.8 or later
@@ -123,6 +124,7 @@ fi
 
 ## "-all" overrides "-lib" and "-client" since it includes those targets
 if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
+    buildall=1
     targets="-target Build_All"
 fi
 
