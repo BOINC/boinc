@@ -25,7 +25,7 @@
 # Updated 2/11/14 for sqlite 3.8.3
 # Updated 1/5/16 for sqlite 3.9.2
 # Updated 3/2/16 for sqlite 3.11.0
-# Updated 10/18/17 to build 64-bit library (temporarily build both 32-bit and 64-bit libraries) 
+# Updated 10/22/17 to build 64-bit library (temporarily build both 32-bit and 64-bit libraries)
 #
 ## This script requires OS 10.6 or later
 #
@@ -67,10 +67,16 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libsqlite3.a" ]; then
-        cwd=$(pwd)
-        dirname=${cwd##*/}
-        echo "${dirname} already built"
-        return 0
+        lipo "${libPath}/libsqlite3.a" -verify_arch i386 x86_64
+        if [ $? -eq 0 ]; then
+            cwd=$(pwd)
+            dirname=${cwd##*/}
+            echo "${dirname} already built"
+            return 0
+        else
+            # already built but not for correct architectures
+            doclean="yes"
+        fi
     fi
 fi
 
