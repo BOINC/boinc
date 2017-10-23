@@ -192,10 +192,11 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" 
     fi
 fi
 
-if [ alreadyBuilt -eq 1 ]; then
+if [ $alreadyBuilt -eq 1 ]; then
     cwd=$(pwd)
     dirname=${cwd##*/}
     echo "${dirname} Release libwx_osx_cocoa_static.a already built"
+    echo ""
 else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
@@ -228,10 +229,11 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" 
     fi
 fi
 
-if [ alreadyBuilt -eq 1 ]; then
+if [ $alreadyBuilt -eq 1 ]; then
     cwd=$(pwd)
     dirname=${cwd##*/}
     echo "${dirname} Debug libwx_osx_cocoa_static.a already built"
+    echo ""
 else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
