@@ -1,6 +1,6 @@
 # NOTE: settings in this file have precedence over settings on the website
-#image: Visual Studio 2013
-os: Previous Visual Studio 2013
+image: Visual Studio 2013
+#os: Previous Visual Studio 2013
 
 matrix:
   fast_finish: true
@@ -37,11 +37,10 @@ before_build:
   - if %TOOLCHAIN_VERSION%==12.0 call "%VS120COMNTOOLS%\vsvars32.bat"
 
 build_script:
-  - echo %solution_name%
   - devenv %solution_name% /Build "%configuration%|%platform%"
 
-build:
-  parallel: true
-  verbosity: minimal
+#build:
+#  parallel: true
+#  verbosity: minimal
 
 test: off
