@@ -479,21 +479,31 @@ int archive_result_gz (DB_RESULT& result) {
     xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
 
     n = snprintf(buf, sizeof(buf), RESULT_ARCHIVE_DATA);
-    if ((n <= 0) || n > sizeof(buf)) fail("ERROR: printing result archive failed\n");
+    if ((n <= 0) || n > (int)sizeof(buf)) {
+        fail("ERROR: printing result archive failed\n");
+    }
     n = gzwrite((gzFile)re_stream, buf, (unsigned int)n);
-    if (n <= 0) fail("ERROR: writing result archive failed\n");
+    if (n <= 0) {
+        fail("ERROR: writing result archive failed\n");
+    }
 
     n = gzflush((gzFile)re_stream, Z_FULL_FLUSH);
-    if (n != Z_OK) fail("ERROR: writing result archive failed (flush)\n");
+    if (n != Z_OK) {
+        fail("ERROR: writing result archive failed (flush)\n");
+    }
 
     n = gzprintf((gzFile)re_index_stream,
-            "%lu     %d    %s\n",
-            result.id, time_int, result.name
-        );
-    if (n <= 0) fail("ERROR: writing result index failed\n");
+        "%lu     %d    %s\n",
+        result.id, time_int, result.name
+    );
+    if (n <= 0) {
+        fail("ERROR: writing result index failed\n");
+    }
 
     n = gzflush((gzFile)re_index_stream, Z_SYNC_FLUSH);
-    if (n != Z_OK) fail("ERROR: writing result index failed (flush)\n");
+    if (n != Z_OK) {
+        fail("ERROR: writing result index failed (flush)\n");
+    }
 
     return 0;
 }
@@ -503,21 +513,31 @@ int archive_wu_gz (DB_WORKUNIT& wu) {
     char buf[BLOB_SIZE*2];
 
     n = snprintf(buf, sizeof(buf), WU_ARCHIVE_DATA);
-    if ((n <= 0) || n > sizeof(buf)) fail("ERROR: printing workunit archive failed\n");
+    if ((n <= 0) || n > (int)sizeof(buf)) {
+        fail("ERROR: printing workunit archive failed\n");
+    }
     n = gzwrite((gzFile)wu_stream, buf, (unsigned int)n);
-    if (n <= 0) fail("ERROR: writing workunit archive failed\n");
+    if (n <= 0) {
+        fail("ERROR: writing workunit archive failed\n");
+    }
 
     n = gzflush((gzFile)re_stream,Z_FULL_FLUSH);
-    if (n != Z_OK) fail("ERROR: writing workunit archive failed (flush)\n");
+    if (n != Z_OK) {
+        fail("ERROR: writing workunit archive failed (flush)\n");
+    }
 
     n = gzprintf((gzFile)wu_index_stream,
-            "%lu     %d    %s\n",
-            wu.id, time_int, wu.name
-        );
-    if (n <= 0) fail("ERROR: writing workunit index failed\n");
+        "%lu     %d    %s\n",
+        wu.id, time_int, wu.name
+    );
+    if (n <= 0) {
+        fail("ERROR: writing workunit index failed\n");
+    }
 
     n = gzflush((gzFile)re_stream,Z_SYNC_FLUSH);
-    if (n != Z_OK) fail("ERROR: writing workunit index failed (flush)\n");
+    if (n != Z_OK) {
+        fail("ERROR: writing workunit index failed (flush)\n");
+    }
 
     return 0;
 }
