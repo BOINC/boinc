@@ -170,6 +170,21 @@ function boinccore_menu_alter(&$items) {
       }
     }
   }
+  // If using content profile module (for user profiles) setup special
+  // delete page.
+  if (module_exists('content_profile')) {
+    $items['node/%node/delete'] = array(
+      'title' => 'Delete',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('boinccore_delete_confirm', 1),
+      'access callback' => 'node_access',
+      'access arguments' => array('delete', 1),
+      'module' => 'boinccore',
+      'file' => 'includes/boinccore.forms.inc',
+      'weight' => 1,
+      'type' => MENU_CALLBACK,
+    );
+  }
 }
 
 /**
