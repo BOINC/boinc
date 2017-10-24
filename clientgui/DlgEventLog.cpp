@@ -249,12 +249,24 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         wxNullFont
     );
 #if EVENT_LOG_STRIPES
+    m_pList->EnableAlternateRowColours();
+
+#if wxCHECK_VERSION(3,1,0)
+    wxColour stripe = m_pList->GetAlternateRowColour();
+#else
+    const wxColour stripe = m_pList->wxListCtrl::OnGetItemAttr(1)->GetBackgroundColour();
+#endif
+
     m_pMessageInfoGrayAttr = new wxListItemAttr(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
+        stripe,
         wxNullFont
     );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(
+        *wxRED,
+        stripe,
+        wxNullFont
+    );
 #else
     m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
     m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
