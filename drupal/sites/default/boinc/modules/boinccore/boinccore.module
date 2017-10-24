@@ -1102,33 +1102,14 @@ function boinccore_team_lookup() {
 function boinccore_team_email_list() {
   // See if the account has an approved profile in Drupal
   $boincteam_id = !empty($_POST['teamid']) ? $_POST['teamid'] : $_GET['teamid'];
-  $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
   $credit_only = !empty($_POST['creditonly']) ? $_POST['creditonly'] : $_GET['creditonly'];
   $show_xml = !empty($_POST['xml']) ? $_POST['xml'] : $_GET['xml'];
   if (!$show_xml) {
       // creditonly does not affect non xml output in BOINC
       $credit_only = FALSE;
   }
-  $admin_request = FALSE;
-  if ($boincteam_id && is_numeric($boincteam_id)) {
-    if ($account_key) {
-      // See if this is a team admin
-      db_set_active('boinc');
-      $boincuser_id = db_result(db_query("
-        SELECT 
-          u.id
-        FROM {user} u
-        WHERE u.authenticator = '%s'
-        LIMIT 1",
-        $account_key
-      ));
-      db_set_active('default');
-      require_boinc('team');
-      $boincuser = boincuser_load(boincuser_lookup_uid($boincuser_id), TRUE);
-      $boincteam = boincteam_load($boincteam_id);
-      $admin_request = is_team_admin($boincuser, $boincteam) OR is_team_founder($boincuser, $boincteam);
-    }
 
+  if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($credit_only) {
       db_set_active('boinc');
       $result = db_query("
@@ -1185,9 +1166,6 @@ function boinccore_team_email_list() {
           'url' => $content_profile->field_url[0]['value'],
           'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
         );
-        if ($admin_request) {
-          $team_member['email_addr'] = $member->mail;
-        }
         $xml['users']['user'][] = $team_member;
       }
     }
