@@ -126,6 +126,16 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorGrayAttr = NULL;
     }
 
+    if (m_pMessageInfoSelectedNonFocusedAttr) {
+        delete m_pMessageInfoSelectedNonFocusedAttr;
+        m_pMessageInfoSelectedNonFocusedAttr = NULL;
+    }
+
+    if (m_pMessageErrorSelectedNonFocusedAttr) {
+        delete m_pMessageErrorSelectedNonFocusedAttr;
+        m_pMessageErrorSelectedNonFocusedAttr = NULL;
+    }
+
     m_iFilteredIndexes.Clear();
 
     wxGetApp().OnEventLogClose();
@@ -251,14 +261,24 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 #if EVENT_LOG_STRIPES
     m_pMessageInfoGrayAttr = new wxListItemAttr(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
+        wxColour(244, 244, 244),
         wxNullFont
     );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(244, 244, 244), wxNullFont);
 #else
     m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
     m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
 #endif
+    m_pMessageInfoSelectedNonFocusedAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxColour(242, 242, 242),
+        wxNullFont
+    );
+    m_pMessageErrorSelectedNonFocusedAttr = new wxListItemAttr(
+        *wxRED,
+        wxColour(242, 242, 242),
+        wxNullFont
+    );
 
     SetTextColor();
     RestoreState();
@@ -366,12 +386,15 @@ void CDlgEventLog::SetTextColor() {
         m_pMessageErrorAttr->SetTextColour(*wxRED);
         m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
         m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
+        m_pMessageInfoSelectedNonFocusedAttr->SetTextColour(*wxBLACK);
+        m_pMessageErrorSelectedNonFocusedAttr->SetTextColour(*wxRED);
     } else {
-        wxColourDatabase colorBase;
         m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
         m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
         m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
         m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
+        m_pMessageInfoSelectedNonFocusedAttr->SetTextColour(wxColour(128, 128, 128));
+        m_pMessageErrorSelectedNonFocusedAttr->SetTextColour(wxColour(255, 128, 128));
     }
 }
 
@@ -979,6 +1002,7 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
     wxInt32         index       = GetFilteredMessageIndex(item);
     MESSAGE*        message     = wxGetApp().GetDocument()->message(index);
+    bool            selected    = m_pList->GetItemState(item, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED;
 
     // If we are using some theme where the default background color isn't
     //   white, then our whole system is boned. Use defaults instead.
@@ -988,10 +1012,10 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
         item += s_bIsFiltered ? m_iTotalDeletedFilterRows : m_iPreviousFirstMsgSeqNum;
         switch(message->priority) {
         case MSG_USER_ALERT:
-            pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
+            pAttribute = selected ? m_pMessageErrorSelectedNonFocusedAttr : (item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr);
             break;
         default:
-           pAttribute = item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
+           pAttribute = selected ? m_pMessageInfoSelectedNonFocusedAttr : (item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr);
             break;
         }
     }

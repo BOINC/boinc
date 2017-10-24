@@ -178,6 +178,8 @@ private:
     wxListItemAttr*         m_pMessageErrorAttr;
     wxListItemAttr*         m_pMessageInfoGrayAttr;
     wxListItemAttr*         m_pMessageErrorGrayAttr;
+    wxListItemAttr*         m_pMessageInfoSelectedNonFocusedAttr;
+    wxListItemAttr*         m_pMessageErrorSelectedNonFocusedAttr;
 
     bool                    m_bProcessingRefreshEvent;
     bool                    m_bWasConnected;
