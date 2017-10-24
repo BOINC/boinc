@@ -38,8 +38,4 @@ before_build:
 build_script:
   - devenv %solution_name% /Build "%configuration%|%platform%"
 
-build:
-  parallel: true
-  verbosity: minimal
-
 test: off
