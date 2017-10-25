@@ -1032,7 +1032,10 @@ wxInt32 CDlgEventLog::FormatTime(wxInt32 item, wxString& strBuffer) const {
 #ifdef __WXMAC__
         // Work around a wxCocoa bug(?) in wxDateTime::Format()
         char buf[80];
-        struct tm * timeinfo = localtime((time_t*)&message->timestamp);
+        // When building as a 64-bit app, we must convert
+        // 4-byte int message->timestamp to 8-byte time_t
+        time_t timeStamp = message->timestamp;
+        struct tm * timeinfo = localtime(&timeStamp);
         strftime(buf, sizeof(buf), "%c", timeinfo);
         strBuffer = buf;
 #else

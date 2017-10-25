@@ -72,11 +72,12 @@ public:
 
 #ifdef __WXMAC__
 private:
-    NMRecPtr   m_pNotificationRequest;
+    NSInteger m_pNotificationRequest;
     wxTaskBarIconType m_iconType;
     void MacRequestUserAttention();
     void MacCancelUserAttentionRequest();
     bool SetMacTaskBarIcon(const wxIcon& icon);
+    int SetDockBadge(wxBitmap* bmp);
 
 public:
     wxMenu *CreatePopupMenu();
