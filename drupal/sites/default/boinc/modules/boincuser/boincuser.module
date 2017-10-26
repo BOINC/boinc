@@ -1482,10 +1482,15 @@ function boincuser_account_finish() {
     }
   }
 
+  // open links in new window
+  $options = array(
+    'attributes' => array( 'target' => '_blank' ),
+  );
+
   // Check moderation page exists
   $moderationpath = drupal_lookup_path('source', variable_get('boinc_weboptions_moderationpage', '') );
   if ( menu_valid_path(array('link_path' => $moderationpath)) ) {
-    $modsentence = bts('Please note: user profiles are subject to !moderation.', array('!moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), $moderationpath)), NULL, 'boinc:account-finish');
+    $modsentence = bts('Please note: user profiles are subject to !moderation.', array('!moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), $moderationpath, $options)), NULL, 'boinc:account-finish');
   } else {
     $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
   }
@@ -1499,9 +1504,6 @@ function boincuser_account_finish() {
     '@site_name' => $site_name,
   ), NULL, 'boinc:account-finish') . "</p>";
 
-  $options = array(
-    'attributes' => array( 'target' => '_blank' ),
-  );
   $links = array(
     array(
       'data' => bts('Change your username at !community_preferences.', array(
