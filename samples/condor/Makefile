@@ -1,7 +1,11 @@
 all: boinc_gahp
 
 clean:
-	rm boinc_gahp
+	rm -f boinc_gahp
+
+distclean: clean
+
+distclean-recursive: clean
 
 boinc_gahp: boinc_gahp.cpp ../../lib/remote_submit.h ../../lib/remote_submit.cpp ../../svn_version.h
 	g++ -g -O0 -I../../lib -I../.. \
