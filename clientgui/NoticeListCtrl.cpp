@@ -50,8 +50,12 @@ IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxWindow )
 BEGIN_EVENT_TABLE( CNoticeListCtrl, wxWindow )
 
 ////@begin CNoticeListCtrl event table entries
+#if wxUSE_WEBVIEW
     EVT_WEBVIEW_NAVIGATING(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
     EVT_WEBVIEW_ERROR(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnWebViewError)
+#else
+    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
+#endif
 ////@end CNoticeListCtrl event table entries
  
 END_EVENT_TABLE()
@@ -83,8 +87,11 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
 ////@begin CNoticeListCtrl creation
     wxWindow::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
         wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
-
+#if wxUSE_WEBVIEW
     m_browser = wxWebView::New( this, ID_LIST_NOTIFICATIONSVIEW );
+#else
+    m_browser = new wxHtmlWindow( this, ID_LIST_NOTIFICATIONSVIEW );
+#endif
 ////@end CNoticeListCtrl creation
 
     wxBoxSizer *topsizer;
@@ -238,7 +245,11 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     m_noticesBody += wxT("</font></body></html>");
     // baseURL is not needed here (see comments above) and it
     // must be an empty string for this to work under OS 10.12.4
+#if wxUSE_WEBVIEW
     m_browser->SetPage(m_noticesBody, wxEmptyString);
+#else
+    m_browser->SetPage(m_noticesBody);
+#endif
 }
 
 
@@ -247,7 +258,7 @@ void CNoticeListCtrl::Clear() {
     UpdateUI();
 }
 
-
+#if wxUSE_WEBVIEW
 void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
     if (event.GetURL().StartsWith(wxT("http://")) || event.GetURL().StartsWith(wxT("https://"))) {
         event.Veto();   // Tell wxWebView not to follow link
@@ -264,7 +275,18 @@ void CNoticeListCtrl::OnWebViewError( wxWebViewEvent& event ) {
 
     event.Skip();
 }
-
+#else
+void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event ) {
+    wxString url = event.GetLinkInfo().GetHref();
+    if (url.StartsWith(wxT("http://")) || url.StartsWith(wxT("https://"))) {
+        // wxHtmlLinkEvent doesn't have Veto(), but only loads the page if you
+	      // call Skip().
+		    wxLaunchDefaultBrowser(url);
+    } else {
+        event.Skip();
+    }
+ }
+#endif
 
 /*!
  * Update the UI.
