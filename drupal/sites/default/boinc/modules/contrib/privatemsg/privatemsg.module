@@ -1438,7 +1438,7 @@ function privatemsg_user_name_autocomplete($string) {
     // 3: Build proper suggestions and print.
     while ($user = db_fetch_object($result)) {
       $myname = preg_replace("/ /", "\xc2\xa0", $user->name);
-      $matches[$prefix . $myname . "_" . $user->id . ', '] = htmlentities($myname) . '(' . $user->id . ')';
+      $matches[$prefix . $myname . "_" . $user->id . ', '] = htmlentities($myname) . ' (' . $user->id . ')';
     }
   }
   // convert to object to prevent drupal bug, see http://drupal.org/node/175361
