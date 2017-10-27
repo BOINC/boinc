@@ -148,9 +148,6 @@ if [ "${doclean}" = "yes" ]; then
     mkdir -p "${PREFIX}"
 fi
 
-# TEMPORARY CODE TO REMOVE INCORRECT FLAGFILE FROM EARLIER BUGGY SCRIPT
-rm -f "${PREFIX}/wxWidgets-3.1.0_done"
-
 # this will pull in the variables used below
 source "${ROOTDIR}/mac_build/dependencyNames.sh"
 
