@@ -1,15 +1,17 @@
 dnl  These functions still require wxWidgets.m4
-   
+
 AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
 
-   AC_ARG_ENABLE(unicode, 
+   AC_ARG_ENABLE(unicode,
      AS_HELP_STRING([--enable-unicode/--disable-unicode],
                    [enable/disable building the manager with unicode support]),
      [enable_unicode="$enableval"],
      [])
 
    AM_OPTIONS_WXCONFIG
-     AM_PATH_WXCONFIG($1, [_ac_cv_have_wxwidgets=yes], [_ac_cv_have_wxwidgets=no])
+     AM_PATH_WXCONFIG([$1],
+       [_ac_cv_have_wxwidgets=yes],
+       [AC_MSG_ERROR([No suitable wxWidgets library found.])])
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],
     [ac_cv_have_wxwidgets="${_ac_cv_have_wxwidgets}"])
    AC_CACHE_SAVE
@@ -27,14 +29,14 @@ dnl Find the default wxWidgets options.
        ac_cv_wxwidgets_options=""
        wx_default_config="`$WX_CONFIG ${ac_cv_wxwidgets_options} --selected-config`"
        if test "x${enable_unicode}" = x ; then
-         isuc="`echo ${wx_default_config} | grep unicode`" 
+         isuc="`echo ${wx_default_config} | grep unicode`"
          if test "x${isuc}" = x ; then
            enable_unicode=no
          else
            enable_unicode=yes
          fi
        fi
-	   
+
        if test "x${enable_unicode}" != x ; then
          if $WX_CONFIG ${ac_cv_wxwidgets_options} --unicode=${enable_unicode} --selected-config 2>&1 >/dev/null ; then
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --unicode=${enable_unicode}"
@@ -45,13 +47,13 @@ dnl Find the default wxWidgets options.
            else
              uprf="unicode"
              nprf="ascii"
-           fi  
+           fi
            AC_MSG_WARN([
 ===============================================================================
 WARNING: No ${uprf} libraries for wxWidgets are installed.
          ==> building with ${nprf} libraries.
-	 
-  You requested a ${uprf} build, but configure is unable to find ${uprf} 
+
+  You requested a ${uprf} build, but configure is unable to find ${uprf}
   wxWidgets libraries.  We will build with the default ${nprf} libraries.
 ===============================================================================
 ])
@@ -71,19 +73,18 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
    gtkver=none
    AM_CONDITIONAL([GUI_GTK], echo $wx_default_config | grep -i ^gtk 2>&1 >/dev/null)
    if echo $wx_default_config | grep -i gtk 2>&1 >/dev/null ; then
-     case ${wx_default_config} in 
+     case ${wx_default_config} in
         gtk3-*)  gtkver=gtk+-3.0
 	         ;;
         gtk2-*)  gtkver=gtk+-2.0
 	         ;;
         gtk-*)   gtkver=gtk+
 	         ;;
-      esac 
+      esac
       GTK_CFLAGS="`pkg-config --cflags $gtkver`"
       GTK_LIBS="`pkg-config --libs  $gtkver`"
-   fi             
+   fi
    AC_SUBST([GTK_CFLAGS])
    AC_SUBST([GTK_LIBS])
    AC_MSG_RESULT([$gtkver])
 ])
-     
