@@ -760,3 +760,10 @@ create table credit_team (
     credit_type             integer         not null,
     primary key (teamid, appid, credit_type)
 ) engine=InnoDB;
+
+create table login_token (
+    userid                  integer         not null,
+    create_time             double          not null,
+    token                   char(32)        not null,
+    unique (token)
+) engine=InnoDB;

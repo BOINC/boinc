@@ -514,6 +514,8 @@ function row_heading($x, $class='bg-primary') {
     );
 }
 
+// return hard-to-guess string of 32 random hex chars
+//
 function random_string() {
     return md5(uniqid(rand(), true));
 }
