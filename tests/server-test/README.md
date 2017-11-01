@@ -10,8 +10,7 @@ ansible-playbook -K -i hosts build.yml
 
 Once that command completes, you can start the containers by doing the following:
 ```
-cd /tmp/boinc-server-docker
-docker-compose up -d
+ansible-playbook -K -i hosts start.yml
 ```
 
 You can now access the new website via http://127.0.0.1/boincserver.  Please see https://github.com/marius311/boinc-server-docker for more options of what you can do with the running docker containers.
@@ -26,7 +25,7 @@ ansible-playbook -K -i hosts build.yml --extra-vars "boinc_repository=https://gi
 # Stop docker containers and remove volumes
 If you want to stop the docker containers and remove their associated storage (so that next time you start them, it will be like a brand new website) then run the following command:
 ```
-docker-compose down -v
+ansible-playbook -K -i hosts stop_and_remove.yml
 ```
 
 # TBD
