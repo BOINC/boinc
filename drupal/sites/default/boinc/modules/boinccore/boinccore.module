@@ -1135,40 +1135,55 @@ function boinccore_team_email_list() {
       }
     }
     else {
-      $members = array();
+      // Query BOINC database user table
       db_set_active('boinc');
       $result = db_query("
         SELECT
-          u.name, u.email_addr
+          u.id, u.name, u.cross_project_id, u.create_time, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
         FROM {user} u
-        WHERE u.teamid = %d
-        ORDER BY u.email_addr ASC",
+        WHERE u.teamid = %d ORDER BY u.email_addr ASC",
         $boincteam_id
       );
       db_set_active('default');
 
+      // Extract information from BOINC database for team members.
+      $team_members = array();
       while ($member = db_fetch_object($result)) {
-        $members[] = user_load(array('mail' => $member->email_addr));
+        $team_members[$member->id] = array(
+          'id' => $member->id,
+          'cpid' => md5($member->cross_project_id.$member->email_addr),
+          'create_time' => $member->create_time,
+          'name' => htmlspecialchars($member->name),
+          'country' => NULL,
+          'total_credit' => round($member->total_credit),
+          'expavg_credit' => round($member->expavg_credit),
+          'expavg_time' => round($member->expavg_time),
+          'url' => NULL,
+          'has_profile' => 0,
+        );
       }
 
-      $xml = array('users' => array());
-      foreach ($members as $member) {
-        $content_profile = content_profile_load('profile', $member->uid);
-        $team_member = array(
-          'id' => $member->boincuser_id,
-          'cpid' => $member->boincuser_cpid,
-          'create_time' => $member->created,
-          'name' => $member->boincuser_name,
-          'country' => $content_profile->field_country[0]['value'],
-          'total_credit' => $member->boincuser_total_credit,
-          'expavg_credit' => $member->boincuser_expavg_credit,
-          'expavg_time' => $member->boincuser_expavg_time,
-          'url' => $content_profile->field_url[0]['value'],
-          'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
-        );
-        $xml['users']['user'][] = $team_member;
+      // Query Drupal database, multiple tables
+      $sql1 = "
+         SELECT
+           bu.boinc_id, du.uid, du.name, n.nid, n.type, n.field_country_value, n.field_url_value
+         FROM {drupal.boincuser} AS bu
+         INNER JOIN {drupal.users} AS du ON bu.uid=du.uid
+         LEFT JOIN (
+           SELECT node.nid, node.uid, node.type, p.field_country_value, p.field_url_value
+           FROM {node}
+           INNER JOIN {content_type_profile} AS p ON node.nid=p.nid
+           WHERE node.type='profile' ) n ON du.uid=n.uid
+         WHERE bu.boinc_id IN (%s)";
+      $memberidlist = implode(',', array_keys($team_members));
+      $result = db_query( $sql1, $memberidlist );
+      while ($member = db_fetch_object($result)) {
+        $team_members[$member->boinc_id]['country'] = $member->field_country_value;
+        $team_members[$member->boinc_id]['url'] = $member->field_url_value;
+        $team_members[$member->boinc_id]['has_profile'] = isset($member->nid) ? 1:  0;
+        $xml['users']['user'][] = $team_members[$member->boinc_id];
       }
-    }
+    } // end if credit_only
   }
   else {
     $xml = array(
@@ -1177,7 +1192,7 @@ function boinccore_team_email_list() {
         'error_msg' => 'Not found',
       ),
     );
-  }
+  } // end if boincteam_id
   print xml_to_text(array_to_xml($xml), TRUE, TRUE);
 }
 
