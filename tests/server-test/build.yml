@@ -1,10 +1,8 @@
 - hosts: localhost
   become: true
+  vars_files: 
+    - vars/common.yml
   roles:
     - install-prereqs
     - clone-boinc-server-docker
     - build-boinc-docker
-  vars:
-    boinc_repository: https://github.com/BOINC/boinc.git
-    boinc_branch: master
-    base_dir: /tmp
