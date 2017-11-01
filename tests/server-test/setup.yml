@@ -1,6 +1,6 @@
 - hosts: localhost
+  become: true
   vars_files: 
     - vars/common.yml
   roles:
-    - clone-boinc-server-docker
-    - build-boinc-docker
+    - install-prereqs
