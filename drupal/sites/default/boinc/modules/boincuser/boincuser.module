@@ -461,17 +461,14 @@ function boincuser_user_delete($account) {
   // comments with uid=0 and clear the field 'name'.
   $qrc1 = db_query("UPDATE {comments} SET comments.name='' WHERE comments.uid=0");
 
-  dd($drupaluid, 'drupal uid used in boincuser_user_delete to delete row from boincuser table.');
   // Delete entry in drupal boincuser table.
   $qrc2 = db_query("DELETE FROM {boincuser} WHERE boincuser.uid=%d", $drupaluid);
 
   // Delete data in BOINC project user table.
   db_set_active('boinc');
-  $qrc3 = db_query("DELETE FROM {user} WHERE user.id=%d", $boincid);
+  //$qrc3 = db_query("DELETE FROM {user} WHERE user.id=%d", $boincid);
+  $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id = NULL, user.passwd_hash = NULL WHERE user.id=%d", $boincid);
   db_set_active('default');
-
-  // @todo - determine if we need to set/update: team userid?
-  // Set host userid? Set result userid?
 }
 
 
