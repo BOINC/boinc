@@ -79,7 +79,7 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       }
       break;
     case 'user_confirm_delete':
-      $question = 'Are you sure you want to delete the account <em>' . $form['_account']['#value']->boincuser_name . '</em>?';
+      $question = 'Are you sure you want to delete the account <em>' . htmlspecialchars($form['_account']['#value']->boincuser_name) . '</em>?';
       drupal_set_title($question);
 
       unset($form['description']);
@@ -88,21 +88,22 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
         '#type' => 'fieldset',
         '#weight' => 1,
       );
+      // Disabled the ability for user to disable his/her account. Can uncomment these lines should be re-enabled.
       $form['main']['user_delete_action'] = array(
         '#type' => 'radios',
-        '#title' => t('Please choose an option'),
-        '#default_value' => 'boincuser_delete_disable',
+        //'#title' => t('Please choose an option'),
+        //'#default_value' => 'boincuser_delete_disable',
         '#options' => array(
-          'boincuser_delete_disable' => bts('<b>Disable</b> the account after @graceperiod days. Afterwards you account will be disabled, but your user profile will be deleted.', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
-          'boincuser_delete_delete' => bts('<b>Delete</b> the account after @graceperiod days. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted.', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc::delete-user-account'),
+          //'boincuser_delete_disable' => bts('<b>Disable</b> the account after @graceperiod days. Afterwards you account will be disabled, but your user profile will be deleted.', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
+          'boincuser_delete_delete' => bts('<b>Delete</b> the account after @graceperiod days. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted.', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
         ),
         '#weight' => 11,
       );
 
       $form['main']['help'] = array(
         '#type' => 'item',
-        '#title' => '<b>All options</b>',
-        '#description' => bts('If you login to your account within @graceperiod days, the disable or delete action will be canceled. If you choose to delete your account, after @graceperiod days, there is no way to recover your account!', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc::delete-user-account'),
+        //'#title' => '<b>All options</b>',
+        '#description' => bts('If you login to your account within @graceperiod days, the delete action will be canceled. If you choose to delete your account, after @graceperiod days, there is no way to recover your account!', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
         '#weight' => 21,
       );
 
@@ -123,13 +124,13 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       unset($form['actions']['#suffix']);
       $form['actions']['submit']['#prefix'] = '<li class="first tab">';
       $form['actions']['submit']['#suffix'] = '</li>';
-      $form['actions']['submit']['#value'] = 'Submit';
+      $form['actions']['submit']['#value'] = bts('Submit', array(), NULL, 'boinc:form-submit');
       $form['actions']['submit']['#weight'] = 1002;
 
       $form['actions']['cancel']['#prefix'] = '<li class="tab">';
       $form['actions']['cancel']['#suffix'] = '</li>';
       $form['actions']['cancel']['#weight'] = 1003;
-      $form['actions']['cancel']['#value'] = '<a href="/account/' . $uid . '">Cancel</a>';
+      $form['actions']['cancel']['#value'] = l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), 'account/info/edit');
 
       $form['actions']['form control tabs suffix'] = array(
         '#value' => '</ul>',
@@ -138,7 +139,6 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
 
       $form['#redirect'] = 'account/' . $uid;
       $form['#submit'] = array('boincuser_delete_submit');
-
       break;
 
   } // switch
