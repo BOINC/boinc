@@ -33,5 +33,11 @@ If you want to stop the docker containers and remove their associated storage (s
 ansible-playbook -i hosts stop_and_remove.yml
 ```
 
+# Handy Commands
+Access bash prompt in apache container:
+```
+docker exec -it boincserverdocker_apache_1 bash
+```
+
 # TBD
 Now that I a specific build of BOINC can be done, I need to add logic to start the docker containers and execute tests.  
