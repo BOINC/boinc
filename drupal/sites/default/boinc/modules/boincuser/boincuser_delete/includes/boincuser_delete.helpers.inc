@@ -12,6 +12,7 @@
  * user. It also deletes any associated user profile.
  */
 function _boincuser_delete_disableuser($uid) {
+  $update = array();
   // Set status to 1: block/disable the account
   $account = user_load($uid);
   $update['status'] = 0;
@@ -121,5 +122,4 @@ function _boincuser_delete_notify($userinfo) {
   // impending disable or delete action.
   // Reset the delete status and grace period for the user.
   $qrc = db_query("UPDATE {boincuser} SET delete_notified=1 WHERE uid=%d", $uid);
-
 }
