@@ -383,6 +383,18 @@ function boincuser_load($user_id = NULL, $is_drupal_id = FALSE) {
   return BoincUser::lookup_id($user_id);
 }
 
+/**
+ * Invoke the content_profile module's delete function.
+ *
+ * This function is used as the submit value for the user profile edit
+ * page, delete button.
+ */
+function _boincuser_node_profile_delete_submit($form, &$form_state) {
+  $node = $form['#node'];
+  $deleteurl = 'node/'. $node->nid .'/delete';
+  $afterq = 'destination=account';
+  drupal_goto($deleteurl, $afterq);
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * BOINC function wrappers
