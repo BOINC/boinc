@@ -52,6 +52,7 @@ using std::vector;
 #include "net_stats.h"
 #include "pers_file_xfer.h"
 #include "prefs.h"
+#include "project_list.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
 
@@ -100,6 +101,7 @@ struct CLIENT_STATE {
     GET_CURRENT_VERSION_OP get_current_version_op;
     GET_PROJECT_LIST_OP get_project_list_op;
     ACCT_MGR_OP acct_mgr_op;
+    LOOKUP_LOGIN_TOKEN_OP lookup_login_token_op;
 
     CLIENT_TIME_STATS time_stats;
     GLOBAL_PREFS global_prefs;
@@ -244,6 +246,8 @@ struct CLIENT_STATE {
     double all_projects_list_check_time;
         // the time we last successfully fetched the project list
     string newer_version;
+    PROJECT_LIST project_list;
+    void process_autologin();
 
 // --------------- client_state.cpp:
     CLIENT_STATE();

@@ -89,7 +89,8 @@ CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
     get_project_list_op(&gui_http),
-    acct_mgr_op(&gui_http)
+    acct_mgr_op(&gui_http),
+    lookup_login_token_op(&gui_http)
 {
     http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
@@ -729,6 +730,7 @@ int CLIENT_STATE::init() {
 
     // check for initialization files
     //
+    process_autologin();
     acct_mgr_info.init();
     project_init.init();
 

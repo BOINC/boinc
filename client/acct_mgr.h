@@ -28,7 +28,9 @@
 #include "gui_http.h"
 #include "client_types.h"
 
-// represents info stored in acct_mgr_url.xml and acct_mgr_login.xml
+// represents an account manager account to which
+// we're attached or potentially attached.
+// Info stored in acct_mgr_url.xml and acct_mgr_login.xml
 
 struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there

@@ -252,3 +252,102 @@ void CLIENT_STATE::all_projects_list_check() {
     get_project_list_op.do_rpc();
 }
 
+// called at startup.
+// check for installer filename file.
+// If present, parse project ID and login token,
+// and initiate RPC to look up token.
+//
+void CLIENT_STATE::process_autologin() {
+    int id, n, retval;
+    char buf[256], login_token[256], *p;
+
+    // read and parse installer filename
+    //
+    FILE* f = boinc_fopen(INSTALLER_FILENAME_FILENAME, "r");
+    if (!f) return;
+    msg_printf(NULL, MSG_INFO, "Read installer filename file");
+    fgets(buf, 256, f);
+    fclose(f);
+    p = strstr(buf, "__");
+    if (!p) return;
+    p += 2;
+    n = sscanf(p, "%d_%[^.]", &id, login_token);
+    if (n != 2) return;
+    strip_whitespace(login_token);
+
+    // check that project ID is valid, get URL
+    //
+    retval = project_list.read_file();       // get project list
+    if (retval) {
+        msg_printf(NULL, MSG_INFO,
+            "Error reading project list: %s", boincerror(retval)
+        );
+        return;
+    }
+    PROJECT_LIST_ITEM *pli = project_list.lookup(id);
+    if (!pli) {
+        msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", id);
+        return;
+    }
+
+    // Initiate lookup-token RPC.
+    // The reply handler will take it from there.
+    //
+    msg_printf(NULL, MSG_INFO,
+        "Doing token lookup RPC to %s", pli->name.c_str()
+    );
+    lookup_login_token_op.do_rpc(pli, login_token);
+}
+
+int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
+    PROJECT_LIST_ITEM* _pli, const char* login_token
+) {
+    int retval;
+    pli = _pli;
+    string url = pli->master_url;
+    canonicalize_master_url(url);
+    url += "login_token_lookup.php?token="+string(login_token);
+    retval = gui_http->do_rpc(
+        this, url.c_str(), LOGIN_TOKEN_LOOKUP_REPLY, false
+    );
+    return retval;
+}
+
+// Handle lookup login token reply.
+// If everything checks out, attach to account manager or project.
+//
+void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
+    string user_name, weak_auth;
+    if (http_op_retval) {
+        return;
+    }
+    FILE* f = boinc_fopen(LOGIN_TOKEN_LOOKUP_REPLY, "r");
+    if (!f) {
+        return;
+    }
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+        if (xp.parse_string("user_name", user_name)) {
+            continue;
+        } else if (xp.parse_string("weak_auth", weak_auth)) {
+            continue;
+        }
+    }
+    fclose(f);
+
+    if (!user_name.size() || !weak_auth.size()) {
+        return;
+    }
+
+    if (pli->is_account_manager) {
+        strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
+        strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
+        strcpy(gstate.acct_mgr_info.password_hash, weak_auth.c_str());
+    } else {
+        gstate.add_project(
+            pli->master_url.c_str(), weak_auth.c_str(), pli->name.c_str(), false
+        );
+    }
+}
