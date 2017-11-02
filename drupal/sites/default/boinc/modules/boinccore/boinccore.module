@@ -519,7 +519,6 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['actions']['submit']['#suffix'] = '</li>';
     $form['actions']['cancel']['#prefix'] = '<li class="tab">';
     $form['actions']['cancel']['#suffix'] = '</li>';
-    dpm($form, 'form');
     break;
   default:
   }
