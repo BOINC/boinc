@@ -10,6 +10,7 @@
  * separate text for user profiles.
  */
 function boinccore_delete_confirm(&$form_state, $node) {
+  $form = array();
   $form['nid'] = array(
     '#type' => 'value',
     '#value' => $node->nid,
