@@ -26,6 +26,7 @@ function boincuser_delete_perm() {
  * Implementation of hook_menu().
  */
 function boincuser_delete_menu() {
+  $items = array();
   $items['admin/boinc/user_delete'] = array(
     'title' => 'Preferences: BOINC user delete',
     'description' => "Configure the BOINC user delete action.",
@@ -178,7 +179,7 @@ function boincuser_delete_submit($form, &$form_state) {
 
   // Default grace period is two weeks
   $graceperiod = variable_get('boincuser_delete_grace_period', 60*60*24*7*2);
-  $fts = time() + $grace_period;
+  $fts = time() + $graceperiod;
 
   // Perform the requested operation
   $op = $form_state['values']['user_delete_action'];
@@ -193,7 +194,7 @@ function boincuser_delete_submit($form, &$form_state) {
         . "\n"
         . "We have received a request to disable your user account at "
         . "${site_name}. You have a grace period of "
-        . $grace_period/(60*60*24)
+        . $graceperiod/(60*60*24)
         . " days to change your mind. Simply login to your account on the "
         . "${site_name} Web site and your request will be canceled.\n"
         . "\n"
@@ -215,7 +216,7 @@ function boincuser_delete_submit($form, &$form_state) {
         . "\n"
         . "We have received a request to DELETE your user account at "
         . "${site_name}. You have a grace period of "
-        . $grace_period/(60*60*24)
+        . $graceperiod/(60*60*24)
         . " days to change your mind. Simply login to your account on the "
         . "${site_name} Web site and your request will be canceled.\n"
         . "\n"
