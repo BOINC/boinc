@@ -1108,6 +1108,7 @@ function boinccore_team_email_list() {
       // creditonly does not affect non xml output in BOINC
       $credit_only = FALSE;
   }
+  $xml = array();
 
   if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($credit_only) {
