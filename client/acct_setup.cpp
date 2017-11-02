@@ -290,6 +290,16 @@ void CLIENT_STATE::process_autologin() {
         return;
     }
 
+    if (!pli->is_account_manager) {
+        if (lookup_project(pli->master_url.c_str())) {
+            msg_printf(NULL, MSG_INFO,
+                "Already attached to %s", pli->name.c_str()
+            );
+            boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+            return;
+        }
+    }
+
     // Initiate lookup-token RPC.
     // The reply handler will take it from there.
     //
@@ -350,4 +360,8 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
             pli->master_url.c_str(), weak_auth.c_str(), pli->name.c_str(), false
         );
     }
+
+    // at this point we're done with installer filename.
+    //
+    boinc_delete_file(INSTALLER_FILENAME_FILENAME);
 }
