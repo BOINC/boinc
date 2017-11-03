@@ -1062,12 +1062,9 @@ function update_8_9_2017() {
 }
 
 function update_10_25_2017() {
-    do_query("create table login_token (
-        userid                  integer         not null,
-        create_time             double          not null,
-        token                   char(32)        not null,
-        unique (token)
-        ) engine=InnoDB;
+    do_query("alter table user
+        add column login_token char(32) not null,
+        add column login_token_time double not null
     ");
 }
 

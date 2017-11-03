@@ -784,19 +784,6 @@ class BoincCreditTeam {
     }
 }
 
-class BoincLoginToken {
-    static function lookup($clause) {
-        $db = BoincDb::get();
-        return $db->lookup('login_token', 'BoincLoginToken', $clause);
-    }
-    static function insert($clause) {
-        $db = BoincDb::get();
-        $ret = $db->insert('login_token', $clause);
-        if (!$ret) return false;
-        return true;
-    }
-}
-
 // DEPRECATED: use BoincDb::escape_string where possible
 // 
 // apply this to any user-supplied strings used in queries

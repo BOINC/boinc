@@ -20,15 +20,12 @@
 // - forms for create / login
 // - function to make login token
 
-// make login token record; return token
+// make login token, store in user record, return token
 //
 function make_login_token($user) {
     $token = substr(random_string(), 0, 8);
     $now = time();
-    $ret = BoincLoginToken::insert("(userid, token, create_time) values ($user->id, '$token', $now)");
-    if (!$ret) {
-        return null;
-    }
+    $user->update("login_token='$login_token', login_token_time=$now where id=$user->id");
     return $token;
 }
 

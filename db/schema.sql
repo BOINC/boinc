@@ -110,6 +110,8 @@ create table user (
     passwd_hash             varchar(254)    not null,
     email_validated         smallint        not null,
     donated                 smallint        not null,
+    login_token             char(32)        not null,
+    login_token_time        double          not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -759,11 +761,4 @@ create table credit_team (
     expavg_time             double          not null,
     credit_type             integer         not null,
     primary key (teamid, appid, credit_type)
-) engine=InnoDB;
-
-create table login_token (
-    userid                  integer         not null,
-    create_time             double          not null,
-    token                   char(32)        not null,
-    unique (token)
 ) engine=InnoDB;
