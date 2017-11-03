@@ -258,7 +258,7 @@ void CLIENT_STATE::all_projects_list_check() {
 // and initiate RPC to look up token.
 //
 void CLIENT_STATE::process_autologin() {
-    int id, n, retval;
+    int project_id, user_id, n, retval;
     char buf[256], login_token[256], *p;
 
     // read and parse installer filename
@@ -271,8 +271,8 @@ void CLIENT_STATE::process_autologin() {
     p = strstr(buf, "__");
     if (!p) return;
     p += 2;
-    n = sscanf(p, "%d_%[^.]", &id, login_token);
-    if (n != 2) return;
+    n = sscanf(p, "%d_%d_%[^.]", &project_id, &user_id, login_token);
+    if (n != 3) return;
     strip_whitespace(login_token);
 
     // check that project ID is valid, get URL
@@ -284,9 +284,9 @@ void CLIENT_STATE::process_autologin() {
         );
         return;
     }
-    PROJECT_LIST_ITEM *pli = project_list.lookup(id);
+    PROJECT_LIST_ITEM *pli = project_list.lookup(project_id);
     if (!pli) {
-        msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", id);
+        msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);
         return;
     }
 
@@ -306,19 +306,20 @@ void CLIENT_STATE::process_autologin() {
     msg_printf(NULL, MSG_INFO,
         "Doing token lookup RPC to %s", pli->name.c_str()
     );
-    lookup_login_token_op.do_rpc(pli, login_token);
+    lookup_login_token_op.do_rpc(pli, user_id, login_token);
 }
 
 int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
-    PROJECT_LIST_ITEM* _pli, const char* login_token
+    PROJECT_LIST_ITEM* _pli, int user_id, const char* login_token
 ) {
     int retval;
+    char url[1024];
     pli = _pli;
-    string url = pli->master_url;
-    canonicalize_master_url(url);
-    url += "login_token_lookup.php?token="+string(login_token);
+    sprintf(url, "%slogin_token_lookup.php?user_id=%d&token=%s",
+        pli->master_url.c_str(), user_id, login_token
+    );
     retval = gui_http->do_rpc(
-        this, url.c_str(), LOGIN_TOKEN_LOOKUP_REPLY, false
+        this, url, LOGIN_TOKEN_LOOKUP_REPLY, false
     );
     return retval;
 }

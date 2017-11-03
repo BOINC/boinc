@@ -97,7 +97,7 @@ struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
         gui_http = p;
     }
     virtual ~LOOKUP_LOGIN_TOKEN_OP(){}
-    int do_rpc(PROJECT_LIST_ITEM*, const char* login_token);
+    int do_rpc(PROJECT_LIST_ITEM*, int user_id, const char* login_token);
     virtual void handle_reply(int http_op_retval);
 };
 
