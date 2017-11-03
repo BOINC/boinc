@@ -89,11 +89,12 @@ function get_version() {
     return null;
 }
 
-function download_button($v, $project_id, $token) {
+function download_button($v, $project_id, $token, $user) {
     return sprintf(
         '<form action="https://boinc.berkeley.edu/concierge.php" method="post">
         <input type=hidden name=project_id value="%d">
         <input type=hidden name=token value="%s">
+        <input type=hidden name=user_id value="%d">
         <input type=hidden name=filename value="%s">
         <button class="btn btn-info">
         <font size=2><u>Download BOINC</u></font>
@@ -103,6 +104,7 @@ function download_button($v, $project_id, $token) {
         ',
         $project_id,
         $token,
+        $user->id,
         (string)$v->filename,
         (string)$v->platform,
         (string)$v->size_mb,
@@ -110,7 +112,7 @@ function download_button($v, $project_id, $token) {
     );
 }
 
-function download_button_vbox($v, $project_id, $token) {
+function download_button_vbox($v, $project_id, $token, $user) {
     return sprintf(
         '<form action="https://boinc.berkeley.edu/concierge.php" method="post">
         <input type=hidden name=project_id value="%d">
@@ -124,6 +126,7 @@ function download_button_vbox($v, $project_id, $token) {
         ',
         $project_id,
         $token,
+        $user->id,
         (string)$v->vbox_filename,
         (string)$v->platform,
         (string)$v->vbox_size_mb,
@@ -173,9 +176,9 @@ function show_download_page($user) {
     echo "<center><table border=0 cellpadding=20>\n";
     table_row(
         "",
-        download_button_vbox($v, $project_id, $token),
+        download_button_vbox($v, $project_id, $token, $user),
         "&nbsp;&nbsp;",
-        download_button($v, $project_id, $token),
+        download_button($v, $project_id, $token, $user),
         ""
     );
     echo "</table></center>\n";

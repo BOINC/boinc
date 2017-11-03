@@ -23,13 +23,14 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
 function main($token) {
-    $lt = BoincLoginToken::lookup("token='$token'");
-    if (!$ret) {
-        xml_error("token not found");
-    }
-    $user = BoincUser::lookup_id("$lt->userid");
+    $user_id = get_str("user_id");
+    $token = get_str("token");
+    $user = BoincUser::lookup_id($user_id);
     if (!$user) {
         xml_error("user not found");
+    }
+    if (time() - $user->login_token_time > 86400) {
+        xml_error("token timed out");
     }
     $name = htmlentities($user->name);
     $auth = weak_auth($user);
@@ -40,6 +41,6 @@ function main($token) {
 ";
 }
 
-main(get_str("token"));
+main();
 
 ?>

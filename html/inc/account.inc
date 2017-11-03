@@ -25,7 +25,7 @@
 function make_login_token($user) {
     $token = substr(random_string(), 0, 8);
     $now = time();
-    $user->update("login_token='$login_token', login_token_time=$now where id=$user->id");
+    $user->update("login_token='$token', login_token_time=$now");
     return $token;
 }
 
