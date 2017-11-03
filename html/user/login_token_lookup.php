@@ -22,7 +22,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
-function main($token) {
+function main() {
     $user_id = get_str("user_id");
     $token = get_str("token");
     $user = BoincUser::lookup_id($user_id);
