@@ -24,32 +24,28 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
+require_once("../inc/recaptchalib.php");
 
 function reg_form() {
+    global $recaptcha_public_key;
+
     $config = get_config();
     $disable_acct = parse_bool($config, "disable_account_creation");
-    page_head("Register");
-    start_table();
-    echo "<tr><td>";
+    page_head("Register",  null, null, null, boinc_recaptcha_get_head_extra());
     echo "<h3>Create an account</h3>";
+    form_start("create_account_action.php", "post");
     create_account_form(0, "download.php");
-    echo "</td><td>";
+    if ($recaptcha_public_key) {
+        form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+    }
+    form_submit("Join");
+    form_end();
+
     echo "<h3>If you already have an account, log in</h3>";
     login_form("download.php");
     echo "</td></tr>";
-    end_table();
     page_tail();
 }
 
-// if user is logged in, go straight to download page
-//
-$user = get_logged_in_user(false);
-if ($user) {
-    header("Location: download.php");
-    exit;
-}
-
-// otherwise show registration form
-//
 reg_form();
 ?>

@@ -212,6 +212,8 @@ struct USER {
     char passwd_hash[256];
     bool email_validated;           // deprecated
     int donated;
+    char login_token[32];
+    double login_token_time;
     void clear();
 };
 
