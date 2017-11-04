@@ -271,7 +271,8 @@ void CLIENT_STATE::process_autologin() {
     p = strstr(buf, "__");
     if (!p) return;
     p += 2;
-    n = sscanf(p, "%d_%d_%[^.]", &project_id, &user_id, login_token);
+    n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
+        // don't include the ".exe" or the " (1)"
     if (n != 3) return;
     strip_whitespace(login_token);
 
