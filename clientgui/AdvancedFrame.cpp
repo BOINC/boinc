@@ -1727,6 +1727,11 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
 }
 
+// the autoattach process deletes the installer filename file when done
+//
+static bool autoattach_in_progress() {
+    return boinc_file_exists(INSTALLER_FILENAME_FILENAME);
+}
 
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
@@ -1885,7 +1890,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
-    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach && !autoattach_in_progress()) {
         // client isn't attached to any projects.
         // Look for an account to attach to, either in project_init.xml
         // or in browser cookies

@@ -78,7 +78,6 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define GET_PROJECT_CONFIG_FILENAME "get_project_config.xml"
 #define GLOBAL_PREFS_FILE_NAME      "global_prefs.xml"
 #define GLOBAL_PREFS_OVERRIDE_FILE  "global_prefs_override.xml"
-#define INSTALLER_FILENAME_FILENAME "installer_filename.txt"
 #define JOB_LOG_BASE                "job_log_"
 #define KEYWORD_FILENAME            "keywords.xml"
 #define LOGIN_TOKEN_LOOKUP_REPLY    "login_token_lookup_reply.xml"
