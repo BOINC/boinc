@@ -192,6 +192,7 @@ void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
 
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     pWA->DisableNextButton();
+    pWA->GetBackButton()->SetDefault();
 
     Fit();
 }
