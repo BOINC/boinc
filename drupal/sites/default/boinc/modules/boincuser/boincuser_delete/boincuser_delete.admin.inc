@@ -46,7 +46,7 @@ function boincuser_delete_settings() {
   );
   $form['grace']['boincuser_delete_grace_period'] = array(
     '#type' => 'select',
-    '#title' => t('Grace Period before account is disabled/deleted.'),
+    '#title' => t('Grace Period before account is disabled/deleted'),
     '#default_value' => $default['boincuser_delete_grace_period'],
     '#options' => $grace_period_options,
     '#description' => t('The time frame after which the user\'s account will be disabled or deleted.'),

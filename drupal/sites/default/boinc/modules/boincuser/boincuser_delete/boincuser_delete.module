@@ -33,6 +33,7 @@ function boincuser_delete_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_delete_settings'),
     'access arguments' => array('administer users'),
+    'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser_delete.admin.inc',
   );
   return $items;

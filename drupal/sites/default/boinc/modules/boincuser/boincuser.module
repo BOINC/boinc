@@ -461,13 +461,12 @@ function boincuser_user_delete($account) {
   // comments with uid=0 and clear the field 'name'.
   $qrc1 = db_query("UPDATE {comments} SET comments.name='' WHERE comments.uid=0");
 
-  // Delete entry in drupal boincuser table.
-  $qrc2 = db_query("DELETE FROM {boincuser} WHERE boincuser.uid=%d", $drupaluid);
+  // Keep entry in drupal boincuser table as record of deletion.
 
   // Delete data in BOINC project user table.
   db_set_active('boinc');
   //$qrc3 = db_query("DELETE FROM {user} WHERE user.id=%d", $boincid);
-  $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id = NULL, user.passwd_hash = NULL WHERE user.id=%d", $boincid);
+  $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id=NULL, user.passwd_hash=NULL, user.signature=NULL WHERE user.id=%d", $boincid);
   db_set_active('default');
 }
 
@@ -865,7 +864,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1003,
     );
     if (isset($form['delete']) AND is_array($form['delete'])) {
-      $form['delete']['#prefix'] = '<li class="tab">';
+      $form['delete']['#prefix'] = '<li class="first alt tab">';
       $form['delete']['#suffix'] = '</li>';
       $form['delete']['#weight'] = 1004;
     }
