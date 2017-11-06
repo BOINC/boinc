@@ -29,6 +29,9 @@ function main() {
     if (!$user) {
         xml_error("user not found");
     }
+    if ($user->login_token != $token) {
+        xml_error("bad token");
+    }
     if (time() - $user->login_token_time > 86400) {
         xml_error("token timed out");
     }
