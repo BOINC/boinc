@@ -820,17 +820,17 @@ int main(int argc, char** argv) {
             do_dump_hypervisor_logs = true;
         }
 
-        pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
-                retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
-                current_cpu_time, last_checkpoint_cpu_time, fraction_done,
-                bytes_sent, bytes_received);
-
         if (unrecoverable_error) {
             if (pVM->online) pVM->capture_screenshot();
 
             checkpoint.update(elapsed_time, current_cpu_time);
 
         }
+
+        pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
+                retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
+                current_cpu_time, last_checkpoint_cpu_time, fraction_done,
+                bytes_sent, bytes_received);
     }
 
     // Report the VM pid to BOINC so BOINC can deal with it when needed.
@@ -895,12 +895,13 @@ int main(int argc, char** argv) {
             temp_delay = 86400;
         }
 
+        if (unrecoverable_error) checkpoint.update(elapsed_time, current_cpu_time);
+
+
         pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
                 retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
                 current_cpu_time, last_checkpoint_cpu_time, fraction_done,
                 bytes_sent, bytes_received);
-
-        if (unrecoverable_error) checkpoint.update(elapsed_time, current_cpu_time);
 
     }
 
