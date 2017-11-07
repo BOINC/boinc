@@ -528,7 +528,8 @@ void DB_HOST::db_print(char* buf){
         "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
         "error_rate=%.15e, "
         "product_name='%s', "
-        "gpu_active_frac=%.15e ",
+        "gpu_active_frac=%.15e, "
+        "p_ngpus=%d, p_gpu_fpops=%.15e ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -550,7 +551,8 @@ void DB_HOST::db_print(char* buf){
         host_cpid, external_ip_addr, _max_results_day,
         _error_rate,
         product_name,
-        gpu_active_frac
+        gpu_active_frac,
+        p_ngpus, p_gpu_fpops
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
