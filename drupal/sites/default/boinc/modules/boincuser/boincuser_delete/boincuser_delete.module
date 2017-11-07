@@ -270,8 +270,8 @@ function boincuser_delete_user($op, &$edit, &$account, $category = NULL) {
   if ($account->uid > 1) {
     switch($op) {
     case 'login':
-        // Function is forward compatible to Drupal 7
-        boincuser_delete_user_login($edit, $account);
+      // Function is forward compatible to Drupal 7
+      boincuser_delete_user_login($edit, $account);
       break;
     }
   }
@@ -287,6 +287,26 @@ function boincuser_delete_user_login(&$edit, $account) {
   if ($delete_status>0) {
     $usql = 'UPDATE {boincuser} SET boincuser.delete_status=0, boincuser.delete_notified=0, boincuser.grace_period=0 WHERE boincuser.uid=%d';
     $qrc = db_query($usql, $account->uid);
+
+    switch ($delete_status) {
+      case 1:
+        $verb = bts('disable', array(), NULL, 'boinc:account-deletion');
+        break;
+      case 2:
+        $verb = bts('delete', array(), NULL, 'boinc:account-deletion');
+        break;
+    }
+
+    //$wa = 'STATUS: You have logged and thus canceled your account deletion request. If you did not initiate this request, please contact the Web site administrators. You may re-request deletion of your account in Account-> Credentials.';
+    $wa = bts(
+      'STATUS: You have logged in and thus canceled your account @action request. If you did not initiate the initial @action request, please contact the Web site administrators. You may re-request to @action your account in Account -> !credentials.',
+      array(
+        '@action' => $verb,
+        '!credentials' => l(bts('Credentials', array(), NULL, 'boinc:account-credentials-link'), 'account/info/edit'),
+      ),
+      NULL, 'boinc:cancel-account-deletion'
+    );
+    drupal_set_message($wa, 'status');
   }
 }
 
