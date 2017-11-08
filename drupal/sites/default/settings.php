@@ -90,14 +90,46 @@
  *   $db_url = 'mysqli://username:password@localhost/databasename';
  *   $db_url = 'pgsql://username:password@localhost/databasename';
  */
+
+/**
+ * BOINC database configuration
+ *
+ * Place in file dbconfig.php the variables used below to set the
+ * databases. The drupal database is the 'default'
+ * database. 'boinc_rw' is the BOINC project database. If you have a
+ * replica (read-only) BOINC project database, you may define it as
+ * 'boinc_read'. (N.B., if there is no 'boinc_read' database defined,
+ * the Drupal-BOINC code will use 'boinc_rw' for all BOINC database
+ * queries.
+ *
+ * Drupal database variables
+ *  - dbtype   : type such as mysql or mysqli (when in doubt, use mysqli)
+ *  - dbuser   : name of database user
+ *  - dbpass   : password of database user
+ *  - dbserver : database server remote IP, or 'localhost'
+ *  - dbname   : name of database, often 'drupal'
+ *
+ * For the BOINC project databases, the variables are the same but
+ * have prefix 'boinc_rw' and 'boinc_read'.
+ */
 require_once('dbconfig.php');
 if (!isset($dbserver) || empty($dbserver))
   $dbserver='localhost';
 $db_url = array(
   'default' => "{$dbtype}://{$dbuser}:".urlencode($dbpass)."@{$dbserver}/{$dbname}",
-  'boinc' => "{$boinc_dbtype}://{$boinc_dbuser}:".urlencode($boinc_dbpass)."@{$boinc_dbserver}/{$boinc_dbname}"
+  'boinc_rw' => "{$boinc_rw_dbtype}://{$boinc_rw_dbuser}:".urlencode($boinc_rw_dbpass)."@{$boinc_rw_dbserver}/{$boinc_rw_dbname}"
 );
 $db_prefix = '';
+
+// Set boinc_read if variables are present, otherwise duplicate
+// 'boinc_rw' entry as 'boinc_read'.
+
+if (isset($boinc_read_dbtype) && isset($boinc_read_dbuser) && isset($boinc_read_dbpass) && isset($boinc_read_dbserver) && isset($boinc_read_dbname)) {
+  $db_url['boinc_read'] = "{$boinc_read_dbtype}://{$boinc_read_dbuser}:".urlencode($boinc_read_dbpass)."@{$boinc_read_dbserver}/{$boinc_read_dbname}";
+}
+else {
+  $db_url['boinc_read'] = $db_url['boinc_rw'];
+}
 
 /**
  * Base URL (optional).
@@ -119,9 +151,6 @@ $db_prefix = '';
  * for you.
  */
 # $base_url = 'http://www.example.com';  // NO trailing slash!
-if (stream_resolve_include_path('baseurl.php')) {
-  include_once('baseurl.php');
-}
 
 /**
  * PHP settings:
