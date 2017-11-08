@@ -160,7 +160,7 @@ function boincteam_assume_foundership($team_id) {
   
   if (boincteam_foundership_transfer_ok($boincteam)) {
     if ($boincuser_id == $boincteam->ping_user) {
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       db_query("
         UPDATE {team}
         SET userid = '%d', ping_user = '0', ping_time = '0'
@@ -218,7 +218,7 @@ function boincteam_delete($team_id) {
 function boincteam_deny_foundership_request($team_id) {
   $boincteam_id = boincteam_lookup_id($team_id);
   // Remove the request from the BOINC database
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     UPDATE {team}
     SET ping_user=0
@@ -243,7 +243,7 @@ function boincteam_get_member_join_date($boincteam_id, $boincuser_id = NULL) {
     $account = user_load($user->uid);
     $boincuser_id = $account->boincuser_id;
   }
-  db_set_active('boinc');
+  db_set_active('boinc_read');
   $timestamp = db_result(db_query("
     SELECT timestamp FROM {team_delta} WHERE
     userid = %d AND teamid = %d AND joining = 1
@@ -292,7 +292,7 @@ function boincteam_history_xml($team_id) {
     ),
   );
   
-  db_set_active('boinc');
+  db_set_active('boinc_read');
   $result = db_query("
     SELECT 
       td.userid AS id,
@@ -487,7 +487,7 @@ function boincteam_remove_admin($team_id, $user_id) {
   
   if (boincteam_is_admin($team_id, $account->uid)) {
     // Update the team in the BOINC db
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     db_query("
       DELETE FROM {team_admin} WHERE
         teamid = '%d' AND userid = '%d'",
@@ -576,7 +576,7 @@ function boincteam_request_foundership($team_id) {
   }
   elseif (boincteam_is_member($team_id, $account->uid)) {
     // Log the transfer request
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     db_query("
       UPDATE {team}
       SET ping_user = '%d', ping_time='%d'
@@ -611,7 +611,7 @@ function boincteam_set_founder($team_id, $user_id) {
   
   if (boincteam_is_member($team_id, $account->uid)) {
     // Update the team in the BOINC db
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     db_query("
       UPDATE {team}
       SET userid = '%d', ping_user=0
@@ -1147,7 +1147,7 @@ function boincteam_request_foundership_response_panel($team_id) {
         ),
         NULL, 'boinc:team-request-foundership-response') . '</p>';
       // Automatically cancel the request
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       db_query("
         UPDATE {team}
         SET ping_user=0

@@ -450,7 +450,7 @@ function boincteam_edit_form_submit($form, &$form_state) {
   $values['description'] = check_markup($values['description'], $input_format);
   
   // Update the team in the BOINC db
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     UPDATE {team} SET
       name = '%s',
@@ -608,7 +608,7 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
   $boincteam_id = boincteam_lookup_id($team_id);
   
   // Update the team in the BOINC db
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     INSERT INTO {team_admin} SET
       teamid = '%d',

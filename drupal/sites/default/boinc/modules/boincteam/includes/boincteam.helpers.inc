@@ -16,7 +16,7 @@
 function boincteam_sync() {
   
   // Get the list of teams to import
-  db_set_active('boinc');
+  db_set_active('boinc_read');
   $boinc_teams = db_query('
     SELECT id, name, description, userid, create_time, seti_id
     FROM team
