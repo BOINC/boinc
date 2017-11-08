@@ -1193,16 +1193,19 @@ function boinccore_team_email_list() {
       $sql1 = "
          SELECT
            bu.boinc_id, du.uid, du.name, n.nid, n.type, n.field_country_value, n.field_url_value
-         FROM {drupal.boincuser} AS bu
-         INNER JOIN {drupal.users} AS du ON bu.uid=du.uid
+         FROM {boincuser} AS bu
+         INNER JOIN {users} AS du ON bu.uid=du.uid
          LEFT JOIN (
            SELECT node.nid, node.uid, node.type, p.field_country_value, p.field_url_value
            FROM {node}
            INNER JOIN {content_type_profile} AS p ON node.nid=p.nid
            WHERE node.type='profile' ) n ON du.uid=n.uid
          WHERE bu.boinc_id IN (%s)";
-      $memberidlist = implode(',', array_keys($team_members));
-      $result = db_query( $sql1, $memberidlist );
+      $member_id_list = implode(',', array_keys($team_members));
+      if (!$member_id_list) {
+        $member_id_list = '-1';
+      }
+      $result = db_query($sql1, $member_id_list);
       while ($member = db_fetch_object($result)) {
         $team_members[$member->boinc_id]['country'] = $member->field_country_value;
         $team_members[$member->boinc_id]['url'] = $member->field_url_value;
