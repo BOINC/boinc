@@ -565,7 +565,7 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
     $account = boincuser_privatemsg_name_lookup($values['username']);
     // Validate the account
     if ((!$account) OR ($account->team != $team_id)) {
-      form_set_error('email', bts('There is no user on your team with name @username.',
+      form_set_error('username', bts('There is no user on your team with name @username.',
         array(
           '@username' => $account->boincuser_name
         ),
