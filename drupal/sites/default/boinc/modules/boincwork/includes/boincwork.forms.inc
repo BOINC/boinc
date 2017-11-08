@@ -696,7 +696,7 @@ function boincwork_host_get_compatible_hosts($host_id) {
   $account = user_load($user->uid);
   $compatible_hosts = array();
   $host_count = 0;
-  db_set_active('boinc');
+  db_set_active('boinc_read');
   $current_host = db_fetch_object(db_query("
     SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
       p_vendor, p_model
@@ -708,7 +708,7 @@ function boincwork_host_get_compatible_hosts($host_id) {
   $current_host->task_count = boincwork_host_get_task_count($current_host->id);
   $current_host->is_new = !$current_host->total_credit AND !$current_host->task_count;
   // Get the list of all other hosts owned by this user for comparison
-  db_set_active('boinc');
+  db_set_active('boinc_read');
   $all_other_hosts = db_query("
     SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
       p_vendor, p_model
@@ -771,7 +771,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
   
   // Move credit from the old host to the new host
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $credit_updated = db_query("
     UPDATE {host}
     SET
@@ -790,7 +790,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   }
   
   // Move results from the old host to the new host
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $results_updated = db_query("
     UPDATE {result}
     SET hostid = '%d'
@@ -806,7 +806,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   }
   
   // Retire the old host
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $old_host_retired = db_query("
     UPDATE {host}
     SET
@@ -1884,7 +1884,7 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
   
   //project_prefs_update($boincuser, $main_prefs);
   
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("UPDATE user SET send_email = '{$boincuser->send_email}', show_hosts = '{$boincuser->show_hosts}' WHERE id = '{$boincuser->id}'");
   db_set_active('default');
   
