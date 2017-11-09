@@ -47,9 +47,9 @@ curlDirName="curl-7.50.2"
 curlFileName="curl-7.50.2.tar.gz"
 curlURL="http://curl.haxx.se/download/curl-7.50.2.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.0.0"
-wxWidgetsFileName="wxWidgets-3.0.0.tar.bz2"
-wxWidgetsURL="http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2"
+wxWidgetsDirName="wxWidgets-3.1.0"
+wxWidgetsFileName="wxWidgets-3.1.0.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.0/wxWidgets-3.1.0.tar.bz2"
 
 sqliteDirName="sqlite-autoconf-3110000"
 sqliteFileName="sqlite-autoconf-3110000.tar.gz"

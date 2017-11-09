@@ -116,6 +116,14 @@ download_and_build() {
             # already built but not for correct architectures so force rebuild
             doClean="-clean"
         fi
+    else
+        # tell subsequent scripts to build everything from scratch
+        doClean="-clean"
+        # delete any FILEFLAGS for other versions of this library built previously
+        BASENAME="${DIRNAME%-*}"
+        rm -f "${PREFIX}/${BASENAME}"*
+        # delete any previous build of this library (may be redundant with -clean)
+        rm -f "${PREFIX}/lib/${PRODUCTNAME}"
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then

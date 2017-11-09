@@ -2385,7 +2385,7 @@
 			attributes = {
 				LastUpgradeCheck = 0620;
 			};
-			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
+			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc_wx310" */;
 			compatibilityVersion = "Xcode 3.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -3547,13 +3547,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/include",
-					"../../wxWidgets-3.0.0/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.1.0/include",
+					"../../wxWidgets-3.1.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/build/osx/build/Debug",
+					"../../wxWidgets-3.1.0/build/osx/build/Debug",
 					"../../sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
@@ -3566,6 +3566,7 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
+					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -3601,13 +3602,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/include",
-					"../../wxWidgets-3.0.0/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.1.0/include",
+					"../../wxWidgets-3.1.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/build/osx/build/Release",
+					"../../wxWidgets-3.1.0/build/osx/build/Release",
 					"../../sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
@@ -3622,6 +3623,7 @@
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
+					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -4405,7 +4407,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */ = {
+		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc_wx310" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,
