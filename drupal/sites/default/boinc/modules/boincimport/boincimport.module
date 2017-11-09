@@ -102,7 +102,7 @@ function boincimport_perm() {
  */
 function boincimport_reset() {
   global $db_url;
-  $boinc_db_url = (is_array($db_url)) ? (isset($db_url['boinc']) ? $db_url['boinc'] : $db_url['default']) : $db_url;
+  $boinc_db_url = (is_array($db_url)) ? (isset($db_url['boinc_rw']) ? $db_url['boinc_rw'] : $db_url['default']) : $db_url;
   variable_set('boincimport_db_url', $boinc_db_url);
   variable_set('boincimport_ready', 0);
   return '<p>'. t('The BOINC database URL has been reset. You may now <a href="@configlink">go back to the configuration page</a>.',
@@ -147,10 +147,10 @@ function _boincimport_db_connect($test= 0) {
     } else {
       $db_url2['default'] = $db_url;
     }
-    $db_url2['boinc'] = variable_get('boincimport_db_url', $db_url);
+    $db_url2['boinc_rw'] = variable_get('boincimport_db_url', $db_url);
     $GLOBALS['db_url'] =& $db_url2;
     if ($test) {
-      if (!db_connect($db_url2['boinc'])) {
+      if (!db_connect($db_url2['boinc_rw'])) {
         return 0;
       }
     }
