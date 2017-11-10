@@ -265,15 +265,14 @@ void CLIENT_STATE::process_autologin() {
     //
     FILE* f = boinc_fopen(INSTALLER_FILENAME_FILENAME, "r");
     if (!f) return;
-    msg_printf(NULL, MSG_INFO, "Read installer filename file");
     fgets(buf, 256, f);
     fclose(f);
     p = strstr(buf, "__");
     if (!p) {
-        msg_printf(NULL, MSG_INFO, "bad installer filename %s: no __", buf);
         boinc_delete_file(INSTALLER_FILENAME_FILENAME);
         return;
     }
+    msg_printf(NULL, MSG_INFO, "Read installer filename file");
     p += 2;
     n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
         // don't include the ".exe" or the " (1)"
