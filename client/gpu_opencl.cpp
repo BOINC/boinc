@@ -1074,6 +1074,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
     CGLRendererInfoObj info;
     long i, j;
     GLint numRenderers = 0, rv = 0, deviceVRAM, rendererID;
+    cl_ulong deviceMemSize;
     CGLError theErr2 = kCGLNoError;
     CGLContextObj curr_ctx = CGLGetCurrentContext (); // save current CGL context
     int ati_gpu_index = 0;
@@ -1129,7 +1130,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                 // what is the VRAM?
                 CGLError notAvail = CGLDescribeRenderer (info, i, kCGLRPVideoMemoryMegabytes, &deviceVRAM);
                 if (notAvail == kCGLNoError) {
-                    deviceVRAM = deviceVRAM * (1024*1024);
+                    deviceMemSize = ((cl_ulong)deviceVRAM) * (1024L*1024L);
                 } else {	// kCGLRPVideoMemoryMegabytes is not available before OS 10.7
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1137,6 +1138,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                     // defined in later SDKs, so use a literal value here instead
                     // CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
                     CGLDescribeRenderer (info, i, (CGLRendererProperty)120, &deviceVRAM);
+                    deviceMemSize = deviceVRAM;
 #pragma clang diagnostic pop
                 }
 
@@ -1160,8 +1162,8 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                        // get vendor string from renderer
                         const GLubyte * strVend = glGetString (GL_VENDOR);
                         if (is_AMD((char *)strVend)) {
-                            ati_opencls[ati_gpu_index].global_mem_size = deviceVRAM;
-                            ati_opencls[ati_gpu_index].opencl_available_ram = deviceVRAM;
+                            ati_opencls[ati_gpu_index].global_mem_size = deviceMemSize;
+                            ati_opencls[ati_gpu_index].opencl_available_ram = deviceMemSize;
 
                             if (log_flags.coproc_debug) {
                                 // For some GPUs, one API returns "ATI" but the other API returns
