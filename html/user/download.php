@@ -113,10 +113,15 @@ function download_button($v, $project_id, $token, $user) {
 }
 
 function download_button_vbox($v, $project_id, $token, $user) {
+    // if no vbox version exists for platform, don't show vbox button
+    if(!$v->vbox_filename) {
+        return;
+    }
     return sprintf(
         '<form action="https://boinc.berkeley.edu/concierge.php" method="post">
         <input type=hidden name=project_id value="%d">
         <input type=hidden name=token value="%s">
+        <input type=hidden name=user_id value="%d">
         <input type=hidden name=filename value="%s">
         <button class="btn btn-success">
         <font size=+1><u>Download BOINC + VirtualBox</u></font>
