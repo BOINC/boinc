@@ -46,6 +46,7 @@
 ## updated 7/1/15 by Charlie Fenton for compatibility with OS 10.11
 ## updated 6/4/17 by Charlie Fenton for compatibility with Xcode versions > 5.0.2
 ## updated 10/19/17 by Charlie Fenton for different path to boinc_logo_black.jpg
+## updated 11/11/17 by Charlie Fenton make all user-writable to help auto-attach
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -427,6 +428,11 @@ if [ -n "${APPSIGNINGIDENTITY}" ]; then
 fi
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
+
+## Make everything in directory user-writable so project web code using auto-attach
+## can delete it after inflating, modifying installer name and recompressing it.
+sudo chmod -R u+w ./boinc_$1.$2.$3_macOSX_$arch
+
 ## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_$arch boinc_$1.$2.$3_macOSX_$arch.zip
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_$arch-apple-darwin boinc_$1.$2.$3_$arch-apple-darwin.zip
