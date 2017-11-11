@@ -35,6 +35,7 @@
 #include "str_replace.h"
 #include "mac_util.h"
 #include "translate.h"
+#include "file_names.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -115,10 +116,18 @@ int main(int argc, char *argv[])
     strlcpy(postInstallAppPath, pkgPath, sizeof(postInstallAppPath));
     strlcat(postInstallAppPath, "PostInstall.app", sizeof(postInstallAppPath));
 
-   // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     p = strrchr(temp, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
     if (p == NULL)
         p = temp - 1;
+
+    // write installer filename to a temp file
+    // PostInstall.app will copy it into the BOINC Data directory
+    snprintf(temp, sizeof(temp), "tmp/%s/%s", tempDirName, INSTALLER_FILENAME_FILENAME);
+    FILE* f = fopen(temp, "w");
+    fputs(p+1, f);
+    fclose(f);
+    
+    // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     strlcpy(brand, p+1, sizeof(brand));
     strlcat(pkgPath, p+1, sizeof(pkgPath));
     p = strrchr(pkgPath, ' ');         // Strip off last space character and everything following
