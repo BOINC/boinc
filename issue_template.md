@@ -14,7 +14,8 @@
  
 ## Steps to Reproduce (for bugs)
 <!--- Provide a link to a live example, or an unambiguous set of steps to -->
-<!--- reproduce this bug. Include code to reproduce, or add an image file. -->
+<!--- reproduce this bug. Include code to reproduce, show part of your log -->
+<!-- or add an image file. -->
 1.
 2.
 3.
@@ -26,7 +27,7 @@
  
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
-Include:
+Include, where relevant:
 * BOINC Version used:
 * Operating System and version:
 * Added projects:
