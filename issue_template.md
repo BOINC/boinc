@@ -15,7 +15,7 @@
 ## Steps to Reproduce (for bugs)
 <!--- Provide a link to a live example, or an unambiguous set of steps to -->
 <!--- reproduce this bug. Include code to reproduce, show part of your log -->
-<!-- or add an image file. -->
+<!--- or add an image file. -->
 1.
 2.
 3.
