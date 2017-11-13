@@ -11,7 +11,6 @@ function private_messages_user_default_permissions() {
     'name' => 'administer privatemsg settings',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
     ),
   );
 
