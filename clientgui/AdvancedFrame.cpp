@@ -1727,12 +1727,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
 }
 
-// the autoattach process deletes the installer filename file when done
-//
-static bool autoattach_in_progress() {
-    return boinc_file_exists(INSTALLER_FILENAME_FILENAME);
-}
-
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
     

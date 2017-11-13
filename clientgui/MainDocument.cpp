@@ -2712,3 +2712,9 @@ wxString format_number(double x, int nprec) {
     return wxNumberFormatter::ToString(x, nprec);
 
 }
+
+// the autoattach process deletes the installer filename file when done
+//
+bool autoattach_in_progress() {
+    return boinc_file_exists(INSTALLER_FILENAME_FILENAME) != 0;
+}
