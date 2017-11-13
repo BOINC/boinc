@@ -148,8 +148,7 @@ function _boincteam_user_name_autocomplete($string) {
   $result = db_query_range("SELECT id,name FROM {user} WHERE name LIKE '%s%'", $string, 0, 10);
   db_set_active('default');
   while ($user = db_fetch_object($result)) {
-    #$matches[$user->name . '_' . $user->id] = $user->name . "(" . $user->id . ')';
-    $matches['foobar'] = $user->name . "(" . $user->id . ')';
+    $matches[$user->name . '_' . $user->id] = $user->name . " (" . $user->id . ')';
   }
 
   drupal_json((object)$matches);
