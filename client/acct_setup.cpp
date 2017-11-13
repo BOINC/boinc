@@ -265,15 +265,22 @@ void CLIENT_STATE::process_autologin() {
     //
     FILE* f = boinc_fopen(INSTALLER_FILENAME_FILENAME, "r");
     if (!f) return;
-    msg_printf(NULL, MSG_INFO, "Read installer filename file");
     fgets(buf, 256, f);
     fclose(f);
     p = strstr(buf, "__");
-    if (!p) return;
+    if (!p) {
+        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        return;
+    }
+    msg_printf(NULL, MSG_INFO, "Read installer filename file");
     p += 2;
     n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
         // don't include the ".exe" or the " (1)"
-    if (n != 3) return;
+    if (n != 3) {
+        msg_printf(NULL, MSG_INFO, "bad installer filename %s", buf);
+        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        return;
+    }
     strip_whitespace(login_token);
 
     // check that project ID is valid, get URL
@@ -283,11 +290,13 @@ void CLIENT_STATE::process_autologin() {
         msg_printf(NULL, MSG_INFO,
             "Error reading project list: %s", boincerror(retval)
         );
+        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
         return;
     }
     PROJECT_LIST_ITEM *pli = project_list.lookup(project_id);
     if (!pli) {
         msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);
+        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
         return;
     }
 
@@ -307,22 +316,23 @@ void CLIENT_STATE::process_autologin() {
     msg_printf(NULL, MSG_INFO,
         "Doing token lookup RPC to %s", pli->name.c_str()
     );
-    lookup_login_token_op.do_rpc(pli, user_id, login_token);
+    retval = lookup_login_token_op.do_rpc(pli, user_id, login_token);
+    if (retval) {
+        msg_printf(NULL, MSG_INFO,
+            "lookup token RPC failed: %s", boincerror(retval)
+        );
+    }
 }
 
 int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
     PROJECT_LIST_ITEM* _pli, int user_id, const char* login_token
 ) {
-    int retval;
     char url[1024];
     pli = _pli;
     sprintf(url, "%slogin_token_lookup.php?user_id=%d&token=%s",
         pli->master_url.c_str(), user_id, login_token
     );
-    retval = gui_http->do_rpc(
-        this, url, LOGIN_TOKEN_LOOKUP_REPLY, false
-    );
-    return retval;
+    return gui_http->do_rpc(this, url, LOGIN_TOKEN_LOOKUP_REPLY, false);
 }
 
 // Handle lookup login token reply.
@@ -335,6 +345,8 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     }
     FILE* f = boinc_fopen(LOGIN_TOKEN_LOOKUP_REPLY, "r");
     if (!f) {
+        msg_printf(NULL, MSG_INFO, "lookup token: no reply file");
+        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
         return;
     }
     MIOFILE mf;
@@ -350,6 +362,8 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     fclose(f);
 
     if (!user_name.size() || !weak_auth.size()) {
+        msg_printf(NULL, MSG_INFO, "lookup token: missing info");
+        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
         return;
     }
 
