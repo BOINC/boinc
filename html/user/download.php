@@ -179,13 +179,17 @@ function show_download_page($user) {
     ";
     $token = make_login_token($user);
     echo "<center><table border=0 cellpadding=20>\n";
-    table_row(
-        "",
-        download_button_vbox($v, $project_id, $token, $user),
-        "&nbsp;&nbsp;",
-        download_button($v, $project_id, $token, $user),
-        ""
-    );
+    if ($v->vbox_filename) {
+        table_row(
+            "",
+            download_button_vbox($v, $project_id, $token, $user),
+            "&nbsp;&nbsp;",
+            download_button($v, $project_id, $token, $user),
+            ""
+        );
+    } else {
+        table_row("", download_button($v, $project_id, $token, $user), "");
+    }
     echo "</table></center>\n";
     echo "<p><p>
         When the download is finished,
