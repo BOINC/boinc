@@ -359,7 +359,8 @@ void DB_USER::db_print(char* buf){
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
         "seti_total_cpu=%.15e, signature='%s', has_profile=%d, "
         "cross_project_id='%s', passwd_hash='%s', "
-        "email_validated=%d, donated=%d",
+        "email_validated=%d, donated=%d, "
+        "login_token='%s', login_token_time=%f",
         create_time, email_addr, name,
         authenticator,
         country, postal_code,
@@ -370,7 +371,8 @@ void DB_USER::db_print(char* buf){
         seti_id, seti_nresults, seti_last_result_time,
         seti_total_cpu, signature, has_profile,
         cross_project_id, passwd_hash,
-        email_validated, donated
+        email_validated, donated,
+        login_token, login_token_time
     );
     UNESCAPE(email_addr);
     UNESCAPE(name);
@@ -413,6 +415,8 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     strcpy2(passwd_hash, r[i++]);
     email_validated = atoi(r[i++]);
     donated = atoi(r[i++]);
+    strcpy2(login_token, r[i++]);
+    login_token_time = atof(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -524,7 +528,8 @@ void DB_HOST::db_print(char* buf){
         "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
         "error_rate=%.15e, "
         "product_name='%s', "
-        "gpu_active_frac=%.15e ",
+        "gpu_active_frac=%.15e, "
+        "p_ngpus=%d, p_gpu_fpops=%.15e ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -546,7 +551,8 @@ void DB_HOST::db_print(char* buf){
         host_cpid, external_ip_addr, _max_results_day,
         _error_rate,
         product_name,
-        gpu_active_frac
+        gpu_active_frac,
+        p_ngpus, p_gpu_fpops
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);

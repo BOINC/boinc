@@ -926,7 +926,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['buttons']['delete']['#prefix'] = '<li class="tab">';
     $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#value'] = bts('Clear User Profile', array(), NULL, 'boinc:form-save');
     $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['delete']['#submit'] = array('_boincuser_node_profile_delete_submit');
     $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
@@ -936,9 +938,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
-    
-    // Delete doesn't work, be rid of it
-    unset($form['buttons']['delete']);
     
     unset($form['title']);
     unset($form['body_field']);
@@ -1482,10 +1481,15 @@ function boincuser_account_finish() {
     }
   }
 
+  // open links in new window
+  $options = array(
+    'attributes' => array( 'target' => '_blank' ),
+  );
+
   // Check moderation page exists
   $moderationpath = drupal_lookup_path('source', variable_get('boinc_weboptions_moderationpage', '') );
   if ( menu_valid_path(array('link_path' => $moderationpath)) ) {
-    $modsentence = bts('Please note: user profiles are subject to !moderation.', array('!moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), $moderationpath)), NULL, 'boinc:account-finish');
+    $modsentence = bts('Please note: user profiles are subject to !moderation.', array('!moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), $moderationpath, $options)), NULL, 'boinc:account-finish');
   } else {
     $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
   }
@@ -1499,9 +1503,6 @@ function boincuser_account_finish() {
     '@site_name' => $site_name,
   ), NULL, 'boinc:account-finish') . "</p>";
 
-  $options = array(
-    'attributes' => array( 'target' => '_blank' ),
-  );
   $links = array(
     array(
       'data' => bts('Change your username at !community_preferences.', array(

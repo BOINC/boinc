@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// forms for account creation and login
+// functions related to account creation and login:
+// - forms for create / login
+// - function to make login token
+
+// make login token, store in user record, return token
+//
+function make_login_token($user) {
+    $token = substr(random_string(), 0, 8);
+    $now = time();
+    $user->update("login_token='$token', login_token_time=$now");
+    return $token;
+}
 
 function create_account_form($teamid, $next_url) {
     global $recaptcha_public_key;
