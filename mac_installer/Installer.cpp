@@ -133,13 +133,13 @@ int main(int argc, char *argv[])
     // PostInstall.app will copy it into the BOINC Data directory laer
     snprintf(temp2, sizeof(temp2), "%s/%s", temp, );CCOUNT_DATA_FILENAME
     if (boinc_file_exists(temp2)) {
-        // If the project server put installer_filename.txt file in the same
+        // If the project server put account_data.txt file in the same
         // parent directory as this installer, copy it into our temp directory
         snprintf(temp2, sizeof(temp2), "cp \"%s/%s\" \"/tmp/%s/%s\"", temp, ACCOUNT_DATA_FILENAME, tempDirName, ACCOUNT_DATA_FILENAME);
         err = callPosixSpawn(temp2);
         REPORT_ERROR(err);
     } else {
-        // Create an installer_filename.txt file containing our 
+        // Create an account_data.txt file containing our 
         // installer's filename and put it in our temp directory
         snprintf(temp2, sizeof(temp2), "/tmp/%s/%s", tempDirName, ACCOUNT_DATA_FILENAME);
         FILE* f = fopen(temp2, "w");
