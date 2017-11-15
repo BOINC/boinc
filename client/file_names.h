@@ -63,6 +63,11 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CERTIFICATE_DIRECTORY       "certificates"
 #define CLIENT_AUTH_FILENAME        "client_auth.xml"
 #define CLIENT_BRAND_FILENAME       "client_brand.txt"
+#ifdef _WIN32
+#define CLIENT_EXEC_FILENAME        "boinc.exe"
+#else
+#define CLIENT_EXEC_FILENAME        "boinc"
+#endif
 #define CLIENT_OPAQUE_FILENAME      "client_opaque.txt"
 #define CONFIG_FILE                 "cc_config.xml"
 #define COPROC_INFO_FILENAME        "coproc_info.xml"
@@ -74,6 +79,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define GLOBAL_PREFS_FILE_NAME      "global_prefs.xml"
 #define GLOBAL_PREFS_OVERRIDE_FILE  "global_prefs_override.xml"
 #define JOB_LOG_BASE                "job_log_"
+#define KEYWORD_FILENAME            "keywords.xml"
 #define LOOKUP_ACCOUNT_FILENAME     "lookup_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define MASTER_BASE                 "master_"

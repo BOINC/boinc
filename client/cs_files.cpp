@@ -482,7 +482,9 @@ void CLIENT_STATE::check_file_existence() {
         if (fip->status < 0 && fip->downloadable()) {
             // file had an error; reset it so that we download again
             get_pathname(fip, path, sizeof(path));
-            msg_printf(fip->project, MSG_INFO, "Resetting file %s: %s", path, boincerror(fip->status));
+            msg_printf(fip->project, MSG_INFO,
+                "Resetting file %s: %s", path, boincerror(fip->status)
+            );
             fip->reset();
             continue;
         }

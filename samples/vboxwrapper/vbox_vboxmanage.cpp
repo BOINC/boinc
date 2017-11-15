@@ -160,7 +160,6 @@ namespace vboxmanage {
         //
         launch_vboxsvc();
 #endif
-#endif
 
         rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
         if (rc) return rc;
@@ -786,7 +785,7 @@ namespace vboxmanage {
         //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
         //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
         //
-        if (enable_isocontextualization && enable_isocontextualization) {
+        if (enable_isocontextualization) {
             command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
             retval = vbm_popen(command, output, "get HDD info");
             if (retval) return retval;
@@ -800,7 +799,15 @@ namespace vboxmanage {
 
                 // Deregister stale VM by UUID
                 return deregister_vm(false);
+            } else {
+                command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+                vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
+                if (enable_cache_disk) {
+                     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                     vbm_popen(command, output, "remove virtual cache disk", false);
+                }
             }
+
         } else {
             command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
             retval = vbm_popen(command, output, "get HDD info");
@@ -824,14 +831,6 @@ namespace vboxmanage {
                     command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
                     vbm_popen(command, output, "remove virtual floppy disk", false, false);
                 }
-                if (enable_isocontextualization) {
-                    command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
-                    vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
-                    if (enable_cache_disk) {
-                        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
-                        vbm_popen(command, output, "remove virtual cache disk", false);
-                    }
-                }
             }
         }
         return 0;
@@ -844,7 +843,7 @@ namespace vboxmanage {
         string output;
         string::iterator iter;
         string vmstate;
-        static string vmstate_old = "PoweredOff";
+        static string vmstate_old = "poweredoff";
 
         boinc_get_init_data_p(&aid);
 
@@ -867,7 +866,7 @@ namespace vboxmanage {
         //
         // What state is the VM in?
         //
-        vmstate =read_vm_log();
+        vmstate = read_vm_log();
         if (vmstate != "Error in parsing the log file") {
 
             // VirtualBox Documentation suggests that that a VM is running when its
@@ -879,84 +878,77 @@ namespace vboxmanage {
             //
             // So for now, go with what VboxManage is reporting.
             //
-            if (vmstate == "Running") {
+            if (vmstate == "running") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Paused") {
+            else if (vmstate == "paused") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = true;
                 crashed = false;
             }
-            else if (vmstate == "Saved") {
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = true;
-                crashed = false;
-            }
-            else if (vmstate == "Starting") {
+            else if (vmstate == "starting") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Stopping") {
+            else if (vmstate == "stopping") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Saving") {
+            else if (vmstate == "saving") {
                 online = true;
                 saving = true;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Restoring") {
+            else if (vmstate == "restoring") {
                 online = true;
                 saving = false;
                 restoring = true;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "LiveSnapshotting") {
+            else if (vmstate == "livesnapshotting") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "DeletingsnapshotOnline") {
+            else if (vmstate == "deletingsnapshotonline" || vmstate == "deletingsnapshotlive") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "DeletingSnapshotPaused") {
+            else if (vmstate == "deletingsnapshotpaused" || vmstate == "deletingsnapshotlivepaused") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
             }
-            else if (vmstate == "Aborted") {
+            else if (vmstate == "aborted") {
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = true;
             }
-            else if (vmstate == "Stuck") {
+            else if (vmstate == "gurumeditation") {
                 online = false;
                 saving = false;
                 restoring = false;
@@ -986,6 +978,170 @@ namespace vboxmanage {
         }
         return retval;
     }
+
+    int VBOX_VM::poll2(bool log_state) {
+	int retval = ERR_EXEC;
+	APP_INIT_DATA aid;
+	string command;
+	string output;
+	string::iterator iter;
+	string vmstate;
+	static string vmstate_old = "poweroff";
+	size_t vmstate_start;
+	size_t vmstate_end;
+
+	boinc_get_init_data_p(&aid);
+
+	//
+	// Is our environment still sane?
+	//
+#ifdef _WIN32
+	if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
+		vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
+	}
+	if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
+		vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
+	}
+#else
+	if (started_successfully && vm_pid && !process_exists(vm_pid)) {
+		vboxlog_msg("Status Report: virtualbox/vboxheadless is no longer running.");
+	}
+#endif
+
+	//
+	// What state is the VM in?
+	//
+
+	command = "showvminfo \"" + vm_name + "\" ";
+	command += "--machinereadable ";
+
+	if (vbm_popen(command, output, "VM state", false, false, 45, false) == 0) {
+		vmstate_start = output.find("VMState=\"");
+		if (vmstate_start != string::npos) {
+			vmstate_start += 9;
+			vmstate_end = output.find("\"", vmstate_start);
+			vmstate = output.substr(vmstate_start, vmstate_end - vmstate_start);
+
+			// VirtualBox Documentation suggests that that a VM is running when its
+			// machine state is between MachineState_FirstOnline and MachineState_LastOnline
+			// which as of this writing is 5 and 17.
+			//
+			// VboxManage's source shows more than that though:
+			// see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
+			//
+			// So for now, go with what VboxManage is reporting.
+			//
+			if (vmstate == "running") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "paused") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = true;
+				crashed = false;
+			}
+			else if (vmstate == "starting") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "stopping") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "saving") {
+				online = true;
+				saving = true;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "restoring") {
+				online = true;
+				saving = false;
+				restoring = true;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "livesnapshotting") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "deletingsnapshotlive") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "deletingsnapshotlivepaused") {
+				online = true;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+			}
+			else if (vmstate == "aborted") {
+				online = false;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = true;
+			}
+			else if (vmstate == "gurumeditation") {
+				online = false;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = true;
+			}
+			else {
+				online = false;
+				saving = false;
+				restoring = false;
+				suspended = false;
+				crashed = false;
+				if (log_state) {
+					vboxlog_msg("VM is no longer is a running state. It is in '%s'.", 
+					             vmstate.c_str());
+				}
+			}
+			if (log_state && (vmstate_old != vmstate)) {
+				vboxlog_msg("VM state change detected. (old = '%s', new = '%s')",
+					      vmstate_old.c_str(), vmstate.c_str());
+				vmstate_old = vmstate;
+			}
+
+			retval = BOINC_SUCCESS;
+		}
+	}
+
+	//
+	// Grab a snapshot of the latest log file.  Avoids multiple queries across several
+	// functions.
+	//
+	get_vm_log(vm_log);
+
+	//
+	// Dump any new VM Guest Log entries
+	//
+	dump_vmguestlog_entries();
+
+	return retval;
+}
 
     int VBOX_VM::start() {
         int retval;
@@ -1049,6 +1205,7 @@ namespace vboxmanage {
             if (!retval) {
                 timeout = dtime() + 300;
                 do {
+	            poll(false);
                     if (!online && !saving) break;
                     boinc_sleep(1.0);
                 } while (timeout >= dtime());
@@ -1091,6 +1248,7 @@ namespace vboxmanage {
             if (!retval) {
                 timeout = dtime() + 300;
                 do {
+	            poll(false);
                     if (!online && !saving) break;
                     boinc_sleep(1.0);
                 } while (timeout >= dtime());
@@ -1211,7 +1369,7 @@ namespace vboxmanage {
 
         // Set the suspended flag back to false before deleting the stale
         // snapshot
-        //poll(false);
+        poll(false);
 
         // Delete stale snapshot(s), if one exists
         cleanup_snapshots(false);
@@ -1739,7 +1897,7 @@ namespace vboxmanage {
                 found = line.find(comp);
                 if (found != string::npos){
 
-                    found += strlen("Process ID: ");
+                    found += comp.size();
                     pid = line.substr(found, string::npos);
                     strip_whitespace(pid);
                     if (pid.size() <= 0) {

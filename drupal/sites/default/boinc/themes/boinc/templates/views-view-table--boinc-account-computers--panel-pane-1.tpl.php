@@ -35,6 +35,6 @@
     <?php print l(bts('More', array(), NULL, 'boinc:account-dashboard'), 'account/computers'); ?>
   </li>
   <li class="first alt tab">
-    <?php print l(bts('Tasks', array(), NULL, 'boinc:host-tasks-link'), 'account/tasks/active'); ?>
+    <?php print l(bts('Tasks', array(), NULL, 'boinc:host-tasks-link'), 'account/tasks/0/0'); ?>
   </li>
 </ul>

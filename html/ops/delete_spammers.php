@@ -96,6 +96,7 @@ ini_set('memory_limit', '4G');
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
+require_once("../inc/user_util.inc");
 db_init();
 
 $min_days = 0;
@@ -262,6 +263,9 @@ function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
     $n = 0;
     while ($u = $result->fetch_object()) {
         $user = BoincUser::lookup_id($u->id);
+        if (!$user) {
+            continue;
+        }
         if ($have_url) {
             if (!strlen($user->url)) continue;
         }

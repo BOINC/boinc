@@ -39,6 +39,7 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "hostinfo.h"
+#include "keyword.h"
 #include "miofile.h"
 #include "network.h"
 #include "notice.h"
@@ -232,6 +233,7 @@ struct WORKUNIT {
     double rsc_disk_bound;
     PROJECT* project;
     APP* app;
+    JOB_KEYWORDS job_keywords;
 
     WORKUNIT();
 
@@ -807,7 +809,9 @@ struct RPC {
 
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
 // uselocale() is not available in OS 10.3.9 so use weak linking
+#if HAVE_XLOCALE_H
 #include <xlocale.h>
+#endif
 extern int		freelocale(locale_t) __attribute__((weak_import));
 extern locale_t	newlocale(int, __const char *, locale_t) __attribute__((weak_import));
 extern locale_t	uselocale(locale_t) __attribute__((weak_import));

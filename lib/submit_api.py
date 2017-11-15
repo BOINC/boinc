@@ -51,14 +51,16 @@ class JOB_DESC:
         return
     def to_xml(self):
         xml = '<job>\n'
+        if hasattr(self, 'name'):
+            xml += '<name>%s</name>\n'%self.name
         if hasattr(self, 'rsc_fpops_est'):
             xml += '<rsc_fpops_est>%f</rsc_fpops_est>\n'%self.rsc_fpops_est
         if hasattr(self, 'command_line'):
             xml += '<command_line>%s</command_line>\n'%self.command_line
-        if hasattr(self, 'wu_template'):
-            xml += '<wu_template>\n%s\n</wu_template>\n'%self.wu_template
-        if hasattr(self, 'result_template'):
-            xml += '<result_template>\n%s\n</result_template>\n'%self.result_template
+        if hasattr(self, 'input_template'):
+            xml += '%s\n'%self.input_template
+        if hasattr(self, 'output_template'):
+            xml += '%s\n'%self.output_template
         if hasattr(self, 'files'):
             for file in self.files:
                 xml += file.to_xml()
@@ -82,6 +84,10 @@ class BATCH_DESC:
             xml += '<batch_id>%s</batch_id>\n'%(self.batch_id)
         elif hasattr(self, 'batch_name'):
             xml += '<batch_name>%s</batch_name>\n'%(self.batch_name)
+
+        if hasattr(self, 'app_version_num'):
+            xml += '<app_version_num>%d</app_version_num>\n'%(self.app_version_num)
+
         for job in self.jobs:
             xml += job.to_xml()
         xml += '</batch>\n</%s>\n' %(op)
@@ -106,12 +112,12 @@ class REQUEST:
         return
 
 def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
-    print req
+    #print req
     url = project_url + handler
     params = urllib.urlencode({'request': req})
     f = urllib.urlopen(url, params)
     reply = f.read()
-    print "REPLY:", reply
+    #print "REPLY:", reply
     return ET.fromstring(reply)
 
 ########### API FUNCTIONS START HERE ###############
@@ -201,7 +207,7 @@ def submit_batch(req):
 #
 def check_error(response):
     if response.find('error') is not None:
-         print 'error: ', response.find('error').find('error_msg').text
+         print 'BOINC server error: ', response.find('error').find('error_msg').text
          return True
 
 ############ FILE MANAGEMENT API ##############

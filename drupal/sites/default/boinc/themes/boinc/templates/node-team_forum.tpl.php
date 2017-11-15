@@ -75,12 +75,6 @@
 ?>
 <?php $first_page = (!isset($_GET['page']) OR ($_GET['page'] < 1)); ?>
 
-<?php if ($subscribe_link): ?>
-  <div class="subscribe">
-    <?php print $subscribe_link; ?>
-  </div>
-<?php endif; ?>
-
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
   
   <?php 
@@ -116,7 +110,26 @@
     }
   ?>
   
-  <h2 class="title"><?php print $subtitle; ?></h2>
+  <div class="forum-links">
+    <div class="breadcrumb">
+      <h2 class="title"><?php print $subtitle; ?></h2>
+    </div>
+    <div class="subscribe">
+      <ul class="links">
+        <?php if (user_access('post comments') AND ($comment==COMMENT_NODE_READ_WRITE)): ?>
+          <li class="first"><a href="#block-comment_form_block-comment_form">Post new comment</a></li>
+          <?php if ($subscribe_link): ?>
+            <li class="last"><?php print $subscribe_link; ?></li>
+          <?php endif; ?>
+        <?php else: ?>
+          <?php if ($subscribe_link): ?>
+            <li class="first"><?php print $subscribe_link; ?></li>
+          <?php endif; ?>
+        <?php endif; ?>
+      </ul>
+    </div>
+    <div class="clearfix"></div>
+  </div>
   
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
@@ -162,10 +175,13 @@
       <div class="name"><?php print $name; ?></div>
       <?php if ($account->uid): ?>
         <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
+        <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
+        <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>
+        <?php $nf2 = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
         <div class="join-date"><?php print bts('Joined: @join_date', array( '@join_date' => date('j M y', $account->created) ), NULL, 'boinc:mini-user-stats'); ?></div>
         <div class="post-count"><?php print bts('Posts: @post_count', array( '@post_count' => $nf->format($account->post_count) ), NULL, 'boinc:mini-user-stats'); ?></div>
         <div class="credit"><?php print bts('Credit: @user_credits', array( '@user_credits' => $nf->format($account->boincuser_total_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
-        <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $nf->format($account->boincuser_expavg_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $nf2->format($account->boincuser_expavg_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
         <div class="user-links">
           <div class="ignore-link"><?php print l($ignore_link['ignore_user']['title'],
             $ignore_link['ignore_user']['href'],
@@ -190,7 +206,7 @@
       
       <?php if ($display_submitted): ?>
         <div class="submitted">
-          <?php print date('j M Y H:i:s T', $node->created); ?>
+          <?php print date('j M Y G:i:s T', $node->created); ?>
         </div>
       <?php endif; ?>
       <div class="topic-id">
@@ -226,5 +242,9 @@
       print comment_render($node);
     }
   ?>
-  
+
+  <div class="breadcrumb bottom-breadcrumb">
+    <h2 class="title"><?php print $subtitle; ?><br>
+  </div>
+
 </div> <!-- /.node -->

@@ -111,3 +111,45 @@ function boincteam_import($boincteam, $nid = NULL) {
   
   return $success;
 }
+
+/**
+ * Obtains an array of BOINC ids or Drupal uids for a given team.
+ *
+ * @param int $boincteamid
+ *   The BOINC team id (not drupal team/node id).
+ * @param bool $boincid
+ *   A boolean, if TRUE the function will return the BOINC ids. If
+ *   FALSE, the function will return the Drupal uids.
+ */
+function _boincteam_userids($boincteamid, $boincid=TRUE) {
+  $sql = 'SELECT user.id as id FROM {user} user WHERE user.teamid=%s';
+  db_set_active('boinc');
+  $dbres = db_query($sql, $boincteamid);
+  db_set_active('default');
+  $ids = array();
+  while (($result = db_fetch_object($dbres)) != FALSE) {
+    $ids[] = $result->id;
+  }
+  if ($boincid) {
+    return $ids;
+  }
+  else {
+    return array_map('boincuser_lookup_uid', $ids);
+  }
+}
+
+/**
+ * Autocomplete function to search for username in boinc user
+ * database.
+ */
+function _boincteam_user_name_autocomplete($string) {
+  $matches = array();
+  db_set_active('boinc');
+  $result = db_query_range("SELECT id,name FROM {user} WHERE name LIKE '%s%'", $string, 0, 10);
+  db_set_active('default');
+  while ($user = db_fetch_object($result)) {
+    $matches[$user->name . '_' . $user->id] = $user->name . " (" . $user->id . ')';
+  }
+
+  drupal_json((object)$matches);
+}

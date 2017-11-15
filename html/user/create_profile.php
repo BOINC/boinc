@@ -110,7 +110,7 @@ function show_submit() {
     if ($publickey) {
         table_row(boinc_recaptcha_get_html($publickey));
     }
-    table_row("<p><input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
+    table_row("<p><input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
 
 // Returns an array containing:
@@ -161,7 +161,7 @@ function getImages($fileName) {
 
 function show_description() {
     echo "
-        <p>" .tra("Your %1profile%2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
+        <p>" .tra("Your %1 profile %2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
         <p>
     ";
 }
@@ -177,10 +177,10 @@ function show_questions($profile) {
     }
 
     row1(show_profile_heading1());
-    rowify(show_profile_question1().html_info());
+    rowify(show_profile_question1().bbcode_info());
     show_textarea("response1", $response1);
     row1( show_profile_heading2());
-    rowify( show_profile_question2().html_info());
+    rowify( show_profile_question2().bbcode_info());
     show_textarea("response2", $response2);
     show_language_selection($profile);
 }

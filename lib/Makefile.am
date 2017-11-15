@@ -22,6 +22,7 @@ libfcgi_sources = \
     coproc.cpp \
     filesys.cpp \
     hostinfo.cpp \
+	keyword.cpp \
     md5.cpp \
     md5_file.cpp \
     mfile.cpp \
@@ -29,7 +30,7 @@ libfcgi_sources = \
     msg_log.cpp \
     opencl_boinc.cpp \
     parse.cpp \
-	sched_msgs.cpp \
+    sched_msgs.cpp \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
@@ -48,6 +49,7 @@ generic_sources = \
     gui_rpc_client_ops.cpp \
     gui_rpc_client_print.cpp \
     hostinfo.cpp \
+	keyword.cpp \
     md5.cpp \
     md5_file.cpp \
     mem_usage.cpp \
@@ -63,13 +65,13 @@ generic_sources = \
     proc_control.cpp \
     project_init.cpp \
     proxy_info.cpp \
-	sched_msgs.cpp \
+    sched_msgs.cpp \
     shmem.cpp \
     str_util.cpp \
     url.cpp \
     util.cpp
 
-if OS_WIN32 
+if OS_WIN32
 win_sources = \
     boinc_win.cpp \
     daemonmgt_win.cpp \
@@ -115,7 +117,7 @@ generic_sources += \
     unix_util.cpp
 win_sources=
 win_headers=
-mac_sources= 
+mac_sources=
 mac_headers=
 
 endif
@@ -153,7 +155,7 @@ pkginclude_HEADERS = \
     prefs.h \
     procinfo.h \
     proxy_info.h \
-	sched_msgs.h \
+    sched_msgs.h \
     stackwalker_imports.h \
     str_util.h \
     url.h \
@@ -195,10 +197,10 @@ libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLA
 libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_fcgi_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 libboinc_fcgi_la_LIBADD =
-endif 
+endif
 # end of "if ENABLE_FCGI"
 
-# Some OSs may not prefix libraries with lib. 
+# Some OSs may not prefix libraries with lib.
 # For example OS2
 if OS_OS2
 LIBBOINC_STATIC=boinc.${LIBEXT}
@@ -212,12 +214,12 @@ endif
 
 
 if BUILD_STATIC_LIBS
-all_local = $(LIBBOINC_STATIC) 
+all_local = $(LIBBOINC_STATIC)
 if ENABLE_BOINCCRYPT
-all_local += $(LIBBOINC_CRYPT_STATIC) 
+all_local += $(LIBBOINC_CRYPT_STATIC)
 endif
 if ENABLE_FCGI
-all_local += $(LIBBOINC_FCGI_STATIC) 
+all_local += $(LIBBOINC_FCGI_STATIC)
 endif
 endif
 
@@ -238,25 +240,25 @@ $(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 clean: clean-am
 	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC)
 
-endif 
+endif
 # end of "if ENABLE_LIBRARIES"
 
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
 
 EXTRA_DIST = *.h *.cpp
 
-md5_test_SOURCES = md5_test.cpp 
+md5_test_SOURCES = md5_test.cpp
 md5_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 md5_test_LDADD = $(LIBBOINC)
-shmem_test_SOURCES = shmem_test.cpp 
+shmem_test_SOURCES = shmem_test.cpp
 shmem_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 shmem_test_LDADD = $(LIBBOINC)
-msg_test_SOURCES = msg_test.cpp 
+msg_test_SOURCES = msg_test.cpp
 msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 msg_test_LDADD = $(LIBBOINC)
-crypt_prog_SOURCES = crypt_prog.cpp 
+crypt_prog_SOURCES = crypt_prog.cpp
 crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS) 
-parse_test_SOURCES = parse_test.cpp 
+crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS)
+parse_test_SOURCES = parse_test.cpp
 parse_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 parse_test_LDADD = $(LIBBOINC)

@@ -29,18 +29,18 @@ function show_admin_page($user, $team) {
     echo "
         <ul>
         <li><a href=team_edit_form.php?teamid=$team->id>".tra("Edit team info")."</a>
-            <br><p class=\"text-muted\">".tra("Change team name, URL, description, type, or country")."</p>
+            <br><small>".tra("Change team name, URL, description, type, or country")."</small>
         <li><a href=pm.php?action=new&teamid=$team->id>".tra("Send message to team")."</a>
         <li>
             ".tra("Member list:")."
         <a href=team_email_list.php?teamid=$team->id>".tra("HTML")."</a>
         &middot; <a href=team_email_list.php?teamid=$team->id&plain=1>".tra("text")."</a>
         &middot; <a href=team_email_list.php?teamid=$team->id&xml=1>".tra("XML")."</a>
-            <br><p class=\"text-muted\">".tra("View member info")."</p>
+            <br><small>".tra("View member info")."</small>
         <li>".tra("View change history:")."
             <a href=team_delta.php?teamid=$team->id>".tra("HTML")."</a>
             &middot; <a href=team_delta.php?teamid=$team->id&xml=1>".tra("XML")."</a>
-            <br><p class=\"text-muted\">".tra("See when members joined or quit this team")."</p>
+            <br><small>".tra("See when members joined or quit this team")."</small>
     ";
 
     // founder-only stuff follows
@@ -56,25 +56,23 @@ function show_admin_page($user, $team) {
         }
         echo "
             <li><a href=team_remove_inactive_form.php?teamid=$team->id>".tra("Remove members")."</a>
-                <br><p class=\"text-muted\">".tra("Remove inactive or unwanted members from this team")."</p>
+                <br><small>".tra("Remove inactive or unwanted members from this team")."</small>
             <li><a href=team_change_founder_form.php?teamid=$team->id>".tra("Change founder")."</a>
-                <br><p class=\"text-muted\">".tra("Transfer foundership to another member")."</p>
+                <br><small>".tra("Transfer foundership to another member")."</small>
             <li><a href=team_admins.php?teamid=$team->id>".tra("Add/remove Team Admins")."</a>
-                <br><p class=\"text-muted\">".tra("Give selected team members Team Admin privileges")."</p>
+                <br><small>".tra("Give selected team members Team Admin privileges")."</small>
 
             <li><a href=team_manage.php?teamid=$team->id&action=delete&$tokens>".tra("Remove team")."</a>
-                <br><p class=\"text-muted\">".tra("Allowed only if team has no members")."</p>
+                <br><small>".tra("Allowed only if team has no members")."</small>
             <li><a href=team_forum.php?teamid=$team->id&cmd=manage>".tra("Message board")."</a>
-                <br><p class=\"text-muted\">".tra("Create or manage a team message board")."</p>
+                <br><small>".tra("Create or manage a team message board")."</small>
         ";
     }
     echo "
-
-        <p>
         <li>
-            ".tra("To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")."
+            ".tra("To have this team created on all BOINC projects (current and future) you can make it into a %1 BOINC-wide team %2.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")."
         <li>
-            ".tra("Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group.", "<a href=https://groups.google.com/forum/#!forum/boinc-team-founders>", "</a>")."
+            ".tra("Team admins are encouraged to join and participate in the Google %1 boinc-team-founders %2 group.", "<a href=https://groups.google.com/forum/#!forum/boinc-team-founders>", "</a>")."
     </ul>
     ";
 

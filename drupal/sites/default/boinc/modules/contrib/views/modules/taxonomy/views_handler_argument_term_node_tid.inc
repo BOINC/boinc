@@ -31,7 +31,7 @@ class views_handler_argument_term_node_tid extends views_handler_argument_many_t
     $titles = array();
     $placeholders = implode(', ', array_fill(0, sizeof($this->value), '%d'));
 
-    $result = db_query("SELECT name FROM {term_data} WHERE tid IN ($placeholders)", $this->value);
+    $result = db_query(db_rewrite_sql("SELECT t.name FROM {term_data} t WHERE t.tid IN ($placeholders)", 't', 'tid', array($this->value)), $this->value);
     while ($term = db_fetch_object($result)) {
       $titles[] = check_plain($term->name);
     }

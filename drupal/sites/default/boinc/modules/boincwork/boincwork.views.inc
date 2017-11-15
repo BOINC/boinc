@@ -582,7 +582,7 @@ function boincwork_views_data() {
   );
   $data['host']['total_credit'] = array(
     'title' => bts('Total credit', array(), NULL, 'boinc:user-or-team-total-credits'),
-    'help' => t('The total accumulated BOINC credit.'),
+    'help' => t('The total accumulated BOINC credit for a host.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE,

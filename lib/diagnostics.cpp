@@ -352,6 +352,7 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
@@ -359,6 +360,7 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
 
@@ -664,8 +666,8 @@ int diagnostics_cycle_logs() {
             boinc_copy(stderr_log, stderr_archive);
             stderr_file_size = 0;
             stderr_file = freopen(stderr_log, "w", stderr);
-            setbuf(stderr_file, 0);
             if (NULL == stderr_file) return ERR_FOPEN;
+            setbuf(stderr_file, 0);
         }
     }
 
@@ -677,6 +679,7 @@ int diagnostics_cycle_logs() {
             boinc_copy(stdout_log, stdout_archive);
             stdout_file = freopen(stdout_log, "w", stdout);
             if (NULL == stdout_file) return ERR_FOPEN;
+            setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
         }
     }
     return BOINC_SUCCESS;

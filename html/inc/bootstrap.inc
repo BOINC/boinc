@@ -80,8 +80,8 @@ function navbar_right($user) {
     if (!$is_login_page) {
         if ($user) {
             echo sprintf('
-                <li><a href=%shome.php>'.$user->name.'</a></li>
-                ', url_base()
+                <li><a href=%s%s>%s</a></li>
+                ', url_base(), USER_HOME, $user->name
             );
             $url_tokens = url_tokens($user->authenticator);
             echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
@@ -153,7 +153,7 @@ function sample_navbar(
 
     $x = array();
     if ($user) {
-        $x[] = array(tra("Account"), $url_prefix."home.php");
+        $x[] = array(tra("Account"), $url_prefix.USER_HOME);
         $x[] = array(tra("Join"), $url_prefix."join.php");
         $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
@@ -161,7 +161,7 @@ function sample_navbar(
     $x[] = array(tra("Help"), $url_prefix."help.php");
     navbar_menu(tra("Project"), $x);
 
-    if (defined('NO_COMPUTING')) {
+    if (NO_COMPUTING) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
         if (defined('BOSSA')) {
@@ -218,10 +218,10 @@ function sample_navbar(
 // output a panel.
 // $content_func is a function that generates the panel contents
 //
-function panel($title, $content_func) {
-    echo '
-    <div class="panel panel-primary">
-    ';
+function panel($title, $content_func, $class="panel-primary") {
+    echo sprintf('<div class="panel %s">
+        ', $class
+    );
     if ($title) {
         echo '
             <div class="panel-heading">
@@ -408,7 +408,7 @@ function form_checkboxes($label, $items) {
 
 // $items is list of (value, label)
 //
-function form_radio_buttons($label, $name, $items) {
+function form_radio_buttons($label, $name, $items, $selected) {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
@@ -417,9 +417,10 @@ function form_radio_buttons($label, $name, $items) {
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     foreach ($items as $i) {
-        echo sprintf('<input type="radio" name="%s" value="%s"> %s <br>
+        $checked = ($selected == $i[0])?"checked":"";
+        echo sprintf('<input type="radio" name="%s" value="%s" %s> %s <br>
             ',
-            $name, $i[0], $i[1]
+            $name, $i[0], $checked, $i[1]
         );
     }
     echo '</div>

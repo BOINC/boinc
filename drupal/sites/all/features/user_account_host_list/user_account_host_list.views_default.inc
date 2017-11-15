@@ -89,7 +89,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -990,7 +990,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '0',
+      'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,

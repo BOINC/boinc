@@ -196,7 +196,7 @@ function work_and_host_stats_views_default_views() {
       'hide_empty' => 0,
       'empty_zero' => 0,
       'date_format' => 'custom',
-      'custom_date_format' => 'j M Y G:i:s e',
+      'custom_date_format' => 'j M Y G:i:s T',
       'exclude' => 1,
       'id' => 'sent_time',
       'table' => 'result',
@@ -272,8 +272,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -288,9 +290,10 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'util\');
-  echo time_str($data->result_sent_time);
+  echo date(\'j M Y G:i:s T\', $data->result_sent_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -631,41 +634,6 @@ function work_and_host_stats_views_default_views() {
       'id' => 'cpu_time',
       'table' => 'result',
       'field' => 'cpu_time',
-      'relationship' => 'none',
-    ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
       'relationship' => 'none',
     ),
     'granted_credit' => array(
@@ -3248,7 +3216,7 @@ function work_and_host_stats_views_default_views() {
     $host->id = $data->id;
     $nresults = host_nresults($host);
     if ($nresults) {
-      echo l($nresults, "host/{$host->id}/tasks");
+      echo l($nresults, "host/{$host->id}/tasks/0/0");
     }
   //}
 ?>',
@@ -4965,7 +4933,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -5115,8 +5083,10 @@ Cross-project stats:
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -5131,10 +5101,14 @@ Cross-project stats:
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -5884,7 +5858,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -6086,8 +6060,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -6102,10 +6078,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -6113,6 +6093,9 @@ else {
       'table' => 'host',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'serialnum' => array(
       'label' => 'Serial Number',
@@ -6359,7 +6342,29 @@ else {
     ),
   ));
   $handler->override_option('arguments', array());
-  $handler->override_option('filters', array());
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'host',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('items_per_page', 50);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_options', array(
@@ -6706,7 +6711,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks");
+  echo l(bts(\'Details\', array(), NULL, \'boinc:host-details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\', array(), NULL, \'boinc:host-tasks-link\'), "host/{$data->id}/tasks/0/0");
 ?>',
       'exclude' => 1,
       'id' => 'phpcode_3',
@@ -6864,7 +6869,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'set_precision' => 1,
-      'precision' => '0',
+      'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -6888,8 +6893,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -6904,10 +6911,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -6915,6 +6926,9 @@ else {
       'table' => 'host',
       'field' => 'total_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'serialnum' => array(
       'label' => 'Serial Number',
@@ -7200,6 +7214,47 @@ else {
     ),
   ));
   $handler->override_option('arguments', array());
+  $handler->override_option('filters', array(
+    'show_hosts' => array(
+      'operator' => '=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'show_hosts',
+      'table' => 'user',
+      'field' => 'show_hosts',
+      'relationship' => 'userid',
+    ),
+    'total_credit' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'host',
+      'field' => 'total_credit',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('title', 'Top computers');
   $handler->override_option('items_per_page', 10);
   $handler->override_option('use_pager', '0');
@@ -7550,8 +7605,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -7566,9 +7623,10 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'util\');
-  echo time_str($data->result_sent_time);
+  echo date(\'j M Y G:i:s T\', $data->result_sent_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -7911,41 +7969,6 @@ else {
       'field' => 'cpu_time',
       'relationship' => 'none',
     ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
-      'relationship' => 'none',
-    ),
     'granted_credit' => array(
       'label' => 'Granted credit',
       'alter' => array(
@@ -7953,8 +7976,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -7969,10 +7994,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -9633,41 +9662,6 @@ else {
       'field' => 'phpcode',
       'relationship' => 'none',
     ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
-      'relationship' => 'none',
-    ),
     'granted_credit' => array(
       'label' => 'Granted credit',
       'alter' => array(
@@ -9675,8 +9669,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -9691,10 +9687,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -10089,7 +10089,7 @@ else {
   $uid = boincuser_lookup_uid($data->id);
   if ($uid) {
     $account = user_load($uid);
-    print l($account->name, "account/{$uid}");
+    print l($account->boincuser_name, "account/{$uid}");
   }
   else {
     // No Drupal account
@@ -10129,7 +10129,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '0',
+      'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -10251,6 +10251,26 @@ else {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('filters', array(
+    'total_credit' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'total_credit',
+      'table' => 'user',
+      'field' => 'total_credit',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('access', array(
     'type' => 'none',
   ));
@@ -10300,7 +10320,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'create_time' => array(
@@ -10463,7 +10483,7 @@ else {
   $uid = boincuser_lookup_uid($data->id);
   if ($uid) {
     $account = user_load($uid);
-    print l($account->name, "account/{$uid}");
+    print l($account->boincuser_name, "account/{$uid}");
   }
   else {
     // No Drupal account
@@ -10535,7 +10555,7 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '0',
+      'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
       'format_plural' => 0,
@@ -10548,6 +10568,9 @@ else {
       'table' => 'user',
       'field' => 'expavg_credit',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'total_credit' => array(
       'label' => 'Total Credit',
@@ -10665,7 +10688,7 @@ else {
         'separator' => '',
       ),
       'country' => array(
-        'sortable' => 1,
+        'sortable' => 0,
         'separator' => '',
       ),
       'expavg_credit' => array(
@@ -11762,8 +11785,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -11778,9 +11803,10 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'util\');
-  echo time_str($data->result_sent_time);
+  echo date(\'j M Y G:i:s T\', $data->result_sent_time);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -12123,41 +12149,6 @@ else {
       'field' => 'cpu_time',
       'relationship' => 'none',
     ),
-    'claimed_credit_1' => array(
-      'label' => 'Claimed credit',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'set_precision' => 1,
-      'precision' => '2',
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'claimed_credit_1',
-      'table' => 'result',
-      'field' => 'claimed_credit',
-      'relationship' => 'none',
-    ),
     'granted_credit' => array(
       'label' => 'Granted credit',
       'alter' => array(
@@ -12165,8 +12156,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -12181,10 +12174,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 0,
       'set_precision' => 1,
-      'precision' => '2',
+      'precision' => '0',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,

@@ -169,7 +169,6 @@ void CNetworkConnection::Poll() {
             if (!retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));
                 SetStateSuccess(m_strNewComputerName, m_strNewComputerPassword);
-                m_pDocument->CheckForVersionUpdate();
             } else if (ERR_AUTHENTICATOR == retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR"));
                 SetStateErrorAuthentication();
@@ -1235,6 +1234,7 @@ int CMainDocument::CoreClientQuit() {
 bool CMainDocument::IsUserAuthorized() {
 #ifndef _WIN32
 #ifdef SANDBOX
+#ifndef __WXMAC__   // Currently unauthorized users can't run Manager, so this would be redundant
     static bool         sIsAuthorized = false;
     group               *grp;
     gid_t               rgid, boinc_master_gid;
@@ -1281,6 +1281,7 @@ bool CMainDocument::IsUserAuthorized() {
     }       // if (g_use_sandbox)
 #endif      // SANDBOX
 #endif      // #ifndef _WIN32
+#endif      // #ifndef __WXMAC__
 
     return true;
 }
@@ -2023,8 +2024,10 @@ int CMainDocument::ResetNoticeState() {
 // Replace CRLFs and LFs with HTML breaks.
 //
 void eol_to_br(wxString& strMessage) {
-    strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
-    strMessage.Replace(wxT("\n"), wxT("<BR>"));
+    strMessage.Replace(wxT("\r\n"), wxT("<br>"));
+    strMessage.Replace(wxT("\n"), wxT("<br>"));
+    strMessage.Replace(wxT("<br />"), wxT("<br>"));
+    strMessage.Replace(wxT("<br><br>"), wxT("<br>"));
 }
 
 // Remove CRLFs and LFs
@@ -2107,17 +2110,10 @@ done:
 
 
 MESSAGE* CMainDocument::message(unsigned int i) {
-    MESSAGE* pMessage = NULL;
+    if (messages.messages.empty() || messages.messages.size() <= i)
+        return NULL;
 
-    try {
-        if (!messages.messages.empty())
-            pMessage = messages.messages.at(i);
-    }
-    catch (std::out_of_range e) {
-        pMessage = NULL;
-    }
-
-    return pMessage;
+    return messages.messages.at(i);
 }
 
 

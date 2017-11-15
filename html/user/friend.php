@@ -145,8 +145,18 @@ function handle_query($user) {
         echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";
     }
     echo "<p>";
-    show_button("friend.php?action=accept&userid=".$srcid, tra("Accept friendship"), tra("Click accept if %1 is in fact a friend", $srcuser->name));
-    show_button("friend.php?action=ignore&userid=".$srcid, tra("Decline"), tra("Click decline if %1 is not a friend", $srcuser->name));
+    show_button(
+        "friend.php?action=accept&userid=".$srcid, tra("Accept friendship"),
+        tra("Click accept if %1 is in fact a friend",
+        $srcuser->name)
+    );
+    echo " ";
+    show_button(
+        "friend.php?action=ignore&userid=".$srcid, tra("Decline"),
+        tra("Click decline if %1 is not a friend",
+        $srcuser->name),
+        "btn-sm btn-warning"
+    );
     echo "    <p>
     ";
     page_tail();
@@ -238,7 +248,7 @@ function handle_cancel_confirm($user) {
         ) ."<p>\n"
     ;
     show_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
-    show_button("home.php", tra("No"), tra("Stay friends"));
+    show_button(USER_HOME, tra("No"), tra("Stay friends"));
     echo "</ul>";
     page_tail();
 }

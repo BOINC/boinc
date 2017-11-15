@@ -25,6 +25,7 @@
 #endif
 
 #else
+#include <algorithm>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -121,9 +122,6 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     vm_pid = 0;
     vboxsvc_pid = 0;
 
-    log_pointer = 0;
-    state = "PoweredOff";
-
 #ifdef _WIN32
     vm_pid_handle = 0;
     vboxsvc_pid_handle = 0;
@@ -200,6 +198,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     vm_name = vm_master_name;
 
     // Check to see if the VM is already in a running state, if so, poweroff.
+    poll2(false);
     if (online) {
         vboxlog_msg("VM was running");
         retval = poweroff();
@@ -416,6 +415,7 @@ string VBOX_BASE::read_vm_log(){
     size_t line_end;
     size_t line_start;
     string msg;
+    static string state = "poweredoff";
     string virtualbox_vm_log;
     virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
@@ -431,14 +431,17 @@ string VBOX_BASE::read_vm_log(){
             line_start = line.find(console);
             if (line_start != string::npos) {
 
-                line_start += strlen(console.c_str());
+                line_start += console.size();
+
                 line_end = line.find("\'", line_start);
 
                 msg = line.substr(line_start, line_end - line_start);
 
                 sanitize_format(msg);
 
-                state = msg.c_str();
+                state = msg;
+
+		std::transform(state.begin(), state.end(), state.begin(), ::tolower);
             }
 
             line_pos = line.find("Guest Log:");

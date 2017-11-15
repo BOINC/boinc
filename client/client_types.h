@@ -38,6 +38,7 @@
 #include "cert_sig.h"
 #include "filesys.h"
 #include "hostinfo.h"
+#include "keyword.h"
 #include "md5_file.h"
 #include "miofile.h"
 
@@ -367,24 +368,26 @@ struct WORKUNIT {
     double rsc_fpops_bound;
     double rsc_memory_bound;
     double rsc_disk_bound;
+    JOB_KEYWORD_IDS job_keyword_ids;
 
     WORKUNIT(){
-      safe_strcpy(name, "");
-      safe_strcpy(app_name, "");
-      version_num = 0;
-      command_line = "";
-      input_files.clear();
-      project = NULL;
-      app = NULL;
-      ref_cnt = 0;
-      rsc_fpops_est = 0.0;
-      rsc_fpops_bound = 0.0;
-      rsc_memory_bound = 0.0;
-      rsc_disk_bound = 0.0;
-      }
+        safe_strcpy(name, "");
+        safe_strcpy(app_name, "");
+        version_num = 0;
+        command_line = "";
+        input_files.clear();
+        job_keyword_ids.clear();
+        project = NULL;
+        app = NULL;
+        ref_cnt = 0;
+        rsc_fpops_est = 0.0;
+        rsc_fpops_bound = 0.0;
+        rsc_memory_bound = 0.0;
+        rsc_disk_bound = 0.0;
+    }
     ~WORKUNIT(){}
     int parse(XML_PARSER&);
-    int write(MIOFILE&);
+    int write(MIOFILE&, bool gui);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
     void clear_errors();

@@ -265,7 +265,7 @@ struct CLIENT_STATE {
         APP*, char* platform, int ver, char* plan_class
     );
     int detach_project(PROJECT*);
-    int report_result_error(RESULT&, const char *format, ...);
+    int report_result_error(RESULT&, const char* err_msg);
     int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
     bool gui_rpc_unix_domain;
@@ -418,7 +418,7 @@ struct CLIENT_STATE {
         const char* fname = GLOBAL_PREFS_FILE_NAME,
         const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
     );
-    int save_global_prefs(char* prefs, char* url, char* sched);
+    int save_global_prefs(const char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
     int check_suspend_processing();
@@ -511,6 +511,8 @@ struct CLIENT_STATE {
     void get_workload(vector<IP_RESULT>&);
     bool simulate_rpc(PROJECT*);
 #endif
+
+    KEYWORDS keywords;
 };
 
 extern CLIENT_STATE gstate;

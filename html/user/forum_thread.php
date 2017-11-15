@@ -115,6 +115,8 @@ case 1:
     show_team_forum_title($forum, $thread);
     break;
 }
+echo "<br><small><a href=moderation.php>".tra("Message board moderation")."</a></small>
+";
 
 if (false) {
 if ($forum->parent_type == 0) {
@@ -157,7 +159,7 @@ if (!$logged_in_user) {
 } else {
     if (can_reply($thread, $forum, $logged_in_user)) {
         $reply_url = "forum_reply.php?thread=".$thread->id."#input";
-        show_button(
+        show_button_small(
             $reply_url,
             tra("Post to thread"),
             tra("Add a new message to this thread")
@@ -170,14 +172,14 @@ if (!$logged_in_user) {
             "userid=$logged_in_user->id and type=$type and opaque=$thread->id"
         );
         $url = "forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->id."$tokens";
-        show_button(
+        show_button_small(
             $url,
             tra("Unsubscribe"),
             tra("You are subscribed to this thread.  Click here to unsubscribe.")
         );
     } else {
         $url = "forum_subscribe.php?action=subscribe&amp;thread=".$thread->id."$tokens";
-        show_button(
+        show_button_small(
             $url,
             tra("Subscribe"),
             tra("Click to get email when there are new posts in this thread")
@@ -188,52 +190,52 @@ if (!$logged_in_user) {
     //
     if (is_moderator($logged_in_user, $forum)) {
         if ($thread->hidden){
-            show_button(
+            show_button_small(
                 "forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->id."$tokens",
                 tra("Unhide"),
                 tra("Unhide this thread")
             );
         } else {
-            show_button(
+            show_button_small(
                 "forum_moderate_thread.php?action=hide&amp;thread=".$thread->id,
                 tra("Hide"),
                 tra("Hide this thread")
             );
         }
         if ($thread->sticky){
-            show_button(
+            show_button_small(
                 "forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->id."$tokens",
                 tra("Make unsticky"),
                 tra("Make this thread not sticky")
             );
         } else {
-            show_button(
+            show_button_small(
                 "forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->id."$tokens",
                 tra("Make sticky"),
                 tra("Make this thread always appear at top of forum")
             );
         }
         if ($thread->locked) {
-            show_button(
+            show_button_small(
                 "forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens",
                 tra("Unlock"),
                 tra("Allow new posts in this thread")
             );
         } else {
-            show_button(
+            show_button_small(
                 "forum_moderate_thread.php?action=lock&amp;thread=".$thread->id."$tokens",
                 tra("Lock"),
                 tra("Don't allow new posts in this thread")
             );
         }
         if ($forum->parent_type == 0) {
-            show_button(
+            show_button_small(
                 "forum_moderate_thread.php?action=move&amp;thread=".$thread->id."$tokens",
                 tra("Move"),
                 tra("Move this thread to a different forum")
             );
         }
-        show_button(
+        show_button_small(
             "forum_moderate_thread.php?action=title&amp;thread=".$thread->id."$tokens",
             tra("Edit title"),
             tra("Edit thread title")
@@ -241,7 +243,7 @@ if (!$logged_in_user) {
     }
 
     if (is_admin($logged_in_user)) {
-        show_button(
+        show_button_small(
             "forum_moderate_thread.php?action=delete&amp;thread=".$thread->id."$tokens",
             tra("Delete"),
             tra("Delete thread permanently")
@@ -252,13 +254,13 @@ if (!$logged_in_user) {
     //
     if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread->owner)) {
         if ($thread->status) {
-            show_button(
+            show_button_small(
                 "forum_thread_status.php?action=clear&amp;id=$thread->id",
                 tra("Export as Notice"),
                 "Show this message to all volunteers in the desktop GUI.  Use this only for messages of interest or importance to all volunteers."
             );
         } else {
-            show_button(
+            show_button_small(
                 "forum_thread_status.php?action=set&amp;id=$thread->id",
                 tra("Don't export"),
                 tra("Don't export this news item as a Notice")
@@ -285,7 +287,7 @@ show_posts(
 );
 
 if ($reply_url) {
-    echo "<br>";
+    //echo "<br>";
     show_button(
         $reply_url,
         tra("Post to thread"),
@@ -293,7 +295,7 @@ if ($reply_url) {
     );
 }
 
-echo "<p>";
+echo "<p></p>";
 switch ($forum->parent_type) {
 case 0:
     show_forum_title($category, $forum, $thread);

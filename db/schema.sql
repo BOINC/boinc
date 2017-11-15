@@ -110,6 +110,8 @@ create table user (
     passwd_hash             varchar(254)    not null,
     email_validated         smallint        not null,
     donated                 smallint        not null,
+    login_token             char(32)        not null,
+    login_token_time        double          not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -256,6 +258,8 @@ create table workunit (
     app_version_id          integer         not null,
     transitioner_flags      tinyint         not null,
     size_class              smallint        not null default -1,
+    keywords                varchar(254)    not null,
+    app_version_num         integer         not null,
     primary key (id)
 ) engine=InnoDB;
 

@@ -601,6 +601,10 @@ int WORKUNIT::parse(XML_PARSER& xp) {
         if (xp.parse_double("rsc_fpops_bound", rsc_fpops_bound)) continue;
         if (xp.parse_double("rsc_memory_bound", rsc_memory_bound)) continue;
         if (xp.parse_double("rsc_disk_bound", rsc_disk_bound)) continue;
+        if (xp.match_tag("job_keywords")) {
+            job_keywords.parse(xp);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }

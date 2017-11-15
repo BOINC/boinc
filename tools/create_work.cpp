@@ -15,7 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Create workunit(s).
+// Command-line program for creating jobs (workunits).
+// Used directly for local job submission;
+// run from PHP script for remote job submission.
+//
 // see http://boinc.berkeley.edu/trac/wiki/JobSubmission
 
 #include "config.h"
@@ -53,6 +56,7 @@ void usage() {
         "Options:\n"
         "   --appname name\n"
         "   [ --additional_xml x ]\n"
+        "   [ --app_version_num N ]\n"
         "   [ --batch n ]\n"
         "   [ --broadcast ]\n"
         "   [ --broadcast_user ID ]\n"
@@ -62,6 +66,7 @@ void usage() {
         "   [ -d n ]\n"
         "   [ --delay_bound x ]\n"
         "   [ --hr_class n ]\n"
+        "   [ --keywords 'n1 n2 ...' ]\n"
         "   [ --max_error_results n ]\n"
         "   [ --max_success_results n ]\n"
         "   [ --max_total_results n ]\n"
@@ -265,6 +270,8 @@ int main(int argc, char** argv) {
             jd.wu.rsc_memory_bound = atof(argv[++i]);
         } else if (arg(argv, i, "size_class")) {
             jd.wu.size_class = atoi(argv[++i]);
+        } else if (arg(argv, i, "app_version_num")) {
+            jd.wu.app_version_num = atoi(argv[++i]);
         } else if (arg(argv, i, "rsc_disk_bound")) {
             jd.wu.rsc_disk_bound = atof(argv[++i]);
         } else if (arg(argv, i, "delay_bound")) {
@@ -336,6 +343,8 @@ int main(int argc, char** argv) {
             verbose = true;
         } else if (arg(argv, i, "continue_on_error")) {
             continue_on_error = true;
+        } else if (arg(argv, i, "keywords")) {
+            strcpy(jd.wu.keywords, argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);

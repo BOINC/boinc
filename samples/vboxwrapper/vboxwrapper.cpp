@@ -93,6 +93,7 @@
 #include "vbox_mscom43.h"
 #include "vbox_mscom50.h"
 #include "vbox_mscom51.h"
+#include "vbox_mscom52.h"
 #endif
 #endif
 #include "vbox_vboxmanage.h"
@@ -474,7 +475,9 @@ int main(int argc, char** argv) {
     if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
         if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
             if (BOINC_SUCCESS != vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-                vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+                if (BOINC_SUCCESS != vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+                    vbox52::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+                }
             }
         }
     }
@@ -489,8 +492,11 @@ int main(int argc, char** argv) {
         if ((5 == vbox_major) && (0 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
         }
-        if ((5 == vbox_major) && (1 <= vbox_minor)) {
+        if ((5 == vbox_major) && (1 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox51::VBOX_VM();
+        }
+        if ((5 == vbox_major) && (2 <= vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox52::VBOX_VM();
         }
         if (pVM) {
             retval = pVM->initialize();
@@ -822,17 +828,17 @@ int main(int argc, char** argv) {
             do_dump_hypervisor_logs = true;
         }
 
-        pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
-                retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
-                current_cpu_time, last_checkpoint_cpu_time, fraction_done,
-                bytes_sent, bytes_received);
-
         if (unrecoverable_error) {
             if (pVM->online) pVM->capture_screenshot();
 
             checkpoint.update(elapsed_time, current_cpu_time);
 
         }
+
+        pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
+                retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
+                current_cpu_time, last_checkpoint_cpu_time, fraction_done,
+                bytes_sent, bytes_received);
     }
 
     // Report the VM pid to BOINC so BOINC can deal with it when needed.
@@ -897,12 +903,13 @@ int main(int argc, char** argv) {
             temp_delay = 86400;
         }
 
+        if (unrecoverable_error) checkpoint.update(elapsed_time, current_cpu_time);
+
+
         pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
                 retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
                 current_cpu_time, last_checkpoint_cpu_time, fraction_done,
                 bytes_sent, bytes_received);
-
-        if (unrecoverable_error) checkpoint.update(elapsed_time, current_cpu_time);
 
     }
 

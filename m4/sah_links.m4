@@ -2,16 +2,19 @@ AC_DEFUN([SAH_LINKS],[
   AC_PATH_PROGS(LN,[ln cp copy])
   if test -n "$LN" ; then
     AC_MSG_CHECKING(whether '$LN' works)
-    if $LN ${ac_aux_dir}/config.sub erase.me$$ && \
+    mkdir -p lntest
+    cp ${ac_aux_dir}/config.sub lntest/
+    if $LN lntest/config.sub erase.me$$ && \
        test -e erase.me$$ && \
-       diff ${ac_aux_dir}/config.sub erase.me$$ >/dev/null 2>&5 
+       diff lntest/config.sub erase.me$$ >/dev/null 2>&5
     then
       AC_MSG_RESULT(yes)
     else
       AC_MSG_RESULT(no)
       LN=cp
     fi
-    /bin/rm erase.me$$
+    /bin/rm erase.me$$ lntest/config.sub
+    /bin/rmdir ln_test
   else
     LN=cp
   fi
@@ -20,7 +23,7 @@ AC_DEFUN([SAH_LINKS],[
     AC_MSG_CHECKING(whether '$LN_S' really works or whether I'm deluding myself)
     if $LN_S ${ac_aux_dir}/config.sub erase.me$$ && \
        test -e erase.me$$ && \
-       diff ${ac_aux_dir}/config.sub erase.me$$ >/dev/null 2>&5 
+       diff ${ac_aux_dir}/config.sub erase.me$$ >/dev/null 2>&5
     then
       AC_MSG_RESULT(it works)
     else
@@ -31,6 +34,4 @@ AC_DEFUN([SAH_LINKS],[
   else
     LN_S=cp
   fi
-])  
-  
-         
+])

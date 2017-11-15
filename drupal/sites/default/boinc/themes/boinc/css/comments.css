@@ -80,7 +80,6 @@ div.node-type-forum.not-first-page {
   padding-bottom: 4px;
 }
 .node-type-forum h2.title {
-  margin: 14px 0 24px;
 }
 .node-type-forum.not-first-page h2.title {
   margin-bottom: 0;
@@ -216,7 +215,10 @@ div.node-type-forum.not-first-page {
 .comment-body .moderator-links li.first,
 .node-type-forum .node-body .moderator-links .links li.first,
 .node-type-team-forum .node-body .moderator-links .links li.first,
-.comment-body .links li.comment_forbidden.first.last {
+.comment-body .links li.comment_forbidden.first.last,
+.comment-body .links li.comment_forbidden.last,
+.node-type-forum .node-body .links li.comment_forbidden.last,
+.node-type-team-forum .node-body .links li.comment_forbidden.last {
   border-width: 0;
   margin-left: 0;
   padding-left: 0;

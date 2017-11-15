@@ -39,7 +39,7 @@ if ($user->teamid == $team->id) {
 } else {
     $success = user_join_team($team, $user);
     if ($success) {
-        Header("Location: home.php");
+        Header("Location: ".USER_HOME);
     } else {
         error_page(tra("Couldn't join team - please try again later."));
     }

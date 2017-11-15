@@ -32,7 +32,7 @@ if (isset($updated)) {
     echo "<p style='color: red'>
         ".tra("Your preferences have been updated, and
           will take effect when your computer communicates with %1
-          or you issue the %2Update%3 command from the BOINC Manager.",
+          or you issue the %2 Update %3 command from the BOINC Manager.",
           PROJECT, "<strong>", "</strong>")."
         </p>
     ";
@@ -41,7 +41,7 @@ if (isset($defaults)) {
     echo "<p style='color: red'>
         ".tra("Your preferences have been reset to the defaults, and
           will take effect when your computer communicates with %1
-          or you issue the %2Update%3 command from the BOINC Manager.",
+          or you issue the %2 Update %3 command from the BOINC Manager.",
           PROJECT, "<strong>", "</strong>")."
         </p>
     ";
@@ -49,10 +49,12 @@ if (isset($defaults)) {
 if ($subset == "global") {
     print_prefs_display_global($user, $columns);
     if (!$defaults) {
+        echo "<p>";
         show_button(
             "prefs_default.php",
             "Restore defaults",
-            "Restore default preferences"
+            "Restore default preferences",
+            "btn-warning btn-sm"
         );
     }
 } else {

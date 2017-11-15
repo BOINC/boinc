@@ -125,6 +125,11 @@ void show_message(
     // print message to the console
     printf("%s", evt_message);
 
+#ifdef _WIN32
+    // MSVCRT doesn't support line buffered streams
+    fflush(stdout);
+#endif
+
     // print message to the debugger view port
     diagnostics_trace_to_debugger(evt_message);  
 }

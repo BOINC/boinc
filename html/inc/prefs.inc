@@ -247,7 +247,7 @@ define("NETWORK_LIMIT_DESC", tra("Network"));
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
 define("PREFS_FORM_ERROR_DESC",
     tra(
-        "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.",
+        "%1 Unable to update preferences. %2 The values marked in red below were out of range or not numeric.",
         "<strong>",
         "</strong>"
     ).
@@ -505,7 +505,12 @@ function prefs_display_venue($prefs, $venue, $subset) {
         end_table();
         echo "</td></tr>\n";
     } else {
-        echo "<p><a href=add_venue.php?venue=$venue&subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>";
+        echo "<p>";
+        show_button("add_venue.php?venue=$venue&subset=$subset$tokens",
+            tra("Add separate preferences for %1", $venue),
+            tra("Add separate preferences for %1", $venue),
+            "btn-primary btn-sm"
+        );
     }
 }
 
@@ -534,8 +539,10 @@ function print_prefs_display_global($user, $columns=false) {
         prefs_show_global($global_prefs);
         $tokens = url_tokens($user->authenticator);
         row2("<br>",
-            "<a href=prefs_edit.php?subset=global$tokens>".tra("Edit preferences")."</a>
-        ");
+            button_text("prefs_edit.php?subset=global$tokens",
+                tra("Edit preferences")
+            )
+        );
         end_table();
 
         prefs_display_venue($global_prefs, "home", "global");
@@ -586,7 +593,7 @@ function print_prefs_form(
         prefs_form_project_specific($prefs->project_specific, $project_error);
     }
 
-    row2("", "<input class=\"btn btn-primary\" type=submit value=\"$submit_value\" name=\"action\">");
+    row2("", "<input class=\"btn btn-success\" type=submit value=\"$submit_value\" name=\"action\">");
     end_table();
     echo "</form>\n";
 }

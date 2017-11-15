@@ -63,7 +63,9 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sched_ops", sched_ops)) continue;
         if (xp.parse_bool("task", task)) continue;
 
+#ifdef ANDROID
         if (xp.parse_bool("android_debug", android_debug)) continue;
+#endif
         if (xp.parse_bool("app_msg_receive", app_msg_receive)) continue;
         if (xp.parse_bool("app_msg_send", app_msg_send)) continue;
         if (xp.parse_bool("async_file_debug", async_file_debug)) continue;
@@ -111,7 +113,9 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <file_xfer>%d</file_xfer>\n"
         "        <sched_ops>%d</sched_ops>\n"
         "        <task>%d</task>\n"
+#ifdef ANDROID
         "        <android_debug>%d</android_debug>\n"
+#endif
         "        <app_msg_receive>%d</app_msg_receive>\n"
         "        <app_msg_send>%d</app_msg_send>\n"
         "        <async_file_debug>%d</async_file_debug>\n"
@@ -152,7 +156,9 @@ int LOG_FLAGS::write(MIOFILE& out) {
         file_xfer ? 1 : 0,
         sched_ops ? 1 : 0,
         task ? 1 : 0,
+#ifdef ANDROID
         android_debug ? 1 : 0,
+#endif
         app_msg_receive ? 1 : 0,
         app_msg_send ? 1 : 0,
         async_file_debug ? 1 : 0,
@@ -393,7 +399,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_AMD_GPU].push_back(n);
             continue;
         }
-        if (xp.parse_int("ignore_intel_gpu_dev", n)) {
+        if (xp.parse_int("ignore_intel_dev", n)) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
@@ -619,7 +625,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 
     for (i=0; i<ignore_gpu_instance[PROC_TYPE_INTEL_GPU].size(); ++i) {
         out.printf(
-            "        <ignore_intel_gpu_dev>%d</ignore_intel_gpu_dev>\n",
+            "        <ignore_intel_dev>%d</ignore_intel_dev>\n",
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU][i]
         );
     }

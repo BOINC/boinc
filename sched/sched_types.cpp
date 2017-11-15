@@ -194,8 +194,8 @@ void PROJECT_PREFS::parse() {
 
         pos = str.find("<app_id>", pos) + 1;
     }
-    if (parse_bool(buf,"allow_non_selected_apps", flag)) {
-        allow_non_selected_apps = flag;
+    if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
+        allow_non_preferred_apps = flag;
     }
     if (parse_bool(buf,"allow_beta_work", flag)) {
         allow_beta_work = flag;
@@ -538,7 +538,10 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_bool("client_cap_plan_class", client_cap_plan_class)) continue;
         if (xp.parse_int("sandbox", sandbox)) continue;
         if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
-        if (xp.parse_string("client_opaque", client_opaque)) continue;
+        if (xp.match_tag("user_keywords")) {
+            user_keywords.parse(xp);
+            continue;
+        }
         if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
 
         // unused or deprecated stuff follows
@@ -1370,6 +1373,7 @@ int HOST::parse(XML_PARSER& xp) {
     p_ncpus = 1;
     double dtemp;
     string stemp;
+    int x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_int("timezone", timezone)) continue;
@@ -1400,6 +1404,10 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
+
+        // unused fields
+        //
+        if (xp.parse_int("n_usable_coprocs", x)) continue;
 
         // parse deprecated fields to avoid error messages
         //

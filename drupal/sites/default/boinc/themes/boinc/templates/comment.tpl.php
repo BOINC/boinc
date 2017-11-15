@@ -104,10 +104,13 @@
     <div class="name"><?php print $author; ?></div>
     <?php if ($account->uid): ?>
       <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
+      <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
+      <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>
+      <?php $nf2 = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
       <div class="join-date"><?php print bts('Joined: @join_date', array( '@join_date' => date('j M y', $account->created) ), NULL, 'boinc:mini-user-stats'); ?></div>
       <div class="post-count"><?php print bts('Posts: @post_count', array( '@post_count' => $nf->format($account->post_count) ), NULL, 'boinc:mini-user-stats'); ?></div>
       <div class="credit"><?php print bts('Credit: @user_credits', array( '@user_credits' => $nf->format($account->boincuser_total_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
-      <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $nf->format($account->boincuser_expavg_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
+      <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $nf2->format($account->boincuser_expavg_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
       <div class="user-links">
         <div class="ignore-link"><?php print l($ignore_link['ignore_user']['title'],
           $ignore_link['ignore_user']['href'],
@@ -140,7 +143,7 @@
     <?php endif; ?>
 
     <div class="submitted">
-      <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
+      <?php print date('j M Y G:i:s T', $comment->timestamp); ?>
     </div>
     <div class="comment-id">
       <?php echo l(bts('Message @id', array('@id' => $comment->cid), NULL, 'boinc:message-header'),

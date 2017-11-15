@@ -46,12 +46,13 @@ def make_batch_desc(batch_name):
     [batch.project, batch.authenticator] = get_auth()
     batch.app_name = "uppercase"
     batch.batch_name = batch_name
+    batch.app_version_num = 710;
     batch.jobs = []
 
     for i in range(2):
         job.command_line = '-i %s' %(i)
         if True:
-            job.wu_template = """
+            job.input_template = """
 <input_template>
     <file_info>
     </file_info>
@@ -62,12 +63,12 @@ def make_batch_desc(batch_name):
         <target_nresults>1</target_nresults>
         <min_quorum>1</min_quorum>
         <credit>%d</credit>
-        <rsc_fpops_est>   60e9  </rsc_fpops_est>
+        <rsc_fpops_est>%f</rsc_fpops_est>
     </workunit>
 </input_template>
-""" % (i+1)
+""" % (i+1, (i+1)*1e10)
         if True:
-            job.result_template = """
+            job.output_template = """
 <output_template>
     <file_info>
         <name><OUTFILE_0/></name>
@@ -84,7 +85,6 @@ def make_batch_desc(batch_name):
     </result>
 </output_template>
 """
-        job.rsc_fpops_est = (i+1)*1e9
         batch.jobs.append(copy.copy(job))
 
     return batch
@@ -191,5 +191,5 @@ def test_get_output_files():
     print(r)
 
 #test_query_batch(328)
-#test_submit_batch('batch_32')
-test_create_batch('batch_33')
+test_submit_batch('batch_39')
+#test_create_batch('batch_33')

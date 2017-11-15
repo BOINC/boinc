@@ -677,8 +677,8 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     strMenuDescription.Printf(
-        _("Show information about BOINC and %s"),
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("See more information about %s on the web"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
@@ -785,11 +785,6 @@ bool CAdvancedFrame::CreateNotebook() {
 
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIObjectSetAccessibilityIgnored((HIObjectRef)pPanel->GetHandle(), true);
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
     return true;
@@ -1768,7 +1763,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     pDoc->GetCoreClientStatus(status, true);
 
-    // Do we need to bug out to the simple view?
+    // Do we need to switch to the simple view?
+    //
     if (status.simple_gui_only) {
         wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
         StartTimers();
@@ -1776,13 +1772,13 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         return;
     }
 
-
     // Stop all timers so that the wizard is the only thing doing anything
+    //
     StopTimers();
 
-
-    // If we are connected to the localhost, run a really quick screensaver
-    //   test to trigger a firewall popup.
+    // If we are connected to the localhost, run a quick screensaver
+    // test to trigger a firewall popup.
+    //
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
         wxGetApp().StartBOINCScreensaverTest();
@@ -1790,6 +1786,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     }
 
     // Clear selected rows in all tab pages when connecting to a different host
+    //
     iItemCount = (int)m_pNotebook->GetPageCount() - 1;
     for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
@@ -1807,13 +1804,18 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
+    // Is the client using an account manager?
+    //
     if (ami.acct_mgr_url.size() && ami.have_credentials) {
-        // Fall through
+        // Yes, and client has AM account credentials.
         //
-        // There isn't a need to bring up the attach wizard, the client will
-        // take care of attaching to projects when it completes the needed RPCs
+        // We don't need to bring up the attach wizard;
+        // the client will attach to projects after doing AM RPC
         //
     } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        // Yes, but we don't have have credentials.
+        // Bring up the Wizard to get them.
+        //
         wasShown = IsShown();
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
@@ -1823,13 +1825,14 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
-
             // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
             // are defined for those branded builds on Windows only
+            //
 #if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
 #ifdef __WXMAC__
             // For GridRepublic, Charity Engine or ProgressThruProcessors, 
             // the Mac installer put a branding file in our data directory
+            //
             long iBrandID = 0;  // 0 is unbranded (default) BOINC
 
             FILE *f = boinc_fopen("/Library/Application Support/BOINC Data/Branding", "r");
@@ -1854,6 +1857,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
             // %s is the application name
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            //
             strDialogTitle.Printf(
                 _("%s"),
                 pSkinAdvanced->GetApplicationName().c_str()
@@ -1863,6 +1867,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
+            //
             strDialogDescription.Printf(
                 _("%s has successfully added %s"),
                 pSkinAdvanced->GetApplicationName().c_str(),
@@ -1877,9 +1882,14 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             );
         } else {
             // If failure, display the notification tab
+            //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
+        // client isn't attached to any projects.
+        // Look for an account to attach to, either in project_init.xml
+        // or in browser cookies
+        //
         if (pis.url.size() > 0) {
 
             strProjectName = pis.name.c_str();
@@ -1888,9 +1898,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
 
-            // If credentials are not cached, then we should try one last place to look up the
-            //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
-            //   pretty short timeout.  Lets take a crack at detecting it.
+            // If credentials are not cached,
+            // then we should try one last place to look up the authenticator.
+            // Some projects will set a "Setup" cookie off of their URL with a
+            // pretty short timeout.  Lets take a crack at detecting it.
             //
             if (pis.url.length() && !pis.has_account_key) {
                 detect_setup_authenticator(pis.url, strProjectAuthenticator);
@@ -1898,10 +1909,11 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         } else {
             detect_simple_account_credentials(
-                strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+                strProjectName, strProjectURL, strProjectAuthenticator,
+                strProjectInstitution, strProjectDescription, strProjectKnown
             );
         }
-        
+
         Show();
         wxGetApp().ShowApplication(true);
         pWizard = new CWizardAttach(this);
@@ -1918,29 +1930,35 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 bEmbedded)
         ){
             // If successful, display the work tab
+            //
             m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {
             // If failure, display the notices tab
+            //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     }
 
     // Update the menus
+    //
     DeleteMenu();
     CreateMenu();
 
     // Restart timers to continue normal operations.
+    //
     StartTimers();
 
 
     // Set the correct refresh interval, then manually fire the refresh
-	//   event to do the initial population of the view.
+	// event to do the initial population of the view.
+    //
     UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
     FireRefreshView();
 
 
-    if (pWizard)
+    if (pWizard) {
         pWizard->Destroy();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function End"));
 }
@@ -1964,7 +1982,7 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     //   we still want the UI state to have been stored
     //   for their next use
     SaveState();
-    
+
     wxConfigBase::Get(FALSE)->Flush();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function End"));

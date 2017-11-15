@@ -34,6 +34,9 @@
 #include "md5_file.h"
 #include "parse.h"
 #include "remote_submit.h"
+#include "svn_version.h"
+
+#define BOINC_GAHP_VERSION "1.0.1"
 
 using std::map;
 using std::pair;
@@ -245,7 +248,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
             INFILE& infile = job.infiles[j];
             map<string, LOCAL_FILE>::iterator iter = local_files.find(infile.src_path);
             LOCAL_FILE& lf = iter->second;
-            sprintf(infile.physical_name, "jf_%s", lf.boinc_name);
+            sprintf(infile.physical_name, "%s", lf.boinc_name);
         }
     }
 
@@ -702,8 +705,7 @@ int COMMAND::parse_command() {
 }
 
 void print_version(bool startup) {
-    BPRINTF("%s$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", startup ? "" : "S ",
-            __DATE__);
+    BPRINTF("%s$GahpVersion: %s %s BOINC\\ GAHP\\ GIT:%x $\n", startup ? "" : "S ", BOINC_GAHP_VERSION, __DATE__, GIT_REVISION);
 }
 
 int n_results() {
@@ -859,7 +861,13 @@ void read_config() {
     }
 }
 
-int main() {
+int main(int argc, char*argv[]) {
+    if (argc>1) {
+        if (!strcmp(argv[1],"--version")) {
+            fprintf(stderr,SVN_VERSION"\n");
+            return 0;
+        }
+    }
     read_config();
     strcpy(response_prefix, "");
     print_version(true);
@@ -870,4 +878,5 @@ int main() {
         handle_command(p);
         fflush(stdout);
     }
+    return 0;
 }

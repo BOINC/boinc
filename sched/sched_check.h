@@ -22,6 +22,8 @@
 #include "sched_shmem.h"
 #include "sched_types.h"
 
+// return values from wu_is_infeasible_fast()
+//
 #define INFEASIBLE_MEM          1
 #define INFEASIBLE_DISK         2
 #define INFEASIBLE_CPU          3
@@ -42,7 +44,15 @@ extern int wu_is_infeasible_fast(
     int res_server_state, int res_priority, double res_report_deadline,
     APP&, BEST_APP_VERSION&
 );
+
+// return values from slow_check()
+//
+#define CHECK_OK        0
+#define CHECK_NO_HOST   1
+#define CHECK_NO_ANY    2
+
 extern int slow_check(WU_RESULT&, APP*, BEST_APP_VERSION*);
+
 extern bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu);
 extern bool app_not_selected(int appid);
  

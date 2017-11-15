@@ -119,7 +119,7 @@ if ($force_title && $title){
     );
 }
 
-row2_init(tra("Message").html_info().post_warning($forum).$body_help, "");
+row2_init(tra("Message").bbcode_info().post_warning($forum).$body_help, "");
 start_table();
 echo $bbcode_html;
 end_table();
@@ -136,7 +136,7 @@ if (is_news_forum($forum)) {
     row2("", "<input name=export type=checkbox> ".tra("Show this item as a Notice in the BOINC Manager")."<br><p class=\"text-muted\">".tra("Do so only for items likely to be of interest to all volunteers.")."</p>");
 }
 row2("", "<input name=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\"> ".tra("Add my signature to this post"));
-row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("OK")."\">");
+row2("", "<input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("OK")."\">");
 
 
 end_table();

@@ -80,7 +80,7 @@ class views_handler_filter_term_node_tid extends views_handler_filter_many_to_on
     if ($this->options['type'] == 'textfield') {
       $default = '';
       if ($this->value) {
-        $result = db_query("SELECT * FROM {term_data} td WHERE td.tid IN (" . implode(', ', $this->value) . ')');
+        $result = db_query("SELECT t.* FROM {term_data} t WHERE t.tid IN (" . implode(', ', $this->value) . ')');
         while ($term = db_fetch_object($result)) {
           if ($default) {
             $default .= ', ';
@@ -118,7 +118,7 @@ class views_handler_filter_term_node_tid extends views_handler_filter_many_to_on
           $result = db_query(db_rewrite_sql("SELECT t.* FROM {term_data} t WHERE t.vid = %d ORDER BY t.weight, t.name", 't', 'tid'), $vocabulary->vid);
         }
         else {
-          $result = db_query(db_rewrite_sql("SELECT td.* FROM {term_data} td INNER JOIN {vocabulary} v ON td.vid = v.vid ORDER BY v.weight, v.name, td.weight, td.name", 'td', 'tid'));
+          $result = db_query(db_rewrite_sql("SELECT t.* FROM {term_data} t INNER JOIN {vocabulary} v ON t.vid = v.vid ORDER BY v.weight, v.name, t.weight, t.name", 't', 'tid'));
         }
         while ($term = db_fetch_object($result)) {
           $options[$term->tid] = $term->name;
@@ -262,7 +262,7 @@ class views_handler_filter_term_node_tid extends views_handler_filter_many_to_on
     // add the taxonomy vid to the argument list.
     $args[] = $this->options['vid'];
 
-    $result = db_query("SELECT * FROM {term_data} td WHERE td.name IN (" . implode(', ', $placeholders) . ") AND td.vid = %d", $args);
+    $result = db_query(db_rewrite_sql("SELECT t.* FROM {term_data} t WHERE t.name IN (" . implode(', ', $placeholders) . ") AND t.vid = %d", 't', 'tid', $args), $args);
     while ($term = db_fetch_object($result)) {
       unset($missing[strtolower($term->name)]);
       $tids[] = $term->tid;
@@ -291,7 +291,7 @@ class views_handler_filter_term_node_tid extends views_handler_filter_many_to_on
     $this->value_options = array();
 
     if ($this->value) {
-      $result = db_query("SELECT * FROM {term_data} td WHERE td.tid IN ("  . implode(', ', $this->value) . ")");
+      $result = db_query("SELECT t.* FROM {term_data} t WHERE t.tid IN ("  . implode(', ', $this->value) . ")");
 
       while ($term = db_fetch_object($result)) {
         $this->value_options[$term->tid] = $term->name;

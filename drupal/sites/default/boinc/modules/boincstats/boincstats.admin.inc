@@ -39,7 +39,7 @@ function boincstats_admin_stats_system(&$form_state) {
   $form['boinc_stats_remote_project_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Stats ID for @project', array(
-      '@project' => variable_get('site_name', t('this project')))),
+      '@project' => variable_get('site_name', 'Drupal-BOINC'))),
     '#default_value' => $default['boinc_stats_remote_project_id'], 
     '#description' => t('This project must be registered with a stats system in
       order for some statistics to be available. Currently only one system is

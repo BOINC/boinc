@@ -629,9 +629,9 @@ double rand_normal() {
 // determines the real path and filename of the current process
 // not the current working directory
 //
-int get_real_executable_path(char* path, size_t max_len) {
 #ifdef HAVE__PROC_SELF_EXE
-    int ret = readlink("/proc/self/exe", path, max_len);
+int get_real_executable_path(char* path, size_t max_len) {
+    int ret = readlink("/proc/self/exe", path, max_len - 1);
     if ( ret >= 0) {
         path[ret] = '\0'; // readlink does not null terminate
         return 0;
@@ -643,6 +643,9 @@ int get_real_executable_path(char* path, size_t max_len) {
 #endif
         return ERR_PROC_PARSE;
     }
-#endif
+}
+#else
+int get_real_executable_path(char* , size_t ) {
     return ERR_NOT_IMPLEMENTED;
 }
+#endif

@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_COMMON_H_
-#define _VBOX_COMMON_H_
+#ifndef BOINC_VBOX_COMMON_H
+#define BOINC_VBOX_COMMON_H
 
 #include "vboxjob.h"
 
@@ -168,7 +168,6 @@ class VBOX_BASE : public VBOX_JOB {
 
 
         std::streamoff log_pointer;
-        std::string state;
 
         int vm_pid;
         int vboxsvc_pid;
@@ -191,6 +190,7 @@ class VBOX_BASE : public VBOX_JOB {
         virtual int deregister_vm(bool delete_media) = 0;
         virtual int deregister_stale_vm() = 0;
         virtual int poll(bool log_state = true) = 0;
+	virtual int poll2(bool log_state = true) = 0;
         virtual int start() = 0;
         virtual int stop() = 0;
         virtual int poweroff() = 0;

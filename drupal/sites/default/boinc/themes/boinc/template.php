@@ -206,8 +206,24 @@ function boinc_preprocess_page(&$vars, $hook) {
   }
   $vars['app_list_url'] = $app_list_url;
 
-  // Remove title from search page
-  if (arg(0) == 'search') {
+  // Remove title from certain pages using URL.
+  // This is a kludge to remove the title of the page but not the
+  // "head_title" which is placed in the HTML <head> section. Most of
+  // these pages are defined in the Page Manager module.
+  // See: https://dev.gridrepublic.org/browse/DBOINC-65
+  if (arg(0) == 'search') { 
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (is_numeric(arg(1))) AND (empty(arg(2))) ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (arg(1)=='profile') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='dashboard') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='community') AND ( (arg(1)=='teams') OR (arg(1)=='stats') ) ) {
     unset($vars['title']);
   }
 
@@ -422,6 +438,12 @@ function boinc_preprocess_views_view(&$vars, $hook) {
       $vars['header'] = boincuser_views_friends_block_header(); 
     }
     break;
+  case 'boinc_host':
+      $view = views_get_current_view();
+      if (!($view->result)) {
+        $vars['footer'] = '<h3>' . bts ('Host not found in database.', array(), NULL, 'boinc:host-details') . '</h3>';
+      }
+    break;
   case 'boinc_host_list':
     if ($vars['display_id'] == 'page_2') {
      $vars['empty'] = boincwork_views_host_list_empty_text();
@@ -435,9 +457,14 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $view = views_get_current_view();
     $view->execute();
     $result = reset($view->result);
-    // Display the stderr output in the footer
-    $vars['footer'] = '<h3>' . bts('Stderr output', array(), NULL, 'boinc:task-dtails-errorlog') .'</h3>';
-    $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+
+    if ($result) {
+      // Display the stderr output in the footer
+      $vars['footer'] = '<h3>' . bts('Stderr output', array(), NULL, 'boinc:task-details-errorlog') .'</h3>';
+      $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+    } else {
+      $vars['footer'] = '<h3>' . bts ('Task not found in database.', array(), NULL, 'boinc:task-details') . '</h3>';
+    }
     break;
   case 'boinc_teams':
     if ($vars['display_id'] == 'panel_pane_3') {
@@ -451,9 +478,14 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $result_id = arg(1);
     require_boinc(array('util','boinc_db'));
     $wu = BoincWorkunit::lookup_id($result_id);
-    project_workunit($wu);
-    // Output of project_workunit() gets caught in the buffer
-    $vars['footer'] = ob_get_clean();
+    if ($wu) {
+      // Output from admin defined BOINC project-specific function
+      project_workunit($wu);
+      // Output of project_workunit() gets caught in the buffer
+      $vars['footer'] = ob_get_clean();
+    } else {
+      $vars['footer'] = '<h3>' . bts ('Workunit not found in database.', array(), NULL, 'boinc:workunit-details') . '</h3>';
+    }
   default:
   }
 }
@@ -479,7 +511,7 @@ function boinc_preprocess_privatemsg_view(&$vars, $hook) {
   }
   $author_picture .= '</div>';
   $vars['author_picture'] = $author_picture;
-  $vars['message_timestamp'] = date('j M Y H:i:s T', $vars['message']['timestamp']);
+  $vars['message_timestamp'] = date('j M Y G:i:s T', $vars['message']['timestamp']);
 }
 // */
 
@@ -501,6 +533,12 @@ function boinc_preprocess_search_result(&$variables) {
   global $language;
   // Locality
   $variables['locality'] = $language->language;
+
+  // Change the format of the search result date/time in the info string.
+  if ($variables['result']['date']) {
+    $variables['info_split']['date'] = date('j M Y G:i:s T', $variables['result']['date']);
+  }
+  $variables['info'] = implode(' - ', $variables['info_split']);
 
   $type = strtolower($variables['result']['bundle']);
   switch ($type) {
@@ -630,7 +668,7 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
       // Sender accepted recipient's friend request
       $email['subject'] = bts('!name accepted your friend request [!site]', array(
         '!name' => $sender->boincuser_name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         ), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name confirmed you as a friend on !site.
 
@@ -642,7 +680,7 @@ Follow this link to view his or her profile:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
         ), array(), NULL, 'boinc:friend-request-email');
@@ -650,7 +688,7 @@ The !site team', array(
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')), NULL, 'boinc:friend-request-email');
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
@@ -661,7 +699,7 @@ Follow the link below to view this request:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
         '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
         ),

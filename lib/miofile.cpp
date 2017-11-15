@@ -77,9 +77,12 @@ int MIOFILE::printf(const char* format, ...) {
 
     va_list ap;
     va_start(ap, format);
+#ifndef _USING_FCGI_
     if (mf) {
         retval = mf->vprintf(format, ap);
-    } else if (f) {
+    } else
+#endif
+    if (f) {
         retval = vfprintf(f, format, ap);
     } else {
         size_t cursize = strlen(wbuf);

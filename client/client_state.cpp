@@ -484,6 +484,26 @@ int CLIENT_STATE::init() {
         fclose(f);
     }
 
+    // parse keyword file if present
+    //
+    f = fopen(KEYWORD_FILENAME, "r");
+    if (f) {
+        MIOFILE mf;
+        mf.init_file(f);
+        XML_PARSER xp(&mf);
+        retval = keywords.parse(xp);
+        if (!retval) keywords.present = true;
+        fclose(f);
+#if 0
+        std::map<int, KEYWORD>::iterator it;
+        for (it = keywords.keywords.begin(); it != keywords.keywords.end(); it++) {
+            int id = it->first;
+            KEYWORD& kw = it->second;
+            printf("keyword %d: %s\n", id, kw.name.c_str());
+        }
+#endif
+    }
+
     parse_account_files();
     parse_statistics_files();
 
@@ -692,10 +712,12 @@ int CLIENT_STATE::init() {
 
     // set up the project and slot directories
     //
+    msg_printf(NULL, MSG_INFO, "Setting up project and slot directories");
     delete_old_slot_dirs();
     retval = make_project_dirs();
     if (retval) return retval;
 
+    msg_printf(NULL, MSG_INFO, "Checking active tasks");
     active_tasks.init();
     active_tasks.report_overdue();
     active_tasks.handle_upload_files();
@@ -713,6 +735,7 @@ int CLIENT_STATE::init() {
     // set up for handling GUI RPCs
     //
     if (!no_gui_rpc) {
+        msg_printf(NULL, MSG_INFO, "Setting up GUI RPC socket");
         if (gui_rpc_unix_domain) {
             retval = gui_rpcs.init_unix_domain();
         } else {
@@ -733,9 +756,14 @@ int CLIENT_STATE::init() {
     if (g_use_sandbox) get_project_gid();
 #ifdef _WIN32
     get_sandbox_account_service_token();
-    if (sandbox_account_service_token != NULL) g_use_sandbox = true;
+    if (sandbox_account_service_token != NULL) {
+        g_use_sandbox = true;
+    }
 #endif
 
+    msg_printf(NULL, MSG_INFO,
+        "Checking presence of %d project files", (int)file_infos.size()
+    );
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
@@ -824,11 +852,16 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
 #ifdef NEW_CPU_THROTTLE
         client_mutex.unlock();
 #endif
-        n = select(
-            all_fds.max_fd+1,
-            &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
-            &tv
-        );
+        if (all_fds.max_fd == -1) {
+            boinc_sleep(time_remaining);
+            n = 0;
+        } else {
+            n = select(
+                all_fds.max_fd+1,
+                &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
+                &tv
+            );
+        }
         //printf("select in %d out %d\n", all_fds.max_fd, n);
 #ifdef NEW_CPU_THROTTLE
         client_mutex.lock();
@@ -1416,28 +1449,24 @@ bool CLIENT_STATE::garbage_collect() {
     // because detach_project() calls garbage_collect_always(),
     // and we need to avoid infinite recursion
     //
-    if (acct_mgr_info.using_am()) {
-        // If we're using an AM,
-        // start an AM RPC rather than detaching the projects;
-        // the RPC completion handler will detach them.
-        // This way the AM will be informed of their work done.
-        //
+    while (1) {
+        bool found = false;
         for (unsigned i=0; i<projects.size(); i++) {
             PROJECT* p = projects[i];
             if (p->detach_when_done && !nresults_for_project(p)) {
-                acct_mgr_info.next_rpc_time = 0;
-                acct_mgr_info.poll();
-                break;
+                // If we're using an AM,
+                // wait until the next successful RPC to detach project,
+                // so the AM will be informed of its work done.
+                //
+                if (!p->attached_via_acct_mgr) {
+                    msg_printf(p, MSG_INFO, "Detaching - no more tasks");
+                    detach_project(p);
+                    action = true;
+                    found = true;
+                }
             }
         }
-    } else {
-        for (unsigned i=0; i<projects.size(); i++) {
-            PROJECT* p = projects[i];
-            if (p->detach_when_done && !nresults_for_project(p)) {
-                detach_project(p);
-                action = true;
-            }
-        }
+        if (!found) break;
     }
 #endif
     return action;
@@ -1545,14 +1574,12 @@ bool CLIENT_STATE::garbage_collect_always() {
             wup = rp->wup;
             if (wup->had_download_failure(failnum)) {
                 wup->get_file_errors(error_msgs);
-                report_result_error(
-                    *rp, "WU download error: %s", error_msgs.c_str()
-                );
+                string err_msg = "WU download error: " + error_msgs;
+                report_result_error(*rp, err_msg.c_str());
             } else if (rp->avp && rp->avp->had_download_failure(failnum)) {
                 rp->avp->get_file_errors(error_msgs);
-                report_result_error(
-                    *rp, "app_version download error: %s", error_msgs.c_str()
-                );
+                string err_msg = "app_version download error: " + error_msgs;
+                report_result_error(*rp, err_msg.c_str());
             }
         }
         bool found_error = false;
@@ -1585,7 +1612,8 @@ bool CLIENT_STATE::garbage_collect_always() {
                     atp->abort_task(ERR_RESULT_UPLOAD, "upload failure");
                 }
             }
-            report_result_error(*rp, "upload failure: %s", error_str.c_str());
+            string err_msg = "upload failure: " + error_str;
+            report_result_error(*rp, err_msg.c_str());
         }
 #endif
         rp->avp->ref_cnt++;
@@ -1835,10 +1863,8 @@ bool CLIENT_STATE::time_to_exit() {
 // - If result state is FILES_DOWNLOADED, change it to COMPUTE_ERROR
 //   so that we don't try to run it again.
 //
-int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
-    char buf[4096],  err_msg[4096];
-        // The above store 1-line messages and short XML snippets.
-        // Shouldn't exceed a few hundred bytes.
+int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
+    char buf[1024];
     unsigned int i;
     int failnum;
 
@@ -1851,18 +1877,14 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     res.set_ready_to_report();
     res.completed_time = now;
 
-    va_list va;
-    va_start(va, format);
-    vsnprintf(err_msg, sizeof(err_msg), format, va);
-    va_end(va);
-
     sprintf(buf, "Unrecoverable error for task %s", res.name);
 #ifndef SIM
     scheduler_op->project_rpc_backoff(res.project, buf);
 #endif
 
-    sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
-    res.stderr_out.append(buf);
+    res.stderr_out.append("<message>\n");
+    res.stderr_out.append(err_msg);
+    res.stderr_out.append("</message>\n");
 
     switch(res.state()) {
     case RESULT_NEW:

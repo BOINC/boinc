@@ -846,9 +846,14 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $main_prefs['venue'][] = $prefs;
     }
   }
-  
+
   // Set modified time
-  if ($type == 'general') {
+  if ($type == 'project') {
+    if (!isset($main_prefs['modified'])) {
+      $main_prefs = array_merge(array('modified' => 0), $main_prefs);
+    }
+    $main_prefs['modified'] = time();
+  } else {
     if (!isset($main_prefs['mod_time'])) {
       $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
     }
@@ -861,7 +866,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       unset($main_prefs['source_scheduler']);
     }
   }
-  
+
   // Convert prefs back to XML and save to database
   $result = null;
   if ($type == 'project') {
@@ -952,7 +957,7 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
     if (!is_numeric($data)) {
       return FALSE;
     }
-    $data += 0;
+    $data += 0.0;
     if (!is_float($data)) {
       return FALSE;
     }
@@ -1410,7 +1415,7 @@ function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NUL
   $root_log_dir = variable_get('boinc_host_sched_logs_dir', '');
   $log = '';
   if ($timestamp) {
-    $output = gmdate('j M Y | G:i:s', $timestamp) . ' UTC';
+    $output = date('j M Y G:i:s T', $timestamp);
   }
   if ($root_log_dir AND $host_id) {
     $subdir = substr($host_id, 0, -3) OR $subdir = 0;
@@ -1457,7 +1462,7 @@ function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $
   $output = '---';
   if ($received_time OR $deadline) {
     $timestamp = ($received_time) ? $received_time : $deadline;
-    $output = gmdate('j M Y, G:i:s', $timestamp) . ' UTC';
+    $output = date('j M Y G:i:s T', $timestamp);
     // Add a wrapper to deadline text
     if (!$received_time) {
       if (time() < $deadline) {
@@ -1469,4 +1474,418 @@ function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $
     }
   }
   return $output;
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Functions for creating a task table for users, hosts, and workunits
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * boincwork_tasktable
+ *
+ * Given two DB results, generates a table of tasks with a navigation
+ * header, and application filter.
+ *
+ * Parameters
+ *
+ * @param int $category
+ *   An integer specifying the category of task table to display: 0 =>
+ *   account, 1=> workunit, 2=> host. These are hardcoded.
+ * @param int $queryid
+ *   The id of the user, host, or workunit to query. Will be added to
+ *   the SQL query.
+ * @param int $tselect
+ *   The task selection state chosen by the user. 0 is for all states,
+ *   other states are defined in html/inc/result.inc
+ * @param int $app_id
+ *   Application id of the application chosen by user. 0 and -1 are
+ *   for all applications.
+ * @param int $tablerows
+ *   Number of table row to display per page. Defaults to 20.
+ */
+function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_id = 0, $tablerows = 20) {
+  // Check type parameter, if not (0,2) then return an error.
+  if ( ($category!=0) AND ($category!=1) AND ($category!=2) ) {
+    watchdog('boincwork', 'task table called with invalid category = %category', array('%category' => $category), WATCHDOG_WARNING);
+    return '';
+  }
+
+  require_boinc( array('util', 'result') );
+
+  global $language;
+  $locality=$language->language;
+  $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL);
+  $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0);
+  $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
+
+  $output = '';
+
+  $state_hnames = array(
+    STATE_ALL => 'All',
+    STATE_IN_PROGRESS => 'In progress',
+    STATE_PENDING => 'Pending',
+    STATE_VALID => 'Valid',
+    STATE_INVALID => 'Invalid',
+    STATE_ERROR => 'Error',
+  );
+  // Array (hash) to count total number of results/tasks, and their states.
+  $taskstates = array(
+    STATE_ALL => 0,
+    STATE_IN_PROGRESS => 0,
+    STATE_PENDING => 0,
+    STATE_VALID => 0,
+    STATE_INVALID => 0,
+    STATE_ERROR => 0,
+  );
+  // Array to hold pretty-print result data to be displayed in a table.
+  $resultdata = array();
+  // Arrays for applications. Form below uses $applications as parameter.
+  $application_map = array();
+  $application_select_count = array();
+  $applications = array();
+
+  // BOINC DB queries for results, application names
+  db_set_active('boinc');
+
+  // Query to retreive all results, in order to calculate status for a
+  // host with application names for each result.
+  $sqlall = "SELECT user_friendly_name,"
+      ."r.appid as appid,"
+      ."r.server_state AS server_state,"
+      ."r.outcome AS outcome,"
+      ."r.client_state AS client_state,"
+      ."r.validate_state AS validate_state,"
+      ."r.exit_status AS exit_status "
+      ."FROM {result} AS r "
+      ."INNER JOIN {app} AS a "
+      ."ON r.appid=a.id ";
+
+  // Use userid, hostid, or workunitid
+  if ($category==0) {
+    $sqlall .= " WHERE r.userid='%s' ";
+  }
+  elseif ($category==1) {
+    $sqlall .= " WHERE r.workunitid='%s' ";
+  }
+  elseif ($category==2) {
+    $sqlall .= " WHERE r.hostid='%s' ";
+  }
+  $sqlall .= " ORDER BY user_friendly_name";
+  $dbres_all = db_query($sqlall, $queryid);
+  db_set_active('default');
+
+  // Loop 1 of DB results
+  if ($dbres_all) {
+    while ($result = db_fetch_object($dbres_all)) {
+      $mystate = state_num($result);
+      if ( ($result->appid==$app_id) OR ($app_id==0) OR ($app_id==-1) ) {
+        $taskstates[STATE_ALL]++;
+        switch ($mystate) {
+        case STATE_IN_PROGRESS:
+          $taskstates[STATE_IN_PROGRESS]++;
+          break;
+        case STATE_PENDING:
+          $taskstates[STATE_PENDING]++;
+          break;
+        case STATE_VALID:
+          $taskstates[STATE_VALID]++;
+          break;
+        case STATE_INVALID:
+          $taskstates[STATE_INVALID]++;
+          break;
+        case STATE_ERROR:
+          $taskstates[STATE_ERROR]++;
+          break;
+        }
+      }// if app_id
+
+      //map holds a map between app ids and user friendly names for all applications.
+      $application_map[$result->appid] = $result->user_friendly_name;
+      if ( ($mystate == $tselect) OR ($tselect==STATE_ALL) ) {
+        //count of appids in the results.
+        $application_select_count[$result->appid]++;
+      }// if mystate
+
+    }// while
+  }
+  else {
+  }
+  
+  // Entry for all applications.
+  $allcount = $application_select_count ? array_sum($application_select_count) : 0;
+  $applications[-1] = bts('Application', array(), NULL, 'boinc:task-table');
+  $applications[0] = bts('All applications', array(), NULL, 'boinc:task-table') . ' (' . $allcount . ')';
+  // Create application filter from application_map and application_select_count.
+  foreach($application_map as $akey => $aname) {
+    $acount = 0;
+    if ( $application_select_count and array_key_exists($akey, $application_select_count) ) {
+      $acount = $application_select_count[$akey];
+    }
+    $applications[$akey] = $aname . ' ('. $acount . ')';
+  }
+  // Header array for (sub) results table.
+  $resultheader = array(
+    array(
+      'data' => bts('Task ID', array(), NULL, 'boinc:task-table'),
+      'field' => 'id',
+    ),
+    array(
+      'data' => bts('Workunit ID', array(), NULL, 'boinc:task-table'),
+      'field' => 'workunitid',
+    ),
+    array(
+      'data' => bts('Computer', array(), NULL, 'boinc:task-table'),
+      'field' => 'hostid',
+    ),
+    array(
+      'data' => bts('Sent', array(), NULL, 'boinc:task-table'),
+      'field' => 'sent_time',
+    ),
+    array(
+      'data' => bts('Time Reported or Deadline', array(), NULL, 'boinc:task-table')
+    ),
+    array(
+      'data' => bts('Status', array(), NULL, 'boinc:task-table')
+    ),
+    array(
+      'data' => bts('Run time', array(), NULL, 'boinc:task-table'),
+      'field' => 'elapsed_time',
+    ),
+    array(
+      'data' => bts('CPU time', array(), NULL, 'boinc:task-table'),
+      'field' => 'cpu_time',
+    ),
+    array(
+      'data' => bts('Granted Credit', array(), NULL, 'boinc:task-table'),
+      'field' => 'granted_credit',
+    ),
+    // Application is a column, but won't be added until after tablesort_sql().
+  );
+
+  // Query to retreive a subset of the total results for the results table.
+  db_set_active('boinc');
+  $sqlsub = "SELECT r.id AS id,"
+      ."r.name AS name,"
+      ."r.workunitid AS workunitid,"
+      ."r.hostid as hostid,"
+      ."r.sent_time AS sent_time,"
+      ."r.received_time AS received_time,"
+      ."r.report_deadline AS report_deadline,"
+      ."r.server_state AS server_state,"
+      ."r.outcome AS outcome,"
+      ."r.client_state AS client_state,"
+      ."r.validate_state AS validate_state,"
+      ."r.exit_status AS exit_status,"
+      ."r.elapsed_time AS elapsed_time,"
+      ."r.cpu_time AS cpu_time,"
+      ."r.granted_credit AS granted_credit,"
+      ."r.appid AS appid,"
+      ."r.app_version_id AS app_version_id,"
+      ."a.user_friendly_name,"
+      ."av.version_num AS version_number,"
+      ."av.plan_class AS plan_class,"
+      ."pl.name AS platform "
+      ."FROM {result} AS r "
+      ."INNER JOIN {app} AS a "
+      ."ON r.appid=a.id "
+      ."LEFT JOIN {app_version} AS av "
+      ."ON r.app_version_id=av.id "
+      ."LEFT JOIN {platform} AS pl "
+      ."ON av.platformid=pl.id ";
+
+  // Build an array for the WHERE clauses. The individual clauses are
+  // placed into an array, and implode() is used to combine them into
+  // a WHERE statement for the sql query. If no such clauses are added
+  // to the array, then no WHERE statement will be included.
+  $sqlwhere = array();
+
+  // Use userid, hostid, or workunitid
+  if ($category==0) {
+    $sqlwhere[] = "r.userid = '%s'";
+  }
+  elseif ($category==1) {
+    $sqlwhere[] = "r.workunitid = '%s'";
+  }
+  elseif ($category==2) {
+    $sqlwhere[] = "r.hostid = '%s'";
+  }
+
+  // Append additional where clauses based on task selection.
+  switch ($tselect) {
+  case STATE_IN_PROGRESS:
+    $sqlwhere[] = "r.server_state = 4";
+    break;
+  case STATE_PENDING:
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state >= 0) AND (r.validate_state <= 0 OR r.validate_state >= 4) AND (r.validate_state <= 4)";
+    break;
+  case STATE_VALID:
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome = 1) AND (r.validate_state = 1)";
+    break;
+  case STATE_INVALID:
+    $sqlwhere[] = "(r.server_state = 5) AND ((r.outcome = 6) OR ((r.outcome = 1) AND ((r.validate_state = 2) OR (r.validate_state = 3) OR (r.validate_state = 5))))";
+    break;
+  case STATE_ERROR:
+    $sqlwhere[] = "(r.server_state = 5) AND (r.outcome >= 3) AND (r.outcome <= 4 OR r.outcome >= 7) AND (r.outcome <= 7)";
+    break;
+  default:
+  }
+
+  if (is_numeric($app_id) AND $app_id>0 ) {
+    $sqlwhere[] = "r.appid = '%s'";
+    if ($sqlwhere)  $sqlsub .= " WHERE " . implode(' AND ', $sqlwhere);
+    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), $tablerows, 0, NULL, $queryid, $app_id);
+  }
+  else {
+    if ($sqlwhere)  $sqlsub .= " WHERE " . implode(' AND ', $sqlwhere);
+    $dbres_sub = pager_query( $sqlsub . tablesort_sql($resultheader), $tablerows, 0, NULL, $queryid);
+  }
+  db_set_active('default');
+
+  // Loop 2 over DB results.
+  if ($dbres_sub) {
+    while ($result = db_fetch_object($dbres_sub)) {
+      // state_num() function changes $result object, clone $result
+      // object for use in state_num()
+      // check if state matches selection
+      if ( (state_num(clone $result) == $tselect) OR ($tselect==STATE_ALL) ) {
+        // create pretty result row
+        $prettyresult = array(
+          array(
+            'data' => l($result->name, "task/{$result->id}"),
+            'class' => 'task-name',
+          ),
+          l($result->workunitid, "workunit/{$result->workunitid}"),
+          l($result->hostid, "host/{$result->hostid}"),
+          date('j M Y G:i:s T', $result->sent_time),
+          boincwork_task_time_reported($result->received_time, $result->report_deadline),
+          state_string($result),
+          $nf->format($result->elapsed_time),
+          $nf->format($result->cpu_time),
+          $nf->format($result->granted_credit),
+          array(
+            'data' => $result->user_friendly_name . " " . pretty_application_version($result->app_version_id,$result->version_number, $result->plan_class, $result->platform),
+            'class' => 'task-app',
+          ),
+        );
+        $resultdata[] = array_values($prettyresult);
+      }
+    }// while
+  }
+  else {
+  }
+  // Begin result navigation
+
+  // Set pathprefix based on type
+  if ($category==0) {
+    $pathprefix = 'account/tasks';
+  }
+  elseif ($category==1) {
+    $pathprefix = 'workunit/' . $queryid . '/tasks';
+  }
+  elseif ($category==2) {
+    $pathprefix = 'host/' . $queryid . '/tasks';
+  }
+  // Need an "All" tab as well, maps to app_id of zero.
+  $application_map[0] = bts('All', array(), NULL, 'boinc:task-table');
+  $stitems = array();
+  foreach ($taskstates as $state => $numstates) {
+    $mypath = $pathprefix . '/' . $state . '/' . $app_id;
+    if ($state==STATE_ALL) {
+      $ltext = '<span class="tab task-app-name">' . bts('All', array(), NULL, 'boinc:task-table') . ' (' . $numstates . ')</span>';
+    }
+    else {
+      $ltext = '<span class="tab">' . bts($state_hnames[$state], array(), NULL, 'boinc:task-table') . ' (' . $numstates . ')</span>';
+    }
+    $myitem = array(
+      'data' => l($ltext, $mypath, array('html' => TRUE) ),
+    );
+    if ($state==$tselect) {
+      $myitem['class'] = 'active';
+    }
+    $stitems[] = $myitem;
+  }
+  // Add reset button
+  $mypath = $pathprefix . '/0/0';
+  $ltext = '<span class="tab">' . bts('Reset', array(), NULL, 'boinc:task-table') . '</span>';
+  $stitems[] = array( 'data' => l($ltext, $mypath, array('html' => TRUE) ) );
+
+  $output .= theme_item_list($stitems, NULL, 'ul' . ' class="tabs secondary clearfix"');
+
+  // Application select-drop down form
+  // Hack to place Application form into header
+  // App ID of zero maps to "-1" for drop-down box.
+  if ($app_id==0) {
+    $app_id=-1;
+  }
+  $resultheader[] = drupal_get_form('boincwork_selectapp_form', $applications, $app_id);
+
+  // Begin table of results
+  if ( is_array($resultheader) AND is_array($resultdata) ) {
+
+    // Take advantage of the fact that $category is the same as the row/column we want to remove.
+    if ( ($category==1) OR ($category==2) ) {
+      unset($resultheader[$category]);
+      delete_col($resultdata, $category);
+    }
+
+    $output .= theme_table($resultheader, $resultdata);
+    if (count($resultdata) > 0) {
+      $output .= theme('pager');
+    }
+  }
+  return $output;
+}
+
+/**
+ * Function to delete a column from an array.
+ */
+function delete_col(&$array, $offset) {
+  return array_walk($array, function (&$v) use ($offset) {
+     array_splice($v, $offset, 1);
+  });
+}
+
+/**
+ * Pretty print the application version
+ *
+ * Parameters are obtained from the BOINC project database, result,
+ * app, app_version, and platform tables.
+ *
+ * Parameters
+ * @param int $appverid
+ *  app_version_id field, may be negative- anonymous platforms.
+ * @param int $vernum
+ *  version_num field, application version number, may be NULL
+ * @param int $plan_class
+ *  plan_class field, applcation plan class, may be NULL
+ * @param string $plfm
+ *  platform name, may be NULL
+ */
+function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
+  switch ($appverid) {
+    case ANON_PLATFORM_UNKNOWN:
+      return "Anonymous platform";
+    case ANON_PLATFORM_CPU:
+      return "Anonymous platform CPU";
+    case ANON_PLATFORM_NVIDIA:
+      return "Anonymous platform NVIDIA GPU";
+    case ANON_PLATFORM_ATI:
+      return "Anonymous platform ATI GPU";
+    case ANON_PLATFORM_INTEL:
+      return "Anonymous platform Intel GPU";
+    case 0:
+      return "---";
+    default:
+      // Handle the case where the appversid is still negative. This
+      // may be cause BOINC has introduced a new anonymous platform
+      // that is not handled by the above case statements.
+      if ($appverid < 0) {
+        return "Unknown Anonymous platform";
+      }
+      else {
+        $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
+        $prettyc = ($plan_class) ? "($av->plan_class)" : '';
+        return "v$prettyv $prettyc $plfm";
+      }
+  }
 }

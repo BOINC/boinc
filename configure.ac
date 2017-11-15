@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.7.0)
+AC_INIT(BOINC, 7.9.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -14,7 +14,7 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26016
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26197
+VBOXWRAPPER_RELEASE=26200
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -536,16 +536,6 @@ if test "x${bindir}" = "xNONE" -o -z "${bindir}" ; then
 fi
 if test "x${libdir}" = "xNONE" -o -z "${libdir}" ; then
   bindir="${exec_prefix}/lib"
-fi
-
-dnl if --sysconfdir was not specified, default ${sysconfdir} to '/etc/'.
-dnl this is done to preserve the behaviour of previous BOINC versions
-dnl which always installed to /etc/ in client/scripts/. Now we install
-dnl to ${sysconfdir}/.
-dnl the default value for ${sysconfdir} set by automake is '${prefix}/etc',
-dnl but we also test for an empty string
-if test "${sysconfdir}" = '${prefix}/etc' -o "x${sysconfdir}" = "x"; then
-  sysconfdir=/etc
 fi
 
 AC_DEFINE_UNQUOTED(BOINC_PREFIX,"`eval echo ${prefix}`",[Directory tree where BOINC will be installed])

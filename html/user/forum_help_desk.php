@@ -29,7 +29,7 @@ $user = get_logged_in_user(false);
 page_head(tra("Questions and answers"));
 
 echo "<p>".
-    tra("Talk live via Skype with a volunteer, in any of several languages. Go to %1BOINC Online Help%2.", "<a href=\"https://boinc.berkeley.edu/help.php\">", "</a>").
+    tra("Talk live via Skype with a volunteer, in any of several languages. Go to %1 BOINC Online Help %2.", "<a href=\"https://boinc.berkeley.edu/help.php\">", "</a>").
     "</p>";
 
 show_forum_header($user);

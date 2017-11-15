@@ -106,40 +106,21 @@ void parse_url(const char* url, PARSED_URL& purl) {
     safe_strcpy(purl.host, buf);
 }
 
-static char x2c(char *what) {
-    register char digit;
+// The following functions do "URL-escaping", i.e. escaping GET arguments
+// to be passed in a URL
 
+static char x2c(char *what) {
+    char digit;
     digit = (what[0] >= 'A' ? ((what[0] & 0xdf) - 'A')+10 : (what[0] - '0'));
     digit *= 16;
     digit += (what[1] >= 'A' ? ((what[1] & 0xdf) - 'A')+10 : (what[1] - '0'));
-    return(digit);
+    return digit;
 }
-
-void c2x(char *what) {
-    char buf[3];
-    char num = atoi(what);
-    char d1 = num / 16;
-    char d2 = num % 16;
-    int abase1, abase2;
-    if (d1 < 10) abase1 = 48;
-    else abase1 = 55;
-    if (d2 < 10) abase2 = 48;
-    else abase2 = 55;
-    buf[0] = d1+abase1;
-    buf[1] = d2+abase2;
-    buf[2] = 0;
-
-    strcpy(what, buf);
-}
-
-// The following functions do "URL-escaping", i.e. escaping GET arguments
-// to be passed in a URL
 
 // size not really needed since unescaping can only shrink
 //
 void unescape_url(char *url, int url_size) {
     int x,y;
-
     for (x=0,y=0; url[y] && (x<url_size);++x,++y) {
         if ((url[x] = url[y]) == '%') {
             url[x] = x2c(&url[y+1]);
@@ -158,6 +139,16 @@ void unescape_url(string& url) {
     url = buf;
 }
 
+static void c2x(unsigned char num, char* buf) {
+    char d1 = num / 16;
+    char d2 = num % 16;
+    int abase1 = (d1 < 10) ? 48 : 55;
+    int abase2 = (d2 < 10) ? 48 : 55;
+    buf[0] = d1 + abase1;
+    buf[1] = d2 + abase2;
+    buf[2] = 0;
+}
+
 void escape_url(const char *in, char*out, int out_size) {
     char buf[256];
     int x, y;
@@ -169,8 +160,7 @@ void escape_url(const char *in, char*out, int out_size) {
             out[y] = '%';
             ++y;
             out[y] = 0;
-            snprintf(buf, sizeof(buf), "%d", (char)in[x]);
-            c2x(buf);
+            c2x(in[x], buf);
             strlcat(out, buf, out_size);
             y += 2;
         }

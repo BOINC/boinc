@@ -544,14 +544,16 @@ int PROJECT::parse_preferences_for_user_files() {
 
     user_files.clear();
     size_t n=0, start, end;
+    const size_t app_file_open_tag_len = strlen("<app_file>");
+    const size_t app_file_close_tag_len = strlen("</app_file>");
     while (1) {
         start = project_specific_prefs.find("<app_file>", n);
         if (start == string::npos) break;
         end = project_specific_prefs.find("</app_file>", n);
         if (end == string::npos) break;
-        start += strlen("<app_file>");
+        start += app_file_open_tag_len;
         string x = project_specific_prefs.substr(start, end);
-        n = end + strlen("</app_file>");
+        n = end + app_file_close_tag_len;
 
         strlcpy(buf, x.c_str(), sizeof(buf));
         if (!parse_str(buf, "<timestamp>", timestamp)) break;
@@ -722,7 +724,7 @@ void CLIENT_STATE::read_global_prefs(
 }
 
 int CLIENT_STATE::save_global_prefs(
-    char* global_prefs_xml, char* master_url, char* scheduler_url
+    const char* global_prefs_xml, char* master_url, char* scheduler_url
 ) {
     FILE* f = boinc_fopen(GLOBAL_PREFS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
