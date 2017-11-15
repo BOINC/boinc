@@ -98,7 +98,7 @@
  * databases. The drupal database is the 'default'
  * database. 'boinc_rw' is the BOINC project database. If you have a
  * replica (read-only) BOINC project database, you may define it as
- * 'boinc_read'. (N.B., if there is no 'boinc_read' database defined,
+ * 'boinc_ro'. (N.B., if there is no 'boinc_ro' database defined,
  * the Drupal-BOINC code will use 'boinc_rw' for all BOINC database
  * queries.
  *
@@ -110,7 +110,7 @@
  *  - dbname   : name of database, often 'drupal'
  *
  * For the BOINC project databases, the variables are the same but
- * have prefix 'boinc_rw' and 'boinc_read'.
+ * have prefix 'boinc_rw' and 'boinc_ro'.
  */
 require_once('dbconfig.php');
 if (!isset($dbserver) || empty($dbserver))
@@ -121,14 +121,14 @@ $db_url = array(
 );
 $db_prefix = '';
 
-// Set boinc_read if variables are present, otherwise duplicate
-// 'boinc_rw' entry as 'boinc_read'.
+// Set boinc_ro if variables are present, otherwise duplicate
+// 'boinc_rw' entry as 'boinc_ro'.
 
-if (isset($boinc_read_dbtype) && isset($boinc_read_dbuser) && isset($boinc_read_dbpass) && isset($boinc_read_dbserver) && isset($boinc_read_dbname)) {
-  $db_url['boinc_read'] = "{$boinc_read_dbtype}://{$boinc_read_dbuser}:".urlencode($boinc_read_dbpass)."@{$boinc_read_dbserver}/{$boinc_read_dbname}";
+if (isset($boinc_ro_dbtype) && isset($boinc_ro_dbuser) && isset($boinc_ro_dbpass) && isset($boinc_ro_dbserver) && isset($boinc_ro_dbname)) {
+  $db_url['boinc_ro'] = "{$boinc_ro_dbtype}://{$boinc_ro_dbuser}:".urlencode($boinc_ro_dbpass)."@{$boinc_ro_dbserver}/{$boinc_ro_dbname}";
 }
 else {
-  $db_url['boinc_read'] = $db_url['boinc_rw'];
+  $db_url['boinc_ro'] = $db_url['boinc_rw'];
 }
 
 /**

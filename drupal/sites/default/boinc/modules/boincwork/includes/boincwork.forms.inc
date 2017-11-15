@@ -696,7 +696,7 @@ function boincwork_host_get_compatible_hosts($host_id) {
   $account = user_load($user->uid);
   $compatible_hosts = array();
   $host_count = 0;
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $current_host = db_fetch_object(db_query("
     SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
       p_vendor, p_model
@@ -708,7 +708,7 @@ function boincwork_host_get_compatible_hosts($host_id) {
   $current_host->task_count = boincwork_host_get_task_count($current_host->id);
   $current_host->is_new = !$current_host->total_credit AND !$current_host->task_count;
   // Get the list of all other hosts owned by this user for comparison
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $all_other_hosts = db_query("
     SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
       p_vendor, p_model
