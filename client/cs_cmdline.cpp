@@ -299,7 +299,7 @@ void CLIENT_STATE::parse_env_vars() {
             break;
         default:
             msg_printf_notice(0, false,
-                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=proxy_env",
+                "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=proxy_env",
                 _("The HTTP_PROXY environment variable must specify an HTTP proxy")
             );
         }

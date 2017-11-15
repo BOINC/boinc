@@ -204,7 +204,7 @@ int GET_PROJECT_LIST_OP::do_rpc() {
     int retval;
     char buf[256];
 
-    sprintf(buf, "http://boinc.berkeley.edu/project_list.php");
+    sprintf(buf, "https://boinc.berkeley.edu/project_list.php");
     retval = gui_http->do_rpc(
         this, buf, ALL_PROJECTS_LIST_FILENAME_TEMP, true
     );
