@@ -351,6 +351,7 @@
     <ClCompile Include="..\client\async_file.cpp" />
     <ClCompile Include="..\client\coproc_sched.cpp" />
     <ClCompile Include="..\client\mac_address.cpp" />
+    <ClCompile Include="..\client\project_list.cpp" />
     <ClCompile Include="..\client\thread.cpp" />
     <ClCompile Include="..\lib\boinc_win.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -416,6 +417,7 @@
     <ClInclude Include="..\client\async_file.h" />
     <ClInclude Include="..\client\coproc_sched.h" />
     <ClInclude Include="..\client\mac_address.h" />
+    <ClInclude Include="..\client\project_list.h" />
     <ClInclude Include="..\client\thread.h" />
     <ClInclude Include="..\lib\base64.h" />
     <ClInclude Include="..\client\win\boinc_cli.h" />

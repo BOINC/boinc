@@ -89,7 +89,8 @@ CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
     get_project_list_op(&gui_http),
-    acct_mgr_op(&gui_http)
+    acct_mgr_op(&gui_http),
+    lookup_login_token_op(&gui_http)
 {
     http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
@@ -174,6 +175,7 @@ CLIENT_STATE::CLIENT_STATE()
     must_check_work_fetch = true;
     retry_shmem_time = 0;
     no_gui_rpc = false;
+    enable_gui_rpcs = true;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
@@ -729,6 +731,7 @@ int CLIENT_STATE::init() {
 
     // check for initialization files
     //
+    process_autologin();
     acct_mgr_info.init();
     project_init.init();
 
@@ -840,7 +843,9 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         gui_rpc_fds.zero();
         http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
-        gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
+        if (enable_gui_rpcs) {
+            gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
+        }
 
         bool have_async = have_async_file_op();
 

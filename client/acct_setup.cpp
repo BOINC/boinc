@@ -33,6 +33,7 @@
 #include "util.h"
 #include "client_msgs.h"
 #include "log_flags.h"
+#include "project.h"
 
 #include "acct_setup.h"
 
@@ -252,3 +253,149 @@ void CLIENT_STATE::all_projects_list_check() {
     get_project_list_op.do_rpc();
 }
 
+// called at startup.
+// check for installer filename file.
+// If present, parse project ID and login token,
+// and initiate RPC to look up token.
+//
+void CLIENT_STATE::process_autologin() {
+    int project_id, user_id, n, retval;
+    char buf[256], login_token[256], *p;
+
+    // read and parse installer filename
+    //
+    FILE* f = boinc_fopen(ACCOUNT_DATA_FILENAME, "r");
+    if (!f) return;
+    fgets(buf, 256, f);
+    fclose(f);
+    p = strstr(buf, "__");
+    if (!p) {
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+        return;
+    }
+    msg_printf(NULL, MSG_INFO, "Read installer filename file");
+    p += 2;
+    n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
+        // don't include the ".exe" or the " (1)"
+    if (n != 3) {
+        msg_printf(NULL, MSG_INFO, "bad account data: %s", buf);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+        return;
+    }
+    strip_whitespace(login_token);
+
+    // check that project ID is valid, get URL
+    //
+    retval = project_list.read_file();       // get project list
+    if (retval) {
+        msg_printf(NULL, MSG_INFO,
+            "Error reading project list: %s", boincerror(retval)
+        );
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+        return;
+    }
+    PROJECT_LIST_ITEM *pli = project_list.lookup(project_id);
+    if (!pli) {
+        msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+        return;
+    }
+
+    if (!pli->is_account_manager) {
+        if (lookup_project(pli->master_url.c_str())) {
+            msg_printf(NULL, MSG_INFO,
+                "Already attached to %s", pli->name.c_str()
+            );
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
+    }
+
+    // Initiate lookup-token RPC.
+    // The reply handler will take it from there.
+    //
+    msg_printf(NULL, MSG_INFO,
+        "Doing token lookup RPC to %s", pli->name.c_str()
+    );
+    retval = lookup_login_token_op.do_rpc(pli, user_id, login_token);
+    if (retval) {
+        msg_printf(NULL, MSG_INFO,
+            "lookup token RPC failed: %s", boincerror(retval)
+        );
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+    }
+
+    // disable GUI RPCs until we get an RPC reply
+    //
+    gstate.enable_gui_rpcs = false;
+}
+
+int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
+    PROJECT_LIST_ITEM* _pli, int user_id, const char* login_token
+) {
+    char url[1024];
+    pli = _pli;
+    sprintf(url, "%slogin_token_lookup.php?user_id=%d&token=%s",
+        pli->master_url.c_str(), user_id, login_token
+    );
+    return gui_http->do_rpc(this, url, LOGIN_TOKEN_LOOKUP_REPLY, false);
+}
+
+// Handle lookup login token reply.
+// If everything checks out, attach to account manager or project.
+//
+void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
+    string user_name, team_name, weak_auth;
+
+    gstate.enable_gui_rpcs = true;
+
+    if (http_op_retval) {
+        return;
+    }
+    FILE* f = boinc_fopen(LOGIN_TOKEN_LOOKUP_REPLY, "r");
+    if (!f) {
+        msg_printf(NULL, MSG_INFO, "lookup token: no reply file");
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+        return;
+    }
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+        if (xp.parse_string("user_name", user_name)) {
+            continue;
+        } else if (xp.parse_string("team_name", team_name)) {
+            continue;
+        } else if (xp.parse_string("weak_auth", weak_auth)) {
+            continue;
+        }
+    }
+    fclose(f);
+
+    if (!user_name.size() || !weak_auth.size()) {
+        msg_printf(NULL, MSG_INFO, "lookup token: missing info");
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
+        return;
+    }
+
+    if (pli->is_account_manager) {
+        strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
+        strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
+        strcpy(gstate.acct_mgr_info.password_hash, weak_auth.c_str());
+    } else {
+        gstate.add_project(
+            pli->master_url.c_str(), weak_auth.c_str(), pli->name.c_str(), false
+        );
+        PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
+        if (p) {
+            strcpy(p->user_name, user_name.c_str());
+            strcpy(p->team_name, team_name.c_str());
+            xml_unescape(p->user_name);
+            xml_unescape(p->team_name);
+        }
+    }
+
+    // at this point we're done with installer filename.
+    //
+    boinc_delete_file(ACCOUNT_DATA_FILENAME);
+}

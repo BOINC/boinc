@@ -832,7 +832,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             }
 #endif
         }
-    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach && !autoattach_in_progress()) {
         if (pis.url.size() > 0) {
 
             strProjectName = pis.name.c_str();

@@ -18,8 +18,9 @@
 #ifndef BOINC_ACCT_SETUP_H
 #define BOINC_ACCT_SETUP_H
 
-#include "gui_http.h"
 #include "error_numbers.h"
+#include "project_list.h"
+#include "gui_http.h"
 
 struct ACCOUNT_IN {
     std::string url;
@@ -84,6 +85,19 @@ struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
     }
     virtual ~GET_PROJECT_LIST_OP(){}
     int do_rpc();
+    virtual void handle_reply(int http_op_retval);
+};
+
+struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
+    int error_num;
+    PROJECT_LIST_ITEM* pli;
+
+    LOOKUP_LOGIN_TOKEN_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
+    virtual ~LOOKUP_LOGIN_TOKEN_OP(){}
+    int do_rpc(PROJECT_LIST_ITEM*, int user_id, const char* login_token);
     virtual void handle_reply(int http_op_retval);
 };
 

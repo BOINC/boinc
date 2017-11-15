@@ -90,6 +90,7 @@ using std::string;
 #include "mac_util.h"
 #include "SetupSecurity.h"
 #include "translate.h"
+#include "file_names.h"
 
 
 #define admin_group_name "admin"
@@ -340,6 +341,12 @@ int main(int argc, char *argv[])
         rename("/Library/Application Support/BOINC Data/installer_projects_list.xml",
                 "/Library/Application Support/BOINC Data/all_projects_list.xml");
     }
+    
+    // copy temp file contining installer filename into the BOINC Data directory
+    snprintf(s, sizeof(s), "mv -f \"/tmp/%s/%s\" \"/Library/Application Support/BOINC Data/\"",
+        tempDirName, ACCOUNT_DATA_FILENAME);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
     
     Success = false;
     
