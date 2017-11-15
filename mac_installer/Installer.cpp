@@ -124,24 +124,24 @@ int main(int argc, char *argv[])
     }
     
     // Delete any old project auto-attach key file from our temp directory
-    snprintf(temp2, sizeof(temp2), "rm -dfR \"/tmp/%s/%s\"", tempDirName, INSTALLER_FILENAME_FILENAME);
+    snprintf(temp2, sizeof(temp2), "rm -dfR \"/tmp/%s/%s\"", tempDirName, ACCOUNT_DATA_FILENAME);
     err = callPosixSpawn(temp2);
     REPORT_ERROR(err);
 
     // Write a file containing the project auto-attach key into our temp
     // directory because the BOINC Data directory may not yet exist.
     // PostInstall.app will copy it into the BOINC Data directory laer
-    snprintf(temp2, sizeof(temp2), "%s/%s", temp, INSTALLER_FILENAME_FILENAME);
+    snprintf(temp2, sizeof(temp2), "%s/%s", temp, );CCOUNT_DATA_FILENAME
     if (boinc_file_exists(temp2)) {
         // If the project server put installer_filename.txt file in the same
         // parent directory as this installer, copy it into our temp directory
-        snprintf(temp2, sizeof(temp2), "cp \"%s/%s\" \"/tmp/%s/%s\"", temp, INSTALLER_FILENAME_FILENAME, tempDirName, INSTALLER_FILENAME_FILENAME);
+        snprintf(temp2, sizeof(temp2), "cp \"%s/%s\" \"/tmp/%s/%s\"", temp, ACCOUNT_DATA_FILENAME, tempDirName, ACCOUNT_DATA_FILENAME);
         err = callPosixSpawn(temp2);
         REPORT_ERROR(err);
     } else {
         // Create an installer_filename.txt file containing our 
         // installer's filename and put it in our temp directory
-        snprintf(temp2, sizeof(temp2), "/tmp/%s/%s", tempDirName, INSTALLER_FILENAME_FILENAME);
+        snprintf(temp2, sizeof(temp2), "/tmp/%s/%s", tempDirName, ACCOUNT_DATA_FILENAME);
         FILE* f = fopen(temp2, "w");
         fputs(p+1, f);
         fclose(f);

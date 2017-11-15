@@ -344,7 +344,7 @@ int main(int argc, char *argv[])
     
     // copy temp file contining installer filename into the BOINC Data directory
     snprintf(s, sizeof(s), "mv -f \"/tmp/%s/%s\" \"/Library/Application Support/BOINC Data/\"",
-        tempDirName, INSTALLER_FILENAME_FILENAME);
+        tempDirName, ACCOUNT_DATA_FILENAME);
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
     
