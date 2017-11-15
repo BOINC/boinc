@@ -33,6 +33,7 @@
 #include "util.h"
 #include "client_msgs.h"
 #include "log_flags.h"
+#include "project.h"
 
 #include "acct_setup.h"
 
@@ -344,7 +345,7 @@ int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
 // If everything checks out, attach to account manager or project.
 //
 void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
-    string user_name, weak_auth;
+    string user_name, team_name, weak_auth;
 
     gstate.enable_gui_rpcs = true;
 
@@ -362,6 +363,8 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     XML_PARSER xp(&mf);
     while (!xp.get_tag()) {
         if (xp.parse_string("user_name", user_name)) {
+            continue;
+        } else if (xp.parse_string("team_name", team_name)) {
             continue;
         } else if (xp.parse_string("weak_auth", weak_auth)) {
             continue;
@@ -383,6 +386,13 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         gstate.add_project(
             pli->master_url.c_str(), weak_auth.c_str(), pli->name.c_str(), false
         );
+        PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
+        if (p) {
+            strcpy(p->user_name, user_name.c_str());
+            strcpy(p->team_name, team_name.c_str());
+            xml_unescape(p->user_name);
+            xml_unescape(p->team_name);
+        }
     }
 
     // at this point we're done with installer filename.

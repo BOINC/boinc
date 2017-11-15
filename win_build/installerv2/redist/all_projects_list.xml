@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <projects>
     <project>
-        <name>DENIS@Home</name>
-        <id>4</id>
-        <url>http://denis.usj.es/denisathome/</url>
-        <general_area>Biology and Medicine</general_area>
-        <specific_area>Medical physiology</specific_area>
-        <description><![CDATA[DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart.]]></description>
-        <home>San Jorge University, Zaragoza, Spain</home>
-    <platforms>
-        <name>i686-apple-darwin</name>
-        <name>i686-pc-linux-gnu</name>
-        <name>windows_intelx86</name>
-        <name>windows_x86_64</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-pc-linux-gnu</name>
-    </platforms>
-      <summary>Study the physiology of the heart</summary>
-    </project>
-    <project>
         <name>RNA World</name>
         <id>5</id>
         <url>http://www.rnaworld.de/rnaworld/</url>
@@ -186,16 +168,16 @@
         <description><![CDATA[Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries.]]></description>
         <home>University of Warsaw</home>
     <platforms>
-        <name>windows_x86_64</name>
-        <name>x86_64-pc-linux-gnu</name>
+        <name>aarch64-android-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu</name>
-        <name>windows_intelx86</name>
         <name>arm-android-linux-gnu[android_arm_pie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>armv6l-unknown-linux-gnueabihf</name>
         <name>armv7l-unknown-linux-gnueabihf</name>
-        <name>aarch64-android-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
         <name>windows_x86_64[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/universe_at_home.png</image>
       <summary>Do research in physics and astronomy</summary>
@@ -257,64 +239,65 @@
         <description><![CDATA[Einstein@Home uses your computer's idle time to search for weak astrophysical signals from spinning neutron stars (often called pulsars) using data from the LIGO gravitational-wave detectors, the Arecibo radio telescope, and the Fermi gamma-ray satellite.]]></description>
         <home>University of Wisconsin - Milwaukee (USA), Max Planck Institute for Gravitational Physics - Hanover (Germany)</home>
     <platforms>
-        <name>arm-android-linux-gnu[ASIMDPIE]</name>
-        <name>arm-android-linux-gnu[NEON]</name>
-        <name>arm-android-linux-gnu[NEONPIE]</name>
-        <name>arm-android-linux-gnu[VFP]</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>arm-unknown-linux-gnueabihf[NEON]</name>
-        <name>arm-unknown-linux-gnueabihf[NEON_Beta]</name>
-        <name>i686-apple-darwin[BRP4G-Beta-cuda32-OSX]</name>
-        <name>i686-apple-darwin[BRP4G-Beta-opencl-ati-Lion]</name>
-        <name>i686-apple-darwin[BRP4G-cuda32-OSX]</name>
-        <name>i686-apple-darwin[BRP4G-opencl-ati-lion]</name>
-        <name>i686-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
-        <name>i686-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
-        <name>i686-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
-        <name>i686-pc-linux-gnu[BRP4G-opencl-ati]</name>
         <name>i686-pc-linux-gnu[FGRPSSE]</name>
-        <name>powerpc-apple-darwin[ALTIVEC]</name>
-        <name>windows_intelx86[BRP4G-Beta-cuda32]</name>
-        <name>windows_intelx86[BRP4G-Beta-cuda32-nv301]</name>
-        <name>windows_intelx86[BRP4G-Beta-cuda55]</name>
-        <name>windows_intelx86[BRP4G-Beta-opencl-ati]</name>
-        <name>windows_intelx86[BRP4G-Beta-opencl-intel_gpu]</name>
-        <name>windows_intelx86[BRP4G-cuda32]</name>
-        <name>windows_intelx86[BRP4G-cuda32-nv301]</name>
-        <name>windows_intelx86[BRP4G-opencl-ati]</name>
         <name>windows_intelx86[FGRPSSE]</name>
-        <name>windows_intelx86[opencl-intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
+        <name>x86_64-apple-darwin[FGRPSSE]</name>
+        <name>x86_64-pc-linux-gnu[AVX]</name>
+        <name>x86_64-pc-linux-gnu[LIBC215]</name>
+        <name>x86_64-pc-linux-gnu[ATLAS-Beta]</name>
         <name>windows_x86_64[AVX]</name>
-        <name>windows_x86_64[BRP4G-Beta-opencl-ati]</name>
-        <name>windows_x86_64[BRP4G-Beta-opencl-intel_gpu]</name>
-        <name>windows_x86_64[BRP4G-opencl-ati]</name>
-        <name>windows_x86_64[FGRPopencl-ati]</name>
-        <name>windows_x86_64[FGRPopencl-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl1K-ati]</name>
-        <name>windows_x86_64[FGRPopencl1K-nvidia]</name>
-        <name>windows_x86_64[opencl-intel_gpu]</name>
-        <name>windows_x86_64[opencl-intel_gpu-Beta]</name>
-        <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-apple-darwin[AVX107]</name>
-        <name>x86_64-apple-darwin[BRP4G-Beta-cuda55-Lion]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
-        <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-pc-linux-gnu[ATLAS-Beta]</name>
-        <name>x86_64-pc-linux-gnu[AVX]</name>
-        <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
-        <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda55]</name>
-        <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
-        <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-intel_gpu]</name>
-        <name>x86_64-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
-        <name>x86_64-pc-linux-gnu[BRP4G-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl1K-ati]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl1K-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
-        <name>x86_64-pc-linux-gnu[LIBC215]</name>
+        <name>windows_x86_64[FGRPopencl-ati]</name>
+        <name>windows_x86_64[FGRPopencl-nvidia]</name>
+        <name>windows_x86_64[FGRPopencl1K-ati]</name>
+        <name>windows_x86_64[FGRPopencl1K-nvidia]</name>
+        <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
+        <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
+        <name>i686-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
+        <name>i686-pc-linux-gnu[BRP4G-opencl-ati]</name>
+        <name>i686-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
+        <name>i686-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
+        <name>windows_intelx86[BRP4G-cuda32]</name>
+        <name>windows_intelx86[BRP4G-cuda32-nv301]</name>
+        <name>windows_intelx86[BRP4G-opencl-ati]</name>
+        <name>windows_intelx86[BRP4G-Beta-cuda32]</name>
+        <name>windows_intelx86[BRP4G-Beta-cuda32-nv301]</name>
+        <name>windows_intelx86[BRP4G-Beta-opencl-ati]</name>
+        <name>windows_intelx86[BRP4G-Beta-opencl-intel_gpu]</name>
+        <name>windows_intelx86[BRP4G-Beta-cuda55]</name>
+        <name>i686-apple-darwin[BRP4G-Beta-opencl-ati-Lion]</name>
+        <name>i686-apple-darwin[BRP4G-cuda32-OSX]</name>
+        <name>i686-apple-darwin[BRP4G-opencl-ati-lion]</name>
+        <name>i686-apple-darwin[BRP4G-Beta-cuda32-OSX]</name>
+        <name>i686-apple-darwin[BRP4G-Beta-opencl-ati-lion]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda55]</name>
+        <name>windows_x86_64[BRP4G-opencl-ati]</name>
+        <name>windows_x86_64[BRP4G-Beta-opencl-ati]</name>
+        <name>windows_x86_64[BRP4G-Beta-opencl-intel_gpu]</name>
+        <name>x86_64-apple-darwin[BRP4G-Beta-cuda55-Lion]</name>
+        <name>windows_intelx86[opencl-intel_gpu]</name>
+        <name>powerpc-apple-darwin[ALTIVEC]</name>
+        <name>windows_x86_64[opencl-intel_gpu]</name>
+        <name>windows_x86_64[opencl-intel_gpu-Beta]</name>
+        <name>windows_x86_64[opencl-intel_gpu-new]</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>arm-unknown-linux-gnueabihf[NEON]</name>
+        <name>arm-unknown-linux-gnueabihf[NEON_Beta]</name>
+        <name>arm-android-linux-gnu[NEON]</name>
+        <name>arm-android-linux-gnu[VFP]</name>
+        <name>arm-android-linux-gnu[ASIMDPIE]</name>
+        <name>arm-android-linux-gnu[NEONPIE]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
       <summary>Help detect pulsars and gravitational waves</summary>
@@ -988,6 +971,23 @@
       <summary>Model the human brain</summary>
     </project>
     <project>
+        <name>BOINC test</name>
+        <id>100</id>
+        <url>https://boinc.berkeley.edu/test/</url>
+        <general_area>Distributed sensing</general_area>
+        <specific_area>Testing</specific_area>
+        <description><![CDATA[Test new BOINC features]]></description>
+        <home>UC Berkeley</home>
+    <platforms>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[cuda]</name>
+        <name>windows_intelx86[mt]</name>
+        <name>windows_x86_64</name>
+    </platforms>
+      <summary>Test new BOINC features</summary>
+    </project>
+    <project>
         <name>Quake Catcher Network</name>
         <id>1</id>
         <url>http://quakecatcher.net/sensor/</url>
@@ -1032,5 +1032,12 @@
         <url>http://www.gridrepublic.org/</url>
         <description>Gridrepublic lets you connect your computer to multiple projects, set preferences, and view your credit history.</description>
         <image>https://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
+    </account_manager>
+   <account_manager>
+        <name>Onboard</name>
+        <id>101</id>
+        <url>https://onboard.berkeley.edu/</url>
+        <description>Onboard prototype</description>
+        <image>https://boinc.berkeley.edu/images/</image>
     </account_manager>
 </projects>
