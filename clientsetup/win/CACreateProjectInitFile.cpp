@@ -90,7 +90,7 @@ UINT CACreateProjectInitFile::OnExecution()
     // write installer filename to a file
     //
     char filename[256];
-    FILE* f = fopen("installer_filename.txt", "w");
+    FILE* f = fopen(ACCOUNT_DATA_FILENAME, "w");
     strncpy(filename, CW2A(strSetupExeName.c_str()), sizeof(filename)-1);
     fputs(filename, f);
     fclose(f);

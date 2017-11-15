@@ -92,6 +92,7 @@ struct CLIENT_STATE {
     FILE_XFER_SET* file_xfers;
 #ifndef SIM
     GUI_RPC_CONN_SET gui_rpcs;
+    bool enable_gui_rpcs;
 #endif
     GUI_HTTP gui_http;
 #ifdef ENABLE_AUTO_UPDATE

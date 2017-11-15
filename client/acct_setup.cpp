@@ -263,13 +263,13 @@ void CLIENT_STATE::process_autologin() {
 
     // read and parse installer filename
     //
-    FILE* f = boinc_fopen(INSTALLER_FILENAME_FILENAME, "r");
+    FILE* f = boinc_fopen(ACCOUNT_DATA_FILENAME, "r");
     if (!f) return;
     fgets(buf, 256, f);
     fclose(f);
     p = strstr(buf, "__");
     if (!p) {
-        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
     msg_printf(NULL, MSG_INFO, "Read installer filename file");
@@ -277,8 +277,8 @@ void CLIENT_STATE::process_autologin() {
     n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
         // don't include the ".exe" or the " (1)"
     if (n != 3) {
-        msg_printf(NULL, MSG_INFO, "bad installer filename %s", buf);
-        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        msg_printf(NULL, MSG_INFO, "bad account data: %s", buf);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
     strip_whitespace(login_token);
@@ -290,13 +290,13 @@ void CLIENT_STATE::process_autologin() {
         msg_printf(NULL, MSG_INFO,
             "Error reading project list: %s", boincerror(retval)
         );
-        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
     PROJECT_LIST_ITEM *pli = project_list.lookup(project_id);
     if (!pli) {
         msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);
-        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
 
@@ -305,7 +305,7 @@ void CLIENT_STATE::process_autologin() {
             msg_printf(NULL, MSG_INFO,
                 "Already attached to %s", pli->name.c_str()
             );
-            boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
             return;
         }
     }
@@ -321,7 +321,12 @@ void CLIENT_STATE::process_autologin() {
         msg_printf(NULL, MSG_INFO,
             "lookup token RPC failed: %s", boincerror(retval)
         );
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
     }
+
+    // disable GUI RPCs until we get an RPC reply
+    //
+    gstate.enable_gui_rpcs = false;
 }
 
 int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
@@ -340,13 +345,16 @@ int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
 //
 void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     string user_name, weak_auth;
+
+    gstate.enable_gui_rpcs = true;
+
     if (http_op_retval) {
         return;
     }
     FILE* f = boinc_fopen(LOGIN_TOKEN_LOOKUP_REPLY, "r");
     if (!f) {
         msg_printf(NULL, MSG_INFO, "lookup token: no reply file");
-        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
     MIOFILE mf;
@@ -363,7 +371,7 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
 
     if (!user_name.size() || !weak_auth.size()) {
         msg_printf(NULL, MSG_INFO, "lookup token: missing info");
-        boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+        boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
 
@@ -379,5 +387,5 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
 
     // at this point we're done with installer filename.
     //
-    boinc_delete_file(INSTALLER_FILENAME_FILENAME);
+    boinc_delete_file(ACCOUNT_DATA_FILENAME);
 }
