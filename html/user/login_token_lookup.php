@@ -40,7 +40,12 @@ function main() {
     echo "<login_token_reply>
     <weak_auth>$auth</weak_auth>
     <user_name>$name</user_name>
-</login_token_reply>
+";
+    if ($user->teamid && $team == BoincTeam::lookup_id($user->teamid)) {
+        $name = htmlentities($team->name);
+        echo "    <team_name>$name</team_name>\n";
+    }
+    echo "</login_token_reply>
 ";
 }
 
