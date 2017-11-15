@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
     // Write a file containing the project auto-attach key into our temp
     // directory because the BOINC Data directory may not yet exist.
     // PostInstall.app will copy it into the BOINC Data directory laer
-    snprintf(temp2, sizeof(temp2), "%s/%s", temp, );CCOUNT_DATA_FILENAME
+    snprintf(temp2, sizeof(temp2), "%s/%s", temp, ACCOUNT_DATA_FILENAME);
     if (boinc_file_exists(temp2)) {
         // If the project server put account_data.txt file in the same
         // parent directory as this installer, copy it into our temp directory
