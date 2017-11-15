@@ -238,7 +238,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       ));
       $account->boincuser_id = $drupal_user->boinc_id;
       $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
-      db_set_active('boinc_read');
+      db_set_active('boinc_ro');
       $boinc_user = db_fetch_object(db_query("
         SELECT
           name,

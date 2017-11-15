@@ -1469,7 +1469,7 @@ function boincwork_host_action_links($host_id) {
  * Get details for a given host
  */
 function boincwork_host_get_info($host_id) {
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $host = db_fetch_object(db_query(
     "SELECT * FROM {host} WHERE id = '%d'",
     $host_id
@@ -1482,7 +1482,7 @@ function boincwork_host_get_info($host_id) {
  * Get the number of tasks associated with a given host
  */
 function boincwork_host_get_task_count($host_id) {
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $count = db_result(db_query(
     "SELECT COUNT(*) FROM {result} WHERE hostid = '%d'",
     $host_id
@@ -1501,7 +1501,7 @@ function boincwork_host_user_is_owner($host_id, $uid = NULL) {
   }
   $account = user_load($uid);
   // Get host owner
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $owner = db_result(db_query(
     "SELECT userid FROM {host} WHERE id = '%d'",
     $host_id
@@ -1547,7 +1547,7 @@ function boincwork_host_venue_selector($host_id) {
     drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
     drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
     // Get current venue
-    db_set_active('boinc_read');
+    db_set_active('boinc_ro');
     $venue = db_result(db_query(
       "SELECT venue FROM {host} WHERE id = '%d'",
       $host_id
@@ -1648,7 +1648,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   $applications = array();
 
   // BOINC DB queries for results, application names
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
 
   // Query to retreive all results, in order to calculate status for a
   // host with application names for each result.
@@ -1766,7 +1766,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   );
 
   // Query to retreive a subset of the total results for the results table.
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $sqlsub = "SELECT r.id AS id,"
       ."r.name AS name,"
       ."r.workunitid AS workunitid,"

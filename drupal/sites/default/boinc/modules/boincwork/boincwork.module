@@ -967,7 +967,7 @@ function boincwork_host_log($host_id = null) {
 function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
   global $user;
   $account = user_load($user->uid);
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   // Verify that this is my host
   $host_owner = db_result(db_query(
     "SELECT userid FROM {host} WHERE id = '%d'",

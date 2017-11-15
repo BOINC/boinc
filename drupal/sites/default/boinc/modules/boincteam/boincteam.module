@@ -243,7 +243,7 @@ function boincteam_get_member_join_date($boincteam_id, $boincuser_id = NULL) {
     $account = user_load($user->uid);
     $boincuser_id = $account->boincuser_id;
   }
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $timestamp = db_result(db_query("
     SELECT timestamp FROM {team_delta} WHERE
     userid = %d AND teamid = %d AND joining = 1
@@ -292,7 +292,7 @@ function boincteam_history_xml($team_id) {
     ),
   );
   
-  db_set_active('boinc_read');
+  db_set_active('boinc_ro');
   $result = db_query("
     SELECT 
       td.userid AS id,
@@ -473,6 +473,35 @@ function boincteam_leave($team_id) {
         your membership to it.', array('@team' => $boincteam->name)));
   }
   drupal_goto("community/teams/{$team_id}");
+}
+
+/**
+<<<<<<< HEAD
+=======
+ * Output a plain text list of member email addresses
+ */
+function boincteam_members_email_list($team_id) {
+  $team = node_load($team_id);
+  $boincteam_id = boincteam_lookup_id($team_id);
+  $output = '';
+  
+  db_set_active('boinc_ro');
+  $result = db_query("
+    SELECT 
+      u.name, u.email_addr
+    FROM {user} u
+    WHERE u.teamid = %d
+    ORDER BY u.email_addr ASC",
+    $boincteam_id
+  );
+  db_set_active('default');
+  
+  while ($member = db_fetch_object($result)) {
+    $output .= "{$member->name} <{$member->email_addr}>\n";
+  }
+  
+  header('Content-type: text/plain');
+  print $output;
 }
 
 /**
