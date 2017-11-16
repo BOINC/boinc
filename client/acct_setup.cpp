@@ -273,7 +273,7 @@ void CLIENT_STATE::process_autologin() {
         boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
-    msg_printf(NULL, MSG_INFO, "Read installer filename file");
+    msg_printf(NULL, MSG_INFO, "Read account data file");
     p += 2;
     n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
         // don't include the ".exe" or the " (1)"
@@ -320,7 +320,7 @@ void CLIENT_STATE::process_autologin() {
     retval = lookup_login_token_op.do_rpc(pli, user_id, login_token);
     if (retval) {
         msg_printf(NULL, MSG_INFO,
-            "lookup token RPC failed: %s", boincerror(retval)
+            "token lookup RPC failed: %s", boincerror(retval)
         );
         boinc_delete_file(ACCOUNT_DATA_FILENAME);
     }
@@ -345,16 +345,19 @@ int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
 // If everything checks out, attach to account manager or project.
 //
 void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
-    string user_name, team_name, weak_auth;
+    string user_name;
+    string team_name, weak_auth;        // returned by projects
+    string login_name, passwd_hash;     // returned by AMs
 
     gstate.enable_gui_rpcs = true;
 
     if (http_op_retval) {
+        msg_printf(NULL, MSG_INFO, "token lookup RPC failed: %s", boincerror(http_op_retval));
         return;
     }
     FILE* f = boinc_fopen(LOGIN_TOKEN_LOOKUP_REPLY, "r");
     if (!f) {
-        msg_printf(NULL, MSG_INFO, "lookup token: no reply file");
+        msg_printf(NULL, MSG_INFO, "token lookup RPC: no reply file");
         boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
@@ -368,21 +371,33 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
             continue;
         } else if (xp.parse_string("weak_auth", weak_auth)) {
             continue;
+        } else if (xp.parse_string("login_name", login_name)) {
+            continue;
+        } else if (xp.parse_string("passwd_hash", passwd_hash)) {
+            continue;
         }
     }
     fclose(f);
 
-    if (!user_name.size() || !weak_auth.size()) {
-        msg_printf(NULL, MSG_INFO, "lookup token: missing info");
-        boinc_delete_file(ACCOUNT_DATA_FILENAME);
-        return;
-    }
 
     if (pli->is_account_manager) {
+        if (!login_name.size() || !passwd_hash.size()) {
+            msg_printf(NULL, MSG_INFO, "token lookup RPC: missing info");
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
+        msg_printf(NULL, MSG_INFO, "Using account manager %s", pli->name.c_str());
         strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
+        strcpy(gstate.acct_mgr_info.login_name, login_name.c_str());
         strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
-        strcpy(gstate.acct_mgr_info.password_hash, weak_auth.c_str());
+        strcpy(gstate.acct_mgr_info.password_hash, passwd_hash.c_str());
     } else {
+        if (!user_name.size() || !weak_auth.size()) {
+            msg_printf(NULL, MSG_INFO, "token lookup RPC: missing info");
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
+        msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
         gstate.add_project(
             pli->master_url.c_str(), weak_auth.c_str(), pli->name.c_str(), false
         );
