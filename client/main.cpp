@@ -69,6 +69,7 @@
 #include "http_curl.h"
 #include "sandbox.h"
 
+#include "websocket_server.h"
 #include "main.h"
 
 // Log informational messages to system specific places
@@ -373,6 +374,10 @@ int boinc_main_loop() {
 
     log_message_startup("Initialization completed");
 
+    WEBSOCK webs;
+    struct mg_mgr mgr;
+    webs.initiate(mgr);
+  
     while (1) {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
@@ -395,6 +400,13 @@ int boinc_main_loop() {
                 break;
             }
         }
+        else{
+
+            if (s_signal_received == 0)
+                mg_mgr_poll(&mgr, 200);
+            else break;
+        }
+            
         if (gstate.in_abort_sequence) {
             if (gstate.abort_sequence_done()) {
                 msg_printf(NULL, MSG_INFO, "Abort sequence done; exiting");
@@ -402,7 +414,8 @@ int boinc_main_loop() {
             }
         }
     }
-
+  
+    mg_mgr_free(&mgr);
     return finalize();
 }
 

@@ -88,7 +88,9 @@ boinc_client_SOURCES = \
     thread.cpp \
     time_stats.cpp \
     whetstone.cpp \
-    work_fetch.cpp
+    work_fetch.cpp \
+    mongoose.cpp \
+    websocket_server.cpp
 
 boinc_client_DEPENDENCIES = $(LIBBOINC)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
