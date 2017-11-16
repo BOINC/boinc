@@ -637,11 +637,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         // posting of more RPC requests while in this dialog, to prevent 
         // undesirable recursion.
         //
-
-        // Ideally we don't want dialogs while autoattach is in progress.
-        // But adding the following check causes a "2 RPCS at once" asser.
-
-        if (m_RPCWaitDlg /* && !autoattach_in_progress()*/ ) {
+        if (m_RPCWaitDlg) {
             response = m_RPCWaitDlg->ShowModal();
             // Remember time the dialog was closed for use by RunPeriodicRPCs()
             m_dtLasAsyncRPCDlgTime = wxDateTime::Now();
