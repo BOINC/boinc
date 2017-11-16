@@ -971,23 +971,6 @@
       <summary>Model the human brain</summary>
     </project>
     <project>
-        <name>BOINC test</name>
-        <id>100</id>
-        <url>https://boinc.berkeley.edu/test/</url>
-        <general_area>Distributed sensing</general_area>
-        <specific_area>Testing</specific_area>
-        <description><![CDATA[Test new BOINC features]]></description>
-        <home>UC Berkeley</home>
-    <platforms>
-        <name>i686-pc-linux-gnu</name>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86[cuda]</name>
-        <name>windows_intelx86[mt]</name>
-        <name>windows_x86_64</name>
-    </platforms>
-      <summary>Test new BOINC features</summary>
-    </project>
-    <project>
         <name>Quake Catcher Network</name>
         <id>1</id>
         <url>http://quakecatcher.net/sensor/</url>
@@ -1032,12 +1015,5 @@
         <url>http://www.gridrepublic.org/</url>
         <description>Gridrepublic lets you connect your computer to multiple projects, set preferences, and view your credit history.</description>
         <image>https://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
-    </account_manager>
-   <account_manager>
-        <name>Onboard</name>
-        <id>101</id>
-        <url>https://onboard.berkeley.edu/</url>
-        <description>Onboard prototype</description>
-        <image>https://boinc.berkeley.edu/images/</image>
     </account_manager>
 </projects>
