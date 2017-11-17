@@ -220,6 +220,7 @@ int GET_PROJECT_LIST_OP::do_rpc() {
 
 void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
     bool error = false;
+    error_num = 0;
     if (http_op_retval) {
         error_num = http_op_retval;
         error = true;
@@ -232,6 +233,7 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
             );
             gstate.all_projects_list_check_time = gstate.now;
         } else {
+            error_num = ERR_XML_PARSE;
             error = true;
         }
     }
@@ -241,6 +243,10 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
         gstate.all_projects_list_check_time =
             gstate.now - ALL_PROJECTS_LIST_CHECK_PERIOD + SECONDS_PER_DAY;
     }
+
+    // were we initiated by autologin?
+    //
+    gstate.process_autologin(false);
 }
 
 void CLIENT_STATE::all_projects_list_check() {
@@ -253,36 +259,55 @@ void CLIENT_STATE::all_projects_list_check() {
     get_project_list_op.do_rpc();
 }
 
-// called at startup.
+// called at startup (first=true)
+// or on completion of get project list RPC (first=false).
 // check for installer filename file.
 // If present, parse project ID and login token,
 // and initiate RPC to look up token.
 //
-void CLIENT_STATE::process_autologin() {
-    int project_id, user_id, n, retval;
-    char buf[256], login_token[256], *p;
+void CLIENT_STATE::process_autologin(bool first) {
+    static int project_id, user_id;
+    static char login_token[256];
 
-    // read and parse installer filename
-    //
-    FILE* f = boinc_fopen(ACCOUNT_DATA_FILENAME, "r");
-    if (!f) return;
-    fgets(buf, 256, f);
-    fclose(f);
-    p = strstr(buf, "__");
-    if (!p) {
-        boinc_delete_file(ACCOUNT_DATA_FILENAME);
-        return;
+    int n, retval;
+    char buf[256], *p;
+
+    if (first) {
+        // read and parse autologin file
+        //
+        FILE* f = boinc_fopen(ACCOUNT_DATA_FILENAME, "r");
+        if (!f) return;
+        fgets(buf, 256, f);
+        fclose(f);
+        p = strstr(buf, "__");
+        if (!p) {
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
+        msg_printf(NULL, MSG_INFO, "Read account data file");
+        p += 2;
+        n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
+            // don't include the ".exe" or the " (1)"
+        if (n != 3) {
+            msg_printf(NULL, MSG_INFO, "bad account data: %s", buf);
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
+        strip_whitespace(login_token);
+    } else {
+        // here the get project list RPC finished.
+        // check whether it failed.
+        //
+        autologin_in_progress = false;
+        if (get_project_list_op.error_num) {
+            msg_printf(NULL, MSG_INFO,
+                "get project list RPC failed: %s",
+                boincerror(get_project_list_op.error_num)
+            );
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
     }
-    msg_printf(NULL, MSG_INFO, "Read account data file");
-    p += 2;
-    n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
-        // don't include the ".exe" or the " (1)"
-    if (n != 3) {
-        msg_printf(NULL, MSG_INFO, "bad account data: %s", buf);
-        boinc_delete_file(ACCOUNT_DATA_FILENAME);
-        return;
-    }
-    strip_whitespace(login_token);
 
     // check that project ID is valid, get URL
     //
@@ -296,9 +321,26 @@ void CLIENT_STATE::process_autologin() {
     }
     PROJECT_LIST_ITEM *pli = project_list.lookup(project_id);
     if (!pli) {
-        msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);
-        boinc_delete_file(ACCOUNT_DATA_FILENAME);
-        return;
+        if (first) {
+            // we may have an outdated project list.
+            // Initiate RPC to get newest version
+            //
+            retval = get_project_list_op.do_rpc();
+            if (retval) {
+                msg_printf(NULL, MSG_INFO,
+                    "Get project list RPC failed: %s",
+                    boincerror(retval)
+                );
+                boinc_delete_file(ACCOUNT_DATA_FILENAME);
+                return;
+            }
+            autologin_in_progress = true;
+            return;
+        } else {
+            msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
     }
 
     if (!pli->is_account_manager) {
@@ -327,7 +369,7 @@ void CLIENT_STATE::process_autologin() {
 
     // disable GUI RPCs until we get an RPC reply
     //
-    gstate.enable_gui_rpcs = false;
+    gstate.autologin_in_progress = true;
 }
 
 int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
@@ -349,7 +391,7 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     string team_name, weak_auth;        // returned by projects
     string login_name, passwd_hash;     // returned by AMs
 
-    gstate.enable_gui_rpcs = true;
+    gstate.autologin_in_progress = false;
 
     if (http_op_retval) {
         msg_printf(NULL, MSG_INFO, "token lookup RPC failed: %s", boincerror(http_op_retval));

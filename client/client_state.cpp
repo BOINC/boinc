@@ -175,7 +175,7 @@ CLIENT_STATE::CLIENT_STATE()
     must_check_work_fetch = true;
     retry_shmem_time = 0;
     no_gui_rpc = false;
-    enable_gui_rpcs = true;
+    autologin_in_progress = false;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
@@ -731,7 +731,7 @@ int CLIENT_STATE::init() {
 
     // check for initialization files
     //
-    process_autologin();
+    process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
 
@@ -843,7 +843,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         gui_rpc_fds.zero();
         http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
-        if (enable_gui_rpcs) {
+        if (!autologin_in_progress) {
             gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         }
 
