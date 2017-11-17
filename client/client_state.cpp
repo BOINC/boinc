@@ -787,15 +787,6 @@ int CLIENT_STATE::init() {
     //
     proxy_info_startup();
 
-    if (gstate.projects.size() == 0) {
-        msg_printf(NULL, MSG_INFO,
-            "This computer is not attached to any projects"
-        );
-        msg_printf(NULL, MSG_INFO,
-            "Visit http://boinc.berkeley.edu for instructions"
-        );
-    }
-
     // get list of BOINC projects occasionally,
     // and initialize notice RSS feeds
     //
