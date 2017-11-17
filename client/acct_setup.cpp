@@ -246,7 +246,9 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
 
     // were we initiated by autologin?
     //
-    gstate.process_autologin(false);
+    if (gstate.autologin_in_progress) {
+        gstate.process_autologin(false);
+    }
 }
 
 void CLIENT_STATE::all_projects_list_check() {
