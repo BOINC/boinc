@@ -246,7 +246,7 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
 
     // were we initiated by autologin?
     //
-    if (gstate.autologin_in_progress) {
+    if (gstate.autologin_fetching_project_list) {
         gstate.process_autologin(false);
     }
 }
@@ -338,6 +338,9 @@ void CLIENT_STATE::process_autologin(bool first) {
                 return;
             }
             autologin_in_progress = true;
+                // defer GUI RPCs
+            autologin_fetching_project_list = true;
+                // tell RPC handler to call us when done
             return;
         } else {
             msg_printf(NULL, MSG_INFO, "Unknown project ID: %d", project_id);

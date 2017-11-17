@@ -176,6 +176,7 @@ CLIENT_STATE::CLIENT_STATE()
     retry_shmem_time = 0;
     no_gui_rpc = false;
     autologin_in_progress = false;
+    autologin_fetching_project_list = false;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
