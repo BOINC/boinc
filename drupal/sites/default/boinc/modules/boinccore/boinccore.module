@@ -896,7 +896,7 @@ function boinccore_am_set_info() {
     if (isset($xml['am_set_info_reply']['success'])) {
       // Find the account in Drupal
       $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
-      db_set_active('boinc_ro');
+      db_set_active('boinc_rw');
       $boinc_id = db_result(db_query("
         SELECT id
         FROM {user}
@@ -1137,7 +1137,7 @@ function boinccore_team_email_list() {
 
   if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($credit_only) {
-      db_set_active('boinc_ro');
+      db_set_active('boinc_rw');
       $result = db_query("
         SELECT
           u.id, u.name, u.cross_project_id, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
@@ -1162,7 +1162,7 @@ function boinccore_team_email_list() {
     }
     else {
       // Query BOINC database user table
-      db_set_active('boinc_ro');
+      db_set_active('boinc_rw');
       $result = db_query("
         SELECT
           u.id, u.name, u.cross_project_id, u.create_time, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
