@@ -297,9 +297,9 @@ function form_end() {
     ';
 }
 
-define('FORM_LEFT_CLASS', 'col-sm-5');
-define('FORM_LEFT_OFFSET', 'col-sm-offset-5');
-define('FORM_RIGHT_CLASS', 'col-sm-7');
+define('FORM_LEFT_CLASS', 'col-sm-3');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-3');
+define('FORM_RIGHT_CLASS', 'col-sm-9');
 
 function form_input_text($label, $name, $value='', $type='text', $attrs='') {
     echo sprintf('
@@ -395,11 +395,18 @@ function form_checkboxes($label, $items) {
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
-    foreach ($items as $i) {
-        echo sprintf('<input type="checkbox" name="%s"> %s <br>
-            ',
-            $i[0], $i[1]
+    if (count($items) == 1) {
+        $i = $items[0];
+        echo sprintf('<input type="checkbox" name="%s" checked>
+            ', $i[0]
         );
+    } else {
+        foreach ($items as $i) {
+            echo sprintf('<input type="checkbox" name="%s"> %s <br>
+                ',
+                $i[0], $i[1]
+            );
+        }
     }
     echo '</div>
         </div>

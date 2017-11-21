@@ -1,7 +1,8 @@
 <?php
+
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,23 +17,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/db.inc");
+// form for logging in with auth.
+// this is intended for project admins only,
+// so that they can log in to user accounts based on auth in DB
+
 require_once("../inc/util.inc");
-require_once("../inc/user.inc");
 
-check_get_args(array());
-
-function show_email_form() {
-    echo tra("Enter your account's email address below, and click OK. You will be sent email instructions for resetting your password.");
-
-    echo "<p><p>";
-    form_start("mail_passwd.php", "post");
-    form_input_text(tra("Email address"), "email_addr");
+function show_auth_form() {
+    page_head("Login with authenticator");
+    form_start("login_action.php", "post");
+    form_input_text("Authenticator", "authenticator");
     form_submit("OK");
+    page_tail();
 }
 
-page_head(tra("Reset password"));
-show_email_form();
-page_tail();
+show_auth_form();
 
 ?>
