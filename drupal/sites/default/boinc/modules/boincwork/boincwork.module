@@ -191,6 +191,17 @@ function boincwork_menu() {
 }
 
 /**
+ * Implementation of hook_theme().
+ */
+function boincwork_theme() {
+  return array(
+    'boincwork_privacyprefs_form' => array(
+      'arguments' => array('form'),
+    ),
+  );
+}
+
+/**
 * Implementation of hook_views_api().
 */
 function boincwork_views_api() {
