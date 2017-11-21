@@ -424,3 +424,20 @@ function boincuser_views_friends_block_header($context = null) {
   return '<h2 class="pane-title">' . bts('Friends (@count)', 
     array('@count' => $friend_count)) . '</h2>';
 }
+
+/**
+ * Autocomplete function to search for username in boinc user
+ * database.
+ */
+function _boincuser_user_name_autocomplete($string) {
+  $matches = array();
+  // @todo - use boinc_rw if/when read-only PR is merged
+  db_set_active('boinc');
+  $result = db_query_range("SELECT id,name FROM {user} WHERE name LIKE '%s%'", $string, 0, 10);
+  db_set_active('default');
+  while ($user = db_fetch_object($result)) {
+      $matches[$user->name . '_' . $user->id] = htmlentities($user->name) . " (" . $user->id . ')';
+  }
+
+  drupal_json((object)$matches);
+}

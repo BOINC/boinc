@@ -187,6 +187,11 @@ function boincuser_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  $items['boincuser/autocomplete'] = array(
+    'page callback' => '_boincuser_user_name_autocomplete',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
