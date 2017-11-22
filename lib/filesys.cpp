@@ -76,6 +76,10 @@
 
 #include "filesys.h"
 
+#ifdef __APPLE__
+#include "mac_spawn.h"
+#endif
+
 #ifdef _WIN32
 typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
 #endif
@@ -88,24 +92,28 @@ char boinc_failed_file[MAXPATHLEN];
 
 int is_file(const char* path) {
 #ifdef _WIN32
-    struct __stat64 sbuf;
-    int retval = _stat64(path, &sbuf);
+    DWORD dwAttrib = GetFileAttributesA(path);
+    return (dwAttrib != INVALID_FILE_ATTRIBUTES
+        && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
+    );
 #else
     struct stat sbuf;
     int retval = lstat(path, &sbuf);
-#endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
+#endif
 }
 
 int is_dir(const char* path) {
 #ifdef _WIN32
-    struct __stat64 sbuf;
-    int retval = _stat64(path, &sbuf);
+    DWORD dwAttrib = GetFileAttributesA(path);
+    return (dwAttrib != INVALID_FILE_ATTRIBUTES
+        && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
+    );
 #else
     struct stat sbuf;
     int retval = lstat(path, &sbuf);
-#endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
+#endif
 }
 
 #ifndef _WIN32
@@ -342,18 +350,24 @@ int boinc_delete_file(const char* path) {
 // get file size
 //
 int file_size(const char* path, double& size) {
-    int retval;
-
 #if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
-    struct __stat64 sbuf;
-    retval = _stat64(path, &sbuf);
+    HANDLE h = CreateFileA(path, 0, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, 0, OPEN_EXISTING, 0, 0);
+    if (h == INVALID_HANDLE_VALUE) return ERR_STAT;
+    LARGE_INTEGER lisize;
+    if (GetFileSizeEx(h, &lisize)) {
+        size = (double) lisize.QuadPart;
+        CloseHandle(h);
+        return 0;
+    }
+    return ERR_STAT;
 #else
+    int retval;
     struct stat sbuf;
     retval = stat(path, &sbuf);
-#endif
     if (retval) return ERR_NOT_FOUND;
     size = (double)sbuf.st_size;
     return 0;
+#endif
 }
 
 int boinc_truncate(const char* path, double size) {
@@ -526,34 +540,38 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     return f;
 }
 
-
+// returns true if anything (file, dir, whatever) exists at given path;
+// name is misleading.
+//
 int boinc_file_exists(const char* path) {
 #ifdef _WIN32
-    struct __stat64 buf;
-    if (_stat64(path, &buf)) {
+    // don't use _stat64 because it doesn't work with VS2015, XP client
+    DWORD dwAttrib = GetFileAttributesA(path);
+    return dwAttrib != INVALID_FILE_ATTRIBUTES;
 #else
     struct stat buf;
     if (stat(path, &buf)) {
-#endif
         return false;     // stat() returns zero on success
     }
     return true;
+#endif
 }
 
+#if 0
 // same, but doesn't traverse symlinks
 //
 int boinc_file_or_symlink_exists(const char* path) {
 #ifdef _WIN32
-    struct __stat64 buf;
-    if (_stat64(path, &buf)) {
+    return boinc_file_exists(path);
 #else
     struct stat buf;
     if (lstat(path, &buf)) {
-#endif
         return false;     // stat() returns zero on success
     }
     return true;
+#endif
 }
+#endif
 
 // returns zero on success, nonzero if didn't touch file
 //
@@ -666,7 +684,13 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     if (retval) {
         char buf[MAXPATHLEN+MAXPATHLEN];
         sprintf(buf, "mv \"%s\" \"%s\"", old, newf);
+#ifdef __APPLE__
+        // system() is deprecated in Mac OS 10.10.
+        // Apple says to call posix_spawn instead.
+        retval = callPosixSpawn(buf);
+#else
         retval = system(buf);
+#endif
     }
     if (retval) return ERR_RENAME;
     return 0;
@@ -761,14 +785,16 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 
 
 FILE_LOCK::FILE_LOCK() {
-#ifndef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
+  handle = INVALID_HANDLE_VALUE;
+#else
     fd = -1;
 #endif
     locked = false;
 }
 
 FILE_LOCK::~FILE_LOCK() {
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__CYGWIN32__)
     if (fd >= 0) close(fd);
 #endif
 }

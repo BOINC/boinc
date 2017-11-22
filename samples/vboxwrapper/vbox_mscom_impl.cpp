@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4706)
+#endif
+
 #ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
 
 const char *MachineStateToName(MachineState State) 
@@ -286,7 +290,6 @@ int VBOX_VM::create_vm() {
     HRESULT rc;
     char buf[256];
     APP_INIT_DATA aid;
-    CComBSTR vm_machine_uuid;
     CComPtr<IMachine> pMachineRO;
     CComPtr<IMachine> pMachine;
     CComPtr<ISession> pSession;
@@ -903,7 +906,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     CComPtr<IProgress> pProgress;
     CComPtr<IBandwidthControl> pBandwidthControl;
     CComPtr<ISnapshot> pRootSnapshot;
-    std::vector<CComPtr<IMedium>> clean_mediums;
     std::vector<CComPtr<IMedium>> mediums;
     std::vector<std::string> snapshots;
     DeviceType device_type; 
@@ -940,7 +942,8 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             //
             rc = pMachine->FindSnapshot(CComBSTR(""), &pRootSnapshot);
             if (SUCCEEDED(rc) && pRootSnapshot) {
-                TraverseSnapshots(string(""), snapshots, pRootSnapshot);
+                string s = string("");
+                TraverseSnapshots(s, snapshots, pRootSnapshot);
             }
             if (snapshots.size()) {
                 for (size_t i = 0; i < snapshots.size(); i++) {
@@ -1202,6 +1205,158 @@ int VBOX_VM::deregister_stale_vm() {
 }
 
 int VBOX_VM::poll(bool log_state) {
+	int retval = ERR_EXEC;
+	APP_INIT_DATA aid;
+	string command;
+	string output;
+	string::iterator iter;
+	string vmstate;
+	static string vmstate_old = "poweredoff";
+	//size_t vmstate_start;
+	//size_t vmstate_end;
+
+	boinc_get_init_data_p(&aid);
+
+	//
+	// Is our environment still sane?
+	//
+#ifdef _WIN32
+	if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
+		vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
+	}
+	if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
+		vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
+	}
+#else
+	if (started_successfully && vm_pid && !process_exists(vm_pid)) {
+		vboxlog_msg("Status Report: virtualbox/vboxheadless is no longer running.");
+	}
+#endif
+
+	//
+	// What state is the VM in?
+	//
+	vmstate =read_vm_log();
+	if (vmstate != "Error in parsing the log file") {
+
+		// VirtualBox Documentation suggests that that a VM is running when its
+		// machine state is between MachineState_FirstOnline and MachineState_LastOnline
+		// which as of this writing is 5 and 17.
+		//
+		// VboxManage's source shows more than that though:
+		// see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
+		//
+		// So for now, go with what VboxManage is reporting.
+		//
+		if (vmstate == "running") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "paused") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = true;
+			crashed = false;
+		}
+		else if (vmstate == "saved") {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = true;
+			crashed = false;
+		}
+		else if (vmstate == "starting") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "stopping") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "saving") {
+			online = true;
+			saving = true;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "restoring") {
+			online = true;
+			saving = false;
+			restoring = true;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "livesnapshotting") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "deletingsnapshotonline") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "deletingsnapshotpaused") {
+			online = true;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+		}
+		else if (vmstate == "aborted") {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = true;
+		}
+		else if (vmstate == "gurumeditation") {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = true;
+		}
+		else {
+			online = false;
+			saving = false;
+			restoring = false;
+			suspended = false;
+			crashed = false;
+			if (log_state) {
+				vboxlog_msg("VM is no longer is a running state. It is in '%s'.", vmstate.c_str());
+			}
+		}
+		if (log_state && (vmstate_old != vmstate)) {
+			vboxlog_msg("VM state change detected. (old = '%s', new = '%s')", vmstate_old.c_str(), vmstate.c_str());
+			vmstate_old = vmstate;
+		}
+
+		retval = BOINC_SUCCESS;
+	}
+	else
+	{
+		vboxlog_msg("Error in parsing the log file");
+	}
+	return retval;
+}
+
+int VBOX_VM::poll2(bool log_state) {
     int retval = ERR_EXEC;
     APP_INIT_DATA aid;
     HRESULT rc;
@@ -1895,7 +2050,7 @@ int VBOX_VM::is_registered() {
     return retval;
 }
 
-bool VBOX_VM::is_system_ready(std::string& message) {
+bool VBOX_VM::is_system_ready(std::string& ) {
     return true;
 }
 

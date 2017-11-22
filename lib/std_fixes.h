@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _STD_FIXES_H_
-#define _STD_FIXES_H_
+#ifndef BOINC_STD_FIXES_H
+#define BOINC_STD_FIXES_H
 
 #ifdef __cplusplus
 
@@ -116,5 +116,5 @@ inline int creat(const char *filename, mode_t mode) { return creat64(filename,mo
 
 #endif
 #endif /* __cplusplus */
-#endif /* STD_FIXES_H */
+#endif // BOINC_STD_FIXES_H
 

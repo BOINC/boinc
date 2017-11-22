@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_VBOXMANAGE_H_
-#define _VBOX_VBOXMANAGE_H_
+#ifndef BOINC_VBOX_VBOXMANAGE_H
+#define BOINC_VBOX_VBOXMANAGE_H
 
 namespace vboxmanage {
 
@@ -34,6 +34,7 @@ namespace vboxmanage {
         int deregister_vm(bool delete_media);
         int deregister_stale_vm();
         int poll(bool log_state = true);
+	int poll2(bool log_state = true);
         int start();
         int stop();
         int poweroff();

@@ -21,8 +21,8 @@
 // small static tables like app_version,
 // and a queue of results waiting to be sent.
 
-#ifndef _SCHED_SHMEM_H_
-#define _SCHED_SHMEM_H_
+#ifndef BOINC_SCHED_SHMEM_H
+#define BOINC_SCHED_SHMEM_H
 
 #include "boinc_db.h"
 #include "sched_util.h"
@@ -108,7 +108,12 @@ struct SCHED_SHMEM {
     APP apps[MAX_APPS];
     APP_VERSION app_versions[MAX_APP_VERSIONS];
     ASSIGNMENT assignments[MAX_ASSIGNMENTS];
+// zero size arrays are defined differently since C++11
+#if defined(__cplusplus) && (__cplusplus >= 201103L)
+    WU_RESULT wu_results[];
+#else
     WU_RESULT wu_results[0];
+#endif
 
     void init(int nwu_results);
     int verify();

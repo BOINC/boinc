@@ -27,12 +27,6 @@
 #include "win_util.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#endif
-
 #ifndef __CYGWIN32__
 #include "stackwalker_win.h"
 #endif
@@ -103,11 +97,11 @@ BOOL diagnostics_get_registry_value(LPCSTR lpName, LPDWORD lpdwType, LPDWORD lpd
 
 // Provide a structure to store process measurements at the time of a
 //   crash.
-typedef struct _BOINC_PROCESSENTRY {
+struct BOINC_PROCESSENTRY {
     DWORD               process_id;
     VM_COUNTERS         vm_counters;
     IO_COUNTERS         io_counters;
-} BOINC_PROCESSENTRY, *PBOINC_PROCESSENTRY;
+};
 
 static BOINC_PROCESSENTRY diagnostics_process;
 
@@ -122,7 +116,7 @@ static BOINC_PROCESSENTRY diagnostics_process;
 //   to dump backtraces for all threads during an abort or
 //   crash.  This is platform specific in nature since it
 //   depends on the OS datatypes.
-typedef struct _BOINC_THREADLISTENTRY {
+struct BOINC_THREADLISTENTRY {
     DWORD               thread_id;
     HANDLE              thread_handle;
     BOOL                crash_suspend_exempt;
@@ -135,14 +129,14 @@ typedef struct _BOINC_THREADLISTENTRY {
     INT                 crash_wait_reason;
     PEXCEPTION_POINTERS crash_exception_record;
     char                crash_message[1024];
-} BOINC_THREADLISTENTRY, *PBOINC_THREADLISTENTRY;
+};
 
-static std::vector<PBOINC_THREADLISTENTRY> diagnostics_threads;
+static std::vector<BOINC_THREADLISTENTRY*> diagnostics_threads;
 static HANDLE hThreadListSync;
 
 
 // Initialize the thread list entry.
-int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
+int diagnostics_init_thread_entry(BOINC_THREADLISTENTRY *entry) {
     entry->thread_id = 0;
     entry->thread_handle = 0;
     entry->crash_suspend_exempt = FALSE;
@@ -216,8 +210,8 @@ int diagnostics_finish_thread_list() {
 
 // Return a pointer to the thread entry.
 //
-PBOINC_THREADLISTENTRY diagnostics_find_thread_entry(DWORD dwThreadId) {
-    PBOINC_THREADLISTENTRY pThread = NULL;
+BOINC_THREADLISTENTRY* diagnostics_find_thread_entry(DWORD dwThreadId) {
+    BOINC_THREADLISTENTRY* pThread = NULL;
     UINT                   uiIndex = 0;
     size_t                 size = 0;
 
@@ -283,7 +277,7 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
 int diagnostics_update_thread_list() {
     DWORD                   dwCurrentProcessId = GetCurrentProcessId();
     HANDLE                  hThread = NULL;
-    PBOINC_THREADLISTENTRY  pThreadEntry = NULL;
+    BOINC_THREADLISTENTRY   *pThreadEntry = NULL;
     ULONG                   cbBuffer = 32*1024;    // 32k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
@@ -312,7 +306,7 @@ int diagnostics_update_thread_list() {
             // Enumerate the threads
             for(uiSystemIndex = 0; uiSystemIndex < pProcesses->ThreadCount; uiSystemIndex++) {
                 pThread = &pProcesses->Threads[uiSystemIndex];
-                pThreadEntry = diagnostics_find_thread_entry((DWORD)pThread->ClientId.UniqueThread);
+                pThreadEntry = diagnostics_find_thread_entry((DWORD)(uintptr_t)pThread->ClientId.UniqueThread);
 
                 if (pThreadEntry) {
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
@@ -326,12 +320,12 @@ int diagnostics_update_thread_list() {
                     hThread = OpenThread(
                         THREAD_ALL_ACCESS,
                         FALSE,
-                        (DWORD)(pThread->ClientId.UniqueThread)
+                        (DWORD)(uintptr_t)(pThread->ClientId.UniqueThread)
                     );
 
                     pThreadEntry = new BOINC_THREADLISTENTRY;
                     diagnostics_init_thread_entry(pThreadEntry);
-                    pThreadEntry->thread_id = (DWORD)(pThread->ClientId.UniqueThread);
+                    pThreadEntry->thread_id = (DWORD)(uintptr_t)(pThread->ClientId.UniqueThread);
                     pThreadEntry->thread_handle = hThread;
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
                     pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;
@@ -364,7 +358,7 @@ int diagnostics_update_thread_list() {
 // thread dump the human readable exception information.
 int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
     HANDLE hThread;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+    BOINC_THREADLISTENTRY *pThreadEntry = NULL;
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);
@@ -401,7 +395,7 @@ int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
 // Set the current thread to suspend exempt status.  Prevents deadlocks.
 int diagnostics_set_thread_exempt_suspend() {
     HANDLE hThread;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+    BOINC_THREADLISTENTRY *pThreadEntry = NULL;
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);
@@ -440,7 +434,7 @@ int diagnostics_set_thread_exempt_suspend() {
 // prototype needs to be compatible with C.
 int diagnostics_is_thread_exempt_suspend(long thread_id) {
     int retval = 1;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+    BOINC_THREADLISTENTRY *pThreadEntry = NULL;
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);
@@ -462,7 +456,7 @@ int diagnostics_is_thread_exempt_suspend(long thread_id) {
 // Set the current thread's crash message.
 int diagnostics_set_thread_crash_message(char* message) {
     HANDLE hThread;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+    BOINC_THREADLISTENTRY *pThreadEntry = NULL;
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);
@@ -1335,7 +1329,7 @@ int diagnostics_dump_process_information() {
 
 // Dump the captured information for a given thread.
 //
-int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
+int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
     std::string strStatusExtra;
 
     if (pThreadEntry->crash_state == StateWait) {
@@ -1557,7 +1551,8 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
     unsigned int i;
     CONTEXT      c;
     BOINC_WINDOWCAPTURE window_info;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+    BOINC_THREADLISTENTRY *pThreadEntry = NULL;
+    const size_t boinc_install_dir_len = strlen(diagnostics_get_boinc_install_dir());
 
     // We should not suspend our crash dump thread.
     diagnostics_set_thread_exempt_suspend();
@@ -1620,7 +1615,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 // Kickstart the debugger extensions, look for the debugger files
                 //   in the install directory if it is defined, otherwise look
                 //   in the data directory.
-                if (0 != strlen(diagnostics_get_boinc_install_dir())) {
+                if (0 != boinc_install_dir_len) {
  	                bDebuggerInitialized = !DebuggerInitialize(
                         diagnostics_get_boinc_install_dir(),
                         diagnostics_get_symstore(),

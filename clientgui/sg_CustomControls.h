@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _CUSTOMCONTROLS_H_
-#define _CUSTOMCONTROLS_H_ 
+#ifndef BOINC_SG_CUSTOMCONTROLS_H
+#define BOINC_SG_CUSTOMCONTROLS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "sg_CustomControls.cpp"
@@ -324,6 +324,4 @@ private:
     wxCursor m_HandCursor;
 }; 
 
-
 #endif 
-

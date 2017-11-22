@@ -300,7 +300,7 @@ function do_confirmedblock($logged_in_user) {
     page_head(tra("User %1 blocked", $blocked_user->name));
 
     echo "<div>".tra("User %1 has been blocked from sending you private messages.", $blocked_user->name)."\n";
-    echo tra("To unblock, visit %1message board preferences%2", "<a href=\"edit_forum_preferences_form.php\">", "</a>")."</div>\n";
+    echo tra("To unblock, visit %1 message board preferences %2", "<a href=\"edit_forum_preferences_form.php\">", "</a>")."</div>\n";
     page_tail();
 }
 

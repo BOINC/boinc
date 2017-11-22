@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROJECT_
-#define _PROJECT_
+#ifndef BOINC_PROJECT_H
+#define BOINC_PROJECT_H
 
 #include "app_config.h"
 #include "client_types.h"
@@ -26,9 +26,6 @@
 struct PROJECT : PROJ_AM {
     char _project_dir[MAXPATHLEN];
     char _project_dir_absolute[MAXPATHLEN];
-
-    std::string sci_keywords;
-    std::string loc_keywords;
 
     // the following items come from the account file
     // They are a function of the user and the project (not host)
@@ -153,6 +150,10 @@ struct PROJECT : PROJ_AM {
         // Reasons are enumerated in lib/common_defs.h
     bool trickle_up_pending;
         // have trickle up to send
+    double disk_usage;
+        // computed by get_disk_usages()
+    double disk_share;
+        // computed by get_disk_shares();
 
     ///////  END OF ITEMS STORED IN client_state.xml
 
@@ -174,10 +175,7 @@ struct PROJECT : PROJ_AM {
         // to make sure they haven't been tampered with.
         // This provides only the illusion of security.
     bool use_symlinks;
-    double disk_usage;
-        // computed by get_disk_usages()
-    double disk_share;
-        // computed by get_disk_shares();
+    bool report_results_immediately;
 
     // items sent in scheduler replies,
     // requesting that various things be sent subsequent requests
@@ -198,6 +196,7 @@ struct PROJECT : PROJ_AM {
     bool attached_via_acct_mgr;
     bool detach_when_done;
         // when no results for this project, detach it.
+        // if using AM, do AM RPC before detaching
     bool ended;
         // project has ended; advise user to detach
     char code_sign_key[MAX_KEY_LEN];

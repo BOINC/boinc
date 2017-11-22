@@ -196,6 +196,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
+    EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
@@ -676,12 +677,27 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     strMenuDescription.Printf(
-        _("Show information about BOINC and %s"),
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("See more information about %s on the web"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
         strMenuName, 
+        strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    strMenuName.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    strMenuDescription.Printf(
+        _("Check for new %s version"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    menuHelp->Append(
+        ID_CHECK_VERSION,
+        strMenuName,
         strMenuDescription
     );
     menuHelp->AppendSeparator();
@@ -769,11 +785,6 @@ bool CAdvancedFrame::CreateNotebook() {
 
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIObjectSetAccessibilityIgnored((HIObjectRef)pPanel->GetHandle(), true);
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
     return true;
@@ -897,7 +908,6 @@ bool CAdvancedFrame::SaveState() {
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
-    wxString        strBuffer;
     int             iIndex = 0;
     int             iItemCount = 0;
 
@@ -959,8 +969,6 @@ bool CAdvancedFrame::RestoreState() {
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
-    wxString        strBuffer;
-    wxString        strValue;
     long            iIndex;
     long            iPageCount;
     long            iCurrentPage;
@@ -1261,13 +1269,7 @@ void CAdvancedFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
         );
 
         if (wxYES == iAnswer) {
-            std::string url, name, passwd;
-            pDoc->rpc.acct_mgr_rpc(
-                url.c_str(),
-                name.c_str(),
-                passwd.c_str(),
-                false
-            );
+            pDoc->rpc.acct_mgr_rpc("", "", "", false);
         }
 
         DeleteMenu();
@@ -1418,36 +1420,26 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxString            password = wxEmptyString;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     long                lRetVal = -1;
+    bool                bRetrievePasswordFromFile = FALSE;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (SelectComputer(hostName, portNum, password, false)) { 
-        if (pDoc->IsComputerNameLocal(hostName)) {
-            lRetVal = pDoc->Connect(
-                wxT("localhost"),
-                GUI_RPC_PORT,
-                wxEmptyString,
-                TRUE,
-                TRUE
-            );
-        } else {
-            // Connect to the remote machine
-            long lPort = GUI_RPC_PORT; 
-            int iPos = hostName.Find(wxT(":")); 
-            if (iPos != wxNOT_FOUND) { 
-                wxString sPort = hostName.substr(iPos + 1); 
-                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
-                hostName.erase(iPos); 
-            } 
-            lRetVal = pDoc->Connect(
-                hostName.c_str(),
-                portNum,
-                password.c_str(),
-                TRUE,
-                FALSE
-            );
+    if (SelectComputer(hostName, portNum, password, false)) {
+        // possibly read password from file if local computername AND no password was entered
+        if (pDoc->IsComputerNameLocal(hostName) && password == wxEmptyString) {
+            hostName = wxT("localhost");
+            bRetrievePasswordFromFile = TRUE;
         }
+        // Connect to the specified host
+        lRetVal = pDoc->Connect(
+            hostName.c_str(),
+            portNum,
+            password.c_str(),
+            TRUE,
+            bRetrievePasswordFromFile
+        );
+
         if (lRetVal) {
             ShowConnectionFailedAlert();
         }
@@ -1459,6 +1451,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_SELECTCOMPUTER);
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    int                showDialog = wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage();
     CDlgGenericMessage dlg(this);
     wxString           strDialogTitle = wxEmptyString;
     wxString           strDialogMessage = wxEmptyString;
@@ -1473,29 +1466,31 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // Stop all timers
     StopTimers();
 
+    if (showDialog) {
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strDialogTitle.Printf(
+            _("%s - Shut down the current client..."),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    strDialogTitle.Printf(
-        _("%s - Shut down the current client..."),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
+        // 1st %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        // 2nd %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        strDialogMessage.Printf(
+            _("%s will shut down the current client\nand prompt you for another host to connect to."),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
 
-    // 1st %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    // 2nd %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strDialogMessage.Printf(
-        _("%s will shut down the current client\nand prompt you for another host to connect to."),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
+        dlg.SetTitle(strDialogTitle);
+        dlg.m_DialogMessage->SetLabel(strDialogMessage);
+        dlg.Fit();
+        dlg.Centre();
+    }
 
-    dlg.SetTitle(strDialogTitle);
-    dlg.m_DialogMessage->SetLabel(strDialogMessage);
-    dlg.Fit();
-    dlg.Centre();
-
-    if (wxID_OK == dlg.ShowModal()) {
+    if (!showDialog || wxID_OK == dlg.ShowModal()) {
+        wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.m_DialogDisableMessage->GetValue());
         pDoc->CoreClientQuit();
         pDoc->ForceDisconnect();
         
@@ -1666,6 +1661,13 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function End"));
 }
 
+void CAdvancedFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCheckVersion - Function Begin"));
+
+    wxGetApp().GetDocument()->CheckForVersionUpdate(true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCheckVersion - Function End"));
+}
 
 void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));
@@ -1725,7 +1727,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
 }
 
-
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
     
@@ -1733,9 +1734,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAttach* pWizard = NULL;
     wxString strComputer = wxEmptyString;
-    wxString strName = wxEmptyString;
-    wxString strURL = wxEmptyString;
-    wxString strTeamName = wxEmptyString;
     wxString strDialogTitle = wxEmptyString;
     wxString strDialogDescription = wxEmptyString;
     std::string strProjectName;
@@ -1764,7 +1762,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     pDoc->GetCoreClientStatus(status, true);
 
-    // Do we need to bug out to the simple view?
+    // Do we need to switch to the simple view?
+    //
     if (status.simple_gui_only) {
         wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
         StartTimers();
@@ -1772,13 +1771,13 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         return;
     }
 
-
     // Stop all timers so that the wizard is the only thing doing anything
+    //
     StopTimers();
 
-
-    // If we are connected to the localhost, run a really quick screensaver
-    //   test to trigger a firewall popup.
+    // If we are connected to the localhost, run a quick screensaver
+    // test to trigger a firewall popup.
+    //
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
         wxGetApp().StartBOINCScreensaverTest();
@@ -1786,6 +1785,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     }
 
     // Clear selected rows in all tab pages when connecting to a different host
+    //
     iItemCount = (int)m_pNotebook->GetPageCount() - 1;
     for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
@@ -1803,13 +1803,18 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
+    // Is the client using an account manager?
+    //
     if (ami.acct_mgr_url.size() && ami.have_credentials) {
-        // Fall through
+        // Yes, and client has AM account credentials.
         //
-        // There isn't a need to bring up the attach wizard, the client will
-        // take care of attaching to projects when it completes the needed RPCs
+        // We don't need to bring up the attach wizard;
+        // the client will attach to projects after doing AM RPC
         //
     } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        // Yes, but we don't have have credentials.
+        // Bring up the Wizard to get them.
+        //
         wasShown = IsShown();
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
@@ -1819,13 +1824,14 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
-
             // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
             // are defined for those branded builds on Windows only
+            //
 #if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
 #ifdef __WXMAC__
             // For GridRepublic, Charity Engine or ProgressThruProcessors, 
             // the Mac installer put a branding file in our data directory
+            //
             long iBrandID = 0;  // 0 is unbranded (default) BOINC
 
             FILE *f = boinc_fopen("/Library/Application Support/BOINC Data/Branding", "r");
@@ -1850,6 +1856,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
             // %s is the application name
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            //
             strDialogTitle.Printf(
                 _("%s"),
                 pSkinAdvanced->GetApplicationName().c_str()
@@ -1859,6 +1866,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
+            //
             strDialogDescription.Printf(
                 _("%s has successfully added %s"),
                 pSkinAdvanced->GetApplicationName().c_str(),
@@ -1873,9 +1881,14 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             );
         } else {
             // If failure, display the notification tab
+            //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
-    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach && !autoattach_in_progress()) {
+        // client isn't attached to any projects.
+        // Look for an account to attach to, either in project_init.xml
+        // or in browser cookies
+        //
         if (pis.url.size() > 0) {
 
             strProjectName = pis.name.c_str();
@@ -1884,9 +1897,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
 
-            // If credentials are not cached, then we should try one last place to look up the
-            //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
-            //   pretty short timeout.  Lets take a crack at detecting it.
+            // If credentials are not cached,
+            // then we should try one last place to look up the authenticator.
+            // Some projects will set a "Setup" cookie off of their URL with a
+            // pretty short timeout.  Lets take a crack at detecting it.
             //
             if (pis.url.length() && !pis.has_account_key) {
                 detect_setup_authenticator(pis.url, strProjectAuthenticator);
@@ -1894,10 +1908,11 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         } else {
             detect_simple_account_credentials(
-                strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+                strProjectName, strProjectURL, strProjectAuthenticator,
+                strProjectInstitution, strProjectDescription, strProjectKnown
             );
         }
-        
+
         Show();
         wxGetApp().ShowApplication(true);
         pWizard = new CWizardAttach(this);
@@ -1914,29 +1929,35 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 bEmbedded)
         ){
             // If successful, display the work tab
+            //
             m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {
             // If failure, display the notices tab
+            //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     }
 
     // Update the menus
+    //
     DeleteMenu();
     CreateMenu();
 
     // Restart timers to continue normal operations.
+    //
     StartTimers();
 
 
     // Set the correct refresh interval, then manually fire the refresh
-	//   event to do the initial population of the view.
+	// event to do the initial population of the view.
+    //
     UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
     FireRefreshView();
 
 
-    if (pWizard)
+    if (pWizard) {
         pWizard->Destroy();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function End"));
 }
@@ -1960,7 +1981,7 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     //   we still want the UI state to have been stored
     //   for their next use
     SaveState();
-    
+
     wxConfigBase::Get(FALSE)->Flush();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function End"));
@@ -1999,7 +2020,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                     m_pStatusbar->m_pbmpDisconnect->Hide();
                     m_pStatusbar->m_ptxtDisconnect->Hide();
 
-                    wxString strBuffer = wxEmptyString;
                     wxString strComputerName = wxEmptyString;
                     wxString strComputerVersion = wxEmptyString;
                     wxString strStatusText = wxEmptyString;

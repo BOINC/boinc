@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_NOINTERNETCONNECTIONPAGE_H_
-#define _WIZ_NOINTERNETCONNECTIONPAGE_H_
+#ifndef BOINC_NOINTERNETCONNECTIONPAGE_H
+#define BOINC_NOINTERNETCONNECTIONPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "NoInternetConnectionPage.cpp"
@@ -77,4 +77,4 @@ public:
 ////@end CErrNoInternetConnectionPage member variables
 };
 
-#endif // _WIZ_NOINTERNETCONNECTIONPAGE_H_
+#endif

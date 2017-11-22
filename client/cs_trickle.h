@@ -17,8 +17,8 @@
 
 // support for replicated trickles
 
-#ifndef _TRICKLE_H_
-#define _TRICKLE_H_
+#ifndef BOINC_CS_TRICKLE_H
+#define BOINC_CS_TRICKLE_H
 
 #include "gui_http.h"
 

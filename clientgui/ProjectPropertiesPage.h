@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_PROJECTPROPERTIESPAGE_H_
-#define _WIZ_PROJECTPROPERTIESPAGE_H_
+#ifndef BOINC_PROJECTPROPERTIESPAGE_H
+#define BOINC_PROJECTPROPERTIESPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ProjectPropertiesPage.cpp"
@@ -163,4 +163,4 @@ public:
     int m_iCurrentState;
 };
 
-#endif // _WIZ_PROJECTPROPERTIESPAGE_H_
+#endif

@@ -114,12 +114,12 @@ if ($can_edit_title) {
     //If this is the user can edit the thread title display a way of doing so
     if ($preview) {
         row2(
-            tra("Title").html_info(),
+            tra("Title").bbcode_info(),
             "<input type=\"text\" name=\"title\" value=\"".htmlspecialchars($title)."\">"
         );
     } else {
         row2(
-            tra("Title").html_info(),
+            tra("Title").bbcode_info(),
             '<input type="text" name="title" value="'.htmlspecialchars($thread->title).'">'
         );
     }
@@ -127,12 +127,12 @@ if ($can_edit_title) {
 
 if ($preview) {
     row2(
-        tra("Message").html_info().post_warning(),
+        tra("Message").bbcode_info().post_warning(),
         start_table_str().$bbcode_html.end_table_str()."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
-        tra("Message").html_info().post_warning(),
+        tra("Message").bbcode_info().post_warning(),
         start_table_str().$bbcode_html.end_table_str().'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }
@@ -144,7 +144,7 @@ if ($post->signature) {
 }
 row2("", "<input id=\"add_signature\" name=\"add_signature\" value=\"1\" ".$enable_signature." type=\"checkbox\">
     <label for=\"add_signature\">".tra("Add my signature to this post")."</label>");
-row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">&nbsp;<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"OK\">"
+row2("", "<input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">&nbsp;<input class=\"btn btn-success\" type=\"submit\" name=\"submit\" value=\"OK\">"
 );
 
 end_table();

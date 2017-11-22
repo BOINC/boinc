@@ -29,7 +29,7 @@ $teamid = post_int("id");
 $team = BoincTeam::lookup_id($teamid);
 if ($user->teamid == $team->id) {
     user_quit_team($user);
-    Header("Location: home.php");
+    Header("Location: ".USER_HOME);
 } else {
     page_head(tra("Unable to quit team"));
     echo tra("Team doesn't exist, or you don't belong to it.");

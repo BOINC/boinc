@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_PROJECTWELCOMEPAGE_H_
-#define _WIZ_PROJECTWELCOMEPAGE_H_
+
+#ifndef BOINC_PROJECTWELCOMEPAGE_H
+#define BOINC_PROJECTWELCOMEPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ProjectWelcomePage.cpp"
@@ -92,4 +93,4 @@ public:
 ////@end CProjectWelcomePage member variables
 };
 
-#endif // _WIZ_WELCOMEPAGE_H_
+#endif

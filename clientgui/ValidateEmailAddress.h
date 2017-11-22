@@ -15,16 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VALIDATEEMAILADDRESS_H_
-#define _VALIDATEEMAILADDRESS_H_
+#ifndef BOINC_VALIDATEEMAILADDRESS_H
+#define BOINC_VALIDATEEMAILADDRESS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ValidateEmailAddress.cpp"
 #endif
 
 
-class CValidateEmailAddress : public wxValidator
-{
+class CValidateEmailAddress : public wxValidator {
     DECLARE_DYNAMIC_CLASS( CValidateEmailAddress )
 
 public:
@@ -49,7 +48,6 @@ protected:
     virtual bool      CheckValidator() const;
 
 };
-
 
 #endif
 

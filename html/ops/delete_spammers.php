@@ -80,14 +80,13 @@
 //   delete users with ID N to M inclusive
 //
 // --teams
-//   delete teams (and their owners) where the team
-//   - has 0 or 1 members
+//   delete teams (and their owners and members) where the team
 //   - has no total credit
-//   - has description containing a link
+//   - has description containing a link, or a URL
 //   - is not a BOINC-Wide team
-//   and the owner
-//   - has no posts
-//   - has no hosts
+//   and the owner and members
+//   - have no posts
+//   - have no hosts
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -97,6 +96,7 @@ ini_set('memory_limit', '4G');
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
+require_once("../inc/user_util.inc");
 db_init();
 
 $min_days = 0;
@@ -263,6 +263,9 @@ function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
     $n = 0;
     while ($u = $result->fetch_object()) {
         $user = BoincUser::lookup_id($u->id);
+        if (!$user) {
+            continue;
+        }
         if ($have_url) {
             if (!strlen($user->url)) continue;
         }
@@ -296,28 +299,69 @@ function delete_teams() {
         $query .= " and create_time > $x";
     }
     $teams = BoincTeam::enum($query);
+    $count = 0;
     foreach ($teams as $team) {
         $n = team_count_members($team->id);
         if ($n > 1) continue;
-        if (!has_link($team->description)) continue;
-        $user = BoincUser::lookup_id($team->userid);
-        if ($user) {
-            $n = BoincPost::count("user=$user->id");
-            if ($n) continue;
-            $n = BoincHost::count("userid=$user->id");
-            if ($n) continue;
+        if (!has_link($team->description) && !$team->url) continue;
+
+        // get list of team members
+        //
+        $users = BoincUser::enum("teamid = $team->id");
+
+        // add team founder if not member
+        //
+        if ($team->userid) {
+            $user = BoincUser::lookup_id($team->userid);
+            if ($user && $user->teamid != $team->id) {
+                $users[] = $user;
+            }
         }
+
+        // if any of these has signs of life, skip team
+        //
+        $life = false;
+        foreach ($users as $user) {
+            if ($user->seti_nresults) {
+                // for SETI@home
+                $life = true;
+                break;
+            }
+            $n = BoincPost::count("user=$user->id");
+            if ($n) {
+                $life = true;
+                break;
+            }
+            $n = BoincHost::count("userid=$user->id");
+            if ($n) {
+                $life = true;
+                break;
+            }
+        }
+        if ($life) {
+            continue;
+        }
+
+        $count++;
+
         if ($test) {
             echo "would delete team:\n";
             echo "   ID: $team->id\n";
             echo "   name: $team->name\n";
             echo "   description: $team->description\n";
+            echo "   URL: $team->url\n";
+            foreach ($users as $user) {
+                echo "would delete user $user->id: $user->email_addr:\n";
+            }
         } else {
             $team->delete();
             echo "deleted team ID $team->id name $team->name\n";
-            if ($user) do_delete_user($user);
+            foreach ($users as $user) {
+                do_delete_user($user);
+            }
         }
     }
+    echo "deleted $count teams\n";
 }
 
 function delete_user_id($id) {
@@ -356,6 +400,8 @@ function delete_team_id_range($id1, $id2) {
 
 echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
 
+// get settings first
+//
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == "--test") {
         $test = true;
@@ -365,7 +411,13 @@ for ($i=1; $i<$argc; $i++) {
         $max_days = $argv[++$i];
     } else if ($argv[$i] == "--days") {     // deprecated
         $max_days = $argv[++$i];
-    } else if ($argv[$i] == "--list") {
+    }
+}
+
+// then do actions
+//
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == "--list") {
         delete_list($argv[++$i]);
     } else if ($argv[$i] == "--profiles") {
         delete_profiles();
@@ -407,9 +459,6 @@ for ($i=1; $i<$argc; $i++) {
         delete_users(true, true, false, true);
     } else if ($argv[$i] == "--user_null") {
         delete_users(true, true, true, false);
-    } else {
-        echo "usage: delete_spammers.php [--min_days N] [--max_days N] [--test] [--list filename] [--profiles] [--profiles_strict] [--forums] [--id_range N M] [--teams] [--user_url] [--user_null]\n";
-        exit;
     }
 }
 echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";

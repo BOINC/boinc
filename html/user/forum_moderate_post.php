@@ -83,7 +83,7 @@ if (get_str('action')=="hide") {
         error_page(tra("User is already banished"));
     }
     row1(tra("Banish user"));
-    row1(tra("Are you sure you want to banish %1?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
+    row1(tra("Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
     row2(tra("Ban duration"), "<select class=\"form-control\" name=\"duration\">
             <option value=\"21600\">".tra("6 hours")."</option>
             <option value=\"43200\">".tra("12 hours")."</option>
@@ -114,7 +114,7 @@ if ($get_reason) {
     );
     row2(
         "",
-        "<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-success\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
 }
 

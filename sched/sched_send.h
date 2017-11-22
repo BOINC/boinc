@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_SEND_
-#define _SCHED_SEND_
+#ifndef BOINC_SCHED_SEND_H
+#define BOINC_SCHED_SEND_H
 
 #include <string.h>
 

@@ -1,7 +1,7 @@
 // a stripped-down subset of cl.h and cl_platform.h, for BOINC
 
-#ifndef __CL_BOINC_H
-#define __CL_BOINC_H
+#ifndef BOINC_CL_BOINC_H
+#define BOINC_CL_BOINC_H
 
 #include <cstddef>
 
@@ -271,4 +271,4 @@ clGetDeviceInfo(cl_device_id    /* device */,
 }
 #endif
 
-#endif /* __CL_BOINC_H */
+#endif // BOINC_CL_BOINC_H

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,8 +22,23 @@
 
 #include <Carbon/Carbon.h>
 
-    double              getTimeSinceBoot(void);
-    void                getPathToThisApp(char* pathBuf, size_t bufSize);
-    void                BringAppToFront();
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    double      getTimeSinceBoot(void);
+    void        getPathToThisApp(char* pathBuf, size_t bufSize);
+    void        BringAppToFront();
+    void        BringAppWithPidToFront(pid_t pid);
+    pid_t       getActiveAppPid();
+    pid_t       getPidIfRunning(char * bundleID);
+
+    OSStatus    GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, size_t maxLen);
+
+    int         compareOSVersionTo(int toMajor, int toMinor);
+
+#ifdef __cplusplus
+}	// extern "C"
+#endif
 
 #endif      // _MAC_UTIL_H_

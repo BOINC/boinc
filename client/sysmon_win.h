@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SYSMON_WIN_H
-#define _SYSMON_WIN_H
+#ifndef BOINC_SYSMON_WIN_H
+#define BOINC_SYSMON_WIN_H
 
 #ifdef __cplusplus
 extern "C" {

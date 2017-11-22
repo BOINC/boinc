@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PROC_CONTROL_
-#define _PROC_CONTROL_
+#ifndef BOINC_PROC_CONTROL_H
+#define BOINC_PROC_CONTROL_H
 
 #include <vector>
 #ifdef _WIN32

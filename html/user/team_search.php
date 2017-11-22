@@ -116,13 +116,13 @@ function show_teams_html($list, $params) {
     if (sizeof($list) == 0) {
         echo tra("No teams were found matching your criteria. Try another search.")
             ."<p>"
-            .tra("Or you can %1create a new team%2.", "<a href=team_create_form.php>", "</a>")
+            .tra("Or you can %1 create a new team %2.", "<a href=team_create_form.php>", "</a>")
             ."</p>\n";
         team_search_form($params);
     } else {
         echo tra("The following teams match one or more of your search criteria.
             To join a team, click its name to go to the team page,
-               then click %1Join this team%2.", "<strong>", "</strong>")
+               then click %1 Join this team %2.", "<strong>", "</strong>")
             ."<p>
         ";
         sort_list($list);
@@ -208,7 +208,10 @@ if ($submit || $xml) {
     team_search_form(null);
     if (isset($_COOKIE['init'])) {
         echo "<p>
-            ".tra("%1I'm not interested%2 in joining a team right now.", "<a href=home.php>", "</a>");
+            ".tra("%1 I'm not interested %2 in joining a team right now.",
+                sprintf('<a href="%s">', USER_HOME),
+                "</a>"
+            );
     }
     page_tail();
 }

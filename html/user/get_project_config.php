@@ -111,6 +111,10 @@ if (LDAP_HOST) {
     echo "<ldap_auth/>\n";
 }
 
+if (file_exists("../../project_keywords.xml")) {
+    readfile("../../project_keywords.xml");
+}
+
 echo "</project_config>";
 
 ?>

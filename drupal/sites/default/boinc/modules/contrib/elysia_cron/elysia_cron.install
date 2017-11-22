@@ -1,0 +1,163 @@
+<?php
+
+function elysia_cron_schema() {
+  $schema['elysia_cron'] = array(
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 120,
+        'not null' => TRUE,
+      ),
+      'disable' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+      ),
+      'rule' => array(
+        'type' => 'varchar',
+        'not null' => FALSE,
+        'length' => 32,
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      'context' => array(
+        'type' => 'varchar',
+        'not null' => FALSE,
+        'length' => 32,
+      ),
+      'running' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'last_run' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'last_aborted' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'abort_count' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'last_abort_function' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'no export' => TRUE,
+      ),
+      'last_execution_time' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'execution_count' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'avg_execution_time' => array(
+        'type' => 'float',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'max_execution_time' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+      'last_shutdown_time' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'no export' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+    'export' => array(
+      'key' => 'name',
+      'key name' => 'Cron job name',
+      'primary key' => 'name',
+      'identifier' => 'cron_rule',
+      'object factory' => 'elysia_cron_ctools_export_object_factory',
+      'load callback' => 'elysia_cron_ctools_export_load',
+      'load all callback' => 'elysia_cron_ctools_export_load_all',
+      //'save callback' => 'elysia_cron_ctools_export_save',
+      'export callback' => 'elysia_cron_ctools_export_callback',
+      //'import callback' => 'elysia_cron_ctools_import_callback',
+      'to hook code callback' => 'elysia_cron_ctools_to_hook_code',
+      
+      'default hook' => 'default_elysia_cron_rules',
+      'api' => array(
+        'owner' => 'elysia_cron',
+        'api' => 'default_elysia_cron_rules',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+  );
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function elysia_cron_install() {
+  drupal_install_schema('elysia_cron');
+  
+  // elysia_cron MUST be the first returned by module_list
+  // This is to ensure elysia_cron_cron is the first hook called by standard cron.php.
+  $min = db_result(db_query("select min(weight) from {system}"));
+  if ($min > -65535) {
+    $min = -65535;
+  }
+  else {
+    $min--;
+  }
+  db_query("UPDATE {system} SET weight = %d WHERE name = '%s'", $min, 'elysia_cron');
+  
+  module_load_include('module', 'elysia_cron');
+  variable_set('elysia_cron_version', elysia_cron_version());
+  
+  drupal_set_message('Elysia cron installed. Setup could be found at ' . l(t('Settings page'), 'admin/build/cron/settings') . '. See INSTALL.TXT for more info.');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function elysia_cron_uninstall() {
+  $rs = db_query("select name from {variable} where name like 'elysia_cron_%%'");
+  while ($o = db_fetch_object($rs)) {
+    variable_del($o->name);
+  }
+
+  drupal_uninstall_schema('elysia_cron');
+
+  drupal_set_message('Elysia cron uninstalled.');
+}
+
+function elysia_cron_update_1() {
+  $cron_key = variable_get('elysia_cron_key', false);
+  if ($cron_key) {
+    variable_set('cron_key', $cron_key);
+  }
+  variable_del('elysia_cron_key');
+  return array();
+}
+
+// Remember use the new update_xxxx convention (6001...)

@@ -42,6 +42,8 @@ stylesheets[all][]   = css/comments.css
 stylesheets[all][]   = css/forms.css
 stylesheets[all][]   = css/fields.css
 stylesheets[all][]   = css/font-awesome.css
+stylesheets[all][]   = css/responsive-media.css
+stylesheets[all][]   = css/responsive-jswidth.css
 stylesheets[print][] = css/print.css
 ; stylesheets[handheld][] = css/mobile.css
 ; stylesheets[only screen and (max-device-width: 480px)][] = css/iphone.css
@@ -54,6 +56,8 @@ conditional-stylesheets[if lte IE 6][all][] = css/ie6.css
 scripts[] = js/fancy-radios.js
 scripts[] = js/jquery.equalheights.js
 scripts[] = js/script.js
+scripts[] = js/jquery.detectwidths.js
+scripts[] = js/jquery.headerwidth.js
 
   ; The regions defined in Zen's default page.tpl.php file.  The name in
   ; brackets is the name of the variable in the page.tpl.php file, (e.g.

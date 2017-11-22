@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __NOTICE_H__
-#define __NOTICE_H__
+#ifndef BOINC_NOTICE_H
+#define BOINC_NOTICE_H
 
 #include <string>
 

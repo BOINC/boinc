@@ -6,9 +6,10 @@
 
 # Script to setup Android toolchain
 
-export NDKROOT="/home/boincadm/NVPACK/android-ndk-r10e"
-export ANDROIDTC="$HOME/androidx86-tc"
+export NDK_ROOT="${NDK_ROOT:-$HOME/NVPACK/android-ndk-r10e}"
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROID_TC_X86="${ANDROID_TC_X86:-$ANDROID_TC/x86}"
 
-if [ ! -d $ANDROIDTC/i686-linux-android ]; then
-    $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=x86 --install-dir=$ANDROIDTC
+if [ ! -d $ANDROID_TC_X86/i686-linux-android ]; then
+    $NDK_ROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=x86 --install-dir=$ANDROID_TC_X86
 fi

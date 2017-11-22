@@ -45,7 +45,7 @@ function team_search_form($params) {
     echo '<select class="form-control" name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
-    print_country_select($country);
+    echo country_select_options($country);
     echo "</select></td></tr>\n";
     row2(tra('Type of team'), team_type_select($params->type, true));
     $checked = $params->active?"checked":"";
@@ -107,14 +107,15 @@ function display_team_page($team, $user) {
         row2(tra('Web site'), "<a href=$x>$x</a>");
     }
 
-    if (!no_computing()) {
+    if (!NO_STATS) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
         if (function_exists('project_team_credit')) {
             project_team_credit($team);
         }
-        show_badges_row(false, $team);
-
+    }
+    show_badges_row(false, $team);
+    if (!NO_STATS) {
         $x = "";
         shuffle($team_name_sites);
         foreach ($team_name_sites as $t) {
@@ -146,7 +147,7 @@ function display_team_page($team, $user) {
             if ($team->joinable) {
                 $tokens = url_tokens($user->authenticator);
                 row2("",
-                    '<a href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
+                    '<a class="btn btn-success" href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
                     <br><p class=\"text-muted\">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</p>'
                 );
             } else {
@@ -198,8 +199,10 @@ function display_team_page($team, $user) {
     }
     row2(tra('New members in last day'), $x);
     row2(tra('Total members'), "$team->nusers (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>".tra('view')."</a>)");
-    row2(tra('Active members'), "$team->nusers_active (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>".tra('view')."</a>)");
-    row2(tra('Members with credit'), "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=total_credit>".tra('view')."</a>)");
+    if (!NO_STATS) {
+        row2(tra('Active members'), "$team->nusers_active (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>".tra('view')."</a>)");
+        row2(tra('Members with credit'), "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=total_credit>".tra('view')."</a>)");
+    }
     end_table();
 }
 
@@ -222,8 +225,10 @@ function display_team_members($team, $offset, $sort_by) {
 
     start_table();
     $x = array();
+    $a = array();
     $x[] = tra('Name');
-    if (!no_computing()) {
+    $a[] = "";
+    if (!NO_STATS) {
         if ($nosort) {
             $x[] = tra('Total credit');
             $x[] = tra('Recent average credit');
@@ -239,10 +244,12 @@ function display_team_members($team, $offset, $sort_by) {
                 $x[] = "<href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>".tra('Recent average credit').'</a>';
             }
         }
+        $a[] = ALIGN_RIGHT;
+        $a[] = ALIGN_RIGHT;
     }
 
     $x[] = tra('Country');
-    $a = array("", ALIGN_RIGHT, ALIGN_RIGHT, "");
+    $a[] = "";
     row_heading_array($x, $a);
     
     $cache_args = "teamid=".$team->id."&mosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
@@ -269,7 +276,7 @@ function display_team_members($team, $offset, $sort_by) {
         echo "<tr class=row1>
             <td align=left>$j) $x
         </td>";
-        if (!no_computing()) {
+        if (!NO_STATS) {
             echo "
                 <td align=right>$user_total_credit</td>
                 <td align=right>$user_expavg_credit</td>
@@ -368,17 +375,23 @@ function team_table_start($sort_by, $type_url) {
     $x[] = tra('Rank');
     $x[] = tra('Name');
     $x[] = tra('Members');
-    if ($sort_by == "total_credit") {
-        $x[] = "<a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tra('Recent average credit')."</a>";
-        $x[] = tra('Total credit');
-    } else {
-        $x[] = tra('Recent average credit');
-        $x[] = "<a href=top_teams.php?sort_by=total_credit".$type_url.">".tra('Total credit')."</a>";
+    $a = array("", "", ALIGN_RIGHT);
+    if (!NO_STATS) {
+        if ($sort_by == "total_credit") {
+            $x[] = "<a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tra('Recent average credit')."</a>";
+            $x[] = tra('Total credit');
+        } else {
+            $x[] = tra('Recent average credit');
+            $x[] = "<a href=top_teams.php?sort_by=total_credit".$type_url.">".tra('Total credit')."</a>";
+        }
+        $a[] = ALIGN_RIGHT;
+        $a[] = ALIGN_RIGHT;
     }
     $x[] = tra('Country');
     $x[] = tra("Type");
+    $a[] = "";
+    $a[] = "";
 
-    $a = array("", "", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT, "", "");
     row_heading_array($x, $a);
 }
 
@@ -394,8 +407,14 @@ function show_team_row($team, $i) {
         <td>$i</td>
         <td>".team_links($team)."</td>
         <td align=right>".$team->nusers."</td>
-        <td align=right>$team_expavg_credit</td>
-        <td align=right>$team_total_credit</td>
+    ";
+    if (!NO_STATS) {
+        echo "
+            <td align=right>$team_expavg_credit</td>
+            <td align=right>$team_total_credit</td>
+        ";
+    }
+    echo "
         <td>$team->country</td>
         <td>".team_type_name($team->type)."</td>
         </tr>
@@ -426,18 +445,18 @@ function user_quit_team($user) {
 }
 
 function team_edit_form($team, $label, $url) {
-    global $team_types;
+    global $team_types, $recaptcha_public_key;
     echo "<form method=post action=$url>\n";
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
         if ($team->seti_id) {
-            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
+            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1 BOINC-wide team %2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
             ."</p>";
         }
     }
     echo '
         <p>
-        '.tra('%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
+        '.tra('%1 Privacy note %2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
         <p>
     ';
     start_table();
@@ -447,7 +466,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('Team name, HTML version').'
         <br><p class=\"text-muted\">
-        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('You may use %1 limited HTML tags %2.', '<a href="html.php" target="_new">', '</a>').'
         '.tra('If you don\'t know HTML, leave this box blank.').'</p>',
         '<input class="form-control" name="name_html" type="text" size="50" value="'.str_replace('"',"'",($team?$team->name_html:"")).'">'
     );
@@ -457,7 +476,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('Description of team').':
         <br><p class=\"text-muted\">
-        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('You may use %1 limited HTML tags %2.', '<a href="html.php" target="_new">', '</a>').'
         </p>',
         '<textarea class="form-control" name="description" rows=10>'.($team?$team->description:"").'</textarea>'
     );
@@ -467,13 +486,21 @@ function team_edit_form($team, $label, $url) {
     row2_init(tra('Country'),
         '<select class="form-control" name="country">'
     );
-    print_country_select($team?$team->country:null);
+    echo country_select_options($team?$team->country:null);
 
     echo "</select></td></tr>\n";
     $x = (!$team || $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
+    // Check if we're using reCaptcha to prevent spam accounts
+    //
+    if (!$team && $recaptcha_public_key) {
+        row2(
+            "",
+            boinc_recaptcha_get_html($recaptcha_public_key)
+        );
+    }
     row2("",
-        "<input class=\"btn btn-primary\" type=submit name=new value='$label'>"
+        "<input class=\"btn btn-success\" type=submit name=new value='$label'>"
     );
     end_table();
     echo "</form>\n";

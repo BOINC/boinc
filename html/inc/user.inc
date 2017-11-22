@@ -156,28 +156,42 @@ require_once("../inc/stats_sites.inc");
 //
 function show_user_stats_private($user) {
     global $cpid_stats_sites;
-    row1(tra("Computing and credit"));
-    show_credit($user);
-    $config = get_config();
-    row2(tra("Computers on this account"), "<a href=\"hosts_user.php\">".tra("View")."</a>");
-    row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
-    $cpid = md5($user->cross_project_id . $user->email_addr);
-    $x = "";
-    shuffle($cpid_stats_sites);
-    foreach ($cpid_stats_sites as $site) {
-        $name = $site[0];
-        $y = sprintf($site[1], $cpid);
-        $x .= "<a href=\"$y\">$name</a><br/>\n";
+
+    if (NO_COMPUTING && NO_STATS && NO_HOSTS) {
+        return;
     }
-    $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
-    row2(tra("Cross-project statistics"), $x);
-    $x = '<a href="cert1.php">'.tra("Account").'</a>';
-    if ($user->teamid) {
-        $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
+    row1(tra("Computing"));
+
+    if (!NO_STATS) {
+        show_credit($user);
     }
-    $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
-    row2(tra("Certificate"), $x);
-    row2(tra("Stats on your cell phone"), url_base()."userw.php?id=$user->id");
+
+    if (!NO_HOSTS) {
+        row2(tra("Computers on this account"), "<a href=\"hosts_user.php\">".tra("View")."</a>");
+    }
+    if (!NO_COMPUTING) {
+        row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
+    }
+
+    if (!NO_STATS) {
+        $cpid = md5($user->cross_project_id . $user->email_addr);
+        $x = "";
+        shuffle($cpid_stats_sites);
+        foreach ($cpid_stats_sites as $site) {
+            $name = $site[0];
+            $y = sprintf($site[1], $cpid);
+            $x .= "<a href=\"$y\">$name</a><br/>\n";
+        }
+        $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
+        row2(tra("Cross-project statistics"), $x);
+        $x = '<a href="cert1.php">'.tra("Account").'</a>';
+        if ($user->teamid) {
+            $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
+        }
+        $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
+        row2(tra("Certificate"), $x);
+        row2(tra("Stats on your cell phone"), url_base()."userw.php?id=$user->id");
+    }
 }
 
 function notify_description($notify) {
@@ -199,10 +213,26 @@ function weak_auth($user) {
     return "{$user->id}_$x";
 }
 
+// originally user URLs were assumed to be http://,
+// and this prefix wasn't stored.
+// Now the prefix can be http:// or https://.
+// This function takes a user URL in any form and converts
+// it to a canonical form, with the protocol prefix.
+//
+function normalize_user_url($url) {
+    $x = strtolower($url);
+    if (substr($x, 0, 7) == 'http://') {
+        return 'http://'.substr($url, 7);
+    }
+    if (substr($x, 0, 8) == 'https://') {
+        return 'https://'.substr($url, 8);
+    }
+    return 'http://'.$url;
+}
+
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    row1(tra("Account information"), 2, 'heading');
     row2(tra("Name"), $user->name);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         row2("LDAP ID", ldap_email_to_uid($user->email_addr));
@@ -214,11 +244,13 @@ function show_user_info_private($user) {
         row2(tra("Email address"), $email_text);
     }
     if (strlen($user->url)) {
-        $x = "<a href=http://$user->url>http://$user->url</a>";
-        row2(tra("URL"), $x);
+        $u = normalize_user_url($user->url);
+        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
     }
     row2(tra("Country"), $user->country);
-    row2(tra("Postal code"), $user->postal_code);
+    if (POSTAL_CODE) {
+        row2(tra("Postal code"), $user->postal_code);
+    }
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
@@ -235,15 +267,17 @@ function show_user_info_private($user) {
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(
             tra("Account keys"),
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
         );
     }
+}
 
+function show_preference_links() {
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
-    if (!no_computing()) {
+    if (!NO_GLOBAL_PREFS) {
         row2(
             tra("When and how BOINC uses your computer"),
             "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
@@ -252,7 +286,7 @@ function show_user_info_private($user) {
     row2(tra("Message boards and private messages"),
         "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
     );
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         row2(tra("Preferences for this project"),
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
@@ -320,9 +354,6 @@ function user_links($user, $badge_height=0) {
 }
 
 function show_community_private($user) {
-    start_table();
-    row1(tra("Community"));
-
     show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         if ($user->has_profile) {
@@ -400,7 +431,6 @@ function show_community_private($user) {
     } else {
         row2(tra("Friends"), $x);
     }
-    end_table();
 }
 
 // show summary of dynamic and static info (public)
@@ -413,11 +443,12 @@ function show_user_summary_public($user) {
     // don't show URL if user has no recent credit (spam suppression)
     //
     if (strlen($user->url)) {
-        if (no_computing() || $user->expavg_credit > 1) {
-            row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
+        if (!NO_COMPUTING || $user->expavg_credit > 1) {
+            $u = normalize_user_url($user->url);
+            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }
     }
-    if (!no_computing()) {
+    if (!NO_COMPUTING) {
         show_credit($user);
 
         if ($user->show_hosts) {
@@ -511,10 +542,10 @@ function show_account_private($user) {
         false,
         function() use ($user) {
             start_table();
+            row1(tra("Account information"), 2, 'heading');
             show_user_info_private($user);
-            if (!no_computing()) {
-                show_user_stats_private($user);
-            }
+            show_preference_links();
+            show_user_stats_private($user);
 
             if (file_exists("../project/donations.inc")) {
                 require_once("../project/donations.inc");
@@ -523,117 +554,19 @@ function show_account_private($user) {
                 }
             }
             end_table();
-            show_other_projects($user, true);
+            if (!NO_COMPUTING) {
+                show_other_projects($user, true);
+            }
             project_user_page_private($user);
             //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
+            start_table();
+            row1(tra("Community"));
             show_community_private($user);
+            end_table();
         }
     );
-}
-
-function is_banned_email_addr($email_addr) {
-    global $banned_email_domains;
-    if (isset($banned_email_domains)) {
-        foreach($banned_email_domains as $d) {
-            $x = strstr($email_addr, $d);
-            if ($x == $d) return true;
-        }
-    }
-    return false;
-}
-
-function is_valid_user_name($name, &$reason) {
-    if (trim($name) !== $name) {
-        $reason = tra("user name cannot have leading or trailing white space");
-        return false;
-    }
-    if (strlen($name) == 0) {
-        $reason = tra("user name must be nonempty");
-        return false;
-    }
-    if (sanitize_tags($name) !== $name) {
-        $reason = tra("user name may not contain HTML tags");
-        return false;
-    }
-    return true;
-}
-
-// the following DB-escapes its args
-//
-function make_user(
-    $email_addr, $name, $passwd_hash,
-    $country=null, $postal_code=null, $project_prefs=null, $teamid=0
-) {
-    if (!is_valid_email_addr($email_addr)) return null;
-    if (is_banned_email_addr($email_addr)) return null;
-
-    $authenticator = random_string();
-    $cross_project_id = random_string();
-    $now = time();
-    if (!is_valid_country($country)) return null;
-
-    $email_addr = BoincDb::escape_string($email_addr);
-    $name = sanitize_tags($name);
-    $name = BoincDb::escape_string($name);
-    $passwd_hash = BoincDb::escape_string($passwd_hash);
-
-    $country = BoincDb::escape_string($country);
-    $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
-
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
-
-    if (!$uid) {
-        return null;
-    }
-    $user = BoincUser::lookup_id($uid);
-    if (defined('RECORD_USER_IP')) {
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $ip = BoincDb::escape_string($ip);
-        $user->update("venue='$ip'");
-    }
-    return $user;
-}
-
-function make_user_ldap($email_addr, $name) {
-    $email_addr = BoincDb::escape_string($email_addr);
-    $name = sanitize_tags($name);
-    $name = BoincDb::escape_string($name);
-    $authenticator = random_string();
-    $cross_project_id = random_string();
-    $passwd_hash = random_string();
-    $now = time();
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, 1, '$cross_project_id', '$passwd_hash')");
-
-    if ($uid) {
-        return BoincUser::lookup_id($uid);
-    } else {
-        return null;
-    }
-}
-
-// delete a user and all associated records except
-// result
-// host
-// batch
-// team
-// user_submit
-// user_submit_app
-// credited_job
-// donation_paypal
-// sent_email
-//
-function delete_user($user) {
-    delete_profile($user);
-    forum_delete_user($user);
-        // deletes post, thread, subscription, forum_preferences, forum_logging
-    BoincPrivateMessage::delete_aux("userid=$user->id or senderid=$user->id");
-    BoincNotify::delete_aux("userid=$user->id");
-    BoincCreditUser::delete_user($user);
-    BoincBadgeUser::delete("user_id=$user->id");
-    BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
-    $user->delete();
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

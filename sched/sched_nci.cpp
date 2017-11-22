@@ -170,7 +170,7 @@ int send_nci() {
             continue;
         }
         if (app_not_selected(app.id)) {
-            if (!g_wreq->project_prefs.allow_non_selected_apps) {
+            if (!g_wreq->project_prefs.allow_non_preferred_apps) {
                 if (config.debug_send) {
                     log_messages.printf(MSG_NORMAL,
                         "%s is not selected\n", app.name

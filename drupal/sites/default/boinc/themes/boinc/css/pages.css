@@ -76,7 +76,7 @@ body {
 h1#site-name,
 div#site-name /* The name of the website */ {
   margin: 0 auto;
-  width: 960px;
+  max-width: 960px;
   font-size: 45px;
   line-height: 96px;
 }
@@ -125,6 +125,13 @@ div#site-name /* The name of the website */ {
 
 .breadcrumb /* The path to the current page in the form of a list of links */ {
   padding-bottom: 0; /* Undo system.css */
+  display: inline-block;
+  float: left;
+  width: 60%;
+}
+.breadcrumb.bottom-breadcrumb {
+  margin-top: 39px;
+  width: 100%;
 }
 
 a:link, a:visited {
@@ -161,6 +168,10 @@ td {
   padding: 7px 5px;
   border-bottom: 1px dotted #aaa;
   vertical-align: top;
+}
+td.task-name,
+td.task-app {
+  word-break: break-all;
 }
 tr.heading {
   font-weight: bold;
@@ -320,6 +331,9 @@ ul.links li a {
   right: 0;
   text-align: right;
 }
+.subscribe .flag-subscriptions {
+  padding-left: .5em;
+}
 
 .toc {
   background-color: transparent;
@@ -452,7 +466,7 @@ ul.links li a {
  * Footer
  */
 #footer {
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 50px 5px;
 }
@@ -889,6 +903,10 @@ table.user-projects {
   letter-spacing: 1px; 
 }
 
+.forum-links {
+  width: 100%;
+}
+
 /* Join */
 .join {
   font-size: 14px;
@@ -900,9 +918,6 @@ table.user-projects {
 /* Search */
 .page-search-site #content {
   width: 650px;
-}
-.page-search-site .framing {
-  padding-bottom: 13px;
 }
 .page-search-site h1.title {
   display: none;
@@ -970,6 +985,9 @@ table.user-projects {
 .search-results .result.user .search-snippet {
   padding-top: 7px;
   margin: 0 0 0 120px;
+}
+.search-help-block {
+  min-height: 54px;
 }
 
 /* Search pane */

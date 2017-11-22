@@ -1,5 +1,23 @@
 <?php
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2017 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 // $Id$
+
+
 // list of countries taken from http://www.cia.gov
 
 global $countries;
@@ -473,12 +491,15 @@ $country_to_iso3166_2 = array (
     "Zimbabwe" => "zw"
 );
 
-function print_country_select($selected_country="None") {
+// return a list of country options for a <select>
+//
+function country_select_options($selected_country="None") {
     global $countries;
 
     require_once("../inc/geoip.inc"); 
 
-    //See if we can find the user's country and select it as default:
+    // See if we can find the user's country and select it as default:
+    //
     $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);
     $geoip_country = geoip_country_name_by_addr($gi,$_SERVER["REMOTE_ADDR"]);
     geoip_close($gi);
@@ -488,12 +509,12 @@ function print_country_select($selected_country="None") {
         $selected_country=$geoip_country;
     }
 
-    $numCountries = count($countries);
-    for ($i=0; $i<$numCountries; $i++) {
-        $country = $countries[$i];
+    $x = "";
+    foreach ($countries as $country) {
         $selected = ($selected_country == $country ? "selected":"");
-        echo "<option value=\"$country\" $selected>$country</option>\n";
+        $x .= "<option value=\"$country\" $selected>$country</option>\n";
     }
+    return $x;
 } 
 
 function is_valid_country($country) {

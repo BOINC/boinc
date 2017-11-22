@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,80 +16,80 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// forms for account creation and login
+// functions related to account creation and login:
+// - forms for create / login
+// - function to make login token
+
+// make login token, store in user record, return token
+//
+function make_login_token($user) {
+    $token = substr(random_string(), 0, 8);
+    $now = time();
+    $user->update("login_token='$token', login_token_time=$now");
+    return $token;
+}
 
 function create_account_form($teamid, $next_url) {
-    echo "
-        <form action=\"create_account_action.php\" method=\"post\">
-        <input type=hidden name=next_url value=\"$next_url\">
-    ";
+    global $recaptcha_public_key;
+    form_input_hidden('next_url', $next_url);
 
     if ($teamid) {
-        echo "
-            <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-        ";
+        form_input_hidden('teamid', $teamid);
     }
-    start_table();
 
     // Using invitation codes to restrict access?
     //
     if (defined('INVITE_CODES')) {
-         row2(
-             tra("Invitation Code")."<br><small>".tra("A valid invitation code is required to create an account.")."</small>",
-             '<input class="form-control" type="text" name="invite_code" size="30" >'
-         );
+        form_input_text(
+            sprintf('<span title="%s">%s</span>',
+                tra("An invitation code is required to create an account."),
+                tra("Invitation code")
+            ),
+            "invite_code"
+        );
     }
 
-    row2(
-        tra("Name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
-        '<input class="form-control" type="text" name="new_name" width="10">'
+    form_input_text(
+        sprintf('<span title="%s">%s</span>',
+            tra("Identifies you on our web site. Use your real name or a nickname."),
+            tra("Screen name")
+        ),
+        "new_name"
     );
-    row2(
-        tra("Email Address")."<br><small>".tra("Must be a valid address of the form 'name@domain'.")."</small>",
-        '<input class="form-control" type="text" name="new_email_addr" size="50">'
+    form_input_text(
+        sprintf('<span title="%s">%s</span>',
+            tra("Must be a valid address of the form 'name@domain'."),
+            tra("Email address")
+        ),
+        "new_email_addr"
     );
     $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
     if (!$min_passwd_length) {
         $min_passwd_length = 6;
     }
 
-    row2(
-        tra("Password")
-        ."<br><small>".tra("Must be at least %1 characters", $min_passwd_length)."</small>",
-        '<input class="form-control" type="password" name="passwd">'
+    form_input_text(
+        sprintf('<span title="%s">%s</span>',
+            tra("Must be at least %1 characters", $min_passwd_length),
+            tra("Password")
+        ),
+        "passwd", "", "password"
     );
-    row2(
-        tra("Confirm password"),
-        '<input class="form-control" type="password" name="passwd2">'
+    form_input_text(tra("Confirm password"), "passwd2", "", "password");
+    form_select(
+        sprintf('<span title="%s">%s</span>',
+            tra("Select the country you want to represent, if any."),
+            tra("Country")
+        ),
+        "country",
+        country_select_options()
     );
-    row2_init(
-        tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
-        '<select class="form-control" style="width:240px;" name="country">'
-    );
-    print_country_select();
-    echo "</select></td></tr>\n";
-    if (0) {
-        row2(
+    if (POSTAL_CODE) {
+        form_input_text(
             tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",
-            "<input type=\"text\" name=\"postal_code\" size=\"20\">"
+            "postal_code"
         );
     }
-
-    // Check if we're reCaptcha to prevent spam accounts
-    //
-    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
-    if ($publickey) {
-        row2(
-            "",
-            boinc_recaptcha_get_html($publickey)
-        );
-    }
-
-    row2("",
-        "<input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create account")."\">"
-    );
-    end_table();
-    echo "</form>\n";
 }
 
 function login_form($next_url) {
@@ -103,7 +103,7 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    if (!parse_bool(get_config(), "no_computing")) {
+    if (!NO_COMPUTING) {
         $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
     }
     row2($x, '<input class="form-control" name=email_addr type="text" size=40 tabindex=1>');
@@ -115,7 +115,7 @@ function login_form($next_url) {
     );
 
     row2("",
-        "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
+        "<input class=\"btn btn-success\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
     );
 
     end_table();

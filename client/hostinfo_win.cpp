@@ -885,9 +885,9 @@ int get_os_information(
 
                 if ( lstrcmpi( "WINNT", szProductType) == 0 ) {
                     safe_strcpy( szSKU, "Workstation Edition" );
-                } if ( lstrcmpi( "LANMANNT", szProductType) == 0 ) {
+                } else if ( lstrcmpi( "LANMANNT", szProductType) == 0 ) {
                     safe_strcpy( szSKU, "Server Edition" );
-                } if ( lstrcmpi( "SERVERNT", szProductType) == 0 ) {
+                } else if ( lstrcmpi( "SERVERNT", szProductType) == 0 ) {
                     safe_strcpy( szSKU, "Advanced Server Edition" );
                 }
 
@@ -1442,6 +1442,8 @@ int HOST_INFO::get_host_info(bool init) {
         m_cache,
         p_ncpus
     );
+    collapse_whitespace(p_model);
+    collapse_whitespace(p_vendor);
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }

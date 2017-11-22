@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VBOXLOG_H_
-#define _VBOXLOG_H_
+#ifndef BOINC_VBOXLOGGING_H
+#define BOINC_VBOXLOGGING_H
 
 extern int vboxlog_msg(const char *fmt, ...);
 

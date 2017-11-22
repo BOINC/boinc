@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __CERT_SIG_H_
-#define __CERT_SIG_H_
+#ifndef BOINC_CERT_SIG_H
+#define BOINC_CERT_SIG_H
 
 #include <vector>
 #include "parse.h"
@@ -66,4 +66,4 @@ struct CERT_SIGS {
     int parse(XML_PARSER &xp);
 };
 
-#endif  //__CERT_SIG_H_
+#endif  // BOINC_CERT_SIG_H

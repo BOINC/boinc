@@ -84,6 +84,15 @@ void MSG_LOG::enter_level(int diff) {
     spaces[indent_level] = 0;
 }
 
+void MSG_LOG::set_indent_level(const int new_indent_level) {
+    if (new_indent_level < 0) indent_level = 0;
+    else if (new_indent_level > 39) indent_level = 39;
+    else indent_level = new_indent_level;
+
+    memset(spaces, ' ', sizeof(spaces));
+    spaces[indent_level] = 0;
+}
+
 void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     char buf[256];
     const char* now_timestamp = precision_time_to_string(dtime());

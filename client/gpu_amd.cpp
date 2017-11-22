@@ -85,27 +85,27 @@ typedef int (__stdcall *ATI_STATUS) (CALdevicestatus*, CALdevice);
 typedef int (__stdcall *ATI_DEVICEOPEN) (CALdevice*, CALuint);
 typedef int (__stdcall *ATI_DEVICECLOSE) (CALdevice);
 
-ATI_ATTRIBS __calDeviceGetAttribs = NULL;
-ATI_CLOSE   __calShutdown = NULL;
-ATI_GDC     __calDeviceGetCount = NULL;
-ATI_GDI     __calInit = NULL;
-ATI_INFO    __calDeviceGetInfo = NULL;
-ATI_VER     __calGetVersion = NULL;
-ATI_STATUS  __calDeviceGetStatus = NULL;
-ATI_DEVICEOPEN  __calDeviceOpen = NULL;
-ATI_DEVICECLOSE  __calDeviceClose = NULL;
+ATI_ATTRIBS p_calDeviceGetAttribs = NULL;
+ATI_CLOSE   p_calShutdown = NULL;
+ATI_GDC     p_calDeviceGetCount = NULL;
+ATI_GDI     p_calInit = NULL;
+ATI_INFO    p_calDeviceGetInfo = NULL;
+ATI_VER     p_calGetVersion = NULL;
+ATI_STATUS  p_calDeviceGetStatus = NULL;
+ATI_DEVICEOPEN  p_calDeviceOpen = NULL;
+ATI_DEVICECLOSE  p_calDeviceClose = NULL;
 
 #else
 
-int (*__calInit)();
-int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
-int (*__calDeviceGetCount)(CALuint*);
-int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
-int (*__calShutdown)();
-int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
-int (*__calDeviceGetStatus)(CALdevicestatus*, CALdevice);
-int (*__calDeviceOpen)(CALdevice*, CALuint);
-int (*__calDeviceClose)(CALdevice);
+int (*p_calInit)();
+int (*p_calGetVersion)(CALuint*, CALuint*, CALuint*);
+int (*p_calDeviceGetCount)(CALuint*);
+int (*p_calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
+int (*p_calShutdown)();
+int (*p_calDeviceGetInfo)(CALdeviceinfo*, CALuint);
+int (*p_calDeviceGetStatus)(CALdevicestatus*, CALdevice);
+int (*p_calDeviceOpen)(CALdevice*, CALuint);
+int (*p_calDeviceClose)(CALdevice);
 
 #endif
 
@@ -146,15 +146,15 @@ void COPROC_ATI::get(
         return;
     }
 
-    __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
-    __calGetVersion = (ATI_VER)GetProcAddress(callib, "calGetVersion" );
-    __calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
-    __calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
-    __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
-    __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
-    __calDeviceGetStatus = (ATI_STATUS)GetProcAddress(callib, "calDeviceGetStatus" );
-    __calDeviceOpen = (ATI_DEVICEOPEN)GetProcAddress(callib, "calDeviceOpen" );
-    __calDeviceClose = (ATI_DEVICECLOSE)GetProcAddress(callib, "calDeviceClose" );
+    p_calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
+    p_calGetVersion = (ATI_VER)GetProcAddress(callib, "calGetVersion" );
+    p_calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
+    p_calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
+    p_calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
+    p_calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
+    p_calDeviceGetStatus = (ATI_STATUS)GetProcAddress(callib, "calDeviceGetStatus" );
+    p_calDeviceOpen = (ATI_DEVICEOPEN)GetProcAddress(callib, "calDeviceOpen" );
+    p_calDeviceClose = (ATI_DEVICECLOSE)GetProcAddress(callib, "calDeviceClose" );
 
 #else
 
@@ -167,52 +167,52 @@ void COPROC_ATI::get(
 
     atirt_detected = true;
 
-    __calInit = (int(*)()) dlsym(callib, "calInit");
-    __calGetVersion = (int(*)(CALuint*, CALuint*, CALuint*)) dlsym(callib, "calGetVersion");
-    __calDeviceGetCount = (int(*)(CALuint*)) dlsym(callib, "calDeviceGetCount");
-    __calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
-    __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
-    __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
-    __calDeviceGetStatus = (int(*)(CALdevicestatus*, CALdevice)) dlsym(callib, "calDeviceGetStatus");
-    __calDeviceOpen = (int(*)(CALdevice*, CALuint)) dlsym(callib, "calDeviceOpen");
-    __calDeviceClose = (int(*)(CALdevice)) dlsym(callib, "calDeviceClose");
+    p_calInit = (int(*)()) dlsym(callib, "calInit");
+    p_calGetVersion = (int(*)(CALuint*, CALuint*, CALuint*)) dlsym(callib, "calGetVersion");
+    p_calDeviceGetCount = (int(*)(CALuint*)) dlsym(callib, "calDeviceGetCount");
+    p_calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
+    p_calShutdown = (int(*)()) dlsym(callib, "calShutdown");
+    p_calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
+    p_calDeviceGetStatus = (int(*)(CALdevicestatus*, CALdevice)) dlsym(callib, "calDeviceGetStatus");
+    p_calDeviceOpen = (int(*)(CALdevice*, CALuint)) dlsym(callib, "calDeviceOpen");
+    p_calDeviceClose = (int(*)(CALdevice)) dlsym(callib, "calDeviceClose");
 
 #endif
 
-    if (!__calInit) {
+    if (!p_calInit) {
         warnings.push_back("calInit() missing from CAL library");
         goto leave;
     }
-    if (!__calGetVersion) {
+    if (!p_calGetVersion) {
         warnings.push_back("calGetVersion() missing from CAL library");
         goto leave;
     }
-    if (!__calDeviceGetCount) {
+    if (!p_calDeviceGetCount) {
         warnings.push_back("calDeviceGetCount() missing from CAL library");
         goto leave;
     }
-    if (!__calDeviceGetAttribs) {
+    if (!p_calDeviceGetAttribs) {
         warnings.push_back("calDeviceGetAttribs() missing from CAL library");
         goto leave;
     }
-    if (!__calDeviceGetInfo) {
+    if (!p_calDeviceGetInfo) {
         warnings.push_back("calDeviceGetInfo() missing from CAL library");
         goto leave;
     }
 
-    retval = (*__calInit)();
+    retval = (*p_calInit)();
     if (retval != CAL_RESULT_OK) {
         snprintf(buf, sizeof(buf), "calInit() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
-    retval = (*__calDeviceGetCount)(&numDevices);
+    retval = (*p_calDeviceGetCount)(&numDevices);
     if (retval != CAL_RESULT_OK) {
         snprintf(buf, sizeof(buf), "calDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
-    retval = (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
+    retval = (*p_calGetVersion)(&cal_major, &cal_minor, &cal_imp);
     if (retval != CAL_RESULT_OK) {
         snprintf(buf, sizeof(buf), "calGetVersion() returned %d", retval);
         warnings.push_back(buf);
@@ -225,13 +225,13 @@ void COPROC_ATI::get(
     }
 
     for (CALuint i=0; i<numDevices; i++) {
-        retval = (*__calDeviceGetInfo)(&info, i);
+        retval = (*p_calDeviceGetInfo)(&info, i);
         if (retval != CAL_RESULT_OK) {
             snprintf(buf, sizeof(buf), "calDeviceGetInfo() returned %d", retval);
             warnings.push_back(buf);
             goto leave;
         }
-        retval = (*__calDeviceGetAttribs)(&attribs, i);
+        retval = (*p_calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             snprintf(buf, sizeof(buf), "calDeviceGetAttribs() returned %d", retval);
             warnings.push_back(buf);
@@ -383,7 +383,7 @@ void COPROC_ATI::get(
 
     // shut down CAL, otherwise Lenovo won't be able to switch to low-power GPU
     //
-    retval = (*__calShutdown)();
+    retval = (*p_calShutdown)();
 
     if (!ati_gpus.size()) {
         warnings.push_back("No ATI GPUs found");
@@ -467,20 +467,20 @@ static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings) {
 
     st.struct_size = sizeof(CALdevicestatus);
 
-    if (!__calDeviceOpen) {
+    if (!p_calDeviceOpen) {
         warnings.push_back("calDeviceOpen() missing from CAL library");
         return;
     }
-    if (!__calDeviceGetStatus) {
+    if (!p_calDeviceGetStatus) {
         warnings.push_back("calDeviceGetStatus() missing from CAL library");
         return;
     }
-    if (!__calDeviceClose) {
+    if (!p_calDeviceClose) {
         warnings.push_back("calDeviceClose() missing from CAL library");
         return;
     }
 
-    retval = (*__calDeviceOpen)(&dev, cc.device_num);
+    retval = (*p_calDeviceOpen)(&dev, cc.device_num);
     if (retval) {
         snprintf(buf, sizeof(buf),
             "[coproc] calDeviceOpen(%d) returned %d", cc.device_num, retval
@@ -488,16 +488,16 @@ static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings) {
         warnings.push_back(buf);
         return;
     }
-    retval = (*__calDeviceGetStatus)(&st, dev);
+    retval = (*p_calDeviceGetStatus)(&st, dev);
     if (retval) {
         snprintf(buf, sizeof(buf),
             "[coproc] calDeviceGetStatus(%d) returned %d",
             cc.device_num, retval
         );
         warnings.push_back(buf);
-        (*__calDeviceClose)(dev);
+        (*p_calDeviceClose)(dev);
         return;
     }
     cc.available_ram = st.availLocalRAM*MEGA;
-    (*__calDeviceClose)(dev);
+    (*p_calDeviceClose)(dev);
 }

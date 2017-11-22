@@ -21,10 +21,6 @@
 #include "stdwx.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#endif
-
 #include "diagnostics.h"
 #include "util.h"
 #include "filesys.h"

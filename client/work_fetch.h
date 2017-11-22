@@ -18,8 +18,8 @@
 // Work fetch logic for CPU, GPU, and other processing resources.
 // See http://boinc.berkeley.edu/trac/wiki/GpuWorkFetch
 
-#ifndef _WORK_FETCH_
-#define _WORK_FETCH_
+#ifndef BOINC_WORK_FETCH_H
+#define BOINC_WORK_FETCH_H
 
 #include <vector>
 #include <deque>

@@ -85,14 +85,15 @@ define('RATE_NEGATIVE_IMAGE_HEIGHT','9');
 define('REPORT_POST_IMAGE', 'img/report_post.png');
 define('REPORT_POST_IMAGE_HEIGHT','9');
 
-define ('SOLUTION', 'This answered my question');
-define ('SUFFERER', 'I also have this question');
-define ('OFF_TOPIC', 'Off-topic');
+define('SOLUTION', tra('This answered my question'));
+define('SUFFERER', tra('I also have this question'));
+define('OFF_TOPIC', tra('Off-topic'));
 
 define ('DEFAULT_LOW_RATING_THRESHOLD', -25);
 define ('DEFAULT_HIGH_RATING_THRESHOLD', 5);
 
-// A list of what kind of special users exist
+// special user attributes
+//
 define('S_MODERATOR', 0);
 define('S_ADMIN', 1);
 define('S_DEV', 2);
@@ -420,7 +421,7 @@ function show_posts(
             break;
         }
         show_post(
-            $post, $thread, $forum, $logged_in_user, $latest_viewed,
+            $post, $thread, $forum, $logged_in_user, $start, $latest_viewed,
             FORUM_CONTROLS, $filter
         );
         
@@ -489,8 +490,8 @@ function avatar_url($url) {
 // Generates a table row with two cells: author and message
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $latest_viewed,
-    $controls=FORUM_CONTROLS, $filter=true
+    $post, $thread, $forum, $logged_in_user, $start=0,
+    $latest_viewed=0, $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
 
@@ -587,7 +588,7 @@ function show_post(
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
-    show_button($url, tra("Send message"), tra("Send %1 a private message",$name));
+    show_button_small($url, tra("Send message"), tra("Send %1 a private message",$name));
     echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {
@@ -602,7 +603,7 @@ function show_post(
         // by displaying the  user id of the poster.
         //
         //echo "ID: ".$user->id."<br>";
-        if (!no_computing()) {
+        if (!NO_COMPUTING) {
             echo tra("Credit: %1", number_format($user->total_credit)) ."<br>";
             echo tra("RAC: %1",    number_format($user->expavg_credit))."<br>";
         }
@@ -633,7 +634,7 @@ function show_post(
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
 
-    if ($logged_in_user && $post->timestamp>$latest_viewed){
+    if ($logged_in_user && $post->timestamp > $latest_viewed){
         show_image(NEW_IMAGE, tra("You haven't read this message yet"), tra("Unread"), NEW_IMAGE_HEIGHT);
     }
 
@@ -645,7 +646,7 @@ function show_post(
         echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>. &nbsp; ";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
-        show_button("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
+        show_button_small("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
     }
     if (is_moderator($logged_in_user, $forum)) {
         show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
@@ -654,7 +655,11 @@ function show_post(
         echo "<br>".tra("Last modified: %1", pretty_time_Str($post->modified));
     }
     if ($ignore_poster && $filter){
-        echo "<br>".tra("This post is not shown because the sender is on your 'ignore' list.  Click %1here%2 to view this post","<a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">","</a>");
+        echo "<br>" .tra(
+            "This post is hidden because the sender is on your 'ignore' list.  Click %1 here %2 to view hidden posts",
+            "<a href=\"?id=".$thread->id."&amp;filter=false&amp;start=$start#".$post->id."\">",
+            "</a>"
+        );
     }
     if ($controls == FORUM_CONTROLS) {
         echo "</form>\n";
@@ -784,23 +789,31 @@ function post_rules() {
     } else {
       $project_rules="";
     }
-    return tra("
+    return sprintf("
         <ul>
-        <li> Posts must be 'kid friendly': they may not contain
-            content that is obscene, hate-related,
-            sexually explicit or suggestive.
-        <li> No commercial advertisements.
-        <li> No links to web sites involving sexual content,
-            gambling, or intolerance of others.
-        <li> No messages intended to annoy or antagonize other people,
-            or to hijack a thread.
-        <li> No messages that are deliberately hostile, threatening, or insulting.
-        <li> No abusive comments involving race, religion,
-            nationality, gender, class or sexuality.
-        <li> The posting privileges of violators may be suspended or revoked.
-        ").$project_rules."
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        <li> %s
+        %s
         </ul>
-    ";
+        ",
+        tra("Posts must be 'kid friendly': they may not contain content that is obscene, hate-related, sexually explicit or suggestive."),
+        tra("No commercial advertisements."),
+        tra("No links to web sites involving sexual content, gambling, or intolerance of others."),
+        tra("No messages intended to annoy or antagonize other people, or to hijack a thread."),
+        tra("No messages that are deliberately hostile, threatening, or insulting."),
+        tra("No abusive messages involving race, religion, nationality, gender, class or sexuality."),
+        tra("Posts that violate these rules may be deleted."),
+        tra("The posting privileges of violators may be suspended or revoked."),
+        tra("If your account is suspended, don't create a new one."),
+        $project_rules
+    );
 }
 
 function post_warning($forum=null) {
@@ -818,7 +831,6 @@ function post_warning($forum=null) {
     $x .= "
         <font size=-2>
         ".tra("Rules:").post_rules()."
-        <a href=moderation.php>".tra("More info")."</a>
         </font>
         </td></tr></table>
     ";
@@ -1116,40 +1128,40 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_button("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
+        show_button_small("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
     } else {
-        show_button("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
+        show_button_small("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
     }
 
-    show_button(
+    show_button_small(
         "forum_moderate_post.php?action=move&amp;id=".$post->id."$tokens",
         tra("Move"), tra("Move post to a different thread")
     );
 
     if ($forum->parent_type == 0) {
         if (is_admin($logged_in_user) || $moderators_allowed_to_ban) {
-            show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
+            show_button_small("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
         }
         if ($moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=yes&amp;userid=".$post->user,
                     tra("Vote to banish author")
                 );
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=no&amp;userid=".$post->user,
                     tra("Vote not to banish author")
                 );
             } else {
-                show_button(
+                show_button_small(
                     "forum_banishment_vote.php?action=start&amp;userid=".$post->user,
                     tra("Start vote to banish author")
                 );
             }
         }
         if (is_admin($logged_in_user)) {
-            show_button("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
+            show_button_small("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
         }
     }
 }

@@ -84,9 +84,9 @@ $signature=$user->prefs->signature;
 $maxlen=250;
 row2(
     tra("Signature for message board posts")
-    .html_info()
+    .bbcode_info()
     ."<br><br>"
-    .tra("Check out %1various free services%2
+    .tra("Check out %1 various free services %2
 <br> providing dynamic 'signature images'
 <br> showing your latest credit info, project news, etc.", "<a href=https://boinc.berkeley.edu/links.php#sigs>", "</a>"),
     textarea_with_counter("signature", 250, $signature)

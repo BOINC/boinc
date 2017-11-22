@@ -1,0 +1,12 @@
+name = Panels
+description = Core Panels display functions; provides no external UI, at least one other Panels module should be enabled.
+core = 6.x
+package = "Panels"
+dependencies[] = ctools
+
+; Information added by Drupal.org packaging script on 2016-02-25
+version = "6.x-3.12-boinc-2-dev"
+core = "6.x"
+project = "panels"
+datestamp = "1494600716"
+

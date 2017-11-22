@@ -196,9 +196,12 @@ function show_vendor($vendor, $x) {
 }
 
 $d = get_cached_data(86400);
+$data = FALSE;
 if ($d) {
     $data = unserialize($d);
-} else {
+}
+
+if (!$data) {
     $data = get_gpu_lists();
     set_cached_data(86400, serialize($data));
 }

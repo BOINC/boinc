@@ -82,7 +82,7 @@ echo '</div>
 ';
 
 echo "<br clear=all><p> </p>",
-    tra("Translations are done by volunteers.  If your native language is missing or incomplete, %1you can help translate%2.",
+    tra("Translations are done by volunteers.  If your native language is missing or incomplete, %1 you can help translate %2.",
     '<a href="http://boinc.berkeley.edu/trac/wiki/TranslateIntro">', '</a>'),
     "</p>"
 ;

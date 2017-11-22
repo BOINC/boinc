@@ -127,7 +127,6 @@ void CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked(wxCommandEvent& event)
      } else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
          PROJECT* project = pDoc->state.lookup_project(ctrl_url);
-         project->gui_urls[menuId].name.c_str();
      
          wxLaunchDefaultBrowser(wxString(project->gui_urls[menuId].url.c_str(),wxConvUTF8));
 	 }

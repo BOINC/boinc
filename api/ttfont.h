@@ -32,8 +32,8 @@
 // originally adapted by Carl Christensen
 
 
-#ifndef _TTFONT_H_
-#define _TTFONT_H_
+#ifndef BOINC_TTFONT_H_
+#define BOINC_TTFONT_H_
 
 // I put in its own namespace so call TTFont::ttf_load_fonts() etc
 

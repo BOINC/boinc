@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>PHPMailer - POP-before-SMTP test</title>
-</head>
-<body>
 <?php
+/**
+ * This example shows how to use POP-before-SMTP for authentication.
+ */
+
 require '../PHPMailerAutoload.php';
 
-//Authenticate via POP3
-//Now you should be clear to submit messages over SMTP for a while
-//Only applies if your host supports POP-before-SMTP
+//Authenticate via POP3.
+//After this you should be allowed to submit messages over SMTP for a while.
+//Only applies if your host supports POP-before-SMTP.
 $pop = POP3::popBeforeSmtp('pop3.example.com', 110, 30, 'username', 'password', 1);
 
 //Create a new PHPMailer instance
@@ -45,7 +42,7 @@ try {
     //Replace the plain text body with one created manually
     $mail->AltBody = 'This is a plain-text message body';
     //Attach an image file
-    $mail->addAttachment('images/phpmailer_mini.gif');
+    $mail->addAttachment('images/phpmailer_mini.png');
     //send the message
     //Note that we don't need check the response from this because it will throw an exception if it has trouble
     $mail->send();
@@ -55,6 +52,3 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage(); //Boring error messages from anything else!
 }
-?>
-</body>
-</html>

@@ -1,0 +1,5 @@
+name = Mobile Menu Toggle
+description = Uses jQuery slideToggle() to hide/show menu zone.
+dependencies[] = dhtml_menu
+
+core = 6.x

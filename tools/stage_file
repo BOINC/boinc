@@ -24,11 +24,14 @@
 //
 // Usage (from project dir):
 //
-// bin/stage_file [--gzip] [--copy] path
+// bin/stage_file [options] path
 //
+// options:
 // --gzip       Make a gzipped version of the file.
 //              Use this if you specify <gzip> in the <file_info>
 // --copy       Copy the file (default is to move it)
+//
+// -- verbose
 //
 // path         The file to be staged.
 //              If it's a directory, stage all the files in that dir
@@ -69,35 +72,15 @@ function stage_file($path) {
         echo "staging $file to $dl_path\n";
     }
 
-    // compute the file's MD5
-    //
-    $md5 = md5_file($path);
-    $file_size = filesize($path);
-
-    // if file is already in download dir, make sure it's the same file
-    //
-    if (file_exists($dl_path)) {
-        if (file_exists($dl_md5_path)) {
-            $x = file_get_contents($dl_md5_path);
-            $x = explode(" ", $x);
-            $dl_md5 = $x[0];
-        } else {
-            $dl_md5 = md5_file($dl_path);
-        }
-        if ($md5 != $dl_md5) {
-            error_exit("
-There is already a file in your project's download directory with that name,
-but with different contents.
-This is not allowed by BOINC, which requires that files be immutable.
-Please use a different file name.
-");
-        }
+    switch (check_download_file($path, $dl_path)) {
+    case 0:
+        // file is already there; no need to copy
         if ($verbose) {
             echo "    file already exists as $dl_path\n";
         }
-    } else {
-        // move or copy the file
-        //
+        break;
+    case 1:
+        // need to copy or move
         if ($copy) {
             $ret = copy($path, $dl_path);
             if (!$ret) error_exit("    copy failed\n");
@@ -107,16 +90,16 @@ Please use a different file name.
             if (!$ret) error_exit("    copy failed\n");
             if ($verbose) echo "    moved file\n";
         }
-        @unlink($dl_md5_path);
-    }
-
-    // make MD5 file if needed
-    //
-    if (!file_exists($dl_md5_path)) {
-        $x = $md5." ".$file_size."\n";
-        $ret = file_put_contents($dl_md5_path, $x);
-        if (!$ret) error_exit("failed to create MD5 file $dl_md5_path\n");
-        if ($verbose) echo "    created MD5 file $dl_md5_path\n";
+        touch("$path.md5");
+        break;
+    case -1:
+        error_exit("
+There is already a file in your project's download directory with that name,
+but with different contents.
+This is not allowed by BOINC, which requires that files be immutable.
+Please use a different file name.
+");
+        break;
     }
 
     // make gzipped version if needed

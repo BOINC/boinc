@@ -56,7 +56,9 @@ site_list($stats_sites);
 echo tra("You can also get your current statistics in the form of a \"signature image\":");
 shuffle($sig_sites);
 site_list($sig_sites);
-echo tra("Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2.", "<a href=\"home.php\">","</a>");
+echo tra("Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1 home page %2.",
+    sprintf('<a href="%s">', USER_HOME), "</a>"
+);
 
 echo "</td></tr>";
 end_table();

@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">A transferir! Por favor, aguarde...</string>
+  <string name="generic_loading">A carregar! Por favor, aguarde...</string>
   <string name="generic_button_continue">Continuar</string>
   <string name="generic_button_finish">Terminar</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Selecione os projetos científicos para os quais quer contribuir:</string>
+  <string name="attachproject_list_desc">Selecione os projetos científicos em que deseja contribuir:</string>
   <string name="attachproject_list_header">Escolha um projeto</string>
-  <string name="attachproject_list_manual_button">Adicionar projecto por URL</string>
+  <string name="attachproject_list_manual_button">Adicionar projeto por URL</string>
   <string name="attachproject_list_manual_dialog_title">Inserir URL do projeto:</string>
   <string name="attachproject_list_manual_dialog_button">Adicionar projeto</string>
   <string name="attachproject_list_manual_no_url">Por favor, insira o URL do projeto</string>
@@ -242,7 +242,7 @@
   <string name="tasks_header_project_paused">(suspenso)</string>
   <string name="tasks_header_deadline">Data limite:</string>
   <string name="tasks_result_new">novo</string>
-  <string name="tasks_result_files_downloading">A aguardar para transferir</string>
+  <string name="tasks_result_files_downloading">a aguardar para transferir</string>
   <string name="tasks_result_files_downloaded">Transferência concluída</string>
   <string name="tasks_result_compute_error">erro de computação</string>
   <string name="tasks_result_files_uploading">a enviar</string>

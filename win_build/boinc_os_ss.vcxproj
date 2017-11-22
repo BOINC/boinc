@@ -154,7 +154,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc80.pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -321,7 +321,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc80.pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -363,6 +363,7 @@
     <ClCompile Include="..\lib\gui_rpc_client.cpp" />
     <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
     <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
@@ -391,6 +392,7 @@
     <ClInclude Include="..\lib\filesys.h" />
     <ClInclude Include="..\lib\gui_rpc_client.h" />
     <ClInclude Include="..\lib\hostinfo.h" />
+    <ClInclude Include="..\lib\keyword.h" />
     <ClInclude Include="..\lib\md5.h" />
     <ClInclude Include="..\lib\md5_file.h" />
     <ClInclude Include="..\lib\mfile.h" />

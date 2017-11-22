@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,8 +22,6 @@
 
     
 #include <Carbon/Carbon.h>
-#include <Security/Authorization.h>
-#include <Security/AuthorizationTags.h>
 
 #include <grp.h>
 
@@ -36,9 +34,6 @@
 #include <string.h>
 #include <vector>
 #include <string>
-#define DLOPEN_NO_WARN
-#include <mach-o/dyld.h>
-#include <dlfcn.h>
 
 using std::vector;
 using std::string;
@@ -52,29 +47,6 @@ using std::string;
 
 #include "mac_util.h"
 #include "translate.h"
-
-// Macros to test OS version number on all versions of OS X without using deprecated Gestalt
-// compareOSVersionTo(x, y) returns:
-// -1 if the OS version we are running on is less than 10.x.y
-//  0 if the OS version we are running on is equal to 10.x.y
-// +1 if the OS version we are running on is lgreater than 10.x.y
-//
-#define MAKECFVERSIONNUMBER(x, y) floor(kCFCoreFoundationVersionNumber##x##_##y)
-#define compareOSVersionTo(toMajor, toMinor) \
-(floor(kCFCoreFoundationVersionNumber) > MAKECFVERSIONNUMBER(toMajor, toMinor) ? 1 : \
-(floor(kCFCoreFoundationVersionNumber) < MAKECFVERSIONNUMBER(toMajor, toMinor) ? -1 : 0))
-
-// Allow this to be built using Xcode 5.0.2
-#ifndef kCFCoreFoundationVersionNumber10_9
-#define kCFCoreFoundationVersionNumber10_9      855.11
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_10
-#define kCFCoreFoundationVersionNumber10_10     1151.16
-#endif
-#ifndef kCFCoreFoundationVersionNumber10_11
-#define kCFCoreFoundationVersionNumber10_11     1253
-#endif
-
 
 
 static OSStatus DoUninstall(void);
@@ -101,15 +73,10 @@ OSErr GetLoginItemNameAtIndexFromPlistFile(int index, char *name, size_t maxLen)
 OSErr DeleteLoginItemNameAtIndexFromPlistFile(int index);
 #endif
 
-#if SEARCHFORALLBOINCMANAGERS
-static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
-#endif
-
 static char gAppName[256];
 static char gBrandName[256];
 static char gCatalogsDir[MAXPATHLEN];
 static char * gCatalog_Name = (char *)"BOINC-Setup";
-static char * gTempFileName = "/tmp/BOINC_preferred_languages";
 
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
@@ -124,6 +91,7 @@ int main(int argc, char *argv[])
     char                        pathToSelf[MAXPATHLEN], pathToVBoxUninstallTool[MAXPATHLEN], *p;
     char                        cmd[MAXPATHLEN+64];
     Boolean                     cancelled = false;
+    pid_t                       activeAppPID = 0;
     struct stat                 sbuf;
     OSStatus                    err = noErr;
 
@@ -159,7 +127,17 @@ int main(int argc, char *argv[])
     strlcpy(gBrandName, p, sizeof(gBrandName));
         
     // Determine whether this is the intial launch or the relaunch with privileges
-    if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
+    if ( (argc == 3) && (strcmp(argv[1], "--privileged") == 0) ) {
+        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
+        activeAppPID = (pid_t)atol(argv[2]);
+        if (activeAppPID > 0) {
+            BringAppWithPidToFront(activeAppPID);   // Usually Finder
+        }
+        // Give the run loop a chance to handle the BringAppWithPidToFront call
+//        CFRunLoopRunInMode(kCFRunLoopCommonModes, (CFTimeInterval)0.5, false);
+        // Apparently, usleep() lets run loop run
+        usleep(100000);
+
         LoadPreferredLanguages();
         
         if (geteuid() != 0) {        // Confirm that we are running as root
@@ -187,9 +165,13 @@ int main(int argc, char *argv[])
             "This will remove the executables but will not touch %s data files."), p, p);
 
     if (! cancelled) {
-        // The "activate" comand brings the password dialog to the front and makes it the active window.
+        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
+        activeAppPID = getActiveAppPid();
+//        ShowMessage(false, true, false, "active app = %d", activeAppPID);  // for debugging
+
+        // The "activate" command brings the password dialog to the front and makes it the active window.
         // "with administrator privileges" launches the helper application as user root.
-        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged\" with administrator privileges'", pathToSelf);
+        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged %d\" with administrator privileges'", pathToSelf, activeAppPID);
         err = callPosixSpawn(cmd, true);
     }
     
@@ -369,7 +351,8 @@ static OSStatus DoUninstall(void) {
 #if SEARCHFORALLBOINCMANAGERS
     char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10];
     char                    notBoot[] = "/Volumes/";
-    FSRef                   theFSRef;
+    CFStringRef             cfPath;
+    CFURLRef                appURL;
     int                     pathOffset, i;
 #endif
 
@@ -414,14 +397,17 @@ static OSStatus DoUninstall(void) {
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
 
 #if SEARCHFORALLBOINCMANAGERS
+// WARNING -- SEARCHFORALLBOINCMANAGERS CODE HAS NOT BEEN TESTED
+
     // Phase 1: try to find all our applications using LaunchServices
     for (i=0; i<100; i++) {
         strlcpy(myRmCommand, "rm -rf \"", 10);
         pathOffset = strlen(myRmCommand);
     
-        err = GetpathToBOINCManagerApp(myRmCommand+pathOffset, MAXPATHLEN, &theFSRef);
-        if (err)
+        err = GetPathToAppFromID('BNC!', CFSTR("edu.berkeley.boinc"),  myRmCommand+pathOffset, MAXPATHLEN);
+        if (err) {
             break;
+        }
         
         strlcat(myRmCommand, "\"", sizeof(myRmCommand));
     
@@ -439,15 +425,24 @@ static OSStatus DoUninstall(void) {
         } else {
 
             // First delete just the application's info.plist file and update the 
-            // LaunchServices Database; otherwise LSFindApplicationForInfo might 
-            // return this application again after it's been deleted.
+            // LaunchServices Database; otherwise GetPathToAppFromID might return
+            // this application again after it's been deleted.
             strlcpy(plistRmCommand, myRmCommand, sizeof(plistRmCommand));
             strlcat(plistRmCommand, "/Contents/info.plist", sizeof(plistRmCommand));
 #if TESTING
         ShowMessage(false, false, false, "Deleting info.plist: %s", plistRmCommand);
 #endif
             callPosixSpawn(plistRmCommand);
-            err = LSRegisterFSRef(&theFSRef, true);
+            cfPath = CFStringCreateWithCString(NULL, myRmCommand+pathOffset, kCFStringEncodingUTF8);
+            appURL = CFURLCreateWithFileSystemPath(NULL, CFStringRef filePath, kCFURLPOSIXPathStyle, true);
+            if (cfPath) {
+                CFRelease(cfPath);
+            }
+            if (appURL) {
+                CFRelease(appURL);
+            }
+
+            err = LSRegisterURL, true);
 #if TESTING
             if (err)
                 ShowMessage(false, false, false, "LSRegisterFSRef returned error %d", err);
@@ -635,7 +630,6 @@ static OSStatus CleanupAllVisibleUsers(void)
     char                cmd[2048];
     char                systemEventsPath[1024];
     pid_t               systemEventsPID;
-    CFURLRef            appURL = NULL;
     FILE                *f;
     char                *p;
     int                 id;
@@ -648,58 +642,16 @@ static OSStatus CleanupAllVisibleUsers(void)
     err = noErr;
     systemEventsPath[0] = '\0';
 
-    // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
-    CFArrayRef (*LSCopyAppURLForBundleID)(CFStringRef, CFErrorRef) = NULL;
-    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
-    if (LSlib) {
-        LSCopyAppURLForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
-    }
-    if (LSCopyAppURLForBundleID == NULL) {
-        err = fnfErr;
-    }
+    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-    if (err != noErr) {     // LSCopyAppURLForBundleID == NULL
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, NULL, &appURL);
-#pragma clang diagnostic pop
 #if TESTING
-        if (err != noErr) {
-            ShowMessage(false, false, false, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d ", (int) err);
-        }
-#endif
-    } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-#endif
-    {
-        if (err == noErr) {
-            CFArrayRef appRefs = (*LSCopyAppURLForBundleID)(kSystemEventsBundleID, NULL);
-            if (appRefs == NULL) {
-                err = fnfErr;
-            } else {
-                appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
-                CFRelease(appRefs);
-            }
-        }
-#if TESTING
-        if (err != noErr) {
-            ShowMessage(false, false, false, "LSCopyApplicationURLsForBundleIdentifier(kSystemEventsBundleID) returned error %d ", (int) err);
-        }
-#endif
-    }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-
     if (err == noErr) {
-        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-        CFStringGetCString(CFPath, systemEventsPath, sizeof(systemEventsPath), kCFStringEncodingUTF8);
-        CFRelease(CFPath);
-#if TESTING
         ShowMessage(false, false, false, "SystemEvents is at %s", systemEventsPath);
+    } else {
+        ShowMessage(false, false, false, "GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
+    }
 #endif
-    }
-    if (appURL) {
-        CFRelease(appURL);
-    }
-    
+
     // First, find all users on system
     f = popen("dscl . list /Users UniqueID", "r");
     if (f) {
@@ -1378,6 +1330,8 @@ static void GetPreferredLanguages() {
     char * language;
     char *uscore;
     FILE *f;
+    char loginName[256];
+    char tempFileName[MAXPATHLEN];
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
@@ -1423,7 +1377,13 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    f = fopen(gTempFileName, "w");
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s", loginName);
+    mkdir(tempFileName, 0777);
+    chmod(tempFileName, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
+    f = fopen(tempFileName, "w");
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
@@ -1489,11 +1449,15 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
+    char loginName[256];
+    char tempFileName[MAXPATHLEN];
 
     BOINCTranslationInit();
 
     // First pass wrote a list of our preferred languages to a temp file
-    f = fopen(gTempFileName, "r");
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
+    f = fopen(tempFileName, "r");
     if (!f) return;
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
@@ -1573,70 +1537,6 @@ static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, Boolean 
     // Note: if yesNoButtons is true, we made default button "No" and alternate button "Yes" 
     return (yesNoButtons ? !result : result);
 }
-
-
-#if SEARCHFORALLBOINCMANAGERS
-// WARNING -- THIS CODE HAS NOT BEEN TESTED
-static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef)
-{
-    CFStringRef             bundleID = CFSTR("edu.berkeley.boinc");
-    OSType                  creator = 'BNC!';
-    CFURLRef                appURL = NULL;
-    OSStatus                status = noErr;
-
-    // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10
-    CFArrayRef (*LSCopyAppURLForBundleID)(CFStringRef, CFErrorRef) = NULL;
-    void *LSlib = dlopen("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices", RTLD_NOW);
-    if (LSlib) {
-        LSCopyAppURLForBundleID = (CFArrayRef(*)(CFStringRef, CFErrorRef)) dlsym(LSlib, "LSCopyApplicationURLsForBundleIdentifier");
-    }
-    if (LSCopyAppURLForBundleID == NULL) {
-        status = fnfErr;
-    }
-
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-    if (status != noErr) {     // LSCopyAppURLForBundleID == NULL
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        status = LSFindApplicationForInfo(creator, bundleID, NULL, NULL, &appURL);
-#pragma clang diagnostic pop
-#if TESTING
-        if (status != noErr) {
-            ShowMessage(false, false, false, "LSFindApplicationForInfo(BOINCManager) returned error %d ", (int) status);
-        }
-#endif
-    } else  // if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-#endif
-    {
-        if (status == noErr) {
-            CFArrayRef appRefs = (*LSCopyAppURLForBundleID)(bundleID, NULL);
-            if (appRefs == NULL) {
-                status = fnfErr;
-            } else {
-                appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, 0);
-                CFRelease(appRefs);
-            }
-        }
-#if TESTING
-        if (status != noErr) {
-            ShowMessage(false, false, false, "LSCopyApplicationURLsForBundleIdentifier(BOINCManager) returned error %d ", (int) status);
-        }
-#endif
-    }   // end if (LSCopyApplicationURLsForBundleIdentifier != NULL)
-
-    if (status == noErr) {
-        CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-        CFStringGetCString(CFPath, systemEventsPath, sizeof(systemEventsPath), kCFStringEncodingUTF8);
-        CFRelease(CFPath);
-    }
-
-    if (appURL) {
-        CFRelease(appURL);
-    }
-    
-    return status;
-}
-#endif  // SEARCHFORALLBOINCMANAGERS
 
 
 #define NOT_IN_TOKEN                0
@@ -1772,6 +1672,8 @@ int callPosixSpawn(const char *cmdline, bool delayForResult) {
     
     return result;
 }
+
+
 #if VERBOSE_TEST
 void strip_cr(char *buf)
 {

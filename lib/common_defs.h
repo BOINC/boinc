@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _COMMON_DEFS_
-#define _COMMON_DEFS_
+#ifndef BOINC_COMMON_DEFS_H
+#define BOINC_COMMON_DEFS_H
 
 #include "miofile.h"
 #include "parse.h"
@@ -354,6 +354,7 @@ struct DEVICE_STATUS {
 #define GRAPHICS_APP_FILENAME       "graphics_app"
 #define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
 #define SS_CONFIG_FILE              "ss_config.xml"
+#define ACCOUNT_DATA_FILENAME       "account_data.txt"
 
 #ifdef _WIN32
 #define DEFAULT_SS_EXECUTABLE       "boincscr.exe"

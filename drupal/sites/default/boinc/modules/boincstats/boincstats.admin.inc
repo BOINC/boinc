@@ -15,8 +15,8 @@ function boincstats_admin_stats_system(&$form_state) {
   $default = array(
     'boinc_stats_server' => variable_get('boinc_stats_server', 'stats.gridrepublic.org'),
     'boinc_stats_project_list_rpc' => variable_get('boinc_stats_project_list_rpc', 'rpc/get_projects.php'),
-    'boinc_stats_project_credit_history_rpc' => variable_get('boinc_stats_project_credit_history_rpc', 'rpc/get_project_tc_history.php'),
-    'boinc_stats_user_credit_history_rpc' => variable_get('boinc_stats_user_credit_history_rpc', 'rpc/get_user_credit_history_by_project.php'),
+    'boinc_stats_project_credit_history_rpc' => variable_get('boinc_stats_project_credit_history_rpc', 'rpc2/get_project_tc_history.php'),
+    'boinc_stats_user_credit_history_rpc' => variable_get('boinc_stats_user_credit_history_rpc', 'rpc2/get_user_credit_history.php'),
     'boinc_stats_remote_project_id' => variable_get('boinc_stats_remote_project_id', ''),
   );
   // Define the form
@@ -39,7 +39,7 @@ function boincstats_admin_stats_system(&$form_state) {
   $form['boinc_stats_remote_project_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Stats ID for @project', array(
-      '@project' => variable_get('site_name', t('this project')))),
+      '@project' => variable_get('site_name', 'Drupal-BOINC'))),
     '#default_value' => $default['boinc_stats_remote_project_id'], 
     '#description' => t('This project must be registered with a stats system in
       order for some statistics to be available. Currently only one system is

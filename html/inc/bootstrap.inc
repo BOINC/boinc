@@ -20,6 +20,10 @@
 
 $fixed_navbar = false;
 
+if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
+    require_once("../inc/submit_db.inc");
+}
+
 ////////////// NAVBAR ////////////////
 
 // call this to start the navbar.
@@ -75,18 +79,20 @@ function navbar_right($user) {
     ';
     if (!$is_login_page) {
         if ($user) {
-            echo '
-                <li><a href=home.php>'.$user->name.'</a></li>
-            ';
+            echo sprintf('
+                <li><a href=%s%s>%s</a></li>
+                ', url_base(), USER_HOME, $user->name
+            );
             $url_tokens = url_tokens($user->authenticator);
-            echo '
-                <li><a href="logout.php?'.$url_tokens.'">Log out</a></li>
-            ';
+            echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
+                url_base(), $url_tokens
+            );
         } else {
-            echo '
-                <li><a href="create_account_form.php">Sign Up</a></li>
-                <li><a href="login_form.php">Login</a></li>
-            ';
+            echo sprintf('
+                <li><a href="%screate_account_form.php">Sign Up</a></li>
+                <li><a href="%slogin_form.php">Login</a></li>
+                ', url_base(), url_base()
+            );
         }
     }
 }
@@ -147,27 +153,30 @@ function sample_navbar(
 
     $x = array();
     if ($user) {
-        $x[] = array(tra("Account"), $url_prefix."home.php");
+        $x[] = array(tra("Account"), $url_prefix.USER_HOME);
         $x[] = array(tra("Join"), $url_prefix."join.php");
+        $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
     $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
     $x[] = array(tra("Help"), $url_prefix."help.php");
     navbar_menu(tra("Project"), $x);
 
-    if (defined('NO_COMPUTING')) {
+    if (NO_COMPUTING) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
-        navbar_menu(tra("Participate"), array(
-            array(tra("Do work"), $url_prefix."bossa_apps.php"),
-        ));
+        if (defined('BOSSA')) {
+            navbar_menu(tra("Participate"), array(
+                array(tra("Do work"), $url_prefix."bossa_apps.php"),
+            ));
+        }
     } else {
         $x = array(
+            array(tra("Preferences"), $url_prefix."prefs.php?subset=global"),
             array(tra("Server status"), $url_prefix."server_status.php"),
             array(tra("Statistics"), $url_prefix."stats.php"),
             array(tra("Applications"), $url_prefix."apps.php"),
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
-            require_once("../inc/submit_db.inc");
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
             }
@@ -190,6 +199,7 @@ function sample_navbar(
         //array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
         array(tra("Teams"), $url_prefix."team.php", tra("create or join a team")),
         array(tra("Profiles"), $url_prefix."profile_menu.php"),
+        array(tra("Preferences"), $url_prefix."edit_forum_preferences_form.php"),
         array(tra("User search"), $url_prefix."user_search.php"),
         array(tra("User of the day"), $url_prefix."uotd.php"),
         array(tra("Certificate"), $url_prefix."cert1.php", "", "_blank"),
@@ -208,10 +218,10 @@ function sample_navbar(
 // output a panel.
 // $content_func is a function that generates the panel contents
 //
-function panel($title, $content_func) {
-    echo '
-    <div class="panel panel-primary">
-    ';
+function panel($title, $content_func, $class="panel-primary") {
+    echo sprintf('<div class="panel %s">
+        ', $class
+    );
     if ($title) {
         echo '
             <div class="panel-heading">
@@ -236,7 +246,7 @@ function panel($title, $content_func) {
 //
 function grid($top_func, $left_func, $right_func, $left_width=6) {
     echo '
-        <div class="container">
+        <div class="container-fluid">
     ';
     if ($top_func) {
         echo '
@@ -267,10 +277,13 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
     ';
 }
 
-function form_start($action) {
-    echo '
-        <form class="form-horizontal" method="get" action="'.$action.'">
-    ';
+function form_start($action, $method='get') {
+    echo sprintf(
+        '<div class="container">
+        <form class="form-horizontal" method="%s" action="%s">'
+        ,
+        $method, $action
+    );
 }
 
 function form_input_hidden($name, $value) {
@@ -280,43 +293,72 @@ function form_input_hidden($name, $value) {
 
 function form_end() {
     echo '</form>
+        </div>
     ';
 }
 
+define('FORM_LEFT_CLASS', 'col-sm-5');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-5');
+define('FORM_RIGHT_CLASS', 'col-sm-7');
+
 function form_input_text($label, $name, $value='', $type='text', $attrs='') {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <input '.$attrs.' type="'.$type.'" class="form-control" id="'.$name.'" name="'.$name.'" value="'.$value.'">
+            <label class="control-label %s">%s</label>
+            <div class="%s">
+                <input %s type="%s" class="form-control" name="%s" value="%s">
             </div>
         </div>
-    ';
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
+        $attrs, $type, $name, $value
+    );
+}
+
+// display name/value with same formatting as form
+//
+function form_attr($name, $value) {
+    echo sprintf('
+        <div class="form-group">
+            <div class="%s text-right">%s</div>
+            <div class="%s">%s</div>
+        </div>
+        ',
+        FORM_LEFT_CLASS, $name, FORM_RIGHT_CLASS, $value
+    );
 }
 
 function form_input_textarea($label, $name, $value='') {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">
-                '.$value.'
-                </textarea>
+            <label class="control-label %s" for="%s">%s</label>
+            <div class="%s">
+                <textarea rows="6" class="form-control" id="%s" name="%s">%s</textarea>
             </div>
         </div>
-    ';
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $value
+    );
 }
 
+// $items is either a string of <option> elements, or an array
+//
 function form_select($label, $name, $items) {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <select class="form-control" id="'.$name.'" name="'.$name.'">
-    ';
-    foreach ($items as $i) {
-        echo '<option value="'.$i[0].'">'.$i[1].'</option>
-        ';
+            <label class="control-label %s" for="%s">%s</label>
+            <div class="%s">
+                <select class="form-control" id="%s" name="%s">
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+    );
+    if (is_array($items)) {
+        foreach ($items as $i) {
+            echo '<option value="'.$i[0].'">'.$i[1].'</option>
+            ';
+        }
+    } else {
+        echo $items;
     }
     echo "</select></div></div>\n";
 }
@@ -325,12 +367,14 @@ function form_select($label, $name, $items) {
 // flags, if non-null, says which ones are selected
 //
 function form_select_multiple($label, $name, $items, $flags) {
-    echo '
+    echo sprintf('
         <div class="form-group">
-            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
-            <div class="col-sm-10">
-                <select multiple class="form-control" id="'.$name.'" name="'.$name.'[]">
-    ';
+            <label class="control-label %s" for="%s">%s</label>
+            <div class="%s">
+                <select multiple class="form-control" id="%s" name="%s[]">
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+    );
     $n = 0;
     foreach ($items as $i) {
         $s = ($flags && $flags[$n])?'selected':'';
@@ -341,12 +385,85 @@ function form_select_multiple($label, $name, $items, $flags) {
     echo "</select></div></div>\n";
 }
 
-function form_submit($text) {
-    echo '
+// $items is list of (name, label)
+//
+function form_checkboxes($label, $items) {
+    echo sprintf('
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success">'.$text.'</button>
-            </div>
+            <label class="control-label %s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    foreach ($items as $i) {
+        echo sprintf('<input type="checkbox" name="%s"> %s <br>
+            ',
+            $i[0], $i[1]
+        );
+    }
+    echo '</div>
         </div>
     ';
+}
+
+// $items is list of (value, label)
+//
+function form_radio_buttons($label, $name, $items, $selected) {
+    echo sprintf('
+        <div class="form-group">
+            <label class="control-label %s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    foreach ($items as $i) {
+        $checked = ($selected == $i[0])?"checked":"";
+        echo sprintf('<input type="radio" name="%s" value="%s" %s> %s <br>
+            ',
+            $name, $i[0], $checked, $i[1]
+        );
+    }
+    echo '</div>
+        </div>
+    ';
+}
+
+function form_general($label, $item) {
+    echo '
+        <div class="form-group">
+    ';
+    if (strlen($label)) {
+        echo sprintf(
+'           <label class="control-label %s">%s</label>
+            <div class="%s">%s</div>
+        ',
+            FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS, $item
+        );
+    } else {
+        echo sprintf(
+'           <div class="%s %s">%s</div>
+        ',
+            FORM_LEFT_OFFSET, FORM_RIGHT_CLASS, $item
+        );
+    }
+    echo '</div>
+';
+}
+
+function form_submit($text) {
+    form_general(
+        "",
+        sprintf('<button type="submit" class="btn btn-success">%s</button>',
+            $text
+        )
+    );
+}
+
+function form_checkbox($label, $name, $checked=false) {
+    echo sprintf('
+        <div class="form-group">
+            <input type="checkbox" name="%s" %s> &nbsp; <span class="lead">%s</span>
+        </div>
+        ', $name, $checked?"checked":"", $label
+    );
 }

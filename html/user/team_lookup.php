@@ -105,7 +105,7 @@ if (count($teams)) {
     }
 }
 echo tra(
-    "End of results. %1 If you cannot find the team you are looking for, you may %2create a team%3 yourself.",
+    "End of results. %1 If you cannot find the team you are looking for, you may %2 create a team %3 yourself.",
     "<br>",
     "<a href=team_create_form.php>",
     "</a>"

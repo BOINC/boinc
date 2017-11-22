@@ -172,7 +172,7 @@ int query_files(
         req_msg += string(buf);
     }
     for (unsigned int i=0; i<boinc_names.size(); i++) {
-        sprintf(buf, "   <md5>%s</md5>\n", boinc_names[i].c_str());
+        sprintf(buf, "   <phys_name>%s</phys_name>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</query_files>\n";
@@ -232,7 +232,7 @@ int upload_files (
         req_msg += string(buf);
     }
     for (unsigned int i=0; i<boinc_names.size(); i++) {
-        sprintf(buf, "<md5>%s</md5>\n", boinc_names[i].c_str());
+        sprintf(buf, "<phys_name>%s</phys_name>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</upload_files>\n";
@@ -395,7 +395,8 @@ int submit_jobs(
     char app_name[256],
     int batch_id,
     vector<JOB> jobs,
-    string& error_msg
+    string& error_msg,
+    int app_version_num
 ) {
     char buf[1024], url[1024];
     sprintf(buf,
@@ -403,10 +404,12 @@ int submit_jobs(
         "<authenticator>%s</authenticator>\n"
         "<batch>\n"
         "   <batch_id>%d</batch_id>\n"
-        "   <app_name>%s</app_name>\n",
+        "   <app_name>%s</app_name>\n"
+        "   <app_version_num>%d</app_version_num>\n",
         authenticator,
         batch_id,
-        app_name
+        app_name,
+        app_version_num
     );
     string request = buf;
     for (unsigned int i=0; i<jobs.size(); i++) {

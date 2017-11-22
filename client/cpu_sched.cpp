@@ -906,6 +906,10 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
             p->rsc_pwf[j].deadlines_missed_copy = p->rsc_pwf[j].deadlines_missed;
         }
     }
+
+    // compute max working set size for app versions
+    // (max of working sets of currently running jobs)
+    //
     for (i=0; i<app_versions.size(); i++) {
         app_versions[i]->max_working_set_size = 0;
     }
@@ -1105,7 +1109,6 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //
 bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
-    vector<ACTIVE_TASK*> preemptable_tasks;
     int retval;
     double ncpus_used=0;
     ACTIVE_TASK* atp;
@@ -1265,12 +1268,17 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
 #endif
 
+        // skip jobs whose working set is too large to fit in available RAM
+        //
         double wss = 0;
         if (atp) {
             atp->too_large = false;
             wss = atp->procinfo.working_set_size_smoothed;
         } else {
             wss = rp->avp->max_working_set_size;
+        }
+        if (wss == 0) {
+            wss = rp->wup->rsc_memory_bound;
         }
         if (wss > ram_left) {
             if (atp) {
@@ -1434,9 +1442,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 continue;
             }
             if (retval) {
-                report_result_error(
-                    *(atp->result), "Couldn't start or resume: %d", retval
+                char err_msg[4096];
+                snprintf(err_msg, sizeof(err_msg),
+                    "Couldn't start or resume: %d", retval
                 );
+                report_result_error(*(atp->result), err_msg);
                 request_schedule_cpus("start failed");
                 continue;
             }

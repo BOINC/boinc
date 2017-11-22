@@ -20,8 +20,8 @@
 // http://www.wxformbuilder.org/
 //
 
-#ifndef __DlgAdvPreferencesBase__
-#define __DlgAdvPreferencesBase__
+#ifndef BOINC_DLGADVPREFERENCESBASE_H
+#define BOINC_DLGADVPREFERENCESBASE_H
 
 // Define WX_GCH in order to support precompiled headers with GCC compiler.
 // You have to create the header "wx_pch.h" and include all files needed
@@ -260,4 +260,4 @@ private:
     void makeStaticBoxLabelItalic(wxStaticBox* staticBox);
 };
 
-#endif //__DlgAdvPreferencesBase__
+#endif

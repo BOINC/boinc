@@ -1,41 +1,46 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC setup localization template
+# Copyright (C) 2016 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Pavel <xxxq@seznam.cz>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-04-20 12:34+0000\n"
-"Last-Translator: Petr Nekvinda <petr.nekvinda@gmail.com>\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
+"PO-Revision-Date: 2017-01-17 16:10+0000\n"
+"Last-Translator: Tomas Hrdina <mot2425@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:124
+#: mac_installer/Installer.cpp:135
 #, c-format
-msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Je nám líto, ale tato verze %s vyžaduje systém verze 10.5 nebo novější."
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "Omlouváme se, ale tato verze %s vyžaduje systém 10.6 nebo vyšší."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
+#: mac_installer/uninstall.cpp:1616
 msgid "Yes"
 msgstr "Ano"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
+#: mac_installer/uninstall.cpp:1617
 msgid "No"
 msgstr "Ne"
 
-#: PostInstall.cpp:133
+#. Future feature
+#: mac_installer/PostInstall.cpp:130
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Má BOINC běžet i tehdy, když není přihlášen žádný uživatel?"
 
-#: PostInstall.cpp:1416
+#: mac_installer/PostInstall.cpp:1375
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -43,26 +48,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Uživatelé s administrátorskými právy na tomto počítači budou mít automaticky právo spouštět a kontrolovat %s.\n\nPřejete si, aby mohli i ne-administrátoři spouštět a kontrolovat %s na tomto Macu?"
 
-#: PostInstall.cpp:1444
+#: mac_installer/PostInstall.cpp:1403
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Přejete si nastavit %s jako spořič obrazovky pro všechny %s uživatele na tomto Macu?"
 
-#: uninstall.cpp:82
+#: mac_installer/uninstall.cpp:80
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:136
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:134
 msgid "Permission error after relaunch"
 msgstr "Chyba v přístupových právech po novém spuštění"
 
-#: uninstall.cpp:141
+#: mac_installer/uninstall.cpp:139
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Odebírání může trvat několik minut.\nStrpení prosím."
 
-#: uninstall.cpp:156
+#: mac_installer/uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -70,27 +76,27 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Jste si jistí, že chcete zcela odebrat %s z tohoto počítače?\n\nTímto se odstraní aplikace, ale zachovají se %s uživatelské soubory."
 
-#: uninstall.cpp:163
+#: mac_installer/uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Zrušeno: %s nebylo změněno."
 
-#: uninstall.cpp:174
+#: mac_installer/uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Nastala chyba: kód chyby %d"
 
-#: uninstall.cpp:230
+#: mac_installer/uninstall.cpp:230
 msgid "name  of user"
 msgstr "jméno uživatele"
 
-#: uninstall.cpp:272
+#: mac_installer/uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Chcete odinstalovat i VirtualBox? \n(VirtualBox byl nainstalován spolu s programem BOINC)"
 
-#: uninstall.cpp:312
+#: mac_installer/uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -102,17 +108,17 @@ msgid ""
 "\"%s\"."
 msgstr "Odebrání dokončeno.\n\nVolitelně můžete ještě odebrat tyto zbývající položky pomocí Finderu:\nsložka \"%s\"\n\npro každého uživatele, soubor\n\"%s\"."
 
-#: uninstall.cpp:840
+#: mac_installer/uninstall.cpp:871
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr "Zadejte vaše administrátorské heslo pro úplné odebrání %s z vašeho počítače.\n\n"
 
-#: uninstall.cpp:1616
+#: mac_installer/uninstall.cpp:1614
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: uninstall.cpp:1617
+#: mac_installer/uninstall.cpp:1615
 msgid "Continue..."
 msgstr "Pokračovat..."

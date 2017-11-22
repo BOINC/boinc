@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VIEWRESOURCES_H_
-#define _VIEWRESOURCES_H_
+#ifndef BOINC_VIEWRESOURCES_H
+#define BOINC_VIEWRESOURCES_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ViewResources.cpp"
@@ -63,6 +63,4 @@ protected:
 	virtual void            OnListRender( wxTimerEvent& event );
 };
 
-
 #endif
-

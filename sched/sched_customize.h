@@ -14,8 +14,9 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef SCHED_CUSTOMIZE_H
-#define SCHED_CUSTOMIZE_H
+
+#ifndef BOINC_SCHED_CUSTOMIZE_H
+#define BOINC_SCHED_CUSTOMIZE_H
 
 #include "boinc_db.h"
 #include "sched_types.h"

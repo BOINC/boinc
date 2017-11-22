@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHEDULER_OP_
-#define _SCHEDULER_OP_
+#ifndef BOINC_SCHEDULER_OP_H
+#define BOINC_SCHEDULER_OP_H
 
 #include <vector>
 

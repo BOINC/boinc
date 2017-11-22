@@ -18,8 +18,8 @@
 // C++ interfaces to remote job submission and file management RPCs
 // See http://boinc.berkeley.edu/trac/wiki/RemoteJobs#Cinterface
 
-#ifndef REMOTE_SUBMIT_H
-#define REMOTE_SUBMIT_H
+#ifndef BOINC_REMOTE_SUBMIT_H
+#define BOINC_REMOTE_SUBMIT_H
 
 #include <stdio.h>
 #include <string>
@@ -147,7 +147,8 @@ extern int submit_jobs(
     char app_name[256],
     int batch_id,
     std::vector<JOB> jobs,
-    std::string& error_msg
+    std::string& error_msg,
+    int app_version_num = 0
 );
 
 extern int estimate_batch(

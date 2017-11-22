@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -292,7 +292,7 @@
   <string name="suspend_screen_on">Wyłącz ekran aby kontynuować obliczenia.</string>
   <string name="suspend_useractive">Użytkownik jest aktywny.</string>
   <string name="suspend_tod">Wyczerpano ograniczenie czasu obliczeniowego.</string>
-  <string name="suspend_bm">BOINC pomiarowuje urządzenie…</string>
+  <string name="suspend_bm">BOINC testuje twoje urządzenie...</string>
   <string name="suspend_disksize">Brak wolnego miejsca pamięci stałej</string>
   <string name="suspend_cputhrottle">Przewidziane pohamowanie procesora głównego</string>
   <string name="suspend_noinput">Brak aktywności użytkownika</string>
@@ -341,6 +341,7 @@
   <plurals name="notice_notification">
     <item quantity="one">Nowa wiadomość od „%1$s”</item>
     <item quantity="few">%2$,d nowe wiadomości</item>
+    <item quantity="many">%2$,d nowych wiadomości</item>
     <item quantity="other">%2$,d nowych wiadomości</item>
   </plurals>
   <!--multi BOINC compatibility-->

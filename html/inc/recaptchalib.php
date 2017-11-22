@@ -22,16 +22,12 @@
 require('../inc/recaptcha_loader.php');
 
 function boinc_recaptcha_get_head_extra() {
-    // are we using recaptcha?
-    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
-    if ($publickey) {
-        // the meta tag must be included
-        // for Recaptcha to work with some IE browsers
-        return '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>';
-    } else {
-        return null;
+    global $recaptcha_public_key;
+    if ($recaptcha_public_key) {
+        return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        ';
     }
+    return "";
 }
 
 function boinc_recaptcha_get_html($publickey) {

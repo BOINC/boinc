@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _WIZ_TERMSOFUSEPAGE_H_
-#define _WIZ_TERMSOFUSEPAGE_H_
+#ifndef BOINC_TERMSOFUSEPAGE_H
+#define BOINC_TERMSOFUSEPAGE_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "TermsOfUsePage.cpp"

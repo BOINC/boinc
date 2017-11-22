@@ -59,10 +59,11 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
 
     // trickle-up filenames are of the form trickle_up_RESULTNAME_TIME[.sent]
     //
+    const size_t prefix_len = strlen("trickle_up_");
     while (ds.scan(fn)) {
         safe_strcpy(fname, fn.c_str());
         if (strstr(fname, "trickle_up_") != fname) continue;
-        q = fname + strlen("trickle_up_");
+        q = fname + prefix_len;
         p = strrchr(fname, '_');
         if (p <= q) continue;
         *p = 0;
@@ -324,4 +325,4 @@ void TRICKLE_UP_OP::handle_reply(int http_op_retval) {
         free(req_buf);
         req_buf = 0;
     }
-};
+}

@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOXWRAPPER_H_
-#define _VBOXWRAPPER_H_
+#ifndef BOINC_VBOXWRAPPER_H
+#define BOINC_VBOXWRAPPER_H
 
 #define IMAGE_FILENAME_COMPLETE "vm_image.vdi"
 #define IMAGE_FILENAME "vm_image"

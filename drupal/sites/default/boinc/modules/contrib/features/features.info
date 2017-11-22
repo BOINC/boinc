@@ -1,0 +1,11 @@
+name = "Features"
+description = "Provides feature management for Drupal."
+core = 6.x
+package = "Features"
+
+; Information added by drupal.org packaging script on 2011-12-15
+version = "6.x-1.2-boinc-1-dev"
+core = "6.x"
+project = "features"
+datestamp = "1494527048"
+

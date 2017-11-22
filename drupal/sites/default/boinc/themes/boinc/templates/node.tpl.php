@@ -74,11 +74,20 @@
  */
 ?>
 
-<?php if ($subscribe_link): ?>
-  <div class="subscribe">
-    <?php print $subscribe_link; ?>
-  </div>
-<?php endif; ?>
+<div class="subscribe">
+  <ul class="links">
+    <?php if (user_access('post comments') AND ($comment==COMMENT_NODE_READ_WRITE)): ?>
+      <li class="first"><a href="#block-comment_form_block-comment_form">Post new comment</a></li>
+      <?php if ($subscribe_link): ?>
+        <li class="last"><?php print $subscribe_link; ?></li>
+      <?php endif; ?>
+    <?php else: ?>
+      <?php if ($subscribe_link): ?>
+        <li class="first"><?php print $subscribe_link; ?></li>
+      <?php endif; ?>
+    <?php endif; ?>
+  </ul>
+</div>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix">
   <?php print $user_picture; ?>
@@ -88,7 +97,7 @@
   <?php endif; ?>
 
   <?php if ($unpublished): ?>
-    <div class="unpublished"><?php print bts('Unpublished'); ?></div>
+    <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
   <?php endif; ?>
 
   <?php if ($display_submitted || $terms): ?>
@@ -97,11 +106,11 @@
         <span class="submitted">
           <?php
             if ($type == 'news') {
-              print bts('Submitted on !datetime', array('!datetime' => date('j M Y H:i:s T', $node->created)));
+              print bts('Submitted on !datetime', array('!datetime' => date('j M Y G:i:s T', $node->created)), NULL, 'boinc:news-submitted-info');
             }
             else {
               print bts('Submitted by !username on !datetime',
-                array('!username' => $name, '!datetime' => date('j M Y H:i:s T', $node->created)));
+                array('!username' => $name, '!datetime' => date('j M Y G:i:s T', $node->created)), NULL, 'boinc:page-submitted-info');
             }
           ?>
         </span>

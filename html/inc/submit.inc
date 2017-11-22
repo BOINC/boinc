@@ -42,26 +42,40 @@ function req_to_xml($req, $op) {
     <app_name>$req->app_name</app_name>
     <batch_name>$req->batch_name</batch_name>
 ";
-    if ((isset($req->result_template_file)) && ($req->result_template_file)) {
-        $x .= "    <result_template_file>$req->result_template_file</result_template_file>
+    if ((isset($req->output_template_filename)) && ($req->output_template_filename)) {
+        $x .= "    <output_template_filename>$req->output_template_filename</output_template_filename>
 ";
     }
-    if ((isset($req->workunit_template_file)) && ($req->workunit_template_file)) {
-        $x .= "    <workunit_template_file>$req->workunit_template_file</workunit_template_file>
+    if ((isset($req->input_template_filename)) && ($req->input_template_filename)) {
+        $x .= "    <input_template_filename>$req->input_template_filename</input_template_filename>
+";
+    }
+    if ((isset($req->app_version_num)) && ($req->app_version_num)) {
+        $x .= "    <app_version_num>$req->app_version_num</app_version_num>
 ";
     }
     foreach ($req->jobs as $job) {
         $x .= "    <job>
-        <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
-        <command_line>$job->command_line</command_line>
 ";
-        if ((isset($job->target_team)) && ($job->target_team)) {
+        if (!empty($job->name)) {
+            $x .= "    <name>$job->name</name>
+";
+        }
+        if (!empty($job->rsc_fpops_est)) {
+            $x .= "    <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
+";
+        }
+        if (!empty($job->command_line)) {
+            $x .= "    <command_line>$job->command_line</command_line>
+";
+        }
+        if (!empty($job->target_team)) {
             $x .= "        <target_team>$job->target_team</target_team>
 ";
-        } elseif ((isset($job->target_user)) && ($job->target_user)) {
+        } elseif (!empty($job->target_user)) {
             $x .= "        <target_user>$job->target_user</target_user>
 ";
-        } elseif ((isset($job->target_host)) && ($job->target_host)) {
+        } elseif (!empty($job->target_host)) {
             $x .= "        <target_host>$job->target_host</target_host>
 ";
         }
@@ -76,6 +90,12 @@ function req_to_xml($req, $op) {
                 $x .= "            <source>$file->source</source>\n";
             }
             $x .= "        </input_file>\n";
+        }
+        if (!empty($job->input_template)) {
+            $x .= "    $job->input_template\n";
+        }
+        if (!empty($job->output_template)) {
+            $x .= "    $job->output_template\n";
         }
         $x .= "    </job>
 ";
@@ -131,7 +151,7 @@ function do_http_op($req, $xml, $op) {
     }
     $e = (string)$r->error_msg;
     if ($e) {
-        return array(null, $e);
+        return array(null, "BOINC server: $e");
     } else {
         return array($r, null);
     }
@@ -198,14 +218,13 @@ function boinc_submit_batch($req) {
 }
 
 function boinc_query_batches($req) {
-    $get_cpu_time =
-        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
-    ;
     $req_xml = "<query_batches>
     <authenticator>$req->authenticator</authenticator>
-$get_cpu_time
-</query_batches>
 ";
+    if (!empty($req->get_cpu_time)) {
+        $req_xml .= "   <get_cpu_time>1</get_cpu_time>\n";
+    }
+    $req_xml .= "</query_batches>\n";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
     if ($x = get_error($reply, "query_batches")) {
@@ -220,15 +239,17 @@ $get_cpu_time
 }
 
 function boinc_query_batch($req) {
-    $get_cpu_time =
-        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
-    ;
     $req_xml = "<query_batch>
     <authenticator>$req->authenticator</authenticator>
     <batch_id>$req->batch_id</batch_id>
-$get_cpu_time
-</query_batch>
 ";
+    if (!empty($req->get_cpu_time)) {
+        $req_xml .= "   <get_cpu_time>1</get_cpu_time>\n";
+    }
+    if (!empty($req->get_job_details)) {
+        $req_xml .= "   <get_job_details>1</get_job_details>\n";
+    }
+    echo "</query_batch>\n";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
     if ($x = get_error($reply, "query_batch")) {
@@ -318,28 +339,74 @@ function boinc_retire_batch($req) {
 }
 
 //// example usage follows
-/*
-$req->project = "http://isaac.ssl.berkeley.edu/test/";
-$req->authenticator = "x";
 if (0) {
+    $req = new StdClass;
+    $req->project = "http://isaac.ssl.berkeley.edu/test/";
+    $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name3";
+    $req->batch_name = "batch_name_12";
+    $req->app_version_num = 710;
     $req->jobs = array();
 
-    $job->input_files = array();
+
+    $f = new StdClass;
     $f->mode = "remote";
     $f->url = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
     $f->nbytes = 4250;
-    $job->input_files[] = $f;
+
+if (0) {
     $f = new StdClass;
     $f->mode = "local";
     $f->source = "foobar";
     //$job->input_files[] = $f;
+}
 
-    for ($i=10; $i<11; $i++) {
-        $job->rsc_fpops_est = $i*1e9;
+    $it = "
+<input_template>
+    <file_info>
+    </file_info>
+    <workunit>
+        <file_ref>
+            <open_name>in</open_name>
+        </file_ref>
+        <target_nresults>1</target_nresults>
+        <min_quorum>1</min_quorum>
+        <rsc_fpops_est>   60e9  </rsc_fpops_est>
+        <rsc_fpops_bound> 60e12 </rsc_fpops_bound>
+        <rsc_disk_bound>2e6</rsc_disk_bound>
+        <rsc_memory_bound>1e6</rsc_memory_bound>
+        <delay_bound>3600</delay_bound>
+        <credit>1</credit>
+    </workunit>
+</input_template>
+";
+    $ot = "
+<output_template>
+    <file_info>
+        <name><OUTFILE_0/></name>
+        <generated_locally/>
+        <upload_when_present/>
+        <max_nbytes>6000000</max_nbytes>
+        <url><UPLOAD_URL/></url>
+    </file_info>
+    <result>
+        <file_ref>
+            <file_name><OUTFILE_0/></file_name>
+            <open_name>out</open_name>
+        </file_ref>
+    </result>
+</output_template>
+";
+    for ($i=0; $i<2; $i++) {
+        $job = new StdClass;
+        $job->input_files = array();
+        $job->input_files[] = $f;
+        $job->name = $req->batch_name."_$i";
+        //$job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
+        $job->input_template = $it;
+        $job->output_template = $ot;
         $req->jobs[] = $job;
     }
 
@@ -378,5 +445,4 @@ if (0) {
         print_r($jobs);
     }
 }
-*/
 ?>

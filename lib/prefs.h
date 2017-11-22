@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _PREFS_
-#define _PREFS_
+#ifndef BOINC_PREFS_H
+#define BOINC_PREFS_H
 
 #include <cstdio>
 
@@ -94,7 +94,7 @@ struct TIME_SPAN {
         Between
     };
     TIME_SPAN() : present(false), start_hour(0), end_hour(0) {}
-    TIME_SPAN(double start, double end) : start_hour(start), end_hour(end) {}
+    TIME_SPAN(double start, double end) : present(false), start_hour(start), end_hour(end) {}
 
     bool suspended(double hour) const;
     TimeMode mode() const;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// code for communicating with account managers (AMs)
 
 #include "cpp.h"
 
@@ -41,6 +43,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "gui_http.h"
+#include "log_flags.h"
 #include "project.h"
 
 #include "acct_mgr.h"
@@ -51,8 +54,7 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // if URL is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
-    string _url, string name, string password_hash,
-    bool _via_gui
+    string _url, string name, string password_hash, bool _via_gui
 ) {
     int retval;
     unsigned int i;
@@ -62,11 +64,9 @@ int ACCT_MGR_OP::do_rpc(
     strlcpy(url, _url.c_str(), sizeof(url));
 
     error_num = ERR_IN_PROGRESS;
+    error_str = "";
     via_gui = _via_gui;
-    if (global_prefs_xml) {
-        free(global_prefs_xml);
-        global_prefs_xml = 0;
-    }
+    global_prefs_xml = "";
 
     // if null URL, detach from current AMS
     //
@@ -153,7 +153,6 @@ int ACCT_MGR_OP::do_rpc(
             "      <url>%s</url>\n"
             "      <project_name>%s</project_name>\n"
             "      <suspended_via_gui>%d</suspended_via_gui>\n"
-            "      <account_key>%s</account_key>\n"
             "      <hostid>%d</hostid>\n"
             "      <not_started_dur>%f</not_started_dur>\n"
             "      <in_progress_dur>%f</in_progress_dur>\n"
@@ -168,12 +167,11 @@ int ACCT_MGR_OP::do_rpc(
             "      <gpu_time>%f</gpu_time>\n"
             "      <njobs_success>%d</njobs_success>\n"
             "      <njobs_error>%d</njobs_error>\n"
-            "      <usable_gpu>%d</usable_gpu>\n"
-            "   </project>\n",
+            "      <disk_usage>%f</disk_usage>\n"
+            "      <disk_share>%f</disk_share>\n",
             p->master_url,
             p->project_name,
             p->suspended_via_gui?1:0,
-            p->authenticator,
             p->hostid,
             not_started_dur,
             in_progress_dur,
@@ -188,7 +186,17 @@ int ACCT_MGR_OP::do_rpc(
             p->gpu_time,
             p->njobs_success,
             p->njobs_error,
-            coprocs.n_rsc>1?1:0
+            p->disk_usage,
+            p->disk_share
+        );
+        if (p->attached_via_acct_mgr) {
+            fprintf(f,
+                "      <account_key>%s</account_key>\n",
+                p->authenticator
+            );
+        }
+        fprintf(f,
+            "   </project>\n"
         );
     }
     MIOFILE mf;
@@ -238,6 +246,8 @@ void AM_ACCOUNT::handle_no_rsc(const char* name, bool value) {
     no_rsc[i] = value;
 }
 
+// parse a project account from AM reply
+//
 int AM_ACCOUNT::parse(XML_PARSER& xp) {
     char buf[256];
     bool btemp;
@@ -325,12 +335,6 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             abort_not_started.set(btemp);
             continue;
         }
-        if (xp.parse_string("sci_keywords", sci_keywords)) {
-            continue;
-        }
-        if (xp.parse_string("loc_keywords", loc_keywords)) {
-            continue;
-        }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] AM_ACCOUNT: unrecognized %s", xp.parsed_tag
@@ -373,6 +377,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.parse_str("name", ami.project_name, 256)) continue;
         if (xp.parse_int("error_num", error_num)) continue;
         if (xp.parse_string("error", error_str)) continue;
+        if (xp.parse_string("error_msg", error_str)) continue;
         if (xp.parse_double("repeat_sec", repeat_sec)) continue;
         if (xp.parse_string("message", message)) {
             msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
@@ -402,10 +407,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
             continue;
         }
         if (xp.match_tag("global_preferences")) {
-            retval = dup_element_contents(
+            retval = copy_element_contents(
                 f,
                 "</global_preferences>",
-                &global_prefs_xml
+                global_prefs_xml
             );
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -425,6 +430,11 @@ int ACCT_MGR_OP::parse(FILE* f) {
             continue;
         }
         if (xp.parse_bool("no_project_notices", ami.no_project_notices)) {
+            continue;
+        }
+        if (xp.match_tag("user_keywords")) {
+            retval = ami.user_keywords.parse(xp);
+            if (retval) return retval;
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -449,54 +459,61 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     bool verified;
     PROJECT* pp;
     bool sig_ok;
+    bool got_error = false;
 
-    if (http_op_retval == 0) {
+    // check for failures of HTTP OP, reply parse
+    //
+    if (http_op_retval) {
+        msg_printf(&ami, MSG_INFO, "AM RPC HTTP failure: %s",
+            boincerror(http_op_retval)
+        );
+        got_error = true;
+    } else {
         FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
         if (f) {
             retval = parse(f);
+            if (retval) {
+                got_error = true;
+                msg_printf(&ami, MSG_INFO, "AM reply parse error");
+            }
             fclose(f);
         } else {
-            retval = ERR_FOPEN;
+            msg_printf(&ami, MSG_INFO, "AM reply file missing");
+            got_error = true;
         }
-    } else {
-        error_num = http_op_retval;
     }
 
-    gstate.acct_mgr_info.password_error = false;
-    if (error_num == ERR_BAD_PASSWD && !via_gui) {
-        gstate.acct_mgr_info.password_error = true;
-    }
-    // check both error_str and error_num since an account manager may only
-    // return a BOINC based error code for password failures or invalid
-    // email addresses
+    // if no errors so far, check for errors from AM
     //
-    if (error_str.size()) {
-        msg_printf(&ami, MSG_USER_ALERT,
-            "%s: %s",
-            _("Message from account manager"),
-            error_str.c_str()
-        );
-        if (!error_num) {
-            error_num = ERR_XML_PARSE;
+    if (!got_error) {
+        gstate.acct_mgr_info.password_error = false;
+        if (error_num == ERR_BAD_PASSWD && !via_gui) {
+            gstate.acct_mgr_info.password_error = true;
         }
-    } else if (error_num) {
-        if (error_num == http_op_retval) {
-            // if it was an HTTP error, don't notify the user;
-            // probably the acct mgr server is down
-            //
-            msg_printf(&ami, MSG_INFO,
-                "Account manager RPC failed: %s", boincerror(error_num)
+
+        // Show error message from AM if available.
+        // check both error_str and error_num since an account manager may only
+        // return a BOINC based error code for password failures or invalid
+        // email addresses
+        //
+        if (error_str.size()) {
+            msg_printf(&ami, MSG_USER_ALERT,
+                "%s: %s",
+                _("Message from account manager"),
+                error_str.c_str()
             );
-        } else {
+            got_error = true;
+        } else if (error_num) {
             msg_printf(&ami, MSG_USER_ALERT,
                 "%s: %s",
                 _("Message from account manager"),
                 boincerror(error_num)
             );
+            got_error = true;
         }
     }
 
-    if (error_num) {
+    if (got_error) {
         gstate.acct_mgr_info.next_rpc_time =
             gstate.now
             + calculate_exponential_backoff(
@@ -507,6 +524,26 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         gstate.acct_mgr_info.nfailures++;
         return;
     }
+
+    // The RPC was successful
+    //
+    // Detach projects that are
+    // - detach_when_done
+    // - done
+    // - attached via AM
+    //
+    while (1) {
+        bool found = false;
+        for (i=0; i<gstate.projects.size(); i++) {
+            PROJECT* p = gstate.projects[i];
+            if (p->detach_when_done && !gstate.nresults_for_project(p) && p->attached_via_acct_mgr) {
+                gstate.detach_project(p);
+                found = true;
+            }
+        }
+        if (!found) break;
+    }
+
     gstate.acct_mgr_info.nfailures = 0;
 
     msg_printf(NULL, MSG_INFO, "Account manager contact succeeded");
@@ -533,27 +570,26 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     }
 
     if (sig_ok) {
+        // if the AM RPC had an error, some items may be missing; don't copy
+        //
+        if (strlen(ami.project_name)) {
+            safe_strcpy(gstate.acct_mgr_info.project_name, ami.project_name);
+        }
+        if (strlen(ami.signing_key)) {
+            safe_strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
+        }
+        if (strlen(ami.opaque)) {
+            safe_strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
+        }
         safe_strcpy(gstate.acct_mgr_info.master_url, ami.master_url);
-        safe_strcpy(gstate.acct_mgr_info.project_name, ami.project_name);
-        safe_strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
         safe_strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         safe_strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
-        safe_strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
         gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
 
         // process projects
         //
         for (i=0; i<accounts.size(); i++) {
             AM_ACCOUNT& acct = accounts[i];
-            retval = check_string_signature2(
-                acct.url.c_str(), acct.url_signature, ami.signing_key, verified
-            );
-            if (retval || !verified) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
-                    "Bad signature for URL %s", acct.url.c_str()
-                );
-                continue;
-            }
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
                 if (acct.detach) {
@@ -589,12 +625,16 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     pp->attached_via_acct_mgr = true;
                     if (acct.dont_request_more_work.present) {
                         pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    } else {
+                        pp->dont_request_more_work = false;
                     }
                     if (acct.detach_when_done.present) {
                         pp->detach_when_done = acct.detach_when_done.value;
                         if (pp->detach_when_done) {
                             pp->dont_request_more_work = true;
                         }
+                    } else {
+                        pp->detach_when_done = false;
                     }
 
                     // initiate a scheduler RPC if requested by AMS
@@ -638,12 +678,19 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     for (int j=0; j<MAX_RSC; j++) {
                         pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
-                    pp->sci_keywords = acct.sci_keywords;
-                    pp->loc_keywords = acct.loc_keywords;
                 }
             } else {
                 // here we don't already have the project.
                 //
+                retval = check_string_signature2(
+                    acct.url.c_str(), acct.url_signature, ami.signing_key, verified
+                );
+                if (retval || !verified) {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
+                        "Bad signature for URL %s", acct.url.c_str()
+                    );
+                    continue;
+                }
                 if (acct.authenticator.empty()) {
                     msg_printf(NULL, MSG_INFO,
                         "Account manager reply missing authenticator for %s",
@@ -691,9 +738,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
         // process prefs if any
         //
-        if (global_prefs_xml) {
+        if (!global_prefs_xml.empty()) {
             retval = gstate.save_global_prefs(
-                global_prefs_xml, ami.master_url, ami.master_url
+                global_prefs_xml.c_str(), ami.master_url, ami.master_url
             );
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
@@ -723,60 +770,78 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     } else {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + 86400;
     }
+    gstate.acct_mgr_info.user_keywords = ami.user_keywords;
     gstate.acct_mgr_info.write_info();
     gstate.set_client_state_dirty("account manager RPC");
 #endif
 }
 
+// write AM info to files.
+// This is done after each AM RPC.
+//
 int ACCT_MGR_INFO::write_info() {
-    FILE* p;
+    FILE* f;
     if (strlen(master_url)) {
-        p = fopen(ACCT_MGR_URL_FILENAME, "w");
-        if (p) {
-            fprintf(p,
-                "<acct_mgr>\n"
-                "    <name>%s</name>\n"
-                "    <url>%s</url>\n",
-                project_name,
-                master_url
+        f = fopen(ACCT_MGR_URL_FILENAME, "w");
+        if (!f) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't write to %s; check file and directory permissions",
+                ACCT_MGR_URL_FILENAME
             );
-            if (send_gui_rpc_info) fprintf(p,"    <send_gui_rpc_info/>\n");
-            if (strlen(signing_key)) {
-                fprintf(p,
-                    "    <signing_key>\n%s\n</signing_key>\n",
-                    signing_key
-                );
-            }
-            fprintf(p,
-                "</acct_mgr>\n"
-            );
-            fclose(p);
+            return ERR_FOPEN;
         }
+        fprintf(f,
+            "<acct_mgr>\n"
+            "    <name>%s</name>\n"
+            "    <url>%s</url>\n",
+            project_name,
+            master_url
+        );
+        if (send_gui_rpc_info) {
+            fprintf(f, "    <send_gui_rpc_info/>\n");
+        }
+        if (strlen(signing_key)) {
+            fprintf(f,
+                "    <signing_key>\n%s\n</signing_key>\n",
+                signing_key
+            );
+        }
+        fprintf(f,
+            "</acct_mgr>\n"
+        );
+        fclose(f);
     }
 
     if (strlen(login_name)) {
-        p = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
-        if (p) {
-            fprintf(
-                p,
-                "<acct_mgr_login>\n"
-                "    <login>%s</login>\n"
-                "    <password_hash>%s</password_hash>\n"
-                "    <previous_host_cpid>%s</previous_host_cpid>\n"
-                "    <next_rpc_time>%f</next_rpc_time>\n"
-                "    <opaque>\n%s\n"
-                "    </opaque>\n"
-                "    <no_project_notices>%d</no_project_notices>\n"
-                "</acct_mgr_login>\n",
-                login_name,
-                password_hash,
-                previous_host_cpid,
-                next_rpc_time,
-                opaque,
-                no_project_notices?1:0
+        f = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
+        if (!f) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't write to %s; check file and directory permissions",
+                ACCT_MGR_LOGIN_FILENAME
             );
-            fclose(p);
+            return ERR_FOPEN;
         }
+        fprintf(f,
+            "<acct_mgr_login>\n"
+            "    <login>%s</login>\n"
+            "    <password_hash>%s</password_hash>\n"
+            "    <previous_host_cpid>%s</previous_host_cpid>\n"
+            "    <next_rpc_time>%f</next_rpc_time>\n"
+            "    <opaque>\n%s\n"
+            "    </opaque>\n"
+            "    <no_project_notices>%d</no_project_notices>\n",
+            login_name,
+            password_hash,
+            previous_host_cpid,
+            next_rpc_time,
+            opaque,
+            no_project_notices?1:0
+        );
+        user_keywords.write(f);
+        fprintf(f,
+            "</acct_mgr_login>\n"
+        );
+        fclose(f);
     }
     return 0;
 }
@@ -785,6 +850,7 @@ void ACCT_MGR_INFO::clear() {
     safe_strcpy(project_name, "");
     safe_strcpy(master_url, "");
     safe_strcpy(login_name, "");
+    safe_strcpy(user_name, "");
     safe_strcpy(password_hash, "");
     safe_strcpy(signing_key, "");
     safe_strcpy(previous_host_cpid, "");
@@ -796,6 +862,7 @@ void ACCT_MGR_INFO::clear() {
     password_error = false;
     no_project_notices = false;
     cookie_required = false;
+    user_keywords.clear();
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -809,7 +876,9 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
     mf.init_file(p);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("acct_mgr_login")) {
-        //
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "missing start tag in account manager login file"
+        );
     }
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -831,6 +900,15 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
             continue;
         }
         else if (xp.parse_bool("no_project_notices", no_project_notices)) continue;
+        else if (xp.match_tag("user_keywords")) {
+            retval = user_keywords.parse(xp);
+            if (retval) {
+                msg_printf(NULL, MSG_INFO,
+                    "error parsing user keywords in acct_mgr_login.xml"
+                );
+            }
+            continue;
+        }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] unrecognized %s in acct_mgr_login.xml",
@@ -844,6 +922,9 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
     return 0;
 }
 
+// called at client startup.
+// If currently using an AM, read its URL and login files
+//
 int ACCT_MGR_INFO::init() {
     MIOFILE mf;
     FILE*   p;
@@ -862,7 +943,7 @@ int ACCT_MGR_INFO::init() {
     }
     mf.init_file(p);
     XML_PARSER xp(&mf);
-    if (!xp.parse_start("acct_mgr_login")) {
+    if (!xp.parse_start("acct_mgr")) {
         //
     }
     while (!xp.get_tag()) {
@@ -900,12 +981,20 @@ int ACCT_MGR_INFO::init() {
         parse_login_file(p);
         fclose(p);
     }
+    if (using_am()) {
+        msg_printf(NULL, MSG_INFO, "Using account manager %s", project_name);
+        if (strlen(user_name)) {
+            msg_printf(NULL, MSG_INFO, "Account manager login: %s", user_name);
+        }
+    }
     return 0;
 }
 
 bool ACCT_MGR_INFO::poll() {
     if (!using_am()) return false;
-    if (gstate.acct_mgr_op.gui_http->is_busy()) return false;
+    if (gstate.acct_mgr_op.gui_http->is_busy()) {
+        return false;
+    }
 
     if (gstate.now > next_rpc_time) {
 

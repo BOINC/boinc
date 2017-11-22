@@ -31,7 +31,12 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-$master_url = parse_config(get_config(), "<master_url>");
+// parse some stuff from config (do it here for efficiency)
+//
+$config = get_config();
+$master_url = parse_config($config , "<master_url>");
+$recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
+$recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
 // don't allow /... at the end of URL
 
@@ -71,6 +76,29 @@ if (!defined('BADGE_HEIGHT_LARGE')) {
 if (!defined('LDAP_HOST')) {
     define('LDAP_HOST', null);
 }
+if (!defined('POSTAL_CODE')) {
+    define('POSTAL_CODE', false);
+}
+if (!defined('NO_COMPUTING')) {
+    define('NO_COMPUTING', false);
+}
+if (!defined('NO_HOSTS')) {
+    define('NO_HOSTS', false);
+}
+if (!defined('NO_STATS')) {
+    define('NO_STATS', false);
+}
+if (!defined('NO_GLOBAL_PREFS')) {
+    define('NO_GLOBAL_PREFS', false);
+}
+if (!defined('USER_HOME')) {
+    define('USER_HOME', 'home.php');
+}
+
+// sleep this long on any login failure
+// (slow the rate of hacker attacks)
+//
+define('LOGIN_FAIL_SLEEP_SEC', 5);
 
 $caching = false;
     // if set, we're writing to a file rather than to client
@@ -128,9 +156,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user, $got_logged_in_user;
     if ($got_logged_in_user) return $g_logged_in_user;
 
-    if (web_stopped()) {
-        return null;
-    }
+    if (web_stopped()) return null;
 
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
@@ -149,7 +175,7 @@ function get_logged_in_user($must_be_logged_in=true) {
             }
         }
         $next_url = urlencode($next_url);
-        Header("Location: login_form.php?next_url=$next_url");
+        Header("Location: ".url_base()."login_form.php?next_url=$next_url");
         exit;
     }
     $got_logged_in_user = true;
@@ -205,7 +231,7 @@ function page_head(
     $did_page_head = true;
     $url_base = url_base();
 
-    $rssname = PROJECT . " RSS 2.0";
+    $rssname = "RSS 2.0";
     $rsslink = $url_base."rss_main.php";
 
     if (!$caching) {
@@ -328,7 +354,7 @@ function error_page($msg) {
 // takes argument in second and returns a human formatted time string
 // in the form D days + h Hours + m Min + s sec.
 
-function time_diff($x) {
+function time_diff($x, $res=3) {
     $days    = (int)($x/86400);
     $hours   = (int)(($x-$days*86400)/3600);
     $minutes = (int)(($x-$days*86400-$hours*3600)/60);
@@ -338,13 +364,13 @@ function time_diff($x) {
     if ($days) {
         $datestring .= "$days ".tra("days")." ";
     }
-    if ($hours || strlen($datestring)) {
+    if ($res>0 && ($hours || strlen($datestring))) {
         $datestring .= "$hours ".tra("hours")." ";
     }
-    if ($minutes || strlen($datestring)) {
+    if ($res>1 && ($minutes || strlen($datestring))) {
         $datestring .= "$minutes ".tra("min")." ";
     }
-    if ($seconds) {
+    if ($res>2 && ($seconds)) {
         $datestring .= "$seconds ".tra("sec")." ";
     }
 
@@ -482,11 +508,14 @@ function row_heading_array($x, $attrs=null, $class='bg-primary') {
     echo "</tr>\n";
 }
 
-function row_heading($x) {
-    echo '<tr><th class="bg-primary" colspan=99>'.$x.'</th></tr>
-    ';
+function row_heading($x, $class='bg-primary') {
+    echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
+        ', $class, $x
+    );
 }
 
+// return hard-to-guess string of 32 random hex chars
+//
 function random_string() {
     return md5(uniqid(rand(), true));
 }
@@ -527,10 +556,6 @@ function check_tokens($auth) {
     error_page(
         tra("Link has timed out. Please click Back, refresh the page, and try again.")
     );
-}
-
-function no_computing() {
-    return parse_bool(get_config(), "no_computing");
 }
 
 // Generates a legal filename from a parameter string.
@@ -603,7 +628,7 @@ function close_output_buffer($filename) {
     fclose($fh);
 }
 
-function html_info() {
+function bbcode_info() {
     return "<br><a href=bbcode.php target=new><small>".tra("Use BBCode tags to format your text")."</small></a>\n";
 }
 
@@ -673,16 +698,12 @@ function post_int($name, $optional=false) {
     return $y;
 }
 
-function get_array($name, $optional=false) {
+function get_array($name) {
     if (isset($_GET[$name])) {
-        $x = $_GET[$name];
+        return $_GET[$name];
     } else {
-        if (!$optional) {
-            error_page("missing or bad parameter: $name");
-        }
-        $x = null;
+        return array();
     }
-    return $x;
 }
 
 function get_str($name, $optional=false) {
@@ -819,18 +840,24 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc=null, $class="btn btn-default btn-xs") {
+
+function button_text($url, $text, $desc=null, $class="btn-success btn-sm") {
     if (!$desc) {
         $desc = $text;
     }
-    echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>
-    ";
+    return sprintf(' <a href="%s" title="%s" class="btn %s">%s</a>',
+        $url, $desc, $class, $text
+    );
 }
 
-function button_text($url, $text, $desc=null, $class="btn btn-default") {
-    if (!$desc) $desc = $text;
-    return "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>
-    ";
+function show_button($url, $text, $desc=null, $class="btn-success btn-sm") {
+    echo button_text($url, $text, $desc=null, $class);
+}
+
+// for places with a bunch of buttons, like forum posts
+//
+function show_button_small($url, $text, $desc=null) {
+    echo button_text($url, $text, $desc, "btn-primary btn-xs");
 }
 
 // When multiple buttons (or actions) are presented in a list you can
@@ -994,7 +1021,6 @@ function redirect_to_secure_url($url) {
     ) {
         Header("Location: ".SECURE_URL_BASE."/$url");
         exit;
-
     }
 }
 

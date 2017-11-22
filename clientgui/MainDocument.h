@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _MAINDOCUMENT_H_
-#define _MAINDOCUMENT_H_
+#ifndef BOINC_MAINDOCUMENT_H
+#define BOINC_MAINDOCUMENT_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "MainDocument.cpp"
@@ -166,6 +166,8 @@ public:
     int                         RunBenchmarks();
 
     bool                        IsUserAuthorized();
+
+    void                        CheckForVersionUpdate(bool showMessage = false);
 
     CNetworkConnection*         m_pNetworkConnection;
     CBOINCClientManager*        m_pClientManager;
@@ -416,6 +418,7 @@ extern void remove_eols(wxString& strMessage);
 extern void https_to_http(wxString& strMessage);
 extern void color_cycle(int i, int n, wxColour& color);
 extern wxString FormatTime(double secs);
+extern bool autoattach_in_progress();
 
 #ifdef __WXMSW__
 #define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
@@ -435,4 +438,3 @@ wxString format_number(double x, int nprec);
 #endif
 
 #endif
-

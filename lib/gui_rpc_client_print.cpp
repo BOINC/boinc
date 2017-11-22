@@ -142,6 +142,13 @@ void WORKUNIT::print() {
     printf("   FP bound: %e\n", rsc_fpops_bound);
     printf("   memory bound: %.2f MB\n", rsc_memory_bound/MEGA);
     printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
+    if (!job_keywords.empty()) {
+        printf("   keywords:\n");
+        for (unsigned int i=0; i<job_keywords.keywords.size(); i++) {
+            KEYWORD &kw = job_keywords.keywords[i];
+            printf("      %s\n", kw.name.c_str());
+        }
+    }
 }
 
 void RESULT::print() {

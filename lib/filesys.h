@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _FILESYS_
-#define _FILESYS_
+#ifndef BOINC_FILESYS_H
+#define BOINC_FILESYS_H
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #include "boinc_win.h"

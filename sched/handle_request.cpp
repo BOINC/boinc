@@ -1445,6 +1445,16 @@ void process_request(char* code_sign_key) {
         handle_msgs_to_host();
     }
 
+    // compute GPU params
+    //
+    g_reply->host.p_ngpus = 0;
+    g_reply->host.p_gpu_fpops = 0;
+    for (int j=1; j<g_request->coprocs.n_rsc; j++) {
+        int n = g_request->coprocs.coprocs[j].count;
+        g_reply->host.p_ngpus += n;
+        g_reply->host.p_gpu_fpops += n*g_request->coprocs.coprocs[j].peak_flops;
+    }
+
     update_host_record(initial_host, g_reply->host, g_reply->user);
     write_host_app_versions();
 

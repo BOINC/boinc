@@ -21,8 +21,8 @@
 
 // We use libcurl: http://curl.haxx.se/libcurl
 
-#ifndef _HTTP_CURL_
-#define _HTTP_CURL_
+#ifndef BOINC_HTTP_CURL_H
+#define BOINC_HTTP_CURL_H
 
 #include <curl/curl.h>
 
@@ -206,4 +206,4 @@ public:
 
 };
 
-#endif //__HTTP_CURL_
+#endif // BOINC_HTTP_CURL_H

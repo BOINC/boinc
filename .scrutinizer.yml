@@ -1,9 +1,143 @@
 filter:
     paths:
-        - html/*.php
-        - html/*.inc
-        - py/*
-        - tools/*
-        - drupal/*
+        - 'html/*.php'
+        - 'html/*.inc'
+        - 'py/*'
+        - 'tools/*'
+        - 'drupal/*'
     excluded_paths:
-        - html/inc/htmLawed.php
+        - '*.tpl.php'
+        - '*.min.js'
+        - 'html/inc/htmLawed.php'
+        - 'drupal/sites/default/boinc/modules/contrib/htmlpurifier/*'
+        - 'drupal/sites/all/libraries/*'
+        - 'drupal/sites/default/modules/boinc/*'
+    dependency_paths:
+        - 'drupal/sites/default/boinc/modules/contrib/htmlpurifier/*'
+        - 'drupal/sites/all/libraries/phpmailer/*'
+checks:
+    php:
+        fix_php_opening_tag: false
+        remove_php_closing_tag: false
+        one_class_per_file: false
+        side_effects_or_types: false
+        no_mixed_inline_html: false
+        require_braces_around_control_structures: false
+        php5_style_constructor: false
+        no_global_keyword: false
+        avoid_usage_of_logical_operators: false
+        psr2_class_declaration: false
+        no_underscore_prefix_in_properties: false
+        no_underscore_prefix_in_methods: false
+        blank_line_after_namespace_declaration: false
+        single_namespace_per_use: false
+        psr2_switch_declaration: false
+        psr2_control_structure_declaration: false
+        avoid_superglobals: false
+        security_vulnerabilities: false
+        no_exit: false
+    javascript: true
+coding_style:
+    php:
+        indentation:
+            general:
+                use_tabs: false
+                size: 4
+            switch:
+                indent_case: false
+        spaces:
+            general:
+                linefeed_character: newline
+            before_parentheses:
+                function_declaration: false
+                closure_definition: false
+                function_call: false
+                if: true
+                for: true
+                while: true
+                switch: true
+                catch: true
+                array_initializer: false
+            around_operators:
+                assignment: true
+                logical: true
+                equality: true
+                relational: true
+                bitwise: false
+                additive: true
+                multiplicative: false
+                shift: true
+                unary_additive: false
+                concatenation: false
+                negation: false
+            before_left_brace:
+                class: true
+                function: true
+                if: true
+                else: true
+                for: true
+                while: true
+                do: true
+                switch: true
+                try: true
+                catch: true
+                finally: true
+            before_keywords:
+                else: true
+                while: true
+                catch: true
+                finally: true
+            within:
+                brackets: false
+                array_initializer: false
+                grouping: false
+                function_call: false
+                function_declaration: false
+                if: false
+                for: false
+                while: false
+                switch: false
+                catch: false
+                type_cast: false
+            ternary_operator:
+                before_condition: true
+                after_condition: true
+                before_alternative: true
+                after_alternative: true
+                in_short_version: false
+            other:
+                before_comma: false
+                after_comma: true
+                before_semicolon: false
+                after_semicolon: true
+                after_type_cast: false
+        braces:
+            classes_functions:
+                class: end-of-line
+                function: end-of-line
+                closure: end-of-line
+            if:
+                opening: end-of-line
+                always: false
+                else_on_new_line: false
+            for:
+                opening: end-of-line
+                always: true
+            while:
+                opening: end-of-line
+                always: true
+            do_while:
+                opening: end-of-line
+                always: true
+                while_on_new_line: false
+            switch:
+                opening: end-of-line
+            try:
+                opening: end-of-line
+                catch_on_new_line: false
+                finally_on_new_line: false
+        upper_lower_casing:
+            keywords:
+                general: lower
+            constants:
+                true_false_null: lower

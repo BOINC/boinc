@@ -24,12 +24,6 @@
 #include "stdwx.h"
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#endif
-
 #ifdef __EMX__
 #include <sys/stat.h>
 #endif
@@ -52,7 +46,7 @@
 #include "mac_backtrace.h"
 #endif
 
-#ifdef __GLIBC__
+#ifdef HAVE_EXECINFO_H
 #include <execinfo.h>
 #endif
 
@@ -67,7 +61,7 @@
 
 #include "diagnostics.h"
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 // for signal handler backtrace
 unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
 acquire_my_map_info_list_t acquire_my_map_info_list;
@@ -109,7 +103,7 @@ static double      max_stderr_file_size = 2048*1024;
 static double      stdout_file_size = 0;
 static double      max_stdout_file_size = 2048*1024;
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 static void*       libhandle;
 #endif
 
@@ -358,6 +352,7 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
@@ -365,14 +360,20 @@ int diagnostics_init(
         if (!stdout_file) {
             return ERR_FOPEN;
         }
+        setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
     }
 
 
 #if defined(_WIN32)
 
     //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
+#ifdef __MINGW32__
+    std::set_terminate(boinc_term_func);
+    std::set_unexpected(boinc_term_func);
+#else
     set_terminate(boinc_term_func);
     set_unexpected(boinc_term_func);
+#endif
 
 #if defined(_DEBUG)
 
@@ -409,7 +410,7 @@ int diagnostics_init(
 
 #endif // defined(_WIN32)
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 #define resolve_func(l,x) \
   x=(x##_t)dlsym(l,#x); \
   if (!x) {\
@@ -430,7 +431,7 @@ int diagnostics_init(
     } else {
         fprintf(stderr,"stackdumps unavailable\n");
     }
-#endif // ANDROID
+#endif // ANDROID_VOODOO
 
     // Install unhandled exception filters and signal traps.
     if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
@@ -567,7 +568,7 @@ int diagnostics_finish() {
 #endif // defined(_DEBUG)
 #endif // defined(_WIN32)
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
     if (libhandle) {
       dlclose(libhandle);
     }
@@ -665,8 +666,8 @@ int diagnostics_cycle_logs() {
             boinc_copy(stderr_log, stderr_archive);
             stderr_file_size = 0;
             stderr_file = freopen(stderr_log, "w", stderr);
-            setbuf(stderr_file, 0);
             if (NULL == stderr_file) return ERR_FOPEN;
+            setbuf(stderr_file, 0);
         }
     }
 
@@ -678,6 +679,7 @@ int diagnostics_cycle_logs() {
             boinc_copy(stdout_log, stdout_archive);
             stdout_file = freopen(stdout_log, "w", stdout);
             if (NULL == stdout_file) return ERR_FOPEN;
+            setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
         }
     }
     return BOINC_SUCCESS;
@@ -730,7 +732,7 @@ void set_signal_exit_code(int x) {
     signal_exit_code = x;
 }
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
 const char *argv0;
 
 static char *xtoa(size_t x) {
@@ -751,10 +753,14 @@ static char *xtoa(size_t x) {
 #endif
 
 #ifdef HAVE_SIGACTION
+#ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
+void boinc_catch_signal(int signal, struct siginfo *, void *) {
+#endif  // ANDROID
+#else
 void boinc_catch_signal(int signal) {
-#endif
+#endif  // HAVE_SIGACTION
     switch(signal) {
     case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
          return;
@@ -772,7 +778,7 @@ void boinc_catch_signal(int signal) {
     default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
 
-#ifdef __GLIBC__
+#ifdef HAVE_EXECINFO_H
     void *array[64];
     size_t size;
     size = backtrace (array, 64);
@@ -798,7 +804,7 @@ void boinc_catch_signal(int signal) {
     PrintBacktrace();
 #endif
 
-#ifdef ANDROID
+#ifdef ANDROID_VOODOO
     // this is some dark undocumented Android voodoo that uses libcorkscrew.so.
     // Minimal use of library functions because they may not work in a signal
     // handler.
@@ -864,7 +870,7 @@ void boinc_catch_signal(int signal) {
             fflush(stderr);
         }
     }
-#endif // ANDROID
+#endif // ANDROID_VOODOO
 
     fprintf(stderr, "\nExiting...\n");
     _exit(signal_exit_code);

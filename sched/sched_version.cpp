@@ -344,9 +344,32 @@ void estimate_flops_anon_platform() {
 //    This prevents jobs from aborting with "time limit exceeded"
 //    even if the estimate supplied by the plan class function is way off
 //
+
+#define RTE_HAV_STATS 1
+#define RTE_AV_STATS  2
+#define RTE_NO_STATS  3
+
 void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
-    DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
-    if (havp && havp->et.n > MIN_HOST_SAMPLES) {
+    int mode;
+    DB_HOST_APP_VERSION* havp = NULL;
+
+    if (config.rte_no_stats) {
+        mode = RTE_NO_STATS;
+    } else {
+        havp = gavid_to_havp(av.id);
+        if (havp && havp->et.n > MIN_HOST_SAMPLES) {
+            mode = RTE_HAV_STATS;
+        } else {
+            if (av.pfc.n > MIN_VERSION_SAMPLES) {
+                mode = RTE_AV_STATS;
+            } else {
+                mode = RTE_NO_STATS;
+            }
+        }
+    }
+
+    switch (mode) {
+    case RTE_HAV_STATS:
         double new_flops;
         if (config.estimate_flops_from_hav_pfc) {
             new_flops = hu.peak_flops / (havp->pfc.get_avg()+1e-18);
@@ -387,24 +410,25 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
                 1e-9/havp->et.get_avg()
             );
         }
-    } else {
-        if (av.pfc.n > MIN_VERSION_SAMPLES) {
-            hu.projected_flops = hu.peak_flops/av.pfc.get_avg();
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%lu] (%s) adjusting projected flops based on PFC avg: %.2fG\n",
-                    av.id, av.plan_class, hu.projected_flops/1e9
-                );
-            }
-        } else {
-            hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + GPU_CPU_RATIO*hu.gpu_usage);
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%lu] (%s) using conservative projected flops: %.2fG\n",
-                    av.id, av.plan_class, hu.projected_flops/1e9
-                );
-            }
+        break;
+    case RTE_AV_STATS:
+        hu.projected_flops = hu.peak_flops/av.pfc.get_avg();
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] [AV#%lu] (%s) adjusting projected flops based on PFC avg: %.2fG\n",
+                av.id, av.plan_class, hu.projected_flops/1e9
+            );
         }
+        break;
+    case RTE_NO_STATS:
+        hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + GPU_CPU_RATIO*hu.gpu_usage);
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] [AV#%lu] (%s) using conservative projected flops: %.2fG\n",
+                av.id, av.plan_class, hu.projected_flops/1e9
+            );
+        }
+        break;
     }
 }
 
@@ -631,6 +655,12 @@ BEST_APP_VERSION* get_app_version(
                 }
             }
 
+            if (wu.app_version_num) {
+                if (bavp->avp->version_num != wu.app_version_num) {
+                    break;
+                }
+            }
+
             if (config.debug_version_select) {
                 app_version_desc(*bavp, buf);
                 log_messages.printf(MSG_NORMAL,
@@ -698,6 +728,17 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+
+            if (wu.app_version_num) {
+                if (av.version_num != wu.app_version_num) {
+                    continue;
+                }
+            } else {
+                if (av.deprecated) {
+                    continue;
+                }
+            }
+
             if (av.beta) {
                 if (!g_wreq->project_prefs.allow_beta_work) {
                     continue;

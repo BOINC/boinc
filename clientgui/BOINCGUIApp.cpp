@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,9 +24,6 @@
 #include "filesys.h"
 #include "util.h"
 #include "mac_util.h"
-#if (defined(SANDBOX) && defined(_DEBUG))
-#include "SetupSecurity.h"
-#endif
 #include "sandbox.h"
 #endif
 
@@ -109,6 +106,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
     m_iDisplayExitDialog = 1;
+    m_iDisplayShutdownConnectedClientDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
     m_bRunDaemon = true;
@@ -119,8 +117,9 @@ bool CBOINCGUIApp::OnInit() {
     int      iDesiredLanguageCode = 0;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
+#ifdef SANDBOX
     wxString strDialogMessage = wxEmptyString;
-    wxString strOldLanguageCode = wxEmptyString;
+#endif
     bool     success = false;
 
 
@@ -166,6 +165,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->SetPath(wxT("/"));
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
+    m_pConfig->Read(wxT("DisplayShutdownConnectedClientDialog"), &m_iDisplayShutdownConnectedClientDialog, 1L);
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
@@ -276,19 +276,21 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
+    //
+    // NOTE: GDB and LLDB can't attach to applications which are running as
+    // a different user or group.
+    // Normally, the Mac Development (Debug) builds do not define SANDBOX, so
+    // check_security() is never called. However, it is possible to use GDB
+    // or LLDB on sandbox-specific code, as long as the code is run as the
+    // current user (i.e., not as boinc_master or boinc_project), and the
+    // current user is a member of both groups boinc_master and boinc_project.
+    // However, this has not been thoroughly tested. Please see the comments
+    // in SetupSecurity.cpp and check_security.cpp for more details.
+    //
     char path_to_error[MAXPATHLEN];
     path_to_error[0] = '\0';
     
     if (!iErrorCode) {
-#if (defined(__WXMAC__) && defined(_DEBUG))     // TODO: implement this for other platforms
-        // GDB can't attach to applications which are running as a different user   
-        //  or group, so fix up data with current user and group during debugging
-        if (check_security(g_use_sandbox, true, NULL, 0)) {
-            CreateBOINCUsersAndGroups();
-            SetBOINCDataOwnersGroupsAndPermissions();
-            SetBOINCAppOwnersGroupsAndPermissions(NULL);
-        }
-#endif
         iErrorCode = check_security(
             g_use_sandbox, true, path_to_error, sizeof(path_to_error)
         );
@@ -299,11 +301,19 @@ bool CBOINCGUIApp::OnInit() {
         ShowApplication(true);
 
         if (iErrorCode == -1099) {
+#if (defined(__WXMAC__) && defined (_DEBUG))
             strDialogMessage.Printf(
-                _("You currently are not authorized to manage the client.\n\nTo run %s as this user, please:\n  - reinstall %s answering \"Yes\" to the question about\n     non-administrative users\n or\n  - contact your administrator to add you to the 'boinc_master'\n     user group."),
+                "To debug with sandbox security enabled, the current user\n"
+                "must be a member of both groups boinc_master and boinc_project."
+            );
+#else   // ! (defined(__WXMAC__) && defined (_DEBUG))
+            strDialogMessage.Printf(
+                _("You currently are not authorized to manage %s.\n\nTo run %s as this user, please:\n- reinstall %s answering \"Yes\" to the question about non-administrative users\n or\n- contact your administrator to add you to the 'boinc_master' user group."),
+                m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str()
             );
+#endif  // ! (defined(__WXMAC__) && defined (_DEBUG))
         } else {
             strDialogMessage.Printf(
                 _("%s ownership or permissions are not set properly; please reinstall %s.\n(Error code %d"),
@@ -561,6 +571,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
 }
@@ -588,7 +599,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 #if (defined(__WXMAC__) && defined(_DEBUG))
     parser.AddLongOption("NSDocumentRevisionsDebugMode", _("Not used: workaround for bug in XCode 4.2"));
 #endif
-    parser.AddSwitch("nd", "no-daemon", _("Not run the daemon"));
+    parser.AddSwitch("nd", "no-daemon", _("Don't run the client"));
 }
 
 
@@ -715,6 +726,16 @@ void CBOINCGUIApp::DetectExecutableName() {
 
     // Store the root directory for later use.
     m_strBOINCMGRExecutableName = pszProg;
+#elif defined(__WXGTK__)
+    char path[PATH_MAX];
+    if (!get_real_executable_path(path, PATH_MAX)) {
+        // find filename component
+        char* name = strrchr(path, '/');
+        if (name) {
+            name++;
+            m_strBOINCMGRExecutableName = name;
+        }
+    }
 #endif
 }
 
@@ -736,6 +757,17 @@ void CBOINCGUIApp::DetectRootDirectory() {
 
     // Store the root directory for later use.
     m_strBOINCMGRRootDirectory = szPath;
+#elif defined(__WXGTK__)
+    char path[PATH_MAX];
+    if (!get_real_executable_path(path, PATH_MAX)) {
+        // find path component
+        char* name = strrchr(path, '/');
+        if (name) {
+            name++;
+            *name = '\0';
+            m_strBOINCMGRRootDirectory = path;
+        }
+    }
 #endif
 }
 

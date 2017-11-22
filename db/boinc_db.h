@@ -18,7 +18,14 @@
 #ifndef _BOINC_DB_
 #define _BOINC_DB_
 
-// Structures corresponding to database records.
+// Structures passed to and from DB queries.
+//
+// Mostly these correspond to DB tables, and inherit structs
+// defined in boinc_db_types.h
+// But some of them - TRANSITIONER_ITEM, STATE_COUNTS, SCHED_RESULT_ITEM, etc. -
+// combine the info from multiple tables (from joins)
+// or have subsets of table data.
+//
 // Some of these types have counterparts in client/types.h,
 // but don't be deceived - client and server have different variants.
 

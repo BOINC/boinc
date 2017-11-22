@@ -68,7 +68,7 @@ if ($team->ping_user != 0) {
     echo tra("No transfer request is pending.")."<br /><br />";
 }
 
-echo tra("To assign foundership of this team to another member, check the box next to member name and click %1Change founder%2 below.", '<strong>', '</strong>')
+echo tra("To assign foundership of this team to another member, check the box next to member name and click %1 Change founder %2 below.", '<strong>', '</strong>')
     ."<form method=post action=team_change_founder_action.php>
     <input type=hidden name=teamid value=$team->id>
 ";

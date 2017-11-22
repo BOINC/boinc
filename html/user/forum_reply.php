@@ -139,10 +139,10 @@ function show_message_row($thread, $parent_post) {
     global $logged_in_user, $bbcode_html;
     global $content, $preview;
 
-    $x1 = tra("Message:").html_info().post_warning();
+    $x1 = tra("Message:").bbcode_info().post_warning();
     $x2 = "";
     if ($parent_post) {
-        $x2 .=" ".tra("reply to %1Message ID%2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
+        $x2 .=" ".tra("reply to %1 Message ID %2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
     }
     $x2 .= "<form action=forum_reply.php?thread=".$thread->id;
 
@@ -167,8 +167,8 @@ function show_message_row($thread, $parent_post) {
         $enable_signature="";
     }
     $x2 .= "</textarea><p> </p>
-        <input class=\"btn btn-default btn-sm \" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-default btn-sm \" type=\"submit\" value=\"".tra("Post reply")."\">
+        <input class=\"btn btn-primary btn-sm \" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input class=\"btn btn-success btn-sm \" type=\"submit\" value=\"".tra("Post reply")."\">
         &nbsp;&nbsp;&nbsp;
         <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
         <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>

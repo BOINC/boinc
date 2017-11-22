@@ -1,161 +1,177 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC client localization template
+# Copyright (C) 2016 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Vesselin Stoilov <vesselin91@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-02-09 20:53+0000\n"
-"Last-Translator: Rom Walton\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
+"PO-Revision-Date: 2017-02-06 14:15+0000\n"
+"Last-Translator: Vesselin Stoilov <vesselin91@gmail.com>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/boinc/boinc/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: acct_mgr.cpp:450 acct_mgr.cpp:459
+#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
 msgid "Message from account manager"
 msgstr "Съобщение от акаунт мениджър"
 
-#: client_msgs.cpp:81
+#: client/client_msgs.cpp:82
 msgid "Message from server"
 msgstr "Съобщение от сървър"
 
-#: client_state.cpp:258
+#: client/client_state.cpp:324
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Някои задачи се нуждаят от повече памет отколкото е позволена във вашите предпочитания.  Моля проверете предпочитанията си."
 
-#: client_state.cpp:520
+#: client/client_state.cpp:661
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Не може да се запише файл за състоянието; проверете правата върху папката"
 
-#: cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Променливата на средата HTTP_PROXY трябва да посочва HTTP прокси"
 
-#: cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:613
 #, c-format
 msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr "Използвали сте грешен URL за този проект.  Когато е удобно премахнете този проект и тогава добавете %s"
+"This project is using an old URL.  When convenient, remove the project, then"
+" add %s"
+msgstr "Този проект използва стар URL. Когато е удобно, премахнете проекта, след което добавете %s"
 
-#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
+#: client/cs_statefile.cpp:844
 msgid "Syntax error in app_info.xml"
 msgstr "Синтактична грешка в app_info.xml"
 
-#: cs_statefile.cpp:868
+#: client/cs_statefile.cpp:888
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Файлът посочен в app_info.xml не съществува: "
 
-#: current_version.cpp:91
+#: client/current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "Налична е нова версия на BOINC."
 
-#: current_version.cpp:94 current_version.cpp:102
+#: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
 msgstr "Изтегляне"
 
-#: log_flags.cpp:269 log_flags.cpp:449
+#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+msgid ""
+"cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+msgstr "не може да бъде използвано за CUDA или OpenCL изчисления с CUDA драйвър версия 6.5 или по-нова"
+
+#: client/log_flags.cpp:311 client/log_flags.cpp:491
 msgid "Unexpected text in cc_config.xml"
 msgstr "Неочакван текст в cc_config.xml"
 
-#: log_flags.cpp:423 log_flags.cpp:475
+#: client/log_flags.cpp:465 client/log_flags.cpp:520
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Неразпознат таг в cc_config.xml"
 
-#: log_flags.cpp:440
+#: client/log_flags.cpp:482
 msgid "Missing start tag in cc_config.xml"
 msgstr "Липсва начален таг в cc_config.xml"
 
-#: log_flags.cpp:465
+#: client/log_flags.cpp:510
 msgid "Error in cc_config.xml options"
 msgstr "Грешка в настройките на cc_config.xml"
 
-#: log_flags.cpp:483
+#: client/log_flags.cpp:528
 msgid "Missing end tag in cc_config.xml"
 msgstr "Липсва завършващ таг в cc_config.xml"
 
-#: ../sched/handle_request.cpp:307
+#: client/project.cpp:967
+msgid "To fix this, you can "
+msgstr "За да поправите това, можете да"
+
+#: client/project.cpp:970
+msgid "change Project Preferences on the project's web site"
+msgstr "промените Предпочитанията на Проекта на уебсайта на проекта"
+
+#: client/project.cpp:976
+msgid "remove GPU exclusions in your cc_config.xml file"
+msgstr "премахнете GPU изключенията във файла cc_config.xml"
+
+#: client/project.cpp:983
+msgid "change your settings at your account manager web site"
+msgstr "промените настройките си на уебсайта на проекта"
+
+#: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Невалиден или липсващ ключ на акаунта.  За да поправите това, премахнете и добавете този проект."
 
-#: ../sched/handle_request.cpp:849
-msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "Невалиден ключ за присъединяване.  За да поправите това, премахнете и добавете този проект."
-
-#: ../sched/handle_request.cpp:859
+#: sched/handle_request.cpp:951
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "Проектът е сменил своя ключ за сигурност.  Моля премахнете и добавете този проект."
 
-#: ../sched/handle_request.cpp:943
+#: sched/handle_request.cpp:1022
 msgid "This project doesn't support operating system"
 msgstr "Този проект не поддържа операционна система"
 
-#: ../sched/handle_request.cpp:969
+#: sched/handle_request.cpp:1048
 msgid "This project doesn't support CPU type"
 msgstr "Този проект не поддържа CPU тип"
 
-#: ../sched/handle_request.cpp:993
+#: sched/handle_request.cpp:1072
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Вашият BOINC клиент е твърде стар.  Моля, инсталирайте текущата версия."
 
-#: ../sched/handle_request.cpp:1259
+#: sched/handle_request.cpp:1347
 msgid "This project doesn't support computers of type"
 msgstr "Този проект не поддържа компютри от тип"
 
-#: ../sched/sched_send.cpp:1092
+#: sched/sched_send.cpp:1107
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Обновете до последната версия на драйвера за да изпълнявате задачи с помощта на GPU-то на компютъра Ви"
 
-#: ../sched/sched_send.cpp:1099
+#: sched/sched_send.cpp:1114
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Обновете до последната версия на драйвера за да използвате всички GPU приложения на този проект"
 
-#: ../sched/sched_send.cpp:1118
+#: sched/sched_send.cpp:1133
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Нужна е по-нова версия на BOINC за да използвате вашето NVIDIA GPU; моля обновете до текущата версия"
 
-#: ../sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1167
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Необходимо е %s GPU за стартиране на задачи за този проект"
 
-#: ../sched/sched_send.cpp:1262
+#: sched/sched_send.cpp:1283
 msgid "No tasks are available for the applications you have selected."
 msgstr "Няма налични задачи за приложенията които сте избрали."
 
-#: ../sched/sched_send.cpp:1288
+#: sched/sched_send.cpp:1309
 msgid "Your computer type is not supported by this project"
 msgstr "Типът на вашия компютър не се поддържа от този проект"
 
-#: ../sched/sched_send.cpp:1294
+#: sched/sched_send.cpp:1315
 msgid "Newer BOINC version required; please install current version"
 msgstr "Необходима е по-нова версия на BOINC; моля, инсталирайте текущата версия"
 
-#: ../sched/sched_send.cpp:1305
+#: sched/sched_send.cpp:1326
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "Налични за задачи за %s, но вашите предпочитания са зададени да не ги приемате"
 
-#: ../sched/sched_types.cpp:254
-msgid "Unknown app name in app_info.xml"
-msgstr "Неизвестно име на приложение в app_info.xml"
-
-#: ../sched/sched_version.cpp:214
+#: sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Вашият файл app_info.xml няма използваема версия на"

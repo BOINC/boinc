@@ -24,23 +24,37 @@ require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 
+function return_error($str) {
+    die("ERROR: $str");
+}
+
 // get a single output file
 //
 function get_output_file($instance_name, $file_num, $auth_str) {
     $result = BoincResult::lookup_name(BoincDb::escape_string($instance_name));
-    if (!$result) die("no job instance $instance_name");
+    if (!$result) {
+        return_error("no job instance $instance_name");
+    }
     $workunit = BoincWorkunit::lookup_id($result->workunitid);
-    if (!$workunit) die("no job $result->workunitid");
+    if (!$workunit) {
+        return_error("no job $result->workunitid");
+    }
     $batch = BoincBatch::lookup_id($workunit->batch);
-    if (!$batch) die("no batch $workunit->batch");
+    if (!$batch) {
+        return_error("no batch $workunit->batch");
+    }
     $user = BoincUser::lookup_id($batch->user_id);
-    if (!$user) die("no user $batch->user_id");
+    if (!$user) {
+        return_error("no user $batch->user_id");
+    }
     $x = md5($user->authenticator.$result->name);
-    if ($x != $auth_str) die("bad auth str");
+    if ($x != $auth_str) {
+        return_error("bad authenticator");
+    }
 
     $names = get_outfile_names($result);
     if ($file_num >= count($names)) {
-        die("bad file num: $file_num > ".count($names));
+        return_error("bad file num: $file_num > ".count($names));
     }
     $name = $names[$file_num];
 
@@ -48,7 +62,9 @@ function get_output_file($instance_name, $file_num, $auth_str) {
     $upload_dir = parse_config(get_config(), "<upload_dir>");
 
     $path = dir_hier_path($name, $upload_dir, $fanout);
-    if (!is_file($path)) die("no such file $path");
+    if (!is_file($path)) {
+        return_error("no such file $path");
+    }
     do_download($path);    
 }
 
@@ -59,18 +75,26 @@ function get_batch_output_files($auth_str) {
     $batch_id = get_int('batch_id', true);
     if ($batch_id) {
         $batch = BoincBatch::lookup_id($batch_id);
-        if (!$batch) die("no batch $batch_id");
+        if (!$batch) {
+            return_error("no batch $batch_id");
+        }
     } else {
         $batch_name = get_int('batch_name');
         $batch_name = BoincDb::escape_string($batch_name);
         $batch = BoincBatch::lookup("name='$batch_name'");
-        if (!$batch) die("no batch $batch_name");
+        if (!$batch) {
+            return_error("no batch $batch_name");
+        }
     }
 
     $user = BoincUser::lookup_id($batch->user_id);
-    if (!$user) die("no user $batch->user_id");
+    if (!$user) {
+        return_error("no user $batch->user_id");
+    }
     $x = md5($user->authenticator.$batch->id);
-    if ($x != $auth_str) die("bad auth str");
+    if ($x != $auth_str) {
+        return_error("bad auth str");
+    }
 
     $zip_basename = tempnam("../cache", "boinc_batch_");
     $zip_filename = $zip_basename.".zip";
@@ -87,6 +111,7 @@ function get_batch_output_files($auth_str) {
             if (is_file($path)) {
                 system(" nice -9 zip -jq $zip_basename $path");
             }
+            // output file may be optional; don't complain if not there
         }
     }
     do_download($zip_filename);
@@ -98,22 +123,32 @@ function get_batch_output_files($auth_str) {
 function get_wu_output_file($wu_name, $file_num, $auth_str) {
     $wu_name = BoincDb::escape_string($wu_name);
     $wu = BoincWorkunit::lookup("name='$wu_name'");
-    if (!$wu) die("no workunit $wu_name");
+    if (!$wu) {
+        return_error("no workunit $wu_name");
+    }
     $batch = BoincBatch::lookup_id($wu->batch);
-    if (!$batch) die("no batch $wu->batch");
+    if (!$batch) {
+        return_error("no batch $wu->batch");
+    }
     $user = BoincUser::lookup_id($batch->user_id);
-    if (!$user) die("no user $batch->user_id");
-    if ($user->authenticator != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
+    if (!$user) {
+        return_error("no user $batch->user_id");
+    }
+    if ($user->authenticator != $auth_str) {
+        return_error("bad authenticator");
+    }
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
-    if (!$wu->canonical_resultid) die("no canonical result for wu $wu->name");
+    if (!$wu->canonical_resultid) {
+        return_error("no canonical result for wu $wu->name");
+    }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
     $names = get_outfile_names($result);
     $path = dir_hier_path($names[$file_num], $upload_dir, $fanout);
     if (file_exists($path)) {
         do_download($path);
     } else {
-        echo "no such file: $path";
+        return_error("no such file: $path");
     }
 }
 
@@ -121,21 +156,31 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
 //
 function get_wu_output_files($wu_id, $auth_str) {
     $wu = BoincWorkunit::lookup_id($wu_id);
-    if (!$wu) die("no workunit $wu_id");
+    if (!$wu) {
+        return_error("no workunit $wu_id");
+    }
     $batch = BoincBatch::lookup_id($wu->batch);
-    if (!$batch) die("no batch $wu->batch");
+    if (!$batch) {
+        return_error("no batch $wu->batch");
+    }
     $user = BoincUser::lookup_id($batch->user_id);
-    if (!$user) die("no user $batch->user_id");
+    if (!$user) {
+        return_error("no user $batch->user_id");
+    }
     $x = md5($user->authenticator.$wu_id);
     echo "user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
-    if ($x != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
+    if ($x != $auth_str) {
+        return_error("bad authenticator");
+    }
 
     $zip_basename = tempnam("/tmp", "boinc_wu_".$wu->name."_");
     $zip_filename = $zip_basename.".zip";
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
 
-    if (!$wu->canonical_resultid) die("no canonical result for wu $wu->name");
+    if (!$wu->canonical_resultid) {
+        return_error("no canonical result for wu $wu->name");
+    }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
     $names = get_outfile_names($result);
     foreach ($names as $name) {
@@ -143,6 +188,8 @@ function get_wu_output_files($wu_id, $auth_str) {
         if (is_file($path)) {
             system("nice -9 zip -jq $zip_basename $path");
         }
+        // output file may be optional; don't complain if not there
+        //
     }
     do_download($zip_filename);
     unlink($zip_filename);

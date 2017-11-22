@@ -99,7 +99,7 @@
     $myres = $view->result[0];
     print '<div class="separator"></div>';
     if ( ($myres->app_workunit_target_nresults>0) AND !($myres->workunit_canonical_resultid) AND !($myres->workunit_error_mask) AND !($myres->dontsuppresspending) ) {
-        print bts('Tasks are pending for this workunit.');
+        print bts('Tasks are pending for this workunit.', array(), NULL, 'boinc:tasks-pending');
     } else {
         print views_embed_view('boinc_workunit_tasks_all', $display_id = 'page_1', arg(1));
     }

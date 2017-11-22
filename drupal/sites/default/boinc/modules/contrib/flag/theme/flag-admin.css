@@ -1,0 +1,25 @@
+
+table.flag-admin-table {
+  width: auto;
+  margin: 0;
+}
+table.flag-admin-table th {
+  font-weight: normal;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+table.flag-admin-table td {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+#flag-form .token-examples {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 4em;
+}
+#flag-form .token-examples li {
+  color: #999;
+  font-family: monospace;
+  line-height: 120%;
+}

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,9 +49,7 @@
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
-#if (defined(SANDBOX) && defined(_DEBUG))
-#include "SetupSecurity.h"
-#endif
+#include "hostinfo.h"
 #endif
 
 #include "diagnostics.h"
@@ -85,6 +83,10 @@ void log_message_startup(const char* msg) {
     );
     if (!gstate.executing_as_daemon) {
         fprintf(stdout, "%s", evt_msg);
+#ifdef _WIN32
+        // MSVCRT doesn't support line buffered streams
+        fflush(stdout);
+#endif
     } else {
 #ifdef _WIN32
         LogEventInfoMessage(evt_msg);
@@ -357,7 +359,7 @@ int boinc_main_loop() {
 #ifdef __APPLE__
     // If we run too soon during system boot we can cause a kernel panic
     if (gstate.executing_as_daemon) {
-        if (TickCount() < (120*60)) {   // If system has been up for less than 2 minutes
+        if (get_system_uptime() < 120) {    // If system has been up for less than 2 minutes
             boinc_sleep(30.);
         }
     }
@@ -375,8 +377,6 @@ int boinc_main_loop() {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
         }
-        fflush(stderr);
-        fflush(stdout);
 
         if (gstate.time_to_exit()) {
             msg_printf(NULL, MSG_INFO, "Time to exit");
@@ -454,27 +454,14 @@ int main(int argc, char** argv) {
         if (strcmp(argv[index], "-detach") == 0 || strcmp(argv[index], "--detach") == 0 ||
             strcmp(argv[index], "-detach_console") == 0 || strcmp(argv[index], "--detach_console") == 0
         ) {
-            int i, len;
-            char *commandLine;
+            int i, len=1024;
+            char commandLine[1024];
             STARTUPINFO si;
             PROCESS_INFORMATION pi;
 
             argv[index] = "-detach_phase_two";
 
-            // start with space for two '"'s
-            len = 2;
-            for (i = 0; i < argc; i++) {
-                len += (int)strlen(argv[i]) + 1;
-            }
-            if ((commandLine = (char *) malloc(len)) == NULL) {
-                // Drop back ten and punt.  Can't do the detach thing, so we just carry on.
-                // At least the program will start.
-                break;
-            }
-            commandLine[0] = '"';
-            // OK, we can safely use strcpy and strcat, since we know that we allocated enough
-            strlcpy(&commandLine[1], argv[0], len);
-            strlcat(commandLine, "\"", len);
+            sprintf(commandLine, "\"%s\"", CLIENT_EXEC_FILENAME);
             for (i = 1; i < argc; i++) {
                 strlcat(commandLine, " ", len);
                 strlcat(commandLine, argv[i], len);
@@ -489,6 +476,7 @@ int main(int argc, char** argv) {
                 exit(0);
             }
             break;
+
         }
 #endif
 
@@ -513,16 +501,23 @@ int main(int argc, char** argv) {
     // Make sure owners, groups and permissions are correct
     // for the current setting of g_use_sandbox
     //
-#if defined(_DEBUG) && defined(__APPLE__)
-    // GDB can't attach to applications which are running as a different user
-    // or group, so fix up data with current user and group during debugging
-    //
-    if (check_security(g_use_sandbox, false, NULL, 0)) {
-        SetBOINCDataOwnersGroupsAndPermissions();
-    }
-#endif  // _DEBUG && __APPLE__
+    // NOTE: GDB and LLDB can't attach to applications which are running as
+    // a different user or group.
+    // Normally, the Mac Development (Debug) builds do not define SANDBOX, so
+    // check_security() is never called. However, it is possible to use GDB
+    // or LLDB on sandbox-specific code, as long as the code is run as the
+    // current user (i.e., not as boinc_master or boinc_project), and the
+    // current user is a member of both groups boinc_master and boinc_project.
+    // However, this has not been thoroughly tested. Please see the comments
+    // in SetupSecurity.cpp and check_security.cpp for more details.
     int securityErr = check_security(g_use_sandbox, false, NULL, 0);
     if (securityErr) {
+#if (defined(__APPLE__) && defined (_DEBUG))
+        printf(
+            "To debug with sandbox security enabled, the current user\n"
+            "must be a member of both groups boinc_master and boinc_project."
+        );
+#else  // ! (defined(__APPLE__) && defined (_DEBUG))
         printf(
             "File ownership or permissions are set in a way that\n"
             "does not allow sandboxed execution of BOINC applications.\n"
@@ -535,6 +530,7 @@ int main(int argc, char** argv) {
 #endif
             ". (Error code %d)\n", securityErr
         );
+#endif  // ! (defined(__APPLE__) && defined (_DEBUG))
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SCHED_HR__
-#define __SCHED_HR__
+#ifndef BOINC_SCHED_HR_H
+#define BOINC_SCHED_HR_H
 
 extern bool already_sent_to_different_hr_class(WORKUNIT& workunit, APP&);
 

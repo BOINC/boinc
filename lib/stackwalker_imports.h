@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __STACKWALKER_IMPORTS_H__
-#define __STACKWALKER_IMPORTS_H__
+#ifndef BOINC_STACKWALKER_IMPORTS_H
+#define BOINC_STACKWALKER_IMPORTS_H
 
 #define gle (GetLastError())
 #define TTBUFLEN                8096 // for a temp buffer (2^13)

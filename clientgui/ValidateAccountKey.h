@@ -15,16 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VALIDATEACCOUNTKEY_H_
-#define _VALIDATEACCOUNTKEY_H_
+#ifndef BOINC_VALIDATEACCOUNTKEY_H
+#define BOINC_VALIDATEACCOUNTKEY_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "ValidateAccountKey.cpp"
 #endif
 
 
-class CValidateAccountKey : public wxValidator
-{
+class CValidateAccountKey : public wxValidator {
     DECLARE_DYNAMIC_CLASS( CValidateAccountKey )
 
 public:
@@ -49,7 +48,6 @@ protected:
     virtual bool      CheckValidator() const;
 
 };
-
 
 #endif
 

@@ -149,7 +149,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     NSPoint localPoint = [listControlView convertPoint:windowPoint fromView:nil];
 
-    NSInteger i, x = 0, yoff;
+    int i, x = 0, yoff;
     // First get the position relative to the ListCtrl
     pList->CalcScrolledPosition(0, 0, &x, &yoff);
     for (i=0; i<col; i++) {
@@ -336,10 +336,10 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
         return NSAccessibilityRoleDescription(NSAccessibilityStaticTextRole,
-                    (isHeader && !isEventLog) ? NSAccessibilitySortButtonRole : nil);
+                    (isHeader && !isEventLog) ? NSAccessibilitySortButtonSubrole : nil);
 
     } else if ([attribute isEqualToString:NSAccessibilitySubroleAttribute]) {
-        return NSAccessibilitySortButtonRole;
+        return NSAccessibilitySortButtonSubrole;
         
     } else if ([attribute isEqualToString:NSAccessibilitySortDirectionAttribute]) {
         if (col == BOINCView->m_iColumnIDToColumnIndex[BOINCView->m_iSortColumnID]) {
@@ -479,7 +479,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
     wxRect wxr;
     pList->GetItemRect(row, wxr);
 
-    NSInteger col, numCols, x = 0, yoff;
+    int col, numCols, x = 0, yoff;
     pList->CalcScrolledPosition(0, 0, &x, &yoff);
         
     numCols = pList->GetColumnCount();
@@ -1193,7 +1193,7 @@ static BOOL AccessibilityEnabled = false;
     }
 
     if (kids) {
-        NSInteger col, numCols, x = 0, yoff;
+        int col, numCols, x = 0, yoff;
         pList->CalcScrolledPosition(0, 0, &x, &yoff);
         
         numCols = pList->GetColumnCount();

@@ -19,7 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#define getpid _getpid
 #else 
 #include "config.h"
 #include <cstdio>
@@ -39,10 +38,6 @@
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #ifdef __APPLE__

@@ -19,8 +19,8 @@
  *
  *////////////////////////////////////////////////////////////////////////////
 
-#ifndef __STACKWALKER_H__
-#define __STACKWALKER_H__
+#ifndef BOINC_STACKWALKER_WIN_H
+#define BOINC_STACKWALKER_WIN_H
 
 // Make extern "C", so it will also work with normal C-Programs
 #ifdef __cplusplus
@@ -36,4 +36,4 @@ extern void StackwalkThread( HANDLE hThread, CONTEXT* c );
 }
 #endif
 
-#endif  // __STACKWALKER_H__
+#endif

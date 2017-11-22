@@ -39,9 +39,9 @@
     <?php if ($forum->is_container): ?>
       <tr class="heading">
         <td class="primary"><div class="name"><?php print $forum->name; ?></div></td>
-        <td><?php print bts('Threads');?></td>
-        <td><?php print bts('Posts'); ?></td>
-        <td><?php print bts('Last post'); ?></td>
+        <td><?php print bts('Threads', array(), NULL, 'boinc:forum-column');?></td>
+        <td><?php print bts('Posts', array(), NULL, 'boinc:forum-column'); ?></td>
+        <td><?php print bts('Last post', array(), NULL, 'boinc:forum-column'); ?></td>
       </tr>
     <?php else: ?>
       <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?>">
@@ -76,10 +76,10 @@
   <?php if (module_exists('boincteam_forum')
       AND $team_forums = boincteam_forum_list()): ?>
       <tr class="heading">
-        <td class="primary"><div class="name"><?php echo bts('Team'); ?></div></td>
-        <td><?php print bts('Threads');?></td>
-        <td><?php print bts('Posts'); ?></td>
-        <td><?php print bts('Last post'); ?></td>
+        <td class="primary"><div class="name"><?php echo bts('Team', array(), NULL, 'boinc:team-dashboard'); ?></div></td>
+        <td><?php print bts('Threads', array(), NULL, 'boinc:forum-column');?></td>
+        <td><?php print bts('Posts', array(), NULL, 'boinc:forum-column'); ?></td>
+        <td><?php print bts('Last post', array(), NULL, 'boinc:forum-column'); ?></td>
       </tr>
   
     <?php foreach ($team_forums as $child_id => $forum): ?>
@@ -110,13 +110,13 @@
 
 <div class="fine-print">
   <p>
-    <?php print bts('Please be responsible in what you write and do not create posts which are offensive or insulting. Offensive posts or threads may be deleted by forum moderators without warning or discussion. Do not respond to offensive postings. Click on the "report" button at the bottom of the post to call it to the attention of the moderators.'); ?>
+    <?php print bts('Please be responsible in what you write and do not create posts which are offensive or insulting. Offensive posts or threads may be deleted by forum moderators without warning or discussion. Do not respond to offensive postings. Click on the "report" button at the bottom of the post to call it to the attention of the moderators.', array(), NULL, 'boinc:forum-fine-print'); ?>
   </p>
   <p>
     <?php print bts('We also ask that you keep all discussion on the message boards related to @project or BOINC with the small exception of the Science message board where you are free to discuss anything relevant to the underlying science. Participants interested in broader discussions should post to unofficial forums for @project.',
-      array('@project' => variable_get('site_name', bts('this project')))); ?>
+      array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:forum-fine-print'); ?>
   </p>
   <p>
-    <?php print bts('These message boards now support BBCode tags only.'); ?>
+    <?php print bts('These message boards now support BBCode tags only.', array(), NULL, 'boinc:forum-fine-print'); ?>
   </p>
 </div>

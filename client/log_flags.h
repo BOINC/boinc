@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,14 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// flags determining what is written to standard out.
-// (errors go to stderr)
-//
-// NOTE: all writes to stdout should have an if (log_flags.*) {} around them.
-//
-
-#ifndef _LOGFLAGS_H_
-#define _LOGFLAGS_H_
+#ifndef BOINC_LOG_FLAGS_H
+#define BOINC_LOG_FLAGS_H
 
 #include <vector>
 #include <string>

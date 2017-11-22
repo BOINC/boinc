@@ -985,7 +985,7 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     for (unsigned int i=0; i<msgs.size(); i++) {
         if (log_flags.app_msg_send) {
             msg_printf(NULL, MSG_INFO,
-                "[app_msg_send] poll: deferred: %s", msgs[0].c_str()
+                "[app_msg_send] poll: deferred: %s", msgs[i].c_str()
             );
         }
     }
@@ -1047,12 +1047,13 @@ int ACTIVE_TASK::handle_upload_files() {
     std::string filename;
     char buf[MAXPATHLEN], path[MAXPATHLEN];
     int retval;
+    const size_t prefix_len = strlen(UPLOAD_FILE_REQ_PREFIX);
 
     DirScanner dirscan(slot_dir);
     while (dirscan.scan(filename)) {
         safe_strcpy(buf, filename.c_str());
         if (strstr(buf, UPLOAD_FILE_REQ_PREFIX) == buf) {
-            char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
+            char* p = buf+prefix_len;
             FILE_INFO* fip = result->lookup_file_logical(p);
             if (fip) {
                 get_pathname(fip, path, sizeof(path));

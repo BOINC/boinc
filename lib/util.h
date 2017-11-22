@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef BOINC_UTIL_H
+#define BOINC_UTIL_H
 
 #include <stdlib.h>
 #include <string>
@@ -109,6 +109,8 @@ extern bool process_exists(int);
 #endif
 
 extern int wait_client_mutex(const char* dir, double timeout);
+
+extern int get_real_executable_path(char* path, size_t max_len);
 
 #ifdef GCL_SIMULATOR
 extern double simtime;

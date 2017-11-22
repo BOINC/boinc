@@ -329,10 +329,10 @@ public class PrefsFragment extends Fragment {
 			});
 		}else if(item.ID == R.string.prefs_power_source_header) {
 			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_ac), BOINCActivity.monitor.getPowerSourceAc()));
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_usb), BOINCActivity.monitor.getPowerSourceUsb()));
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_wireless), BOINCActivity.monitor.getPowerSourceWireless()));
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_battery), clientPrefs.run_on_batteries, true));
+			options.add(new SelectionDialogOption(R.string.prefs_power_source_ac, BOINCActivity.monitor.getPowerSourceAc()));
+			options.add(new SelectionDialogOption(R.string.prefs_power_source_usb, BOINCActivity.monitor.getPowerSourceUsb()));
+			options.add(new SelectionDialogOption(R.string.prefs_power_source_wireless, BOINCActivity.monitor.getPowerSourceWireless()));
+			options.add(new SelectionDialogOption(R.string.prefs_power_source_battery, clientPrefs.run_on_batteries, true));
 			ListView lv = (ListView) dialog.findViewById(R.id.selection);
 			new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 
@@ -343,16 +343,21 @@ public class PrefsFragment extends Fragment {
 				public void onClick(View v) {
 					try{
 						for(SelectionDialogOption option: options) {
-							if(option.name == getResources().getString(R.string.prefs_power_source_ac))
+							switch (option.ID){
+							case R.string.prefs_power_source_ac:
 								BOINCActivity.monitor.setPowerSourceAc(option.selected);
-							if(option.name == getResources().getString(R.string.prefs_power_source_usb))
+								break;
+							case R.string.prefs_power_source_usb:
 								BOINCActivity.monitor.setPowerSourceUsb(option.selected);
-							if(option.name == getResources().getString(R.string.prefs_power_source_wireless))
+								break;
+							case R.string.prefs_power_source_wireless:
 								BOINCActivity.monitor.setPowerSourceWireless(option.selected);
-							if(option.name == getResources().getString(R.string.prefs_power_source_battery)) {
+								break;
+							case R.string.prefs_power_source_battery:
 								clientPrefs.run_on_batteries = option.selected;
 								new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
-							}
+								break;
+							};
 						}
 						dialog.dismiss();
 					} catch(RemoteException e) {}
@@ -681,6 +686,7 @@ public class PrefsFragment extends Fragment {
 	
 	public class SelectionDialogOption {
 		public String name;
+		public Integer ID = null;
 		public Boolean selected = false;
 		public Boolean highlighted = false;
 		
@@ -689,14 +695,23 @@ public class PrefsFragment extends Fragment {
 		}
 		
 		public SelectionDialogOption(String name, Boolean selected) {
-			this.name = name;
+			this(name);
 			this.selected = selected;
 		}
 		
 		public SelectionDialogOption(String name, Boolean selected, Boolean highlighted) {
-			this.name = name;
-			this.selected = selected;
+			this(name, selected);
 			this.highlighted = highlighted;
+		}
+		
+		public SelectionDialogOption(int ID, Boolean selected) {
+			this(getResources().getString(ID), selected);
+			this.ID = Integer.valueOf(ID);
+		}
+		
+		public SelectionDialogOption(int ID, Boolean selected, Boolean highlighted) {
+			this(getResources().getString(ID), selected, highlighted);
+			this.ID = Integer.valueOf(ID);
 		}
 	}
 }

@@ -36,8 +36,8 @@
 //     If reduced in one dimension, draw vertical rectangles.
 //     Otherwise draw quadrilaterals.
 
-#ifndef REDUCE_H
-#define REDUCE_H
+#ifndef BOINC_REDUCE_H
+#define BOINC_REDUCE_H
 
 #define MAX_DATA    65536
 #define MAX_DIMX    1024

@@ -1,0 +1,9 @@
+name = BOINC Solr Comments
+description = Index comments into Apache Solr
+core = 6.x
+dependencies[] = apachesolr
+dependencies[] = apachesolr_search
+dependencies[] = boinccore
+package = BOINC
+
+version = 6.x-0.1

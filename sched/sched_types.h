@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SCHED_TYPES_
-#define _SCHED_TYPES_
+#ifndef BOINC_SCHED_TYPES_H
+#define BOINC_SCHED_TYPES_H
 
 #include <cstdio>
 #include <vector>
@@ -25,6 +25,7 @@
 #include "common_defs.h"
 #include "md5_file.h"
 #include "coproc.h"
+#include "keyword.h"
 
 #include "edf_sim.h"
 
@@ -345,7 +346,7 @@ struct SCHEDULER_REQUEST {
         // Don't modify user prefs or CPID
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
-    std::string client_opaque;
+    USER_KEYWORDS user_keywords;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};
@@ -367,7 +368,7 @@ struct DISK_LIMITS {
 struct PROJECT_PREFS {
     std::vector<APP_INFO> selected_apps;
     bool dont_use_proc_type[NPROC_TYPES];
-    bool allow_non_selected_apps;
+    bool allow_non_preferred_apps;
     bool allow_beta_work;
     int max_jobs_in_progress;
     int max_cpus;
@@ -376,7 +377,7 @@ struct PROJECT_PREFS {
 
     PROJECT_PREFS() {
         memset(&dont_use_proc_type, 0, sizeof(dont_use_proc_type));
-        allow_non_selected_apps = false;
+        allow_non_preferred_apps = false;
         allow_beta_work = false;
         max_jobs_in_progress = 0;
         max_cpus = 0;
@@ -587,4 +588,5 @@ inline bool is_64b_platform(const char* name) {
 }
 
 extern double available_frac(BEST_APP_VERSION&);
+
 #endif

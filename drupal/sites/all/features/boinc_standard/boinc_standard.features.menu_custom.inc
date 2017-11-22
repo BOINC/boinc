@@ -13,7 +13,7 @@ function boinc_standard_menu_default_menu_custom() {
     'description' => 'Auxiliary menu, typically at the bottom of the page in the footer, that includes links to content such as "about us" or "privacy policy" etc.',
   );
   // Translatables
-  // Included for use with string extractors like potx.
+  // Title and description for footer menu appears in admin menu: Admin> Site Building> Menus
   t('Auxiliary menu, typically at the bottom of the page in the footer, that includes links to content such as "about us" or "privacy policy" etc.');
   t('Footer links');
 

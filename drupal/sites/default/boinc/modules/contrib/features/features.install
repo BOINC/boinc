@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * Implementaton of hook_install().
+ */
+function features_install() {
+  _features_install_menu();
+  db_query("UPDATE {system} SET weight = 20 WHERE name = 'features' AND type = 'module'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function features_uninstall() {
+  variable_del('features_codecache');
+  variable_del('features_semaphore');
+  variable_del('features_ignored_orphans');
+  db_query("DELETE FROM {menu_custom} WHERE menu_name = 'features'");
+  db_query("DELETE FROM {menu_links} WHERE module = 'features'");
+}
+
+/**
+ * Create menu. See menu.install for an example.
+ */
+function _features_install_menu() {
+  if (db_table_exists('menu_custom') && !db_result(db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name = 'features'"))) {
+    $t = get_t();
+    db_query("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('%s', '%s', '%s')", 'features', $t('Features'), $t('Menu items for any enabled features.'));
+  }
+}
+
+/**
+ * Update 6100: Set module on all feature node types to 'features'.
+ 
+ * This update can be re-run as needed to repair any node types that are not 
+ * removed after disabling the associated feature.
+ * 
+ * Any feature implementing a node component that was exported prior to this 
+ * version of the features.module will need to have its 'module' declaration 
+ * in hook_node_info() changed from 'node' to 'features'.
+ */
+function features_update_6100() {
+  $ret = array();
+
+  foreach (features_get_features(NULL, TRUE) as $feature) {
+    if (module_exists($feature->name) && $types = module_invoke($feature->name, 'node_info')) {
+      foreach ($types as $type => $type_data) {
+        $sql = "SELECT COUNT(*) FROM {node_type} WHERE module = 'node' AND type = '%s'";
+        // Only update if the hook_node_info type's module is 'features' and the db type's
+        // module is 'node'.
+        if (($type_data['module'] == 'features') && db_result(db_query($sql, $type))) {
+          $ret[] = update_sql("UPDATE {node_type} SET module = 'features' WHERE type = '$type'");
+        }
+      }
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Update 6101: Set codestate signature for all features.
+ *
+ * This update generates a codestate for all feature/component pairs which
+ * have been installed prior to this version of Features. This prevents
+ * automatic rebuilds from occurring against any rebuildable components
+ * that have been overridden.
+ */
+function features_update_6101() {
+  // Ensure all of our own API functions still exist in in this version
+  // of Features. It's possible that the "future me" will not have these
+  // functions, so I should check.
+  module_load_include('inc', 'features', "features.export");
+  $functions = array(
+    'features_include',
+    'features_hook',
+    'features_get_components',
+    'features_get_features',
+    'features_get_signature',
+    'features_set_signature',
+  );
+  $doit = TRUE;
+  foreach ($functions as $function) {
+    $doit = $doit && function_exists($function);
+  }
+  if ($doit) {
+    features_include();
+    $features = array_keys(features_get_features(NULL, TRUE));
+    $components = array_keys(features_get_components());
+    foreach ($features as $feature) {
+      if (module_exists($feature)) {
+        foreach ($components as $component) {
+          if (features_hook($component, 'features_rebuild') && features_get_signature('cache', $feature, $component) === FALSE) {
+            features_set_signature($feature, $component, -1);
+          }
+        }
+      }
+    }
+  }
+  return array();
+}

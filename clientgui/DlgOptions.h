@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _DLGOPTIONS_H_
-#define _DLGOPTIONS_H_
+
+#ifndef BOINC_DLGOPTIONS_H
+#define BOINC_DLGOPTIONS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgOptions.cpp"
@@ -190,4 +191,3 @@ private:
 };
 
 #endif
-    // _DLGOPTIONS_H_

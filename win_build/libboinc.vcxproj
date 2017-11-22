@@ -183,7 +183,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4127;4702;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
@@ -214,6 +214,7 @@
     <ClInclude Include="..\lib\filesys.h" />
     <ClInclude Include="..\lib\hostinfo.h" />
     <ClInclude Include="..\lib\idlemon.h" />
+    <ClInclude Include="..\lib\keyword.h" />
     <ClInclude Include="..\lib\md5.h" />
     <ClInclude Include="..\lib\md5_file.h" />
     <ClInclude Include="..\lib\mem_usage.h" />
@@ -266,6 +267,7 @@
     </ClCompile>
     <ClCompile Include="..\lib\hostinfo.cpp" />
     <ClCompile Include="..\lib\idlemon_win.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
     <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mem_usage.cpp" />

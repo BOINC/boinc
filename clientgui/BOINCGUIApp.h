@@ -21,8 +21,8 @@
 /// The BOINC Manager
 /// @{
 
-#ifndef _BOINCGUIAPP_H_
-#define _BOINCGUIAPP_H_
+#ifndef BOINC_BOINCGUIAPP_H
+#define BOINC_BOINCGUIAPP_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCGUIApp.cpp"
@@ -97,6 +97,7 @@ protected:
     int                 m_iBOINCMGRDisableAutoStart;
     int                 m_iShutdownCoreClient;
     int                 m_iDisplayExitDialog;
+    int                 m_iDisplayShutdownConnectedClientDialog;
 
     bool                m_bGUIVisible;
     
@@ -154,6 +155,11 @@ public:
                                                     { return m_iDisplayExitDialog; }
     void                SetBOINCMGRDisplayExitMessage(int iDisplayExitMessage)
                                                     { m_iDisplayExitDialog = iDisplayExitMessage; }
+
+    int                 GetBOINCMGRDisplayShutdownConnectedClientMessage()
+                                                    { return m_iDisplayShutdownConnectedClientDialog; }
+    void                SetBOINCMGRDisplayShutdownConnectedClientMessage(int iDisplayShutdownConnectedClientDialog)
+                                                    { m_iDisplayShutdownConnectedClientDialog = iDisplayShutdownConnectedClientDialog; }
 
     bool                GetRunDaemon()
                                                     { return m_bRunDaemon; }  

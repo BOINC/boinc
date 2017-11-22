@@ -43,17 +43,20 @@ if (!is_valid_country($country)) {
     error_page("bad country");
 }
 $country = BoincDb::escape_string($country);
-$postal_code = sanitize_tags(post_str("postal_code", true));
+if (POSTAL_CODE) {
+    $postal_code = BoincDb::escape_string(sanitize_tags(post_str("postal_code", true)));
+} else {
+    $postal_code = '';
+}
 
 $name = BoincDb::escape_string($name);
 $url = BoincDb::escape_string($url);
-$postal_code = BoincDb::escape_string($postal_code);
 
 $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"
 );
 if ($result) {
-    Header("Location: home.php");
+    Header("Location: ".USER_HOME);
 } else {
     error_page(tra("Couldn't update user info."));
 }

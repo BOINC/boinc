@@ -34,9 +34,9 @@ if ($option) {
 page_head(tra("Profiles"));
 
 echo "
-    <p>".tra("%1Profiles%2 let individuals share backgrounds and opinions with the %3 community.", "<b>", "</b>", PROJECT)." ".
+    <p>".tra("%1 Profiles %2 let individuals share backgrounds and opinions with the %3 community.", "<b>", "</b>", PROJECT)." ".
     tra("Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy.")."
-    <p>".tra("If you haven't already, you can %1create your own user profile%2 for others to see!", "<a href=\"create_profile.php\">", "</a>");
+    <p>".tra("If you haven't already, you can %1 create your own user profile %2 for others to see!", "<a href=\"create_profile.php\">", "</a>");
 
 start_table();
 
@@ -59,9 +59,9 @@ echo "</td></tr>";
 row1(tra("User Profile Explorer"));
 echo "<tr><td>
     <ul>
-    <li>".tra("View the %1User Picture Gallery%2.", "<a href=\"" . url_base() . "user_profile/user_gallery_1.html\">", "</a>")."</li>
-    <li>".tra("Browse profiles %1by country%2.", "<a href=\"" . url_base() . "user_profile/profile_country.html\">", "</a>")."</li>
-    <li>".tra("Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2.", "<a href=\"?cmd=rand&amp;pic=-1\">", "</a>",
+    <li>".tra("View the %1 User Picture Gallery %2.", "<a href=\"" . url_base() . "user_profile/user_gallery_1.html\">", "</a>")."</li>
+    <li>".tra("Browse profiles %1 by country %2.", "<a href=\"" . url_base() . "user_profile/profile_country.html\">", "</a>")."</li>
+    <li>".tra("Browse profiles %1 at random %2, %3 at random with pictures %2, or %4 at random without pictures %2.", "<a href=\"?cmd=rand&amp;pic=-1\">", "</a>",
             "<a href=\"?cmd=rand&amp;pic=1\">", "<a href=\"?cmd=rand&amp;pic=0\">")."</li>
 ";
 if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
@@ -75,7 +75,7 @@ row1(tra("Search profile text"));
 rowify("
     <form action=\"profile_search_action.php\" method=\"GET\">
     <input type=\"text\" name=\"search_string\">
-    <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Search")."\">
+    <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Search")."\">
     </form>
 ");
 end_table();

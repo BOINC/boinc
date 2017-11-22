@@ -63,7 +63,9 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sched_ops", sched_ops)) continue;
         if (xp.parse_bool("task", task)) continue;
 
+#ifdef ANDROID
         if (xp.parse_bool("android_debug", android_debug)) continue;
+#endif
         if (xp.parse_bool("app_msg_receive", app_msg_receive)) continue;
         if (xp.parse_bool("app_msg_send", app_msg_send)) continue;
         if (xp.parse_bool("async_file_debug", async_file_debug)) continue;
@@ -80,7 +82,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("heartbeat_debug", heartbeat_debug)) continue;
         if (xp.parse_bool("http_debug", http_debug)) continue;
         if (xp.parse_bool("http_xfer_debug", http_xfer_debug)) continue;
-	if (xp.parse_bool("idle_detection_debug", idle_detection_debug)) continue;
+        if (xp.parse_bool("idle_detection_debug", idle_detection_debug)) continue;
         if (xp.parse_bool("mem_usage_debug", mem_usage_debug)) continue;
         if (xp.parse_bool("network_status_debug", network_status_debug)) continue;
         if (xp.parse_bool("notice_debug", notice_debug)) continue;
@@ -111,7 +113,9 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <file_xfer>%d</file_xfer>\n"
         "        <sched_ops>%d</sched_ops>\n"
         "        <task>%d</task>\n"
+#ifdef ANDROID
         "        <android_debug>%d</android_debug>\n"
+#endif
         "        <app_msg_receive>%d</app_msg_receive>\n"
         "        <app_msg_send>%d</app_msg_send>\n"
         "        <async_file_debug>%d</async_file_debug>\n"
@@ -128,7 +132,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <heartbeat_debug>%d</heartbeat_debug>\n"
         "        <http_debug>%d</http_debug>\n"
         "        <http_xfer_debug>%d</http_xfer_debug>\n"
-	"        <idle_detection_debug>%d</idle_detection_debug>\n"
+        "        <idle_detection_debug>%d</idle_detection_debug>\n"
         "        <mem_usage_debug>%d</mem_usage_debug>\n"
         "        <network_status_debug>%d</network_status_debug>\n"
         "        <notice_debug>%d</notice_debug>\n"
@@ -152,7 +156,9 @@ int LOG_FLAGS::write(MIOFILE& out) {
         file_xfer ? 1 : 0,
         sched_ops ? 1 : 0,
         task ? 1 : 0,
+#ifdef ANDROID
         android_debug ? 1 : 0,
+#endif
         app_msg_receive ? 1 : 0,
         app_msg_send ? 1 : 0,
         async_file_debug ? 1 : 0,
@@ -169,7 +175,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         heartbeat_debug ? 1 : 0,
         http_debug ? 1 : 0,
         http_xfer_debug ? 1 : 0,
-	idle_detection_debug ? 1 : 0,
+        idle_detection_debug ? 1 : 0,
         mem_usage_debug ? 1 : 0,
         network_status_debug ? 1 : 0,
         notice_debug ? 1 : 0,
@@ -190,7 +196,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         unparsed_xml ? 1 : 0,
         work_fetch_debug ? 1 : 0
     );
-    
     return 0;
 }
 
@@ -276,7 +281,7 @@ int EXCLUDE_GPU::parse(XML_PARSER& xp) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/exclude_gpu")) {
             if (!found_url) return ERR_XML_PARSE;
-			return 0;
+            return 0;
         }
         if (xp.parse_string("url", url)) {
             canonicalize_master_url(url);
@@ -394,7 +399,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_AMD_GPU].push_back(n);
             continue;
         }
-        if (xp.parse_int("ignore_intel_gpu_dev", n)) {
+        if (xp.parse_int("ignore_intel_dev", n)) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
@@ -496,7 +501,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     int j;
     unsigned int i;
 
-    out.printf("<set_cc_config>\n");
     out.printf("<cc_config>\n");
 
     log_flags.write(out);
@@ -517,7 +521,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             alt_platforms[i].c_str()
         );
     }
-    
+
     out.printf(
         "        <client_version_check_url>%s</client_version_check_url>\n"
         "        <client_new_version_text>%s</client_new_version_text>\n"
@@ -526,7 +530,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         client_new_version_text.c_str(),
         client_download_url.c_str()
     );
-    
+
     for (int k=1; k<config_coprocs.n_rsc; k++) {
         if (!config_coprocs.coprocs[k].specified_in_config) continue;
         out.printf(
@@ -550,7 +554,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             "        </coproc>\n"
         );
     }
-    
+
     out.printf(
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
@@ -565,7 +569,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         dont_suspend_nci,
         dont_use_vbox
     );
-    
+
     for (i=0; i<exclude_gpus.size(); i++) {
         exclude_gpus[i].write(out);
     }
@@ -576,7 +580,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             exclusive_apps[i].c_str()
         );
     }
-            
+
     for (i=0; i<exclusive_gpu_apps.size(); ++i) {
         out.printf(
             "        <exclusive_gpu_app>%s</exclusive_gpu_app>\n",
@@ -604,7 +608,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         http_transfer_timeout,
         http_transfer_timeout_bps
     );
-        
+
     for (i=0; i<ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU].size(); ++i) {
         out.printf(
             "        <ignore_nvidia_dev>%d</ignore_nvidia_dev>\n",
@@ -621,11 +625,11 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 
     for (i=0; i<ignore_gpu_instance[PROC_TYPE_INTEL_GPU].size(); ++i) {
         out.printf(
-            "        <ignore_intel_gpu_dev>%d</ignore_intel_gpu_dev>\n",
+            "        <ignore_intel_dev>%d</ignore_intel_dev>\n",
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU][i]
         );
     }
-        
+
     out.printf(
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
@@ -660,9 +664,9 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         process_priority,
         process_priority_special
     );
-    
+
     proxy_info.write(out);
-    
+
     out.printf(
         "        <rec_half_life_days>%f</rec_half_life_days>\n"
         "        <report_results_immediately>%d</report_results_immediately>\n"
@@ -695,6 +699,208 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     );
 
     out.printf("    </options>\n</cc_config>\n");
-    out.printf("</set_cc_config>\n");
     return 0;
+}
+
+// app_config.xml stuff
+
+bool have_max_concurrent = false;
+
+int APP_CONFIG::parse_gpu_versions(
+    XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
+) {
+    double x;
+    char buf[1024];
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/gpu_versions")) return 0;
+        else if (xp.parse_double("gpu_usage", x)) {
+            if (x <= 0) {
+                mv.push_back(string("gpu_usage must be positive in app_config.xml"));
+            } else {
+                gpu_gpu_usage = x;
+            }
+            continue;
+        }
+        else if (xp.parse_double("cpu_usage", x)) {
+            if (x < 0) {
+                mv.push_back(string("cpu_usage must be non-negative in app_config.xml"));
+            } else {
+                gpu_cpu_usage = x;
+            }
+            continue;
+        }
+        if (log_flags.unparsed_xml) {
+            sprintf(buf, "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            mv.push_back(string(buf));
+        }
+    }
+    mv.push_back(string("Missing </gpu_versions> in app_config.xml"));
+    return ERR_XML_PARSE;
+}
+
+int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
+    char buf[1024];
+    memset(this, 0, sizeof(APP_CONFIG));
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/app")) return 0;
+        if (xp.parse_str("name", name, 256)) continue;
+        if (xp.parse_int("max_concurrent", max_concurrent)) {
+            if (max_concurrent) have_max_concurrent = true;
+            continue;
+        }
+        if (xp.match_tag("gpu_versions")) {
+            int retval = parse_gpu_versions(xp, mv, log_flags);
+            if (retval) return retval;
+            continue;
+        }
+        if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) {
+            continue;
+        }
+        if (xp.parse_bool("report_results_immediately", report_results_immediately)) {
+            continue;
+        }
+
+        // unparsed XML not considered an error; maybe it should be?
+        //
+        if (log_flags.unparsed_xml) {
+            sprintf(buf, "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            mv.push_back(string(buf));
+        }
+        xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIG::parse");
+    }
+    mv.push_back(string("Missing </app> in app_config.xml"));
+    return ERR_XML_PARSE;
+}
+
+int APP_VERSION_CONFIG::parse(
+    XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
+) {
+    char buf[1024];
+    memset(this, 0, sizeof(APP_VERSION_CONFIG));
+
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            sprintf(buf, "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            mv.push_back(string(buf));
+            return ERR_XML_PARSE;
+        }
+        if (xp.match_tag("/app_version")) return 0;
+        if (xp.parse_str("app_name", app_name, 256)) continue;
+        if (xp.parse_str("plan_class", plan_class, 256)) continue;
+        if (xp.parse_str("cmdline", cmdline, 256)) continue;
+        if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
+        if (xp.parse_double("ngpus", ngpus)) continue;
+        if (log_flags.unparsed_xml) {
+            sprintf(buf, "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            mv.push_back(string(buf));
+        }
+        xp.skip_unexpected(log_flags.unparsed_xml, "APP_VERSION_CONFIG::parse");
+    }
+    mv.push_back(string("Missing </app_version> in app_config.xml"));
+    return ERR_XML_PARSE;
+}
+
+int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
+    char buf[1024];
+    int n;
+    clear();
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            sprintf(buf, "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            mv.push_back(string(buf));
+            return ERR_XML_PARSE;
+        }
+        if (xp.match_tag("/app_config")) return 0;
+        if (xp.match_tag("app")) {
+            APP_CONFIG ac;
+            int retval = ac.parse(xp, mv, log_flags);
+            if (retval) return retval;
+            app_configs.push_back(ac);
+            continue;
+        }
+        if (xp.match_tag("app_version")) {
+            APP_VERSION_CONFIG avc;
+            int retval = avc.parse(xp, mv, log_flags);
+            if (retval) return retval;
+            app_version_configs.push_back(avc);
+            continue;
+        }
+        if (xp.parse_int("project_max_concurrent", n)) {
+            if (n >= 0) {
+                have_max_concurrent = true;
+                project_max_concurrent = n;
+            }
+            continue;
+        }
+        if (xp.parse_bool("report_results_immediately", report_results_immediately)) {
+            continue;
+        }
+        sprintf(buf, "Unknown tag in app_config.xml: %s", xp.parsed_tag);
+        mv.push_back(string(buf));
+
+        xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");
+    }
+    mv.push_back(string("Missing </app_config> in app_config.xml"));
+    return ERR_XML_PARSE;
+}
+
+int APP_CONFIGS::parse_file(FILE* f, MSG_VEC& mv, LOG_FLAGS& log_flags) {
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(f);
+    if (!xp.parse_start("app_config")) {
+        mv.push_back(string("Missing <app_config> in app_config.xml"));
+        return ERR_XML_PARSE;
+    }
+    return parse(xp, mv, log_flags);
+}
+
+void APP_CONFIGS::write(MIOFILE& out) {
+    out.printf(
+        "   <app_config>\n"
+    );
+    for (unsigned int i=0; i<app_configs.size(); i++) {
+        APP_CONFIG& ac = app_configs[i];
+        out.printf(
+            "       <app>\n"
+            "           <name>%s</name>\n"
+            "           <max_concurrent>%d</max_concurrent>\n"
+            "           <gpu_gpu_usage>%f</gpu_gpu_usage>\n"
+            "           <gpu_cpu_usage>%f</gpu_cpu_usage>\n"
+            "           <fraction_done_exact>%d</fraction_done_exact>\n"
+            "           <report_results_immediately>%d</report_results_immediately>\n"
+            "       </app>\n",
+            ac.name,
+            ac.max_concurrent,
+            ac.gpu_gpu_usage,
+            ac.gpu_cpu_usage,
+            ac.fraction_done_exact?1:0,
+            ac.report_results_immediately?1:0
+        );
+    }
+    for (unsigned int i=0; i<app_version_configs.size(); i++) {
+        APP_VERSION_CONFIG& avc = app_version_configs[i];
+        out.printf(
+            "       <app_version>\n"
+            "           <app_name>%s</app_name>\n"
+            "           <plan_class>%s</plan_class>\n"
+            "           <cmdline>%s</cmdline>\n"
+            "           <avg_ncpus>%f</avg_ncpus>\n"
+            "           <ngpus>%f</ngpus>\n"
+            "       </app_version>\n",
+            avc.app_name,
+            avc.plan_class,
+            avc.cmdline,
+            avc.avg_ncpus,
+            avc.ngpus
+        );
+    }
+    out.printf(
+        "       <project_max_concurrent>%d</project_max_concurrent>\n"
+        "       <report_results_immediately>%d</report_results_immediately>\n"
+        "   </app_config>\n",
+        project_max_concurrent,
+        report_results_immediately?1:0
+    );
 }

@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _DLGEVENTLOG_H_ 
-#define _DLGEVENTLOG_H_ 
+#ifndef BOINC_DLGEVENTLOG_H
+#define BOINC_DLGEVENTLOG_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "DlgEventLog.cpp"
@@ -92,7 +92,7 @@ public:
     /// Constructors
     CDlgEventLog( wxWindow* parent = NULL, wxWindowID id = SYMBOL_CDLGEVENTLOG_IDNAME, const wxString& caption = SYMBOL_CDLGEVENTLOG_TITLE, const wxPoint& pos = SYMBOL_CDLGEVENTLOG_POSITION, const wxSize& size = SYMBOL_CDLGEVENTLOG_SIZE, long style = SYMBOL_CDLGEVENTLOG_STYLE );
     ~CDlgEventLog();
-    
+
     /// Creation
     bool Create( wxWindow* parent = NULL, wxWindowID id = SYMBOL_CDLGEVENTLOG_IDNAME, const wxString& caption = SYMBOL_CDLGEVENTLOG_TITLE, const wxPoint& pos = SYMBOL_CDLGEVENTLOG_POSITION, const wxSize& size = SYMBOL_CDLGEVENTLOG_SIZE, long style = SYMBOL_CDLGEVENTLOG_STYLE );
 
@@ -101,10 +101,10 @@ public:
 
     /// Sets text for m_pFilterButton
     void SetFilterButtonText();
-    
+
     /// Text color selection
     void SetTextColor();
-    
+
 ////@begin CDlgEventLog event handler declarations
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
     void OnHelp( wxHelpEvent& event );
@@ -114,7 +114,7 @@ public:
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
-    
+
     /// wxEVT_CLOSE event handler for CDlgEventLog (window close control clicked)
     void OnClose(wxCloseEvent& event);
 
@@ -135,7 +135,7 @@ public:
 
     /// EVT_LIST_COL_END_DRAG event handler for ID_SIMPLE_MESSAGESVIEW
     void OnColResize( wxListEvent& event );
-    
+
     /// called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
     void OnRefresh();
 ////@end CDlgEventLog event handler declarations
@@ -196,8 +196,8 @@ private:
 
     void                    OnMouseUp(wxMouseEvent& event);
 
-    void                    ResetMessageFiltering();    
-    
+    void                    ResetMessageFiltering();
+
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
@@ -212,5 +212,4 @@ private:
 #endif
 };
 
-
-#endif  // end CDlgMessages
+#endif

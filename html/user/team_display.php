@@ -27,6 +27,9 @@ check_get_args(array("teamid"));
 
 $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
+if (!$team) {
+    error_page("no such team");
+}
 
 $get_from_db = false;
 

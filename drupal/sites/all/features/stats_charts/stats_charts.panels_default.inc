@@ -27,6 +27,8 @@ function stats_charts_default_panels_mini() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'project_stats_overview';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -38,7 +40,7 @@ function stats_charts_default_panels_mini() {
     $pane->access = array();
     $pane->configuration = array(
       'admin_title' => 'Project stats overview',
-      'title' => 'Einstein@Home Progress',
+      'title' => bts('@this_project Progress', array('@this_project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:frontpage'),
       'body' => '<?php echo boincstats_get_project_stats_overview(); ?>',
       'format' => '3',
       'substitute' => TRUE,

@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _HOSTINFO_
-#define _HOSTINFO_
+#ifndef BOINC_HOSTINFO_H
+#define BOINC_HOSTINFO_H
 
 // Description of a host's hardware and software.
 // This is used a few places:
@@ -62,7 +62,6 @@ public:
     char os_name[256];
     char os_version[256];
     char product_name[256];       // manufacturer and/or model of system
-                                  // currently used for Android devices
     char mac_address[256];      // MAC addr e.g. 00:00:00:00:00:00
                                 // currently populated for Android
 
@@ -103,6 +102,8 @@ public:
 };
 
 #ifdef __APPLE__
+    int get_system_uptime();
+
 #ifdef __cplusplus
 extern "C" {
 #endif

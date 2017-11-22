@@ -482,9 +482,6 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     // button or not (initially the label is "Next")
     bool btnLabelWasNext = true;
 
-    // remember the old bitmap (if any) to compare with the new one later
-    wxBitmap bmpPrev;
-
     // check for previous page
     if ( m_page )
     {
@@ -556,6 +553,8 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
 
     m_btnNext->SetDefault();
 
+    // enable 'Cancel' button if this is not a final step only
+    m_btnCancel->Enable(hasNext);
 
     // send the change event to the new page now
     wxWizardExEvent event(wxEVT_WIZARDEX_PAGE_CHANGED, GetId(), goingForward, m_page);

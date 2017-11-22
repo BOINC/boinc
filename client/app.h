@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _APP_H_
-#define _APP_H_
+#ifndef BOINC_APP_H
+#define BOINC_APP_H
 
 #ifndef _WIN32
 #include <cstdio>

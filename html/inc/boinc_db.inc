@@ -755,6 +755,10 @@ class BoincCreditUser {
         $db = BoincDb::get();
         $db->delete_aux('credit_user', "userid=$user->id");
     }
+    static function get_list($where_clause, $order_clause, $limit) {
+        $db = BoincDB::get();
+        return $db->get_list('user', 'credit_user', 'id', 'userid', 'BoincCreditUser', '*', $where_clause, $order_clause, $limit);
+    }
 }
 
 class BoincCreditTeam {
@@ -773,6 +777,10 @@ class BoincCreditTeam {
     static function update($clause) {
         $db = BoincDb::get();
         return $db->update_aux('credit_team', $clause);
+    }
+    static function get_list($where_clause, $order_clause, $limit) {
+        $db = BoincDB::get();
+        return $db->get_list('team', 'credit_team', 'id', 'teamid', 'BoincCreditTeam', '*', $where_clause, $order_clause, $limit);
     }
 }
 

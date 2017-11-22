@@ -325,7 +325,7 @@ if ($data->node_type == \'forum\') {
   print $data->vocabulary_name . \' &rsaquo; \' . $data->term_data_name;
 }
 elseif ($data->node_type == \'news\') {
-  print bts(\'News\');
+  print bts(\'News\', array(), NULL, \'boinc:menu-link\');
 }
 ?>',
       'exclude' => 0,
@@ -448,7 +448,7 @@ elseif ($data->node_type == \'news\') {
   $handler->override_option('path', 'account/prefs/subscriptions');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'Subscriptions',
+    'title' => bts('Subscriptions', array(), NULL, 'boinc:account-dashboard'),
     'description' => '',
     'weight' => '20',
     'name' => 'primary-links',
@@ -765,7 +765,7 @@ if ($data->node_type == \'forum\') {
   print $data->vocabulary_name . \' &rsaquo; \' . $data->term_data_name;
 }
 elseif ($data->node_type == \'news\') {
-  print bts(\'News\');
+  print bts(\'News\', array(), NULL, \'boinc:menu-link\');
 }
 ?>',
       'exclude' => 0,
@@ -778,7 +778,7 @@ elseif ($data->node_type == \'news\') {
       'relationship' => 'none',
     ),
     'last_updated' => array(
-      'label' => 'Updated',
+      'label' => bts('Updated', array(), NULL, 'boinc:account-dashboard'),
       'alter' => array(
         'alter_text' => 0,
         'text' => '',

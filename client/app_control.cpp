@@ -390,12 +390,12 @@ void ACTIVE_TASK::handle_temporary_exit(
     } else {
         if (is_notice) {
             msg_printf(result->project, MSG_USER_ALERT,
-                "Task postponed: %s", reason
+                "Task %s postponed for %.f seconds: %s", result->name, backoff, reason
             );
         } else {
             if (log_flags.task) {
                 msg_printf(result->project, MSG_INFO,
-                    "task postponed %f sec: %s", backoff, reason
+                    "Task %s postponed for %.f seconds: %s", result->name, backoff, reason
                 );
             }
         }
@@ -439,6 +439,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         );
     }
 #endif
+    char err_msg[4096];
     bool will_restart = false;
 
     get_app_status_msg();
@@ -491,12 +492,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         default:
             char szError[1024];
             set_task_state(PROCESS_EXITED, "handle_exited_app");
-            gstate.report_result_error(
-                *result,
+            snprintf(err_msg, sizeof(err_msg),
                 "%s - exit code %d (0x%x)",
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
             );
+            gstate.report_result_error(*result, err_msg);
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
                     "[task] Process for %s exited",
@@ -528,12 +529,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 }
                 if (result->exit_status) {
                     set_task_state(PROCESS_EXITED, "handle_exited_app");
-                    gstate.report_result_error(
-                        *result,
+                    snprintf(err_msg, sizeof(err_msg),
                         "process exited with code %d (0x%x, %d)",
                         result->exit_status, result->exit_status,
                         (-1<<8)|result->exit_status
                     );
+                    gstate.report_result_error(*result, err_msg);
                 } else {
                     if (finish_file_present()) {
                         set_task_state(PROCESS_EXITED, "handle_exited_app");
@@ -567,9 +568,10 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 result->exit_status = stat;
                 set_task_state(PROCESS_WAS_SIGNALED, "handle_exited_app");
                 signal = got_signal;
-                gstate.report_result_error(
-                    *result, "process got signal %d", signal
+                snprintf(err_msg, sizeof(err_msg),
+                    "process got signal %d", signal
                 );
+                gstate.report_result_error(*result, err_msg);
             }
         } else {
             result->exit_status = EXIT_UNKNOWN;
@@ -963,9 +965,10 @@ int ACTIVE_TASK::read_stderr_file() {
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return 0;
-    if (read_file_malloc(path, buf1, max_len, !cc_config.stderr_head)) {
-        return ERR_MALLOC;
-    }
+    int retval  = read_file_malloc(
+        path, buf1, max_len, !cc_config.stderr_head
+    );
+    if (retval) return retval;
 
     // if it's a vbox app, check for string in stderr saying
     // the job failed because CPU VM extensions disabled

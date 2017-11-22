@@ -45,31 +45,13 @@
  *
  * @see template_preprocess_search_result()
  */
- 
- global $base_path;
- 
 ?>
-<?php switch ($info_split['type']): ?>
+<?php switch ($result['bundle']): ?>
 <?php
   case 'Profile':
   case 'profile':
-    $parsed_url = parse_url($url);
-    $base_length = strlen($base_path);
-    $core_path = trim(substr($parsed_url['path'], $base_length), '/');
-    $path = drupal_lookup_path('source', $core_path);
-    $matches = array();
-    if (preg_match('/node\/([0-9]+)/', $path, $matches)) {
-      $node = node_load($matches[1]);
-      $account = user_load($node->uid);
-      $user_image = boincuser_get_user_profile_image($account->uid);
-      $url = "{$base_path}account/{$account->uid}";
-      $forum = $node->taxonomy[$node->forum_tid]->name;
-      if ($forum) {
-        $title_prefix = "{$forum} : ";
-      }
-      //echo '<pre>' . print_r($node,1) . '</pre>';
-      //echo '<pre>' . print_r($account,1) . '</pre>';
-    }
+  case 'User':
+  case 'user':
   ?>
   <div class="result user">
     <?php if ($user_image['image']['filepath']): ?>
@@ -80,10 +62,14 @@
     <div class="name"><a href="<?php print $url; ?>"><?php print $title; ?></a></div>
     <div class="details">
       <div class="user-stats">
-        <div class="join-date"><?php print bts('Joined') . ': ' . date('j M y', $account->created); ?></div>
-        <div class="post-count"><?php print bts('Posts') . ': ' . $account->post_count; ?></div>
-        <div class="credit"><?php print bts('Credit') . ': ' . $account->boincuser_total_credit; ?></div>
-        <div class="rac"><?php print bts('RAC') . ': ' . $account->boincuser_expavg_credit; ?></div>
+        <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
+        <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
+        <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>
+        <?php $nf2 = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
+        <div class="join-date"><?php print bts('Joined: @join_date', array( '@join_date' => date('j M y', $account->created) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="post-count"><?php print bts('Posts: @post_count', array( '@post_count' => $nf->format($account->post_count) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="credit"><?php print bts('Credit: @user_credits', array( '@user_credits' => $nf->format($account->boincuser_total_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
+        <div class="rac"><?php print bts('RAC: @user_rac', array( '@user_rac' => $nf2->format($account->boincuser_expavg_credit) ), NULL, 'boinc:mini-user-stats'); ?></div>
       </div>
     </div>
     <?php if ($snippet) : ?>
@@ -94,48 +80,63 @@
   <?php break; ?>
   
 <?php
-  case 'Forum topic':
-    $parsed_url = parse_url($url);
-    $base_length = strlen($base_path);
-    $core_path = trim(substr($parsed_url['path'], $base_length), '/');
-    $path = drupal_lookup_path('source', $core_path);
-    $matches = array();
-    if (preg_match('/node\/([0-9]+)/', $path, $matches)) {
-      $node = node_load($matches[1]);
-      $forum = $node->taxonomy[$node->forum_tid]->name;
-      if ($forum) {
-        $title_prefix = "{$forum} : ";
-      }
-      //echo '<pre>' . print_r($variables,1) . '</pre>';
-      //echo 'node: ' . $variables['result']['node']->nid;
-    }
+  case 'Forum':
+  case 'forum':
   ?>
   <div class="result forum">
-    <div class="title">
-      <a href="<?php print $url; ?>"><?php print $title_prefix . $title; ?></a>
-    </div>
-    <div class="details">
+    <dt class="title">
+      <?php if ($parent_forum): ?>
+        <?php print $parent_forum . " : "; ?>
+      <?php endif; ?>
+      <a href="<?php print $url; ?>"><?php print $title; ?></a>
+    </dt>
+    <dd class="details">
       <?php if ($snippet) : ?>
         <p class="search-snippet"><?php print $snippet; ?></p>
       <?php endif; ?>
       <?php if ($info) : ?>
         <p class="search-info"><?php print $info; ?></p>
       <?php endif; ?>
-    </div>
+    </dd>
   </div>
   <?php break; ?>
-  
+
+<?php
+  case 'Comment':
+  case 'comment':
+  ?>
+  <div class="result">
+    <dt class="title">
+      <?php if ($parent_forum): ?>
+        <?php print $parent_forum . " : "; ?>
+      <?php endif; ?>
+      <a href="<?php print $url; ?>"><?php print $parent_title; ?></a>
+    </dt>
+    <dd>
+      <?php if ($snippet) : ?>
+        <p class="search-snippet"><?php print $snippet; ?></p>
+      <?php endif; ?>
+      <?php if ($info) : ?>
+        <p class="search-info"><?php print $info; ?>
+        </p>
+      <?php endif; ?>
+    </dd>
+  </div>
+<?php break; ?>
+
 <?php default: ?>
-  <dt class="title">
-    <a href="<?php print $url; ?>"><?php print $title; ?></a>
-  </dt>
-  <dd>
-    <?php if ($snippet) : ?>
-      <p class="search-snippet"><?php print $snippet; ?></p>
-    <?php endif; ?>
-    <?php if ($info) : ?>
-    <p class="search-info"><?php print $info; ?></p>
-    <?php endif; ?>
-  </dd>
+  <div class="result">
+    <dt class="title">
+      <a href="<?php print $url; ?>"><?php print $title; ?></a>
+    </dt>
+    <dd>
+      <?php if ($snippet) : ?>
+        <p class="search-snippet"><?php print $snippet; ?></p>
+      <?php endif; ?>
+      <?php if ($info) : ?>
+      <p class="search-info"><?php print $info; ?></p>
+      <?php endif; ?>
+    </dd>
+  </div>
 <?php endswitch; ?>
-                 <?php //print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>
+<?php //print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>

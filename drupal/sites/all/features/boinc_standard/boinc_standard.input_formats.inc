@@ -12,9 +12,20 @@ function boinc_standard_input_formats() {
   $input_format->roles = array(
     1 => 'anonymous user',
     2 => 'authenticated user',
+    3519698132 => 'administrator',
+    1110965548 => 'community member',
+    2938987599 => 'content editor',
+    268174006 => 'forum control (system use only)',
+    1271379760 => 'moderator',
+    933038561 => 'verified contributor',
   );
   $input_format->cache = FALSE;
   $input_format->settings = array(
+    // Settings for: boinctranslate module
+    'boinctranslate' => array(
+      // Print debugging info
+      'boinctranslate_filter_debug' => '0',
+    ),
     // Settings for: tableofcontents module
     'tableofcontents' => array(
       // Hide the table of contents tags
@@ -55,6 +66,8 @@ function boinc_standard_input_formats() {
       'tableofcontents_id_generator' => 'title',
       // List of tags allowed in table headers
       'tableofcontents_allowed_tags' => '<em> <i> <strong> <b> <u> <del> <ins> <sub> <sup> <cite> <strike> <s> <tt> <span> <font> <abbr> <acronym> <dfn> <q> <bdo> <big> <small>',
+      // Attachments
+      'tableofcontents_attachments' => 0,
       // Add the comments to the table of contents
       'tableofcontents_comments' => 0,
       // Select header level at which comments start
@@ -132,29 +145,55 @@ function boinc_standard_input_formats() {
     ),
   );
   $input_format->filters = array(
+    'boinctranslate' => array(
+      // Delta => Weight for: BOINC translation filter to help split content into chunks for translations.
+      '0' => '1',
+    ),
     'tableofcontents' => array(
       // Delta => Weight for: Table of contents
-      '0' => '-10',
+      '0' => '2',
     ),
     'pathologic' => array(
       // Delta => Weight for: Pathologic
-      '0' => '-9',
+      '0' => '3',
     ),
     'bbcode' => array(
       // Delta => Weight for: BBCode
-      '0' => '-8',
+      '0' => '4',
     ),
     'htmlpurifier' => array(
       // Delta => Weight for: HTML Purifier
-      '0' => '-7',
+      '0' => '5',
     ),
     'image_caption_filter' => array(
       // Delta => Weight for: Image caption filter
-      '0' => '-6',
+      '0' => '6',
     ),
   );
   $input_format->machine = 'rich_text';
   $input_formats['rich_text'] = $input_format;
+
+  $input_format = new stdClass;
+  $input_format->api_version = 1;
+  $input_format->name = 'Plain text';
+  $input_format->roles = array(
+    3519698132 => 'administrator',
+  );
+  $input_format->cache = FALSE;
+  $input_format->settings = array(
+  );
+  $input_format->filters = array(
+    'boinctranslate' => array(
+      // Delta => Weight for: BOINC translation filter to help split content into chunks for translations.
+      '0' => '10',
+    ),
+    'filter' => array(
+      // Delta => Weight for: HTML filter
+      '0' => '10',
+    ),
+  );
+  $input_format->machine = 'plain_text';
+  $input_formats['plain_text'] = $input_format;
 
   $input_format = new stdClass;
   $input_format->api_version = 1;
@@ -170,30 +209,6 @@ function boinc_standard_input_formats() {
   );
   $input_format->machine = 'php_code';
   $input_formats['php_code'] = $input_format;
-
-  $input_format = new stdClass;
-  $input_format->api_version = 1;
-  $input_format->name = 'Plain text';
-  $input_format->roles = array(
-    3519698132 => 'administrator',
-  );
-  $input_format->cache = TRUE;
-  $input_format->settings = array(
-    // Settings for: filter module
-    'filter' => array(
-      'filter_html' => '2',
-      'allowed_html' => '<a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd>',
-      'filter_html_help' => 0,
-      'filter_html_nofollow' => 0,
-    ),
-  );
-  $input_format->filters = array(
-    'filter' => array(
-      '0' => '10',
-    ),
-  );
-  $input_format->machine = 'plain_text';
-  $input_formats['plain_text'] = $input_format;
 
   return $input_formats;
 

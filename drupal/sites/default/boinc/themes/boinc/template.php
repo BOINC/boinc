@@ -91,14 +91,14 @@ function boinc_links__system_main_menu($links, $menu, $element) {
     if ($i == $item_count) $classes[] = 'last';
     $html .= '<li class="' . implode(' ', $classes) .'">';
     if ($link['title'] == 'Home') {
-      $link['title'] = bts('Home');
+      $link['title'] = bts('Home', array(), NULL, 'boinc:menu-link');
     }
     if (module_exists('privatemsg')) {
       // Put a new mail notification next to the Account menu item
       if ($link['href'] == 'dashboard') {
         $item_count = privatemsg_unread_count();
         if ($item_count) {
-          $link['title'] .= '</a> <a href="/messages" class="compound secondary"><div class="item-count-wrapper"><span class="item-count">' . $item_count . '</span></div>';
+          $link['title'] .= '</a> <a href="' . url('messages') . '" class="compound secondary"><div class="item-count-wrapper"><span class="item-count">' . $item_count . '</span></div>';
           $link['html'] = TRUE;
           $link['attributes']['class'] = 'compound';
         }
@@ -167,9 +167,12 @@ function boinc_preprocess(&$vars, $hook) {
  * @param $hook
  *   The name of the template being rendered ("page" in this case.)
  */
-///* -- Delete this line if you want to use this function
 function boinc_preprocess_page(&$vars, $hook) {
-  
+  // Responsive Design: Add viewport meta tag to HTML head
+  drupal_set_html_head('<meta name="viewport" content="width=device-width, initial-scale=1.0" />');
+  $vars['head'] = drupal_get_html_head();
+  //dpm($vars['head'], "preprocess (all) vars[head]");
+
   // Expose comments to template files; this is needed so that comments can be
   // rendered in locations other than directly below the node content
   $vars['comments'] = $vars['comment_form'] = '';
@@ -177,64 +180,88 @@ function boinc_preprocess_page(&$vars, $hook) {
     $vars['comments'] = comment_render($vars['node']);
     $vars['comment_form'] = drupal_get_form('comment_form', array('nid' => $vars['node']->nid));
   }
-  
-    // Determine locale region code so the correct flag is displayed in footer
-    global $language;
-    global $theme_path;
-    $locality = $language->language;
-    if (strpos($language->language, '-')) {
-      $flag_icon = "{$theme_path}/images/flags/{$language->language}.png";
-      if (!file_exists($flag_icon)) {
-        $lang_code = explode('-', $language->language);
-        $locality = $lang_code[0];
-      }
-    }
-    $vars['flag_path'] = base_path() . path_to_theme() . "/images/flags/{$locality}.png";
-    
-    $server_status_url = variable_get('boinc_server_status_url', '');
-    if (!$server_status_url) {
-      $server_status_url = 'server_status.php';
-    }
-    $vars['server_status_url'] = $server_status_url;
-    
-    $app_list_url = variable_get('boinc_app_list_url', '');
-    if (!$app_list_url) {
-      $app_list_url = 'apps.php';
-    }
-    $vars['app_list_url'] = $app_list_url;
-    
-    // Remove title from search page
-    if (arg(0) == 'search') {
-      unset($vars['title']);
-    }
-    
-    // Apply classes to tabs to allow for better styling options
-    $tabs = explode("\n", $vars['tabs']);
-    array_pop($tabs);
-    end($tabs);
-    $last_key = key($tabs);
 
-    foreach ($tabs as $key => &$tab) {
-        if (strpos($tab, 'li class=')) {
-            if ($key == 0) {
-                $tab = str_replace('li class="', 'li class="first ', $tab);
-            }
-            if ($key == $last_key) {
-                $tab = str_replace('li class="', 'li class="last ', $tab) . '</ul>';
-            }
-        }
-        elseif (strpos($tab, 'li ')) {
-            if ($key == 0) {
-                $tab = str_replace('li ', 'li class="first" ', $tab);
-            }
-            if ($key == $last_key) {
-                $tab = str_replace('li ', 'li class="last" ', $tab) . '</ul>';
-            }
-        }
+  // Determine locale region code so the correct flag is displayed in footer
+  global $language;
+  global $theme_path;
+  $locality = $language->language;
+  if (strpos($language->language, '-')) {
+    $flag_icon = "{$theme_path}/images/flags/{$language->language}.png";
+    if (!file_exists($flag_icon)) {
+      $lang_code = explode('-', $language->language);
+      $locality = $lang_code[0];
     }
-    $vars['tabs'] = implode("\n", $tabs);
+  }
+  $vars['flag_path'] = base_path() . path_to_theme() . "/images/flags/{$locality}.png";
+
+  $server_status_url = variable_get('boinc_server_status_url', '');
+  if (!$server_status_url) {
+    $server_status_url = 'server_status.php';
+  }
+  $vars['server_status_url'] = $server_status_url;
+
+  $app_list_url = variable_get('boinc_app_list_url', '');
+  if (!$app_list_url) {
+    $app_list_url = 'apps.php';
+  }
+  $vars['app_list_url'] = $app_list_url;
+
+  // Remove title from certain pages using URL.
+  // This is a kludge to remove the title of the page but not the
+  // "head_title" which is placed in the HTML <head> section. Most of
+  // these pages are defined in the Page Manager module.
+  // See: https://dev.gridrepublic.org/browse/DBOINC-65
+  if (arg(0) == 'search') { 
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (is_numeric(arg(1))) AND (empty(arg(2))) ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='account') AND (arg(1)=='profile') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='dashboard') ) {
+    unset($vars['title']);
+  }
+  else if ( (arg(0)=='community') AND ( (arg(1)=='teams') OR (arg(1)=='stats') ) ) {
+    unset($vars['title']);
+  }
+
+  // Apply classes to tabs to allow for better styling options
+  $tabs = explode("\n", $vars['tabs']);
+  array_pop($tabs);
+  end($tabs);
+  $last_key = key($tabs);
+
+  foreach ($tabs as $key => &$tab) {
+      if (strpos($tab, 'li class=')) {
+          if ($key == 0) {
+              $tab = str_replace('li class="', 'li class="first ', $tab);
+          }
+          if ($key == $last_key) {
+              $tab = str_replace('li class="', 'li class="last ', $tab) . '</ul>';
+          }
+      }
+      elseif (strpos($tab, 'li ')) {
+          if ($key == 0) {
+              $tab = str_replace('li ', 'li class="first" ', $tab);
+          }
+          if ($key == $last_key) {
+              $tab = str_replace('li ', 'li class="last" ', $tab) . '</ul>';
+          }
+      }
+  }
+  $vars['tabs'] = implode("\n", $tabs);
+
+  // Get the main menu but only for the branch the page is on.
+  $vars['menu_tree_onlyactive'] = menu_tree('primary-links');
+
+  // Create tertiary menu
+  $vars['tertiary_links'] = menu_navigation_links(variable_get('menu_primary_links_source', 'primary-links'), 2);
+
+  // Create action links
+  $vars['action_links'] = _boinc_action_links();
 }
-// */
 
 /**
  * Override or insert variables into the node templates.
@@ -275,7 +302,7 @@ function boinc_preprocess_forums(&$vars, $hook) {
     unset($vars['links']['forum']);
     // Add a link to manage subscriptions for the user
     $vars['links']['subscriptions'] = array(
-      'title' => bts('Manage subscriptions'),
+      'title' => bts('Manage subscriptions', array(), NULL, 'boinc:forum-footer'),
       'href' => 'account/prefs/subscriptions',
     );
   }
@@ -285,7 +312,11 @@ function boinc_preprocess_forums(&$vars, $hook) {
  * Preprocessing for forum type nodes
  */
 function boinc_preprocess_node_forum(&$vars, $hook) {
+  global $language;
   global $user;
+
+  // Locality
+  $vars['locality'] = $language->language;
 
   // Get the author of the node
   $account = user_load($vars['uid']);
@@ -332,15 +363,20 @@ function boinc_preprocess_node_team_forum(&$vars, $hook) {
  *   The name of the template being rendered ("comment" in this case.)
  */
 function boinc_preprocess_comment(&$vars, $hook) {
-    // Show signatures based on user preference
-    global $user;
-    $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
+  global $language;
+  global $user;
 
-    $links = $vars['links'];
-    $moderator_links = array();
-    _boinc_create_moderator_links($links, $moderator_links);
-    $vars['links'] = $links;
-    $vars['moderator_links'] = $moderator_links;
+  // Locality
+  $vars['locality'] = $language->language;
+
+  // Show signatures based on user preference
+  $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
+
+  $links = $vars['links'];
+  $moderator_links = array();
+  _boinc_create_moderator_links($links, $moderator_links);
+  $vars['links'] = $links;
+  $vars['moderator_links'] = $moderator_links;
 }
 
 /**
@@ -358,6 +394,11 @@ function boinc_preprocess_forum_topic_list(&$variables) {
           // User hasn't visited this topic before, so all replies are new...
           $topic->new_replies = NULL;
         }
+      }
+      // Use same logic in forum.module to change message if topic has
+      // moved. Changed link to match boinc path-added "community".
+      if ($topic->forum_tid != $variables['tid']) {
+        $variables['topics'][$id]->message = l(t('This topic has been moved'), "community/forum/$topic->forum_tid");
       }
     }
   }
@@ -397,6 +438,12 @@ function boinc_preprocess_views_view(&$vars, $hook) {
       $vars['header'] = boincuser_views_friends_block_header(); 
     }
     break;
+  case 'boinc_host':
+      $view = views_get_current_view();
+      if (!($view->result)) {
+        $vars['footer'] = '<h3>' . bts ('Host not found in database.', array(), NULL, 'boinc:host-details') . '</h3>';
+      }
+    break;
   case 'boinc_host_list':
     if ($vars['display_id'] == 'page_2') {
      $vars['empty'] = boincwork_views_host_list_empty_text();
@@ -410,9 +457,14 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $view = views_get_current_view();
     $view->execute();
     $result = reset($view->result);
-    // Display the stderr output in the footer
-    $vars['footer'] = '<h3>' . bts('Stderr output') .'</h3>';
-    $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+
+    if ($result) {
+      // Display the stderr output in the footer
+      $vars['footer'] = '<h3>' . bts('Stderr output', array(), NULL, 'boinc:task-details-errorlog') .'</h3>';
+      $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+    } else {
+      $vars['footer'] = '<h3>' . bts ('Task not found in database.', array(), NULL, 'boinc:task-details') . '</h3>';
+    }
     break;
   case 'boinc_teams':
     if ($vars['display_id'] == 'panel_pane_3') {
@@ -426,9 +478,14 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $result_id = arg(1);
     require_boinc(array('util','boinc_db'));
     $wu = BoincWorkunit::lookup_id($result_id);
-    project_workunit($wu);
-    // Output of project_workunit() gets caught in the buffer
-    $vars['footer'] = ob_get_clean();
+    if ($wu) {
+      // Output from admin defined BOINC project-specific function
+      project_workunit($wu);
+      // Output of project_workunit() gets caught in the buffer
+      $vars['footer'] = ob_get_clean();
+    } else {
+      $vars['footer'] = '<h3>' . bts ('Workunit not found in database.', array(), NULL, 'boinc:workunit-details') . '</h3>';
+    }
   default:
   }
 }
@@ -454,7 +511,7 @@ function boinc_preprocess_privatemsg_view(&$vars, $hook) {
   }
   $author_picture .= '</div>';
   $vars['author_picture'] = $author_picture;
-  $vars['message_timestamp'] = date('j M Y H:i:s T', $vars['message']['timestamp']);
+  $vars['message_timestamp'] = date('j M Y G:i:s T', $vars['message']['timestamp']);
 }
 // */
 
@@ -473,13 +530,53 @@ function boinc_preprocess_block(&$vars, $hook) {
 // */ 
 
 function boinc_preprocess_search_result(&$variables) {
-  $type = strtolower($variables['result']['type']);
+  global $language;
+  // Locality
+  $variables['locality'] = $language->language;
+
+  // Change the format of the search result date/time in the info string.
+  if ($variables['result']['date']) {
+    $variables['info_split']['date'] = date('j M Y G:i:s T', $variables['result']['date']);
+  }
+  $variables['info'] = implode(' - ', $variables['info_split']);
+
+  $type = strtolower($variables['result']['bundle']);
   switch ($type) {
-  case 'team':
-    global $base_url;
+  case 'profile':
+  case 'user':
     $node = $variables['result']['node'];
-    $variables['url'] = $base_url .'/community/teams/' . $node->entity_id;
+    $variables['url'] = url('account/' . $node->is_uid);
+    $variables['title'] = $node->tos_name;
+    $variables['user_image'] = boincuser_get_user_profile_image($node->is_uid);
+    $variables['account'] = user_load($node->is_uid);
     break;
+  case 'team':
+    $node = $variables['result']['node'];
+    $variables['url'] = url('/community/teams/' . $node->entity_id);;
+    break;
+  case 'forum':
+    $node = $variables['result']['node'];
+    $drupalnode = node_load($node->entity_id);
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($drupalnode->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $variables['parent_forum'] = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+    break;
+  case 'comment':
+    // Get the node id for this comment
+    $nid = $variables['result']['fields']['tos_content_extra'];
+    $drupalnode = node_load($nid);
+    // Parent forum topic title
+    $variables['parent_title'] = $drupalnode->title;
+    // Link to the parent forum topic
+    $variables['parent_topic'] = l($drupalnode->title, drupal_get_path_alias('node/' . $nid) );
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($drupalnode->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $variables['parent_forum'] = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+  break;
   default:
   }
 }
@@ -487,7 +584,7 @@ function boinc_preprocess_search_result(&$variables) {
 // Remove the mess of text under the search form and don't display "no results"
 // if a search hasn't even been submitted
 function boinc_apachesolr_search_noresults() {
-  $message = bts('No results found...');
+  $message = bts('No results found...', array(), NULL, 'boinc:search-with-no-results');
   if (!arg(2)) {
     $message = '';
   }
@@ -511,7 +608,7 @@ function phptemplate_username($object) {
     }
 
     if (user_access('access user profiles')) {
-      $output = l($name, 'account/' . $object->uid, array('attributes' => array('title' => bts('View user profile.'))));
+      $output = l($name, 'account/' . $object->uid, array('attributes' => array('title' => bts('View user profile.', array(), NULL, 'boinc:users-table'))));
     }
     else {
       $output = check_plain($name);
@@ -529,10 +626,10 @@ function phptemplate_username($object) {
       $output = check_plain($object->name);
     }
 
-    $output .= ' (' . bts('not verified') . ')';
+    $output .= ' (' . bts('not verified', array(), NULL, 'boinc:user-not-found') . ')';
   }
   else {
-    $output = check_plain(variable_get('anonymous', bts('Anonymous')));
+    $output = check_plain(variable_get('anonymous', bts('Anonymous', array(), NULL, 'boinc:anonymous-user')));
   }
 
   return $output;
@@ -571,8 +668,8 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
       // Sender accepted recipient's friend request
       $email['subject'] = bts('!name accepted your friend request [!site]', array(
         '!name' => $sender->boincuser_name,
-        '!site' => variable_get('site_name', ''),
-        ));
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
+        ), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name confirmed you as a friend on !site.
 
 Follow this link to view his or her profile:
@@ -583,15 +680,15 @@ Follow this link to view his or her profile:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? bts('Message') . ': ' . $flag->friend_message : '',
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
+        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
-        ));
+        ), array(), NULL, 'boinc:friend-request-email');
       break;
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')));
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:friend-request-email');
       $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
@@ -602,10 +699,11 @@ Follow the link below to view this request:
 Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
-        '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? bts('Message') . ': ' . $flag->friend_message : '',
+        '!site' => variable_get('site_name', 'Drupal-BOINC'),
+        '!message' => $flag->friend_message ? bts('Message', array(), NULL, 'boinc:friend-request-email:-1:a-private-message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
-        ));
+        ),
+      array(), NULL, 'boinc:friend-request-email');
       break;
   }
   return $email;
@@ -703,7 +801,7 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
   // Create an array of HTML elements from the $links string, keys
   // are the class attribute for the <li> tags.
   $dom = new DOMDocument;
-  $dom->loadHTML($links);
+  $dom->loadHTML(mb_convert_encoding($links, 'HTML-ENTITIES', 'UTF-8'));
   foreach($dom->getElementsByTagName('li') as $node) {
     $key = $node->getAttribute("class");
     $alllinks[$key] = $dom->saveHTML($node);
@@ -743,7 +841,7 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
 function _boinc_firstlink(&$alink) {
   if (!empty($alink)) {
     $dom = new DomDocument;
-    $dom->loadHTML($alink);
+    $dom->loadHTML(mb_convert_encoding($alink, 'HTML-ENTITIES', 'UTF-8'));
 
     $myli = $dom->getElementsByTagName('li');
     if ($myli->length>0) {
@@ -752,4 +850,25 @@ function _boinc_firstlink(&$alink) {
       $alink = $dom->saveHTML($myli[0]);
     }
   }
+}
+
+/*
+ * Private function to generate the action links
+ */
+function _boinc_action_links() {
+  global $user;
+  global $base_path;
+
+  $output = '<ul class="menu"><li class="first">';
+  if ($user->uid) {
+    $output .= '<a href="' . url('logout') . '">' . bts('Logout', array(), NULL, 'boinc:menu-link') . '</a>';
+  } else {
+    $output .= '<a href="' . url('user/login', array('query' => drupal_get_destination()) ) . '">' . bts('Login', array(), NULL, 'boinc:menu-link') . '</a>';
+  }
+  $output .= '</li>';
+  if (module_exists('global_search') OR module_exists('global_search_solr')) {
+    $output .= '<li class="last"> <a class="search" href="' . url('search/site') . '">' . bts('search', array(), NULL, 'boinc:menu-link') .'</a> </l1>';
+  }
+  $output .= '</ul>';
+  return $output;
 }

@@ -131,10 +131,18 @@ alter table assignment
     add index asgn_target(target_type, target_id);
 
 alter table job_file
-    add unique jf_md5(md5);
+    add unique jf_name(name);
 
 alter table badge_user
     add unique (user_id, badge_id);
 
 alter table badge_team
     add unique (team_id, badge_id);
+
+alter table credit_user
+    add index cu_total(appid, total),
+    add index cu_avg(appid, expavg);
+
+alter table credit_team
+    add index ct_total(appid, total),
+    add index ct_avg(appid, expavg);

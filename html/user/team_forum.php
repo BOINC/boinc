@@ -129,7 +129,7 @@ function remove($team) {
     page_head(tra("Message board removed"));
     echo "<p>"
         .tra(
-            "Your team's message board has been removed. You may now %1create a new one%2.",
+            "Your team's message board has been removed. You may now %1 create a new one %2.",
             "<a href=team_forum.php?teamid=$team->id&cmd=manage>",
             "</a>"
         )
