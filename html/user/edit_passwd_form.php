@@ -24,15 +24,10 @@ $user = get_logged_in_user();
 
 page_head(tra("Change password"));
 
-echo "
-    <form method=post action=".secure_url_base()."edit_passwd_action.php>
-";
-
-start_table();
-row2(tra("New password"), "<input type=password name=passwd size=40>");
-row2(tra("New password, again"), "<input type=password name=passwd2 size=40>");
-row2("", "<input class=\"btn btn-success\" type=submit value='".tra("Change password")."'>");
-end_table();
-echo "</form>\n";
+form_start(secure_url_base()."edit_passwd_action.php", "post");
+form_input_text(tra("New password"), "passwd", "password");
+form_input_text(tra("New password, again"), "passwd2", "password");
+form_submit(tra("Change password"));
+form_end();
 page_tail();
 ?>

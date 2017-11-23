@@ -297,9 +297,9 @@ function form_end() {
     ';
 }
 
-define('FORM_LEFT_CLASS', 'col-sm-3');
-define('FORM_LEFT_OFFSET', 'col-sm-offset-3');
-define('FORM_RIGHT_CLASS', 'col-sm-9');
+define('FORM_LEFT_CLASS', 'col-sm-4');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-4');
+define('FORM_RIGHT_CLASS', 'col-sm-8');
 
 function form_input_text($label, $name, $value='', $type='text', $attrs='') {
     echo sprintf('
