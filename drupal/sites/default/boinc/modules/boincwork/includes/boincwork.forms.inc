@@ -1726,6 +1726,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   );
 
   // Ignore and block users
+  // @todo - check if ignore_user module/privatemsg module installed.
   // @todo - add bts(), replace t() with bts()
   $form['ignoreheader'] = array(
     '#title' => bts('Ignore Users', array(), NULL, 'boinc:account-preferences-privacy'),
@@ -1751,7 +1752,7 @@ function boincwork_privacyprefs_form(&$form_state) {
       '#value' => $ignored_user['username'],
     );
     $form['ignoreblock']['delete'][$ignored_user['iuid']] = array(
-      '#value' => l(t('delete'), 'ignore_user/remove/'. $ignored_user['iuid'], array()),
+      '#value' => l(t('delete'), 'account/prefs/privacy/ignore_user/remove/'. $ignored_user['iuid'], array()),
     );
   }
   $form['ignoreblock']['pager'] = array('#value' => theme('pager', NULL, 10, 0));
@@ -1775,6 +1776,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   $form['add_ignore_user']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Ignore user'),
+    '#submit' => array('_boincwork_ignore_list_form_submit'),
   );
 
   $form['prefs']['separator_bottom'] = array(
@@ -1789,6 +1791,8 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
     '#value' => bts('Save changes', array(), NULL, 'boinc:form-save'),
+    '#validate' => array('boincwork_privacyprefs_form_validate'),
+    '#submit' => array('boincwork_privacyprefs_form_submit'),
     '#suffix' => '</li>'
   );
   $form['prefs']['form control tabs'] = array(
@@ -1870,6 +1874,16 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
   db_set_active('default');
   
   drupal_set_message(t('Your privacy preferences have been updated.'));
+}
+
+/**
+ * Additional submit handler for privacy form, button to add user to
+ * ignore list.
+ */
+function _boincwork_ignore_list_form_submit($form, $form_state) {
+  //@todo - add/replace bts()
+  boincwork_ignore_user_add_user_username($form_state['values']['username']);
+  drupal_set_message(t('%username has been added to your ignore list', array('%username' => $form_state['values']['username'])));
 }
 
 /**
