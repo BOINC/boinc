@@ -59,6 +59,23 @@ function boincwork_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 15
   );
+  // @todo - check ignore_user module installed
+  $items['account/prefs/privacy/ignore_user/add'] = array(
+    'title' => 'Add from ignore list',
+    'description' => 'Add user that you with to ignore to your ignore list.',
+    'page callback' => 'boincwork_ignore_user_add_user',
+    'access callback' => 'user_access',
+    'access arguments' => array('ignore user'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['account/prefs/privacy/ignore_user/remove'] = array(
+    'title' => 'Remove from ignore list',
+    'description' => 'Remove user from your ignore list.',
+    'page callback' => 'boincwork_ignore_user_remove_user',
+    'access callback' => 'user_access',
+    'access arguments' => array('ignore user'),
+    'type' => MENU_CALLBACK,
+  );
   $items['account/certs'] = array(
     'title' =>'Account certificate',
     'page callback' => 'boincwork_certificates',

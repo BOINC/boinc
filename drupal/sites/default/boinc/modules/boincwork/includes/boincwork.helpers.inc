@@ -887,6 +887,78 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Ignore user functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+// These functions are boinc-ppecific "replacements" for the
+// ignore_user module's add and remove user functions.
+
+
+/**
+ *Add another user to the current user's ignore list using a BOINC
+ *username. Called from privacy preference form.
+ */
+function boincwork_ignore_user_add_user_username($name = NULL) {
+  global $user;
+
+  // @todo - add/replace bts()
+  if (isset($name)) {
+    // Get the BOINC ID from the name string, and lookup the
+    // corresponding drupal user.
+    $boincname = substr($name, 0, strrpos($name, '_'));
+    $boincid = substr($name, strrpos($name, '_') + 1);
+    // drupalid is the uid to be ignored.
+    $drupalid = get_drupal_id($boincid);
+
+    if ($user->uid == $drupalid) {
+      drupal_set_message(t("You can't add yourself to your own ignore list"));
+      drupal_goto('account/prefs/privacy');
+    }
+
+    if (!empty($drupalid)) {
+      db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $drupalid);
+      db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $drupalid);
+      // @todo - if privatemsg module installed, add uid to table pm_block_user to block PMs. 
+    }
+  }
+}
+
+/**
+ * Add another user's UID to the current user's ignore list.
+ */
+function boincwork_ignore_user_add_user($iuid = NULL) {
+  // @todo - add/replace bts()
+  global $user;
+
+  if ($user->uid == $iuid) {
+    drupal_set_message(t("You can't add yourself to your own ignore list"));
+    drupal_goto();
+    //drupal_goto('account');
+  }
+
+  if (is_numeric($iuid) && $iuid > 0) {
+    db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
+    db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+
+    // @todo - if privatemsg module installed, add uid to table pm_block_user to block PMs. 
+    drupal_goto();
+  }
+  else {
+    drupal_not_found();
+  }
+}
+
+/**
+ * Remove user from user's ignore list.
+ */
+function boincwork_ignore_user_remove_user($iuid = NULL) {
+  global $user;
+
+  db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
+  // @todo - if privatemsg module installed, remove PM blocked user from table pm_block_user.
+  drupal_goto('account/prefs/privacy');
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Utility functions
