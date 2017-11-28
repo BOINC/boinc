@@ -343,6 +343,9 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   _boinc_create_moderator_links($links, $moderator_links);
   $vars['links'] = $links;
   $vars['moderator_links'] = $moderator_links;
+
+  // Ignore user link
+  $vars['ignore_link'] = _boinc_ignore_user_link('node', $vars['node']);
 }
 
 
@@ -377,6 +380,9 @@ function boinc_preprocess_comment(&$vars, $hook) {
   _boinc_create_moderator_links($links, $moderator_links);
   $vars['links'] = $links;
   $vars['moderator_links'] = $moderator_links;
+
+  // Ignore user link
+  $vars['ignore_link'] = _boinc_ignore_user_link('comment', $vars['comment']);
 }
 
 /**
@@ -871,4 +877,55 @@ function _boinc_action_links() {
   }
   $output .= '</ul>';
   return $output;
+}
+
+/**
+ * Private function, based on ignore_user ignore_user_link()
+ * function. Modified for boinc functionality.
+ */
+function _boinc_ignore_user_link($type, $object = NULL, $teaser = FALSE) {
+  global $user;
+
+  if (!$user || !$user->uid) {
+    return;
+  }
+
+  static $ignored;
+  $links = array();
+
+  // @todo - add/replace bts()
+  if ($type == 'node' && $user->uid != $object->uid && $object->uid != 0 && user_access('ignore user')) {
+    if (!isset($ignored[$object->uid])) {
+      $ignored[$object->uid] = db_result(db_query('SELECT COUNT(*) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $object->uid));
+    }
+    if ($ignored[$object->uid] == 0) {
+      $links['ignore_user'] = array(
+        'title' => t('Ignore user'),
+        'href' => 'account/prefs/privacy/ignore_user/add/'. $object->uid,
+        'query' => 'destination='. $_GET['q'],
+        'attributes' => array(
+          'class' => 'ignore-user',
+          'title' => t('Add user to your ignore list'),
+        ),
+      );
+    }
+  }
+  else if ($type == 'comment' && $user->uid != $object->uid && $object->uid != 0 && user_access('ignore user')) {
+    if (!isset($ignored[$object->uid])) {
+      $ignored[$object->uid] = db_result(db_query('SELECT COUNT(*) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $object->uid));
+    }
+    if ($ignored[$object->uid] == 0) {
+      $links['ignore_user'] = array(
+        'title' => t('Ignore user'),
+        'href' => 'account/prefs/privacy/ignore_user/add/'. $object->uid,
+        'query' => 'destination='. $_GET['q'],
+        'attributes' => array(
+          'class' => 'ignore-user',
+          'title' => t('Add user to your ignore list'),
+        ),
+      );
+    }
+  }
+
+  return $links;
 }

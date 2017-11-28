@@ -97,8 +97,7 @@
         }
         print '</div>';
       }
-      // Generate ignore user link
-      $ignore_link = ignore_user_link('comment', $comment);
+      // ignore user link is now generated in preprocess functions.
       //echo '<pre>' . print_r($links, TRUE) . '</pre>';
     ?>
     <div class="name"><?php print $author; ?></div>

@@ -168,8 +168,7 @@
           }
           print '</div>';
         }
-        // Generate ignore user link
-        $ignore_link = ignore_user_link('node', $node);
+        // ignore user link is now generated in preprocess functions.
         //echo '<pre>' . print_r($node->links, TRUE) . '</pre>';
       ?>
       <div class="name"><?php print $name; ?></div>
