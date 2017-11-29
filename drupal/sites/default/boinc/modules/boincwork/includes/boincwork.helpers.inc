@@ -908,19 +908,25 @@ function boincwork_ignore_user_add_user_username($name = NULL) {
     // corresponding drupal user.
     $boincname = substr($name, 0, strrpos($name, '_'));
     $boincid = substr($name, strrpos($name, '_') + 1);
-    // drupalid is the uid to be ignored.
-    $drupalid = get_drupal_id($boincid);
+    // iuid is the drupal uid to be ignored.
+    $iuid = get_drupal_id($boincid);
 
-    if ($user->uid == $drupalid) {
+    if ($user->uid == $iuid) {
       drupal_set_message(t("You can't add yourself to your own ignore list"));
       drupal_goto('account/prefs/privacy');
     }
 
-    if (!empty($drupalid)) {
-      db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $drupalid);
-      db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $drupalid);
-      // @todo - if privatemsg module installed, add uid to table pm_block_user to block PMs. 
-    }
+    if (is_numeric($iuid) && $iuid > 0) {
+      if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $iuid, $user->uid))) {
+        db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+      }// endif db_result
+
+      if (module_exists('pm_block_user')) {
+        if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $drupaluid, $user->uid))) {
+          db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+        }// endif db_result
+      }// endif module_exists('pm_block_user')
+    }// endif $iuid
   }
 }
 
@@ -938,15 +944,21 @@ function boincwork_ignore_user_add_user($iuid = NULL) {
   }
 
   if (is_numeric($iuid) && $iuid > 0) {
-    db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
-    db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+    if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $iuid, $user->uid))) {
+      db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+    }// endif db_result
 
-    // @todo - if privatemsg module installed, add uid to table pm_block_user to block PMs. 
+    if (module_exists('pm_block_user')) {
+      if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $drupaluid, $user->uid))) {
+        db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+      }// endif db_result
+    }// endif module_exists('pm_block_user')
+
     drupal_goto();
   }
   else {
     drupal_not_found();
-  }
+  }// endif iuid
 }
 
 /**
@@ -956,7 +968,9 @@ function boincwork_ignore_user_remove_user($iuid = NULL) {
   global $user;
 
   db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
-  // @todo - if privatemsg module installed, remove PM blocked user from table pm_block_user.
+  if (module_exists('pm_block_user')) {
+    db_query('DELETE FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid);
+  }// endif module_exists
   drupal_goto('account/prefs/privacy');
 }
 
