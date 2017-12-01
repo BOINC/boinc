@@ -668,7 +668,7 @@ int CLIENT_STATE::init() {
     retval = write_state_file();
     if (retval) {
         msg_printf_notice(NULL, false,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=statefile",
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=statefile",
             _("Couldn't write state file; check directory permissions")
         );
         cant_write_state_file = true;
