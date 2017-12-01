@@ -788,6 +788,14 @@ int CLIENT_STATE::init() {
     //
     proxy_info_startup();
 
+    if (!autologin_in_progress) {
+        if (gstate.projects.size() == 0) {
+            msg_printf(NULL, MSG_INFO,
+                "This computer is not attached to any projects"
+            );
+        }
+    }
+
     // get list of BOINC projects occasionally,
     // and initialize notice RSS feeds
     //
