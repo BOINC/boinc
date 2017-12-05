@@ -1731,7 +1731,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   $form['ignoreheader'] = array(
     '#title' => bts('Ignore Users', array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'fieldset',
-    '#description' => 'Here you can ignore users in the forums and block users from sending you private messages',
+    '#description' => bts('You may ignore users in the forums and block users from sending you private messages.', array(), NULL, 'boinc:ignore-user-help'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE
   );
@@ -1883,7 +1883,14 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
 function _boincwork_ignore_list_form_submit($form, $form_state) {
   //@todo - add/replace bts()
   boincwork_ignore_user_add_user_username($form_state['values']['username']);
-  drupal_set_message(t('%username has been added to your ignore list', array('%username' => $form_state['values']['username'])));
+  drupal_set_message(
+    bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
+      array(
+        '@username' => $form_state['values']['username'],
+        '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+      ),
+      NULL, 'boinc:ignore-user-add'),
+    'status');
 }
 
 /**
