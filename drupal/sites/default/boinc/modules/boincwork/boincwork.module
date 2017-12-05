@@ -257,6 +257,31 @@ function boincwork_locale_refresh() {
 }
 
 
+/**
+ * Implementation of hook_privatemsg_message_view_alter
+ */
+
+function boincwork_privatemsg_message_view_alter(&$vars) {
+  global $user;
+
+  $author = $vars['message']['author'];
+  if (!isset($vars['message']['thread_id'])) {
+    // No thread id, this is probably only a preview
+    return;
+  }
+  $thread_id = $vars['message']['thread_id'];
+
+  // @todo - add/replace with bts()
+  if ($user->uid != $author->uid) {
+    if ($vars['message']['is_blocked']) {
+      $vars['message_actions']['unignore_user'] = array('title' => t('Stop Ignoring User'), 'href' => 'account/prefs/privacy/ignore_user/remove/'. $author->uid, 'query' => 'destination=messages/view/' . $thread_id);
+    }
+    else {
+      $vars['message_actions']['ignore_user'] = array('title' => t('Ignore User'), 'href' => 'account/prefs/privacy/ignore_user/add/'. $author->uid, 'query' => 'destination=messages/view/' . $thread_id);
+    }
+  }
+}
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */

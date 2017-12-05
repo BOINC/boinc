@@ -957,8 +957,12 @@ function boincwork_ignore_user_add_user($iuid = NULL) {
     }// endif module_exists('pm_block_user')
 
     drupal_set_message(
-      bts('@username has been added to your ignore list',
-        array('@username' => $otheraccount->boincuser_name), NULL, 'boinc:ignore-user-added'),
+      bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
+        array(
+          '@username' => $otheraccount->boincuser_name,
+          '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+        ),
+        NULL, 'boinc:ignore-user-add'),
       'status');
     drupal_goto();
   }
@@ -972,11 +976,20 @@ function boincwork_ignore_user_add_user($iuid = NULL) {
  */
 function boincwork_ignore_user_remove_user($iuid = NULL) {
   global $user;
+  $otheraccount = user_load($iuid);
 
   db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
   if (module_exists('pm_block_user')) {
     db_query('DELETE FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid);
   }// endif module_exists
+  drupal_set_message(
+    bts('@username has been removed from your ignore list. See your !privacy_preferences for more details.',
+      array(
+        '@username' => $otheraccount->boincuser_name,
+        '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+      ),
+      NULL, 'boinc:ignore-user-add'),
+    'status');
   drupal_goto('account/prefs/privacy');
 }
 

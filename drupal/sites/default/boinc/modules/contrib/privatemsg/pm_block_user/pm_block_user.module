@@ -548,28 +548,11 @@ function pm_block_user_privatemsg_sql_load_alter(&$fragments, $pmid, $uid) {
 /**
  * Implements hook_privatemsg_message_view_alter().
  */
-function pm_block_user_privatemsg_message_view_alter(&$vars) {
-  global $user;
-
-  $author = $vars['message']['author'];
-  if (_pm_block_user_rule_exists($author, $user, PM_BLOCK_USER_DISALLOW_BLOCKING)) {
-    return;
-  }
-  if (!isset($vars['message']['thread_id'])) {
-    // No thread id, this is probably only a preview
-    return;
-  }
-  $thread_id = $vars['message']['thread_id'];
-
-  if ($user->uid <> $author->uid) {
-    if ($vars['message']['is_blocked']) {
-      $vars['message_actions']['unblock_author'] = array('title' => t('Unblock author'), 'href' => 'messages/block/'. $author->uid, 'query' => 'destination=messages/view/' . $thread_id);
-    }
-    else {
-      $vars['message_actions']['block_author'] = array('title' => t('Block author'), 'href' => 'messages/block/'. $author->uid, 'query' => 'destination=messages/view/' . $thread_id);
-    }
-  }
-}
+// This function was removed as part of a feature improvement. It's
+// functionality has been copied to
+// boincwork_privatemsg_message_view_alter(), but since the two would
+// conflict if both were present in the codebase, this function has
+// been removed.
 
 /**
  * Implement hook_user().
