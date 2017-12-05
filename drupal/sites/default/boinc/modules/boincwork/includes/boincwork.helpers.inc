@@ -908,7 +908,7 @@ function boincwork_ignore_user_add_user_username($name = NULL) {
     // corresponding drupal user.
     $boincname = substr($name, 0, strrpos($name, '_'));
     $boincid = substr($name, strrpos($name, '_') + 1);
-    // iuid is the drupal uid to be ignored.
+    // iuid is the drupal uid to be ignored and author to be blocked.
     $iuid = get_drupal_id($boincid);
 
     if ($user->uid == $iuid) {
@@ -917,15 +917,16 @@ function boincwork_ignore_user_add_user_username($name = NULL) {
     }
 
     if (is_numeric($iuid) && $iuid > 0) {
-      if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $iuid, $user->uid))) {
+      if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
         db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
       }// endif db_result
 
       if (module_exists('pm_block_user')) {
-        if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $drupaluid, $user->uid))) {
+        if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
           db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
         }// endif db_result
       }// endif module_exists('pm_block_user')
+
     }// endif $iuid
   }
 }
@@ -940,20 +941,25 @@ function boincwork_ignore_user_add_user($iuid = NULL) {
   if ($user->uid == $iuid) {
     drupal_set_message(t("You can't add yourself to your own ignore list"));
     drupal_goto();
-    //drupal_goto('account');
   }
 
+  $otheraccount = user_load($iuid);
+
   if (is_numeric($iuid) && $iuid > 0) {
-    if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $iuid, $user->uid))) {
+    if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
       db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
     }// endif db_result
 
     if (module_exists('pm_block_user')) {
-      if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $drupaluid, $user->uid))) {
+      if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
         db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
       }// endif db_result
     }// endif module_exists('pm_block_user')
 
+    drupal_set_message(
+      bts('@username has been added to your ignore list',
+        array('@username' => $otheraccount->boincuser_name), NULL, 'boinc:ignore-user-added'),
+      'status');
     drupal_goto();
   }
   else {
