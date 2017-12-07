@@ -1,2 +1,6 @@
-*.retry
-
+.gradle/
+build/
+bin/
+.classpath
+.project
+.settings/
