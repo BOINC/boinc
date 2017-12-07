@@ -25,7 +25,7 @@ You can now access the new website via http://127.0.0.1/boincserver.  Please see
 If you need to build from a different branch and/or repository, you can specify the repository and branch to use.  For example, to build from a hypothetical branch in my fork of the BOINC repository you can do use:
 
 ```
-ansible-playbook -i hosts build.yml --extra-vars "boinc_repository=https://github.com/TheAspens/boinc boinc_branch=split_boinc_website
+ansible-playbook -i hosts build.yml --extra-vars "boinc_repository=https://github.com/TheAspens/boinc boinc_branch=split_boinc_website"
 ```
 
 ## Stop docker containers and remove volumes
