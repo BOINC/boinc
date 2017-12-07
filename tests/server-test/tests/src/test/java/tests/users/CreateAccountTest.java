@@ -11,12 +11,15 @@ import tests.TestBase;
 import util.GenerateRandomUser;
 import util.User;
 
+/*
+ * These tests test the BOINC Web RPC's to create and get account
+ */
 public class CreateAccountTest extends TestBase {
     
     private static String FAIL_PARAMETER_EMAIL = "test-fail@test1.com";
     private static String FAIL_PARAMETER_USERNAME = "test-fail";
     
-     private static String MISSING_PARAM_ERROR = "missing or bad parameter";
+    private static String MISSING_PARAM_ERROR = "missing or bad parameter";
     private static String MISSING_PASSWORD_ERROR = "missing or bad parameter: passwd_hash";
     
     @Test

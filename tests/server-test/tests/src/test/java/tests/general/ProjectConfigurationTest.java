@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import tests.TestBase;
 
+/*
+ * These tests test the BOINC Web RPC's to get project configuration information
+ */
 public class ProjectConfigurationTest extends TestBase {
     
     public static final String TEST_PROJECT_NAME = "boincserver";
