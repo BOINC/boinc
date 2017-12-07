@@ -354,7 +354,8 @@ struct DEVICE_STATUS {
 #define GRAPHICS_APP_FILENAME       "graphics_app"
 #define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
 #define SS_CONFIG_FILE              "ss_config.xml"
-#define ACCOUNT_DATA_FILENAME       "account_data.txt"
+#define ACCOUNT_DATA_FILENAME       "login_token.txt"
+    // can't call this account*; it would be mistaken for an account file
 
 #ifdef _WIN32
 #define DEFAULT_SS_EXECUTABLE       "boincscr.exe"

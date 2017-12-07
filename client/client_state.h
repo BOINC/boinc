@@ -92,7 +92,6 @@ struct CLIENT_STATE {
     FILE_XFER_SET* file_xfers;
 #ifndef SIM
     GUI_RPC_CONN_SET gui_rpcs;
-    bool enable_gui_rpcs;
 #endif
     GUI_HTTP gui_http;
 #ifdef ENABLE_AUTO_UPDATE
@@ -247,8 +246,10 @@ struct CLIENT_STATE {
     double all_projects_list_check_time;
         // the time we last successfully fetched the project list
     string newer_version;
+    bool autologin_in_progress;
+    bool autologin_fetching_project_list;
     PROJECT_LIST project_list;
-    void process_autologin();
+    void process_autologin(bool first);
 
 // --------------- client_state.cpp:
     CLIENT_STATE();
