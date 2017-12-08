@@ -11,16 +11,22 @@ drupal_add_css(drupal_get_path('module', 'privatemsg') . '/styles/privatemsg-vie
     <?php print $author_picture; ?>
   </div>
   <div class="message-body">
-    <div class="submitted">
+    <div class="foobar">
       <div class="name"><?php print $author_name_link; ?></div>
-      <?php print $message_timestamp; ?>
+      <div class="date">
+        <?php print $message_timestamp; ?>
+      </div>
+      <div class="standard-links">
+        <?php if ( isset($message_actions)) : ?>
+          <?php print $message_actions ?>
+        <?php endif ?>
+       </div>
     </div>
-    <?php if (isset($new)) : ?>
-      <span class="new"><?php print $new ?></span>
-    <?php endif ?>
-    <?php print $message_body; ?>
-    <?php if (isset($message_actions)) : ?>
-       <?php //print $message_actions ?>
-    <?php endif ?>
+    <div class="clear-both">
+      <?php if (isset($new)) : ?>
+        <span class="new"><?php print $new ?></span>
+      <?php endif ?>
+      <?php print $message_body; ?>
+    </div>
   </div> <!-- /.message-body -->
 </div>

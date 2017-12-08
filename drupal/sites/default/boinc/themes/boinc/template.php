@@ -893,19 +893,18 @@ function _boinc_ignore_user_link($type, $object = NULL, $teaser = FALSE) {
   static $ignored;
   $links = array();
 
-  // @todo - add/replace bts()
   if ($type == 'node' && $user->uid != $object->uid && $object->uid != 0 && user_access('ignore user')) {
     if (!isset($ignored[$object->uid])) {
       $ignored[$object->uid] = db_result(db_query('SELECT COUNT(*) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $object->uid));
     }
     if ($ignored[$object->uid] == 0) {
       $links['ignore_user'] = array(
-        'title' => t('Ignore user'),
+        'title' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
         'href' => 'account/prefs/privacy/ignore_user/add/'. $object->uid,
         'query' => 'destination='. $_GET['q'],
         'attributes' => array(
           'class' => 'ignore-user',
-          'title' => t('Add user to your ignore list'),
+          'title' => bts('Add user to your ignore list', array(), NULL, 'boinc:ignore-user-add'),
         ),
       );
     }
@@ -916,12 +915,12 @@ function _boinc_ignore_user_link($type, $object = NULL, $teaser = FALSE) {
     }
     if ($ignored[$object->uid] == 0) {
       $links['ignore_user'] = array(
-        'title' => t('Ignore user'),
+        'title' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
         'href' => 'account/prefs/privacy/ignore_user/add/'. $object->uid,
         'query' => 'destination='. $_GET['q'],
         'attributes' => array(
           'class' => 'ignore-user',
-          'title' => t('Add user to your ignore list'),
+          'title' => bts('Add user to your ignore list', array(), NULL, 'boinc:ignore-user-add'),
         ),
       );
     }
