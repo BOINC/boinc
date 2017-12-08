@@ -902,7 +902,6 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
 function boincwork_ignore_user_add_user_username($name = NULL) {
   global $user;
 
-  // @todo - add/replace bts()
   if (isset($name)) {
     // Get the BOINC ID from the name string, and lookup the
     // corresponding drupal user.
@@ -912,7 +911,7 @@ function boincwork_ignore_user_add_user_username($name = NULL) {
     $iuid = get_drupal_id($boincid);
 
     if ($user->uid == $iuid) {
-      drupal_set_message(t("You can't add yourself to your own ignore list"));
+      drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
       drupal_goto('account/prefs/privacy');
     }
 
@@ -935,11 +934,10 @@ function boincwork_ignore_user_add_user_username($name = NULL) {
  * Add another user's UID to the current user's ignore list.
  */
 function boincwork_ignore_user_add_user($iuid = NULL) {
-  // @todo - add/replace bts()
   global $user;
 
   if ($user->uid == $iuid) {
-    drupal_set_message(t("You can't add yourself to your own ignore list"));
+    drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
     drupal_goto();
   }
 
