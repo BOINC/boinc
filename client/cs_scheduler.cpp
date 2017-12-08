@@ -153,7 +153,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <client_cap_plan_class>1</client_cap_plan_class>\n"
     );
 
-    write_platforms(p, mf);
+    write_platforms(p, mf.f);
 
     if (strlen(p->code_sign_key)) {
         fprintf(f, "    <code_sign_key>\n%s\n</code_sign_key>\n", p->code_sign_key);

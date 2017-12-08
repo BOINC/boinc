@@ -405,7 +405,7 @@ struct CLIENT_STATE {
     const char* get_primary_platform();
     void add_platform(const char*);
     void detect_platforms();
-    void write_platforms(PROJECT*, MIOFILE&);
+    void write_platforms(PROJECT*, FILE*);
     bool is_supported_platform(const char*);
 
 // --------------- cs_prefs.cpp:
