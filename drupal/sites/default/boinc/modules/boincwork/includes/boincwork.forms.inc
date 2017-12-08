@@ -1727,7 +1727,7 @@ function boincwork_privacyprefs_form(&$form_state) {
 
   // Ignore and block users
   if (module_exists('ignore_user')) {
-    $form['ignoreheader'] = array(
+    $form['ignoreblock'] = array(
       '#title' => bts('Ignore Users', array(), NULL, 'boinc:account-preferences-privacy'),
       '#type' => 'fieldset',
       '#description' => bts('<p>You may ignore users in the forums and block users from sending you private messages.<p>', array(), NULL, 'boinc:ignore-user-help'),
@@ -1736,17 +1736,20 @@ function boincwork_privacyprefs_form(&$form_state) {
     );
 
     // Table for ignored users
-    $form['ignoreheader']['ignoreblock'] = array(
-      '#type' => 'fieldset',
-      '#title' => bts('Current users on your Ignore List', array(), NULL, 'boinc:ignore-user-list'),
+    $form['ignoreblock']['current_ignore_section'] = array(
+      '#type' => 'item',
+      '#value' => bts('Current users on your Ignore List', array(), NULL, 'boinc:ignore-user-list'),
+      '#prefix' => '<h4>',
+      '#suffix' => '</h4>',
+      '#weight' => -20,
     );
 
     $ignored_users = _ignore_user_ignored_users();
     foreach ($ignored_users as $ignored_user) {
-      $form['ignoreheader']['ignoreblock']['username'][$ignored_user['iuid']] = array(
+      $form['ignoreblock']['username'][$ignored_user['iuid']] = array(
         '#value' => $ignored_user['username'],
       );
-      $form['ignoreheader']['ignoreblock']['delete'][$ignored_user['iuid']] = array(
+      $form['ignoreblock']['delete'][$ignored_user['iuid']] = array(
         '#value' => l(
           bts('delete', array(), NULL, 'boinc:ignore-user-delete-button'),
           'account/prefs/privacy/ignore_user/remove/'. $ignored_user['iuid'],
@@ -1754,27 +1757,32 @@ function boincwork_privacyprefs_form(&$form_state) {
         ),
       );
     }
-    $form['ignoreheader']['ignoreblock']['pager'] = array('#value' => theme('pager', NULL, 10, 0));
+    $form['ignoreblock']['pager'] = array('#value' => theme('pager', NULL, 10, 0));
 
     // Sub-form to add user to ignore list
-    $form['ignoreheader']['add_ignore_user'] = array(
-      '#type' => 'fieldset',
-      '#title' => bts('Add user to Ignore List', array(), NULL, 'boinc:ignore-user-add'),
+    $form['ignoreblock']['add_ignore_user_section'] = array(
+      '#type' => 'item',
+      '#value' => bts('Add user to Ignore List', array(), NULL, 'boinc:ignore-user-add'),
+      '#prefix' => '<h4>',
+      '#suffix' => '</h4>',
+      '#weight' => 10,
     );
 
-    $form['ignoreheader']['add_ignore_user']['username'] = array(
+    $form['ignoreblock']['addusername_toignorelist'] = array(
       '#type' => 'textfield',
       '#title' => bts('Username', array(), NULL, 'boinc:ignore-user-searchbox'),
       '#description' => bts('To lookup a username start typing in the search box. A list of usernames will appear as you type. The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.', array(), NULL, 'boinc:ignore-user-searchbox-help'),
-      '#weight' => -10,
+      '#weight' => 11,
       '#size' => 50,
       '#autocomplete_path' => 'boincuser/autocomplete',
     );
 
-    $form['ignoreheader']['add_ignore_user']['submit'] = array(
+    $form['ignoreblock']['addusername_submit'] = array(
       '#type' => 'submit',
       '#value' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
       '#submit' => array('_boincwork_ignore_list_form_submit'),
+      '#weight' => 12,
+      '#attributes' => array('class' => 'add_ignore_user'),
     );
   }// endif module_exists
 
@@ -1811,18 +1819,17 @@ function theme_boincwork_privacyprefs_form($form) {
 
   $output = '';
   $output .= drupal_render($form['privacy']);
-  //$output .= drupal_render($form['ignoreheader']);
 
   $header = array(
     bts('Username', array(), NULL, 'boinc:ignore-user-list'),
     bts('Operations', array(), NULL, 'boinc:ignore-user-list')
   );
 
-  if (isset($form['ignoreheader']['ignoreblock']['username']) && is_array($form['ignoreheader']['ignoreblock']['username'])) {
-    foreach (element_children($form['ignoreheader']['ignoreblock']['username']) as $key) {
+  if (isset($form['ignoreblock']['username']) && is_array($form['ignoreblock']['username'])) {
+    foreach (element_children($form['ignoreblock']['username']) as $key) {
       $row = array();
-      $row[] = drupal_render($form['ignoreheader']['ignoreblock']['username'][$key]);
-      $row[] = drupal_render($form['ignoreheader']['ignoreblock']['delete'][$key]);
+      $row[] = drupal_render($form['ignoreblock']['username'][$key]);
+      $row[] = drupal_render($form['ignoreblock']['delete'][$key]);
       $rows[] = $row;
     }
   }
@@ -1835,8 +1842,9 @@ function theme_boincwork_privacyprefs_form($form) {
     );
   }
 
-  $form['ignoreheader']['ignoreblock']['current_list']['ignored_users']['#value'] = theme('table', $header, $rows);
-  $output .= drupal_render($form['ignoreblock']['current_list']);
+  $attr = array('class' => 'ignore_user');
+  $form['ignoreblock']['current_list']['ignored_users']['#value'] = theme('table', $header, $rows, $attr);
+  $output .= drupal_render($form['current_list']);
 
   if ($form['pager']['#value']) {
     $output .= drupal_render($form['pager']);
@@ -1887,11 +1895,11 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
  * ignore list.
  */
 function _boincwork_ignore_list_form_submit($form, $form_state) {
-  boincwork_ignore_user_add_user_username($form_state['values']['username']);
+  boincwork_ignore_user_add_user_username($form_state['values']['addusername_toignorelist']);
   drupal_set_message(
     bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
       array(
-        '@username' => $form_state['values']['username'],
+        '@username' => $form_state['values']['addusername_toignorelist'],
         '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
       ),
       NULL, 'boinc:ignore-user-add'),
