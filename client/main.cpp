@@ -71,6 +71,13 @@
 
 #include "main.h"
 
+#ifndef __APPLE__
+#ifndef WIN32
+#include "websocket_server.h"
+#endif
+#endif
+
+
 // Log informational messages to system specific places
 //
 void log_message_startup(const char* msg) {
@@ -373,6 +380,14 @@ int boinc_main_loop() {
 
     log_message_startup("Initialization completed");
 
+#ifndef __APPLE__
+#ifndef WIN32
+       WEBSOCK webs;
+       struct mg_mgr mgr;
+       webs.initiate(mgr);
+#endif
+#endif 
+
     while (1) {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
@@ -390,11 +405,28 @@ int boinc_main_loop() {
                     );
                     gstate.start_abort_sequence();
                 }
-            } else {
+            } 
+#ifndef __APPLE__
+#ifndef WIN32
+            else {
                 msg_printf(NULL, MSG_INFO, "Exiting");
                 break;
             }
+#endif
+#endif
         }
+
+#ifndef __APPLE__
+#ifndef WIN32
+        else {
+
+            if (s_signal_received == 0)
+                 mg_mgr_poll(&mgr, 200);
+            else break;
+        }
+#endif
+#endif
+
         if (gstate.in_abort_sequence) {
             if (gstate.abort_sequence_done()) {
                 msg_printf(NULL, MSG_INFO, "Abort sequence done; exiting");
@@ -402,6 +434,12 @@ int boinc_main_loop() {
             }
         }
     }
+
+#ifndef __APPLE__
+#ifndef WIN32
+       mg_mgr_free(&mgr);
+#endif
+#endif
 
     return finalize();
 }
