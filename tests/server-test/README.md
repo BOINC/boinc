@@ -1,7 +1,12 @@
 # boinc-server-test
 This project contains code that will build BOINC in docker containers based on https://github.com/marius311/boinc-server-docker and then execute a series of tests.
 
+# Intial setup
+Please run the setup.sh command in order 
+
 # Build and start a BOINC website
+The following commands are run from the *manage* subdirectory.
+
 ## Setup Environment
 At the moment, this only installs docker using yum.  In addition to this command you need to install docker-compose and set up your account to be able to start and stop docker containers.
 ```
