@@ -13,6 +13,10 @@ then
         exit 1
     fi
     sudo usermod -a -G docker $USER
+    if [ -n "$(command -v docker-compose)" ]; 
+    then
+        echo "Please install docker-compose.  See https://docs.docker.com/compose/install/"
+    fi
 fi
 
 #Check if using yum
@@ -26,4 +30,10 @@ then
     fi
     sudo yum -y install docker
     sudo usermod -a -G docker $USER
+    if [ -n "$(command -v docker-compose)" ]; 
+    then
+        echo "Please install docker-compose.  See https://docs.docker.com/compose/install/"
+    fi
 fi
+
+echo "You need to restart your system in order to pick up permission changes"
