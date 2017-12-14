@@ -2,7 +2,7 @@
 This project contains code that will build BOINC in docker containers based on https://github.com/marius311/boinc-server-docker and then execute a series of tests.
 
 # Intial setup
-Please run the setup.sh command in order 
+Please run the setup.sh command in order to install ansible
 
 # Build and start a BOINC website
 The following commands are run from the *manage* subdirectory.
