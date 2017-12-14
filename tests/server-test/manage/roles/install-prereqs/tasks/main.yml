@@ -1,6 +1,6 @@
 - name: Install pre-reqs
   package: name=docker state=latest
 - name: Enable and start docker
-  systemd: state=started name=docker
+  service: state=started name=docker
 
 #need to define how docker-compose is installed
