@@ -13,7 +13,7 @@ then
         exit 1
     fi
     sudo usermod -a -G docker $USER
-    if [ -n "$(command -v docker-compose)" ]; 
+    if [ -z "$(command -v docker-compose)" ]; 
     then
         echo "Please install docker-compose.  See https://docs.docker.com/compose/install/"
     fi
@@ -30,7 +30,7 @@ then
     fi
     sudo yum -y install docker
     sudo usermod -a -G docker $USER
-    if [ -n "$(command -v docker-compose)" ]; 
+    if [ -z "$(command -v docker-compose)" ]; 
     then
         echo "Please install docker-compose.  See https://docs.docker.com/compose/install/"
     fi
