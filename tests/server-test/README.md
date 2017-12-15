@@ -47,8 +47,7 @@ docker exec -it boincserverdocker_apache_1 bash
 Please follow the instructions at https://gradle.org/install/#manually to install gradle.
 
 ## Run Tests
-- Start servers (see above)
-- Execute tests
+Tests are run out of the **_tests_** subdirectory.  They require the BOINC project running (see above).  These test are run with the following command:
 ```
 gradle test
 ```
