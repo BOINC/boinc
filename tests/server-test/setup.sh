@@ -32,7 +32,7 @@ if [ `groups $USER | grep docker | wc -l` -ne 1 ];
 then
     if ! grep -q docker: /etc/group
     then
-         groupadd docker
+         sudo groupadd docker
     fi
     sudo usermod -a -G docker $USER
     echo "You have been added to the docker group.  In order to continue you may need to log out and back in again or restart your system in order to pick up the group change"
