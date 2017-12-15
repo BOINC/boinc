@@ -30,7 +30,7 @@ fi
 # Add user to docker group so that they can run docker commands
 if [ `groups $USER | grep docker | wc -l` -ne 1 ];
 then
-    if ! grep -q docker /etc/group
+    if ! grep -q docker: /etc/group
     then
          groupadd docker
     fi
