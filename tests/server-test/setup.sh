@@ -38,5 +38,7 @@ if [ `groups $USER | grep docker | wc -l` -ne 1 ];
 then
     sudo usermod -a -G docker $USER
     echo "You need to restart your system in order to pick up permission changes"
+    exit 1
 fi
 
+echo "Setup complete."
