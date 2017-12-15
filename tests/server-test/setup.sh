@@ -12,9 +12,6 @@ then
         echo "Please set up the repository for docker-ce.  See https://docs.docker.com/engine/installation/linux/docker-ce/$(. /etc/os-release; echo "$ID")/"
         exit 1
     fi
-
-    sudo systemctl enable docker
-    sudo systemctl start docker
 fi
 
 #Check if using yum
@@ -22,9 +19,6 @@ if [ -n "$(command -v yum)" ];
 then
     sudo yum -y -q install epel-release
     sudo yum -y -q install ansible java-1.8.0-openjdk docker
-
-    sudo systemctl enable docker
-    sudo systemctl start docker
 fi
 
 # Add user to docker group so that they can run docker commands
@@ -45,6 +39,9 @@ then
     echo "Please install docker-compose.  See https://docs.docker.com/compose/install/"
     exit 1
 fi
+
+sudo systemctl enable docker
+sudo systemctl restart docker
 
 
 echo "Setup complete."
