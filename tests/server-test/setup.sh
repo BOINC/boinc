@@ -1,11 +1,11 @@
 #!/bin/bash
 
-echo "Attempting to install ansible and docker"
+echo "Attempting to install ansible, java and docker"
 
 #Check if using apt-get
 if [ -n "$(command -v apt-get)"  ];
 then
-    sudo apt-get -y -qq install ansible
+    sudo apt-get -y -qq install ansible default-jdk
     sudo apt-get -y -qq install docker-ce
     if [ $? -ne 0 ];
     then
@@ -17,13 +17,8 @@ fi
 #Check if using yum
 if [ -n "$(command -v yum)" ]; 
 then
-    sudo yum -y -q install ansible
-    if [ $? -ne 0 ];
-    then
-        echo "Please enable the EPEL repository in order to install ansible.  See https://fedoraproject.org/wiki/EPEL"
-        exit 1
-    fi
-    sudo yum -y -q install docker
+    sudo yum -y -q install epel-release
+    sudo yum -y -q install ansible java-1.8.0-openjdk docker
 fi
 
 # Check if docker-compose is installed.  If it isn't, direct user to instructions
