@@ -5,7 +5,7 @@ This project contains code that will build BOINC in docker containers based on h
 Run the setup.sh command to install ansible and docker
 
 # Build and start a BOINC website
-The following commands are run from the **-manage-** subdirectory.
+The following commands are run from the **_manage_** subdirectory.
 
 ## Build docker containers from BOINC master
 The default usage is to build the docker containers using the code from the master branch of https://github.com/BOINC/boinc.  This can be done using the following command:
