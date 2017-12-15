@@ -5,8 +5,8 @@ echo "Attempting to install ansible and docker"
 #Check if using apt-get
 if [ -n "$(command -v apt-get)"  ];
 then
-    sudo apt-get -y -q install ansible
-    sudo apt-get -y -q install docker-ce
+    sudo apt-get -y -qq install ansible
+    sudo apt-get -y -qq install docker-ce
     if [ $? -ne 0 ];
     then
         echo "Please set up the repository for docker-ce.  See https://docs.docker.com/engine/installation/linux/docker-ce/$(. /etc/os-release; echo "$ID")/"
