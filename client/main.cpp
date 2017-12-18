@@ -21,6 +21,11 @@
 
 #include "cpp.h"
 
+#include <uWS/uWS.h>
+#include <thread>
+#include <iostream>
+
+
 #ifdef WIN32
 #include "boinc_win.h"
 #include "sysmon_win.h"
@@ -406,6 +411,81 @@ int boinc_main_loop() {
     return finalize();
 }
 
+//
+//
+//
+int connect_sock () {
+
+    int portno = 31416;
+    struct sockaddr_in serveraddr;
+    struct hostent *server;
+    char *hostname = "127.0.0.1";
+    int sockfd;
+
+    server = gethostbyname(hostname);
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    serveraddr.sin_family = AF_INET;
+    serveraddr.sin_port = htons(portno);
+    serveraddr.sin_addr = *((struct in_addr *)server->h_addr);
+    bzero(&(serveraddr.sin_zero), 8);
+
+    int n = connect(sockfd, (struct sockaddr *) &serveraddr, sizeof(struct sockaddr));
+    if (n < 0) {
+       printf("The connect error is : %s", strerror(errno));
+    }
+    return sockfd;
+}
+//
+//
+//
+
+//
+//
+//
+void init_websocket() {
+
+    std::vector<std::thread *> threads(/*std::thread::hardware_concurrency()*/1);
+    std::transform(threads.begin(), threads.end(), threads.begin(), [](std::thread *t) {
+        return new std::thread([]() {
+
+
+            uWS::Hub h;
+
+            h.onMessage([](uWS::WebSocket<uWS::SERVER> *ws, char *message, size_t length, uWS::OpCode opCode) {
+            int sockfd = connect_sock();
+            char buf[50000];
+            memset(buf, 0, sizeof(buf));
+            snprintf(buf, /*sizeof(buf)*/ (int) length + 1, "%s", /*(int) msg.len,*/ message);
+            int num = write(sockfd, buf, (int) length + 1);
+            if (num < 0)
+            printf("The write error is: %s\n", strerror(errno));
+            new std::thread ([&sockfd, ws, &opCode]() {
+                char recv_buf[50000];
+                memset(recv_buf, 0, sizeof(recv_buf));
+                int r = recv(sockfd, recv_buf, 50000, 0);
+                if (r < 0) printf("\n\nThe error of recv is: %s", strerror(errno));
+                    std::string received = recv_buf;
+                    const char *rc = received.c_str();
+                    ws->send(rc, received.size(), opCode);
+                });
+
+           });
+           if (!h.listen(3000, uS::TLS::createContext("server.pem",
+                          "server.key")/*, uS::ListenOptions::REUSE_PORT*/))
+           {
+                std::cout << "Failed to listen" << std::endl;
+           }
+           h.run();
+
+        });
+    });
+}
+//
+//
+//
+
+
 int main(int argc, char** argv) {
     int retval = 0;
 
@@ -534,6 +614,8 @@ int main(int argc, char** argv) {
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX
+
+    init_websocket();
 
     retval = boinc_main_loop();
 
