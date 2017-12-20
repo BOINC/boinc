@@ -175,7 +175,8 @@ CLIENT_STATE::CLIENT_STATE()
     must_check_work_fetch = true;
     retry_shmem_time = 0;
     no_gui_rpc = false;
-    enable_gui_rpcs = true;
+    autologin_in_progress = false;
+    autologin_fetching_project_list = false;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
@@ -731,7 +732,7 @@ int CLIENT_STATE::init() {
 
     // check for initialization files
     //
-    process_autologin();
+    process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
 
@@ -787,13 +788,12 @@ int CLIENT_STATE::init() {
     //
     proxy_info_startup();
 
-    if (gstate.projects.size() == 0) {
-        msg_printf(NULL, MSG_INFO,
-            "This computer is not attached to any projects"
-        );
-        msg_printf(NULL, MSG_INFO,
-            "Visit https://boinc.berkeley.edu for instructions"
-        );
+    if (!autologin_in_progress) {
+        if (gstate.projects.size() == 0) {
+            msg_printf(NULL, MSG_INFO,
+                "This computer is not attached to any projects"
+            );
+        }
     }
 
     // get list of BOINC projects occasionally,
@@ -843,7 +843,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         gui_rpc_fds.zero();
         http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
-        if (enable_gui_rpcs) {
+        if (!autologin_in_progress) {
             gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         }
 

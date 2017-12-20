@@ -1036,7 +1036,7 @@
    <account_manager>
         <name>Onboard</name>
         <id>101</id>
-        <url>https://onboard.berkeley.edu/</url>
+        <url>https://boinc.berkeley.edu/test2/</url>
         <description>Onboard prototype</description>
         <image>https://boinc.berkeley.edu/images/</image>
     </account_manager>
