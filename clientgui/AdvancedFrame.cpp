@@ -1884,7 +1884,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
-    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach && !autoattach_in_progress()) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         // client isn't attached to any projects.
         // Look for an account to attach to, either in project_init.xml
         // or in browser cookies

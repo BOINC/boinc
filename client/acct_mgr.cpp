@@ -114,6 +114,7 @@ int ACCT_MGR_OP::do_rpc(
         gstate.core_client_version.release,
         run_mode_name[gstate.cpu_run_mode.get_perm()]
     );
+    gstate.write_platforms(NULL, f);
     if (strlen(gstate.acct_mgr_info.previous_host_cpid)) {
         fprintf(f,
             "   <previous_host_cpid>%s</previous_host_cpid>\n",

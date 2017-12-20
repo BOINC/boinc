@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
     if (p)
         *p = '\0'; 
 
-    p = strstr(brand, " Installer.app");  // Strip off trailing " Installer.app"
+    p = strrchr(brand, ' ');         // Strip off last space character and everything following
     if (p)
         *p = '\0'; 
     

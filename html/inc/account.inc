@@ -93,33 +93,24 @@ function create_account_form($teamid, $next_url) {
 }
 
 function login_form($next_url) {
-    echo "
-        <form name=\"f\" method=\"post\" action=\"".secure_url_base()."/login_action.php\">
-        <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
-    ";
-    start_table();
+    form_start(secure_url_base()."/login_action.php", "post");
+    form_input_hidden("next_url", $next_url);
     if (LDAP_HOST) {
         $x = "Email address or LDAP user name:";
     } else {
         $x = tra("Email address:");
     }
-    if (!NO_COMPUTING) {
-        $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
-    }
-    row2($x, '<input class="form-control" name=email_addr type="text" size=40 tabindex=1>');
-    row2(tra("Password:") . '<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
-        '<input class="form-control" type="password" name="passwd" size="40" tabindex="2">'
+    $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
+    form_input_text($x, "email_addr");
+    form_input_text(
+        tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
+        "passwd",
+        "",
+        "password"
     );
-    row2(tra("Stay logged in"),
-        '<input type="checkbox" name="stay_logged_in" checked>'
-    );
-
-    row2("",
-        "<input class=\"btn btn-success\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
-    );
-
-    end_table();
-    echo "</form>\n";
+    form_checkboxes(tra("Stay logged in"), array(array("stay_logged_in", "")));
+    form_submit("Log in");
+    form_end();
 }
 
 ?>
