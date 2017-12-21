@@ -1825,6 +1825,7 @@ function theme_boincwork_privacyprefs_form($form) {
     bts('Operations', array(), NULL, 'boinc:ignore-user-list')
   );
 
+  $rows = array();
   if (isset($form['ignoreblock']['username']) && is_array($form['ignoreblock']['username'])) {
     foreach (element_children($form['ignoreblock']['username']) as $key) {
       $row = array();
