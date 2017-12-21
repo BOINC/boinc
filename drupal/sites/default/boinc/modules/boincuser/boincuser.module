@@ -1499,7 +1499,6 @@ function boincuser_account_finish() {
     $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
   }
 
-  // @todo - add bts() function calls
   $username = $user->boincuser_name;
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $output = "<p>" . bts('Thank you @user_name for joining @site_name. Your account has been created. Your BOINC client should start working on assigned tasks soon, without any additional action or configuration. Please visit the links below for more information and additional options. (Links will open in a new window.)',
