@@ -460,7 +460,6 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
  */
 function boincuser_user_delete($account) {
 
-  $drupaluid = $account->uid;
   $boincid = $account->boincuser_id;
   // bug in comment module, remove user name from comments. Find all
   // comments with uid=0 and clear the field 'name'.
@@ -470,7 +469,6 @@ function boincuser_user_delete($account) {
 
   // Delete data in BOINC project user table.
   db_set_active('boinc');
-  //$qrc3 = db_query("DELETE FROM {user} WHERE user.id=%d", $boincid);
   $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id=NULL, user.passwd_hash=NULL, user.signature=NULL WHERE user.id=%d", $boincid);
   db_set_active('default');
 }

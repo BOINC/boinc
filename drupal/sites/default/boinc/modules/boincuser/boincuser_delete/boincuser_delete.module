@@ -295,9 +295,12 @@ function boincuser_delete_user_login(&$edit, $account) {
       case 2:
         $verb = bts('delete', array(), NULL, 'boinc:account-deletion');
         break;
+      default:
+        watchdog('boincuser_delete', 'variable delete_status not defined within acceptable bounds, @delete_status', array('@delete_status' => $delete_status), WATCHDOG_ERROR);
+        // If delete_status is not a defined case, then abort this function.
+        return;
     }
 
-    //$wa = 'STATUS: You have logged and thus canceled your account deletion request. If you did not initiate this request, please contact the Web site administrators. You may re-request deletion of your account in Account-> Credentials.';
     $wa = bts(
       'STATUS: You have logged in and thus canceled your account @action request. If you did not initiate the initial @action request, please contact the Web site administrators. You may re-request to @action your account in Account -> !credentials.',
       array(
