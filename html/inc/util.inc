@@ -94,6 +94,9 @@ if (!defined('NO_GLOBAL_PREFS')) {
 if (!defined('USER_HOME')) {
     define('USER_HOME', 'home.php');
 }
+if (!defined('POST_MAX_LINKS')) {
+    define('POST_MAX_LINKS', 0);
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
