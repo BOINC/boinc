@@ -113,6 +113,17 @@ $special_user_bitfield[S_VOLUNTEER_TESTER] = tra("Volunteer tester");
 $special_user_bitfield[S_SCIENTIST] = tra("Project scientist");
 $special_user_bitfield[S_HELP_DESK_EXPERT] = tra("Help desk expert");
 
+function link_count($x) {
+    $n = 0;
+    while (1) {
+        $x = strstr($x, "[url");
+        if (!$x) break;
+        $n++;
+        $x = substr($x, 4);
+    }
+    return $n;
+}
+
 // show a banner with search form on left and PM info on right
 //
 function show_forum_header($user) {
@@ -865,6 +876,12 @@ function notify_subscribers($thread, $user) {
 // Don't do these things directly - use these functions
 //
 function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
+    if (POST_MAX_LINKS
+        && link_count($content) > POST_MAX_LINKS
+        && !is_moderator($user, $forum)
+    ) {
+        return 0;
+    }
     $content = substr($content, 0, 64000);
     $content = BoincDb::escape_string($content);
     $now = time();
@@ -900,6 +917,12 @@ function update_forum_timestamp($forum) {
 }
 
 function create_thread($title, $content, $user, $forum, $signature, $export) {
+    if (POST_MAX_LINKS
+        && link_count($content) > POST_MAX_LINKS
+        && !is_moderator($user, $forum)
+    ) {
+        return 0;
+    }
     $title = trim($title);
     $title = sanitize_tags($title);
     $title = BoincDb::escape_string($title);
