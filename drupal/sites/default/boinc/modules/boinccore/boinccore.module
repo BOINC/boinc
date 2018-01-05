@@ -16,6 +16,7 @@
 
 //require_once('includes/boinccore.forms.inc');
 //require_once('includes/boinccore.helpers.inc');
+require_once('includes/boinccore.rules.inc');
 require_once('boinccore.admin.inc');
 
 
@@ -805,12 +806,14 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   switch ($action) {
   case 'unhide':
     comment_publish_action($comment);
+    rules_invoke_event('comment_publish', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_publish($comment);
     }
     break;
   case 'hide':
     comment_unpublish_action($comment);
+    rules_invoke_event('comment_unpublish', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_unpublish($comment);
     }
@@ -846,6 +849,8 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
     module_load_include('inc', 'comment', 'comment.admin');
     _comment_delete_thread($comment);
     
+    rules_invoke_event('boinccore_comment_convert', $comment);
+
     $return_path = "node/{$node->nid}";
     $return_anchor = NULL;
     break;
