@@ -108,7 +108,9 @@ function login_form($next_url) {
         "",
         "password"
     );
-    form_checkboxes(tra("Stay logged in"), array(array("stay_logged_in", "")));
+    form_checkboxes(tra("Stay logged in"),
+        array(array("stay_logged_in", "", true))
+    );
     form_submit("Log in");
     form_end();
 }
