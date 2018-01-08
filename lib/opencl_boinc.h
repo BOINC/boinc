@@ -66,7 +66,7 @@ struct OPENCL_DEVICE_PROP {
 
     char opencl_platform_version[64];   // Version of OpenCL supported
                                         // the device's platform
-    char opencl_device_version[64];     // OpenCL version supported by device;
+    char opencl_device_version[128];     // OpenCL version supported by device;
                                         // example: "OpenCL 1.1 beta"
     int opencl_device_version_int;      // same, encoded as e.g. 101
     int get_device_version_int();       // call this to encode
