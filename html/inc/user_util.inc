@@ -176,7 +176,7 @@ function validate_post_make_user() {
 
     $passwd = post_str("passwd");
     $passwd2 = post_str("passwd2", true);
-    if ($passwd2 && $passwd != $passwd2) {
+    if ($passwd2 && ($passwd != $passwd2)) {
         show_error(tra("New passwords are different"));
     }
 
