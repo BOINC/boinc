@@ -301,17 +301,17 @@ define('FORM_LEFT_CLASS', 'col-sm-4');
 define('FORM_LEFT_OFFSET', 'col-sm-offset-4');
 define('FORM_RIGHT_CLASS', 'col-sm-8');
 
-function form_input_text($label, $name, $value='', $type='text', $attrs='') {
+function form_input_text($label, $name, $value='', $type='text', $attrs='', $extra='') {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
             <div class="%s">
-                <input %s type="%s" class="form-control" name="%s" value="%s">
+                <input %s type="%s" class="form-control" name="%s" value="%s">%s
             </div>
         </div>
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
-        $attrs, $type, $name, $value
+        $attrs, $type, $name, $value, $extra
     );
 }
 
