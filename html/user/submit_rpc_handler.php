@@ -108,7 +108,7 @@ function check_max_jobs_in_progress($r, $user_submit) {
     if (!$user_submit->max_jobs_in_progress) return;
     $query = "select count(*) as total from DBNAME.result, DBNAME.batch where batch.user_id=$userid and result.batch = batch.id and result.server_state<".RESULT_SERVER_STATE_OVER;
     $db = BoincDb::get();
-    $n = $db->get_int($query);
+    $n = $db->get_int($query, 'total');
     if ($n === false) return;
     if ($n + count($r->batch->job) > $user_submit->max_jobs_in_progress) {
         xml_error(-1, "limit on jobs in progress exceeded");
