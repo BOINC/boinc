@@ -402,7 +402,7 @@ function form_checkboxes($label, $items) {
         } else {
             echo "<br>\n";
         }
-        echo sprintf('<input type="checkbox" name="%s" %s> %s <br>
+        echo sprintf('<input type="checkbox" name="%s" %s> %s
             ',
             $i[0], $i[2]?"checked":"", $i[1]
         );

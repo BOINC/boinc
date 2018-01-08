@@ -29,6 +29,25 @@ function make_login_token($user) {
     return $token;
 }
 
+// return HTML string for a checkbox for toggling password visibility
+//
+function passwd_visible_checkbox($name) {
+    return sprintf('
+<script>
+function toggle_passwd() {
+    var x = document.getElementById("%s");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
+<input type="checkbox" onclick="toggle_passwd()"><small> Show password</small>
+        ', $name
+    );
+}
+
 function create_account_form($teamid, $next_url) {
     global $recaptcha_public_key;
     form_input_hidden('next_url', $next_url);
