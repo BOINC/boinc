@@ -385,7 +385,7 @@ function form_select_multiple($label, $name, $items, $flags) {
     echo "</select></div></div>\n";
 }
 
-// $items is list of (name, label)
+// $items is list of (name, label, checked)
 //
 function form_checkboxes($label, $items) {
     echo sprintf('
@@ -395,18 +395,17 @@ function form_checkboxes($label, $items) {
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
-    if (count($items) == 1) {
-        $i = $items[0];
-        echo sprintf('<input type="checkbox" name="%s" checked>
-            ', $i[0]
-        );
-    } else {
-        foreach ($items as $i) {
-            echo sprintf('<input type="checkbox" name="%s"> %s <br>
-                ',
-                $i[0], $i[1]
-            );
+    $first = true;
+    foreach ($items as $i) {
+        if ($first) {
+            $first = false;
+        } else {
+            echo "<br>\n";
         }
+        echo sprintf('<input type="checkbox" name="%s" %s> %s
+            ',
+            $i[0], $i[2]?"checked":"", $i[1]
+        );
     }
     echo '</div>
         </div>

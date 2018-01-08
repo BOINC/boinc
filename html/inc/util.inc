@@ -864,19 +864,6 @@ function show_button_small($url, $text, $desc=null) {
     echo button_text($url, $text, $desc, "btn-primary btn-xs");
 }
 
-// When multiple buttons (or actions) are presented in a list you can
-// use this convenience method to avoid having to wrap each button in <li></li> elements
-// @param url The destination URL of the button
-// @param text The text to display on the button
-// @param desc The title of the destination - typically used as a popup
-// @param class The optional CSS class of the button. Defaults to a standard button
-//
-function show_actionlist_button($url, $text, $desc, $class="btn btn-default"){
-    echo "<li>";
-    echo show_button($url, $text, $desc, $class);
-    echo "</li>";
-}
-
 // used for showing icons
 //
 function show_image($src, $title, $alt, $height=null) {
