@@ -850,6 +850,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 graphics_app_result_ptr = NULL;
                 m_bDefault_gfx_running = false;
                 m_bScience_gfx_running = false;
+#ifdef __APPLE__
+                launchedGfxApp("", 0, -1);
+#endif
                 continue;
             }
         }
