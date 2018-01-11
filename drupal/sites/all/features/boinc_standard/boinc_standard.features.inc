@@ -201,6 +201,459 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_forum_topic_is_edited_and_hidden_by_moderator_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited and hidden by moderator/admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '1' => array(
+            '#type' => 'OR',
+            '0' => array(
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+              '#weight' => 0,
+            ),
+            '#weight' => 0,
+            '1' => array(
+              '#weight' => 0,
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+            ),
+          ),
+          '2' => array(
+            '#negate' => 1,
+            '#info' => array(
+              'label' => 'Content is published',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_published',
+            '#settings' => array(
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] hidden by moderator/admin',
+              'message' => 'Forum topic, [node:title], has been hidden by moderator/admin [user:display-name]: Link:
+[node:node-url]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_forum_topic_is_edited_and_unhidden_by_moderator_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited and unhidden by moderator/admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#type' => 'OR',
+            '0' => array(
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+              '#weight' => 0,
+            ),
+            '#weight' => 0,
+            '1' => array(
+              '#weight' => 0,
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+            ),
+          ),
+          '2' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_published',
+            '#info' => array(
+              'label' => 'Updated content is published',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] unhidden by moderator/admin',
+              'message' => 'Forum topic, [node:title], has been unhidden by moderator/admin [user:display-name]: Link:
+[node:node-url]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_forum_topic_is_edited_by_moderator_or_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited by moderator or admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'code' => 'return $node->status == $node_unchanged->status;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#info' => array(
+              'label' => 'PHP code: node status unchanged',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#type' => 'OR',
+            '0' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+            '#weight' => 0,
+            '1' => array(
+              '#weight' => 0,
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+            ),
+          ),
+          '2' => array(
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
+              'message' => 'Forum topic, [node:title], has been edited by moderator/admin [user:display-name]. Link: 
+[node:node-url]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_comment_converted_to_new_forum_topic_by_moderator_or_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_boinccore_comment_convert',
@@ -536,378 +989,6 @@ function boinc_standard_rules_defaults() {
                 '2' => 'from',
               ),
             ),
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_forum_topic_is_edited_and_hidden_by_moderator_admin' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and hidden by moderator/admin',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'boinc_standard',
-          '1' => 'moderator notification',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'User has role(s): administrator or moderator',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'User',
-                ),
-              ),
-              'module' => 'User',
-            ),
-            '#name' => 'rules_condition_user_hasrole',
-            '#settings' => array(
-              'roles' => array(
-                '0' => 3519698132,
-                '1' => 1271379760,
-              ),
-              'operation' => 'OR',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-            ),
-            '#type' => 'condition',
-          ),
-          '1' => array(
-            '#info' => array(
-              'label' => 'Updated content is Forum topic',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'forum' => 'forum',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
-            '#weight' => 0,
-          ),
-          '2' => array(
-            '#info' => array(
-              'label' => 'Content is published',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#negate' => 1,
-            '#name' => 'rules_condition_content_is_published',
-            '#settings' => array(
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#weight' => 0,
-            '#type' => 'condition',
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#type' => 'action',
-            '#settings' => array(
-              'from' => '',
-              'subject' => 'Forum topic at [:global:site-name] hidden by moderator/admin',
-              'message' => 'Forum topic, [node:title], has been hidden by moderator/admin [user:display-name]: Link:
-[node:node-url]',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'node',
-                    '1' => 'user',
-                    '2' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'boinccore_rules_action_mail_to_moderators',
-            '#info' => array(
-              'label' => 'Notify moderators via email',
-              'module' => 'BOINC core',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_forum_topic_is_edited_and_unhidden_by_moderator_admin' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and unhidden by moderator/admin',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'boinc_standard',
-          '1' => 'moderator notification',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'roles' => array(
-                '0' => 3519698132,
-                '1' => 1271379760,
-              ),
-              'operation' => 'OR',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-            ),
-            '#name' => 'rules_condition_user_hasrole',
-            '#info' => array(
-              'label' => 'User has role(s): administrator or moderator',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'User',
-                ),
-              ),
-              'module' => 'User',
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Updated content is Forum topic',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'forum' => 'forum',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
-          ),
-          '2' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_published',
-            '#info' => array(
-              'label' => 'Updated content is published',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Notify moderators via email',
-              'module' => 'BOINC core',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'boinccore_rules_action_mail_to_moderators',
-            '#settings' => array(
-              'from' => '',
-              'subject' => 'Forum topic at [:global:site-name] unhidden by moderator/admin',
-              'message' => 'Forum topic, [node:title], has been unhidden by moderator/admin [user:display-name]: Link:
-[node:node-url]',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'node',
-                    '1' => 'user',
-                    '2' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_forum_topic_is_edited_by_moderator_or_admin' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited by moderator or admin',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'boinc_standard',
-          '1' => 'moderator notification',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'code' => 'return $node->status == $node_unchanged->status;',
-              'vars' => array(
-                '0' => 'node',
-                '1' => 'node_unchanged',
-              ),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'code' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'rules_condition_custom_php',
-            '#info' => array(
-              'label' => 'PHP code: node status unchanged',
-              'label callback' => FALSE,
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'forum' => 'forum',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Updated content is Forum topic',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-          ),
-          '2' => array(
-            '#info' => array(
-              'label' => 'User has role(s): administrator or moderator',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'User',
-                ),
-              ),
-              'module' => 'User',
-            ),
-            '#name' => 'rules_condition_user_hasrole',
-            '#settings' => array(
-              'roles' => array(
-                '0' => 3519698132,
-                '1' => 1271379760,
-              ),
-              'operation' => 'OR',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-            ),
-            '#type' => 'condition',
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Notify moderators via email',
-              'module' => 'BOINC core',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'boinccore_rules_action_mail_to_moderators',
-            '#settings' => array(
-              'from' => '',
-              'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
-              'message' => 'Forum topic, [node:title], has been edited by moderator/admin [user:display-name]. Link: 
-[node:node-url]',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'node',
-                    '1' => 'user',
-                    '2' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
