@@ -42,7 +42,7 @@ form_input_text(
 // but because we store it salted with email address,
 // which is about to change.
 
-form_input_text(tra("Password"), "password", "", "password");
+form_input_text(tra("Password"), "passwd", "", "password");
 form_submit(tra("Change email address"));
 form_end();
 page_tail();
