@@ -61,7 +61,7 @@ start_table();
 show_profile($user, $logged_in_user);
 end_table();
 echo "</td><td valign=\"top\">";
-start_table();
+start_table("table-striped");
 row2(tra("Account data"),
     "<a href=\"show_user.php?userid=".$userid."\">".tra("View")."</a>"
 );

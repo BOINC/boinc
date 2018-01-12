@@ -119,7 +119,6 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
     form_input_text($x, "email_addr");
     form_input_text(
         tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
