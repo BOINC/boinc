@@ -42,6 +42,8 @@
 - (IBAction)closeSheetSave:(id) sender;
 - (IBAction)closeSheetCancel:(id) sender;
 
+- (bool) setUpToUseCGWindowList;
+
 @end
 
 @interface SharedGraphicsController : NSObject <NSMachPortDelegate>
