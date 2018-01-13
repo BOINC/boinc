@@ -1472,6 +1472,18 @@ int HOST_INFO::get_memory_info() {
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_USEABLE_MEMORY);
+#elif defined(__APPLE__)
+    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a
+    // 4-byte value, even if passed an 8-byte buffer, and limits the returned
+    // value to 2GB when the actual RAM size is > 2GB.
+    // But HW_MEMSIZE returns a uint64_t value.
+    //
+    // _SC_PHYS_PAGES is defined as of Apple SDK 10.11 but sysconf(_SC_PHYS_PAGES)
+    // fails in older OS X versions, so we must test __APPLE__ before _SC_PHYS_PAGES
+    uint64_t mem_size;
+    size_t len = sizeof(mem_size);
+    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #elif defined(_SC_PHYS_PAGES)
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
@@ -1480,15 +1492,6 @@ int HOST_INFO::get_memory_info() {
             sysconf(_SC_PAGESIZE), sysconf(_SC_PHYS_PAGES)
         );
     }
-#elif defined(__APPLE__)
-    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
-    // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
-    // value to 2GB when the actual RAM size is > 2GB.
-    // But HW_MEMSIZE returns a uint64_t value.
-    uint64_t mem_size;
-    size_t len = sizeof(mem_size);
-    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
-    m_nbytes = mem_size;
 #elif defined(_HPUX_SOURCE)
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
