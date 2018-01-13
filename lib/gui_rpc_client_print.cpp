@@ -428,3 +428,13 @@ void OLD_RESULT::print() {
         time_to_string(create_time)
     );
 }
+
+void ACCT_MGR_INFO::print() {
+    printf(
+        "Account manager info:\n"
+        "   Name: %s\n"
+        "   URL: %s\n",
+        acct_mgr_name.c_str(),
+        acct_mgr_url.c_str()
+    );
+}
