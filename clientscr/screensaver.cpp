@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,6 +28,8 @@
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #include <sys/wait.h>
+#include <app_ipc.h>
+#include <malloc/malloc.h>
 #endif
 
 // Common application includes
@@ -83,22 +85,35 @@ bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
 }
 
 int CScreensaver::count_active_graphic_apps(RESULTS& res, RESULT* exclude) {
-    unsigned int i = 0;
+    int i = 0;
     unsigned int graphics_app_count = 0;
 
     // Count the number of active graphics-capable apps excluding the specified result.
     // If exclude is NULL, don't exclude any results.
     //
-    for (i = 0; i < res.results.size(); i++) {
-        BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
+    for (i = res.results.size()-1; i >=0 ; i--) {
+        BOINCTRACE(_T("count_active_graphic_apps -- active task detected\n"));
         BOINCTRACE(
-            _T("get_random_graphics_app -- name = '%s', path = '%s'\n"),
+            _T("count_active_graphic_apps -- name = '%s', path = '%s'\n"),
             res.results[i]->name, res.results[i]->graphics_exec_path
         );
 
         if (!strlen(res.results[i]->graphics_exec_path)) continue;
         if (is_same_task(res.results[i], exclude)) continue;
-        BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
+#ifdef __APPLE__
+        // Remove it from the vector if incompatible with current version of OS X
+        if (isIncompatible(res.results[i]->graphics_exec_path)) {
+            BOINCTRACE(
+                _T("count_active_graphic_apps -- removing incompatible name = '%s', path = '%s'\n"),
+                res.results[i]->name, res.results[i]->graphics_exec_path
+            );
+            RESULT *rp = res.results[i];
+            res.results.erase(res.results.begin()+i);
+            delete rp;
+            continue;
+        }
+#endif
+        BOINCTRACE(_T("count_active_graphic_apps -- active task detected w/graphics\n"));
 
         graphics_app_count++;
     }
@@ -161,10 +176,38 @@ CLEANUP:
 }
 
 
+#ifdef __APPLE__
+void CScreensaver::markAsIncompatible(char *gfxAppPath) {
+    char *buf = (char *)malloc(strlen(gfxAppPath)+1);
+    if (buf) {
+        strlcpy(buf, gfxAppPath, malloc_size(buf));
+        m_vIncompatibleGfxApps.push_back(buf);
+       BOINCTRACE(_T("markAsIncompatible -- path = '%s'\n"), gfxAppPath);
+    }
+}
+
+bool CScreensaver::isIncompatible(char *appPath) {
+    unsigned int i = 0;
+    for (i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
+        BOINCTRACE(
+            _T("isIncompatible -- comparing incompatible path '%s' to candidate path %s\n"),
+            m_vIncompatibleGfxApps[i], appPath
+        );
+        if (strcmp(m_vIncompatibleGfxApps[i], appPath) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+#endif
+
+
 // Launch a project (science) graphics application
 //
 int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application) {
     int retval = 0;
+    
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
 #ifdef __APPLE__
@@ -191,6 +234,10 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
             0,
             graphics_application
         );
+
+    if (graphics_application) {
+        launchedGfxApp(rp->graphics_exec_path, graphics_application, rp->slot);
+    }
 #else
         char* argv[3];
         argv[0] = "app_graphics";   // not used
@@ -244,6 +291,10 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
         0,
         thePID
     );
+    
+    if (graphics_application) {
+        launchedGfxApp("", 0, -1);
+    }
     
     for (i=0; i<200; i++) {
         boinc_sleep(0.01);      // Wait 2 seconds max
@@ -321,6 +372,10 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
         0,
         graphics_application
     );
+
+    if (graphics_application) {
+        launchedGfxApp("boincscr", graphics_application, -1);
+    }
 
     BOINCTRACE(_T("launch_default_screensaver returned %d\n"), retval);
     
@@ -427,6 +482,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     m_bShow_default_ss_first = false;
 
 #ifdef __APPLE__
+    m_vIncompatibleGfxApps.clear();
     default_ss_dir_path = "/Library/Application Support/BOINC Data";
 #else
     default_ss_dir_path = (char*)m_strBOINCInstallDirectory.c_str();
@@ -794,6 +850,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 graphics_app_result_ptr = NULL;
                 m_bDefault_gfx_running = false;
                 m_bScience_gfx_running = false;
+#ifdef __APPLE__
+                launchedGfxApp("", 0, -1);
+#endif
                 continue;
             }
         }

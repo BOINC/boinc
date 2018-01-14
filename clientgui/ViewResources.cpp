@@ -263,16 +263,14 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
         if (pDoc->disk_usage.d_allowed > 0) {
             double avail = pDoc->disk_usage.d_allowed - boinc_total;
-            if (avail > 0) {
-                if (avail > free) avail = free;
-		        FormatDiskSpace(avail, diskspace);
-                part.SetLabel(_("free, available to BOINC: ") + diskspace);
-		        part.SetValue(avail);
-		        part.SetColour(wxColour(128, 128, 128));
-		        m_pieCtrlTotal->m_Series.Add(part);
-            } else {
-                avail = 0;
-            }
+            if (avail < 0) avail = 0;
+            if (avail > free) avail = free;
+            FormatDiskSpace(avail, diskspace);
+            part.SetLabel(_("free, available to BOINC: ") + diskspace);
+            part.SetValue(avail == 0 ? 1 : avail);
+            part.SetColour(wxColour(128, 128, 128));
+            m_pieCtrlTotal->m_Series.Add(part);
+
             double not_avail = free - avail;
             if (not_avail > 0) {
 		        FormatDiskSpace(not_avail, diskspace);

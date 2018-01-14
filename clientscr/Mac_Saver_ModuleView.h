@@ -20,6 +20,7 @@
 //
 
 #import <ScreenSaver/ScreenSaver.h>
+#import <Cocoa/Cocoa.h>
 
 
 @interface BOINC_Saver_ModuleView : ScreenSaverView 
@@ -41,7 +42,34 @@
 - (IBAction)closeSheetSave:(id) sender;
 - (IBAction)closeSheetCancel:(id) sender;
 
+- (bool) setUpToUseCGWindowList;
+
 @end
+
+@interface SharedGraphicsController : NSObject <NSMachPortDelegate>
+
+@property (NS_NONATOMIC_IOSONLY, readonly) GLuint currentTextureName;
+- (instancetype)init:(NSView*)saverView;
+- (void)portDied:(NSNotification *)notification;
+- (void)testConnection;
+
+@end
+
+@interface saverOpenGLView : NSOpenGLView
+
+- (GLuint)setupIOSurfaceTexture:(IOSurfaceRef)ioSurfaceBuffer;
+
+@end
+
+// The declarations below must be kept in sync with
+// the corresponding ones in Mac_Saver_Module.h
+#ifdef _DEBUG
+    #define _T(x) x
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void            initBOINCSaver(void);
 int             startBOINCSaver(void);
@@ -49,13 +77,23 @@ int             getSSMessage(char **theMessage, int* coveredFreq);
 void            windowIsCovered();
 void            drawPreview(CGContextRef myContext);
 void            closeBOINCSaver(void);
+void            setDefaultDisplayPeriods(void);
+bool            getShow_default_ss_first();
 double          getGFXDefaultPeriod();
 double          getGFXSciencePeriod();
 double          getGGFXChangePeriod();
+void            incompatibleGfxApp(char * appPath, pid_t pid, int slot);
+void            setShow_default_ss_first(bool value);
 void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
-bool            validateNumericString(CFStringRef s);
 double          getDTime();
 void            doBoinc_Sleep(double seconds);
-extern void     print_to_log_file(const char *format, ...);
+void            launchedGfxApp(char * appPath, pid_t thePID, int slot);
+void            print_to_log_file(const char *format, ...);
+void            strip_cr(char *buf);
+void            PrintBacktrace(void);
+
+#ifdef __cplusplus
+}    // extern "C"
+#endif

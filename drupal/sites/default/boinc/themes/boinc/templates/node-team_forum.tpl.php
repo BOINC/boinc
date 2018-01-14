@@ -115,10 +115,18 @@
       <h2 class="title"><?php print $subtitle; ?></h2>
     </div>
     <div class="subscribe">
-      <?php if ($subscribe_link): ?>
-        <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
-        <?php print $subscribe_link; ?>
-      <?php endif; ?>
+      <ul class="links">
+        <?php if (user_access('post comments') AND ($comment==COMMENT_NODE_READ_WRITE)): ?>
+          <li class="first"><a href="#block-comment_form_block-comment_form">Post new comment</a></li>
+          <?php if ($subscribe_link): ?>
+            <li class="last"><?php print $subscribe_link; ?></li>
+          <?php endif; ?>
+        <?php else: ?>
+          <?php if ($subscribe_link): ?>
+            <li class="first"><?php print $subscribe_link; ?></li>
+          <?php endif; ?>
+        <?php endif; ?>
+      </ul>
     </div>
     <div class="clearfix"></div>
   </div>

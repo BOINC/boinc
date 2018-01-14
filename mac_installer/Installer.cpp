@@ -35,6 +35,7 @@
 #include "str_replace.h"
 #include "mac_util.h"
 #include "translate.h"
+#include "file_names.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
 {
     char                    pkgPath[MAXPATHLEN];
     char                    postInstallAppPath[MAXPATHLEN];
-    char                    temp[MAXPATHLEN];
+    char                    temp[MAXPATHLEN], temp2[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
     OSStatus                err = noErr;
@@ -115,17 +116,45 @@ int main(int argc, char *argv[])
     strlcpy(postInstallAppPath, pkgPath, sizeof(postInstallAppPath));
     strlcat(postInstallAppPath, "PostInstall.app", sizeof(postInstallAppPath));
 
-   // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     p = strrchr(temp, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
-    if (p == NULL)
+    if (p == NULL) {
         p = temp - 1;
+    } else {
+        *p = '\0';
+    }
+    
+    // Delete any old project auto-attach key file from our temp directory
+    snprintf(temp2, sizeof(temp2), "rm -dfR \"/tmp/%s/%s\"", tempDirName, ACCOUNT_DATA_FILENAME);
+    err = callPosixSpawn(temp2);
+    REPORT_ERROR(err);
+
+    // Write a file containing the project auto-attach key into our temp
+    // directory because the BOINC Data directory may not yet exist.
+    // PostInstall.app will copy it into the BOINC Data directory laer
+    snprintf(temp2, sizeof(temp2), "%s/%s", temp, ACCOUNT_DATA_FILENAME);
+    if (boinc_file_exists(temp2)) {
+        // If the project server put account_data.txt file in the same
+        // parent directory as this installer, copy it into our temp directory
+        snprintf(temp2, sizeof(temp2), "cp \"%s/%s\" \"/tmp/%s/%s\"", temp, ACCOUNT_DATA_FILENAME, tempDirName, ACCOUNT_DATA_FILENAME);
+        err = callPosixSpawn(temp2);
+        REPORT_ERROR(err);
+    } else {
+        // Create an account_data.txt file containing our 
+        // installer's filename and put it in our temp directory
+        snprintf(temp2, sizeof(temp2), "/tmp/%s/%s", tempDirName, ACCOUNT_DATA_FILENAME);
+        FILE* f = fopen(temp2, "w");
+        fputs(p+1, f);
+        fclose(f);
+    }
+    
+    // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     strlcpy(brand, p+1, sizeof(brand));
     strlcat(pkgPath, p+1, sizeof(pkgPath));
     p = strrchr(pkgPath, ' ');         // Strip off last space character and everything following
     if (p)
         *p = '\0'; 
 
-    p = strstr(brand, " Installer.app");  // Strip off trailing " Installer.app"
+    p = strrchr(brand, ' ');         // Strip off last space character and everything following
     if (p)
         *p = '\0'; 
     

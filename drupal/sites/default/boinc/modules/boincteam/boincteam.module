@@ -88,19 +88,18 @@ function boincteam_menu() {
     'access arguments' => array(2),
     'type' => MENU_CALLBACK
   );
-  $items['community/teams/%/members/email'] = array(
-    'page callback' => 'boincteam_members_email_list',
-    'page arguments' => array(2),
-    'access callback' => 'boincteam_is_admin',
-    'access arguments' => array(2),
-    'type' => MENU_CALLBACK
-  );
   $items['community/teams/%/request-foundership'] = array(
     'page callback' => 'boincteam_request_foundership',
     'page arguments' => array(2),
     'access callback' => 'boincteam_is_member',
     'access arguments' => array(2),
     'type' => MENU_CALLBACK
+  );
+  $items['community/teams/%/user-name-autocomplete'] = array(
+    'page callback' => '_boincteam_user_name_autocomplete',
+    'access callback' => 'boincteam_is_founder',
+    'access arguments' => array(2),
+    'type' => MENU_CALLBACK,
   );
    
   return $items;
@@ -474,33 +473,6 @@ function boincteam_leave($team_id) {
         your membership to it.', array('@team' => $boincteam->name)));
   }
   drupal_goto("community/teams/{$team_id}");
-}
-
-/**
- * Output a plain text list of member email addresses
- */
-function boincteam_members_email_list($team_id) {
-  $team = node_load($team_id);
-  $boincteam_id = boincteam_lookup_id($team_id);
-  $output = '';
-  
-  db_set_active('boinc');
-  $result = db_query("
-    SELECT 
-      u.name, u.email_addr
-    FROM {user} u
-    WHERE u.teamid = %d
-    ORDER BY u.email_addr ASC",
-    $boincteam_id
-  );
-  db_set_active('default');
-  
-  while ($member = db_fetch_object($result)) {
-    $output .= "{$member->name} <{$member->email_addr}>\n";
-  }
-  
-  header('Content-type: text/plain');
-  print $output;
 }
 
 /**
@@ -929,37 +901,30 @@ function boincteam_manage_admins_panel_header($team_id) {
 function boincteam_management_panel($team_id) {
   $is_founder = boincteam_is_founder($team_id);
   $team = node_load($team_id);
+
   $output = '';
   $output .= '<h2 class="pane-title">' . bts('Manage team', array(), NULL, 'boinc:team-manage') . '</h2>';
   
-  // Member list
-  $output .= '<div class="form-item">';
-  $output .= '  <label>' . bts('View member list', array(), NULL, 'boinc:team-manage') . '</label>';
-  $output .= '  <ul class="tab-list">';
-  $output .= '    <li class="first tab primary">' . 
-    l('HTML', "community/teams/{$team_id}/members") . '</li>';
-  $output .= '    <li class="last tab primary">' .
-    l('text', "community/teams/{$team_id}/members/email") . '</li>';
-  $output .= '  </ul>';
-  $output .= '  <div class="description">';
-  $output .=   bts('Member names and emails', array(), NULL, 'boinc:team-manage');
-  $output .= '  </div>';
-  $output .= '</div>'; 
-  
-  // Team history
-  $output .= '<div class="form-item">';
-  $output .= '  <label>' . bts('View change history', array(), NULL, 'boinc:team-manage') . '</label>';
-  $output .= '  <ul class="tab-list">';
-  $output .= '    <li class="first tab primary">' . 
-    l('HTML', "community/teams/{$team_id}/history") . '</li>';
-  $output .= '    <li class="last tab primary">' .
-    l('XML', "community/teams/{$team_id}/history/xml") . '</li>';
-  $output .= '  </ul>';
-  $output .= '  <div class="description">';
-  $output .=   bts('See member activity', array(), NULL, 'boinc:team-manage');
-  $output .= '  </div>';
-  $output .= '</div>';
-  
+  // PM all members
+  if (module_exists('privatemsg')) {
+    // Obtain all Drupal uids of team members and construct URL to send
+    // a private message to all.
+    $boinc_id = boincteam_lookup_id($team_id);
+    $member_drupaluids = _boincteam_userids($boinc_id, FALSE);
+    $members = array_map("user_load", $member_drupaluids);
+    $team_pm_link = privatemsg_get_link($members);
+
+    $output .= '<div class="form-item">';
+    $output .= '  <ul class="tab-list action-list">';
+    $output .= '    <li class="first tab primary">' .
+      l('Send message to team', $team_pm_link) . '</li>';
+    $output .= '  </ul>';
+    $output .= '  <div class="description">';
+    $output .=   bts('Private message all team members.', array(), NULL, 'boinc:team-manage');
+    $output .= '  </div>';
+    $output .= '</div>';
+  }
+
   // Team forum
   if (module_exists('boincteam_forum')) {
     if ($is_founder) {
@@ -985,10 +950,33 @@ function boincteam_management_panel($team_id) {
     }
   }
   
-  // Remove members
+  // Team history
+  $output .= '<div class="form-item">';
+  $output .= '  <label>' . bts('View change history', array(), NULL, 'boinc:team-manage') . '</label>';
+  $output .= '  <ul class="tab-list">';
+  $output .= '    <li class="first tab primary">' . 
+    l('HTML', "community/teams/{$team_id}/history") . '</li>';
+  $output .= '    <li class="last tab primary">' .
+    l('XML', "community/teams/{$team_id}/history/xml") . '</li>';
+  $output .= '  </ul>';
+  $output .= '  <div class="description">';
+  $output .=   bts('See member activity', array(), NULL, 'boinc:team-manage');
+  $output .= '  </div>';
+  $output .= '</div>';
+  
   $output .= '<div class="form-item">';
   $output .= '  <ul class="tab-list action-list">';
+  
+  // Edit team information
   $output .= '    <li class="first tab primary">' . 
+    l(bts('Edit team info', array(), NULL, 'boinc:team-manage'), "community/teams/{$team_id}/edit/info") . '</li>';
+    
+  // Member list
+  $output .= '    <li class="tab primary">' . 
+    l(bts('View member list', array(), NULL, 'boinc:team-manage'), "community/teams/{$team_id}/members") . '</li>';
+
+  // Remove members
+  $output .= '    <li class="tab primary">' . 
     l(bts('Remove members', array(), NULL, 'boinc:team-admins-panel'), "community/teams/{$team_id}/edit/members") . '</li>';
   
   if ($is_founder) {
@@ -1000,13 +988,6 @@ function boincteam_management_panel($team_id) {
       // Manage admins
     $output .= '    <li class="tab primary">' . 
       l(bts('Manage team admins', array(), NULL, 'boinc:team-manage'), "community/teams/{$team_id}/edit/admins") . '</li>';
-  }
-  
-  // Edit team information
-  $output .= '    <li class="tab primary">' . 
-    l(bts('Edit team info', array(), NULL, 'boinc:team-manage'), "community/teams/{$team_id}/edit/info") . '</li>';
-    
-  if ($is_founder) {
     
     // Delete the team
     $output .= '    <li class="last tab primary">' . 
@@ -1225,7 +1206,7 @@ function boincteam_topic_overview_panel() {
     . ' team, visit its team page and click "Join this team". Each team has a'
     . ' founder who may:', array('@project' => $site_name), NULL, 'boinc:team-general-info') . '</p>';
   $output .= '<ul>';
-  $output .= '  <li>' . bts("access team members' email addresses", array(), NULL, 'boinc:team-general-info') . '</li>';
+  $output .= '  <li>' . bts('Private Message all team members', array(), NULL, 'boinc:team-general-info') . '</li>';
   $output .= '  <li>' . bts("edit the team's name and description", array(), NULL, 'boinc:team-general-info') . '</li>';
   $output .= '  <li>' . bts('add or remove team admins', array(), NULL, 'boinc:team-general-info') . '</li>';
   $output .= '  <li>' . bts('remove members from the team', array(), NULL, 'boinc:team-general-info') . '</li>';

@@ -34,6 +34,7 @@ namespace vboxmanage {
         int deregister_vm(bool delete_media);
         int deregister_stale_vm();
         int poll(bool log_state = true);
+	int poll2(bool log_state = true);
         int start();
         int stop();
         int poweroff();

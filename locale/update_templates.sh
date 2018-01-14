@@ -75,15 +75,15 @@ sed -e "s/@YEAR@/$YEAR/" -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@
 cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
 xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
 
-cd ${srcdir}
-echo "building localization template for BOINC website"
-TMPL_NAME="website"
-TMPL_FILE="${srcdir}/locale/templates/BOINC-Web.pot"
-FILE_LIST="doc/account_managers.inc doc/addons.php doc/docutil.php doc/download.php doc/index.php doc/help.php doc/help_funcs.php doc/links.php doc/logo.php doc/projects.php doc/download_util.inc doc/projects.inc html/inc/news.inc"
+#cd ${srcdir}
+#echo "building localization template for BOINC website"
+#TMPL_NAME="website"
+#TMPL_FILE="${srcdir}/locale/templates/BOINC-Web.pot"
+#FILE_LIST="doc/account_managers.inc doc/addons.php doc/docutil.php doc/download.php doc/index.php doc/help.php doc/help_funcs.php doc/links.php doc/logo.php doc/projects.php doc/download_util.inc doc/projects.inc html/inc/news.inc"
 
-sed -e "s/@YEAR@/$YEAR/" -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
-cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
-xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
+#sed -e "s/@YEAR@/$YEAR/" -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
+#cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
+#xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
 
 # The Android template is updated using Android Studio
 # The BOINC-Drupal.pot template is updated by Einstein@Home

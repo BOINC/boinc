@@ -45,6 +45,8 @@
 ## updated 4/7/15 by Charlie Fenton to comment on problem with BOINC+VBox installer
 ## updated 7/1/15 by Charlie Fenton for compatibility with OS 10.11
 ## updated 6/4/17 by Charlie Fenton for compatibility with Xcode versions > 5.0.2
+## updated 10/19/17 by Charlie Fenton for different path to boinc_logo_black.jpg
+## updated 11/11/17 by Charlie Fenton make all user-writable to help auto-attach
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -202,11 +204,11 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/sk
 # have permission to set owner to boinc_master.
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/projects/virtualbox
 
-##cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+##cp -fpR "${BUILDPATH}/WaitPermissions.app" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
-cp -fpRL $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
-cp -fpRL $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
-## cp -fpRL $BUILDPATH/AppStats ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
+cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
+cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
+## cp -fpRL "${BUILDPATH}/AppStats" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 
 cd "${BOINCPath}/clientgui/skins"
 cp -fpRL Default ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
@@ -216,12 +218,12 @@ cp -fp curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Suppo
 
 cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
 
-cp -fp doc/logo/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+cp -fp clientscr/res/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fp api/ttf/liberation-fonts-ttf-2.00.0/LiberationSans-Regular.ttf ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/LiberationSans-Regular.ttf
 cp -fp clientscr/ss_config.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
-cp -fpRL $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+cp -fpRL "${BUILDPATH}/boincscr" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
-cp -fpRL $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
+cp -fpRL "${BUILDPATH}/BOINCManager.app" ../BOINC_Installer/Pkg_Root/Applications/
 
 ## OS 10.6 and OS10.7 require screensavers built with Garbage Collection, but Xcode 5.0.2
 ## was the last version of Xcode which supported building with Garbage Collection, so we
@@ -230,7 +232,7 @@ cp -fpRL $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 ## correct binary for the version of OS X and delete the other one. This scripy assumes
 ## that $BUILDPATH/BOINCSaver.saver was built to use Automatic Reference Counting (ARC)
 ## and not built to use GC.
-cp -fpRL $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
+cp -fpRL "${BUILDPATH}/BOINCSaver.saver" ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
 ditto -xk ./clientscr/BOINCSaver_MacOS10_6_7.zip ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS
 
 ## Copy the localization files into the installer tree
@@ -303,7 +305,7 @@ cp -fp COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
 sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
 
-cp -fpRL $BUILDPATH/Uninstall\ BOINC.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras
+cp -fpRL "${BUILDPATH}/Uninstall BOINC.app" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras
 # Copy the localization files for the uninstaller into its bundle
 find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/locale/"$0"\""}' | xargs mkdir -p
 
@@ -315,9 +317,9 @@ sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_
 sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
 
 # Copy the installer wrapper application "BOINC Installer.app"
-cp -fpRL $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
+cp -fpRL "${BUILDPATH}/BOINC Installer.app" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
 
-cp -fpR $BUILDPATH/PostInstall.app "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources"
+cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources"
 
 # Prepare to build the BOINC+VirtualBox installer if VirtualBox.pkg exists
 VirtualBoxPackageName="VirtualBox.pkg"
@@ -399,18 +401,18 @@ sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$
 sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/*
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir
-cp -fpRL $BUILDPATH/boinc ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
-cp -fpRL $BUILDPATH/boinccmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
+cp -fpRL "${BUILDPATH}/boinc" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
+cp -fpRL "${BUILDPATH}/boinccmd" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
 cp -fpRL curl/ca-bundle.crt ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher
-cp -fpRL $BUILDPATH/switcher ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
-cp -fpRL $BUILDPATH/setprojectgrp ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
+cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
+cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
-cp -fpRL $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+cp -fpRL "${BUILDPATH}/SymbolTables/" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 ## If you wish to code sign the installer and uninstaller, create a file 
 ## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity
@@ -426,6 +428,11 @@ if [ -n "${APPSIGNINGIDENTITY}" ]; then
 fi
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
+
+## Make everything in directory user-writable so project web code using auto-attach
+## can delete it after inflating, modifying installer name and recompressing it.
+sudo chmod -R u+w ./boinc_$1.$2.$3_macOSX_$arch
+
 ## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_$arch boinc_$1.$2.$3_macOSX_$arch.zip
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_$arch-apple-darwin boinc_$1.$2.$3_$arch-apple-darwin.zip

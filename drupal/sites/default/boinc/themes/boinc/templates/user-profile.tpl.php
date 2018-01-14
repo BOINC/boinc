@@ -47,6 +47,7 @@ drupal_set_title('Profile');
 $account = user_load($account->uid);
 $content_profile = content_profile_load('profile', $account->uid);
 $name = check_plain($account->boincuser_name);
+$boincid = check_plain($account->boincuser_id);
 $join_date = date('d F Y', $account->created);
 $country = check_plain($content_profile->field_country[0]['value']);
 $website = check_plain($content_profile->field_url[0]['value']);
@@ -136,6 +137,10 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     <div class="country">
       <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
       <span class="value"><?php print $country; ?></span>
+    </div>
+    <div class="boincid">
+      <span class="value"><?php print bts('BOINC ID', array(), NULL, 'boinc:boincid'); ?>:</span>
+      <span class="value"><?php print $boincid; ?></span>
     </div>
     <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
       <div class="website">

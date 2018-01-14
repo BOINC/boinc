@@ -23,69 +23,16 @@ require_once("../inc/user.inc");
 check_get_args(array());
 
 function show_email_form() {
-    echo "<h3>"
-        .tra("1) If you know your account's email address, and you can receive email there:")."</h3><p>"
-        .tra("Enter the email address below, and click OK. You will be sent email instructions for resetting your password.");
-    start_table();
-    echo "<form method=post action=mail_passwd.php>\n";
-    row2(tra("Email address"), '<input class="form-control" type="text" size="40" name="email_addr">');
-    row2("", '<input class="btn btn-success" type="submit" value="'.tra("OK").'">');
-    echo "</form>";
-    end_table();
+    echo tra("Enter your account's email address below, and click OK. You will be sent email instructions for resetting your password.");
+
+    echo "<p><p>";
+    form_start("mail_passwd.php", "post");
+    form_input_text(tra("Email address"), "email_addr");
+    form_submit("OK");
 }
 
-function show_auth_form() {
-    global $master_url;
-    $x = strstr($master_url, "//");
-    $x = substr($x, 2);
-    $x = rtrim($x, "/");
-    $x = str_replace("/", "_", $x);
-    $account_file = "account_$x.xml";
-
-    echo "<p><h3>"
-        .tra("2) If you forgot your account's email address, or you can't receive email there:")."</h3>"
-        .tra("If you have run BOINC under this account, you can still access it. Here's how:")."
-
-    <ul>
-    <li> ".tra("Go to the BOINC data directory on your computer (its location is written to the Event Log at startup).")."
-    <li> ".tra("Find your account file for this project; it will be named <b>%1</b>.", $account_file)."
-    <li> ".tra("Open the file in a text editor like Notepad. You'll see something like")."
-    <pre>
-    &lt;account>
-        &lt;master_url>$master_url&lt;/master_url>
-        &lt;authenticator>8b8496fdd26df7dc0423ecd43c09a56b&lt;/authenticator>
-        &lt;project_name>".PROJECT."&lt;/project_name>
-        ...
-    &lt;/account>
-    </pre>
-
-    <li> ".tra("Select and Copy the string between %1 and %2 (%3 in the above example).", "&lt;authenticator>", "&lt;/authenticator>", "<b>8b8496fdd26df7dc0423ecd43c09a56b</b>")."
-
-    <li> ".tra("Paste the string into the field below, and click OK.")."
-    <li> ".tra("You will now be logged in to your account; update the email and password of your account.")."
-    </ul>
-    ";
-    start_table();
-
-    echo "<form action=login_action.php method=post>\n";
-    row2(
-        tra("Log in with authenticator"),
-        '<input class="form-control" type="text" name="authenticator" size="40">'
-    );
-    row2(tra("Stay logged in on this computer"),
-        "<input type=checkbox name=\"stay_logged_in\" checked>"
-    );
-    row2("", "<input class=\"btn btn-success\" type=submit value=\"".tra("OK")."\">");
-    echo "</form>";
-
-    end_table();
-}
-
-page_head(tra("Forgot your account info?"));
+page_head(tra("Reset password"));
 show_email_form();
-if (!NO_COMPUTING) {
-    show_auth_form();
-}
 page_tail();
 
 ?>

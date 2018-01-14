@@ -80,6 +80,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define GLOBAL_PREFS_OVERRIDE_FILE  "global_prefs_override.xml"
 #define JOB_LOG_BASE                "job_log_"
 #define KEYWORD_FILENAME            "keywords.xml"
+#define LOGIN_TOKEN_LOOKUP_REPLY    "login_token_lookup_reply.xml"
 #define LOOKUP_ACCOUNT_FILENAME     "lookup_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define MASTER_BASE                 "master_"

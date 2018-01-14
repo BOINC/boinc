@@ -25,6 +25,7 @@
 # Updated 2/11/14 for sqlite 3.8.3
 # Updated 1/5/16 for sqlite 3.9.2
 # Updated 3/2/16 for sqlite 3.11.0
+# Updated 10/22/17 to build 64-bit library (temporarily build both 32-bit and 64-bit libraries)
 #
 ## This script requires OS 10.6 or later
 #
@@ -66,10 +67,16 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libsqlite3.a" ]; then
-        cwd=$(pwd)
-        dirname=${cwd##*/}
-        echo "${dirname} already built"
-        return 0
+        lipo "${libPath}/libsqlite3.a" -verify_arch i386 x86_64
+        if [ $? -eq 0 ]; then
+            cwd=$(pwd)
+            dirname=${cwd##*/}
+            echo "${dirname} already built"
+            return 0
+        else
+            # already built but not for correct architectures
+            doclean="yes"
+        fi
     fi
 fi
 
@@ -133,6 +140,40 @@ fi
 
 make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
+
+mv .libs/libsqlite3.a  ./libsqlite3_1386.a
+
+# Build for x86_64 architecture
+make clean 1>$stdout_target
+
+export PATH=/usr/local/bin:$PATH
+export CC="${GCCPATH}";export CXX="${GPPPATH}"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-Os -isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CFLAGS="-Os -isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export SDKROOT="${SDKPATH}"
+export MACOSX_DEPLOYMENT_TARGET=10.6
+
+if [ "x${lprefix}" != "x" ]; then
+    ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
+    if [ $? -ne 0 ]; then return 1; fi
+else
+    ./configure --enable-shared=NO --host=x86_64
+    if [ $? -ne 0 ]; then return 1; fi
+fi
+
+
+make 1>$stdout_target
+if [ $? -ne 0 ]; then return 1; fi
+
+mv .libs/libsqlite3.a  ./libsqlite3_x86_64.a
+# combine i386 and x86_64 libraries
+lipo -create ./libsqlite3_1386.a ./libsqlite3_x86_64.a -output .libs/libsqlite3.a
+if [ $? -ne 0 ]; then return 1; fi
+
+rm -f ./libsqlite3_1386.a
+rm -f ./libsqlite3_x86_64.a
+
 if [ "x${lprefix}" != "x" ]; then
     make install 1>$stdout_target
     if [ $? -ne 0 ]; then return 1; fi

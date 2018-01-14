@@ -759,12 +759,15 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     if ($reset_pass) {
       $_SESSION['reset_pass'] = 1;
     }
-    
+
+    // Adjust form elements already present
+    $form['account']['name']['#title'] = 'Drupal Username';
     $form['account']['name']['#size'] = 40;
     $form['account']['name']['#attributes']['autocomplete'] = 'off';
+    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publically that the user can change in Community Preferences.';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
-    
+
     if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
       $form['account']['current_pass'] = array(
@@ -880,7 +883,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
-    
+
     break;
     
   case 'profile_node_form':
@@ -923,7 +926,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['buttons']['delete']['#prefix'] = '<li class="tab">';
     $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#value'] = bts('Clear User Profile', array(), NULL, 'boinc:form-save');
     $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['delete']['#submit'] = array('_boincuser_node_profile_delete_submit');
     $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
@@ -933,9 +938,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
-    
-    // Delete doesn't work, be rid of it
-    unset($form['buttons']['delete']);
     
     unset($form['title']);
     unset($form['body_field']);
@@ -1479,10 +1481,15 @@ function boincuser_account_finish() {
     }
   }
 
+  // open links in new window
+  $options = array(
+    'attributes' => array( 'target' => '_blank' ),
+  );
+
   // Check moderation page exists
   $moderationpath = drupal_lookup_path('source', variable_get('boinc_weboptions_moderationpage', '') );
   if ( menu_valid_path(array('link_path' => $moderationpath)) ) {
-    $modsentence = bts('Please note: user profiles are subject to @moderation.', array('@moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), 'moderate')), NULL, 'boinc:account-finish');
+    $modsentence = bts('Please note: user profiles are subject to !moderation.', array('!moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), $moderationpath, $options)), NULL, 'boinc:account-finish');
   } else {
     $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
   }
@@ -1496,9 +1503,6 @@ function boincuser_account_finish() {
     '@site_name' => $site_name,
   ), NULL, 'boinc:account-finish') . "</p>";
 
-  $options = array(
-    'attributes' => array( 'target' => '_blank' ),
-  );
   $links = array(
     array(
       'data' => bts('Change your username at !community_preferences.', array(
@@ -1829,7 +1833,8 @@ function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
     $user_image['image'] = $content_node_widget_settings['default_image'];
   }
   $user = user_load($uid);
-  $user_image['alt'] = $user->name;
+  // Use boinc username for image alt/title attributes
+  $user_image['alt'] = $user->boincuser_name;
   return $user_image;
 }
 
@@ -2031,4 +2036,33 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
     }
   }
 
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Call backs for private message
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_privatemsg_name_lookup();
+ */
+function boincuser_privatemsg_name_lookup($string) {
+  // Get the BOINC ID from the name string, and lookup the
+  // corresponding drupal user.
+  $boincname = substr($string, 0, strrpos($string, '_'));
+  $boincid = substr($string, strrpos($string, '_') + 1);
+  $drupalid = get_drupal_id($boincid);
+
+  // Name has spaced replaced with special UTF-8 characters in
+  // privatemsg module. We need to convert them back to spaces for the
+  // check below.
+  $boincname = preg_replace("/\\xc2\\xa0/", " ", $boincname);
+  if ($drupalid>0) {
+    if ($recipient = user_load(array('uid' => $drupalid))) {
+      // Double-check that the loaded user matches both boincuser_id
+      // and boincuser_name.
+      if ( ($boincid == $recipient->boincuser_id) AND ($boincname == $recipient->boincuser_name) ) {
+        return $recipient;
+      }
+    }
+  }
 }

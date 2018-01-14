@@ -724,7 +724,7 @@ void CLIENT_STATE::read_global_prefs(
 }
 
 int CLIENT_STATE::save_global_prefs(
-    char* global_prefs_xml, char* master_url, char* scheduler_url
+    const char* global_prefs_xml, char* master_url, char* scheduler_url
 ) {
     FILE* f = boinc_fopen(GLOBAL_PREFS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;

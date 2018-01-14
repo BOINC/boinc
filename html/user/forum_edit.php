@@ -60,6 +60,12 @@ $title = post_str("title", true);
 $preview = post_str("preview", true);
 
 if (post_str('submit',true) && (!$preview)) {
+    if (POST_MAX_LINKS
+        && link_count($content) > POST_MAX_LINKS
+        && !is_moderator($logged_in_user, $forum)
+    ) {
+        error_page("Can't update post");
+    }
     check_tokens($logged_in_user->authenticator);
     
     $add_signature = (post_str('add_signature', true) == "1")?1:0;

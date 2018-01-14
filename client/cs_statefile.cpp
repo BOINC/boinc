@@ -845,7 +845,7 @@ void CLIENT_STATE::check_anonymous() {
         retval = parse_app_info(p, f);
         if (retval) {
             msg_printf_notice(p, false,
-                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=app_info",
+                "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=app_info",
                 "%s",
                 _("Syntax error in app_info.xml")
             );

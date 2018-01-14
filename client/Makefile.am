@@ -80,6 +80,7 @@ boinc_client_SOURCES = \
     net_stats.cpp \
     pers_file_xfer.cpp \
     project.cpp \
+    project_list.cpp \
     result.cpp \
     rr_sim.cpp \
     sandbox.cpp \
@@ -96,9 +97,9 @@ boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L$(top_srcdir)/lib
 if OS_WIN32
 boinc_client_CXXFLAGS += -I$(top_srcdir)/coprocs/NVIDIA/include
 boinc_client_SOURCES += hostinfo_win.cpp \
-                        sysmon_win.cpp \
-			win/boinc_cli.rc \
-			win/res/boinc.ico
+	sysmon_win.cpp \
+	win/boinc_cli.rc \
+	win/res/boinc.ico
 else
 if OS_DARWIN
 boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup

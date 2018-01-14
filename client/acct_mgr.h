@@ -28,7 +28,9 @@
 #include "gui_http.h"
 #include "client_types.h"
 
-// represents info stored in acct_mgr_url.xml and acct_mgr_login.xml
+// represents an account manager account to which
+// we're attached or potentially attached.
+// Info stored in acct_mgr_url.xml and acct_mgr_login.xml
 
 struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
@@ -50,6 +52,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // in AM RPCs (used for "farm management")
     bool no_project_notices;
         // if set, don't show notices from projects
+
+    // TODO: get rid of the following
     bool cookie_required;
         // use of cookies are required during initial signup
         // NOTE: This bool gets dropped after the client has
@@ -58,6 +62,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // if the cookies could not be detected, provide a
         // link to a website to go to so the user can find
         // what login name and password they have been assigned
+
     bool password_error;
     bool send_rec;
         // send REC in AM RPCs
@@ -145,7 +150,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;
-    char* global_prefs_xml;
+    std::string global_prefs_xml;
     char host_venue[256];
     bool got_rss_feeds;
     std::vector<RSS_FEED>rss_feeds;
@@ -162,7 +167,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         via_gui = false;
         error_num = BOINC_SUCCESS;
         repeat_sec = 60.0;
-        global_prefs_xml = 0;
+        global_prefs_xml = "";
         safe_strcpy(host_venue, "");
         got_rss_feeds = false;
     }

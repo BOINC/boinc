@@ -56,7 +56,7 @@ function boincuser_check_credit_requirements() {
   $community_role = array_search('community member', user_roles(true));
   $unrestricted_role = array_search('verified contributor', user_roles(true));
   
-  // Set user roles based on current penalty status and total credit
+  // Set user roles based on current penalty status...
   if ($account->boincuser_penalty_expiration > time()) {
     drupal_set_message(bts(
       'You are banned from community participation until @date',
@@ -72,25 +72,36 @@ function boincuser_check_credit_requirements() {
     }
     user_save($account, array('roles' => $account->roles));
   }
-  elseif ($account->boincuser_total_credit >= $min_credit_to_post) {
-    if (!isset($account->roles[$unrestricted_role])) {
-      // This user is now above the credit threshold and is allowed full
-      // privileges
-      $account->roles[$unrestricted_role] = 'verified contributor';
-      user_save($account, array('roles' => $account->roles));
-    }
-  }
   else {
-    drupal_set_message(bts(
-      'You must earn @count more credits to be able to post comments on this site.',
-      array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
-    ), 'warning', FALSE);
-    if (isset($account->roles[$unrestricted_role])) {
-      // Either the threshold has been raised or credits have been revoked;
-      // this user no longer qualifies for full privileges
-      unset($account->roles[$unrestricted_role]);
+    if (!isset($account->roles[$community_role])) {
+      // The user should be a 'community member' role. If the user was
+      // previously banned, this will restore that role.
+      $account->roles[$community_role] = 'community member';
       user_save($account, array('roles' => $account->roles));
     }
+
+    // ... and total credit.
+    if ($account->boincuser_total_credit >= $min_credit_to_post) {
+      if (!isset($account->roles[$unrestricted_role])) {
+        // This user is now above the credit threshold and is allowed full
+        // privileges
+        $account->roles[$unrestricted_role] = 'verified contributor';
+        user_save($account, array('roles' => $account->roles));
+      }
+    }
+    else {
+      drupal_set_message(bts(
+        'You must earn @count more credits to be able to post comments on this site.',
+        array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
+      ), 'warning', FALSE);
+      if (isset($account->roles[$unrestricted_role])) {
+        // Either the threshold has been raised or credits have been revoked;
+        // this user no longer qualifies for full privileges
+        unset($account->roles[$unrestricted_role]);
+        user_save($account, array('roles' => $account->roles));
+      }
+    }
+
   }
 }
 
@@ -383,6 +394,18 @@ function boincuser_load($user_id = NULL, $is_drupal_id = FALSE) {
   return BoincUser::lookup_id($user_id);
 }
 
+/**
+ * Invoke the content_profile module's delete function.
+ *
+ * This function is used as the submit value for the user profile edit
+ * page, delete button.
+ */
+function _boincuser_node_profile_delete_submit($form, &$form_state) {
+  $node = $form['#node'];
+  $deleteurl = 'node/'. $node->nid .'/delete';
+  $afterq = 'destination=account';
+  drupal_goto($deleteurl, $afterq);
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * BOINC function wrappers

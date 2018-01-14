@@ -297,21 +297,21 @@ function form_end() {
     ';
 }
 
-define('FORM_LEFT_CLASS', 'col-sm-5');
-define('FORM_LEFT_OFFSET', 'col-sm-offset-5');
-define('FORM_RIGHT_CLASS', 'col-sm-7');
+define('FORM_LEFT_CLASS', 'col-sm-4');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-4');
+define('FORM_RIGHT_CLASS', 'col-sm-8');
 
-function form_input_text($label, $name, $value='', $type='text', $attrs='') {
+function form_input_text($label, $name, $value='', $type='text', $attrs='', $extra='') {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
             <div class="%s">
-                <input %s type="%s" class="form-control" name="%s" value="%s">
+                <input %s type="%s" class="form-control" name="%s" value="%s">%s
             </div>
         </div>
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
-        $attrs, $type, $name, $value
+        $attrs, $type, $name, $value, $extra
     );
 }
 
@@ -385,7 +385,7 @@ function form_select_multiple($label, $name, $items, $flags) {
     echo "</select></div></div>\n";
 }
 
-// $items is list of (name, label)
+// $items is list of (name, label, checked)
 //
 function form_checkboxes($label, $items) {
     echo sprintf('
@@ -395,10 +395,16 @@ function form_checkboxes($label, $items) {
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
+    $first = true;
     foreach ($items as $i) {
-        echo sprintf('<input type="checkbox" name="%s"> %s <br>
+        if ($first) {
+            $first = false;
+        } else {
+            echo "<br>\n";
+        }
+        echo sprintf('<input type="checkbox" name="%s" %s> %s
             ',
-            $i[0], $i[1]
+            $i[0], $i[2]?"checked":"", $i[1]
         );
     }
     echo '</div>

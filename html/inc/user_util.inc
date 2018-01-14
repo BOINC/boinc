@@ -175,8 +175,8 @@ function validate_post_make_user() {
     }
 
     $passwd = post_str("passwd");
-    $passwd2 = post_str("passwd2");
-    if ($passwd != $passwd2) {
+    $passwd2 = post_str("passwd2", true);
+    if ($passwd2 && ($passwd != $passwd2)) {
         show_error(tra("New passwords are different"));
     }
 
@@ -195,8 +195,8 @@ function validate_post_make_user() {
 
     $passwd_hash = md5($passwd.$new_email_addr);
 
-    $country = post_str("country");
-    if ($country == "") {
+    $country = post_str("country", true);
+    if (!$country) {
         $country = "None";
     }
     if (!is_valid_country($country)) {

@@ -719,6 +719,10 @@ bool do_pass() {
                 "[WU#%lu %s] handle_wu: %s; quitting\n",
                 wu_item.id, wu_item.name, boincerror(retval)
             );
+            // probably better to exit here.
+            // Whatever cause this WU to fail (and it could be temporary)
+            // might cause ALL WUs to fail
+            //
             exit(1);
         }
 

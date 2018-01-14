@@ -39,6 +39,8 @@
 #include <string>
 #include <time.h>
 #include <errno.h>
+#include <string.h>
+#include "zlib.h"
 
 #include "boinc_db.h"
 #include "filesys.h"
@@ -64,11 +66,138 @@
 #define COMPRESSION_NONE    0
 #define COMPRESSION_GZIP    1
 #define COMPRESSION_ZIP     2
+#define COMPRESSION_ZLIB    3
 
-FILE *wu_stream=NULL;
-FILE *re_stream=NULL;
-FILE *wu_index_stream=NULL;
-FILE *re_index_stream=NULL;
+#define WU_ARCHIVE_DATA \
+        "<workunit_archive>\n" \
+        "  <id>%lu</id>\n" \
+        "  <create_time>%d</create_time>\n" \
+        "  <appid>%lu</appid>\n" \
+        "  <name>%s</name>\n" \
+        "  <xml_doc>%s</xml_doc>\n" \
+        "  <batch>%d</batch>\n" \
+        "  <rsc_fpops_est>%.15e</rsc_fpops_est>\n" \
+        "  <rsc_fpops_bound>%.15e</rsc_fpops_bound>\n" \
+        "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n" \
+        "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n" \
+        "  <need_validate>%d</need_validate>\n" \
+        "  <canonical_resultid>%lu</canonical_resultid>\n" \
+        "  <canonical_credit>%.15e</canonical_credit>\n" \
+        "  <transition_time>%d</transition_time>\n" \
+        "  <delay_bound>%d</delay_bound>\n" \
+        "  <error_mask>%d</error_mask>\n" \
+        "  <file_delete_state>%d</file_delete_state>\n" \
+        "  <assimilate_state>%d</assimilate_state>\n" \
+        "  <hr_class>%d</hr_class>\n" \
+        "  <opaque>%f</opaque>\n" \
+        "  <min_quorum>%d</min_quorum>\n" \
+        "  <target_nresults>%d</target_nresults>\n" \
+        "  <max_error_results>%d</max_error_results>\n" \
+        "  <max_total_results>%d</max_total_results>\n" \
+        "  <max_success_results>%d</max_success_results>\n" \
+        "  <result_template_file>%s</result_template_file>\n" \
+        "  <priority>%d</priority>\n" \
+        "  <mod_time>%s</mod_time>\n" \
+        "</workunit_archive>\n", \
+        wu.id, \
+        wu.create_time, \
+        wu.appid, \
+        wu.name, \
+        wu.xml_doc, \
+        wu.batch, \
+        wu.rsc_fpops_est, \
+        wu.rsc_fpops_bound, \
+        wu.rsc_memory_bound, \
+        wu.rsc_disk_bound, \
+        wu.need_validate, \
+        wu.canonical_resultid, \
+        wu.canonical_credit, \
+        wu.transition_time, \
+        wu.delay_bound, \
+        wu.error_mask, \
+        wu.file_delete_state, \
+        wu.assimilate_state, \
+        wu.hr_class, \
+        wu.opaque, \
+        wu.min_quorum, \
+        wu.target_nresults, \
+        wu.max_error_results, \
+        wu.max_total_results, \
+        wu.max_success_results, \
+        wu.result_template_file, \
+        wu.priority, \
+        wu.mod_time
+
+#define RESULT_ARCHIVE_DATA \
+        "<result_archive>\n" \
+        "  <id>%lu</id>\n" \
+        "  <create_time>%d</create_time>\n" \
+        "  <workunitid>%lu</workunitid>\n" \
+        "  <server_state>%d</server_state>\n" \
+        "  <outcome>%d</outcome>\n" \
+        "  <client_state>%d</client_state>\n" \
+        "  <hostid>%lu</hostid>\n" \
+        "  <userid>%lu</userid>\n" \
+        "  <report_deadline>%d</report_deadline>\n" \
+        "  <sent_time>%d</sent_time>\n" \
+        "  <received_time>%d</received_time>\n" \
+        "  <name>%s</name>\n" \
+        "  <cpu_time>%.15e</cpu_time>\n" \
+        "  <xml_doc_in>%s</xml_doc_in>\n" \
+        "  <xml_doc_out>%s</xml_doc_out>\n" \
+        "  <stderr_out>%s</stderr_out>\n" \
+        "  <batch>%d</batch>\n" \
+        "  <file_delete_state>%d</file_delete_state>\n" \
+        "  <validate_state>%d</validate_state>\n" \
+        "  <claimed_credit>%.15e</claimed_credit>\n" \
+        "  <granted_credit>%.15e</granted_credit>\n" \
+        "  <opaque>%f</opaque>\n" \
+        "  <random>%d</random>\n" \
+        "  <app_version_num>%d</app_version_num>\n" \
+        "  <app_version_id>%lu</app_version_id>\n" \
+        "  <appid>%lu</appid>\n" \
+        "  <exit_status>%d</exit_status>\n" \
+        "  <teamid>%lu</teamid>\n" \
+        "  <priority>%d</priority>\n" \
+        "  <mod_time>%s</mod_time>\n" \
+        "</result_archive>\n", \
+        result.id, \
+        result.create_time, \
+        result.workunitid, \
+        result.server_state, \
+        result.outcome, \
+        result.client_state, \
+        result.hostid, \
+        result.userid, \
+        result.report_deadline, \
+        result.sent_time, \
+        result.received_time, \
+        result.name, \
+        result.cpu_time, \
+        result.xml_doc_in, \
+        result.xml_doc_out, \
+        stderr_out_escaped, \
+        result.batch, \
+        result.file_delete_state, \
+        result.validate_state, \
+        result.claimed_credit, \
+        result.granted_credit, \
+        result.opaque, \
+        result.random, \
+        result.app_version_num, \
+        result.app_version_id, \
+        result.appid, \
+        result.exit_status, \
+        result.teamid, \
+        result.priority, \
+        result.mod_time
+
+/* will be FILE* or gzFile, depending on compression_type */
+void*wu_stream=NULL;
+void*re_stream=NULL;
+void*wu_index_stream=NULL;
+void*re_index_stream=NULL;
+
 int time_int=0;
 double min_age_days = 0;
 bool no_archive = false;
@@ -80,7 +209,7 @@ int max_number_workunits_to_purge = 0;
     // If nonzero, maximum number of workunits to purge.
     // Since all results associated with a purged workunit are also purged,
     // this also limits the number of purged results.
-const char *suffix[3] = {"", ".gz", ".zip"};
+const char *suffix[4] = {"", ".gz", ".zip", ".gz"};
     // subscripts MUST be in agreement with defines above
 int compression_type = COMPRESSION_NONE;
 int max_wu_per_file = 0;
@@ -110,7 +239,7 @@ void fail(const char* msg) {
 // then we popen(2) a pipe to gzip or zip.
 // This does 'in place' compression.
 //
-void open_archive(const char* filename_prefix, FILE*& f){
+void open_archive(const char* filename_prefix, void*& f){
     char path[MAXPATHLEN];
     char command[MAXPATHLEN+512];
 
@@ -161,6 +290,15 @@ void open_archive(const char* filename_prefix, FILE*& f){
             );
             fail(buf);
         }
+    } else if (compression_type == COMPRESSION_ZLIB) {
+        f = gzopen(path,"w");
+        if (!f) {
+            log_messages.printf(MSG_CRITICAL,
+                "Can't open file %s: %d:%s\n",
+                path, errno, strerror(errno)
+            );
+            exit(4);
+        }
     } else {
         f = popen(command,"w");
         if (!f) {
@@ -172,15 +310,18 @@ void open_archive(const char* filename_prefix, FILE*& f){
         }
     }
 
-    // set buffering to line buffered, since we are outputing XML on a
-    // line-by-line basis.
-    //
-    setlinebuf(f);
+    if (compression_type != COMPRESSION_ZLIB) {
+        //
+        // set buffering to line buffered, since we are outputing XML on a
+        // line-by-line basis.
+        //
+        setlinebuf((FILE*)f);
+    }
 
     return;
 }
 
-void close_archive(const char *filename, FILE*& fp){
+void close_archive(const char *filename, void*& fp){
     char path[MAXPATHLEN];
 
     // Set file pointer to NULL after closing file to indicate that it's closed.
@@ -190,9 +331,11 @@ void close_archive(const char *filename, FILE*& fp){
     // In case of errors, carry on anyway.  This is deliberate, not lazy
     //
     if (compression_type == COMPRESSION_NONE) {
-        fclose(fp);
+        fclose((FILE*)fp);
+    } else if (compression_type == COMPRESSION_ZLIB) {
+        gzclose((gzFile)fp);
     } else {
-        pclose(fp);
+        pclose((FILE*)fp);
     }
 
     fp = NULL;
@@ -240,9 +383,13 @@ void open_all_archives() {
     open_archive(RESULT_FILENAME_PREFIX, re_stream);
     open_archive(RESULT_INDEX_FILENAME_PREFIX, re_index_stream);
     open_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
-    fprintf(wu_stream, "<archive>\n");
-    fprintf(re_stream, "<archive>\n");
-
+    if (compression_type == COMPRESSION_ZLIB) {
+        gzprintf((gzFile)wu_stream, "<archive>\n");
+        gzprintf((gzFile)re_stream, "<archive>\n");
+    } else {
+        fprintf((FILE*)wu_stream, "<archive>\n");
+        fprintf((FILE*)re_stream, "<archive>\n");
+    }
     return;
 }
 
@@ -250,8 +397,13 @@ void open_all_archives() {
 // pointers to indicate that files are not open.
 //
 void close_all_archives() {
-    if (wu_stream) fprintf(wu_stream, "</archive>\n");
-    if (re_stream) fprintf(re_stream, "</archive>\n");
+    if (compression_type == COMPRESSION_ZLIB) {
+        if (wu_stream) gzprintf((gzFile)wu_stream, "</archive>\n");
+        if (re_stream) gzprintf((gzFile)re_stream, "</archive>\n");
+    } else {
+        if (wu_stream) fprintf((FILE*)wu_stream, "</archive>\n");
+        if (re_stream) fprintf((FILE*)re_stream, "</archive>\n");
+    }
     close_archive(WU_FILENAME_PREFIX, wu_stream);
     close_archive(RESULT_FILENAME_PREFIX, re_stream);
     close_archive(RESULT_INDEX_FILENAME_PREFIX, re_index_stream);
@@ -275,7 +427,7 @@ void close_db_exit_handler() {
 
 int archive_result(DB_RESULT& result) {
     int n;
-    n = fprintf(re_stream,
+    n = fprintf((FILE*)re_stream,
         "<result_archive>\n"
         "    <id>%lu</id>\n",
         result.id
@@ -283,77 +435,13 @@ int archive_result(DB_RESULT& result) {
 
     // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
     //
-    char buf[BLOB_SIZE*6];
-    xml_escape(result.stderr_out, buf, sizeof(buf));
+    char stderr_out_escaped[BLOB_SIZE*6];
+    xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
 
-    if (n >= 0) n = fprintf(
-        re_stream,
-        "  <create_time>%d</create_time>\n"
-        "  <workunitid>%lu</workunitid>\n"
-        "  <server_state>%d</server_state>\n"
-        "  <outcome>%d</outcome>\n"
-        "  <client_state>%d</client_state>\n"
-        "  <hostid>%lu</hostid>\n"
-        "  <userid>%lu</userid>\n"
-        "  <report_deadline>%d</report_deadline>\n"
-        "  <sent_time>%d</sent_time>\n"
-        "  <received_time>%d</received_time>\n"
-        "  <name>%s</name>\n"
-        "  <cpu_time>%.15e</cpu_time>\n"
-        "  <xml_doc_in>%s</xml_doc_in>\n"
-        "  <xml_doc_out>%s</xml_doc_out>\n"
-        "  <stderr_out>%s</stderr_out>\n"
-        "  <batch>%d</batch>\n"
-        "  <file_delete_state>%d</file_delete_state>\n"
-        "  <validate_state>%d</validate_state>\n"
-        "  <claimed_credit>%.15e</claimed_credit>\n"
-        "  <granted_credit>%.15e</granted_credit>\n"
-        "  <opaque>%f</opaque>\n"
-        "  <random>%d</random>\n"
-        "  <app_version_num>%d</app_version_num>\n"
-        "  <app_version_id>%ld</app_version_id>\n"
-        "  <appid>%lu</appid>\n"
-        "  <exit_status>%d</exit_status>\n"
-        "  <teamid>%lu</teamid>\n"
-        "  <priority>%d</priority>\n"
-        "  <mod_time>%s</mod_time>\n",
-        result.create_time,
-        result.workunitid,
-        result.server_state,
-        result.outcome,
-        result.client_state,
-        result.hostid,
-        result.userid,
-        result.report_deadline,
-        result.sent_time,
-        result.received_time,
-        result.name,
-        result.cpu_time,
-        result.xml_doc_in,
-        result.xml_doc_out,
-        buf,
-        result.batch,
-        result.file_delete_state,
-        result.validate_state,
-        result.claimed_credit,
-        result.granted_credit,
-        result.opaque,
-        result.random,
-        result.app_version_num,
-        result.app_version_id,
-        result.appid,
-        result.exit_status,
-        result.teamid,
-        result.priority,
-        result.mod_time
-    );
-
-    if (n >= 0) n = fprintf(re_stream,
-        "</result_archive>\n"
-    );
+    n = fprintf((FILE*)re_stream, RESULT_ARCHIVE_DATA);
 
     if (n >= 0) {
-        n = fprintf(re_index_stream,
+        n = fprintf((FILE*)re_index_stream,
             "%lu     %d    %s\n",
             result.id, time_int, result.name
         );
@@ -366,80 +454,90 @@ int archive_result(DB_RESULT& result) {
 
 int archive_wu(DB_WORKUNIT& wu) {
     int n;
-    n = fprintf(wu_stream,
-        "<workunit_archive>\n"
-        "    <id>%lu</id>\n",
-        wu.id
-    );
-    if (n >= 0) n = fprintf(wu_stream,
-        "  <create_time>%d</create_time>\n"
-        "  <appid>%lu</appid>\n"
-        "  <name>%s</name>\n"
-        "  <xml_doc>%s</xml_doc>\n"
-        "  <batch>%d</batch>\n"
-        "  <rsc_fpops_est>%.15e</rsc_fpops_est>\n"
-        "  <rsc_fpops_bound>%.15e</rsc_fpops_bound>\n"
-        "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n"
-        "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n"
-        "  <need_validate>%d</need_validate>\n"
-        "  <canonical_resultid>%lu</canonical_resultid>\n"
-        "  <canonical_credit>%.15e</canonical_credit>\n"
-        "  <transition_time>%d</transition_time>\n"
-        "  <delay_bound>%d</delay_bound>\n"
-        "  <error_mask>%d</error_mask>\n"
-        "  <file_delete_state>%d</file_delete_state>\n"
-        "  <assimilate_state>%d</assimilate_state>\n"
-        "  <hr_class>%d</hr_class>\n"
-        "  <opaque>%f</opaque>\n"
-        "  <min_quorum>%d</min_quorum>\n"
-        "  <target_nresults>%d</target_nresults>\n"
-        "  <max_error_results>%d</max_error_results>\n"
-        "  <max_total_results>%d</max_total_results>\n"
-        "  <max_success_results>%d</max_success_results>\n"
-        "  <result_template_file>%s</result_template_file>\n"
-        "  <priority>%d</priority>\n"
-        "  <mod_time>%s</mod_time>\n",
-        wu.create_time,
-        wu.appid,
-        wu.name,
-        wu.xml_doc,
-        wu.batch,
-        wu.rsc_fpops_est,
-        wu.rsc_fpops_bound,
-        wu.rsc_memory_bound,
-        wu.rsc_disk_bound,
-        wu.need_validate,
-        wu.canonical_resultid,
-        wu.canonical_credit,
-        wu.transition_time,
-        wu.delay_bound,
-        wu.error_mask,
-        wu.file_delete_state,
-        wu.assimilate_state,
-        wu.hr_class,
-        wu.opaque,
-        wu.min_quorum,
-        wu.target_nresults,
-        wu.max_error_results,
-        wu.max_total_results,
-        wu.max_success_results,
-        wu.result_template_file,
-        wu.priority,
-        wu.mod_time
-    );
 
-    if (n >= 0) n = fprintf(wu_stream,
-        "</workunit_archive>\n"
-    );
+    n = gzprintf((gzFile)wu_stream, WU_ARCHIVE_DATA);
 
     if (n >= 0) {
-        n = fprintf(wu_index_stream,
+        n = fprintf((FILE*)wu_index_stream,
             "%lu     %d    %s\n",
             wu.id, time_int, wu.name
         );
     }
 
     if (n < 0) fail("fprintf() failed\n");
+
+    return 0;
+}
+
+int archive_result_gz (DB_RESULT& result) {
+    int n;
+    char buf[BLOB_SIZE*7];
+
+    // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
+    //
+    char stderr_out_escaped[BLOB_SIZE*6];
+    xml_escape(result.stderr_out, stderr_out_escaped, sizeof(stderr_out_escaped));
+
+    n = snprintf(buf, sizeof(buf), RESULT_ARCHIVE_DATA);
+    if ((n <= 0) || n > (int)sizeof(buf)) {
+        fail("ERROR: printing result archive failed\n");
+    }
+    n = gzwrite((gzFile)re_stream, buf, (unsigned int)n);
+    if (n <= 0) {
+        fail("ERROR: writing result archive failed\n");
+    }
+
+    n = gzflush((gzFile)re_stream, Z_FULL_FLUSH);
+    if (n != Z_OK) {
+        fail("ERROR: writing result archive failed (flush)\n");
+    }
+
+    n = gzprintf((gzFile)re_index_stream,
+        "%lu     %d    %s\n",
+        result.id, time_int, result.name
+    );
+    if (n <= 0) {
+        fail("ERROR: writing result index failed\n");
+    }
+
+    n = gzflush((gzFile)re_index_stream, Z_SYNC_FLUSH);
+    if (n != Z_OK) {
+        fail("ERROR: writing result index failed (flush)\n");
+    }
+
+    return 0;
+}
+
+int archive_wu_gz (DB_WORKUNIT& wu) {
+    int n;
+    char buf[BLOB_SIZE*2];
+
+    n = snprintf(buf, sizeof(buf), WU_ARCHIVE_DATA);
+    if ((n <= 0) || n > (int)sizeof(buf)) {
+        fail("ERROR: printing workunit archive failed\n");
+    }
+    n = gzwrite((gzFile)wu_stream, buf, (unsigned int)n);
+    if (n <= 0) {
+        fail("ERROR: writing workunit archive failed\n");
+    }
+
+    n = gzflush((gzFile)re_stream,Z_FULL_FLUSH);
+    if (n != Z_OK) {
+        fail("ERROR: writing workunit archive failed (flush)\n");
+    }
+
+    n = gzprintf((gzFile)wu_index_stream,
+        "%lu     %d    %s\n",
+        wu.id, time_int, wu.name
+    );
+    if (n <= 0) {
+        fail("ERROR: writing workunit index failed\n");
+    }
+
+    n = gzflush((gzFile)re_stream,Z_SYNC_FLUSH);
+    if (n != Z_OK) {
+        fail("ERROR: writing workunit index failed (flush)\n");
+    }
 
     return 0;
 }
@@ -454,7 +552,11 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     sprintf(buf, "where workunitid=%lu", wu.id);
     while (!result.enumerate(buf)) {
         if (!no_archive) {
-            retval = archive_result(result);
+            if (compression_type == COMPRESSION_ZLIB) {
+                retval = archive_result_gz(result);
+            } else {
+                retval = archive_result(result);
+            }
             if (retval) return retval;
             log_messages.printf(MSG_DEBUG,
                 "Archived result [%lu] to a file\n", result.id
@@ -541,7 +643,11 @@ bool do_pass() {
         do_pass_purged_results += n;
 
         if (!no_archive) {
-            retval= archive_wu(wu);
+            if (compression_type == COMPRESSION_ZLIB) {
+                retval= archive_wu_gz(wu);
+            } else {
+                retval= archive_wu(wu);
+            }
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "Failed to write to XML file workunit:%lu\n", wu.id
@@ -625,8 +731,9 @@ void usage(char* name) {
         "    [-d N | --debug_level N]      Set verbosity level (1 to 4)\n"
         "    [--min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
         "    [--max N]                     Purge at most N WUs\n"
-        "    [--zip]                       Compress output files using zip\n"
-        "    [--gzip]                      Compress output files using gzip\n"
+        "    [--zip]                       Compress output files by piping through zip\n"
+        "    [--gzip]                      Compress output files by piping through gzip\n"
+        "    [--zlib]                      Compress output files using zlib\n"
         "    [--no_archive]                Don't write output files, just purge\n"
         "    [--daily_dir]                 Write archives in a new directory each day\n"
         "    [--max_wu_per_file N]         Write at most N WUs per output file\n"
@@ -682,6 +789,8 @@ int main(int argc, char** argv) {
             compression_type=COMPRESSION_ZIP;
         } else if (is_arg(argv[i], "gzip")) {
             compression_type=COMPRESSION_GZIP;
+        } else if (is_arg(argv[i], "zlib")) {
+            compression_type=COMPRESSION_ZLIB;
         } else if (is_arg(argv[i], "max_wu_per_file")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
