@@ -77,7 +77,7 @@ Commands:\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
  --get_tasks                        show tasks\n\
- --get_old_tasks                    show reported tasks from last 24 hours\n\
+ --get_old_tasks                    show reported tasks from last 1 hour\n\
  --join_acct_mgr URL name passwd    attach account manager\n\
  --lookup_account URL email passwd\n\
  --network_available                retry deferred network communication\n\
