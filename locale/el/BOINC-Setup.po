@@ -1,42 +1,52 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC setup localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Alex Chrisakis, 2016
+# AAA SSS <b_eliever@hotmail.com>, 2017
+# Alex Chrisakis, 2016-2017
 # Street Photograher <jvm@opmbx.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-07-06 22:27+0000\n"
-"Last-Translator: Alex Chrisakis\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-21 23:57+0000\n"
+"Last-Translator: AAA SSS <b_eliever@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/boinc/boinc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:124
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+msgid "Could not get user login name"
+msgstr "Δεν συμπληρώθηκε το όνομα χρήστη του χρήστη"
+
+#: mac_installer/Installer.cpp:199
 #, c-format
-msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Συγνώμη, αυτή η έκδοση του %s απαιτεί σύστημα 10,5 ή υψηλότερο."
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "Συγνώμη αλλά η έκδοση %s απαιτεί την έκδοση του συστήματος 10.6 ή νεότερη."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
+#: mac_installer/uninstall.cpp:1512
 msgid "Yes"
 msgstr "Ναι"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
+#: mac_installer/uninstall.cpp:1513
 msgid "No"
 msgstr "Όχι"
 
-#: PostInstall.cpp:133
+#. Future feature
+#: mac_installer/PostInstall.cpp:142
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Να εκτελείται το BOINC ακόμη και όταν κανένας χρήστης δεν είναι συνδεδεμένος;"
 
-#: PostInstall.cpp:1416
+#: mac_installer/PostInstall.cpp:1501
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -44,26 +54,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Στους χρήστες που τους επιτρέπεται να διαχειριστούν αυτόν τον υπολογιστή θα τους επιτραπεί αυτόματα να τρέχουν και να ελέγχουν το %s.\n\nΘέλετε και οι μη-διαχειριστές χρήστες να μπορούν να τρέχουν και να έλεγχουν το %s σε αυτόν τον Mac;"
 
-#: PostInstall.cpp:1444
+#: mac_installer/PostInstall.cpp:1529
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Θέλετε να θέσετε το %s σαν προφύλαξη οθόνης για όλους τους %s σε αυτόν τον Mac; "
 
-#: uninstall.cpp:82
+#: mac_installer/uninstall.cpp:84
 msgid "OK"
 msgstr "Εντάξει"
 
-#: uninstall.cpp:136
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:144
 msgid "Permission error after relaunch"
 msgstr "Σφάλμα άδειας μετά απο επανεκτέλεση"
 
-#: uninstall.cpp:141
+#: mac_installer/uninstall.cpp:149
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Η αφαίρεση μπορεί να διαρκέσει αρκετά λεπτά.\nΠαρακαλώ περιμένετε."
 
-#: uninstall.cpp:156
+#: mac_installer/uninstall.cpp:164
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -71,27 +82,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Είστε σίγουροι οτι θέλετε να αφαιρέσετε τελείως το %s απο τον υπολογιστή σας;\n\nΑυτό θα αφαιρέσει τα εκτελέσιμα αρχεία αλλά τα %s αρχεία δεδομένων θα μείνουν ανέπαφα."
 
-#: uninstall.cpp:163
+#: mac_installer/uninstall.cpp:179
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Ακυρώθηκε: %s έμειναν ανέπαφα."
 
-#: uninstall.cpp:174
-#, c-format
-msgid "An error occurred: error code %d"
-msgstr "Ένα σφάλμα συνέβει: κωδικός σφάλματος %d"
-
-#: uninstall.cpp:230
+#: mac_installer/uninstall.cpp:243
 msgid "name  of user"
 msgstr "όνομα   του χρήστη"
 
-#: uninstall.cpp:272
+#: mac_installer/uninstall.cpp:296
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Θέλετε επιπλέον να αφαιρεθεί και το VirtualBox από τον υπολογιστή;\n(Το VirtualBox είχε εγκατασταθεί μαζί με το BOINC)."
 
-#: uninstall.cpp:312
+#: mac_installer/uninstall.cpp:334
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -103,17 +109,10 @@ msgid ""
 "\"%s\"."
 msgstr "H αφαίρεση ολοκληρώθηκε.\n\nΜπορεί να θελήσετε να καταργήσετε τα παρακάτω στοιχεία που απομένουν χρησιμοποιώντας τον Finder:\nο φάκελος \"%s\"\n\nγια κάθε χρήστη, το αρχείο\n\"%s\"."
 
-#: uninstall.cpp:840
-#, c-format
-msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
-"\n"
-msgstr "Βάλτε τον κωδικό διαχειριστή για να αφαιρέσετε τελείως το %s απο τον υπολογιστή σας\n\n"
-
-#: uninstall.cpp:1616
+#: mac_installer/uninstall.cpp:1510
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: uninstall.cpp:1617
+#: mac_installer/uninstall.cpp:1511
 msgid "Continue..."
 msgstr "Συνέχεια..."

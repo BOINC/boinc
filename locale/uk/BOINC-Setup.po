@@ -1,41 +1,52 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC setup localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Roman Illin <roman_illin@yahoo.de>, 2017
 # Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2015
+# Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-11-18 13:55+0000\n"
-"Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
+"Last-Translator: Олександр Жиденко <alexander.zhidenko@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:124
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+msgid "Could not get user login name"
+msgstr "Не вдалося отримати імʼя користувача"
+
+#: mac_installer/Installer.cpp:199
 #, c-format
-msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Вибачте, дана версія %s потребує системи 10.5 або вищої."
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "Вибачте, дана версія %s потребує системи 10.6 або вищої."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
+#: mac_installer/uninstall.cpp:1512
 msgid "Yes"
 msgstr "Так"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
+#: mac_installer/uninstall.cpp:1513
 msgid "No"
 msgstr "Ні"
 
-#: PostInstall.cpp:133
+#. Future feature
+#: mac_installer/PostInstall.cpp:142
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Чи повинен BOINC працювати, навіть якщо користувач не увійшов у систему?"
 
-#: PostInstall.cpp:1416
+#: mac_installer/PostInstall.cpp:1501
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -43,26 +54,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Користувачі з правами адміністратора цього комп’ютера автоматично зможуть запускати і керувати %s.\n\nБажаєте, щоб прості користувачі без адміністраторських прав також могли запускати і керувати %s на цьому комп’ютері Mac?"
 
-#: PostInstall.cpp:1444
+#: mac_installer/PostInstall.cpp:1529
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Бажаєте встановити %s як скрінсейвер для всіх користувачів %s на цьому Mac?"
 
-#: uninstall.cpp:82
+#: mac_installer/uninstall.cpp:84
 msgid "OK"
 msgstr "Гаразд"
 
-#: uninstall.cpp:136
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:144
 msgid "Permission error after relaunch"
 msgstr "Помилка доступу після перезапуску"
 
-#: uninstall.cpp:141
+#: mac_installer/uninstall.cpp:149
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Видалення може зайняти декілька хвилин.\nБудь ласка, зачекайте."
 
-#: uninstall.cpp:156
+#: mac_installer/uninstall.cpp:164
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -70,27 +82,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Ви впевнені, що бажаєте повністю видалити %s зі свого комп’ютера?\n\nБудуть видалені виконавчі файли, але файли даних %s залишаться."
 
-#: uninstall.cpp:163
+#: mac_installer/uninstall.cpp:179
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Скасовано: %s не було змінено."
 
-#: uninstall.cpp:174
-#, c-format
-msgid "An error occurred: error code %d"
-msgstr "Сталася помилка: код помилки %d"
-
-#: uninstall.cpp:230
+#: mac_installer/uninstall.cpp:243
 msgid "name  of user"
 msgstr "ім’я  користувача"
 
-#: uninstall.cpp:272
+#: mac_installer/uninstall.cpp:296
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Чи бажаєте Ви також видалити VirtualBox з комп'ютера?\n(VirtualBox був встановлений разом із BOINC.)"
 
-#: uninstall.cpp:312
+#: mac_installer/uninstall.cpp:334
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -102,17 +109,10 @@ msgid ""
 "\"%s\"."
 msgstr "Видалення завершене.\n\n Ви можете видалити наступні об’єкти, що залишилися, за допомогою Пошуковика: \nкаталог \"%s\"\n\nдля кожного користувача, файл\n\"%s\"."
 
-#: uninstall.cpp:840
-#, c-format
-msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
-"\n"
-msgstr "Для повного видалення %s з Вашого комп’ютера введіть пароль адміністратора.\n\n"
-
-#: uninstall.cpp:1616
+#: mac_installer/uninstall.cpp:1510
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: uninstall.cpp:1617
+#: mac_installer/uninstall.cpp:1511
 msgid "Continue..."
 msgstr "Продовжити..."

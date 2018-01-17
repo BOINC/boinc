@@ -334,7 +334,8 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">גירסה</string>
   <string name="about_name_long">התשתית הפתוחה של ברקלי עבור מחשוב רשת</string>
-  <string name="about_copyright">\u00A9 2003–2016 אוניברסיטת קליפורניה, ברקלי.</string>
+  <string name="about_copyright">\u00A9 2003–2017
+אוניברסיטת קליפורניה, ברקלי</string>
   <string name="about_copyright_reserved">כל הזכויות שמורות.</string>
   <string name="about_credits">תודות למכון מקס פלנק לפיסיקה כבידתית, תאגיד IBM וחברת HTC על תמיכתם.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

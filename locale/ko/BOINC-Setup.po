@@ -1,15 +1,16 @@
 # BOINC setup localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Kangsan Lee <treppolse@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-18 00:45+0000\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-10-02 03:38+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -19,27 +20,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:135
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+msgid "Could not get user login name"
+msgstr "사용자 로그인 이름을 받아 올 수 없습니다"
+
+#: mac_installer/Installer.cpp:199
 #, c-format
 msgid "Sorry, this version of %s requires system 10.6 or higher."
 msgstr "죄송합니다. 해당 %s 버전은 시스템 10.6 이상을 요구합니다."
 
-#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
-#: mac_installer/uninstall.cpp:1616
+#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
+#: mac_installer/uninstall.cpp:1512
 msgid "Yes"
 msgstr "네"
 
-#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
-#: mac_installer/uninstall.cpp:1617
+#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
+#: mac_installer/uninstall.cpp:1513
 msgid "No"
 msgstr "아니오"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:130
+#: mac_installer/PostInstall.cpp:142
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "로그인한 사용자가 없을 때에도 BOINC를 실행하시겠습니까?"
 
-#: mac_installer/PostInstall.cpp:1375
+#: mac_installer/PostInstall.cpp:1501
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -47,27 +52,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제어할 수 있도록 허용될 것입니다.\n\n이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니까?"
 
-#: mac_installer/PostInstall.cpp:1403
+#: mac_installer/PostInstall.cpp:1529
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "%s를(을) Mac상의 모든 %s 사용자용 화면 보호기로 지정하시겠습니까?"
 
-#: mac_installer/uninstall.cpp:80
+#: mac_installer/uninstall.cpp:84
 msgid "OK"
 msgstr "확인"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:134
+#: mac_installer/uninstall.cpp:144
 msgid "Permission error after relaunch"
 msgstr "권한 오류 나중에 재실행하세요"
 
-#: mac_installer/uninstall.cpp:139
+#: mac_installer/uninstall.cpp:149
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "제거에는 몇 분정도 걸릴 것입니다.\n잠시 기다려 주세요."
 
-#: mac_installer/uninstall.cpp:156
+#: mac_installer/uninstall.cpp:164
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -75,27 +80,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "정말로 이 컴퓨터에서 %s를(을) 완전히 제거하길 원하십니까?\n\n실행 파일은 제거되지만 %s 데이터 파일들은 건드리지 않습니다."
 
-#: mac_installer/uninstall.cpp:163
+#: mac_installer/uninstall.cpp:179
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "취소됨: %s가 터치되지 않았습니다."
 
-#: mac_installer/uninstall.cpp:174
-#, c-format
-msgid "An error occurred: error code %d"
-msgstr "오류가 발생했습니다: 오류 코드 %d"
-
-#: mac_installer/uninstall.cpp:230
+#: mac_installer/uninstall.cpp:243
 msgid "name  of user"
 msgstr "사용자 이름"
 
-#: mac_installer/uninstall.cpp:272
+#: mac_installer/uninstall.cpp:296
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "이 컴퓨터에서 VirtualBox도 제거하길 원하십니까?\n(VirtualBox는 BOINC와 함께 설치되었습니다.)"
 
-#: mac_installer/uninstall.cpp:312
+#: mac_installer/uninstall.cpp:334
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -107,17 +107,10 @@ msgid ""
 "\"%s\"."
 msgstr "제거가 완료되었습니다.\n\n 여러분은 파인더를 사용해서 잔존하는 다음 항목을 삭제할 수 있습니다: \n\"%s\" 디렉토리\n\n개별 사용자의 경우\n\"%s\" 파일."
 
-#: mac_installer/uninstall.cpp:871
-#, c-format
-msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
-"\n"
-msgstr "여러분 컴퓨터에서 %s를(을) 완전히 제거하려면 관리자 비밀번호를 입력해 주세요.\n\n"
-
-#: mac_installer/uninstall.cpp:1614
+#: mac_installer/uninstall.cpp:1510
 msgid "Cancel"
 msgstr "취소"
 
-#: mac_installer/uninstall.cpp:1615
+#: mac_installer/uninstall.cpp:1511
 msgid "Continue..."
 msgstr "계속..."
