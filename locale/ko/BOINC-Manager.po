@@ -5,12 +5,13 @@
 # 
 # Translators:
 # Jin Lee <ysjbserver@naver.com>, 2015
+# Kangsan Lee <treppolse@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-15 07:03+0000\n"
+"PO-Revision-Date: 2017-10-17 06:35+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"

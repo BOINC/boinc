@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-15 07:03+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2017-10-10 15:30+0000\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -802,7 +802,7 @@ msgid ""
 "- reinstall %s answering \"Yes\" to the question about non-administrative users\n"
 " or\n"
 "- contact your administrator to add you to the 'boinc_master' user group."
-msgstr ""
+msgstr "Sinulla ei ole oikeuksia hallinnoida %s -ohjelmaa.\n\nKäyttääksesi %s tällä käyttäjällä:\n- asenna %s uudelleen ja vastaa \"Kyllä\" kysymykseen ei-ylläpitäjäkäyttäjistä\n tai\n- ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master' käyttäjäryhmään."
 
 #: clientgui/BOINCGUIApp.cpp:319
 #, c-format
@@ -2083,19 +2083,19 @@ msgstr "Prosessin tunniste"
 #: clientgui/DlgItemProperties.cpp:409 clientgui/DlgItemProperties.cpp:411
 #: clientgui/DlgItemProperties.cpp:413
 msgid "Progress rate"
-msgstr ""
+msgstr "Edistysmisnopeus"
 
 #: clientgui/DlgItemProperties.cpp:409
 msgid "per hour"
-msgstr ""
+msgstr "tunnissa"
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "per minute"
-msgstr ""
+msgstr "minuutissa"
 
 #: clientgui/DlgItemProperties.cpp:413
 msgid "per second"
-msgstr ""
+msgstr "sekunnissa"
 
 #: clientgui/DlgItemProperties.cpp:421
 msgid "Executable"

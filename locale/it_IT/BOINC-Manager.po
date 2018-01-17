@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-16 16:09+0000\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
 "Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -206,7 +206,7 @@ msgstr "Disconnesso"
 #: clientgui/AdvancedFrame.cpp:330
 #, c-format
 msgid "New %s window..."
-msgstr "Nuova finestra %s ..."
+msgstr "Apri nuova finestra %s ..."
 
 #: clientgui/AdvancedFrame.cpp:334
 #, c-format
@@ -215,7 +215,7 @@ msgstr "Avvia una nuova finestra di %s"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Select computer...\tCtrl+Shift+I"
-msgstr "Selezionare Computer...\tCtrl+Maiusc+I"
+msgstr "Seleziona computer...\tCtrl+Maiusc+I"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Connect to a BOINC client on another computer"
@@ -529,7 +529,7 @@ msgstr "Mostra informazioni su BOINC e su %s"
 #: clientgui/sg_BoincSimpleFrame.cpp:262 clientgui/sg_BoincSimpleFrame.cpp:266
 #, c-format
 msgid "Check for new %s version"
-msgstr "Ricerca una nuova %s versione"
+msgstr "Cerca una versione nuova di %s"
 
 #: clientgui/AdvancedFrame.cpp:706 clientgui/BOINCTaskBar.cpp:540
 #: clientgui/sg_BoincSimpleFrame.cpp:277
@@ -632,7 +632,7 @@ msgstr "Un account con il nome utente specificato esiste già ed ha una\npasswor
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "L'indirizzo e-mail specificato è già in uso"
+msgstr "L'indirizzo email specificato è già in uso"
 
 #: clientgui/AlreadyExistsPage.cpp:194
 msgid ""
@@ -640,7 +640,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Un account con l'indirizzo e-mail specificato esiste già ed ha una\npassword diversa da quella appena inserita.\n\nVisita il sito web del progetto e segui le istruzioni riportate."
+msgstr "Un account con l'indirizzo email specificato esiste già ed ha una\npassword diversa da quella appena inserita.\n\nVisita il sito web del progetto e segui le istruzioni riportate."
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -2415,11 +2415,11 @@ msgstr "Assistenza su climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
-msgstr "News"
+msgstr "Avvisi"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr "Notizie su climateprediction.net"
+msgstr "Avvisi su climateprediction.net"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
@@ -2714,7 +2714,7 @@ msgstr "Controlla nome utente e password, poi riprova."
 
 #: clientgui/NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "Controlla l'indirizzo e-mail e la password, poi riprova."
+msgstr "Controlla l'indirizzo email e la password, poi riprova."
 
 #: clientgui/NoticeListCtrl.cpp:229
 msgid "more..."
@@ -3477,7 +3477,7 @@ msgstr " (rinvio causa progetto: "
 
 #: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:854
 msgid "Show active tasks"
-msgstr "Mostra le elaborazioni in corso"
+msgstr "Mostra elaborazioni in corso"
 
 #: clientgui/ViewWork.cpp:212 clientgui/ViewWork.cpp:855
 msgid "Show only active tasks."
@@ -3545,7 +3545,7 @@ msgstr "Annulla l'elaborazione"
 
 #: clientgui/ViewWork.cpp:848
 msgid "Show all tasks"
-msgstr "Mostra tutte le elaborazioni"
+msgstr "Mostra tutte elaborazioni"
 
 #: clientgui/ViewWork.cpp:849
 msgid "Show all tasks."

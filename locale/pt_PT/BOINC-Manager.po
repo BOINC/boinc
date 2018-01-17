@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-15 10:32+0000\n"
+"PO-Revision-Date: 2017-09-21 23:57+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -213,7 +213,7 @@ msgstr "Abrir outra janela do %s"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Select computer...\tCtrl+Shift+I"
-msgstr "Selecione computador...⇥Ctrl+Shift+I "
+msgstr "Selecione computador...\tCtrl+Shift+I "
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Connect to a BOINC client on another computer"
@@ -249,7 +249,7 @@ msgstr "Preferências..."
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Notícias⇥Ctrl+Shift+N"
+msgstr "&Notícias\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:402
 msgid "Show notices"
@@ -273,7 +273,7 @@ msgstr "Mostrar as tarefas"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Trans&ferências⇥Ctrl+Shift+X"
+msgstr "Trans&ferências\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:420
 msgid "Show file transfers"
@@ -342,7 +342,7 @@ msgstr "Remover este computador do controlo do gestor de conta."
 
 #: clientgui/AdvancedFrame.cpp:494
 msgid "Run CPU &benchmarks"
-msgstr "Executar &testes de desempenho da CPU"
+msgstr "Executar &testes de desempenho do CPU"
 
 #: clientgui/AdvancedFrame.cpp:495
 msgid "Run tests that measure CPU speed"

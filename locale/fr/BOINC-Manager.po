@@ -6,7 +6,7 @@
 # Translators:
 # Amaury Van Espen, 2015
 # Arnaud <bidibulle25_at_yahoo.fr>, 2007
-# Axelle Andy, 2015
+# Axel Andy, 2015
 # BUNS Nicolas, 2015
 # Christian Beer <christian.beer@posteo.de>, 2015-2017
 # Clément Jonglez <clement.jonglez@isae.fr>, 2015
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-21 08:58+0000\n"
+"PO-Revision-Date: 2017-10-17 06:48+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -812,7 +812,7 @@ msgid ""
 "- reinstall %s answering \"Yes\" to the question about non-administrative users\n"
 " or\n"
 "- contact your administrator to add you to the 'boinc_master' user group."
-msgstr "Vous n'êtes pas autorisé à gérer le client.\n\nPour exécuter %s à l'aide de ce compte, merci de :\n- réinstaller %s en répondant \"Oui\" à la question sur\nles utilisateurs non-administrateurs\nou\n- contacter votre administrateur pour qu'il ajoute ce compte au\ngroupe utilisateurs \"boinc_master\"."
+msgstr "Vous n'êtes pas autorisé à gérer %s.\n\nPour exécuter %s à l'aide de ce compte, merci de :\n- réinstaller %s en répondant \"Oui\" à la question sur\nles utilisateurs non-administrateurs\nou\n- contacter votre administrateur pour qu'il ajoute ce compte au\ngroupe utilisateurs \"boinc_master\"."
 
 #: clientgui/BOINCGUIApp.cpp:319
 #, c-format
@@ -2266,7 +2266,7 @@ msgstr "%s - Choix de la langue"
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr "La langue par défaut du %s a été modifiée. Pour que le changement prenne effet, vous devez le redémarrer."
+msgstr "La langue par défaut du %s a été modifiée. Pour que le changement prenne effet, vous devez le redémarrer %s."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format

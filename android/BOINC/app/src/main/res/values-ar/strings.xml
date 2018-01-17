@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <!--generic. used by multiple Activities/tabs-->
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_header">اختر مشروعا</string>
+  <string name="attachproject_list_no_internet">لا اتصال بإنترنت</string>
+  <!--credential input-->
+  <!--conflicts-->
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <!--e.g. Hint 1/2-->
+  <!--project login-->
+  <string name="attachproject_login_header_pwd">كلمة السرّ</string>
+  <!--project registration-->
+  <string name="attachproject_registration_header_pwd">كلمة السرّ</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header_pwd">كلمة السرّ</string>
+  <!--error strings-->
+  <string name="attachproject_error_invalid_url">مسار غير صحيح</string>
+  <!--working activity-->
+  <!--main activity-->
+  <!--tab names-->
+  <string name="tab_status">الحالة</string>
+  <string name="tab_projects">المشروعات</string>
+  <string name="tab_tasks">المهام</string>
+  <string name="tab_transfers">النقل</string>
+  <!--status strings-->
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">عام</string>
+  <!--projects tab strings-->
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">علَّقه المستخدم</string>
+  <string name="projects_status_dontrequestmorework">لن يجلب مهام جديدة</string>
+  <string name="projects_status_schedrpcpending">طَلبُ المُجَدوِِل في الطابور</string>
+  <string name="projects_status_schedrpcinprogress">يجري طلبُ المُجَدوِِل</string>
+  <!--project controls-->
+  <string name="projects_control_update">حدِّث</string>
+  <string name="projects_control_suspend">علِّق</string>
+  <string name="projects_control_resume">عاود</string>
+  <string name="projects_control_nonewtasks">لا مهام جديدة</string>
+  <string name="projects_control_allownewtasks">اسمح بمهام جديدة</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_reset_title">صفِّر المشروع</string>
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_confirm">أجهض</string>
+  <string name="confirm_cancel">الغ</string>
+  <!--transfers tab strings-->
+  <string name="confirm_abort_trans_confirm">أجهض</string>
+  <!--notices tab strings-->
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <string name="suspend_battery_charging_long2"></string>
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_run_mode_disable">علِّق</string>
+  <string name="menu_run_mode_enable">عاود</string>
+  <string name="menu_help">مساعدة</string>
+  <!--about dialog-->
+  <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network Computing</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+</resources>

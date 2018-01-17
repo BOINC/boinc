@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-16 16:11+0000\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
 "Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Crea un account"
 
 #: html/inc/account.inc:104
 msgid "Email address:"
-msgstr "Indirizzo e-mail:"
+msgstr "Indirizzo email:"
 
 #: html/inc/account.inc:107
 msgid "forgot email address?"
@@ -1118,7 +1118,7 @@ msgstr "Discuti"
 #: html/inc/news.inc:112
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Puoi ricevere le news con un %s feed RSS%s"
+msgstr "Gli avvisi sono disponibili come %sfeed RSS%s"
 
 #: html/inc/pm.inc:25 html/inc/pm.inc:250 html/user/forum_pm.php:50
 #: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
@@ -2416,7 +2416,7 @@ msgstr "Informazioni sull'account"
 
 #: html/inc/user.inc:231 html/user/get_passwd.php:31
 msgid "Email address"
-msgstr "E-mail"
+msgstr "Indirizzo email"
 
 #: html/inc/user.inc:235 html/inc/user.inc:437
 msgid "URL"
@@ -2437,7 +2437,7 @@ msgstr "Cambia"
 
 #: html/inc/user.inc:251
 msgid "email address"
-msgstr "e-mail"
+msgstr "indirizzo email"
 
 #: html/inc/user.inc:252
 msgid "password"
@@ -3301,7 +3301,7 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr "Dai un'occhiati ai %1 servizi gratuiti%2\n<br> che forniscono 'immagini per le firme dinamiche' da usare nei forum, social, ecc...\n<br> e che mostrano informazioni sui tuoi crediti recenti, notizie dei progetto ed altro."
+msgstr "Dai un'occhiati ai %1servizi gratuiti%2\n<br> che forniscono 'immagini per le firme dinamiche' da usare nei forum, social, ecc...\n<br> e che mostrano informazioni sui tuoi crediti recenti, notizie dei progetto ed altro."
 
 #: html/user/edit_forum_preferences_form.php:93
 msgid "Attach signature by default"
@@ -3620,7 +3620,7 @@ msgstr "Invio email"
 
 #: html/user/ffmail_action.php:43
 msgid "failed to send email to %1: %2"
-msgstr "impossibile inviare l'e-mail a %1: %2"
+msgstr "impossibile inviare l'email a %1: %2"
 
 #: html/user/ffmail_action.php:48
 msgid "failed to send email to %1"
@@ -3628,7 +3628,7 @@ msgstr "faalito l'invio dell'email a %1"
 
 #: html/user/ffmail_action.php:51
 msgid "email sent successfully to %1"
-msgstr "e-mail inviata correttamente a %1"
+msgstr "email inviata correttamente a %1"
 
 #: html/user/ffmail_action.php:55
 msgid "Thanks for telling your friends about %1"
@@ -3638,7 +3638,7 @@ msgstr "Grazie per aver segnalato %1 ai tuoi amici"
 msgid ""
 "You forgot to enter email addresses; Please %1return to the form%2 and enter"
 " them."
-msgstr "Hai dimenticato di inserire gli indirizzi e-mail; per favore, %1torna al modulo%2 e inseriscili."
+msgstr "Hai dimenticato di inserire gli indirizzi email; per favore, %1torna al modulo%2 e inseriscili."
 
 #: html/user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -3778,7 +3778,7 @@ msgstr "Aggiungi un nuovo messaggio a questo forum"
 
 #: html/user/forum_forum.php:123
 msgid "This message board is available as an %1RSS feed%2"
-msgstr "Puoi ricevere le news con un %1RSS feed%2"
+msgstr "Questa scheda è disponibile come %1feed RSS%2"
 
 #: html/user/forum_forum.php:182
 msgid "This thread is hidden"
@@ -3946,7 +3946,7 @@ msgstr "OK"
 
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
-msgstr "Spiegazione facoltativa %1 Questa sarà inclusa nell'e-mail inviata all'utente.%2"
+msgstr "Spiegazione facoltativa %1 Questa sarà inclusa nell'email inviata all'utente.%2"
 
 #: html/user/forum_moderate_post_action.php:60
 msgid "You are not authorized to moderate this post."
@@ -4258,7 +4258,7 @@ msgstr "%1 feed RSS"
 
 #: html/user/forum_rss.php:39
 msgid "This message board is available as an RSS feed."
-msgstr "Puoi ricevere le news con un feed RSS."
+msgstr "Puoi ricevere le notizie come feed RSS."
 
 #: html/user/forum_rss.php:41
 msgid "Options:"
@@ -4518,7 +4518,7 @@ msgstr "Non esportare"
 
 #: html/user/forum_thread.php:264
 msgid "Don't export this news item as a Notice"
-msgstr "Non esportare questa notizia come Notizia"
+msgstr "Non esportare questa avviso come Notizia"
 
 #: html/user/forum_thread.php:277
 msgid "Sort"
@@ -4667,19 +4667,19 @@ msgstr "La tua amicizia con %1 è stata cancellata."
 msgid ""
 "1) If you know your account's email address, and you can receive email "
 "there:"
-msgstr "1) Se conosci l'indirizzo e-mail dell'account, e puoi ricevere mail su di esso:"
+msgstr "1) Se conosci l'indirizzo email dell'account, e sei in grado di leggerne le email:"
 
 #: html/user/get_passwd.php:28
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
-msgstr "Inserisci l'indirizzo e-mail qui sotto, quindi premi OK. Ti saranno inviate le istruzioni via mail per resettare la password."
+msgstr "Inserisci l'indirizzo email qui sotto, quindi premi OK. Ti saranno inviate le istruzioni via mail per resettare la password."
 
 #: html/user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr "2) Se hai dimenticato l'indirizzo e-mail dell'account, oppure non puoi ricevere mail su di esso:"
+msgstr "2) Se hai dimenticato l'indirizzo email dell'account, oppure non sei in grado di leggerne le mail:"
 
 #: html/user/get_passwd.php:47
 msgid ""
@@ -4714,7 +4714,7 @@ msgstr "Incolla la stringa nel campo sotto, e premi OK."
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "Farai ora il login con il tuo account; aggiorna la e-mail e la password del tuo account."
+msgstr "Ora verrai autenticato con il tuo account; aggiorna l'email e la password del tuo account."
 
 #: html/user/get_passwd.php:72
 msgid "Log in with authenticator"
@@ -5243,7 +5243,7 @@ msgid ""
 "This moderation policy is set by the %1 project.\n"
 "If you have comments about the policy, email %2.\n"
 "\n"
-msgstr "\n<p>\nI moderatori possono cancellare post che violano una delle regole seguenti.\nGli autori dei post cancellati riceveranno una notifica via e-mail.\nChi offende potrebbe avere la sua capacità di scrivere revocata temporaneamente\n(per prevenire abusi solo gli amministratori dei progetti possono farlo).\nTutti gli altri tipi di  comportamenti negativi (\"bugging\" post per scoprire\nl'indirizzo IP degli altri partecipanti, creazione di thread eccessiva per spammare\ni forum, etc.), anche se non scritti nelle regole formali, potrebbero incorrere\nin penalità simili.\n<p>\nSe pensi che un post violi una delle regole,\nclicca il bottone rosso X sul post e riempi il form;\nai moderatori sarà notificata la tua richiesta.\nPer favore usa questo bottone solo per chiare violazioni - non\nper dispute personali.\n<p>\nCerchiamo di essere equi quanto possiamo quando moderiamo,\nma in una grande comunità di utenti, con molti punti di vista differenti,\nci sono sempre alcune persone che non sono contente\ncon le nostre decisioni di moderazione.\nMentre ci dispiace che succeda,\nper favore capite che non possiamo seguire tutte le persone tutto il tempo\ne abbiamo da prendere decisioni basate sulle nostre risorse e\nsoprattutto su cosa sia meglio per il forum.\nPer favore non discutere la nostra politica di moderazione nei forum. Non siamo\nun progetto di social engineering e non abbiamo tra i nostri interessi la creazione\ndi un sistema perfettamente equo. Quindi queste discussioni tendono ad essere controproducenti\ne potenzialmente dannose. Se hai una richiesta legittima,\nmanda una e-mail all'indirizzo sottostante.\n<p>\nQuesta politica di moderazione è scritta dal progetto %1.\nSe hai commenti riguardanti questa politica, manda una e-mail a %2.\n\n"
+msgstr "\n<p>\nI moderatori possono cancellare post che violano una delle regole seguenti.\nGli autori dei post cancellati riceveranno una notifica via email.\nChi offende potrebbe avere la sua capacità di scrivere revocata temporaneamente\n(per prevenire abusi solo gli amministratori dei progetti possono farlo).\nTutti gli altri tipi di  comportamenti negativi (\"bugging\" post per scoprire\nl'indirizzo IP degli altri partecipanti, creazione di thread eccessiva per spammare\ni forum, etc.), anche se non scritti nelle regole formali, potrebbero incorrere\nin penalità simili.\n<p>\nSe pensi che un post violi una delle regole,\nclicca il bottone rosso X sul post e riempi il form;\nai moderatori sarà notificata la tua richiesta.\nPer favore usa questo bottone solo per chiare violazioni - non\nper dispute personali.\n<p>\nCerchiamo di essere equi quanto possiamo quando moderiamo,\nma in una grande comunità di utenti, con molti punti di vista differenti,\nci sono sempre alcune persone che non sono contente\ncon le nostre decisioni di moderazione.\nMentre ci dispiace che succeda,\nper favore capite che non possiamo seguire tutte le persone tutto il tempo\ne abbiamo da prendere decisioni basate sulle nostre risorse e\nsoprattutto su cosa sia meglio per il forum.\nPer favore non discutere la nostra politica di moderazione nei forum. Non siamo\nun progetto di social engineering e non abbiamo tra i nostri interessi la creazione\ndi un sistema perfettamente equo. Quindi queste discussioni tendono ad essere controproducenti\ne potenzialmente dannose. Se hai una richiesta legittima,\nmanda una email all'indirizzo sottostante.\n<p>\nQuesta politica di moderazione è scritta dal progetto %1.\nSe hai commenti riguardanti questa politica, manda una email a %2.\n\n"
 
 #: html/user/pending.php:66
 msgid "Pending credit"
@@ -5513,7 +5513,7 @@ msgstr "Cos'è %1?"
 
 #: html/user/sample_index.php:117
 msgid "News"
-msgstr "News"
+msgstr "Avvisi"
 
 #: html/user/server_status.php:57 html/user/server_status_old.php:160
 #: html/user/temp.php:24
@@ -6195,7 +6195,7 @@ msgstr "Il fondatore è stato avvisato della tua richiesta. Se lui/lei non rispo
 msgid ""
 "If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr "Se il fondatore del team non è attivo e vuoi assumere il ruolo di fondatore, clicca il bottone qui sotto. Sarà mandata una e-mail al fondatore corrente con la tua richiesta, e sarà capace di trasferire il ruolo di fondatore a te o di declinare la tua richiesta. Se il fondatore non risponde in 60 giorni, ti sarà permesso di diventare il fondatore.<br /><br />\n                       Sei sicuro di voler richiedere il ruolo di fondatore?"
+msgstr "Se il fondatore del team non è attivo e vuoi assumere il ruolo di fondatore, clicca il bottone qui sotto. Sarà mandata una email al fondatore corrente con la tua richiesta, e sarà capace di trasferire il ruolo di fondatore a te o di declinare la tua richiesta. Se il fondatore non risponde in 60 giorni, ti sarà permesso di diventare il fondatore.<br /><br />\n                       Sei sicuro di voler richiedere il ruolo di fondatore?"
 
 #: html/user/team_founder_transfer_form.php:67
 msgid "Request foundership"
@@ -6242,7 +6242,7 @@ msgstr "Si prega di notare:"
 
 #: html/user/team_join_form.php:37
 msgid "Joining a team gives its founder access to your email address."
-msgstr "Entrare in un team da al fondatore accesso al tuo indirizzo e-mail."
+msgstr "Entrare in un team da al fondatore accesso al tuo indirizzo email."
 
 #: html/user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
@@ -6590,7 +6590,7 @@ msgstr "Convalida indirizzo email BOINC"
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
-msgstr "Per favore visita il link seguente per convalidare l'indirizzo e-mail del tuo account %1:"
+msgstr "Per favore visita il link seguente per convalidare l'indirizzo email del tuo account %1:"
 
 #: html/user/validate_email_addr.php:34
 msgid "Validate email sent"

@@ -4,7 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Dan <mutari.dirk@gmail.com>, 2015
+# Daniil <mutari.dirk@gmail.com>, 2015
 # Dmytro Kazanzhy <kazanzhy@mail.ua>, 2015
 # Ivan Nazarenko <nasaivan@mail.ru>, 2017
 # Николай Сахаров <saharovna@gmail.com>, 2015
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-21 02:56+0000\n"
+"PO-Revision-Date: 2017-09-23 20:54+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"

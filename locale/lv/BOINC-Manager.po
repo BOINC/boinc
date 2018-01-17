@@ -4,14 +4,14 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Atis Kozulis <boinc.at.latvia@gmail.com>, 2015-2016
+# Atis Kozulis <boinc.at.latvia@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-08-15 02:04 UTC\n"
-"PO-Revision-Date: 2017-08-15 07:03+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2017-10-09 09:32+0000\n"
+"Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -210,7 +210,7 @@ msgstr "Atvērt vēl vienu %s logu"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Select computer...\tCtrl+Shift+I"
-msgstr ""
+msgstr "Izvēlēties datoru...\tCtrl+Shift+I"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Connect to a BOINC client on another computer"
@@ -524,7 +524,7 @@ msgstr "Parādīt informāciju par BOINC un %s"
 #: clientgui/sg_BoincSimpleFrame.cpp:262 clientgui/sg_BoincSimpleFrame.cpp:266
 #, c-format
 msgid "Check for new %s version"
-msgstr ""
+msgstr "Pārbaudīt %s versiju"
 
 #: clientgui/AdvancedFrame.cpp:706 clientgui/BOINCTaskBar.cpp:540
 #: clientgui/sg_BoincSimpleFrame.cpp:277
@@ -801,7 +801,7 @@ msgid ""
 "- reinstall %s answering \"Yes\" to the question about non-administrative users\n"
 " or\n"
 "- contact your administrator to add you to the 'boinc_master' user group."
-msgstr ""
+msgstr "Pašlaik neesat autorizēts pārvaldīt %s.\n\nLai palaistu %s kā šis lietotājs, lūdzu:\n- atkārtoti uzstādiet %s, atbildot ar \"Jā\" uz jautājumu par lietotājiem, kuri nav administratori\n vai\n- sazinieties ar administratoru un palūdziet, lai pievieno jūs 'boinc_master' lietotāju grupai."
 
 #: clientgui/BOINCGUIApp.cpp:319
 #, c-format
@@ -1065,7 +1065,7 @@ msgstr "Autortiesības:"
 msgid ""
 "(C) 2003-2017 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
+msgstr "(C) 2003-2017 Kalifornijas universitāte, Bērkli.\nVisas tiesības aizsargātas."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
@@ -1614,11 +1614,11 @@ msgstr "Aizvērt dialoga logu, nesaglabājot"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:133
 msgid "Apply"
-msgstr ""
+msgstr "Piemērot"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:134
 msgid "Save all values"
-msgstr ""
+msgstr "Saglabāt visas vērtības"
 
 #: clientgui/DlgEventLog.cpp:227
 #, c-format
@@ -1711,7 +1711,7 @@ msgstr "Pievienot lietojumu šim sarakstam"
 #: clientgui/DlgExclusiveApps.cpp:86 clientgui/DlgExclusiveApps.cpp:110
 #: clientgui/ViewProjects.cpp:230 clientgui/sg_ProjectCommandPopup.cpp:90
 msgid "Remove"
-msgstr "Izņemt"
+msgstr "Noņemt"
 
 #: clientgui/DlgExclusiveApps.cpp:87 clientgui/DlgExclusiveApps.cpp:111
 msgid "Remove an application from this list"
@@ -2049,7 +2049,7 @@ msgstr "CPU laiks"
 
 #: clientgui/DlgItemProperties.cpp:391
 msgid "CPU time since checkpoint"
-msgstr ""
+msgstr "CPU laiks kopš pēdējā kontrolpunkta"
 
 #: clientgui/DlgItemProperties.cpp:393 clientgui/DlgItemProperties.cpp:418
 msgid "Elapsed time"
@@ -2462,22 +2462,22 @@ msgstr "Uzzināt par projektiem izvietotiem World Community Grid"
 
 #: clientgui/MainDocument.cpp:1292
 msgid "Version Update"
-msgstr ""
+msgstr "Versijas jauninājums"
 
 #: clientgui/MainDocument.cpp:1301
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
-msgstr ""
+msgstr "Ir pieejama jauna %s versija. Varat to lejupielādēt šeit: %s"
 
 #: clientgui/MainDocument.cpp:1304
 #, c-format
 msgid "There is no new version of %s available for download."
-msgstr ""
+msgstr "Jaunāka %s versija vēl nav pieejama lejupielādei."
 
 #: clientgui/MainDocument.cpp:1308
 #, c-format
 msgid "%s is not connected to the client"
-msgstr ""
+msgstr "%s nav savienots ar klientu"
 
 #: clientgui/MainDocument.cpp:1848
 msgid "Missing application"
@@ -3129,7 +3129,7 @@ msgstr "Atjaunināt projektu"
 #: clientgui/ViewProjects.cpp:571 clientgui/sg_ProjectCommandPopup.cpp:266
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Vai tiešām vēlaties atjaunināt projektu '%s'?"
+msgstr "Vai tiešām vēlaties noņemt projektu '%s'?"
 
 #: clientgui/ViewProjects.cpp:577 clientgui/sg_ProjectCommandPopup.cpp:272
 msgid "Remove Project"
@@ -3794,7 +3794,7 @@ msgstr "Apstrāde apturēta: Veic veiktspējas testu."
 
 #: clientgui/sg_TaskPanel.cpp:1237
 msgid "Processing Suspended:  need disk space."
-msgstr ""
+msgstr "Apstrāde apturēta:  nepieciešama diska vieta."
 
 #: clientgui/sg_TaskPanel.cpp:1239
 msgid "Processing Suspended."
