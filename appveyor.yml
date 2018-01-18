@@ -17,6 +17,17 @@ branches:
 
 skip_tags: true
 
+skip_commits:
+  files:
+    - android/
+    - doc/
+    - drupal/
+    - html/
+    - locale/
+    - mac_build/
+    - mac_installer/
+    - py/
+
 configuration:
   - Debug
 #  - Release
