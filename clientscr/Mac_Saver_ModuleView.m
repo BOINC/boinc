@@ -94,7 +94,10 @@ bool isErased;
 
 static SharedGraphicsController *mySharedGraphicsController;
 static bool runningSharedGraphics;
+static bool useCGWindowList;
 static pid_t childPid;
+static int gfxAppWindowNum;
+static NSView *imageView;
 static char gfxAppPath[MAXPATHLEN];
 static int taskSlot;
 static NSRunningApplication *childApp;
@@ -122,6 +125,14 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     childPid = thePID;
     taskSlot = slot;
     gfxAppStartTime = getDTime();
+    if (thePID == 0) {
+        useCGWindowList = false;
+        gfxAppStartTime = 0.0;
+        if (imageView) {
+            [imageView removeFromSuperview];   // Releases imageView
+            imageView = nil;
+        }
+    }
 }
 
 @implementation BOINC_Saver_ModuleView
@@ -352,7 +363,15 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 	// On OS 10.13 or later, use MachO comunication and IOSurfaceBuffer to
 	// display the graphics output of our child graphics apps in our window.
-    if (runningSharedGraphics) {
+    // Graphics apps linked with our current libraries have support for
+    // MachO comunication and IOSurfaceBuffer.
+    //
+    // For graphics apps linked with older libraries, use the API
+    // CGWindowListCreateImage to copy the graphic app window's image,
+    // but this is far slower because it does not take advantage of GPU
+    // acceleration, so it uses more CPU and animation may not appear smooth.
+    //
+    if (runningSharedGraphics || useCGWindowList ) {
         // Since ScreensaverEngine.app is running in the foreground, our child
         // graphics app may not get enough CPU cycles for good animation.
         // Calling [ NSApp activateIgnoringOtherApps:YES ] frequently from the
@@ -375,7 +394,24 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         // So frequently activating the child app here seems to be best.
         //
         if (childApp) {
-             [ childApp activateWithOptions:NSApplicationActivateIgnoringOtherApps ];\
+             if (![ childApp activateWithOptions:NSApplicationActivateIgnoringOtherApps ]) {
+                launchedGfxApp("", 0, -1);  // Graphics app is no longer running
+             }
+             if (useCGWindowList) {
+                CGImageRef windowImage = CGWindowListCreateImage(CGRectNull,
+                                            kCGWindowListOptionIncludingWindow,
+                                            gfxAppWindowNum,
+                                            kCGWindowImageBoundsIgnoreFraming);
+                if (windowImage) {
+                    // Create a bitmap rep from the image...
+                    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];
+                    // Create an NSImage and add the bitmap rep to it...
+                    NSImage *image = [[NSImage alloc] init];
+                    [image addRepresentation:bitmapRep];
+                    [image drawInRect:[self frame]];
+                    CGImageRelease(windowImage);
+                }
+            }
         }
         isErased = false;
         return;
@@ -390,7 +426,10 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         // assume graphics app is not compatible with OS 10.13+ and kill it.
         if (gfxAppStartTime) {
             if ((getDTime() - gfxAppStartTime)> MAXWAITFORCONNECTION) {
-                incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                gfxAppStartTime = 0.0;
+                if ([self setUpToUseCGWindowList] == false) {
+                    incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                }
             }
         }
     // As of OS 10.13, app windows can no longer appear on top of screensaver
@@ -591,7 +630,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     }
     
     // Check for a new graphics app sending us data
-    if (UseSharedOffscreenBuffer()) {
+    if (UseSharedOffscreenBuffer() && gfxAppStartTime) {
         [mySharedGraphicsController testConnection];
     }
 }
@@ -733,6 +772,30 @@ Bad:
 {
 	// nothing to configure
     [ NSApp endSheet:mConfigureSheet ];
+}
+
+// Find the gtaphics app's window number (window ID)
+- (bool) setUpToUseCGWindowList
+{
+    NSArray *windowList = (__bridge NSArray*)CGWindowListCopyWindowInfo(
+                            kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements,
+                            kCGNullWindowID);
+    for (int i=[windowList count]-1; i>=0; i--) {
+        NSDictionary *dict = (NSDictionary*)(windowList[i]);
+        NSString * pidString = dict[(id)kCGWindowOwnerPID];
+        if ((pid_t)[pidString intValue] == childPid) {
+            NSString * windowNumString = dict[(id)kCGWindowNumber];
+            gfxAppWindowNum = (int)[windowNumString intValue];
+            useCGWindowList = true;
+            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+            if (imageView == nil) {
+                imageView = [[NSView alloc] initWithFrame:[self frame]];
+                [self addSubview:imageView];
+            }
+            return true;    // Success
+        }
+    }
+    return false;   // Not found
 }
 
 @end

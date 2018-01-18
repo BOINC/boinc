@@ -16,3 +16,7 @@ blockquote {
     color: white;
     text-decoration: underline;
 }
+
+.form-horizontal .control-label {
+    padding-top: 0px;
+}
