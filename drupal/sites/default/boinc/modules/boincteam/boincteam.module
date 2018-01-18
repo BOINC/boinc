@@ -835,6 +835,14 @@ function boincteam_dashboard_panel($uid = NULL) {
     $output .= '  <span>' . number_format($team->total_credit, 0) . '</span>';
     $output .= '</div>' . "\n";
   }
+  else {
+    $output .= '<h2 class="pane-title">' . bts('Team (None)', array(), NULL, 'boinc:team-dashboard') . '</h2>';
+    $output .= '<ul class="tab-list action-list">';
+    $output .= '<li class="tab primary">';
+    $output .= l(bts('Join a Team', array(), NULL, 'boinc:team-dashboard'), 'community/teams');
+    $output .= '</li>';
+    $output .= '</ul>';
+  }
   return $output;
 }
 
