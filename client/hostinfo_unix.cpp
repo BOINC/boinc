@@ -1062,228 +1062,6 @@ int get_network_usage_totals(
     return 0;
 }
 
-
-#if defined(__i386__) || defined(__x86_64__)
-
-// Code to get maximum CPU temperature (Apple Intel only)
-// Adapted from Apple System Management Control (SMC) Tool under the GPL
-
-#define KERNEL_INDEX_SMC      2
-
-#define SMC_CMD_READ_BYTES    5
-#define SMC_CMD_READ_KEYINFO  9
-
-typedef struct {
-    char                  major;
-    char                  minor;
-    char                  build;
-    char                  reserved[1]; 
-    UInt16                release;
-} SMCKeyData_vers_t;
-
-typedef struct {
-    UInt16                version;
-    UInt16                length;
-    UInt32                cpuPLimit;
-    UInt32                gpuPLimit;
-    UInt32                memPLimit;
-} SMCKeyData_pLimitData_t;
-
-typedef struct {
-    UInt32                dataSize;
-    UInt32                dataType;
-    char                  dataAttributes;
-} SMCKeyData_keyInfo_t;
-
-typedef char              SMCBytes_t[32]; 
-
-typedef struct {
-  UInt32                  key; 
-  SMCKeyData_vers_t       vers; 
-  SMCKeyData_pLimitData_t pLimitData;
-  SMCKeyData_keyInfo_t    keyInfo;
-  char                    result;
-  char                    status;
-  char                    data8;
-  UInt32                  data32;
-  SMCBytes_t              bytes;
-} SMCKeyData_t;
-
-static io_connect_t conn;
-
-kern_return_t SMCOpen() {
-    kern_return_t       result;
-    mach_port_t         masterPort;
-    io_iterator_t       iterator;
-    io_object_t         device;
-
-    result = IOMasterPort(MACH_PORT_NULL, &masterPort);
-
-    CFMutableDictionaryRef matchingDictionary = IOServiceMatching("AppleSMC");
-    result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    device = IOIteratorNext(iterator);
-    IOObjectRelease(iterator);
-    if (device == 0) {
-        return result;
-    }
-
-    result = IOServiceOpen(device, mach_task_self(), 0, &conn);
-    IOObjectRelease(device);
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    return kIOReturnSuccess;
-}
-
-kern_return_t SMCClose() {
-    if (conn) {
-        return IOServiceClose(conn);
-    }
-    return kIOReturnSuccess;
-}
-
-kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
-    kern_return_t       result;
-    SMCKeyData_t        inputStructure;
-    SMCKeyData_t        outputStructure;
-    size_t              structureOutputSize = 0;
-
-    memset(&inputStructure, 0, sizeof(inputStructure));
-    memset(&outputStructure, 0, sizeof(outputStructure));
-    memset(val, 0, sizeof(SMCBytes_t));
-
-    inputStructure.key = key;
-    inputStructure.data8 = SMC_CMD_READ_KEYINFO;
-
-#if 1   // Requires OS 10.5
-    result = IOConnectCallStructMethod(conn,
-        KERNEL_INDEX_SMC,
-        &inputStructure,
-        sizeof(inputStructure),
-        &outputStructure,
-        &structureOutputSize
-    );
-#else   // Deprecated in OS 10.5
-    result = IOConnectMethodStructureIStructureO(conn,
-        KERNEL_INDEX_SMC,
-        sizeof(inputStructure),
-        &structureOutputSize,
-        &inputStructure,
-        &outputStructure
-    );
-#endif
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    inputStructure.keyInfo.dataSize = outputStructure.keyInfo.dataSize;
-    inputStructure.data8 = SMC_CMD_READ_BYTES;
-
-#if 1   // Requires OS 10.5
-    result = IOConnectCallStructMethod(conn,
-        KERNEL_INDEX_SMC,
-        &inputStructure,
-        sizeof(inputStructure),
-        &outputStructure,
-        &structureOutputSize
-    );
-#else   // Deprecated in OS 10.5
-    result = IOConnectMethodStructureIStructureO(conn,
-        KERNEL_INDEX_SMC,
-        sizeof(inputStructure),
-        &structureOutputSize,
-        &inputStructure,
-        &outputStructure
-    );
-#endif
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    memcpy(val, outputStructure.bytes, sizeof(outputStructure.bytes));
-
-    return kIOReturnSuccess;
-}
-
-
-// Check die temperatures (TC0D, TC1D, etc.) and 
-// heatsink temperatures (TCAH, TCBH, etc.)
-// Returns the highest current CPU temperature as degrees Celsius.
-// Returns zero if it fails (or on a PowerPC Mac).
-double get_max_cpu_temperature() {
-    kern_return_t       result;
-    double              maxTemp = 0, thisTemp;
-    int                 i;
-    union tempKey {
-        UInt32          word;
-        char            bytes[4];
-    };
-    tempKey             key;
-    SMCBytes_t          val;
-    static bool         skip[20];
-
-    // open connection to SMC kext if this is the first time
-    if (!conn) {
-        result = SMCOpen();
-        if (result != kIOReturnSuccess) {
-            return 0;
-        }
-    }
-
-    for (i=0; i<36; ++i) {
-        if (skip[i]) continue;
-        if (i < 10) {
-            key.word = 'TC0D';          // Standard sensors
-            key.bytes[1] += i;          // TC0D, TC1D ... TC9D
-        } else if (i < 20){
-            key.word = 'TC0H';          // iMac and perhaps others
-            key.bytes[1] += (i - 10);   // TC0H, TC1H ... TC9H
-        } else if (i < 26){
-            key.word = 'TCAH';          // MacPro
-            key.bytes[1] += (i - 20);   // TCAH, TCBH ... TCFH
-        } else {
-            key.word = 'TC0F';          // MacBookPro
-            key.bytes[1] += (i - 26);   // TC0F, TC1F ... TC9F
-        }
-        
-        result = SMCReadKey(key.word, val);
-        if (result != kIOReturnSuccess) {
-        //printf("%c%c%c%c returned result %d\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], result);
-            skip[i] = true;
-            continue;
-        }
-        
-        if (val[0] < 1) {
-        //printf("%c%c%c%c returned val[0] = %d\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], (int)val[0]);
-            skip[i] = true;
-            continue;
-        }
-        
-        thisTemp = (double)val[0];
-        thisTemp += ((double)val[1]) / 256;
-        //printf("%c%c%c%c returned temperature = %f\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], thisTemp);
-        if (thisTemp > maxTemp) {
-            maxTemp = thisTemp;
-        }
-    }
-
-    //printf("max temperature = %f\n", maxTemp);
-    return maxTemp;
-}
-
-#else       // PowerPC
-
-int get_max_cpu_temperature() {
-    return 0;
-}
-
-#endif
-
 // Is this a dual GPU MacBook with automatic GPU switching?
 bool isDualGPUMacBook() {
     io_service_t service = IO_OBJECT_NULL;
@@ -1472,6 +1250,18 @@ int HOST_INFO::get_memory_info() {
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_USEABLE_MEMORY);
+#elif defined(__APPLE__)
+    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a
+    // 4-byte value, even if passed an 8-byte buffer, and limits the returned
+    // value to 2GB when the actual RAM size is > 2GB.
+    // But HW_MEMSIZE returns a uint64_t value.
+    //
+    // _SC_PHYS_PAGES is defined as of Apple SDK 10.11 but sysconf(_SC_PHYS_PAGES)
+    // fails in older OS X versions, so we must test __APPLE__ before _SC_PHYS_PAGES
+    uint64_t mem_size;
+    size_t len = sizeof(mem_size);
+    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #elif defined(_SC_PHYS_PAGES)
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
@@ -1480,15 +1270,6 @@ int HOST_INFO::get_memory_info() {
             sysconf(_SC_PAGESIZE), sysconf(_SC_PHYS_PAGES)
         );
     }
-#elif defined(__APPLE__)
-    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
-    // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
-    // value to 2GB when the actual RAM size is > 2GB.
-    // But HW_MEMSIZE returns a uint64_t value.
-    uint64_t mem_size;
-    size_t len = sizeof(mem_size);
-    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
-    m_nbytes = mem_size;
 #elif defined(_HPUX_SOURCE)
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
