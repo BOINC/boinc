@@ -249,7 +249,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>

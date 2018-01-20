@@ -133,7 +133,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
