@@ -385,7 +385,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         app_versions[i]->dont_use = false;
     }
 
-    work_fetch.request_string(buf2);
+    work_fetch.request_string(buf2, sizeof(buf2));
     sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
     html_msg += buf;
 
