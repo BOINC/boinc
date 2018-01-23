@@ -1,19 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2017 University of California
+# Copyright (C) 2018 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 08921a4611d2338c1ba4bc3493e2715cebda345a\n"
+"Project-Id-Version: BOINC ac22166cfbed271fff6f0db616c347ee536d9597\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2017-11-09 20:14 UTC\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-#: client/acct_mgr.cpp:502 client/acct_mgr.cpp:509
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr ""
 
@@ -21,13 +21,13 @@ msgstr ""
 msgid "Message from server"
 msgstr ""
 
-#: client/client_state.cpp:312
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
 
-#: client/client_state.cpp:669
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 
