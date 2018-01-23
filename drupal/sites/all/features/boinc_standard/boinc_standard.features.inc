@@ -201,26 +201,130 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
-      'rules_comment_deleted_by_admin' => array(
+      'rules_forum_topic_is_edited_by_moderator_or_admin' => array(
         '#type' => 'rule',
-        '#set' => 'event_comment_delete',
-        '#label' => 'Comment deleted by admin',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited by moderator or admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
-          '0' => 'moderator notification',
-          '1' => 'boinc_standard',
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
         ),
         '#status' => 'default',
-        '#conditions' => array(),
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node status unchanged',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#settings' => array(
+              'code' => 'return $node->status == $node_unchanged->status;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#weight' => 0,
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+          ),
+          '2' => array(
+            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+          ),
+        ),
         '#actions' => array(
           '0' => array(
             '#weight' => 0,
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Comment deleted at [:global:site-name] by admin',
-              'message' => 'Comment to [node:type] \'[node:title]\' deleted by admin [user:display-name]. Link:
+              'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
+              'message' => '[node:type] \'[node:title]\' has been edited by moderator/admin [user:display-name]. Link: 
 [node:node-url]',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -248,86 +352,6 @@ function boinc_standard_rules_defaults() {
                 '2' => 'from',
               ),
             ),
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_comment_is_published_unhidden_by_moderator_or_admin' => array(
-        '#type' => 'rule',
-        '#set' => 'event_boinccore_comment_unhidden',
-        '#label' => 'Comment is unhidden by moderator or admin',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'boinc_standard',
-          '1' => 'moderator notification',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              '#argument map' => array(
-                'user1' => 'user',
-                'user2' => 'comment_author',
-              ),
-            ),
-            '#name' => 'rules_condition_user_comparison',
-            '#info' => array(
-              'label' => 'Compare two users: acting user (who unhid the comment) is NOT the comment author',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'user1' => array(
-                  'type' => 'user',
-                  'label' => 'User account 1',
-                ),
-                'user2' => array(
-                  'type' => 'user',
-                  'label' => 'User account 2',
-                ),
-              ),
-              'module' => 'User',
-            ),
-            '#negate' => 1,
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Notify moderators via email',
-              'module' => 'BOINC core',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'boinccore_rules_action_mail_to_moderators',
-            '#settings' => array(
-              'from' => '',
-              'subject' => 'Comment at [:global:site-name] unhidden by moderator or admin',
-              'message' => 'Comment has been unhidden by moderator/admin [user:display-name]. Link:
-[:global:site-url]/goto/comment/[comment:comment-cid]
-',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'comment',
-                    '1' => 'user',
-                    '2' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
@@ -684,165 +708,10 @@ function boinc_standard_rules_defaults() {
         ),
         '#version' => 6003,
       ),
-      'rules_forum_topic_is_edited_by_moderator_or_admin' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited by moderator or admin',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'boinc_standard',
-          '1' => 'moderator notification',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'PHP code: node status unchanged',
-              'label callback' => FALSE,
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#name' => 'rules_condition_custom_php',
-            '#settings' => array(
-              'code' => 'return $node->status == $node_unchanged->status;',
-              'vars' => array(
-                '0' => 'node',
-                '1' => 'node_unchanged',
-              ),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'code' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'condition',
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '0' => array(
-              '#weight' => 0,
-              '#info' => array(
-                'label' => 'Updated content is Forum topic',
-                'arguments' => array(
-                  'node' => array(
-                    'type' => 'node',
-                    'label' => 'Content',
-                  ),
-                ),
-                'module' => 'Node',
-              ),
-              '#name' => 'rules_condition_content_is_type',
-              '#settings' => array(
-                'type' => array(
-                  'forum' => 'forum',
-                ),
-                '#argument map' => array(
-                  'node' => 'node',
-                ),
-              ),
-              '#type' => 'condition',
-            ),
-            '#type' => 'OR',
-            '1' => array(
-              '#type' => 'condition',
-              '#settings' => array(
-                'type' => array(
-                  'team_forum' => 'team_forum',
-                ),
-                '#argument map' => array(
-                  'node' => 'node',
-                ),
-              ),
-              '#name' => 'rules_condition_content_is_type',
-              '#info' => array(
-                'label' => 'Updated content is Team forum topic',
-                'arguments' => array(
-                  'node' => array(
-                    'type' => 'node',
-                    'label' => 'Content',
-                  ),
-                ),
-                'module' => 'Node',
-              ),
-              '#weight' => 0,
-            ),
-          ),
-          '2' => array(
-            '#weight' => 0,
-            '#type' => 'condition',
-            '#settings' => array(
-              'roles' => array(
-                '0' => 3519698132,
-                '1' => 1271379760,
-              ),
-              'operation' => 'OR',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-            ),
-            '#name' => 'rules_condition_user_hasrole',
-            '#info' => array(
-              'label' => 'User has role(s): administrator or moderator',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'User',
-                ),
-              ),
-              'module' => 'User',
-            ),
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#type' => 'action',
-            '#settings' => array(
-              'from' => '',
-              'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
-              'message' => '[node:type] \'[node:title]\' has been edited by moderator/admin [user:display-name]. Link: 
-[node:node-url]',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'node',
-                    '1' => 'user',
-                    '2' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'boinccore_rules_action_mail_to_moderators',
-            '#info' => array(
-              'label' => 'Notify moderators via email',
-              'module' => 'BOINC core',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-          ),
-        ),
-        '#version' => 6003,
-      ),
       'rules_comment_converted_to_new_forum_topic_by_moderator_or_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_boinccore_comment_convert',
-        '#label' => 'Comment converted to new forum topic by moderator or admin',
+        '#label' => 'Comment is converted to new forum topic by moderator or admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -892,7 +761,7 @@ function boinc_standard_rules_defaults() {
       'rules_comment_edited_by_moderator_or_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_comment_update',
-        '#label' => 'Comment edited by moderator or admin',
+        '#label' => 'Comment is edited by moderator or admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -971,7 +840,7 @@ function boinc_standard_rules_defaults() {
       'rules_comment_is_unpublished_hidden_by_moderator_or_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_comment_unpublish',
-        '#label' => 'Comment is unpublished (hidden) by moderator or admin',
+        '#label' => 'Comment is hidden by moderator or admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -1024,6 +893,137 @@ function boinc_standard_rules_defaults() {
                   ),
                   'message' => array(
                     '0' => 'comment',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_comment_is_published_unhidden_by_moderator_or_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boinccore_comment_unhidden',
+        '#label' => 'Comment is unhidden by moderator or admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              '#argument map' => array(
+                'user1' => 'user',
+                'user2' => 'comment_author',
+              ),
+            ),
+            '#name' => 'rules_condition_user_comparison',
+            '#info' => array(
+              'label' => 'Compare two users: acting user (who unhid the comment) is NOT the comment author',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user1' => array(
+                  'type' => 'user',
+                  'label' => 'User account 1',
+                ),
+                'user2' => array(
+                  'type' => 'user',
+                  'label' => 'User account 2',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#negate' => 1,
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Comment at [:global:site-name] unhidden by moderator or admin',
+              'message' => 'Comment has been unhidden by moderator/admin [user:display-name]. Link:
+[:global:site-url]/goto/comment/[comment:comment-cid]
+',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'comment',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_comment_deleted_by_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_comment_delete',
+        '#label' => 'Comment deleted by admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'moderator notification',
+          '1' => 'boinc_standard',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Comment deleted at [:global:site-name] by admin',
+              'message' => 'Comment to [node:type] \'[node:title]\' deleted by admin [user:display-name]. Link:
+[node:node-url]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
                     '1' => 'user',
                     '2' => ':global',
                   ),
