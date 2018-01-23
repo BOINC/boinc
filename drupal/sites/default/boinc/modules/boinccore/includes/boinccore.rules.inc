@@ -22,5 +22,10 @@ function boinccore_rules_event_info() {
       'module' => 'BOINCcore',
       'arguments' => rules_events_hook_comment_arguments(t('converted comment')),
     ),
+    'boinccore_comment_unhidden' => array(
+      'label' => bts('A comment was unhidden.', array(), 'boinc:rule-event'),
+      'module' => 'BOINCcore',
+      'arguments' => rules_events_hook_comment_arguments(t('unhidden comment')),
+    ),
   );
 }

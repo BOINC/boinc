@@ -773,7 +773,7 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   switch ($action) {
   case 'unhide':
     comment_publish_action($comment);
-    rules_invoke_event('comment_publish', $comment);
+    rules_invoke_event('boinccore_comment_unhidden', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_publish($comment);
     }
