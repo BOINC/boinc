@@ -525,17 +525,16 @@ function show_account_private($user) {
             show_preference_links();
             show_user_stats_private($user);
 
-            if (file_exists("../project/donations.inc")) {
-                require_once("../project/donations.inc");
-                if (function_exists('show_user_donations_private')) {
-                    show_user_donations_private($user);
-                }
+            if (function_exists('show_user_donations_private')) {
+                show_user_donations_private($user);
             }
             end_table();
             if (!NO_COMPUTING) {
                 show_other_projects($user, true);
             }
-            project_user_page_private($user);
+            if (function_exists("project_user_page_private")) {
+                project_user_page_private($user);
+            }
             //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
