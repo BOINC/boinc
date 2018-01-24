@@ -303,7 +303,7 @@ function page_head(
         break;
     }
     project_banner($title, $url_prefix, $is_main);
-
+    check_web_stopped();
 }
 }
 
@@ -874,21 +874,26 @@ function show_image($src, $title, $alt, $height=null) {
     echo "<img class=\"icon\" border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
+function show_project_down() {
+    global $did_page_head;
+    if (!$did_page_head) {
+        page_head(tra("Project down for maintenance"));
+    }
+    echo tra(
+        "%1 is temporarily shut down for maintenance.  Please try again later.",
+        PROJECT
+    );
+    page_tail();
+    exit();
+}
+
 function check_web_stopped() {
-    global $generating_xml, $did_page_head;
+    global $generating_xml;
     if (web_stopped()) {
         if ($generating_xml) {
             xml_error(-183);
         } else {
-			if (!$did_page_head) {
-				page_head(tra("Project down for maintenance"));
-			}
-            echo tra(
-				"%1 is temporarily shut down for maintenance.  Please try again later.",
-				PROJECT
-			);
-            page_tail();
-            exit();
+            show_project_down();
         }
     }
 }
