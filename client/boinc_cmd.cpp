@@ -60,7 +60,7 @@ default password: contents of gui_rpc_auth.cfg\n\
 Commands:\n\
  --acct_mgr attach URL name passwd  attach to account manager\n\
  --acct_mgr info                    show current account manager info\n\
- --acct_mgr synch                   synchronize with acct mgr\n\
+ --acct_mgr sync                    synchronize with acct mgr\n\
  --acct_mgr detach                  detach from acct mgr\n\
  --client_version                   show client version\n\
  --create_account URL email passwd name\n\
@@ -525,7 +525,7 @@ int main(int argc, char** argv) {
             ACCT_MGR_INFO ami;
             retval = rpc.acct_mgr_info(ami);
             if (!retval) ami.print();
-        } else if (!strcmp(op, "synch")) {
+        } else if (!strcmp(op, "sync")) {
             acct_mgr_do_rpc(rpc, 0, 0, 0);
         } else if (!strcmp(op, "detach")) {
             retval = rpc.acct_mgr_rpc("", "", "");
