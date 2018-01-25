@@ -690,6 +690,7 @@ void FILE_INFO::failure_message(string& s) {
     s = s + "</file_xfer_error>\n";
 }
 
+#ifndef SIM
 #define BUFSIZE 16384
 int FILE_INFO::gzip() {
     char buf[BUFSIZE];
@@ -760,6 +761,7 @@ int FILE_INFO::gunzip(char* md5_buf) {
     delete_project_owned_file(inpath, true);
     return 0;
 }
+#endif  // SIM
 
 void APP_VERSION::init() {
     safe_strcpy(app_name, "");
