@@ -1,17 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Johan Holmström, 2016
+# Josef Andersson <josef.andersson@fripost.org>, 2017
+# Marco Nilsson <denravonska@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-13 14:14+0000\n"
-"Last-Translator: Johan Holmström\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-22 02:07+0000\n"
+"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "Meddelande från kontohanteraren"
 
@@ -28,13 +30,13 @@ msgstr "Meddelande från kontohanteraren"
 msgid "Message from server"
 msgstr "Meddelande från server"
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "En del uppgifter kräver mer minne än dina inställningar tillåter.  Kontrollera inställningarna."
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Kunde inte skriva tillståndsfil; kontrollera katalogbehörigheter"
 
@@ -42,24 +44,24 @@ msgstr "Kunde inte skriva tillståndsfil; kontrollera katalogbehörigheter"
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Miljövariabeln HTTP_PROXY måste specificera en HTTP-proxy"
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
 msgstr "Detta projekt använder en gammal URL. När det passar, ta bort projektet, lägg sedan till %s"
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaxfel i app_info.xml"
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Filen som det hänvisas till i app_info.xml finns inte: "
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "En ny version av BOINC är tillgänglig."
+msgid "A new version of BOINC is available"
+msgstr "En ny version av BOINC är tillgänglig"
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
@@ -70,39 +72,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "kan inte användas för CUDA eller OpenCL beräkningar med CUDA drivrutin 6.5 eller senare"
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "Oväntad text i cc_config.xml"
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Okänd markering i cc_config.xml"
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml saknar startmarkering"
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
-msgstr "Fel i alternativen för cc_config.xml"
+msgstr "Fel i flaggorna för cc_config.xml"
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml saknar slutmarkering"
 
-#: client/project.cpp:967
+#: client/project.cpp:991
 msgid "To fix this, you can "
 msgstr "För att lösa problemet kan du "
 
-#: client/project.cpp:970
+#: client/project.cpp:994
 msgid "change Project Preferences on the project's web site"
 msgstr "ändra projektinställningarna på projektets webbplats"
 
-#: client/project.cpp:976
+#: client/project.cpp:1000
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "ta bort GPU uteslutningar i filen cc_config.xml"
 
-#: client/project.cpp:983
+#: client/project.cpp:1007
 msgid "change your settings at your account manager web site"
 msgstr "ändra dina inställningar på din kontohanterares webbplats"
 
@@ -133,40 +135,40 @@ msgstr "Din BOINC-klientprogramvara är för gammal.  Installera aktuell version
 msgid "This project doesn't support computers of type"
 msgstr "Detta projekt stöder inte datorer av typen"
 
-#: sched/sched_send.cpp:1107
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Uppgradera till den senaste drivrutinen för att bearbeta uppgifter med din dators GPU"
 
-#: sched/sched_send.cpp:1114
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Uppgradera till den senaste drivrutinen för att använda alla detta projekts GPU-program"
 
-#: sched/sched_send.cpp:1133
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "En nyare version av BOINC behövs för att kunna använda din NVIDIA GPU; Uppgradera till aktuell version"
 
-#: sched/sched_send.cpp:1167
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Det krävs en %s-GPU för att köra uppgifter för detta projekt"
 
-#: sched/sched_send.cpp:1283
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "Programmen du valde har inga uppgifter tillgängliga."
 
-#: sched/sched_send.cpp:1309
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "Din datortyp stöds inte av detta projekt"
 
-#: sched/sched_send.cpp:1315
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "Nyare BOINC-version krävs; vänligen installera aktuell version"
 
-#: sched/sched_send.cpp:1326
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
