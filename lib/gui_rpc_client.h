@@ -493,6 +493,7 @@ struct ACCT_MGR_INFO {
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);
+    void print();
     void clear();
 };
 
