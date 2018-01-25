@@ -34,6 +34,7 @@
 # Revise fix for wxListCtrl flicker to match the fix in wxWidgets trunk 6/19/14
 # Build 64-bit library (temporarily build both 32-bit and 64-bit libraries) 10/22/17
 # Update for wxCocoa 3.1.0 10/25/17
+# Build only 64-bit library 1/25/18
 #
 ## This script requires OS 10.6 or later
 ##
@@ -171,11 +172,17 @@ retval=0
 alreadyBuilt=0
 
 if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" ]; then
-    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch i386 x86_64
+    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
     if [ $? -eq 0 ]; then
         alreadyBuilt=1
+        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch i386
+        if [ $? -ne 0 ]; then
+            # already built for both 32 and 64 bit, rebuild for only 64 bit
+            alreadyBuilt=0
+            doclean="clean"
+        fi
     else
-        # already built but not for correct architectures
+        # already built but not for correct architecture
         doclean="clean"
     fi
 fi
@@ -189,7 +196,7 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="i386 x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy library and headers to $lprefix
@@ -208,9 +215,15 @@ fi
 
 alreadyBuilt=0
 if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" ]; then
-    lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch i386 x86_64
+    lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
     if [ $? -eq 0 ]; then
         alreadyBuilt=1
+        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch i386
+        if [ $? -ne 0 ]; then
+            # already built for both 32 and 64 bit, rebuild for only 64 bit
+            alreadyBuilt=0
+            doclean="clean"
+        fi
     else
         # already built but not for correct architectures
         doclean="clean"
@@ -226,7 +239,7 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="i386 x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX
