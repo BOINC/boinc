@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of curl-7.50.2 for
+# Script to build Macintosh 64-bit Intel library of curl for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
@@ -32,6 +32,7 @@
 # Updated 3/2/16 for curl 7.47.1 with c-ares 1.10.0
 # Updated 9/10/16 for curl 7.50.2 with c-ares 1.11.0
 # Updated 3/14/17 to patch curlrules.h to fix BOINC Manager compile error
+# Updated 1/25/18 for curl 7.58.0 with c-ares 1.13.0 & openssl 1.1.0g, don't patch currules.h
 #
 ## This script requires OS 10.6 or later
 #
@@ -39,8 +40,9 @@
 ## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the curl-7.50.2 directory.
-##     cd [path]/curl-7.50.2/
+## Where x.xx.x is the curl version number:
+## In Terminal, CD to the curl-x.xx.x directory.
+##     cd [path]/curl-x.xx.x/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ] [--prefix PATH]
 ##
@@ -50,36 +52,6 @@
 ##
 
 CURL_DIR=`pwd`
-
-# Patch curl-7.50.2/include/curl/curlrules.h so it doesn't
-# cause our 32-bit build of BOINC Manager to fail.
-if [ ! -f include/curl/curlrules.h.orig ]; then
-    cat >> /tmp/curlrules_h_diff << ENDOFFILE
---- /Volumes/Cheer/BOINC_GIT/curl-7.50.2/include/curl/curlrules_orig.h	2016-08-08 05:03:14.000000000 -0700
-+++ /Volumes/Cheer/BOINC_GIT/curl-7.50.2/include/curl/curlrules.h	2017-03-13 17:17:43.000000000 -0700
-@@ -74,6 +74,7 @@
- /*
-  * Verify that some macros are actually defined.
-  */
-+#if 0
-
- #ifndef CURL_SIZEOF_LONG
- #  error "CURL_SIZEOF_LONG definition is missing!"
-@@ -182,6 +183,8 @@
-   __curl_rule_05__
-     [CurlchkszGE(curl_socklen_t, int)];
-
-+#endif
-+
- /* ================================================================ */
- /*          EXTERNALLY AND INTERNALLY VISIBLE DEFINITIONS           */
- /* ================================================================ */
-ENDOFFILE
-    patch -bfi /tmp/curlrules_h_diff include/curl/curlrules.h
-    rm -f /tmp/curlrules_h_diff
-else
-    echo "include/curl/curlrules.h already patched"
-fi
 
 doclean=""
 lprefix=""
@@ -167,19 +139,19 @@ if [ "x${lprefix}" != "x" ]; then
     PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
 else
-    # curl configure and make expect a path to _installed_ c-ares-1.11.0
+    # curl configure and make expect a path to _installed_ c-ares-1.13.0
     # so we temporarily installed c-ares at a path that does not contain spaces.
     # buildc-ares.sh installed c-ares to /tmp/installed-c-ares
     # and configured c-ares with prefix=/tmp/installed-c-ares
     if [ ! -f "${libcares}/libcares.a" ]; then
-        cd ../c-ares-1.11.0 || return 1
+        cd ../c-ares-1.13.0 || return 1
         make install
         cd "${CURL_DIR}" || return 1
     fi
 
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0 "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
-    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0g "
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0g/include"
+    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0g/include"
     ./configure --enable-shared=NO --enable-ares="${libcares}" --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
     echo ""

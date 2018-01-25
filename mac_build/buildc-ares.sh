@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 64-bit Intel library of c-ares-1.11.0 for
+# Script to build Macintosh 64-bit Intel library of c-ares for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
@@ -28,6 +28,7 @@
 # Updated 2/11/14 for c-ares 1.10.0
 # Updated 9/2/14 for bulding c-ares as 64-bit binary
 # Updated 9/10/16 for bulding c-ares 1.11.0
+# Updated 1/25/18 for bulding c-ares 1.13.0 (updated comemnts only)
 #
 ## This script requires OS 10.6 or later
 #
@@ -35,8 +36,9 @@
 ## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the c-ares-1.11.0 directory.
-##     cd [path]/c-ares-1.11.0/
+## Where x.xx.x is the c-ares version number:
+## In Terminal, CD to the c-ares-x.xx.x directory.
+##     cd [path]/c-ares-x.xx.x/
 ## then run this script:
 ##     source [path]/buildc-ares.sh [ -clean ] [--prefix PATH]
 ##
