@@ -33,6 +33,7 @@
 # Updated 9/10/16 for curl 7.50.2 with c-ares 1.11.0
 # Updated 3/14/17 to patch curlrules.h to fix BOINC Manager compile error
 # Updated 1/25/18 for curl 7.58.0 with c-ares 1.13.0 & openssl 1.1.0g, don't patch currules.h
+# Updated 1/26/18 to get directory names of c-ares and OpenSSL from dependencyNames.sh
 #
 ## This script requires OS 10.6 or later
 #
@@ -49,7 +50,9 @@
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
-##
+#
+## NOTE: cURL depends on OpenSLL and c-ares, so they must be built before cURL.
+#
 
 CURL_DIR=`pwd`
 
@@ -139,19 +142,26 @@ if [ "x${lprefix}" != "x" ]; then
     PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
 else
-    # curl configure and make expect a path to _installed_ c-ares-1.13.0
+    # Get the names of the current versions of c-ares and openssl from
+    # the dependencyNames.sh file in the same directory as this script.
+    myScriptPath="${BASH_SOURCE[0]}"
+    myScriptDir="${myScriptPath%/*}"
+    source "${myScriptDir}/dependencyNames.sh"
+    if [ $? -ne 0 ]; then return 1; fi
+
+    # curl configure and make expect a path to _installed_ c-ares
     # so we temporarily installed c-ares at a path that does not contain spaces.
     # buildc-ares.sh installed c-ares to /tmp/installed-c-ares
     # and configured c-ares with prefix=/tmp/installed-c-ares
     if [ ! -f "${libcares}/libcares.a" ]; then
-        cd ../c-ares-1.13.0 || return 1
+        cd ../"${caresDirName}" || return 1
         make install
         cd "${CURL_DIR}" || return 1
     fi
 
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0g "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0g/include"
-    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0g/include"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
+    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
     ./configure --enable-shared=NO --enable-ares="${libcares}" --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
