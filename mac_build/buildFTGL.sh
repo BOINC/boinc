@@ -66,6 +66,9 @@ while [[ $# -gt 0 ]]; do
     shift # past argument or value
 done
 
+# needed for ftgl 2.1.3-rc5 to find our freetype 2.9 build not the system one
+export PKG_CONFIG_PATH=${libftpath}/lib/pkgconfig:${PKG_CONFIG_PATH}
+
 SRCDIR=$PWD
 
 if [ "${doclean}" != "yes" ]; then
