@@ -37,7 +37,7 @@ export PTHREAD=-L.
 if [ -n "$COMPILEBOINC" ]; then
 
 echo "==================building Wrapper from $BOINC=========================="
-cd $BOINC
+cd "$BOINC"
 
 if [ -n "$MAKECLEAN" ]; then
 make clean
@@ -48,7 +48,7 @@ fi
 
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
+./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
 fi
 
 make

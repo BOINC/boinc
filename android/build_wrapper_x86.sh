@@ -28,7 +28,7 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCL
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
+export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 export PTHREAD=-L.
 
 # Prepare android toolchain and environment
@@ -37,7 +37,7 @@ export PTHREAD=-L.
 if [ -n "$COMPILEBOINC" ]; then
 
 echo "==================building Wrapper from $BOINC=========================="
-cd $BOINC
+cd "$BOINC"
 
 if [ -n "$MAKECLEAN" ]; then
 make clean
@@ -48,7 +48,7 @@ fi
 
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
+./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
 fi
 
 make
