@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/sh -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildApp
