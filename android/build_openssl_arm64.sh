@@ -33,7 +33,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 if [ -n "$COMPILEOPENSSL" ]; then
 echo "================building openssl from $OPENSSL============================="
-cd $OPENSSL
+cd "$OPENSSL"
 if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
