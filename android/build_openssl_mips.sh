@@ -19,7 +19,7 @@ export TCINCLUDES="$ANDROIDTC/mipsel-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=mipsel-linux-android-gcc
 export CXX=mipsel-linux-android-g++
 export LD=mipsel-linux-android-ld

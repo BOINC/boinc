@@ -19,7 +19,7 @@ export TCINCLUDES="$ANDROIDTC/x86_64-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=x86_64-linux-android-gcc
 export CXX=x86_64-linux-android-g++
 export LD=x86_64-linux-android-ld
