@@ -141,20 +141,22 @@ int get_libc_version(string& version, string& extra_info) {
     FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
     if (f) {
         fgets(buf, sizeof(buf), f);
-        pclose(f);
+        if (0 > pclose(f)) {
+            return 1;
+        }
         strbuf = (string)buf;
         strip_whitespace(strbuf);
-        std::string::size_type parens1 = strbuf.find('(');
-        std::string::size_type parens2 = strbuf.rfind(')');
-        std::string::size_type blank = strbuf.rfind(' ');
+        string::size_type parens1 = strbuf.find('(');
+        string::size_type parens2 = strbuf.rfind(')');
+        string::size_type blank = strbuf.rfind(' ');
 
-        if (blank != std::string::npos) {
+        if (blank != string::npos) {
             // extract version number
             version = strbuf.substr(blank+1);
         } else {
             return 1;
         }
-        if (parens1 != std::string::npos && parens2 != std::string::npos && parens1 < parens2) {
+        if (parens1 != string::npos && parens2 != string::npos && parens1 < parens2) {
             // extract extra information without parenthesis
             extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
         }

@@ -1373,8 +1373,8 @@ int HOST_INFO::get_memory_info() {
 // where the last part is copied to version and the string between parenthesis
 // is copied to extra_info
 //
-// return 0 if at least version could be found (extra_info may remain empty)
-// return 1 if ldd couldn't be opened or no version infromation was found
+// return BOINC_SUCCESS if at least version could be found (extra_info may remain empty)
+// return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
 //
 int get_libc_version(string& version, string& extra_info) {
     char buf[1024];
@@ -1382,27 +1382,29 @@ int get_libc_version(string& version, string& extra_info) {
     FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
     if (f) {
         fgets(buf, sizeof(buf), f);
-        pclose(f);
+        if (0 > pclose(f)) {
+            return ERR_NOT_FOUND;
+        }
         strbuf = (string)buf;
         strip_whitespace(strbuf);
-        std::string::size_type parens1 = strbuf.find('(');
-        std::string::size_type parens2 = strbuf.rfind(')');
-        std::string::size_type blank = strbuf.rfind(' ');
+        string::size_type parens1 = strbuf.find('(');
+        string::size_type parens2 = strbuf.rfind(')');
+        string::size_type blank = strbuf.rfind(' ');
 
-        if (blank != std::string::npos) {
+        if (blank != string::npos) {
             // extract version number
             version = strbuf.substr(blank+1);
         } else {
-            return 1;
+            return ERR_NOT_FOUND;
         }
-        if (parens1 != std::string::npos && parens2 != std::string::npos && parens1 < parens2) {
+        if (parens1 != string::npos && parens2 != string::npos && parens1 < parens2) {
             // extract extra information without parenthesis
             extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
         }
     } else {
-        return 1;
+        return ERR_NOT_FOUND;
     }
-    return 0;
+    return BOINC_SUCCESS;
 }
 #endif
 
@@ -1571,6 +1573,7 @@ int HOST_INFO::get_os_info() {
 
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
+        // This will be part of the normal startup messages to show to the user
         msg_printf(NULL, MSG_INFO,
                 "[libc detection] gathered: %s, %s", libc_version.c_str(), libc_extra_info.c_str()
             );
