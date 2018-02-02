@@ -524,21 +524,6 @@ int get_pfc(
         }
     }
 
-    // is result from old scheduler that didn't set r.app_version_id correctly?
-    // if so, use WU estimate (this is a transient condition)
-    //
-    if (r.app_version_id == 0 || r.app_version_id == 1) {
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] missing app_version_id (%ld): returning WU default %.2f\n",
-                r.id, r.app_version_id, wu_estimated_credit(wu, app)
-            );
-        }
-        mode = PFC_MODE_WU_EST;
-        pfc = wu_estimated_pfc(wu, app);
-        return 0;
-    }
-
     // temporary kludge for SETI@home:
     // if GPU initialization fails the app falls back to CPU.
     //
@@ -648,12 +633,15 @@ int get_pfc(
             r.flops_estimate/1e9
         );
     }
+
     // get app version
+    //
     avp = av_lookup(r.app_version_id, app_versions);
 
     // Sanity check
     // If an app version scale exists, use it.  Otherwise assume 1.
-    double tmp_scale = (avp && (r.app_version_id>1) && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
+    //
+    double tmp_scale = (avp && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
 
     if (raw_pfc*tmp_scale > wu.rsc_fpops_bound) {
         // This sanity check should be unnecessary becuase we have a maximum
