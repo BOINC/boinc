@@ -575,6 +575,9 @@ void CDlgItemProperties::addProperty(const wxString& name, const wxString& value
 
 void CDlgItemProperties::copyTextToClipboard(const wxString& text) {
     if (wxTheClipboard->Open()) {
+#if defined(__WXGTK__) || defined(__WXQT__)
+        wxTheClipboard->UsePrimarySelection(false);
+#endif
         wxTheClipboard->Clear();
         wxTheClipboard->SetData(new wxTextDataObject(text));
         wxTheClipboard->Close();

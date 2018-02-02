@@ -1073,6 +1073,9 @@ bool CDlgEventLog::OpenClipboard( wxInt32 size ) {
         m_strClipboardData = wxEmptyString;
         m_strClipboardData.Alloc( size );
 
+#if defined(__WXGTK__) || defined(__WXQT__)
+        wxTheClipboard->UsePrimarySelection(false);
+#endif
         wxTheClipboard->Clear();
     }
 
