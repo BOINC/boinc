@@ -1377,15 +1377,19 @@ int HOST_INFO::get_memory_info() {
 // return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
 //
 int get_libc_version(string& version, string& extra_info) {
-    char buf[1024];
+    char buf[1024] = "";
     string strbuf;
     FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
     if (f) {
-        fgets(buf, sizeof(buf), f);
-        if (0 > pclose(f)) {
+        char* retval = fgets(buf, sizeof(buf), f);
+        strbuf = (string)buf;
+        while (fgets(buf, sizeof(buf), f)) {
+            // consume output to allow command to exit gracefully
+        }
+        int status = pclose(f);
+        if (!retval || status == -1 || !WIFEXITED(status) || WEXITSTATUS(status)) {
             return ERR_NOT_FOUND;
         }
-        strbuf = (string)buf;
         strip_whitespace(strbuf);
         string::size_type parens1 = strbuf.find('(');
         string::size_type parens2 = strbuf.rfind(')');
@@ -2221,4 +2225,3 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 }
 
 #endif  // ! __APPLE__
-
