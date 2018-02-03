@@ -220,7 +220,7 @@ int main(void) {
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
             strstr(buf, "vendor     : ")
-#elif __hppa__        
+#elif __hppa__
             strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
             strstr(buf, "machine\t\t: ")
