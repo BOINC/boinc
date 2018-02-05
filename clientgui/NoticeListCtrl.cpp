@@ -49,10 +49,14 @@ IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxWindow )
  
 BEGIN_EVENT_TABLE( CNoticeListCtrl, wxWindow )
 
+#if wxUSE_WEBVIEW
 ////@begin CNoticeListCtrl event table entries
     EVT_WEBVIEW_NAVIGATING(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
     EVT_WEBVIEW_ERROR(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnWebViewError)
 ////@end CNoticeListCtrl event table entries
+#else
+    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
+#endif
  
 END_EVENT_TABLE()
  
@@ -84,7 +88,11 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     wxWindow::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
         wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
 
+#if wxUSE_WEBVIEW
     m_browser = wxWebView::New( this, ID_LIST_NOTIFICATIONSVIEW );
+#else
+    m_browser = new wxHtmlWindow(this, ID_LIST_NOTIFICATIONSVIEW);
+#endif
 ////@end CNoticeListCtrl creation
 
     wxBoxSizer *topsizer;
@@ -238,7 +246,11 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     m_noticesBody += wxT("</font></body></html>");
     // baseURL is not needed here (see comments above) and it
     // must be an empty string for this to work under OS 10.12.4
+#if wxUSE_WEBVIEW
     m_browser->SetPage(m_noticesBody, wxEmptyString);
+#else
+    m_browser->SetPage(m_noticesBody);
+#endif
 }
 
 
@@ -248,6 +260,7 @@ void CNoticeListCtrl::Clear() {
 }
 
 
+#if wxUSE_WEBVIEW
 void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
     if (event.GetURL().StartsWith(wxT("http://")) || event.GetURL().StartsWith(wxT("https://"))) {
         event.Veto();   // Tell wxWebView not to follow link
@@ -264,6 +277,18 @@ void CNoticeListCtrl::OnWebViewError( wxWebViewEvent& event ) {
 
     event.Skip();
 }
+#else
+void CNoticeListCtrl::OnLinkClicked(wxHtmlLinkEvent &event)
+{
+	wxString url = event.GetLinkInfo().GetHref();
+	if (!url.StartsWith(wxT("http://")) && !url.StartsWith(wxT("https://"))) {
+		event.Skip();
+		return;
+	}
+	event.Skip(); // Tell element not to follow link
+	wxLaunchDefaultBrowser(url);
+}
+#endif
 
 
 /*!
