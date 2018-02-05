@@ -62,6 +62,7 @@ fi
 
 doclean=""
 debug_flag="--disable-debug_flag"
+webview_flag="--enable-webview"
 lprefix=""
 cmdline_prefix=""
 while [[ $# -gt 0 ]]; do
@@ -78,6 +79,9 @@ while [[ $# -gt 0 ]]; do
         cmdline_prefix="--prefix=${lprefix}"
         shift
         ;;
+        --disable-webview)
+        webview_flag="--disable-webview"
+        ;;
     esac
     shift # past argument or value
 done
@@ -88,7 +92,7 @@ fi
 mkdir -p buildgtk
 cd buildgtk || return 1
 
-../configure "${cmdline_prefix}" --with-gtk --disable-shared --enable-webview --disable-gtktest --disable-sdltest ${debug_flag}
+../configure "${cmdline_prefix}" --with-gtk --disable-shared ${webview_flag} --disable-gtktest --disable-sdltest ${debug_flag}
 if [ $? -ne 0 ]; then cd ..; return 1; fi
 make 1>/dev/null # the wxWidgets build is very noisy so tune it down to warnings and errors only
 if [ $? -ne 0 ]; then cd ..; return 1; fi
