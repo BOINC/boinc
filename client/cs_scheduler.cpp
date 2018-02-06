@@ -893,7 +893,6 @@ int CLIENT_STATE::handle_scheduler_reply(
             // update app version attributes in case they changed on server
             //
             avp->avg_ncpus = avpp.avg_ncpus;
-            avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
             safe_strcpy(avp->cmdline, avpp.cmdline);
             avp->gpu_usage = avpp.gpu_usage;

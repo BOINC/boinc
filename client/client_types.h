@@ -292,7 +292,6 @@ struct APP_VERSION {
     char plan_class[64];
     char api_version[16];
     double avg_ncpus;
-    double max_ncpus;
     GPU_USAGE gpu_usage;    // can only use 1 GPU type
     double gpu_ram;
     double flops;
