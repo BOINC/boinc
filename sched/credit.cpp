@@ -524,6 +524,22 @@ int get_pfc(
         }
     }
 
+    // is result from old scheduler that didn't set r.app_version_id?
+    // if so, use WU estimate (this is a transient condition
+    // while projects upgrade server software)
+    //
+    if (r.app_version_id == 0) {
+        if (config.debug_credit) {
+            log_messages.printf(MSG_NORMAL,
+                "[credit] [RESULT#%lu] missing app_version_id (%ld): returning WU default %.2f\n",
+                r.id, r.app_version_id, wu_estimated_credit(wu, app)
+            );
+        }
+        mode = PFC_MODE_WU_EST;
+        pfc = wu_estimated_pfc(wu, app);
+        return 0;
+    }
+
     // temporary kludge for SETI@home:
     // if GPU initialization fails the app falls back to CPU.
     //
