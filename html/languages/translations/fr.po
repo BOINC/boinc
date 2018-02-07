@@ -10,7 +10,7 @@
 # Jerome Cadet <jerome.cadet@pobox.com>, 2015,2017
 # Jun Seo <seo.galileo@gmail.com>, 2015
 # Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2017
-# Philippe Janocha, 2016-2017
+# Philippe Janocha, 2016-2018
 # PINSET Romaric <inactive+RomaricP@transifex.com>, 2015
 # Robin Petitdemange, 2017
 # Romain Rocès <romain.roces@gmail.com>, 2017
@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:11+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-01-19 20:03+0000\n"
+"Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +61,7 @@ msgstr "Adresse email"
 
 #: html/inc/account.inc:92
 msgid "Must be at least %1 characters"
-msgstr "1 caractères au moins"
+msgstr "%1 caractères au moins"
 
 #. we need the password here not for verification,
 #. but because we store it salted with email address,
@@ -623,7 +623,7 @@ msgstr "Les liens vers des sites web à caractère pornographique, de jeux en li
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
-msgstr ""
+msgstr "Pas de messages destinés à déranger ou à contrarier quiconque, ni à détourner un fil de discussion."
 
 #: html/inc/forum.inc:821
 msgid "No messages that are deliberately hostile, threatening, or insulting."
@@ -4352,7 +4352,7 @@ msgstr "Ce sujet a été masqué par les modérateurs."
 
 #: html/user/forum_thread.php:118
 msgid "Message board moderation"
-msgstr ""
+msgstr "Modération du forum"
 
 #: html/user/forum_thread.php:131
 msgid "My question was answered"
@@ -4601,11 +4601,11 @@ msgstr "Votre amitié avec %1 a été annulée."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "Entrez l'adresse email de votre compte ci-dessous et cliquez sur OK. Vous allez recevoir un email avec les instructions pour réinitialiser votre mot de passe."
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "Réinitialiser le mot de passe"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"
@@ -5087,19 +5087,19 @@ msgstr "Retourner à la liste des ordinateurs"
 #: html/user/moderation.php:28
 msgid ""
 "Our message boards are moderated. Posts are subject to the following rules:"
-msgstr ""
+msgstr "Nos forums sont modérés. Les publications sont soumises aux règles suivantes :"
 
 #: html/user/moderation.php:31
 msgid ""
 "If you think a post violates any of the rules, you can notify moderators by "
 "clicking the red X below the post and filling out the form."
-msgstr ""
+msgstr "Si vous estimez qu'une publication enfreint une règle, vous pouvez avertir les modérateurs en cliquant sur le X rouge sous cette publication et en remplissant le formulaire."
 
 #: html/user/moderation.php:33
 msgid ""
 "This moderation policy is set by the %1 project.  If you have comments about"
 " the policy or its enforcement, email %2."
-msgstr ""
+msgstr "Cette politique de modération est fixée par le projet %1. Si vous voulez réagir à cette politique et son application, envoyez un email à %2."
 
 #: html/user/pending.php:66
 msgid "Pending credit"

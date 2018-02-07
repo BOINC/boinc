@@ -4,15 +4,17 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Christian Beer <christian.beer@posteo.de>, 2018
 # D c <onlinegamesdavey@gmail.com>, 2015
-# Jord <elst93@gmail.com>, 2015,2017
+# Jord <elst93@gmail.com>, 2015,2017-2018
 # Rene Oskam, 2015
+# Willem Beekhuis <WillemBeekhuis@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:10+0000\n"
+"PO-Revision-Date: 2018-02-07 16:46+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +36,7 @@ msgstr "Er is een uitnodigingscode vereist om een account aan te maken."
 
 #: html/inc/account.inc:65
 msgid "Invitation code"
-msgstr ""
+msgstr "Utnodigingscode"
 
 #: html/inc/account.inc:73 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -42,7 +44,7 @@ msgstr "Identificatie op deze pagina. Gebruik je echte naam of een nickname."
 
 #: html/inc/account.inc:74
 msgid "Screen name"
-msgstr "Zichtbare naam"
+msgstr "Schermnaam"
 
 #: html/inc/account.inc:80
 msgid "Must be a valid address of the form 'name@domain'."
@@ -377,15 +379,15 @@ msgstr "Meeste berichten eerst"
 
 #: html/inc/forum.inc:88
 msgid "This answered my question"
-msgstr ""
+msgstr "Dit beantwoordde mijn vraag"
 
 #: html/inc/forum.inc:89
 msgid "I also have this question"
-msgstr ""
+msgstr "Ik heb deze vraag ook"
 
 #: html/inc/forum.inc:90
 msgid "Off-topic"
-msgstr ""
+msgstr "Off-topic"
 
 #: html/inc/forum.inc:107
 msgid "Volunteer moderator"
@@ -600,45 +602,45 @@ msgstr "Je mag geen berichten plaatsen of waarderen tot %1"
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
-msgstr ""
+msgstr "Berichten moeten 'kind-vriendelijk' zijn, ze mogen geen obscene, haat-gerelateerde, of suggestieve of expliciete seksuele inhoud hebben. "
 
 #: html/inc/forum.inc:818
 msgid "No commercial advertisements."
-msgstr ""
+msgstr "Geen commerciële advertenties. "
 
 #: html/inc/forum.inc:819
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
-msgstr ""
+msgstr "Geen links naar websites met seksuele inhoud, gokken of intolerantie van anderen."
 
 #: html/inc/forum.inc:820
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
-msgstr ""
+msgstr "Geen berichten met de intentie om andere mensen te ergeren of tegen te spreken, of om een thread te kapen."
 
 #: html/inc/forum.inc:821
 msgid "No messages that are deliberately hostile, threatening, or insulting."
-msgstr ""
+msgstr "Geen berichten die expres vijandig, bedreigend of beledigend zijn. "
 
 #: html/inc/forum.inc:822
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
-msgstr ""
+msgstr "Geen beledigende berichten over ras, religie, nationaliteit, geslacht, klasse of seksualiteit."
 
 #: html/inc/forum.inc:823
 msgid "Posts that violate these rules may be deleted."
-msgstr ""
+msgstr "Berichten die deze regels overtreden kunnen worden verwijderd."
 
 #: html/inc/forum.inc:824
 msgid "The posting privileges of violators may be suspended or revoked."
-msgstr ""
+msgstr "De postingprivileges van overtreders kunnen worden opgeschort of ingetrokken."
 
 #: html/inc/forum.inc:825
 msgid "If your account is suspended, don't create a new one."
-msgstr ""
+msgstr "Als je account is geschorst, maak dan geen nieuwe aan."
 
 #: html/inc/forum.inc:844
 msgid "Rules:"
@@ -1289,7 +1291,7 @@ msgstr "Markeer dit om verwerking en bestandsoverdrachten te pauzeren wanneer je
 
 #: html/inc/prefs.inc:82
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Pauzeer GPU gebruik op wanneer de computer in gebruik is"
+msgstr "Pauzeer GPU gebruik wanneer de computer in gebruik is"
 
 #: html/inc/prefs.inc:83
 msgid "Check this to suspend GPU computing when you're using the computer."
@@ -1958,7 +1960,7 @@ msgstr "Niet nodig"
 
 #: html/inc/result.inc:288
 msgid "Workunit error - check skipped"
-msgstr "Fout in WU - controle overgeslagen"
+msgstr "Fout in werkeenheid - controle overgeslagen"
 
 #: html/inc/result.inc:289
 msgid "Checked, but no consensus yet"
@@ -1990,7 +1992,7 @@ msgstr "WU afgebroken"
 
 #: html/inc/result.inc:336
 msgid "Canonical result is missing"
-msgstr "Canonical resultaat ontbreekt"
+msgstr "Meest overeenkomstig resultaat ontbreekt"
 
 #: html/inc/result.inc:340
 msgid "Unrecognized Error: %1"
@@ -2031,7 +2033,7 @@ msgstr "Verzonden"
 
 #: html/inc/result.inc:395
 msgid "Time reported<br />or deadline"
-msgstr "Rapportage tijd<br />of deadline"
+msgstr "Rapportage tijd<br />of eindtijd"
 
 #: html/inc/result.inc:396
 msgid "explain"
@@ -2149,7 +2151,7 @@ msgstr "Zoek"
 
 #: html/inc/team.inc:62
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen."
+msgstr "Op eigen verzoek, eindtijd voor de oprichter om te reageren is verlopen."
 
 #: html/inc/team.inc:64
 msgid "Complete foundership transfer"
@@ -2161,7 +2163,7 @@ msgstr "Op eigen verzoek"
 
 #: html/inc/team.inc:68
 msgid "founder response deadline is %1"
-msgstr "Deadline voor antwoord van oprichter verloopt op %1"
+msgstr "Eindtijd voor antwoord van oprichter verloopt op %1"
 
 #: html/inc/team.inc:73 html/inc/team.inc:594 html/inc/user.inc:405
 #: html/inc/user.inc:503
@@ -2475,7 +2477,7 @@ msgstr "Gebruikers ID"
 
 #: html/inc/user.inc:269
 msgid "Used in community functions"
-msgstr "Gebruikt in gemeenschaps functies"
+msgstr "Gebruikt in gemeenschapsfuncties"
 
 #: html/inc/user.inc:272 html/user/weak_auth.php:23
 msgid "Account keys"
@@ -2487,7 +2489,7 @@ msgstr "Hoe en wanneer BOINC je computer gebruikt"
 
 #: html/inc/user.inc:283
 msgid "Computing preferences"
-msgstr "Computer voorkeuren"
+msgstr "Computervoorkeuren"
 
 #: html/inc/user.inc:286
 msgid "Message boards and private messages"
@@ -2495,7 +2497,7 @@ msgstr "Forum en privé berichten"
 
 #: html/inc/user.inc:287 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
-msgstr "Gemeenschaps voorkeuren"
+msgstr "Gemeenschapsvoorkeuren"
 
 #: html/inc/user.inc:290
 msgid "Preferences for this project"
@@ -3605,13 +3607,13 @@ msgstr "De computer kon de uitvoerbestanden niet uploaden."
 
 #: html/user/explain_state.php:103
 msgid "Time reported and deadline"
-msgstr "Rapportage tijd en deadline"
+msgstr "Rapportage tijd en eindtijd"
 
 #: html/user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr "De verwerkingsstatus in het veld <b>rapportagetijd of tijdslimiet</b> is afhankelijk van de terugmelding van de taak:"
+msgstr "De verwerkingsstatus in het veld <b>rapportagetijd of eindtijd</b> is afhankelijk van de terugmelding van de taak:"
 
 #: html/user/explain_state.php:110
 msgid "Already reported"
@@ -3623,19 +3625,19 @@ msgstr "De datum/tijd van rapportage"
 
 #: html/user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr "Uitslag nog niet bekend, tijdslimiet aanstaande"
+msgstr "Uitslag nog niet bekend, eindtijd aanstaande"
 
 #: html/user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr "Tijdslimiet wordt weergegeven in groen."
+msgstr "Eindtijd wordt weergegeven in groen."
 
 #: html/user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr "Uitslag nog niet bekend, tijdslimiet verstreken"
+msgstr "Uitslag nog niet bekend, eindtijd verstreken"
 
 #: html/user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr "Tijdslimiet wordt weergegeven in rood."
+msgstr "Eindtijd wordt weergegeven in rood."
 
 #: html/user/explain_state.php:120
 msgid "Unknown field"
@@ -4345,7 +4347,7 @@ msgstr "Dit onderwerp is verborgen door de moderators."
 
 #: html/user/forum_thread.php:118
 msgid "Message board moderation"
-msgstr ""
+msgstr "Forum beheer"
 
 #: html/user/forum_thread.php:131
 msgid "My question was answered"
@@ -4594,11 +4596,11 @@ msgstr "De vriendschap met %1 is beëindigd."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "Vul je account's email adres hier beneden in, en klik OK. Je zult een email toegestuurd krijgen met instructies om je wachtwoord te resetten. "
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "Wachtwoord herstellen"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"
@@ -5080,19 +5082,19 @@ msgstr "Terug naar lijst met computers"
 #: html/user/moderation.php:28
 msgid ""
 "Our message boards are moderated. Posts are subject to the following rules:"
-msgstr ""
+msgstr "Onze forums worden beheerd. Berichten zijn onderworpen aan de volgende regels: "
 
 #: html/user/moderation.php:31
 msgid ""
 "If you think a post violates any of the rules, you can notify moderators by "
 "clicking the red X below the post and filling out the form."
-msgstr ""
+msgstr "Als je denkt dat een post de regels overtreedt, dan kun je de beheerders bereiken door op de rode X onder de post te klikken en het formulier in te vullen. "
 
 #: html/user/moderation.php:33
 msgid ""
 "This moderation policy is set by the %1 project.  If you have comments about"
 " the policy or its enforcement, email %2."
-msgstr ""
+msgstr "Dit beheersbeleid wordt ingesteld door het %1 project. Als u opmerkingen over het beleid of de uitvoering ervan heeft, stuurt u een e-mail naar %2."
 
 #: html/user/pending.php:66
 msgid "Pending credit"
@@ -6495,7 +6497,7 @@ msgstr "Zodra je je wachtwoord wijzigt veranderd ook je zwakke account key en wo
 
 #: html/user/workunit.php:46
 msgid "Workunit %1"
-msgstr "Taak %1"
+msgstr "Werkeenheid %1"
 
 #: html/user/workunit.php:51
 msgid "application"
@@ -6503,7 +6505,7 @@ msgstr "applicatie"
 
 #: html/user/workunit.php:54
 msgid "keywords"
-msgstr ""
+msgstr "kernwoorden"
 
 #: html/user/workunit.php:57
 msgid "canonical result"
@@ -6547,7 +6549,7 @@ msgstr "In behandeling"
 
 #: html/user/workunit.php:102
 msgid "can't find workunit"
-msgstr "taak niet gevonden"
+msgstr "werkeenheid niet gevonden"
 
 #: html/project.sample/project.inc:132
 msgid "Generated"

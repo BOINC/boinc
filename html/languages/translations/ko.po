@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:11+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-01-26 05:40+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1358,7 +1358,7 @@ msgstr "추가적으로 유지할"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "최소 한도 이상으로 추가적인 태스크를 저장합니다. 또한 프로젝트 서버에 연락할 때 얼마나 많은 작업량을 요청할지 결정합니다."
+msgstr "최소 한도 이상으로 추가적인 태스크를 저장합니다.  또한 프로젝트 서버에 연락할 때 얼마나 많은 작업량을 요청할지 결정합니다."
 
 #: html/inc/prefs.inc:125
 msgid "Switch between tasks every"
@@ -4594,11 +4594,11 @@ msgstr "%1과 맺은 친구 관계가 취소되었습니다."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "하단에 계정 이메일 주소를 입력하고 확인을 누르세요. 비밀번호를 재설정하기 위한 설명서 이메일이 전송될 것입니다."
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "비밀번호 재설ㅈ"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"
@@ -4613,7 +4613,7 @@ msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
 "shown in parentheses."
-msgstr "다음 목록은 다른 플랫폼에서 가장 효율성이 높은 GPU 종류를 보여줍니다.  괄호 안 내용은 상대적인 속도를 나타냅니다."
+msgstr "다음 목록은 다른 플랫폼에서 가장 효율성이 높은 GPU 종류를 보여줍니다.  괄호 안 내용은 태스크의 평균 경과 시간으로 추정한 상대적인 속도를 보여줍니다."
 
 #: html/user/home.php:42
 msgid "Welcome to %1"
@@ -4774,7 +4774,7 @@ msgstr "이 호스트의 위치가 %1로 설정되었습니다."
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
-msgstr "이 변화는 다음 번에 해당 호스트가 이 프로젝트 서버와 통신할 경우 적용될 것입니다."
+msgstr "이 변경사항은 다음 번에 해당 호스트가 이 프로젝트 서버와 통신할 경우 적용될 것입니다."
 
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
@@ -4889,7 +4889,7 @@ msgid ""
 "If you receive unwanted private messages from another %1 user, you may add "
 "them to your %2 message filter %3.  This will prevent you from seeing any "
 "public or private messages from that user."
-msgstr "%1 웹 사이트를 통해 보낸 쪽지는 송신자와 수신자만 볼 수 있습니다. %1은 쪽지 내용을 검사하거나 감시하지 않습니다. 만약 여러분이 다른 %1 사용자에게서 쪽지를 받길 원하지 않는다면 그 것들을 %2 메세지 필터 %3에 추가할 수 있습니다. 이로서 메세지가 불특정 다수에게 보여지거나 혹은 다른 사용자에게서 온 쪽지로부터 원하지 않는 메세지를 막아줍니다."
+msgstr "%1 웹 사이트를 통해 보낸 쪽지는 송신자와 수신자만 볼 수 있습니다.  %1은 쪽지 내용을 검사하거나 감시하지 않습니다.  만약 여러분이 다른 %1 사용자에게서 쪽지를 받길 원하지 않는다면 그 것들을 %2 메세지 필터 %3에 추가할 수 있습니다.  이로서 메세지가 불특정 다수에게 보여지거나 혹은 다른 사용자에게서 온 쪽지로부터 원하지 않는 메세지를 막아줍니다."
 
 #: html/user/info.php:47
 msgid ""
@@ -4979,7 +4979,7 @@ msgstr "다운로드"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr "안드로이드 디바이스라면 Google Play Store나 Amazon App Store에서 BOINC를 다운로드하세요."
+msgstr "안드로이드 기기라면 Google Play Store나 Amazon App Store에서 BOINC를 다운로드하세요."
 
 #: html/user/join.php:55
 msgid "Run the installer."
@@ -4991,7 +4991,7 @@ msgstr "목록에서 %1를 선택하거나 %2를 입력합니다"
 
 #: html/user/join.php:70
 msgid "Install BOINC on this device if not already present."
-msgstr "아직 설치되지 않았다면 이 디바이스에 BOINC를 설치하세요."
+msgstr "아직 설치되지 않았다면 이 기기에 BOINC를 설치하세요."
 
 #: html/user/join.php:73
 msgid "Select Tools / Add Project. Choose %1 from the list, or enter %2"
@@ -6456,7 +6456,7 @@ msgid ""
 "You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr "여러분은 여러분의 이메일 주소와 비밀번호를 사용해서 계정에 접근할 수도 있지만\n    한편으로 서명된 '계정 키'를 이용할 수도 있습니다.\n    여러분의 계정 키:"
+msgstr "여러분은 여러분의 이메일 주소와 비밀번호를 사용해서 계정에 접근할 수도 있지만\n    한편으로 할당된 '계정 키'를 이용할 수도 있습니다.\n    여러분의 계정 키:"
 
 #: html/user/weak_auth.php:57
 msgid "This key can be used to:"

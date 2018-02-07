@@ -5,7 +5,7 @@
 # 
 # Translators:
 # fischer braun <fischer.braun@gmx.net>, 2015
-# Gabor Cseh <csega@mailbox.hu>, 2015-2017
+# Gabor Cseh <csega@mailbox.hu>, 2015-2018
 # misibacsi, 2015
 # misibacsi, 2015
 # PB <regisztralo111@gmail.com>, 2015
@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2017-11-09 20:21+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-02-06 11:27+0000\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -253,7 +253,7 @@ msgstr "%1 Kutatók %2: a BOINC segítségével %3 önkéntes számítási proje
 msgid ""
 "%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
 "Center %4."
-msgstr "%1 Egyetemek %2: a BOINC segítségével a %3 Kampusz Virtuális Szuperszámítási Központja %4 is létrehozható."
+msgstr "%1 Egyetemek %2: a BOINC segítségével létrehozható a %3 Kampusz Virtuális Szuperszámítási Központja %4."
 
 #: doc/index.php:159
 msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
