@@ -25,6 +25,7 @@
 #
 # by Charlie Fenton 7/27/12
 # Updated 2/7/14 for OS 10.9
+# Updated 2/8/18 to fix linker warning for Xcode 9.2 under OS 10.13
 #
 ## This script requires OS 10.6 or later
 #
@@ -118,6 +119,7 @@ export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
+export MACOSX_DEPLOYMENT_TARGET=10.6
 
 if [ "x${lprefix}" != "x" ]; then
     ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=i386
@@ -150,6 +152,7 @@ export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
+export MACOSX_DEPLOYMENT_TARGET=10.6
 
 retval=0
 if [ "x${lprefix}" != "x" ]; then
