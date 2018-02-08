@@ -19,15 +19,27 @@ skip_tags: true
 
 skip_commits:
   files:
+    - 3rdParty/*.sh
     - android/
+    - client/android/
+    - client/os2/
+    - client/scripts/
+    - clientgui/gtk/
+    - clientgui/mac/
+    - clientgui/skins/
     - db/
     - doc/
     - drupal/
     - html/
+    - lib/mac/
     - locale/
+    - m4/
     - mac_build/
     - mac_installer/
+    - packages/
     - py/
+    - stripchart/
+    - test/
     - tools/
     - vda/
     - xcompile/
