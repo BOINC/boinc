@@ -7,15 +7,15 @@
 # ersi <erik-transifex@simmesgard.se>, 2015
 # Frans Ingelstam <02frasse11@gmail.com>, 2016
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
-# Johan Holmström, 2016-2017
+# Johan Holmström, 2016-2018
 # Josef Andersson <josef.andersson@fripost.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:11+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-01-20 19:22+0000\n"
+"Last-Translator: Johan Holmström\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4596,11 +4596,11 @@ msgstr "Du är nu inte längre vän med %1."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "Fyll i din e-postadress nedan och klicka på OK. Du kommer att få ett e-post med instruktion för hur du återställer ditt lösenord."
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "Återställ lösenord"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"

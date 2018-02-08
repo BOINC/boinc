@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-14 23:26+0000\n"
+"PO-Revision-Date: 2018-01-19 14:06+0000\n"
 "Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1100,7 +1100,7 @@ msgstr "A utilizar as preferências com base na Web de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:107 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click Save to use local preferences instead."
-msgstr "Definir valores e clicar em Guardar para utilizar as preferências locais em alternativa."
+msgstr "Em vez disso, defina os valores e clique em \"Guardar\" para utilizar as preferências locais."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
@@ -1228,7 +1228,7 @@ msgstr "Isto determina quando o computador é considerado como 'em utilização'
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'Em utilização' significa atividade do rato/teclado nos últimos"
+msgstr "'Em utilização', significa atividade do rato/teclado nos últimos"
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
@@ -1253,7 +1253,7 @@ msgstr "Para suspender pela hora do dia, vá para a secção \"Agendamentos Diá
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 #: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid "Other"
-msgstr "Outro"
+msgstr "Outras"
 
 #. buffer sizes
 #: clientgui/DlgAdvPreferencesBase.cpp:355
@@ -1270,7 +1270,7 @@ msgstr "Guardar pelo menos"
 #: clientgui/DlgAdvPreferencesBase.cpp:370
 #: clientgui/DlgAdvPreferencesBase.cpp:392
 msgid "days of work"
-msgstr "dias de trabalho"
+msgstr "dia(s) de trabalho"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid ""
@@ -2289,7 +2289,7 @@ msgstr "Fóruns de Discussão"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "Corresponder com outros utilizadores nos fóruns de mensagens de SETI@Home"
+msgstr "Corresponder com outros utilizadores nos fóruns de discussão de SETI@Home"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
@@ -2347,16 +2347,16 @@ msgstr "Ler a lista de Perguntas Frequentes de Einstein@Home"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr "Informações da protecção de ecrã"
+msgstr "Informação do protetor de ecrã"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Ler uma descrição detalhada da protetor de ecrã de Einstein@Home"
+msgstr "Ler uma descrição detalhada do protetor de ecrã de Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Corresponder com os administradores e outros utilizadores nos fóruns de mensagens de Einstein@Home"
+msgstr "Corresponder com os administradores e outros utilizadores nos fóruns de discussão de Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2372,7 +2372,7 @@ msgstr "Comunicar problemas"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "Uma hiperligação para o fórum de mensagens sobre problemas e erros de Einstein@Home"
+msgstr "Uma hiperligação para o fórum de discussão sobre problemas e erros de Einstein@Home"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"

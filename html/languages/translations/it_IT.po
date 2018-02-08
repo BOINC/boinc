@@ -10,14 +10,14 @@
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2017
+# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:11+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-02-01 20:13+0000\n"
+"Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2301,7 +2301,7 @@ msgstr "Per fare questa operazione devi avere i privilegi da amministratore"
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
 " be overwritten. Edit the %1 BOINC-wide team %2 instead."
-msgstr "ATTENZIONE: questo è un grosso team di BOINC. Se fai delle modifiche qui, saranno presto sovrascritte. Piuttosto modifica il %1 BOINC-wide team %2."
+msgstr "ATTENZIONE: questo è un team esteso. Se fai delle modifiche qui, saranno presto sovrascritte. Piuttosto modifica il %1 team esteso %2."
 
 #: html/inc/team.inc:459
 msgid ""
@@ -3484,7 +3484,7 @@ msgstr "Il tuo alias %1 nome reale o nickname%2"
 
 #: html/user/edit_user_info_form.php:39
 msgid "URL %1 of your personal web page; optional%2"
-msgstr "URL %1 della tua pagina web personale; optionale%2"
+msgstr "URL %1 della tua pagina web personale; opzionale%2"
 
 #: html/user/edit_user_info_form.php:52
 msgid "Postal (ZIP) code %1 Optional%2"
@@ -4598,11 +4598,11 @@ msgstr "La tua amicizia con %1 è stata cancellata."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "Inserisci di seguito l'indirizzo email del tuo account, quindi premi OK. Ti saranno inviate via mail le istruzioni per resettare la password."
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "Ripristina password"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"

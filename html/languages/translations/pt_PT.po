@@ -4,7 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Manuela Silva <manuela.silva@sky.com>, 2016-2017
+# Manuela Silva <manuela.silva@sky.com>, 2016-2018
 # Manuela Silva <manuela.silva@sky.com>, 2016
 # Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2017
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:11+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-01-19 14:07+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -696,7 +696,7 @@ msgstr "Eliminar este artigo"
 
 #: html/inc/forum.inc:1227
 msgid "Only team members can post to the team message board"
-msgstr "Apenas membros da equipa podem publicar no fórum da equipa"
+msgstr "Apenas os membros da equipa podem publicar no fórum de discussão da equipa"
 
 #: html/inc/forum.inc:1237
 msgid ""
@@ -756,7 +756,7 @@ msgstr "Marcar todos os tópicos como lidos"
 
 #: html/inc/forum.inc:1369
 msgid "Mark all threads in all message boards as read."
-msgstr "Marcar todos os tópicos em todas as mensagens do fórum como lidas."
+msgstr "Marcar todos os tópicos em todos os fóruns de discussão como lidos."
 
 #: html/inc/host.inc:25
 msgid "No host"
@@ -1298,7 +1298,7 @@ msgstr "Seleccione aqui para suspender a computação com a GPU quanto estiver a
 
 #: html/inc/prefs.inc:88
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'Em utilização' significa atividade do rato/teclado nos últimos"
+msgstr "'Em utilização', significa atividade do rato/teclado nos últimos"
 
 #: html/inc/prefs.inc:89
 msgid "This determines when the computer is considered 'in use'."
@@ -1377,7 +1377,7 @@ msgstr "Solicitar que as tarefas criem um checkpoint no máximo a cada "
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr "Isto controla com que frequência as tarefas guardam no disco o seu estado, para que possam continuar mais tarde a partir deste ponto."
+msgstr "Isto controla a frequência com que as tarefas guardam o seu estado no disco, de modo que mais tarde estas podem ser continuadas a partir desse ponto."
 
 #: html/inc/prefs.inc:134
 msgid "seconds"
@@ -2101,7 +2101,7 @@ msgstr "Validar estado"
 
 #: html/inc/result.inc:707
 msgid "Device peak FLOPS"
-msgstr "Pico de FLOPS do dispositivo"
+msgstr "Máximo de FLOPS do dispositivo"
 
 #: html/inc/result.inc:708
 msgid "Application version"
@@ -2492,7 +2492,7 @@ msgstr "Preferências de computação"
 
 #: html/inc/user.inc:286
 msgid "Message boards and private messages"
-msgstr "Fóruns e mensagens privadas"
+msgstr "Fóruns de discussão e mensagens privadas"
 
 #: html/inc/user.inc:287 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
@@ -2778,7 +2778,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr "As tags BBCode permitem formatar o texto no seu perfil e nas publicações nos fóruns.\nÉ similar ao HTML, mas mais simples. As tags começam com um [ (onde usava\n%1 em HTML) e termina com ] (onde usava %2 em\nHTML)."
+msgstr "As etiquetas BBCode permitem formatar o texto no seu perfil e nas publicações do fórum de discussão.\nÉ similar ao HTML, mas mais simples. As etiquetas começam com um [ \n(onde utilizava %1 no HTML) e termina com ] (onde utilizava %2 no HTML)."
 
 #: html/user/bbcode.php:31
 msgid "Examples"
@@ -3010,7 +3010,7 @@ msgid ""
 "including your profile and message-board posts.\n"
 "No jobs will be issued to any computers attached\n"
 "to this account."
-msgstr "Eliminar a sua conta irá remover toda a sua\ninformação pessoal dos nossos servidores,\nincluindo o seu perfil e publicações nos fóruns.\nNenhum trabalho será emitido para qualquer computador ligado\na esta conta."
+msgstr "Ao eliminar a sua conta irá remover toda a sua\ninformação pessoal dos nossos servidores,\nincluindo o seu perfil e publicações no fórum de discussão.\nNão serão emitidos trabalhos para qualquer computador\nassociado com esta conta."
 
 #: html/user/delete_account.php:73
 msgid ""
@@ -3287,7 +3287,7 @@ msgstr "Num simples e-mail diário"
 
 #: html/user/edit_forum_preferences_form.php:65
 msgid "Message-board identity"
-msgstr "Identidade no fórum"
+msgstr "Identidade no fórum de discussão"
 
 #: html/user/edit_forum_preferences_form.php:66
 msgid "Avatar"
@@ -3295,7 +3295,7 @@ msgstr "Avatar"
 
 #: html/user/edit_forum_preferences_form.php:67
 msgid "An image representing you on the message boards."
-msgstr "Uma imagem que o represente nos fóruns."
+msgstr "Uma imagem que o representa nos fóruns de discussão."
 
 #: html/user/edit_forum_preferences_form.php:68
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
@@ -3323,7 +3323,7 @@ msgstr "O seu avatar aparecerá assim"
 
 #: html/user/edit_forum_preferences_form.php:86
 msgid "Signature for message board posts"
-msgstr "Assinatura para publicações no fórum"
+msgstr "Assinatura para as publicações no fórum de discussão"
 
 #: html/user/edit_forum_preferences_form.php:89
 msgid ""
@@ -3408,7 +3408,7 @@ msgstr "Filtragem de utilizadores"
 
 #: html/user/edit_forum_preferences_form.php:154
 msgid "Ignore message board posts and private messages from these users."
-msgstr "Ignorar publicações no fórum e mensagens privadas destes utilizadores"
+msgstr "Ignorar publicações do fórum de discussão e mensagens privadas destes utilizadores"
 
 #: html/user/edit_forum_preferences_form.php:156
 msgid "User ID (For instance: 123456789)"
@@ -3793,7 +3793,7 @@ msgstr "Não visível a si"
 
 #: html/user/forum_forum.php:83
 msgid "Team message board for %1"
-msgstr "Mensagem da equipa do fórum para %1"
+msgstr "Fórum de discussão da equipa para %1"
 
 #: html/user/forum_forum.php:100
 msgid "New thread"
@@ -3805,7 +3805,7 @@ msgstr "Adicionar um novo tópico neste fórum"
 
 #: html/user/forum_forum.php:123
 msgid "This message board is available as an %1 RSS feed %2"
-msgstr "Este fórum está disponível como %1 feed RSS %2"
+msgstr "Este fórum de discussão está disponível como %1 feed RSS %2"
 
 #: html/user/forum_forum.php:182
 msgid "This thread is hidden"
@@ -3897,7 +3897,7 @@ msgstr "Discussão entre membros de %1"
 msgid ""
 "If you have a question or problem, please use the %1 Questions & Answers %2 "
 "section of the message boards."
-msgstr "Se tiver uma questão ou um problema, por favor use a secção %1 Questões & Respostas %2 do fórum."
+msgstr "Se tiver uma questão ou um problema, por favor, utilize a secção %1 Questões & Respostas %2 dos fóruns de discussão."
 
 #: html/user/forum_index.php:125
 msgid "Subscribed threads"
@@ -4182,7 +4182,7 @@ msgstr "%1 feed RSS"
 
 #: html/user/forum_rss.php:39
 msgid "This message board is available as an RSS feed."
-msgstr "Este fórum está disponível como um feed RSS."
+msgstr "Este fórum de discussão está disponível como um feed RSS."
 
 #: html/user/forum_rss.php:41
 msgid "Options:"
@@ -4244,7 +4244,7 @@ msgstr "Publicações contendo todas as palavras especificadas serão mostradas"
 
 #: html/user/forum_search.php:37
 msgid "For example: \"screensaver freeze\""
-msgstr "Por exemplo: \"protecção de ecrã bloqueou\""
+msgstr "Por exemplo: \"protetor de ecrã bloqueou\""
 
 #: html/user/forum_search.php:38
 msgid "Search for author ID:"
@@ -4346,7 +4346,7 @@ msgstr "Este tópico foi oculto pelos moderadores."
 
 #: html/user/forum_thread.php:118
 msgid "Message board moderation"
-msgstr "Moderação do fórum"
+msgstr "Moderação do fórum de discussão"
 
 #: html/user/forum_thread.php:131
 msgid "My question was answered"
@@ -4595,11 +4595,11 @@ msgstr "A sua amizade com %1 foi cancelada."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "Insira em baixo o endereço de e-mail da sua conta, e clique em \"OK\". Ser-lhe-á enviado instruções por e-mail para redefinir a sua palavra-passe"
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "Redefinir palavra-passe"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"
@@ -5081,7 +5081,7 @@ msgstr "Regressar à lista de computadores"
 #: html/user/moderation.php:28
 msgid ""
 "Our message boards are moderated. Posts are subject to the following rules:"
-msgstr "Os nossos fóruns são moderados. Publicações são sujeitas às seguintes regras:"
+msgstr "Os nossos fóruns de discussão são moderados. As publicações estão sujeitas às seguintes regras:"
 
 #: html/user/moderation.php:31
 msgid ""
@@ -5266,7 +5266,7 @@ msgstr "O utilizador %1 foi bloqueado de lhe enviar mensagens privadas."
 
 #: html/user/pm.php:303
 msgid "To unblock, visit %1 message board preferences %2"
-msgstr "Para desbloquear, visite as %1 preferências do fórum %2"
+msgstr "Para desbloquear, visite as %1 preferências do fórum de discussão %2"
 
 #: html/user/pm.php:365
 msgid "Unknown action"
@@ -5781,11 +5781,11 @@ msgstr "Mostrar como texto simples"
 
 #: html/user/team_forum.php:30 html/user/team_forum.php:41
 msgid "Create Message Board"
-msgstr "Criar Fórum"
+msgstr "Criar Fórum de Discussão"
 
 #: html/user/team_forum.php:31
 msgid "You may create a message board for use by %1."
-msgstr "Pode criar um fórum para utilização por %1."
+msgstr "Poderá criar um fórum de discussão para ser utilizado por %1."
 
 #: html/user/team_forum.php:33
 msgid "Only team members will be able to post."

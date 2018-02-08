@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-12-29 02:37+0000\n"
+"PO-Revision-Date: 2018-01-26 05:32+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1198,7 +1198,7 @@ msgstr "컴퓨터가 배터리로 작동시 일시중지"
 #: clientgui/DlgAdvPreferencesBase.cpp:276 clientgui/sg_DlgPreferences.cpp:235
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "배터리 전원으로 작동하는 상황일 때 연산을 일시중지시키려면 체크하세요."
+msgstr "배터리 전원으로 작동하는 이동식 모드일 때 연산을 일시중지시키려면 체크하세요."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:253
 msgid "Suspend when computer is in use"
@@ -1221,7 +1221,7 @@ msgstr "컴퓨터 사용시 GPU 연산을 일시중지시키려면 체크하세�
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:264
 msgid "This determines when the computer is considered 'in use'."
-msgstr "이 것은 컴퓨터가 '사용 중'인 상태인지 결정합니다."
+msgstr "이 항목은 컴퓨터가 '사용 중'으로 고려할 때를 결정합니다."
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
@@ -1274,7 +1274,7 @@ msgstr "일치 작업량"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "최소 한도 이상으로 추가적인 태스크를 저장합니다. 또한 프로젝트 서버에 연락할 때 얼마나 많은 작업량을 요청할지 결정합니다."
+msgstr "최소 한도 이상으로 추가적인 태스크를 저장합니다.  또한 프로젝트 서버에 연락할 때 얼마나 많은 작업량을 요청할지 결정합니다."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
@@ -1284,7 +1284,7 @@ msgstr "추가적으로 유지할"
 #: clientgui/DlgAdvPreferencesBase.cpp:399
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
-msgstr "여러 프로젝트를 수행할 경우,%s 가 얼마나 자주 그것들을 교체할지 결정합니다."
+msgstr "여러 프로젝트를 수행할 경우, %s 가 얼마나 자주 그것들을 교체할지 결정합니다."
 
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:404
@@ -1310,7 +1310,7 @@ msgstr "초"
 #. upload/download rates
 #: clientgui/DlgAdvPreferencesBase.cpp:469
 msgid "Limit the download rate of file transfers."
-msgstr "파일 전송 중 다운로드 속도 제한합니다."
+msgstr "파일 전송 중 다운로드 속도를 제한합니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Limit download rate to"
@@ -1323,7 +1323,7 @@ msgstr "KB/초"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:478
 msgid "Limit the upload rate of file transfers."
-msgstr "파일 전송 중 최대 업로드  제한합니다."
+msgstr "파일 전송 중 최대 업로드 속도를 제한합니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "Limit upload rate to"
@@ -1332,7 +1332,7 @@ msgstr "업로드 속도 제한"
 #: clientgui/DlgAdvPreferencesBase.cpp:490
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "예시: %s는 매 30일동안에는 최대 2000MB까지 전송하게 됩니다."
+msgstr "예시: %s는 매 30 일동안에는 최대 2000 MB까지 전송하게 됩니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:492
 msgid "Limit usage to"
@@ -1402,7 +1402,7 @@ msgstr "GB"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "%s 데이터가 저장되는 볼륨중 여유 공간으로 남겨둘 디스크 용량을 설정합니다."
+msgstr "%s 데이터가 저장되는 볼륨에서 여유 공간으로 남겨둘 디스크 용량을 제한합니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "Leave at least"
@@ -1417,7 +1417,7 @@ msgstr "GB를 남겨둡니다"
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "%s 데이터가 저장되는 볼륨에서 사용하는 디스크 공간의 퍼센테이지를 제합니다."
+msgstr "%s 데이터가 저장되는 볼륨에서 사용하는 디스크 공간의 퍼센테이지를 제한합니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 #, no-c-format
@@ -1536,7 +1536,7 @@ msgstr "목요일"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:890 clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
-msgstr "각 날짜별로 특정 기간에만 파일 전송이 이루어집니다."
+msgstr "각 날짜별로 특정 시간대에만 파일을 전송합니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:892 clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"

@@ -8,14 +8,14 @@
 # Ivan Nazarenko <nasaivan@mail.ru>, 2017
 # Malyanov Evgeniy <flange465@gmail.com>, 2015
 # Николай Сахаров <saharovna@gmail.com>, 2015
-# Николай Сахаров <saharovna@gmail.com>, 2016-2017
+# Николай Сахаров <saharovna@gmail.com>, 2016-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2018-01-17 16:10+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-01-21 15:48+0000\n"
+"Last-Translator: Николай Сахаров <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -379,15 +379,15 @@ msgstr "Сначала с наибольшим количеством сообщ
 
 #: html/inc/forum.inc:88
 msgid "This answered my question"
-msgstr ""
+msgstr "Это ответ на мой вопрос"
 
 #: html/inc/forum.inc:89
 msgid "I also have this question"
-msgstr ""
+msgstr "У меня такой же вопрос"
 
 #: html/inc/forum.inc:90
 msgid "Off-topic"
-msgstr ""
+msgstr "Не по теме"
 
 #: html/inc/forum.inc:107
 msgid "Volunteer moderator"
@@ -602,45 +602,45 @@ msgstr "Вы не можете писать или оценивать сообщ
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
-msgstr ""
+msgstr "Сообщения должны быть 'дружелюбны к детям': они не должны содержать контент, который является непристойным, вызывать ненависть, явно сексуальным или неприличным."
 
 #: html/inc/forum.inc:818
 msgid "No commercial advertisements."
-msgstr ""
+msgstr "Не должно быть коммерческой рекламы."
 
 #: html/inc/forum.inc:819
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
-msgstr ""
+msgstr "Не должно быть ссылок на веб-сайты, связанные с сексуальным содержанием, азартными играми, или нетерпимостью других."
 
 #: html/inc/forum.inc:820
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
-msgstr ""
+msgstr "Не должно быть сообщений, раздражающих или противопоставляющих других людей, или захватывающих обсуждение."
 
 #: html/inc/forum.inc:821
 msgid "No messages that are deliberately hostile, threatening, or insulting."
-msgstr ""
+msgstr "Не должно быть сообщений, преднамеренно враждебных, угрожающих или оскорбительных."
 
 #: html/inc/forum.inc:822
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
-msgstr ""
+msgstr "Не должно быть оскорбительных высказываний, касающихся расы, религии, национальности, пола, класса или сексуальности."
 
 #: html/inc/forum.inc:823
 msgid "Posts that violate these rules may be deleted."
-msgstr ""
+msgstr "Сообщения, нарушающие эти правила, могут быть удалены."
 
 #: html/inc/forum.inc:824
 msgid "The posting privileges of violators may be suspended or revoked."
-msgstr ""
+msgstr "Привилегии нарушителей на размещение сообщений могут быть приостановлены или отозваны."
 
 #: html/inc/forum.inc:825
 msgid "If your account is suspended, don't create a new one."
-msgstr ""
+msgstr "Если ваша учётная запись временно заблокирована, не создавайте новую."
 
 #: html/inc/forum.inc:844
 msgid "Rules:"
@@ -4347,7 +4347,7 @@ msgstr "Это обсуждение было скрыто модераторам
 
 #: html/user/forum_thread.php:118
 msgid "Message board moderation"
-msgstr ""
+msgstr "Модерация доски сообщений"
 
 #: html/user/forum_thread.php:131
 msgid "My question was answered"
@@ -4596,11 +4596,11 @@ msgstr "Ваша дружба с %1 была прекращена."
 msgid ""
 "Enter your account's email address below, and click OK. You will be sent "
 "email instructions for resetting your password."
-msgstr ""
+msgstr "Введите ваш адрес электронной почты ниже и нажмите OK. Вам будут высланы инструкции для сброса вашего пароля."
 
 #: html/user/get_passwd.php:34
 msgid "Reset password"
-msgstr ""
+msgstr "Сбросить пароль"
 
 #: html/user/gpu_list.php:150 html/user/gpu_list.php:176
 msgid "No GPU tasks reported"
@@ -5082,19 +5082,19 @@ msgstr "Вернуться к списку компьютеров"
 #: html/user/moderation.php:28
 msgid ""
 "Our message boards are moderated. Posts are subject to the following rules:"
-msgstr ""
+msgstr "Наши доски сообщений модерируются. Сообщения подчиняются следующим правилам:"
 
 #: html/user/moderation.php:31
 msgid ""
 "If you think a post violates any of the rules, you can notify moderators by "
 "clicking the red X below the post and filling out the form."
-msgstr ""
+msgstr "Если Вы считаете, что сообщение нарушает какое-либо из правил, Вы можете уведомить модераторов, нажав на красный X под сообщением и заполнив форму."
 
 #: html/user/moderation.php:33
 msgid ""
 "This moderation policy is set by the %1 project.  If you have comments about"
 " the policy or its enforcement, email %2."
-msgstr ""
+msgstr "Эта политика модерации задаётся проектом %1. Если у Вас есть комментарии о политике или её применении, напишите письмо %2."
 
 #: html/user/pending.php:66
 msgid "Pending credit"

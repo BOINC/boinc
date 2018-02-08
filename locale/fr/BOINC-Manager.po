@@ -14,7 +14,7 @@
 # Frédéric Ménétrier, 2015
 # Jerome Cadet <jerome.cadet@pobox.com>, 2015-2016
 # Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2017
-# Philippe Janocha, 2016-2017
+# Philippe Janocha, 2016-2018
 # PINSET Romaric <inactive+RomaricP@transifex.com>, 2015
 # Robin Petitdemange, 2017
 # Sacha Muszlak, 2016
@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-12-17 00:05+0000\n"
-"Last-Translator: Robin Petitdemange\n"
+"PO-Revision-Date: 2018-01-19 19:47+0000\n"
+"Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -729,7 +729,7 @@ msgstr "%s ne peut pas démarrer un client %s.\nMerci d'ouvrir le Panneau de Con
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please run the client and try again."
-msgstr ""
+msgstr "%s ne peut pas démarrer un client %s.\nMerci d'exécuter le client et de réessayer."
 
 #: clientgui/BOINCBaseFrame.cpp:676
 #, c-format
@@ -892,7 +892,7 @@ msgstr "Non utilisé : contournement du bogue dans XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:602
 msgid "Don't run the client"
-msgstr ""
+msgstr "Ne pas exécuter le client"
 
 #. These are just special tags so deal with them in a special way
 #: clientgui/BOINCGUIApp.cpp:870
@@ -1110,7 +1110,7 @@ msgstr "Utilisation des préférences enregistrées sur le web"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:107 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click Save to use local preferences instead."
-msgstr ""
+msgstr "Renseignez des valeurs et cliquez sur Enregistrer pour utiliser des préférences locales."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
@@ -2155,7 +2155,7 @@ msgstr "Exécuter le client ?"
 
 #: clientgui/DlgOptions.cpp:219
 msgid "Run the client when launching the Manager."
-msgstr ""
+msgstr "Exécuter le client en démarrant le Manager."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
@@ -2239,7 +2239,7 @@ msgstr "Proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:410
 msgid "&Save"
-msgstr ""
+msgstr "&Enregistrer"
 
 #: clientgui/DlgOptions.cpp:600
 msgid "always"

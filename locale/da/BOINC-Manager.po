@@ -4,7 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Christoffer <netravnen+transifex@gmail.com>, 2015
+# Christoffer Dam Hansen <netravnen@gmail.com>, 2015
 # heirl00m <davidhoestbo@gmail.com>, 2017
 # Gabriel Siegel <gsiegel@gabsoft.dk>, 2017
 # Thomas Pryds <thomas@pryds.eu>, 2015-2016

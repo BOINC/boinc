@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2018-01-10 15:35+0000\n"
+"PO-Revision-Date: 2018-01-19 14:08+0000\n"
 "Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "on public-interest research projects when the machines are not otherwise in "
 "use. This screensaver does not affect performance of the host computer any "
 "more than an ordinary screensaver does."
-msgstr "Os membros de GridRepublic executam um protetor de ecrã que permite que os seus computadores trabalhem em projetos de investigação de interesse público quando as máquinas não estão em utilização. Este protetor de ecrã não afeta o desempenho do computador hospedeiro, mais do que um simples protetor de ecrã efetua."
+msgstr "Os membros de GridRepublic executam um protetor de ecrã que permite que os seus computadores trabalhem em projetos de investigação de interesse público quando as máquinas não estiverem a ser utilizadas. Este protetor de ecrã não afeta o desempenho do computador anfitrião mais do que um protetor de ecrã normal faz."
 
 #: doc/docutil.php:21
 msgid "Search"
@@ -162,7 +162,7 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Utilize o tempo inativo do seu dispositivo (Android, Mac) ou ou computador (Linux, Windows) para curar doenças, estudar o aquecimento global, descobrir pulsares, e realizar muitos outros tipos de pesquisa científica. É de confiança, seguro, e fácil:"
+msgstr "Utilize o tempo inativo do seu dispositivo (Android, ou da Apple) ou do seu computador (Linux, Mac, ou Windows) para curar doenças, estudar o aquecimento global, descobrir pulsares, e realizar muitos outros tipos de pesquisa científica. É de confiança, seguro, e fácil:"
 
 #: doc/index.php:95
 msgid "Download"
@@ -178,7 +178,7 @@ msgstr "Para os dispositivos com Android, obtenha a aplicação BOINC na Play St
 msgid ""
 "You can choose to support %1 projects %2 such as %3, %4, and %5, among many "
 "others."
-msgstr "Pode escolher dar apoio aos %1 projetos %2, tais como %3, %4, ou %5, entre muitos outros."
+msgstr "Pode escolher em apoiar os %1 projetos %2, tais como %3, %4, ou %5, entre muitos outros."
 
 #: doc/index.php:109
 msgid ""
@@ -212,7 +212,7 @@ msgstr "Hiperligações"
 
 #: doc/index.php:129
 msgid "Other ways to help:"
-msgstr "Outras maneiras de ajudar:"
+msgstr "Outras maneiras para ajudar:"
 
 #: doc/index.php:132
 msgid "Overview"
@@ -363,7 +363,7 @@ msgstr "utilizando o chat do Skype"
 msgid ""
 "Volunteers speaking many languages are available. Please select a language "
 "(number of helpers is shown):"
-msgstr "Estão disponíveis voluntários falando vários idiomas. Por favor seleccione a língua (o número de ajudantes é mostrado):"
+msgstr "Estão disponíveis voluntários que falam várias idiomas. Por favor, escolha um idioma (é mostrado o número de voluntários):"
 
 #: doc/help.php:43
 msgid "Be a Help Volunteer"
