@@ -33,9 +33,11 @@ sudo apt-get --assume-yes install ubuntu-make # git automake libtool
 # sudo update-locale LC_ALL=en_US.UTF-8
 
 umake android android-studio --accept-license $HOME/Android/Android-Studio
-printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
+#printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
+export ANDROID_HOME=$HOME/Android/Sdk
 umake android android-sdk --accept-license $HOME/Android/Sdk
-printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
+#printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
+export NDK_ROOT=$HOME/Android/Ndk
 umake android android-ndk --accept-license $HOME/Android/Ndk
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update >> /tmp/umake.log
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /tmp/umake.log
@@ -48,12 +50,16 @@ export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME
 export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/build/BOINC/boinc/android/BOINC/app/build.gradle`
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
-printf "\n# Build toolchains\nexport ANDROID_TC=\$HOME/Android/Toolchains\n" >> $HOME/.profile
+#printf "\n# Build toolchains\nexport ANDROID_TC=\$HOME/Android/Toolchains\n" >> $HOME/.profile
+export ANDROID_TC=$HOME/Android/Toolchains
 mkdir $HOME/3rdParty
 wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 tar xzf /tmp/openssl.tgz --directory=$HOME/3rdParty
-printf "\n# OpenSSL sources\nexport OPENSSL_SRC=\$HOME/3rdParty/openssl-${OPENSSL_VERSION}\n" >> $HOME/.profile
+#printf "\n# OpenSSL sources\nexport OPENSSL_SRC=\$HOME/3rdParty/openssl-${OPENSSL_VERSION}\n" >> $HOME/.profile
+export OPENSSL_SRC=$HOME/3rdParty/openssl-${OPENSSL_VERSION}
 wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
 tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
-printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
-chmod +x $HOME/.profile
+#printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
+export CURL_SRC=$HOME/3rdParty/curl-${CURL_VERSION}
+#chmod +x $HOME/.profile
+cd ../android && ./build_all.sh
