@@ -127,10 +127,7 @@ class BoincDb extends DbConn {
                 if ($generating_xml) {
                     xml_error(-183, "project down for maintenance");
                 } else {
-                    show_page("Project down for maintenance",
-                        "Please check back in a few hours."
-                    );
-                    exit;
+                    show_project_down();
                 }
             }
             self::get_aux($readonly, $fallback_mode);
@@ -138,12 +135,7 @@ class BoincDb extends DbConn {
                 if ($generating_xml) {
                     xml_error(-138, "the project's database server is down");
                 } else {
-                    show_page(
-                        "Project is down",
-                        "The project's database server is down.
-                        Please check back in a few hours."
-                    );
-                    exit;
+                    show_project_down();
                 }
             }
         }

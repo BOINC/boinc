@@ -35,32 +35,32 @@
 ## build settings.
 ##
 
-opensslDirName="openssl-1.1.0"
-opensslFileName="openssl-1.1.0.tar.gz"
-opensslURL="https://www.openssl.org/source/openssl-1.1.0.tar.gz"
+opensslDirName="openssl-1.1.0g"
+opensslFileName="openssl-1.1.0g.tar.gz"
+opensslURL="https://www.openssl.org/source/openssl-1.1.0g.tar.gz"
 
-caresDirName="c-ares-1.11.0"
-caresFileName="c-ares-1.11.0.tar.gz"
-caresURL="http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz"
+caresDirName="c-ares-1.13.0"
+caresFileName="c-ares-1.13.0.tar.gz"
+caresURL="https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz"
 
-curlDirName="curl-7.50.2"
-curlFileName="curl-7.50.2.tar.gz"
-curlURL="http://curl.haxx.se/download/curl-7.50.2.tar.gz"
+curlDirName="curl-7.58.0"
+curlFileName="curl-7.58.0.tar.gz"
+curlURL="https://curl.haxx.se/download/curl-7.58.0.tar.gz"
 
 wxWidgetsDirName="wxWidgets-3.1.0"
 wxWidgetsFileName="wxWidgets-3.1.0.tar.bz2"
 wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.0/wxWidgets-3.1.0.tar.bz2"
 
-sqliteDirName="sqlite-autoconf-3110000"
-sqliteFileName="sqlite-autoconf-3110000.tar.gz"
-sqliteURL="http://www.sqlite.org/2016/sqlite-autoconf-3110000.tar.gz"
+sqliteDirName="sqlite-autoconf-3220000"
+sqliteFileName="sqlite-autoconf-3220000.tar.gz"
+sqliteURL="https://www.sqlite.org/2018/sqlite-autoconf-3220000.tar.gz"
 
-freetypeDirName="freetype-2.6.2"
-freetypeFileName="freetype-2.6.2.tar.bz2"
-freetypeURL="http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2"
+freetypeDirName="freetype-2.9"
+freetypeFileName="freetype-2.9.tar.bz2"
+freetypeURL="https://sourceforge.net/projects/freetype/files/freetype2/2.9/freetype-2.9.tar.bz2"
 
 ftglDirName="ftgl-2.1.3~rc5"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"
-ftglURL="http://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
+ftglURL="https://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
 
 return 0

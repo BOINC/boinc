@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-18 00:43+0000\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-21 23:57+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "계정 관리자에서 온 메세지"
 
@@ -27,13 +27,13 @@ msgstr "계정 관리자에서 온 메세지"
 msgid "Message from server"
 msgstr "서버에서 온 메세지"
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "어떤 태스크는 환경설정 허용치보다 더 많은 메모리를 필요로 합니다. 환경설정을 확인하세요."
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "상태 파일을 기록할 수 없습니다. 디렉토리 권한을 확인하세요"
 
@@ -41,24 +41,24 @@ msgstr "상태 파일을 기록할 수 없습니다. 디렉토리 권한을 확�
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY 환경 변수에는 HTTP 프록시를 지정해야 합니다"
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
 msgstr "이 프로젝에서 오래된 URL를 사용하고 있습니다.  프로젝트를 삭제하고 %s를 추가하세요"
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml에서 구문 오류 발견"
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml에 파일 참조 위치가 존재하지 않음: "
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "BOINC 새 버전이 출시되었습니다."
+msgid "A new version of BOINC is available"
+msgstr "새로운 BOINC 버전이 출시되었습니다"
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
@@ -69,39 +69,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "CUDA 드라이버 6.5 이상 버전은 CUDA 혹은 OpenCL 연산에 사용할 수 없습니다"
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml에 예상치 못한 텍스트 발견"
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml에 유효하지 않은 태그 발견"
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml에 시작 태그가 빠짐"
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 옵션에서 오류 발견"
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml에 마침 태그가 빠짐"
 
-#: client/project.cpp:967
+#: client/project.cpp:991
 msgid "To fix this, you can "
 msgstr "이 문제를 해결하려며면 "
 
-#: client/project.cpp:970
+#: client/project.cpp:994
 msgid "change Project Preferences on the project's web site"
 msgstr "프로젝트 웹 사이트에서 프로젝트 환경설정을 변경하세요"
 
-#: client/project.cpp:976
+#: client/project.cpp:1000
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "cc_config.xml에서 GPU 예외 목록을 제거합니다"
 
-#: client/project.cpp:983
+#: client/project.cpp:1007
 msgid "change your settings at your account manager web site"
 msgstr "계정 관리자 웹 사이트에서 설정값을 변경하세요"
 
@@ -132,40 +132,40 @@ msgstr "BOINC 클라이언트 소프트웨어가 오래되었습니다. 최신 �
 msgid "This project doesn't support computers of type"
 msgstr "이 프로젝트는 해당 컴퓨터를 지원하지 않습니다"
 
-#: sched/sched_send.cpp:1107
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "해당 컴퓨터의 GPU로 태스크를 처리하려면 최신 드라이버로 업그레이드하세요"
 
-#: sched/sched_send.cpp:1114
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 드라이버로 업그레이드하세요"
 
-#: sched/sched_send.cpp:1133
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레이드하세요"
 
-#: sched/sched_send.cpp:1167
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "이 프로젝트의 태스크를 실행하려면 %s GPU가 필요합니다"
 
-#: sched/sched_send.cpp:1283
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "선택한 응용 프로그램으로 실행 가능한 태스크가 없습니다."
 
-#: sched/sched_send.cpp:1309
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "이 프로젝트에서는 해당 컴퓨터는 지원되지 않습니다"
 
-#: sched/sched_send.cpp:1315
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "더 높은 BOINC 버전이 필요합니다. 최신 버전을 설치하세요"
 
-#: sched/sched_send.cpp:1326
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

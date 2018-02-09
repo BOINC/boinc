@@ -81,6 +81,7 @@ boinc_path_config.py
 pkginfo
 prototype
 client/scripts/boinc-client
+client/scripts/boinc-client.service
 config.h
 config.log
 config.status

@@ -164,7 +164,9 @@ extern "C" {
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
 //
-#define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
+#if (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__))  && !defined(__HAIKU__)
+#define LINUX_LIKE_SYSTEM 1
+#endif
 
 // Returns the offset between LOCAL STANDARD TIME and UTC.
 // LOCAL_STANDARD_TIME = UTC_TIME + get_timezone().
@@ -791,7 +793,7 @@ static void get_cpu_info_mac(HOST_INFO& host) {
 
     len = sizeof(features);
     sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
-    
+
     // Convert Mac CPU features string to match that returned by Linux
     for(p=features; *p; p++) {
         *p = tolower(*p);
@@ -959,7 +961,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     for (i = 0; i < 32; i++) {
         if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {
-            snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ", 
+            snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
                 kFeatures[i]);
             strlcat(host.p_features, buf, sizeof(host.p_features));
             found++;
@@ -1021,11 +1023,11 @@ int get_network_usage_totals(
         if (!sysctlBuffer) return ERR_MALLOC;
         sysctlBufferSize = currentSize;
     }
-    
+
     // Read in new data
     if (sysctl(mib, 6, sysctlBuffer, &currentSize, NULL, 0) != 0) return errno;
-    
-    // Walk through the reply 
+
+    // Walk through the reply
     uint8_t *currentData = sysctlBuffer;
     uint8_t *currentDataEnd = sysctlBuffer + currentSize;
 
@@ -1047,7 +1049,7 @@ int get_network_usage_totals(
             currentData += ifmsg->ifm_msglen;
             continue;
         }
-        
+
 #if 0   // Use this code if we want only Ethernet interface 0
         if (!strcmp(sdl->sdl_data, "en0")) {
             total_received = ifmsg->ifm_data.ifi_ibytes;
@@ -1065,7 +1067,7 @@ int get_network_usage_totals(
 // Is this a dual GPU MacBook with automatic GPU switching?
 bool isDualGPUMacBook() {
     io_service_t service = IO_OBJECT_NULL;
-    
+
     service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleGraphicsControl"));
     return (service != IO_OBJECT_NULL);
 }
@@ -1186,7 +1188,7 @@ int HOST_INFO::get_cpu_count() {
 #if defined(ANDROID)
     // this should work on most devices
     p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
-    
+
     // work around for bug in Android's bionic
     // format of /sys/devices/system/cpu/present:
     // 0 : single core
@@ -1204,7 +1206,7 @@ int HOST_INFO::get_cpu_count() {
             cpus_sys_path = j + 1;
         }
     }
-    
+
     // return whatever number is greater
     if(cpus_sys_path > p_ncpus){
         p_ncpus = cpus_sys_path;
@@ -1222,7 +1224,7 @@ int HOST_INFO::get_cpu_count() {
     len = sizeof(p_ncpus);
     sysctl(mib, 2, &p_ncpus, &len, NULL, 0);
 #elif defined(_HPUX_SOURCE)
-    struct pst_dynamic psd; 
+    struct pst_dynamic psd;
     pstat_getdynamic ( &psd, sizeof ( psd ), (size_t)1, 0 );
     p_ncpus = psd.psd_proc_cnt;
 #else
@@ -1271,7 +1273,7 @@ int HOST_INFO::get_memory_info() {
         );
     }
 #elif defined(_HPUX_SOURCE)
-    struct pst_static pst; 
+    struct pst_static pst;
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
     m_nbytes = (long double)pst.physical_memory * (long double)pst.page_size;
 #elif defined(__osf__)
@@ -1280,7 +1282,7 @@ int HOST_INFO::get_memory_info() {
     int mem_size;
     getsysinfo( GSI_PHYSMEM, (caddr_t) &mem_size, sizeof( mem_size));
     m_nbytes = 1024.* (double)mem_size;
-#elif defined(HW_PHYSMEM) 
+#elif defined(HW_PHYSMEM)
     // for OpenBSD & NetBSD & FreeBSD
     int mem_size;
     mib[0] = CTL_HW;
@@ -1322,13 +1324,13 @@ int HOST_INFO::get_memory_info() {
         }
     }
 #elif defined(__APPLE__)
-    // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap  
-    // space is limited only by free disk space, so we get that info instead. 
-    // This is larger than free disk space reported by get_filesystem_info() 
+    // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap
+    // space is limited only by free disk space, so we get that info instead.
+    // This is larger than free disk space reported by get_filesystem_info()
     // because it includes space available only to the kernel / super-user.
     //
     // http://developer.apple.com/documentation/Performance/Conceptual/ManagingMemory/Articles/AboutMemory.html says:
-    //    Unlike most UNIX-based operating systems, Mac OS X does not use a 
+    //    Unlike most UNIX-based operating systems, Mac OS X does not use a
     //    preallocated swap partition for virtual memory. Instead, it uses all
     //    of the available space on the machine's boot partition.
     struct statfs fs_info;
@@ -1341,9 +1343,9 @@ int HOST_INFO::get_memory_info() {
 #elif defined(HAVE_VMMETER_H) && defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // MacOSX, I think...
     // <http://www.osxfaq.com/man/3/sysctl.ws>
-    // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following 
+    // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following
     // code fails to get the total swap space.  See note above for APPLE case.
-    // I've left this code here in case it is used by a different platform, 
+    // I've left this code here in case it is used by a different platform,
     // though I believe the first argument should be CTL_VM instead of CTL_USER.
     struct vmtotal vm_info;
 
@@ -1364,6 +1366,51 @@ int HOST_INFO::get_memory_info() {
 
     return 0;
 }
+
+#if LINUX_LIKE_SYSTEM
+// gather libc version from the system installed ldd binary
+// a usual first line looks like: ldd (Debian GLIBC 2.24-11+deb9u1) 2.24
+// where the last part is copied to version and the string between parenthesis
+// is copied to extra_info
+//
+// return BOINC_SUCCESS if at least version could be found (extra_info may remain empty)
+// return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
+//
+int get_libc_version(string& version, string& extra_info) {
+    char buf[1024] = "";
+    string strbuf;
+    FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
+    if (f) {
+        char* retval = fgets(buf, sizeof(buf), f);
+        strbuf = (string)buf;
+        while (fgets(buf, sizeof(buf), f)) {
+            // consume output to allow command to exit gracefully
+        }
+        int status = pclose(f);
+        if (!retval || status == -1 || !WIFEXITED(status) || WEXITSTATUS(status)) {
+            return ERR_NOT_FOUND;
+        }
+        strip_whitespace(strbuf);
+        string::size_type parens1 = strbuf.find('(');
+        string::size_type parens2 = strbuf.rfind(')');
+        string::size_type blank = strbuf.rfind(' ');
+
+        if (blank != string::npos) {
+            // extract version number
+            version = strbuf.substr(blank+1);
+        } else {
+            return ERR_NOT_FOUND;
+        }
+        if (parens1 != string::npos && parens2 != string::npos && parens1 < parens2) {
+            // extract extra information without parenthesis
+            extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
+        }
+    } else {
+        return ERR_NOT_FOUND;
+    }
+    return BOINC_SUCCESS;
+}
+#endif
 
 // get os_name, os_version
 //
@@ -1409,6 +1456,7 @@ int HOST_INFO::get_os_info() {
     bool found_something = false;
     char buf[256],buf2[256];
     char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    string os_version_extra("");
     strcpy(dist_pretty, "");
     strcpy(dist_name, "");
     strcpy(dist_version, "");
@@ -1519,14 +1567,34 @@ int HOST_INFO::get_os_info() {
             }
             strip_whitespace(buf2);
         }
-        strcat(buf2, " [");
-        safe_strcat(buf2, os_version);
-        strcat(buf2, "]");
+        os_version_extra = (string)os_version;
         safe_strcpy(os_version, buf2);
         if (strlen(dist_name)) {
             strcat(os_name, " ");
             safe_strcat(os_name, dist_name);
         }
+    }
+
+    string libc_version(""), libc_extra_info("");
+    if (!get_libc_version(libc_version, libc_extra_info)) {
+        // This will be part of the normal startup messages to show to the user
+        msg_printf(NULL, MSG_INFO,
+                "[libc detection] gathered: %s, %s", libc_version.c_str(), libc_extra_info.c_str()
+            );
+        // add info to os_version_extra
+        if (!os_version_extra.empty()) {
+            os_version_extra += "|";
+        }
+        os_version_extra += "libc " + libc_version;
+        if (!libc_extra_info.empty()) {
+            os_version_extra += " (" + libc_extra_info + ")";
+        }
+    }
+
+    if (!os_version_extra.empty()) {
+        strcat(os_version, " [");
+        strcat(os_version, os_version_extra.c_str());
+        strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     return 0;
@@ -1596,7 +1664,7 @@ vector<string> get_tty_list() {
     char fullname[1024];
     int done,i=0;
     vector<string> tty_list;
-    
+
     do {
         DIRREF dev=dir_open(tty_patterns[i].dir);
         if (dev) {
@@ -1658,7 +1726,7 @@ vector<string> get_input_list() {
     char fullname[1024];
     int done,i=0;
     vector<string> input_list;
-    
+
     do {
         DIRREF dev=dir_open(input_patterns[i].dir);
         if (dev) {
@@ -1712,35 +1780,35 @@ int get_system_uptime() {
     return ((int)now - (int)tv.tv_sec);
 }
 
-// NXIdleTime() is an undocumented Apple API to return user idle time, which 
-// was implemented from before OS 10.0 through OS 10.5.  In OS 10.4, Apple 
-// added the CGEventSourceSecondsSinceLastEventType() API as a replacement for 
-// NXIdleTime().  However, BOINC could not use this newer API when configured 
-// as a pre-login launchd daemon unless that daemon was running as root, 
-// because it could not connect to the Window Server.  So BOINC continued to 
-// use NXIdleTime().  
+// NXIdleTime() is an undocumented Apple API to return user idle time, which
+// was implemented from before OS 10.0 through OS 10.5.  In OS 10.4, Apple
+// added the CGEventSourceSecondsSinceLastEventType() API as a replacement for
+// NXIdleTime().  However, BOINC could not use this newer API when configured
+// as a pre-login launchd daemon unless that daemon was running as root,
+// because it could not connect to the Window Server.  So BOINC continued to
+// use NXIdleTime().
 //
-// In OS 10.6, Apple removed the NXIdleTime() API.  BOINC can instead use the 
-// IOHIDGetParameter() API in OS 10.6.  When BOINC is a pre-login launchd 
-// daemon running as user boinc_master, this API works properly under OS 10.6 
+// In OS 10.6, Apple removed the NXIdleTime() API.  BOINC can instead use the
+// IOHIDGetParameter() API in OS 10.6.  When BOINC is a pre-login launchd
+// daemon running as user boinc_master, this API works properly under OS 10.6
 // but fails under OS 10.5 and earlier.
 //
-// In OS 10.7, IOHIDGetParameter() fails to recognize activity from remote 
-// logins via Apple Remote Desktop or Screen Sharing (VNC), but the 
-// CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC, 
+// In OS 10.7, IOHIDGetParameter() fails to recognize activity from remote
+// logins via Apple Remote Desktop or Screen Sharing (VNC), but the
+// CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC,
 // except when BOINC is a pre-login launchd daemon running as user boinc_master.
 //
 // IOHIDGetParameter() is deprecated in OS 10.12, but IORegistryEntryFromPath()
 // and IORegistryEntryCreateCFProperty() do the same thing and have been
 // available since OS 10.0.
 //
-// Also, CGEventSourceSecondsSinceLastEventType() does not detect user activity 
+// Also, CGEventSourceSecondsSinceLastEventType() does not detect user activity
 // when the user who launched the client is switched out by fast user switching.
 //
-// So we use weak-linking of NxIdleTime() to prevent a run-time crash from the 
-// dynamic linker and use it if it exists. 
-// If NXIdleTime does not exist, we call both IOHIDGetParameter() and 
-// CGEventSourceSecondsSinceLastEventType().  If both return without error, 
+// So we use weak-linking of NxIdleTime() to prevent a run-time crash from the
+// dynamic linker and use it if it exists.
+// If NXIdleTime does not exist, we call both IOHIDGetParameter() and
+// CGEventSourceSecondsSinceLastEventType().  If both return without error,
 // we use the lower of the two returned values.
 //
 //TODO: I believe that the IOHIDSystemEntry returned by IORegistryEntryFromPath()
@@ -1761,9 +1829,9 @@ bool HOST_INFO::users_idle(
 
     CFTypeRef idleTimeProperty;
     io_registry_entry_t IOHIDSystemEntry;
-    
+
     if (error_posted) goto bail;
-    
+
     IOHIDSystemEntry = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IOHIDSystem");
     if (IOHIDSystemEntry != MACH_PORT_NULL) {
         idleTimeProperty = IORegistryEntryCreateCFProperty(IOHIDSystemEntry, CFSTR(EVSIOIDLE), kCFAllocatorDefault, kNilOptions);
@@ -1781,9 +1849,9 @@ bool HOST_INFO::users_idle(
             goto bail;
         }
     }
-    
+
     if (!gstate.executing_as_daemon) {
-        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType  
+        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType
                 (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
 
         if (idleTimeFromCG < idleTime) {
@@ -1922,12 +1990,12 @@ const vector<string> X_display_values_initialize() {
     static const string dir = "/tmp/.X11-unix/";
     vector<string> display_values;
     vector<string>::iterator it;
-  
+
     DIR *dp;
     struct dirent *dirp;
     if ((dp = opendir(dir.c_str())) == NULL) {
         if (log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] Error (%d) opening %s.", errno, dir.c_str()
             );
         }
@@ -2013,14 +2081,14 @@ bool xss_idle(long idle_threshold) {
 
         Display* disp = NULL;
         long idle_time = 0;
-    
+
         disp = XOpenDisplay(it->c_str());
         // XOpenDisplay may return NULL if there is no running X
         // or DISPLAY points to wrong/invalid display
         //
         if (disp == NULL) {
             if (log_flags.idle_detection_debug) {
-	            msg_printf(NULL, MSG_INFO, 
+	            msg_printf(NULL, MSG_INFO,
 	                "[idle_detection] DISPLAY '%s' not found or insufficient access.",
 	                it->c_str()
                 );
@@ -2060,10 +2128,10 @@ bool xss_idle(long idle_threshold) {
         idle_time = idle_time / 1000;
 
         if (log_flags.idle_detection_debug) {
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
             );
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] idle threshold: %ld", idle_threshold
             );
             msg_printf(NULL, MSG_INFO,
@@ -2157,4 +2225,3 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 }
 
 #endif  // ! __APPLE__
-

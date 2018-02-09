@@ -1,13 +1,13 @@
 # BOINC manager localization template
-# Copyright (C) 2017 University of California
+# Copyright (C) 2018 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 08921a4611d2338c1ba4bc3493e2715cebda345a\n"
+"Project-Id-Version: BOINC ac22166cfbed271fff6f0db616c347ee536d9597\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2017-11-09 20:14 UTC\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -580,27 +580,27 @@ msgid ""
 "and prompt you for another host to connect to."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1862 clientgui/DlgAbout.cpp:119
+#: clientgui/AdvancedFrame.cpp:1861 clientgui/DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1872
+#: clientgui/AdvancedFrame.cpp:1871
 #, c-format
 msgid "%s has successfully added %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:2039
+#: clientgui/AdvancedFrame.cpp:2038
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:2043
+#: clientgui/AdvancedFrame.cpp:2042
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:2046
+#: clientgui/AdvancedFrame.cpp:2045
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr ""
@@ -629,26 +629,26 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1031
+#: clientgui/AsyncRPC.cpp:1044
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1034
+#: clientgui/AsyncRPC.cpp:1047
 #, c-format
 msgid "&Quit %s"
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1036
+#: clientgui/AsyncRPC.cpp:1049
 #, c-format
 msgid "E&xit %s"
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1040
+#: clientgui/AsyncRPC.cpp:1053
 #, c-format
 msgid "%s - Communication"
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1056 clientgui/DlgAdvPreferencesBase.cpp:167
+#: clientgui/AsyncRPC.cpp:1069 clientgui/DlgAdvPreferencesBase.cpp:167
 #: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:357
 msgid "Cancel"
@@ -810,8 +810,8 @@ msgstr ""
 msgid " at "
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:328 clientgui/MainDocument.cpp:2509
-#: clientgui/MainDocument.cpp:2568 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:328 clientgui/MainDocument.cpp:2512
+#: clientgui/MainDocument.cpp:2571 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ""
 
@@ -2462,211 +2462,211 @@ msgstr ""
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1292
+#: clientgui/MainDocument.cpp:1295
 msgid "Version Update"
-msgstr ""
-
-#: clientgui/MainDocument.cpp:1301
-#, c-format
-msgid "A new version of %s is available. You can download it here: %s"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:1304
 #, c-format
+msgid "A new version of %s is available. You can download it here: %s"
+msgstr ""
+
+#: clientgui/MainDocument.cpp:1307
+#, c-format
 msgid "There is no new version of %s available for download."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1308
+#: clientgui/MainDocument.cpp:1311
 #, c-format
 msgid "%s is not connected to the client"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1848
+#: clientgui/MainDocument.cpp:1851
 msgid "Missing application"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1849
+#: clientgui/MainDocument.cpp:1852
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2457
+#: clientgui/MainDocument.cpp:2460
 msgid "on batteries"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2458
+#: clientgui/MainDocument.cpp:2461
 msgid "computer is in use"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2459
+#: clientgui/MainDocument.cpp:2462
 msgid "user request"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2460
+#: clientgui/MainDocument.cpp:2463
 msgid "time of day"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2461
+#: clientgui/MainDocument.cpp:2464
 msgid "CPU benchmarks in progress"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2462
+#: clientgui/MainDocument.cpp:2465
 msgid "need disk space - check preferences"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2463
+#: clientgui/MainDocument.cpp:2466
 msgid "computer is not in use"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2464
+#: clientgui/MainDocument.cpp:2467
 msgid "starting up"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2465
+#: clientgui/MainDocument.cpp:2468
 msgid "an exclusive app is running"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2466
+#: clientgui/MainDocument.cpp:2469
 msgid "CPU is busy"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2467
+#: clientgui/MainDocument.cpp:2470
 msgid "network bandwidth limit exceeded"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2468
+#: clientgui/MainDocument.cpp:2471
 msgid "requested by operating system"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2470
+#: clientgui/MainDocument.cpp:2473
 msgid "unknown reason"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2492
+#: clientgui/MainDocument.cpp:2495
 msgid "GPU missing, "
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2499
+#: clientgui/MainDocument.cpp:2502
 msgid "New"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2503
+#: clientgui/MainDocument.cpp:2506
 msgid "Download failed"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2505
+#: clientgui/MainDocument.cpp:2508
 msgid "Downloading"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2507 clientgui/MainDocument.cpp:2566
+#: clientgui/MainDocument.cpp:2510 clientgui/MainDocument.cpp:2569
 msgid " (suspended - "
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2515
+#: clientgui/MainDocument.cpp:2518
 msgid "Project suspended by user"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2517
+#: clientgui/MainDocument.cpp:2520
 msgid "Task suspended by user"
 msgstr ""
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
 #.
-#: clientgui/MainDocument.cpp:2522
+#: clientgui/MainDocument.cpp:2525
 msgid "Suspended - "
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2525
+#: clientgui/MainDocument.cpp:2528
 msgid "GPU suspended - "
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2529
+#: clientgui/MainDocument.cpp:2532
 msgid "Waiting for memory"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2531
+#: clientgui/MainDocument.cpp:2534
 msgid "Waiting for shared memory"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2533
+#: clientgui/MainDocument.cpp:2536
 msgid "Running"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2535
+#: clientgui/MainDocument.cpp:2538
 msgid " (non-CPU-intensive)"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2538
+#: clientgui/MainDocument.cpp:2541
 msgid "Waiting to run"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2540 clientgui/MainDocument.cpp:2543
+#: clientgui/MainDocument.cpp:2543 clientgui/MainDocument.cpp:2546
 msgid "Ready to start"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2547
+#: clientgui/MainDocument.cpp:2550
 msgid "Postponed: "
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2553
 msgid "Postponed"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2554
+#: clientgui/MainDocument.cpp:2557
 msgid "Waiting for network access"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2558
+#: clientgui/MainDocument.cpp:2561
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2562
+#: clientgui/MainDocument.cpp:2565
 msgid "Upload failed"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2564
+#: clientgui/MainDocument.cpp:2567
 msgid "Uploading"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2578
 msgid "Aborted by user"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2578
+#: clientgui/MainDocument.cpp:2581
 msgid "Aborted by project"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2581
+#: clientgui/MainDocument.cpp:2584
 msgid "Aborted: not started by deadline"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2584
+#: clientgui/MainDocument.cpp:2587
 msgid "Aborted: task disk limit exceeded"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2587
+#: clientgui/MainDocument.cpp:2590
 msgid "Aborted: run time limit exceeded"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2590
+#: clientgui/MainDocument.cpp:2593
 msgid "Aborted: memory limit exceeded"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2593
+#: clientgui/MainDocument.cpp:2596
 msgid "Aborted"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2598
+#: clientgui/MainDocument.cpp:2601
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2600
+#: clientgui/MainDocument.cpp:2603
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2602
+#: clientgui/MainDocument.cpp:2605
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""

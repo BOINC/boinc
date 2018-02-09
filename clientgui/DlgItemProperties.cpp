@@ -62,9 +62,10 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     m_bSizer1 = new wxBoxSizer( wxVERTICAL );
     
     const long style = wxBORDER_NONE;
-    m_txtInformation = wxWebView::New( this, wxID_ANY, wxWebViewDefaultURLStr, wxDefaultPosition, wxDefaultSize, wxWebViewBackendDefault, style );
-    m_txtInformation->EnableContextMenu( false );
-
+    m_txtInformation = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, style, wxEmptyString );
+    m_txtInformation->Bind(wxEVT_LEFT_DOWN, &CDlgItemProperties::OnMouseButtonEvent, this);
+    m_txtInformation->Bind(wxEVT_LEFT_UP, &CDlgItemProperties::OnMouseButtonEvent, this);
+    
     m_bSizer1->Add( m_txtInformation, 1, wxEXPAND | wxALL, 5 );
     
     wxBoxSizer *bSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -75,6 +76,7 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 
     m_pCopySelectedButton = new wxButton(this, ID_COPYSELECTED, _("Copy &Selected"), wxDefaultPosition, wxDefaultSize);
     bSizer2->Add(m_pCopySelectedButton, 0, wxALIGN_BOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+    m_pCopySelectedButton->Enable(false);
 
     m_btnClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClose->SetDefault(); 
@@ -522,61 +524,42 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
 void CDlgItemProperties::renderInfos() {
     wxString str_bg;
     str_bg.Printf(wxT("#%x"), this->GetBackgroundColour().GetRGB());
-    wxFont font = this->GetFont();
-    wxString font_name = font.GetFaceName();
-    wxString font_size;
-    font_size.Printf(wxT("%d"), font.GetPointSize());
+    wxString str_fg;
+    str_fg.Printf(wxT("#%x"), this->GetForegroundColour().GetRGB());
 
     std::string content;
     content += "<html>";
-    content += "<head>";
-    content += "<style>";
-    content += " body { ";
-    content += " background-color: " + str_bg + "; ";
-    content += " overflow : auto; ";
-    content += " } ";
-    content += " table { ";
-    content += " width: 100%; ";
-    content += " } ";
-    content += " span { ";
-    content += " white-space: nowrap; ";
-    content += " font-family: '" + font_name + "'; ";
-    content += " font-size: " + font_size + "pt; ";
-    content += " } ";
-    content += "</style>";
-    content += "</head>";
-    content += "<body>";
-    content += "<table>";
+    content += "<body bgcolor='" + str_bg + "'>";
+    content += "<font";
+    content += " color='" + str_fg + "' ";
+    content += " face='" + this->GetFont().GetFaceName() + "' ";
+    content += ">";
+    content += "<table width='100%'>";
     for (size_t i = 0; i < m_items.size(); ++i) {
         if (m_items[i].item_type == ItemTypeSection) {
             content += "<tr>";
-            content += "<td colspan='2'>";
-            content += "<span>";
+            content += "<td colspan='2' nowrap>";
             content += "<b>";
             content += m_items[i].name;
             content += "</b>";
-            content += "</span>";
             content += "</td>";
             content += "</tr>";
         } else if (m_items[i].item_type == ItemTypeProperty) {
             content += "<tr>";
-            content += "<td>";
-            content += "<span>";
+            content += "<td nowrap>";
             content += m_items[i].name;
-            content += "</span>";
             content += "</td>";
-            content += "<td>";
-            content += "<span>";
+            content += "<td nowrap>";
             content += m_items[i].value;
-            content += "</span>";
             content += "</td>";
             content += "</tr>";
         }        
     }
     content += "</table>";
+    content += "</font>";
     content += "</body>";
     content += "</html>";
-    m_txtInformation->SetPage(wxString(content), "");
+    m_txtInformation->SetPage(content);
 }
 
 
@@ -590,20 +573,26 @@ void CDlgItemProperties::addProperty(const wxString& name, const wxString& value
     m_items.push_back(ITEM(ItemTypeProperty, name, value));
 }
 
-void CDlgItemProperties::OnCopySelected( wxCommandEvent& ) {
-    if (m_txtInformation->HasSelection()) {
-        m_txtInformation->Copy();
-    } else {
-        if (wxTheClipboard->Open()) {
-            wxTheClipboard->Clear();
-            wxTheClipboard->SetData(new wxTextDataObject(wxEmptyString));
-            wxTheClipboard->Close();
-        }
+void CDlgItemProperties::copyTextToClipboard(const wxString& text) {
+    if (wxTheClipboard->Open()) {
+#if defined(__WXGTK__) || defined(__WXQT__)
+        wxTheClipboard->UsePrimarySelection(false);
+#endif
+        wxTheClipboard->Clear();
+        wxTheClipboard->SetData(new wxTextDataObject(text));
+        wxTheClipboard->Close();
     }
 }
 
+void CDlgItemProperties::OnMouseButtonEvent(wxMouseEvent& event) {
+    m_pCopySelectedButton->Enable(m_txtInformation->SelectionToText() != wxEmptyString);
+    event.Skip();
+}
+
+void CDlgItemProperties::OnCopySelected( wxCommandEvent& ) {
+    copyTextToClipboard(m_txtInformation->SelectionToText());
+}
+
 void CDlgItemProperties::OnCopyAll( wxCommandEvent& ) {
-    m_txtInformation->SelectAll();
-    m_txtInformation->Copy();
-    m_txtInformation->ClearSelection();
+    copyTextToClipboard(m_txtInformation->ToText());
 }
