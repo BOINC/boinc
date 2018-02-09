@@ -24,17 +24,17 @@ if [ ! -d "3rdParty" ]; then
     exit 1
 fi
 
-sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get --assume-yes install ubuntu-make #git automake libtool
-#sudo update-locale LC_ALL=en_US.UTF-8
+# sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
+# sudo apt-get update
+# sudo apt-get upgrade
+# sudo apt-get --assume-yes install ubuntu-make git automake libtool
+# sudo update-locale LC_ALL=en_US.UTF-8
 
-umake --verbose android android-studio --accept-license $HOME/Android/Android-Studio
+umake android android-studio --accept-license $HOME/Android/Android-Studio
 printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
-umake --verbose android android-sdk --accept-license $HOME/Android/Sdk
+umake android android-sdk --accept-license $HOME/Android/Sdk
 printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
-umake --verbose android android-ndk --accept-license $HOME/Android/Ndk
+umake android android-ndk --accept-license $HOME/Android/Ndk
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository"
 # mkdir $HOME/Desktop
