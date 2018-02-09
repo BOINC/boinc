@@ -24,8 +24,8 @@ if [ ! -d "3rdParty" ]; then
     exit 1
 fi
 
-wget -O /tmp/argcomplete.deb http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/python-argcomplete/python3-argcomplete_0.8.1-1ubuntu2_all.deb
-dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
+wget -O /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/python-argcomplete/python3-argcomplete_0.8.1-1ubuntu2_all.deb
+sudo dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
 
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
 sudo apt-get update
