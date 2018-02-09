@@ -24,7 +24,7 @@ if [ ! -d "3rdParty" ]; then
     exit 1
 fi
 
-sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
+sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get --assume-yes install ubuntu-mate-core virtualbox-guest-x11
