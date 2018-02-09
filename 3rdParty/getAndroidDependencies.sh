@@ -27,9 +27,8 @@ fi
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get --assume-yes install ubuntu-mate-core virtualbox-guest-x11
-sudo apt-get --assume-yes install ubuntu-make git automake libtool
-sudo update-locale LC_ALL=en_US.UTF-8
+sudo apt-get --assume-yes install ubuntu-make #git automake libtool
+#sudo update-locale LC_ALL=en_US.UTF-8
 
 umake --verbose android android-studio --accept-license $HOME/Android/Android-Studio
 printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
