@@ -24,10 +24,13 @@ if [ ! -d "3rdParty" ]; then
     exit 1
 fi
 
+wget -O /tmp/argcomplete.deb http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/python-argcomplete/python3-argcomplete_0.8.1-1ubuntu2_all.deb
+dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
+
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
 sudo apt-get update
 # sudo apt-get upgrade
-sudo apt-get --assume-yes install python3-argcomplete=0.8.1-1ubuntu2 ubuntu-make # git automake libtool
+sudo apt-get --assume-yes install ubuntu-make # git automake libtool
 # sudo update-locale LC_ALL=en_US.UTF-8
 
 umake android android-studio --accept-license $HOME/Android/Android-Studio # >> /tmp/umake.log
