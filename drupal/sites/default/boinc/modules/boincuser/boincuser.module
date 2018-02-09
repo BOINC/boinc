@@ -1238,11 +1238,9 @@ function join_page($type = null) {
     }
     else {
       $output .= '<li>' . bts("If you're running a command-line version of BOINC,
-        first use the BOINC Manager software (elsewhere if necessary) to create an
-        an account at this project, then use that account to connect with the
-        command-line version using <b>!boinccmd</b>.",
+        please follow the <b>!instructionslink</b> to first <i>create an account</i>, and then <i>attach</i> to this project. Use the same project URL as above.",
         array(
-          '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
+          '!instructionslink' => l('instructions', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
         ), NULL, 'boinc:join-page') . '</li>';
       $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
         upgrade to a more recent version of BOINC to create an account

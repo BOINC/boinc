@@ -149,7 +149,6 @@ static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     int nthreads = (int)ncpus;
     if (nthreads > 64) nthreads = 64;
     hu.avg_ncpus = nthreads;
-    hu.max_ncpus = nthreads;
     sprintf(hu.cmdline, "--nthreads %d", nthreads);
     hu.projected_flops = capped_host_fpops()*hu.avg_ncpus*.99;
         // the .99 ensures that on uniprocessors a sequential app
@@ -270,7 +269,6 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
         hu.avg_ncpus
     );
     hu.peak_flops = hu.gpu_usage*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
-    hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
 
@@ -487,7 +485,6 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
         hu.avg_ncpus
     );
     hu.peak_flops = hu.gpu_usage*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
-    hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
 
@@ -606,7 +603,6 @@ static inline bool app_plan_nvidia(
 //
 static inline bool app_plan_nci(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     hu.avg_ncpus = .01;
-    hu.max_ncpus = .01;
     hu.projected_flops = capped_host_fpops()*1.01;
         // The *1.01 is needed to ensure that we'll send this app
         // version rather than a non-plan-class one
@@ -631,7 +627,6 @@ static inline bool app_plan_sse3(
         }
     }
     hu.avg_ncpus = 1;
-    hu.max_ncpus = 1;
     hu.projected_flops = 1.1*capped_host_fpops();
     hu.peak_flops = capped_host_fpops();
     return true;
@@ -694,7 +689,6 @@ static inline bool opencl_check(
         hu.avg_ncpus
     );
     hu.peak_flops = ndevs*cp.peak_flops + hu.avg_ncpus*capped_host_fpops();
-    hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
 
@@ -888,13 +882,11 @@ static inline bool app_plan_vbox(
 
     double flops_scale = 1;
     hu.avg_ncpus = 1;
-    hu.max_ncpus = 1;
     if (strstr(plan_class, "mt")) {
         if (can_use_multicore) {
             // Use number of usable CPUs, taking user prefs into account
             double ncpus = g_wreq->effective_ncpus;
             hu.avg_ncpus = ncpus;
-            hu.max_ncpus = ncpus;
             sprintf(hu.cmdline, "--nthreads %f", ncpus);
         }
         // use the non-mt version rather than the mt version with 1 CPU
@@ -902,7 +894,7 @@ static inline bool app_plan_vbox(
         flops_scale = .99;
     }
     hu.projected_flops = flops_scale * capped_host_fpops()*hu.avg_ncpus;
-    hu.peak_flops = capped_host_fpops()*hu.max_ncpus;
+    hu.peak_flops = capped_host_fpops()*hu.avg_ncpus;
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] %s app projected %.2fG\n",

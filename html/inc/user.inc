@@ -310,13 +310,8 @@ function friend_links($user) {
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
     $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    if ($user->donated == 2) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK_TWO;
+    if (function_exists("project_user_links")) {
+        $x .= project_user_links($user);
     }
     $x .= "</td></tr></table>\n";
     return $x;
@@ -336,19 +331,11 @@ function user_links($user, $badge_height=0) {
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    if ($user->donated == 2) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK_TWO;
+    if (function_exists("project_user_links")){
+        $x .= project_user_links($user);
     }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
-    }
-    if (function_exists("project_user_links")){
-        $x .= project_user_links($user);
     }
     return $x;
 }
@@ -457,17 +444,8 @@ function show_user_summary_public($user) {
             row2(tra("Computers"), tra("hidden"));
         }
     }
-    if ($user->donated == 1) { 
-        if (file_exists("../project/donations.inc")) {
-            require_once("../project/donations.inc");
-            row2(tra("Donor"), DONATION_LINK);
-        }
-    }
-    if ($user->donated == 2) {
-        if (file_exists("../project/donations.inc")) {
-            require_once("../project/donations.inc");
-            row2(tra("Donor"), DONATION_LINK_TWO);
-        }
+    if (function_exists("project_user_summary_public")) {
+        project_user_summary_public($user);
     }
 }
 
@@ -547,17 +525,16 @@ function show_account_private($user) {
             show_preference_links();
             show_user_stats_private($user);
 
-            if (file_exists("../project/donations.inc")) {
-                require_once("../project/donations.inc");
-                if (function_exists('show_user_donations_private')) {
-                    show_user_donations_private($user);
-                }
+            if (function_exists('show_user_donations_private')) {
+                show_user_donations_private($user);
             }
             end_table();
             if (!NO_COMPUTING) {
                 show_other_projects($user, true);
             }
-            project_user_page_private($user);
+            if (function_exists("project_user_page_private")) {
+                project_user_page_private($user);
+            }
             //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {

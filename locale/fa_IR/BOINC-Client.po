@@ -1,6 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC client localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Ali Vakilzadeh <ali.vakilzadeh@gmail.com>, 2016
@@ -8,156 +9,170 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2016-04-30 07:39+0000\n"
-"Last-Translator: Ali Vakilzadeh <ali.vakilzadeh@gmail.com>\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-22 04:32+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/boinc/boinc/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa_IR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: acct_mgr.cpp:450 acct_mgr.cpp:459
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "پیام از طرف مدیر حسابها"
 
-#: client_msgs.cpp:81
+#: client/client_msgs.cpp:82
 msgid "Message from server"
 msgstr "پیام از طرف سرور"
 
-#: client_state.cpp:258
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "بعضی از وظائف نیاز به حافظه ای بیش از آنچه در تنظیمات ثبت شده دارند. لطفاً تنظیمات خود را بررسی فرمایید."
 
-#: client_state.cpp:520
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "قادر به ضبط فایل وضعیت نیستم. لطفاً مجوزهای دایرکتوری مربوطه را بررسی فرمایید."
 
-#: cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "متغیر محیطی HTTP_PROXY بایستی به یک پروکسی از نوع HTTP اشاره نماید."
 
-#: cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr "شما آدرس URL اشتباهی را برای این پروژه استفاده نموده اید. در زمان مناسب، پروژه را حذف و سپس %s را اضافه نمایید."
+"This project is using an old URL.  When convenient, remove the project, then"
+" add %s"
+msgstr ""
 
-#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "خطای ترکیب بندی در فایل app_info.xml"
 
-#: cs_statefile.cpp:868
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "فایلی در app_info.xml مورد ارجاع قرار گرفته که وجود خارجی ندارد."
 
-#: current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "نسخه جدید BOINC قابل دریافت است."
+#: client/current_version.cpp:91
+msgid "A new version of BOINC is available"
+msgstr ""
 
-#: current_version.cpp:94 current_version.cpp:102
+#: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
 msgstr "بارگذاری"
 
-#: log_flags.cpp:269 log_flags.cpp:449
+#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+msgid ""
+"cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+msgstr ""
+
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "متن غیر منتظره در فایل cc_config.xml"
 
-#: log_flags.cpp:423 log_flags.cpp:475
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "برچسب غیر منتظره در فایل cc_config.xml"
 
-#: log_flags.cpp:440
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "برچسب شروع در فایل cc_config.xml از قلم افتاده است."
 
-#: log_flags.cpp:465
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "خطا در انتخابهای فایل cc_config.xml"
 
-#: log_flags.cpp:483
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "برچسب انتها در فایل cc_config.xml از قلم افتاده است."
 
-#: ../sched/handle_request.cpp:307
+#: client/project.cpp:991
+msgid "To fix this, you can "
+msgstr ""
+
+#: client/project.cpp:994
+msgid "change Project Preferences on the project's web site"
+msgstr ""
+
+#: client/project.cpp:1000
+msgid "remove GPU exclusions in your cc_config.xml file"
+msgstr ""
+
+#: client/project.cpp:1007
+msgid "change your settings at your account manager web site"
+msgstr ""
+
+#: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "کلید حساب خراب یا مفقود شده است. برای اصلاح مشکل، این پروژه را حذف و مجددا اضافه فرمایید."
 
-#: ../sched/handle_request.cpp:849
-msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "کلید امضای کد خراب است. برای اصلاح مشکل، این پروژه را حذف و مجدداً اضافه فرمایید."
-
-#: ../sched/handle_request.cpp:859
+#: sched/handle_request.cpp:951
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "این پروژه کلید امنیتی خود را تغییر داده است. لطفاً پروژه را حذف و دوباره اضافه نمایید."
 
-#: ../sched/handle_request.cpp:943
+#: sched/handle_request.cpp:1022
 msgid "This project doesn't support operating system"
 msgstr "این پروژه، محیط سیستم عامل شما را حمایت نمی کند."
 
-#: ../sched/handle_request.cpp:969
+#: sched/handle_request.cpp:1048
 msgid "This project doesn't support CPU type"
 msgstr "این پروژه از پردازندهء شما حمایت نمی کند."
 
-#: ../sched/handle_request.cpp:993
+#: sched/handle_request.cpp:1072
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "نرم افزار کلاینت BOINC شما خیلی قدیمی شده. لطفاً نسخهء به روز شده را نصب نمایید."
 
-#: ../sched/handle_request.cpp:1259
+#: sched/handle_request.cpp:1347
 msgid "This project doesn't support computers of type"
 msgstr "این پروژه قادر به حمایت نیست از کامپیوتر نوع:"
 
-#: ../sched/sched_send.cpp:1092
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "برای استفاده از GPU لطفاً داریور مربوطه را به بالاترین نسخهء ممکن به روز رسانی کنید."
 
-#: ../sched/sched_send.cpp:1099
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "برای استفاده همهء اپ های پروژه از GPU، درایور مربوطه را به بالاترین نسخه به روز رسانی کنید."
 
-#: ../sched/sched_send.cpp:1118
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "برای استفاده از NVIDIA GPU نسخهء بالاتری از BOINC لازم دارید. لطفا به نسخهء جدید به روز رسانی فرمایید."
 
-#: ../sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "یک پردازندهء GPU %s برای اجرای وظایف این پروژه لازم است."
 
-#: ../sched/sched_send.cpp:1262
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "برای اپ انتخاب شدهء شما هیچ وظیفه ای در دسترس نیست."
 
-#: ../sched/sched_send.cpp:1288
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "نوع رایانهء شما مورد حمایت این پروژه نیست."
 
-#: ../sched/sched_send.cpp:1294
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "نسخهء جدیدتر BOINC لازم است. لطفاً به روز رسانی فرمایید."
 
-#: ../sched/sched_send.cpp:1305
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "وظایفی برای %s در دسترس هست اما تنظیمات شما در راستای نپذیرفتن آن است. خود دانید."
 
-#: ../sched/sched_types.cpp:254
-msgid "Unknown app name in app_info.xml"
-msgstr "نام اپ ذکر شده در app_info.xml ناشناس است."
-
-#: ../sched/sched_version.cpp:214
+#: sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "فایل app_info.xml شما نسخه ء قابل استفاده ای ندارد از:"

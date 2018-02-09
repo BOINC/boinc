@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // db_purge options
+// options are listed in usage() below
 //
 // purge workunit and result records that are no longer needed.
 // Specifically, purges WUs for which file_delete_state=DONE.
@@ -25,7 +26,7 @@
 // The XML files have names of the form
 // wu_archive_TIME and result_archive_TIME
 // where TIME is the time it was created.
-// In addition there are index files associating each WU and result ID
+// In addition generate index files associating each WU and result ID
 // with the timestamp of the file it's in.
 
 #include "config.h"
@@ -55,6 +56,28 @@
 
 #include "error_numbers.h"
 #include "str_util.h"
+
+void usage() {
+    fprintf(stderr,
+        "Purge workunit and result records that are no longer needed.\n\n"
+        "Usage: db_purge [options]\n"
+        "    [-d N | --debug_level N]      Set verbosity level (1 to 4)\n"
+        "    [--min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
+        "    [--max N]                     Purge at most N WUs\n"
+        "    [--zip]                       Compress output files by piping through zip\n"
+        "    [--gzip]                      Compress output files by piping through gzip\n"
+        "    [--zlib]                      Compress output files using zlib\n"
+        "    [--no_archive]                Don't write output files, just purge\n"
+        "    [--daily_dir]                 Write archives in a new directory each day\n"
+        "    [--max_wu_per_file N]         Write at most N WUs per output file\n"
+        "    [--sleep N]                   Sleep N sec after DB scan\n"
+        "    [--one_pass]                  Make one DB scan, then exit\n"
+        "    [--dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
+        "    [--mod M R ]                  Handle only WUs with ID mod M == R\n"
+        "    [--h | --help]                Show this help text\n"
+        "    [--v | --version]             Show version information\n"
+    );
+}
 
 #define WU_FILENAME_PREFIX              "wu_archive"
 #define RESULT_FILENAME_PREFIX          "result_archive"
@@ -192,11 +215,12 @@
         result.priority, \
         result.mod_time
 
-/* will be FILE* or gzFile, depending on compression_type */
-void*wu_stream=NULL;
-void*re_stream=NULL;
-void*wu_index_stream=NULL;
-void*re_index_stream=NULL;
+// will be FILE* or gzFile, depending on compression_type
+//
+void* wu_stream=NULL;
+void* re_stream=NULL;
+void* wu_index_stream=NULL;
+void* re_index_stream=NULL;
 
 int time_int=0;
 double min_age_days = 0;
@@ -230,6 +254,7 @@ bool time_to_quit() {
 }
 
 void fail(const char* msg) {
+    perror("perror: ");
     log_messages.printf(MSG_CRITICAL, "%s", msg);
     exit(1);
 }
@@ -427,11 +452,6 @@ void close_db_exit_handler() {
 
 int archive_result(DB_RESULT& result) {
     int n;
-    n = fprintf((FILE*)re_stream,
-        "<result_archive>\n"
-        "    <id>%lu</id>\n",
-        result.id
-    );
 
     // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
     //
@@ -453,18 +473,15 @@ int archive_result(DB_RESULT& result) {
 }
 
 int archive_wu(DB_WORKUNIT& wu) {
-    int n;
+    int n = fprintf((FILE*)wu_stream, WU_ARCHIVE_DATA);
+    if (n < 0) fail("archive_wu: data fprintf() failed\n");
 
-    n = gzprintf((gzFile)wu_stream, WU_ARCHIVE_DATA);
+    n = fprintf((FILE*)wu_index_stream,
+        "%lu     %d    %s\n",
+        wu.id, time_int, wu.name
+    );
 
-    if (n >= 0) {
-        n = fprintf((FILE*)wu_index_stream,
-            "%lu     %d    %s\n",
-            wu.id, time_int, wu.name
-        );
-    }
-
-    if (n < 0) fail("fprintf() failed\n");
+    if (n < 0) fail("archive_wu: index fprintf() failed\n");
 
     return 0;
 }
@@ -724,29 +741,6 @@ bool do_pass() {
     }
 }
 
-void usage(char* name) {
-    fprintf(stderr,
-        "Purge workunit and result records that are no longer needed.\n\n"
-        "Usage: %s [options]\n"
-        "    [-d N | --debug_level N]      Set verbosity level (1 to 4)\n"
-        "    [--min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
-        "    [--max N]                     Purge at most N WUs\n"
-        "    [--zip]                       Compress output files by piping through zip\n"
-        "    [--gzip]                      Compress output files by piping through gzip\n"
-        "    [--zlib]                      Compress output files using zlib\n"
-        "    [--no_archive]                Don't write output files, just purge\n"
-        "    [--daily_dir]                 Write archives in a new directory each day\n"
-        "    [--max_wu_per_file N]         Write at most N WUs per output file\n"
-        "    [--sleep N]                   Sleep N sec after DB scan\n"
-        "    [--one_pass]                  Make one DB scan, then exit\n"
-        "    [--dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
-        "    [--mod M R ]                  Handle only WUs with ID mod M == R\n"
-        "    [--h | --help]                Show this help text\n"
-        "    [--v | --version]             Show version information\n",
-        name
-    );
-}
-
 int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
@@ -763,7 +757,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             int dl = atoi(argv[i]);
@@ -772,14 +766,14 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "min_age_days")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             min_age_days = atof(argv[i]);
         } else if (is_arg(argv[i], "max")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             max_number_workunits_to_purge= atoi(argv[i]);
@@ -794,7 +788,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "max_wu_per_file")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             max_wu_per_file = atoi(argv[i]);
@@ -803,7 +797,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "sleep")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             sleep_sec = atoi(argv[i]);
@@ -812,11 +806,11 @@ int main(int argc, char** argv) {
                     "Unreasonable value of sleep interval: %d seconds\n",
                     sleep_sec
                 );
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
         } else if (is_arg(argv[i], "--help") || is_arg(argv[i], "-help") || is_arg(argv[i], "-h")) {
-            usage(argv[0]);
+            usage();
             return 0;
         } else if (is_arg(argv[i], "--version") || is_arg(argv[i], "-version")) {
             printf("%s\n", SVN_VERSION);
@@ -826,7 +820,7 @@ int main(int argc, char** argv) {
                 log_messages.printf(MSG_CRITICAL,
                     "%s requires two arguments\n\n", argv[i]
                 );
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             id_modulus   = atoi(argv[++i]);
@@ -837,7 +831,7 @@ int main(int argc, char** argv) {
             log_messages.printf(MSG_CRITICAL,
                 "unknown command line argument: %s\n\n", argv[i]
             );
-            usage(argv[0]);
+            usage();
             exit(1);
         }
     }
@@ -846,7 +840,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "If you use modulus, you must set no_archive\n\n"
         );
-        usage(argv[0]);
+        usage();
         exit(1);
     }
 

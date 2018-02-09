@@ -760,17 +760,18 @@ function result_navigation($info, $where_clause) {
     $app_count[0] = 0;
 
     $results = BoincResult::enum_fields(
-        "appid, server_state, outcome, validate_state",
-        $where_clause, null
+        "appid, server_state, outcome, validate_state, count(*) AS cnt",
+        $where_clause." group by appid, server_state, outcome, validate_state", null
     );
     foreach ($results as $r) {
+        $cnt = $r->cnt;
         if (array_key_exists($r->appid, $app_count)) {
-            $app_count[$r->appid]++;
+            $app_count[$r->appid] += $cnt;
         }
-        $app_count[0]++;
+        $app_count[0] += $cnt;
         if (!$info->appid || ($r->appid == $info->appid)) {
-            $state_count[state_num($r)]++;
-            $state_count[0]++;
+            $state_count[state_num($r)] += $cnt;
+            $state_count[0] += $cnt;
         }
     }
 

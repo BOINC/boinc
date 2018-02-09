@@ -1,18 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Jiří Chvátal <george.choose3d@gmail.com>, 2017
 # Petr Nekvinda <petr.nekvinda@gmail.com>, 2015
+# Tomas Hrdina <mot2425@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-03-05 11:33+0000\n"
-"Last-Translator: Jiří Chvátal <george.choose3d@gmail.com>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
+"Last-Translator: Tomas Hrdina <mot2425@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "Zpráva od správce účtu"
 
@@ -29,13 +30,13 @@ msgstr "Zpráva od správce účtu"
 msgid "Message from server"
 msgstr "Zpráva ze serveru"
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Některé úlohy vyžadují více operační paměti, než máte povoleno v předvolbách. Zkontrolujte prosím vaše předvolby."
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Nelze zapsat stavový soubor, zkontrolujte práva zápisu v cílové složce."
 
@@ -43,24 +44,24 @@ msgstr "Nelze zapsat stavový soubor, zkontrolujte práva zápisu v cílové slo
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Proměnná prostředí HTTP_PROXY musí obsahovat HTTP proxy adresu."
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
 msgstr "Tento projekt používá starou URL adresu.  Když se vám to bude hodit, projekt odeberte a pak přidejte %s"
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "Chyba syntaxe v app_info.xml"
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Soubor odkazovaný v 'app_info.xml' neexistuje:"
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "Je dostupná nová verze BOINC."
+msgid "A new version of BOINC is available"
+msgstr "Je dostupná nová verze BOINC"
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
@@ -71,39 +72,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "nelze použít pro CUDA nebo OpenCL výpočty s CUDA ovladačem verze 6.5 nebo vyšší"
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nečekaný text v cc_config.xml"
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nečekaný tag v cc_config.xml"
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "Chybějící startovní tag v cc_config.xml"
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "Chyba v nastavení cc_config.xml"
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "Chybějící koncový tag v cc_config.xml"
 
-#: client/project.cpp:967
+#: client/project.cpp:991
 msgid "To fix this, you can "
 msgstr "Pro opravení tohoto problém můžete"
 
-#: client/project.cpp:970
+#: client/project.cpp:994
 msgid "change Project Preferences on the project's web site"
 msgstr "Změňte předvolby projektu na webu projektu"
 
-#: client/project.cpp:976
+#: client/project.cpp:1000
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "odebrat vyloučení GPU v souboru cc_config.xml"
 
-#: client/project.cpp:983
+#: client/project.cpp:1007
 msgid "change your settings at your account manager web site"
 msgstr "Změňte nastavení na webu vašeho správce účtu"
 
@@ -134,40 +135,40 @@ msgstr "Váš program BOINC je příliš starý. Nainstalujte si prosím aktuál
 msgid "This project doesn't support computers of type"
 msgstr "Tento projekt nepodporuje počítače typu"
 
-#: sched/sched_send.cpp:1107
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Pro zpracování úkolů pomoci GPU si prosím nainstalujte nejnovější ovladače."
 
-#: sched/sched_send.cpp:1114
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Pro využití všech GPU aplikací tohoto projektu si prosím nainstalujte nejnovější ovladače."
 
-#: sched/sched_send.cpp:1133
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Pro využití vaší nVidia GPU je zapotřebí stáhnout si aktuální verzi programu BOINC."
 
-#: sched/sched_send.cpp:1167
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí %s GPU."
 
-#: sched/sched_send.cpp:1283
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "Není dostupná žádná práce pro typ aplikací, které jste si zvolili."
 
-#: sched/sched_send.cpp:1309
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "Váš typ počítače není podporován tímto projektem."
 
-#: sched/sched_send.cpp:1315
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "Nainstalujte si prosím novou verzi BOINC, která je vyžadována."
 
-#: sched/sched_send.cpp:1326
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

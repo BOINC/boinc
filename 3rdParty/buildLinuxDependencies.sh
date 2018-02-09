@@ -63,8 +63,11 @@ while [[ $# -gt 0 ]]; do
         doclean="yes"
         ;;
         --debug)
-        wxoption="--debug"
+        wxoption="--debug ${wxoption}"
         build_config="Debug"
+        ;;
+        --disable-webview)
+        wxoption="--disable-webview ${wxoption} "
         ;;
         *)
         echo "unrecognized option $key"

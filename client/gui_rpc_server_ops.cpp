@@ -927,9 +927,15 @@ static void handle_project_attach_poll(GUI_RPC_CONN& grc) {
 
 // This RPC, regrettably, serves 3 purposes
 // - to join an account manager
+//   pass URL of account manager and account name/passwd
 // - to trigger an RPC to the current account manager
-//   (perhaps with "use_config_file")
-// - to quit an account manager (with null args)
+//   either
+//   pass URL/name/passwd hash of current AM
+//      TODO: get rid of this option;
+//      the manager shouldn't have to keep track of this info
+//   or pass <use_config_file/> flag: do RPC to current AM
+// - to quit an account manager
+//   url/name/passwd args are null
 //
 static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     string url, name, password;
@@ -953,7 +959,20 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
         }
         if (grc.xp.parse_bool("use_config_file", use_config_file)) continue;
     }
-    if (!use_config_file) {
+    if (use_config_file) {
+        // really means: use current AM
+        //
+        if (!gstate.acct_mgr_info.using_am()) {
+            bad_arg = true;
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Not using account manager"
+            );
+        } else {
+            url = gstate.acct_mgr_info.master_url;
+            name = gstate.acct_mgr_info.login_name;
+            password_hash = gstate.acct_mgr_info.password_hash;
+        }
+    } else {
         bad_arg = !url_found || !name_found || !password_found;
         if (!bad_arg) {
             name_lc = name;
@@ -965,18 +984,8 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
                 password_hash = password.substr(5);
             }
         }
-    } else {
-        if (!strlen(gstate.acct_mgr_info.master_url)) {
-            bad_arg = true;
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Account manager info missing from config file"
-            );
-        } else {
-            url = gstate.acct_mgr_info.master_url;
-            name = gstate.acct_mgr_info.login_name;
-            password_hash = gstate.acct_mgr_info.password_hash;
-        }
     }
+
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
     } else if (gstate.acct_mgr_info.using_am()

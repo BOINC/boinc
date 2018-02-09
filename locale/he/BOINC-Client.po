@@ -1,17 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Nir Klig <nirklig@gmail.com>, 2017
+# Seggev Shoresh, 2017
 # Shmuel Shwartz, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-01-12 19:00+0000\n"
-"Last-Translator: Shmuel Shwartz\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-21 23:57+0000\n"
+"Last-Translator: Seggev Shoresh\n"
 "Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:456 client/acct_mgr.cpp:473
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "הודעה ממנהל החשבונות"
 
@@ -28,13 +30,13 @@ msgstr "הודעה ממנהל החשבונות"
 msgid "Message from server"
 msgstr "הודעה מהשרת"
 
-#: client/client_state.cpp:324
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "חלק מהמשימות מצריכות יותר זיכרון מהכמות המאושרת בהגדרות שלך. אנא בדוק את ההגדרות."
 
-#: client/client_state.cpp:661
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "לא ניתן לרשום קובץ מצב; בדוק הרשאות תיקייה"
 
@@ -42,24 +44,24 @@ msgstr "לא ניתן לרשום קובץ מצב; בדוק הרשאות תיקי
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "משתנה הסביבה HTTP_PROXY חייב לציין שרת מתווך HTTP"
 
-#: client/cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then"
 " add %s"
 msgstr "מיזם זה משתמש בכתובת אינטרנט ישנה.  בזמן הנוח לך, הסר את המיזם, ולאחר מכן הוסף את %s"
 
-#: client/cs_statefile.cpp:844
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "שגיאת תחביר ב-app_info.xml"
 
-#: client/cs_statefile.cpp:888
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "קובץ שהופנה מ-app_info.xml אינו קיים:"
 
 #: client/current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "גרסה חדשה של BOINC זמינה."
+msgid "A new version of BOINC is available"
+msgstr "גרסה חדשה של BOINC זמינה כעת"
 
 #: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
@@ -70,39 +72,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "אינה יכולה להשתמש לצורך חישוב CUDA או OpenCL עם CUDA מנהל התקן 6.5 או מאוחר יותר"
 
-#: client/log_flags.cpp:311 client/log_flags.cpp:491
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "טקסט לא צפוי ב-cc_config.xml"
 
-#: client/log_flags.cpp:465 client/log_flags.cpp:520
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "תג לא מוכר ב-cc_config.xml"
 
-#: client/log_flags.cpp:482
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "תג התחלה חסר  ב-cc_config.xml"
 
-#: client/log_flags.cpp:510
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "שגיאה באפשרויות cc_config.xml"
 
-#: client/log_flags.cpp:528
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "תג סיום חסר ב-cc_config.xml"
 
-#: client/project.cpp:967
+#: client/project.cpp:991
 msgid "To fix this, you can "
 msgstr "כדי לפתור זאת, באפשרותך "
 
-#: client/project.cpp:970
+#: client/project.cpp:994
 msgid "change Project Preferences on the project's web site"
 msgstr "שנה את העדפות המיזם באתר האינטרנט של המיזם"
 
-#: client/project.cpp:976
+#: client/project.cpp:1000
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "הסר מעבדים גרפיים מוחרגים בקובץ ה-cc_config.xml שלך"
 
-#: client/project.cpp:983
+#: client/project.cpp:1007
 msgid "change your settings at your account manager web site"
 msgstr "שנה את ההגדרות שלך באתר מנהל החשבון"
 
@@ -133,40 +135,40 @@ msgstr "גרסת לקוח ה-BOINC ישנה מידי. אנא התקן את הג�
 msgid "This project doesn't support computers of type"
 msgstr "מיזם זה אינו תומך במחשבים מסוג"
 
-#: sched/sched_send.cpp:1107
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "עדכן למנהלי ההתקן האחרונים כדי לבצע חישובים בעזרת המעבד הגרפי"
 
-#: sched/sched_send.cpp:1114
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "עדכן למנהלי ההתקן האחרונים כדי להשתמש בכל היישומים הזמינים עבור המעבד הגרפי"
 
-#: sched/sched_send.cpp:1133
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "יש צורך בגרסה חדשה יותר של BOINC על מנת להשתמש במעבד הגרפי של NVIDIA; אנא עדכן לגרסה הנוכחית"
 
-#: sched/sched_send.cpp:1167
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "נדרש מעבד גרפי של %s להרצת משימות ממיזם זה"
 
-#: sched/sched_send.cpp:1283
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "אין משימות זמינות ליישומים שבחרת."
 
-#: sched/sched_send.cpp:1309
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "מחשבך אינו נתמך ע\"י מיזם זה"
 
-#: sched/sched_send.cpp:1315
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "נדרשת גרסה חדשה של BOINC; אנא התקן גרסה נוכחית"
 
-#: sched/sched_send.cpp:1326
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

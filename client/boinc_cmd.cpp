@@ -58,6 +58,10 @@ usage: boinccmd [--host hostname] [--passwd passwd] [--unix_domain] command\n\n\
 default hostname: localhost\n\
 default password: contents of gui_rpc_auth.cfg\n\
 Commands:\n\
+ --acct_mgr attach URL name passwd  attach to account manager\n\
+ --acct_mgr info                    show current account manager info\n\
+ --acct_mgr sync                    synchronize with acct mgr\n\
+ --acct_mgr detach                  detach from acct mgr\n\
  --client_version                   show client version\n\
  --create_account URL email passwd name\n\
  --file_transfer URL filename op    file transfer operation\n\
@@ -77,15 +81,15 @@ Commands:\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
  --get_tasks                        show tasks\n\
- --get_old_tasks                    show reported tasks from last 24 hours\n\
- --join_acct_mgr URL name passwd    attach account manager\n\
+ --get_old_tasks                    show reported tasks from last 1 hour\n\
+ --join_acct_mgr URL name passwd    same as --acct_mgr attach\n\
  --lookup_account URL email passwd\n\
  --network_available                retry deferred network communication\n\
  --project URL op                   project operation\n\
    op = reset | detach | update | suspend | resume | nomorework | allowmorework | detach_when_done | dont_detach_when_done\n\
  --project_attach URL auth          attach to project\n\
  --quit                             tell client to exit\n\
- --quit_acct_mgr                    quit current account manager\n\
+ --quit_acct_mgr                    same as --acct_mgr detach\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
@@ -120,6 +124,42 @@ const char* prio_name(int prio) {
     case MSG_INTERNAL_ERROR: return "internal error";
     }
     return "unknown";
+}
+
+void acct_mgr_do_rpc(
+    RPC_CLIENT& rpc, char* am_url, char* am_name, char* am_passwd
+) {
+    int retval;
+    if (am_url) {
+        retval = rpc.acct_mgr_rpc(am_url, am_name, am_passwd);
+    } else {
+        retval = rpc.acct_mgr_rpc(0, 0, 0, true);
+    }
+    if (!retval) {
+        while (1) {
+            printf("polling for reply\n");
+            ACCT_MGR_RPC_REPLY amrr;
+            retval = rpc.acct_mgr_rpc_poll(amrr);
+            if (retval) {
+                printf("poll status: %s\n", boincerror(retval));
+            } else {
+                if (amrr.error_num) {
+                    printf("poll status: %s\n", boincerror(amrr.error_num));
+                    if (amrr.error_num != ERR_IN_PROGRESS) break;
+                    boinc_sleep(1);
+                } else {
+                    int j, n = (int)amrr.messages.size();
+                    if (n) {
+                        printf("Messages from account manager:\n");
+                        for (j=0; j<n; j++) {
+                            printf("%s\n", amrr.messages[j].c_str());
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
 }
 
 int main(int argc, char** argv) {
@@ -474,36 +514,29 @@ int main(int argc, char** argv) {
         HOST_INFO hi;
         retval = rpc.get_host_info(hi);
         if (!retval) hi.print();
+    } else if (!strcmp(cmd, "--acct_mgr")) {
+        char* op = next_arg(argc, argv, i);
+        if (!strcmp(op, "attach")) {
+            char* am_url = next_arg(argc, argv, i);
+            char* am_name = next_arg(argc, argv, i);
+            char* am_passwd = next_arg(argc, argv, i);
+            acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
+        } else if (!strcmp(op, "info")) {
+            ACCT_MGR_INFO ami;
+            retval = rpc.acct_mgr_info(ami);
+            if (!retval) ami.print();
+        } else if (!strcmp(op, "sync")) {
+            acct_mgr_do_rpc(rpc, 0, 0, 0);
+        } else if (!strcmp(op, "detach")) {
+            retval = rpc.acct_mgr_rpc("", "", "");
+        } else {
+            printf("unknown operation %s\n", op);
+        }
     } else if (!strcmp(cmd, "--join_acct_mgr")) {
         char* am_url = next_arg(argc, argv, i);
         char* am_name = next_arg(argc, argv, i);
         char* am_passwd = next_arg(argc, argv, i);
-        retval = rpc.acct_mgr_rpc(am_url, am_name, am_passwd);
-        if (!retval) {
-            while (1) {
-                printf("polling for reply\n");
-                ACCT_MGR_RPC_REPLY amrr;
-                retval = rpc.acct_mgr_rpc_poll(amrr);
-                if (retval) {
-                    printf("poll status: %s\n", boincerror(retval));
-                } else {
-                    if (amrr.error_num) {
-                        printf("poll status: %s\n", boincerror(amrr.error_num));
-                        if (amrr.error_num != ERR_IN_PROGRESS) break;
-                        boinc_sleep(1);
-                    } else {
-                        int j, n = (int)amrr.messages.size();
-                        if (n) {
-                            printf("Messages from account manager:\n");
-                            for (j=0; j<n; j++) {
-                                printf("%s\n", amrr.messages[j].c_str());
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
+        acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
     } else if (!strcmp(cmd, "--quit_acct_mgr")) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
