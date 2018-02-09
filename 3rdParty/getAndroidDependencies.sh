@@ -33,15 +33,13 @@ sudo apt-get update
 sudo apt-get --assume-yes install ubuntu-make # git automake libtool
 # sudo update-locale LC_ALL=en_US.UTF-8
 
-umake android android-studio --accept-license $HOME/Android/Android-Studio # >> /tmp/umake.log
+umake android android-studio --accept-license $HOME/Android/Android-Studio
 printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
 umake android android-sdk --accept-license $HOME/Android/Sdk
 printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
 umake android android-ndk --accept-license $HOME/Android/Ndk
-echo "sdkmanager update"
-yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update
-echo "sdkmanager install"
-yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository"
+yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update >> /tmp/umake.log
+yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /tmp/umake.log
 # mkdir $HOME/Desktop
 # cp $HOME/.local/share/applications/android-studio.desktop $HOME/Desktop/
 # chmod +x $HOME/Desktop/android-studio.desktop
