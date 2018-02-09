@@ -38,15 +38,17 @@ printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.pr
 umake android android-sdk --accept-license $HOME/Android/Sdk
 printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
 umake android android-ndk --accept-license $HOME/Android/Ndk
+echo "sdkmanager update"
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update
+echo "sdkmanager install"
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository"
 # mkdir $HOME/Desktop
 # cp $HOME/.local/share/applications/android-studio.desktop $HOME/Desktop/
 # chmod +x $HOME/Desktop/android-studio.desktop
-
+echo "start export"
 export OPENSSL_VERSION=1.0.2k
 export CURL_VERSION=7.53.1
-git clone https://github.com/BOINC/boinc.git $HOME/BOINC
+# git clone https://github.com/BOINC/boinc.git $HOME/BOINC
 export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
 export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
