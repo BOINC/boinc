@@ -24,10 +24,10 @@ if [ ! -d "3rdParty" ]; then
     exit 1
 fi
 
-# sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
-# sudo apt-get update
+sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
+sudo apt-get update
 # sudo apt-get upgrade
-# sudo apt-get --assume-yes install ubuntu-make git automake libtool
+sudo apt-get --assume-yes install ubuntu-make # git automake libtool
 # sudo update-locale LC_ALL=en_US.UTF-8
 
 umake android android-studio --accept-license $HOME/Android/Android-Studio
