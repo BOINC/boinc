@@ -18,6 +18,12 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# check working directory because the script needs to be called like: ./3rdParty/getAndroidDependencies.sh
+if [ ! -d "3rdParty" ]; then
+    echo "start this script in the source root directory"
+    exit 1
+fi
+
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
 sudo apt-get update
 sudo apt-get upgrade
