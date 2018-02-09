@@ -29,7 +29,6 @@ sudo dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
 
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
 sudo apt-get update
-# sudo apt-get upgrade
 sudo apt-get --assume-yes install ubuntu-make # git automake libtool
 # sudo update-locale LC_ALL=en_US.UTF-8
 
@@ -46,12 +45,14 @@ yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extr
 echo "start export"
 export OPENSSL_VERSION=1.0.2k
 export CURL_VERSION=7.53.1
-# git clone https://github.com/BOINC/boinc.git $HOME/BOINC
-export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
-export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
+export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME/build/BOINC/boinc/android/BOINC/app/build.gradle`
+export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/build/BOINC/boinc/android/BOINC/app/build.gradle`
+echo "sdkmanager build-tools"
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
+echo "sdkmanager platforms"
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
 printf "\n# Build toolchains\nexport ANDROID_TC=\$HOME/Android/Toolchains\n" >> $HOME/.profile
+echo "3rdparty"
 mkdir $HOME/3rdParty
 wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 tar xzf /tmp/openssl.tgz --directory=$HOME/3rdParty
