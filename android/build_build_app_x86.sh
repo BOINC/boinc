@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/sh -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildApp
@@ -13,7 +13,7 @@ export TCINCLUDES="$ANDROIDTC/i686-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=i686-linux-android-gcc
 export CXX=i686-linux-android-g++
 export LD=i686-linux-android-ld
@@ -25,7 +25,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 make clean
 
 if [ -e "./confgiure" ]; then
-./configure --host=i686-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static
+./configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static
 fi
 
 make
