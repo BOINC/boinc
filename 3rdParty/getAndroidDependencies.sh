@@ -62,4 +62,4 @@ tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
 #printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
 export CURL_SRC=$HOME/3rdParty/curl-${CURL_VERSION}
 #chmod +x $HOME/.profile
-cd ../android && ./build_all.sh
+cd android && ./build_all.sh
