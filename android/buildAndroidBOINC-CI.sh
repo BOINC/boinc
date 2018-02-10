@@ -18,12 +18,6 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# check working directory because the script needs to be called like: ./3rdParty/getAndroidDependencies.sh
-if [ ! -d "3rdParty" ]; then
-    echo "start this script in the source root directory"
-    exit 1
-fi
-
 wget -O /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/python-argcomplete/python3-argcomplete_0.8.1-1ubuntu2_all.deb
 sudo dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
 
@@ -62,4 +56,9 @@ tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
 #printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
 export CURL_SRC=$HOME/3rdParty/curl-${CURL_VERSION}
 #chmod +x $HOME/.profile
-cd android && ./build_all.sh
+if [[ $1 == "arm" ]]; then ( ./build_androidtc_arm.sh && ./build_openssl_arm.sh && ./build_curl_arm.sh && ./build_boinc_arm.sh ) fi
+if [[ $1 == "arm64" ]]; then ( ./build_androidtc_arm64.sh && ./build_openssl_arm64.sh && ./build_curl_arm64.sh && ./build_boinc_arm64.sh ) fi
+if [[ $1 == "mips" ]]; then ( ./build_androidtc_mips.sh && ./build_openssl_mips.sh && ./build_curl_mips.sh && ./build_boinc_mips.sh ) fi
+if [[ $1 == "mips64" ]]; then ( ./build_androidtc_mips64.sh && ./build_openssl_mips64.sh && ./build_curl_mips64.sh && ./build_boinc_mips64.sh ) fi
+if [[ $1 == "x86" ]]; then ( ./build_androidtc_x86.sh && ./build_openssl_x86.sh && ./build_curl_x86.sh && ./build_boinc_x86.sh ) fi
+if [[ $1 == "x86_64" ]]; then ( ./build_androidtc_x86_64.sh && ./build_openssl_x86_64.sh && ./build_curl_x86_64.sh && ./build_boinc_x86_64.sh ) fi

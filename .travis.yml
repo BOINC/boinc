@@ -49,7 +49,12 @@ env:
     # - BOINC_TYPE=manager
     # - BOINC_TYPE=libs-mingw
     # - BOINC_TYPE=apps-mingw
-    - BOINC_TYPE=app-android
+    - BOINC_TYPE=app-android-arm
+    - BOINC_TYPE=app-android-arm64
+    - BOINC_TYPE=app-android-mips
+    - BOINC_TYPE=app-android-mips64
+    - BOINC_TYPE=app-android-x86
+    - BOINC_TYPE=app-android-x86_64
     #- BOINC_TYPE=coverity
 
 matrix:
@@ -88,4 +93,9 @@ script:
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
-- if [[ "${BOINC_TYPE}" == "app-android" ]]; then ( ./3rdParty/getAndroidDependencies.sh ) fi
+- if [[ "${BOINC_TYPE}" == "app-android-arm" ]]; then ( cd android && getAndroidDependencies.sh arm ) fi
+- if [[ "${BOINC_TYPE}" == "app-android-arm64" ]]; then ( cd android && getAndroidDependencies.sh arm64 ) fi
+- if [[ "${BOINC_TYPE}" == "app-android-mips" ]]; then ( cd android && getAndroidDependencies.sh mips ) fi
+- if [[ "${BOINC_TYPE}" == "app-android-mips64" ]]; then ( cd android && getAndroidDependencies.sh mips64 ) fi
+- if [[ "${BOINC_TYPE}" == "app-android-x86" ]]; then ( cd android && getAndroidDependencies.sh x86 ) fi
+- if [[ "${BOINC_TYPE}" == "app-android-x86_64" ]]; then ( cd android && getAndroidDependencies.sh x86_64 ) fi
