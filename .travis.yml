@@ -74,7 +74,17 @@ matrix:
   - os: osx
     env: BOINC_TYPE=apps-mingw
   - os: osx
-    env: BOINC_TYPE=app-android
+    env: BOINC_TYPE=app-android-arm
+  - os: osx
+    env: BOINC_TYPE=app-android-arm64
+  - os: osx
+    env: BOINC_TYPE=app-android-mips
+  - os: osx
+    env: BOINC_TYPE=app-android-mips64
+  - os: osx
+    env: BOINC_TYPE=app-android-x86
+  - os: osx
+    env: BOINC_TYPE=app-android-x86_64
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
