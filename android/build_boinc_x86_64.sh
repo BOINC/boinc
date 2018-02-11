@@ -40,7 +40,7 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=x86_64-linux --with-boinc-platform="x86_64-android-linux-gnu" --with-boinc-alt-platform="x86-android-linux-gnu" --with-ssl=$TCINCLUDES --with-curl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=x86_64-linux --with-boinc-platform="x86_64-android-linux-gnu" --with-boinc-alt-platform="x86-android-linux-gnu" --with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
