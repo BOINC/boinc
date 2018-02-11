@@ -40,7 +40,7 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=mips64el-linux --with-boinc-platform="mips64el-android-linux-gnu" --with-boinc-alt-platform="mipsel-android-linux-gnu" --with-ssl=$TCINCLUDES --with-curl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=mips64el-linux --with-boinc-platform="mips64el-android-linux-gnu" --with-boinc-alt-platform="mipsel-android-linux-gnu" --with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
