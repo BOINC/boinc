@@ -69,6 +69,7 @@ before_build:
   - if %TOOLCHAIN_VERSION%==12.0 call "%VS120COMNTOOLS%\vsvars32.bat"
 
 build_script:
-  - devenv %solution_name% /Build "%configuration%|%platform%"
+  - if %TOOLCHAIN_VERSION%==10.0 call vcexpress %solution_name% /Build "%configuration%|%platform%"
+  - if %TOOLCHAIN_VERSION%==12.0 call devenv %solution_name% /Build "%configuration%|%platform%"
 
 test: off
