@@ -132,7 +132,7 @@ function boincuser_get_first_unread_comment_id($nid, $uid = NULL) {
  */
 function boincuser_select_user_of_the_day() {
   // First get a list of users with recent credit
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $users_with_credit = db_query("
     SELECT
       id

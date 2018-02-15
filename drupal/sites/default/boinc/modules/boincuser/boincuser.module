@@ -233,7 +233,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       ));
       $account->boincuser_id = $drupal_user->boinc_id;
       $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $boinc_user = db_fetch_object(db_query("
         SELECT
           name,
@@ -378,7 +378,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           $unrestricted_role => ''
         );
         // Set profile data in BOINC db
-        db_set_active('boinc');
+        db_set_active('boinc_rw');
         // TODO: add language, image support; error handling
         $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
         if (!$reference) {
@@ -496,7 +496,7 @@ function boincuser_node_update($node) {
     $country = $node->field_country[0]['value'];
     $postal_code = $node->field_zip[0]['value'];
     $url = $node->field_url[0]['value'];
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $account_updated = db_query("
       UPDATE user
       SET country = '%s', postal_code = '%s', url = '%s', has_profile = 1
@@ -510,7 +510,7 @@ function boincuser_node_update($node) {
     // Save profile data
     $response1 = $node->field_background[0]['value'];
     $response2 = $node->field_opinions[0]['value'];
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $profile_updated = db_query("
       INSERT INTO profile
       SET userid = %d, response1 = '%s', response2 = '%s'

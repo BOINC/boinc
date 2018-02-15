@@ -23,7 +23,7 @@ function boincwork_views_data() {
       'field' => 'id',
       'title' => t('BOINC host'),
       'help' => t('Computers attached to BOINC'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
   
   // This table references the {user} table.
@@ -605,7 +605,7 @@ function boincwork_views_data() {
       'field' => 'id',
       'title' => t('BOINC platform'),
       'help' => t('Operating system platforms'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
   
   // Primary keys allowed as arguments
@@ -657,7 +657,7 @@ function boincwork_views_data() {
       'field' => 'id',
       'title' => t('BOINC result'),
       'help' => t('Results produced by BOINC'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
   
   // Create implicit relationships to the user, workunit, and host tables
@@ -1071,7 +1071,7 @@ function boincwork_views_data() {
       'field' => 'id',
       'title' => t('BOINC workunit'),
       'help' => t('Workunits produced by BOINC'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
   
   // Create implicit relationship to the app table
@@ -1302,7 +1302,7 @@ function boincwork_views_data() {
       'field' => 'id',
       'title' => t('BOINC app'),
       'help' => t('Research applications run by BOINC'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
   
   // Primary keys allowed as arguments
@@ -1368,7 +1368,7 @@ function boincwork_views_data() {
       'field' => 'id',
       'title' => t('BOINC app version'),
       'help' => t('Versions of research applications run by BOINC'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
   
   // Primary keys allowed as arguments

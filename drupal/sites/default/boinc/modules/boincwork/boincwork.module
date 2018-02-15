@@ -852,7 +852,7 @@ function boincwork_host_delete($host_id) {
   if (boincwork_host_user_is_owner($host_id)) {
     if (!boincwork_host_get_task_count($host_id)) {
       // Delete the host record
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $host_deleted = db_query(
         "DELETE FROM {host} WHERE id = '%d'",
         $host_id
@@ -906,7 +906,7 @@ function boincwork_host_log($host_id = null) {
 function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
   global $user;
   $account = user_load($user->uid);
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   // Verify that this is my host
   $host_owner = db_result(db_query(
     "SELECT userid FROM {host} WHERE id = '%d'",
@@ -914,7 +914,7 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
   ));
   db_set_active('default');
   if ($host_owner AND $host_owner == $account->boincuser_id) {
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $updated = db_query(
       "UPDATE {host} SET venue = '%s' WHERE id = '%d'",
       $venue, $host_id

@@ -308,7 +308,7 @@ function boincuser_pull_subscriptions($account = NULL) {
   }
   
   // Get any subscriptions for this user
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $subscriptions = db_query('
     SELECT threadid FROM {subscriptions}
     WHERE userid = %d', $account->boincuser_id);
