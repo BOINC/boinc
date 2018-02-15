@@ -887,6 +887,109 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Ignore user functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+// These functions are boinc-ppecific "replacements" for the
+// ignore_user module's add and remove user functions.
+
+
+/**
+ *Add another user to the current user's ignore list using a BOINC
+ *username. Called from privacy preference form.
+ */
+function boincwork_ignore_user_add_user_username($name = NULL) {
+  global $user;
+
+  if (isset($name)) {
+    // Get the BOINC ID from the name string, and lookup the
+    // corresponding drupal user.
+    $boincname = substr($name, 0, strrpos($name, '_'));
+    $boincid = substr($name, strrpos($name, '_') + 1);
+    // iuid is the drupal uid to be ignored and author to be blocked.
+    $iuid = get_drupal_id($boincid);
+
+    if ($user->uid == $iuid) {
+      drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
+      drupal_goto('account/prefs/privacy');
+    }
+
+    if (is_numeric($iuid) && $iuid > 0) {
+      if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
+        db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+      }// endif db_result
+
+      if (module_exists('pm_block_user')) {
+        if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
+          db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+        }// endif db_result
+      }// endif module_exists('pm_block_user')
+
+    }// endif $iuid
+  }
+}
+
+/**
+ * Add another user's UID to the current user's ignore list.
+ */
+function boincwork_ignore_user_add_user($iuid = NULL) {
+  global $user;
+
+  if ($user->uid == $iuid) {
+    drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
+    drupal_goto();
+  }
+
+  $otheraccount = user_load($iuid);
+
+  if (is_numeric($iuid) && $iuid > 0) {
+    if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
+      db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+    }// endif db_result
+
+    if (module_exists('pm_block_user')) {
+      if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
+        db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+      }// endif db_result
+    }// endif module_exists('pm_block_user')
+
+    drupal_set_message(
+      bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
+        array(
+          '@username' => $otheraccount->boincuser_name,
+          '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+        ),
+        NULL, 'boinc:ignore-user-add'),
+      'status');
+    drupal_goto();
+  }
+  else {
+    drupal_not_found();
+  }// endif iuid
+}
+
+/**
+ * Remove user from user's ignore list.
+ */
+function boincwork_ignore_user_remove_user($iuid = NULL) {
+  global $user;
+  $otheraccount = user_load($iuid);
+
+  db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
+  if (module_exists('pm_block_user')) {
+    db_query('DELETE FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid);
+  }// endif module_exists
+  drupal_set_message(
+    bts('@username has been removed from your ignore list. See your !privacy_preferences for more details.',
+      array(
+        '@username' => $otheraccount->boincuser_name,
+        '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+      ),
+      NULL, 'boinc:ignore-user-add'),
+    'status');
+  drupal_goto('account/prefs/privacy');
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Utility functions

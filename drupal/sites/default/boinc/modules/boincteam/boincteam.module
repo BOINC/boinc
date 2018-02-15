@@ -96,7 +96,7 @@ function boincteam_menu() {
     'type' => MENU_CALLBACK
   );
   $items['community/teams/%/user-name-autocomplete'] = array(
-    'page callback' => '_boincteam_user_name_autocomplete',
+    'page callback' => '_boincuser_user_name_autocomplete',
     'access callback' => 'boincteam_is_founder',
     'access arguments' => array(2),
     'type' => MENU_CALLBACK,

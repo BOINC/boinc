@@ -185,6 +185,39 @@ function boinccore_menu_alter(&$items) {
       'type' => MENU_CALLBACK,
     );
   }
+
+  // 'Remove' menu paths for ignore_user and privatemsg
+  // (pm_block_user) module which we have 'overridden' with
+  // boincwork's own functions.
+  if (module_exists('ignore_user')) {
+    $check = array(
+      'ignore_user/add',
+      'ignore_user/remove',
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
+
+    // Redirect user to privacy prefs page.
+    $path1 = 'ignore_user/list';
+    if (isset($items[$path1])) {
+      $items[$path1]['page callback'] = 'drupal_goto';
+      $items[$path1]['page arguments'] = array('account/prefs/privacy');
+    }
+  }
+
+  if (module_exists('pm_block_user')) {
+    $check = array(
+      'messages/block/%user',
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
+  }
 }
 
 /**
