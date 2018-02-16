@@ -73,15 +73,16 @@ function client_info_to_platform($client_info) {
 
 // find release version for user's platform
 //
-function get_version() {
+function get_version($dev) {
     $v = simplexml_load_file("versions.xml");
     $client_info = $_SERVER['HTTP_USER_AGENT'];
     $p = client_info_to_platform($client_info);
+    $string = $dev?"Development":"Recommended";
     foreach ($v->version as $i=>$v) {
         if ((string)$v->dbplatform != $p) {
             continue;
         }
-        if (!strstr((string)$v->description, "ecommended")) {
+        if (!strstr((string)$v->description, $string)) {
             continue;
         }
         return $v;
@@ -140,17 +141,17 @@ function download_button_vbox($v, $project_id, $token, $user) {
     );
 }
 
-function show_download_page($user) {
+function show_download_page($user, $dev) {
     global $config;
     $need_vbox = parse_bool($config, "need_vbox");
     $project_id = parse_config($config, "<project_id>");
     if (!$project_id) {
         error_page("must specify project ID in config.xml");
     }
-    $v = get_version();
+    $v = get_version($dev);
 
     // if we can't figure out the user's platform,
-    // take them to the download_all page
+    // take them to the download_all page on the BOINC site
     //
     if (!$v) {
         Header("Location: https://boinc.berkeley.edu/download_all.php");
@@ -158,19 +159,16 @@ function show_download_page($user) {
     }
 
     page_head("Download software");
-    $mcv = parse_config($config, "<min_core_client_version>");
-    $dlv = "BOINC";
-    $dl = "BOINC";
-    if ($mcv) {
-        $dlv .= " version " . version_string_maj_min_rel($mcv). " or later";
-    }
 
     $phrase = "this is";
     if ($need_vbox) {
-        $mvv = parse_config($config, "<vbox_min_version>");
-        $dl .= " and VirtualBox";
-        $dlv .= " and VirtualBox ".version_string_maj_min_rel($mvv)." or later";
+        $dlv = "the current versions of BOINC and VirtualBox";
         $phrase = "these are";
+        $dl = "BOINC and VirtualBox";
+    } else {
+        $dlv = "the current version of BOINC";
+        $phrase = "this is";
+        $dl = "BOINC";
     }
     echo "To participate in ".PROJECT.", $dlv must be installed on your computer.
         <p>
@@ -229,10 +227,11 @@ function installed() {
 
 $user = get_logged_in_user();
 $action = get_str("action", true);
+$dev = get_str("dev", true);
 if ($action == "installed") {
     installed();
 } else {
-    show_download_page($user);
+    show_download_page($user, $dev);
 }
 
 ?>
