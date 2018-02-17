@@ -250,7 +250,7 @@
     <project>
         <name>Einstein@home</name>
         <id>16</id>
-        <url>https://einstein.phys.uwm.edu/</url>
+        <url>https://einsteinathome.org/</url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
         <description><![CDATA[Einstein@Home uses your computer's idle time to search for weak astrophysical signals from spinning neutron stars (often called pulsars) using data from the LIGO gravitational-wave detectors, the Arecibo radio telescope, and the Fermi gamma-ray satellite.]]></description>
