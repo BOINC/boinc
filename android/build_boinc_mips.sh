@@ -40,7 +40,11 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=mipsel-linux --with-boinc-platform="mipsel-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
+<<<<<<< HEAD
+./configure --host=mipsel-linux --with-boinc-platform="mipsel-android-linux-gnu" --with-ssl="$TCINCLUDES" --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+=======
+./configure --host=mipsel-linux --with-boinc-platform="mipsel-android-linux-gnu" --with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+>>>>>>> android_ci
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
