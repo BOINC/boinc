@@ -40,11 +40,7 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-<<<<<<< HEAD
 ./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --with-boinc-alt-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
-=======
-./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --with-boinc-alt-platform="arm-android-linux-gnu" --with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
->>>>>>> android_ci
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
