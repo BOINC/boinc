@@ -23,8 +23,8 @@ export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
 export CC=x86_64-linux-android-gcc
 export CXX=x86_64-linux-android-g++
 export LD=x86_64-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
