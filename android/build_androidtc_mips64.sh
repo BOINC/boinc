@@ -12,4 +12,5 @@ export ANDROID_TC_MIPS64="${ANDROID_TC_MIPS64:-$ANDROID_TC/mips64}"
 
 if [ ! -d $ANDROID_TC_MIPS64/mips64el-linux-android ]; then
     $NDK_ROOT/build/tools/make-standalone-toolchain.sh --verbose --platform=android-21 --arch=mips64 --install-dir=$ANDROID_TC_MIPS64
+    if [ $? -ne 0 ]; then exit 1; fi
 fi

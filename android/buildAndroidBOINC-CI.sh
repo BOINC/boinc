@@ -33,8 +33,8 @@ umake android android-sdk --accept-license $HOME/Android/Sdk
 #printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
 export NDK_ROOT=$HOME/Android/Ndk
 umake android android-ndk --accept-license $HOME/Android/Ndk
-yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update >> /tmp/umake.log
-yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /tmp/umake.log
+yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update >> /dev/null
+yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /dev/null
 # mkdir $HOME/Desktop
 # cp $HOME/.local/share/applications/android-studio.desktop $HOME/Desktop/
 # chmod +x $HOME/Desktop/android-studio.desktop
@@ -56,9 +56,80 @@ tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
 #printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
 export CURL_SRC=$HOME/3rdParty/curl-${CURL_VERSION}
 #chmod +x $HOME/.profile
-if [[ $1 == "arm" ]]; then ( ./build_androidtc_arm.sh && ./build_openssl_arm.sh && ./build_curl_arm.sh && ./build_boinc_arm.sh ) fi
-if [[ $1 == "arm64" ]]; then ( ./build_androidtc_arm64.sh && ./build_openssl_arm64.sh && ./build_curl_arm64.sh && ./build_boinc_arm64.sh ) fi
-if [[ $1 == "mips" ]]; then ( ./build_androidtc_mips.sh && ./build_openssl_mips.sh && ./build_curl_mips.sh && ./build_boinc_mips.sh ) fi
-if [[ $1 == "mips64" ]]; then ( ./build_androidtc_mips64.sh && ./build_openssl_mips64.sh && ./build_curl_mips64.sh && ./build_boinc_mips64.sh ) fi
-if [[ $1 == "x86" ]]; then ( ./build_androidtc_x86.sh && ./build_openssl_x86.sh && ./build_curl_x86.sh && ./build_boinc_x86.sh ) fi
-if [[ $1 == "x86_64" ]]; then ( ./build_androidtc_x86_64.sh && ./build_openssl_x86_64.sh && ./build_curl_x86_64.sh && ./build_boinc_x86_64.sh ) fi
+if [[ $1 == "arm" ]]; then
+    ./build_androidtc_arm.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_openssl_arm.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_curl_arm.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_boinc_arm.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    exit 0
+fi
+
+if [[ $1 == "arm64" ]]; then
+    ./build_androidtc_arm64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_openssl_arm64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_curl_arm64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_boinc_arm64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    exit 0
+fi
+
+if [[ $1 == "mips" ]]; then
+    ./build_androidtc_mips.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_openssl_mips.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_curl_mips.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_boinc_mips.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    exit 0
+fi
+
+if [[ $1 == "mips64" ]]; then
+    ./build_androidtc_mips64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_openssl_mips64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_curl_mips64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_boinc_mips64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    exit 0
+fi
+
+if [[ $1 == "x86" ]]; then
+    ./build_androidtc_x86.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_openssl_x86.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_curl_x86.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_boinc_x86.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    exit 0
+fi
+
+if [[ $1 == "x86_64" ]]; then
+    ./build_androidtc_x86_64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_openssl_x86_64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_curl_x86_64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+    ./build_boinc_x86_64.sh
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    exit 0
+fi
