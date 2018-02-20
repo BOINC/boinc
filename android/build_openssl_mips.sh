@@ -30,6 +30,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
 ./build_androidtc_mips.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILEOPENSSL" ]; then
 echo "================building openssl from $OPENSSL============================="
@@ -39,12 +40,15 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+if [ $? -ne 0 ]; then exit 1; fi
 #override flags in Makefile
 sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
 mv Makefile.out Makefile
 fi
 make
+if [ $? -ne 0 ]; then exit 1; fi
 make install_sw
+if [ $? -ne 0 ]; then exit 1; fi
 echo "========================openssl DONE=================================="
 fi

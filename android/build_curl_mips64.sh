@@ -29,6 +29,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
 ./build_androidtc_mips64.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
@@ -38,8 +39,11 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=mips64el-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 make
+if [ $? -ne 0 ]; then exit 1; fi
 make install
+if [ $? -ne 0 ]; then exit 1; fi
 echo "========================curl done================================="
 fi

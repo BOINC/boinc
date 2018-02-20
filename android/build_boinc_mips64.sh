@@ -31,6 +31,7 @@ export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 
 # Prepare android toolchain and environment
 ./build_androidtc_mips64.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
@@ -41,11 +42,14 @@ fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
 ./configure --host=mips64el-linux --with-boinc-platform="mips64el-android-linux-gnu" --with-boinc-alt-platform="mipsel-android-linux-gnu" --with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+if [ $? -ne 0 ]; then exit 1; fi
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
 make
+if [ $? -ne 0 ]; then exit 1; fi
 make stage
+if [ $? -ne 0 ]; then exit 1; fi
 
 echo "Stripping Binaries"
 cd stage/usr/local/bin

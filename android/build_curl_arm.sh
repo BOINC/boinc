@@ -30,6 +30,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
@@ -39,8 +40,11 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 make
+if [ $? -ne 0 ]; then exit 1; fi
 make install
+if [ $? -ne 0 ]; then exit 1; fi
 echo "========================curl done================================="
 fi
