@@ -93,7 +93,11 @@
 #include "config.h"
 #include <cstdlib>
 #include <cstring>
+#ifdef ANDROID
+#include <stdio.h>
+#else
 #include <cstdio>
+#endif
 #include <cstdarg>
 #include <sys/types.h>
 #include <errno.h>
