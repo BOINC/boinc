@@ -6,7 +6,7 @@ Open a terminal and enter the following command:
 sudo apt-get install boinc-client boinc-manager
 ```
 ## Ubuntu
-Use the software centre to insatll the BOINC manager or following instructions for Debian.
+Use the software centre to install the BOINC manager or following instructions for Debian.
 
 ## Fedora
 Open a terminal and enter the following command:
