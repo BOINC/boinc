@@ -169,7 +169,7 @@ else
 fi
 
 # Patch curl_config.h to not use clock_gettime(), which is
-# defined in OS 10.11 SDK but was not available before OS 10.11.
+# defined in OS 10.12 SDK but was not available before OS 10.12.
 # If building with an older SDK or an older version of Xcode, these
 # patches will fail because config has already set our desired values.
 cat >> /tmp/curl_config_h_diff1 << ENDOFFILE
