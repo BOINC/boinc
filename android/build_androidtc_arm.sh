@@ -11,6 +11,6 @@ export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROID_TC_ARM="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
 
 if [ ! -d $ANDROID_TC_ARM/arm-linux-androideabi ]; then
-    $NDK_ROOT/build/tools/make-standalone-toolchain.sh --verbose --platform=android-16 --arch=arm --install-dir=$ANDROID_TC_ARM
+    $NDK_ROOT/build/tools/make-standalone-toolchain.sh --verbose --platform=android-16 --arch=arm --install-dir=$ANDROID_TC_ARM --stl=libc++
     if [ $? -ne 0 ]; then exit 1; fi
 fi
