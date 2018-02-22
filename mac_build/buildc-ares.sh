@@ -129,7 +129,7 @@ export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 if [ $? -ne 0 ]; then return 1; fi
 
 # Patch ares_config.h to not use clock_gettime(), which is
-# defined in OS 10.11 SDK but was not available before OS 10.11.
+# defined in OS 10.12 SDK but was not available before OS 10.12.
 # If building with an older SDK, this patch will fail because
 # config has already set our desired value.
 rm -f ares_config.h.orig
