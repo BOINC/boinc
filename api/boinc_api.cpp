@@ -91,9 +91,14 @@
 #include "win_util.h"
 #else
 #include "config.h"
+
 #ifdef ANDROID
-#include "std_fixes.h"
+#undef _FILE_OFFSET_BITS
+#undef _LARGE_FILES
+#undef _LARGEFILE_SOURCE
+#undef _LARGEFILE64_SOURCE
 #endif // ANDROID
+
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
