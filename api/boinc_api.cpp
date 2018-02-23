@@ -91,6 +91,9 @@
 #include "win_util.h"
 #else
 #include "config.h"
+#ifdef ANDROID
+#include "std_fixes.h"
+#endif // ANDROID
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
