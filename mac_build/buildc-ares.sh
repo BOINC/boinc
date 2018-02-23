@@ -29,6 +29,7 @@
 # Updated 9/2/14 for bulding c-ares as 64-bit binary
 # Updated 9/10/16 for bulding c-ares 1.11.0
 # Updated 1/25/18 for bulding c-ares 1.13.0 (updated comemnts only)
+# Updated 2/22/18 to avoid APIs not available in earlier versions of OS X
 #
 ## This script requires OS 10.6 or later
 #
@@ -126,6 +127,29 @@ export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
 ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
+
+# Patch ares_config.h to not use clock_gettime(), which is
+# defined in OS 10.12 SDK but was not available before OS 10.12.
+# If building with an older SDK, this patch will fail because
+# config has already set our desired value.
+rm -f ares_config.h.orig
+cat >> /tmp/ares_config_h_diff << ENDOFFILE
+--- ares_config_orig.h    2018-01-25 04:15:37.000000000 -0800
++++ ares_config.h    2018-02-22 01:30:57.000000000 -0800
+@@ -74,7 +74,7 @@
+ #define HAVE_BOOL_T 1
+
+ /* Define to 1 if you have the clock_gettime function and monotonic timer. */
+-#define HAVE_CLOCK_GETTIME_MONOTONIC 1
++/* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
+
+ /* Define to 1 if you have the closesocket function. */
+ /* #undef HAVE_CLOSESOCKET */
+ENDOFFILE
+
+patch -bfi /tmp/ares_config_h_diff ares_config.h
+rm -f /tmp/ares_config_h_diff
+rm -f ares_config.h.rej
 
 if [ "${doclean}" = "yes" ]; then
     make clean

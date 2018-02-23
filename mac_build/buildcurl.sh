@@ -34,6 +34,7 @@
 # Updated 3/14/17 to patch curlrules.h to fix BOINC Manager compile error
 # Updated 1/25/18 for curl 7.58.0 with c-ares 1.13.0 & openssl 1.1.0g, don't patch currules.h
 # Updated 1/26/18 to get directory names of c-ares and OpenSSL from dependencyNames.sh
+# Updated 2/22/18 to avoid APIs not available in earlier versions of OS X
 #
 ## This script requires OS 10.6 or later
 #
@@ -166,6 +167,42 @@ else
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
+
+# Patch curl_config.h to not use clock_gettime(), which is
+# defined in OS 10.12 SDK but was not available before OS 10.12.
+# If building with an older SDK or an older version of Xcode, these
+# patches will fail because config has already set our desired values.
+cat >> /tmp/curl_config_h_diff1 << ENDOFFILE
+--- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
++++ lib/curl_config1.h.in    2018-02-22 04:29:56.000000000 -0800
+@@ -141,5 +141,5 @@
+
+ /* Define to 1 if you have the __builtin_available function. */
+-#define HAVE_BUILTIN_AVAILABLE 1
++/* #undef HAVE_BUILTIN_AVAILABLE */
+
+ /* Define to 1 if you have the clock_gettime function and monotonic timer. */
+ENDOFFILE
+
+patch -fi /tmp/curl_config_h_diff1 lib/curl_config.h
+rm -f /tmp/curl_config_h_diff1
+rm -f lib/curl_config.h.rej
+
+cat >> /tmp/curl_config_h_diff2 << ENDOFFILE
+--- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
++++ lib/curl_config2.h.in    2018-02-22 04:30:21.000000000 -0800
+@@ -144,5 +144,5 @@
+
+ /* Define to 1 if you have the clock_gettime function and monotonic timer. */
+-#define HAVE_CLOCK_GETTIME_MONOTONIC 1
++/* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
+
+ /* Define to 1 if you have the closesocket function. */
+ENDOFFILE
+
+patch -fi /tmp/curl_config_h_diff2 lib/curl_config.h
+rm -f /tmp/curl_config_h_diff2
+rm -f lib/curl_config.h.rej
 
 if [ "${doclean}" = "yes" ]; then
     make clean
