@@ -70,6 +70,12 @@ struct SUBMIT_REQ {
     char app_name[256];
     vector<JOB> jobs;
     int batch_id;
+    char rsc_fpops_est[256];
+    char rsc_fpops_bound[256];
+    char rsc_memory_bound[256];
+    char rsc_disk_bound[256];
+    char delay_bound[256];
+    char app_version_num[256];
 };
 
 struct LOCAL_FILE {
@@ -279,6 +285,26 @@ int COMMAND::parse_submit(char* p) {
         }
         submit_req.jobs.push_back(job);
     }
+
+    char *chr = NULL;
+    chr = strtok_r(NULL, " ", &p);
+    if (chr != NULL) {
+        strlcpy(submit_req.rsc_fpops_est, chr, sizeof(submit_req.rsc_fpops_est));
+        strlcpy(submit_req.rsc_fpops_bound, strtok_r(NULL, " ", &p), sizeof(submit_req.rsc_fpops_bound));
+        strlcpy(submit_req.rsc_memory_bound, strtok_r(NULL, " ", &p), sizeof(submit_req.rsc_memory_bound));
+        strlcpy(submit_req.rsc_disk_bound, strtok_r(NULL, " ", &p), sizeof(submit_req.rsc_disk_bound));
+        strlcpy(submit_req.delay_bound, strtok_r(NULL, " ", &p), sizeof(submit_req.delay_bound));
+        strlcpy(submit_req.app_version_num, strtok_r(NULL, " ", &p), sizeof(submit_req.app_version_num));
+
+    } else {
+        strlcpy(submit_req.rsc_fpops_est, "", sizeof(submit_req.rsc_fpops_est));
+        strlcpy(submit_req.rsc_fpops_bound, "", sizeof(submit_req.rsc_fpops_bound));
+        strlcpy(submit_req.rsc_memory_bound, "", sizeof(submit_req.rsc_memory_bound));
+        strlcpy(submit_req.rsc_disk_bound, "", sizeof(submit_req.rsc_disk_bound));
+        strlcpy(submit_req.delay_bound, "", sizeof(submit_req.delay_bound));
+        strlcpy(submit_req.app_version_num, "", sizeof(submit_req.app_version_num));
+    }
+
     return 0;
 }
 
@@ -324,7 +350,9 @@ void handle_submit(COMMAND& c) {
 
     retval = submit_jobs(
         project_url, authenticator,
-        req.app_name, req.batch_id, req.jobs, error_msg
+	req.app_name, req.batch_id, req.jobs, error_msg, req.rsc_fpops_est,
+                req.rsc_fpops_bound, req.rsc_memory_bound, 
+                req.rsc_disk_bound, req.delay_bound, atoi(req.app_version_num)
     );
     if (retval) {
         sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);

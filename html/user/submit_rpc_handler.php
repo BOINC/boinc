@@ -201,7 +201,8 @@ function stage_files(&$jobs) {
 // submit a list of jobs with a single create_work command.
 //
 function submit_jobs(
-    $jobs, $template, $app, $batch_id, $priority, $app_version_num,
+    $jobs, $template, $app, $batch_id, $priority, $app_version_num, $rsc_fpops_est,
+    $rsc_fpops_bound, $rsc_memory_bound, $rsc_disk_bound, $delay_bound,
     $input_template_filename,        // batch-level; can also specify per job
     $output_template_filename
 ) {
@@ -251,9 +252,31 @@ function submit_jobs(
     if ($output_template_filename) {
         $cmd .= " --result_template templates/$output_template_filename";
     }
+
+    if ($rsc_fpops_est) {
+        $cmd .= " --rsc_fpops_est $rsc_fpops_est";
+    }
+
+    if ($rsc_fpops_bound) {
+        $cmd .= " --rsc_fpops_bound $rsc_fpops_bound";
+    }
+
+    if ($rsc_memory_bound) {
+        $cmd .= " --rsc_memory_bound $rsc_memory_bound";
+    }
+
+    if ($rsc_disk_bound) {
+        $cmd .= " --rsc_disk_bound $rsc_disk_bound";
+    }
+
+    if ($delay_bound) {
+        $cmd .= " --delay_bound $delay_bound";
+    }
+
     if ($app_version_num) {
         $cmd .= " --app_version_num $app_version_num";
     }
+
     $cmd .= " --stdin >$errfile 2>&1";
     $h = popen($cmd, "w");
     if ($h === false) {
@@ -333,7 +356,11 @@ function xml_get_jobs($r) {
         $job->target_user = (int)$j->target_user;
         $job->target_host = (int)$j->target_host;
         $job->name = (string)$j->name;
-        $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
+	$job->rsc_fpops_est = (double)$j->rsc_fpops_est;
+	$job->rsc_fpops_bound = (double)$j->rsc_fpops_bound;
+	$job->rsc_memory_bound = (double)$j->rsc_memory_bound;
+	$job->rsc_disk_bound = (double)$j->rsc_disk_bound;
+	$job->delay_bound = (double)$j->delay_bound;
         $job->input_template = null;
         if ($j->input_template) {
             $job->input_template = $j->input_template;
@@ -382,6 +409,11 @@ function submit_batch($r) {
     $njobs = count($jobs);
     $now = time();
     $app_version_num = (int)($r->batch->app_version_num);
+    $rsc_fpops_est = (double)$r->batch->rsc_fpops_est;
+    $rsc_fpops_bound = (double)$r->batch->rsc_fpops_bound;
+    $rsc_memory_bound = (double)$r->batch->rsc_memory_bound;
+    $rsc_disk_bound = (double)$r->batch->rsc_disk_bound;
+    $delay_bound = (double)$r->batch->delay_bound;
     $batch_id = (int)($r->batch->batch_id);
     if ($batch_id) {
         $batch = BoincBatch::lookup_id($batch_id);
@@ -401,6 +433,7 @@ function submit_batch($r) {
     // - use that for batch logical end time and job priority
     //
     $total_flops = 0;
+    $jobs_num = 0;
     foreach($jobs as $job) {
         //print_r($job);
         if ($job->rsc_fpops_est) {
@@ -409,14 +442,25 @@ function submit_batch($r) {
             $total_flops += (double) $job->input_template->workunit->rsc_fpops_est;
         } else {
             $x = (double) $template->workunit->rsc_fpops_est;
-            if ($x) {
+            if ($x)
                 $total_flops += $x;
-            } else {
-                xml_error(-1, "no rsc_fpops_est given");
-            }
-        }
+	}
+	
+	$jobs_num++;
     }
-    $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
+
+      
+    //If no rsc_fpops_est is found in the template or in the incoming xml request
+    //use the modified ./adjust_user_priority and pass it the number of jobs in the 
+    //batch so it can multiply it by the default rsc_fpops_est
+
+    if ($total_flops == 0)
+        $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --jobs $jobs_num --app $app->name";
+    else if ($jobs_num != 0)
+        $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
+    else xml_error(-1, "BOINC server: no rsc_fpops_est given");
+
+
     $x = exec($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
         xml_error(-1, "$cmd returned $x");
@@ -452,7 +496,8 @@ function submit_batch($r) {
     }
     
     submit_jobs(
-        $jobs, $template, $app, $batch_id, $let, $app_version_num,
+	$jobs, $template, $app, $batch_id, $let, $app_version_num,
+	$rsc_fpops_est, $rsc_fpops_bound, $rsc_memory_bound, $rsc_disk_bound, $delay_bound,
         $input_template_filename,
         $output_template_filename
     );
@@ -472,12 +517,12 @@ function submit_batch($r) {
 
 function create_batch($r) {
     xml_start_tag("create_batch");
-    $app = get_submit_app((string)($r->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
-    $batch_name = (string)($r->batch_name);
+    $batch_name = (string)($r->batch->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
-    $expire_time = (double)($r->expire_time);
+    $expire_time = (double)($r->batch->expire_time);
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
     );
