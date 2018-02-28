@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string.h>
+#ifdef ANDROID
+#include "../android/android_config.h"
+#else
 #include "config.h"
+#endif
 #include "sched_msgs.h"
 
 SCHED_MSG_LOG log_messages;
