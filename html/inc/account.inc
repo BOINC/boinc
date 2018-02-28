@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -124,7 +124,9 @@ function login_form($next_url) {
         tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
         "passwd",
         "",
-        "password"
+        "password",
+        'id="passwd"',
+        passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
         array(array("stay_logged_in", "", true))
