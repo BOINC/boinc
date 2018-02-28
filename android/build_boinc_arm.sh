@@ -19,9 +19,6 @@ export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-echo "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
-echo $TCINCLUDES
-
 export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
 export CC=arm-linux-androideabi-gcc
 export CXX=arm-linux-androideabi-g++
