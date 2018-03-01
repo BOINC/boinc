@@ -20,11 +20,15 @@
 // - forms for create / login
 // - function to make login token
 
-// make login token, store in user record, return token
+// If have recent token, return it.
+// Else make login token, store in user record, return token
 //
 function make_login_token($user) {
-    $token = substr(random_string(), 0, 8);
     $now = time();
+    if ($now - $user->login_token_time < 86400) {
+        return $user->login_token;
+    }
+    $token = substr(random_string(), 0, 8);
     $user->update("login_token='$token', login_token_time=$now");
     return $token;
 }
