@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,8 +31,13 @@
 #include <paths.h>
 #include <sysexits.h>
 #include <sys/param.h>
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else  // used to be if defined(__linux__)
 #include "config.h"
+#endif
+
+#if !defined (_WIN32) && !defined (__APPLE__)
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

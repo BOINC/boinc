@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,10 @@
 // runs program at Full-Path with args X1. ... Xn
 // note that the executable name nust be specified twice:
 //  once as part of the Full_Path and again as just the name
+
+#ifdef ANDROID
+#include "../android/android_config.h"
+#endif
 
 #include <unistd.h>
 #include <cstdio>
