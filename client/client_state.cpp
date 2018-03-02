@@ -257,13 +257,11 @@ void CLIENT_STATE::show_host_info() {
             "VirtualBox version: %s",
             host_info.virtualbox_version
         );
-    } else {
 #if defined (_WIN32) && !defined(_WIN64)
-        if (!strcmp(get_primary_platform(), "windows_x86_64")) {
-            msg_printf(NULL, MSG_USER_ALERT,
-                "Can't detect VirtualBox because this is a 32-bit version of BOINC; to fix, please install a 64-bit version."
-            );
-        }
+    } else {
+        msg_printf(NULL, MSG_USER_ALERT,
+            "Can't detect VirtualBox because this is a 32-bit version of BOINC; to fix, please install a 64-bit version."
+        );
 #endif
     }
 }
@@ -413,6 +411,31 @@ static void set_client_priority() {
 #endif
 }
 
+// return the compile target of the BOINC client
+// (not necessarily the same has the host architecture)
+// TODO: flesh this out for Linux (architecture, bitness)
+//
+static const char* client_target() {
+#ifdef _WIN32
+#ifdef _WIN64
+    return " for Windows 64-bit";
+#endif
+    return " for Windows 32-bit";
+#endif
+
+#ifdef __APPLE__
+    return " for Mac OS X";
+#endif
+
+#if LINUX_LIKE_SYSTEM
+    return " for Linux";
+#endif
+
+#ifdef ANDROID
+    return " for Android";
+#endif
+}
+
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -434,13 +457,13 @@ int CLIENT_STATE::init() {
     time_stats.start();
 
     msg_printf(
-        NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
+        NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d%s%s",
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        get_primary_platform(),
+        client_target(),
 #ifdef _DEBUG
-        " (DEBUG)"
+        " (Debug)"
 #else
         ""
 #endif
