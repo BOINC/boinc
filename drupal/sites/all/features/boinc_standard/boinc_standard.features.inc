@@ -201,6 +201,730 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_forum_topic_is_edited_and_marked_sticky_by_moderator_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited and marked sticky by moderator/admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#weight' => 0,
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+          ),
+          '3' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node content unchanged',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#settings' => array(
+              'code' => 'return $node->body == $node_unchanged->body;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '4' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node made sticky',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#type' => 'condition',
+            '#settings' => array(
+              'code' => 'return $node_unchanged->sticky == 0 && $node->sticky == 1;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] marked sticky by moderator/admin',
+              'message' => "[node:type] topic '[node:title]' has been marked sticky by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_forum_topic_is_edited_and_marked_unsticky_by_moderator_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited and marked unsticky by moderator/admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#weight' => 0,
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+          ),
+          '3' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node content unchanged',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#settings' => array(
+              'code' => 'return $node->body == $node_unchanged->body;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '4' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node made sticky',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#type' => 'condition',
+            '#settings' => array(
+              'code' => 'return $node_unchanged->sticky == 1 && $node->sticky == 0;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] marked unsticky by moderator/admin',
+              'message' => "[node:type] topic '[node:title]' has been marked unsticky by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_forum_topic_is_edited_and_locked_by_moderator_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited and locked by moderator/admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#weight' => 0,
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+          ),
+          '3' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node content unchanged',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#settings' => array(
+              'code' => 'return $node->body == $node_unchanged->body;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '4' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node locked',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#type' => 'condition',
+            '#settings' => array(
+              'code' => 'return $node_unchanged->comment == 2 && $node->comment == 1;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] locked by moderator/admin',
+              'message' => "[node:type] topic '[node:title]' has been locked by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_forum_topic_is_edited_and_unlocked_by_moderator_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is edited and unlocked by moderator/admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#weight' => 0,
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+          ),
+          '3' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node content unchanged',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#settings' => array(
+              'code' => 'return $node->body == $node_unchanged->body;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '4' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node unlocked',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#type' => 'condition',
+            '#settings' => array(
+              'code' => 'return $node_unchanged->comment == 1 && $node->comment == 2;',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] unlocked by moderator/admin',
+              'message' => "[node:type] topic '[node:title]' has been unlocked by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_forum_topic_is_edited_and_hidden_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
@@ -654,7 +1378,7 @@ function boinc_standard_rules_defaults() {
           '2' => array(
             '#weight' => 0,
             '#info' => array(
-              'label' => 'PHP code: node status unchanged',
+              'label' => 'PHP code: node status, sticky, lock unchanged',
               'label callback' => FALSE,
               'module' => 'PHP',
               'eval input' => array(
@@ -663,7 +1387,7 @@ function boinc_standard_rules_defaults() {
             ),
             '#name' => 'rules_condition_custom_php',
             '#settings' => array(
-              'code' => 'return $node->status == $node_unchanged->status;',
+              'code' => 'return ($node->status == $node_unchanged->status && $node->sticky == $node_unchanged->sticky && $node->comment == $node_unchanged->comment);',
               'vars' => array(
                 '0' => 'node',
                 '1' => 'node_unchanged',
