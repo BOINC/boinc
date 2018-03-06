@@ -1541,7 +1541,7 @@ function boinc_standard_rules_defaults() {
             ),
             '#name' => 'rules_condition_custom_php',
             '#settings' => array(
-              'code' => 'return ($node->forum_tid != $node_unchanged->forum_tid);',
+              'code' => 'return ($node->tid != $node_unchanged->tid);',
               'vars' => array(
                 '0' => 'node',
                 '1' => 'node_unchanged',
