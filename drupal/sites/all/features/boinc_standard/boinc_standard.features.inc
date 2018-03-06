@@ -1378,7 +1378,7 @@ function boinc_standard_rules_defaults() {
           '2' => array(
             '#weight' => 0,
             '#info' => array(
-              'label' => 'PHP code: node status, sticky, lock unchanged',
+              'label' => 'PHP code: content changed',
               'label callback' => FALSE,
               'module' => 'PHP',
               'eval input' => array(
@@ -1387,7 +1387,7 @@ function boinc_standard_rules_defaults() {
             ),
             '#name' => 'rules_condition_custom_php',
             '#settings' => array(
-              'code' => 'return ($node->status == $node_unchanged->status && $node->sticky == $node_unchanged->sticky && $node->comment == $node_unchanged->comment);',
+              'code' => 'return ($node->body != $node_unchanged->body);',
               'vars' => array(
                 '0' => 'node',
                 '1' => 'node_unchanged',
@@ -1411,6 +1411,160 @@ function boinc_standard_rules_defaults() {
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
               'message' => "[node:type] '[node:title]' has been edited by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_forum_topic_is_moved_to_a_different_forum_by_moderator_or_admin' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Forum topic is moved to a different forum by moderator or admin',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 3519698132,
+                '1' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s): administrator or moderator',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#weight' => 0,
+              '#info' => array(
+                'label' => 'Updated content is Forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#settings' => array(
+                'type' => array(
+                  'forum' => 'forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#type' => 'condition',
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'type' => array(
+                  'team_forum' => 'team_forum',
+                ),
+                '#argument map' => array(
+                  'node' => 'node',
+                ),
+              ),
+              '#name' => 'rules_condition_content_is_type',
+              '#info' => array(
+                'label' => 'Updated content is Team forum topic',
+                'arguments' => array(
+                  'node' => array(
+                    'type' => 'node',
+                    'label' => 'Content',
+                  ),
+                ),
+                'module' => 'Node',
+              ),
+              '#weight' => 0,
+            ),
+          ),
+          '2' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'PHP code: node moved to new forum parent',
+              'label callback' => FALSE,
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_condition_custom_php',
+            '#settings' => array(
+              'code' => 'return ($node->forum_tid != $node_unchanged->forum_tid);',
+              'vars' => array(
+                '0' => 'node',
+                '1' => 'node_unchanged',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Forum topic at [:global:site-name] moved by moderator/admin',
+              'message' => "[node:type] '[node:title]' has been moved by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]\r\n\r\nNew Parent: [node:menu-link-parent-path]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
