@@ -1083,7 +1083,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] hidden by moderator/admin',
-              'message' => "[node:type] '[node:title]' has been hidden by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              'message' => "[node:type] topic '[node:title]' has been hidden by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -1265,7 +1265,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] unhidden by moderator/admin',
-              'message' => "[node:type] '[node:title]' has been unhidden by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              'message' => "[node:type] topic '[node:title]' has been unhidden by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -1410,7 +1410,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
-              'message' => "[node:type] '[node:title]' has been edited by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              'message' => "[node:type] topic '[node:title]' has been edited by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -1564,7 +1564,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] moved by moderator/admin',
-              'message' => "[node:type] '[node:title]' has been moved by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              'message' => "[node:type] topic '[node:title]' has been moved by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -1718,7 +1718,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] renamed by moderator/admin',
-              'message' => "[node:type] '[node:title]' has its title renamed by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              'message' => "[node:type] topic '[node:title]' has its title renamed by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -2052,7 +2052,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Comment deleted at [:global:site-name] by admin',
-              'message' => "Comment to [node:type] '[node:title]' deleted by admin [user:display-name].\r\n\r\nLink: [node:node-url]",
+              'message' => "Comment to [node:type] topic '[node:title]' deleted by admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
