@@ -201,10 +201,10 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
-      'rules_forum_topic_is_edited_and_marked_sticky_by_moderator_admin' => array(
+      'rules_forum_topic_marked_sticky_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and marked sticky by moderator/admin',
+        '#label' => 'Forum topic marked sticky by moderator/admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -382,10 +382,10 @@ function boinc_standard_rules_defaults() {
         ),
         '#version' => 6003,
       ),
-      'rules_forum_topic_is_edited_and_marked_unsticky_by_moderator_admin' => array(
+      'rules_forum_topic_marked_unsticky_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and marked unsticky by moderator/admin',
+        '#label' => 'Forum topic marked unsticky by moderator/admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -563,10 +563,10 @@ function boinc_standard_rules_defaults() {
         ),
         '#version' => 6003,
       ),
-      'rules_forum_topic_is_edited_and_locked_by_moderator_admin' => array(
+      'rules_forum_topic_locked_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and locked by moderator/admin',
+        '#label' => 'Forum topic locked by moderator/admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -744,10 +744,10 @@ function boinc_standard_rules_defaults() {
         ),
         '#version' => 6003,
       ),
-      'rules_forum_topic_is_edited_and_unlocked_by_moderator_admin' => array(
+      'rules_forum_topic_unlocked_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and unlocked by moderator/admin',
+        '#label' => 'Forum topic unlocked by moderator/admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -925,10 +925,10 @@ function boinc_standard_rules_defaults() {
         ),
         '#version' => 6003,
       ),
-      'rules_forum_topic_is_edited_and_hidden_by_moderator_admin' => array(
+      'rules_forum_topic_is_hidden_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and hidden by moderator/admin',
+        '#label' => 'Forum topic is hidden by moderator/admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -1106,10 +1106,10 @@ function boinc_standard_rules_defaults() {
         ),
         '#version' => 6003,
       ),
-      'rules_forum_topic_is_edited_and_unhidden_by_moderator_admin' => array(
+      'rules_forum_topic_is_unhidden_by_moderator_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
-        '#label' => 'Forum topic is edited and unhidden by moderator/admin',
+        '#label' => 'Forum topic is unhidden by moderator/admin',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
