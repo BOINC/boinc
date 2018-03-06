@@ -359,8 +359,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] hidden by moderator/admin',
-              'message' => '[node:type] \'[node:title]\' has been hidden by moderator/admin [user:display-name]. Link:
-[node:node-url]',
+              'message' => "[node:type] '[node:title]' has been hidden by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -542,8 +541,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] unhidden by moderator/admin',
-              'message' => '[node:type] \'[node:title]\' has been unhidden by moderator/admin [user:display-name]. Link:
-[node:node-url]',
+              'message' => "[node:type] '[node:title]' has been unhidden by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -688,8 +686,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Forum topic at [:global:site-name] edited by moderator/admin',
-              'message' => '[node:type] \'[node:title]\' has been edited by moderator/admin [user:display-name]. Link: 
-[node:node-url]',
+              'message' => "[node:type] '[node:title]' has been edited by moderator/admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -817,8 +814,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Comment edited at [:global:site-name] by moderator or admin',
-              'message' => 'Comment has been edited by moderator/admin [user:display-name]. Link:
-[:global:site-url]/goto/comment/[comment:comment-cid]',
+              'message' => "Comment has been edited by moderator/admin [user:display-name].\r\n\r\nLink: [:global:site-url]/goto/comment/[comment:comment-cid]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -896,8 +892,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Comment at [:global:site-name] hidden by moderator or admin',
-              'message' => 'Comment has been hidden by moderator/admin [user:display-name]. Link:
-[:global:site-url]/goto/comment/[comment:comment-cid]',
+              'message' => "Comment has been hidden by moderator/admin [user:display-name].\r\n\r\nLink: [:global:site-url]/goto/comment/[comment:comment-cid]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -984,9 +979,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Comment at [:global:site-name] unhidden by moderator or admin',
-              'message' => 'Comment has been unhidden by moderator/admin [user:display-name]. Link:
-[:global:site-url]/goto/comment/[comment:comment-cid]
-',
+              'message' => "Comment has been unhidden by moderator/admin [user:display-name].\r\n\r\nLink: [:global:site-url]/goto/comment/[comment:comment-cid]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
@@ -1027,8 +1020,7 @@ function boinc_standard_rules_defaults() {
             '#settings' => array(
               'from' => '',
               'subject' => 'Comment deleted at [:global:site-name] by admin',
-              'message' => 'Comment to [node:type] \'[node:title]\' deleted by admin [user:display-name]. Link:
-[node:node-url]',
+              'message' => "Comment to [node:type] '[node:title]' deleted by admin [user:display-name].\r\n\r\nLink: [node:node-url]",
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'subject' => array(
