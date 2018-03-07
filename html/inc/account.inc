@@ -35,15 +35,16 @@ function passwd_visible_checkbox($name) {
     return sprintf('
 <script>
 function toggle_passwd() {
+    var c = document.getElementById("passwd_visible");
     var x = document.getElementById("%s");
-    if (x.type === "password") {
+    if (c.checked) {
         x.type = "text";
     } else {
         x.type = "password";
     }
 }
 </script>
-<input type="checkbox" onclick="toggle_passwd()"><small> Show password</small>
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"><small> Show password</small>
         ', $name
     );
 }
