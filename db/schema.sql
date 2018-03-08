@@ -110,8 +110,8 @@ create table user (
     passwd_hash             varchar(254)    not null,
     email_validated         smallint        not null,
     donated                 smallint        not null,
-    login_token             char(32)        not null default '',
-    login_token_time        double          not null default 0,
+    login_token             char(32)        not null,
+    login_token_time        double          not null,
     primary key (id)
 ) engine=InnoDB;
 
