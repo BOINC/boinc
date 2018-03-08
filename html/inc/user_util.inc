@@ -23,6 +23,7 @@ include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/recaptchalib.php");
+require_once("../inc/password.php");
 
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
@@ -68,12 +69,13 @@ function make_user(
     $email_addr = BoincDb::escape_string($email_addr);
     $name = sanitize_tags($name);
     $name = BoincDb::escape_string($name);
-    $passwd_hash = BoincDb::escape_string($passwd_hash);
+    $database_passwd_hash = password_hash( $passwd_hash, PASSWORD_DEFAULT);
+    $database_passwd_hash = BoincDb::escape_string($database_passwd_hash);
 
     $country = BoincDb::escape_string($country);
     $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
 
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$database_passwd_hash', 0, 0)");
 
     if (!$uid) {
         return null;

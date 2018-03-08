@@ -28,6 +28,7 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 require_once("../inc/ldap.inc");
+require_once("../inc/password.php");
 
 check_get_args(array("id", "t", "h", "key"));
 
@@ -49,9 +50,16 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
         error_page("This account has been administratively disabled.");
     }
     // allow authenticator as password
-    if ($passwd != $user->authenticator) {
+    if ($passwd != $user->authenticator ) {
         $passwd_hash = md5($passwd.$email_addr);
-        if ($passwd_hash != $user->passwd_hash) {
+        if ( $passwd_hash == $user->passwd_hash || password_verify($passwd_hash,$user->passwd_hash) ) {
+            // on valid login, rehash password in order to upgrade hash overtime
+            // as the defaults change.  Also converts users passwords from md5 if required
+            $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
+            $result = $user->update(
+                "passwd_hash='$database_passwd_hash'"
+            );
+        } else {
             sleep(LOGIN_FAIL_SLEEP_SEC);
             page_head("Password incorrect");
             echo "The password you entered is incorrect. Please go back and try again.\n";

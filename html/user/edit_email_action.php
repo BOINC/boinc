@@ -20,6 +20,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user_util.inc");
+require_once("../inc/password.php");
 
 check_get_args(array());
 
@@ -46,17 +47,18 @@ if (!is_valid_email_addr($email_addr)) {
         // deal with the case where user hasn't set passwd
         // (i.e. passwd is account key)
         //
-        if ($passwd_hash != $user->passwd_hash) {
+        if ($passwd_hash != $user->passwd_hash && !password_verify($passwd_hash,$user->passwd_hash)) {
             $passwd = $user->authenticator;
             $passwd_hash = md5($passwd.$user->email_addr);
         }
-        if ($passwd_hash != $user->passwd_hash) {
+        if ($passwd_hash != $user->passwd_hash && !password_verify($passwd_hash,$user->passwd_hash)) {
             echo tra("Invalid password.");
         } else {
             $passwd_hash = md5($passwd.$email_addr);
+            $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT );
             $email_addr = BoincDb::escape_string($email_addr);
             $result = $user->update(
-                "email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0"
+                "email_addr='$email_addr', passwd_hash='$database_passwd_hash', email_validated=0"
             );
             if ($result) {
                 echo tra("The email address of your account is now %1.", $email_addr);
