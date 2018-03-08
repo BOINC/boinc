@@ -181,13 +181,13 @@ struct XML_PARSER {
             if (isascii(c) && isspace(c)) {
                 if (found_space && attr_buf) {
                     if (--attr_len > 0) {
-                        *attr_buf++ = c;
+                        *attr_buf++ = (char)c;
                     }
                 }
                 found_space = true;
             } else if (c == '/') {
                 if (--tag_len > 0) {
-                    *buf++ = c;
+                    *buf++ = (char)c;
                 } else {
                     return XML_PARSE_OVERFLOW;
                 }
@@ -195,12 +195,12 @@ struct XML_PARSER {
                 if (found_space) {
                     if (attr_buf) {
                         if (--attr_len > 0) {
-                            *attr_buf++ = c;
+                            *attr_buf++ = (char)c;
                         }
                     }
                 } else {
                     if (--tag_len > 0) {
-                        *buf++ = c;
+                        *buf++ = (char)c;
                     } else {
                         return XML_PARSE_OVERFLOW;
                     }
@@ -235,7 +235,7 @@ struct XML_PARSER {
                 retval = ERR_XML_PARSE;
                 break;
             }
-            buf[n++] = c;
+            buf[n++] = (char)c;
             buf[n] = 0;
             char* p = strstr(buf, end_tag);
             if (p) {
