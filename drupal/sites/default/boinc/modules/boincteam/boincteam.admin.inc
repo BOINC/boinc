@@ -43,7 +43,7 @@ function boincteam_utility_delete(&$form_state) {
   // This variable name has been changed for Drupal 7/8.
   $maintenance_mode = variable_get('site_offline');
   if (!$maintenance_mode) {
-    drupal_set_message(t('WARNING: Site is online (not in maintenance mode)! Deleting teams is only allowed when site is offline. Change this setting in Administer -> Site configuration -> Site maintenance'), 'warning');
+    drupal_set_message(t('WARNING: Site is online (not in maintenance mode)! Deleting teams is only allowed when site is offline. Change this setting in ') . l(t('Site maintenance'), '/admin/settings/site-maintenance'), 'warning');
   }
 
   $form['teamdelete'] = array(
@@ -104,7 +104,7 @@ function boincteam_utility_team_table() {
     while ($result = db_fetch_object($db_res)) {
       $drupalnid = boincteam_lookup_nid($result->id);
       if ($drupalnid) {
-        $tlink = l($result->name, 'https://puppet-eah-agent.cgca.uwm.edu/community/teams/' . $drupalnid);
+        $tlink = l($result->name, '/community/teams/' . $drupalnid);
       }
       else {
         $tlink = '';
