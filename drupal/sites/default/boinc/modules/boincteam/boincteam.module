@@ -141,6 +141,26 @@ function boincteam_top_teams() {
   
 }
 
+/**
+* Implementation of hook_views_pre_execute().
+*/
+function boincteam_views_pre_execute(&$view) {
+  /* Specific boinc_teams sub-views use the boinc readonly replica
+   * DB. These sub-views defined below by their title. If additional
+   * sub-views need to be added, add their title to the list of cases
+   * below. If a sub-view needs to be reverted to use the master DB,
+   * then remove it from the list of cases.
+   */
+  if ($view->name == 'boinc_teams') {
+    switch ($view->display[$view->current_display]->display_title) {
+    case 'Top teams overview pane':
+    case 'Top teams pane':
+    case 'Page':
+      $view->base_database = 'boinc_ro';
+    }
+  }
+}
+
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * BOINC team functions
