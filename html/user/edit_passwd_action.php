@@ -26,11 +26,6 @@ $user = get_logged_in_user();
 $email_addr = strtolower(post_str("email_addr", true));
 
 $passwd = post_str("passwd");
-$passwd2 = post_str("passwd2");
-
-if ($passwd != $passwd2) {
-    error_page(tra("New passwords are different"));
-}
 
 $config = get_config();
 $min_passwd_length = parse_config($config, "<min_passwd_length>");

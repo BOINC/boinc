@@ -26,8 +26,7 @@ $user = get_logged_in_user();
 page_head(tra("Change password"));
 
 form_start(secure_url_base()."edit_passwd_action.php", "post");
-form_input_text(tra("New password"), "passwd", "password",'id="passwd"',passwd_visible_checkbox("passwd"));
-form_input_text(tra("New password, again"), "passwd2", "password");
+form_input_text(tra("New password"), "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd"));
 form_submit(tra("Change password"));
 form_end();
 page_tail();
