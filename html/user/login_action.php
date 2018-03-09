@@ -32,6 +32,13 @@ require_once("../inc/password.php");
 
 check_get_args(array("id", "t", "h", "key"));
 
+function do_passwd_rehash($user,$passwd_hash) {
+    $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
+    $result = $user->update(
+        "passwd_hash='$database_passwd_hash'"
+    );
+}
+
 // login with email addr / passwd
 //
 function login_with_email($email_addr, $passwd, $next_url, $perm) {
@@ -52,14 +59,17 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     // allow authenticator as password
     if ($passwd != $user->authenticator ) {
         $passwd_hash = md5($passwd.$email_addr);
-        if ( $passwd_hash == $user->passwd_hash || password_verify($passwd_hash,$user->passwd_hash) ) {
-            // on valid login, rehash password in order to upgrade hash overtime
-            // as the defaults change.  Also converts users passwords from md5 if required
-            $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
-            $result = $user->update(
-                "passwd_hash='$database_passwd_hash'"
-            );
-        } else {
+        if ( password_verify($passwd_hash,$user->passwd_hash) ) {
+            // on valid login, rehash password if necessary to upgrade hash overtime
+            // as the defaults change. 
+            if ( password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT) ) {
+                do_passwd_rehash($user,$passwd_hash);
+            }
+        } else if ( $passwd_hash == $user->passwd_hash ) {
+            // if password is the legacy md5 hash, then rehash to update to
+            // a more secure hash
+            do_passwd_rehash($user,$passwd_hash);
+         } else {
             sleep(LOGIN_FAIL_SLEEP_SEC);
             page_head("Password incorrect");
             echo "The password you entered is incorrect. Please go back and try again.\n";
