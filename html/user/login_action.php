@@ -69,7 +69,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
             // if password is the legacy md5 hash, then rehash to update to
             // a more secure hash
             do_passwd_rehash($user,$passwd_hash);
-         } else {
+        } else {
             sleep(LOGIN_FAIL_SLEEP_SEC);
             page_head("Password incorrect");
             echo "The password you entered is incorrect. Please go back and try again.\n";

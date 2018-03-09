@@ -123,19 +123,20 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    form_input_text($x, "email_addr");
+    form_input_text($x, "email_addr", '', 'text', $attrs='autofocus tabindex="1"');
     form_input_text(
         tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
         "passwd",
         "",
         "password",
-        'id="passwd"',
+        'id="passwd" tabindex="2"',
         passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
-        array(array("stay_logged_in", "", true))
+        array(array("stay_logged_in", "", true)), 
+        'tabindex="3"'
     );
-    form_submit("Log in");
+    form_submit("Log in", 'tabindex="4"');
     form_end();
 }
 
