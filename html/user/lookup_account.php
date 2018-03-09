@@ -23,6 +23,14 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/ldap.inc");
+require_once("../inc/password.php");
+
+function do_passwd_rehash($user,$passwd_hash) {
+    $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
+    $result = $user->update(
+        "passwd_hash='$database_passwd_hash'"
+    );
+}
 
 xml_header();
 $retval = db_init_xml();
@@ -72,16 +80,28 @@ if (LDAP_HOST && $ldap_auth) {
     // if no password set, set password to account key
     //
     if (!strlen($user->passwd_hash)) {
-        $user->passwd_hash = $auth_hash;
+        $user->passwd_hash = password_hash($auth_hash , PASSWORD_DEFAULT);
         $user->update("passwd_hash='$user->passwd_hash'");
     }
-
-    // if the given password hash matches (auth+email), accept it
-    //
-    if ($user->passwd_hash != $passwd_hash && $auth_hash != $passwd_hash) {
+    
+    if ( password_verify($passwd_hash,$user->passwd_hash) ) {
+        // on valid login, rehash password if necessary to upgrade hash overtime
+        // as the defaults change. 
+        if ( password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT) ) {
+            do_passwd_rehash($user,$passwd_hash);
+        }
+    } else if ( $passwd_hash == $user->passwd_hash ) {
+        // if password is the legacy md5 hash, then rehash to update to
+        // a more secure hash
+        do_passwd_rehash($user,$passwd_hash);
+    } else if ( $auth_hash == $passwd_hash ) {
+        // if the passed hash matches the auth hash, then allow it
+    } else {
+        // if none of the above match, the password is invalid
         sleep(LOGIN_FAIL_SLEEP_SEC);
         xml_error(ERR_BAD_PASSWD);
     }
+
 }
 echo "<account_out>\n";
 echo "<authenticator>$user->authenticator</authenticator>\n";
