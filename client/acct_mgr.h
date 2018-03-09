@@ -36,10 +36,18 @@ struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
     // were mysterious bugs where setting it to "" didn't work
     //
+
+    // Account managers originally authenticated with name/password;
+    // e.g. BAM!, Gridrepublic.
+    // This has drawbacks, e.g. no way to change password.
+    // So we added the option of using a random-string authenticator.
+    // If this is present, use it rather than name/passwd.
+    //
     char login_name[256];   // unique name (could be email addr)
     char user_name[256];    // non-unique name
     char password_hash[256];
         // md5 of password.lowercase(login_name)
+    char authenticator[256];
     char opaque[256];
         // opaque data, from the AM, to be included in future AM requests
     char signing_key[MAX_KEY_LEN];
@@ -155,10 +163,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     bool got_rss_feeds;
     std::vector<RSS_FEED>rss_feeds;
 
-    int do_rpc(
-        std::string url, std::string name, std::string password,
-        bool via_gui
-    );
+    int do_rpc(ACCT_MGR_INFO&, bool via_gui);
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 

@@ -994,7 +994,11 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     ){
         grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
+        ACCT_MGR_INFO ami;
+        safe_strcpy(ami.master_url, url.c_str());
+        safe_strcpy(ami.login_name, name.c_str());
+        safe_strcpy(ami.password_hash, password_hash.c_str());
+        gstate.acct_mgr_op.do_rpc(ami, true);
         grc.mfout.printf("<success/>\n");
     }
 }
