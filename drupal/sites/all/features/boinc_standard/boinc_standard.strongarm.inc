@@ -292,7 +292,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'htmlpurifier_version_ours';
-  $strongarm->value = '4.6.0';
+  $strongarm->value = '4.10.0';
   $export['htmlpurifier_version_ours'] = $strongarm;
 
   $strongarm = new stdClass;
