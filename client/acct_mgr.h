@@ -78,12 +78,14 @@ struct ACCT_MGR_INFO : PROJ_AM {
 
     inline bool using_am() {
         if (!strlen(master_url)) return false;
+        if (strlen(authenticator)) return true;
         if (!strlen(login_name)) return false;
         if (!strlen(password_hash)) return false;
         return true;
     }
-    inline bool same_am(const char* mu, const char* ln, const char* ph) {
+    inline bool same_am(const char* mu, const char* ln, const char* ph, const char* auth) {
         if (strcmp(mu, master_url)) return false;
+        if (!strcmp(auth, authenticator)) return true;
         if (strcmp(ln, login_name)) return false;
         if (strcmp(ph, password_hash)) return false;
         return true;

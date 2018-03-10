@@ -383,6 +383,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         }
         if (xp.match_tag("/acct_mgr_reply")) return 0;
         if (xp.parse_str("name", ami.project_name, 256)) continue;
+        if (xp.parse_str("authenticator", ami.authenticator, 256)) continue;
         if (xp.parse_int("error_num", error_num)) continue;
         if (xp.parse_string("error", error_str)) continue;
         if (xp.parse_string("error_msg", error_str)) continue;
