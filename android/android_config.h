@@ -20,20 +20,24 @@
 
 #include "config.h"
 
+#ifndef ANDROID_64
+
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
 #undef _LARGEFILE_SOURCE
 #undef _LARGEFILE64_SOURCE
 
-#ifndef ANDROID_64
 #if HAVE_SYS_STATFS_H
+
 #if HAVE_SYS_STATVFS_H
 #undef HAVE_SYS_STATVFS_H
 #define HAVE_SYS_STATVFS_H 0
 #endif
+
 #else
 #error Need to specify a method to obtain free/total disk space
 #endif
+
 #endif
 
 #endif // double-inclusion protection
