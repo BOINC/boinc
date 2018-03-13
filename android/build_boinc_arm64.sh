@@ -28,7 +28,7 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=2
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_DIR=
-export PKG_CONFIG_LIBDIR=$TCSYSROOT/usr/lib/pkgconfig:$TCSYSROOT/usr/share/pkgconfig
+export PKG_CONFIG_LIBDIR=$TCINCLUDES/lib/pkgconfig
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 
 # Prepare android toolchain and environment
