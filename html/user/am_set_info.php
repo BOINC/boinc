@@ -177,7 +177,7 @@ if ($email_addr && $email_addr!=$user->email_addr) {
     $query .= " email_addr='$email_addr', ";
 }
 if ($password_hash) {
-    $database_passwd_hash = password_hash($password_hash , PASSWORD_DEFAULT);
+    $database_passwd_hash = password_hash($password_hash, PASSWORD_DEFAULT);
     $query .= " passwd_hash='$database_passwd_hash', ";
 }
 

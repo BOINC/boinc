@@ -70,7 +70,7 @@ if (strlen($passwd_hash) != 32) {
 
 $user = BoincUser::lookup_email_addr($email_addr);
 if ($user) {
-    if ($user->passwd_hash != $passwd_hash && !password_verify($passwd_hash,$user->passwd_hash)) {
+    if ($user->passwd_hash != $passwd_hash && !password_verify($passwd_hash, $user->passwd_hash)) {
         xml_error(ERR_DB_NOT_UNIQUE);
     } else {
         $authenticator = $user->authenticator;
