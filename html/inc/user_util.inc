@@ -70,7 +70,6 @@ function make_user(
     $name = sanitize_tags($name);
     $name = BoincDb::escape_string($name);
     $database_passwd_hash = password_hash( $passwd_hash, PASSWORD_DEFAULT);
-    $database_passwd_hash = BoincDb::escape_string($database_passwd_hash);
 
     $country = BoincDb::escape_string($country);
     $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
