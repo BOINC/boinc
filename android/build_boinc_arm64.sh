@@ -29,6 +29,7 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE 
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_DIR=
 export PKG_CONFIG_LIBDIR=$TCINCLUDES/lib/pkgconfig
+export PKG_CONFIG_PATH=$TCINCLUDES/lib/pkgconfig:$PKG_CONFIG_PATH
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 
 # Prepare android toolchain and environment
