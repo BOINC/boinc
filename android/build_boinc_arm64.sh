@@ -19,7 +19,7 @@ export TCINCLUDES="$ANDROIDTC/aarch64-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
 export CC=aarch64-linux-android-gcc
 export CXX=aarch64-linux-android-g++
 export LD=aarch64-linux-android-ld
@@ -27,9 +27,6 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -Wall -isystem $ANDROIDTC/include/c++/4.9.x -idirafter $ANDROIDTC/lib/gcc/aarch64-linux-android/4.9.x/include -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_DIR=
-export PKG_CONFIG_LIBDIR=$TCINCLUDES/lib/pkgconfig
-export PKG_CONFIG_PATH=$TCINCLUDES/lib/pkgconfig
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 
 # Prepare android toolchain and environment

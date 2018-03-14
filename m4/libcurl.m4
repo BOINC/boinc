@@ -174,9 +174,6 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
         # link line (or failing that, "-lcurl") is enough.
         LIBCURL=${LIBCURL-"-lcurl"}
 
-printf "libcurs include path: $LIBCURL_CPPFLAGS";
-printf "libcurs libs: $LIBCURL";
-
         AC_CACHE_CHECK([whether libcurl is usable],
            [libcurl_cv_lib_curl_usable],
            [

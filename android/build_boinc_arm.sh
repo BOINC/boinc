@@ -27,9 +27,6 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -DDECLARE_TIM
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -Wall -isystem $ANDROIDTC/include/c++/4.9.x -idirafter $ANDROIDTC/lib/gcc/arm-linux-androideabi/4.9.x/include -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-# export PKG_CONFIG_DIR=
-# export PKG_CONFIG_LIBDIR=$TCINCLUDES/lib/pkgconfig
-# export PKG_CONFIG_PATH=$TCINCLUDES/lib/pkgconfig
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 
 # Prepare android toolchain and environment
