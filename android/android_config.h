@@ -15,45 +15,29 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Detection of Intel GPUs
-//
+#ifndef BOINC_ANDROID_CONFIG_H
+#define BOINC_ANDROID_CONFIG_H
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#elif defined(ANDROID)
-#include "../android/android_config.h"
-#else
-#ifdef __APPLE__
-// Suppress obsolete warning when building for OS 10.3.9
-#define DLOPEN_NO_WARN
-#include <mach-o/dyld.h>
-#endif
 #include "config.h"
+
+#ifndef ANDROID_64
+
+#undef _FILE_OFFSET_BITS
+#undef _LARGE_FILES
+#undef _LARGEFILE_SOURCE
+#undef _LARGEFILE64_SOURCE
+
+#if HAVE_SYS_STATFS_H
+
+#if HAVE_SYS_STATVFS_H
+#undef HAVE_SYS_STATVFS_H
+#define HAVE_SYS_STATVFS_H 0
 #endif
 
-#ifndef _WIN32
-#include <dlfcn.h>
+#else
+#error Need to specify a method to obtain free/total disk space
 #endif
 
-#include <vector>
-#include <string>
+#endif
 
-using std::vector;
-using std::string;
-
-#include "coproc.h"
-#include "util.h"
-
-#include "client_msgs.h"
-#include "gpu_detect.h"
-
-void COPROC_INTEL::get(
-    vector<string>&
-) {
-}
-
-void COPROC_INTEL::correlate(
-    bool,
-    vector<int>&
-) {
-}
+#endif // double-inclusion protection

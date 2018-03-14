@@ -26,6 +26,8 @@ make clean
 
 if [ -e "./configure" ]; then
 ./configure --host=mipsel-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 
 make
+if [ $? -ne 0 ]; then exit 1; fi

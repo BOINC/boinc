@@ -26,6 +26,8 @@ make clean
 
 if [ -e "./confgiure" ]; then
 ./configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 
 make
+if [ $? -ne 0 ]; then exit 1; fi
