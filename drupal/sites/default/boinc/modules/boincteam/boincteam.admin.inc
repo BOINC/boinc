@@ -36,7 +36,7 @@ function boincteam_utility_delete(&$form_state) {
 </ul>
 <p> <b>Warning:</b> There is no way to UNDO or UNDELETE a team after it has been deleted. It is a good idea to make a backup of the BOINC project database before deleting team information.</p>
 <p> <i>How teams are deleted</i>: Select the teams to be deleted from the table below. Click "Delete Selected Teams" button to begin a batch operation to delete the teams. If you select teams, and then page through to another page of the table, your selections will be lost. I.e., only the teams select on the current page will be deleted.
-<p> The site must be offline/in maintenance mode before searching for and deleting teams.
+<p> The site must be offline/in maintenance mode before searching for and deleting teams. If not, the delete button below is disabled.
 '),
   );
 
