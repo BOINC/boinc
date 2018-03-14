@@ -44,7 +44,7 @@ function toggle_passwd() {
     }
 }
 </script>
-<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"><small> Show password</small>
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>Show password</small></label>
         ', $name
     );
 }
@@ -93,9 +93,8 @@ function create_account_form($teamid, $next_url) {
             tra("Must be at least %1 characters", $min_passwd_length),
             tra("Password")
         ),
-        "passwd", "", "password"
+        "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd")
     );
-    form_input_text(tra("Confirm password"), "passwd2", "", "password");
     form_select(
         sprintf('<span title="%s">%s</span>',
             tra("Select the country you want to represent, if any."),

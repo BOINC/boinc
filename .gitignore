@@ -96,6 +96,10 @@ test/version.inc
 *.lo
 *.a
 *.la
+py/lib/Boinc
+
+## Python bytecode
+*.pyc
 
 ## Drupal
 # ignore files with private/sensitive content in a public repo
