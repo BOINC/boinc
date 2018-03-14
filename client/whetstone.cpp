@@ -24,8 +24,13 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else
 #include "config.h"
+#endif 
+
+#ifndef _WIN32
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -43,10 +48,8 @@
 #ifdef ANDROID
 #ifdef ANDROID_NEON
     namespace android_neon {
-#else
-  #ifdef ANDROID_VFP
+#elif defined (ANDROID_VFP)
     namespace android_vfp {
-  #endif
 #endif
 #endif
 

@@ -14,7 +14,7 @@ MAKECLEAN="yes"
 export BOINC=".." #BOINC source code
 
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_X86:-$ANDROID_TC/x86"
+export ANDROIDTC="${ANDROID_TC_X86:-$ANDROID_TC/x86}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/i686-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
@@ -32,6 +32,7 @@ export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 
 # Prepare android toolchain and environment
 ./build_androidtc_x86.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILEBOINC" ]; then
 
@@ -43,10 +44,14 @@ fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
 ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 make
+if [ $? -ne 0 ]; then exit 1; fi
 make stage
+if [ $? -ne 0 ]; then exit 1; fi
 make install
+if [ $? -ne 0 ]; then exit 1; fi
 
 echo "=============================BOINC done============================="
 

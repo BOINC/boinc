@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,6 +18,10 @@
 // Stuff related to the mechanism where the client fetches
 // http://boinc.berkeley.edu/download.php?xml=1
 // every so often to see if there's a newer client version
+
+#ifdef ANDROID
+#include "../android/android_config.h"
+#endif
 
 #include "filesys.h"
 #include "str_replace.h"

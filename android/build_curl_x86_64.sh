@@ -23,13 +23,14 @@ export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
 export CC=x86_64-linux-android-gcc
 export CXX=x86_64-linux-android-g++
 export LD=x86_64-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=21 -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
 ./build_androidtc_x86_64.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
@@ -39,8 +40,11 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=x86_64-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 make
+if [ $? -ne 0 ]; then exit 1; fi
 make install
+if [ $? -ne 0 ]; then exit 1; fi
 echo "========================curl done================================="
 fi

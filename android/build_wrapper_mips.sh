@@ -33,6 +33,7 @@ export PTHREAD=-L.
 
 # Prepare android toolchain and environment
 ./build_androidtc_mips.sh
+if [ $? -ne 0 ]; then exit 1; fi
 
 if [ -n "$COMPILEBOINC" ]; then
 
@@ -49,12 +50,15 @@ fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
 ./configure --host=mipsel-linux --with-boinc-platform="mipsel-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
+if [ $? -ne 0 ]; then exit 1; fi
 fi
 
 make
+if [ $? -ne 0 ]; then exit 1; fi
 
 cd samples/wrapper
 make
+if [ $? -ne 0 ]; then exit 1; fi
 
 echo "=============================Wrapper done============================="
 
