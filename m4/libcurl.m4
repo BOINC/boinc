@@ -64,20 +64,16 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
 
      _libcurl_try_link=yes
 
-    printf ${CPPFLAGS};
-    printf "\n";
-    printf ${LDFLAGS};
-    printf "\n";
+    printf "$CPPFLAGS\n";
+    printf "$LDFLAGS\n";
 
      if test -d "$_libcurl_with" ; then
         CPPFLAGS="${CPPFLAGS} -I$withval/include"
         LDFLAGS="${LDFLAGS} -L$withval/lib"
      fi
 
-    printf ${CPPFLAGS};
-    printf "\n";
-    printf ${LDFLAGS};
-    printf "\n";
+    printf "$CPPFLAGS\n";
+    printf "$LDFLAGS\n";
 
      AC_PATH_PROG([_libcurl_config],[curl-config])
      if test x$_libcurl_config != "x" ; then
