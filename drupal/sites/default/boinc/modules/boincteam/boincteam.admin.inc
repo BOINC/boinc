@@ -98,8 +98,8 @@ function boincteam_utility_team_table() {
   db_set_active('default');
 
   $form = array();
-  $form['options'] = array(
-  );
+  $form['options'] = array();
+  $checkboxes = array();
   if ($db_res) {
     while ($result = db_fetch_object($db_res)) {
       $drupalnid = boincteam_lookup_nid($result->id);
@@ -171,6 +171,8 @@ function theme_boincteam_utility_team_table($form) {
     array('data' => t('Num Users'), 'field' => 'nusers'),
     array('data' => t('Link to Team'), 'field' => 'link'),
   );
+  $rows = array();
+  $output = "";
   if(!empty($form['checkboxes']['#options'])) {
     foreach (element_children($form['id']) as $key) {
       $rows[] = array(
