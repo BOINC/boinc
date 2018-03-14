@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/sh -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
@@ -18,11 +18,11 @@ export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=mips64el-linux-android-gcc
 export CXX=mips64el-linux-android-g++
 export LD=mips64el-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=21 -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
@@ -32,12 +32,12 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
-cd $CURL
+cd "$CURL"
 if [ -n "$MAKECLEAN" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=mips64el-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./configure --host=mips64el-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
 fi
 make
 make install
