@@ -27,23 +27,6 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexception
 export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
-# checks if a given path is canonical (absolute and does not contain relative links)
-# from http://unix.stackexchange.com/a/256437
-isPathCanonical() {
-  case "x$1" in
-    (x*/..|x*/../*|x../*|x*/.|x*/./*|x./*)
-        rc=1
-        ;;
-    (x/*)
-        rc=0
-        ;;
-    (*)
-        rc=1
-        ;;
-  esac
-  return $rc
-}
-
 cache_dir=""
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -60,12 +43,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
-    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
-        PREFIX="$cache_dir"
-    else
-        echo "cache_dir must be an absolute path without ./ or ../ in it"
-        exit 1
-    fi
+    PREFIX="$cache_dir"
 else
     PREFIX="$TCINCLUDES"
 fi

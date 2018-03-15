@@ -10,24 +10,6 @@ export NDK_ROOT="${NDK_ROOT:-$HOME/NVPACK/android-ndk-r10e}"
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROID_TC_ARM="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
 
-
-# checks if a given path is canonical (absolute and does not contain relative links)
-# from http://unix.stackexchange.com/a/256437
-isPathCanonical() {
-  case "x$1" in
-    (x*/..|x*/../*|x../*|x*/.|x*/./*|x./*)
-        rc=1
-        ;;
-    (x/*)
-        rc=0
-        ;;
-    (*)
-        rc=1
-        ;;
-  esac
-  return $rc
-}
-
 cache_dir=""
 while [[ $# -gt 0 ]]; do
     key="$1"
