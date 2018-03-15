@@ -10,25 +10,6 @@ COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-export BOINC=".." #BOINC source code
-
-export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_ARM64-$ANDROID_TC/arm64}"
-export TCBINARIES="$ANDROIDTC/bin"
-export TCINCLUDES="$ANDROIDTC/aarch64-linux-android"
-export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
-
-export PATH="$TCBINARIES:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
-export CC=aarch64-linux-android-gcc
-export CXX=aarch64-linux-android-g++
-export LD=aarch64-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -Wall -isystem $ANDROIDTC/include/c++/4.9.x -idirafter $ANDROIDTC/lib/gcc/aarch64-linux-android/4.9.x/include -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie"
-export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
-
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
 isPathCanonical() {
@@ -71,6 +52,25 @@ if [ "x$cache_dir" != "x" ]; then
 else
     PREFIX="$TCINCLUDES"
 fi
+
+export BOINC=".." #BOINC source code
+
+export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROIDTC="${ANDROID_TC_ARM64-$ANDROID_TC/arm64}"
+export TCBINARIES="$ANDROIDTC/bin"
+export TCINCLUDES="$ANDROIDTC/aarch64-linux-android"
+export TCSYSROOT="$ANDROIDTC/sysroot"
+export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+
+export PATH="$TCBINARIES:$PREFIX:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
+export CC=aarch64-linux-android-gcc
+export CXX=aarch64-linux-android-g++
+export LD=aarch64-linux-android-ld
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -D__ANDROID_API__=21 -Wall -isystem $ANDROIDTC/include/c++/4.9.x -idirafter $ANDROIDTC/lib/gcc/aarch64-linux-android/4.9.x/include -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
+export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie"
+export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
+export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
 # Prepare android toolchain and environment
 ./build_androidtc_arm64.sh

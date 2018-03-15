@@ -70,6 +70,7 @@ isPathCanonical() {
 
 doclean=""
 cache_dir=""
+arch=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -79,6 +80,10 @@ while [[ $# -gt 0 ]]; do
         ;;
         --clean)
         doclean="yes"
+        ;;
+        --arch)
+        arch="$2"
+        shift
         ;;
         *)
         echo "unrecognized option $key"
@@ -106,7 +111,7 @@ if [ "${doclean}" = "yes" ]; then
     mkdir -p "${PREFIX}"
 fi
 
-if [[ $1 == "arm" ]]; then
+if [[ $arch == "arm" ]]; then
     ./build_androidtc_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
     ./build_openssl_arm.sh --cache_dir "${PREFIX}"
@@ -119,7 +124,7 @@ if [[ $1 == "arm" ]]; then
     exit 0
 fi
 
-if [[ $1 == "arm64" ]]; then
+if [[ $arch == "arm64" ]]; then
     ./build_androidtc_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
     ./build_openssl_arm64.sh --cache_dir "${PREFIX}"
@@ -132,7 +137,7 @@ if [[ $1 == "arm64" ]]; then
     exit 0
 fi
 
-if [[ $1 == "mips" ]]; then
+if [[ $arch == "mips" ]]; then
     ./build_androidtc_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
     ./build_openssl_mips.sh --cache_dir "${PREFIX}"
@@ -145,7 +150,7 @@ if [[ $1 == "mips" ]]; then
     exit 0
 fi
 
-if [[ $1 == "mips64" ]]; then
+if [[ $arch == "mips64" ]]; then
     ./build_androidtc_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
     ./build_openssl_mips64.sh --cache_dir "${PREFIX}"
@@ -158,7 +163,7 @@ if [[ $1 == "mips64" ]]; then
     exit 0
 fi
 
-if [[ $1 == "x86" ]]; then
+if [[ $arch == "x86" ]]; then
     ./build_androidtc_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
     ./build_openssl_x86.sh --cache_dir "${PREFIX}"
@@ -171,7 +176,7 @@ if [[ $1 == "x86" ]]; then
     exit 0
 fi
 
-if [[ $1 == "x86_64" ]]; then
+if [[ $arch == "x86_64" ]]; then
     ./build_androidtc_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
     ./build_openssl_x86_64.sh --cache_dir "${PREFIX}"
@@ -183,3 +188,6 @@ if [[ $1 == "x86_64" ]]; then
 
     exit 0
 fi
+
+echo "unknown architeck: $arch"
+exit 1
