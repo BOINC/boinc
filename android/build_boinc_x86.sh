@@ -29,6 +29,49 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE 
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
+# checks if a given path is canonical (absolute and does not contain relative links)
+# from http://unix.stackexchange.com/a/256437
+isPathCanonical() {
+  case "x$1" in
+    (x*/..|x*/../*|x../*|x*/.|x*/./*|x./*)
+        rc=1
+        ;;
+    (x/*)
+        rc=0
+        ;;
+    (*)
+        rc=1
+        ;;
+  esac
+  return $rc
+}
+
+cache_dir=""
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        --cache_dir)
+        cache_dir="$2"
+        shift
+        ;;
+        *)
+        echo "unrecognized option $key"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "x$cache_dir" != "x" ]; then
+    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
+        PREFIX="$cache_dir/i686-linux-android"
+    else
+        echo "cache_dir must be an absolute path without ./ or ../ in it"
+        exit 1
+    fi
+else
+    PREFIX="$TCINCLUDES"
+fi
+
 # Prepare android toolchain and environment
 ./build_androidtc_x86.sh
 if [ $? -ne 0 ]; then exit 1; fi
@@ -41,7 +84,7 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl="$TCINCLUDES" --with-libcurl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-server --disable-manager --disable-shared --enable-static
 if [ $? -ne 0 ]; then exit 1; fi
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile

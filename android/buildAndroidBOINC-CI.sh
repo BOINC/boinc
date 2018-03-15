@@ -23,112 +23,162 @@ sudo dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
 
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
 sudo apt-get update
-sudo apt-get --assume-yes install ubuntu-make # git automake libtool
-# sudo update-locale LC_ALL=en_US.UTF-8
+sudo apt-get --assume-yes install ubuntu-make
 
 umake android android-studio --accept-license $HOME/Android/Android-Studio
-#printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
 export ANDROID_HOME=$HOME/Android/Sdk
 umake android android-sdk --accept-license $HOME/Android/Sdk
-#printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
 export NDK_ROOT=$HOME/Android/Ndk
 umake android android-ndk --accept-license $HOME/Android/Ndk
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update >> /dev/null
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /dev/null
-# mkdir $HOME/Desktop
-# cp $HOME/.local/share/applications/android-studio.desktop $HOME/Desktop/
-# chmod +x $HOME/Desktop/android-studio.desktop
+
 export OPENSSL_VERSION=1.0.2k
 export CURL_VERSION=7.53.1
 export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME/build/BOINC/boinc/android/BOINC/app/build.gradle`
 export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/build/BOINC/boinc/android/BOINC/app/build.gradle`
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
-#printf "\n# Build toolchains\nexport ANDROID_TC=\$HOME/Android/Toolchains\n" >> $HOME/.profile
+
 export ANDROID_TC=$HOME/Android/Toolchains
 mkdir $HOME/3rdParty
 wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 tar xzf /tmp/openssl.tgz --directory=$HOME/3rdParty
-#printf "\n# OpenSSL sources\nexport OPENSSL_SRC=\$HOME/3rdParty/openssl-${OPENSSL_VERSION}\n" >> $HOME/.profile
+
 export OPENSSL_SRC=$HOME/3rdParty/openssl-${OPENSSL_VERSION}
 wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
 tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
-#printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
+
 export CURL_SRC=$HOME/3rdParty/curl-${CURL_VERSION}
-#chmod +x $HOME/.profile
+
+# checks if a given path is canonical (absolute and does not contain relative links)
+# from http://unix.stackexchange.com/a/256437
+isPathCanonical() {
+  case "x$1" in
+    (x*/..|x*/../*|x../*|x*/.|x*/./*|x./*)
+        rc=1
+        ;;
+    (x/*)
+        rc=0
+        ;;
+    (*)
+        rc=1
+        ;;
+  esac
+  return $rc
+}
+
+doclean=""
+cache_dir=""
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        --cache_dir)
+        cache_dir="$2"
+        shift
+        ;;
+        --clean)
+        doclean="yes"
+        ;;
+        *)
+        echo "unrecognized option $key"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "x$cache_dir" != "x" ]; then
+    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
+        PREFIX="$cache_dir"
+    else
+        echo "cache_dir must be an absolute path without ./ or ../ in it"
+        exit 1
+    fi
+else
+    PREFIX="$(pwd)/../3rdParty/buildCache/android"
+fi
+
+mkdir -p "${PREFIX}"
+
+if [ "${doclean}" = "yes" ]; then
+    echo "cleaning cache"
+    rm -rf "${PREFIX}"
+    mkdir -p "${PREFIX}"
+fi
+
 if [[ $1 == "arm" ]]; then
-    ./build_androidtc_arm.sh
+    ./build_androidtc_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_arm.sh
+    ./build_openssl_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_arm.sh
+    ./build_curl_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_arm.sh
+    ./build_boinc_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $1 == "arm64" ]]; then
-    ./build_androidtc_arm64.sh
+    ./build_androidtc_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_arm64.sh
+    ./build_openssl_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_arm64.sh
+    ./build_curl_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_arm64.sh
+    ./build_boinc_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $1 == "mips" ]]; then
-    ./build_androidtc_mips.sh
+    ./build_androidtc_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_mips.sh
+    ./build_openssl_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_mips.sh
+    ./build_curl_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_mips.sh
+    ./build_boinc_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $1 == "mips64" ]]; then
-    ./build_androidtc_mips64.sh
+    ./build_androidtc_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_mips64.sh
+    ./build_openssl_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_mips64.sh
+    ./build_curl_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_mips64.sh
+    ./build_boinc_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $1 == "x86" ]]; then
-    ./build_androidtc_x86.sh
+    ./build_androidtc_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_x86.sh
+    ./build_openssl_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_x86.sh
+    ./build_curl_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_x86.sh
+    ./build_boinc_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $1 == "x86_64" ]]; then
-    ./build_androidtc_x86_64.sh
+    ./build_androidtc_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_x86_64.sh
+    ./build_openssl_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_x86_64.sh
+    ./build_curl_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_x86_64.sh
+    ./build_boinc_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
