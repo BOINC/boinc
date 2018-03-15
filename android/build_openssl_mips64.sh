@@ -50,8 +50,8 @@ fi
 
 FLAGFILE="${PREFIX}/_done"
 if [ -e "${FLAGFILE}" ]; then
-    echo "libcurl seems already to be present in ${PREFIX}"
-    return 0
+    echo "openssl seems already to be present in ${PREFIX}"
+    exit 0
 fi
 
 # Prepare android toolchain and environment

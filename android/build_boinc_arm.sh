@@ -62,6 +62,9 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
+
+ll -R $PREFIX
+
 ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-server --disable-manager --disable-shared --enable-static
 if [ $? -ne 0 ]; then exit 1; fi
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out

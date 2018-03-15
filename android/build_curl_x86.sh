@@ -52,7 +52,7 @@ fi
 FLAGFILE="${PREFIX}/_done"
 if [ -e "${FLAGFILE}" ]; then
     echo "libcurl seems already to be present in ${PREFIX}"
-    return 0
+    exit 0
 fi
 
 # Prepare android toolchain and environment
