@@ -44,7 +44,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
-    PREFIX="$cache_dir"
+    PREFIX="$cache_dir/i686-linux-android"
 else
     PREFIX="$TCINCLUDES"
 fi

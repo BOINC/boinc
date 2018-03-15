@@ -43,7 +43,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
-    PREFIX="$cache_dir"
+    PREFIX="$cache_dir/mips64el-linux-android"
 else
     PREFIX="$TCINCLUDES"
 fi
