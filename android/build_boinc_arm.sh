@@ -40,7 +40,7 @@ export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$TCBINARIES:$PREFIX:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
+export PATH="$PREFIX:$TCBINARIES:$PREFIX:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-gcc
 export CXX=arm-linux-androideabi-g++
 export LD=arm-linux-androideabi-ld
@@ -64,6 +64,7 @@ if [ -n "$CONFIGURE" ]; then
 ./_autosetup
 
 ls -lR $PREFIX
+cat $PREFIX/lib/pkgconfig/libcurl.pc
 
 ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-server --disable-manager --disable-shared --enable-static
 if [ $? -ne 0 ]; then exit 1; fi
