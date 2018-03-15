@@ -69,6 +69,9 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
         LDFLAGS="${LDFLAGS} -L$withval/lib"
      fi
 
+printf "libcurl withval: $withval \n";
+printf "lincurl PATH: $PATH \n";
+
      AC_PATH_PROG([_libcurl_config],[curl-config])
      if test x$_libcurl_config != "x" ; then
         AC_CACHE_CHECK([for the version of libcurl],
