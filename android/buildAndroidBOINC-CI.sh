@@ -100,7 +100,9 @@ if [ "x$cache_dir" != "x" ]; then
         exit 1
     fi
 else
-    PREFIX="$(pwd)/../3rdParty/buildCache/android"
+    cd ../
+    PREFIX="$(pwd)/3rdParty/buildCache/android"
+    cd android/
 fi
 
 mkdir -p "${PREFIX}"
