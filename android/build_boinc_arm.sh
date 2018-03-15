@@ -26,6 +26,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
+    PREFIX="$cache_dir/arm-linux-androideabi"
 else
     PREFIX="$TCINCLUDES"
 fi
