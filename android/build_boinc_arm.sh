@@ -49,7 +49,7 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -Wall -isys
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
-export PKG_CONFIG_DEBUG_SPEW="true"
+export PKG_CONFIG_DEBUG_SPEW=1
 
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
