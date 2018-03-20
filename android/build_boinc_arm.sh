@@ -67,7 +67,7 @@ if [ -n "$CONFIGURE" ]; then
 # ls -lR $PREFIX
 # cat $PREFIX/lib/pkgconfig/libcurl.pc
 
-curl --upload-file ./configure https://transfer.sh/configure 
+# curl --upload-file ./configure https://transfer.sh/configure 
 
 ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-server --disable-manager --disable-shared --enable-static
 if [ $? -ne 0 ]; then exit 1; fi
