@@ -35,6 +35,7 @@
 # Build 64-bit library (temporarily build both 32-bit and 64-bit libraries) 10/22/17
 # Update for wxCocoa 3.1.0 10/25/17
 # Build only 64-bit library 1/25/18
+# Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
 #
 ## This script requires OS 10.6 or later
 ##
@@ -131,6 +132,29 @@ ENDOFFILE
 else
     echo "build/osx/setup/cocoa/include/wx/setup.h already patched"
 fi
+
+# Patch src/osx/window_osx.cpp window_osx_patched.cpp > window_osx_cpp_diff
+if [ ! -f src/osx/window_osx.cpp.orig ]; then
+    cat >> /tmp/window_osx_cpp_diff << ENDOFFILE
+--- window_osx.cpp    2016-02-28 13:33:37.000000000 -0800
++++ window_osx_patched.cpp    2018-03-20 01:17:35.000000000 -0700
+@@ -353,7 +353,8 @@
+         if ( !m_hasFont )
+             DoSetWindowVariant( m_windowVariant );
+         
+-        if ( !m_label.empty() )
++// Fix wxWidgets 3.1.0 bug drawing wxStaticBox with empty label (fixed in wxWidgets 3.1.1)
++//        if ( !m_label.empty() )
+             GetPeer()->SetLabel( wxStripMenuCodes(m_label, wxStrip_Mnemonics), GetFont().GetEncoding() ) ;
+         
+         // for controls we want to use best size for wxDefaultSize params )
+ENDOFFILE
+    patch -bfi /tmp/window_osx_cpp_diff src/osx/window_osx.cpp
+    rm -f /tmp/window_osx_cpp_diff
+else
+    echo "src/osx/window_osx.cpp already patched"
+fi
+
 
 echo ""
 
