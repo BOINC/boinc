@@ -319,6 +319,8 @@ function boincuser_admin_weboptions(&$form_state) {
 
   //form defaults
   $default = array(
+    'boinc_weboptions_enableaccountcreateRPC' => variable_get('boinc_weboptions_enableaccountcreateRPC', FALSE),
+    'boinc_weboptions_registrationmessage' => variable_get('boinc_weboptions_registrationmessage', 'Ipsum Lorem'),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
@@ -326,6 +328,29 @@ function boincuser_admin_weboptions(&$form_state) {
   );
   
   // Define the form
+  $form['registrationtitle'] = array(
+    '#value' => '<h3>BOINC Registration</h3>',
+  );
+
+  $form['boinc_weboptions_enableaccountcreateRPC'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable create_account.php RPC'),
+    '#default_value' => $default['boinc_weboptions_enableaccountcreateRPC'],
+    '#description' => t('If checked, users will be able to create an account remotely using the create_account.php RPC. This option is independent of the user regsitration option found in ') . l(t('User management -> User settings'), '/admin/user/settings') . '. If enabled, user <b>may not be able to opt-in</b> to your site\'s privacy and data retention policies!',
+  );
+  $form['boinc_weboptions_registrationmessage'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Message for User Registration Page'),
+    '#default_value' => $default['boinc_weboptions_registrationmessage'],
+    '#cols' => 60,
+    '#rows' => 8,
+    '#description' => t('Text to be displayed on site\'s user registration page. Privacy policy and other data retention information goes here.'),
+  );
+
+  $form['pathtitle'] = array(
+    '#value' => '<h3>Path Options</h3>',
+  );
+
   $form['boinc_weboptions_accountfinish'] = array (
     '#type' => 'textfield',
     '#title' => t('Path to a custom account_finish.php page, should be a path to a node'),

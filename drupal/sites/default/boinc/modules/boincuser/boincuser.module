@@ -1360,6 +1360,8 @@ function boincuser_home_page() {
  * Create a new user account based on supplied parameters.
  */
 function boincuser_create_account() {
+  global $base_url;
+
   require_boinc('boinc_db');
   require_boinc('user_util');
   require_boinc('xml');
@@ -1373,7 +1375,14 @@ function boincuser_create_account() {
   xml_header();
   
   // Account creation disabled
-  
+  $enablethisRPC = variable_get('boinc_weboptions_enableaccountcreateRPC', TRUE);
+  if (!$enablethisRPC) {
+    $mess = bts('Account creation is done through our Web site. Please register at @url', array(
+      '@url' => $base_url . '/user/registration',
+    ),
+    NULL, 'boinc:create_account');
+    xml_error(-208, $mess);
+  }
   // Invalid invite code
   
   // Validate input
