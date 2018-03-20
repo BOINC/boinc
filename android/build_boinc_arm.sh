@@ -48,7 +48,7 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -DDECLARE_TIM
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -Wall -isystem $ANDROIDTC/include/c++/4.9.x -idirafter $ANDROIDTC/lib/gcc/arm-linux-androideabi/4.9.x/include -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-# export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
+export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 export PKG_CONFIG_DEBUG_SPEW=1
 
 # Prepare android toolchain and environment
@@ -64,8 +64,10 @@ fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
 
-ls -lR $PREFIX
-cat $PREFIX/lib/pkgconfig/libcurl.pc
+# ls -lR $PREFIX
+# cat $PREFIX/lib/pkgconfig/libcurl.pc
+
+cat ./configure
 
 ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-server --disable-manager --disable-shared --enable-static
 if [ $? -ne 0 ]; then exit 1; fi
