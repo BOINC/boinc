@@ -92,13 +92,29 @@ function boincuser_login_register($boinc_user) {
 /**
  * New user registration validation handler.
  */
-function boincuser_register_validate($form_values) {            
+function boincuser_register_validate($form, &$form_state) {
+  //dd(get_defined_vars(), 'validate: all vars');
   // Include BOINC database objects library
   require_boinc('boinc_db');
+
   // Check for an existing BOINC user
-  $boinc_user = BoincUser::lookup_email_addr($form_values['mail']);
-  if ($boinc_user) return false;
-  return true;
+  $boinc_user = BoincUser::lookup_email_addr($form_state['values']['mail']);
+  if ($boinc_user) {
+    // User already exists
+    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
+  }
+  else {
+    // Save profile information for use during Insert
+    $_SESSION['profileInfo'] = array(
+      'country' => $edit['field_country'][0]['value'],
+      'zip' => $edit['field_zip'][0]['value'],
+      'url' => $edit['field_url'][0]['value'],
+      'background' => $edit['field_background'][0]['value'],
+      'opinions' => $edit['field_opinions'][0]['value']
+    );
+    // With BOINC validation passed, make sure name is unique
+    $form_state['values']['name'] = create_proper_drupalname($form_state['values']['boincuser_name']);
+  }//endif $boinc_user
 }
 
 /**

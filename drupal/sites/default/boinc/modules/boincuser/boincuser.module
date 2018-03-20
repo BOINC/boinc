@@ -993,6 +993,8 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       );
     }
     
+    $form['#validate'][] = 'boincuser_register_validate';
+
     $form['submit']['#weight'] = 1001;
     break;
     
