@@ -226,6 +226,9 @@ function boincuser_init() {
  * Drupal user operations
  */
 function boincuser_user($op, &$edit, &$account, $category = NULL) {
+  require_boinc('boinc_db');
+  require_boinc('user');
+  require_boinc('xml');
   // Handle BOINC integration for users with UID > 1 (skip anonymous and admin)
   if ($account->uid > 1) {
     switch($op) {
@@ -357,6 +360,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           form_set_error('email', bts('Error creating BOINC account.', array(), NULL, 'boinc:add-new-user'));
           return;
         }
+
         // Add user to community role by default (not banned)
         $unrestricted_role = array_search('community member', user_roles(true)); 
         $edit['roles'] = array(
@@ -373,6 +377,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         if (!$reference) {
           drupal_set_message(t('Error updating BOINC account.'), 'error');
         }
+        // Disable show_hosts flag, set to TRUE by default
+        db_query("UPDATE {user} SET show_hosts=0 WHERE id='%d'", $boinc_user->id);
+
         db_set_active('default');
         // Cross reference Drupal account with BOINC
         $reference = db_query("INSERT INTO {boincuser} SET uid='%d', boinc_id='%d'", $account->uid, $boinc_user->id);
@@ -985,6 +992,39 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => rand() . '.' . time()
     );
     
+    // Terms of use section
+    $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+    if (!empty($termsofuse)) {
+      $form['title1'] = array(
+        '#weight' => -12,
+        '#value' => '<h2>' . variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'). '</h2>',
+        '#prefix' => '<div id="register-title1">',
+        '#suffix' => '</div>',
+      );
+
+      $form['termsofuse'] = array(
+        '#weight' => -10,
+        '#value' => $termsofuse,
+        '#prefix' => '<div id="register-termsofuse">',
+        '#suffix' => '</div>',
+      );
+
+      $form['optin'] = array(
+        '#type' => 'checkbox',
+        '#title' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
+        '#weight' => -8,
+        '#prefix' => '<div id="register-checkbox">',
+        '#suffix' => '</div>',
+      );
+    }
+
+    $form['title2'] = array(
+      '#weight' => -6,
+      '#value' => '<h2>' . variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.') . '</h2>',
+      '#prefix' => '<div id="register-title2">',
+      '#suffix' => '</div>',
+    );
+
     if (module_exists('captcha')) {
       // Add an optional captcha
       $form['register_captcha'] = array(

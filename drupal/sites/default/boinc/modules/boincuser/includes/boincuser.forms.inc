@@ -93,15 +93,19 @@ function boincuser_login_register($boinc_user) {
  * New user registration validation handler.
  */
 function boincuser_register_validate($form, &$form_state) {
-  //dd(get_defined_vars(), 'validate: all vars');
   // Include BOINC database objects library
   require_boinc('boinc_db');
+
+  // Check opt-in
+  if (!$form_state['values']['legaloptin']) {
+    form_set_error('legaloptin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+  }
 
   // Check for an existing BOINC user
   $boinc_user = BoincUser::lookup_email_addr($form_state['values']['mail']);
   if ($boinc_user) {
     // User already exists
-    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
+    form_set_error('mail', bts('ERROR: An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), NULL, 'boinc:register-new-user'));
   }
   else {
     // Save profile information for use during Insert
