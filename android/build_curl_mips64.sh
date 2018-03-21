@@ -70,7 +70,7 @@ else
     PREFIX="$TCINCLUDES"
 fi
 
-FLAGFILE="${PREFIX}/_done"
+FLAGFILE="${PREFIX}/_libcurl_done"
 if [ -e "${FLAGFILE}" ]; then
     echo "libcurl seems already to be present in ${PREFIX}"
     exit 0

@@ -71,7 +71,7 @@ else
     PREFIX="$TCINCLUDES"
 fi
 
-FLAGFILE="${PREFIX}/_done"
+FLAGFILE="${PREFIX}/_libopenssl_done"
 if [ -e "${FLAGFILE}" ]; then
     echo "openssl seems already to be present in ${PREFIX}"
     exit 0
