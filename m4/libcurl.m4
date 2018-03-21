@@ -93,9 +93,10 @@ do
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
     printf "ac_exec_ext: $ac_exec_ext \n";
+    printf "as_fn_executable_p: $as_dir/$ac_word$ac_exec_ext \n";
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    printf "as_fn_executable_p: $as_fn_executable_p \n";
     ac_cv_path__libcurl_config="$as_dir/$ac_word$ac_exec_ext"
+    printf "Found: $ac_cv_path__libcurl_config \n";
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
