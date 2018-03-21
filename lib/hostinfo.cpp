@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,8 +22,13 @@
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
 #include "stdwx.h"
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <cstring>
 #if HAVE_UNISTD_H
