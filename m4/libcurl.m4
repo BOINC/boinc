@@ -74,7 +74,7 @@ printf "lincurl PATH: $PATH \n";
 
 printf "TEST BEGIN \n";
      # Extract the first word of "curl-config", so it can be a program name with args.
-set dummy curl-config; ac_word=$2
+set dummy curl-config; ac_word="curl-config"
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
 if ${ac_cv_path__libcurl_config+:} false; then :
