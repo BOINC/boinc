@@ -107,82 +107,88 @@ if [ "${doclean}" = "yes" ]; then
 fi
 
 if [[ $arch == "arm" ]]; then
-    ./build_androidtc_arm.sh --cache_dir "${PREFIX}"
+    mkdir -p "${PREFIX}/$arch"
+    ./build_androidtc_arm.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_arm.sh --cache_dir "${PREFIX}"
+    ./build_openssl_arm.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_arm.sh --cache_dir "${PREFIX}"
+    ./build_curl_arm.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_arm.sh --cache_dir "${PREFIX}"
+    ./build_boinc_arm.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "arm64" ]]; then
-    ./build_androidtc_arm64.sh --cache_dir "${PREFIX}"
+    mkdir -p "${PREFIX}/$arch"
+    ./build_androidtc_arm64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_arm64.sh --cache_dir "${PREFIX}"
+    ./build_openssl_arm64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_arm64.sh --cache_dir "${PREFIX}"
+    ./build_curl_arm64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_arm64.sh --cache_dir "${PREFIX}"
+    ./build_boinc_arm64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "mips" ]]; then
-    ./build_androidtc_mips.sh --cache_dir "${PREFIX}"
+    mkdir -p "${PREFIX}/$arch"
+    ./build_androidtc_mips.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_mips.sh --cache_dir "${PREFIX}"
+    ./build_openssl_mips.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_mips.sh --cache_dir "${PREFIX}"
+    ./build_curl_mips.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_mips.sh --cache_dir "${PREFIX}"
+    ./build_boinc_mips.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "mips64" ]]; then
-    ./build_androidtc_mips64.sh --cache_dir "${PREFIX}"
+    mkdir -p "${PREFIX}/$arch"
+    ./build_androidtc_mips64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_mips64.sh --cache_dir "${PREFIX}"
+    ./build_openssl_mips64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_mips64.sh --cache_dir "${PREFIX}"
+    ./build_curl_mips64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_mips64.sh --cache_dir "${PREFIX}"
+    ./build_boinc_mips64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "x86" ]]; then
-    ./build_androidtc_x86.sh --cache_dir "${PREFIX}"
+    mkdir -p "${PREFIX}/$arch"
+    ./build_androidtc_x86.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_x86.sh --cache_dir "${PREFIX}"
+    ./build_openssl_x86.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_x86.sh --cache_dir "${PREFIX}"
+    ./build_curl_x86.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_x86.sh --cache_dir "${PREFIX}"
+    ./build_boinc_x86.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "x86_64" ]]; then
-    ./build_androidtc_x86_64.sh --cache_dir "${PREFIX}"
+    mkdir -p "${PREFIX}/$arch"
+    ./build_androidtc_x86_64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_x86_64.sh --cache_dir "${PREFIX}"
+    ./build_openssl_x86_64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_x86_64.sh --cache_dir "${PREFIX}"
+    ./build_curl_x86_64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_x86_64.sh --cache_dir "${PREFIX}"
+    ./build_boinc_x86_64.sh --cache_dir "${PREFIX}/$arch"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
-echo "unknown architeck: $arch"
+echo "unknown architect: $arch"
 exit 1
