@@ -93,7 +93,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
-    PREFIX="$cache_dir"
+    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
+         PREFIX="$cache_dir"
+     else
+         echo "cache_dir must be an absolute path without ./ or ../ in it"
+         exit 1
+     fi
 else
     cd ../
     PREFIX="$(pwd)/3rdParty/buildCache/android"
