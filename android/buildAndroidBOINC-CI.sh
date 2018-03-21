@@ -95,7 +95,9 @@ done
 if [ "x$cache_dir" != "x" ]; then
     PREFIX="$cache_dir"
 else
-    PREFIX="../3rdParty/buildCache/android"
+    cd ../
+    PREFIX="$(pwd)/3rdParty/buildCache/android"
+    cd android/
 fi
 
 mkdir -p "${PREFIX}"
@@ -107,88 +109,82 @@ if [ "${doclean}" = "yes" ]; then
 fi
 
 if [[ $arch == "arm" ]]; then
-    mkdir -p "${PREFIX}/$arch"
-    ./build_androidtc_arm.sh --cache_dir "${PREFIX}/$arch"
+    ./build_androidtc_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_arm.sh --cache_dir "${PREFIX}/$arch"
+    ./build_openssl_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_arm.sh --cache_dir "${PREFIX}/$arch"
+    ./build_curl_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_arm.sh --cache_dir "${PREFIX}/$arch"
+    ./build_boinc_arm.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "arm64" ]]; then
-    mkdir -p "${PREFIX}/$arch"
-    ./build_androidtc_arm64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_androidtc_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_arm64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_openssl_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_arm64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_curl_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_arm64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_boinc_arm64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "mips" ]]; then
-    mkdir -p "${PREFIX}/$arch"
-    ./build_androidtc_mips.sh --cache_dir "${PREFIX}/$arch"
+    ./build_androidtc_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_mips.sh --cache_dir "${PREFIX}/$arch"
+    ./build_openssl_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_mips.sh --cache_dir "${PREFIX}/$arch"
+    ./build_curl_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_mips.sh --cache_dir "${PREFIX}/$arch"
+    ./build_boinc_mips.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "mips64" ]]; then
-    mkdir -p "${PREFIX}/$arch"
-    ./build_androidtc_mips64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_androidtc_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_mips64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_openssl_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_mips64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_curl_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_mips64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_boinc_mips64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "x86" ]]; then
-    mkdir -p "${PREFIX}/$arch"
-    ./build_androidtc_x86.sh --cache_dir "${PREFIX}/$arch"
+    ./build_androidtc_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_x86.sh --cache_dir "${PREFIX}/$arch"
+    ./build_openssl_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_x86.sh --cache_dir "${PREFIX}/$arch"
+    ./build_curl_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_x86.sh --cache_dir "${PREFIX}/$arch"
+    ./build_boinc_x86.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
 if [[ $arch == "x86_64" ]]; then
-    mkdir -p "${PREFIX}/$arch"
-    ./build_androidtc_x86_64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_androidtc_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_openssl_x86_64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_openssl_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_curl_x86_64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_curl_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
-    ./build_boinc_x86_64.sh --cache_dir "${PREFIX}/$arch"
+    ./build_boinc_x86_64.sh --cache_dir "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 
     exit 0
 fi
 
-echo "unknown architect: $arch"
+echo "unknown architeck: $arch"
 exit 1
