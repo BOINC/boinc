@@ -49,7 +49,6 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -Wall -isys
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
-export PKG_CONFIG_DEBUG_SPEW=1
 
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
@@ -63,11 +62,6 @@ make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-
-# ls -lR $PREFIX
-# cat $PREFIX/lib/pkgconfig/libcurl.pc
-
-# curl --upload-file ./configure https://transfer.sh/configure 
 
 ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-server --disable-manager --disable-shared --enable-static
 if [ $? -ne 0 ]; then exit 1; fi

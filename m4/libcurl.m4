@@ -69,56 +69,6 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
         LDFLAGS="${LDFLAGS} -L$withval/lib"
      fi
 
-printf "libcurl withval: $withval \n";
-printf "lincurl PATH: $PATH \n";
-
-printf "TEST BEGIN \n";
-     # Extract the first word of "curl-config", so it can be a program name with args.
-set dummy curl-config; ac_word="curl-config"
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path__libcurl_config+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $_libcurl_config in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path__libcurl_config="$_libcurl_config" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  printf "as_dir: $as_dir\n"
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-    printf "ac_exec_ext: $ac_exec_ext \n";
-    printf "as_fn_executable_p: $as_dir/$ac_word$ac_exec_ext \n";
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path__libcurl_config="$as_dir/$ac_word$ac_exec_ext"
-    printf "Found: $ac_cv_path__libcurl_config \n";
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-_libcurl_config=$ac_cv_path__libcurl_config
-if test -n "$_libcurl_config"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $_libcurl_config" >&5
-$as_echo "$_libcurl_config" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-printf "TEST END \n";
-
      AC_PATH_PROG([_libcurl_config],[curl-config])
      if test x$_libcurl_config != "x" ; then
         AC_CACHE_CHECK([for the version of libcurl],

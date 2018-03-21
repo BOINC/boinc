@@ -40,7 +40,7 @@ export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib64/libstdc++.a"
 
-export PATH="$TCBINARIES:$PREFIX:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
+export PATH="$PREFIX/bin:$PREFIX:$TCBINARIES:$TCINCLUDES:$TCINCLUDES/bin:$PATH"
 export CC=mips64el-linux-android-gcc
 export CXX=mips64el-linux-android-g++
 export LD=mips64el-linux-android-ld
