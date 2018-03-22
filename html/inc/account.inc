@@ -39,15 +39,16 @@ function passwd_visible_checkbox($name) {
     return sprintf('
 <script>
 function toggle_passwd() {
+    var c = document.getElementById("passwd_visible");
     var x = document.getElementById("%s");
-    if (x.type === "password") {
+    if (c.checked) {
         x.type = "text";
     } else {
         x.type = "password";
     }
 }
 </script>
-<input type="checkbox" onclick="toggle_passwd()"><small> Show password</small>
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>Show password</small></label>
         ', $name
     );
 }
@@ -96,9 +97,8 @@ function create_account_form($teamid, $next_url) {
             tra("Must be at least %1 characters", $min_passwd_length),
             tra("Password")
         ),
-        "passwd", "", "password"
+        "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd")
     );
-    form_input_text(tra("Confirm password"), "passwd2", "", "password");
     form_select(
         sprintf('<span title="%s">%s</span>',
             tra("Select the country you want to represent, if any."),

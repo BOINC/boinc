@@ -1068,6 +1068,13 @@ function update_10_25_2017() {
     ");
 }
 
+function update_3_8_2018() {
+    do_query("alter table user
+        modify column login_token char(32) not null default '',
+        modify column login_token_time double not null default 0
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1120,6 +1127,7 @@ $db_updates = array (
     array(27018, "update_7_21_2017"),
     array(27019, "update_8_9_2017"),
     array(27020, "update_10_25_2017"),
+    array(27020, "update_3_8_2018"),
 );
 
 ?>
