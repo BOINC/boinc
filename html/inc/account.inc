@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,11 +20,15 @@
 // - forms for create / login
 // - function to make login token
 
-// make login token, store in user record, return token
+// If have recent token, return it.
+// Else make login token, store in user record, return token
 //
 function make_login_token($user) {
-    $token = substr(random_string(), 0, 8);
     $now = time();
+    if ($now - $user->login_token_time < 86400) {
+        return $user->login_token;
+    }
+    $token = substr(random_string(), 0, 8);
     $user->update("login_token='$token', login_token_time=$now");
     return $token;
 }
@@ -124,7 +128,9 @@ function login_form($next_url) {
         tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
         "passwd",
         "",
-        "password"
+        "password",
+        'id="passwd"',
+        passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
         array(array("stay_logged_in", "", true))
