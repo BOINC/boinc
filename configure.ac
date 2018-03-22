@@ -638,14 +638,6 @@ AH_TOP([
 ])
 AH_BOTTOM([
 
-#if !HAVE_DECL__CONFIGTHREADLOCALE
-#define NO_PER_THREAD_LOCALE 1
-#undef HAVE__CONFIGTHREADLOCALE
-#else
-#undef NO_PER_THREAD_LOCALE
-#define HAVE__CONFIGTHREADLOCALE 1
-#endif
-
 #ifndef HAVE_RES_INIT
 #define res_init() (0)
 #endif
@@ -926,7 +918,7 @@ AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup _strdup strdupa _strdupa daemon stat64 putenv setenv unsetenv res_init strtoull localtime localtime_r gmtime gmtime_r uselocale _configthreadlocale])
 
-AC_CHECK_DECLS([_fpreset, fpreset, _configthreadlocale],
+AC_CHECK_DECLS([_fpreset, fpreset],
     [],[],[[
 #include <stdio.h>
 #if HAVE_SYS_TYPES_H
@@ -972,12 +964,6 @@ AC_CHECK_DECLS([_fpreset, fpreset, _configthreadlocale],
 #endif
 #ifdef HAVE_MATH_H
 #include <math.h>
-#endif
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
-#ifdef HAVE_XLOCALE_H
-#include <xlocale.h>
 #endif
 ]])
 
