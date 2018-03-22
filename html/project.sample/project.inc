@@ -50,7 +50,7 @@ define("FORUM_QA_MERGED_MODE", true);
     // Set to true to merge Message boards and Q&A section
 define ("DISABLE_PROFILES", true);
     // enable profiles only after enabling reCAPTCHA
-    // http://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
+    // https://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
 define("USE_STOPFORUMSPAM", true);
     // use http://www.stopforumspam.com to suppress spammer accounts
 define("RPC_DEBUG", false);
@@ -123,7 +123,7 @@ function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix
     //
     echo '<p></p>
-        <a class="brand boinc-logo" href="http://boinc.berkeley.edu/"><img align="middle" border="0" src="'.secure_url_base().'img/pb_boinc.gif" alt="Powered by BOINC"></a>
+        <a class="brand boinc-logo" href="https://boinc.berkeley.edu/"><img align="middle" border="0" src="'.secure_url_base().'img/pb_boinc.gif" alt="Powered by BOINC"></a>
         <br>
         <p class="text-center"> &copy;'.gmdate("Y ").COPYRIGHT_HOLDER.'</p>
     ';
