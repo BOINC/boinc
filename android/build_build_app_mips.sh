@@ -49,7 +49,13 @@ else
     PREFIX="$TCINCLUDES"
 fi
 
-export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+if [ "x$TRAVIS_BUILD_DIR" != "x" ]; then
+    export BUILD_DIR="$TRAVIS_BUILD_DIR"
+else
+    export BUILD_DIR="$HOME"
+fi
+
+export ANDROID_TC="${ANDROID_TC:-$BUILD_DIR/android-tc}"
 export ANDROIDTC="${ANDROID_TC_MIPS:-$ANDROID_TC/mips}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mipsel-linux-android"

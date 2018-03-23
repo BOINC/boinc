@@ -53,9 +53,15 @@ else
     PREFIX="$TCINCLUDES"
 fi
 
+if [ "x$TRAVIS_BUILD_DIR" != "x" ]; then
+    export BUILD_DIR="$TRAVIS_BUILD_DIR"
+else
+    export BUILD_DIR="$HOME"
+fi
+
 export BOINC=".." #BOINC source code
 
-export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+export ANDROID_TC="${ANDROID_TC:-$BUILD_DIR/android-tc}"
 export ANDROIDTC="${ANDROID_TC_MIPS64-$ANDROID_TC/mips64}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"

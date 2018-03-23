@@ -6,8 +6,14 @@
 
 # Script to setup Android toolchain
 
-export NDK_ROOT="${NDK_ROOT:-$HOME/NVPACK/android-ndk-r10e}"
-export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+if [ "x$TRAVIS_BUILD_DIR" != "x" ]; then
+    export BUILD_DIR="$TRAVIS_BUILD_DIR"
+else
+    export BUILD_DIR="$HOME"
+fi
+
+export NDK_ROOT="${NDK_ROOT:-$BUILD_DIR/NVPACK/android-ndk-r10e}"
+export ANDROID_TC="${ANDROID_TC:-$BUILD_DIR/android-tc}"
 export ANDROID_TC_ARM64="${ANDROID_TC_ARM64:-$ANDROID_TC/arm64}"
 
 cache_dir=""

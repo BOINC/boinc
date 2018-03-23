@@ -10,9 +10,15 @@ COMPILECURL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-CURL="${CURL_SRC:-$HOME/src/curl-7.48.0}" #CURL sources, required by BOINC
+if [ "x$TRAVIS_BUILD_DIR" != "x" ]; then
+    export BUILD_DIR="$TRAVIS_BUILD_DIR"
+else
+    export BUILD_DIR="$HOME"
+fi
 
-export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+CURL="${CURL_SRC:-$BUILD_DIR/src/curl-7.48.0}" #CURL sources, required by BOINC
+
+export ANDROID_TC="${ANDROID_TC:-$BUILD_DIR/android-tc}"
 export ANDROIDTC="${ANDROID_TC_MIPS:-$ANDROID_TC/mips}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mipsel-linux-android"

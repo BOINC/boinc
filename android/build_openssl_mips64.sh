@@ -10,9 +10,15 @@ COMPILEOPENSSL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2g}" #openSSL sources, requiered by BOINC
+if [ "x$TRAVIS_BUILD_DIR" != "x" ]; then
+    export BUILD_DIR="$TRAVIS_BUILD_DIR"
+else
+    export BUILD_DIR="$HOME"
+fi
 
-export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+OPENSSL="${OPENSSL_SRC:-$BUILD_DIR/src/openssl-1.0.2g}" #openSSL sources, requiered by BOINC
+
+export ANDROID_TC="${ANDROID_TC:-$BUILD_DIR/android-tc}"
 export ANDROIDTC="${ANDROID_TC_MIPS64:-$ANDROID_TC/mips64}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"
