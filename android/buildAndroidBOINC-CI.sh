@@ -24,13 +24,6 @@ else
     export BUILD_DIR="$HOME"
 fi
 
-wget -O /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/python-argcomplete/python3-argcomplete_0.8.1-1ubuntu2_all.deb
-sudo dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb
-
-sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
-sudo apt-get update
-sudo apt-get --assume-yes install ubuntu-make
-
 umake android android-studio --accept-license $BUILD_DIR/Android/Android-Studio
 export ANDROID_HOME=$BUILD_DIR/Android/Sdk
 umake android android-sdk --accept-license $BUILD_DIR/Android/Sdk

@@ -89,6 +89,11 @@ matrix:
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( wget -O /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/python-argcomplete/python3-argcomplete_0.8.1-1ubuntu2_all.deb ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo dpkg -i /tmp/python3-argcomplete_0.8.1-1ubuntu2_all.deb ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get --assume-yes install ubuntu-make ) fi
 
 before_script:
 - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
