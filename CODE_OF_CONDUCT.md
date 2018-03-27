@@ -24,7 +24,7 @@ Disagreements, social and technical, are normal, but let's not allow them to per
 
 •  Resolve issues
 
-Don't forget that it is human to err and that blaming each other isn't productive. Instead, focus on helping to resolve issues and learning from mistakes. Participants to the project should try to resolve disagreements constructively. When it is impossible to reach an agreement, follow the process outlined in the Governance document to come to a solution.
+Don't forget that it is human to err and that blaming each other isn't productive. Instead, focus on helping to resolve issues and learning from mistakes. Participants to the project should try to resolve disagreements constructively. When it is impossible to reach an agreement, follow the [process outlined in the Governance document](https://github.com/BOINC/boinc-policy/blob/master/Governance.md#5-decision-processes)to come to a solution.
 
 
 We further adhere to the Github community guidelines, please see https://help.github.com/articles/github-community-guidelines/  
