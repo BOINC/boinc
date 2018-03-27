@@ -167,7 +167,7 @@ function validate_post_make_user() {
 
     $new_email_addr = strtolower(post_str("new_email_addr"));
     if (!is_valid_email_addr($new_email_addr)) {
-        show_error(tra("Invalid email address: you must enter a valid address of the form name@domain"));
+        show_error(tra("Invalid email address: please enter a valid address of the form name@xxx.yyy"));
     }
     $user = BoincUser::lookup_email_addr($new_email_addr);
     if ($user) {
