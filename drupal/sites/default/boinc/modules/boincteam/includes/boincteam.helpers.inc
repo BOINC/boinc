@@ -123,7 +123,7 @@ function boincteam_import($boincteam, $nid = NULL) {
  */
 function _boincteam_userids($boincteamid, $boincid=TRUE) {
   $sql = 'SELECT user.id as id FROM {user} user WHERE user.teamid=%s';
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $dbres = db_query($sql, $boincteamid);
   db_set_active('default');
   $ids = array();
