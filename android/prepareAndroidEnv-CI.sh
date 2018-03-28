@@ -35,8 +35,8 @@ umake android android-ndk --accept-license $BUILD_DIR/Android/Ndk
 yes | $BUILD_DIR/Android/Sdk/tools/bin/sdkmanager --update >> /dev/null
 yes | $BUILD_DIR/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /dev/null
 
-export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $BUILD_DIR/build/BOINC/boinc/android/BOINC/app/build.gradle`
-export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $BUILD_DIR/build/BOINC/boinc/android/BOINC/app/build.gradle`
+export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $BUILD_DIR/android/BOINC/app/build.gradle`
+export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $BUILD_DIR/android/BOINC/app/build.gradle`
 yes | $BUILD_DIR/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
 yes | $BUILD_DIR/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
 
