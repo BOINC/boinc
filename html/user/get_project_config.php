@@ -62,6 +62,10 @@ echo "<project_config>
     <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
 
+if (parse_config($config, "<account_manager>")) {
+    echo "    <account_manager/>\n";
+}
+
 $local_revision = @trim(file_get_contents("../../local.revision"));
 if ($local_revision) {
     echo "<local_revision>$local_revision</local_revision>\n";
