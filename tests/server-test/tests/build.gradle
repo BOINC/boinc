@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
     }
 }
 
@@ -19,12 +19,16 @@ compileTestJava {
     targetCompatibility = 1.8
     options.compilerArgs += '-parameters'
 }
- 
+
 dependencies {
     compile 'commons-codec:commons-codec:1.11'
-    testCompile 'io.rest-assured:xml-path:3.0.5'
     testCompile 'org.apiguardian:apiguardian-api:1.0.0'
-    testCompile 'io.rest-assured:rest-assured:3.0.5'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.2'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.0.2'
+    testCompile 'io.rest-assured:xml-path:3.0.7'
+    testCompile 'io.rest-assured:rest-assured:3.0.7'
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+}
+
+junitPlatform {
+    details 'tree'
 }

@@ -54,5 +54,5 @@ Please follow the instructions at https://gradle.org/install/#manually to instal
 ## Run Tests
 Tests are run out of the **_tests_** subdirectory.  They require the BOINC project running (see above).  These test are run with the following command:
 ```
-gradle test
+gradle clean test
 ```
