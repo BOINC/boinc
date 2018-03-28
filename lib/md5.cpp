@@ -38,6 +38,10 @@
   1999-05-03 lpd Original version.
  */
 
+#ifdef ANDROID
+#include "../android/android_config.h"
+#endif
+
 #include "md5.h"
 #include <string.h>
 

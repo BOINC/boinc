@@ -101,39 +101,8 @@ function boincteam_menu() {
     'access arguments' => array(2),
     'type' => MENU_CALLBACK,
   );
-  $items['admin/boinc/utility-team-delete'] = array(
-    'title' => 'Utility: Delete SPAM Teams',
-    'description' => 'Utililities to help delete BOINC teams created by SPAMMERs.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('boincteam_utility_delete'),
-    'access arguments' => array('administer site configuration'),
-    'type' => MENU_NORMAL_ITEM,
-    'file' => 'boincteam.admin.inc',
-  );
    
   return $items;
-}
-
-/**
-* Implementation of hook_theme().
-*/
-
-function boincteam_theme() {
-/*
-  This hook is here to theme the table in the admin interface for
-  displaying teams to delete, boincteam_utility_team_table. It is a
-  Drupal 6 solution that is NOT forward compatible to drupal 7. In
-  drupal 7+ the table is simply designed from the ground-up as a
-  checkbox table/form.
-
-  See https://www.drupal.org/node/945102
-*/
-  return array(
-    'boincteam_utility_team_table' => array(
-      'arguments' => array('form' => NULL),
-      'file' => 'boincteam.admin.inc',
-    ),
-  );
 }
 
 /**
@@ -192,16 +161,6 @@ function boincteam_views_pre_execute(&$view) {
   }
 }
 
-/**
- * Implementation of hook_cron_queue_info()
- */
-function boincteam_cron_queue_info() {
-  $queues = array();
-  $queues['queue_teamdelete'] = array(
-    'worker callback' => 'boincteam_delete',
-    'time' => 60,
-  );
-}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * BOINC team functions

@@ -407,12 +407,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
-        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
-        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
+        i18nstrings_update('project:prefs_xml', $description);
+        $description = i18nstrings('project:prefs_xml', $description);
       }
       
       $form[$name] = array(
@@ -455,12 +455,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
-        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
-        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
+        i18nstrings_update('project:prefs_xml', $description);
+        $description = i18nstrings('project:prefs_xml', $description);
       }
       
       $form[$name] = array(
@@ -512,12 +512,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
-        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
-        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
+        i18nstrings_update('project:prefs_xml', $description);
+        $description = i18nstrings('project:prefs_xml', $description);
       }
       
       $form[$name] = array(
@@ -536,8 +536,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
-        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
       }
     
     $form['applications'] = array(
@@ -596,8 +596,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
-        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
       }
       
       $form[$name] = array(
@@ -625,8 +625,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
-        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
       }
       
       $form[$name] = array(
@@ -1112,6 +1112,7 @@ function boincwork_format_stats($number, $max_digits = 4) {
   
   return $number;
 }
+
 
   //------------------------------------------------------------------------------------------------
   //  load_configuration(): Convert structured text/xml to array
