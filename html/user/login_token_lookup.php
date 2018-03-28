@@ -39,12 +39,21 @@ function main() {
     $uname = htmlentities($user->name);
     echo "<login_token_reply>\n";
     if (parse_bool($config, "account_manager")) {
+        // the following for 7.9.2 clients; can be removed later
+        //
         echo "   <user_name>$uname</user_name>\n";
         echo "   <login_name>$user->email_addr</login_name>\n";
         echo "   <passwd_hash>$user->passwd_hash</passwd_hash>\n";
+
+        // the following for later clients
+        //
+        echo "   <authenticator>$user->authenticator</authenticator>\n";
     } else {
-        $auth = weak_auth($user);
-        echo "   <weak_auth>$auth</weak_auth>\n";
+        // the following for 7.9.2 clients; remove soon
+        //
+        echo "   <weak_auth>$user->authenticator</weak_auth>\n";
+
+        echo "   <authenticator>$user->authenticator</authenticator>\n";
         echo "   <user_name>$uname</user_name>\n";
         if ($user->teamid && $team == BoincTeam::lookup_id($user->teamid)) {
             $tname = htmlentities($team->name);
