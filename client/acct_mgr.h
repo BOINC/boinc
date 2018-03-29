@@ -169,12 +169,11 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 
-    ACCT_MGR_OP(GUI_HTTP* p) {
+    ACCT_MGR_OP(GUI_HTTP* p) : global_prefs_xml("") {
         gui_http = p;
         via_gui = false;
         error_num = BOINC_SUCCESS;
         repeat_sec = 60.0;
-        global_prefs_xml = "";
         safe_strcpy(host_venue, "");
         got_rss_feeds = false;
     }
