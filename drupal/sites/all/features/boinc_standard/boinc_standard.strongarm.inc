@@ -2023,9 +2023,7 @@ After logging in, you will be redirected to !edit_uri so you can change your pas
   $strongarm->name = 'user_mail_register_admin_created_body';
   $strongarm->value = '!mailto,
 
-A site administrator at !site has created an account for you. You may now log in to !login_uri using the following email and your passphrase
-
-!mailto
+A site administrator at !site has created an account for you. You may now log in to !login_uri using your email and your passphrase.
 
 You may also log in by clicking on this link or copying and pasting it in your browser:
 
@@ -2051,7 +2049,7 @@ After logging in, you will be redirected to !edit_uri so you can change your pas
   $strongarm->name = 'user_mail_register_no_approval_required_body';
   $strongarm->value = '!mailto,
 
-Thank you for registering at !site. You may now log in to !login_uri using the following email address and your passphrase.
+Thank you for registering at !site. You may now log in to !login_uri using your email address and your passphrase.
 
 --  !site team';
   $export['user_mail_register_no_approval_required_body'] = $strongarm;
