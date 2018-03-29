@@ -442,8 +442,7 @@ function boincuser_views_friends_block_header($context = null) {
  */
 function _boincuser_user_name_autocomplete($string) {
   $matches = array();
-  // @todo - use boinc_rw if/when read-only PR is merged
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $result = db_query_range("SELECT id,name FROM {user} WHERE name LIKE '%s%'", $string, 0, 10);
   db_set_active('default');
   while ($user = db_fetch_object($result)) {
