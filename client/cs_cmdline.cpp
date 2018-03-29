@@ -248,13 +248,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) show_options = true;
             else safe_strcpy(update_prefs_url, argv[++i]);
         } else if (ARG(version)) {
-#ifdef __APPLE__
-            CLIENT_STATE cs;
-            cs.detect_platforms();
-            printf(BOINC_VERSION_STRING " %s\n", cs.get_primary_platform());
-#else
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
-#endif
             exit(0);
 #ifdef __APPLE__
         // workaround for bug in XCode 4.2: accept but ignore 

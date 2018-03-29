@@ -438,7 +438,7 @@ int CLIENT_STATE::init() {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        get_primary_platform(),
+        HOSTTYPE,
 #ifdef _DEBUG
         " (DEBUG)"
 #else
