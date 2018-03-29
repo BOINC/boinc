@@ -3876,7 +3876,7 @@ int insert_arg(pargs, arg, at_arg, free_args)
    argnum = 0;
    newargnum = 0;
    if (args) {
-     for (; args[argnum] && argnum < at_arg; argnum++) {
+     for (; argnum < at_arg && args[argnum]; argnum++) {
        newargs[newargnum++] = args[argnum];
      }
    }
