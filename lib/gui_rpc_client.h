@@ -20,6 +20,11 @@
 #ifndef BOINC_GUI_RPC_CLIENT_H
 #define BOINC_GUI_RPC_CLIENT_H
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+#include "config.h"
+
 #if !defined(_WIN32) || defined (__CYGWIN__)
 #include <cstdio>
 #include <string>
@@ -30,8 +35,9 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <locale.h>
 #endif
+
+#include <locale.h>
 
 #include <deque>
 
@@ -773,73 +779,23 @@ struct RPC {
     int parse_reply();
 };
 
-// We recommend using the XCode project under OS 10.5 to compile 
-// the BOINC library, but some projects still use config & make, 
-// so the following compatibility code avoids compiler errors when 
-// building libboinc.a using config & make on system OS 10.3.9 or 
-// with the OS 10.3.9 SDK (but using config & make is not recommended.)
-//
-#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4) && (!defined(BUILDING_MANAGER))
-#define NO_PER_THREAD_LOCALE 1
-#endif
 
-// uselocal() API should be available on UNIX, Fedora & Ubuntu.
-// For any platforms which do not support setting locale on a 
-// per-thread basis, add code here similar to the following sample:
-//#if defined(__UNIVAC__)
-//#define NO_PER_THREAD_LOCALE 1
-//#endif
-#if defined(__HAIKU__)
-#define NO_PER_THREAD_LOCALE 1
-#endif
-
-
-#ifdef NO_PER_THREAD_LOCALE  
-    // Use this code for any platforms which do not support 
-    // setting locale on a per-thread basis (see comment above)
- struct SET_LOCALE {
-    std::string locale;
-    inline SET_LOCALE() {
-        locale = setlocale(LC_ALL, NULL);
-        setlocale(LC_ALL, "C");
-    }
-    inline ~SET_LOCALE() {
-        setlocale(LC_ALL, locale.c_str());
-    }
-};
-
-#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
-// uselocale() is not available in OS 10.3.9 so use weak linking
-#if HAVE_XLOCALE_H
-#include <xlocale.h>
-#endif
-extern int		freelocale(locale_t) __attribute__((weak_import));
-extern locale_t	newlocale(int, __const char *, locale_t) __attribute__((weak_import));
-extern locale_t	uselocale(locale_t) __attribute__((weak_import));
-
+#if defined(HAVE__CONFIGTHREADLOCALE) || defined(HAVE_USELOCALE)
+// no-op, the calling thread is already set to use C locale
 struct SET_LOCALE {
-    locale_t old_locale, RPC_locale;
-    std::string locale;
-    inline SET_LOCALE() {
-        if (uselocale == NULL) {
-            locale = setlocale(LC_ALL, NULL);
-            setlocale(LC_ALL, "C");
-        }
-    }
-    inline ~SET_LOCALE() {
-        if (uselocale == NULL) {
-            setlocale(LC_ALL, locale.c_str());
-        }
-    }
+    SET_LOCALE() {}
+    ~SET_LOCALE() {}
 };
 
 #else
-
 struct SET_LOCALE {
-    // Don't need to juggle locales if we have per-thread locale
-    inline SET_LOCALE() {
+    std::string old_locale;
+    SET_LOCALE() {
+        old_locale = setlocale(LC_ALL, NULL);
+        setlocale(LC_ALL, "C");
     }
-    inline ~SET_LOCALE() {
+    ~SET_LOCALE() {
+        setlocale(LC_ALL, old_locale.c_str());
     }
 };
 #endif

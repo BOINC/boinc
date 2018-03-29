@@ -26,7 +26,6 @@
 #include "BOINCBaseFrame.h"
 #include "Events.h"
 #include "error_numbers.h"
-#include "gui_rpc_client.h" // For SET_LOCALE
 #include "SkinManager.h"
 
 
@@ -156,7 +155,6 @@ CDlgDiagnosticLogFlags::~CDlgDiagnosticLogFlags() {
 
 
 void CDlgDiagnosticLogFlags::CreateCheckboxes() {
-    SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;
     bool val;
@@ -196,7 +194,6 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
 }
 
 void CDlgDiagnosticLogFlags::SaveFlags() {
-    SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;
     bool val;
