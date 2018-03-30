@@ -12,7 +12,7 @@ export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROID_TC_MIPS="${ANDROID_TC_MIPS:-$ANDROID_TC/mips}"
 
 cache_dir=""
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     key="$1"
     case $key in
         --cache_dir)

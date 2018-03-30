@@ -8,7 +8,7 @@ set -e
 # Script to compile a generic application on Android
 
 cache_dir=""
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     key="$1"
     case $key in
         --cache_dir)

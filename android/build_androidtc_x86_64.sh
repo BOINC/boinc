@@ -12,7 +12,7 @@ export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROID_TC_X86_64="${ANDROID_TC_X86_64:-$ANDROID_TC/x86_64}"
 
 cache_dir=""
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     key="$1"
     case $key in
         --cache_dir)

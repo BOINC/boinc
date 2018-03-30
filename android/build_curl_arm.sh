@@ -30,7 +30,7 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -march=a
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 cache_dir=""
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     key="$1"
     case $key in
         --cache_dir)
