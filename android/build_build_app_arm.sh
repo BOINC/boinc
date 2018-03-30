@@ -8,12 +8,17 @@ set -e
 # Script to compile a generic application on Android
 
 cache_dir=""
+MAKECLEAN=""
+
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
         --cache_dir)
         cache_dir="$2"
         shift
+        ;;
+        --clean)
+        MAKECLEAN="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -66,7 +71,9 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -Wall -isys
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -lc++_shared -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
+if [ -n "$MAKECLEAN" ]; then
 make clean
+fi
 
 if [ -e "./configure" ]; then
 ./configure --host=arm-linux --prefix="$PREFIX" --libdir="$PREFIX/lib" --with-ssl="$PREFIX" --with-libcurl="$PREFIX" --disable-shared --enable-static
