@@ -9,7 +9,7 @@ set -e
 
 COMPILEBOINC="yes"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 cache_dir=""
 while [ $# -gt 0 ]; do
@@ -18,6 +18,9 @@ while [ $# -gt 0 ]; do
         --cache_dir)
         cache_dir="$2"
         shift
+        ;;
+        --clean)
+        MAKECLEAN="yes"
         ;;
         *)
         echo "unrecognized option $key"
