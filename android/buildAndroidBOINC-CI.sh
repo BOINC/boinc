@@ -19,6 +19,10 @@ set -e
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+export ANDROID_HOME=$HOME/Android/Sdk
+export NDK_ROOT=$HOME/Android/Ndk
+export ANDROID_TC=$HOME/Android/Toolchains
+
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
 isPathCanonical() {

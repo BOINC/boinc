@@ -22,7 +22,7 @@ set -e
 if [ "x$TRAVIS_BUILD_DIR" != "x" ]; then
     export BUILD_DIR="$TRAVIS_BUILD_DIR"
 else
-    export BUILD_DIR="..."
+    export BUILD_DIR=".."
 fi
 
 umake android android-studio --accept-license $HOME/Android/Android-Studio
