@@ -34,20 +34,10 @@ BOINCCABase::BOINCCABase(
     MSIHANDLE hMSIHandle, 
     const tstring strActionName, 
     const tstring strProgressTitle
-    )
-{
-
-    // Store the parameters for later use
-    m_hMSIHandle = hMSIHandle;
-    m_strActionName = strActionName;
-    m_strProgressTitle = strProgressTitle;
-
-    // Initialize all other values to zero or null
-	m_phActionStartRec = NULL;
-	m_phActionDataRec = NULL;
-    m_phProgressRec = NULL;
-    m_phLogInfoRec = NULL;
-}
+    ) : m_hMSIHandle(hMSIHandle), m_phActionStartRec(NULL), m_phActionDataRec(NULL),
+        m_phProgressRec(NULL), m_phLogInfoRec(NULL),
+        m_strActionName(strActionName), m_strProgressTitle(strProgressTitle)
+{}
 
 
 /////////////////////////////////////////////////////////////////////
