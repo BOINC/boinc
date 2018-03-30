@@ -9,7 +9,7 @@ set -e
 
 COMPILECURL="yes"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 CURL="${CURL_SRC:-$HOME/src/curl-7.48.0}" #CURL sources, required by BOINC
 
@@ -36,6 +36,9 @@ while [ $# -gt 0 ]; do
         --cache_dir)
         cache_dir="$2"
         shift
+        ;;
+        --clean)
+        MAKECLEAN="yes"
         ;;
         *)
         echo "unrecognized option $key"

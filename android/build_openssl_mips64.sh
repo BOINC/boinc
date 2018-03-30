@@ -9,7 +9,7 @@ set -e
 
 COMPILEOPENSSL="yes"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2g}" #openSSL sources, requiered by BOINC
 
@@ -35,6 +35,9 @@ while [ $# -gt 0 ]; do
         --cache_dir)
         cache_dir="$2"
         shift
+        ;;
+        --clean)
+        MAKECLEAN="yes"
         ;;
         *)
         echo "unrecognized option $key"
