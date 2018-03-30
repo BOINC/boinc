@@ -44,13 +44,3 @@ yes | $HOME/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
 export ANDROID_TC=$HOME/Android/Toolchains
 
 mkdir -p $HOME/3rdParty
-
-export OPENSSL_VERSION=1.0.2k
-wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-tar xzf /tmp/openssl.tgz --directory=$HOME/3rdParty
-export OPENSSL_SRC=$HOME/3rdParty/openssl-${OPENSSL_VERSION}
-
-export CURL_VERSION=7.53.1
-wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
-export CURL_SRC=$HOME/3rdParty/curl-${CURL_VERSION}
