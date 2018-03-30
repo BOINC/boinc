@@ -28,7 +28,7 @@ struct TRICKLE_UP_OP: public GUI_HTTP_OP {
     int error_num;
     char* req_buf;
 
-    TRICKLE_UP_OP(std::string& u) : url(u), error_num(0), req_buf(NULL) {
+    TRICKLE_UP_OP(std::string& u) : reply(), url(u), error_num(0), req_buf(NULL) {
         gui_http = new GUI_HTTP;
     }
     virtual ~TRICKLE_UP_OP(){}

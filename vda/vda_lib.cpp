@@ -72,9 +72,10 @@ const char* status_str(int status) {
 META_CHUNK::META_CHUNK(
     VDA_FILE_AUX* d, META_CHUNK* par, double size,
     int coding_level, int index
-) : coding(d->policy.codings[coding_level]) {
-    dfile = d;
-    parent = par;
+) : children(), parent(par), n_children_present(0), have_unrecoverable_children(false),
+    dfile(d), coding(d->policy.codings[coding_level]), bottom_level(false), need_reconstruct(false),
+    needed_by_parent(false), child_size(0)
+ {
     if (parent) {
         sprintf(name, "%s.%d", parent->name, index);
     } else {
