@@ -1,0 +1,44 @@
+# Location of GTEST
+GTEST_DIR = ../../googletest/googletest
+GTEST_MAIN = ${GTEST_DIR}/make/gtest_main.a
+
+# BOINC Libraries
+BOINC_DIR = ..
+BOINC_LIB = ${BOINC_DIR}/sched/libsched.a ${BOINC_DIR}/lib/libboinc_crypt.a ${BOINC_DIR}/lib/libboinc.a -lpthread -L/usr/lib64/mysql -lmysqlclient -ldl -lz -L/usr/lib64 -lssl -lcrypto
+BOINC_INC = -I ${BOINC_DIR}/sched -I ${BOINC_DIR}/db -I ${BOINC_DIR}/lib -I ${BOINC_DIR}/tools -I ${BOINC_DIR}/vda -I ${BOINC_DIR}
+
+# Additional Libraries
+OTHER_INC = -I /usr/include/mysql
+
+# Flags passed to the preprocessor.
+CPPFLAGS = -isystem $(GTEST_DIR)/include ${BOINC_INC} ${OTHER_INC}
+
+# Flags passed to the C++ compiler.
+CXXFLAGS = -g -Wall -Wextra -Werror
+
+# Include all source files
+#cppsrc = $(wildcard *.cpp) \
+#         $(wildcard sched/*.cpp) \
+#         $(wildcard lib/*.cpp)
+
+#obj = $(cppsrc:.cpp=.o)
+obj = $(wildcard *.o) \
+      $(wildcard sched/*.o) \
+      $(wildcard lib/*.o)
+
+all: Sched Lib unitTests
+
+Sched: 
+	cd sched ; make -f Makefile.gtest
+
+Lib:
+	cd lib ; make -f Makefile.gtest
+ 
+unitTests: Sched Lib
+	g++ $(CPPFLAGS) $(CXXFLAGS) $(wildcard sched/*.o) $(wildcard lib/*.o) -o $@ ${GTEST_MAIN} ${BOINC_LIB}
+
+clean: 
+	rm -f *.o ${obj} unitTests
+
+test:
+	./unitTests 
