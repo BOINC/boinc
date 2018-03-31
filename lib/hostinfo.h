@@ -61,6 +61,12 @@ public:
 
     char os_name[256];
     char os_version[256];
+
+    // WSL information for Win10 only
+    bool os_wsl_enabled;
+    char os_wsl_name[256];
+    char os_wsl_version[256];
+
     char product_name[256];       // manufacturer and/or model of system
     char mac_address[256];      // MAC addr e.g. 00:00:00:00:00:00
                                 // currently populated for Android
