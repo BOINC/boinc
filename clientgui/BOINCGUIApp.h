@@ -108,6 +108,7 @@ protected:
     bool                m_bAboutDialogIsOpen;
     bool                m_bRunDaemon;  
     bool                m_bNeedRunDaemon;  
+    bool                m_bAskUserToReconnectToRemoteClient;
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
@@ -168,6 +169,11 @@ public:
   
     bool                GetNeedRunDaemon()  
                                                     { return m_bNeedRunDaemon; }  
+
+    bool                GetAskUserToReconnectToRemoteClient()
+                                                    { return m_bAskUserToReconnectToRemoteClient; }
+    void                SetAskUserToReconnectToRemoteClient(bool iAskUserTOReconnectToRemoteClient)
+                                                    { m_bAskUserToReconnectToRemoteClient = iAskUserTOReconnectToRemoteClient; }
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
     wxString            GetISOLanguageCode()        { return m_strISOLanguageCode; }

@@ -101,6 +101,7 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_EnableBOINCManagerAutoStartCtrl = NULL;
     m_EnableRunDaemonCtrl = NULL;
     m_EnableBOINCManagerExitMessageCtrl = NULL;
+    m_AskUserToReconnectToRemoteClientCtrl = NULL;
     m_DialupStaticBoxCtrl = NULL;
 #if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
@@ -220,8 +221,18 @@ void CDlgOptions::CreateControls() {
     itemFlexGridSizer6->Add(m_EnableRunDaemonCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText12 = new wxStaticText;
-    itemStaticText12->Create( itemPanel4, wxID_STATIC, _("Enable Manager exit dialog?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText12->Create(itemPanel4, wxID_STATIC, _("Ask user to reconnect to remote client"));
     itemFlexGridSizer6->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_AskUserToReconnectToRemoteClientCtrl = new wxCheckBox;
+    m_AskUserToReconnectToRemoteClientCtrl->Create(itemPanel4, ID_ASKUSERTORECONNECTTOREMOTECLIENT, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_AskUserToReconnectToRemoteClientCtrl->SetToolTip(_("Ask user to reconnect to remote client on connection lost."));
+    itemFlexGridSizer6->Add(m_AskUserToReconnectToRemoteClientCtrl, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    
+    wxStaticText* itemStaticText13 = new wxStaticText;
+    itemStaticText13->Create( itemPanel4, wxID_STATIC, _("Enable Manager exit dialog?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText13, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_EnableBOINCManagerExitMessageCtrl = new wxCheckBox;
     m_EnableBOINCManagerExitMessageCtrl->Create( itemPanel4, ID_ENABLEEXITMESSAGE, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
@@ -628,6 +639,7 @@ bool CDlgOptions::ReadSettings() {
     //m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
 
     m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage() != 0);
+    m_AskUserToReconnectToRemoteClientCtrl->SetValue(wxGetApp().GetAskUserToReconnectToRemoteClient());
 #ifdef __WXMSW__
     m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
 
@@ -743,6 +755,7 @@ bool CDlgOptions::SaveSettings() {
     }
 
     wxGetApp().SetBOINCMGRDisplayExitMessage(m_EnableBOINCManagerExitMessageCtrl->GetValue());
+    wxGetApp().SetAskUserToReconnectToRemoteClient(m_AskUserToReconnectToRemoteClientCtrl->GetValue());
 #ifdef __WXMSW__
     wxGetApp().SetBOINCMGRDisableAutoStart(!m_EnableBOINCManagerAutoStartCtrl->GetValue());
 
