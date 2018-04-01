@@ -32,6 +32,12 @@
 #include "coproc.h"
 #include "common_defs.h"
 
+enum LINUX_OS_INFO_PARSER {
+    lsbrelease,
+    osrelease,
+    redhatrelease
+};
+
 // if you add fields, update clear_host_info()
 
 class HOST_INFO {
@@ -105,6 +111,8 @@ public:
     void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
+    bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
 };
 
 #ifdef __APPLE__

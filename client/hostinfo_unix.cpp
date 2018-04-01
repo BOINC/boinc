@@ -1454,84 +1454,26 @@ int HOST_INFO::get_os_info() {
 
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
-    char buf[256],buf2[256];
-    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    char buf2[256];
+    char dist_name[256], dist_version[256];
     string os_version_extra("");
-    strcpy(dist_pretty, "");
     strcpy(dist_name, "");
     strcpy(dist_version, "");
-    strcpy(dist_codename, "");
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
     FILE* f = popen("/usr/bin/lsb_release -a 2>&1", "r");
     if (f) {
-        while (fgets(buf, 256, f)) {
-            strip_whitespace(buf);
-            if ( strstr(buf, "Description:") ) {
-                found_something = true;
-                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
-                strip_whitespace(dist_pretty);
-            }
-            if ( strstr(buf, "Distributor ID:") ) {
-                found_something = true;
-                safe_strcpy(dist_name, strchr(buf, ':') + 1);
-                strip_whitespace(dist_name);
-            }
-            if ( strstr(buf, "Release:") ) {
-                found_something = true;
-                safe_strcpy(dist_version, strchr(buf, ':') + 1);
-                strip_whitespace(dist_version);
-            }
-            if ( strstr(buf, "Codename:") ) {
-                found_something = true;
-                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
-                strip_whitespace(dist_codename);
-            }
-        }
+        found_something = parse_linux_os_info(f, lsbrelease, dist_name, sizeof(dist_name),
+            dist_version, sizeof(dist_version));
         pclose(f);
     }
     if (!found_something) {
         // see: https://www.freedesktop.org/software/systemd/man/os-release.html
         f = fopen("/etc/os-release", "r");
         if (f) {
-            while (fgets(buf, 256, f)) {
-                strip_whitespace(buf);
-                // check if substr is at the beginning of the line
-                if ( strstr(buf, "PRETTY_NAME=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_pretty, buf2);
-                    continue;
-                }
-                if ( strstr(buf, "NAME=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_name, buf2);
-                    continue;
-                }
-                if ( strstr(buf, "VERSION=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_version, buf2);
-                    continue;
-                }
-                // could also be "UBUNTU_CODENAME="
-                if ( strstr(buf, "CODENAME=") ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_codename, buf2);
-                    continue;
-                }
-            }
+            found_something = parse_linux_os_info(f, osrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version));
             fclose(f);
         }
     }
@@ -1540,35 +1482,15 @@ int HOST_INFO::get_os_info() {
         // last ditch effort for older redhat releases
         f = fopen("/etc/redhat-release", "r");
         if (f) {
-            fgets(buf, 256, f);
-            found_something = true;
-            strip_whitespace(buf);
-            safe_strcpy(dist_pretty, buf);
+            found_something = parse_linux_os_info(f, redhatrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version));
             fclose(f);
         }
     }
 
     if (found_something) {
-        strcpy(buf2, "");
-        if (strlen(dist_pretty)) {
-            safe_strcat(buf2, dist_pretty);
-        } else {
-            if (strlen(dist_name)) {
-                safe_strcat(buf2, dist_name);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_version)) {
-                safe_strcat(buf2, dist_version);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_codename)) {
-                safe_strcat(buf2, dist_codename);
-                strcat(buf2, " ");
-            }
-            strip_whitespace(buf2);
-        }
         os_version_extra = (string)os_version;
-        safe_strcpy(os_version, buf2);
+        safe_strcpy(os_version, dist_version);
         if (strlen(dist_name)) {
             strcat(os_name, " ");
             safe_strcat(os_name, dist_name);
