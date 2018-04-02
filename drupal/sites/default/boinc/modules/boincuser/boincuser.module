@@ -1450,6 +1450,10 @@ function boincuser_create_account() {
         if (!$reference) {
           xml_error(-1, 'error connecting BOINC account to Drupal');
         }
+        // Disable show_hosts flag, set to TRUE by default
+        db_set_active('boinc_rw');
+        db_query("UPDATE {user} SET show_hosts=0 WHERE id='%d'", $boinc_user->id);
+        db_set_active('default');
       }
       else {
         // Delete the drupal user just created.
