@@ -4,20 +4,20 @@
 #include <string>
 #include <ios>
 
-namespace str_util_test {
+namespace test_str_util {
 
     // The fixture for testing class Foo.
 
-    class str_util_test : public ::testing::Test {
+    class test_str_util : public ::testing::Test {
     protected:
         // You can remove any or all of the following functions if its body
         // is empty.
 
-        str_util_test() {
+        test_str_util() {
             // You can do set-up work for each test here.
         }
 
-        virtual ~str_util_test() {
+        virtual ~test_str_util() {
             // You can do clean-up work that doesn't throw exceptions here.
         }
 
@@ -39,7 +39,7 @@ namespace str_util_test {
 
     // Tests that Foo does Xyz.
 
-    TEST_F(str_util_test, path_to_filename) {
+    TEST_F(test_str_util, path_to_filename) {
         std::string fname = "";
         ASSERT_EQ(path_to_filename("/home/blah", fname), 0);
         ASSERT_EQ(fname, "blah");
@@ -52,7 +52,7 @@ namespace str_util_test {
         ASSERT_EQ(fname, "");
     }
 
-    TEST_F(str_util_test, nbytes_to_string) {
+    TEST_F(test_str_util, nbytes_to_string) {
         char buf[256];
         nbytes_to_string(1024, 0, buf, sizeof (buf));
         ASSERT_STREQ(buf, "1.00 KB");
@@ -64,7 +64,7 @@ namespace str_util_test {
         ASSERT_STREQ(buf, "45.47 TB");
     }
     
-    TEST_F(str_util_test, strip_whitespace) {
+    TEST_F(test_str_util, strip_whitespace) {
         std::string tmp = "     white space   ";
         strip_whitespace(tmp);
         ASSERT_EQ(tmp, "white space");
