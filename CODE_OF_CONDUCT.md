@@ -8,7 +8,7 @@ Aim to welcome and support people of all backgrounds and identities, of any race
 
 •  Be respectful and friendly
 
-Respect each other and each other's point of view. Different people have different perspectives on issues. Frustration cannot turn into a personal attack. It is important to remember that a community where people feel uncomfortable or threatened is not a productive one. Also remember that with a world-wide community, English may not be the home language of everyone and since all communication happens via text, it's impossible to read what mood the other is in.
+Respect each other and each other's point of view. Different people have different perspectives on issues. Frustration cannot turn into a personal attack. It is important to remember that a community where people feel uncomfortable or threatened is not a productive one. Also remember that with a world-wide community, English may not be the native language of everyone and since all communication happens via text, it's impossible to read what mood the other is in.
 
 •  Be collaborative
 
