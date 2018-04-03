@@ -50,11 +50,25 @@ function boincuser_login_authenticate($form_values) {
   
   // Include BOINC user library
   require_boinc('boinc_db');
-  
+  require_boinc('user_util');
+
   // Get the BOINC user and check credentials
   $boinc_user = BoincUser::lookup_email_addr($email_addr);
   if (!$boinc_user) return false;
-  if ($passwd_hash != $boinc_user->passwd_hash) return false;
+
+  if (password_verify($passwd_hash, $boinc_user->passwd_hash)) {
+    // on valid login, rehash password if necessary to upgrade hash over time
+    // as the defaults change.
+    if (password_needs_rehash($boinc_user->passwd_hash, PASSWORD_DEFAULT)) {
+      do_passwd_rehash($boinc_user, $passwd_hash);
+    }
+  } else if ($passwd_hash == $boinc_user->passwd_hash) {
+    // if password is the legacy md5 hash, then rehash to update to
+    // a more secure hash
+    do_passwd_rehash($boinc_user, $passwd_hash);
+  } else {
+    return false;
+  }
   
   // BOINC authentication successful; log in and synchronize accounts
   boincuser_login_register($boinc_user);
@@ -365,7 +379,7 @@ function boincuser_account_validate($edit, $account) {
       if (!$edit['current_pass']) {
         form_set_error('current_pass', bts('Authentication is required when changing E-mail address or setting new password.', array(), NULL, 'boinc:account-credentials-change'));
       }
-      elseif ($given_hash != $boinc_user->passwd_hash) {
+      elseif ( (!password_verify($given_hash, $boinc_user->passwd_hash)) and ($given_hash != $boinc_user->passwd_hash) ) {
         form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.', array(), NULL, 'boinc:account-credentials-change'));
       }
     }
