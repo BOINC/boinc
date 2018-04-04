@@ -3,7 +3,7 @@
     <project>
         <name>DENIS@Home</name>
         <id>4</id>
-        <url>http://denis.usj.es/denisathome/</url>
+        <url>https://denis.usj.es/denisathome/</url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Medical physiology</specific_area>
         <description><![CDATA[DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart.]]></description>
@@ -949,7 +949,7 @@
     <project>
         <name>Climateprediction.net</name>
         <id>8</id>
-        <url>http://climateapps2.oucs.ox.ac.uk/cpdnboinc/</url>
+        <url>https://climateprediction.net/</url>
         <general_area>Earth Sciences</general_area>
         <specific_area>Climate study</specific_area>
         <description><![CDATA[Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.]]></description>
