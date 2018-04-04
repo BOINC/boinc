@@ -5,6 +5,7 @@
  * @author Anthony Ferrara <ircmaxell@php.net>
  * @license http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2012 The Authors
+ * @link https://github.com/ircmaxell/password_compat
  */
 
 namespace {

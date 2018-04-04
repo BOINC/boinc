@@ -23,12 +23,8 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/ldap.inc");
-require_once("../inc/password.php");
-
-function do_passwd_rehash($user, $passwd_hash) {
-    $database_passwd_hash = password_hash($passwd_hash, PASSWORD_DEFAULT);
-    $result = $user->update(" passwd_hash='$database_passwd_hash' ");
-}
+require_once("../inc/user_util.inc");
+require_once("../inc/password_compat/password.inc");
 
 xml_header();
 $retval = db_init_xml();

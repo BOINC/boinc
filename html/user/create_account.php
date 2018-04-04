@@ -24,7 +24,7 @@ require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/team.inc");
-require_once("../inc/password.php");
+require_once("../inc/password_compat/password.inc");
 
 xml_header();
 

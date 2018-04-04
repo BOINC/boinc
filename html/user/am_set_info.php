@@ -20,7 +20,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
-require_once("../inc/password.php");
+require_once("../inc/password_compat/password.inc");
 
 // do a very cursory check that the given text is valid;
 // for now, just make sure it has the given start and end tags,

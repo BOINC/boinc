@@ -23,7 +23,12 @@ include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/recaptchalib.php");
-require_once("../inc/password.php");
+require_once("../inc/password_compat/password.inc");
+
+function do_passwd_rehash($user, $passwd_hash) {
+    $database_passwd_hash = password_hash($passwd_hash, PASSWORD_DEFAULT);
+    $result = $user->update(" passwd_hash='$database_passwd_hash' ");
+}
 
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;

@@ -22,12 +22,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
-require_once("../inc/password.php");
-
-function do_passwd_rehash($user, $passwd_hash) {
-    $database_passwd_hash = password_hash($passwd_hash, PASSWORD_DEFAULT);
-    $result = $user->update(" passwd_hash='$database_passwd_hash' ");
-}
+require_once("../inc/user_util.inc");
+require_once("../inc/password_compat/password.inc");
 
 // check for email/password case
 //
