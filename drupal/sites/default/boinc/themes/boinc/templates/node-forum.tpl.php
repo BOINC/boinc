@@ -157,6 +157,12 @@
       ?>
       <div class="name"><?php print $name; ?></div>
       <?php if ($account->uid): ?>
+      <?php if (in_array('moderator', $account->roles)): ?>
+        <div class="moderator"><?php print bts('Moderator', array(), NULL, 'boinc:user-info'); ?></div>
+      <?php endif; ?>
+      <?php if (in_array('administrator', $account->roles)): ?>
+        <div class="administrator"><?php print bts('Administrator', array(), NULL, 'boinc:user-info'); ?></div>
+      <?php endif; ?>
         <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
         <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
         <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>

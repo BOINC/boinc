@@ -468,7 +468,7 @@ function boincuser_user_delete($account) {
   // Keep entry in drupal boincuser table as record of deletion.
 
   // Delete data in BOINC project user table.
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id=NULL, user.passwd_hash=NULL, user.signature=NULL WHERE user.id=%d", $boincid);
   db_set_active('default');
 }
