@@ -303,7 +303,6 @@ function page_head(
         break;
     }
     project_banner($title, $url_prefix, $is_main);
-    check_web_stopped();
 }
 }
 
