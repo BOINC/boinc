@@ -337,8 +337,9 @@
 /* #undef HAVE__PROC_SELF_STAT */
 
 /* Host for this compilation */
-/* "i686-apple-darwin", "x86_64-apple-darwin" or "powerpc-apple-darwin" determined at run time */
-#define HOSTTYPE ""
+#ifdef __x86_64__
+#define HOSTTYPE "x86_64-apple-darwin"
+#endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */
 /* #undef LARGEFILE_BREAKS_CXX */

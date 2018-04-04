@@ -73,7 +73,7 @@ static void get_user_agent_string() {
     if (g_user_agent_string[0]) return;
     snprintf(g_user_agent_string, sizeof(g_user_agent_string),
         "BOINC client (%s %d.%d.%d)",
-        gstate.get_primary_platform(),
+        HOSTTYPE,
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
     if (strlen(gstate.client_brand)) {
