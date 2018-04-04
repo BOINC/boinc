@@ -53,15 +53,12 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // do an account manager RPC;
 // if URL is null, detach from current account manager
 //
-int ACCT_MGR_OP::do_rpc(
-    string _url, string name, string password_hash, bool _via_gui
-) {
+int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     int retval;
     unsigned int i;
-    char url[256], password[256], buf[256];
-    FILE *pwdf;
+    char buf[256];
 
-    strlcpy(url, _url.c_str(), sizeof(url));
+    ami = _ami;
 
     error_num = ERR_IN_PROGRESS;
     error_str = "";
@@ -70,7 +67,7 @@ int ACCT_MGR_OP::do_rpc(
 
     // if null URL, detach from current AMS
     //
-    if (!strlen(url) && strlen(gstate.acct_mgr_info.master_url)) {
+    if (!strlen(ami.master_url) && strlen(gstate.acct_mgr_info.master_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
         gstate.acct_mgr_info.clear();
         boinc_delete_file(ACCT_MGR_URL_FILENAME);
@@ -84,29 +81,35 @@ int ACCT_MGR_OP::do_rpc(
         return 0;
     }
 
-    canonicalize_master_url(url, sizeof(url));
-    if (!valid_master_url(url)) {
+    canonicalize_master_url(ami.master_url, sizeof(ami.master_url));
+    if (!valid_master_url(ami.master_url)) {
         error_num = ERR_INVALID_URL;
         return 0;
     }
-
-    strlcpy(ami.master_url, url, sizeof(ami.master_url));
-    strlcpy(ami.project_name, "", sizeof(ami.project_name));
-    strlcpy(ami.login_name, name.c_str(), sizeof(ami.login_name));
-    strlcpy(ami.password_hash, password_hash.c_str(), sizeof(ami.password_hash));
 
     FILE* f = boinc_fopen(ACCT_MGR_REQUEST_FILENAME, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f,
         "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         "<acct_mgr_request>\n"
-        "   <name>%s</name>\n"
-        "   <password_hash>%s</password_hash>\n"
+    );
+    if (strlen(ami.authenticator)) {
+        fprintf(f,
+            "   <authenticator>%s</authenticator>\n",
+            ami.authenticator
+        );
+    } else {
+        fprintf(f,
+            "   <name>%s</name>\n"
+            "   <password_hash>%s</password_hash>\n",
+            ami.login_name, ami.password_hash
+        );
+    }
+    fprintf(f,
         "   <host_cpid>%s</host_cpid>\n"
         "   <domain_name>%s</domain_name>\n"
         "   <client_version>%d.%d.%d</client_version>\n"
         "   <run_mode>%s</run_mode>\n",
-        name.c_str(), password_hash.c_str(),
         gstate.host_info.host_cpid,
         gstate.host_info.domain_name,
         gstate.core_client_version.major,
@@ -122,7 +125,7 @@ int ACCT_MGR_OP::do_rpc(
         );
     }
 
-    // If the AMS requested it, send GUI RPC port and password hash.
+    // If the AMS requested it, send GUI RPC port and password.
     // This is for the "farm" account manager so it
     // can know where to send GUI RPC requests to
     // without having to configure each host
@@ -134,15 +137,19 @@ int ACCT_MGR_OP::do_rpc(
             fprintf(f,"   <gui_rpc_port>%d</gui_rpc_port>\n", GUI_RPC_PORT);
         }
         if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
-            safe_strcpy(password, "");
-            pwdf = fopen(GUI_RPC_PASSWD_FILE, "r");
+            char gui_rpc_password[256];
+            safe_strcpy(gui_rpc_password, "");
+            FILE* pwdf = fopen(GUI_RPC_PASSWD_FILE, "r");
             if (pwdf) {
-                if (fgets(password, 256, pwdf)) {
-                    strip_whitespace(password);
+                if (fgets(gui_rpc_password, 256, pwdf)) {
+                    strip_whitespace(gui_rpc_password);
                 }
                 fclose(pwdf);
             }
-            fprintf(f,"   <gui_rpc_password>%s</gui_rpc_password>\n", password);
+            fprintf(f,
+                "   <gui_rpc_password>%s</gui_rpc_password>\n",
+                gui_rpc_password
+            );
         }
     }
     for (i=0; i<gstate.projects.size(); i++) {
@@ -228,7 +235,7 @@ int ACCT_MGR_OP::do_rpc(
     gstate.net_stats.write(mf);
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
-    snprintf(buf, sizeof(buf), "%srpc.php", url);
+    snprintf(buf, sizeof(buf), "%srpc.php", ami.master_url);
     retval = gui_http->do_rpc_post(
         this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME, true
     );
@@ -236,7 +243,7 @@ int ACCT_MGR_OP::do_rpc(
         error_num = retval;
         return retval;
     }
-    msg_printf(NULL, MSG_INFO, "Contacting account manager at %s", url);
+    msg_printf(NULL, MSG_INFO, "Contacting account manager at %s", ami.master_url);
 
     return 0;
 }
@@ -376,6 +383,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         }
         if (xp.match_tag("/acct_mgr_reply")) return 0;
         if (xp.parse_str("name", ami.project_name, 256)) continue;
+        if (xp.parse_str("authenticator", ami.authenticator, 256)) continue;
         if (xp.parse_int("error_num", error_num)) continue;
         if (xp.parse_string("error", error_str)) continue;
         if (xp.parse_string("error_msg", error_str)) continue;
@@ -585,6 +593,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         safe_strcpy(gstate.acct_mgr_info.master_url, ami.master_url);
         safe_strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         safe_strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
+        safe_strcpy(gstate.acct_mgr_info.authenticator, ami.authenticator);
         gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
 
         // process projects
@@ -824,15 +833,26 @@ int ACCT_MGR_INFO::write_info() {
         }
         fprintf(f,
             "<acct_mgr_login>\n"
-            "    <login>%s</login>\n"
-            "    <password_hash>%s</password_hash>\n"
+        );
+        if (strlen(authenticator)) {
+            fprintf(f,
+                "    <authenticator>%s</authenticator>\n",
+                authenticator
+            );
+        } else {
+            fprintf(f,
+                "    <login>%s</login>\n"
+                "    <password_hash>%s</password_hash>\n",
+                login_name,
+                password_hash
+            );
+        }
+        fprintf(f,
             "    <previous_host_cpid>%s</previous_host_cpid>\n"
             "    <next_rpc_time>%f</next_rpc_time>\n"
             "    <opaque>\n%s\n"
             "    </opaque>\n"
             "    <no_project_notices>%d</no_project_notices>\n",
-            login_name,
-            password_hash,
             previous_host_cpid,
             next_rpc_time,
             opaque,
@@ -853,6 +873,7 @@ void ACCT_MGR_INFO::clear() {
     safe_strcpy(login_name, "");
     safe_strcpy(user_name, "");
     safe_strcpy(password_hash, "");
+    safe_strcpy(authenticator, "");
     safe_strcpy(signing_key, "");
     safe_strcpy(previous_host_cpid, "");
     safe_strcpy(opaque, "");
@@ -889,6 +910,7 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
         if (xp.match_tag("/acct_mgr_login")) break;
         else if (xp.parse_str("login", login_name, 256)) continue;
         else if (xp.parse_str("password_hash", password_hash, 256)) continue;
+        else if (xp.parse_str("authenticator", authenticator, 256)) continue;
         else if (xp.parse_str("previous_host_cpid", previous_host_cpid, sizeof(previous_host_cpid))) continue;
         else if (xp.parse_double("next_rpc_time", next_rpc_time)) continue;
         else if (xp.match_tag("opaque")) {
@@ -1002,9 +1024,7 @@ bool ACCT_MGR_INFO::poll() {
         // default synch period is 1 day
         //
         next_rpc_time = gstate.now + 86400;
-        gstate.acct_mgr_op.do_rpc(
-            master_url, login_name, password_hash, false
-        );
+        gstate.acct_mgr_op.do_rpc(*this, false);
         return true;
     }
     return false;

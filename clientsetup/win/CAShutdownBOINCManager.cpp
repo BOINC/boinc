@@ -83,7 +83,7 @@ UINT CAShutdownBOINCManager::OnExecution()
         hWndBOINCManagerSystray = FindWindow( _T("wxTaskBarExWindowClass"), _T("BOINCManagerSystray") );
         if ( NULL != hWndBOINCManagerSystray )
         {
-            GetWindowText( hWndBOINCManagerSystray, szWindowTitle, (sizeof(szWindowTitle) * sizeof(TCHAR)));
+            GetWindowText( hWndBOINCManagerSystray, szWindowTitle, (sizeof(szWindowTitle) / sizeof(TCHAR)));
             LogProgress( szWindowTitle );
 
             lrReturnValue = SendMessage( hWndBOINCManagerSystray, WM_TASKBARSHUTDOWN, NULL, NULL );

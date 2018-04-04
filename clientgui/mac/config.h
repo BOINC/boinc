@@ -299,6 +299,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define to 1 if you have the `uselocale' function. */
+#define HAVE_USELOCALE 1
+
 /* Define to 1 if you have the <utmp.h> header file. */
 #define HAVE_UTMP_H 1
 
