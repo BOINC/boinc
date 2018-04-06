@@ -1075,6 +1075,19 @@ function update_3_8_2018() {
     ");
 }
 
+function update_4_5_2018() {
+    do_query("create table token (
+        token                   varchar(255)    not null,
+        userid                  integer         not null,
+        type                    char            not null,
+        create_time             integer         not null default unix_timestamp(),
+        expire_time             integer,
+        primary key (token),
+        index token_userid (userid)
+        ) engine=InnoDB
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1127,7 +1140,8 @@ $db_updates = array (
     array(27018, "update_7_21_2017"),
     array(27019, "update_8_9_2017"),
     array(27020, "update_10_25_2017"),
-    array(27020, "update_3_8_2018"),
+    array(27021, "update_3_8_2018"),
+    array(27022, "update_4_5_2018"),
 );
 
 ?>

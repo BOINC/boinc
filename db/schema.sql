@@ -762,3 +762,13 @@ create table credit_team (
     credit_type             integer         not null,
     primary key (teamid, appid, credit_type)
 ) engine=InnoDB;
+
+create table token (
+    token                   varchar(255)    not null,
+    userid                  integer         not null,
+    type                    char            not null,
+    create_time             integer         not null default unix_timestamp(),
+    expire_time             integer,
+    primary key (token),
+    index token_userid (userid)
+) engine=InnoDB;
