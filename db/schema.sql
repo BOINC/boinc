@@ -127,10 +127,10 @@ create table team (
     description             text,
     nusers                  integer         not null,   /* temp */
     country                 varchar(254),
-    total_credit            double          not null,   /* temp */
-    expavg_credit           double          not null,   /* temp */
+    total_credit            double          not null default 0.0,   /* temp */
+    expavg_credit           double          not null default 0.0,   /* temp */
     expavg_time             double          not null,
-    seti_id                 integer         not null,
+    seti_id                 integer         not null default 0,
     ping_user               integer         not null default 0,
     ping_time               integer unsigned not null default 0,
     joinable                tinyint         not null default 1,

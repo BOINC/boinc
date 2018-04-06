@@ -1088,6 +1088,14 @@ function update_4_5_2018() {
     ");
 }
 
+function update_4_6_2018() {
+    do_query("alter table team
+        modify column total_credit double not null default 0.0,
+        modify column expavg_credit double not null default 0.0,
+        modify column seti_id integer not null default 0
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1142,6 +1150,7 @@ $db_updates = array (
     array(27020, "update_10_25_2017"),
     array(27021, "update_3_8_2018"),
     array(27022, "update_4_5_2018"),
+    array(27023, "update_4_6_2018"),
 );
 
 ?>
