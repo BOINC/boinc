@@ -197,6 +197,24 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             p->disk_usage,
             p->disk_share
         );
+        
+        // send starvation-related info
+        //
+        if (ami.send_rec) {
+            fprintf(f,
+                "      <nrpc_failures>%d</nrpc_failures>",
+                p->nrpc_failures
+            );
+            for (int j=0; j<coprocs.n_rsc; j++) {
+                if (p->sched_req_no_work[j]) {
+                    fprintf(f,
+                        "    <sched_req_no_work>%s</sched_req_no_work>\n",
+                        coprocs.coprocs[j].type
+                    );
+                }
+            }
+        }
+
         if (p->attached_via_acct_mgr) {
             fprintf(f,
                 "      <account_key>%s</account_key>\n",
@@ -885,6 +903,9 @@ void ACCT_MGR_INFO::clear() {
     no_project_notices = false;
     cookie_required = false;
     user_keywords.clear();
+    first_starved = 0;
+    starved_rpc_backoff = 0;
+    starved_rpc_min_time = 0;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -1013,6 +1034,11 @@ int ACCT_MGR_INFO::init() {
     return 0;
 }
 
+#define STARVED_RPC_DELAY   600
+    // do RPC after this much starvation
+
+// called once a second
+//
 bool ACCT_MGR_INFO::poll() {
     if (!using_am()) return false;
     if (gstate.acct_mgr_op.gui_http->is_busy()) {
@@ -1026,6 +1052,44 @@ bool ACCT_MGR_INFO::poll() {
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(*this, false);
         return true;
+    }
+
+    // if not dynamic AM, we're done
+    //
+    if (!send_rec) {
+        return false;
+    }
+
+    // See if some resource is starved with the current set of projects,
+    // and if so possibly do a "starved" RPC asking for different projects
+
+    // do this check once a minute
+    //
+    static int idle_timer = 0;
+    if (++idle_timer < 60) {
+        return false;
+    }
+    idle_timer = 0;
+    get_nidle();
+    if (any_resource_idle()) {
+        if (first_starved == 0) {
+            first_starved = gstate.now;
+            starved_rpc_backoff = STARVED_RPC_DELAY;
+            starved_rpc_min_time = gstate.now + STARVED_RPC_DELAY;
+        } else {
+            if (gstate.now < starved_rpc_min_time) {
+                return false;
+            }
+            gstate.acct_mgr_op.do_rpc(*this, false);
+            starved_rpc_backoff *= 2;
+            if (starved_rpc_backoff > 86400) {
+                starved_rpc_backoff = 86400;
+            }
+            starved_rpc_min_time = gstate.now + starved_rpc_backoff;
+            return true;
+        }
+    } else {
+        first_starved = 0;
     }
     return false;
 }
