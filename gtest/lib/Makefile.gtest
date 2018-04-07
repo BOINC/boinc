@@ -1,6 +1,6 @@
 # Location of GTEST
-GTEST_DIR = ../../../googletest/googletest
-GTEST_MAIN = ${GTEST_DIR}/make/gtest_main.a
+GTEST_DIR = ../../3rdParty/buildCache/linux
+GTEST_MAIN = ${GTEST_DIR}/lib/gtest_main.a
 
 # BOINC Libraries
 BOINC_DIR = ../..
@@ -14,7 +14,7 @@ OTHER_INC = -I /usr/include/mysql
 CPPFLAGS = -isystem $(GTEST_DIR)/include ${BOINC_INC} ${OTHER_INC}
 
 # Flags passed to the C++ compiler.
-CXXFLAGS = -g -Wall -Wextra -Werror
+CXXFLAGS = -g -Wall -Wextra -Werror --coverage
 
 # Include all source files
 cppsrc = $(wildcard *.cpp) 

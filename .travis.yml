@@ -71,12 +71,13 @@ matrix:
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( pip install --user cpp-coveralls ) fi
 
 before_script:
 - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
 
 script:
-- if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
+- if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make && cd gtest && make -f Makefile.gtest && make -f Makefile.gtest test ) fi
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
