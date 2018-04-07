@@ -47,6 +47,7 @@ env:
     - BOINC_TYPE=client
     - BOINC_TYPE=apps
     - BOINC_TYPE=manager
+    - BOINC_TYPE=test
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
     #- BOINC_TYPE=coverity
@@ -64,6 +65,8 @@ matrix:
   - os: osx
     env: BOINC_TYPE=apps
   - os: osx
+    env: BOINC_TYPE=test
+  - os: osx
     env: BOINC_TYPE=libs-mingw
   - os: osx
     env: BOINC_TYPE=apps-mingw
@@ -71,18 +74,19 @@ matrix:
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 ) fi
-   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( pip install --user cpp-coveralls ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" && "${BOINC_TYPE}" == "test" ]]; then ( pip install --user cpp-coveralls ) fi
 
 before_script:
 - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
 
 script:
-- if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make && cd gtest && make -f Makefile.gtest && make -f Makefile.gtest test ) fi
+- if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( make distclean && ./3rdParty/buildLinuxDependencies.sh --disable-webview --cache_dir ${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
+- if [[ "${BOINC_TYPE}" == "test" ]]; then ( ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-client --disable-manager && make && cd gtest && make -f Makefile.gtest && make -f Makefile.gtest test) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
