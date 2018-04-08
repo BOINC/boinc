@@ -73,4 +73,24 @@ namespace test_str_util {
         ASSERT_EQ(tmp, "nospaces");
     }
 
+    TEST_F(test_str_util, collapse_whitespace) {
+        std::string tmp = "     white space   ";
+        collapse_whitespace(tmp);
+        ASSERT_EQ(tmp, " white space ");
+        tmp = "nospaces";
+        collapse_whitespace(tmp);
+        ASSERT_EQ(tmp, "nospaces");
+        tmp = "inner     spaces";
+        collapse_whitespace(tmp);
+        ASSERT_EQ(tmp, "inner spaces");
+    }
+
+    TEST_F(test_str_util, is_valid_filename) {
+        //char tmp = "filename.txt";
+        bool ret = is_valid_filename("filename.txt");
+        ASSERT_TRUE(ret);
+        ret = is_valid_filename("../filename.txt");
+        ASSERT_FALSE(ret);
+    }
+
 } // namespace

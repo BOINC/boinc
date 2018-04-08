@@ -37,8 +37,10 @@ Lib:
 unitTests: Sched Lib
 	g++ $(CPPFLAGS) $(CXXFLAGS) $(wildcard sched/*.o) $(wildcard lib/*.o) -o $@ ${GTEST_MAIN} ${BOINC_LIB}
 
-clean: 
-	rm -f *.o ${obj} unitTests
+clean:
+	cd sched; make -f Makefile.gtest clean
+	cd lib; make -f Makefile.gtest clean
+	rm -f *.o *.gcov *.gcno *.gcda ${obj} unitTests
 
 test:
 	./unitTests 

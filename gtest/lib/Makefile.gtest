@@ -23,3 +23,5 @@ obj = $(cppsrc:.cpp=.o)
 
 all: ${obj}
  
+clean: 
+	rm -f *.gcov *.gcno *.gcda ${obj}

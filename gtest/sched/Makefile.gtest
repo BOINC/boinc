@@ -31,3 +31,5 @@ all: ${obj}
 #clean: 
 #	rm -f *.o ${obj} unitTests
  
+clean: 
+	rm -f *.gcov *.gcno *.gcda ${obj}
