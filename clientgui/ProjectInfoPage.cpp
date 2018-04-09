@@ -561,7 +561,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
         m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
 
-    }
+     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
@@ -794,7 +794,7 @@ void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     wxSize sz = win->GetParent()->GetSize();
     win->GetPosition(&x, &y);
     int maxWidth = sz.GetWidth() - x - 10;
-    
+
     win->GetTextExtent(s, &w, &h);
     
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
@@ -813,4 +813,10 @@ void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
             w += ellipsisWidth;
         }
     }
+}
+
+void CProjectInfoPage::RefreshPage() {
+    // Trigger initial event to populate the list control
+    wxCommandEvent evtEvent(wxEVT_COMMAND_COMBOBOX_SELECTED, ID_CATEGORIES);
+    ProcessEvent(evtEvent);
 }
