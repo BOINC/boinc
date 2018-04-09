@@ -1006,9 +1006,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (!sr.too_recent) {
         for (int j=0; j<coprocs.n_rsc; j++) {
             RSC_WORK_FETCH& rwf = rsc_work_fetch[j];
-            project->sched_req_no_work[j] =
-                (rwf.req_secs>0 || rwf.req_instances>0)
-                && !got_work_for_rsc[j]
+            if (got_work_for_rsc[j]) {
+                project->sched_req_no_work[j] = false;
+            } else if (rwf.req_secs>0 || rwf.req_instances>0) {
+                project->sched_req_no_work[j] = true;
             ;
         }
     }

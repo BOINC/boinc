@@ -190,7 +190,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
         //
         if (ami.dynamic) {
             fprintf(f,
-                "      <nrpc_failures>%d</nrpc_failures>"
+                "      <nrpc_failures>%d</nrpc_failures>\n"
                 "      <cpu_ec>%f</cpu_ec>\n"
                 "      <cpu_time>%f</cpu_time>\n"
                 "      <gpu_ec>%f</gpu_ec>\n"
