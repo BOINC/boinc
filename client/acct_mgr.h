@@ -72,8 +72,10 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // what login name and password they have been assigned
 
     bool password_error;
-    bool send_rec;
-        // send REC in AM RPCs
+    bool dynamic;
+        // This AM dynamically decides what projects to assign.
+        // - send EC in AM RPCs
+        // - send starvation info if idle resources
     USER_KEYWORDS user_keywords;
         // user's yes/no keywords.
         // These are conveyed to projects in scheduler requests
