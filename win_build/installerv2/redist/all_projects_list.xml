@@ -949,7 +949,7 @@
     <project>
         <name>Climateprediction.net</name>
         <id>8</id>
-        <url>https://climateprediction.net/</url>
+        <url>https://www.climateprediction.net/</url>
         <general_area>Earth Sciences</general_area>
         <specific_area>Climate study</specific_area>
         <description><![CDATA[Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.]]></description>
@@ -1028,7 +1028,7 @@
     <project>
         <name>World Community Grid</name>
         <id>22</id>
-        <url>http://www.worldcommunitygrid.org/</url>
+        <url>https://www.worldcommunitygrid.org/</url>
         <general_area>Multiple applications</general_area>
         <specific_area>Medical, environmental and other humanitarian research</specific_area>
         <description><![CDATA[To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more.]]></description>
