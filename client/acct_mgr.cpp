@@ -1087,6 +1087,10 @@ bool ACCT_MGR_INFO::poll() {
             if (gstate.now < starved_rpc_min_time) {
                 return false;
             }
+            msg_printf(NULL, MSG_INFO,
+                "Some devices idle - requesting new projects from %s",
+                gstate.acct_mgr_info.project_name
+            );
             gstate.acct_mgr_op.do_rpc(*this, false);
             starved_rpc_backoff *= 2;
             if (starved_rpc_backoff > 86400) {
