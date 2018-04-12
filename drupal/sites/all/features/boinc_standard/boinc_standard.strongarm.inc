@@ -1995,7 +1995,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_password_reset_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 A request to reset the password for your account has been made at !site.
 
@@ -2021,7 +2021,7 @@ After logging in, you will be redirected to !edit_uri so you can change your pas
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_register_admin_created_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 A site administrator at !site has created an account for you. You may now log in to !login_uri using your email and your passphrase.
 
@@ -2047,7 +2047,7 @@ After logging in, you will be redirected to !edit_uri so you can change your pas
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_register_no_approval_required_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 Thank you for registering at !site. You may now log in to !login_uri using your email address and your passphrase.
 
@@ -2065,7 +2065,7 @@ Thank you for registering at !site. You may now log in to !login_uri using your 
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_register_pending_approval_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 Thank you for registering at !site. Your application for an account is currently pending approval. Once it has been approved, you will receive another e-mail containing information about how to log in, set your password, and other details.
 
@@ -2083,7 +2083,7 @@ Thank you for registering at !site. Your application for an account is currently
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_status_activated_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 Your account at !site has been activated.
 
@@ -2117,7 +2117,7 @@ After logging in, you will be redirected to !edit_uri so you can change your pas
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_status_blocked_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 Your account on !site has been blocked.
 
@@ -2142,7 +2142,7 @@ Your account on !site has been blocked.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_status_deleted_body';
-  $strongarm->value = '!mailto,
+  $strongarm->value = 'Hello,
 
 Your account on !site has been deleted.
 
