@@ -53,6 +53,7 @@ void PROJECT::init() {
         no_rsc_config[i] = false;
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
+        sched_req_no_work[i] = false;
     }
     safe_strcpy(host_venue, "");
     using_venue_specific_prefs = false;
