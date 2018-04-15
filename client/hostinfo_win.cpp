@@ -312,12 +312,64 @@ int get_memory_info(double& bytes, double& swap) {
     return 0;
 }
 
+HANDLE in_read = NULL;
+HANDLE in_write = NULL;
+HANDLE out_read = NULL;
+HANDLE out_write = NULL;
+
+bool CreateChildProcess() {
+    PROCESS_INFORMATION pi;
+    STARTUPINFO si;
+
+    ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
+    ZeroMemory(&si, sizeof(STARTUPINFO));
+
+    si.cb = sizeof(STARTUPINFO);
+    si.hStdError = out_write;
+    si.hStdOutput = out_write;
+    si.hStdInput = in_read;
+    si.dwFlags |= STARTF_USESTDHANDLES;
+
+    const bool res = CreateProcess(NULL, "wsl", NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);
+
+    if (res) {
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+    }
+
+    return res;
+}
+
 // Returns the OS name and version for WSL when enabled
 //
 int get_wsl_information(
     bool& wsl_enabled, char* wsl_os_name, const int wsl_os_name_size, char* wsl_os_version, const int wsl_os_version_size
 ) {
-  
+    wsl_enabled = false;
+
+    SECURITY_ATTRIBUTES sa;
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = NULL;
+
+    if (!CreatePipe(&out_read, &out_write, &sa, 0)) {
+        return 0;        
+    }
+    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) {
+        return 0;
+    }
+    if (!CreatePipe(&in_read, &in_write, &sa, 0)) {
+        return 0;
+    }
+    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) {
+        return 0;
+    }
+
+    if (!CreateChildProcess()) {
+        return 0;
+    }
+
     return 0;
 }
 
