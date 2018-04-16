@@ -260,10 +260,17 @@ function show_user_info_private($user) {
             "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
         );
     } else {
+        $delete_account_str = "";
+        $config = get_config();
+        if ( parse_bool($config, "enable_delete_account") ) {
+            $delete_account_str = " &middot; <a href=\"remove_account_request.php\">".tra("remove account")."</a>";
+        }
+        
         row2(tra("Change"),
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
             &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+            .$delete_account_str
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
