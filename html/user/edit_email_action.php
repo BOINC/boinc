@@ -56,13 +56,14 @@ if (!is_valid_email_addr($email_addr)) {
             $passwd_hash = md5($passwd.$email_addr);
             $email_addr = BoincDb::escape_string($email_addr);
             $result = $user->update(
-                "email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0"
+                "email_addr='$email_addr', previous_email_addr='$user->email_addr', email_addr_change_time=unix_timestamp(), passwd_hash='$passwd_hash', email_validated=0"
             );
             if ($result) {
                 echo tra("The email address of your account is now %1.", $email_addr);
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
                     echo "<p>".tra("Please %1 validate this email address %2.", "<a href=validate_email_addr.php>", "</a>")."\n";
                 }
+                send_changed_email($user);
             } else {
                 echo tra("We can't update your email address due to a database problem.  Please try again later.");
             }

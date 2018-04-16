@@ -24,11 +24,15 @@ require_once("../project/project.inc");
 
 // send an email, using PHPMailer or not.
 //
-function send_email($user, $subject, $body, $body_html=null) {
+function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
     if (function_exists("make_php_mailer")) {
         require_once("../inc/phpmailer/class.phpmailer.php");
         $mail = make_php_mailer();
-        $mail->AddAddress($user->email_addr, $user->name);
+        if($email_addr) {
+            $mail->AddAddress($email_addr, $user->name);
+        } else {
+            $mail->AddAddress($user->email_addr, $user->name);
+        }
         $mail->Subject = $subject;
         if ($body_html) {
             $mail->AltBody = $body;
@@ -84,6 +88,26 @@ For further information and assistance with ".PROJECT.", visit
 ";
 
     return send_email($user, $subject, $body);
+}
+
+function send_changed_email($user) {
+    $body_new = "";
+    $body_old = "";
+
+    $subject = PROJECT." email address change.";
+    //Body for the new email address to explain how quickly they can do another email change.
+    $body_new = "Your email address was changed from ".$user->previous_email_addr.
+" to ".$user->email_addr." on ".date("F j \a\t g:i a T", $user->email_addr_change_time).
+".  You will not be able to change your email address again until ".date("F j \a\t g:i a T", $user-email_addr_change_time + 604800).
+".  If you need to undo this immediately, please look for an email from us at your ".$user->previous_email_addr." address.";
+
+    //We need to send a different version of the email to the old address.
+    $body_old = "Your email address has been changed. If you did not take this action, 
+then please click on the link below reverse this process and change your password.
+
+".secure_url_base()."recover_email.php?id=".$user->id."&token=asdfasdfasdf";
+
+    return send_email($user, $subject, $body_new) && send_email($user, $subject, $body_old, null, $user->previous_email_addr);
 }
 
 // a valid email address is of the form A@B.C
