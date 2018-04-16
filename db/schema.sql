@@ -127,10 +127,10 @@ create table team (
     description             text,
     nusers                  integer         not null,   /* temp */
     country                 varchar(254),
-    total_credit            double          not null,   /* temp */
-    expavg_credit           double          not null,   /* temp */
+    total_credit            double          not null default 0.0,   /* temp */
+    expavg_credit           double          not null default 0.0,   /* temp */
     expavg_time             double          not null,
-    seti_id                 integer         not null,
+    seti_id                 integer         not null default 0,
     ping_user               integer         not null default 0,
     ping_time               integer unsigned not null default 0,
     joinable                tinyint         not null default 1,
@@ -761,4 +761,14 @@ create table credit_team (
     expavg_time             double          not null,
     credit_type             integer         not null,
     primary key (teamid, appid, credit_type)
+) engine=InnoDB;
+
+create table token (
+    token                   varchar(255)    not null,
+    userid                  integer         not null,
+    type                    char            not null,
+    create_time             integer         not null default unix_timestamp(),
+    expire_time             integer,
+    primary key (token),
+    index token_userid (userid)
 ) engine=InnoDB;
