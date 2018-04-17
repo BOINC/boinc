@@ -58,6 +58,8 @@ if (!is_valid_email_addr($email_addr)) {
             $result = $user->update(
                 "email_addr='$email_addr', previous_email_addr='$user->email_addr', email_addr_change_time=unix_timestamp(), passwd_hash='$passwd_hash', email_validated=0"
             );
+            $user->previous_email_addr=$user->email_addr;
+            $user->email_addr=$email_addr;
             if ($result) {
                 echo tra("The email address of your account is now %1.", $email_addr);
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
