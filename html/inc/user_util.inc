@@ -30,6 +30,23 @@ function do_passwd_rehash($user, $passwd_hash) {
     $result = $user->update(" passwd_hash='$database_passwd_hash' ");
 }
 
+function check_passwd($user, $passwd) {
+    $passwd_hash = md5($passwd.$user->email_addr);
+    
+    if ( password_verify($passwd_hash, $user->passwd_hash) ) {
+        return true;
+    }
+    
+    if ($passwd_hash == $user->passwd_hash) {
+        // if password is the legacy md5 hash, then rehash to update to
+        // a more secure hash
+        do_passwd_rehash($user, $passwd_hash);
+        return true;
+    }
+    
+    return false;
+}
+
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
     if (isset($banned_email_domains)) {

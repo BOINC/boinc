@@ -20,6 +20,7 @@
 // Don't put specific message text here.
 
 require_once("../inc/util.inc");
+require_once("../inc/token.inc");
 require_once("../project/project.inc");
 
 // send an email, using PHPMailer or not.
@@ -107,6 +108,27 @@ function is_valid_email_addr($addr) {
     $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
     $match = preg_match($pattern, $addr);
     return (bool) $match;
+}
+
+function send_confirm_delete_email($user) {
+    $token = create_confirm_delete_account_token($user);
+    if ( $token == null ) {
+        error_page("Error creating token.  Please try again later.");
+    }
+    
+    $subject = "Confirm your request to delete your account at ".PROJECT;
+    $body = "This email was sent in response to a request on the ".PROJECT." web site.
+    
+You have requested to delete your account at ".PROJECT.". In order to do this, use the following link to confirm your intent to delete your account. ".
+"The link will take you to a web page where you will be asked to enter your password and complete the process of deleting your account.
+
+".secure_url_base()."delete_account_confirm.php?id=$user->id&token=$token
+
+This link is valid for 1 day.
+
+For further information and assistance with ".PROJECT.", visit ".secure_url_base();
+
+    return send_email($user, $subject, $body);
 }
 
 function salted_key($key) {

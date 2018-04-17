@@ -24,11 +24,11 @@ $user = get_logged_in_user();
 $config = get_config();
 if ( !parse_bool($config, "enable_delete_account") ) {
     error_page(
-        tra("These feature is disabled.  Please contact the project administrator.")
+        tra("This feature is disabled.  Please contact the project administrator.")
     );
 }
 
-page_head(tra("Remove Account"));
+page_head(tra("Delete Account"));
 
 echo "<p>".tra("You have the ability to delete your account.  Please note that this <b>cannot be undone</b> once it is completed.")."</p>"
     ."<p>".tra("The process works as follows:")."</p>"

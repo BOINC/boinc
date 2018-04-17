@@ -24,5 +24,16 @@ echo $boincToken->type . "\n";
 echo $boincToken->create_time . "\n";
 echo $boincToken->expire_time . "\n";
 
+echo "---------------\n";
+$boincToken = BoincToken::lookup_valid_token(0, $token, 'T');
+if ( $boincToken != null ) {
+   echo "Found valid token\n";
+}
+
+echo "---------------\n";
+$boincToken = BoincToken::lookup_valid_token(0, 'notrealtoken', 'T');
+if ( $boincToken == null ) {
+   echo "Successfully didn't find invalid token\n";
+}
 
 ?>
