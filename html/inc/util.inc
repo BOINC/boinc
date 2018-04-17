@@ -1111,6 +1111,16 @@ function google_search_form($url) {
     ";
 }
 
+// use the following around text with long lines,
+// to limit the width and make it more readable.
+//
+function text_start($width=640) {
+    echo sprintf("<div style=\"max-width: %dpx;\">\n", $width);
+}
+function text_end() {
+    echo "</div>\n";
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>
