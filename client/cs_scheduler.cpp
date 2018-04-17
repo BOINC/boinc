@@ -932,8 +932,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         workunits.push_back(wup);
     }
     double est_rsc_runtime[MAX_RSC];
+    bool got_work_for_rsc[MAX_RSC];
     for (int j=0; j<coprocs.n_rsc; j++) {
         est_rsc_runtime[j] = 0;
+        got_work_for_rsc[j] = false;
     }
     for (i=0; i<sr.results.size(); i++) {
         RESULT* rp2 = lookup_result(project, sr.results[i].name);
@@ -981,9 +983,11 @@ int CLIENT_STATE::handle_scheduler_reply(
             rp->abort_inactive(EXIT_MISSING_COPROC);
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
+            got_work_for_rsc[0] = true;
             int rt = rp->avp->gpu_usage.rsc_type;
             if (rt > 0) {
                 est_rsc_runtime[rt] += rp->estimated_runtime();
+                got_work_for_rsc[rt] = true;
                 gpus_usable = true;
                     // trigger a check of whether GPU is actually usable
             } else {
@@ -995,6 +999,21 @@ int CLIENT_STATE::handle_scheduler_reply(
         new_results.push_back(rp);
         results.push_back(rp);
     }
+
+    // find the resources for which we requested work and didn't get any
+    // This is currently used for AM starvation mechanism.
+    //
+    if (!sr.too_recent) {
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            RSC_WORK_FETCH& rwf = rsc_work_fetch[j];
+            if (got_work_for_rsc[j]) {
+                project->sched_req_no_work[j] = false;
+            } else if (rwf.req_secs>0 || rwf.req_instances>0) {
+                project->sched_req_no_work[j] = true;
+            }
+        }
+    }
+
     sort_results();
 
     if (log_flags.sched_op_debug) {

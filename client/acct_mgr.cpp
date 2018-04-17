@@ -169,12 +169,6 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             "      <detach_when_done>%d</detach_when_done>\n"
             "      <ended>%d</ended>\n"
             "      <resource_share>%f</resource_share>\n"
-            "      <cpu_ec>%f</cpu_ec>\n"
-            "      <cpu_time>%f</cpu_time>\n"
-            "      <gpu_ec>%f</gpu_ec>\n"
-            "      <gpu_time>%f</gpu_time>\n"
-            "      <njobs_success>%d</njobs_success>\n"
-            "      <njobs_error>%d</njobs_error>\n"
             "      <disk_usage>%f</disk_usage>\n"
             "      <disk_share>%f</disk_share>\n",
             p->master_url,
@@ -188,15 +182,39 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             p->detach_when_done?1:0,
             p->ended?1:0,
             p->resource_share,
-            p->cpu_ec,
-            p->cpu_time,
-            p->gpu_ec,
-            p->gpu_time,
-            p->njobs_success,
-            p->njobs_error,
             p->disk_usage,
             p->disk_share
         );
+        
+        // send work and starvation-related info
+        //
+        if (ami.dynamic) {
+            fprintf(f,
+                "      <nrpc_failures>%d</nrpc_failures>\n"
+                "      <cpu_ec>%f</cpu_ec>\n"
+                "      <cpu_time>%f</cpu_time>\n"
+                "      <gpu_ec>%f</gpu_ec>\n"
+                "      <gpu_time>%f</gpu_time>\n"
+                "      <njobs_success>%d</njobs_success>\n"
+                "      <njobs_error>%d</njobs_error>\n",
+                p->nrpc_failures,
+                p->cpu_ec,
+                p->cpu_time,
+                p->gpu_ec,
+                p->gpu_time,
+                p->njobs_success,
+                p->njobs_error
+            );
+            for (int j=0; j<coprocs.n_rsc; j++) {
+                if (p->sched_req_no_work[j]) {
+                    fprintf(f,
+                        "    <sched_req_no_work>%s</sched_req_no_work>\n",
+                        coprocs.coprocs[j].type
+                    );
+                }
+            }
+        }
+
         if (p->attached_via_acct_mgr) {
             fprintf(f,
                 "      <account_key>%s</account_key>\n",
@@ -369,6 +387,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
     safe_strcpy(host_venue, "");
     safe_strcpy(ami.opaque, "");
     ami.no_project_notices = false;
+    ami.dynamic = false;
     rss_feeds.clear();
     if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
@@ -388,6 +407,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.parse_string("error", error_str)) continue;
         if (xp.parse_string("error_msg", error_str)) continue;
         if (xp.parse_double("repeat_sec", repeat_sec)) continue;
+        if (xp.parse_bool("dynamic", ami.dynamic)) continue;
         if (xp.parse_string("message", message)) {
             msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
             continue;
@@ -595,6 +615,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         safe_strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
         safe_strcpy(gstate.acct_mgr_info.authenticator, ami.authenticator);
         gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
+        gstate.acct_mgr_info.dynamic = ami.dynamic;
 
         // process projects
         //
@@ -822,7 +843,7 @@ int ACCT_MGR_INFO::write_info() {
         fclose(f);
     }
 
-    if (strlen(login_name)) {
+    if (strlen(login_name) || strlen(authenticator)) {
         f = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
         if (!f) {
             msg_printf(NULL, MSG_USER_ALERT,
@@ -852,11 +873,13 @@ int ACCT_MGR_INFO::write_info() {
             "    <next_rpc_time>%f</next_rpc_time>\n"
             "    <opaque>\n%s\n"
             "    </opaque>\n"
-            "    <no_project_notices>%d</no_project_notices>\n",
+            "    <no_project_notices>%d</no_project_notices>\n"
+            "    <dynamic>%d</dynamic>\n",
             previous_host_cpid,
             next_rpc_time,
             opaque,
-            no_project_notices?1:0
+            no_project_notices?1:0,
+            dynamic?1:0
         );
         user_keywords.write(f);
         fprintf(f,
@@ -885,6 +908,10 @@ void ACCT_MGR_INFO::clear() {
     no_project_notices = false;
     cookie_required = false;
     user_keywords.clear();
+    first_starved = 0;
+    starved_rpc_backoff = 0;
+    starved_rpc_min_time = 0;
+    dynamic = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -923,6 +950,7 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
             continue;
         }
         else if (xp.parse_bool("no_project_notices", no_project_notices)) continue;
+        else if (xp.parse_bool("dynamic", dynamic)) continue;
         else if (xp.match_tag("user_keywords")) {
             retval = user_keywords.parse(xp);
             if (retval) {
@@ -1013,6 +1041,11 @@ int ACCT_MGR_INFO::init() {
     return 0;
 }
 
+#define STARVED_RPC_DELAY   600
+    // do RPC after this much starvation
+
+// called once a second
+//
 bool ACCT_MGR_INFO::poll() {
     if (!using_am()) return false;
     if (gstate.acct_mgr_op.gui_http->is_busy()) {
@@ -1026,6 +1059,48 @@ bool ACCT_MGR_INFO::poll() {
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(*this, false);
         return true;
+    }
+
+    // if not dynamic AM, we're done
+    //
+    if (!dynamic) {
+        return false;
+    }
+
+    // See if some resource is starved with the current set of projects,
+    // and if so possibly do a "starved" RPC asking for different projects
+
+    // do this check once a minute
+    //
+    static int idle_timer = 0;
+    if (++idle_timer < 60) {
+        return false;
+    }
+    idle_timer = 0;
+    get_nidle();
+    if (any_resource_idle()) {
+        if (first_starved == 0) {
+            first_starved = gstate.now;
+            starved_rpc_backoff = STARVED_RPC_DELAY;
+            starved_rpc_min_time = gstate.now + STARVED_RPC_DELAY;
+        } else {
+            if (gstate.now < starved_rpc_min_time) {
+                return false;
+            }
+            msg_printf(NULL, MSG_INFO,
+                "Some devices idle - requesting new projects from %s",
+                gstate.acct_mgr_info.project_name
+            );
+            gstate.acct_mgr_op.do_rpc(*this, false);
+            starved_rpc_backoff *= 2;
+            if (starved_rpc_backoff > 86400) {
+                starved_rpc_backoff = 86400;
+            }
+            starved_rpc_min_time = gstate.now + starved_rpc_backoff;
+            return true;
+        }
+    } else {
+        first_starved = 0;
     }
     return false;
 }

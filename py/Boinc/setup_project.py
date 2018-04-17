@@ -264,6 +264,7 @@ def create_project_dirs(dest_dir):
             'html',
             'html/cache',
             'html/inc',
+            'html/inc/password_compat',
             'html/inc/random_compat',
             'html/inc/ReCaptcha',
             'html/inc/ReCaptcha/RequestMethod',
@@ -317,6 +318,7 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
     if install_web_files:
         install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
         install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
+        install_glob(srcdir('html/inc/password_compat/*.inc'), dir('html/inc/password_compat/'))
         install_glob(srcdir('html/inc/random_compat/*.inc'), dir('html/inc/random_compat/'))
         install_glob(srcdir('html/inc/ReCaptcha/*.php'), dir('html/inc/ReCaptcha/'))
         install_glob(srcdir('html/inc/ReCaptcha/RequestMethod/*.php'), dir('html/inc/ReCaptcha/RequestMethod'))

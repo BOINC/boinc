@@ -1719,6 +1719,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   );
   $form['privacy']['show_hosts'] = array(
     '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
+    '#description' => bts('At times, you may be asked to enable this option in order to receive help from the forums. Advanced users may need to be able to inspect your computers\' information in order to help diagnose any problems.', array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),

@@ -285,11 +285,9 @@ int create_batch(
     sprintf(request,
         "<create_batch>\n"
         "   <authenticator>%s</authenticator>\n"
-        "      <batch>\n"
-        "         <batch_name>%s</batch_name>\n"
-        "         <app_name>%s</app_name>\n"
-        "         <expire_time>%f</expire_time>\n"
-        "      </batch>\n"
+        "   <batch_name>%s</batch_name>\n"
+        "   <app_name>%s</app_name>\n"
+        "   <expire_time>%f</expire_time>\n"
         "</create_batch>\n",
         authenticator,
         batch_name,
