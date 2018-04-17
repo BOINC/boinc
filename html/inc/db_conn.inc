@@ -86,7 +86,7 @@ class DbConn {
     //
     function affected_rows() {
         if (MYSQLI) {
-            $this->db_conn->affected_rows;
+            return $this->db_conn->affected_rows;
         } else {
             return mysql_affected_rows($this->db_conn);
         }

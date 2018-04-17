@@ -776,6 +776,43 @@ class BoincCreditTeam {
     }
 }
 
+class BoincToken {
+
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('token', 'BoincToken', $clause);
+    }
+    
+    static function lookup_valid_token($userid, $token) {
+        $db = BoincDb::get();
+        $token = BoincDb::escape_string($token);
+        return self::lookup("userid=$userid and token='$token' and expire_time > unix_timestamp()");
+    }
+    
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('token', 'BoincToken', $where_clause);
+    }
+
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('token', $clause);
+    }
+
+    static function get_list($where_clause, $order_clause, $limit) {
+        $db = BoincDB::get();
+        return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
+    }
+    
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $db->delete_aux('token', "expire_time < unix_timestamp()");
+        return $db->affected_rows();
+    }
+
+}
+
+
 // DEPRECATED: use BoincDb::escape_string where possible
 // 
 // apply this to any user-supplied strings used in queries

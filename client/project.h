@@ -176,6 +176,9 @@ struct PROJECT : PROJ_AM {
         // This provides only the illusion of security.
     bool use_symlinks;
     bool report_results_immediately;
+    bool sched_req_no_work[MAX_RSC];
+        // the last sched request asked for work for resource i
+        // and didn't get any
 
     // items sent in scheduler replies,
     // requesting that various things be sent subsequent requests

@@ -164,15 +164,23 @@ void RESULT::print() {
     printf("   scheduler state: %s\n", result_scheduler_state_string(scheduler_state));
     printf("   active_task_state: %s\n", active_task_state_string(active_task_state));
     //printf("   stderr_out: %s\n", stderr_out.c_str());
-    printf("   app version num: %d\n", app_version_num);
+    printf("   app version num: %d\n", version_num);
     printf("   resources: %s\n", strlen(resources)?resources:"1 CPU");
+
+    // stuff for jobs that are not yet completed
+    //
+    if (state <= RESULT_FILES_DOWNLOADED) {
+        if (suspended_via_gui) {
+            printf("   suspended via GUI: yes\n");
+        }
+        printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
+    }
 
     // stuff for jobs that are running or have run
     //
     if (scheduler_state > CPU_SCHED_UNINITIALIZED) {
         printf("   CPU time at last checkpoint: %f\n", checkpoint_cpu_time);
         printf("   current CPU time: %f\n", current_cpu_time);
-        printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
         printf("   fraction done: %f\n", fraction_done);
         printf("   swap size: %.0f MB\n", swap_size/MEGA);
         printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
@@ -181,7 +189,6 @@ void RESULT::print() {
                 bytes_sent, bytes_received
             );
         }
-        printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     }
 
     // stuff for completed jobs
