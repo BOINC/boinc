@@ -263,7 +263,7 @@ function show_user_info_private($user) {
         $delete_account_str = "";
         $config = get_config();
         if ( parse_bool($config, "enable_delete_account") ) {
-            $delete_account_str = " &middot; <a href=\"remove_account_request.php\">".tra("remove account")."</a>";
+            $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
         }
         
         row2(tra("Change"),
