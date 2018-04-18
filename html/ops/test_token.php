@@ -1,11 +1,12 @@
 #! /usr/bin/env php
 <?php
 require_once("../inc/util.inc");
+require_once("../inc/token.inc");
 require_once("../inc/db_ops.inc");
 
 $token = random_string();
 
-BoincToken::insert("(token,userid,type,expire_time) values ('$token', 0, 'T', unix_timestamp()+3600)");
+BoincToken::insert("(token,userid,type,create_time, expire_time) values ('$token', 0, 'T', unix_timestamp(), unix_timestamp()+3600)");
 
 $boincTokens = BoincToken::enum("userid=0");
 foreach($boincTokens as $boincToken) {
@@ -34,6 +35,14 @@ echo "---------------\n";
 $boincToken = BoincToken::lookup_valid_token(0, 'notrealtoken', 'T');
 if ( $boincToken == null ) {
    echo "Successfully didn't find invalid token\n";
+}
+
+echo "---------------\n";
+$user = new BoincUser();
+$user->id=0;
+$token = create_confirm_delete_account_token($user);
+if ( is_valid_delete_account_token($user->id, $token) ) {
+    echo "Successfully created and validated delete account token";
 }
 
 ?>

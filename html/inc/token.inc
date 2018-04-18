@@ -1,6 +1,6 @@
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -14,7 +14,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
@@ -27,7 +27,7 @@ define("TOKEN_DURATION_ONE_DAY", "86400");
 
 function create_confirm_delete_account_token($user) {
     $token = random_string();
-    $ret = BoincToken::insert("(token,userid,type,expire_time) values ('$token', $user->id, '".TOKEN_TYPE_DELETE_ACCOUNT."', unix_timestamp()+".TOKEN_DURATION_ONE_DAY.")");
+    $ret = BoincToken::insert("(token,userid,type,create_time,expire_time) values ('$token', $user->id, '".TOKEN_TYPE_DELETE_ACCOUNT."', unix_timestamp(), unix_timestamp()+".TOKEN_DURATION_ONE_DAY.")");
     if ( !$ret ) {
         return null;
     }
@@ -41,6 +41,5 @@ function is_valid_delete_account_token($userid, $token) {
     }
     return true;
 }
-
 
 ?>
