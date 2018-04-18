@@ -1,6 +1,6 @@
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -14,28 +14,17 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
+require_once("../inc/delete_account.inc");
 require_once("../inc/token.inc");
-
-$config = get_config();
-if ( !parse_bool($config, "enable_delete_account") ) {
-    error_page(
-        tra("This feature is disabled.  Please contact the project administrator.")
-    );
-}
 
 $userid = get_int("id");
 $token = get_str("token");
 
-if( !is_valid_delete_account_token($userid, $token) ) {
-    sleep(LOGIN_FAIL_SLEEP_SEC);
-    error_page(
-        tra("The link you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
-    );
-}
+check_delete_account_token($userid, $token);
 
 page_head(tra("Delete Account"));
 

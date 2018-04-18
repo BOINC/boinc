@@ -47,6 +47,16 @@ function check_passwd($user, $passwd) {
     return false;
 }
 
+function check_passwd_ui($user, $passwd) {
+    if( !check_passwd($user, $passwd) ) {
+        sleep(LOGIN_FAIL_SLEEP_SEC);
+        page_head("Password incorrect");
+        echo "The password you entered is incorrect. Please go back and try again.\n";
+        page_tail();
+        exit;
+    }
+}
+
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
     if (isset($banned_email_domains)) {
