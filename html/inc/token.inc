@@ -16,10 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// express a time difference in readable form, e.g. "7 days ago".
-// If it's more than 30 days, just show the date
-//
-
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
@@ -38,8 +34,8 @@ function create_confirm_delete_account_token($user) {
     return $token;
 }
 
-function is_valid_delete_account_token($user, $token) {
-    $boincToken = BoincToken::lookup_valid_token($user->id, $token, TOKEN_TYPE_DELETE_ACCOUNT);
+function is_valid_delete_account_token($userid, $token) {
+    $boincToken = BoincToken::lookup_valid_token($userid, $token, TOKEN_TYPE_DELETE_ACCOUNT);
     if ( $boincToken == null ) {
         return false;
     }
