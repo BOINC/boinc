@@ -1087,14 +1087,6 @@ function update_4_5_2018() {
             index token_userid (userid)
         ) engine=InnoDB;
     ");
-    do_query("
-        create trigger trig_token_creation_timestamp_default before insert on token for each row
-        begin
-            if (new.create_time is null) then
-                set new.create_time = unix_timestamp();
-            end if;
-        end$$
-    ");
 }
 
 function update_4_6_2018() {
@@ -1102,6 +1094,21 @@ function update_4_6_2018() {
         modify column total_credit double not null default 0.0,
         modify column expavg_credit double not null default 0.0,
         modify column seti_id integer not null default 0
+    ");
+}
+
+function update_4_18_2018() {
+    do_query("
+        alter table token
+        modify create_time integer default null
+    ");
+    do_query("
+        create trigger trig_token_creation_timestamp_default before insert on token for each row
+        begin
+            if (new.create_time is null) then
+                set new.create_time = unix_timestamp();
+            end if;
+        end;
     ");
 }
 
@@ -1160,6 +1167,7 @@ $db_updates = array (
     array(27021, "update_3_8_2018"),
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
+    array(27024, "update_4_18_2018"),
 );
 
 ?>
