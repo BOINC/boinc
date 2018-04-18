@@ -783,10 +783,11 @@ class BoincToken {
         return $db->lookup('token', 'BoincToken', $clause);
     }
     
-    static function lookup_valid_token($userid, $token) {
+    static function lookup_valid_token($userid, $token, $type) {
         $db = BoincDb::get();
         $token = BoincDb::escape_string($token);
-        return self::lookup("userid=$userid and token='$token' and expire_time > unix_timestamp()");
+        $type = BoincDb::escape_string($type);
+        return self::lookup("userid=$userid and token='$token' and expire_time > unix_timestamp() and type = '$type'");
     }
     
     static function enum($where_clause) {

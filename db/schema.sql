@@ -767,7 +767,7 @@ create table token (
     token                   varchar(255)    not null,
     userid                  integer         not null,
     type                    char            not null,
-    create_time             integer         not null default unix_timestamp(),
+    create_time             integer         not null,
     expire_time             integer,
     primary key (token),
     index token_userid (userid)
