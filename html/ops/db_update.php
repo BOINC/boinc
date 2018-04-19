@@ -1096,6 +1096,13 @@ function update_4_6_2018() {
     ");
 }
 
+function update_4_19_2018() {
+    do_query("alter table user
+        add column previous_email_addr varchar(254),
+        add column email_addr_change_time int not null default 0
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1151,6 +1158,7 @@ $db_updates = array (
     array(27021, "update_3_8_2018"),
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
+    array(27023, "update_4_19_2018"),
 );
 
 ?>
