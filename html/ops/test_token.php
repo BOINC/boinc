@@ -6,7 +6,9 @@ require_once("../inc/db_ops.inc");
 
 $token = random_string();
 
-BoincToken::insert("(token,userid,type,create_time, expire_time) values ('$token', 0, 'T', unix_timestamp(), unix_timestamp()+3600)");
+$now = time();
+
+BoincToken::insert("(token,userid,type,create_time, expire_time) values ('$token', 0, 'T', $now, $now+3600)");
 
 $boincTokens = BoincToken::enum("userid=0");
 foreach($boincTokens as $boincToken) {

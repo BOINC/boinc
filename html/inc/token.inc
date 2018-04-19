@@ -27,7 +27,8 @@ define("TOKEN_DURATION_ONE_DAY", "86400");
 
 function create_confirm_delete_account_token($user) {
     $token = random_string();
-    $ret = BoincToken::insert("(token,userid,type,create_time,expire_time) values ('$token', $user->id, '".TOKEN_TYPE_DELETE_ACCOUNT."', unix_timestamp(), unix_timestamp()+".TOKEN_DURATION_ONE_DAY.")");
+    $now = time();
+    $ret = BoincToken::insert("(token,userid,type,create_time,expire_time) values ('$token', $user->id, '".TOKEN_TYPE_DELETE_ACCOUNT."', $now, $now+".TOKEN_DURATION_ONE_DAY.")");
     if ( !$ret ) {
         return null;
     }
