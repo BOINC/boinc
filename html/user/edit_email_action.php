@@ -36,6 +36,8 @@ if (!is_valid_email_addr($email_addr)) {
     echo tra("New email address '%1' is invalid.", $email_addr);
 } else if ($email_addr == $user->email_addr) {
     echo tra("New email address is same as existing address. Nothing is changed.");
+} else if ($user->email_addr_change_time + 604800 > time()) {
+    echo tra("Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change incorrect.");
 } else {
     $existing = BoincUser::lookup_email_addr($email_addr);
     if ($existing) {
