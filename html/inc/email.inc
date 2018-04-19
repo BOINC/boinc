@@ -98,8 +98,8 @@ function send_changed_email($user) {
     $subject = PROJECT." email address change.";
     //Body for the new email address to explain how quickly they can do another email change.
     $body_new = "Your email address was changed from ".$user->previous_email_addr.
-" to ".$user->email_addr." on ".date("F j \at g:i a T", $user->email_addr_change_time).
-".  You will not be able to change your email address again until ".date("F j \at g:i a T", $user->email_addr_change_time + 604800).
+" to ".$user->email_addr." on ".date('F j \a\t g:i a T', $user->email_addr_change_time).
+".  You will not be able to change your email address again until ".date('F j \a\t g:i a T', $user->email_addr_change_time + 604800).
 ".  If you need to undo this immediately, please look for an email from us at your ".$user->previous_email_addr." address.";
 
     //We need to send a different version of the email to the old address.
