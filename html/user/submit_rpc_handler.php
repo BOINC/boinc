@@ -543,22 +543,22 @@ function n_outfiles($wu) {
 // error:
 
 function show_job_details($wu) {
-    if ($wu->error_mask && WU_ERROR_COULDNT_SEND_RESULT) {
+    if ($wu->error_mask & WU_ERROR_COULDNT_SEND_RESULT) {
         echo "   <error>couldnt_send_result</error>\n";
     }
-    if ($wu->error_mask && WU_ERROR_TOO_MANY_ERROR_RESULTS) {
+    if ($wu->error_mask & WU_ERROR_TOO_MANY_ERROR_RESULTS) {
         echo "   <error>too_many_error_results</error>\n";
     }
-    if ($wu->error_mask && WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
+    if ($wu->error_mask & WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
         echo "   <error>too_many_success_results</error>\n";
     }
-    if ($wu->error_mask && WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
+    if ($wu->error_mask & WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
         echo "   <error>too_many_total_results</error>\n";
     }
-    if ($wu->error_mask && WU_ERROR_CANCELLED) {
+    if ($wu->error_mask & WU_ERROR_CANCELLED) {
         echo "   <error>cancelled</error>\n";
     }
-    if ($wu->error_mask && WU_ERROR_NO_CANONICAL_RESULT) {
+    if ($wu->error_mask & WU_ERROR_NO_CANONICAL_RESULT) {
         echo "   <error>no_canonical_result</error>\n";
     }
     $results = BoincResult::enum("workunitid=$wu->id");
@@ -569,7 +569,7 @@ function show_job_details($wu) {
             $in_progress++;
             break;
         }
-        if ($wu->error_mask && $r->outcome == RESULT_OUTCOME_CLIENT_ERROR) {
+        if ($wu->error_mask && ($r->outcome == RESULT_OUTCOME_CLIENT_ERROR)) {
             echo "            <exit_status>$r->exit_status</exit_status>\n";
         }
         if ($r->id == $wu->canonical_resultid) {

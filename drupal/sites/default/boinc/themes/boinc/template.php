@@ -192,6 +192,10 @@ function boinc_preprocess_page(&$vars, $hook) {
       $locality = $lang_code[0];
     }
   }
+  // If there is no language set for some reason, default to English (en).
+  if (empty($locality)) {
+    $locality = "en";
+  }
   $vars['flag_path'] = base_path() . path_to_theme() . "/images/flags/{$locality}.png";
 
   $server_status_url = variable_get('boinc_server_status_url', '');

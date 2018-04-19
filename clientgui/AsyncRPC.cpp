@@ -19,6 +19,11 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+#include "config.h"
+
 #if HAVE_XLOCALE_H
 #include <xlocale.h>
 #endif
@@ -137,25 +142,16 @@ void *RPCThread::Entry() {
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
 
-#ifndef NO_PER_THREAD_LOCALE
-#ifdef __WXMSW__
-    // On Windows, set all locales for this thread on a per-thread basis
+#ifdef HAVE__CONFIGTHREADLOCALE
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
     setlocale(LC_ALL, "C");
-#else
-    // We initialize RPC_Thread_Locale to fix a compiler warning
-    locale_t RPC_Thread_Locale = LC_GLOBAL_LOCALE;
-#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
-    if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
+#elif defined(HAVE_USELOCALE)
+    locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", (locale_t) 0);
+    uselocale(RPC_Thread_Locale);
 #endif
-    {
-        // On Mac / Unix / Linux, set "C" locale for this thread only
-        RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", NULL);
-        uselocale(RPC_Thread_Locale);
-    }
-#endif      // ifndef __WXMSW__
-#endif      // ifndef NO_PER_THREAD_LOCALE
    
+
+
     m_pRPC_Thread_Mutex->Lock();
     m_pDoc->m_bRPCThreadIsReady = true;
     while(true) {
@@ -167,14 +163,9 @@ void *RPCThread::Entry() {
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
-#if !defined(NO_PER_THREAD_LOCALE) && !defined(__WXMSW__)
-#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
-        if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
-#endif
-        {
+#ifdef HAVE_USELOCALE
             uselocale(LC_GLOBAL_LOCALE);
             freelocale(RPC_Thread_Locale);
-        }
 #endif
             m_pRPC_Thread_Mutex->Unlock();  // Just for safety - not really needed
             // Tell CMainDocument that thread has gracefully ended 

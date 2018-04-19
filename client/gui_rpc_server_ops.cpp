@@ -640,7 +640,9 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
         gstate.acct_mgr_info.project_name
     );
 
-    if (strlen(gstate.acct_mgr_info.login_name)) {
+    if (strlen(gstate.acct_mgr_info.login_name)
+        || strlen(gstate.acct_mgr_info.authenticator)
+    ) {
         grc.mfout.printf("   <have_credentials/>\n");
     }
 
@@ -938,11 +940,12 @@ static void handle_project_attach_poll(GUI_RPC_CONN& grc) {
 //   url/name/passwd args are null
 //
 static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
-    string url, name, password;
+    string url, name, password, authenticator;
     string password_hash, name_lc;
     bool use_config_file = false;
     bool bad_arg = false;
     bool url_found=false, name_found=false, password_found = false;
+    ACCT_MGR_INFO ami;
 
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_string("url", url)) {
@@ -968,9 +971,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
                 "Not using account manager"
             );
         } else {
-            url = gstate.acct_mgr_info.master_url;
-            name = gstate.acct_mgr_info.login_name;
-            password_hash = gstate.acct_mgr_info.password_hash;
+            ami = gstate.acct_mgr_info;
         }
     } else {
         bad_arg = !url_found || !name_found || !password_found;
@@ -983,18 +984,22 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
                 // Remove 'hash:'
                 password_hash = password.substr(5);
             }
-        }
+            safe_strcpy(ami.master_url, url.c_str());
+            safe_strcpy(ami.login_name, name.c_str());
+            safe_strcpy(ami.password_hash, password_hash.c_str());
+            safe_strcpy(ami.authenticator, authenticator.c_str());
+       }
     }
 
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
     } else if (gstate.acct_mgr_info.using_am()
         && !url.empty()
-        && !gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str())
+        && !gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str(), authenticator.c_str())
     ){
         grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
+        gstate.acct_mgr_op.do_rpc(ami, true);
         grc.mfout.printf("<success/>\n");
     }
 }

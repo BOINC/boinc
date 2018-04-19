@@ -30,6 +30,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
+require_once("../inc/random_compat/random.inc");
 
 // parse some stuff from config (do it here for efficiency)
 //
@@ -303,7 +304,6 @@ function page_head(
         break;
     }
     project_banner($title, $url_prefix, $is_main);
-    check_web_stopped();
 }
 }
 
@@ -521,7 +521,7 @@ function row_heading($x, $class='bg-primary') {
 // return hard-to-guess string of 32 random hex chars
 //
 function random_string() {
-    return md5(uniqid(rand(), true));
+    return bin2hex(random_bytes(16));
 }
 
 function url_tokens($auth) {
@@ -1109,6 +1109,16 @@ function google_search_form($url) {
         </form>
         </nobr>
     ";
+}
+
+// use the following around text with long lines,
+// to limit the width and make it more readable.
+//
+function text_start($width=640) {
+    echo sprintf("<div style=\"max-width: %dpx;\">\n", $width);
+}
+function text_end() {
+    echo "</div>\n";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
