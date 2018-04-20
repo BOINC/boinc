@@ -89,7 +89,7 @@ class ConfigDict:
             set_element( get_element(self._node,key,1), str(self.__dict__[key]) )
     def debug_print(self):
         for key in self.__dict__.keys():
-            print key.rjust(15), '=', self.__dict__[key]
+            print(key.rjust(15), '=', self.__dict__[key])
 
 class ConfigDictList(list):
     def __init__(self, dom_node, item_class=ConfigDict):
@@ -129,7 +129,7 @@ class XMLConfig:
             except:
                 if not failopen_ok:
                     raise Exception("Couldn't parse XML config\n")
-                print >>sys.stderr, "Warning: couldn't parse XML file"
+                print("Warning: couldn't parse XML file", sys.stderr)
                 self._init_empty_xml()
         try:
             self._get_elements()
@@ -145,7 +145,7 @@ class XMLConfig:
         if not output:
             output = open(self.filename,'w')
         self.xml.writexml(output, "", " "*4, "\n")
-        print >>output
+        print('', output)
         return self
     def _set_elements(self):
         pass

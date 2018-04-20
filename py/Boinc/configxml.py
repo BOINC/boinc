@@ -22,8 +22,8 @@ USAGE:     from Boinc import configxml
 '''
 
 import sys
-import boinc_project_path
-from boincxml import *
+from Boinc import boinc_project_path
+from Boinc.boincxml import *
 
 default_config_file = None
 
@@ -55,22 +55,22 @@ class ConfigFile(XMLConfig):
     def debug_print_all(self):
         '''print everything to stdout.'''
 
-        print 'Debug dump of', self.filename
-        print '-- parsed xml -------------------------------------------------------'
+        print('Debug dump of', self.filename)
+        print('-- parsed xml -------------------------------------------------------')
         self.xml.writexml(sys.stdout)
-        print
-        print '-- Config -----------------------------------------------------------'
+        print()
+        print('-- Config -----------------------------------------------------------')
         self.config.debug_print()
-        print
-        print '-- Daemons ------------------------------------------------------------'
+        print()
+        print('-- Daemons ------------------------------------------------------------')
         for daemon in self.daemons:
             daemon.debug_print()
-            print
-        print
-        print '-- Tasks ------------------------------------------------------------'
+            print()
+        print()
+        print('-- Tasks ------------------------------------------------------------')
         for task in self.tasks:
             task.debug_print()
-            print
+            print()
     default_xml = '<boinc><config></config></boinc>'
 
 # keeps BoincCron's timestamp status file
@@ -102,8 +102,8 @@ def default_config():
 
 if __name__ == '__main__':
     config = ConfigFile().read()
-    # print "setting config.enabled = True"
+    # print("setting config.enabled = True")
     # config.enabled = True
     config.debug_print_all()
-    print " -- saving xml and rewriting -----------------------------------------------"
+    print(" -- saving xml and rewriting -----------------------------------------------")
     config.write(sys.stdout)
