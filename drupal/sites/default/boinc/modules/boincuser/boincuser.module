@@ -1383,7 +1383,7 @@ function boincuser_home_page() {
  */
 function boincuser_create_account() {
   require_boinc('boinc_db');
-  require_boinc('user');
+  require_boinc('user_util');
   require_boinc('xml');
   $params = array(
     'email_addr' => isset($_GET['email_addr']) ? $_GET['email_addr'] : '',
