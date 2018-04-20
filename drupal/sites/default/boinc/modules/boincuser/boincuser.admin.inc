@@ -44,6 +44,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
     'boinc_app_list_url' => variable_get('boinc_app_list_url', ''),
     'boinc_debug_mode' => variable_get('boinc_debug_mode', 0),
+    'boinc_project_config_keywords' => variable_get('boinc_project_config_keywords', ''),
   );
   //drupal_set_message(print_r($default, true));
   //drupal_set_message(print_r($form_state, true));
@@ -145,6 +146,15 @@ function boincuser_admin_environment(&$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Show debug messages in system log'),
     '#default_value' => $default['boinc_debug_mode']
+  );
+  $form['boinc_project_config_keywords'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Project/Job Keywords for get_project_config RPC'),
+    '#default_value' => $default['boinc_project_config_keywords'],
+    '#description' => t('XML from this text box will be appended to the XML output from the get_project_config RPC. There is no check for XML validity! See !link for more details. It is okay to leave this blank.',
+    array(
+      '!link' => l('BOINC wiki page', 'https://boinc.berkeley.edu/trac/wiki/JobKeywords')
+    )),
   );
   return system_settings_form($form);
 }
