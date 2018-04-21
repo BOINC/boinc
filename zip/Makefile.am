@@ -43,7 +43,7 @@ boinc_zip.cpp \
     ./zip/z_globals.c \
     ./zip/zip.c \
     ./zip/zipfile.c \
-    ./zip/zipup.c 
+    ./zip/zipup.c
 
 if OS_WIN32
 libboinc_zip_sources += \
@@ -52,7 +52,7 @@ libboinc_zip_sources += \
     ./zip/win32/win32_boinc.c \
     ./zip/win32/win32i64.c \
     ./zip/win32/z_nt.c \
-    ./zip/win32/win32zip.c 
+    ./zip/win32/win32zip.c
 else
 libboinc_zip_sources += \
     ./unzip/unix/unix.c \

@@ -16,14 +16,14 @@ graphics2_files = \
     gutil.cpp \
     gutil_text.cpp \
     reduce_lib.cpp \
-    graphics2.cpp 
+    graphics2.cpp
 
 if OS_WIN32
     graphics2_files += graphics2_win.cpp \
                        $(top_srcdir)/samples/image_libs/bmplib.cpp \
                        $(top_srcdir)/samples/image_libs/tgalib.cpp
 else
-    graphics2_files += graphics2_unix.cpp 
+    graphics2_files += graphics2_unix.cpp
 endif
 
 if OS_DARWIN
