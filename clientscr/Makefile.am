@@ -23,4 +23,8 @@ boincscr_SOURCES = screensaver_x11.cpp
 boincscr_DEPENDENCIES = $(LIBBOINC) 
 boincscr_CPPFLAGS = $(AM_CPPFLAGS) $(XCB_CFLAGS) $(XCBATOM_CFLAGS)
 boincscr_LDFLAGS = $(AM_LDFLAGS) -L../lib $(XCB_LIBS) $(XCBATOM_LIBS)
-boincscr_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS) 
+boincscr_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
+
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov

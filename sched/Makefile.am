@@ -335,3 +335,7 @@ status stop: PHONY-start
 	@test -f $@ || @LN_S@ start $@ && test -f $@
 
 CLEANFILES = status stop
+
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov

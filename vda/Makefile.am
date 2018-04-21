@@ -14,3 +14,7 @@ vdad_LDADD = $(SERVERLIBS)
 
 ssim_SOURCES = ssim.cpp vda_lib.cpp vda_policy.cpp stats.cpp des.h
 ssim_LDADD = $(SERVERLIBS)
+
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov

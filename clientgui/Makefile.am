@@ -111,4 +111,8 @@ win_config.h: $(top_srcdir)/config.h
 
 version: win_config.h
 
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov
+
 .PHONY: version

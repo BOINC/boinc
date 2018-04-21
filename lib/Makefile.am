@@ -243,6 +243,10 @@ clean: clean-am
 endif
 # end of "if ENABLE_LIBRARIES"
 
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov
+
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
 
 EXTRA_DIST = *.h *.cpp

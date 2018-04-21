@@ -20,3 +20,7 @@ concat_LDADD = $(APPLIBS)
 1sec_CXXFLAGS = $(PTHREAD_CFLAGS)
 1sec_LDFLAGS = -static-libtool-libs $(PTHREAD_CFLAGS)
 1sec_LDADD = $(APPLIBS)
+
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov

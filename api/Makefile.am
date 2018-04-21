@@ -102,4 +102,8 @@ $(LIBBOINC_OPENCL_STATIC): libboinc_opencl.la
 
 endif ## ENABLE_LIBRARIES
 
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov
+
 .PHONY:

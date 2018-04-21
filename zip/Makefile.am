@@ -81,3 +81,6 @@ $(LIBBOINC_ZIP_STATIC): libboinc_zip.la
 	rm -f $(LIBBOINC_ZIP_STATIC)
 	$(LN) .libs/$(LIBBOINC_ZIP_STATIC) .
 
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov

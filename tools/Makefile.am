@@ -62,3 +62,7 @@ sign_executable_LDADD = $(SERVERLIBS_MIN)
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
 remote_submit_test_LDADD = $(SERVERLIBS) -lcurl
+
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov

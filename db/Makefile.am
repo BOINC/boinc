@@ -13,3 +13,7 @@ extradir = $(prefix)/share/boinc-server-maker/db
 dist_extra_DATA = constraints.sql schema.sql
 
 dist_extra_SCRIPTS = init_db
+
+# delete coverage files if present (needs to be present in each subdir)
+clean-local:
+	rm -f *.gcno *.gcda *.gcov
