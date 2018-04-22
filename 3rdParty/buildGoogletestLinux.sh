@@ -28,6 +28,7 @@
 
 doclean=""
 lprefix=""
+cmdline_prefix=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -36,21 +37,25 @@ while [[ $# -gt 0 ]]; do
         ;;
         -prefix|--prefix)
         lprefix="$2"
+        cmdline_prefix="--prefix=${lprefix}"
         shift
         ;;
     esac
     shift # past argument or value
 done
 
-cd googletest/make
-if [ "${doclean}" = "yes" ]; then
-    rm -rf gtest_main.a
-fi
+cd googletest
+autoreconf -i -f
+if [ $? -ne 0 ]; then cd ..; return 1; fi
+./configure "${cmdline_prefix}"
+if [ $? -ne 0 ]; then cd ..; return 1; fi
 make
-if [ $? -ne 0 ]; then cd ../..; return 1; fi
+if [ $? -ne 0 ]; then cd ..; return 1; fi
+
+# make install is not supported so copy files manually
 if [ "x${lprefix}" != "x" ]; then
-    (cp gtest_main.a ${lprefix}/lib && cp -r ../include/gtest ${lprefix}/include)
-    if [ $? -ne 0 ]; then cd ../..; return 1; fi
+    (cp -r lib/* ${lprefix}/lib && cp -r include/gtest ${lprefix}/include && cp scripts/gtest-config ${lprefix}/bin)
+    if [ $? -ne 0 ]; then cd ..; return 1; fi
 fi
 
 cd ../..

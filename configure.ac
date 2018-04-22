@@ -127,6 +127,21 @@ AC_ARG_ENABLE(apps,
     [enable_apps=${enableval}],
     [enable_apps=no])
 
+AC_ARG_ENABLE(tests,
+    AS_HELP_STRING([--enable-tests],
+                   [enable building the boinc unit tests]),
+    [enable_tests=${enableval}],
+    [enable_tests=no])
+
+AC_ARG_ENABLE(coverage,
+    AS_HELP_STRING([--enable-coverage],
+                   [enable building with gcov support and unit tests]),
+    [
+      enable_coverage=yes
+      enable_tests=yes
+    ],
+    [enable_coverage=no])
+
 AC_ARG_ENABLE(pkg-libs,
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
@@ -213,6 +228,9 @@ if test x$enable_server = xyes ; then
 fi
 if test x$enable_apps = xyes ; then
   configured_to_build="${configured_to_build} apps"
+fi
+if test x$enable_tests = xyes ; then
+  configured_to_build="${configured_to_build} tests"
 fi
 
 if test -z "${configured_to_build}" ; then
@@ -1027,6 +1045,11 @@ if test "${enable_manager}" = yes; then
 fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ])
 dnl -----------------------------------------------------------------------
+
+dnl ---------- googletest -------------------------------------------------
+if test "${enable_tests}" = yes ; then
+  GTEST_LIB_CHECK([1.7.0])
+fi
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
