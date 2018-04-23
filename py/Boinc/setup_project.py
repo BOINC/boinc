@@ -168,10 +168,10 @@ def account_file_name(url):
     return 'account_' + _url_to_filename(url) + '.xml'
 
 def srcdir(*dirs):
-    return apply(os.path.join,(options.srcdir,)+dirs)
+    return os.path.join(options.srcdir, dirs)
 
 def builddir(*dirs):
-    return apply(os.path.join,(boinc_path_config.TOP_BUILD_DIR,)+dirs)
+    return os.path.join(boinc_path_config.TOP_BUILD_DIR, dirs)
 
 def run_tool(cmd):
     verbose_shell_call(builddir('tools', cmd))
@@ -244,7 +244,7 @@ def build_command_line(cmd, **kwargs):
 
 def create_project_dirs(dest_dir):
     def dir(*d):
-        return apply(os.path.join,(dest_dir,)+d)
+        return os.path.join(dest_dir, d)
     def mkdir2(d):
         try:
             os.makedirs(d)
@@ -303,7 +303,7 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
         Used by the upgrade script, so don't copy sample files to real name."""
 
     def dir(*dirs):
-        return apply(os.path.join,(dest_dir,)+dirs)
+        return os.path.join(dest_dir, dirs)
 
     create_project_dirs(dest_dir);
 
@@ -511,10 +511,10 @@ class Project:
         self.scheduler_url = os.path.join(cgi_url     , 'cgi')
 
     def dir(self, *dirs):
-        return apply(os.path.join,(self.project_dir,)+dirs)
+        return os.path.join(self.project_dir, dirs)
 
     def keydir(self, *dirs):
-        return apply(os.path.join,(self.config.config.key_dir,)+dirs)
+        return os.path.join(self.config.config.key_dir, dirs)
 
     def logdir(self):
         return os.path.join(self.project_dir, "log_"+self.config.config.host)
@@ -648,7 +648,7 @@ class Project:
             each_app = True
         else:
             raise SystemExit("test script error: invalid progname '%s'"%progname)
-        cmdline = apply(build_command_line, [''], kwargs)
+        cmdline = build_command_line([''], kwargs)
         if each_app:
             return map(lambda av: '-app %s %s'%(av.app.name,cmdline), self.app_versions)
         else:
