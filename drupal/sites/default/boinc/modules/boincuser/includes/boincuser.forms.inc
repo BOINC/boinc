@@ -97,8 +97,11 @@ function boincuser_register_validate($form, &$form_state) {
   require_boinc('boinc_db');
 
   // Check opt-in
-  if (!$form_state['values']['optin']) {
-    form_set_error('optin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if (!empty($termsofuse)) {
+    if (!$form_state['values']['optin']) {
+      form_set_error('optin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+    }
   }
 
   // Check for an existing BOINC user

@@ -1552,7 +1552,6 @@ function boincuser_create_account() {
         }
 
         // if terms of use exist, the user must have opted-in.
-        // @todo - test this block of code!
         $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
         if (!empty($termsofuse)) {
           boincuser_consentto_termsofuse($user);
