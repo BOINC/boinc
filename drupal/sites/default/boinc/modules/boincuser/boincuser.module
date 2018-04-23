@@ -130,6 +130,14 @@ function boincuser_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+  $items['user/optin'] = array(
+    'title' => bts('Opt In to Terms of Use', array(), NULL, 'boinc:opt-in-form'),
+    'description' => 'Opt-in to site\'s term of use.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_optinform'),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   $items['user_control'] = array(
     'page callback' => 'boincuser_control',
     'access arguments' => array('access user profiles'),
@@ -199,6 +207,7 @@ function boincuser_menu() {
  *
  */
 function boincuser_init() {
+  global $user;
   // Skip this check for charts, which are loaded separately
   // (may get duplicate or unexpected messages otherwise)
   if (substr($_GET['q'], 0, 7) == 'charts/') {
@@ -218,6 +227,36 @@ function boincuser_init() {
   if (module_exists('boincteam')) {
     // Display any persistent team messages
     boincteam_show_messages();
+  }
+
+  // Check if user has opt-in to the terms of use. If not, send the
+  // user to the terms-of-use form. This is only makes sense if the
+  // termsofuse is enabled, by having text in the termsofuse variable.
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if ( (!empty($termsofuse)) and ($user->uid) ) {
+    if (!boincuser_check_termsofuse($user)) {
+
+      // Admins are exempt, otherwise the admin may not be able to
+      // access the site!
+      $administrator_role = array_search('administrator', user_roles(true));
+      if (!isset($user->roles[$administrator_role])) {
+        $path = drupal_get_path_alias($_GET['q']);
+
+        // Any paths that should NOT be redirected go here.
+        $paths_to_ignore = array(
+          'user/optin',
+          'logout',
+        );
+        if (module_exists('boincuser_delete')) {
+          $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
+          // @todo - once the following path has been defined: add to this array
+          //$paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm',
+        }
+        if (!in_array($path, $paths_to_ignore)) {
+          drupal_goto('user/optin');
+        }
+      }
+    }
   }
 }
 
@@ -430,6 +469,11 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       }
       break;
 
+    case 'login':
+      // Function is forward compatible to Drupal 7
+      boincuser_user_login($edit, $account);
+      break;
+
     case 'delete':
       // Function is forward compatible to Drupal 7
       boincuser_user_delete($account);
@@ -437,6 +481,34 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 
     default:
       
+    }
+  }
+}
+
+/**
+ * Implementation of hook_user_login(); When user-logins, checks if
+ * they have opt-in to the terms of use.
+ *(forward compatible to Drupal 7).
+ */
+function boincuser_user_login(&$edit, $account) {
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if ( (!empty($termsofuse)) and ($account->uid) ) {
+
+    $administrator_role = array_search('administrator', user_roles(true));
+    if (!isset($account->roles[$administrator_role])) {
+
+      // Find and save the current destination and use as an parameter
+      // to send the user back to here he/she came from.
+      $np = ltrim('user/optin', '/');
+      $path_for_destination = rawurlencode($np);
+
+      $query_for_destination = '';
+      $prevdest = $_REQUEST['destination'];
+      if ($prevdest) {
+        $query_for_destination = '?destination=' . $prevdest;
+      }
+      $_REQUEST['destination'] = $path_for_destination . $query_for_destination;
+
     }
   }
 }
