@@ -1080,7 +1080,7 @@ function update_4_5_2018() {
         token                   varchar(255)    not null,
         userid                  integer         not null,
         type                    char            not null,
-        create_time             integer         not null default unix_timestamp(),
+        create_time             integer         not null,
         expire_time             integer,
         primary key (token),
         index token_userid (userid)
@@ -1096,10 +1096,16 @@ function update_4_6_2018() {
     ");
 }
 
+function update_4_18_2018() {
+    do_query("alter table token
+        modify column create_time integer not null
+    ");
+}
+
 function update_4_19_2018() {
     do_query("alter table user
-        add column previous_email_addr varchar(254),
-        add column email_addr_change_time int not null default 0
+	add column previous_email_addr varchar(254),
+	add column email_addr_change_time int not null default 0
     ");
 }
 
@@ -1158,7 +1164,8 @@ $db_updates = array (
     array(27021, "update_3_8_2018"),
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
-    array(27023, "update_4_19_2018"),
+    array(27024, "update_4_18_2018"),
+    array(27025, "update_4_19_2018")
 );
 
 ?>
