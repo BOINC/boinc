@@ -95,18 +95,22 @@ function send_changed_email($user) {
     $body_new = "";
     $body_old = "";
 
+    $duration = TOKEN_DURATION_ONE_WEEK;
+
+    $token = create_token($user->id, TOKEN_TYPE_CHANGE_EMAIL, $duration);
+
     $subject = PROJECT." email address change.";
     //Body for the new email address to explain how quickly they can do another email change.
     $body_new = "Your email address was changed from ".$user->previous_email_addr.
 " to ".$user->email_addr." on ".date('F j \a\t g:i a T', $user->email_addr_change_time).
-".  You will not be able to change your email address again until ".date('F j \a\t g:i a T', $user->email_addr_change_time + 604800).
+".  You will not be able to change your email address again until ".date('F j \a\t g:i a T', $user->email_addr_change_time + $duration).
 ".  If you need to undo this immediately, please look for an email from us at your ".$user->previous_email_addr." address.";
 
     //We need to send a different version of the email to the old address.
     $body_old = "Your email address has been changed. If you did not take this action, 
 then please click on the link below reverse this process and change your password.
 
-".secure_url_base()."recover_email.php?id=".$user->id."&token=asdfasdfasdf";
+".secure_url_base()."recover_email.php?id=".$user->id."&token=".$token";
 
     return send_email($user, $subject, $body_new) && send_email($user, $subject, $body_old, null, $user->previous_email_addr);
 }

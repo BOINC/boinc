@@ -21,9 +21,11 @@ require_once("../inc/util.inc");
 
 // Constants for valid token types
 define("TOKEN_TYPE_DELETE_ACCOUNT", "D");
+define("TOKEN_TYPE_CHANGE_EMAIL", "E");
 
 // Constants for token durations
 define("TOKEN_DURATION_ONE_DAY", 86400);
+define("TOKEN_DURATION_ONE_WEEK", 604800);
 
 function create_token($userid, $type, $duration) {
     $token = random_string();
