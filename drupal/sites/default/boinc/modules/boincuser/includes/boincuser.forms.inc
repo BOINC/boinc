@@ -106,7 +106,7 @@ function boincuser_register_validate($form_values) {
  */
 function boincuser_register_make_user($params) {    
   // Include BOINC user library
-  require_boinc('user');
+  require_boinc('user_util');
   // Create the BOINC user
   $boinc_user = make_user($params['email_addr'], $params['name'], $params['passwd_hash'], $params['country'], $params['postal_code']);
   return $boinc_user;
