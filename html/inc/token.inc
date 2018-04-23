@@ -23,20 +23,22 @@ require_once("../inc/util.inc");
 define("TOKEN_TYPE_DELETE_ACCOUNT", "D");
 
 // Constants for token durations
-define("TOKEN_DURATION_ONE_DAY", "86400");
+define("TOKEN_DURATION_ONE_DAY", 86400);
 
-function create_confirm_delete_account_token($user) {
+function create_token($userid, $type, $duration) {
     $token = random_string();
     $now = time();
-    $ret = BoincToken::insert("(token,userid,type,create_time,expire_time) values ('$token', $user->id, '".TOKEN_TYPE_DELETE_ACCOUNT."', $now, $now+".TOKEN_DURATION_ONE_DAY.")");
+    $expiration = $now + $duration;
+    $type = BoincDb::escape_string($type);
+    $ret = BoincToken::insert("(token,userid,type,create_time,expire_time) values ('$token', $userid, '$type', $now, $expiration)");
     if ( !$ret ) {
         return null;
     }
     return $token;
 }
 
-function is_valid_delete_account_token($userid, $token) {
-    $boincToken = BoincToken::lookup_valid_token($userid, $token, TOKEN_TYPE_DELETE_ACCOUNT);
+function is_valid_token($userid, $token, $type) {
+    $boincToken = BoincToken::lookup_valid_token($userid, $token, $type);
     if ( $boincToken == null ) {
         return false;
     }

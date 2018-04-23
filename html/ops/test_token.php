@@ -43,8 +43,8 @@ if ( $boincToken == null ) {
 echo "---------------\n";
 $user = new BoincUser();
 $user->id=0;
-$token = create_confirm_delete_account_token($user);
-if ( is_valid_delete_account_token($user->id, $token) ) {
+$token = create_token($user->id, TOKEN_TYPE_DELETE_ACCOUNT, TOKEN_DURATION_ONE_DAY);
+if ( is_valid_token($user->id, $token, TOKEN_TYPE_DELETE_ACCOUNT) ) {
     echo "Successfully created and validated delete account token";
 }
 
