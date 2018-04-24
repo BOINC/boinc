@@ -108,20 +108,9 @@ function boincuser_register_validate($form, &$form_state) {
   $boinc_user = BoincUser::lookup_email_addr($form_state['values']['mail']);
   if ($boinc_user) {
     // User already exists
-    form_set_error('mail', bts('ERROR: An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), NULL, 'boinc:register-new-user'));
+    return false;
   }
-  else {
-    // Save profile information for use during Insert
-    $_SESSION['profileInfo'] = array(
-      'country' => $edit['field_country'][0]['value'],
-      'zip' => $edit['field_zip'][0]['value'],
-      'url' => $edit['field_url'][0]['value'],
-      'background' => $edit['field_background'][0]['value'],
-      'opinions' => $edit['field_opinions'][0]['value']
-    );
-    // With BOINC validation passed, make sure name is unique
-    $form_state['values']['name'] = create_proper_drupalname($form_state['values']['boincuser_name']);
-  }//endif $boinc_user
+  return true;
 }
 
 /**
@@ -653,6 +642,8 @@ function boincuser_optinform() {
   }
 
   drupal_set_message( bts('WARNING: You have not opted-in to our terms of use. Please opt-in to the terms of use before continuing.', array(), NULL, 'boinc:opt-in-form'), 'warning' );
+
+  $form = array();
 
   // Terms of use section
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');

@@ -1049,6 +1049,7 @@ function boincwork_get_project_config() {
   // get BOINC project config
   $config = get_config();
   $long_name = parse_config($config, "<long_name>");
+  $master_url = parse_config($config, "<master_url>");
 
   $min_passwd_length = parse_config($config, "<min_passwd_length>");
   if (!$min_passwd_length) {
