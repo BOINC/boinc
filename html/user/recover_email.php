@@ -22,13 +22,19 @@ require_once("../inc/email.inc");
 
 check_get_args(array("id", "token"));
 
-redirect_to_secure_url("reset_email_addr.php");
+redirect_to_secure_url("recover_email.php");
 
-page_head(tra("Reset email address"));
+page_head(tra("Recover email address"));
 
-$user = get_logged_in_user_ops();
+$user = get_logged_in_user();
 $userid = get_int("id", true);
 $token = get_str("token", true);
+
+//Log out to clear all auth tokens
+if ($user) {
+    clear_cookie('auth', true);
+    echo tra("Note: You have been logged out to clear all cookies.")."<br /><br />";
+}
 
 if(is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
     $tmpuser = BoincUser::lookup_id_nocache($userid);
@@ -42,13 +48,8 @@ if(is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
 
 	    //Change previous_email
 	    $result = $user->update(
-		"email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=null, passwd_hash='aaa', email_validated=0"
+		"email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=0, passwd_hash='".random_string()."', email_validated=0"
 	    );
-	    //Log out to clear all auth tokens
-	    if ($user) {
-		clear_cookie('auth', true);
-		echo "<br /><br />".tra("Note: You have been logged out to clear all cookies.  You will not be able to log in until you reset your password.");
-	    }
 	}
     }
 } else {
