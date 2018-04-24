@@ -317,7 +317,7 @@ HANDLE in_write = NULL;
 HANDLE out_read = NULL;
 HANDLE out_write = NULL;
 
-bool CreateChildProcess() {
+bool CreateWslProcess() {
     PROCESS_INFORMATION pi;
     STARTUPINFO si;
 
@@ -330,11 +330,52 @@ bool CreateChildProcess() {
     si.hStdInput = in_read;
     si.dwFlags |= STARTF_USESTDHANDLES;
 
-    const bool res = CreateProcess(NULL, "wsl", NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);
+    const DWORD dwFlags = 0/*CREATE_NO_WINDOW*/;
+
+    const bool res = CreateProcess(NULL, "wsl", NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi);
 
     if (res) {
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
+    }
+
+    return res;
+}
+
+inline void close_handle(HANDLE handle) {
+    if (handle) {
+        CloseHandle(handle);
+    }
+}
+
+int close_handles_and_exit(const int return_code) {
+    close_handle(in_read);
+    close_handle(in_write);
+    close_handle(out_read);
+    close_handle(out_write);
+
+    return return_code;
+}
+
+bool WriteToPipe(const std::string& str) {
+    DWORD dwWritten;
+
+    return WriteFile(in_write, str.c_str(), str.size(), &dwWritten, NULL);
+}
+
+std::string ReadFromPipe() {
+    DWORD dwRead;
+    const int bufsize = 256;
+    char buf[bufsize];
+    std::string res = "";
+
+    for (;;) {
+        if (!ReadFile(out_read, buf, bufsize - 1, &dwRead, NULL) || dwRead == 0) {
+            break;
+        }
+
+        buf[dwRead] = '\0';
+        res += buf;
     }
 
     return res;
@@ -354,23 +395,23 @@ int get_wsl_information(
     sa.lpSecurityDescriptor = NULL;
 
     if (!CreatePipe(&out_read, &out_write, &sa, 0)) {
-        return 0;        
+        return 1;        
     }
     if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) {
-        return 0;
+        return close_handles_and_exit(1);
     }
     if (!CreatePipe(&in_read, &in_write, &sa, 0)) {
-        return 0;
+        return close_handles_and_exit(1);
     }
     if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) {
-        return 0;
+        return close_handles_and_exit(1);
     }
 
-    if (!CreateChildProcess()) {
-        return 0;
+    if (!CreateWslProcess()) {
+        return close_handles_and_exit(1);
     }
 
-    return 0;
+    return close_handles_and_exit(0);
 }
 
 // Returns the OS name and version
