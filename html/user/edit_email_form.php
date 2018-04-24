@@ -31,7 +31,7 @@ if (is_valid_email_addr($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
-form_start(secure_url_base()."/edit_email_action.php", "post");
+form_start(secure_url_base()."edit_email_action.php", "post");
 form_input_text(
     tra("New email address").
     "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",
