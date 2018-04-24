@@ -60,7 +60,7 @@ if (!is_valid_email_addr($email_addr)) {
             $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
             $email_addr = BoincDb::escape_string($email_addr);
             $result = $user->update(
-                "email_addr='$email_addr', previous_email_addr='$user->email_addr', email_addr_change_time=".time().", passwd_hash='$passwd_hash', email_validated=0"
+                "email_addr='$email_addr', previous_email_addr='$user->email_addr', email_addr_change_time=".time().", passwd_hash='$database_passwd_hash', email_validated=0"
             );
             $user->previous_email_addr=$user->email_addr;
             $user->email_addr=$email_addr;
