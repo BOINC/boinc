@@ -590,7 +590,7 @@ function filefield_js($type_name, $field_name, $delta) {
   // JSON output.
   $GLOBALS['devel_shutdown'] = FALSE;
 
-  if (empty($field) || empty($_POST['form_build_id'])) {
+  if (empty($field) || $field['type'] != 'filefield' || !is_numeric($delta) || empty($_POST['form_build_id'])) {
     // Invalid request.
     drupal_set_message(t('An unrecoverable error occurred. The uploaded file likely exceeded the maximum file size (@size) that this server supports.', array('@size' => format_size(file_upload_max_size()))), 'error');
     print drupal_to_js(array('data' => theme('status_messages')));
