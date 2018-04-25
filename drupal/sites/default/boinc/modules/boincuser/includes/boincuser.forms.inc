@@ -101,15 +101,22 @@ function boincuser_register_validate($form, &$form_state) {
   if (!empty($termsofuse)) {
     if (!$form_state['values']['optin']) {
       form_set_error('optin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+      return false;
     }
   }
 
   // Check for an existing BOINC user
+  // This is somewhat redundent as Drupal will also check if the email
+  // is a duplicate. However, in the case where there is no Drupal
+  // account, but a BOINC account exists with this email, the check
+  // will fail.
   $boinc_user = BoincUser::lookup_email_addr($form_state['values']['mail']);
   if ($boinc_user) {
     // User already exists
+    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $form_state['values']['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
     return false;
   }
+
   return true;
 }
 
