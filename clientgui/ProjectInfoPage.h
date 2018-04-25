@@ -89,6 +89,8 @@ public:
 
     void EllipseStringIfNeeded(wxString& s, wxWindow *win);
 
+    void RefreshPage();
+
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
