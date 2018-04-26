@@ -1,0 +1,72 @@
+
+/**
+ * Formatter styles
+ */
+
+.filefield-icon {
+  margin: 0 2px 0 0; /* RTL */
+}
+
+/* End formatter styles. */
+
+/**
+ * General widget form styles (applicable to all widgets).
+ */
+.filefield-element {
+  margin: 1em 0;
+  white-space: normal;
+}
+
+.filefield-element .widget-preview {
+  float: left; /* RTL */
+  padding: 0 10px 0 0; /* RTL */
+  margin: 0 10px 0 0; /* RTL */
+  border-width: 0 1px 0 0; /* RTL */
+  border-style: solid;
+  border-color: #CCC;
+  max-width: 30%;
+}
+
+.filefield-element .widget-edit {
+  float: left; /* RTL */
+  max-width: 70%;
+}
+
+.filefield-element .filefield-preview {
+  width: 16em;
+  overflow: hidden;
+}
+
+.filefield-element .widget-edit .form-item {
+  margin: 0 0 1em 0;
+}
+
+.filefield-element input.form-submit,
+.filefield-element input.form-file {
+  margin: 0;
+}
+
+.filefield-element input.progress-disabled {
+  float: none;
+  display: inline;
+}
+
+.filefield-element div.ahah-progress,
+.filefield-element div.throbber {
+  display: inline;
+  float: none;
+  padding: 1px 13px 2px 3px; /* RTL */
+}
+
+.filefield-element div.ahah-progress-bar {
+  display: none;
+  margin-top: 4px;
+  width: 28em;
+  padding: 0;
+}
+
+.filefield-element div.ahah-progress-bar div.bar {
+  margin: 0;
+}
+
+/* End general widget form styles. */
