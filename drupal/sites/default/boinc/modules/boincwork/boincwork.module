@@ -1041,135 +1041,26 @@ function boincwork_get_output() {
  * Get the project configuration XML; used by client software
  */
 function boincwork_get_project_config() {
-  require_boinc( array('boinc_db', 'util', 'xml') );
+  ob_start();
+  include_boinc('user/get_project_config.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
 
-  // Begin Output
-  xml_header();
-
-  // get BOINC project config
-  $config = get_config();
-  $long_name = parse_config($config, "<long_name>");
-  $master_url = parse_config($config, "<master_url>");
-
-  $min_passwd_length = parse_config($config, "<min_passwd_length>");
-  if (!$min_passwd_length) {
-    $min_passwd_length = 6;
-  }
-  $disable_account_creation = parse_bool($config, "disable_account_creation");
-
-  // Main project config section
-  echo "<project_config>
-    <name>$long_name</name>
-    <master_url>$master_url</master_url>
-    <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
-  ";
-
-  if (parse_config($config, "<account_manager>")) {
-    echo "    <account_manager/>\n";
-  }
-  $local_revision = @trim(file_get_contents("../../local.revision"));
-  if ($local_revision) {
-    echo "<local_revision>$local_revision</local_revision>\n";
+  // Remove any existing terms of use
+  if (!empty($xml['project_config']['terms_of_use'])) {
+    unset($xml['project_config']['terms_of_use']);
   }
 
-  if (web_stopped()) {
-    echo "
-        <error_num>-183</error_num>
-        <web_stopped>1</web_stopped>
-    ";
-  }
-  else {
-    echo "    <web_stopped>0</web_stopped>\n";
-  }
-
-  if ($disable_account_creation || defined('INVITE_CODES')) {
-    echo "    <account_creation_disabled/>\n";
-  }
-
-  if (defined('INVITE_CODES')) {
-    echo "    <invite_code_required/>\n";
-  }
-
-  echo "    <min_passwd_length>$min_passwd_length</min_passwd_length>\n";
-
-  if (sched_stopped()) {
-    echo "    <sched_stopped>1</sched_stopped>\n";
-  }
-  else {
-    echo "    <sched_stopped>0</sched_stopped>\n";
-  }
-
-  $min_core_client_version = parse_config($config, "<min_core_client_version>");
-  if ($min_core_client_version) {
-    echo "<min_client_version>$min_core_client_version</min_client_version>\n";
-  }
-
-  // Display platforms
-  boincwork_show_platforms();
-
-  // Terms of use (from Drupal)
+  // Add terms of use from Drupal
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   if (!empty($termsofuse)) {
-    echo "    <terms_of_use>\n" . trim($termsofuse) . "\n</terms_of_use>\n";
+    // @todo - clean terms of use text
+    $xml['project_config']['terms_of_use']['@value'] = $termsofuse;
   }
 
-  // LDAP option
-  if (LDAP_HOST) {
-    echo "<ldap_auth/>\n";
-  }
-
-  // Additional XML keywords
-  $projectkeywords = variable_get('boinc_project_config_keywords', '');
-  if (!empty($projectkeywords)) {
-    echo $projectkeywords;
-  }
-  echo "</project_config>";
+  print save_configuration($xml);
 }
 
-/**
- * Helper function to generate XML for platforms for
- * get_project_config.php. This all needs to work even when DB is
- * down.  So cache list of platforms in a file, and update it every
- * hour if possible.
- */
-function boincwork_show_platforms() {
-  $xmlFragment = unserialize(get_cached_data(3600, "project_config_platform_xml"));
-  if ($xmlFragment==false){
-    $platforms = BoincDB::get()->enum_fields("platform, DBNAME.app_version, DBNAME.app", "BoincPlatform", "platform.name, platform.user_friendly_name, plan_class", "app_version.platformid = platform.id and app_version.appid = app.id and app_version.deprecated=0 and app.deprecated=0 group by platform.name, plan_class", "");
-
-    db_set_active("boinc_rw");
-    $psql = "SELECT p.name,"
-        ."p.user_friendly_name,"
-        ."av.plan_class "
-        ."FROM platform AS p "
-        ."INNER JOIN app_version AS av "
-        ."ON p.id=av.platformid "
-        ."INNER JOIN app "
-        ."ON av.appid=app.id "
-        ."WHERE av.deprecated=0 "
-        ."AND app.deprecated=0 "
-        ."GROUP BY p.name, av.plan_class";
-    $db_result = db_query($psql);
-    db_set_active("default");
-
-    if ($db_result) {
-      $xmlFragment = "    <platforms>";
-      while ($platform = db_fetch_object($db_result)) {
-        $xmlFragment .= "
-            <platform>
-                <platform_name>$platform->name</platform_name>
-                <user_friendly_name>$platform->user_friendly_name</user_friendly_name>";
-                if ($platform->plan_class) $xmlFragment .= "
-                <plan_class>$platform->plan_class</plan_class>\n";
-            $xmlFragment .= "
-            </platform>";
-      } // $platform
-      $xmlFragment .= "\n    </platforms>\n";
-    } // endif db_result
-    set_cached_data(3600, serialize($xmlFragment), "project_config_platform_xml");
-  }
-  echo $xmlFragment;
-}
 
 /**
  * Page callback for the remote job submission RPC (submit_rpc_handler.php).
