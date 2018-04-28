@@ -96,7 +96,8 @@ echo "<p></p>";
 
 if ($preview == tra("Preview")) {
     panel(tra('Preview'),
-        function() use($content) {
+        function() use($content, $title) {
+            echo "<span class=lead>$title</span><p>\n";
             echo output_transform($content, null);
         }
     );
