@@ -113,6 +113,10 @@ public:
     void generate_host_cpid();
     bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
+    bool parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
+    bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
 };
 
 #ifdef __APPLE__

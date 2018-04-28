@@ -358,23 +358,23 @@ int close_handles_and_exit(const int return_code) {
 }
 
 bool WriteToPipe(const std::string& str) {
-    DWORD dwWritten;
+    DWORD written;
 
-    return WriteFile(in_write, str.c_str(), str.size(), &dwWritten, NULL);
+    return WriteFile(in_write, str.c_str(), str.size(), &written, NULL);
 }
 
 std::string ReadFromPipe() {
-    DWORD dwRead;
+    DWORD read;
     const int bufsize = 256;
     char buf[bufsize];
     std::string res = "";
 
     for (;;) {
-        if (!ReadFile(out_read, buf, bufsize - 1, &dwRead, NULL) || dwRead == 0) {
+        if (!ReadFile(out_read, buf, bufsize - 1, &read, NULL) || read == 0) {
             break;
         }
 
-        buf[dwRead] = '\0';
+        buf[read] = '\0';
         res += buf;
     }
 
