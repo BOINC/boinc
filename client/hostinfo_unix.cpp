@@ -1462,7 +1462,7 @@ int HOST_INFO::get_os_info() {
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
-    FILE* f = popen("/usr/bin/lsb_release -a 2>&1", "r");
+    FILE* f = popen(command_lsbrelease, "r");
     if (f) {
         found_something = parse_linux_os_info(f, lsbrelease, dist_name, sizeof(dist_name),
             dist_version, sizeof(dist_version));
@@ -1470,7 +1470,7 @@ int HOST_INFO::get_os_info() {
     }
     if (!found_something) {
         // see: https://www.freedesktop.org/software/systemd/man/os-release.html
-        f = fopen("/etc/os-release", "r");
+        f = fopen(command_osrelease, "r");
         if (f) {
             found_something = parse_linux_os_info(f, osrelease, dist_name, sizeof(dist_name),
                 dist_version, sizeof(dist_version));
@@ -1480,7 +1480,7 @@ int HOST_INFO::get_os_info() {
 
     if (!found_something) {
         // last ditch effort for older redhat releases
-        f = fopen("/etc/redhat-release", "r");
+        f = fopen(command_redhatrelease, "r");
         if (f) {
             found_something = parse_linux_os_info(f, redhatrelease, dist_name, sizeof(dist_name),
                 dist_version, sizeof(dist_version));

@@ -332,7 +332,7 @@ bool CreateWslProcess() {
 
     const DWORD dwFlags = 0/*CREATE_NO_WINDOW*/;
 
-    const bool res = CreateProcess(NULL, "wsl", NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi);
+    const bool res = (CreateProcess(NULL, "wsl", NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) == TRUE);
 
     if (res) {
         CloseHandle(pi.hProcess);
@@ -360,7 +360,7 @@ int close_handles_and_exit(const int return_code) {
 bool WriteToPipe(const std::string& str) {
     DWORD written;
 
-    return WriteFile(in_write, str.c_str(), str.size(), &written, NULL);
+    return WriteFile(in_write, str.c_str(), str.size(), &written, NULL) == TRUE;
 }
 
 std::string ReadFromPipe() {
@@ -410,7 +410,41 @@ int get_wsl_information(
     if (!CreateWslProcess()) {
         return close_handles_and_exit(1);
     }
+    
+    // lsbrelease
+    if (!WriteToPipe(command_lsbrelease + '\n')) {
+        close_handles_and_exit(1);
+    }
+    wsl_enabled = HOST_INFO::parse_linux_os_info(
+        ReadFromPipe(), lsbrelease, wsl_os_name, wsl_os_name_size, wsl_os_version, wsl_os_version_size);
+    if (wsl_enabled) {
+        WriteToPipe("exit\n");
+        close_handles_and_exit(0);
+    }
 
+    //osrelease
+    if (!WriteToPipe(command_osrelease + '\n')) {
+        close_handles_and_exit(1);
+    }
+    wsl_enabled = HOST_INFO::parse_linux_os_info(
+        ReadFromPipe(), osrelease, wsl_os_name, wsl_os_name_size, wsl_os_version, wsl_os_version_size);
+    if (wsl_enabled) {
+        close_handles_and_exit(0);
+        WriteToPipe("exit\n");
+    }
+
+    //redhatrelease
+    if (!WriteToPipe(command_redhatrelease + '\n')) {
+        close_handles_and_exit(1);
+    }
+    wsl_enabled = HOST_INFO::parse_linux_os_info(
+        ReadFromPipe(), redhatrelease, wsl_os_name, wsl_os_name_size, wsl_os_version, wsl_os_version_size);
+    if (wsl_enabled) {
+        close_handles_and_exit(0);
+        WriteToPipe("exit\n");
+    }
+
+    WriteToPipe("exit\n");
     return close_handles_and_exit(0);
 }
 

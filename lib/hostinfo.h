@@ -38,6 +38,10 @@ enum LINUX_OS_INFO_PARSER {
     redhatrelease
 };
 
+const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
+const char command_osrelease[] = "/etc/os-release";
+const char command_redhatrelease[] = "/etc/redhat-release";
+
 // if you add fields, update clear_host_info()
 
 class HOST_INFO {
@@ -111,11 +115,11 @@ public:
     void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
-    bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
+    static bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
-    bool parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
+    static bool parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
-    bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
+    static bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
 };
 
