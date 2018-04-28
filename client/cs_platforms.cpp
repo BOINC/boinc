@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,8 +24,13 @@
 #include "boinc_win.h"
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS fnIsWow64Process;
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <cstdlib>
 #include <signal.h>
