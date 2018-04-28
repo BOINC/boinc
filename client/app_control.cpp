@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,9 +34,13 @@
 #ifndef STATUS_DLL_INIT_FAILED_LOGOFF
 #define STATUS_DLL_INIT_FAILED_LOGOFF 0xC000026B  // may be in ntstatus.h
 #endif
-
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <string>
 #include <unistd.h>
 
