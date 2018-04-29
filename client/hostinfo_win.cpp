@@ -327,20 +327,19 @@ bool CreateWslProcess(const std::string& command, HANDLE& handle) {
     si.cb = sizeof(STARTUPINFO);
     si.hStdError = out_write;
     si.hStdOutput = out_write;
-    si.hStdInput = NULL/*in_read*/;
+    si.hStdInput = NULL;
     si.dwFlags |= STARTF_USESTDHANDLES;
 
-    const DWORD dwFlags = CREATE_NEW_CONSOLE/*CREATE_NO_WINDOW*/;
+    const DWORD dwFlags = CREATE_NO_WINDOW;
     //std::stringstream ss;
     //ss << "PATH=" << getenv("PATH") << '\0';
     //LPCH env = GetEnvironmentStrings();
 
     const std::string cmd = "bash -c \"" + command + "\"";
 
-    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, /*(LPVOID)env*/ NULL, &si, &pi) == TRUE);
+    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) == TRUE);
 
     if (res) {
-        //CloseHandle(pi.hProcess);
         handle = pi.hProcess;
         CloseHandle(pi.hThread);
     }
@@ -362,12 +361,6 @@ int close_handles_and_exit(const int return_code) {
 
     return return_code;
 }
-//
-//bool WriteToPipe(const std::string& str) {
-//    DWORD written;
-//
-//    return WriteFile(in_write, str.c_str(), (DWORD)str.size(), &written, NULL) == TRUE;
-//}
 
 std::string ReadFromPipe(HANDLE handle) {
     DWORD avail, read, exitcode;
@@ -1089,9 +1082,11 @@ int get_os_information(
 
     snprintf( os_version, os_version_size, "%s%s%s", szSKU, szServicePack, szVersion );
 
+#ifdef _WIN64
     if (osvi.dwMajorVersion >= 10) {
         return get_wsl_information(os_wsl_enabled, os_wsl_name, os_wsl_name_size, os_wsl_version, os_wsl_version_size);
     }
+#endif
 
     return 0;
 }

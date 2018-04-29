@@ -252,6 +252,16 @@ void CLIENT_STATE::show_host_info() {
         tz<0?"":"+", tz
     );
 
+#ifdef _WIN64
+    if (host_info.os_wsl_enabled) {
+        msg_printf(NULL, MSG_INFO,
+            "WSL detected: %s: %s", host_info.os_wsl_name, host_info.os_wsl_version
+        );
+    } else {
+        msg_printf(NULL, MSG_INFO, "No WSL found.");
+    }
+#endif
+
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
