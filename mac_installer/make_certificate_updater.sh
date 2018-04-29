@@ -48,6 +48,8 @@ ENDOFFILE
 cp -f "/tmp/pkg_scripts/postinstall" "/tmp/pkg_scripts/postupgrade"
 
 rm -fR "../BOINC_Installer/upate_boinc_certificate.pkg"
+mkdir -p ../BOINC_Installer
+
 /Developer/usr/bin/packagemaker -r "/tmp/pkg_root/" -s "/tmp/pkg_scripts/" -i ".edu.berkeley.boinc-cert-updater.pkg" -o "../BOINC_Installer/update_boinc_certificate.pkg" -g 10.3 -b -w
 
 rm -fR /tmp/pkg_root
