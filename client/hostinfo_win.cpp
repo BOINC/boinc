@@ -331,9 +331,6 @@ bool CreateWslProcess(const std::string& command, HANDLE& handle) {
     si.dwFlags |= STARTF_USESTDHANDLES;
 
     const DWORD dwFlags = CREATE_NO_WINDOW;
-    //std::stringstream ss;
-    //ss << "PATH=" << getenv("PATH") << '\0';
-    //LPCH env = GetEnvironmentStrings();
 
     const std::string cmd = "bash -c \"" + command + "\"";
 
