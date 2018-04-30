@@ -120,7 +120,7 @@ wxSize wxWizardExSizer::GetMaxChildSize()
     }
 
 #ifdef __WXDEBUG__
-    if ( m_childSize.IsFullySpecified() && m_childSize != maxOfMin )
+    if ( !m_owner->m_pageRefreshed && m_childSize.IsFullySpecified() && m_childSize != maxOfMin )
     {
         wxFAIL_MSG( _T("Size changed in wxWizard::GetPageAreaSizer()")
                     _T("after RunWizard().\n")
@@ -135,6 +135,8 @@ wxSize wxWizardExSizer::GetMaxChildSize()
     {
         m_childSize = maxOfMin;
     }
+
+    m_owner->m_pageRefreshed = false;
 
     return maxOfMin;
 }
@@ -212,6 +214,10 @@ bool wxWizardPageEx::Create(
     return true;
 }
 
+void wxWizardPageEx::RefreshPage()
+{
+}
+
 // ----------------------------------------------------------------------------
 // event tables and such
 // ----------------------------------------------------------------------------
@@ -228,6 +234,8 @@ BEGIN_EVENT_TABLE(wxWizardEx, wxDialog)
     EVT_BUTTON(wxID_BACKWARD, wxWizardEx::OnBackOrNext)
     EVT_BUTTON(wxID_FORWARD, wxWizardEx::OnBackOrNext)
     EVT_BUTTON(wxID_HELP, wxWizardEx::OnHelp)
+
+    EVT_SHOW(wxWizardEx::OnShowEvent)
 
     EVT_WIZARDEX_PAGE_CHANGED(wxID_ANY, wxWizardEx::OnWizEvent)
     EVT_WIZARDEX_PAGE_CHANGING(wxID_ANY, wxWizardEx::OnWizEvent)
@@ -265,6 +273,7 @@ bool wxWizardEx::Create(wxWindow *parent,
     bool result = wxDialog::Create(parent,id,title,pos,wxDefaultSize,style);
 
     m_posWizard = pos;
+    m_pageRefreshed = false;
 
     DoCreateControls();
 
@@ -742,6 +751,14 @@ void wxWizardEx::OnWizEvent(wxWizardExEvent& event)
        )
     {
         Destroy();
+    }
+}
+
+void wxWizardEx::OnShowEvent(wxShowEvent& event)
+{
+    if (event.IsShown() && m_page != NULL) {
+        m_pageRefreshed = true;
+        m_page->RefreshPage();
     }
 }
 

@@ -6,7 +6,9 @@ require_once("../inc/db_ops.inc");
 
 $token = random_string();
 
-BoincToken::insert("(token,userid,type,create_time, expire_time) values ('$token', 0, 'T', unix_timestamp(), unix_timestamp()+3600)");
+$now = time();
+
+BoincToken::insert("(token,userid,type,create_time, expire_time) values ('$token', 0, 'T', $now, $now+3600)");
 
 $boincTokens = BoincToken::enum("userid=0");
 foreach($boincTokens as $boincToken) {
@@ -40,8 +42,8 @@ if ( $boincToken == null ) {
 echo "---------------\n";
 $user = new BoincUser();
 $user->id=0;
-$token = create_confirm_delete_account_token($user);
-if ( is_valid_delete_account_token($user->id, $token) ) {
+$token = create_token($user->id, TOKEN_TYPE_DELETE_ACCOUNT, TOKEN_DURATION_ONE_DAY);
+if ( is_valid_token($user->id, $token, TOKEN_TYPE_DELETE_ACCOUNT) ) {
     echo "Successfully created and validated delete account token";
 }
 
