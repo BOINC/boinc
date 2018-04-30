@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
+// Constants for 
+define("DELETE_ACCOUNT_METHOD_OBFUSCATE", 1);
+define("DELETE_ACCOUNT_METHOD_WIPE", 2);
+
 $config = get_config();
 if ( !parse_bool($config, "enable_delete_account") ) {
     error_page(
@@ -30,4 +34,32 @@ function check_delete_account_token($userid, $token) {
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
         );
     }
+}
+
+/*
+* This method selects which delete method to utilize.  Projects can implement their own method
+* and make that a third mechanism if they have a need to
+*/
+function delete_account($userid) {
+    $enable_delete_account = parse_int($config, "enable_delete_account");
+    if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_OBFUSCATE ) {
+        return obfuscate_account($userid);
+    } else if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_WIPE ) {
+        return wipe_account($userid);
+    } else {
+        error_page(
+            tra("This feature is configured incorrectly.  Please contact the project administrator.")
+        );
+    }
+}
+
+// This method obfuscates all personal information but
+// leaves critical db records in place
+function obfuscate_account($userid) {
+    
+}
+
+// This method deletes all rows from the database associated with the user
+function wipe_account($userid) {
+    
 }

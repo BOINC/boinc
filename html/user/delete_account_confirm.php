@@ -57,7 +57,7 @@ function delete_account_confirm_action() {
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
     
-    //do account delete
+    delete_account($user->id);
     
     page_head(tra("Account Deleted"));
     
