@@ -36,7 +36,7 @@ function delete_account_confirm_form() {
          ."<p>".tra("As a reminder, your account <b>cannot be recovered</b> once you delete it.")."</p>"
          ."<br/>";
     
-    form_start(secure_url_base()."delete_account_confirm_action.php", "post");
+    form_start(secure_url_base()."delete_account_confirm.php", "post");
     form_input_hidden("token",$token);
     form_input_hidden("id",$userid);
     form_input_text(tra("Password"), "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd"));
@@ -57,7 +57,11 @@ function delete_account_confirm_action() {
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
     
-    delete_account($user->id);
+    if ( !delete_account($user) ) {
+        error_page(
+            tra("Failed to delete your account.  Please contact the project administrator.")
+        );    
+    }
     
     page_head(tra("Account Deleted"));
     

@@ -16,6 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
+require_once("../inc/util.inc");
+require_once("../inc/user.inc");
+require_once("../inc/host.inc");
+require_once("../inc/friend.inc");
+
 // Constants for 
 define("DELETE_ACCOUNT_METHOD_OBFUSCATE", 1);
 define("DELETE_ACCOUNT_METHOD_WIPE", 2);
@@ -40,12 +45,13 @@ function check_delete_account_token($userid, $token) {
 * This method selects which delete method to utilize.  Projects can implement their own method
 * and make that a third mechanism if they have a need to
 */
-function delete_account($userid) {
-    $enable_delete_account = parse_int($config, "enable_delete_account");
+function delete_account($user) {
+    $config = get_config();
+    $enable_delete_account = parse_config($config, "<enable_delete_account>");
     if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_OBFUSCATE ) {
-        return obfuscate_account($userid);
+        return obfuscate_account($user);
     } else if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_WIPE ) {
-        return wipe_account($userid);
+        return wipe_account($user);
     } else {
         error_page(
             tra("This feature is configured incorrectly.  Please contact the project administrator.")
@@ -53,13 +59,32 @@ function delete_account($userid) {
     }
 }
 
-// This method obfuscates all personal information but
-// leaves critical db records in place
-function obfuscate_account($userid) {
-    
+// "obfuscate" an account: leave user record (for DB consistency) but:
+//  - set email address and authenticator to "deleted_pid_time"
+//  - clear name, country, postal_code
+//  - remove from team
+//  - delete posts, subscriptions, and forum prefs
+//  - delete private messages (sent and received)
+//  - delete profile and associated image
+// for each host:
+//  - clear domain_name, last_ip_addr
+//
+function obfuscate_account($user) {
+    $x = "deleted_".time()."_".random_string();
+    $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
+    if (!$retval) return false;
+    user_quit_team($user);
+    forum_delete_user($user);
+    pm_delete_user($user);
+    anonymize_hosts($user);
+    delete_profile($user);
+    delete_friends($user);
+    return true;
 }
 
 // This method deletes all rows from the database associated with the user
-function wipe_account($userid) {
-    
+function wipe_account($user) {
+    error_page(
+        tra("Not Implemented Yet")
+    );
 }

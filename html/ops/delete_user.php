@@ -22,7 +22,7 @@
 // effectively delete the user with given ID
 // USE THIS WITH EXTREME CAUTION.  CAN'T UNDO.
 
-require_once("../inc/user.inc");
+require_once("../inc/delete_account.inc");
 require_once("../inc/boinc_db.inc");
 
 die("Delete this line first\n");
