@@ -24,7 +24,7 @@ if ( !parse_bool($config, "enable_delete_account") ) {
 }
 
 function check_delete_account_token($userid, $token) {
-    if( !is_valid_delete_account_token($userid, $token) ) {
+    if( !is_valid_token($userid, $token, TOKEN_TYPE_DELETE_ACCOUNT) ) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page(
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
