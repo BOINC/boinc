@@ -17,36 +17,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// "delete" an account:
-//  - set email address and authenticator to "deleted_pid_time"
-//  - clear name, country, postal_code
-//  - remove from team
-//  - delete posts, subscriptions, and forum prefs
-//  - delete private messages (sent and received)
-//  - delete profile and associated image
-// for each host:
-//  - clear domain_name, last_ip_addr
+// Disabled because of the possibility of misuse.
+// Admins can delete accounts with ops/delete_user.php
 
 require_once("../inc/util.inc");
-require_once("../inc/host.inc");
-require_once("../inc/profile.inc");
-require_once("../inc/pm.inc");
+require_once("../inc/user.inc");
 
 check_get_args(array("cmd"));
 
 die("This feature has been disabled.  Please contact project administators.");
-
-function delete_account($user) {
-    $x = "deleted_".time()."_".random_string();
-    $retval = $user->update("email_addr='$x', authenticator='$x', name='', country='', postal_code='', has_profile=0");
-    if (!$retval) return false;
-    user_quit_team($user);
-    forum_delete_user($user);
-    pm_delete_user($user);
-    anonymize_hosts($user);
-    delete_profile($user);
-    return true;
-}
 
 $user = get_logged_in_user();
 

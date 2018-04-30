@@ -24,6 +24,8 @@ require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 require_once("../inc/ldap.inc");
+require_once("../inc/host.inc");
+require_once("../inc/friend.inc");
 
 if (!defined('REMOTE_PROJECTS_TTL')) {
     define('REMOTE_PROJECTS_TTL', 86400);
@@ -551,6 +553,29 @@ function show_account_private($user) {
             end_table();
         }
     );
+}
+
+// "delete" an account: leave user record (for DB consistency) but:
+//  - set email address and authenticator to "deleted_pid_time"
+//  - clear name, country, postal_code
+//  - remove from team
+//  - delete posts, subscriptions, and forum prefs
+//  - delete private messages (sent and received)
+//  - delete profile and associated image
+// for each host:
+//  - clear domain_name, last_ip_addr
+//
+function delete_account($user) {
+    $x = "deleted_".time()."_".random_string();
+    $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
+    if (!$retval) return false;
+    user_quit_team($user);
+    forum_delete_user($user);
+    pm_delete_user($user);
+    anonymize_hosts($user);
+    delete_profile($user);
+    delete_friends($user);
+    return true;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
