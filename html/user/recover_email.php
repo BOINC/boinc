@@ -25,7 +25,7 @@ check_get_args(array("id", "token"));
 
 redirect_to_secure_url("recover_email.php");
 
-$user = get_logged_in_user();
+$user = get_logged_in_user(false);
 //Log out to clear all auth tokens
 if ($user) {
     clear_cookie('auth');
@@ -48,7 +48,7 @@ if(is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
 	} else {
 	    echo tra("Email address has been reverted.")."<br /><br />".tra("You need to reset your password:  ")."<a href\=".secure_url_base()."get_passwd.php\">".secure_url_base()."get_passwd.php</a>";
 
-            $database_passwd_hash = password_hash(rondam_string() , PASSWORD_DEFAULT);
+            $database_passwd_hash = password_hash(random_string() , PASSWORD_DEFAULT);
 	    //Change previous_email
 	    $result = $tmpuser->update(
 		"email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=0, passwd_hash='$database_passwd_hash', email_validated=0"
