@@ -1,4 +1,5 @@
-#/bin/sh
+#!/bin/sh
+set -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#

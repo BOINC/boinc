@@ -1,4 +1,5 @@
-#/bin/sh
+#!/bin/sh
+set -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
@@ -19,7 +20,7 @@ export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-gcc
 export CXX=arm-linux-androideabi-g++
 export LD=arm-linux-androideabi-ld
@@ -33,7 +34,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 if [ -n "$COMPILEOPENSSL" ]; then
 echo "================building openssl from $OPENSSL============================="
-cd $OPENSSL
+cd "$OPENSSL"
 if [ -n "$MAKECLEAN" ]; then
 make clean
 fi

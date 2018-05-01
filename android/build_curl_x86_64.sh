@@ -1,4 +1,5 @@
-#/bin/sh
+#!/bin/sh
+set -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
@@ -19,7 +20,7 @@ export TCINCLUDES="$ANDROIDTC/x86_64-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=x86_64-linux-android-gcc
 export CXX=x86_64-linux-android-g++
 export LD=x86_64-linux-android-ld
@@ -33,12 +34,12 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
-cd $CURL
+cd "$CURL"
 if [ -n "$MAKECLEAN" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=x86_64-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
 fi
 make
 make install
