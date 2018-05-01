@@ -542,7 +542,6 @@ function show_account_private($user) {
             if (function_exists("project_user_page_private")) {
                 project_user_page_private($user);
             }
-            //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
             start_table();

@@ -815,6 +815,29 @@ class BoincToken {
 
 }
 
+class UserDeleted {
+    
+    static function insert_user($user) {
+        $now = time();
+        $cpid = md5($user->cross_project_id.$user->email_addr);
+        $clause = "(userid, public_cross_project_id, create_time) values ($user->id, '$cpid', $now)";
+        $db = BoincDb::get();
+        return $db->insert('user_deleted', $clause);
+    }
+    
+}
+
+class HostDeleted {
+    
+    static function insert_hosts_for_user($user) {
+        $now = time();
+        $clause = "select id, host_cpid, $now from host where userid = $user->id";
+        $db = BoincDb::get();
+        return $db->insert('host_deleted', $clause);
+    }
+    
+}
+
 
 // DEPRECATED: use BoincDb::escape_string where possible
 // 

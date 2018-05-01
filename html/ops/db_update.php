@@ -1106,7 +1106,7 @@ function update_5_3_2018() {
     do_query("create table user_deleted (
             userid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
-            create_time             double          not null,
+            create_time             integer         not null,
             primary key (userid),
             index user_deleted_userid (userid)
         ) engine=InnoDB;
@@ -1115,7 +1115,7 @@ function update_5_3_2018() {
     do_query("create table host_deleted (
             hostid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
-            create_time             double          not null,
+            create_time             integer         not null,
             primary key (hostid),
             index host_deleted_hostid (hostid)
         ) engine=InnoDB;
