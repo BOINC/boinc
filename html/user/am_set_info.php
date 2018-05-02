@@ -21,6 +21,7 @@ require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../inc/password_compat/password.inc");
+require_once("../inc/user_util.inc");
 
 // do a very cursory check that the given text is valid;
 // for now, just make sure it has the given start and end tags,
@@ -118,9 +119,9 @@ if ($email_addr) {
         xml_error(tra("There's already an account with that email address."));
     }
     $tmpuser = BoincDb::lookup_prev_email_addr($email_addr);
-    //Lets check if the email address is included in prev_email_addr window. 
+    //Lets check if the email address is included in previous_email_addr window. 
     if ($tmpuser) {
-        xml_error("ERROR_BAD_EMAIL_ADDR, "Email address is already in use");
+        xml_error(ERROR_BAD_EMAIL_ADDR, "Email address is already in use");
     }
     if (!is_valid_email_addr($email_addr)) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
@@ -130,7 +131,7 @@ if ($email_addr) {
     }
     $email_addr = strtolower(BoincDb::escape_string($email_addr));
     if($user->email_addr != $email_addr) { 
-        $user->prev_email_addr = $user->email_addr;
+        $user->previous_email_addr = $user->email_addr;
     }
 }
 $password_hash = BoincDb::escape_string($password_hash);
@@ -189,8 +190,8 @@ if ($email_addr && $email_addr!=$user->email_addr) {
     $old_email_addr = $user->email_addr;
     $mytime = time();
     $query .= " email_addr='$email_addr', ";
-    if($user->prev_email_addr) {
-        $query .= " prev_email_addr='$user->prev_email_addr', email_addr_change_time=$mytime, ";
+    if($user->previous_email_addr) {
+        $query .= " previous_email_addr='$user->previous_email_addr', email_addr_change_time=$mytime, ";
         $send_changed_email = true;
     }
 }
