@@ -27,8 +27,15 @@ require_once("../inc/token.inc");
 //
 function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
     if (function_exists("make_php_mailer")) {
-        require_once("../inc/PHPMailer/src/PHPMailer.php");
-        require_once("../inc/PHPMailer/src/SMTP.php");
+        if(file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
+            require_once("../inc/PHPMailer/src/PHPMailer.php");
+            require_once("../inc/PHPMailer/src/SMTP.php");
+        } else if (file_exists("../inc/phpmailer/class.phpmailer.php")) {
+            require_once("../inc/phpmailer/class.phpmailer.php");
+        } else {
+            echo "PHPMailer not installed";
+            return false;
+        }
         $mail = make_php_mailer();
         if($email_addr) {
             $mail->AddAddress($email_addr, $user->name);
