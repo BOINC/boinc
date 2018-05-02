@@ -21,10 +21,14 @@ require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 require_once("../inc/friend.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../project/project.inc");
 
-// Constants for 
+// Constants for different methods of deleting accounts
+// These correspond to the value used in the config.xml 
+// field of <enable_delete_account/>
 define("DELETE_ACCOUNT_METHOD_OBFUSCATE", 1);
 define("DELETE_ACCOUNT_METHOD_WIPE", 2);
+define("DELETE_ACCOUNT_METHOD_PROJECT_DEFINED", 3);
 
 $config = get_config();
 if ( !parse_bool($config, "enable_delete_account") ) {
@@ -53,6 +57,8 @@ function delete_account($user) {
         return obfuscate_account($user);
     } else if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_WIPE ) {
         return wipe_account($user);
+    } else if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_PROJECT_DEFINED ) {
+        return project_delete_account($user);
     } else {
         error_page(
             tra("This feature is configured incorrectly.  Please contact the project administrator.")
@@ -71,8 +77,8 @@ function delete_account($user) {
 //  - clear domain_name, last_ip_addr
 //
 function obfuscate_account($user) {
-    UserDeleted::insert_user($user);
-    HostDeleted::insert_hosts_for_user($user);
+    BoincUserDeleted::insert_user($user);
+    BoincHostDeleted::insert_hosts_for_user($user);
     $x = "deleted_".time()."_".random_string();
     $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
     if (!$retval) return false;
@@ -81,7 +87,7 @@ function obfuscate_account($user) {
     pm_delete_user($user);
     anonymize_hosts($user);
     delete_profile($user);
-    delete_friends($user); 
+    delete_friends($user);
     return true;
 }
 

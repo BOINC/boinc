@@ -815,7 +815,7 @@ class BoincToken {
 
 }
 
-class UserDeleted {
+class BoincUserDeleted {
     
     static function insert_user($user) {
         $now = time();
@@ -825,9 +825,16 @@ class UserDeleted {
         return $db->insert('user_deleted', $clause);
     }
     
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $expire_time = time() - 2*30*86400; //60 days ago
+        $db->delete_aux('user_deleted', "create_time < $expire_time");
+        return $db->affected_rows();
+    }
+
 }
 
-class HostDeleted {
+class BoincHostDeleted {
     
     static function insert_hosts_for_user($user) {
         $now = time();
@@ -836,6 +843,14 @@ class HostDeleted {
         return $db->insert('host_deleted', $clause);
     }
     
+    
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $expire_time = time() - 2*30*86400; //60 days ago
+        $db->delete_aux('host_deleted', "create_time < $expire_time");
+        return $db->affected_rows();
+    }
+
 }
 
 

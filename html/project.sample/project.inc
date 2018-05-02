@@ -200,6 +200,13 @@ function project_forum_post_rules() {
     return "";
 }
 
+function project_delete_account($user) {
+    // a project defined function for deleting users if neither
+    // obfuscate_account($user) or wipe_account($user) in 
+    // inc/delete_account.inc meets the need of the project
+    die("This function must be implemented before it can be used");
+}
+
 //-------------- Support for per-app credit
 
 if (0) {
