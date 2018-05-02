@@ -118,7 +118,7 @@ if ($email_addr) {
     if ($tmpuser) {
         xml_error(tra("There's already an account with that email address."));
     }
-    $tmpuser = BoincDb::lookup_prev_email_addr($email_addr);
+    $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
     //Lets check if the email address is included in previous_email_addr window. 
     if ($tmpuser) {
         xml_error(ERROR_BAD_EMAIL_ADDR, "Email address is already in use");
@@ -187,11 +187,12 @@ if ($venue) {
     $query .= " venue='$venue', ";
 }
 if ($email_addr && $email_addr!=$user->email_addr) {
-    $old_email_addr = $user->email_addr;
-    $mytime = time();
-    $query .= " email_addr='$email_addr', ";
+    $user->previous_email_addr = $user->email_addr;
+    $user->email_addr_change_time = time();
+    $user->email_addr = $email_addr;
+    $query .= " email_addr='$user->email_addr', ";
     if($user->previous_email_addr) {
-        $query .= " previous_email_addr='$user->previous_email_addr', email_addr_change_time=$mytime, ";
+        $query .= " previous_email_addr='$user->previous_email_addr', email_addr_change_time=$user->email_addr_change_time, ";
         $send_changed_email = true;
     }
 }

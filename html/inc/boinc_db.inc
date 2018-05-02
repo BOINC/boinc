@@ -182,13 +182,13 @@ class BoincUser {
     }
     static function lookup_email_addr($email_addr) {
         $db = BoincDb::get();
-        $email_addr = BoincDb::escape_string($email_addr);
+        $email_addr = strtolower(BoincDb::escape_string($email_addr));
         return self::lookup("email_addr='$email_addr'");
     }
     //This is to find email addresses that have changed in the past 7 days.
     static function lookup_prev_email_addr($email_addr) {
         $db = BoincDb::get();
-        $email_addr = BoincDb::escape_string($email_addr);
+        $email_addr = strtolower(BoincDb::escape_string($email_addr));
         $mytime = time() - 604800;
         return self::lookup("previous_email_addr='$email_addr' and email_addr_change_time > $mytime");
     }
