@@ -39,6 +39,13 @@ function create_token($userid, $type, $duration) {
     return $token;
 }
 
+function delete_token($userid, $token, $type) {
+    $token = BoincDb::escape_string($token);
+    $type = BoincDb::escape_string($type);
+    $result = BoincToken::delete_token("userid = $userid and token = '$token' and type = '$type'");
+    return $result;
+}
+
 function is_valid_token($userid, $token, $type) {
     $boincToken = BoincToken::lookup_valid_token($userid, $token, $type);
     if ( $boincToken == null ) {

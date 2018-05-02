@@ -30,7 +30,6 @@ $user = get_logged_in_user(false);
 if ($user) {
     clear_cookie('auth');
     $g_logged_in_user = null;
-    echo tra("Note: You have been logged out to clear all cookies.")."<br /><br />";
 }
 
 page_head(tra("Recover email address"));
@@ -46,13 +45,14 @@ if(is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
 	if ($existing) {
 	    echo tra("There is already an account with that email address.")."<br /><br />".tra("Please contact the admin.  Previous email address could not be reverted as another account is using it as their email address.");
 	} else {
-	    echo tra("Email address has been reverted.")."<br /><br />".tra("You need to reset your password:  ")."<a href\=".secure_url_base()."get_passwd.php\">".secure_url_base()."get_passwd.php</a>";
+	    echo tra("Email address has been reverted.")."<br /><br />".tra("You need to reset your password:  ")."<a href=\"".secure_url_base()."get_passwd.php\">".secure_url_base()."get_passwd.php</a>";
 
             $database_passwd_hash = password_hash(random_string() , PASSWORD_DEFAULT);
 	    //Change previous_email
 	    $result = $tmpuser->update(
 		"email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=0, passwd_hash='$database_passwd_hash', email_validated=0"
 	    );
+            $result = delete_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL);
 	}
     }
 } else {

@@ -812,6 +812,12 @@ class BoincToken {
         $db = BoincDB::get();
         return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
     }
+
+    static function delete_token($where_clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('token', $where_clause);
+        return $db->affected_rows();
+    }
     
     static function delete_expired() {
         $db = BoincDb::get();
