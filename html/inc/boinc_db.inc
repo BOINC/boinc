@@ -820,7 +820,7 @@ class BoincUserDeleted {
     static function insert_user($user) {
         $now = time();
         $cpid = md5($user->cross_project_id.$user->email_addr);
-        $clause = "(userid, public_cross_project_id, create_time) values ($user->id, '$cpid', $now)";
+        $clause = "(id, public_cross_project_id, create_time) values ($user->id, '$cpid', $now)";
         $db = BoincDb::get();
         return $db->insert('user_deleted', $clause);
     }
@@ -842,7 +842,6 @@ class BoincHostDeleted {
         $db = BoincDb::get();
         return $db->insert('host_deleted', $clause);
     }
-    
     
     static function delete_expired() {
         $db = BoincDb::get();

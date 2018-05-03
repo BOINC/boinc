@@ -1104,20 +1104,20 @@ function update_4_18_2018() {
 
 function update_5_3_2018() {
     do_query("create table user_deleted (
-            userid                  integer         not null,
+            id                      integer         not null,
             public_cross_project_id varchar(254)    not null,
             create_time             integer         not null,
-            primary key (userid),
-            index user_deleted_userid (userid)
+            primary key (id),
+            index user_deleted_id (id)
         ) engine=InnoDB;
     ");
     
     do_query("create table host_deleted (
-            hostid                  integer         not null,
+            id                      integer         not null,
             public_cross_project_id varchar(254)    not null,
             create_time             integer         not null,
-            primary key (hostid),
-            index host_deleted_hostid (hostid)
+            primary key (id),
+            index host_deleted_id (id)
         ) engine=InnoDB;
     ");
 }
