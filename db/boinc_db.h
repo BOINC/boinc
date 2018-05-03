@@ -159,6 +159,15 @@ public:
     void operator=(USER& r) {USER::operator=(r);}
 };
 
+class DB_USER_DELETED : public DB_BASE, public USER_DELETED {
+public:
+    DB_USER_DELETED(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(USER_DELETED& r) {USER_DELETED::operator=(r);}
+};
+
 class DB_TEAM : public DB_BASE, public TEAM {
 public:
     DB_TEAM(DB_CONN* p=0);
@@ -180,6 +189,15 @@ public:
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(HOST& r) {HOST::operator=(r);}
+};
+
+class DB_HOST_DELETED : public DB_BASE, public HOST_DELETED {
+public:
+    DB_HOST_DELETED(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(HOST_DELETED& r) {HOST_DELETED::operator=(r);}
 };
 
 class DB_RESULT : public DB_BASE, public RESULT {

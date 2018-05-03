@@ -217,6 +217,13 @@ struct USER {
     void clear();
 };
 
+struct USER_DELETED {
+    DB_ID_TYPE id;
+    char public_cross_project_id[256];
+    int create_time;
+    void clear();
+};
+
 #define TEAM_TYPE_CLUB                  1
 #define TEAM_TYPE_COMPANY               2
 #define TEAM_TYPE_PRIMARY               3
@@ -377,6 +384,13 @@ struct HOST {
     void fix_nans();
     void clear();
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
+};
+
+struct HOST_DELETED {
+    DB_ID_TYPE id;
+    char public_cross_project_id[256];
+    int create_time;
+    void clear();
 };
 
 // values for file_delete state
