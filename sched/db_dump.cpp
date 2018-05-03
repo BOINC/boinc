@@ -307,11 +307,9 @@ void write_host_deleted(HOST_DELETED& host_deleted, FILE* f) {
         "<host>\n"
         "    <id>%lu</id>\n"
         "    <host_cpid>%s</host_cpid>\n"
-        "    <create_time>%d</create_time>\n"
         "</host>\n",
         host_deleted.id,
-        host_deleted.public_cross_project_id,
-        host_deleted.create_time
+        host_deleted.public_cross_project_id
     );
 }
 
@@ -435,11 +433,9 @@ void write_user_deleted(USER_DELETED& user_deleted, FILE* f) {
         "<user>\n"
         "    <id>%lu</id>\n"
         "    <cpid>%s</cpid>\n"
-        "    <create_time>%d</create_time>\n"
         "</user>\n",
         user_deleted.id,
-        user_deleted.public_cross_project_id,
-        user_deleted.create_time
+        user_deleted.public_cross_project_id
     );
 }
 
