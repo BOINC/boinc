@@ -772,3 +772,22 @@ create table token (
     primary key (token),
     index token_userid (userid)
 ) engine=InnoDB;
+
+create table consent (
+    userid                  integer         not null,
+    consent_id              integer         not null,
+    consent_time            integer         not null,
+    consent_flag            tinyint         not null,
+    consent_not_required    tinyint         not null,
+    source                  varchar(255)    not null,
+    primary key (userid, consent_id)
+) engine=InnoDB;
+
+create table consent_type (
+    consent_id              integer         not null auto_increment,
+    description             varchar(255)    not null,
+    primary key (consent_id)
+) engine=InnoDB;
+
+insert into consent_type (consent_id, description) 
+    values (1, 'General terms-of-use for this BOINC project.');

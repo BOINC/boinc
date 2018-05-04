@@ -1102,6 +1102,31 @@ function update_4_18_2018() {
     ");
 }
 
+function update_4_24_2018() {
+    do_query("create table consent (
+        userid                  integer         not null,
+        consent_id              integer         not null,
+        consent_time            integer         not null,
+        consent_flag            tinyint         not null,
+        consent_not_required    tinyint         not null,
+        source                  varchar(255)    not null,
+        primary key (userid, consent_id)
+        ) engine=InnoDB;
+    ");
+
+    do_query("create table consent_type (
+        consent_id              integer         not null auto_increment,
+        description             varchar(255)    not null,
+        primary key (consent_id)
+        ) engine=InnoDB;
+    ");
+
+    do_query("insert into consent_type
+        (consent_id, description) values
+        (1, 'General terms-of-use for this BOINC project.');
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1157,7 +1182,8 @@ $db_updates = array (
     array(27021, "update_3_8_2018"),
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
-    array(27024, "update_4_18_2018")
+    array(27024, "update_4_18_2018"),
+    array(27025, "update_4_24_2018")
 );
 
 ?>
