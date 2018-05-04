@@ -299,6 +299,10 @@ class BoincTeamDelta {
         $db = BoincDb::get();
         return $db->enum('team_delta', 'BoincTeamDelta', $where_clause);
     }
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        return $db->delete_aux('team_delta', "userid=$user_id");
+    }
 }
 
 class BoincHost {
@@ -338,6 +342,10 @@ class BoincHost {
         $ret = $db->insert('host', $clause);
         if (!$ret) return $ret;
         return $db->insert_id();
+    }
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        return $db->delete_aux('host', "userid=$user_id");
     }
 }
 
@@ -598,6 +606,10 @@ class BoincHostAppVersion {
         $db = BoincDb::get();
         return $db->update_aux('host_app_version', $clause);
     }
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        return $db->delete_aux('host_app_version', "host_id in (select id from host where userid = $user_id)");
+    }
 }
 
 // DB utility functions
@@ -810,6 +822,13 @@ class BoincToken {
         $db = BoincDb::get();
         $now = time();
         $db->delete_aux('token', "expire_time < $now");
+        return $db->affected_rows();
+    }
+
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        $now = time();
+        $db->delete_aux('token', "userid=$user_id");
         return $db->affected_rows();
     }
 

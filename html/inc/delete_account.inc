@@ -21,6 +21,7 @@ require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 require_once("../inc/friend.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
 
 // Constants for different methods of deleting accounts
@@ -44,6 +45,17 @@ function check_delete_account_token($userid, $token) {
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
         );
     }
+}
+
+/*
+* This function saves the minimal information from the user and their hosts
+* so that db_dump can provide the information necessary to export the deleted_user
+* and deleted_host files.  These records are deleted after 60 days by the 
+* daily ops task "delete_expired_users_and_hosts.php"
+*/
+function insert_deleted_records($user) {
+    BoincUserDeleted::insert_user($user);
+    BoincHostDeleted::insert_hosts_for_user($user);
 }
 
 /*
@@ -77,8 +89,7 @@ function delete_account($user) {
 //  - clear domain_name, last_ip_addr
 //
 function obfuscate_account($user) {
-    BoincUserDeleted::insert_user($user);
-    BoincHostDeleted::insert_hosts_for_user($user);
+    insert_deleted_records($user);
     $x = "deleted_".time()."_".random_string();
     $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
     if (!$retval) return false;
@@ -93,7 +104,38 @@ function obfuscate_account($user) {
 
 // This method deletes all rows from the database associated with the user
 function wipe_account($user) {
-    error_page(
-        tra("Not Implemented Yet")
-    );
+    $db = BoincDb::get();
+
+    insert_deleted_records($user);
+
+    // delete remote submit user
+    delete_remote_submit_user($user);  // from submit_util.inc
+    
+    // remove user's team records
+    user_erase_team_owner($user);      // from team.inc
+    user_quit_team($user);        // from team.inc
+    user_erase_team_delta($user); // from team.inc
+    
+    // Items that do not have logic elsewhere
+    // and do not have objects in boinc_db.inc
+    if (!$db) die("no DB connection");
+    $db->do_query("delete from credited_job where userid = $user->id");
+    $db->do_query("delete from donation_paypal where userid = $user->id");
+    $db->do_query("delete from banishment_vote where userid = $user->id");
+    $db->do_query("delete from post_ratings where post in ( select id from post where user = $user->id )");
+    $db->do_query("delete from post_ratings where user = $user->id");
+    $db->do_query("delete from msg_from_host where hostid in (select id from host where userid = $user->id )");
+    $db->do_query("delete from msg_to_host where hostid in (select id from host where userid = $user->id )");
+    $db->do_query("delete from sent_email where userid = $user->id");
+    
+    
+    //It is much faster to update results with single query
+    $db->do_query("update result set hostid=0,userid=0 where userid = $user->id");
+    
+    BoincHostAppVersion::delete_for_user($user->id);
+    BoincHost::delete_for_user($user->id);
+
+    // final action
+    delete_user($user);  //from user_util.inc
+    return true;
 }

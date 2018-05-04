@@ -274,6 +274,7 @@ function delete_user($user) {
     BoincCreditUser::delete_user($user);
     BoincBadgeUser::delete("user_id=$user->id");
     BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+    BoincToken::delete_for_user($user->id);
     $user->delete();
 }
 ?>
