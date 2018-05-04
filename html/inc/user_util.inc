@@ -24,6 +24,7 @@ include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/recaptchalib.php");
 require_once("../inc/password_compat/password.inc");
+require_once("../inc/consent.inc");
 
 // Password hash has old format.
 // Update user record with new format
@@ -164,6 +165,15 @@ function validate_post_make_user() {
         }
     }
 
+    // Check if consent to terms of use has been given.
+    if (parse_bool($config, "enable_record_optin_consent")) {
+        $optin = post_str("terms_of_use_optin_consent", true);
+        if (!$optin) {
+            error_page(tra("You have not opted in to our terms of use. Please agree to the terms of use in order to create your account"));
+        }
+        $myconsent = TRUE;
+    }
+
     // see whether the new account should be pre-enrolled in a team,
     // and initialized with its founder's project prefs
     //
@@ -243,6 +253,13 @@ function validate_post_make_user() {
         show_error(
             tra("Couldn't create account").": ".BoincDb::error()
         );
+    }
+
+    if ($myconsent) {
+        $rc = consent_to_termsofuse($user, 1, 1, 0, 'Webreg');
+        if (!$rc) {
+            show_error(tra("database error, please contact site administrators"));
+        }
     }
 
     if (defined('INVITE_CODES')) {

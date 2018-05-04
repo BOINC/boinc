@@ -53,6 +53,8 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
+$config = get_config();
+
 $auth = post_str("account_key", true);
 if ($auth) {
     $name = post_str("name", true);
@@ -67,6 +69,11 @@ if ($auth) {
     $venue = post_str("venue", true);
     $email_addr = post_str("email_addr", true);
     $password_hash = post_str("password_hash", true);
+    $consent_id = post_str("consent_id", true);
+    $consent_settime = post_str("consent_settime", true);
+    $consent_flag = post_str("consent_flag", true);
+    $consent_not_required = post_str("consent_not_required", true);
+    $consent_source = post_str("consent_source", true);
 } else {
     $auth = get_str("account_key");
     $name = get_str("name", true);
@@ -81,6 +88,11 @@ if ($auth) {
     $venue = get_str("venue", true);
     $email_addr = get_str("email_addr", true);
     $password_hash = get_str("password_hash", true);
+    $consent_id = get_str("consent_id", true);
+    $consent_settime = get_str("consent_settime", true);
+    $consent_flag = get_str("consent_flag", true);
+    $consent_not_required = get_str("consent_not_required", true);
+    $consent_source = get_str("consent_source", true);
 }
 
 $user = BoincUser::lookup_auth($auth);
@@ -181,19 +193,67 @@ if ($password_hash) {
     $query .= " passwd_hash='$database_passwd_hash', ";
 }
 
+// Build the query for the consent table. consent_id must be present.
+$cquery = "";
+$now = time();
+if ($consent_id) {
+    $cquery .= "consent_id=$consent_id";
+    if ($consent_settime==1) {
+        $cquery .= ",consent_time=$now";
+    }
+    if ($consent_flag != null) {
+        $cquery .= ",consent_flag=$consent_flag";
+    }
+    if ($consent_not_required != null) {
+        $cquery .= ",consent_not_required=$consent_not_required";
+    }
+    if ($consent_source) {
+        $cquery .= ",source='$consent_source'";
+    }
+    $cquery .= " WHERE userid = $user->id AND consent_id = $consent_id";
+}
+
 if (strlen($query)) {
     // the seti_id=seti_id is to make the query valid,
     // since $query ends with a comma at this point
     //
     $query = "$query seti_id=seti_id";
-    $result = $user->update($query);
-    if ($result) {
-        success("");
-    } else {
+    $result1 = $user->update($query);
+    if (!$result1) {
         xml_error(-1, "database error: ".BoincDb::error());
     }
-} else {
-    success("");
 }
+
+// If optin consent is enabled and there is a consent query, run it
+// as well.
+if ( parse_bool($config, "enable_record_optin_consent") and strlen($cquery) ) {
+    $co = BoincConsent::lookup("userid = $user->id AND consent_id = $consent_id");
+    if (is_null($co)) {
+
+        // Check to see if there is a cooresponding consent_type with
+        // this consent_id, if so insert a new entry for this
+        // consent_id. Otherwise return an error.
+        $ct = BoincConsentType::enum("consent_id = $consent_id");
+        if ($ct) {
+            $rc = consent_to_termsofuse($user, $consent_id, $consent_flag, $consent_not_required, $consent_source, $now);
+            );
+            if (!$rc) {
+                xml_error(-1, "database error: ".BoincDb::error());
+            }
+        }
+        else {
+            xml_error(-1, "database error: consent type $consent_id does not exist");
+        }
+    }
+    else {
+        $result2 = $co->update($cquery);
+        if (!$result2) {
+            xml_error(-1, "database error: ".BoincDb::error());
+        }
+    }
+}
+
+// The equivalent of a 'return 0'.
+success("");
 
 ?>

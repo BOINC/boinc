@@ -113,6 +113,24 @@ function create_account_form($teamid, $next_url) {
             "postal_code"
         );
     }
+
+    // Add terms of use to Web form. User must opt-in by checking the checkbox.
+    $config = get_config();
+    $tou_file = "../../terms_of_use.txt";
+    if (parse_bool($config, "enable_record_optin_consent") and file_exists($tou_file)) {
+        $terms_of_use = trim(file_get_contents($tou_file));
+        if ($terms_of_use) {
+            panel('Terms of Use', function() use($terms_of_use) {
+                echo nl2br($terms_of_use);
+            }
+            );
+            $myitems = array(
+                array("terms_of_use_optin_consent", "", false),
+            );
+            form_checkboxes(tra("Do you agree to the terms of use above?"), $myitems, 'tabindex="0"');
+        }
+    }
+
 }
 
 function login_form($next_url) {
