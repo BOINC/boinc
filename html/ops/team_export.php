@@ -105,7 +105,7 @@ function main() {
     }
     fwrite($f, "</teams>\n");
     fclose($f);
-    if (!rename("temp.xml", "/home/boincadm/boinc/doc/boinc_teams.xml")) {
+    if (!rename("temp.xml", "/home/boincadm/boinc-site/boinc_teams.xml")) {
         echo "Rename failed\n";
     }
     echo "------------ Finished at ".time_str(time())."-------\n";

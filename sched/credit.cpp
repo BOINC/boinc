@@ -524,10 +524,11 @@ int get_pfc(
         }
     }
 
-    // is result from old scheduler that didn't set r.app_version_id correctly?
-    // if so, use WU estimate (this is a transient condition)
+    // is result from old scheduler that didn't set r.app_version_id?
+    // if so, use WU estimate (this is a transient condition
+    // while projects upgrade server software)
     //
-    if (r.app_version_id == 0 || r.app_version_id == 1) {
+    if (r.app_version_id == 0) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%lu] missing app_version_id (%ld): returning WU default %.2f\n",
@@ -648,20 +649,24 @@ int get_pfc(
             r.flops_estimate/1e9
         );
     }
+
     // get app version
+    //
     avp = av_lookup(r.app_version_id, app_versions);
 
     // Sanity check
     // If an app version scale exists, use it.  Otherwise assume 1.
-    double tmp_scale = (avp && (r.app_version_id>1) && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
+    //
+    double tmp_scale = (avp && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
 
     if (raw_pfc*tmp_scale > wu.rsc_fpops_bound) {
-        // This sanity check should be unnecessary becuase we have a maximum
-        // credit grant limit.  With anonymous GPU apps the sanity check often fails
-        // because anonymous GPU scales are often of order 0.01.  That prevents
-        // PFC averages from being updated.  So I've removed the return
-        // statement.
-        //char query[256], clause[256];
+        // This sanity check should be unnecessary because we have a maximum
+        // credit grant limit.
+        // With anonymous GPU apps the sanity check often fails
+        // because anonymous GPU scales are often of order 0.01.
+        // That prevents PFC averages from being updated.
+        // So I've removed the return statement.
+        //
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,

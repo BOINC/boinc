@@ -331,6 +331,9 @@ ul.links li a {
   right: 0;
   text-align: right;
 }
+.subscribe .flag-subscriptions {
+  padding-left: .5em;
+}
 
 .toc {
   background-color: transparent;
@@ -916,9 +919,6 @@ table.user-projects {
 .page-search-site #content {
   width: 650px;
 }
-.page-search-site .framing {
-  padding-bottom: 13px;
-}
 .page-search-site h1.title {
   display: none;
 }
@@ -985,6 +985,9 @@ table.user-projects {
 .search-results .result.user .search-snippet {
   padding-top: 7px;
   margin: 0 0 0 120px;
+}
+.search-help-block {
+  min-height: 54px;
 }
 
 /* Search pane */

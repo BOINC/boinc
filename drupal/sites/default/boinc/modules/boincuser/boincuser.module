@@ -187,6 +187,11 @@ function boincuser_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  $items['boincuser/autocomplete'] = array(
+    'page callback' => '_boincuser_user_name_autocomplete',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -233,7 +238,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       ));
       $account->boincuser_id = $drupal_user->boinc_id;
       $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $boinc_user = db_fetch_object(db_query("
         SELECT
           name,
@@ -378,7 +383,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           $unrestricted_role => ''
         );
         // Set profile data in BOINC db
-        db_set_active('boinc');
+        db_set_active('boinc_rw');
         // TODO: add language, image support; error handling
         $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
         if (!$reference) {
@@ -437,12 +442,37 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $edit['boincuser_name'] = null;
       }
       break;
-      
+
+    case 'delete':
+      // Function is forward compatible to Drupal 7
+      boincuser_user_delete($account);
+      break;
+
     default:
       
     }
   }
 }
+
+/**
+ * Implementation of hook_user_delete(); deletes boinc user data
+ * (forward compatible to Drupal 7).
+ */
+function boincuser_user_delete($account) {
+
+  $boincid = $account->boincuser_id;
+  // bug in comment module, remove user name from comments. Find all
+  // comments with uid=0 and clear the field 'name'.
+  $qrc1 = db_query("UPDATE {comments} SET comments.name='' WHERE comments.uid=0");
+
+  // Keep entry in drupal boincuser table as record of deletion.
+
+  // Delete data in BOINC project user table.
+  db_set_active('boinc_rw');
+  $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id=NULL, user.passwd_hash=NULL, user.signature=NULL WHERE user.id=%d", $boincid);
+  db_set_active('default');
+}
+
 
 /**
  * Implementation of hook_nodeapi(); add custom actions to node operations
@@ -471,7 +501,7 @@ function boincuser_node_update($node) {
     $country = $node->field_country[0]['value'];
     $postal_code = $node->field_zip[0]['value'];
     $url = $node->field_url[0]['value'];
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $account_updated = db_query("
       UPDATE user
       SET country = '%s', postal_code = '%s', url = '%s', has_profile = 1
@@ -485,7 +515,7 @@ function boincuser_node_update($node) {
     // Save profile data
     $response1 = $node->field_background[0]['value'];
     $response2 = $node->field_opinions[0]['value'];
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $profile_updated = db_query("
       INSERT INTO profile
       SET userid = %d, response1 = '%s', response2 = '%s'
@@ -832,15 +862,15 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['submit']['#value'] = bts('Save changes', array(), NULL, 'boinc:form-save');
     $form['submit']['#suffix'] = '</li>';
     $form['submit']['#weight'] = 1002;
-    if (isset($form['delete']) AND is_array($form['delete'])) {
-      $form['delete']['#prefix'] = '<li class="tab">';
-      $form['delete']['#suffix'] = '</li>';
-      $form['delete']['#weight'] = 1003;
-    }
     $form['cancel'] = array(
       '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>',
-      '#weight' => 1004,
+      '#weight' => 1003,
     );
+    if (isset($form['delete']) AND is_array($form['delete'])) {
+      $form['delete']['#prefix'] = '<li class="first alt tab">';
+      $form['delete']['#suffix'] = '</li>';
+      $form['delete']['#weight'] = 1004;
+    }
     $form['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
@@ -859,7 +889,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant / unnecessary form elements
     unset($form['theme_select']);
-    unset($form['delete']);
+    if (!module_exists('boincuser_delete')) {
+      unset($form['delete']);
+    }
     
     // These are on the Community preferences form (boincwork module)
     unset($form['enable_pm_mail']);
@@ -883,7 +915,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
-
     break;
     
   case 'profile_node_form':
@@ -926,7 +957,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['buttons']['delete']['#prefix'] = '<li class="tab">';
     $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#value'] = bts('Clear User Profile', array(), NULL, 'boinc:form-save');
     $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['delete']['#submit'] = array('_boincuser_node_profile_delete_submit');
     $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
@@ -936,9 +969,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
-    
-    // Delete doesn't work, be rid of it
-    unset($form['buttons']['delete']);
     
     unset($form['title']);
     unset($form['body_field']);
@@ -1239,11 +1269,9 @@ function join_page($type = null) {
     }
     else {
       $output .= '<li>' . bts("If you're running a command-line version of BOINC,
-        first use the BOINC Manager software (elsewhere if necessary) to create an
-        an account at this project, then use that account to connect with the
-        command-line version using <b>!boinccmd</b>.",
+        please follow the <b>!instructionslink</b> to first <i>create an account</i>, and then <i>attach</i> to this project. Use the same project URL as above.",
         array(
-          '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
+          '!instructionslink' => l('instructions', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
         ), NULL, 'boinc:join-page') . '</li>';
       $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
         upgrade to a more recent version of BOINC to create an account
@@ -1355,7 +1383,7 @@ function boincuser_home_page() {
  */
 function boincuser_create_account() {
   require_boinc('boinc_db');
-  require_boinc('user');
+  require_boinc('user_util');
   require_boinc('xml');
   $params = array(
     'email_addr' => isset($_GET['email_addr']) ? $_GET['email_addr'] : '',
@@ -1422,6 +1450,10 @@ function boincuser_create_account() {
         if (!$reference) {
           xml_error(-1, 'error connecting BOINC account to Drupal');
         }
+        // Disable show_hosts flag, set to TRUE by default
+        db_set_active('boinc_rw');
+        db_query("UPDATE {user} SET show_hosts=0 WHERE id='%d'", $boinc_user->id);
+        db_set_active('default');
       }
       else {
         // Delete the drupal user just created.
@@ -1482,15 +1514,19 @@ function boincuser_account_finish() {
     }
   }
 
+  // open links in new window
+  $options = array(
+    'attributes' => array( 'target' => '_blank' ),
+  );
+
   // Check moderation page exists
   $moderationpath = drupal_lookup_path('source', variable_get('boinc_weboptions_moderationpage', '') );
   if ( menu_valid_path(array('link_path' => $moderationpath)) ) {
-    $modsentence = bts('Please note: user profiles are subject to @moderation.', array('@moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), 'moderate')), NULL, 'boinc:account-finish');
+    $modsentence = bts('Please note: user profiles are subject to !moderation.', array('!moderation' => l(bts('moderation', array(), NULL, 'boinc:account-finish'), $moderationpath, $options)), NULL, 'boinc:account-finish');
   } else {
     $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
   }
 
-  // @todo - add bts() function calls
   $username = $user->boincuser_name;
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $output = "<p>" . bts('Thank you @user_name for joining @site_name. Your account has been created. Your BOINC client should start working on assigned tasks soon, without any additional action or configuration. Please visit the links below for more information and additional options. (Links will open in a new window.)',
@@ -1499,9 +1535,6 @@ function boincuser_account_finish() {
     '@site_name' => $site_name,
   ), NULL, 'boinc:account-finish') . "</p>";
 
-  $options = array(
-    'attributes' => array( 'target' => '_blank' ),
-  );
   $links = array(
     array(
       'data' => bts('Change your username at !community_preferences.', array(
@@ -2035,4 +2068,33 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
     }
   }
 
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Call backs for private message
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_privatemsg_name_lookup();
+ */
+function boincuser_privatemsg_name_lookup($string) {
+  // Get the BOINC ID from the name string, and lookup the
+  // corresponding drupal user.
+  $boincname = substr($string, 0, strrpos($string, '_'));
+  $boincid = substr($string, strrpos($string, '_') + 1);
+  $drupalid = get_drupal_id($boincid);
+
+  // Name has spaced replaced with special UTF-8 characters in
+  // privatemsg module. We need to convert them back to spaces for the
+  // check below.
+  $boincname = preg_replace("/\\xc2\\xa0/", " ", $boincname);
+  if ($drupalid>0) {
+    if ($recipient = user_load(array('uid' => $drupalid))) {
+      // Double-check that the loaded user matches both boincuser_id
+      // and boincuser_name.
+      if ( ($boincid == $recipient->boincuser_id) AND ($boincname == $recipient->boincuser_name) ) {
+        return $recipient;
+      }
+    }
+  }
 }

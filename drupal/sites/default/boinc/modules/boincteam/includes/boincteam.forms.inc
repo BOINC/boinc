@@ -450,7 +450,7 @@ function boincteam_edit_form_submit($form, &$form_state) {
   $values['description'] = check_markup($values['description'], $input_format);
   
   // Update the team in the BOINC db
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     UPDATE {team} SET
       name = '%s',
@@ -516,15 +516,17 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   $form_state['storage']['team_id'] = $team_id;
   
   $default = array(
-    'email' => '',
+    'username' => '',
   );
   
   // Form elements
-  $form['email'] = array(
-    '#title' => bts('Enter email address', array(), NULL, 'boinc:team--add-admin'),
+  $form['username'] = array(
+    '#title' => bts('Enter BOINC username', array(), NULL, 'boinc:team--add-admin'),
+    '#description' => bts('The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.'),
     '#type' => 'textfield',
-    '#default_value' => $default['email'],
+    '#default_value' => $default['username'],
     '#size' => 34,
+    '#autocomplete_path' => "community/teams/${team_id}/user-name-autocomplete",
   );
   
   // Form control
@@ -553,19 +555,24 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
 
   $team_id = $form_state['storage']['team_id'];
   $values = $form_state['values'];
-  
   $team = node_load($team_id);
   
-  if (!$values['email']) {
-    form_set_error('email', bts('Email address is required.', array(), NULL, 'boinc:team-add-admin'));
+  if (!$values['username']) {
+    form_set_error('username', bts('BOINC username is required.', array(), NULL, 'boinc:team-add-admin'));
   }
   else {
-    $account = user_load(array('mail' => $values['email']));
+    // Load user account associated with username
+    $account = boincuser_privatemsg_name_lookup($values['username']);
+    // Validate the account
     if ((!$account) OR ($account->team != $team_id)) {
-      form_set_error('email', bts('There is no user on your team with that email address.', array(), NULL, 'boinc:team-add-admin'));
+      form_set_error('username', bts('There is no user on your team with name @username.',
+        array(
+          '@username' => $account->boincuser_name
+        ),
+      NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_founder($team_id, $account->uid)) {
-      form_set_error('email', bts('@user is the founder of @team!',
+      form_set_error('username', bts('@user is the founder of @team! Team founder already have all admin privileges.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
@@ -573,7 +580,7 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
         NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_admin($team_id, $account->uid)) {
-      form_set_error('email', bts('@user is already an admin of @team.',
+      form_set_error('username', bts('@user is already an admin of @team.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
@@ -601,7 +608,7 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
   $boincteam_id = boincteam_lookup_id($team_id);
   
   // Update the team in the BOINC db
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     INSERT INTO {team_admin} SET
       teamid = '%d',

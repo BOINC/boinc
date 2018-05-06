@@ -182,6 +182,8 @@ struct SCHED_CONFIG {
         // store per-app credit info in credit_user and credit_team
     bool keyword_sched;
         // score jobs based on keywords
+    bool rte_no_stats;
+        // don't use statistics in job runtime estimation
 
     // time intervals
     double maintenance_delay;

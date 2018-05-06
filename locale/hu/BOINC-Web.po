@@ -1,13 +1,11 @@
-# BOINC web translation
-# Copyright (C) 2008-2009 University of California
+# BOINC website localization template
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
-# FileID  : $Id$
-# 
 # Translators:
 # fischer braun <fischer.braun@gmx.net>, 2015
-# Gabor Cseh <csega@mailbox.hu>, 2015-2016
+# Gabor Cseh <csega@mailbox.hu>, 2015-2018
 # misibacsi, 2015
 # misibacsi, 2015
 # PB <regisztralo111@gmail.com>, 2015
@@ -16,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-19 12:07+0000\n"
+"POT-Creation-Date: 2017-07-04 11:20 UTC\n"
+"PO-Revision-Date: 2018-02-06 11:27+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -27,143 +25,352 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: docutil.php:21
+msgid "LANG_NAME_NATIVE"
+msgstr "Magyar"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Hungarian"
+
+#: doc/account_managers.inc:7
+msgid ""
+"BAM! assists you in creating and managing your BOINC project accounts and "
+"helps you with setting preferences, joining or creating teams, connecting "
+"your computers to projects, and much more.  Whether you're a new or an "
+"existing BOINC user, BAM will help you get the most out of BOINC."
+msgstr "A BAM! segítségével könnyebben hozhatsz létre és kezelheted a már meglévő BOINC projekt fiókjaidat és beállításaidat, könnyebben csatlakozhatsz más csapatokhoz, vagy hozhatsz létre sajátot, egyszerűbben csatlakoztathatod számítógépeidet a projektekhez, és ez még nem minden! Akár új, akár korábbi BOINC felhasználó vagy, a BAM segít a legtöbbet kihozni a BOINC-ból. "
+
+#: doc/account_managers.inc:13
+msgid ""
+"GridRepublic members run a screensaver that allows their computers to work "
+"on public-interest research projects when the machines are not otherwise in "
+"use. This screensaver does not affect performance of the host computer any "
+"more than an ordinary screensaver does."
+msgstr "A GridRepublic tagjai egy képernyővédőt futtatnak, ami lehetővé teszi, hogy a számítógépeik közérdekű kutatási projektekben vegyenek részt, amikor a gépeiket ők nem használják. Ez  a képernyővédő nem befolyásolja jobban a gazdagép teljesítményét, mint egy rendes képernyővédő tenné."
+
+#: doc/docutil.php:21
 msgid "Search"
 msgstr "Keresés"
 
-#: docutil.php:103
+#: doc/docutil.php:107
 msgid "Return to BOINC main page"
 msgstr "Vissza a BOINC főoldalára"
 
-#: docutil.php:114
+#: doc/docutil.php:118
 #, php-format
 msgid "This page is %stranslatable%s."
 msgstr "Ez az oldal %slefordítható%s."
 
-#: download.php:42
-msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "Javasoljuk, hogy telepítsd a VirtualBoxot is, így a számítógéped részt tud venni azon a tudományos projektekben is, melyek futásához ez a szoftver elengedhetetlen."
-
-#: download.php:44
-msgid "Learn more about VirtualBox."
-msgstr "Tudj meg többet a VirtualBoxról."
-
-#: download.php:52
-msgid "Download BOINC + VirtualBox"
-msgstr "A BOINC + VirtualBox letöltése"
-
-#. "for %s" identifies the operating system, e.g. "for Windows"
-#: download.php:56 download.php:71
-#, php-format
-msgid "for %s"
-msgstr "%s rendszerre"
-
-#: download.php:59 download.php:74
-#, php-format
-msgid "BOINC %s"
-msgstr "BOINC %s"
-
-#: download.php:61
-#, php-format
-msgid "VirtualBox %s"
-msgstr "VirtualBox %s"
-
-#: download.php:69
-msgid "Download BOINC"
-msgstr "A BOINC letöltése"
-
-#: download.php:133
+#: doc/download.php:42
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "A BOINC egy program, amellyel a számítógéped üresjárati idejét olyan tudományos projekteknek adományozhatod, mint a SETI@home, a Climateprediction.net, a Rosetta@home, a Word Community Grid és még sok másik."
 
-#: download.php:135
+#: doc/download.php:44
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "A BOINC számítógépedre történő telepítése után annyi projekthez csatlakozhatsz, amennyihez jól esik."
 
-#: download.php:137
+#: doc/download.php:46
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Csak olyan számítógépeken futtasd ezt a szoftvert, ahol te vagy a tulajdonos, vagy rendelkezel a tulajdonos engedélyével."
 
-#: download.php:142
+#: doc/download.php:51
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Javasoljuk, hogy a BOINC-ot ne innen töltsd le, hanem inkább a Google Play Store-ból, vagy az Amazon Appstore-ból."
 
-#: download.php:177
+#: doc/download.php:86
 msgid "System requirements"
 msgstr "Rendszerigény"
 
-#: download.php:178
+#: doc/download.php:87
 msgid "Release notes"
 msgstr "Verzióinformáció"
 
-#: download.php:179 index.php:93
+#: doc/download.php:88 doc/index.php:122
 msgid "Help"
 msgstr "Segítség"
 
-#: download.php:180
+#: doc/download.php:89
 msgid "All versions"
 msgstr "Összes verzió"
 
-#: download.php:181
+#: doc/download.php:90
 msgid "Version history"
 msgstr "Verziótörténet"
 
-#: download.php:182
+#: doc/download.php:91
 msgid "GPU computing"
 msgstr "GPU számítás"
 
-#: download.php:200
+#: doc/download.php:111
 msgid "BOINC: compute for science"
 msgstr "BOINC: számítás a tudományért"
 
-#: help.php:12
-#, php-format
-msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who"
-" can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
-msgstr "A BOINC Online Segítség lehetőséget biztosít olyan tapasztalt felhasználókkal való személyes beszélgetésre, akik %s megválaszolják a BOINC-ra vonatkozó és az önkéntes részvétellel kapcsolatos kérdéseid; %s végigvezetnek a BOINC telepítésének és használatának folyamatán; %s segítenek a felmerülő problémák megoldásában."
+#: doc/index.php:29
+msgid "Computing power"
+msgstr "Számítási teljesítmény"
 
-#: help.php:21
-#, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system."
-" Skype is free (both the software and the calls).  If you don't already have"
-" Skype, please %sdownload and install it now%s.  When you're finished, "
-"return to this page."
-msgstr "A BOINC Online Segítség alapja a %sSkype%s, egy internetes telefonrendszer. A Skype ingyenes (a szoftver és a hívások is). Ha még nincs meg a Skype, kérlek %stöltsd le és telepítsd most%s. Ha ezzel végeztél, térj vissza erre az oldalra."
+#: doc/index.php:37
+msgid "Top 100 volunteers"
+msgstr "A 100 legjobb önkéntes"
 
-#: help.php:28
-msgid ""
-"The best way to get help is by voice, for which you need either built-in "
-"microphone and speakers or an external headset for your computer.  You can "
-"also use Skype's text-based chat system or regular email (if you don't have "
-"Skype) to communicate with Help Volunteers."
-msgstr "Szóban a legjobb segítséget kapni, de ehhez szükséged lesz egy beépített mikrofonra és hangszórókra, vagy egy külső headsetre a számítógépeden. Használhatod a Skype szövegalapú csevegő rendszerét is, vagy (ha nincs Skype-od) emailen keresztül is kommunikálhatsz az önkéntes segítőkkel."
+#: doc/index.php:38
+msgid "Statistics"
+msgstr "Statisztika"
 
-#: help.php:31
-msgid ""
-"Volunteers speaking several languages are available. Please select a "
-"language:"
-msgstr "Önkénteseink számos különböző nyelven beszélnek. Kérlek válassz egy nyelvet:"
+#: doc/index.php:67
+msgid "24-hour average:"
+msgstr "24 órás átlag:"
 
-#: help.php:47
+#: doc/index.php:67
+msgid "PetaFLOPS."
+msgstr "PetaFLOPS."
+
+#: doc/index.php:69
+msgid "Active:"
+msgstr "Aktív:"
+
+#: doc/index.php:69
+msgid "volunteers,"
+msgstr "önkéntes,"
+
+#: doc/index.php:69
+msgid "computers.\n"
+msgstr "számítógép.\n"
+
+#: doc/index.php:76
+msgid "News"
+msgstr "Hírek"
+
+#: doc/index.php:81
+msgid "Database not available; please try again later."
+msgstr "Az adatbázis nem elérhető; kérjük, később próbáld újra."
+
+#. "Volunteer" is used as a verb
+#: doc/index.php:90
+msgid "Volunteer"
+msgstr "Önkéntes"
+
+#: doc/index.php:92
+msgid ""
+"Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
+" diseases, study global warming, discover pulsars, and do many other types "
+"of scientific research.  It's safe, secure, and easy:"
+msgstr "Használd (Windows, Mac, Linux vagy Android rendszerű) számítógéped üresjárati idejét betegségek gyógyítására, a globális felmelegedés tanulmányozására, pulzárok felfedezésére és sok más egyéb tudományos kutatás előmozdítására. Mindez veszélytelen, biztonságos és könnyű:"
+
+#: doc/index.php:95
+msgid "Download"
+msgstr "Letöltés"
+
+#: doc/index.php:98
+msgid ""
+"For Android devices, get the BOINC app from the Google Play Store; for "
+"Kindle, get it from the Amazon App Store."
+msgstr "A BOINC appot Android eszközökre a Google Play Áruházból, Kindle-re pedig az Amazon App Áruházból töltheted le."
+
+#: doc/index.php:102
+msgid ""
+"You can choose to support %1 projects %2 such as %3, %4, and %5, among many "
+"others."
+msgstr "Támogathatsz különböző %1 projekteket %2, mint például a(z) %3, %4 és %5, valamint ezeken kívül még sok mást is."
+
+#: doc/index.php:109
+msgid ""
+"If you run several projects, try an %1 account manager %2 such as %3 "
+"GridRepublic %4 or %5 BAM! %6. "
+msgstr "Ha több projektet is futtatsz, próbálj ki egy %1 fiókkezelőt %2, mint például a %3 GridRepublic %4, vagy a %5 BAM! %6."
+
+#: doc/index.php:116
+msgid "Learn more:"
+msgstr "Tudj meg többet:"
+
+#: doc/index.php:119
+msgid "Message boards"
+msgstr "Üzenőfalak"
+
+#: doc/index.php:120
+msgid "Projects"
+msgstr "Projektek"
+
+#: doc/index.php:121
+msgid "Manual"
+msgstr "Kézikönyv"
+
+#: doc/index.php:123
+msgid "Add-ons"
+msgstr "Kiegészítők"
+
+#: doc/index.php:124
+msgid "Links"
+msgstr "Linkek"
+
+#: doc/index.php:129
+msgid "Other ways to help:"
+msgstr "Segíthetsz más módon is:"
+
+#: doc/index.php:132
+msgid "Overview"
+msgstr "Áttekintés"
+
+#: doc/index.php:133
+msgid "Translate"
+msgstr "Fordítás"
+
+#: doc/index.php:134
+msgid "Test"
+msgstr "Tesztelés"
+
+#: doc/index.php:135
+msgid "Document"
+msgstr "Dokumentáció"
+
+#: doc/index.php:136
+msgid "Publicize"
+msgstr "Népszerűsítés"
+
+#: doc/index.php:137
+msgid "Report bugs"
+msgstr "Hibák bejelentése"
+
+#: doc/index.php:147
+msgid "High-throughput computing with BOINC"
+msgstr "Nagysebességű számítás BOINC-cal"
+
+#: doc/index.php:150
+msgid ""
+"%1 Scientists %2: use BOINC to create a %3 volunteer computing project %4, "
+"giving you the power of thousands of CPUs and GPUs."
+msgstr "%1 Kutatók %2: a BOINC segítségével %3 önkéntes számítási projektek %4 hozhatók létre, CPU-k és GPU-k ezreinek teljesítményét adva."
+
+#: doc/index.php:154
+msgid ""
+"%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
+"Center %4."
+msgstr "%1 Egyetemek %2: a BOINC segítségével létrehozható a %3 Kampusz Virtuális Szuperszámítási Központja %4."
+
+#: doc/index.php:159
+msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
+msgstr "%1 Cégek %2: a BOINC remekül használható %3 asztali Grid számítások %4 elvégzéséhez."
+
+#: doc/index.php:164
+msgid "Documentation"
+msgstr "Dokumentáció"
+
+#: doc/index.php:165
+msgid "BOINC and Docker"
+msgstr "BOINC és Docker"
+
+#: doc/index.php:173
+msgid "Software development"
+msgstr "Szoftverfejlesztés"
+
+#: doc/index.php:176
+msgid ""
+"BOINC is a software platform for volunteer computing. It includes client, "
+"server, and web components, and APIs for connecting other components."
+msgstr "A BOINC egy szoftveres felület az önkéntes számításokhoz. Tartalmaz kliens, szerver, és webkomponenseket is, valamint egy API-t további komponensek csatlakoztatásához."
+
+#: doc/index.php:179
+msgid "Source code"
+msgstr "Forráskód"
+
+#: doc/index.php:180
+msgid "Building BOINC"
+msgstr "A BOINC szoftver fordítása"
+
+#: doc/index.php:182
+msgid "Design documents"
+msgstr "Tervdokumentumok"
+
+#: doc/index.php:185
+msgid ""
+"We're always looking for programmers to help us maintain and develop BOINC."
+msgstr "Mindig szükségünk van programozók segítségére a BOINC fenntartásához és továbbfejlesztéséhez."
+
+#: doc/index.php:188
+msgid "Development process"
+msgstr "A fejlesztési folyamat"
+
+#: doc/index.php:189
+msgid "Development tasks"
+msgstr "Fejlesztési feladatok"
+
+#: doc/index.php:192
+msgid "BOINC is distributed under the LGPL open-source license."
+msgstr "A BOINC-ot az LGPL nyílt forráskódú licenc alapján adjuk közre."
+
+#: doc/index.php:200
+msgid "The BOINC project"
+msgstr "A BOINC projekt"
+
+#: doc/index.php:203
+msgid ""
+"BOINC is a community-based project.  Everyone is welcome to participate."
+msgstr "A BOINC egy közösségi alapú projekt. Minden érdeklődőt szívesen látunk."
+
+#: doc/index.php:207
+msgid "Email lists"
+msgstr "Levelezőlisták"
+
+#: doc/index.php:208
+msgid "Events"
+msgstr "Események"
+
+#: doc/index.php:209
+msgid "Graphics"
+msgstr "Grafika"
+
+#: doc/index.php:210
+msgid "Governance"
+msgstr "Vezetőség"
+
+#: doc/help.php:7
+msgid "Live help via Skype or email"
+msgstr "Azonnali segítség Skype-on, vagy emailben"
+
+#: doc/help.php:11
+msgid ""
+"BOINC Live Help lets get one-on-one help from an experienced BOINC user, who"
+" can answer questions about BOINC, help you install and use BOINC, and "
+"troubleshoot problems."
+msgstr "A BOINC élő segítség lehetővé teszi, hogy azonnali segítséget kapj egy tapasztalt BOINC felhasználótól, aki meg tudja válaszolni a BOINC-cal kapcsolatos kérdéseidet, segít telepíteni és használni a BOINC-ot, és segít a problémák megoldásában is."
+
+#: doc/help.php:14
+msgid "You can communicate with a helper"
+msgstr "Segítővel kommunikálhatsz"
+
+#: doc/help.php:16
+msgid "by email"
+msgstr "emailben"
+
+#: doc/help.php:18
+msgid ""
+"\n"
+"by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page."
+msgstr "\nélő szóban a %1 Skype %2, egy ingyenes, Internetalapú telefonrendszer használatával. Ha még nincsen Skype-od, %3 most letöltheted és telepítheted %4. Ha végeztél a telepítéssel, térj vissza erre az oldalra."
+
+#: doc/help.php:25
+msgid "using Skype chat"
+msgstr "Skype csevegés használatával"
+
+#: doc/help.php:28
+msgid ""
+"Volunteers speaking many languages are available. Please select a language "
+"(number of helpers is shown):"
+msgstr "Több nyelvhez is rendelkezésre állnak önkéntesek. Kérjük, válassz ki egy nyelvet (a segítők számát is kiírtuk):"
+
+#: doc/help.php:43
 msgid "Be a Help Volunteer"
 msgstr "Légy önkéntes segítő"
 
-#: help.php:50
+#: doc/help.php:46
 #, php-format
 msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
@@ -171,215 +378,118 @@ msgid ""
 "volunteer computing - and it's fun!"
 msgstr "Ha tapasztalt BOINC felhasználó vagy, bátran %sjelentkezz önkéntes segítőnek%s. Ez egy nagyszerű lehetőség a tudományos kutatások és az önkéntes számítási rendszer ügyének elősegítésére - és szórakoztató is!"
 
-#: help.php:56
+#: doc/help.php:52
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "Ha már önkéntes segítő vagy: a beállításaid szerkesztéséhez %skattints ide%s."
 
-#: help_funcs.php:136
+#: doc/help_funcs.php:136
 msgid ""
-"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
-"or the University of California."
-msgstr "A BOINC segítők nem fizetett alkalmazottak. Tanácsaikért sem a BOINC, sem a Kaliforniai Egyetem nem vállal felelősséget."
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC."
+msgstr "A BOINC segítők fizetés nélküli önkéntesek. Tanácsaikat a BOINC előzetesen nem hagyta jóvá."
 
-#: help_funcs.php:139
-msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1Soha%2 ne add ki email címed vagy jelszó információid a BOINC segítőknek."
-
-#: index.php:24
-msgid "Computing power"
-msgstr "Számítási teljesítmény"
-
-#: index.php:26
-msgid "Top 100 volunteers"
-msgstr "A 100 legjobb önkéntes"
-
-#: index.php:27
-msgid "Statistics"
-msgstr "Statisztika"
-
-#: index.php:55
-msgid "Active:"
-msgstr "Aktív:"
-
-#: index.php:55
-msgid "volunteers,"
-msgstr "önkéntes,"
-
-#: index.php:55
-msgid "computers.\n"
-msgstr "számítógép.\n"
-
-#: index.php:56
-msgid "24-hour average:"
-msgstr "24 órás átlag:"
-
-#: index.php:56
-msgid "PetaFLOPS."
-msgstr "PetaFLOPS."
-
-#: index.php:68
-msgid "News"
-msgstr "Hírek"
-
-#. "Volunteer" is used as a verb
-#: index.php:89
-msgid "Volunteer"
-msgstr "Önkéntes"
-
-#: index.php:92
-msgid "Download"
-msgstr "Letöltés"
-
-#: index.php:94 index.php:138
-msgid "Documentation"
-msgstr "Dokumentáció"
-
-#: index.php:95
-msgid "Add-ons"
-msgstr "Kiegészítők"
-
-#: index.php:96
-msgid "Links"
-msgstr "Linkek"
-
-#: index.php:101
+#: doc/help_funcs.php:139
 msgid ""
-"Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
-" diseases, study global warming, discover pulsars, and do many other types "
-"of scientific research.  It's safe, secure, and easy:"
-msgstr "Használd (Windows, Mac, Linux vagy Android rendszerű) számítógéped üresjárati idejét betegségek gyógyítására, a globális felmelegedés tanulmányozására, pulzárok felfedezésére és sok más egyéb tudományos kutatás előmozdítására. Mindez veszélytelen, biztonságos és könnyű:"
+"%1 Never %2 give email address or password information to BOINC helpers."
+msgstr "%1 Soha %2 ne add meg az email címed és/vagy a jelszavad a BOINC segítőknek."
 
-#: index.php:103
-msgid "Choose projects"
-msgstr "Válassz projektet"
+#: doc/projects.php:151
+msgid "Unknown"
+msgstr "Ismeretlen"
 
-#: index.php:104
-msgid "Download BOINC software"
-msgstr "A BOINC szoftver letöltése"
+#: doc/download_util.inc:88
+msgid ""
+"We recommend that you also install %1 VirtualBox %2, so your computer can "
+"work on science projects that require it."
+msgstr "Javasoljuk, hogy telepítsd a %1 VirtualBox-ot %2 is, így a számítógéped olyan projekteken is tud dolgozni, amik ezt a szoftvert használják."
 
-#: index.php:105
-msgid "Enter an email address and password."
-msgstr "Add meg az email címed és egy jelszót."
+#: doc/download_util.inc:90
+msgid "Learn more about VirtualBox."
+msgstr "Tudj meg többet a VirtualBoxról."
 
-#: index.php:109
+#: doc/download_util.inc:104
+msgid "Download BOINC + VirtualBox"
+msgstr "A BOINC + VirtualBox letöltése"
+
+#. "for %s" identifies the operating system, e.g. "for Windows"
+#: doc/download_util.inc:108 doc/download_util.inc:124
 #, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as "
-"%sGridRepublic%s or %sBAM!%s. "
-msgstr "Ha több projektben is részt veszel, próbálj ki egy %sfiókkezelőt%s, mint például a %sGridRepublic%s vagy a %sBAM!%s."
+msgid "for %s"
+msgstr "%s rendszerre"
 
-#: index.php:136
-msgid "Compute with BOINC"
-msgstr "Számítás a BOINC segítségével"
+#: doc/download_util.inc:111 doc/download_util.inc:127
+#, php-format
+msgid "BOINC %s"
+msgstr "BOINC %s"
 
-#: index.php:139
-msgid "Software updates"
-msgstr "Szoftverfrissítések"
+#: doc/download_util.inc:113
+#, php-format
+msgid "VirtualBox %s"
+msgstr "VirtualBox %s"
 
-#: index.php:146
-msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
-"giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Tudósok%2: a BOINC segítségével %3önkéntes számítási projektek%4 hozhatók létre, CPU-k és GPU-k ezreinek teljesítményét adva."
+#: doc/download_util.inc:122
+msgid "Download BOINC"
+msgstr "A BOINC letöltése"
 
-#: index.php:150
-msgid ""
-"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
-"Center%4."
-msgstr "%1Egyetemek%2: A BOINC használata %3Virtuális Szuperszámítóközpont%4 létrehozásához."
-
-#: index.php:155
-msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Vállalatok%2: A BOINC használata %3asztali Grid számítások%4 létrehozásához."
-
-#: index.php:167
-msgid "About BOINC"
-msgstr "A BOINC-ról"
-
-#: index.php:181
-msgid "Message boards"
-msgstr "Üzenőfalak"
-
-#: index.php:182
-msgid "Email lists"
-msgstr "Levelezőlisták"
-
-#: index.php:183
-msgid "Events"
-msgstr "Események"
-
-#: index.php:184
-msgid "Source code"
-msgstr "Forráskód"
-
-#: index.php:186
-msgid "APIs for add-on software"
-msgstr "API-k kiegészítő szoftverekhez"
-
-#: index.php:231
-msgid "Open-source software for volunteer computing"
-msgstr "Nyílt-forráskódú szoftver az önkéntes számításokhoz"
-
-#: projects.inc:19
+#: doc/projects.inc:17
 msgid "Distributed sensing"
 msgstr "Elosztott érzékelés"
 
-#: projects.inc:24
-msgid "Stanford University"
-msgstr "Stanford Egyetem"
+#: doc/projects.inc:22
+msgid "University of Southern California"
+msgstr "Dél-Kaliforniai Egyetem"
 
-#: projects.inc:25
+#: doc/projects.inc:23
 msgid "Seismology"
 msgstr "Szeizmológia"
 
-#: projects.inc:26
+#: doc/projects.inc:24
 msgid ""
-"Quake-Catcher Network is developing the world's largest seismic network "
-"using sensors attached to computers and smartphones."
-msgstr "A Quake-Catcher Network az internethez csatlakoztatott számítógépekre szerelt érzékelők segítségével a világ legnagyobb szeizmikus hálózatát fejleszti ki."
+"Quake-Catcher Network uses sensors attached to computers and smartphones to "
+"detect seismic waves."
+msgstr "A Quake-Catcher Network számítógépekhez és okostelefonokhoz kapcsolt szenzorokat használ a szeizmikus hullámok észleléséhez."
 
-#: projects.inc:34
+#: doc/projects.inc:32
 msgid "BOINC Poland Foundation"
 msgstr "BOINC Lengyelország Alapítvány"
 
-#: projects.inc:35
+#: doc/projects.inc:33
 msgid "Environmental research"
 msgstr "Környezeti kutatás"
 
-#: projects.inc:36
+#: doc/projects.inc:34
 msgid ""
 "Radioactive@Home is creating a free and continuously updated map of "
 "radiation levels using sensors connected to volunteers' computers.  You must"
 " buy a sensor to participate."
 msgstr "A Radioactive@Home projekt célja egy ingyenes és folyamatosan frissülő sugárzási térkép létrehozása a résztvevő számítógépekhez kapcsolt érzékelők adatai alapján. A részvételhez vásárolnod kell egy érzékelőt."
 
-#: projects.inc:45
+#: doc/projects.inc:43
 msgid "Cognitive science and artifical intelligence"
 msgstr "Kognitív tudomány és mesterséges intelligencia"
 
-#: projects.inc:51
+#: doc/projects.inc:49
 msgid "Cognitive Science"
 msgstr "Kognitív Tudomány"
 
-#: projects.inc:52
+#: doc/projects.inc:50
 msgid ""
 "MindModeling@Home uses computational cognitive process modeling to better "
 "understand the human mind, and specifically to study the mechanisms and "
 "processes that enable and moderate human performance and learning."
 msgstr "A MindModeling@Home a kognitív folyamatok számítógépes modellezését végzi az emberi elme jobb megértése érdekében, különös tekintettel az emberi teljesítményt és tanulást lehetővé tevő, illetve azt mérséklő mechanizmusok és folyamatok tanulmányozására."
 
-#: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
-#: projects.inc:657
-msgid "Private"
-msgstr "Magán"
+#: doc/projects.inc:68 doc/projects.inc:474 doc/projects.inc:598
+#: doc/projects.inc:608 doc/projects.inc:664
+msgid "Independent"
+msgstr "Független"
 
-#: projects.inc:71
+#: doc/projects.inc:69
 msgid "Artificial intelligence"
 msgstr "Mesterséges intelligencia"
 
-#: projects.inc:72
+#: doc/projects.inc:70
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -387,72 +497,55 @@ msgid ""
 "conversations."
 msgstr "Szemantikus hálók feldolgozása és konvertálása a FreeHAL-hoz, egy mesterséges intelligenciához, amely szemantikus hálózatokat, szótő keresést, szófaj adatbázisokat, szövegkörnyezet vizsgálatot használ, hogy imitálja az emberi viselkedést a párbeszédekben."
 
-#: projects.inc:82
+#: doc/projects.inc:80
 msgid "Biology and Medicine"
 msgstr "Biológia és orvostudomány"
 
-#: projects.inc:88
+#: doc/projects.inc:86
 msgid "Medical physiology"
 msgstr "Orvosi élettan"
 
-#: projects.inc:89
+#: doc/projects.inc:87
 msgid ""
 "DENIS@Home does cardiac electrophysiological simulations, studying the "
 "electrical activity of the heart."
 msgstr "A DENIS@Home szív-elektrofiziológiai szimulációkkal tanulmányozza a szív elektromos tevékenységét."
 
-#: projects.inc:98
+#: doc/projects.inc:96
 msgid "Molecular biology"
 msgstr "Molekuláris biológia"
 
-#: projects.inc:99
+#: doc/projects.inc:97
 msgid ""
 "RNA World seeks to identify, analyze, structurally predict and design RNA "
 "molecules on the basis of established bioinformatics software."
 msgstr "Az RNA World célja RNS molekulák azonosítása, elemezése, strukturális előrejelzése és tervezése szilárd alapokon nyugvó bioinformatikai szoftverek használatával."
 
-#: projects.inc:107
+#: doc/projects.inc:105
 msgid "University College Dublin"
 msgstr "University College Dublin"
 
-#: projects.inc:108
+#: doc/projects.inc:106
 msgid "Antimalarial drug discovery"
 msgstr "Maláriaellenes gyógyszerfelfedezés"
 
-#: projects.inc:109
+#: doc/projects.inc:107
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available"
 " medication. We therefore urgently need to discover new drugs, targeting new"
-" proteins in the parasite. The FightNeglectedDiseases@Home project is aimed "
-"at finding these new targets."
-msgstr "A maláriát okozó élősködő folyamatosan fejlődik, ellenállóvá válva az elérhető gyógyszerekkel szemben. Ezért sürgősen fel kell fedeznünk új gyógyszereket, melyek az élősködőben lévő új fehérjéket célozzák meg. A FightNeglectedDieases@Home projekt ezeket szeretné megtalálni."
+" proteins in the parasite. The FiND@Home project is aimed at finding these "
+"new targets."
+msgstr "A maláriát okozó parazita folyamatosan továbbfejleszti ellenállóságát az elérhető gyógyszerekkel szemben. Ezért sürgősen fel kell fedeznünk új gyógyszereket, melyek a parazitákban kialakuló új fehérjéket célozzák meg. A FiND@Home projekt célja ezen új proteinek megtalálása."
 
-#: projects.inc:117
-msgid "University of Karlsruhe (Germany)"
-msgstr "Karlsruhe-i Egyetem (Németország)"
-
-#: projects.inc:118
-msgid "Protein structure prediction"
-msgstr "Fehérjestruktúra előrejelzés"
-
-#: projects.inc:119
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "A POEM@HOME egy olyan számítási megközelítést használ, aminek segítségével igyekszik előre jelezni adott összetételű fehérjék biológiailag aktív szerkezetét, megérteni a kölcsönhatásuk során lezajló jelfeldolgozási mechanizmusokat, megismerni a fehérjék helytelen működése vagy felhalmozódása miatt kialakuló betegségeket, illetve az élettani szempontból lényeges fehérjék háromdimenziós szerkezete alapján új gyógyszereket kifejleszteni."
-
-#: projects.inc:147
+#: doc/projects.inc:145
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Barcelonai Orvosbiológiai Kutatópark (PRBB)"
 
-#: projects.inc:148
+#: doc/projects.inc:146
 msgid "Molecular simulations of proteins"
 msgstr "Fehérjék molekuláris szimulációja"
 
-#: projects.inc:149
+#: doc/projects.inc:147
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -460,50 +553,15 @@ msgid ""
 "computational biology for biomedical research."
 msgstr "A GPUGrid.net új számítási utakat nyit a speciálisan NVIDIA GPU-ra optimalizált, első teljes-atomos molekuladinamikai kód (CellMD) révén. Általa új orvosbiológiai alkalmazások váltak hirtelen elérhetővé, ezzel új szerepet adva a biológiai számítástudománynak az orvosbiológiai kutatások területén."
 
-#: projects.inc:175
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "Maryland Egyetem Bioinformatikai és Biomodellezési Központ"
-
-#: projects.inc:176
-msgid "Life science research"
-msgstr "Élettudományok kutatása"
-
-#: projects.inc:177
-msgid ""
-"The Lattice Project, developed and administered at the University of "
-"Maryland, supplies computing power to researchers worldwide who are studying"
-" evolutionary relationships using DNA and protein sequence data."
-msgstr "A Maryland-i Egyetemen fejlesztett és igazgatott The Lattice Project azoknak a kutatóknak biztosít számítási teljesítményt szerte a világon, akik evolúciós kapcsolatokat tanulmányoznak a DNS, és fehérjesorozatok adatainak felhasználásával."
-
-#: projects.inc:185
-msgid "The Swiss Tropical Institute"
-msgstr "A Svájci Trópusi Intézet"
-
-#: projects.inc:186
-msgid "Epidemiology"
-msgstr "Járványtan"
-
-#: projects.inc:187
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "A malária egészségre való hatásának, illetve terjedési dinamizmusának szimulációs modellezése a malária megfékezésének fontos eszköze. Az eredmények felhasználhatók a szúnyoghálók szállítási stratégiájának, a kemoterápia vagy az új, még fejlesztés és tesztelés alatt álló védőoltások megfelelő megtervezéséhez. Ez a modellezés azonban rendkívül számításigényes, hiszen nagy emberpopulációkat kell szimulálnia, méghozzá a fertőzés terjedését befolyásoló számos élettani és társadalmi tényező függvényében."
-
-#: projects.inc:211
+#: doc/projects.inc:209
 msgid "University of Washington"
 msgstr "Washingtoni Egyetem"
 
-#: projects.inc:212
+#: doc/projects.inc:210
 msgid "Biology"
 msgstr "Biológia"
 
-#: projects.inc:213
+#: doc/projects.inc:211
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -513,19 +571,19 @@ msgid ""
 "cancer, and Alzheimer's"
 msgstr "Kutatásunk célja a fehérjék háromdimenziós alakjának meghatározása, amely végül egyes jelentős emberi betegségek gyógyszereinek felfedezéséhez vezethet. A Rosetta@home futtatásával segíthetsz kutatásunk olyan mértékű felgyorsításában és kiterjesztésében, amire a segítséged nélkül bizonyosan képtelenek volnánk. Egyúttal olyan fehérjék megtervezését célzó kutatásunkat is segítheted, amelyek például a HIV, a malária, a rák vagy az Alzheimer-kór leküzdéséhez járulhatnak hozzá."
 
-#: projects.inc:231
+#: doc/projects.inc:229
 msgid "Earth Sciences"
 msgstr "Földtudományok"
 
-#: projects.inc:243
+#: doc/projects.inc:241
 msgid "Oxford University"
 msgstr "Oxfordi Egyetem"
 
-#: projects.inc:244
+#: doc/projects.inc:242
 msgid "Climate study"
 msgstr "Klímakutatás"
 
-#: projects.inc:245
+#: doc/projects.inc:243
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -537,25 +595,16 @@ msgid ""
 "century under a wide range of different scenarios."
 msgstr "A projekt olyan közelítéseket vizsgál, melyek megfelelnek a legújabb klímamodellekkel szemben támasztott elvárásoknak. Egy modellt több ezer alkalommal lefuttatva reményeink szerint megláthatjuk, miként válaszol, ha kis módosításokat végzünk e közelítésekben – elég kicsiket ahhoz, hogy a közelítések még realisztikusak maradjanak. Mindez lehetővé teszi számunkra annak megértését, hogy mennyire érzékenyek ezek a modellek kis változtatásokra, valamint a szén-dioxid- vagy a kénciklusban bekövetkező változásokra. Így ráláthatunk, miként változhat az éghajlat az elkövetkező évszázadban, számolva nagyszámú különböző forgatókönyvvel."
 
-#: projects.inc:253
+#: doc/projects.inc:251
 msgid "Physical Science"
 msgstr "Fizikai tudományok"
 
-#: projects.inc:259
-msgid "Mechanical engineering"
-msgstr "Gépészet"
-
-#: projects.inc:260
-msgid ""
-"Currently we are calculating the optimum design of a structure call the 52 "
-"bar truss"
-msgstr "Jelenleg az optimális konstrukcióját számoljuk ki az 52 baros nyalábnak nevezett struktúrának"
-
-#: projects.inc:269 projects.inc:328 projects.inc:338
+#: doc/projects.inc:276 doc/projects.inc:325 doc/projects.inc:335
+#: doc/projects.inc:345
 msgid "Astronomy"
 msgstr "Csillagászat"
 
-#: projects.inc:270
+#: doc/projects.inc:277
 msgid ""
 "TheSkyNet POGS is an astronomy project studying 16 different properties of "
 "galaxies, including brightness, mass, amount of dust and how fast stars are "
@@ -565,11 +614,11 @@ msgid ""
 "better understand the distant universe."
 msgstr "A TheSkyNet POGS egy csillagászati projekt, amely a galaxisok 16 különböző tulajdongását vizsgálja, ideértve azok fényességét, tömegét, a pormennyiségüket és a bennük lévő csillagok kialakulási sebességét. A te számítási kapacitásod felhasználásával pixelről pixelre végzett számításokat végzünk a galaxisok több hullámhosszt tartalmazó (ultraibolya, optikai és közeli infravörös fényű) képein. Célunk egy olyan atlasz készítése, ami segít a csillagászoknak jobban megérteni a távoli univerzumot."
 
-#: projects.inc:280 projects.inc:366
+#: doc/projects.inc:287 doc/projects.inc:373
 msgid "Astrophysics"
 msgstr "Asztrofizika"
 
-#: projects.inc:281
+#: doc/projects.inc:288
 msgid ""
 "The aim of the project is to derive shapes and spin for a significant part "
 "of the asteroid population. As input data, we use any asteroid photometry "
@@ -577,57 +626,52 @@ msgid ""
 "direction of the spin axis and the rotation period."
 msgstr "A projekt célja az aszteroidák alakjának és forgásának meghatározása a populáció minél nagyobb részére. Bemenetként az aszteroidákról elérhető bármilyen fotometriai adatot felhasználunk. Eredményként az aszteroidák konvex alakmodelljeit kapjuk a forgástengely irányával és a forgási periódussal."
 
-#: projects.inc:290
-msgid "Aerospace-related science and engineering"
-msgstr "A világűrrel kapcsolatos mérnöki és tudományos kutatások"
+#: doc/projects.inc:324
+msgid "University of Illinois at Urbana-Champaign"
+msgstr "Illinois-i Egyetem, Urbana-Champaign"
 
-#: projects.inc:291
+#: doc/projects.inc:326
 msgid ""
-"Constellation is a platform for aerospace-related simulations, including "
-"trajectory optimization of launchers, satellites and probes, simulation of "
-"Moon's near-surface exosphere, and analysis of dynamic systems of "
-"exploration-rovers"
-msgstr "A Constellation egy világűrrel kapcsolatos szimulációk számára létrehozott platform, mely többek között a kilövőállomások, műholdak és szondák pályájának optimalizálást, a Hold felszínközeli légkörének szimulációját, valamint a felderítő roverek dinamikai rendszereinek analízisét végzi."
+"The goal of Cosmology@Home is to search for the model that best describes "
+"our Universe and to find the range of models that agree with the available "
+"astronomical particle physics data."
+msgstr "A Cosmology@Home célja egy olyan modell keresése, amely a lehető legjobb leírást adja az Univerzumunkról. Ezen kívül szeretnénk megtalálni a modellek azon halmazát, amelyek összhangban vannak a csillagászati részecskefizika elérhető adataival."
 
-#: projects.inc:294
-msgid "Perform aerospace-related simulations"
-msgstr "Végezz a világűrrel kapcsolatos szimulációkat"
-
-#: projects.inc:329
+#: doc/projects.inc:336
 msgid ""
 "Universe@Home aims to create the first database of the simulated stellar "
 "content of the Universe, from the earliest stars to the most exotic black "
 "hole binaries."
 msgstr "A Universe@Home célja az első olyan adatbázis létrehozása, amely szimulációból határozza meg az univerzum csillagtartalmát a legkorábbi csillagoktól kezdve egészen a legegzotikusabb kettős fekete lyukakig."
 
-#: projects.inc:332
+#: doc/projects.inc:339
 msgid "Do research in physics and astronomy"
 msgstr "Kutass fizikai és csillagászati témakörben"
 
-#: projects.inc:337
+#: doc/projects.inc:344
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Rensselaer-i Műszaki Egyetem"
 
-#: projects.inc:339
+#: doc/projects.inc:346
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "A Milkyway@Home célja a Tejútrendszer egy igen pontos, háromdimenziós modelljének elkészítése a Sloan Digitális Égboltfelmérési Program által begyűjtött adatok felhasználásával."
 
-#: projects.inc:342
+#: doc/projects.inc:349
 msgid "Study the structure of the Milky Way galaxy"
 msgstr "A Tejútrendszer struktúrájának tanulmányozása"
 
-#: projects.inc:347
+#: doc/projects.inc:354
 msgid "Leiden University, The Netherlands"
 msgstr "Leiden-i Egyetem, Hollandia"
 
-#: projects.inc:348
+#: doc/projects.inc:355
 msgid "Chemistry"
 msgstr "Kémia"
 
-#: projects.inc:349
+#: doc/projects.inc:356
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -637,36 +681,37 @@ msgid ""
 "simulations through the grid."
 msgstr "Klasszikus dinamikát használó felszíni számítások. A Leiden Classical használatával önkéntesek, hallgatók, diákok és más kutatók küldhetik fel személyes számolásaikat a gridre. Minden felhasználónak saját várakozási sora van a klasszikus dinamikai feladatokhoz. Ilyen módon használták már hallgatók a gridet folyékony argon szimulációjához, vagy az ideális gáztörvény érvényességének ellenőrzésére a griden végzett szimuláció segítségével."
 
-#: projects.inc:352
+#: doc/projects.inc:359
 msgid "Help students do atomic simulations"
 msgstr "Segíts a hallgatóknak atomi szimulációkat futtatni"
 
-#: projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "Wisconsin-i Egyetem - Milwaukee, Max Planck Intézet"
-
-#: projects.inc:367
+#: doc/projects.inc:372
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "A projekt célja forgó neutroncsillagok (más néven pulzárok) keresése a LIGO és a GEO gravitációshullám-detektorok, illetve az Arecibo rádióobszervatórium adatainak felhasználásával.  Az Einstein@Home egy a \"Fizika Nemzetközi Éve 2005\" projekt alprojektjei közül, melyet az Amerikai Fizikai Társaság (American Physical Society - APS) és számos nemzetközi szervezet is támogat."
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "Wisconsin-i Egyetem - Milwaukee (USA), Max Planck Gravitációfizikai Intézet - Hannover (Németország)"
 
-#: projects.inc:370
+#: doc/projects.inc:374
+msgid ""
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Az Einstein@Home a számítógéped üresjárati idejét használja a (gyakran pulzároknak is nevezett) forgó neutroncsillagokból érkező gyenge asztrofizikai jelek kereséséhez a LIGO gravitációshullám-detektor, az Arecibo rádiótávcső, és a Fermi gamma-sugár űrtávcső adatainak felhasználásával."
+
+#: doc/projects.inc:377
 msgid "Help detect pulsars and gravitational waves"
 msgstr "Pulzárok és gravitációs hullámok észlelése"
 
-#: projects.inc:383 projects.inc:393 projects.inc:403
+#: doc/projects.inc:390
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Nukleáris Kutatások Európai Szervezete)"
 
-#: projects.inc:384 projects.inc:394 projects.inc:404
+#: doc/projects.inc:391
 msgid "Physics"
 msgstr "Fizika"
 
-#: projects.inc:385
+#: doc/projects.inc:392
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -675,42 +720,19 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr "A Nagy Hadronütköztető (Large Hadron Collider - LHC) egy részecskegyorsító a CERNnél, azaz a Nukleáris Kutatások Európai Szervezeténél, mely a világ legnagyobb részecskefizikai laboratóriuma. Ez a valaha épített legnagyobb teljesítményű eszköz, melyet a részecskék tulajdonságainak vizsgálata céljából hoztak létre. Az LHC@home az LHC, és detektorainak tervezését elősegítő szimulációkat futtat."
 
-#: projects.inc:388
+#: doc/projects.inc:395
 msgid "Improve the design of the Large Hadron Collider"
 msgstr "Fejleszd a Nagy Hadron Ütköztetőt (Large Hadron Collider - LHC)"
 
-#: projects.inc:395
-msgid ""
-"This project uses CERN-developed virtual machine technology for LHC event "
-"physics simulation on volunteer computers.  Requires that you install "
-"VirtualBox on your computer"
-msgstr "Ez a projekt a CERN által fejlesztett virtuális gép technológiát használja az LHC események fizikájának teljes értékű szimulációjára a résztvevők számítógépein. A projekt futtatásához telepítened kell a VirtualBoxot."
-
-#: projects.inc:398
-msgid "Simulate high-energy particle collisions"
-msgstr "Nagyenergiájú részecskeütközések szimulációja"
-
-#: projects.inc:405
-msgid ""
-"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
-" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
-" particles and processes using head-on collisions of protons of "
-"extraordinary high energy."
-msgstr "Az ATLAS@Home önkéntesek számítógépei segítségével szimulációkat futtat az ATLAS számára,  amely egy részecskefizikai kísérlet a CERN Nagy Hadronütköztetőjében. Az ATLAS új részecskéket és folyamatokat keres rendkívül magas energiával történő frontális protonütköztetések segítségével."
-
-#: projects.inc:408
-msgid "Simulate high-energy particle collisions for CERN"
-msgstr "Nagyenergiájú részecskeütközések szimulációja a CERN számára"
-
-#: projects.inc:413
+#: doc/projects.inc:420
 msgid "University of California, Berkeley"
 msgstr "Kaliforniai Egyetem, Berkeley"
 
-#: projects.inc:414
+#: doc/projects.inc:421
 msgid "Astrophysics, astrobiology"
 msgstr "Asztrofizika, asztrobiológia"
 
-#: projects.inc:415
+#: doc/projects.inc:422
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -719,106 +741,71 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr "A SETI (Földönkívüli Intelligencia Keresése) egy olyan tudományos terület, mely Földön kívüli értelmes életet keres. Ennek egyik módja a rádió-SETI, melynél rádióteleszkópokkal figyelik az űrből érkező, keskeny sávszélességű rádiójeleket. Az ilyen jelek jellemzően nem keletkeznek természetes úton, tehát észlelésük bizonyítéka lehetne földönkívüli technológia létezésének."
 
-#: projects.inc:418
+#: doc/projects.inc:425
 msgid "Search for evidence of extra-terrestrial life"
 msgstr "Földönkívüli élet bizonyítékainak keresése"
 
-#: projects.inc:442
+#: doc/projects.inc:449
 msgid "Multiple applications"
 msgstr "Többféle alkalmazás"
 
-#: projects.inc:448
+#: doc/projects.inc:455
 msgid "Molecular biology, Computer Science"
 msgstr "Molekuláris biológia, számítástudomány"
 
-#: projects.inc:449
+#: doc/projects.inc:456
 msgid ""
 "The Citizen Science Grid is dedicated to supporting a wide range of research"
 " and educational projects using volunteer computing and citizen science."
 msgstr "A Citizen Science Grid a kutatás és ismeretterjesztés több területének támogatását tűzte ki célul az önkéntesek számítógépei és segítsége által."
 
-#: projects.inc:452
+#: doc/projects.inc:459
 msgid "Support science from the University of North Dakota"
 msgstr "Támogasd a tudományt az Észak-Dakotai Egyetemen"
 
-#: projects.inc:457
+#: doc/projects.inc:464
 msgid "Chinese Academy of Sciences"
 msgstr "Kínai Tudományos Akadémia"
 
-#: projects.inc:458
+#: doc/projects.inc:465
 msgid "Physics, biochemistry, and others"
 msgstr "Fizika, biokémia és egyebek"
 
-#: projects.inc:459
+#: doc/projects.inc:466
 msgid ""
-"The objective of CAS@home is to encourage and assist scientists in China to "
-"adopt the technologies of volunteer computing and volunteer thinking for "
-"their research."
-msgstr "A CAS@home célja, hogy ösztönözze és segítse Kína tudósait, hogy kutatásukhoz alkalmazzák az önkéntes hozzájárulás gondolkodásmódját és technológiáját."
+"CAS@home is hosted by the Computing Centre of the Institute of High Energy "
+"Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with "
+"projects studying protein structure, nanotechnology, cancer genomics, and "
+"high energy physics."
+msgstr "A CAS@Home-ot az Nagyenergiás Fizikai Intézet (Institute of High Energy Physics - IHEP, Kínai Tudományos Akadémia)  működteti, mely azon kínai tudósok számára érhető el, akik a fehérjestruktúrákkal, nanotechnológiával, rák genomikával és nagyenergiás fizikával kapcsolatos kutatásaikat szeretnék itt elvégezni."
 
-#: projects.inc:462
+#: doc/projects.inc:469
 msgid "Help Chinese researchers"
 msgstr "Segítség kínai kutatóknak"
 
-#: projects.inc:468
+#: doc/projects.inc:475
 msgid "Mathematics, physics, evolution"
 msgstr "Matematika, fizika, evolúció"
 
-#: projects.inc:469
+#: doc/projects.inc:476
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr "A Yoyo@home egy illesztő alkalmazás a BOINC és különböző, már létező önkéntes számítási projektek között. Ilyenek az: ECM, Muon, Evolution@home és a distributed.net"
 
-#: projects.inc:472
+#: doc/projects.inc:479
 msgid "Do research in math, physics, and evolution"
 msgstr "Kutatás matematikai, fizikai és evolúciós témakörben"
 
-#: projects.inc:477 projects.inc:677
-msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr "MTA-SZTAKI Párhuzamos és Elosztott Rendszerek Laboratóriuma (Magyarország)"
-
-#: projects.inc:478
-msgid "European research projects"
-msgstr "Európai kutatási projektek"
-
-#: projects.inc:479
-msgid ""
-"The EDGeS@Home Beta project integrates volunteer computing into the service "
-"grid network of Europe by allowing service grids to send workunits to be "
-"processed by the volunteers of this project. The scientific projects covered"
-" by the project include math, physics, biology, etc."
-msgstr "Az EDGeS@Home Beta projekt az önkéntes számítást az európai szolgáltatási grid hálózatba integrálja, ezáltal lehetővé téve a szolgáltatási gridek számára munkacsomagok küldését az e projektben résztvevő önkénteseknek. A projekt által lefedett tudományos projektek matematikai, fizikai, biológiai stb. témájúak."
-
-#: projects.inc:482
-msgid "Help European researchers"
-msgstr "Segítség európai kutatóknak"
-
-#: projects.inc:487
-msgid "Spanish universities and research centers"
-msgstr "Spanyol egyetemek és kutatóközpontok"
-
-#: projects.inc:488
-msgid "Various Spanish research projects"
-msgstr "Különböző spanyol kutatási projektek"
-
-#: projects.inc:489
-msgid "Research in physics, material science, and biomedicine"
-msgstr "Kutatások a fizika, az anyagtudomány és a biogyógyászat területén"
-
-#: projects.inc:492
-msgid "Help Spanish researchers"
-msgstr "Segítség spanyol kutatóknak"
-
-#: projects.inc:497
+#: doc/projects.inc:504
 msgid "IBM Corporate Citizenship"
 msgstr "IBM vállalati polgárság"
 
-#: projects.inc:498
+#: doc/projects.inc:505
 msgid "Medical, environmental and other humanitarian research"
 msgstr "Orvosi, környezeti és más humanitárius kutatások"
 
-#: projects.inc:499
+#: doc/projects.inc:506
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research"
@@ -826,20 +813,20 @@ msgid ""
 "clean water and many more."
 msgstr "Az emberiséget érintő legégetőbb problémák non-profit kutatásának elősegítésére létrehoztuk a világ legnagyobb önkéntes számítási hálózatát. A kutatások célterülete többek között a HIV-AIDS, rák, trópusi és elhanyagolt betegségek, napenergia, tiszta víz és még sok más."
 
-#: projects.inc:502
+#: doc/projects.inc:509
 msgid "Do biomedical and environmental research"
 msgstr "Végezz biomedikai és környezetvédelmi kutatásokat"
 
-#: projects.inc:507
+#: doc/projects.inc:514
 msgid "Mathematics, computing, and games"
 msgstr "Matematika, számítás és játékok"
 
-#: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
-#: projects.inc:678
+#: doc/projects.inc:540 doc/projects.inc:609 doc/projects.inc:665
+#: doc/projects.inc:675 doc/projects.inc:685
 msgid "Mathematics"
 msgstr "Matematika"
 
-#: projects.inc:534
+#: doc/projects.inc:541
 msgid ""
 "NumberFields@home searches for fields with special properties. The primary "
 "application of this research is in the realm of algebraic number theory. "
@@ -849,64 +836,64 @@ msgid ""
 "basic building blocks of all mathematics."
 msgstr "A NumberFields@home különleges tulajdonságokkal rendelkező mezőket keres. Ezen kutatás elsődleges alkalmazási területe az algebrai számelmélet. A számelmélettel foglalkozó matematikusok adatbányászatot végeznek érdekes minták után kutatva, ami segíti őket a különböző számmezőkre vonatkozó sejtések megfogalmazásában. Végezetül ez a kutatás el fog vezetni a számok legmélyebb tulajdonságainak behatóbb ismeretéhez, melyek a matematika minden területének építőkövei."
 
-#: projects.inc:537
+#: doc/projects.inc:544
 msgid "Do research in algebraic number theory"
 msgstr "Végezz algebrai számelméleti kutatásokat"
 
-#: projects.inc:553
+#: doc/projects.inc:560
 msgid "Computer Science"
 msgstr "Számítástudomány"
 
-#: projects.inc:554
+#: doc/projects.inc:561
 msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
 msgstr "Nehéz és gyakorlati jelentőséggel bíró problémák megoldása (diszkrét függvényinverziós problémák, diszkrét optimalizáció, bioinformatika stb.), amiket a gyakorlatban Bool-i kielégíthetőségi prolémákra lehet leegyszerűsíteni."
 
-#: projects.inc:557
+#: doc/projects.inc:564
 msgid "Study computational complexity"
 msgstr "Tanulmányozd a számítási komplexitást"
 
-#: projects.inc:582
+#: doc/projects.inc:589
 msgid "Cryptography and combinatorics"
 msgstr "Kriptográfia és kombinatorika"
 
-#: projects.inc:583 projects.inc:586
+#: doc/projects.inc:590 doc/projects.inc:593
 msgid "Run applications from distributed.net"
 msgstr "Futtass alkalmazásokat a distributed.net-től"
 
-#: projects.inc:592
+#: doc/projects.inc:599
 msgid "Cryptography"
 msgstr "Kriptográfia"
 
-#: projects.inc:593
+#: doc/projects.inc:600
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "Megpróbálunk dekódolni 3 eredeti Enigma üzenetet. A feltörhetetlennek hitt jeleket az Észak-Atlanti térségben fogták 1942-ben."
 
-#: projects.inc:596
+#: doc/projects.inc:603
 msgid "Decode WWII submarine messages"
 msgstr "Második világháborús tengeralattjáró üzenetek megfejtése"
 
-#: projects.inc:603
+#: doc/projects.inc:610
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Tanulmányozz egy a matematikában még megoldatlan, úgynevezett Collatz-sejtést"
 
-#: projects.inc:606
+#: doc/projects.inc:613
 msgid "Study the Collatz Conjecture"
 msgstr "A Collatz-sejtés tanulmányozása"
 
-#: projects.inc:611
+#: doc/projects.inc:618
 msgid "California State University Fullerton"
 msgstr "Kaliforniai Állami Egyetem, Fullerton"
 
-#: projects.inc:612
+#: doc/projects.inc:619
 msgid "Factorization of large integers"
 msgstr "Nagy egész számok faktorizációja"
 
-#: projects.inc:613
+#: doc/projects.inc:620
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -916,56 +903,60 @@ msgid ""
 "hundreds of digits long."
 msgstr "Az NFS@Home egy olyan kutatási projekt, mely interneteléréssel rendelkező számítógépeket használ nagy egész számok rácson történő szitálásához. Általános iskolásként te is megszerezted első tapasztalataidat egy egész szám prímtényezőkre való bontásával kapcsolatban, mint például hogy 15 = 3 * 5, vagy hogy 35 = 5 * 7. Az NFS@Home ezen tapasztalatok kiterjesztése, csak éppen több száz számjegy hosszúságú egész számokra."
 
-#: projects.inc:616
+#: doc/projects.inc:623
 msgid "Study the factorization of large integers"
 msgstr "Tanulmányozd a nagy egész számok faktorizációját"
 
-#: projects.inc:659
+#: doc/projects.inc:666
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr "A Primegridnek több projektje van, melyek különböző alakú, nagyon nagy prímszámokat keresnek, ideértve a legnagyobb ismert prímszám keresését."
 
-#: projects.inc:662
+#: doc/projects.inc:669
 msgid "Search for large prime numbers"
 msgstr "Nagy prímszámok keresése"
 
-#: projects.inc:667
+#: doc/projects.inc:674
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "RheinMaini Alkalmazott Tudományok Egyeteme"
 
-#: projects.inc:669
+#: doc/projects.inc:676
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "Prímszámok azonosításához kapcsolódó két sejtéshez tartozó ellenpéldák keresése"
 
-#: projects.inc:672
+#: doc/projects.inc:679
 msgid "Study the properties of prime numbers"
 msgstr "Prímszámok tulajdonságainak vizsgálata"
 
-#: projects.inc:679
+#: doc/projects.inc:684
+msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
+msgstr "MTA-SZTAKI Párhuzamos és Elosztott Rendszerek Laboratóriuma (Magyarország)"
+
+#: doc/projects.inc:686
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr "Az összes általánosított kettes számrendszer megtalálása (melyekben a bázisok mátrixok, a számjegyek pedig vektorok) egészen 11 dimenzióig."
 
-#: projects.inc:682
+#: doc/projects.inc:689
 msgid "Study number theory"
 msgstr "A számelmélet tanulmányozása"
 
-#: projects.inc:739
+#: doc/projects.inc:746
 msgid ""
 "Testing and comparison of heuristic methods for getting separations of "
 "parallel algorithms working in the CAD system for designing logic control "
 "systems"
 msgstr "A CAD-ban működő logikai irányítórendszerek tervezésére irányuló párhuzamos algoritmusok elválasztását célzó heurisztikus módszerek tesztelése és összehasonlítása"
 
-#: ../html/inc/news.inc:40
-msgid "Comment"
-msgstr "Hozzászólás"
+#: html/inc/news.inc:41
+msgid "Discuss"
+msgstr "Megvitat"
 
-#: ../html/inc/news.inc:111
+#: html/inc/news.inc:112
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "A hírek %sRSS hírfolyamként%s érhetők el"

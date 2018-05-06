@@ -106,7 +106,7 @@ function boincuser_register_validate($form_values) {
  */
 function boincuser_register_make_user($params) {    
   // Include BOINC user library
-  require_boinc('user');
+  require_boinc('user_util');
   // Create the BOINC user
   $boinc_user = make_user($params['email_addr'], $params['name'], $params['passwd_hash'], $params['country'], $params['postal_code']);
   return $boinc_user;
@@ -308,7 +308,7 @@ function boincuser_pull_subscriptions($account = NULL) {
   }
   
   // Get any subscriptions for this user
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $subscriptions = db_query('
     SELECT threadid FROM {subscriptions}
     WHERE userid = %d', $account->boincuser_id);

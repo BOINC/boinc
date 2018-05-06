@@ -299,6 +299,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define to 1 if you have the `uselocale' function. */
+#define HAVE_USELOCALE 1
+
 /* Define to 1 if you have the <utmp.h> header file. */
 #define HAVE_UTMP_H 1
 
@@ -334,8 +337,9 @@
 /* #undef HAVE__PROC_SELF_STAT */
 
 /* Host for this compilation */
-/* "i686-apple-darwin", "x86_64-apple-darwin" or "powerpc-apple-darwin" determined at run time */
-#define HOSTTYPE ""
+#ifdef __x86_64__
+#define HOSTTYPE "x86_64-apple-darwin"
+#endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */
 /* #undef LARGEFILE_BREAKS_CXX */

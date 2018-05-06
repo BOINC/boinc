@@ -18,13 +18,15 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of sqlite 3.11.0 for
+# Script to build Macintosh 64-bit Intel library of sqlite 3 for
 # use in building BOINC Manager.
 #
 # by Charlie Fenton 12/11/12
 # Updated 2/11/14 for sqlite 3.8.3
 # Updated 1/5/16 for sqlite 3.9.2
 # Updated 3/2/16 for sqlite 3.11.0
+# Updated 10/22/17 to build 64-bit library (temporarily build both 32-bit and 64-bit libraries)
+# Updated 1/25/18 to build only 64-bit library
 #
 ## This script requires OS 10.6 or later
 #
@@ -32,8 +34,9 @@
 ## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the sqlite-autoconf-3110000 directory.
-##     cd [path]/sqlite-autoconf-3110000/
+## Where xxxxxxx is the version string in the directory name:
+## In Terminal, CD to the sqlite-autoconf-xxxxxxx directory.
+##     cd [path]/sqlite-autoconf-xxxxxxx/
 ## then run this script:
 ##     source [path]/buildsqlite3.sh [ -clean ] [--prefix PATH]
 ##
@@ -66,10 +69,16 @@ done
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libsqlite3.a" ]; then
-        cwd=$(pwd)
-        dirname=${cwd##*/}
-        echo "${dirname} already built"
-        return 0
+        lipo "${libPath}/libsqlite3.a" -verify_arch x86_64
+        if [ $? -eq 0 ]; then
+            cwd=$(pwd)
+            dirname=${cwd##*/}
+            echo "${dirname} already built"
+            return 0
+        else
+            # already built but not for correct architectures
+            doclean="yes"
+        fi
     fi
 fi
 
@@ -111,28 +120,28 @@ if [ -d "${libPath}" ]; then
     rm -f "${libPath}/libsqlite3.a"
 fi
 
+# Build for x86_64 architecture
+make clean 1>$stdout_target
+
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-export CFLAGS="-Os -isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-Os -isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CFLAGS="-Os -isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.6
 
 if [ "x${lprefix}" != "x" ]; then
-    ./configure --prefix=${lprefix} --enable-shared=NO --host=i386
+    ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
 else
-    ./configure --enable-shared=NO --host=i386
+    ./configure --enable-shared=NO --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
-fi
-
-if [ "${doclean}" = "yes" ]; then
-    make clean
 fi
 
 make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
+
 if [ "x${lprefix}" != "x" ]; then
     make install 1>$stdout_target
     if [ $? -ne 0 ]; then return 1; fi

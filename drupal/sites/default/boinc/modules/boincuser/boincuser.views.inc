@@ -23,7 +23,7 @@ function boincuser_views_data() {
       'field' => 'id',
       'title' => t('BOINC user'),
       'help' => t('BOINC account data for a user'),
-      'database' => 'boinc'
+      'database' => 'boinc_ro'
   );
 
   // Describe each of the individual fields in this table to Views. For

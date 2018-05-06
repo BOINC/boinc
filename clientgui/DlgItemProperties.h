@@ -23,19 +23,11 @@
 #pragma interface "DlgItemProperties.cpp"
 #endif
 
-#include <wx/intl.h>
-
-#include <wx/gdicmn.h>
-#include <wx/gbsizer.h>
 #include <wx/sizer.h>
-#include <wx/scrolwin.h>
-#include <wx/font.h>
-#include <wx/colour.h>
-#include <wx/settings.h>
 #include <wx/string.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
-#include <wx/wxhtml.h>
+#include <wx/html/htmlwin.h>
 
 #include "MainDocument.h"
 
@@ -68,13 +60,15 @@ private:
        void renderInfos();
 	void addSection(const wxString& title);
 	void addProperty(const wxString& name, const wxString& value);
+    void copyTextToClipboard(const wxString& text);
+    void OnMouseButtonEvent(wxMouseEvent& event);
 protected:
         wxBoxSizer* m_bSizer1;
         wxButton* m_btnClose;
         wxButton* m_pCopySelectedButton;
         wxButton* m_pCopyAllButton;
         wxString m_strBaseConfigLocation;
-        wxWebView* m_txtInformation;
+        wxHtmlWindow* m_txtInformation;
 };
 
 #endif

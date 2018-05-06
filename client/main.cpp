@@ -83,7 +83,7 @@ void log_message_startup(const char* msg) {
     );
     if (!gstate.executing_as_daemon) {
         fprintf(stdout, "%s", evt_msg);
-#ifdef _MSC_VER
+#ifdef _WIN32
         // MSVCRT doesn't support line buffered streams
         fflush(stdout);
 #endif

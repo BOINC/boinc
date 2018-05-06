@@ -127,10 +127,7 @@ class BoincDb extends DbConn {
                 if ($generating_xml) {
                     xml_error(-183, "project down for maintenance");
                 } else {
-                    show_page("Project down for maintenance",
-                        "Please check back in a few hours."
-                    );
-                    exit;
+                    show_project_down();
                 }
             }
             self::get_aux($readonly, $fallback_mode);
@@ -138,12 +135,7 @@ class BoincDb extends DbConn {
                 if ($generating_xml) {
                     xml_error(-138, "the project's database server is down");
                 } else {
-                    show_page(
-                        "Project is down",
-                        "The project's database server is down.
-                        Please check back in a few hours."
-                    );
-                    exit;
+                    show_project_down();
                 }
             }
         }
@@ -783,6 +775,46 @@ class BoincCreditTeam {
         return $db->get_list('team', 'credit_team', 'id', 'teamid', 'BoincCreditTeam', '*', $where_clause, $order_clause, $limit);
     }
 }
+
+class BoincToken {
+
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('token', 'BoincToken', $clause);
+    }
+    
+    static function lookup_valid_token($userid, $token, $type) {
+        $db = BoincDb::get();
+        $token = BoincDb::escape_string($token);
+        $type = BoincDb::escape_string($type);
+        $now = time();
+        return self::lookup("userid=$userid and token='$token' and expire_time > $now and type = '$type'");
+    }
+    
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('token', 'BoincToken', $where_clause);
+    }
+
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('token', $clause);
+    }
+
+    static function get_list($where_clause, $order_clause, $limit) {
+        $db = BoincDB::get();
+        return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
+    }
+    
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $now = time();
+        $db->delete_aux('token', "expire_time < $now");
+        return $db->affected_rows();
+    }
+
+}
+
 
 // DEPRECATED: use BoincDb::escape_string where possible
 // 

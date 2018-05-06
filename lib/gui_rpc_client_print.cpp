@@ -160,26 +160,44 @@ void RESULT::print() {
     foo = (time_t)report_deadline;
     printf("   report deadline: %s", ctime(&foo));
     printf("   ready to report: %s\n", ready_to_report?"yes":"no");
-    printf("   got server ack: %s\n", got_server_ack?"yes":"no");
-    printf("   final CPU time: %f\n", final_cpu_time);
     printf("   state: %s\n", result_client_state_string(state));
     printf("   scheduler state: %s\n", result_scheduler_state_string(scheduler_state));
-    printf("   exit_status: %d\n", exit_status);
-    printf("   signal: %d\n", signal);
-    printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   active_task_state: %s\n", active_task_state_string(active_task_state));
     //printf("   stderr_out: %s\n", stderr_out.c_str());
-    printf("   app version num: %d\n", app_version_num);
-    printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
-    printf("   current CPU time: %f\n", current_cpu_time);
-    printf("   fraction done: %f\n", fraction_done);
-    printf("   swap size: %.0f MB\n", swap_size/MEGA);
-    printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
-    printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
-    if (bytes_sent || bytes_received) {
-        printf("   bytes sent: %.0f received: %.0f\n",
-            bytes_sent, bytes_received
-        );
+    printf("   app version num: %d\n", version_num);
+    printf("   resources: %s\n", strlen(resources)?resources:"1 CPU");
+
+    // stuff for jobs that are not yet completed
+    //
+    if (state <= RESULT_FILES_DOWNLOADED) {
+        if (suspended_via_gui) {
+            printf("   suspended via GUI: yes\n");
+        }
+        printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
+    }
+
+    // stuff for jobs that are running or have run
+    //
+    if (scheduler_state > CPU_SCHED_UNINITIALIZED) {
+        printf("   CPU time at last checkpoint: %f\n", checkpoint_cpu_time);
+        printf("   current CPU time: %f\n", current_cpu_time);
+        printf("   fraction done: %f\n", fraction_done);
+        printf("   swap size: %.0f MB\n", swap_size/MEGA);
+        printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
+        if (bytes_sent || bytes_received) {
+            printf("   bytes sent: %.0f received: %.0f\n",
+                bytes_sent, bytes_received
+            );
+        }
+    }
+
+    // stuff for completed jobs
+    //
+    if (state > RESULT_FILES_DOWNLOADED) {
+        printf("   final CPU time: %f\n", final_cpu_time);
+        printf("   final elapsed time: %f\n", final_elapsed_time);
+        printf("   exit_status: %d\n", exit_status);
+        printf("   signal: %d\n", signal);
     }
 }
 
@@ -426,5 +444,15 @@ void OLD_RESULT::print() {
         elapsed_time,
         time_to_string(completed_time),
         time_to_string(create_time)
+    );
+}
+
+void ACCT_MGR_INFO::print() {
+    printf(
+        "Account manager info:\n"
+        "   Name: %s\n"
+        "   URL: %s\n",
+        acct_mgr_name.c_str(),
+        acct_mgr_url.c_str()
     );
 }

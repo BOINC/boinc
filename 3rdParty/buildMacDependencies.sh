@@ -103,10 +103,27 @@ download_and_build() {
     FILENAME="${2}"
     DLURL="${3}"
     BUILDSCRIPT="${4}"
+    PRODUCTNAME="${5}"
+    ARCHS="${6}"
     FLAGFILE="${PREFIX}/${DIRNAME}_done"
+    doClean=""
     if [ -e "${FLAGFILE}" ]; then
-        echo "${DIRNAME} seems already to be present in ${PREFIX}"
-        return 0
+        lipo "${PREFIX}/lib/${PRODUCTNAME}" -verify_arch ${ARCHS}
+        if [ $? -eq 0 ]; then
+            echo "${DIRNAME} seems already to be present in ${PREFIX}"
+            return 0
+        else
+            # already built but not for correct architectures so force rebuild
+            doClean="-clean"
+        fi
+    else
+        # tell subsequent scripts to build everything from scratch
+        doClean="-clean"
+        # delete any FILEFLAGS for other versions of this library built previously
+        BASENAME="${DIRNAME%-*}"
+        rm -f "${PREFIX}/${BASENAME}"*
+        # delete any previous build of this library (may be redundant with -clean)
+        rm -f "${PREFIX}/lib/${PRODUCTNAME}"
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then
@@ -115,7 +132,7 @@ download_and_build() {
         tar -xf ${FILENAME}
     fi
     cd ${DIRNAME} || exit 1
-    source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options}
+    source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options} ${doClean}
     if [ $? -ne 0 ]; then exit 1; fi
     cd ../.. || exit 1
     touch ${FLAGFILE}
@@ -134,14 +151,14 @@ fi
 # this will pull in the variables used below
 source "${ROOTDIR}/mac_build/dependencyNames.sh"
 
-#download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
-download_and_build "${opensslDirName}" "${opensslFileName}" "${opensslURL}" "${ROOTDIR}/mac_build/buildopenssl.sh"
-download_and_build "${caresDirName}" "${caresFileName}" "${caresURL}" "${ROOTDIR}/mac_build/buildc-ares.sh"
-download_and_build "${curlDirName}" "${curlFileName}" "${curlURL}" "${ROOTDIR}/mac_build/buildcurl.sh"
-download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}" "${ROOTDIR}/mac_build/buildWxMac.sh ${wxoption}"
-download_and_build "${sqliteDirName}" "${sqliteFileName}" "${sqliteURL}" "${ROOTDIR}/mac_build/buildsqlite3.sh"
-download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh"
-download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh"
+#download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT $PRODUCTNAME $ARCHS
+download_and_build "${opensslDirName}" "${opensslFileName}" "${opensslURL}" "${ROOTDIR}/mac_build/buildopenssl.sh" "libssl.a" "x86_64"
+download_and_build "${caresDirName}" "${caresFileName}" "${caresURL}" "${ROOTDIR}/mac_build/buildc-ares.sh" "libcares.a" "x86_64"
+download_and_build "${curlDirName}" "${curlFileName}" "${curlURL}" "${ROOTDIR}/mac_build/buildcurl.sh" "libcurl.a" "x86_64"
+download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}" "${ROOTDIR}/mac_build/buildWxMac.sh ${wxoption}" "libwx_osx_cocoa_static.a" "x86_64"
+download_and_build "${sqliteDirName}" "${sqliteFileName}" "${sqliteURL}" "${ROOTDIR}/mac_build/buildsqlite3.sh" "libsqlite3.a" "x86_64"
+download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "i386 x86_64"
+download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "i386 x86_64"
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1

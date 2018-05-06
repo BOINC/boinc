@@ -866,7 +866,6 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
         hu.projected_flops = capped_host_fpops() * hu.avg_ncpus * projected_flops_scale;
     }
-    hu.max_ncpus = hu.avg_ncpus;
 
 #if 0
     if (config.debug_version_select) {

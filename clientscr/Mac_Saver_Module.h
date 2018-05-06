@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,6 +24,8 @@
 
 #include <Carbon/Carbon.h>
 
+// The declarations below must be kept in sync with
+// the corresponding ones in Mac_Saver_ModuleView.h
 #ifdef _DEBUG
     #define _T(x) x
 #endif
@@ -43,12 +45,14 @@ bool            getShow_default_ss_first();
 double          getGFXDefaultPeriod();
 double          getGFXSciencePeriod();
 double          getGGFXChangePeriod();
+void            incompatibleGfxApp(char * appPath, pid_t pid, int slot);
 void            setShow_default_ss_first(bool value);
 void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
 double          getDTime();
 void            doBoinc_Sleep(double seconds);
+void            launchedGfxApp(char * appPath, pid_t thePID, int slot);
 void            print_to_log_file(const char *format, ...);
 void            strip_cr(char *buf);
 void            PrintBacktrace(void);
@@ -56,6 +60,9 @@ void            PrintBacktrace(void);
 #ifdef __cplusplus
 }	// extern "C"
 #endif
+
+// The declarations above must be kept in sync with
+// the corresponding ones in Mac_Saver_ModuleView.h
 
 struct ss_periods
 {
@@ -86,8 +93,6 @@ protected:
     int             GetBrandID(void);
     char*           PersistentFGets(char *buf, size_t buflen, FILE *f);
     pid_t           FindProcessPID(char* name, pid_t thePID);
-    bool            SetError( bool bErrorMode, unsigned int hrError );
-    void            setSSMessageText(const char *msg);
     void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
     char            m_gfx_Switcher_Path[PATH_MAX];
@@ -107,7 +112,7 @@ protected:
     bool            m_bScience_gfx_running;
     bool            m_bDefault_gfx_running;
     bool            m_bConnected;
-
+    std::vector<char*>   m_vIncompatibleGfxApps;
     //
     // Data management layer
     //
@@ -118,16 +123,13 @@ protected:
     void*           DataManagementProc();
     static void*    DataManagementProcStub( void* param );
     int             terminate_v6_screensaver(int& graphics_application);
-    int             terminate_screensaver(int& graphics_application, RESULT *worker_app);
     int             terminate_default_screensaver(int& graphics_application);
     int             launch_screensaver(RESULT* rp, int& graphics_application);
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
     int             KillScreenSaver(void);
     void            GetDefaultDisplayPeriods(struct ss_periods &periods);
-    bool            HasProcessExited(pid_t pid, int &exitCode);
     pthread_t       m_hDataManagementThread;
-    pid_t           m_hGraphicsApplication;
 
 // Determine if two RESULT pointers refer to the same task
     bool            is_same_task(RESULT* taska, RESULT* taskb);
@@ -139,10 +141,6 @@ protected:
 //   was passed in.
 
     RESULT*         get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
-
-    RPC_CLIENT      *rpc;
-    CC_STATE        state;
-    RESULTS         results;
  
     bool            m_bResetCoreState;
     bool            m_bQuitDataManagementProc;
@@ -162,11 +160,24 @@ public:
     void            windowIsCovered(void);
     void            drawPreview(CGContextRef myContext);
     void            ShutdownSaver();
+    void            markAsIncompatible(char *gfxAppName);
+    bool            isIncompatible(char *appName);
+    bool            SetError( bool bErrorMode, unsigned int hrError );
+    void            setSSMessageText(const char *msg);
+
+    int             terminate_screensaver(int& graphics_application, RESULT *worker_app);
+    bool            HasProcessExited(pid_t pid, int &exitCode);
+
+    CC_STATE        state;
+    RESULTS         results;
+    RPC_CLIENT      *rpc;
 
     double          m_fGFXDefaultPeriod;
     double          m_fGFXSciencePeriod;
     double          m_fGFXChangePeriod;
     bool            m_bShow_default_ss_first;
+
+    pid_t           m_hGraphicsApplication;
 
 protected:
 };

@@ -53,6 +53,7 @@ void PROJECT::init() {
         no_rsc_config[i] = false;
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
+        sched_req_no_work[i] = false;
     }
     safe_strcpy(host_venue, "");
     using_venue_specific_prefs = false;
@@ -332,6 +333,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_double("cpu_time", cpu_time)) continue;
         if (xp.parse_double("gpu_ec", gpu_ec)) continue;
         if (xp.parse_double("gpu_time", gpu_time)) continue;
+        if (xp.parse_double("disk_usage", disk_usage)) continue;
+        if (xp.parse_double("disk_share", disk_share)) continue;
 #ifdef SIM
         if (xp.match_tag("available")) {
             available.parse(xp, "/available");
@@ -529,8 +532,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "    <cpu_ec>%f</cpu_ec>\n"
             "    <cpu_time>%f</cpu_time>\n"
             "    <gpu_ec>%f</gpu_ec>\n"
-            "    <gpu_time>%f</gpu_time>\n",
-            cpu_ec, cpu_time, gpu_ec, gpu_time
+            "    <gpu_time>%f</gpu_time>\n"
+            "    <disk_usage>%f</disk_usage>\n"
+            "    <disk_share>%f</disk_share>\n",
+            cpu_ec, cpu_time, gpu_ec, gpu_time, disk_usage, disk_share
         );
     }
     out.printf(

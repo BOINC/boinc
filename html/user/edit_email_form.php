@@ -31,26 +31,20 @@ if (is_valid_email_addr($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
-echo "<form method=post action=".secure_url_base()."/edit_email_action.php>\n";
-start_table();
-row1(tra("Change the email address of your account"));
-row2(tra("New email address").
+form_start(secure_url_base()."/edit_email_action.php", "post");
+form_input_text(
+    tra("New email address").
     "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",
-    "<input name=email_addr size=50 type=text value='$email_text'>"
+    "email_addr", $email_text
 );
 
 // we need the password here not for verification,
 // but because we store it salted with email address,
 // which is about to change.
 
-row2(
-    tra("Password").
-    "<br><a href=".secure_url_base()."/edit_passwd_form.php><p class=\"text-muted\">".tra("No password?")."</p></a>",
-    "<input type=password name=passwd>"
-);
-row2("", "<input class=\"btn btn-success\" type=submit value='".tra("Change email address")."'>");
-end_table();
-echo "</form>\n";
+form_input_text(tra("Password"), "passwd", "", "password");
+form_submit(tra("Change email address"));
+form_end();
 page_tail();
 
 ?>

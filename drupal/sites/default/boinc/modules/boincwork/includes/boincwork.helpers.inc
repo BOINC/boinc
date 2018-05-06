@@ -203,17 +203,6 @@ function boincwork_get_project_specific_config() {
   
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
-  // By default the returned array should have an 'app_overrides'
-  // element. Even if the admin did not specificy an <app_overrides>
-  // container in the XML, a basic one is added. This is because
-  // applications are now queried from the database, and the content
-  // of the XML upload is an override.
-  if (!array_key_exists('app_overrides', $xml['project_specific_preferences'])) {
-    $simpleapps = array(
-      '@position' => 0,
-    );
-    $xml['project_specific_preferences']['app_overrides'] = $simpleapps;
-  }
   return $xml;
 }
 
@@ -271,16 +260,13 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
       }
       break;
     */
-    case 'app_overrides':
+    case 'apps':
       // At least one app needs to be selected
       $rules['apps'] = array(
         'minimum selected' => 1,
         'list' => array()
       );
       foreach ($elements as $element) {
-        // Query database for application list and merge with elements
-        // from project-specific upload XML application list.
-        $element = boincwork_query_app_for_project_specific_prefs($element);
         foreach ($element['app'] as $app) {
           $name = "app_{$app['@attributes']['id']}";
           $rules['apps']['list'][] = $name;
@@ -353,19 +339,13 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
       }
       break;
     
-    case 'app_overrides':
-      if ($values['applications']) {
-        foreach ($elements as $element) {
-          // Query database for application list and merge with elements
-          // from project-specific upload XML application list.
-          $element = boincwork_query_app_for_project_specific_prefs($element);
-          $defaults['apps_selected'] = array();
-          $defaults['apps_selected']['app_id'] = array();
-          foreach ($element['app'] as $app) {
-            $app_id = $app['@attributes']['id'];
-            if ($values['applications']["app_{$app_id}"]) {
-              $defaults['apps_selected']['app_id'][] = $app_id;
-            }
+    case 'apps':
+      foreach ($elements as $element) {
+        $defaults['app_id'] = array();
+        foreach ($element['app'] as $app) {
+          $app_id = $app['@attributes']['id'];
+          if ($values['applications']["app_{$app_id}"]) {
+            $defaults['app_id'][] = $app_id;
           }
         }
       }
@@ -427,12 +407,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', $description);
-        $description = i18nstrings('project:prefs_xml', $description);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
+        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
       
       $form[$name] = array(
@@ -475,12 +455,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', $description);
-        $description = i18nstrings('project:prefs_xml', $description);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
+        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
       
       $form[$name] = array(
@@ -532,12 +512,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', $description);
-        $description = i18nstrings('project:prefs_xml', $description);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
+        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
       
       $form[$name] = array(
@@ -551,16 +531,15 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     }
     break;
     
-  case 'app_overrides':
-    $title = "Run only the selected applications.";
-
-    // Translate elements as appropriate
-    if ($title) {
-      i18nstrings_update('project:prefs_xml', $title);
-      $title = i18nstrings('project:prefs_xml', $title);
-    }
-
-    // Create the application section of the form
+  case 'apps':
+    $title = is_array($elements['title']) ? $elements['title']['@value'] : $elements['title'];
+    
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
+      }
+    
     $form['applications'] = array(
       '#title' => bts('Applications', array(), NULL, 'boinc:account-preferences'),
       '#type' => 'fieldset',
@@ -568,42 +547,17 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       '#collapsible' => TRUE,
       '#collapsed' => FALSE
     );
-
-    // Two different XML formats are supported. The newer format has
-    // an <apps_selected> container with <app_id> elements as
-    // children. The older format has <app_id> elements only.
-    $myapp_ids = NULL;
-    if (is_array($user_prefs['apps_selected']['app_id'])) {
-      $myapp_ids = $user_prefs['apps_selected']['app_id'];
+    $applications = array();
+    if (!is_array($user_prefs['app_id'])) {
+      $user_prefs['app_id'] = array($user_prefs['app_id']);
     }
-    else if (is_array($user_prefs['app_id'])) {
-      $myapp_ids = $user_prefs['app_id'];
-    }
-    // Fix the array in the case where there is exactly one
-    // app_id. myapp_ids should be an associative array where the
-    // values are themselves an array. In effect the app_id array
-    // needs to be pushed down onre more level in the tree.
-    if (is_array($myapp_ids) AND !is_array($myapp_ids[1])) {
-      $temp = $myapp_ids;
-      $myapp_ids = array();
-      $myapp_ids[1] = $temp;
-    }
-    // Fill in the user_appplications array with the saved user project
-    // preferences from the database.
-    $user_applications = array();
-    foreach ($myapp_ids as $app) {
+    foreach ($user_prefs['app_id'] as $app) {
       if (!$app) continue;
       if (is_array($app) AND isset($app['@value'])) {
         $app = $app['@value'];
       }
-      $user_applications[] = $app;
+      $applications[] = $app;
     }
-    // For each application element, which comes from the project
-    // database list of apps, create and fill in the applications
-    // section of the form. The user_applications array is used to
-    // determine if the application should be selected. If no
-    // user_applications are set in the database, all applications
-    // will be selected.
     foreach ($elements['app'] as $app) {
       $app_id = $app['@attributes']['id'];
       $app_name = $app['@value'];
@@ -612,13 +566,14 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           $app['@attributes']['enabled'] == 'false') {
         $app_enabled = FALSE;
       }
-      if ($user_applications) {
-        $checked = in_array($app_id, $user_applications);
+      if ($applications) {
+        $checked = in_array($app_id, $applications);
       } else {
-        // If user_applications is not defined, it means there are no
-        // app_ids set in the user's project preferences payload
-        // XML. Thus all Web form values should be checked.
         $checked = TRUE;
+        if (isset($app['@attributes']['selected']) AND
+            $app['@attributes']['selected'] == 'false') {
+          $checked = FALSE;
+        }
       }
       $form['applications']["app_{$app_id}"] = array(
         '#title' => $app_name,
@@ -627,6 +582,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#disabled' => !$app_enabled
       );
     }
+    
     break;
     
   case 'group':
@@ -640,8 +596,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       
       $form[$name] = array(
@@ -669,8 +625,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       
       $form[$name] = array(
@@ -691,106 +647,6 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       // Don't generate form elements for things that aren't explicitly form
       // elements (i.e. 'title', '@attributes' keys, and the like)
   }
-}
-
-
-/**
- * Queries the BOINC project database database, app table for the list
- * of applications. Input parameter is a list of apps elements from
- * the project-specific XML upload admin page.
- *
- * The list of apps from the database and the list of apps from the
- * project-specific XML are merged together with the following algorithm.
- *   - The algorithm uses applications in the database to determine
- *     what applications are listed in the Web form. If an application
- *     is present in the project-specific XML but not in the database,
- *     it is ignored. The field 'id' is used to match the
- *     applications between the two.
- *   - If an application is in the database, the other attributes are
- *     obtained from the project-specific XML. The list of
- *     applications in this XML are overrides. Of importance, the name
- *     in the XML configuration will override the name found in the
- *     database.
- *   - The attributes for an application are obtained from the
- *     project-specific XML. However, if they are not present, the
- *     defaults are:
- *     - selected: true
- *     - enabled: true
- *     - weight: 100
- *
- * The list of applications is sorted for display. The sort comparison
- * function _dbapps_compare() is used. It sorts first by weight:
- * smaller numbers float up, larger numbers sink down; then
- * alphabetically by name using strnatcmp(); and finally by app
- * id. Weight defaults to 100, and must be a positive integer.
- *
- * Function returns an array of the merged list of applciations from
- * both sources.
- *
- * @param array $ppapps
- *   Array of applications obtained from project-specific XML upload.
- */
-function boincwork_query_app_for_project_specific_prefs($ppapps) {
-
-  // Query the project database for the list of applications.
-  db_set_active('boinc');
-  $sql = 'SELECT id, user_friendly_name FROM app WHERE deprecated = 0 ORDER BY user_friendly_name';
-  $dbres = db_query($sql);
-  db_set_active('default');
-
-  $dbapp = array();
-  if ($dbres) {
-    $position = 1;
-    while ($result = db_fetch_object($dbres)) {
-      $dbapp[$position] = array(
-        '@value' => $result->user_friendly_name,
-        '@attributes' => array(
-          'id' => $result->id,
-          'selected' => 'true',
-          'enabled' => 'true',
-          'weight' => 100,
-        ),
-        '@position' => $position,
-      );
-      $position++;
-    }
-  }
-  $dbapps = array(
-    'app' => $dbapp,
-    '@position' => $ppapps['@position'],
-  );
-
-  // Fix the array in the case where there is exactly one
-  // app_id.
-  if (is_array($ppapps['app']) AND !is_array($ppapps['app'][1])) {
-    $temp = $ppapps['app'];
-    $ppapps['app'] = array();
-    $ppapps['app'][1] = $temp;
-  }
-
-  // Loop over dbapps and attempt to match ids with the ppapps
-  // (project-specific XML upload list of applications).
-  $position = 1;
-  foreach ($dbapps['app'] as &$dbapp) {
-    foreach ($ppapps['app'] as $ppapp) {
-      // Match app ids from both arrays
-      if ($dbapp['@attributes']['id'] == $ppapp['@attributes']['id']) {
-        // Set name from ppapp data (if present)
-        if (array_key_exists('@value', $ppapp)) {
-          $dbapp['@value'] = $ppapp['@value'];
-        }
-        // Set the attributes from the ppapp data.
-        $dbapp['@attributes'] = array_replace($dbapp['@attributes'], $ppapp['@attributes']);
-        $dbapp['@position'] = $position;
-      }
-    }
-    $position++;
-  }
-
-  // Sort the apppliations by: weight, then alphabetical name, then id
-  uasort($dbapps['app'], '_dbapps_compare');
-  $dbapps['app'] = array_values($dbapps['app']);
-  return $dbapps;
 }
 
 /**
@@ -1016,14 +872,14 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   if ($type == 'project') {
     $main_prefs = array('project_preferences' => $main_prefs);
     $boincuser->project_prefs = save_configuration($main_prefs);
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $result = db_query("UPDATE user SET project_prefs = '{$boincuser->project_prefs}' WHERE id = '{$boincuser->id}'");
     db_set_active('default');
   }
   else {
     $main_prefs = array('global_preferences' => $main_prefs);
     $boincuser->global_prefs = save_configuration($main_prefs);
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $result = db_query("UPDATE user SET global_prefs = '{$boincuser->global_prefs}' WHERE id = '{$boincuser->id}'");
     db_set_active('default');
   }
@@ -1031,6 +887,109 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Ignore user functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+// These functions are boinc-ppecific "replacements" for the
+// ignore_user module's add and remove user functions.
+
+
+/**
+ *Add another user to the current user's ignore list using a BOINC
+ *username. Called from privacy preference form.
+ */
+function boincwork_ignore_user_add_user_username($name = NULL) {
+  global $user;
+
+  if (isset($name)) {
+    // Get the BOINC ID from the name string, and lookup the
+    // corresponding drupal user.
+    $boincname = substr($name, 0, strrpos($name, '_'));
+    $boincid = substr($name, strrpos($name, '_') + 1);
+    // iuid is the drupal uid to be ignored and author to be blocked.
+    $iuid = get_drupal_id($boincid);
+
+    if ($user->uid == $iuid) {
+      drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
+      drupal_goto('account/prefs/privacy');
+    }
+
+    if (is_numeric($iuid) && $iuid > 0) {
+      if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
+        db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+      }// endif db_result
+
+      if (module_exists('pm_block_user')) {
+        if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
+          db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+        }// endif db_result
+      }// endif module_exists('pm_block_user')
+
+    }// endif $iuid
+  }
+}
+
+/**
+ * Add another user's UID to the current user's ignore list.
+ */
+function boincwork_ignore_user_add_user($iuid = NULL) {
+  global $user;
+
+  if ($user->uid == $iuid) {
+    drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
+    drupal_goto();
+  }
+
+  $otheraccount = user_load($iuid);
+
+  if (is_numeric($iuid) && $iuid > 0) {
+    if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
+      db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+    }// endif db_result
+
+    if (module_exists('pm_block_user')) {
+      if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
+        db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+      }// endif db_result
+    }// endif module_exists('pm_block_user')
+
+    drupal_set_message(
+      bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
+        array(
+          '@username' => $otheraccount->boincuser_name,
+          '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+        ),
+        NULL, 'boinc:ignore-user-add'),
+      'status');
+    drupal_goto();
+  }
+  else {
+    drupal_not_found();
+  }// endif iuid
+}
+
+/**
+ * Remove user from user's ignore list.
+ */
+function boincwork_ignore_user_remove_user($iuid = NULL) {
+  global $user;
+  $otheraccount = user_load($iuid);
+
+  db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
+  if (module_exists('pm_block_user')) {
+    db_query('DELETE FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid);
+  }// endif module_exists
+  drupal_set_message(
+    bts('@username has been removed from your ignore list. See your !privacy_preferences for more details.',
+      array(
+        '@username' => $otheraccount->boincuser_name,
+        '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+      ),
+      NULL, 'boinc:ignore-user-add'),
+    'status');
+  drupal_goto('account/prefs/privacy');
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Utility functions
@@ -1048,7 +1007,7 @@ function boincwork_set_default_venue($venue = '') {
     $venue = '';
   }
   
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     UPDATE user
     SET venue = '%s'
@@ -1153,7 +1112,6 @@ function boincwork_format_stats($number, $max_digits = 4) {
   
   return $number;
 }
-
 
   //------------------------------------------------------------------------------------------------
   //  load_configuration(): Convert structured text/xml to array
@@ -1510,7 +1468,7 @@ function boincwork_host_action_links($host_id) {
  * Get details for a given host
  */
 function boincwork_host_get_info($host_id) {
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $host = db_fetch_object(db_query(
     "SELECT * FROM {host} WHERE id = '%d'",
     $host_id
@@ -1523,7 +1481,7 @@ function boincwork_host_get_info($host_id) {
  * Get the number of tasks associated with a given host
  */
 function boincwork_host_get_task_count($host_id) {
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $count = db_result(db_query(
     "SELECT COUNT(*) FROM {result} WHERE hostid = '%d'",
     $host_id
@@ -1542,7 +1500,7 @@ function boincwork_host_user_is_owner($host_id, $uid = NULL) {
   }
   $account = user_load($uid);
   // Get host owner
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $owner = db_result(db_query(
     "SELECT userid FROM {host} WHERE id = '%d'",
     $host_id
@@ -1588,7 +1546,7 @@ function boincwork_host_venue_selector($host_id) {
     drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
     drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
     // Get current venue
-    db_set_active('boinc');
+    db_set_active('boinc_ro');
     $venue = db_result(db_query(
       "SELECT venue FROM {host} WHERE id = '%d'",
       $host_id
@@ -1689,7 +1647,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   $applications = array();
 
   // BOINC DB queries for results, application names
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
 
   // Query to retreive all results, in order to calculate status for a
   // host with application names for each result.
@@ -1807,7 +1765,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   );
 
   // Query to retreive a subset of the total results for the results table.
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $sqlsub = "SELECT r.id AS id,"
       ."r.name AS name,"
       ."r.workunitid AS workunitid,"
@@ -2005,7 +1963,6 @@ function delete_col(&$array, $offset) {
  * @param string $plfm
  *  platform name, may be NULL
  */
-
 function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
   switch ($appverid) {
     case ANON_PLATFORM_UNKNOWN:
@@ -2033,22 +1990,4 @@ function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
         return "v$prettyv $prettyc $plfm";
       }
   }
-}
-  
-/**
- * uasort() compare function for dbapps array.
- */
-function _dbapps_compare($a, $b) {
-  if ($a['@attributes']['weight'] == $b['@attributes']['weight']) {
-    $alphabetize = strnatcmp($a['@value'], $b['@value']);
-
-    if ($alphabetize==0) {
-      return ($a['@attributes']['id'] - $b['@attributes']['id']);
-    }
-    else {
-      return $alphabetize;
-    }
-
-  }
-  return ($a['@attributes']['weight'] - $b['@attributes']['weight']);
 }

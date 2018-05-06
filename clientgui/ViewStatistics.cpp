@@ -739,8 +739,11 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	double y_start_val = ceil(min_val_y / d_oy_val) * d_oy_val;
 	d_oy_count = (int)floor((max_val_y - y_start_val) / d_oy_val);
 
+    double temp_int_part;
+    int prec = modf(d_oy_val, &temp_int_part) < 0.01 ? 0 : 2;
+
 	for (double ny = 0; ny <= double(d_oy_count); ++ny){
-		dc.GetTextExtent(wxString::Format(wxT("%s"), format_number(y_start_val + ny * d_oy_val, 2)), &w_temp, &h_temp, &des_temp, &lead_temp);
+		dc.GetTextExtent(wxString::Format(wxT("%s"), format_number(y_start_val + ny * d_oy_val, prec)), &w_temp, &h_temp, &des_temp, &lead_temp);
 		x0 = wxCoord(m_Graph_X_start + 1.0);
 		y0 = wxCoord(m_Ay_ValToCoord * (y_start_val + ny * d_oy_val) + m_By_ValToCoord);
 		x1 = wxCoord(m_Graph_X_end - 1.0);
@@ -753,7 +756,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 			y0 = wxCoord(m_Ay_ValToCoord * (y_start_val + ny * d_oy_val) + m_By_ValToCoord - double(h_temp) / 2.0);
 			if (x0 < 0) x0 = 0;
 			if (y0 < 0) y0 = 0;
-			dc.DrawText(wxString::Format(wxT("%s"), format_number(y_start_val + ny * d_oy_val, 2)), x0, y0);
+			dc.DrawText(wxString::Format(wxT("%s"), format_number(y_start_val + ny * d_oy_val, prec)), x0, y0);
 		}
 	}
 

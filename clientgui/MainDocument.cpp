@@ -477,6 +477,9 @@ int CMainDocument::OnInit() {
     m_pClientManager = new CBOINCClientManager();
     wxASSERT(m_pClientManager);
 
+    // client may auto-attach only when first launched
+    m_bAutoAttaching = autoattach_in_progress();
+    
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;
@@ -2711,4 +2714,10 @@ wxString FormatTime(double secs) {
 wxString format_number(double x, int nprec) {
     return wxNumberFormatter::ToString(x, nprec);
 
+}
+
+// the autoattach process deletes the installer filename file when done
+//
+bool autoattach_in_progress() {
+    return boinc_file_exists(ACCOUNT_DATA_FILENAME) != 0;
 }

@@ -212,13 +212,6 @@ void CAccountInfoPage::CreateControls()
     m_pAccountForgotPasswordCtrl = new wxHyperlinkCtrl;
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
     itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIViewRef buttonView = (HIViewRef)m_pAccountCreateCtrl->GetHandle();
-    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(buttonView);
-    HIObjectSetAccessibilityIgnored(theObject, true);
-#endif
     ////@end CAccountInfoPage content construction
 
 }

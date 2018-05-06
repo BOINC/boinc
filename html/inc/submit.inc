@@ -42,12 +42,12 @@ function req_to_xml($req, $op) {
     <app_name>$req->app_name</app_name>
     <batch_name>$req->batch_name</batch_name>
 ";
-    if ((isset($req->result_template_file)) && ($req->result_template_file)) {
-        $x .= "    <result_template_file>$req->result_template_file</result_template_file>
+    if ((isset($req->output_template_filename)) && ($req->output_template_filename)) {
+        $x .= "    <output_template_filename>$req->output_template_filename</output_template_filename>
 ";
     }
-    if ((isset($req->workunit_template_file)) && ($req->workunit_template_file)) {
-        $x .= "    <workunit_template_file>$req->workunit_template_file</workunit_template_file>
+    if ((isset($req->input_template_filename)) && ($req->input_template_filename)) {
+        $x .= "    <input_template_filename>$req->input_template_filename</input_template_filename>
 ";
     }
     if ((isset($req->app_version_num)) && ($req->app_version_num)) {
@@ -56,16 +56,26 @@ function req_to_xml($req, $op) {
     }
     foreach ($req->jobs as $job) {
         $x .= "    <job>
-        <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
-        <command_line>$job->command_line</command_line>
 ";
-        if ((isset($job->target_team)) && ($job->target_team)) {
+        if (!empty($job->name)) {
+            $x .= "    <name>$job->name</name>
+";
+        }
+        if (!empty($job->rsc_fpops_est)) {
+            $x .= "    <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
+";
+        }
+        if (!empty($job->command_line)) {
+            $x .= "    <command_line>$job->command_line</command_line>
+";
+        }
+        if (!empty($job->target_team)) {
             $x .= "        <target_team>$job->target_team</target_team>
 ";
-        } elseif ((isset($job->target_user)) && ($job->target_user)) {
+        } elseif (!empty($job->target_user)) {
             $x .= "        <target_user>$job->target_user</target_user>
 ";
-        } elseif ((isset($job->target_host)) && ($job->target_host)) {
+        } elseif (!empty($job->target_host)) {
             $x .= "        <target_host>$job->target_host</target_host>
 ";
         }
@@ -81,13 +91,11 @@ function req_to_xml($req, $op) {
             }
             $x .= "        </input_file>\n";
         }
-        // send templates for both estimate and submit ops
-        //
-        if (isset($job->wu_template)) {
-            $x .= "    <wu_template>\n$job->wu_template\n    </wu_template>\n";
+        if (!empty($job->input_template)) {
+            $x .= "    $job->input_template\n";
         }
-        if (isset($job->result_template)) {
-            $x .= "    <result_template>\n$job->result_template\n    </result_template>\n";
+        if (!empty($job->output_template)) {
+            $x .= "    $job->output_template\n";
         }
         $x .= "    </job>
 ";
@@ -143,7 +151,7 @@ function do_http_op($req, $xml, $op) {
     }
     $e = (string)$r->error_msg;
     if ($e) {
-        return array(null, $e);
+        return array(null, "BOINC server: $e");
     } else {
         return array($r, null);
     }
@@ -336,24 +344,23 @@ if (0) {
     $req->project = "http://isaac.ssl.berkeley.edu/test/";
     $req->authenticator = trim(file_get_contents("test_auth"));
     $req->app_name = "uppercase";
-    $req->batch_name = "batch_name5";
+    $req->batch_name = "batch_name_12";
     $req->app_version_num = 710;
     $req->jobs = array();
 
-    $job = new StdClass;
-    $job->input_files = array();
 
     $f = new StdClass;
     $f->mode = "remote";
     $f->url = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
     $f->nbytes = 4250;
-    $job->input_files[] = $f;
 
+if (0) {
     $f = new StdClass;
     $f->mode = "local";
     $f->source = "foobar";
     //$job->input_files[] = $f;
+}
 
     $it = "
 <input_template>
@@ -380,7 +387,7 @@ if (0) {
         <name><OUTFILE_0/></name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
+        <max_nbytes>6000000</max_nbytes>
         <url><UPLOAD_URL/></url>
     </file_info>
     <result>
@@ -392,10 +399,14 @@ if (0) {
 </output_template>
 ";
     for ($i=0; $i<2; $i++) {
-        $job->rsc_fpops_est = $i*1e9;
+        $job = new StdClass;
+        $job->input_files = array();
+        $job->input_files[] = $f;
+        $job->name = $req->batch_name."_$i";
+        //$job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
-        $job->wu_template = $it;
-        $job->result_template = $ot;
+        $job->input_template = $it;
+        $job->output_template = $ot;
         $req->jobs[] = $job;
     }
 

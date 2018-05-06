@@ -506,7 +506,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
         echo "</td></tr>\n";
     } else {
         echo "<p>";
-        show_button("add_venue.php?venue=$venue&subset=$subset$tokens>",
+        show_button("add_venue.php?venue=$venue&subset=$subset$tokens",
             tra("Add separate preferences for %1", $venue),
             tra("Add separate preferences for %1", $venue),
             "btn-primary btn-sm"

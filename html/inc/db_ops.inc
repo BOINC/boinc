@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// TODO: most of this code shouldn't exist.
+// functions to query various entities, and display them,
+// in admin web pages
+// TODO: most of this code shouldn't exist; use the standard code instead
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -127,8 +129,8 @@ function print_describe_table_onecol($table, $which, $columns) {
 
     $width=100.0/$actualcolumns;
 
-    //  echo "<td><table border='2' width=\"$width%\">\n";
-    echo "<td><table border=\"1\" width=\"100%\">\n";
+    echo "<td>";
+    start_table('table-striped');
     echo "<tr><th align=\"left\">NAME</th><th align=\"left\">Type</th><th align=\"left\">Bytes</th>\n";
     for ($count=$bot; $count<$top; $count++) {
         if ($count<$fields) {
@@ -143,7 +145,8 @@ function print_describe_table_onecol($table, $which, $columns) {
         }
         echo "\t<tr><td><b>$name</b></td><td>$type</td><td>$length</td></tr>\n";
     }
-    echo "</table></td>";
+    end_table();
+    echo "</td>";
     $result->free();
     return 0;
 }
@@ -151,11 +154,13 @@ function print_describe_table_onecol($table, $which, $columns) {
 function print_describe_table($table, $how_many_columns) {
     // Number of columns for showing table description
     echo "<h2>Description of <b>$table</b> table fields:</h2>\n";
-    echo "<table border=\"0\" width=\"100%\">\n\t<tr>";
+    start_table();
+    echo "<tr>";
     for ($i=1; $i<=$how_many_columns; $i++) {
         print_describe_table_onecol($table, $i, $how_many_columns);
     }
-    echo "\t</tr>\n</table>\n";
+    echo "</tr>";
+    end_table();
     return 0;
 }
 
@@ -405,8 +410,7 @@ function stderr_error_string($stderr_out){
     }
 }
 
-function show_result_summary() {
-
+function admin_show_result_summary() {
     $ntotal =0;     // TODO: how to count $result?
     $nvalid = 0;    // for SUCCESS results
     $ninvalid = 0;
@@ -561,7 +565,7 @@ FROM result WHERE true
     }
 
 
-    echo "<table>";
+    start_table();
     echo "<tr valign=\"top\">";
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '', '') . "</h2></td>";
     echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5", '') . "</h2></td>";
@@ -569,7 +573,8 @@ FROM result WHERE true
     echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3", '') . "</h2></td>";
     echo "</tr>";
     echo "<tr valign=\"top\">";
-    echo "<td><table border=2 cellpadding=4>\n";
+    echo "<td>";
+    start_table('table-striped');
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         $res = new StdClass;
@@ -578,9 +583,11 @@ FROM result WHERE true
              link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", '')
         );
     }
-    echo "</table></td>";
+    end_table();
+    echo "</td>";
 
-    echo "<td><table border=2 cellpadding=4>\n";
+    echo "<td>";
+    start_table('table-striped');
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
 
     for ($ro=0; $ro<8; $ro++) {
@@ -591,9 +598,11 @@ FROM result WHERE true
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
     }
-    echo "</table></td>";
+    end_table();
+    echo "</td>";
 
-    echo "<td><table border=2 cellpadding=4>\n";
+    echo "<td>";
+    start_table('table-striped');
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
     for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
         $res = new StdClass;
@@ -602,8 +611,8 @@ FROM result WHERE true
         c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($res),
         link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
     }
-    echo "</table>";
-    echo "<table border=2 cellpadding=4>\n";
+    end_table();
+    start_table('table-striped');
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
   
     for ($fds=0; $fds<4; $fds++) {
@@ -612,9 +621,11 @@ FROM result WHERE true
     }
     row2("Total files deleted",
     link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2 or file_delete_state=3)"));
-    echo "</table></td>";
+    end_table();
+    echo "</td>";
 
-    echo "<td><table border=2 cellpadding=4>\n";
+    echo "<td>";
+    start_table('table-striped');
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<7; $cs++) {
         $res = new StdClass;
@@ -624,8 +635,9 @@ FROM result WHERE true
             link_results("$client_state[$cs]", $urlquery, "client_state=$cs", "outcome=3")
         );
     }
-    echo "</table></td>";
-    echo "</table>";
+    end_table();
+    echo "</td>";
+    end_table();
 
 }
 
@@ -726,7 +738,7 @@ function table_title($table) {
     }
 }
 
-function show_platform($platform) {
+function admin_show_platform($platform) {
     start_table();
     row("ID", $platform->id);
     row("Created", time_str($platform->create_time));
@@ -736,7 +748,7 @@ function show_platform($platform) {
     end_table();
 }
 
-function show_app($app) {
+function admin_show_app($app) {
     start_table();
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
@@ -749,7 +761,7 @@ function show_app($app) {
     end_table();
 }
 
-function show_app_version($app_version) {
+function admin_show_app_version($app_version) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
@@ -777,7 +789,7 @@ function app_version_short_header() {
     ";
 }
 
-function show_app_version_short($app_version) {
+function admin_show_app_version_short($app_version) {
     $x = app_name_by_id($app_version->appid);
     $y = platform_name_by_id($app_version->platformid);
     echo "
@@ -805,7 +817,7 @@ function host_short_header() {
     ";
 }
 
-function show_host_short($host) {
+function admin_show_host_short($host) {
     echo "
         <tr>
         <td><a href=\"db_action.php?table=host&id=$host->id\">$host->id</a></td>
@@ -857,7 +869,7 @@ function hav_app_version_string($avid) {
     ";
 }
 
-function show_host_app_versions($hostid) {
+function admin_show_host_app_versions($hostid) {
     start_table();
     table_header("app version", "PFC", "Elapsed", "Turnaround");
     $havs = BoincHostAppVersion::enum("host_id=$hostid");
@@ -872,7 +884,7 @@ function show_host_app_versions($hostid) {
     end_table();
 }
 
-function show_host($host) {
+function admin_show_host($host) {
     start_table();
 
     row("ID", $host->id);
@@ -928,12 +940,12 @@ function show_host($host) {
     row("# of results today", $host->nresults_today);
     row("Results", "<a href=\"db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time\">click here</a>");
     end_table();
-    show_host_app_versions($host->id);
+    admin_show_host_app_versions($host->id);
 }
 
-function show_workunit($wu) {
+function admin_show_workunit($wu) {
     $_GET = array('workunitid' => $wu->id);
-    show_result_summary();
+    admin_show_result_summary();
 
     start_table();
     row("Created", time_str($wu->create_time));
@@ -982,7 +994,8 @@ function show_workunit($wu) {
 function workunit_short_header() {
     echo "
         <tr>
-        <th>WU ID</th>
+        <th>ID</th>
+        <th>name</th>
         <th>canonical result</th>
         <th>error_mask</th>
         <th>file delete</th>
@@ -991,20 +1004,31 @@ function workunit_short_header() {
     ";
 }
 
-function show_workunit_short($wu) {
+function admin_show_workunit_short($wu) {
     if ($wu->canonical_resultid) {
-        $cr = "<a href=\"db_action.php?table=result&id=$wu->canonical_resultid\">$wu->canonical_resultid</a>";
+        $cr = sprintf('<a href="db_action.php?table=result&id=%d">%d</a>',
+            $wu->canonical_resultid,
+            $wu->canonical_resultid
+        );
     } else {
         $cr = "none";
     }
-    $wu_link = "<a href=\"db_action.php?table=workunit&id=".$wu->id."&detail=high\">".$wu->id."</a>";
-    $cr = $cr. " <a href=\"db_action.php?table=result&workunitid=$wu->id&detail=low\">all</a>";
+    $cr .= sprintf(
+        ' <a href="db_action.php?table=result&workunitid=%d&detail=low">all</a>',
+        $wu->id
+    );
+    $wu_link = sprintf(
+        '<a href="db_action.php?table=workunit&id=%d&detail=high">%d</a>',
+        $wu->id,
+        $wu->id
+    );
     $e = wu_error_mask_str($wu->error_mask);
     $f = file_delete_state_str($wu->file_delete_state);
     $a = assimilate_state_str($wu->assimilate_state);
     echo "
         <tr>
         <td>$wu_link</td>
+        <td>$wu->name</td>
         <td>$cr</td>
         <td>$e</td>
         <td>$f</td>
@@ -1051,7 +1075,7 @@ function credit_str($c) {
     }
 }
 
-function show_result_ops($result) {
+function admin_show_result($result) {
     $wu_name = wu_name_by_id($result->workunitid);
 
     start_table();
@@ -1131,7 +1155,7 @@ function result_short_header() {
     ";
 }
 
-function show_result_short($result) {
+function admin_show_result_short($result) {
     $ss = result_server_state_string($result)." [$result->server_state]";
     $oc = result_outcome_string($result)." [$result->outcome]";
     $vs = validate_state_str($result)." [$result->validate_state]";
@@ -1184,7 +1208,7 @@ function show_result_short($result) {
     ";
 }
 
-function show_user($user) {
+function admin_show_user($user) {
     start_table();
     row("ID", $user->id);
     row("Created", time_str($user->create_time));
@@ -1209,7 +1233,7 @@ function show_user($user) {
     end_table();
 }
 
-function show_user_summary($maxuser) {
+function admin_show_user_summary($maxuser) {
     $top_country = array();
     $top_language = array();
     $db = BoincDb::get(true);
@@ -1289,7 +1313,7 @@ function team_type_string($s) {
     }
 }
 
-function show_team($team) {
+function admin_show_team($team) {
     start_table();
     row("ID", $team->id);
     row("Team Founder", "<a href=\"db_action.php?table=user&id=$team->userid\">" . user_name_by_id($team->userid) . "</a>");

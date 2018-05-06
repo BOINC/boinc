@@ -117,8 +117,10 @@
 #include <wx/mstream.h>
 #include <wx/hash.h>
 #include <wx/selstore.h>
+#if wxUSE_WEBVIEW
 #include <wx/webview.h>
 #include <wx/webviewfshandler.h>
+#endif
 #include <wx/snglinst.h>
 #include <wx/bmpcbox.h>
 #include <wx/evtloop.h>

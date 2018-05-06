@@ -115,4 +115,10 @@ function friend_accept_rss($notify, &$title, &$msg, &$url) {
     $url = secure_url_base().USER_HOME;
 }
 
+// delete friendship connections
+//
+function delete_friends($user) {
+    BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+}
+
 ?>

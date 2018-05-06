@@ -30,6 +30,8 @@
 # Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
 # Updated 3/11/16 to remove obsolete targets MakeAppIcon_h & WaitPermissions
 # Updated 3/13/16 to add -target and -setting optional arguments
+# Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
+# Updated 10/19/17 Special handling of screensaver build is no longer needed
 #
 ## This script requires OS 10.8 or later
 #
@@ -88,15 +90,7 @@ buildlibs=0
 buildclient=0
 buildzip=1
 style="Deployment"
-isXcode6orLater=0
 unset settings
-
-xcodeversion=`xcodebuild -version`
-xcodeMajorVersion=`echo $xcodeversion | cut -d ' ' -f 2 | cut -d '.' -f 1`
-
-if [ "$xcodeMajorVersion" -gt "5" ]; then
-isXcode6orLater=1
-fi
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -130,13 +124,8 @@ fi
 
 ## "-all" overrides "-lib" and "-client" since it includes those targets
 if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
-    if [ $isXcode6orLater = 0 ]; then
-        ## We can build the screensaver using our standard settings (with Garbage Collection)
-        targets="-target Build_All"
-    else
-        ## We must modify the build settings for the screensaver only, to build it with ARC
-        targets="-target SetVersion -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target BOINC_Client -target switcher -target setprojectgrp -target cmd_boinc -target mgr_boinc -target Install_BOINC -target PostInstall -target Uninstaller -target SetUpSecurity -target AddRemoveUser -target ss_app -target gfx_switcher"
-    fi
+    buildall=1
+    targets="-target Build_All"
 fi
 
 version=`uname -r`;
@@ -173,24 +162,8 @@ echo ""
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 result=0
 
-if [ $isXcode6orLater = 0 ]; then
-    ## echo "Xcode version < 6"
-    ## Build the screensaver using our standard settings (with Garbage Collection)
-    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
-    result=$?
-else
-    ## echo "Xcode version > 5"
-    ## We must modify the build settings for the screensaver only, to build it with ARC
-    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean}  build ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
-    result=$?
-
-    if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
-        if [ $result -eq 0 ]; then
-            xcodebuild -project boinc.xcodeproj -target ScreenSaver -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ARCHS=x86_64 GCC_ENABLE_OBJC_GC=unsupported ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
-            result=$?
-        fi
-    fi
-fi
+xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
+result=$?
 
 if [ $result -eq 0 ]; then
     # build ibboinc_zip.a for -all or -lib or default, where

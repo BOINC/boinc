@@ -135,6 +135,41 @@ void unescape_os_release(char* buf) {
     *out = 0;
 }
 
+int get_libc_version(string& version, string& extra_info) {
+    char buf[1024] = "";
+    string strbuf;
+    FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
+    if (f) {
+        char* retval = fgets(buf, sizeof(buf), f);
+        strbuf = (string)buf;
+        while (fgets(buf, sizeof(buf), f)) {
+            // consume output to allow command to exit gracefully
+        }
+        int status = pclose(f);
+        if (!retval || status == -1 || !WIFEXITED(status) || WEXITSTATUS(status)) {
+            return 1;
+        }
+        strip_whitespace(strbuf);
+        string::size_type parens1 = strbuf.find('(');
+        string::size_type parens2 = strbuf.rfind(')');
+        string::size_type blank = strbuf.rfind(' ');
+
+        if (blank != string::npos) {
+            // extract version number
+            version = strbuf.substr(blank+1);
+        } else {
+            return 1;
+        }
+        if (parens1 != string::npos && parens2 != string::npos && parens1 < parens2) {
+            // extract extra information without parenthesis
+            extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
+        }
+    } else {
+        return 1;
+    }
+    return 0;
+}
+
 int main(void) {
     char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
@@ -150,6 +185,7 @@ int main(void) {
 #endif
     char  p_vendor[256], p_model[256], product_name[256];
     char  os_name[256], os_version[256];
+    string os_version_extra("");
     char buf2[256];
     int m_cache=-1;
 
@@ -184,7 +220,7 @@ int main(void) {
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
             strstr(buf, "vendor     : ")
-#elif __hppa__        
+#elif __hppa__
             strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
             strstr(buf, "machine\t\t: ")
@@ -559,14 +595,30 @@ int main(void) {
             }
             strip_whitespace(buf2);
         }
-        strcat(buf2, " [");
-        strcat(buf2, os_version);
-        strcat(buf2, "]");
+        os_version_extra = (string)os_version;
         safe_strcpy(os_version, buf2);
         if (strlen(dist_name)) {
             strcat(os_name, " ");
             strcat(os_name, dist_name);
         }
+    }
+
+    string libc_version(""), libc_extra_info("");
+    if (!get_libc_version(libc_version, libc_extra_info)) {
+        // add info to os_version_extra
+        if (!os_version_extra.empty()) {
+            os_version_extra += "|";
+        }
+        os_version_extra += "libc " + libc_version;
+        if (!libc_extra_info.empty()) {
+            os_version_extra += " (" + libc_extra_info + ")";
+        }
+    }
+
+    if (!os_version_extra.empty()) {
+        strcat(os_version, " [");
+        strcat(os_version, os_version_extra.c_str());
+        strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",

@@ -677,8 +677,8 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     strMenuDescription.Printf(
-        _("Show information about BOINC and %s"),
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("See more information about %s on the web"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
@@ -785,11 +785,6 @@ bool CAdvancedFrame::CreateNotebook() {
 
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIObjectSetAccessibilityIgnored((HIObjectRef)pPanel->GetHandle(), true);
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
     return true;
@@ -1731,7 +1726,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
 }
-
 
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));

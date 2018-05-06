@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -91,16 +91,16 @@ function show_form($all) {
         echo "<a href=\"manage_apps.php?all=1\">Show deprecated applications</a>";
     }
 
-    start_table();
+    start_table('table-striped');
     table_header(
         "ID",
-        "Name and description<br><p class=\"text-muted\">Click for details</p>",
+        "Name and description<br><small>Click for details</small>",
         "Created",
-        "weight<br><a href=https://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><p class=\"text-muted\">details</p></a>",
+        "weight<br><a href=https://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><small>details</small></a>",
         "shmem items",
-        "HR type<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><p class=\"text-muted\">details</p></a>",
-        "Adaptive replication<br><a href=http://boinc.berkeley.edu/trac/wiki/AdaptiveReplication><p class=\"text-muted\">details</p></a>",
-        "homogeneous app version?<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><p class=\"text-muted\">details</p></a>",
+        "HR type<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><small>details</small></a>",
+        "Adaptive replication<br><a href=http://boinc.berkeley.edu/trac/wiki/AdaptiveReplication><small>details</small></a>",
+        "homogeneous app version?<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><small>details</small></a>",
         "deprecated?",
         "Non-CPU-intensive?",
         "Beta?",
@@ -115,7 +115,6 @@ function show_form($all) {
     }
 
     $apps = BoincApp::enum($app_clause);
-    $i = 0;
     foreach ($apps as $app) {
         // grey-out deprecated versions
         $f1=$f2='';
@@ -123,8 +122,7 @@ function show_form($all) {
             $f1 = "<font color='GREY'>";
             $f2 = "</font>";
         }
-        echo "<tr class=row$i><form action=$action_url method=POST>";
-        $i = 1-$i;
+        echo "<tr><form action=$action_url method=POST>";
         echo "<input type=hidden name=id value=$app->id>";
         echo "  <TD align='center'>$f1 $app->id $f2</TD>\n";
 
@@ -144,12 +142,12 @@ function show_form($all) {
 
         $v = $app->homogeneous_redundancy;
         echo "  <TD align='center'>
-            <input name='homogeneous_redundancy' value='$v'></TD>
+            <input size=4 name='homogeneous_redundancy' value='$v'></TD>
         ";
 
         $v = $app->target_nresults;
         echo "  <TD align='center'>
-            <input name='target_nresults' value='$v'></TD>
+            <input size=4 name='target_nresults' value='$v'></TD>
         ";
 
         $v = '';

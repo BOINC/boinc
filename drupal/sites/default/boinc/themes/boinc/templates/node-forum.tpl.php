@@ -99,10 +99,18 @@
       <h2 class="title"><?php print $subtitle; ?></h2>
     </div>
     <div class="subscribe">
-      <?php if ($subscribe_link): ?>
-        <a href="#block-comment_form_block-comment_form">Post new comment</a> |&nbsp;
-        <?php print $subscribe_link; ?>
-      <?php endif; ?>
+      <ul class="links">
+        <?php if (user_access('post comments') AND ($comment==COMMENT_NODE_READ_WRITE)): ?>
+          <li class="first"><a href="#block-comment_form_block-comment_form">Post new comment</a></li>
+          <?php if ($subscribe_link): ?>
+            <li class="last"><?php print $subscribe_link; ?></li>
+          <?php endif; ?>
+        <?php else: ?>
+          <?php if ($subscribe_link): ?>
+            <li class="first"><?php print $subscribe_link; ?></li>
+          <?php endif; ?>
+        <?php endif; ?>
+      </ul>
     </div>
     <div class="clearfix"></div>
   </div>
@@ -144,12 +152,17 @@
           }
           print '</div>';
         }
-        // Generate ignore user link
-        $ignore_link = ignore_user_link('node', $node);
+        // ignore user link is now generated in preprocess functions.
         //echo '<pre>' . print_r($node->links, TRUE) . '</pre>';
       ?>
       <div class="name"><?php print $name; ?></div>
       <?php if ($account->uid): ?>
+      <?php if (in_array('moderator', $account->roles)): ?>
+        <div class="moderator"><?php print bts('Moderator', array(), NULL, 'boinc:user-info'); ?></div>
+      <?php endif; ?>
+      <?php if (in_array('administrator', $account->roles)): ?>
+        <div class="administrator"><?php print bts('Administrator', array(), NULL, 'boinc:user-info'); ?></div>
+      <?php endif; ?>
         <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
         <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
         <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>
