@@ -55,7 +55,8 @@ function check_passwd_hash($user, $passwd_hash) {
 }
 
 function check_passwd_ui($user, $passwd) {
-    if( !check_passwd($user, $passwd) ) {
+		$passwd_hash = md5($passwd.$user->email_addr);
+    if( !check_passwd_hash($user, $passwd_hash) ) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         page_head("Password incorrect");
         echo "The password you entered is incorrect. Please go back and try again.\n";
