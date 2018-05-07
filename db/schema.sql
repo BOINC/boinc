@@ -83,8 +83,6 @@ create table user (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
     email_addr              varchar(254)    not null,
-    previous_email_addr     varchar(254),
-    email_addr_change_time  int             not null default 0,
     name                    varchar(254),
     authenticator           varchar(254),
     country                 varchar(254),
@@ -114,6 +112,8 @@ create table user (
     donated                 smallint        not null,
     login_token             char(32)        not null default '',
     login_token_time        double          not null default 0,
+    previous_email_addr     varchar(254)    not null default '',
+    email_addr_change_time  double          not null default 0,
     primary key (id)
 ) engine=InnoDB;
 

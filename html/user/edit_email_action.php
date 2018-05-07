@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// ADD COMMENT HERE.  EXPLAIN PREV EMAIL MECHANISM, PASSWD REHASH
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
@@ -59,12 +61,12 @@ if (!is_valid_email_addr($email_addr)) {
             $passwd_hash = md5($passwd.$email_addr);
             $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
             $email_addr = BoincDb::escape_string($email_addr);
-	    $user->email_addr_change_time = time();
+            $user->email_addr_change_time = time();
             $result = $user->update(
                 "email_addr='$email_addr', previous_email_addr='$user->email_addr', email_addr_change_time=$user->email_addr_change_time, passwd_hash='$database_passwd_hash', email_validated=0"
             );
-            $user->previous_email_addr=$user->email_addr;
-            $user->email_addr=$email_addr;
+            $user->previous_email_addr = $user->email_addr;
+            $user->email_addr = $email_addr;
             if ($result) {
                 echo tra("The email address of your account is now %1.", $email_addr);
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {

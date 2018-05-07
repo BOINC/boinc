@@ -32,7 +32,7 @@ if (is_valid_email_addr($user->email_addr)) {
 }
 
 if ($user->email_addr_change_time + 604800 > time()) {
-    echo tra("Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change incorrect.");
+    echo tra("Email address was changed within the past 7 days. Please look for an email to $user->previous_email_addr to verify this change.");
 } else {
     form_start(secure_url_base()."edit_email_action.php", "post");
     form_input_text(

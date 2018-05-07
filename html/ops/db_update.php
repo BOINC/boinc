@@ -1104,8 +1104,8 @@ function update_4_18_2018() {
 
 function update_4_19_2018() {
     do_query("alter table user
-	add column previous_email_addr varchar(254),
-	add column email_addr_change_time int not null default 0
+	add column previous_email_addr varchar(254) not null default '',
+	add column email_addr_change_time double not null default 0
     ");
 }
 
