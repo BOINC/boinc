@@ -62,6 +62,7 @@ function check_passwd_ui($user, $passwd) {
         page_tail();
         exit;
     }
+}
 
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
