@@ -50,20 +50,13 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("This account has been administratively disabled.");
     }
+
     // allow authenticator as password
+    //
     if ($passwd != $user->authenticator) {
         $passwd_hash = md5($passwd.$email_addr);
-        if (password_verify($passwd_hash, $user->passwd_hash)) {
-            // on valid login, rehash password if necessary to upgrade hash overtime
-            // as the defaults change. 
-            if (password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT)) {
-                do_passwd_rehash($user, $passwd_hash);
-            }
-        } else if ($passwd_hash == $user->passwd_hash) {
-            // if password is the legacy md5 hash, then rehash to update to
-            // a more secure hash
-            do_passwd_rehash($user, $passwd_hash);
-        } else {
+
+        if (!check_passwd_hash($user, $passwd_hash)) {
             sleep(LOGIN_FAIL_SLEEP_SEC);
             page_head("Password incorrect");
             echo "The password you entered is incorrect. Please go back and try again.\n";

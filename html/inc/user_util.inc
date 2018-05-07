@@ -25,26 +25,33 @@ include_once("../inc/email.inc");
 include_once("../inc/recaptchalib.php");
 require_once("../inc/password_compat/password.inc");
 
+// Password hash has old format.
+// Update user record with new format
+//
 function do_passwd_rehash($user, $passwd_hash) {
     $database_passwd_hash = password_hash($passwd_hash, PASSWORD_DEFAULT);
     $result = $user->update(" passwd_hash='$database_passwd_hash' ");
 }
 
-function check_passwd($user, $passwd) {
-    $passwd_hash = md5($passwd.$user->email_addr);
-    
-    if ( password_verify($passwd_hash, $user->passwd_hash) ) {
-        return true;
-    }
-    
-    if ($passwd_hash == $user->passwd_hash) {
-        // if password is the legacy md5 hash, then rehash to update to
-        // a more secure hash
+// return true if the passwd hash (old format)
+// matches the user's passwd hash (possibly new format)
+//
+function check_passwd_hash($user, $passwd_hash) {
+    if (password_verify($passwd_hash, $user->passwd_hash)) {
+        // on valid login, rehash password to upgrade hash overtime
+        // as the defaults change.
+        //
+        if (password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT)) {
+            do_passwd_rehash($user, $passwd_hash);
+        }
+    } else if ($passwd_hash == $user->passwd_hash) {
+        // user record has old format.  Change to new.
+        //
         do_passwd_rehash($user, $passwd_hash);
-        return true;
+    } else {
+        return false;
     }
-    
-    return false;
+    return true;
 }
 
 function check_passwd_ui($user, $passwd) {
@@ -55,7 +62,6 @@ function check_passwd_ui($user, $passwd) {
         page_tail();
         exit;
     }
-}
 
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;

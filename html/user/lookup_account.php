@@ -62,6 +62,8 @@ if (LDAP_HOST && $ldap_auth) {
         xml_error(ERR_DB_NOT_FOUND);
     }
 
+    // here the caller was testing for existence of acct w/ given email
+    //
     if (!$passwd_hash) {
         echo "<account_out>\n";
         echo "   <success/>\n";
@@ -72,22 +74,16 @@ if (LDAP_HOST && $ldap_auth) {
     $auth_hash = md5($user->authenticator.$user->email_addr);
 
     // if no password set, set password to account key
+    // WHEN WOULD THIS EVER HAPPEN?
+    // WHY SET IT TO AUTHENTICATOR?
+    // SHOULD RETURN PASSWD FAILURE?
     //
     if (!strlen($user->passwd_hash)) {
         $user->passwd_hash = password_hash($auth_hash, PASSWORD_DEFAULT);
         $user->update(" passwd_hash='$user->passwd_hash' ");
     }
-    
-    if (password_verify($passwd_hash, $user->passwd_hash)) {
-        // on valid login, rehash password if necessary to upgrade hash overtime
-        // as the defaults change. 
-        if (password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT)) {
-            do_passwd_rehash($user, $passwd_hash);
-        }
-    } else if ($passwd_hash == $user->passwd_hash) {
-        // if password is the legacy md5 hash, then rehash to update to
-        // a more secure hash
-        do_passwd_rehash($user, $passwd_hash);
+
+    if (check_passwd_hash($user, $passwd_hash)) {
     } else if ($auth_hash == $passwd_hash) {
         // if the passed hash matches the auth hash, then allow it
     } else {
@@ -95,7 +91,6 @@ if (LDAP_HOST && $ldap_auth) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         xml_error(ERR_BAD_PASSWD);
     }
-
 }
 echo "<account_out>\n";
 echo "<authenticator>$user->authenticator</authenticator>\n";

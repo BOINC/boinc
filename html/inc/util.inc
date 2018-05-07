@@ -17,6 +17,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Utility functions for BOINC web pages
+// Stuff that's not web-specific (e.g. that's used in non-web scripts)
+// should go in util_basic.inc
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -30,7 +33,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
-require_once("../inc/random_compat/random.inc");
 
 // parse some stuff from config (do it here for efficiency)
 //
@@ -516,12 +518,6 @@ function row_heading($x, $class='bg-primary') {
     echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
         ', $class, $x
     );
-}
-
-// return hard-to-guess string of 32 random hex chars
-//
-function random_string() {
-    return bin2hex(random_bytes(16));
 }
 
 function url_tokens($auth) {
@@ -1042,10 +1038,6 @@ function show_badges_row($is_user, $item) {
     if ($x) {
         row2("Badges", $x);
     }
-}
-
-function dtime() {
-    return microtime(true);
 }
 
 // If this request is from a BOINC client, return its version as MMmmRR.
