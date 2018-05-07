@@ -27,6 +27,9 @@
 -- Fields should generally have a default
 -- (newer MySQL versions don't have automatic defaults)
 
+-- add new fields to the end of the table
+-- (makes it easier to update C++ code)
+
 -- Engine is specified as InnoDB for most tables;
 -- supposedly this gives better performance.
 -- Some (post, thread, profile) are myISAM because it supports fulltext index
