@@ -198,10 +198,10 @@ DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
 DB_ID_TYPE DB_APP::get_id() {return id;}
 DB_ID_TYPE DB_APP_VERSION::get_id() {return id;}
 DB_ID_TYPE DB_USER::get_id() {return id;}
-DB_ID_TYPE DB_USER_DELETED::get_id() {return id;}
+DB_ID_TYPE DB_USER_DELETED::get_id() {return userid;}
 DB_ID_TYPE DB_TEAM::get_id() {return id;}
 DB_ID_TYPE DB_HOST::get_id() {return id;}
-DB_ID_TYPE DB_HOST_DELETED::get_id() {return id;}
+DB_ID_TYPE DB_HOST_DELETED::get_id() {return hostid;}
 DB_ID_TYPE DB_WORKUNIT::get_id() {return id;}
 DB_ID_TYPE DB_RESULT::get_id() {return id;}
 DB_ID_TYPE DB_MSG_FROM_HOST::get_id() {return id;}
@@ -437,7 +437,7 @@ void DB_USER_DELETED::db_print(char* buf){
 void DB_USER_DELETED::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id = atol(r[i++]);
+    userid = atol(r[i++]);
     strcpy2(public_cross_project_id, r[i++]);
     create_time = atoi(r[i++]);
 }
@@ -921,7 +921,7 @@ void DB_HOST_DELETED::db_print(char* buf){
 void DB_HOST_DELETED::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id = atol(r[i++]);
+    hostid = atol(r[i++]);
     strcpy2(public_cross_project_id, r[i++]);
     create_time = atoi(r[i++]);
 }

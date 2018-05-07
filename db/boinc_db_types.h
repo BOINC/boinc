@@ -218,7 +218,7 @@ struct USER {
 };
 
 struct USER_DELETED {
-    DB_ID_TYPE id;
+    DB_ID_TYPE userid;
     char public_cross_project_id[256];
     int create_time;
     void clear();
@@ -387,7 +387,7 @@ struct HOST {
 };
 
 struct HOST_DELETED {
-    DB_ID_TYPE id;
+    DB_ID_TYPE hostid;
     char public_cross_project_id[256];
     int create_time;
     void clear();

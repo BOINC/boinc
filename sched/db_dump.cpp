@@ -308,7 +308,7 @@ void write_host_deleted(HOST_DELETED& host_deleted, FILE* f) {
         "    <id>%lu</id>\n"
         "    <host_cpid>%s</host_cpid>\n"
         "</host>\n",
-        host_deleted.id,
+        host_deleted.hostid,
         host_deleted.public_cross_project_id
     );
 }
@@ -434,7 +434,7 @@ void write_user_deleted(USER_DELETED& user_deleted, FILE* f) {
         "    <id>%lu</id>\n"
         "    <cpid>%s</cpid>\n"
         "</user>\n",
-        user_deleted.id,
+        user_deleted.userid,
         user_deleted.public_cross_project_id
     );
 }
@@ -799,7 +799,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     case TABLE_USER_DELETED:
         n = 0;
         while (1) {
-            retval = user_deleted.enumerate("order by id", true);
+            retval = user_deleted.enumerate("order by userid", true);
             if (retval) break;
             nusers_deleted++;
             for (i=0; i<outputs.size(); i++) {
@@ -851,7 +851,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     case TABLE_HOST_DELETED:
         n = 0;
         while(1) {
-            retval = host_deleted.enumerate("order by id");
+            retval = host_deleted.enumerate("order by hostid");
             if (retval) break;
             nhosts_deleted++;
             for (i=0; i<outputs.size(); i++) {
