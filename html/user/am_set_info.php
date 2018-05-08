@@ -187,7 +187,9 @@ if ($venue) {
     $query .= " venue='$venue', ";
 }
 
-// TODO: COMMENT THIS
+// Check to see if email_addr is different then what user->email-addr has
+// If it is different, then update the database and trigger sending an
+// email to the user that the email address has been changed.
 //
 if ($email_addr && $email_addr != $user->email_addr) {
     $user->previous_email_addr = $user->email_addr;

@@ -16,7 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// ADD COMMENT HERE.  EXPLAIN PREV EMAIL MECHANISM, PASSWD REHASH
+// This changes the user email, and then sets previous_email_addr to the old
+// user email address for recovery when needed.  It triggers emails to both
+// addresses for a way to revert it to the previous address.
+//
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
