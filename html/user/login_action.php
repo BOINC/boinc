@@ -114,7 +114,7 @@ function login_via_link($id, $t, $h) {
     }
     else {
         send_cookie('auth', $user->authenticator, true);
-        $next_url = "home.php"
+        $next_url = "home.php";
     }
     Header("Location: ".url_base()."$next_url");
 }
