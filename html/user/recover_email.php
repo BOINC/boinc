@@ -16,7 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// ADD COMMENT
+// If user has an email due to an email change made for their account,
+// then they can visit this page with the token and user id to revert
+// the change within 7 days of the initial change.  
+// Note:  The token is removed when it has been used.
+//
 
 require_once("../inc/util.inc");
 require_once("../inc/token.inc");
