@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
+require_once("../inc/common_defs.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
@@ -102,6 +103,51 @@ function obfuscate_account($user) {
     return true;
 }
 
+
+// return true if the result is in progress
+function is_in_progress($res) {
+    if ($res->server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
+        return true;
+    }
+    return false;
+}
+
+// returns true if the result finished successfully but is either 
+// pending validation or inconclusive
+function is_over_but_not_validated($res) {
+    if ($res->server_state == RESULT_SERVER_STATE_OVER && $res->outcome == RESULT_OUTCOME_SUCCESS &&
+            ($res->validate_state == VALIDATE_STATE_INIT || $res->validate_state == VALIDATE_STATE_INCONCLUSIVE) ) {
+        return true;
+    }    
+    return false;
+}
+
+function transition_workunit($res) {
+    $now = time();
+    BoincWorkunit::update_aux("transition_time=$now where id=$res->workunitid");
+}
+
+// This method handles dissassociating the user from their results.
+// It will cancel all in progress or returned, but not yet validated 
+// results for a user.  For other results, it will set the userid and 
+// hostid fields to 0
+function cancel_results_for_user($user) {
+    $ress = BoincResult::enum("userid = $user->id");
+    $cancel_clause="server_state=".RESULT_SERVER_STATE_OVER.", outcome=".RESULT_OUTCOME_CLIENT_DETACHED.", validate_state=".VALIDATE_STATE_INVALID;
+    $set_id_clause="hostid=0, userid=0";
+    foreach($ress as $res) {
+        if (is_in_progress($res)) {
+            $res->update($cancel_clause.", ".$set_id_clause);
+            transition_workunit($res);
+        } else if (is_over_but_not_validated($res)) {
+            $res->update($cancel_clause.", ".$set_id_clause);
+            transition_workunit($res);
+        } else {
+            $res->update($set_id_clause);
+        }
+    }
+}
+
 // This method deletes all rows from the database associated with the user
 function wipe_account($user) {
     $db = BoincDb::get();
@@ -130,7 +176,7 @@ function wipe_account($user) {
     
     
     //It is much faster to update results with single query
-    $db->do_query("update result set hostid=0,userid=0 where userid = $user->id");
+    cancel_results_for_user($user);
     
     BoincHostAppVersion::delete_for_user($user->id);
     BoincHost::delete_for_user($user->id);
