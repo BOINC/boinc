@@ -53,7 +53,7 @@ if (is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
             $database_passwd_hash = password_hash(random_string() , PASSWORD_DEFAULT);
             //Change previous_email
             $result = $tmpuser->update(
-                "email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=0, passwd_hash='$database_passwd_hash', email_validated=0"
+                "email_addr=previous_email_addr, previous_email_addr='', email_addr_change_time=0, passwd_hash='$database_passwd_hash', email_validated=0"
             );
             $result = delete_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL);
 	}
