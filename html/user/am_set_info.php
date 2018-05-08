@@ -117,17 +117,17 @@ $email_addr = strtolower($email_addr);
 if ($email_addr && $email_addr != $user->email_addr) {
     $tmpuser = BoincUser::lookup_email_addr($email_addr);
     if ($tmpuser) {
-        xml_error(ERROR_BAD_EMAIL_ADDR, "There's already an account with that email address.");
+        xml_error(ERR_BAD_EMAIL_ADDR, "There's already an account with that email address.");
     }
 
     //check if the email address is included in previous_email_addr window. 
     //
     $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
     if ($tmpuser) {
-        xml_error(ERROR_BAD_EMAIL_ADDR, "Email address is already in use");
+        xml_error(ERR_BAD_EMAIL_ADDR, "Email address is already in use");
     }
     if ($user->email_addr_change_time + 604800 > time()) {
-        xml_error(ERROR_BAD_EMAIL_ADDR, "Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change is incorrect.");
+        xml_error(ERR_BAD_EMAIL_ADDR, "Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change is incorrect.");
     }
 
     if (!is_valid_email_addr($email_addr)) {
