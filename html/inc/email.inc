@@ -100,9 +100,6 @@ For further information and assistance with ".PROJECT.", visit
 }
 
 function send_changed_email($user) {
-    $body_new = "";
-    $body_old = "";
-
     $duration = TOKEN_DURATION_ONE_WEEK;
 
     $token = create_token($user->id, TOKEN_TYPE_CHANGE_EMAIL, $duration);
