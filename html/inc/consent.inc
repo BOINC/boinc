@@ -35,3 +35,25 @@ function consent_to_termsofuse($user, $consent_id, $consent_flag, $consent_not_r
     );
 
 }
+
+function consent_after_login($user, $perm=true, $next_url = "") {
+    session_start();
+    $_SESSION['user'] = $user;
+    $_SESSION['perm'] = $perm;
+    $save_url = $next_url;
+    $consent_result = BoincConsent::lookup("userid=$user->id AND consent_id=1");
+    if ($consent_result) {
+        if ($consent_result->consent_flag != 1) {
+            $next_url = "user_optin.php?next_url=$save_url";
+        }
+        else{
+            send_cookie('auth', $user->authenticator, $perm);
+            session_unset();
+            session_destroy();
+        }
+    }
+    else {
+        $next_url = "user_optin.php?next_url=$save_url";
+    }
+    return $next_url;
+}

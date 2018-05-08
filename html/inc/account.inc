@@ -158,4 +158,28 @@ function login_form($next_url) {
     form_end();
 }
 
+function user_optin_form($next_url) {
+    form_start(secure_url_base()."/user_optin_action.php", "post");
+    form_input_hidden("next_url", $next_url);
+
+    $tou_file = "../../terms_of_use.txt";
+    $terms_of_use = trim(file_get_contents($tou_file));
+    if ($terms_of_use) {
+        panel('Terms of Use', function() use($terms_of_use) {
+            echo nl2br($terms_of_use);
+        }
+        );
+        $myitems = array(
+            array("terms_of_use_optin_consent", "", false),
+        );
+        form_checkboxes(tra("Do you agree to the terms of use above?"), $myitems, 'tabindex="0"');
+    }
+    else {
+        // error - no terms of use for user to opt-in to!
+    }
+
+    form_submit("I agree");
+    form_end();
+}
+
 ?>
