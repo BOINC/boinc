@@ -21,7 +21,7 @@
 require_once('../inc/util_ops.inc');
 
 // This function deletes a row from consent_type table.
-function update() {
+function mct_update() {
     $cid = post_int("consent_id");
     $consent_type = BoincConsentType::lookup("consent_id = $cid");
     $consent_type->delete_aux("consent_id = $cid");
@@ -43,7 +43,7 @@ function add_consenttype() {
     echo "<h2>Consent Type added.</h2>";
 }
 
-function show_form() {
+function mct_show_form() {
     $_consenttypes = BoincConsentType::enum("");
 
     if (!in_rops()) {
@@ -110,11 +110,11 @@ if (post_str("add_consenttype", true)) {
     add_consenttype();
 }
 else if (post_str("delete", true)) {
-    update();
+    mct_update();
 }
 
 // Main display function - shows the form with consent types.
-show_form();
+mct_show_form();
 
 admin_page_tail();
 ?>

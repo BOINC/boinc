@@ -236,7 +236,6 @@ if ( parse_bool($config, "enable_record_optin_consent") and strlen($cquery) ) {
         $ct = BoincConsentType::enum("consent_id = $consent_id");
         if ($ct) {
             $rc = consent_to_termsofuse($user, $consent_id, $consent_flag, $consent_not_required, $consent_source, $now);
-            );
             if (!$rc) {
                 xml_error(-1, "database error: ".BoincDb::error());
             }

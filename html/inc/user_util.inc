@@ -166,6 +166,7 @@ function validate_post_make_user() {
     }
 
     // Check if consent to terms of use has been given.
+    $myconsent = FALSE;
     if (parse_bool($config, "enable_record_optin_consent")) {
         $optin = post_str("terms_of_use_optin_consent", true);
         if (!$optin) {
