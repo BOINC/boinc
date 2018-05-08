@@ -113,8 +113,8 @@ $send_email = BoincDb::escape_string($send_email);
 $show_hosts = BoincDb::escape_string($show_hosts);
 $venue = BoincDb::escape_string($venue);
 $send_changed_email_to_user = false;
-if ($email_addr) {
-    $email_addr = strtolower($email_addr);
+$email_addr = strtolower($email_addr);
+if ($email_addr && $email_addr != $user->email_addr) {
     $tmpuser = BoincUser::lookup_email_addr($email_addr);
     if ($tmpuser) {
         xml_error(ERROR_BAD_EMAIL_ADDR, "There's already an account with that email address.");
