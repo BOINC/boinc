@@ -429,7 +429,7 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
 
 void DB_USER_DELETED::db_print(char* buf){
     sprintf(buf,
-        "public_cross_project_id=%s, create_time=%d",
+        "public_cross_project_id=%s, create_time=%.15e",
         public_cross_project_id, create_time
     );
 } 
@@ -439,7 +439,7 @@ void DB_USER_DELETED::db_parse(MYSQL_ROW &r) {
     clear();
     userid = atol(r[i++]);
     strcpy2(public_cross_project_id, r[i++]);
-    create_time = atoi(r[i++]);
+    create_time = atof(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -913,7 +913,7 @@ int DB_HOST::fpops_stddev(double& stddev) {
 
 void DB_HOST_DELETED::db_print(char* buf){
     sprintf(buf,
-        "public_cross_project_id=%s, create_time=%d",
+        "public_cross_project_id=%s, create_time=%.15e",
         public_cross_project_id, create_time
     );
 }
@@ -923,7 +923,7 @@ void DB_HOST_DELETED::db_parse(MYSQL_ROW &r) {
     clear();
     hostid = atol(r[i++]);
     strcpy2(public_cross_project_id, r[i++]);
-    create_time = atoi(r[i++]);
+    create_time = atof(r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){

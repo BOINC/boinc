@@ -1102,22 +1102,20 @@ function update_4_18_2018() {
     ");
 }
 
-function update_5_3_2018() {
+function update_5_9_2018() {
     do_query("create table user_deleted (
             userid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
-            create_time             integer         not null,
-            primary key (userid),
-            index user_deleted_userid (userid)
+            create_time             double          not null,
+            primary key (userid)
         ) engine=InnoDB;
     ");
     
     do_query("create table host_deleted (
             hostid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
-            create_time             integer         not null,
-            primary key (hostid),
-            index host_deleted_hostid (hostid)
+            create_time             double          not null,
+            primary key (hostid)
         ) engine=InnoDB;
     ");
 }
@@ -1178,7 +1176,7 @@ $db_updates = array (
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
-    array(27025, "update_5_3_2018")
+    array(27025, "update_5_9_2018")
 );
 
 ?>

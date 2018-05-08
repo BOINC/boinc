@@ -776,16 +776,14 @@ create table token (
 create table user_deleted (
     userid                  integer         not null,
     public_cross_project_id varchar(254)    not null,
-    create_time             integer         not null,
-    primary key (userid),
-    index user_deleted_userid (userid)
+    create_time             double          not null,
+    primary key (userid)
 ) engine=InnoDB;
 
 create table host_deleted (
     hostid                  integer         not null,
     public_cross_project_id varchar(254)    not null,
-    create_time             integer         not null,
-    primary key (hostid),
-    index host_deleted_id (hostid)
+    create_time             double          not null,
+    primary key (hostid)
 ) engine=InnoDB;
 
