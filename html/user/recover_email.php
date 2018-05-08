@@ -54,9 +54,11 @@ if(is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
 	    );
             $result = delete_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL);
 	}
+    } else {
+	echo tra("Invalid token.");
     }
 } else {
-    tra("Invalid token.");
+    echo tra("Invalid token.");
 }
 
 page_tail();

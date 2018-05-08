@@ -116,7 +116,7 @@ $send_changed_email = false;
 if ($email_addr) {
     $tmpuser = BoincUser::lookup_email_addr($email_addr);
     if ($tmpuser) {
-        xml_error(tra("There's already an account with that email address."));
+        xml_error(ERROR_BAD_EMAIL_ADDR, "There's already an account with that email address.");
     }
     $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
     //Lets check if the email address is included in previous_email_addr window. 
@@ -130,9 +130,6 @@ if ($email_addr) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
     }
     $email_addr = strtolower(BoincDb::escape_string($email_addr));
-    if($user->email_addr != $email_addr) { 
-        $user->previous_email_addr = $user->email_addr;
-    }
 }
 $password_hash = BoincDb::escape_string($password_hash);
 

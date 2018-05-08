@@ -116,7 +116,7 @@ function send_changed_email($user) {
 
     //We need to send a different version of the email to the old address.
     $body_old = "Your email address has been changed. If you did not take this action, 
-then please click on the link below reverse this process and change your password.
+then please click on the link below to reverse this process and change your password.
 
 ".secure_url_base()."recover_email.php?id=".$user->id."&token=".$token."
 
