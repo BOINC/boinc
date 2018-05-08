@@ -112,14 +112,17 @@ $url = BoincDb::escape_string($url);
 $send_email = BoincDb::escape_string($send_email);
 $show_hosts = BoincDb::escape_string($show_hosts);
 $venue = BoincDb::escape_string($venue);
-$send_changed_email = false;
+$send_changed_email_to_user = false;
 if ($email_addr) {
+    $email_addr = strtolower($email_addr);
     $tmpuser = BoincUser::lookup_email_addr($email_addr);
     if ($tmpuser) {
         xml_error(ERROR_BAD_EMAIL_ADDR, "There's already an account with that email address.");
     }
+
+    //check if the email address is included in previous_email_addr window. 
+    //
     $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
-    //Lets check if the email address is included in previous_email_addr window. 
     if ($tmpuser) {
         xml_error(ERROR_BAD_EMAIL_ADDR, "Email address is already in use");
     }
@@ -183,14 +186,17 @@ if (!is_null($teamid)) {
 if ($venue) {
     $query .= " venue='$venue', ";
 }
-if ($email_addr && $email_addr!=$user->email_addr) {
+
+// TODO: COMMENT THIS
+//
+if ($email_addr && $email_addr != $user->email_addr) {
     $user->previous_email_addr = $user->email_addr;
     $user->email_addr_change_time = time();
     $user->email_addr = $email_addr;
     $query .= " email_addr='$user->email_addr', ";
-    if($user->previous_email_addr) {
+    if ($user->previous_email_addr) {
         $query .= " previous_email_addr='$user->previous_email_addr', email_addr_change_time=$user->email_addr_change_time, ";
-        $send_changed_email = true;
+        $send_changed_email_to_user = true;
     }
 }
 if ($password_hash) {
@@ -205,7 +211,7 @@ if (strlen($query)) {
     $query = "$query seti_id=seti_id";
     $result = $user->update($query);
     if ($result) {
-        if ($send_changed_email) {
+        if ($send_changed_email_to_user) {
             send_changed_email($user);
         }
         success("");

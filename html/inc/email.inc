@@ -27,7 +27,7 @@ require_once("../inc/token.inc");
 //
 function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
     if (function_exists("make_php_mailer")) {
-        if(file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
+        if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
             require_once("../inc/PHPMailer/src/PHPMailer.php");
             require_once("../inc/PHPMailer/src/SMTP.php");
         } else if (file_exists("../inc/phpmailer/class.phpmailer.php")) {
@@ -37,7 +37,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             return false;
         }
         $mail = make_php_mailer();
-        if($email_addr) {
+        if ($email_addr) {
             $mail->AddAddress($email_addr, $user->name);
         } else {
             $mail->AddAddress($user->email_addr, $user->name);
@@ -108,13 +108,17 @@ function send_changed_email($user) {
     $token = create_token($user->id, TOKEN_TYPE_CHANGE_EMAIL, $duration);
 
     $subject = PROJECT." email address change.";
-    //Body for the new email address to explain how quickly they can do another email change.
+
+    // Body for the new email address to explain how quickly
+    // they can do another email change.
+    //
     $body_new = "Your email address was changed from ".$user->previous_email_addr.
 " to ".$user->email_addr." on ".date('F j \a\t g:i a T', $user->email_addr_change_time).
 ".  You will not be able to change your email address again until ".date('F j \a\t g:i a T', $user->email_addr_change_time + $duration).
 ".  If you need to undo this immediately, please look for an email from us at your ".$user->previous_email_addr." address.";
 
-    //We need to send a different version of the email to the old address.
+    // We need to send a different version of the email to the old address.
+    //
     $body_old = "Your email address has been changed. If you did not take this action, 
 then please click on the link below to reverse this process and change your password.
 

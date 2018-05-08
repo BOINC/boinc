@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// ADD COMMENT
+
 require_once("../inc/util.inc");
 require_once("../inc/token.inc");
 require_once("../inc/email.inc");
@@ -37,21 +39,22 @@ page_head(tra("Recover email address"));
 $userid = get_int("id", true);
 $token = get_str("token", true);
 
-if(is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
+if (is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
     $tmpuser = BoincUser::lookup_id_nocache($userid);
-    //We can only change passwd_hash if we can get the userdata. 
-    if($tmpuser) {
-	$existing = BoincUser::lookup_email_addr($tmpuser->previous_email_addr);
-	if ($existing) {
-	    echo tra("There is already an account with that email address.")."<br /><br />".tra("Please contact the admin.  Previous email address could not be reverted as another account is using it as their email address.");
-	} else {
-	    echo tra("Email address has been reverted.")."<br /><br />".tra("You need to reset your password:  ")."<a href=\"".secure_url_base()."get_passwd.php\">".secure_url_base()."get_passwd.php</a>";
+    // We can only change passwd_hash if we can get the userdata. 
+    //
+    if ($tmpuser) {
+        $existing = BoincUser::lookup_email_addr($tmpuser->previous_email_addr);
+        if ($existing) {
+            echo tra("There is already an account with that email address.")."<br /><br />".tra("Please contact the admin.  Previous email address could not be reverted as another account is using it as their email address.");
+        } else {
+            echo tra("Email address has been reverted.")."<br /><br />".tra("You need to reset your password:  ")."<a href=\"".secure_url_base()."get_passwd.php\">".secure_url_base()."get_passwd.php</a>";
 
             $database_passwd_hash = password_hash(random_string() , PASSWORD_DEFAULT);
-	    //Change previous_email
-	    $result = $tmpuser->update(
-		"email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=0, passwd_hash='$database_passwd_hash', email_validated=0"
-	    );
+            //Change previous_email
+            $result = $tmpuser->update(
+                "email_addr=previous_email_addr, previous_email_addr=null, email_addr_change_time=0, passwd_hash='$database_passwd_hash', email_validated=0"
+            );
             $result = delete_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL);
 	}
     } else {
