@@ -148,6 +148,11 @@ extern int submit_jobs(
     int batch_id,
     std::vector<JOB> jobs,
     std::string& error_msg,
+    char rsc_fpops_est[256],
+    char rsc_fpops_bound[256],
+    char rsc_memory_bound[256],
+    char rsc_disk_bound[256],
+    char delay_bound[256],
     int app_version_num = 0
 );
 

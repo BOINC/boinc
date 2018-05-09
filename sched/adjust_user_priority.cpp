@@ -44,6 +44,7 @@ int main(int argc, char** argv) {
     int userid=0;
     char* app_name = NULL;
     double flop_count = 0;
+    int jobs = 0;
 
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--no_update")) {
@@ -54,6 +55,8 @@ int main(int argc, char** argv) {
             app_name = argv[++i];
         } else if (!strcmp(argv[i], "--flops")) {
             flop_count = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--jobs")) {
+            jobs = atoi(argv[++i]);
         } else {
             fprintf(stderr, "bad arg: %s\n", argv[i]);
             usage();
@@ -62,6 +65,15 @@ int main(int argc, char** argv) {
     if (!app_name) usage("missing --app\n");
     if (!userid) usage("missing --user\n");
     if (flop_count <= 0) usage("missing --flops\n");
+
+    //If no total flops are given from the submitter directly we can 
+    //infer it from the number of jobs times the DEFAULT_FPOPS_EST
+    //If no number of jobs is given either there is nothing we can do
+
+    if (flop_count <= 0) {
+       if (jobs <= 0) usage("missing --flops\n");
+       else flop_count = jobs * DEFAULT_FPOPS_EST;   
+    }
 
     int retval = config.parse_file();
     if (retval) {

@@ -147,12 +147,12 @@ struct JOB_DESC {
         wu.max_error_results = 3;
         wu.max_total_results = 10;
         wu.max_success_results = 6;
-        wu.rsc_fpops_est = 3600e9;
-        wu.rsc_fpops_bound =  86400e9;
-        wu.rsc_memory_bound = 5e8;
-        wu.rsc_disk_bound = 1e9;
+	wu.rsc_fpops_est = DEFAULT_FPOPS_EST;
+	wu.rsc_fpops_bound = DEFAULT_FPOPS_BOUND;
+	wu.rsc_memory_bound = DEFAULT_MEMORY_BOUND;
+	wu.rsc_disk_bound = DEFAULT_DISK_BOUND;
         wu.rsc_bandwidth_bound = 0.0;
-        wu.delay_bound = 7*86400;
+        wu.delay_bound = DEFAULT_DELAY_BOUND;
 
     }
     void create();
@@ -237,6 +237,16 @@ int main(int argc, char** argv) {
     bool show_wu_name = true;
     bool use_stdin = false;
 
+    //If these values are passed in the command line
+    //store them here so we can later override 
+    //the ones potentially found in the input template.
+
+    double rsc_fpops_est = -1;
+    double rsc_fpops_bound = -1;
+    double rsc_memory_bound = -1;
+    double rsc_disk_bound = -1;
+    double delay_bound = -1;
+
     strcpy(app.name, "");
     strcpy(db_passwd, "");
     const char* config_dir = 0;
@@ -264,18 +274,28 @@ int main(int argc, char** argv) {
             jd.wu.priority = atoi(argv[++i]);
         } else if (arg(argv, i, "rsc_fpops_est")) {
             jd.wu.rsc_fpops_est = atof(argv[++i]);
+	    //Storing for later
+	    rsc_fpops_est = jd.wu.rsc_fpops_est; 
         } else if (arg(argv, i, "rsc_fpops_bound")) {
             jd.wu.rsc_fpops_bound = atof(argv[++i]);
+	    //Storing for later
+	    rsc_fpops_bound = jd.wu.rsc_fpops_bound; 
         } else if (arg(argv, i, "rsc_memory_bound")) {
             jd.wu.rsc_memory_bound = atof(argv[++i]);
+	    //Storing for later
+	    rsc_memory_bound = jd.wu.rsc_memory_bound; 
         } else if (arg(argv, i, "size_class")) {
             jd.wu.size_class = atoi(argv[++i]);
         } else if (arg(argv, i, "app_version_num")) {
             jd.wu.app_version_num = atoi(argv[++i]);
         } else if (arg(argv, i, "rsc_disk_bound")) {
             jd.wu.rsc_disk_bound = atof(argv[++i]);
+	    //Storing for later
+	    rsc_disk_bound = jd.wu.rsc_disk_bound; 
         } else if (arg(argv, i, "delay_bound")) {
             jd.wu.delay_bound = atoi(argv[++i]);
+	    //Storing for later
+	    delay_bound = jd.wu.delay_bound; 
         } else if (arg(argv, i, "hr_class")) {
             jd.wu.hr_class = atoi(argv[++i]);
         } else if (arg(argv, i, "min_quorum")) {
@@ -490,7 +510,12 @@ int main(int argc, char** argv) {
                     config,
                     jd2.command_line,
                     jd2.additional_xml,
-                    value_buf
+		    value_buf,
+		    rsc_fpops_est,
+		    rsc_fpops_bound,
+		    rsc_memory_bound,
+		    rsc_disk_bound,
+		    delay_bound
                 );
                 if (retval) {
                     fprintf(stderr, "create_work() failed: %d\n", retval);

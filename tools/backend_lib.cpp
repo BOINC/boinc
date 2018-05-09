@@ -278,7 +278,12 @@ int create_work2(
     SCHED_CONFIG& config_loc,
     const char* command_line,
     const char* additional_xml,
-    char* query_string
+    char* query_string,
+    double rsc_fpops_est,
+    double rsc_fpops_bound,
+    double rsc_memory_bound,
+    double rsc_disk_bound,
+    double delay_bound
 ) {
     int retval;
     char wu_template[BLOB_SIZE];
@@ -300,6 +305,15 @@ int create_work2(
         fprintf(stderr, "process_input_template(): %s\n", boincerror(retval));
         return retval;
     }
+
+    //If these values were changed by the submitter override the template ones
+    //which were parsed above
+
+    if (rsc_fpops_est != -1) wu.rsc_fpops_est = rsc_fpops_est;
+    if (rsc_fpops_bound != -1) wu.rsc_fpops_bound = rsc_fpops_bound;
+    if (rsc_memory_bound != -1) wu.rsc_memory_bound = rsc_memory_bound;
+    if (rsc_disk_bound != -1) wu.rsc_disk_bound = rsc_disk_bound;
+    if (delay_bound != -1) wu.delay_bound = delay_bound;
 
     // check for presence of result template.
     // we don't need to actually look at it.

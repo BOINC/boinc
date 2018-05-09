@@ -36,6 +36,14 @@
 using std::vector;
 using std::string;
 
+#define DEFAULT_FPOPS_EST 3600e9
+#define DEFAULT_FPOPS_BOUND 86400e9
+#define DEFAULT_MEMORY_BOUND 5e8 
+#define DEFAULT_DISK_BOUND 1e9 
+#define DEFAULT_DELAY_BOUND 604800 
+#define DEFAULT_APP_VERSION_NUM 0 
+
+
 //#define SHOW_REQUEST
 //#define SHOW_REPLY
 
@@ -394,6 +402,11 @@ int submit_jobs(
     int batch_id,
     vector<JOB> jobs,
     string& error_msg,
+    char rsc_fpops_est [256],
+    char rsc_fpops_bound [256],
+    char rsc_memory_bound [256],
+    char rsc_disk_bound [256],
+    char delay_bound [256],
     int app_version_num
 ) {
     char buf[1024], url[1024];
@@ -410,11 +423,66 @@ int submit_jobs(
         app_version_num
     );
     string request = buf;
+
+
+    if (strcmp(rsc_fpops_est, "NULL") != 0) {
+        sprintf(buf, "  <rsc_fpops_est>%f</rsc_fpops_est>\n", atof(rsc_fpops_est));
+        request += buf;
+    }
+
+    if (strcmp(rsc_fpops_bound, "NULL") != 0) {
+        sprintf(buf, "  <rsc_fpops_bound>%f</rsc_fpops_bound>\n", atof(rsc_fpops_bound));
+        request += buf;
+    }
+
+    if (strcmp(rsc_memory_bound, "NULL") != 0) {
+        sprintf(buf, "  <rsc_memory_bound>%f</rsc_memory_bound>\n", atof(rsc_memory_bound));
+        request += buf;
+    }
+
+    if (strcmp(rsc_disk_bound, "NULL") != 0) {
+        sprintf(buf, "  <rsc_disk_bound>%f</rsc_disk_bound>\n", atof(rsc_disk_bound));
+        request += buf;
+    }
+
+    if (strcmp(delay_bound, "NULL") != 0) {
+        sprintf(buf, "  <delay_bound>%f</delay_bound>\n", atof(delay_bound));
+        request += buf;
+    }
+
     for (unsigned int i=0; i<jobs.size(); i++) {
         JOB job = jobs[i];
         request += "<job>\n";
         sprintf(buf, "  <name>%s</name>\n", job.job_name);
         request += buf;
+
+
+        if (strcmp(rsc_fpops_est, "NULL") != 0) {
+            sprintf(buf, "  <rsc_fpops_est>%f</rsc_fpops_est>\n", atof(rsc_fpops_est));
+            request += buf;
+        }
+
+        if (strcmp(rsc_fpops_bound, "NULL") != 0) {
+            sprintf(buf, "  <rsc_fpops_bound>%f</rsc_fpops_bound>\n", atof(rsc_fpops_bound));
+            request += buf;
+        }
+
+        if (strcmp(rsc_memory_bound, "NULL") != 0) {
+            sprintf(buf, "  <rsc_memory_bound>%f</rsc_memory_bound>\n", atof(rsc_memory_bound));
+            request += buf;
+        }
+
+        if (strcmp(rsc_disk_bound, "NULL") != 0) {
+            sprintf(buf, "  <rsc_disk_bound>%f</rsc_disk_bound>\n", atof(rsc_disk_bound));
+            request += buf;
+        }
+
+        if (strcmp(delay_bound, "NULL") != 0) {
+            sprintf(buf, "  <delay_bound>%f</delay_bound>\n", atof(delay_bound));
+            request += buf;
+        }
+
+
         if (!job.cmdline_args.empty()) {
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
         }
