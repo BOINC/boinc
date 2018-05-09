@@ -235,9 +235,12 @@ function create_proper_drupalname($requested_name) {
 
 
 /**
- * Determine if user has opted-in to the terms of user. If not, the
+ * Determine if user has opted-in to the terms of use. If not, the
  * user must opt-in first. Returns TRUE/FALSE depending on database
  * record.
+ *
+ * @params object $user
+ *   This is a drupal user object.
  *
  */
 function boincuser_check_termsofuse($user) {
@@ -256,7 +259,11 @@ function boincuser_check_termsofuse($user) {
 }
 
 /**
- * Use has consented to the tersm of use
+ * Update the database to record user has consented to the terms of use.
+ *
+ * @params object $user
+ *   This is a drupal user object.
+ *
  */
 function boincuser_consentto_termsofuse($user) {
   $uid = $user->uid;
