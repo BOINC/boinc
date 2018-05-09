@@ -368,9 +368,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       
     case 'insert':
       // New user being added to the system
-      $profile_info = $_SESSION['profileInfo'];
       $imported = $_SESSION['importedUser'];
-      unset($_SESSION['profileInfo']);
       unset($_SESSION['importedUser']);
       
       watchdog(
@@ -383,16 +381,13 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       // NOTE: Registrations are normally handled via the create_account RPC,
       // so the following will not run (kept in case form registration is used)
       
-      // If from the registration form, create a BOINC user and relationships
-      
-      if ($profile_info and !$imported) {
-        // Create a BOINC account unless importing from BOINC
+      // If from the registration form, create a BOINC user and relationships.
+      // Create a BOINC account unless importing from BOINC.
+      if (!$imported) {
         $user_params = array(
           'email_addr' => $edit['mail'],
           'name' => $edit['boincuser_name'],
           'passwd_hash' => password_hash( md5($edit['pass'].$edit['mail']) , PASSWORD_DEFAULT ),
-          'country' => $profile_info['country'],
-          'postal_code' => $profile_info['zip']
         );
         $boinc_user = boincuser_register_make_user($user_params);
         if (!$boinc_user) {
@@ -406,17 +401,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $edit['roles'] = array(
           $unrestricted_role => ''
         );
-        // Set profile data in BOINC db
-        db_set_active('boinc_rw');
-        // TODO: add language, image support; error handling
-        $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
-        if (!$reference) {
-          drupal_set_message(t('Error creating BOINC profile.'), 'error');
-        }
-        $reference = db_query("UPDATE {user} SET url='%s' WHERE id='%d'", $profile_info['url'], $boinc_user->id);
-        if (!$reference) {
-          drupal_set_message(t('Error updating BOINC account.'), 'error');
-        }
+
         // Disable show_hosts flag, set to TRUE by default
         db_query("UPDATE {user} SET show_hosts=0 WHERE id='%d'", $boinc_user->id);
 
@@ -427,6 +412,13 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           drupal_set_message(t('Error connecting BOINC account.'), 'error');
           return;
         }
+
+        // if terms of use exist, the user must have opted-in.
+        $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+        if (!empty($termsofuse)) {
+          $reference2 = boincuser_consentto_termsofuse($account);
+        }
+
         // Don't save custom fields to the Drupal user object
         $edit['boincuser_name'] = null;
       }

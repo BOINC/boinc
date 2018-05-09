@@ -131,6 +131,10 @@ function boincuser_register_validate($form, &$form_state) {
     return false;
   }
 
+  // Check Drupal name is not a duplicate, and create a proper drupal
+  // name from the boinc username.
+  $form_state['values']['name'] = create_proper_drupalname($form_state['values']['boincuser_name']);
+
   return true;
 }
 
