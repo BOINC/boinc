@@ -226,6 +226,7 @@ function boincuser_init() {
  * Drupal user operations
  */
 function boincuser_user($op, &$edit, &$account, $category = NULL) {
+  require_boinc('password_compat/password');
   // Handle BOINC integration for users with UID > 1 (skip anonymous and admin)
   if ($account->uid > 1) {
     switch($op) {
@@ -367,7 +368,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $user_params = array(
           'email_addr' => $edit['mail'],
           'name' => $edit['boincuser_name'],
-          'passwd_hash' => md5($edit['pass'].$edit['mail']),
+          'passwd_hash' => password_hash( md5($edit['pass'].$edit['mail']) , PASSWORD_DEFAULT ),
           'country' => $profile_info['country'],
           'postal_code' => $profile_info['zip']
         );
@@ -418,7 +419,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           if ($changing_email OR $changing_pass) {
             // Set password hash appropriately
             $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
-            $passwd_hash = md5($passwd.$edit['mail']);
+            $passwd_hash = password_hash( md5($passwd.$edit['mail']), PASSWORD_DEFAULT );
             $email_addr = $edit['mail'];
             // Update user account information
             $result = $boinc_user->update(
@@ -1416,9 +1417,11 @@ function boincuser_create_account() {
   $boinc_user = BoincUser::lookup_email_addr($params['email_addr']);
   if ($boinc_user) {
     // Return authenticator for existing users
-    if ($params['passwd_hash'] == $boinc_user->passwd_hash) {
+    if ( ($params['passwd_hash'] == $boinc_user->passwd_hash) or
+    password_verify($params['passwd_hash'], $boinc_user->passwd_hash) ) {
       $output = array('authenticator' => $boinc_user->authenticator);
-    } else {
+    }
+    else {
       xml_error(-137);
     }
   }
