@@ -187,7 +187,7 @@ class BoincUser {
     static function lookup_prev_email_addr($email_addr) {
         $email_addr = strtolower(BoincDb::escape_string($email_addr));
         $mytime = time() - 604800;
-        return self::lookup("previous_email_addr='$email_addr' and email_addr_change_time > $mytime");
+        return self::lookup("email_addr_change_time > $mytime and previous_email_addr='$email_addr'");
     }
     // name is not necessarily unique
     //

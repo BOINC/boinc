@@ -1107,6 +1107,7 @@ function update_4_19_2018() {
 	add column previous_email_addr varchar(254) not null default '',
 	add column email_addr_change_time double not null default 0
     ");
+    do_query("alter table user add index user_email_time (email_addr_change_time)");
 }
 
 // Updates are done automatically if you use "upgrade".
