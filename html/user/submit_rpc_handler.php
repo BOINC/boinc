@@ -459,11 +459,11 @@ function submit_batch($r) {
     }
     
     $job_params = new StdClass;
-    $job_params->rsc_disk_bound = (double) $r->job_params->rsc_disk_bound;
-    $job_params->rsc_fpops_est = (double) $r->job_params->rsc_fpops_est;
-    $job_params->rsc_fpops_bound = (double) $r->job_params->rsc_fpops_bound;
-    $job_params->rsc_memory_bound = (double) $r->job_params->rsc_memory_bound;
-    $job_params->delay_bound = (double) $r->job_params->delay_bound;
+    $job_params->rsc_disk_bound = (double) $r->batch->rsc_disk_bound;
+    $job_params->rsc_fpops_est = (double) $r->batch->rsc_fpops_est;
+    $job_params->rsc_fpops_bound = (double) $r->batch->rsc_fpops_bound;
+    $job_params->rsc_memory_bound = (double) $r->batch->rsc_memory_bound;
+    $job_params->delay_bound = (double) $r->batch->delay_bound;
         // could add quorum-related stuff
 
     $input_template_filename = (string) $r->batch->input_template_filename;
