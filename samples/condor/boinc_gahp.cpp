@@ -70,6 +70,8 @@ struct SUBMIT_REQ {
     char app_name[256];
     vector<JOB> jobs;
     int batch_id;
+    JOB_PARAMS job_params;
+    char app_version_num[256];
 };
 
 struct LOCAL_FILE {
@@ -279,6 +281,21 @@ int COMMAND::parse_submit(char* p) {
         }
         submit_req.jobs.push_back(job);
     }
+    
+    JOB_PARAMS jp;
+    char *chr = NULL;
+    chr = strtok_r(NULL, " ", &p);
+    if (chr != NULL) {
+      jp.rsc_fpops_est = atof(chr);
+      jp.rsc_fpops_bound = atof(strtok_r(NULL, " ", &p));
+      jp.rsc_memory_bound = atof(strtok_r(NULL, " ", &p));
+      jp.rsc_disk_bound = atof(strtok_r(NULL, " ", &p));
+      jp.delay_bound = atof(strtok_r(NULL, " ", &p));
+      strlcpy(submit_req.app_version_num, strtok_r(NULL, " ", &p), sizeof(submit_req.app_version_num));
+    }
+
+    submit_req.job_params = jp;
+
     return 0;
 }
 
@@ -322,9 +339,10 @@ void handle_submit(COMMAND& c) {
         return;
     }
 
-    retval = submit_jobs(
+    retval = submit_jobs_params(
         project_url, authenticator,
-        req.app_name, req.batch_id, req.jobs, error_msg
+	req.app_name, req.batch_id, req.jobs, error_msg,
+	req.job_params, atoi(req.app_version_num)
     );
     if (retval) {
         sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);
