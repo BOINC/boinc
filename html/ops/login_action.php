@@ -36,17 +36,7 @@ if ($email_addr && $passwd) {
         admin_error_page("No account found with email address $email_addr");
     }
     $passwd_hash = md5($passwd.$email_addr);
-    if (password_verify($passwd_hash, $user->passwd_hash)) {
-        // on valid login, rehash password if necessary to upgrade hash overtime
-        // as the defaults change. 
-        if (password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT)) {
-            do_passwd_rehash($user, $passwd_hash);
-        }
-    } else if ($passwd_hash == $user->passwd_hash) {
-        // if password is the legacy md5 hash, then rehash to update to
-        // a more secure hash
-        do_passwd_rehash($user, $passwd_hash);
-    } else {
+    if (!check_passwd_hash($user, $passwd_hash)) {
         admin_error_page("Login failed");
     }
     $authenticator = $user->authenticator;

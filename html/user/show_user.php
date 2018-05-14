@@ -71,6 +71,9 @@ if ($format=="xml"){
         if (!$user) {
             error_page("No such user $id");
         }
+        if (strstr($user->authenticator, "deleted")) {
+            error_page("No such user");
+        }
         BoincForumPrefs::lookup($user);
         $user = @get_other_projects($user);
         $community_links =  get_community_links_object($user);

@@ -783,10 +783,12 @@ class BoincToken {
         return $db->lookup('token', 'BoincToken', $clause);
     }
     
-    static function lookup_valid_token($userid, $token) {
+    static function lookup_valid_token($userid, $token, $type) {
         $db = BoincDb::get();
         $token = BoincDb::escape_string($token);
-        return self::lookup("userid=$userid and token='$token' and expire_time > unix_timestamp()");
+        $type = BoincDb::escape_string($type);
+        $now = time();
+        return self::lookup("userid=$userid and token='$token' and expire_time > $now and type = '$type'");
     }
     
     static function enum($where_clause) {
@@ -806,7 +808,8 @@ class BoincToken {
     
     static function delete_expired() {
         $db = BoincDb::get();
-        $db->delete_aux('token', "expire_time < unix_timestamp()");
+        $now = time();
+        $db->delete_aux('token', "expire_time < $now");
         return $db->affected_rows();
     }
 

@@ -1,33 +1,45 @@
-/*  If you add/change anything, update
-    boinc_db.cpp,h
-    and if needed:
-    py/Boinc/
-        database.py
-    html/
-        inc/
-            host.inc (host)
-            db_ops.inc
-        ops/
-            db_update.php
-        user/
-            create_account_action.php (user)
-            team_create_action.php (team)
-    sched/
-        db_dump.cpp (host, user, team)
-        db_purge.cpp (workunit, result)
-*/
-/* Fields are documented in boinc_db.h */
-/* Do not replace this with an automatically generated schema */
-
-/* type is specified as InnoDB for most tables.
-   Supposedly this gives better performance.
-   The others (post, thread, profile) are myISAM
-   because it supports fulltext index
+/*
+    If you add/change tables:
+    - if used by C++ code, update
+        db/
+            boinc_db.cpp,h
+            boinc_db_types.h
+        sched/
+            db_dump.cpp (host, user, team)
+            db_purge.cpp (workunit, result)
+    - if used by Python scripts (make_project, update_versions), update
+        py/Boinc/database.py
+    - if used by PHP code, update as needed
+        html/
+            inc/
+                host.inc (host)
+                db_ops.inc
+            ops/
+                db_update.php
+            user/
+                create_account_action.php (user)
+                team_create_action.php (team)
 */
 
-/* fields ending with id (but not _id) are treated specially
-   by the Python code (db_base.py)
-*/
+-- Most fields are documented in boinc_db_types.h
+
+-- All fields should be not null
+-- Fields should generally have a default
+-- (newer MySQL versions don't have automatic defaults)
+
+-- add new fields to the end of the table
+-- (makes it easier to update C++ code)
+
+-- Engine is specified as InnoDB for most tables;
+-- supposedly this gives better performance.
+-- Some (post, thread, profile) are myISAM because it supports fulltext index
+
+-- Going forward, use double for unix times (no 32-bit problem)
+
+-- Put index definitions in constraints.sql, not here
+
+-- fields ending with id (but not _id) are treated specially
+-- by the Python code (db_base.py)
 
 create table platform (
     id                      integer         not null auto_increment,
@@ -99,10 +111,13 @@ create table user (
     show_hosts              smallint        not null,
     posts                   smallint        not null,
         -- reused: salt for weak auth
+
+    -- the following 4 not used by BOINC
     seti_id                 integer         not null,
     seti_nresults           integer         not null,
     seti_last_result_time   integer     not null,
     seti_total_cpu          double          not null,
+
     signature               varchar(254),
         -- deprecated
     has_profile             smallint        not null,
@@ -131,6 +146,7 @@ create table team (
     expavg_credit           double          not null default 0.0,   /* temp */
     expavg_time             double          not null,
     seti_id                 integer         not null default 0,
+        -- repurposed to store master ID of BOINC-wide teams
     ping_user               integer         not null default 0,
     ping_time               integer unsigned not null default 0,
     joinable                tinyint         not null default 1,
@@ -767,7 +783,7 @@ create table token (
     token                   varchar(255)    not null,
     userid                  integer         not null,
     type                    char            not null,
-    create_time             integer         not null default unix_timestamp(),
+    create_time             integer         not null,
     expire_time             integer,
     primary key (token),
     index token_userid (userid)
