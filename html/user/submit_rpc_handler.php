@@ -426,6 +426,8 @@ function submit_batch($r) {
             $total_flops += $job->rsc_fpops_est;
         } else if ($job->input_template && $job->input_template->workunit->rsc_fpops_est) {
             $total_flops += (double) $job->input_template->workunit->rsc_fpops_est;
+        } else if ($r->batch->job_params->rsc_fpops_est) {
+            $total_flops += (double) $r->batch->job_params->rsc_fpops_est;
         } else {
             $x = (double) $template->workunit->rsc_fpops_est;
             if ($x) {
