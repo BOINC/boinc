@@ -24,6 +24,10 @@ require_once("../inc/email.inc");
 
 $user = get_logged_in_user();
 
+if ($user->email_addr_change_time + 604800 > time()) {
+    error_page(tra("You are not allowed to delete your account until after 7 days from when you last changed your email address."));
+}
+
 function delete_account_request_form($user) {
     page_head(tra("Delete Account"));
     
