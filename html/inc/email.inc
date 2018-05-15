@@ -63,7 +63,11 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         } else if (defined('EMAIL_FROM')) {
             $headers = "From: ". EMAIL_FROM;
         }
-        return mail($user->email_addr, $subject, $body, $headers);
+        if ($email_addr) {
+            return mail($email_addr, $subject, $body, $headers);
+        } else {
+            return mail($user->email_addr, $subject, $body, $headers);
+        }
     }
 }
 
