@@ -203,6 +203,10 @@ function validate_post_make_user() {
     if ($user) {
         show_error(tra("There's already an account with that email address."));
     }
+    $tmpuser = BoincUser::lookup_prev_email_addr($new_email_addr);
+    if ($tmpuser) {
+        show_error(tra("There's already an account with that email address."));
+    }
 
     $passwd = post_str("passwd");
 

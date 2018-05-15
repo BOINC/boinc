@@ -214,6 +214,8 @@ struct USER {
     int donated;
     char login_token[32];
     double login_token_time;
+    char previous_email_addr[256];
+    double email_addr_change_time;
     void clear();
 };
 
