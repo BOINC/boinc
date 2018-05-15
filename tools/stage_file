@@ -47,8 +47,11 @@ if (!file_exists("html/inc/dir_hier.inc")
     error_exit("This script must be run in the project directory.\n");
 }
 
-require_once("html/inc/dir_hier.inc");
-require_once("html/inc/util_basic.inc");
+$dir = getcwd();
+chdir("html/inc");
+require_once("dir_hier.inc");
+require_once("util_basic.inc");
+chdir($dir);
 
 function usage() {
     error_exit("usage: stage_file [--gzip] [--copy] path

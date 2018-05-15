@@ -438,13 +438,12 @@ int handle_wu(
                 }
 
                 if (credit_from_wu) {
-                    retval = get_credit_from_wu(wu, viable_results, credit);
-                    if (retval) {
+                    credit = wu.canonical_credit;
+                    if (credit == 0) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%lu %s] get_credit_from_wu(): credit not specified in WU\n",
+                            "[WU#%lu %s] credit not specified in WU\n",
                             wu.id, wu.name
                         );
-                        credit = 0;
                     }
                 } else if (credit_from_runtime) {
                     credit = 0;

@@ -55,7 +55,6 @@ void usage() {
         "\n"
         "Options:\n"
         "   --appname name\n"
-        "   [ --additional_xml x ]\n"
         "   [ --app_version_num N ]\n"
         "   [ --batch n ]\n"
         "   [ --broadcast ]\n"
@@ -63,6 +62,7 @@ void usage() {
         "   [ --broadcast_team ID ]\n"
         "   [ --command_line \"X\" ]\n"
         "   [ --config_dir path ]\n"
+        "   [ --credit X ]\n"
         "   [ -d n ]\n"
         "   [ --delay_bound x ]\n"
         "   [ --hr_class n ]\n"
@@ -122,7 +122,6 @@ struct JOB_DESC {
     char result_template_path[MAXPATHLEN];
     vector <INFILE_DESC> infiles;
     char* command_line;
-    char additional_xml[256];
     bool assign_flag;
     bool assign_multi;
     int assign_id;
@@ -135,7 +134,6 @@ struct JOB_DESC {
         assign_multi = false;
         strcpy(wu_template_file, "");
         strcpy(result_template_file, "");
-        strcpy(additional_xml, "");
         assign_id = 0;
         assign_type = ASSIGN_NONE;
 
@@ -263,6 +261,8 @@ int main(int argc, char** argv) {
             jd.wu.batch = atoi(argv[++i]);
         } else if (arg(argv, i, "priority")) {
             jd.wu.priority = atoi(argv[++i]);
+        } else if (arg(argv, i, "credit")) {
+            jd.wu.canonical_credit = atof(argv[++i]);
         } else if (arg(argv, i, "rsc_fpops_est")) {
             jd.wu.rsc_fpops_est = atof(argv[++i]);
         } else if (arg(argv, i, "rsc_fpops_bound")) {
@@ -293,8 +293,6 @@ int main(int argc, char** argv) {
             jd.wu.opaque = atoi(argv[++i]);
         } else if (arg(argv, i, "command_line")) {
             jd.command_line= argv[++i];
-        } else if (arg(argv, i, "additional_xml")) {
-            safe_strcpy(jd.additional_xml, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
             jd.wu.id = atoi(argv[++i]);
         } else if (arg(argv, i, "broadcast")) {
@@ -490,7 +488,7 @@ int main(int argc, char** argv) {
                     jd2.infiles,
                     config,
                     jd2.command_line,
-                    jd2.additional_xml,
+                    NULL,
                     value_buf
                 );
                 if (retval) {
@@ -558,8 +556,7 @@ void JOB_DESC::create() {
         result_template_path,
         infiles,
         config,
-        command_line,
-        additional_xml
+        command_line
     );
     if (retval) {
         fprintf(stderr, "create_work: %s\n", boincerror(retval));
