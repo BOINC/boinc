@@ -21,9 +21,11 @@ require_once("../inc/util.inc");
 
 // Constants for valid token types
 define("TOKEN_TYPE_DELETE_ACCOUNT", "D");
+define("TOKEN_TYPE_CHANGE_EMAIL", "E");
 
 // Constants for token durations
 define("TOKEN_DURATION_ONE_DAY", 86400);
+define("TOKEN_DURATION_ONE_WEEK", 604800);
 
 function create_token($userid, $type, $duration) {
     $token = random_string();
@@ -35,6 +37,13 @@ function create_token($userid, $type, $duration) {
         return null;
     }
     return $token;
+}
+
+function delete_token($userid, $token, $type) {
+    $token = BoincDb::escape_string($token);
+    $type = BoincDb::escape_string($type);
+    $result = BoincToken::delete_token("userid = $userid and token = '$token' and type = '$type'");
+    return $result;
 }
 
 function is_valid_token($userid, $token, $type) {

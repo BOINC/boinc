@@ -176,14 +176,18 @@ class BoincUser {
         return self::$cache[$id];
     }
     static function lookup_auth($auth) {
-        $db = BoincDb::get();
         $auth = BoincDb::escape_string($auth);
         return self::lookup("authenticator='$auth'");
     }
     static function lookup_email_addr($email_addr) {
-        $db = BoincDb::get();
-        $email_addr = BoincDb::escape_string($email_addr);
+        $email_addr = strtolower(BoincDb::escape_string($email_addr));
         return self::lookup("email_addr='$email_addr'");
+    }
+    //This is to find email addresses that have changed in the past 7 days.
+    static function lookup_prev_email_addr($email_addr) {
+        $email_addr = strtolower(BoincDb::escape_string($email_addr));
+        $mytime = time() - 604800;
+        return self::lookup("email_addr_change_time > $mytime and previous_email_addr='$email_addr'");
     }
     // name is not necessarily unique
     //
@@ -816,6 +820,12 @@ class BoincToken {
     static function get_list($where_clause, $order_clause, $limit) {
         $db = BoincDB::get();
         return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
+    }
+
+    static function delete_token($where_clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('token', $where_clause);
+        return $db->affected_rows();
     }
     
     static function delete_expired() {

@@ -356,6 +356,7 @@ void DB_USER::db_print(char* buf){
     ESCAPE(project_prefs);
     ESCAPE(url);
     ESCAPE(signature);
+    ESCAPE(previous_email_addr);
     sprintf(buf,
         "create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
@@ -368,7 +369,8 @@ void DB_USER::db_print(char* buf){
         "seti_total_cpu=%.15e, signature='%s', has_profile=%d, "
         "cross_project_id='%s', passwd_hash='%s', "
         "email_validated=%d, donated=%d, "
-        "login_token='%s', login_token_time=%f",
+        "login_token='%s', login_token_time=%f, "
+	"previous_email_addr='%s', email_addr_change_time=%f",
         create_time, email_addr, name,
         authenticator,
         country, postal_code,
@@ -380,7 +382,8 @@ void DB_USER::db_print(char* buf){
         seti_total_cpu, signature, has_profile,
         cross_project_id, passwd_hash,
         email_validated, donated,
-        login_token, login_token_time
+        login_token, login_token_time,
+	previous_email_addr, email_addr_change_time
     );
     UNESCAPE(email_addr);
     UNESCAPE(name);
@@ -390,6 +393,7 @@ void DB_USER::db_print(char* buf){
     UNESCAPE(project_prefs);
     UNESCAPE(url);
     UNESCAPE(signature);
+    UNESCAPE(previous_email_addr);
 }
 
 void DB_USER::db_parse(MYSQL_ROW &r) {
@@ -425,6 +429,8 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     donated = atoi(r[i++]);
     strcpy2(login_token, r[i++]);
     login_token_time = atof(r[i++]);
+    strcpy2(previous_email_addr, r[i++]);
+    email_addr_change_time = atof(r[i++]);
 }
 
 void DB_USER_DELETED::db_print(char* buf){

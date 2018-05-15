@@ -1102,6 +1102,14 @@ function update_4_18_2018() {
     ");
 }
 
+function update_4_19_2018() {
+    do_query("alter table user
+	add column previous_email_addr varchar(254) not null default '',
+	add column email_addr_change_time double not null default 0
+    ");
+    do_query("alter table user add index user_email_time (email_addr_change_time)");
+}
+
 function update_5_9_2018() {
     do_query("create table user_deleted (
             userid                  integer         not null,
@@ -1176,7 +1184,8 @@ $db_updates = array (
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
-    array(27025, "update_5_9_2018")
+    array(27025, "update_4_19_2018"),
+    array(27026, "update_5_9_2018")
 );
 
 ?>
