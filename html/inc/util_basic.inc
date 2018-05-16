@@ -1,4 +1,4 @@
-<?php
+<runtime?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2008 University of California
