@@ -22,6 +22,13 @@ require_once("../inc/delete_account.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/email.inc");
 
+$config = get_config();
+if ( !parse_bool($config, "enable_delete_account") ) {
+    error_page(
+        tra("This feature is disabled.  Please contact the project administrator.")
+    );
+}
+
 $user = get_logged_in_user();
 
 if ($user->email_addr_change_time + 7*86400 > time()) {

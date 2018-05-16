@@ -23,11 +23,23 @@ require_once("../inc/token.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/user_util.inc");
 
+$config = get_config();
+if ( !parse_bool($config, "enable_delete_account") ) {
+    error_page(
+        tra("This feature is disabled.  Please contact the project administrator.")
+    );
+}
+
 function delete_account_confirm_form() {
     //Make sure the token is still valid
     $userid = get_int("id");
     $token = get_str("token");
-    check_delete_account_token($userid, $token);
+    $retval = check_delete_account_token($userid, $token);
+    if ( !$retval ) {
+        error_page(
+            tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
+        );
+    }
     
     page_head(tra("Delete Account"));
     
@@ -50,7 +62,12 @@ function delete_account_confirm_action() {
     //Make sure the token is still valid
     $userid = post_int("id");
     $token = post_str("token");
-    check_delete_account_token($userid, $token);
+    $retval = check_delete_account_token($userid, $token);
+    if ( !$retval ) {
+        error_page(
+            tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
+        );
+    }
     
     //Verify password
     $user = BoincUser::lookup_id($userid);

@@ -36,20 +36,13 @@ define("DELETE_ACCOUNT_METHOD_PROJECT_DEFINED", 3);
 // This is done on the chance that there is an active scheduler request in progress  
 define("DELETE_DELAY", 2);
 
-$config = get_config();
-if ( !parse_bool($config, "enable_delete_account") ) {
-    error_page(
-        tra("This feature is disabled.  Please contact the project administrator.")
-    );
-}
 
 function check_delete_account_token($userid, $token) {
     if( !is_valid_token($userid, $token, TOKEN_TYPE_DELETE_ACCOUNT) ) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
-        error_page(
-            tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
-        );
+        return false;
     }
+    return true;
 }
 
 /*
@@ -76,11 +69,8 @@ function delete_account($user) {
         return wipe_account($user);
     } else if ( $enable_delete_account == DELETE_ACCOUNT_METHOD_PROJECT_DEFINED ) {
         return project_delete_account($user);
-    } else {
-        error_page(
-            tra("This feature is configured incorrectly.  Please contact the project administrator.")
-        );
-    }
+    } 
+    return false;
 }
 
 // This method invalidates the authenticator and then sleeps for
