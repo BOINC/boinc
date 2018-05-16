@@ -32,6 +32,10 @@ define("DELETE_ACCOUNT_METHOD_OBFUSCATE", 1);
 define("DELETE_ACCOUNT_METHOD_WIPE", 2);
 define("DELETE_ACCOUNT_METHOD_PROJECT_DEFINED", 3);
 
+// Constant for how long to sleep after invalidating authenticator before proceeding with rest of delete
+// This is done on the chance that there is an active scheduler request in progress  
+define("DELETE_DELAY", 2);
+
 $config = get_config();
 if ( !parse_bool($config, "enable_delete_account") ) {
     error_page(
@@ -79,8 +83,18 @@ function delete_account($user) {
     }
 }
 
+// This method invalidates the authenticator and then sleeps for
+// DELETE_DELAY seconds in order to let any active scheduler requests complete.
+function invalidate_authenticator($user) {
+    $x = "deleted_".time()."_".random_string();
+    $retval = $user->update("authenticator='$x'");
+    if (!$retval) return false;
+    sleep(DELETE_DELAY);
+    return true;
+}
+
 // "obfuscate" an account: leave user record (for DB consistency) but:
-//  - set email address and authenticator to "deleted_pid_time"
+//  - set email address and authenticator to "deleted_time_randomstring"
 //  - clear name, country, postal_code
 //  - remove from team
 //  - delete posts, subscriptions, and forum prefs
@@ -90,6 +104,8 @@ function delete_account($user) {
 //  - clear domain_name, last_ip_addr
 //
 function obfuscate_account($user) {
+    $retval = invalidate_authenticator($user);
+    if (!$retval) return false;
     insert_deleted_records($user);
     $x = "deleted_".time()."_".random_string();
     $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
@@ -136,10 +152,7 @@ function cancel_results_for_user($user) {
     $cancel_clause="server_state=".RESULT_SERVER_STATE_OVER.", outcome=".RESULT_OUTCOME_CLIENT_DETACHED.", validate_state=".VALIDATE_STATE_INVALID;
     $set_id_clause="hostid=0, userid=0";
     foreach($ress as $res) {
-        if (is_in_progress($res)) {
-            $res->update($cancel_clause.", ".$set_id_clause);
-            transition_workunit($res);
-        } else if (is_over_but_not_validated($res)) {
+        if (is_in_progress($res) || is_over_but_not_validated($res)) {
             $res->update($cancel_clause.", ".$set_id_clause);
             transition_workunit($res);
         } else {
@@ -150,8 +163,10 @@ function cancel_results_for_user($user) {
 
 // This method deletes all rows from the database associated with the user
 function wipe_account($user) {
-    $db = BoincDb::get();
+    $retval = invalidate_authenticator($user);
+    if (!$retval) return false;
 
+    //insert records into tables for db_dump to announce deletion of user
     insert_deleted_records($user);
 
     // delete remote submit user
@@ -164,6 +179,7 @@ function wipe_account($user) {
     
     // Items that do not have logic elsewhere
     // and do not have objects in boinc_db.inc
+    $db = BoincDb::get();
     if (!$db) die("no DB connection");
     $db->do_query("delete from credited_job where userid = $user->id");
     $db->do_query("delete from donation_paypal where userid = $user->id");

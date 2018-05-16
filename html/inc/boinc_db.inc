@@ -856,7 +856,7 @@ class BoincUserDeleted {
     
     static function delete_expired() {
         $db = BoincDb::get();
-        $expire_time = time() - 2*30*86400; //60 days ago
+        $expire_time = time() - 60*86400; //60 days ago
         $db->delete_aux('user_deleted', "create_time < $expire_time");
         return $db->affected_rows();
     }
@@ -874,7 +874,7 @@ class BoincHostDeleted {
     
     static function delete_expired() {
         $db = BoincDb::get();
-        $expire_time = time() - 2*30*86400; //60 days ago
+        $expire_time = time() - 60*86400; //60 days ago
         $db->delete_aux('host_deleted', "create_time < $expire_time");
         return $db->affected_rows();
     }
