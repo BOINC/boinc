@@ -787,8 +787,7 @@ create table token (
     type                    char            not null,
     create_time             integer         not null,
     expire_time             integer,
-    primary key (token),
-    index token_userid (userid)
+    primary key (token)
 ) engine=InnoDB;
 
 create table user_deleted (

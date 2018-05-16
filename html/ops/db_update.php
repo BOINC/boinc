@@ -35,8 +35,10 @@ function do_query($query) {
     $result = _mysql_query($query);
     if (!$result) {
         echo "Failed:\n"._mysql_error()."\n";
+        return false;
     } else {
         echo "Success.\n";
+        return true;
     }
 }
 
@@ -1111,7 +1113,7 @@ function update_4_19_2018() {
 }
 
 function update_5_9_2018() {
-    do_query("create table user_deleted (
+    $retval = do_query("create table user_deleted (
             userid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
             create_time             double          not null,
@@ -1119,12 +1121,44 @@ function update_5_9_2018() {
         ) engine=InnoDB;
     ");
     
-    do_query("create table host_deleted (
+    $retval = $retval && do_query("create table host_deleted (
             hostid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
             create_time             double          not null,
             primary key (hostid)
         ) engine=InnoDB;
+    ");
+    
+    $retval = $retval &&  do_query("alter table user_deleted
+        add index ud_create(create_time)
+    ");
+    
+    $retval = $retval &&  do_query("alter table host_deleted
+        add index hd_create(create_time)
+    ");
+    
+    $retval = $retval &&  do_query("alter table team_delta
+        add index team_delta_userid (userid)
+    ");
+    
+    $retval = $retval &&  do_query("alter table donation_paypal
+        add index dp_userid(userid)
+    ");
+    
+    $retval = $retval &&  do_query("alter table banishment_vote
+        add index bv_userid(userid)
+    ");
+    
+    $retval = $retval &&  do_query("alter table post_ratings
+        add index pr_user(user)
+    ");
+    
+    $retval = $retval &&  do_query("alter table msg_from_host
+        add index mfh_hostid(hostid)
+    ");
+    
+    return $retval && do_query("alter table sent_email
+        add index se_userid(userid)
     ");
 }
 

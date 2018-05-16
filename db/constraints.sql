@@ -71,8 +71,10 @@ alter table result
         -- scheduler (avoid sending mult results of same WU to one user)
 
 alter table msg_from_host
-    add index message_handled (handled);
+    add index message_handled (handled),
         -- for message handler
+    add index mfh_hostid(hostid);
+        -- for delete account
 
 alter table msg_to_host
     add index msg_to_host(hostid, handled);
@@ -114,7 +116,9 @@ alter table credited_job
     add unique credited_job_user_wu (userid, workunitid);
 
 alter table team_delta
-    add index team_delta_teamid (teamid, timestamp);
+    add index team_delta_teamid (teamid, timestamp),
+    add index team_delta_userid (userid);
+        -- for delete account
 
 alter table team_admin
     add unique (teamid, userid);
@@ -147,3 +151,30 @@ alter table credit_user
 alter table credit_team
     add index ct_total(appid, total),
     add index ct_avg(appid, expavg);
+    
+alter table token
+    add index token_userid(userid);
+
+alter table user_deleted
+    add index ud_create(create_time);
+        -- for delete account
+    
+alter table host_deleted
+    add index hd_create(create_time);
+        -- for delete account
+    
+alter table donation_paypal
+        -- for delete account
+    add index dp_userid(userid);
+    
+alter table banishment_vote
+    add index bv_userid(userid);    
+        -- for delete account
+    
+alter table post_ratings
+    add index pr_user(user);
+        -- for delete account
+
+alter table sent_email
+    add index se_userid(userid);
+        -- for delete account
