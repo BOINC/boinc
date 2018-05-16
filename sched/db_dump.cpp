@@ -799,7 +799,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     case TABLE_USER_DELETED:
         n = 0;
         while (1) {
-            retval = user_deleted.enumerate("order by userid", true);
+            retval = user_deleted.enumerate("order by userid");
             if (retval) break;
             nusers_deleted++;
             for (i=0; i<outputs.size(); i++) {
