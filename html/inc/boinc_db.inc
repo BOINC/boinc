@@ -837,7 +837,6 @@ class BoincToken {
 
     static function delete_for_user($user_id) {
         $db = BoincDb::get();
-        $now = time();
         $db->delete_aux('token', "userid=$user_id");
         return $db->affected_rows();
     }
