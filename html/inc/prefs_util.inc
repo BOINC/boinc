@@ -220,7 +220,6 @@ class PREF_CONSENT extends PREF {
     }
 
     function show_value($user) {
-        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
         if ($cr) {
@@ -250,6 +249,7 @@ class PREF_CONSENT extends PREF {
     }
     function parse_form(&$user, &$error) {
         // This function parses the form AND performs the database update
+        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $formget = array_key_exists($tag, $_GET);
         if ($this->invert) $formget = !$formget;
