@@ -34,6 +34,14 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
 
+//-------------- Delete Account
+//define("DELETE_DELAY", 2);
+    // When deleting an account, invalidate the authenticator and then wait this
+    // many seconds before proceeding with the delete.  This is intended to give the
+    // an existing scheduler request sufficient time to complete.  Some projects
+    // might want to increase this to a longer time.  Simply uncomment and set the
+    // delay to what the project needs.
+    
 //-------------- Caching
 
 //define("MEMCACHE_SERVERS", "127.0.0.1:11211");
@@ -198,6 +206,13 @@ function project_user_page_private($user){
 function project_forum_post_rules() {
     // additional forum post rules
     return "";
+}
+
+function project_delete_account($user) {
+    // a project defined function for deleting users if neither
+    // obfuscate_account($user) or wipe_account($user) in 
+    // inc/delete_account.inc meets the need of the project
+    die("This function must be implemented before it can be used");
 }
 
 //-------------- Support for per-app credit

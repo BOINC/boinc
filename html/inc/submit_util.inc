@@ -47,6 +47,12 @@ function authenticate_user($r, $app) {
     return array($user, $user_submit);
 }
 
+function delete_remote_submit_user($user) {
+    BoincUserSubmit::delete_user($user->id);
+    BoincUserSubmitApp::delete_user($user->id);
+}
+
+
 // given its WUs, compute progress of a batch
 // (fraction done, est completion time etc.)
 // NOTE: this is inefficient because we need all the WUs.

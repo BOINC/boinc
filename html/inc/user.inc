@@ -24,8 +24,6 @@ require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 require_once("../inc/ldap.inc");
-require_once("../inc/host.inc");
-require_once("../inc/friend.inc");
 
 if (!defined('REMOTE_PROJECTS_TTL')) {
     define('REMOTE_PROJECTS_TTL', 86400);
@@ -41,7 +39,7 @@ function get_other_projects($user) {
     // Check the cache for that URL
     //
     $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
-    if ($cacheddata){
+    if ($cacheddata) {
         $remote = unserialize($cacheddata);
     } else {
         // Fetch the XML, use curl if fopen() is disallowed
@@ -112,7 +110,7 @@ function show_project($project) {
 
 function cmp($a, $b) {
     if ($a->expavg_credit == $b->expavg_credit) return 0;
-    return ($a->expavg_credit < $b->expavg_credit)? 1 : -1;
+    return ($a->expavg_credit < $b->expavg_credit) ? 1 : -1;
 }
 
 function show_other_projects($user, $personal) {
@@ -135,7 +133,7 @@ function show_other_projects($user, $personal) {
         ),
         array("", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT)
     );
-    foreach($user->projects as $project) {
+    foreach ($user->projects as $project) {
         show_project($project);
     }
     end_table();
@@ -262,10 +260,17 @@ function show_user_info_private($user) {
             "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
         );
     } else {
+        $delete_account_str = "";
+        $config = get_config();
+        if (parse_bool($config, "enable_delete_account")) {
+            $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
+        }
+        
         row2(tra("Change"),
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
             &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+            .$delete_account_str
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
@@ -537,7 +542,6 @@ function show_account_private($user) {
             if (function_exists("project_user_page_private")) {
                 project_user_page_private($user);
             }
-            //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
             start_table();
@@ -548,28 +552,6 @@ function show_account_private($user) {
     );
 }
 
-// "delete" an account: leave user record (for DB consistency) but:
-//  - set email address and authenticator to "deleted_pid_time"
-//  - clear name, country, postal_code
-//  - remove from team
-//  - delete posts, subscriptions, and forum prefs
-//  - delete private messages (sent and received)
-//  - delete profile and associated image
-// for each host:
-//  - clear domain_name, last_ip_addr
-//
-function delete_account($user) {
-    $x = "deleted_".time()."_".random_string();
-    $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
-    if (!$retval) return false;
-    user_quit_team($user);
-    forum_delete_user($user);
-    pm_delete_user($user);
-    anonymize_hosts($user);
-    delete_profile($user);
-    delete_friends($user);
-    return true;
-}
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 

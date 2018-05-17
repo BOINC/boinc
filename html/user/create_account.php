@@ -72,6 +72,11 @@ if (strlen($passwd_hash) != 32) {
     xml_error(-1, "password hash length not 32");
 }
 
+$tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
+if ($tmpuser) {
+    xml_error(ERR_DB_NOT_UNIQUE);
+}
+
 $user = BoincUser::lookup_email_addr($email_addr);
 if ($user) {
     if ($user->passwd_hash != $passwd_hash && !password_verify($passwd_hash, $user->passwd_hash)) {

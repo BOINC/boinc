@@ -15,8 +15,9 @@ alter table user
     add index user_name(name),
     add index user_tot (total_credit desc),
         -- db_dump.C
-    add index user_avg (expavg_credit desc);
+    add index user_avg (expavg_credit desc),
         -- db_dump.C
+    add index user_email_time (email_addr_change_time);
 
 alter table team
     add unique(name),
@@ -70,8 +71,10 @@ alter table result
         -- scheduler (avoid sending mult results of same WU to one user)
 
 alter table msg_from_host
-    add index message_handled (handled);
+    add index message_handled (handled),
         -- for message handler
+    add index message_hostid(hostid);
+        -- for delete account
 
 alter table msg_to_host
     add index msg_to_host(hostid, handled);
@@ -113,7 +116,9 @@ alter table credited_job
     add unique credited_job_user_wu (userid, workunitid);
 
 alter table team_delta
-    add index team_delta_teamid (teamid, timestamp);
+    add index team_delta_teamid (teamid, timestamp),
+    add index team_delta_userid (userid);
+        -- for delete account
 
 alter table team_admin
     add unique (teamid, userid);
@@ -146,3 +151,30 @@ alter table credit_user
 alter table credit_team
     add index ct_total(appid, total),
     add index ct_avg(appid, expavg);
+    
+alter table token
+    add index token_userid(userid);
+
+alter table user_deleted
+    add index user_deleted_create(create_time);
+        -- for delete account
+    
+alter table host_deleted
+    add index host_deleted_create(create_time);
+        -- for delete account
+    
+alter table donation_paypal
+        -- for delete account
+    add index donation_paypal_userid(userid);
+    
+alter table banishment_vote
+    add index banishment_vote_userid(userid);    
+        -- for delete account
+    
+alter table post_ratings
+    add index post_ratings_user(user);
+        -- for delete account
+
+alter table sent_email
+    add index sent_email_userid(userid);
+        -- for delete account

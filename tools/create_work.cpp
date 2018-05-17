@@ -142,17 +142,18 @@ struct JOB_DESC {
         // defaults (in case they're not in WU template)
         //
         wu.id = 0;
-        wu.min_quorum = 2;
-        wu.target_nresults = 2;
-        wu.max_error_results = 3;
-        wu.max_total_results = 10;
-        wu.max_success_results = 6;
-        wu.rsc_fpops_est = 3600e9;
-        wu.rsc_fpops_bound =  86400e9;
-        wu.rsc_memory_bound = 5e8;
-        wu.rsc_disk_bound = 1e9;
+        wu.min_quorum = DEFAULT_MIN_QUORUM;
+        wu.target_nresults = DEFAULT_TARGET_NRESULTS;
+        wu.max_error_results = DEFAULT_MAX_ERROR_RESULTS;
+        wu.max_total_results = DEFAULT_MAX_TOTAL_RESULTS;
+        wu.max_success_results = DEFAULT_MAX_SUCCESS_RESULTS;
+        wu.rsc_fpops_est = DEFAULT_RSC_FPOPS_EST;
+        wu.rsc_fpops_bound =  DEFAULT_RSC_FPOPS_BOUND;
+        wu.rsc_memory_bound = DEFAULT_RSC_MEMORY_BOUND;
+        wu.rsc_disk_bound = DEFAULT_RSC_DISK_BOUND;
         wu.rsc_bandwidth_bound = 0.0;
-        wu.delay_bound = 7*86400;
+            // Not used
+        wu.delay_bound = DEFAULT_DELAY_BOUND;
 
     }
     void create();

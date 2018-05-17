@@ -176,14 +176,18 @@ class BoincUser {
         return self::$cache[$id];
     }
     static function lookup_auth($auth) {
-        $db = BoincDb::get();
         $auth = BoincDb::escape_string($auth);
         return self::lookup("authenticator='$auth'");
     }
     static function lookup_email_addr($email_addr) {
-        $db = BoincDb::get();
-        $email_addr = BoincDb::escape_string($email_addr);
+        $email_addr = strtolower(BoincDb::escape_string($email_addr));
         return self::lookup("email_addr='$email_addr'");
+    }
+    //This is to find email addresses that have changed in the past 7 days.
+    static function lookup_prev_email_addr($email_addr) {
+        $email_addr = strtolower(BoincDb::escape_string($email_addr));
+        $mytime = time() - 604800;
+        return self::lookup("email_addr_change_time > $mytime and previous_email_addr='$email_addr'");
     }
     // name is not necessarily unique
     //
@@ -299,6 +303,10 @@ class BoincTeamDelta {
         $db = BoincDb::get();
         return $db->enum('team_delta', 'BoincTeamDelta', $where_clause);
     }
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        return $db->delete_aux('team_delta', "userid=$user_id");
+    }
 }
 
 class BoincHost {
@@ -338,6 +346,10 @@ class BoincHost {
         $ret = $db->insert('host', $clause);
         if (!$ret) return $ret;
         return $db->insert_id();
+    }
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        return $db->delete_aux('host', "userid=$user_id");
     }
 }
 
@@ -598,6 +610,10 @@ class BoincHostAppVersion {
         $db = BoincDb::get();
         return $db->update_aux('host_app_version', $clause);
     }
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        return $db->delete_aux('host_app_version', "host_id in (select id from host where userid = $user_id)");
+    }
 }
 
 // DB utility functions
@@ -805,11 +821,60 @@ class BoincToken {
         $db = BoincDB::get();
         return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
     }
+
+    static function delete_token($where_clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('token', $where_clause);
+        return $db->affected_rows();
+    }
     
     static function delete_expired() {
         $db = BoincDb::get();
         $now = time();
         $db->delete_aux('token', "expire_time < $now");
+        return $db->affected_rows();
+    }
+
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('token', "userid=$user_id");
+        return $db->affected_rows();
+    }
+
+}
+
+class BoincUserDeleted {
+    
+    static function insert_user($user) {
+        $now = time();
+        $cpid = md5($user->cross_project_id.$user->email_addr);
+        $clause = "(userid, public_cross_project_id, create_time) values ($user->id, '$cpid', $now)";
+        $db = BoincDb::get();
+        return $db->insert('user_deleted', $clause);
+    }
+    
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $expire_time = time() - 60*86400; //60 days ago
+        $db->delete_aux('user_deleted', "create_time < $expire_time");
+        return $db->affected_rows();
+    }
+
+}
+
+class BoincHostDeleted {
+    
+    static function insert_hosts_for_user($user) {
+        $now = time();
+        $clause = "select id, host_cpid, $now from host where userid = $user->id";
+        $db = BoincDb::get();
+        return $db->insert('host_deleted', $clause);
+    }
+    
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $expire_time = time() - 60*86400; //60 days ago
+        $db->delete_aux('host_deleted', "create_time < $expire_time");
         return $db->affected_rows();
     }
 

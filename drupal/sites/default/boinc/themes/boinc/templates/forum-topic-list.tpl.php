@@ -90,15 +90,15 @@
     <tr class="<?php print $row_class;?>">
       <td class="icon"><?php //print $topic->icon; ?>
         <?php if ($topic->sticky): ?>
-          <span class='fa fa-thumb-tack'></span>
+          <i class='fas fa-thumbtack'></i>
         <?php endif; ?>
         <?php if ($topic->comment_mode != COMMENT_NODE_READ_WRITE): ?>
-          <span class='fa fa-lock'></span>
+          <i class='fas fa-lock'></i>
         <?php endif; ?>
         <?php if (($topic->new) AND ($topic->new_replies)): ?>
-            <span class='fa fa-bell-o'></span>
+            <i class='far fa-bell'></i>
         <?php elseif ($topic->new): ?>
-            <span class='fa fa-star-o'></span>
+            <i class='far fa-star'></i>
         <?php endif; ?>
       </td>
       <td class="title" title="<?php print $author->boincuser_name; ?>">
