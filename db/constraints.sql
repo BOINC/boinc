@@ -73,7 +73,7 @@ alter table result
 alter table msg_from_host
     add index message_handled (handled),
         -- for message handler
-    add index mfh_hostid(hostid);
+    add index message_hostid(hostid);
         -- for delete account
 
 alter table msg_to_host
@@ -156,25 +156,25 @@ alter table token
     add index token_userid(userid);
 
 alter table user_deleted
-    add index ud_create(create_time);
+    add index user_deleted_create(create_time);
         -- for delete account
     
 alter table host_deleted
-    add index hd_create(create_time);
+    add index host_deleted_create(create_time);
         -- for delete account
     
 alter table donation_paypal
         -- for delete account
-    add index dp_userid(userid);
+    add index donation_paypal_userid(userid);
     
 alter table banishment_vote
-    add index bv_userid(userid);    
+    add index banishment_vote_userid(userid);    
         -- for delete account
     
 alter table post_ratings
-    add index pr_user(user);
+    add index post_ratings_user(user);
         -- for delete account
 
 alter table sent_email
-    add index se_userid(userid);
+    add index sent_email_userid(userid);
         -- for delete account

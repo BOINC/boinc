@@ -1130,11 +1130,11 @@ function update_5_9_2018() {
     ");
     
     $retval = $retval &&  do_query("alter table user_deleted
-        add index ud_create(create_time)
+        add index user_deleted_create(create_time)
     ");
     
     $retval = $retval &&  do_query("alter table host_deleted
-        add index hd_create(create_time)
+        add index host_deleted_create(create_time)
     ");
     
     $retval = $retval &&  do_query("alter table team_delta
@@ -1142,23 +1142,23 @@ function update_5_9_2018() {
     ");
     
     $retval = $retval &&  do_query("alter table donation_paypal
-        add index dp_userid(userid)
+        add index donation_paypal_userid(userid)
     ");
     
     $retval = $retval &&  do_query("alter table banishment_vote
-        add index bv_userid(userid)
+        add index banishment_vote_userid(userid)
     ");
     
     $retval = $retval &&  do_query("alter table post_ratings
-        add index pr_user(user)
+        add index post_ratings_user(user)
     ");
     
     $retval = $retval &&  do_query("alter table msg_from_host
-        add index mfh_hostid(hostid)
+        add index message_hostid(hostid)
     ");
     
     return $retval && do_query("alter table sent_email
-        add index se_userid(userid)
+        add index sent_email_userid(userid)
     ");
 }
 
