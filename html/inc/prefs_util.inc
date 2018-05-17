@@ -187,7 +187,6 @@ class PREF_CONSENT extends PREF {
         global $venues;
         $this->tooltip_tr();
         echo "<td class=\"text-right \">$this->desc</td>";
-        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
         if ($cr) {
@@ -203,7 +202,6 @@ class PREF_CONSENT extends PREF {
     function consent_show($user) {
         $this->tooltip_tr();
         echo "<td class=\"text-right \">$this->desc</td>";
-        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
         if ($cr) {
@@ -233,10 +231,8 @@ class PREF_CONSENT extends PREF {
         echo "<td>" . readonly_checkbox($value) . "</td>";
     }
     function show_form($user, $error) {
-        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
-        $checked = false;
         if ($cr) {
             if ($this->invert) {
                 $checked = !$cr->consent_flag;
@@ -254,7 +250,6 @@ class PREF_CONSENT extends PREF {
     }
     function parse_form(&$user, &$error) {
         // This function parses the form AND performs the database update
-        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $formget = array_key_exists($tag, $_GET);
         if ($this->invert) $formget = !$formget;
@@ -282,7 +277,6 @@ class PREF_CONSENT extends PREF {
         return false;
     }
     function set_default(&$user) {
-        $tag = $this->tag;
         $consent_id = $this->consent_id;
         $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
         if ($cr) {
