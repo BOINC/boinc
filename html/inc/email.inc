@@ -156,7 +156,7 @@ function is_valid_email_addr($addr) {
 
 function send_confirm_delete_email($user) {
     $token = create_token($user->id, TOKEN_TYPE_DELETE_ACCOUNT, TOKEN_DURATION_ONE_DAY);
-    if ( $token === null ) {
+    if ($token === null) {
         error_page("Error creating token.  Please try again later.");
     }
     

@@ -39,7 +39,7 @@ function get_other_projects($user) {
     // Check the cache for that URL
     //
     $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
-    if ($cacheddata){
+    if ($cacheddata) {
         $remote = unserialize($cacheddata);
     } else {
         // Fetch the XML, use curl if fopen() is disallowed
@@ -110,7 +110,7 @@ function show_project($project) {
 
 function cmp($a, $b) {
     if ($a->expavg_credit == $b->expavg_credit) return 0;
-    return ($a->expavg_credit < $b->expavg_credit)? 1 : -1;
+    return ($a->expavg_credit < $b->expavg_credit) ? 1 : -1;
 }
 
 function show_other_projects($user, $personal) {
@@ -133,7 +133,7 @@ function show_other_projects($user, $personal) {
         ),
         array("", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT)
     );
-    foreach($user->projects as $project) {
+    foreach ($user->projects as $project) {
         show_project($project);
     }
     end_table();
@@ -262,7 +262,7 @@ function show_user_info_private($user) {
     } else {
         $delete_account_str = "";
         $config = get_config();
-        if ( parse_bool($config, "enable_delete_account") ) {
+        if (parse_bool($config, "enable_delete_account")) {
             $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
         }
         

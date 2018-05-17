@@ -24,7 +24,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/user_util.inc");
 
 $config = get_config();
-if ( !parse_bool($config, "enable_delete_account") ) {
+if (!parse_bool($config, "enable_delete_account")) {
     error_page(
         tra("This feature is disabled.  Please contact the project administrator.")
     );
@@ -35,7 +35,7 @@ function delete_account_confirm_form() {
     $userid = get_int("id");
     $token = get_str("token");
     $retval = check_delete_account_token($userid, $token);
-    if ( !$retval ) {
+    if (!$retval) {
         error_page(
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
         );
@@ -49,9 +49,9 @@ function delete_account_confirm_form() {
          ."<br/>";
     
     form_start(secure_url_base()."delete_account_confirm.php", "post");
-    form_input_hidden("token",$token);
-    form_input_hidden("id",$userid);
-    form_input_text(tra("Password"), "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd"));
+    form_input_hidden("token", $token);
+    form_input_hidden("id", $userid);
+    form_input_text(tra("Password"), "passwd", "", "password", 'id="passwd"', passwd_visible_checkbox("passwd"));
     form_submit(tra("Delete Account"));
     form_end();
     
@@ -63,7 +63,7 @@ function delete_account_confirm_action() {
     $userid = post_int("id");
     $token = post_str("token");
     $retval = check_delete_account_token($userid, $token);
-    if ( !$retval ) {
+    if (!$retval) {
         error_page(
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
         );
@@ -74,7 +74,7 @@ function delete_account_confirm_action() {
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
     
-    if ( !delete_account($user) ) {
+    if (!delete_account($user)) {
         error_page(
             tra("Failed to delete your account.  Please contact the project administrator.")
         );    

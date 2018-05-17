@@ -23,7 +23,7 @@ require_once("../inc/user_util.inc");
 require_once("../inc/email.inc");
 
 $config = get_config();
-if ( !parse_bool($config, "enable_delete_account") ) {
+if (!parse_bool($config, "enable_delete_account")) {
     error_page(
         tra("This feature is disabled.  Please contact the project administrator.")
     );
@@ -48,7 +48,7 @@ function delete_account_request_form($user) {
         ."</ul><br/>";
     
     form_start(secure_url_base()."delete_account_request.php", "post");
-    form_input_text(tra("Password"), "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd"));
+    form_input_text(tra("Password"), "passwd", "", "password", 'id="passwd"', passwd_visible_checkbox("passwd"));
     form_submit(tra("Send Confirmation Email"));
     form_end();
     
