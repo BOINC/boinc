@@ -67,15 +67,15 @@
     <tr class="<?php print $row_class;?>">
       <td class="icon"><?php //print $topic->icon; ?>
         <?php if ($result[$id]->node_boincteam_forum_node_sticky): ?>
-          <span class='fa fa-thumb-tack'></span>
+          <i class='fas fa-thumbtack'></i>
         <?php endif; ?>
         <?php if ($result[$id]->node_boincteam_forum_node_comment != COMMENT_NODE_READ_WRITE): ?>
-          <span class='fa fa-lock'></span>
+          <i class='fas fa-lock'></i>
         <?php endif; ?>
         <?php if (!empty($topic->timestamp)): ?>
-            <span class='fa fa-star-o'></span>
+            <i class='far fa-star'></i>
         <?php elseif ($topic->new_comments): ?>
-            <span class='fa fa-bell-o'></span>
+            <i class='far fa-bell'></i>
         <?php endif; ?>
       </td>
       <td class="title" title="<?php print $author->boincuser_name; ?>">
