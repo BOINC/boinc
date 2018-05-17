@@ -34,7 +34,7 @@ define("DELETE_ACCOUNT_METHOD_PROJECT_DEFINED", 3);
 
 // Constant for how long to sleep after invalidating authenticator before proceeding with rest of delete
 // This is done on the chance that there is an active scheduler request in progress  
-define("DELETE_DELAY", 2);
+if (!defined("DELETE_DELAY") define("DELETE_DELAY", 2);
 
 
 function check_delete_account_token($userid, $token) {

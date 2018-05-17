@@ -34,6 +34,14 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
 
+//-------------- Delete Account
+//define("DELETE_DELAY", 2);
+    // When deleting an account, invalidate the authenticator and then wait this
+    // many seconds before proceeding with the delete.  This is intended to give the
+    // an existing scheduler request sufficient time to complete.  Some projects
+    // might want to increase this to a longer time.  Simply uncomment and set the
+    // delay to what the project needs.
+    
 //-------------- Caching
 
 //define("MEMCACHE_SERVERS", "127.0.0.1:11211");
