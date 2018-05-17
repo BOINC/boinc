@@ -169,6 +169,130 @@ class PREF_BOOL extends PREF {
     }
 }
 
+class PREF_CONSENT extends PREF {
+    public $consent_id; // the consent_id to configure
+    public $default;
+    public $invert;     // show to user in opposite sense
+
+    function __construct($desc, $tooltip, $tag, $consent_id, $default, $invert=false) {
+        $this->consent_id = $consent_id;
+        $this->default = $default;
+        $this->invert = $invert;
+        parent::__construct($desc, $tooltip, $tag);
+    }
+
+    // multi-column display (read only)
+    //
+    function consent_show_cols($user) {
+        global $venues;
+        $this->tooltip_tr();
+        echo "<td class=\"text-right \">$this->desc</td>";
+        $tag = $this->tag;
+        $consent_id = $this->consent_id;
+        $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
+        if ($cr) {
+            $this->show_value($user);
+        } else {
+            echo "<td>---</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    // show read-only row
+    //
+    function consent_show($user) {
+        $this->tooltip_tr();
+        echo "<td class=\"text-right \">$this->desc</td>";
+        $tag = $this->tag;
+        $consent_id = $this->consent_id;
+        $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
+        if ($cr) {
+            $this->show_value($user);
+        } else {
+            echo "<td>---</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    function consent_show_form_row($user, $error) {
+        $this->tooltip_tr();
+        echo "<td ".NAME_ATTRS.">$this->desc</td>";
+        $this->show_form($user, $error);
+        echo "</tr>\n";
+    }
+
+    function show_value($user) {
+        $tag = $this->tag;
+        $consent_id = $this->consent_id;
+        $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
+        if ($cr) {
+            $value = $cr->consent_flag;
+        } else {
+            $value = false;
+        }
+        echo "<td>" . readonly_checkbox($value) . "</td>";
+    }
+    function show_form($user, $error) {
+        $tag = $this->tag;
+        $consent_id = $this->consent_id;
+        $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
+        $checked = false;
+        if ($cr) {
+            if ($this->invert) {
+                $checked = !$cr->consent_flag;
+            } else {
+                $checked = $cr->consent_flag;
+            }
+        } else {
+            $checked = ($this->invert ? true : false);
+        }
+        echo "<td ".VALUE_ATTRS.">"
+            ."<input type=checkbox name=$this->tag "
+            . ($checked?"checked":"")
+            ."></td>
+        ";
+    }
+    function parse_form(&$user, &$error) {
+        // This function parses the form AND performs the database update
+        $tag = $this->tag;
+        $consent_id = $this->consent_id;
+        $formget = array_key_exists($tag, $_GET);
+        if ($this->invert) $formget = !$formget;
+        $flag = ($formget ? 1 : 0);
+
+        // if record exists modify it, otherwise create
+        $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
+        if ($cr) {
+            $cquery = "consent_flag=$flag WHERE userid = $user->id AND consent_id=$consent_id";
+            $cr->update($cquery);
+        } else {
+            $mytime = time();
+            BoincConsent::insert(
+                "(userid, consent_id, consent_time, consent_flag, consent_not_required, source) " .
+                "values($user->id, $consent_id, $mytime, $flag, 0, 'Webform')"
+            );
+        }
+    }
+    // xml_string should not be used for this class
+    function xml_string($prefs) {
+        return "";
+    }
+    // xml_parse should not be used for this class
+    function xml_parse(&$prefs, $name, $text) {
+        return false;
+    }
+    function set_default(&$user) {
+        $tag = $this->tag;
+        $consent_id = $this->consent_id;
+        $cr = BoincConsent::lookup("userid=$user->id AND consent_id=$consent_id");
+        if ($cr) {
+            $cquery = "consent_id=$consent_id, consent_flag=$this->default WHERE userid = $user->id AND consent_id=$consent_id";
+            $cr->update($cquery);
+        }
+    }
+
+}
+
 class NUM_SPEC {
     public $suffix;
     public $min;

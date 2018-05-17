@@ -137,6 +137,16 @@ $privacy_pref_descs = array (
     ),
 );
 
+$privacy_consent_descs = array(
+    new PREF_CONSENT(
+        tra("Do you consent to %1 exporting your data?", PROJECT),
+        "Data is exported to BOINC statistics aggregation Web sites.",
+        "consent_data_export",
+        2,
+        0
+    ),
+);
+
 global $text;
 global $parse_result;
 global $top_parse_result;
@@ -254,6 +264,19 @@ function prefs_show_privacy($user, $columns) {
     }
 }
 
+function prefs_show_consent($user, $columns) {
+    global $privacy_consent_descs;
+    if ($columns) {
+        foreach ($privacy_consent_descs as $p) {
+            $p->consent_show_cols($user);
+        }
+    } else {
+        foreach ($privacy_consent_descs as $p) {
+            $p->consent_show($user);
+        }
+    }
+}
+
 function prefs_show_project_specific($prefs, $columns=false) {
     if ($columns) {
         $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
@@ -267,6 +290,7 @@ function prefs_show_project_specific($prefs, $columns=false) {
 }
 
 function print_prefs_display_project($user, $columns=false) {
+    $config = get_config();
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
@@ -287,6 +311,9 @@ function print_prefs_display_project($user, $columns=false) {
         }
         prefs_show_project($project_prefs, false);
         prefs_show_privacy($user, false);
+        if (parse_bool($config, "enable_record_optin_consent")) {
+            prefs_show_consent($user, false);
+        }
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
         $tokens = url_tokens($user->authenticator);
@@ -308,6 +335,13 @@ function prefs_form_privacy($user) {
     global $privacy_pref_descs;
     foreach ($privacy_pref_descs as $p) {
         $p->show_form_row($user, false);
+    }
+}
+
+function prefs_form_consent($user) {
+    global $privacy_consent_descs;
+    foreach ($privacy_consent_descs as $p) {
+        $p->consent_show_form_row($user, false);
     }
 }
 
@@ -336,6 +370,15 @@ function prefs_privacy_parse_form(&$user) {
     global $privacy_pref_descs;
     $error = false;
     foreach ($privacy_pref_descs as $p) {
+        $p->parse_form($user, $error);
+    }
+    return $error;
+}
+
+function prefs_consent_parse_update(&$user) {
+    global $privacy_consent_descs;
+    $error = false;
+    foreach ($privacy_consent_descs as $p) {
         $p->parse_form($user, $error);
     }
     return $error;

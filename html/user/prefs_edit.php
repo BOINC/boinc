@@ -21,6 +21,8 @@ include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
 include_once("../inc/prefs_project.inc");
 
+$config = get_config();
+
 $user = get_logged_in_user();
 
 $action = sanitize_tags(get_str("action", true));
@@ -29,7 +31,6 @@ $venue = sanitize_tags(get_str("venue", true));
 $columns = get_str("cols", true);
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
-
 if ($action) {
     check_tokens($user->authenticator);
     if ($subset == "global") {
@@ -78,6 +79,9 @@ if ($action) {
             } else {
                 $main_prefs = $prefs;
                 prefs_privacy_parse_form($user);
+                if (parse_bool($config, "enable_record_optin_consent")) {
+                    prefs_consent_parse_update($user);
+                }
             }
 
             project_prefs_update($user, $main_prefs);

@@ -564,6 +564,8 @@ function print_prefs_form(
     $action, $subset, $venue, $user, $prefs, $cols, $error=false,
     $project_error=false
 ){
+    $config = get_config();
+
     if ($action == "add") {
         $script = "add_venue.php";
         $submit_value = tra("Add preferences");
@@ -588,6 +590,9 @@ function print_prefs_form(
         prefs_form_project($prefs, $error);
         if (!$venue) {
             prefs_form_privacy($user);
+            if (parse_bool($config, "enable_record_optin_consent")) {
+                prefs_form_consent($user);
+            }
             venue_form($user);
         }
         prefs_form_project_specific($prefs->project_specific, $project_error);
