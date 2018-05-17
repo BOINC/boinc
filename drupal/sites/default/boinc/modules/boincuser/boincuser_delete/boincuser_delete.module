@@ -37,6 +37,16 @@ function boincuser_delete_menu() {
     'file' => 'boincuser_delete.admin.inc',
   );
 
+  $items['admin/boinc/user_delete/%'] = array(
+    'title' => t('Admin delete user'),
+    'description' => t('Deletes a user as an admin'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_delete_admindelete', 3),
+    'access arguments' => array('administer users'),
+    'type' => MENU_CALLBACK,
+    'file' => 'boincuser_delete.admin.inc',
+  );
+
   $items['user/%user/deleteconfirm/%'] = array(
     'title' => t('Final confirmation for account deletion'),
     'description' => t('Final confirmation for account deletion'),
@@ -531,18 +541,23 @@ function boincuser_delete_finalconfirmation_validate($form, &$form_state) {
  * Submit for final confirmation
  */
 function boincuser_delete_finalconfirmation_submit($form, &$form_state) {
+  require_boinc('user_util');
+  require_boinc('delete_account');
+
   $account = $form_state['values']['_account'];
   $boinc_user = BoincUser::lookup_id($account->boincuser_id);
 
   // watchdog message
   watchdog('boincuser_delete', 'Deleting account drupal UID: %uid, BOINC id: %boincuser_id., BOINC displayname: %displayname',
   array(
-    '%uid' => $account->uid,
+    '%uid' =>  $account->uid,
     '%boincuser_id' => $account->boincuser_id,
     '%displayname' => $account->boincuser_name,
   ), WATCHDOG_NOTICE);
 
   // @todo - delete the account - delete the token used too
+  wipe_account($boinc_user);
+  user_delete(array(), $account->uid);
 
   // Destroy the current session:
   session_destroy();
