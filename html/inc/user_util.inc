@@ -168,11 +168,14 @@ function validate_post_make_user() {
     // Check if consent to terms of use has been given.
     $myconsent = FALSE;
     if (parse_bool($config, "enable_record_optin_consent")) {
-        $optin = post_str("terms_of_use_optin_consent", true);
-        if (!$optin) {
-            error_page(tra("You have not opted in to our terms of use. Please agree to the terms of use in order to create your account"));
+        $tou_file = "../../terms_of_use.txt";
+        if (file_exists($tou_file)) {
+            $optin = post_str("terms_of_use_optin_consent", true);
+            if (!$optin) {
+                error_page(tra("You have not opted in to our terms of use. Please agree to the terms of use in order to create your account"));
+            }
+            $myconsent = TRUE;
         }
-        $myconsent = TRUE;
     }
 
     // see whether the new account should be pre-enrolled in a team,
