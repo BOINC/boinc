@@ -54,6 +54,17 @@ function check_passwd_hash($user, $passwd_hash) {
     return true;
 }
 
+function check_passwd_ui($user, $passwd) {
+    $passwd_hash = md5($passwd.$user->email_addr);
+    if(!check_passwd_hash($user, $passwd_hash)) {
+        sleep(LOGIN_FAIL_SLEEP_SEC);
+        page_head("Password incorrect");
+        echo "The password you entered is incorrect. Please go back and try again.\n";
+        page_tail();
+        exit;
+    }
+}
+
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
     if (isset($banned_email_domains)) {
@@ -275,6 +286,7 @@ function delete_user($user) {
     BoincCreditUser::delete_user($user);
     BoincBadgeUser::delete("user_id=$user->id");
     BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+    BoincToken::delete_for_user($user->id);
     $user->delete();
 }
 ?>

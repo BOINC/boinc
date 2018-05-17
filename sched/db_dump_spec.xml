@@ -9,8 +9,23 @@
         </output>
     </enumeration>
     <enumeration>
+        <table>user_deleted</table>
+        <filename>user_deleted</filename>
+        <output>
+            <compression>gzip</compression>
+        </output>
+    </enumeration>
+    <enumeration>
         <table>host</table>
         <filename>host</filename>
+        <output>
+            <compression>gzip</compression>
+            <detail/>
+        </output>
+    </enumeration>
+    <enumeration>
+        <table>host_deleted</table>
+        <filename>host_deleted</filename>
         <output>
             <compression>gzip</compression>
             <detail/>

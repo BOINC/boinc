@@ -787,6 +787,20 @@ create table token (
     type                    char            not null,
     create_time             integer         not null,
     expire_time             integer,
-    primary key (token),
-    index token_userid (userid)
+    primary key (token)
 ) engine=InnoDB;
+
+create table user_deleted (
+    userid                  integer         not null,
+    public_cross_project_id varchar(254)    not null,
+    create_time             double          not null,
+    primary key (userid)
+) engine=InnoDB;
+
+create table host_deleted (
+    hostid                  integer         not null,
+    public_cross_project_id varchar(254)    not null,
+    create_time             double          not null,
+    primary key (hostid)
+) engine=InnoDB;
+

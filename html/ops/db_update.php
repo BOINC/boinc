@@ -35,8 +35,10 @@ function do_query($query) {
     $result = _mysql_query($query);
     if (!$result) {
         echo "Failed:\n"._mysql_error()."\n";
+        return false;
     } else {
         echo "Success.\n";
+        return true;
     }
 }
 
@@ -1110,6 +1112,56 @@ function update_4_19_2018() {
     do_query("alter table user add index user_email_time (email_addr_change_time)");
 }
 
+function update_5_9_2018() {
+    $retval = do_query("create table user_deleted (
+            userid                  integer         not null,
+            public_cross_project_id varchar(254)    not null,
+            create_time             double          not null,
+            primary key (userid)
+        ) engine=InnoDB;
+    ");
+    
+    $retval = $retval && do_query("create table host_deleted (
+            hostid                  integer         not null,
+            public_cross_project_id varchar(254)    not null,
+            create_time             double          not null,
+            primary key (hostid)
+        ) engine=InnoDB;
+    ");
+    
+    $retval = $retval && do_query("alter table user_deleted
+        add index user_deleted_create(create_time)
+    ");
+    
+    $retval = $retval && do_query("alter table host_deleted
+        add index host_deleted_create(create_time)
+    ");
+    
+    $retval = $retval && do_query("alter table team_delta
+        add index team_delta_userid (userid)
+    ");
+    
+    $retval = $retval && do_query("alter table donation_paypal
+        add index donation_paypal_userid(userid)
+    ");
+    
+    $retval = $retval && do_query("alter table banishment_vote
+        add index banishment_vote_userid(userid)
+    ");
+    
+    $retval = $retval && do_query("alter table post_ratings
+        add index post_ratings_user(user)
+    ");
+    
+    $retval = $retval && do_query("alter table msg_from_host
+        add index message_hostid(hostid)
+    ");
+    
+    return $retval && do_query("alter table sent_email
+        add index sent_email_userid(userid)
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1166,7 +1218,8 @@ $db_updates = array (
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
-    array(27025, "update_4_19_2018")
+    array(27025, "update_4_19_2018"),
+    array(27026, "update_5_9_2018")
 );
 
 ?>
