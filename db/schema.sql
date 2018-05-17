@@ -791,3 +791,4 @@ create table consent_type (
 
 insert into consent_type (consent_id, description) 
     values (1, 'General terms-of-use for this BOINC project.');
+    values (2, 'Consent to data exports.');

@@ -1102,7 +1102,7 @@ function update_4_18_2018() {
     ");
 }
 
-function update_4_24_2018() {
+function update_5_17_2018() {
     do_query("create table consent (
         userid                  integer         not null,
         consent_id              integer         not null,
@@ -1124,6 +1124,10 @@ function update_4_24_2018() {
     do_query("insert into consent_type
         (consent_id, description) values
         (1, 'General terms-of-use for this BOINC project.');
+    ");
+    do_query("insert into consent_type
+        (consent_id, description) values
+        (2, 'Consent to data exports.');
     ");
 }
 
@@ -1183,7 +1187,7 @@ $db_updates = array (
     array(27022, "update_4_5_2018"),
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
-    array(27025, "update_4_24_2018")
+    array(27027, "update_5_17_2018")
 );
 
 ?>
