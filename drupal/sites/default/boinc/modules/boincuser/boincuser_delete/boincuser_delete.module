@@ -399,6 +399,8 @@ function boincuser_delete_finalconfirmation_submit($form, &$form_state) {
   require_boinc('user_util');
   require_boinc('delete_account');
 
+  global $user;
+
   $account = $form_state['values']['_account'];
   $boinc_user = BoincUser::lookup_id($account->boincuser_id);
 

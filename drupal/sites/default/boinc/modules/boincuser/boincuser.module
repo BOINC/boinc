@@ -469,7 +469,7 @@ function boincuser_user_delete($account) {
   // Delete entry in drupal boincuser table.
   $qrc2 = db_query("DELETE FROM {boincuser} WHERE uid=%d", $account->uid);
   if (!$qrc2) {
-    watchdog('user', 'Error deleting user account, boincuser table UID: %uid.', array('%uid' => $uid), WATCHDOG_ERROR);
+    watchdog('user', 'Error deleting user account, boincuser table UID: %uid.', array('%uid' => $account->uid), WATCHDOG_ERROR);
   }
 }
 
