@@ -113,7 +113,6 @@ function boincuser_delete_admindelete(&$form_state, $uid) {
  * Validation function for admin delete user.
  */
 function boincuser_delete_admindelete_validate($form, &$form_state) {
-dd($form_state, 'form_state');
   global $user;
   $boinc_user = boincuser_load($user->uid, TRUE);
 
