@@ -129,22 +129,33 @@ function update_team($t, $team, $user) {
 function insert_case($t, $user) {
     global $master_url;
     global $dry_run;
+    $config = get_config();
     if ($dry_run) {
         if (!$user) echo "   making user $t->user_email\n";
         echo "   making team $t->name\n";
         return;
     }
     if (!$user) {
-        echo "   making user $t->user_email\n";
-        $user = make_user($t->user_email, $t->user_name, random_string());
-        if (!$user) {
-            echo "   Can't make user $t->user_email\n";
-            return;
+        if (parse_bool($config, "enable_record_optin_consent")) {
+            echo "   cannot make user when an opt-in consent is required\n";
+        }
+        else {
+            echo "   making user $t->user_email\n";
+            $user = make_user($t->user_email, $t->user_name, random_string());
+            if (!$user) {
+                echo "   Can't make user $t->user_email\n";
+                return;
+            }
         }
     }
     echo "   making team $t->name\n";
+    // if user was not created, set the userid of a team to be zero
+    $myid = 0;
+    if (!parse_bool($config, "enable_record_optin_consent")) {
+        $myid = $user->id;
+    }
     $team = make_team(
-        $user->id, $t->name, $t->url, $t->type, $t->name_html,
+        $myid, $t->name, $t->url, $t->type, $t->name_html,
         $t->description, $t->country
     );
     if (!$team) {
@@ -154,15 +165,17 @@ function insert_case($t, $user) {
         exit;
     }
     $team->update("seti_id=$t->id");
-    $user->update("teamid=$team->id");
+    if ($user) {
+        $user->update("teamid=$team->id");
 
-    send_email($user, "Team created on ".PROJECT,
-"An instance of the BOINC-wide team '$t->name'
+        send_email($user, "Team created on ".PROJECT,
+        "An instance of the BOINC-wide team '$t->name'
 has been created on the project:
 name: ".PROJECT."
 URL: $master_url
 "
-    );
+        );
+    }
 }
 
 // There are several cases for a given record:
