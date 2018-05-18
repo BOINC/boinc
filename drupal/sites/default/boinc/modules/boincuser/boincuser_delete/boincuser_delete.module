@@ -317,10 +317,15 @@ function boincuser_delete_finalconfirmation(&$form_state, $token) {
 
   // check BOINC user exists
   $account = user_load(array('uid' => $user->uid));
-
+  $uid = $user->uid;
+  $boincid = $account->boincuser_id;
   // check $token is valid
-  if (!is_valid_token($account->boincuser_id, $token, 'D')) {
-    drupal_set_message(bts('ERROR: You have supplied an incorrect token.', array(), NULL, 'boinc:delete-user-account'), 'error');
+  if (!is_valid_token($boincid, $token, 'D')) {
+    drupal_set_message(bts('ERROR: You have supplied an incorrect (most likely expired) token. Please obtain a new token by !link your account be deleted.',
+    array(
+      '!link' => l(bts('re-requesting', array(), NULL, 'boinc:delete-user-account'), "/user/${uid}/delete"),
+    ),
+    NULL, 'boinc:delete-user-account'), 'error');
     drupal_goto();
   }
 
