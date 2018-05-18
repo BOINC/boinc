@@ -290,6 +290,18 @@ function boincwork_privatemsg_message_view_alter(&$vars) {
   }
 }
 
+/**
+ * Implementation of hook_cron()
+ */
+function boincwork_cron() {
+  // Delete expired hosts in the BOINC database, host_delete table.
+  require_boinc('boinc_db');
+  $num_deleted = BoincHostDeleted::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boincwork', "Deleted ${num_deleted} hosts from host_deleted table", WATCHDOG_NOTICE);
+  }
+}
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
