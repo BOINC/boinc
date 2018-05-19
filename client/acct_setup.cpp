@@ -399,7 +399,9 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     gstate.autologin_in_progress = false;
 
     if (http_op_retval) {
-        msg_printf(NULL, MSG_INFO, "token lookup RPC failed: %s", boincerror(http_op_retval));
+        msg_printf(NULL, MSG_INFO,
+            "token lookup RPC failed: %s", boincerror(http_op_retval)
+        );
         return;
     }
     FILE* f = boinc_fopen(LOGIN_TOKEN_LOOKUP_REPLY, "r");
@@ -429,14 +431,18 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     }
 
     if (pli->is_account_manager) {
-        msg_printf(NULL, MSG_INFO, "Using account manager %s", pli->name.c_str());
+        msg_printf(NULL, MSG_INFO,
+            "Using account manager %s", pli->name.c_str()
+        );
+        strcpy(gstate.acct_mgr_info.project_name, pli->name.c_str());
         strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
         strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
         strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
     } else {
         msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
         gstate.add_project(
-            pli->master_url.c_str(), authenticator.c_str(), pli->name.c_str(), false
+            pli->master_url.c_str(), authenticator.c_str(),
+            pli->name.c_str(), false
         );
         PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
         if (p) {
