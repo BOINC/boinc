@@ -38,8 +38,23 @@ function main() {
     }
     $uname = htmlentities($user->name);
     echo "<login_token_reply>\n";
-    echo "   <authenticator>$user->authenticator</authenticator>\n";
-    echo "   <user_name>$uname</user_name>\n";
+    if (parse_bool($config, "account_manager")) {
+        echo "   <user_name>$uname</user_name>\n";
+
+        // the following for pre-7.12 clients; can be removed later
+        //
+        echo "   <login_name>$user->email_addr</login_name>\n";
+        echo "   <passwd_hash>$user->passwd_hash</passwd_hash>\n";
+
+        // the following for later clients
+        //
+        echo "   <authenticator>$user->authenticator</authenticator>\n";
+    } else {
+        // the following for pre-7.12 clients; remove soon
+        //
+        echo "   <authenticator>$user->authenticator</authenticator>\n";
+        echo "   <user_name>$uname</user_name>\n";
+    }
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
         if ($team) {

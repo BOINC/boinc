@@ -413,6 +413,7 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
+    string error_msg;
     while (!xp.get_tag()) {
         if (xp.parse_string("user_name", user_name)) {
             continue;
@@ -420,12 +421,14 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
             continue;
         } else if (xp.parse_string("authenticator", authenticator)) {
             continue;
+        } else if (xp.parse_string("error_msg", error_msg)) {
+            continue;
         }
     }
     fclose(f);
 
     if (!user_name.size() || !authenticator.size()) {
-        msg_printf(NULL, MSG_INFO, "token lookup RPC: missing info");
+        msg_printf(NULL, MSG_INFO, "Account lookup failed: %s", error_msg.c_str());
         boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
@@ -438,6 +441,7 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
         strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
         strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
+        gstate.acct_mgr_info.write_info();
     } else {
         msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
         gstate.add_project(
