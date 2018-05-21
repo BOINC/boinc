@@ -17,6 +17,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// This page implements the old model where the user downloads BOINC
+// from the BOINC web site,
+// and creates an account using the Manager.
+//
+// signup.php is the newer version, with web signup and autoattach
+
 require_once("../inc/util.inc");
 
 function show_choose($is_old) {
