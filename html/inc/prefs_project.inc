@@ -140,7 +140,7 @@ $privacy_pref_descs = array (
 $privacy_consent_descs = array(
     new PREF_CONSENT(
         tra("Do you consent to %1 exporting your data?", PROJECT),
-        "Data is exported to BOINC statistics aggregation Web sites.",
+        tra("Data is exported to BOINC statistics aggregation Web sites."),
         "consent_data_export",
         2,
         0

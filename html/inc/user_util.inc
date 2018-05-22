@@ -275,7 +275,7 @@ function validate_post_make_user() {
     }
 
     if ($myconsent) {
-        $rc = consent_to_termsofuse($user, 1, 1, 0, 'Webreg');
+        $rc = consent_to_a_policy($user, 1, 1, 0, 'Webreg');
         if (!$rc) {
             show_error(tra("database error, please contact site administrators"));
         }

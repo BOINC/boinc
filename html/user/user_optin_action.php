@@ -55,7 +55,7 @@ if ($consent_result) {
     }
 }
 else {
-    $rc2 = consent_to_termsofuse($user, 1, 1, 0, 'Webreg', time());
+    $rc2 = consent_to_a_policy($user, 1, 1, 0, 'Webreg', time());
     if (!$rc2) {
         error_page("Database error when attempting to INSERT into table consent with ID=$user->id. Please contact site administrators.");
     }

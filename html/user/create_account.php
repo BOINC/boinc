@@ -104,9 +104,9 @@ if (parse_bool($config, "enable_record_optin_consent")) {
         // this is an anonymous account and consent_not_required is
         // set to 1.
         if ($optin==0) {
-            $rc = consent_to_termsofuse($user, 1, 0, 1, $source);
+            $rc = consent_to_a_policy($user, 1, 0, 1, $source);
         } else  {
-            $rc = consent_to_termsofuse($user, 1, 1, 0, $source);
+            $rc = consent_to_a_policy($user, 1, 1, 0, $source);
         }
         if (!$rc) {
             xml_error(-1, "database error, please contact site administrators");
