@@ -154,6 +154,12 @@ bool CBOINCGUIApp::OnInit() {
     SetAppName(wxT("BOINC Manager"));
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
 
+#ifdef __WXMAC__
+    char displayName[MAXPATHLEN];
+    getDisplayNameForThisApp(displayName, sizeof(displayName));
+    SetAppDisplayName(wxString(displayName)); // {ass the display name to wxWidgets
+#endif
+
 
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
@@ -272,7 +278,6 @@ bool CBOINCGUIApp::OnInit() {
     // Load desired manager skin
     m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
     m_pSkinManager->ReloadSkin(strDesiredSkinName);
-
 
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox

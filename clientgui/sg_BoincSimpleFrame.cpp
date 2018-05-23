@@ -817,7 +817,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 fscanf(f, "BrandId=%ld\n", &iBrandID);
                 fclose(f);
             }
-            if ((iBrandID > 0) && (iBrandID < 4))
+            if ((iBrandID > 0) && (iBrandID < 5))
 #endif
             {
                 // If successful, hide the main window if we showed it

@@ -390,6 +390,12 @@ static OSStatus DoUninstall(void) {
         kill(BOINCManagerPID, SIGTERM);
         sleep(2);
     }
+    
+    BOINCManagerPID = getPidIfRunning("edu.berkeley.boinc");
+    if (BOINCManagerPID) {
+        kill(BOINCManagerPID, SIGTERM);
+    }
+    sleep(2);
 
     // Core Client may still be running if it was started without Manager
     coreClientPID = FindProcessPID("boinc", 0);
@@ -478,17 +484,22 @@ static OSStatus DoUninstall(void) {
     callPosixSpawn ("rm -rf \"/Applications/Charity Engine Desktop.app\"");
     callPosixSpawn ("rm -rf \"/Library/Screen Savers/Charity Engine.saver\"");
     
+    callPosixSpawn ("rm -rf \"/Applications/World Community Grid.app\"");
+    callPosixSpawn ("rm -rf \"/Library/Screen Savers/World Community Grid.saver\"");
+
     // Delete any receipt from an older installer (which had 
     // a wrapper application around the installer package.)
     callPosixSpawn ("rm -rf /Library/Receipts/GridRepublic.pkg");
     callPosixSpawn ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors.pkg");
     callPosixSpawn ("rm -rf /Library/Receipts/Charity\\ Engine.pkg");
+    callPosixSpawn ("rm -rf /Library/Receipts/World\\ Community\\ Grid.pkg");
     callPosixSpawn ("rm -rf /Library/Receipts/BOINC.pkg");
 
     // Delete any receipt from a newer installer (a bare package.) 
     callPosixSpawn ("rm -rf /Library/Receipts/GridRepublic\\ Installer.pkg");
     callPosixSpawn ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg");
     callPosixSpawn ("rm -rf /Library/Receipts/Charity\\ Engine\\ Installer.pkg");
+    callPosixSpawn ("rm -rf /Library/Receipts/World\\ Community\\ Grid\\ Installer.pkg");
     callPosixSpawn ("rm -rf /Library/Receipts/BOINC\\ Installer.pkg");
 
     // Phase 5: Set BOINC Data owner and group to logged in user
@@ -805,6 +816,7 @@ static OSStatus CleanupAllVisibleUsers(void)
                     DeleteLoginItemOSAScript(pw->pw_name, "GridRepublic Desktop");
                     DeleteLoginItemOSAScript(pw->pw_name, "Progress Thru Processors Desktop");
                     DeleteLoginItemOSAScript(pw->pw_name, "Charity Engine Desktop");
+                    DeleteLoginItemOSAScript(pw->pw_name, "World Community Grid");
 
 #if TESTING
                 } else {
@@ -848,6 +860,11 @@ static OSStatus CleanupAllVisibleUsers(void)
                         changeSaver = true;
                         break;
                     }
+
+                    if (strstr(s, "World Community Grid")) {
+                        changeSaver = true;
+                        break;
+                    }
                 }
                 pclose(f);
             }
@@ -864,6 +881,9 @@ static OSStatus CleanupAllVisibleUsers(void)
                     changeSaver = true;
                 }
                 if (strstr(s, "Charity Engine")) {
+                    changeSaver = true;
+                }
+                if (strstr(s, "World Community Grid")) {
                     changeSaver = true;
                 }
             }
@@ -952,6 +972,8 @@ static void DeleteLoginItemFromPListFile(void)
         if (strstr(theName, "PROGRESS THRU PROCESSORS DESKTOP"))
             success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
         if (strstr(theName, "CHARITY ENGINE DESKTOP"))
+            success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
+        if (strstr(theName, "World Community Grid"))
             success = DeleteLoginItemNameAtIndexFromPlistFile(counter-1);
     }
 }
