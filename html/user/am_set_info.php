@@ -249,6 +249,9 @@ if ( parse_bool($config, "enable_record_optin_consent") and (isset($consent_name
             xml_error(-1, "database error: ".BoincDb::error());
         }
     }
+    else {
+        xml_error(-1, "database error: No such consent_name=" . $consent_name);
+    }
 
 }
 
