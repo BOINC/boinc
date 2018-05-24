@@ -1053,8 +1053,26 @@ function boincwork_get_output() {
  * Get the project configuration XML; used by client software
  */
 function boincwork_get_project_config() {
+  ob_start();
   include_boinc('user/get_project_config.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+
+  // Remove any existing terms of use
+  if (!empty($xml['project_config']['terms_of_use'])) {
+    unset($xml['project_config']['terms_of_use']);
+  }
+
+  // Add terms of use from Drupal
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if (!empty($termsofuse)) {
+    // @todo - clean terms of use text
+    $xml['project_config']['terms_of_use']['@value'] = $termsofuse;
+  }
+
+  print save_configuration($xml);
 }
+
 
 /**
  * Page callback for the remote job submission RPC (submit_rpc_handler.php).

@@ -44,6 +44,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
     'boinc_app_list_url' => variable_get('boinc_app_list_url', ''),
     'boinc_debug_mode' => variable_get('boinc_debug_mode', 0),
+    'boinc_project_config_keywords' => variable_get('boinc_project_config_keywords', ''),
   );
   //drupal_set_message(print_r($default, true));
   //drupal_set_message(print_r($form_state, true));
@@ -145,6 +146,15 @@ function boincuser_admin_environment(&$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Show debug messages in system log'),
     '#default_value' => $default['boinc_debug_mode']
+  );
+  $form['boinc_project_config_keywords'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Project/Job Keywords for get_project_config RPC'),
+    '#default_value' => $default['boinc_project_config_keywords'],
+    '#description' => t('XML from this text box will be appended to the XML output from the get_project_config RPC. There is no check for XML validity! See !link for more details. It is okay to leave this blank.',
+    array(
+      '!link' => l('BOINC wiki page', 'https://boinc.berkeley.edu/trac/wiki/JobKeywords')
+    )),
   );
   return system_settings_form($form);
 }
@@ -319,6 +329,11 @@ function boincuser_admin_weboptions(&$form_state) {
 
   //form defaults
   $default = array(
+    'boinc_weboptions_enableaccountcreateRPC' => variable_get('boinc_weboptions_enableaccountcreateRPC', TRUE),
+    'boinc_weboptions_registrationtitle' => variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'),
+    'boinc_weboptions_termsofuse' => variable_get('boinc_weboptions_termsofuse', ''),
+    'boinc_weboptions_agreequestion' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
+    'boinc_weboptions_registrationtitle2' => variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
@@ -326,6 +341,51 @@ function boincuser_admin_weboptions(&$form_state) {
   );
   
   // Define the form
+  $form['registrationtitle'] = array(
+    '#value' => '<h3>BOINC Registration</h3>',
+  );
+
+  $form['boinc_weboptions_enableaccountcreateRPC'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable create_account.php RPC'),
+    '#default_value' => $default['boinc_weboptions_enableaccountcreateRPC'],
+    '#description' => t('If checked, users will be able to create an account remotely using the create_account.php RPC. This option is independent of the user regsitration option found in ') . l(t('User management -> User settings'), '/admin/user/settings') . '. If enabled, user <b>may not be able to opt-in</b> to your site\'s privacy and data retention policies!',
+  );
+
+  $form['boinc_weboptions_registrationtitle'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title of regsistration page'),
+    '#description' => t('Title text presented above the terms of use text.'),
+    '#default_value' => $default['boinc_weboptions_registrationtitle'],
+  );
+
+  $form['boinc_weboptions_termsofuse'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Terms of Use Message for User Registration Page'),
+    '#default_value' => $default['boinc_weboptions_termsofuse'],
+    '#cols' => 60,
+    '#rows' => 8,
+    '#description' => t('Text to be displayed on site\'s user registration page. Privacy policy and other data retention information goes here. If empty, there will be no terms of use message, and the title above and checkbox below will not be shown.'),
+  );
+
+  $form['boinc_weboptions_agreequestion'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Terms of use opt-in question'),
+    '#description' => t('This text is presented to the user as the question next to the \'I agree\' checkbox.'),
+    '#default_value' => $default['boinc_weboptions_agreequestion'],
+  );
+
+  $form['boinc_weboptions_registrationtitle2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Instructions for username/email/password questions'),
+    '#description' => t('Title text presented below terms of use and above username/email/password textfields.'),
+    '#default_value' => $default['boinc_weboptions_registrationtitle2'],
+  );
+
+  $form['pathtitle'] = array(
+    '#value' => '<h3>Path Options</h3>',
+  );
+
   $form['boinc_weboptions_accountfinish'] = array (
     '#type' => 'textfield',
     '#title' => t('Path to a custom account_finish.php page, should be a path to a node'),

@@ -234,6 +234,46 @@ function create_proper_drupalname($requested_name) {
 }
 
 
+/**
+ * Determine if user has opted-in to the terms of use. If not, the
+ * user must opt-in first. Returns TRUE/FALSE depending on database
+ * record.
+ *
+ * @params object $user
+ *   This is a drupal user object.
+ *
+ */
+function boincuser_check_termsofuse($user) {
+  // @todo - the condition for the terms of use needs to be saved in the
+  // project's user table, which does not exist, but may be added
+  // upstream. If/when that occurs, check it here.
+  $qres = db_query('SELECT bu.privacy_consent_dt FROM {boincuser} AS bu WHERE uid=%d', $user->uid);
+  $optin_dt = db_result($qres);
+  // If datetime the user opted-in is larger than the current
+  // unixtime, then the check passes.
+  if ($optin_dt > 1 ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Update the database to record user has consented to the terms of use.
+ *
+ * @params object $user
+ *   This is a drupal user object.
+ *
+ */
+function boincuser_consentto_termsofuse($user) {
+  $uid = $user->uid;
+
+  // @todo - Modify BOINC project database user table to record opt-in datetime.
+  $sql = 'UPDATE {boincuser} set privacy_consent_dt = %d WHERE uid=%d';
+  $qrc = db_query($sql, time(), $uid);
+  return $qrc;
+}
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General BOINC functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */

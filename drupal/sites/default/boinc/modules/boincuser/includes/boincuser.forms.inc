@@ -106,12 +106,35 @@ function boincuser_login_register($boinc_user) {
 /**
  * New user registration validation handler.
  */
-function boincuser_register_validate($form_values) {            
+function boincuser_register_validate($form, &$form_state) {
   // Include BOINC database objects library
   require_boinc('boinc_db');
+
+  // Check opt-in
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if (!empty($termsofuse)) {
+    if (!$form_state['values']['optin']) {
+      form_set_error('optin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+      return false;
+    }
+  }
+
   // Check for an existing BOINC user
-  $boinc_user = BoincUser::lookup_email_addr($form_values['mail']);
-  if ($boinc_user) return false;
+  // This is somewhat redundent as Drupal will also check if the email
+  // is a duplicate. However, in the case where there is no Drupal
+  // account, but a BOINC account exists with this email, the check
+  // will fail.
+  $boinc_user = BoincUser::lookup_email_addr($form_state['values']['mail']);
+  if ($boinc_user) {
+    // User already exists
+    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $form_state['values']['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
+    return false;
+  }
+
+  // Check Drupal name is not a duplicate, and create a proper drupal
+  // name from the boinc username.
+  $form_state['values']['name'] = create_proper_drupalname($form_state['values']['boincuser_name']);
+
   return true;
 }
 
@@ -628,5 +651,94 @@ function boincuser_fix_unfriend_form_submit($form, &$form_state) {
   // Leaving action as "unfriend" causes problems
   if ($form_state['values']['action'] == 'unfriend') {
     $form_state['values']['action'] = 'unflag';
+  }
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Opt-in to terms of use form
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+function boincuser_optinform() {
+  global $user;
+
+  // If user has already signed terms of use, and got to this form in error, send them to site home.
+  if (boincuser_check_termsofuse($user)) {
+    drupal_goto();
+  }
+
+  drupal_set_message( bts('WARNING: You have not opted-in to our terms of use. Please opt-in to the terms of use before continuing.', array(), NULL, 'boinc:opt-in-form'), 'warning' );
+
+  $form = array();
+
+  // Terms of use section
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  $form['title1'] = array(
+    '#weight' => -12,
+    '#value' => '<h2>' . variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'). '</h2>',
+    '#prefix' => '<div id="register-title1">',
+    '#suffix' => '</div>',
+  );
+
+  $form['termsofuse'] = array(
+    '#weight' => -10,
+    '#value' => $termsofuse,
+    '#prefix' => '<div id="register-termsofuse">',
+    '#suffix' => '</div>',
+  );
+
+  $form['optin'] = array(
+    '#type' => 'checkbox',
+    '#title' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
+    '#weight' => -8,
+    '#prefix' => '<div id="register-checkbox">',
+    '#suffix' => '</div>',
+  );
+
+  $form['spacer'] = array(
+    '#prefix' => '<div id="register-title2">',
+    '#value'  => '&nbsp;',
+    '#suffix' => '</div>',
+  );
+
+  // Form Control
+  $form['submit'] = array(
+    '#prefix' => '<p><p><p><li class="first tab">',
+    '#type' => 'submit',
+    '#value' => bts('Yes', array(), NULL, 'boinc:opt-in-form'),
+    '#suffix' => '</li>',
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('NO - LOGOUT', array(), NULL, 'boinc:form-cancel'), '/logout') . '</li>',
+  );
+  $deletelink = '/user/' . $user->uid . '/delete';
+  $form['deleteaccount'] = array(
+    '#value' => '<li class="tab">' . l(bts('NO - DELETE ACCOUNT', array(), NULL, 'boinc:delete'), $deletelink) . '</li>',
+  );
+
+  // Set form redirect
+  $form['#redirect'] = $_REQUEST['destination'];
+
+  // Add the current user's data into the form
+  $form['#account'] = $user;
+
+  return $form;
+}
+
+function boincuser_optinform_validate($form, &$form_state) {
+  // Check opt-in
+  if (!$form_state['values']['optin']) {
+    form_set_error('legaloptin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', array(), NULL, 'boinc:opt-in-form'));
+  }
+}
+
+function boincuser_optinform_submit($form, &$form_state) {
+  $user = $form['#account'];
+  if (!boincuser_consentto_termsofuse($user)) {
+    form_set_error('legaloptin', bts('There was an error in the opt-in process. Please contact the site administrators.', array(), NULL, 'boinc:opt-in-form'));
+  }
+
+  // Delete session messages
+  if ($_SESSION['messages']['warning']) {
+    unset($_SESSION['messages']['warning']);
   }
 }
