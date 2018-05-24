@@ -805,21 +805,24 @@ create table host_deleted (
 ) engine=InnoDB;
 
 create table consent (
+    id                      integer         not null auto_increment,
     userid                  integer         not null,
-    consent_id              integer         not null,
+    consent_name            varchar(255)    not null,
     consent_time            integer         not null,
     consent_flag            tinyint         not null,
     consent_not_required    tinyint         not null,
     source                  varchar(255)    not null,
-    primary key (userid, consent_id)
+    primary key (id)
 ) engine=InnoDB;
 
 create table consent_type (
     consent_id              integer         not null auto_increment,
+    shortname               varchar(255)    not null,
     description             varchar(255)    not null,
+    protected               integer         not null,
     primary key (consent_id)
 ) engine=InnoDB;
 
-insert into consent_type (consent_id, description) 
-    values (1, 'General terms-of-use for this BOINC project.');
-    values (2, 'Consent to data exports.');
+insert into consent_type (consent_id, shortname, description, protected)
+    values (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 1);
+    values (2, 'STATSEXPORT', 'Consent to data exports.', 1);

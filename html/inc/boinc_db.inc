@@ -906,6 +906,12 @@ class BoincConsent {
         return $db->delete_aux('consent', $clause);
     }
 
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('consent', "userid=$user_id");
+        return $db->affected_rows();
+    }
+
 }
 
 class BoincConsentType {
@@ -914,9 +920,9 @@ class BoincConsentType {
         return $db->lookup('consent_type', 'BoincConsentType', $clause);
     }
 
-    static function enum($where_clause) {
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('consent_type', 'BoincConsentType', $where_clause);
+        return $db->enum('consent_type', 'BoincConsentType', $where_clause, $order_clause);
     }
 
     static function insert ($clause) {
