@@ -142,7 +142,7 @@ $privacy_consent_descs = array(
         tra("Do you consent to %1 exporting your data?", PROJECT),
         tra("Data is exported to BOINC statistics aggregation Web sites."),
         "consent_data_export",
-        2,
+        "STATSEXPORT",
         0
     ),
 );

@@ -24,55 +24,63 @@ require_once('../inc/util_ops.inc');
 function mct_update() {
     $cid = post_int("consent_id");
     $consent_type = BoincConsentType::lookup("consent_id = $cid");
-    $consent_type->delete_aux("consent_id = $cid");
-    echo "<h2>Consent Type $cid deleted (dry-run).</h2>";
+    if ($consent_type) {
+        $myname = $consent_type->shortname;
+        $consent_type->delete_aux("consent_id = $cid");
+        echo "<h2>Consent Type ${myname} deleted.</h2>";
+    }
 }
 
 // This function adds a row to consent_type table.
 function add_consenttype() {
+    $shortname = BoincDb::escape_string(post_str('add_name'));
     $description = BoincDb::escape_string(post_str('add_description'));
 
+    if (empty($shortname)) {
+        admin_error_page("The new consent type must contain a short name.</font></p>");
+    }
     if (empty($description)) {
         admin_error_page("The new consent type must contain a description.</font></p>");
     }
 
     BoincConsentType::insert(
-        "(description) VALUES ('$description')"
+        "(shortname, description) VALUES ('$shortname', '$description')"
     );
 
     echo "<h2>Consent Type added.</h2>";
 }
 
 function mct_show_form() {
-    $_consenttypes = BoincConsentType::enum("");
+    $_consenttypes = BoincConsentType::enum(null, "ORDER BY protected DESC");
 
     if (!in_rops()) {
-        echo "<b>You may not delete the first record (id=1) of the consent_type table.</b>";
+        echo "<b>'Protected' consent types are defined by BOINC. You may add project-specific consent types using this form. (Unprotected consent types are defined here by this project.)</b>";
     }
     start_table("");
     table_header(
-        "ID",
+        "Name",
         "Description",
+        "Protected",
         ""
     );
 
-    $rowi=1;
     foreach ($_consenttypes as $ct) {
-        echo "<tr class=row$rowi><form action=manage_consent_types.php method=POST>\n";
+        echo "<tr><form action=manage_consent_types.php method=POST>\n";
 
         echo "<input type=hidden name=consent_id value=$ct->consent_id>";
-        echo "  <td>$ct->consent_id</td>";
+        echo "  <td>$ct->shortname</td>";
 
         echo "  <td>$ct->description</td>";
 
-        if (!in_rops() and ($rowi!=1)) {
+        echo "  <td>$ct->protected</td>";
+
+        if (!in_rops() and !($ct->protected)) {
             echo "<td><input class=\"btn btn-default\" name=delete type=submit value=Delete>";
         } else {
             echo "<td>&nbsp;</td>";
         }
 
         echo "</form></tr>";
-        $rowi+=1;
     }
     end_table();
 
@@ -89,11 +97,11 @@ function mct_show_form() {
 
     start_table("align='center' ");
 
-    table_header("id", "Description", "&nbsp;");
+    table_header("Name", "Description", "&nbsp;");
 
     echo "<TR>
-            <TD>(auto-incremented)</TD>
-            <TD> <input type='text' size='35' name='add_description' value=''></TD>
+            <TD> <input type='text' size='10' name='add_name' value=''> </TD>
+            <TD> <input type='text' size='35' name='add_description' value=''> </TD>
             <TD align='center' >
                  <input type='submit' name='add_consenttype' value='Add Consent Type'></TD>
           </TR>\n";
