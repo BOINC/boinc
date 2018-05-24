@@ -21,7 +21,8 @@
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 
-function consent_to_a_policy($user, $consent_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
+function consent_to_a_policy($user, $consent_name, $consent_flag, $consent_not_required, $source, $ctime = 0) {
+    $myn = BoincDb::escape_string($consent_name);
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {
         $mytime = $user->create_time;
@@ -30,8 +31,8 @@ function consent_to_a_policy($user, $consent_id, $consent_flag, $consent_not_req
         $mytime = $ctime;
     }
     return BoincConsent::insert(
-        "(userid, consent_id, consent_time, consent_flag, consent_not_required, source) " .
-        "values($user->id, $consent_id, $mytime, $consent_flag, $consent_not_required, '$mys')"
+        "(id, userid, consent_name, consent_time, consent_flag, consent_not_required, source) " .
+        "values(0, $user->id, '$myn', $mytime, $consent_flag, $consent_not_required, '$mys')"
     );
 
 }
@@ -41,7 +42,7 @@ function consent_after_login($user, $perm=true, $next_url = "") {
     $_SESSION['user'] = $user;
     $_SESSION['perm'] = $perm;
     $save_url = $next_url;
-    $consent_result = BoincConsent::lookup("userid=$user->id AND consent_id=1");
+    $consent_result = BoincConsent::lookup("userid={$user->id} AND consent_name='ENROLL' ORDER BY consent_time DESC LIMIT 1");
     if ($consent_result) {
         if ($consent_result->consent_flag != 1) {
             $next_url = "user_optin.php?next_url=$save_url";

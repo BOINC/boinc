@@ -96,17 +96,17 @@ if ($user) {
 }
 
 // If the project has configured itself to record the opt-in consent
-// time, then do so here. Defaults to setting consent_id to '1' - the
-// general opt-in consent type.
+// time, then do so here. Defaults to setting consent_name to
+// 'ENROLL', the general opt-in consent type.
 if (parse_bool($config, "enable_record_optin_consent")) {
     if ( (!is_null($optin)) and $source) {
         // Record the user giving consent in database - if optin is 0,
         // this is an anonymous account and consent_not_required is
         // set to 1.
         if ($optin==0) {
-            $rc = consent_to_a_policy($user, 1, 0, 1, $source);
+            $rc = consent_to_a_policy($user, 'ENROLL', 0, 1, $source);
         } else  {
-            $rc = consent_to_a_policy($user, 1, 1, 0, $source);
+            $rc = consent_to_a_policy($user, 'ENROLL', 1, 0, $source);
         }
         if (!$rc) {
             xml_error(-1, "database error, please contact site administrators");
