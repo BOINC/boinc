@@ -45,21 +45,11 @@ $authenticator = $user->authenticator;
 $perm = $_SESSION['perm'];
 
 // Set consent in database
-$consent_result = BoincConsent::lookup("userid=$user->id AND consent_id=1");
-if ($consent_result) {
-    $cquery = "consent_flag=1, consent_not_required=0";
-    $cquery .= " WHERE userid = $user->id AND consent_id = 1";
-    $rc1 = $consent_result->update($cquery);
-    if (!$rc1) {
-        error_page("Database error when attempting to UPDATE table consent with ID=$user->id. Please contact site administrators.");
-    }
+$rc1 = consent_to_a_policy($user, 'ENROLL', 1, 0, 'Webform', time());
+if (!$rc1) {
+    error_page("Database error when attempting to INSERT into table consent with ID=$user->id. " . BoincDb::error() . " Please contact site administrators.");
 }
-else {
-    $rc2 = consent_to_a_policy($user, 1, 1, 0, 'Webreg', time());
-    if (!$rc2) {
-        error_page("Database error when attempting to INSERT into table consent with ID=$user->id. Please contact site administrators.");
-    }
-}
+
 
 // Log-in user
 send_cookie('auth', $authenticator, $perm);
