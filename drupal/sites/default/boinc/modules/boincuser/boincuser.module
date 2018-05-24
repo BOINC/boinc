@@ -466,12 +466,11 @@ function boincuser_user_delete($account) {
   // comments with uid=0 and clear the field 'name'.
   $qrc1 = db_query("UPDATE {comments} SET comments.name='' WHERE comments.uid=0");
 
-  // Keep entry in drupal boincuser table as record of deletion.
-
-  // Delete data in BOINC project user table.
-  db_set_active('boinc_rw');
-  $qrc3 = db_query("UPDATE {user} SET user.create_time=NULL, user.email_addr=NULL, user.name=NULL, user.authenticator=NULL, user.teamid=NULL, user.cross_project_id=NULL, user.passwd_hash=NULL, user.signature=NULL WHERE user.id=%d", $boincid);
-  db_set_active('default');
+  // Delete entry in drupal boincuser table.
+  $qrc2 = db_query("DELETE FROM {boincuser} WHERE uid=%d", $account->uid);
+  if (!$qrc2) {
+    watchdog('user', 'Error deleting user account, boincuser table UID: %uid.', array('%uid' => $account->uid), WATCHDOG_ERROR);
+  }
 }
 
 
@@ -1184,6 +1183,17 @@ function boincuser_views_pre_execute(&$view) {
   }
 }
 
+/**
+ * Implementation of hook_cron()
+ */
+function boincuser_cron() {
+  // Delete expired users in the BOINC database, user_delete table.
+  require_boinc('boinc_db');
+  $num_deleted = BoincUserDeleted::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boincuser', "Deleted ${num_deleted} users from user_deleted table", WATCHDOG_NOTICE);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
