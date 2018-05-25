@@ -274,6 +274,25 @@ function boincuser_consentto_termsofuse($user) {
   return $qrc;
 }
 
+/**
+ * Ignore certain paths. Returns true of path is in the
+ * paths_to_ignore array of regular expressions patterns.
+ */
+function _boincuser_ignore_paths($path, $paths_to_ignore) {
+
+  foreach ($paths_to_ignore as $pi) {
+    // @todo Currently this function uses {} as PHP regexp
+    // delimiters. Curly brace is not really allowed un URLs, but a
+    // more robust function would first check for these curly braces
+    // in the path_to_ignore patterms, just in case.
+    if (preg_match('{' . $pi . '}', $path)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General BOINC functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
