@@ -72,6 +72,7 @@ boinc_client_SOURCES = \
     gui_http.cpp \
     gui_rpc_server.cpp \
     gui_rpc_server_ops.cpp \
+    hostinfo_linux.cpp \
     hostinfo_network.cpp \
     http_curl.cpp \
     log_flags.cpp \

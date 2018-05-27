@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1470,7 +1470,7 @@ int HOST_INFO::get_os_info() {
     }
     if (!found_something) {
         // see: https://www.freedesktop.org/software/systemd/man/os-release.html
-        f = fopen(command_osrelease, "r");
+        f = fopen(file_osrelease, "r");
         if (f) {
             found_something = parse_linux_os_info(f, osrelease, dist_name, sizeof(dist_name),
                 dist_version, sizeof(dist_version));
@@ -1480,7 +1480,7 @@ int HOST_INFO::get_os_info() {
 
     if (!found_something) {
         // last ditch effort for older redhat releases
-        f = fopen(command_redhatrelease, "r");
+        f = fopen(file_redhatrelease, "r");
         if (f) {
             found_something = parse_linux_os_info(f, redhatrelease, dist_name, sizeof(dist_name),
                 dist_version, sizeof(dist_version));

@@ -33,6 +33,7 @@ OBJ = \
     gui_http.o \
     gui_rpc_server.o \
     gui_rpc_server_ops.o \
+    hostinfo_linux.o \
     hostinfo_network.o \
     hostinfo_unix.o \
     http_curl.o \

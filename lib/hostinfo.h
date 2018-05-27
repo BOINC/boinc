@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,8 +39,8 @@ enum LINUX_OS_INFO_PARSER {
 };
 
 const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
-const char command_osrelease[] = "/etc/os-release";
-const char command_redhatrelease[] = "/etc/redhat-release";
+const char file_osrelease[] = "/etc/os-release";
+const char file_redhatrelease[] = "/etc/redhat-release";
 
 // if you add fields, update clear_host_info()
 
@@ -122,6 +122,12 @@ public:
     static bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
 };
+
+#ifdef _WIN32
+int get_wsl_information(
+    bool& wsl_enabled, char* wsl_os_name, const int wsl_os_name_size, char* wsl_os_version, const int wsl_os_version_size
+);
+#endif
 
 #ifdef __APPLE__
     int get_system_uptime();
