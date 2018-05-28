@@ -204,7 +204,7 @@ function boincuser_menu() {
 }
 
 /**
- *
+ * Implementation of hook_init()
  */
 function boincuser_init() {
   global $user;
@@ -243,16 +243,19 @@ function boincuser_init() {
         $path = drupal_get_path_alias($_GET['q']);
 
         // Any paths that should NOT be redirected go here.
+        // @todo - replace this static array with one that allows
+        // admins to specify custom paths (patterns) to ignore.
         $paths_to_ignore = array(
           'user/optin',
           'logout',
+          'privacy',
+          'moderation',
         );
         if (module_exists('boincuser_delete')) {
           $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
-          // @todo - once the following path has been defined: add to this array
-          //$paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm',
+          $paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm/*';
         }
-        if (!in_array($path, $paths_to_ignore)) {
+        if (!_boincuser_ignore_paths($path, $paths_to_ignore)) {
           drupal_goto('user/optin');
         }
       }
