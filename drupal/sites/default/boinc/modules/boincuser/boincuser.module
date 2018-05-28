@@ -1358,6 +1358,13 @@ function join_page($type = null) {
   switch ($type) {
   case 'boinc':
     $output .= '<ol>';
+    if ($registration_enabled) {
+      $output .= '<li>' . bts('First !create_an_account here at @sitename.',
+      array(
+        '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
+        '@sitename' => $site_name,
+      ), NULL, 'boinc:join-page') . '</li>';
+    }
     $output .= '  <li>' . bts("Install BOINC on this device if not already present.", array(), NULL, 'boinc:join-page') . '</li>';
     $output .= '  <li>' . bts("Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter @siteurl.",
     array(
@@ -1365,12 +1372,10 @@ function join_page($type = null) {
       '@siteurl' => $base_url,
     ), NULL, 'boinc:join-page') . '</li>';
     if ($registration_enabled) {
-      $output .= '<li>' . bts("If you're running a command-line or pre-5.0 version
-        of BOINC, !create_an_account first. Then use <b>!boinccmd</b> to add the project.",
+      $output .= '<li>' . bts("If you're running a command-line or pre-5.0 version of BOINC, use <b>!boinccmd</b> to add the project.",
         array(
-          '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
           '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
-        ), array(), NULL, 'boinc:join-page') . '</li>';
+        ), NULL, 'boinc:join-page') . '</li>';
     }
     else {
       $output .= '<li>' . bts("If you're running a command-line version of BOINC,
@@ -1378,13 +1383,14 @@ function join_page($type = null) {
         array(
           '!instructionslink' => l('instructions', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
         ), NULL, 'boinc:join-page') . '</li>';
-      $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
-        upgrade to a more recent version of BOINC to create an account
-        at @this_project.",
-        array(
-          '@this_project' => $site_name,
-        ), NULL, 'boinc:join-page') . '</li>';
     }
+    $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
+      upgrade to a more recent version of BOINC to create an account
+      at @this_project.",
+      array(
+        '@this_project' => $site_name,
+      ), NULL, 'boinc:join-page') . '</li>';
+    $output .=  '</ol>';
     break;
   case 'new':
   default:
@@ -1400,7 +1406,14 @@ function join_page($type = null) {
 
     // Join page output
     $output .= '<ol>';
-    if ( menu_valid_path(array('link_path' => $ruleslink)) ) {
+    if ($registration_enabled) {
+      $output .= '<li>' . bts('First !create_an_account here at @sitename.',
+      array(
+        '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
+        '@sitename' => $site_name,
+      ), NULL, 'boinc:join-page') . '</li>';
+    }
+    else if ( menu_valid_path(array('link_path' => $ruleslink)) ) {
       $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
         '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslink),
       ), NULL, 'boinc:join-page') . '</li>';
