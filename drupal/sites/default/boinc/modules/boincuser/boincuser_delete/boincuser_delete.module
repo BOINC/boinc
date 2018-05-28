@@ -123,8 +123,7 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
 
       $form['main']['help'] = array(
         '#value' => bts(
-          "<p><b>Instructions:</b> In order to delete your account, you must provide your password below. You will then be sent an email to the email address on record, with a one-time link that expires in 24-hours. Clicking on this link will bring you to a second form where you must enter your password again. After doing so your account will be deleted.</p>
-<p>If you have recently changed your email, you must wait seven (7) days before deleting your account after an email change.</p>",
+          "<p><b>Instructions:</b> In order to delete your account, you must provide your password below. You will then be sent an email to the email address on record, with a one-time token that expires in 24-hours. Clicking on this link will bring you to a second form where you must enter your password again. After doing so your account will be deleted.</p>",
           array(), NULL, 'boinc:delete-user-account'),
         '#weight' => 11,
         '#prefix' => "<div id='delete-instructions'>",
@@ -246,7 +245,7 @@ function boincuser_delete_submit($form, &$form_state) {
   $mysubject = '';
   $mymessage = '';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
-  $site_url = $base_url . $base_path . "user/login?destination=";
+  $site_url = $base_url . $base_path . "user/login";
 
   // Perform the requested operation
   $op = $form_state['values']['user_delete_action'];
