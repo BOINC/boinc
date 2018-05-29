@@ -36,6 +36,7 @@ require_once("../inc/bootstrap.inc");
 
 $config = get_config();
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
+$project_id = parse_config($config, "project_id");
     
 $stopped = web_stopped();
 $user = get_logged_in_user(false);
@@ -58,11 +59,12 @@ function top() {
 }
 
 function left(){
-    global $user, $no_web_account_creation, $master_url;
+    global $user, $no_web_account_creation, $master_url, $project_id;
     panel(
         $user?tra("Welcome, %1", $user->name):tra("What is %1?", PROJECT),
         function() use($user) {
             global $no_web_account_creation, $master_url;
+            global $no_web_account_creation, $master_url, $project_id;
             if ($user) {
                 $dt = time() - $user->create_time;
                 if ($dt < 86400) {
@@ -79,8 +81,8 @@ function left(){
                         echo "<p><p>";
                         echo "Please make sure BOINC is installed and enabled on your computer.";
                     }
-                    echo "<p>";
                 }
+                echo "<p><p>";
                 echo sprintf('<center><a href=home.php class="btn btn-success">%s</a></center>
                     ',
                     tra('Continue to your home page')
@@ -106,7 +108,10 @@ function left(){
                         <a href=\"create_account_form.php\">Create an account</a>
                     ";
                 } else {
-                    echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
+                    // use auto-attach if possible
+                    //
+                    $x = $project_id?"signup.php":"join.php";
+                    echo '<center><a href="'.$x.'" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
                     ';
 
                 }
