@@ -30,8 +30,7 @@
 //
 // Notes:
 // 1) You need to have the client versions file
-//    (https://boinc.berkeley.edu/download_all.php?xml=1)
-//    saved as "versions.xml" in your html/user dir
+//      run html/ops/get_versions.php
 // 2) Put your project ID in a constant PROJECT_ID
 //    (this all works only for listed projects)
 
@@ -160,19 +159,26 @@ function show_download_page($user, $dev) {
 
     page_head("Download software");
 
-    $phrase = "this is";
+    $phrase = "";
     if ($need_vbox) {
-        $dlv = "the current versions of BOINC and VirtualBox";
-        $phrase = "these are";
-        $dl = "BOINC and VirtualBox";
+        $dlv = tra("the current versions of BOINC and VirtualBox");
+        $phrase = tra("these versions are");
+        $dl = tra("BOINC and VirtualBox");
     } else {
-        $dlv = "the current version of BOINC";
-        $phrase = "this is";
+        $dlv = tra("the current version of BOINC");
+        $phrase = tra("this version is");
         $dl = "BOINC";
     }
-    echo "To participate in ".PROJECT.", $dlv must be installed on your computer.
+    echo tra("To participate in %1, %2 must be installed on your computer.", PROJECT, $dlv);
+    echo"
         <p>
-        If $phrase already installed, <a href=download.php?action=installed>click here</a>.  Otherwise
+    ";
+    echo tra("If %1 already installed, %2click here%3; otherwise:",
+        $phrase,
+        "<a href=download.php?action=installed>",
+        "</a>"
+    );
+    echo "
         <p>
     ";
     $token = make_login_token($user);
@@ -189,10 +195,8 @@ function show_download_page($user, $dev) {
         table_row("", download_button($v, $project_id, $token, $user), "");
     }
     echo "</table></center>\n";
-    echo "<p><p>
-        When the download is finished,
-        open the downloaded file to install $dl.
-    ";
+    echo "<p><p>";
+    echo tra("When the download is finished, open the downloaded file to install %1.", $dl);
     page_tail();
 }
 
@@ -202,25 +206,37 @@ function installed() {
     global $config;
     $am = parse_bool($config, "account_manager");
     if ($am) {
-        page_head("Use ".PROJECT);
-        echo "To add ".PROJECT." on this computer:
-        <ul>
-        <li> In the BOINC manager, go to the Tools menu
-        <li> Select Use Account Manager
-        <li> Select ".PROJECT." from the menu
-        <li> Enter your email address and ".PROJECT." password.
-        </ul>
-        ";
+        page_head(tra("Use %1", PROJECT));
+        echo sprintf("%s
+            <ul>
+            <li> %s
+            <li> %s
+            <li> %s
+            <li> %s
+            </ul>
+            ",
+            tra("To use %1 on this computer:", PROJECT),
+            tra("In the BOINC manager, go to the Tools menu"),
+            tra("Select Use Account Manager"),
+            tra("Select %1 from the list", PROJECT),
+            tra("Enter your %1 email address and password.", PROJECT)
+        );
     } else {
-        page_head("Add ".PROJECT);
-        echo "To add ".PROJECT." on this computer:
-        <ul>
-        <li> In the BOINC manager, go to the Tools menu
-        <li> Select Add Project
-        <li> Select ".PROJECT." from the menu
-        <li> Enter your email address and ".PROJECT." password.
-        </ul>
-        ";
+        page_head(tra("Add %1", PROJECT));
+        echo sprintf("%s
+            <ul>
+            <li> %s
+            <li> %s
+            <li> %s
+            <li> %s
+            </ul>
+            ",
+            tra("To add %1 on this computer:", PROJECT),
+            tra("In the BOINC manager, go to the Tools menu"),
+            tra("Select Add Project"),
+            tra("Select %1 from the list", PROJECT),
+            tra("Enter your %1 email address and password.", PROJECT)
+        );
     }
     page_tail();
 }

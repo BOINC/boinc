@@ -60,14 +60,31 @@ function top() {
 function left(){
     global $user, $no_web_account_creation, $master_url;
     panel(
-        tra("What is %1?", PROJECT),
+        $user?tra("Welcome, %1", $user->name):tra("What is %1?", PROJECT),
         function() use($user) {
             global $no_web_account_creation, $master_url;
-            if (NO_COMPUTING) {
-                echo "
-                    XXX is a research project that uses volunteers
-                    to do research in XXX.
-                ";
+            if ($user) {
+                $dt = time() - $user->create_time;
+                if ($dt < 86400) {
+                    echo tra("Thanks for joining %1", PROJECT);
+                } else if ($user->total_credit == 0) {
+                    echo "Your computer hasn't completed any tasks yet.  If you need help, <a href=https://boinc.berkeley.edu/help.php>go here</a>";
+                } else {
+                    $x = format_credit($user->expavg_credit);
+                    $y = number_format($user->expavg_credit/200, 3);
+                    echo tra("You've contributed about %1 credits per day (%2 GFLOPS) to %3 recently.", $x, $y, PROJECT);
+                    if ($user->expavg_credit > 1) {
+                        echo "Thanks!";
+                    } else {
+                        echo "<p><p>";
+                        echo "Please make sure BOINC is installed and enabled on your computer.";
+                    }
+                    echo "<p>";
+                }
+                echo sprintf('<center><a href=home.php class="btn btn-success">%s</a></center>
+                    ',
+                    tra('Continue to your home page')
+                );
             } else {
                 echo "
                     <p>
@@ -78,21 +95,18 @@ function left(){
                     by running a free program on your computer.
                     </p>
                 ";
-            }
-            echo "
-                <ul>
-                <li> <a href=#>Our research</a>
-                <li> <a href=#>Our team</a>
-                </ul>
-            ";
-            echo "</ul>";
-            if (!$user) {
+                echo "
+                    <ul>
+                    <li> <a href=#>Our research</a>
+                    <li> <a href=#>Our team</a>
+                    </ul>
+                ";
                 if (NO_COMPUTING) {
                     echo "
                         <a href=\"create_account_form.php\">Create an account</a>
                     ";
                 } else {
-                    echo '<center><a href="join.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
+                    echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
                     ';
 
                 }
