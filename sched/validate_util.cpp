@@ -211,20 +211,4 @@ int get_logical_name(RESULT& result, string& path, string& name) {
     return ERR_XML_PARSE;
 }
 
-int get_credit_from_wu(WORKUNIT& wu, vector<RESULT>&, double& credit) {
-    double x;
-    int retval;
-    DB_WORKUNIT dbwu;
-
-    dbwu.id = wu.id;
-    retval = dbwu.get_field_str("xml_doc", dbwu.xml_doc, sizeof(dbwu.xml_doc));
-    if (!retval) {
-        if (parse_double(dbwu.xml_doc, "<credit>", x)) {
-            credit = x;
-            return 0;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
 const char *BOINC_RCSID_07049e8a0e = "$Id$";
