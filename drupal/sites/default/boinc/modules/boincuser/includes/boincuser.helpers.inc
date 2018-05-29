@@ -235,9 +235,9 @@ function create_proper_drupalname($requested_name) {
 
 
 /**
- * Determine if user has opted-in to the terms of use. If not, the
- * user must opt-in first. Returns TRUE/FALSE depending on database
- * record.
+ * Determine if user has agreed to the terms of use. If not, the user
+ * must agree to terms of use. Returns TRUE/FALSE depending on
+ * database record.
  *
  * @params object $user
  *   This is a drupal user object.
