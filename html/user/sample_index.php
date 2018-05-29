@@ -36,7 +36,7 @@ require_once("../inc/bootstrap.inc");
 
 $config = get_config();
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
-$project_id = parse_config($config, "project_id");
+$project_id = parse_config($config, "<project_id>");
     
 $stopped = web_stopped();
 $user = get_logged_in_user(false);
@@ -63,7 +63,6 @@ function left(){
     panel(
         $user?tra("Welcome, %1", $user->name):tra("What is %1?", PROJECT),
         function() use($user) {
-            global $no_web_account_creation, $master_url;
             global $no_web_account_creation, $master_url, $project_id;
             if ($user) {
                 $dt = time() - $user->create_time;
