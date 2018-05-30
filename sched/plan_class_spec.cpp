@@ -983,6 +983,14 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_cpu_vendor_regex = true;
             continue;
         }
+        if (xp.parse_str("cpu_model_regex", buf, sizeof(buf))) {
+            if (regcomp(&(cpu_model_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+                log_messages.printf(MSG_CRITICAL, "BAD CPU MODEL REGEXP: %s\n", buf);
+                return ERR_XML_PARSE;
+            }
+            have_cpu_model_regex = true;
+            continue;
+        }
         if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
             if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
                 log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
