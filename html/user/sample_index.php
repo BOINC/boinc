@@ -69,16 +69,20 @@ function left(){
                 if ($dt < 86400) {
                     echo tra("Thanks for joining %1", PROJECT);
                 } else if ($user->total_credit == 0) {
-                    echo "Your computer hasn't completed any tasks yet.  If you need help, <a href=https://boinc.berkeley.edu/help.php>go here</a>";
+                    echo tra("Your computer hasn't completed any tasks yet.  If you need help, %1go here%2.",
+                            "<a href=https://boinc.berkeley.edu/help.php>",
+                            "</a>"
+                    );
                 } else {
                     $x = format_credit($user->expavg_credit);
                     $y = number_format($user->expavg_credit/200, 3);
                     echo tra("You've contributed about %1 credits per day (%2 GFLOPS) to %3 recently.", $x, $y, PROJECT);
                     if ($user->expavg_credit > 1) {
-                        echo "Thanks!";
+                        echo " ";
+                        echo tra("Thanks!");
                     } else {
                         echo "<p><p>";
-                        echo "Please make sure BOINC is installed and enabled on your computer.";
+                        echo tra("Please make sure BOINC is installed and enabled on your computer.");
                     }
                 }
                 echo "<p><p>";
