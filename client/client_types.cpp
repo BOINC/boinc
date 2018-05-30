@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,8 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "zlib.h"
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else
 #include "config.h"
 // Somehow having config.h define _FILE_OFFSET_BITS or _LARGE_FILES is
@@ -31,6 +33,9 @@
 #undef _LARGE_FILES
 #undef _LARGEFILE_SOURCE
 #undef _LARGEFILE64_SOURCE
+#endif
+
+#ifndef _WIN32
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <zlib.h>

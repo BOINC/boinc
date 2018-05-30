@@ -9,7 +9,7 @@ set -e
 
 COMPILEOPENSSL="yes"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2g}" #openSSL sources, requiered by BOINC
 
@@ -24,13 +24,65 @@ export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=mipsel-linux-android-gcc
 export CXX=mipsel-linux-android-g++
 export LD=mipsel-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -D__ANDROID_API__=16 -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
+cache_dir=""
+while [ $# -gt 0 ]; do
+    key="$1"
+    case $key in
+        --cache_dir)
+        cache_dir="$2"
+        shift
+        ;;
+        --clean)
+        MAKECLEAN="yes"
+        ;;
+        *)
+        echo "unrecognized option $key"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+# checks if a given path is canonical (absolute and does not contain relative links)
+# from http://unix.stackexchange.com/a/256437
+isPathCanonical() {
+  case "x$1" in
+    (x*/..|x*/../*|x../*|x*/.|x*/./*|x./*)
+        rc=1
+        ;;
+    (x/*)
+        rc=0
+        ;;
+    (*)
+        rc=1
+        ;;
+  esac
+  return $rc
+}
+
+if [ "x$cache_dir" != "x" ]; then
+    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
+        PREFIX="$cache_dir/mipsel-linux-android"
+    else
+        echo "cache_dir must be an absolute path without ./ or ../ in it"
+        exit 1
+    fi
+else
+    PREFIX="$TCINCLUDES"
+fi
+
+FLAGFILE="${PREFIX}/_libopenssl_done"
+if [ -e "${FLAGFILE}" ]; then
+    echo "openssl seems already to be present in ${PREFIX}"
+    exit 0
+fi
+
 # Prepare android toolchain and environment
-./build_androidtc_mips.sh
+./build_androidtc_mips.sh --cache_dir "${PREFIX}"
 
 if [ -n "$COMPILEOPENSSL" ]; then
 echo "================building openssl from $OPENSSL============================="
@@ -39,13 +91,14 @@ if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
-./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$PREFIX/ssl"
 #override flags in Makefile
 sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
-s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
+s%^INSTALLTOP=.*%INSTALLTOP=$PREFIX%g" Makefile > Makefile.out
 mv Makefile.out Makefile
 fi
 make
 make install_sw
+touch ${FLAGFILE}
 echo "========================openssl DONE=================================="
 fi
