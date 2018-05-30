@@ -25,13 +25,13 @@ else
     export BUILD_DIR=".."
 fi
 
-umake android android-studio --accept-license $HOME/Android/Android-Studio
+ubuntu-make.umake android android-studio --accept-license $HOME/Android/Android-Studio
 
 export ANDROID_HOME=$HOME/Android/Sdk
-umake android android-sdk --accept-license $HOME/Android/Sdk
+ubuntu-make.umake android android-sdk --accept-license $HOME/Android/Sdk
 
 export NDK_ROOT=$HOME/Android/Ndk
-umake android android-ndk --accept-license $HOME/Android/Ndk
+ubuntu-make.umake android android-ndk --accept-license $HOME/Android/Ndk
 
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update >> /dev/null
 yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository" >> /dev/null
