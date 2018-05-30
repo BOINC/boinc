@@ -40,8 +40,13 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#elif defined(ANDROID)
+#include "../android/android_config.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
