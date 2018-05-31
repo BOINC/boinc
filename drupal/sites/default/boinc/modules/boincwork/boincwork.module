@@ -1064,9 +1064,11 @@ function boincwork_get_project_config() {
 
   // If terms of use string exists and override is true, set terms-of-use
   // to Drupal varaible.
-  if ( (!empty($termsofuse) && ($overrideboinctou)) && (!empty($xml['project_config']['terms_of_use'])) ) {
-    // Remove any existing terms of use
-    unset($xml['project_config']['terms_of_use']);
+  if ( (!empty($termsofuse) && ($overrideboinctou)) ) {
+    if (!empty($xml['project_config']['terms_of_use'])) {
+      // Remove any existing terms of use
+      unset($xml['project_config']['terms_of_use']);
+    }
 
     // Add terms of use from Drupal
     $xml['project_config']['terms_of_use']['@value'] = $termsofuse;
