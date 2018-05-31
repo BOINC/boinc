@@ -232,9 +232,10 @@ function boincuser_init() {
   // Check if user has opt-in to the terms of use. If not, send the
   // user to the terms-of-use form. This is only makes sense if the
   // termsofuse is enabled, by having text in the termsofuse variable.
+  $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   if ( (!empty($termsofuse)) and ($user->uid) ) {
-    if (!boincuser_check_termsofuse($user)) {
+    if ( !boincuser_check_termsofuse($user) and ($existinguser_tou) ) {
 
       // Admins are exempt, otherwise the admin may not be able to
       // access the site!
@@ -499,23 +500,27 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
  *(forward compatible to Drupal 7).
  */
 function boincuser_user_login(&$edit, $account) {
+  $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   if ( (!empty($termsofuse)) and ($account->uid) ) {
+    if ( !boincuser_check_termsofuse($account) and ($existinguser_tou) ) {
 
-    $administrator_role = array_search('administrator', user_roles(true));
-    if (!isset($account->roles[$administrator_role])) {
+      $administrator_role = array_search('administrator', user_roles(true));
+      if (!isset($account->roles[$administrator_role])) {
 
-      // Find and save the current destination and use as an parameter
-      // to send the user back to here he/she came from.
-      $np = ltrim('user/optin', '/');
-      $path_for_destination = rawurlencode($np);
+        // Find and save the current destination and use as an parameter
+        // to send the user back to here he/she came from.
+        $np = ltrim('user/optin', '/');
+        $path_for_destination = rawurlencode($np);
 
-      $query_for_destination = '';
-      $prevdest = $_REQUEST['destination'];
-      if ($prevdest) {
-        $query_for_destination = '?destination=' . $prevdest;
+        $query_for_destination = '';
+        $prevdest = $_REQUEST['destination'];
+        if ($prevdest) {
+          $query_for_destination = '?destination=' . $prevdest;
+        }
+        $_REQUEST['destination'] = $path_for_destination . $query_for_destination;
+
       }
-      $_REQUEST['destination'] = $path_for_destination . $query_for_destination;
 
     }
   }
