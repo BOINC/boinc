@@ -1058,15 +1058,17 @@ function boincwork_get_project_config() {
   $xml = ob_get_clean();
   $xml = load_configuration($xml);
 
-  // Remove any existing terms of use
-  if (!empty($xml['project_config']['terms_of_use'])) {
-    unset($xml['project_config']['terms_of_use']);
-  }
-
-  // Add terms of use from Drupal
+  // obtain Drupal variables
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
-  if (!empty($termsofuse)) {
-    // @todo - clean terms of use text
+  $overrideboinctou = variable_get('boinc_weboptions_overrideboinctou', FALSE);
+
+  // If terms of use string exists and override is true, set terms-of-use
+  // to Drupal varaible.
+  if ( (!empty($termsofuse) && ($overrideboinctou)) && (!empty($xml['project_config']['terms_of_use'])) ) {
+    // Remove any existing terms of use
+    unset($xml['project_config']['terms_of_use']);
+
+    // Add terms of use from Drupal
     $xml['project_config']['terms_of_use']['@value'] = $termsofuse;
   }
 
