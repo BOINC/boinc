@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -251,6 +251,16 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
         tz<0?"":"+", tz
     );
+
+#ifdef _WIN64
+    if (host_info.os_wsl_enabled) {
+        msg_printf(NULL, MSG_INFO,
+            "WSL detected: %s: %s", host_info.os_wsl_name, host_info.os_wsl_version
+        );
+    } else {
+        msg_printf(NULL, MSG_INFO, "No WSL found.");
+    }
+#endif
 
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,

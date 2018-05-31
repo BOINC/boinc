@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -69,6 +69,11 @@ void HOST_INFO::clear_host_info() {
 
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
+
+    os_wsl_enabled = false;
+    safe_strcpy(os_wsl_name, "");
+    safe_strcpy(os_wsl_version, "");
+
     safe_strcpy(product_name, "");
     safe_strcpy(mac_address, "");
 
@@ -124,6 +129,9 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_double("d_free", d_free)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
+        if (xp.parse_bool("os_wsl_enabled", os_wsl_enabled)) continue;
+        if (xp.parse_str("os_wsl_name", os_wsl_name, sizeof(os_wsl_name))) continue;
+        if (xp.parse_str("os_wsl_version", os_wsl_version, sizeof(os_wsl_version))) continue;
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.match_tag("coprocs")) {
@@ -154,7 +162,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
 int HOST_INFO::write(
     MIOFILE& out, bool include_net_info, bool include_coprocs
 ) {
-    char pv[265], pm[256], pf[1024], osn[256], osv[256], pn[256];
+    char pv[265], pm[256], pf[1024], osn[256], osv[256], oswsln[256], oswslv[256], pn[256];
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",
@@ -173,6 +181,8 @@ int HOST_INFO::write(
     xml_escape(p_features, pf, sizeof(pf));
     xml_escape(os_name, osn, sizeof(osn));
     xml_escape(os_version, osv, sizeof(osv));
+    xml_escape(os_wsl_name, oswsln, sizeof(oswsln));
+    xml_escape(os_wsl_version, oswslv, sizeof(oswslv));
     out.printf(
         "    <host_cpid>%s</host_cpid>\n"
         "    <p_ncpus>%d</p_ncpus>\n"
@@ -211,6 +221,17 @@ int HOST_INFO::write(
         osv,
         coprocs.ndevs()
     );
+    if (os_wsl_enabled) {
+        out.printf(
+            "    <os_wsl_enabled>%d</os_wsl_enabled>\n"
+            "    <os_wsl_name>%s</os_wsl_name>\n"
+            "    <os_wsl_version>%s</os_wsl_version>\n"
+            ,
+            os_wsl_enabled,
+            oswsln,
+            oswslv
+        );
+    }
     if (strlen(product_name)) {
         xml_escape(product_name, pn, sizeof(pn));
         out.printf(
