@@ -236,23 +236,20 @@ if (strlen($query)) {
     }
 }
 
-// If optin consent is enabled and all four consent parameters must be
-// given to add to the consent table. If one or more of these
-// consent_xyz parameters are NOT present, the RPC will still return
-// 'success', even though the consent table is not updated.
-if ( parse_bool($config, "enable_record_optin_consent") and (isset($consent_name) and isset($consent_flag) and isset($consent_not_required) and isset($consent_source)) ) {
-
-    $ct = BoincConsentType::enum("shortname = '$consent_name'");
-    if ($ct) {
+// If all four consent parameters must be given to add to the consent
+// table. If one or more of these consent_xyz parameters are NOT
+// present, the RPC will still return 'success', even though the
+// consent table is not updated.
+if ( (isset($consent_name) and isset($consent_flag) and isset($consent_not_required) and isset($consent_source)) ) {
+    if ( check_consent_type($consent_name) ) {
         $rc = consent_to_a_policy($user, $consent_name, $consent_flag, $consent_not_required, $consent_source, time());
         if (!$rc) {
             xml_error(-1, "database error: ".BoincDb::error());
         }
     }
-    else {
-        xml_error(-1, "database error: No such consent_name=" . $consent_name);
-    }
-
+    //else {
+    //    xml_error(-1, "database error: No such consent_name=" . $consent_name);
+    //}
 }
 
 

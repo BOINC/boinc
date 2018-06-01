@@ -53,7 +53,7 @@ $passwd_hash = get_str("passwd_hash");
 $user_name = get_str("user_name");
 $team_name = get_str("team_name", true);
 
-$optin = get_str("optin", true);
+$consent_flag = get_str("consent_flag", true);
 $source = get_str("source", true);
 
 if (!is_valid_user_name($user_name, $reason)) {
@@ -93,26 +93,25 @@ if ($user) {
     if (defined('INVITE_CODES')) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
     }
-}
 
-// If the project has configured to use the ENROLL consent_type, then
-// record it.
-
-$ct = BoincConsentType::lookup("shortname = 'ENROLL'");
-if ($ct and ($ct->enabled)) {
-    if ( (!is_null($optin)) and $source) {
-        // Record the user giving consent in database - if optin is 0,
-        // this is an 'anonymous account' and consent_not_required is
-        // set to 1.
-        if ($optin==0) {
-            $rc = consent_to_a_policy($user, 'ENROLL', 0, 1, $source);
-        } else  {
-            $rc = consent_to_a_policy($user, 'ENROLL', 1, 0, $source);
-        }
-        if (!$rc) {
-            xml_error(-1, "database error, please contact site administrators");
+    // If the project has configured to use the ENROLL consent_type, then
+    // record it.
+    if (check_consent_type('ENROLL')) {
+        if ( (!is_null($consent_flag)) and $source) {
+            // Record the user giving consent in database - if consent_flag is 0,
+            // this is an 'anonymous account' and consent_not_required is
+            // set to 1.
+            if ($consent_flag==0) {
+                $rc = consent_to_a_policy($user, 'ENROLL', 0, 1, $source);
+            } else  {
+                $rc = consent_to_a_policy($user, 'ENROLL', 1, 0, $source);
+            }
+            if (!$rc) {
+                xml_error(-1, "database error, please contact site administrators");
+            }
         }
     }
+
 }
 
 if ($team_name) {

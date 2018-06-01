@@ -115,9 +115,8 @@ function create_account_form($teamid, $next_url) {
     }
 
     // Add terms of use to Web form. User must agree by checking the checkbox.
-    $ct = BoincConsentType::lookup("shortname = 'ENROLL'");
     $tou_file = "../../terms_of_use.txt";
-    if ( ($ct) and ($ct->enabled) and file_exists($tou_file) ) {
+    if ( check_consent_type('ENROLL') and file_exists($tou_file) ) {
         $terms_of_use = trim(file_get_contents($tou_file));
         if ($terms_of_use) {
             panel('Terms of Use', function() use($terms_of_use) {

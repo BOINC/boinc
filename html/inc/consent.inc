@@ -58,3 +58,13 @@ function consent_after_login($user, $perm=true, $next_url = "") {
     }
     return $next_url;
 }
+
+// Checks to see if a particular consent_type name is in available and
+// enabled.
+function check_consent_type($name) {
+    $ct = BoincConsentType::lookup("shortname = '{$name}'");
+    if ($ct and ($ct->enabled)) {
+        return TRUE;
+    }
+    return FALSE;
+}
