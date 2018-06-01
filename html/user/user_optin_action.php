@@ -32,10 +32,10 @@ if (strlen($next_url) == 0) {
     $next_url = USER_HOME;
 }
 
-// Check opt-in checkbox
-$optin = post_str("terms_of_use_optin_consent", true);
-if (!$optin) {
-    error_page(tra("You have not opted in to our terms of use. You may not continue until you do so."));
+// validate checkbox
+$agree = post_str("agree_to_terms_of_use", true);
+if (!$agree) {
+    error_page(tra("You have not agreed to our terms of use. You may not continue until you do so."));
 }
 
 // Obtain session information

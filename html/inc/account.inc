@@ -114,10 +114,10 @@ function create_account_form($teamid, $next_url) {
         );
     }
 
-    // Add terms of use to Web form. User must opt-in by checking the checkbox.
-    $config = get_config();
+    // Add terms of use to Web form. User must agree by checking the checkbox.
+    $ct = BoincConsentType::lookup("shortname = 'ENROLL'");
     $tou_file = "../../terms_of_use.txt";
-    if (parse_bool($config, "enable_record_optin_consent") and file_exists($tou_file)) {
+    if ( ($ct) and ($ct->enabled) and file_exists($tou_file) ) {
         $terms_of_use = trim(file_get_contents($tou_file));
         if ($terms_of_use) {
             panel('Terms of Use', function() use($terms_of_use) {
@@ -125,7 +125,7 @@ function create_account_form($teamid, $next_url) {
             }
             );
             $myitems = array(
-                array("terms_of_use_optin_consent", "", false),
+                array("agree_to_terms_of_use", "", false),
             );
             form_checkboxes(tra("Do you agree to the terms of use above?"), $myitems, 'tabindex="0"');
         }
@@ -170,12 +170,12 @@ function user_optin_form($next_url) {
         }
         );
         $myitems = array(
-            array("terms_of_use_optin_consent", "", false),
+            array("agree_to_terms_of_use", "", false),
         );
         form_checkboxes(tra("Do you agree to the terms of use above?"), $myitems, 'tabindex="0"');
     }
     else {
-        // error - no terms of use for user to opt-in to!
+        // error - no terms of use for user to agree to!
     }
 
     form_submit("I agree");

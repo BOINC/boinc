@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// User opt-in consent form, used for existing users who need to give
+// Agree to terms of use form, used for existing users who need to give
 // consent.
 
 require_once("../inc/db.inc");
@@ -33,7 +33,7 @@ $next_url = urlencode($next_url);
 $u = "user_optin.php?next_url=".$next_url;
 redirect_to_secure_url($u);
 
-page_head(tra("Opt-in to our Terms of Use."));
+page_head(tra("Agree to our Terms of Use."));
 
 user_optin_form($next_url);
 

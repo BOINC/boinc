@@ -95,13 +95,14 @@ if ($user) {
     }
 }
 
-// If the project has configured itself to record the opt-in consent
-// time, then do so here. Defaults to setting consent_name to
-// 'ENROLL', the general opt-in consent type.
-if (parse_bool($config, "enable_record_optin_consent")) {
+// If the project has configured to use the ENROLL consent_type, then
+// record it.
+
+$ct = BoincConsentType::lookup("shortname = 'ENROLL'");
+if ($ct and ($ct->enabled)) {
     if ( (!is_null($optin)) and $source) {
         // Record the user giving consent in database - if optin is 0,
-        // this is an anonymous account and consent_not_required is
+        // this is an 'anonymous account' and consent_not_required is
         // set to 1.
         if ($optin==0) {
             $rc = consent_to_a_policy($user, 'ENROLL', 0, 1, $source);
