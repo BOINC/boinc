@@ -435,7 +435,6 @@
 		DDD74DA007CF48FD0065AC9D /* gui_rpc_server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BAD07C5AEB70043025C /* gui_rpc_server.cpp */; };
 		DDD74DA207CF48FF0065AC9D /* hostinfo_network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BC007C5AF280043025C /* hostinfo_network.cpp */; };
 		DDD74DA307CF49000065AC9D /* hostinfo_unix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.cpp */; };
-		DDD74DA407CF49000065AC9D /* hostinfo_linux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FD402AC0A0C01FB7237 /* hostinfo_linux.cpp */; };
 		DDD74DA507CF49020065AC9D /* log_flags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FD602AC0A0C01FB7237 /* log_flags.cpp */; };
 		DDD74DA607CF49030065AC9D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BCE07C5B0B80043025C /* main.cpp */; };
 		DDD74DA707CF49040065AC9D /* net_stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FDA02AC0A0C01FB7237 /* net_stats.cpp */; };
@@ -1226,7 +1225,6 @@
 		F54B8FCD02AC0A0C01FB7237 /* file_xfer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = file_xfer.cpp; sourceTree = "<group>"; };
 		F54B8FCE02AC0A0C01FB7237 /* file_xfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = file_xfer.h; path = ../client/file_xfer.h; sourceTree = SOURCE_ROOT; };
 		F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hostinfo_unix.cpp; sourceTree = "<group>"; };
-		F54B8FD402AC0A0C01FB7237 /* hostinfo_linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hostinfo_linux.cpp; sourceTree = "<group>"; };
 		F54B8FD602AC0A0C01FB7237 /* log_flags.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = log_flags.cpp; sourceTree = "<group>"; };
 		F54B8FD702AC0A0C01FB7237 /* log_flags.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = log_flags.h; path = ../client/log_flags.h; sourceTree = SOURCE_ROOT; };
 		F54B8FDA02AC0A0C01FB7237 /* net_stats.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = net_stats.cpp; sourceTree = "<group>"; };
@@ -1944,7 +1942,6 @@
 				DD344BAE07C5AEB70043025C /* gui_rpc_server.h */,
 				DD344BC007C5AF280043025C /* hostinfo_network.cpp */,
 				F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.cpp */,
-				F54B8FD402AC0A0C01FB7237 /* hostinfo_linux.cpp */,
 				DD33C70208B5BEDE00768630 /* http_curl.cpp */,
 				DD33C70308B5BEDE00768630 /* http_curl.h */,
 				F54B8FD602AC0A0C01FB7237 /* log_flags.cpp */,
@@ -3250,7 +3247,6 @@
 				DDD74DA007CF48FD0065AC9D /* gui_rpc_server.cpp in Sources */,
 				DDD74DA207CF48FF0065AC9D /* hostinfo_network.cpp in Sources */,
 				DDD74DA307CF49000065AC9D /* hostinfo_unix.cpp in Sources */,
-				DDD74DA407CF49000065AC9D /* hostinfo_linux.cpp in Sources */,
 				DDD74DA507CF49020065AC9D /* log_flags.cpp in Sources */,
 				DDD74DA607CF49030065AC9D /* main.cpp in Sources */,
 				DDD74DA707CF49040065AC9D /* net_stats.cpp in Sources */,
