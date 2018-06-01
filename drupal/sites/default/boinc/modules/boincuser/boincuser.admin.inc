@@ -373,7 +373,7 @@ function boincuser_admin_weboptions(&$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Override BOINC terms of use.'),
     '#default_value' => $default['boinc_weboptions_overrideboinctou'],
-    '#description' => t('Override the BOINC terms_of_use.txt file for get_profject_config.php RPC. If TRUE, the get_project_config.php RPC will use the above terms of use text entered above. Otherwise, the original terms_of_use.txt text file in the project directory is used. And you will need to be responcible for keeping both the text file and the above terms of use text up-to-date and in sync with each other.'),
+    '#description' => t('Override the BOINC terms_of_use.txt file for get_profject_config.php RPC. If TRUE, the get_project_config.php RPC will use the above terms of use text entered above. Otherwise, the original terms_of_use.txt text file in the project directory is used. And you will need to be responsible for keeping both the text file and the above terms of use text up-to-date and in sync with each other.'),
   );
 
   $form['boinc_weboptions_agreequestion'] = array(
