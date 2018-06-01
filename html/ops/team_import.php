@@ -26,6 +26,7 @@ require_once("../inc/user.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
+require_once("../consent.inc");
 
 if (defined('INVITE_CODES')) {
     echo "Account creation is protected by invitation codes, so not importing teams";
@@ -129,15 +130,15 @@ function update_team($t, $team, $user) {
 function insert_case($t, $user) {
     global $master_url;
     global $dry_run;
-    $config = get_config();
     if ($dry_run) {
         if (!$user) echo "   making user $t->user_email\n";
         echo "   making team $t->name\n";
         return;
     }
+    $make_user = FALSE;
     if (!$user) {
-        if (parse_bool($config, "enable_record_optin_consent")) {
-            echo "   cannot make user when an opt-in consent is required\n";
+        if (check_consent_type('ENROLL')) {
+            echo "   cannot make user when an consent to terms of use is required\n";
         }
         else {
             echo "   making user $t->user_email\n";
@@ -146,12 +147,13 @@ function insert_case($t, $user) {
                 echo "   Can't make user $t->user_email\n";
                 return;
             }
+            $make_user = TRUE;
         }
     }
     echo "   making team $t->name\n";
     // if user was not created, set the userid of a team to be zero
     $myid = 0;
-    if (!parse_bool($config, "enable_record_optin_consent")) {
+    if ($make_user) {
         $myid = $user->id;
     }
     $team = make_team(
