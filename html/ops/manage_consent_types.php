@@ -21,7 +21,7 @@
 require_once('../inc/util_ops.inc');
 
 // This function deletes a row from consent_type table.
-function mct_update() {
+function mct_delete() {
     $cid = post_int("consent_id");
     $consent_type = BoincConsentType::lookup("consent_id = $cid");
     if ($consent_type) {
@@ -50,6 +50,28 @@ function add_consenttype() {
     echo "<h2>Consent Type added.</h2>";
 }
 
+// Toggles the enable flag
+function mct_toggle_field($field) {
+    $cid = post_int("consent_id");
+    $toggle = post_str("toggle" . $field);
+    if ($toggle == "Click to Enable") {
+        $state = 1;
+        $action = "Enabled";
+    }
+    else {
+        $state = 0;
+        $action = "Disabled";
+    }
+
+    $consent_type = BoincConsentType::lookup("consent_id = $cid");
+    if ($consent_type) {
+        $myname = $consent_type->shortname;
+        $consent_type->update("$field=$state where consent_id=$cid");
+        echo "<h2>Consent Type ${myname} <em>$field</em> changed to <em>$action</em></h2>";
+    }
+}
+
+// Builds the form for managing consent types
 function mct_show_form() {
     $_consenttypes = BoincConsentType::enum(null, "ORDER BY protected DESC");
 
@@ -60,23 +82,56 @@ function mct_show_form() {
     table_header(
         "Name",
         "Description",
+        "Enabled",
         "Protected",
+        "PrivacyPrefs",
         ""
     );
 
     foreach ($_consenttypes as $ct) {
         echo "<tr><form action=manage_consent_types.php method=POST>\n";
 
+        // Name
         echo "<input type=hidden name=consent_id value=$ct->consent_id>";
         echo "  <td>$ct->shortname</td>";
 
+        // Description
         echo "  <td>$ct->description</td>";
 
+        // Enabled toggle
+        if (!in_rops()) {
+            if (!($ct->enabled)) {
+                echo "  <td><input class=\"btn btn-default\" name=toggleenabled type=submit value=\"Click to Enable\"></td>";
+            }
+            else {
+                echo "  <td><input class=\"btn btn-default\" name=toggleenabled type=submit value=\"Click to Disable\"></td>";
+            }
+        }
+        else {
+            echo "  <td>$ct->enabled</td>";
+        }
+
+        // Protected
         echo "  <td>$ct->protected</td>";
 
+        // Privacypref toggle
+        if (!in_rops()) {
+            if (!($ct->privacypref)) {
+                echo "  <td><input class=\"btn btn-default\" name=toggleprivacypref type=submit value=\"Click to Enable\"></td>";
+            }
+            else {
+                echo "  <td><input class=\"btn btn-default\" name=toggleprivacypref type=submit value=\"Click to Disable\"></td>";
+            }
+        }
+        else {
+            echo "  <td>$ct->privacypref</td>";
+        }
+
+        // Delete (if not protected)
         if (!in_rops() and !($ct->protected)) {
             echo "<td><input class=\"btn btn-default\" name=delete type=submit value=Delete>";
-        } else {
+        }
+        else {
             echo "<td>&nbsp;</td>";
         }
 
@@ -92,6 +147,9 @@ function mct_show_form() {
     echo"<P>
         <h2>Add consent type</h2>
         <p>
+        <p><strong>HELP: To add a consent type, provide a name and description. Then you may toggle the Enabled and PrivacyPrefs settings in the table above.</strong></p>
+        <p>For Name, please stick to this convention: an ALLCAPS short name, without any spaces. Example: FORUM</p>
+        <p>For Description: if your consent type will be part of the privacy preferences, it is best to use a full sentence with a question mark at the end. Example: Do you want SPAM, bacon, sausage, and SPAM?</p>
         <form action=manage_consent_types.php method=POST>
     ";
 
@@ -118,7 +176,13 @@ if (post_str("add_consenttype", true)) {
     add_consenttype();
 }
 else if (post_str("delete", true)) {
-    mct_update();
+    mct_delete();
+}
+else if (post_str("toggleenabled", true)) {
+    mct_toggle_field("enabled");
+}
+else if (post_str("toggleprivacypref", true)) {
+    mct_toggle_field("privacypref");
 }
 
 // Main display function - shows the form with consent types.
