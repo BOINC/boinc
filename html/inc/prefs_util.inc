@@ -257,9 +257,17 @@ class PREF_CONSENT extends PREF {
         if ($this->invert) $formget = !$formget;
         $flag = ($formget ? 1 : 0);
 
-        $rc = consent_to_a_policy($user, $consent_name, $flag, 0, 'Webform', time());
-        if (!$rc) {
-            error_page(tra("Database error:").BoincDb::error());
+        // Check to see if latest consent of this name is already
+        // given, i.e., consent_flag set to "formget". If not, consent
+        // to this consent type.
+        $cr= BoincConsent::lookup("userid={$user->id} AND consent_name='${consent_name}' ORDER BY consent_time DESC LIMIT 1");
+
+        if ( (($cr) and ($cr->consent_flag!=$flag)) or
+             (!$cr) ) {
+            $rc = consent_to_a_policy($user, $consent_name, $flag, 0, 'Webform', time());
+            if (!$rc) {
+                error_page(tra("Database error:").BoincDb::error());
+            }
         }
     }
     // xml_string should not be used for this class

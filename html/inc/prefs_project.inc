@@ -137,15 +137,20 @@ $privacy_pref_descs = array (
     ),
 );
 
-$privacy_consent_descs = array(
-    new PREF_CONSENT(
-        tra("Do you consent to %1 exporting your data?", PROJECT),
-        tra("Data is exported to BOINC statistics aggregation Web sites."),
-        "consent_data_export",
-        "STATSEXPORT",
+// Privacy preferences located in consent_type table. Loop over the
+// table and extract those consent types with enabled=1 and
+// privacypref=1.
+$privacy_consent_descs = array();
+$_consenttypes = BoincConsentType::enum("enabled=1 AND privacypref=1", "ORDER BY protected DESC");
+foreach ($_consenttypes as $ct) {
+    $privacy_consent_descs[] = new PREF_CONSENT(
+        tra($ct->description),
+        tra($ct->description),
+        "consent_".urlencode($ct->shortname),
+        $ct->shortname,
         0
-    ),
-);
+    );
+}
 
 global $text;
 global $parse_result;
@@ -290,7 +295,6 @@ function prefs_show_project_specific($prefs, $columns=false) {
 }
 
 function print_prefs_display_project($user, $columns=false) {
-    $config = get_config();
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
@@ -311,9 +315,7 @@ function print_prefs_display_project($user, $columns=false) {
         }
         prefs_show_project($project_prefs, false);
         prefs_show_privacy($user, false);
-        if (parse_bool($config, "enable_record_optin_consent")) {
-            prefs_show_consent($user, false);
-        }
+        prefs_show_consent($user, false);
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
         $tokens = url_tokens($user->authenticator);

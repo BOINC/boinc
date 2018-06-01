@@ -21,8 +21,6 @@ include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
 include_once("../inc/prefs_project.inc");
 
-$config = get_config();
-
 $user = get_logged_in_user();
 
 $action = sanitize_tags(get_str("action", true));
@@ -79,9 +77,7 @@ if ($action) {
             } else {
                 $main_prefs = $prefs;
                 prefs_privacy_parse_form($user);
-                if (parse_bool($config, "enable_record_optin_consent")) {
-                    prefs_consent_parse_update($user);
-                }
+                prefs_consent_parse_update($user);
             }
 
             project_prefs_update($user, $main_prefs);
