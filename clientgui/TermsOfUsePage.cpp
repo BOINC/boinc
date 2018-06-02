@@ -103,6 +103,8 @@ bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
  
 void CTermsOfUsePage::CreateControls()
 {    
+#define TERMSOFUSEWIDTH ADJUSTFORXDPI(580)
+#define TERMSOFUSEHEIGHT ADJUSTFORYDPI(250)
 ////@begin CTermsOfUsePage content construction
     CTermsOfUsePage* itemWizardPage96 = this;
 
@@ -120,8 +122,8 @@ void CTermsOfUsePage::CreateControls()
     m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_pTermsOfUseCtrl = new wxTextCtrl;
-    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxEmptyString, wxDefaultPosition, wxSize(300, 125), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH );
+    m_pTermsOfUseCtrl = new wxHtmlWindow;
+    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxDefaultPosition, wxSize(TERMSOFUSEWIDTH, TERMSOFUSEHEIGHT), wxHW_SCROLLBAR_AUTO, wxEmptyString);
     itemBoxSizer97->Add(m_pTermsOfUseCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAgreeCtrl = new wxRadioButton;
@@ -222,10 +224,19 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Please read the following terms of use:")
     );
 
-    m_pTermsOfUseCtrl->SetValue(
-        wxString(pc.terms_of_use.c_str(), wxConvUTF8)
-    );
-    m_pTermsOfUseCtrl->SetSelection(0,0);
+    std::string tou = pc.terms_of_use;
+    xml_unescape(tou);
+    wxString terms_of_use(tou.c_str(), wxConvUTF8);
+    // HTML TOU can have no open/close html tags
+    // so I see no proper way to identify
+    // whether it is html or plain text
+    // and I have to use this dirty hack
+    if (pc.terms_of_use == tou) {
+        terms_of_use.Replace("\r\n", "<br>");
+        terms_of_use.Replace("\r", "<br>");
+        terms_of_use.Replace("\n", "<br>");
+    }
+    m_pTermsOfUseCtrl->SetPage(terms_of_use);
 
     m_pAgreeCtrl->SetLabel(
         _("I agree to the terms of use.")

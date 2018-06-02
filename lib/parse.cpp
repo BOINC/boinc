@@ -412,6 +412,12 @@ void xml_unescape(char* buf) {
         } else if (!strncmp(in, "&amp;", 5)) {
             *out++ = '&';
             in += 5;
+        } else if (!strncmp(in, "&#xD;", 5) || !strncmp(in, "&#xd;", 5)) {
+            *out++ = '\r';
+            in += 5;
+        } else if (!strncmp(in, "&#xA;", 5) || !strncmp(in, "&#xa;", 5)) {
+            *out++ = '\n';
+            in += 5;
         } else if (!strncmp(in, "&#", 2)) {
             in += 2;
             char c = atoi(in);

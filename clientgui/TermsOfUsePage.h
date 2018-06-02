@@ -87,7 +87,7 @@ public:
 ////@begin CTermsOfUsePage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
-    wxTextCtrl* m_pTermsOfUseCtrl;
+    wxHtmlWindow* m_pTermsOfUseCtrl;
     wxRadioButton* m_pAgreeCtrl;
     wxRadioButton* m_pDisagreeCtrl;
 ////@end CTermsOfUsePage member variables
