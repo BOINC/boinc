@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Sets the user's consent to the terms of use.
+// User agrees to the terms of use.
 // Logs user in by sending a cookie.
 
 require_once("../inc/boinc_db.inc");

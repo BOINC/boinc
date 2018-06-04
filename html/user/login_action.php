@@ -69,7 +69,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     // Intercept next_url if consent has not yet been given
     $config = get_config();
     $tou_file = "../../terms_of_use.txt";
-    if (parse_bool($config, "enable_record_optin_consent") and file_exists($tou_file)) {
+    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and file_exists($tou_file)) {
         $next_url = consent_after_login($user, $perm, $next_url);
     }
     else {
@@ -111,7 +111,7 @@ function login_via_link($id, $t, $h) {
     // Intercept next_url if consent has not yet been given
     $config = get_config();
     $tou_file = "../../terms_of_use.txt";
-    if (parse_bool($config, "enable_record_optin_consent") and file_exists($tou_file)) {
+    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and file_exists($tou_file)) {
         $next_url = consent_after_login($user, true, "");
     }
     else {
@@ -138,7 +138,7 @@ function login_with_auth($authenticator, $next_url, $perm) {
         // Intercept next_url if consent has not yet been given
         $config = get_config();
         $tou_file = "../../terms_of_use.txt";
-        if (parse_bool($config, "enable_record_optin_consent") and file_exists($tou_file)) {
+        if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and file_exists($tou_file)) {
             $next_url = consent_after_login($user, $perm, $next_url);
         }
         else {
@@ -168,7 +168,7 @@ function login_with_ldap($uid, $passwd, $next_url, $perm) {
     // Intercept next_url if consent has not yet been given
     $config = get_config();
     $tou_file = "../../terms_of_use.txt";
-    if (parse_bool($config, "enable_record_optin_consent") and file_exists($tou_file)) {
+    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and file_exists($tou_file)) {
         $next_url = consent_after_login($user, $perm, $next_url);
     }
     else {

@@ -20,6 +20,8 @@
 // - forms for create / login
 // - function to make login token
 
+include_once("../inc/consent.inc");
+
 // If have recent token, return it.
 // Else make login token, store in user record, return token
 //
@@ -157,8 +159,8 @@ function login_form($next_url) {
     form_end();
 }
 
-function user_optin_form($next_url) {
-    form_start(secure_url_base()."/user_optin_action.php", "post");
+function user_agreetermsofuse_form($next_url) {
+    form_start(secure_url_base()."/user_agreetermsofuse_action.php", "post");
     form_input_hidden("next_url", $next_url);
 
     $tou_file = "../../terms_of_use.txt";

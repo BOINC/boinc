@@ -16,8 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Agree to terms of use form, used for existing users who need to give
-// consent.
+// Agree to terms of use form, used for existing users who need to
+// agree to the projects terms of use.
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -30,12 +30,12 @@ $next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
 $next_url = urlencode($next_url);
 
-$u = "user_optin.php?next_url=".$next_url;
+$u = "user_agreetermsofuse.php?next_url=".$next_url;
 redirect_to_secure_url($u);
 
 page_head(tra("Agree to our Terms of Use."));
 
-user_optin_form($next_url);
+user_agreetermsofuse_form($next_url);
 
 page_tail();
 ?>
