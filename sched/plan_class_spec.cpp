@@ -1098,6 +1098,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     projected_flops_scale = 1;
     have_os_regex = false;
     have_cpu_vendor_regex = false;
+    have_cpu_model_regex = false;
     min_os_version = 0;
     max_os_version = 0;
     min_android_version = 0;
