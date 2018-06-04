@@ -76,15 +76,18 @@ function get_version($dev) {
     $v = simplexml_load_file("versions.xml");
     $client_info = $_SERVER['HTTP_USER_AGENT'];
     $p = client_info_to_platform($client_info);
-    $string = $dev?"Development":"Recommended";
     foreach ($v->version as $i=>$v) {
         if ((string)$v->dbplatform != $p) {
             continue;
         }
-        if (!strstr((string)$v->description, $string)) {
-            continue;
+        if (strstr((string)$v->description, "Recommended")) {
+            return $v;
         }
-        return $v;
+        if ($dev) {
+            if (strstr((string)$v->description, "Development")) {
+                return $v;
+            }
+        }
     }
     return null;
 }
