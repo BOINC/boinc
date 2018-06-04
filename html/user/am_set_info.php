@@ -247,9 +247,6 @@ if ( (isset($consent_name) and isset($consent_flag) and isset($consent_not_requi
             xml_error(-1, "database error: ".BoincDb::error());
         }
     }
-    //else {
-    //    xml_error(-1, "database error: No such consent_name=" . $consent_name);
-    //}
 }
 
 
