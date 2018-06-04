@@ -224,14 +224,10 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Please read the following terms of use:")
     );
 
-    std::string tou = pc.terms_of_use;
-    xml_unescape(tou);
-    wxString terms_of_use(tou.c_str(), wxConvUTF8);
-    // HTML TOU can have no open/close html tags
-    // so I see no proper way to identify
-    // whether it is html or plain text
-    // and I have to use this dirty hack
-    if (pc.terms_of_use == tou) {
+    wxString terms_of_use(pc.terms_of_use.c_str(), wxConvUTF8);
+    // We need to replace all line endings in text TOU
+    // to make it looks properly in HTML Window
+    if (!pc.terms_of_use_is_html) {
         terms_of_use.Replace("\r\n", "<br>");
         terms_of_use.Replace("\r", "<br>");
         terms_of_use.Replace("\n", "<br>");
