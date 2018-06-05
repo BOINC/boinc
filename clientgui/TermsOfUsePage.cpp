@@ -54,6 +54,7 @@ BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
     EVT_WIZARDEX_CANCEL( -1, CTermsOfUsePage::OnCancel )
     EVT_RADIOBUTTON( ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
     EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
+    EVT_HTML_LINK_CLICKED(ID_TERMSOFUSECTRL, CTermsOfUsePage::OnLinkClicked)
 ////@end CTermsOfUsePage event table entries
  
 END_EVENT_TABLE()
@@ -138,7 +139,19 @@ void CTermsOfUsePage::CreateControls()
 
 ////@end CTermsOfUsePage content construction
 }
-  
+
+
+void CTermsOfUsePage::OnLinkClicked( wxHtmlLinkEvent& event ) {
+    wxString url = event.GetLinkInfo().GetHref();
+    if (url.StartsWith(wxT("http://")) || url.StartsWith(wxT("https://"))) {
+        // wxHtmlLinkEvent doesn't have Veto(), but only loads the page if you
+          // call Skip().
+            wxLaunchDefaultBrowser(url);
+    } else {
+        event.Skip();
+    }
+ }
+
 /*!
  * Gets the previous page.
  */
