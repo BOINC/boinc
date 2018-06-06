@@ -90,22 +90,28 @@ function left(){
                     ',
                     tra('Continue to your home page')
                 );
-            } else {
-                echo "
-                    <p>
-                    XXX is a research project, based at <a href=#>YYY</a>,
-                    that uses Internet-connected
-                    computers to do research in XXX.
-                    You can contribute to our research
-                    by running a free program on your computer.
-                    </p>
-                ";
-                echo "
+                echo "<p><p>";
+                echo sprintf('%s
                     <ul>
-                    <li> <a href=#>Our research</a>
-                    <li> <a href=#>Our team</a>
+                    <li> %s
+                    <li> %s
                     </ul>
-                ";
+                    ',
+                    tra("Want to help more?"),
+                    tra("Install BOINC on your other computers, tablets, and phones."),
+                    tra("Tell your friends about BOINC, and show them how to join %1.", PROJECT)
+                );
+            } else {
+                echo "<p>";
+                $pd = "../project/project_description.php";
+                if (file_exists($pd)) {
+                    include($pd);
+                } else {
+                    echo "No project description yet. Create a file html/project/project_description.php
+                        that prints a short description of your project.
+                    ";
+                }
+                echo "</p>\n";
                 if (NO_COMPUTING) {
                     echo "
                         <a href=\"create_account_form.php\">Create an account</a>
@@ -116,7 +122,9 @@ function left(){
                     $x = $project_id?"signup.php":"join.php";
                     echo '<center><a href="'.$x.'" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
                     ';
-
+                    echo "<p><p>".tra("Already joined? %1Log in%2.",
+                        "<a href=login_form.php>", "</a>"
+                    );
                 }
             }
         }
@@ -125,7 +133,7 @@ function left(){
     if (!$stopped) {
         $profile = get_current_uotd();
         if ($profile) {
-            panel('User of the Day',
+            panel(tra('User of the Day'),
                 function() use ($profile) {
                     show_uotd($profile);
                 }
