@@ -500,8 +500,10 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
  */
 function boincuser_user_login(&$edit, $account) {
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
-  if ( (!empty($termsofuse)) and ($account->uid) ) {
+  // Check if user has agreed to terms of use.
+  if ( (!empty($termsofuse)) and ($account->uid) and (!boincuser_check_termsofuse($account)) ) {
 
+    // Admins are exempted.
     $administrator_role = array_search('administrator', user_roles(true));
     if (!isset($account->roles[$administrator_role])) {
 
