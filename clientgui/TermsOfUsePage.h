@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -42,6 +42,9 @@ public:
 
     /// Creates the controls and sizers
     void CreateControls();
+    
+    /// Handles clicks on links
+    void OnLinkClicked( wxHtmlLinkEvent & event );
 
 ////@begin CTermsOfUsePage event handler declarations
 
@@ -87,7 +90,7 @@ public:
 ////@begin CTermsOfUsePage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
-    wxTextCtrl* m_pTermsOfUseCtrl;
+    wxHtmlWindow* m_pTermsOfUseCtrl;
     wxRadioButton* m_pAgreeCtrl;
     wxRadioButton* m_pDisagreeCtrl;
 ////@end CTermsOfUsePage member variables
