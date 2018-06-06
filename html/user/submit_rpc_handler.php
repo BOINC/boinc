@@ -493,12 +493,12 @@ function submit_batch($r) {
 
 function create_batch($r) {
     xml_start_tag("create_batch");
-    $app = get_submit_app((string)($r->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
-    $batch_name = (string)($r->batch_name);
+    $batch_name = (string)($r->batch->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
-    $expire_time = (double)($r->expire_time);
+    $expire_time = (double)($r->batch->expire_time);
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
     );
