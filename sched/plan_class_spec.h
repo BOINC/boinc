@@ -44,6 +44,8 @@ struct PLAN_CLASS_SPEC {
     regex_t os_regex;
     bool have_cpu_vendor_regex;
     regex_t cpu_vendor_regex;
+    bool have_cpu_model_regex;
+    regex_t cpu_model_regex;
     double min_os_version;
         // Win versions can be 9 digits; may as well be safe
     double max_os_version;
@@ -59,6 +61,8 @@ struct PLAN_CLASS_SPEC {
         // for non-compute-intensive, or override for GPU apps
     bool have_host_summary_regex;
     regex_t host_summary_regex;
+    int user_id;
+    double infeasible_random;
 
     // GPU apps
     //
@@ -72,6 +76,8 @@ struct PLAN_CLASS_SPEC {
     int max_driver_version;
     char gpu_utilization_tag[256];
         // the project prefs tag for user-supplied gpu_utilization factor
+    double min_gpu_peak_flops;
+    double max_gpu_peak_flops;
 
     // AMD/ATI apps
     //

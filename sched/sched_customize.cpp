@@ -33,9 +33,8 @@
 // app_plan()
 //      Decide whether host can use an app version,
 //      and if so what resources it will use
+//      TODO: get rid of this, and just use XML spec
 //
-// app_plan_uses_gpu():
-//      Which plan classes use GPUs
 //
 // WARNING: if you modify this file, you must prevent it from
 // being overwritten the next time you update BOINC source code.
@@ -731,7 +730,7 @@ static inline bool app_plan_opencl(
             );
             return false;
         }
-    } else if (strstr(plan_class, "ati")) {
+    } else if (strstr(plan_class, "amd")) {
         COPROC_ATI& c = sreq.coprocs.ati;
         if (!c.count) {
             if (config.debug_version_select) {
@@ -952,6 +951,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
     if (!strcmp(plan_class, "mt")) {
         return app_plan_mt(sreq, hu);
+    } else if (strstr(plan_class, "opencl_cpu_intel")) {
+        return app_plan_opencl_cpu_intel(sreq, hu);
     } else if (strstr(plan_class, "opencl") == plan_class) {
         return app_plan_opencl(sreq, plan_class, hu);
     } else if (strstr(plan_class, "ati") == plan_class) {
@@ -964,8 +965,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
-    } else if (strstr(plan_class, "opencl_cpu_intel")) {
-        return app_plan_opencl_cpu_intel(sreq, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

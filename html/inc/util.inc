@@ -929,6 +929,9 @@ function get_app_types() {
         if (strstr($av->plan_class, "ati")) {
             $t->ati = true;
             $t->count++;
+        } else if (strstr($av->plan_class, "amd")) {
+            $t->ati = true;
+            $t->count++;
         } else if (strstr($av->plan_class, "cuda")) {
             $t->cuda = true;
             $t->count++;
