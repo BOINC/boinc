@@ -1290,6 +1290,12 @@ function boincuser_cron() {
   if ($num_deleted>0) {
     watchdog('boincuser', "Deleted ${num_deleted} users from user_deleted table", WATCHDOG_NOTICE);
   }
+
+  // Delete expired tokens from token table
+  $tokens_deleted = BoincToken::delete_expired();
+  if ($tokens_deleted>0) {
+    watchdog('boincuser', "Deleted ${tokens_deleted} tokens from token table", WATCHDOG_NOTICE);
+  }
 }
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
