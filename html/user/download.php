@@ -17,6 +17,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Show a page with download links and instructions.
+// There's a logged-in user.
+//
+// If no project ID, redirect to BOINC web site
+// otherwise...
 //
 // - get platform from user agent string
 // - find latest version for that platform (regular and vbox)
@@ -143,21 +147,50 @@ function download_button_vbox($v, $project_id, $token, $user) {
     );
 }
 
+// We can't use auto-attach; direct them to the BOINC download page
+//
+function direct_to_boinc() {
+    global $master_url;
+    page_head(tra("Download BOINC"));
+    text_start();
+    echo sprintf(
+        '<p>%s
+        <p><p>
+        %s
+        <p>
+        <a href=https://boinc.berkeley.edu/download.php>%s</a>
+        ',
+        tra("To download and install BOINC,
+            click on the link below and follow the instructions.
+        "),
+        tra("When BOINC first runs it will ask you to select a project.
+            Select %1 from the list,
+            or enter this project's URL: %2",
+            PROJECT,
+            $master_url
+        ),
+        tra("Go the BOINC download page.")
+    );
+    text_end();
+    page_tail();
+}
+
 function show_download_page($user, $dev) {
     global $config;
     $need_vbox = parse_bool($config, "need_vbox");
     $project_id = parse_config($config, "<project_id>");
     if (!$project_id) {
-        error_page("must specify project ID in config.xml");
+        direct_to_boinc();
+        return;
     }
     $v = get_version($dev);
 
     // if we can't figure out the user's platform,
-    // take them to the download_all page on the BOINC site
+    // take them to the download page on the BOINC site
     //
     if (!$v) {
-        Header("Location: https://boinc.berkeley.edu/download_all.php");
-        exit;
+        direct_to_boinc();
+        return;
     }
 
     page_head("Download software");
@@ -200,6 +233,8 @@ function show_download_page($user, $dev) {
     echo "</table></center>\n";
     echo "<p><p>";
     echo tra("When the download is finished, open the downloaded file to install %1.", $dl);
+    echo "<p><p>";
+    echo tra("All done? %1Click here to finish%2.", "<a href=welcome.php>", "</a>");
     page_tail();
 }
 
@@ -241,6 +276,11 @@ function installed() {
             tra("Enter your %1 email address and password.", PROJECT)
         );
     }
+    echo "<p><p>";
+    echo sprintf('<a href=home.php class="btn btn-success">%s</a>
+        ',
+        tra('Continue to your home page')
+    );
     page_tail();
 }
 
