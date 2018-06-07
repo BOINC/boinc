@@ -1,8 +1,6 @@
 /* jconfig.h Modified for multiple platforms */
 
-#ifdef _WIN32
-#include "win-config.h"
-#elif ( ! defined(__APPLE__))
+#if ( ! defined(__APPLE__))
 #include "config.h"
 #endif
 
