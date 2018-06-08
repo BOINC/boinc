@@ -56,26 +56,17 @@ function boincuser_login_authenticate($form_values) {
   $boinc_user = BoincUser::lookup_email_addr($email_addr);
   if (!$boinc_user) return false;
 
-  if (password_verify($passwd_hash, $boinc_user->passwd_hash)) {
-    // on valid login, rehash password if necessary to upgrade hash over time
-    // as the defaults change.
-    if (password_needs_rehash($boinc_user->passwd_hash, PASSWORD_DEFAULT)) {
-      do_passwd_rehash($boinc_user, $passwd_hash);
-    }
-  } else if ($passwd_hash == $boinc_user->passwd_hash) {
-    // if password is the legacy md5 hash, then rehash to update to
-    // a more secure hash
-    do_passwd_rehash($boinc_user, $passwd_hash);
-  } else {
+  if (!check_passwd_hash($boinc_user, $passwd_hash)) {
     return false;
   }
-  
+
   // BOINC authentication successful; log in and synchronize accounts
   boincuser_login_register($boinc_user);
   // Write session, update timestamp, run user 'login' hook.
   user_authenticate_finalize($form_values);
   // Use a global variable to save the fact that we did authentication.
   $boincuser_authenticated = true;
+
   return true;
 }
 
