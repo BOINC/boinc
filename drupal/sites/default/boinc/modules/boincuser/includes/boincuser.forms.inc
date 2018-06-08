@@ -665,21 +665,21 @@ function boincuser_termsofuse_form() {
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   $form['title1'] = array(
     '#weight' => -12,
-    '#value' => '<h2>' . variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'). '</h2>',
+    '#value' => '<h2>' . bts( variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'boinc:termsofuse-form' ) . '</h2>',
     '#prefix' => '<div id="register-title1">',
     '#suffix' => '</div>',
   );
 
   $form['termsofuse'] = array(
     '#weight' => -10,
-    '#value' => $termsofuse,
+    '#value' => bts($termsofuse, array(), NULL, 'boinc:termsofuse-form'),
     '#prefix' => '<div id="register-termsofuse">',
     '#suffix' => '</div>',
   );
 
   $form['agreeTOU'] = array(
     '#type' => 'checkbox',
-    '#title' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
+    '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'boinc:termsofuse-form'),
     '#weight' => -8,
     '#prefix' => '<div id="register-checkbox">',
     '#suffix' => '</div>',
