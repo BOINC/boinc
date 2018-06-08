@@ -101,11 +101,11 @@ function boincuser_register_validate($form, &$form_state) {
   // Include BOINC database objects library
   require_boinc('boinc_db');
 
-  // Check opt-in
+  // Check terms of use agreement
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   if (!empty($termsofuse)) {
-    if (!$form_state['values']['optin']) {
-      form_set_error('optin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+    if (!$form_state['values']['agreeTOU']) {
+      form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
       return false;
     }
   }
@@ -646,10 +646,10 @@ function boincuser_fix_unfriend_form_submit($form, &$form_state) {
 }
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
- * Opt-in to terms of use form
+ * The terms of use form
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
-function boincuser_optinform() {
+function boincuser_termsofuse_form() {
   global $user;
 
   // If user has already signed terms of use, and got to this form in error, send them to site home.
@@ -657,7 +657,7 @@ function boincuser_optinform() {
     drupal_goto();
   }
 
-  drupal_set_message( bts('WARNING: You have not opted-in to our terms of use. Please opt-in to the terms of use before continuing.', array(), NULL, 'boinc:opt-in-form'), 'warning' );
+  drupal_set_message( bts('WARNING: You have not agreed to our terms of use. Please agree to the terms of use before continuing.', array(), NULL, 'boinc:termsofuse-form'), 'warning' );
 
   $form = array();
 
@@ -677,7 +677,7 @@ function boincuser_optinform() {
     '#suffix' => '</div>',
   );
 
-  $form['optin'] = array(
+  $form['agreeTOU'] = array(
     '#type' => 'checkbox',
     '#title' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
     '#weight' => -8,
@@ -695,7 +695,7 @@ function boincuser_optinform() {
   $form['submit'] = array(
     '#prefix' => '<p><p><p><li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Yes', array(), NULL, 'boinc:opt-in-form'),
+    '#value' => bts('Yes', array(), NULL, 'boinc:termsofuse-form'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
@@ -715,17 +715,17 @@ function boincuser_optinform() {
   return $form;
 }
 
-function boincuser_optinform_validate($form, &$form_state) {
-  // Check opt-in
-  if (!$form_state['values']['optin']) {
-    form_set_error('legaloptin', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', array(), NULL, 'boinc:opt-in-form'));
+function boincuser_termsofuse_form_validate($form, &$form_state) {
+  // Check TOU agreement
+  if (!$form_state['values']['agreeTOU']) {
+    form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', array(), NULL, 'boinc:termsofuse-form'));
   }
 }
 
-function boincuser_optinform_submit($form, &$form_state) {
+function boincuser_termsofuse_form_submit($form, &$form_state) {
   $user = $form['#account'];
   if (!boincuser_consentto_termsofuse($user)) {
-    form_set_error('legaloptin', bts('There was an error in the opt-in process. Please contact the site administrators.', array(), NULL, 'boinc:opt-in-form'));
+    form_set_error('termsofuse', bts('There was an error in agreeing to the terms of use. Please contact the site administrators.', array(), NULL, 'boinc:termsofuse-form'));
   }
 
   // Delete session messages

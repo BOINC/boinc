@@ -350,7 +350,7 @@ function boincuser_admin_weboptions(&$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Enable create_account.php RPC'),
     '#default_value' => $default['boinc_weboptions_enableaccountcreateRPC'],
-    '#description' => t('If checked, users will be able to create an account remotely using the create_account.php RPC. This option is independent of the user regsitration option found in ') . l(t('User management -> User settings'), '/admin/user/settings') . '. If enabled, user <b>may not be able to opt-in</b> to your site\'s privacy and data retention policies!',
+    '#description' => t('If checked, users will be able to create an account remotely using the create_account.php RPC. This option is independent of the user regsitration option found in ') . l(t('User management -> User settings'), '/admin/user/settings') . '. If enabled, user <b>may not be able to see and agree to the terms-of-use</b> to your site\'s privacy and data retention policies!',
   );
 
   $form['boinc_weboptions_registrationtitle'] = array(
@@ -378,7 +378,7 @@ function boincuser_admin_weboptions(&$form_state) {
 
   $form['boinc_weboptions_agreequestion'] = array(
     '#type' => 'textfield',
-    '#title' => t('Terms of use opt-in question'),
+    '#title' => t('Terms of use agreement question'),
     '#description' => t('This text is presented to the user as the question next to the \'I agree\' checkbox.'),
     '#default_value' => $default['boinc_weboptions_agreequestion'],
   );
