@@ -198,6 +198,81 @@ function boincuser_select_user_of_the_day() {
   return $uotd;
 }
 
+
+/**
+ * Send the user an email about his/her email change.
+ *
+ * An email is sent to the user's previous email address informing
+ * them of the email change, and providing a way to revert the
+ * change. An email is also sent to the new (current) address,
+ * informing the user of the change.
+ *
+ * The user is given a secure URL with which to revert the
+ * change. Because the email address is not yet changed by Drupal when
+ * this function is called, it may be called with optional parameters
+ * new and prev email.
+ */
+function _boincuser_send_emailchange($account, $new_email=NULL, $prev_email=NULL) {
+  require_boinc('token');
+  module_load_include('inc', 'rules', 'modules/system.rules');
+
+  global $base_url;
+  $site_name = variable_get('site_name', 'Drupal-BOINC');
+
+  if (is_null($new_email)) {
+    $new_email = $account->mail;
+  }
+  if (is_null($prev_email)) {
+    $prev_email = $account->boincuser_previous_email_addr;
+  }
+
+  // @todo - set constant in drupal, or use BOINC contsants
+  $duration = TOKEN_DURATION_ONE_WEEK;
+  $changedate = date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time);
+  $newdate = date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time + $duration);
+
+  $token = create_token($account->boincuser_id, TOKEN_TYPE_CHANGE_EMAIL, $duration);
+
+  // Send email #1 to current address
+  $mysubject = "Notification of email change at {$site_name}";
+  $mymessage = ''
+      . "{$account->boincuser_name},\n"
+      . "\n"
+      . "Your email address was changed from {$prev_email} to {$new_email} "
+      . "on {$changedate}. You will not be able to change your email address "
+      . "until {$newdate}. If you need to reverse this change, please look for "
+      . "an email send to the email address: {$prev_email}.\n"
+      . "\n"
+      . "Thanks, \n"
+      . "{$site_name} support team\n";
+
+  $settings = array(
+    'from' => '',
+    'to' => $new_email,
+    'subject' => $mysubject,
+    'message' => $mymessage,
+  );
+  rules_action_mail_to_user($account, $settings);
+
+  // Send email #2 to previous address.
+  $mymessage = ''
+      . "Your email address has been changed. If you did not intend to take this action, then please click this link to reverse this change, or copy-and-paste the link into your browser location bar. You will need to change your password as well.\n"
+      . "\n"
+      . "{$base_url}/user/{$account->uid}/recoveremail/{$token}\n"
+      . "\n"
+      . "Thanks, \n"
+      . "{$site_name} support team\n";
+
+  $settings = array(
+    'from' => '',
+    'to' => $prev_email,
+    'subject' => $mysubject,
+    'message' => $mymessage,
+  );
+
+  rules_action_mail($settings);
+}
+
 /**
  * Determine the first unique name from a given base. Also cleans the
  * username so that it will be valid for drupal. And truncates user
@@ -290,7 +365,6 @@ function _boincuser_ignore_paths($path, $paths_to_ignore) {
   }
   return FALSE;
 }
-
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General BOINC functions

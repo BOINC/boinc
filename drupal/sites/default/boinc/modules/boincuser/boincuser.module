@@ -200,6 +200,14 @@ function boincuser_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  $items['user/%user/recoveremail/%'] = array(
+    'title' => t('Revert email change'),
+    'description' => t('Form to revert email to previous address.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_revertemail', 3),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -297,7 +305,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           expavg_time,
           cross_project_id,
           teamid,
-          venue
+          venue,
+          previous_email_addr,
+          email_addr_change_time
         FROM {user}
         WHERE id = %d",
         $account->boincuser_id
@@ -311,6 +321,8 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
       $account->boincuser_default_pref_set = $boinc_user->venue;
       $account->boincteam_id = $boinc_user->teamid;
+      $account->boincuser_previous_email_addr = $boinc_user->previous_email_addr;
+      $account->boincuser_email_addr_change_time = $boinc_user->email_addr_change_time;
       db_set_active('default');
       // Set Drupal team ID
       $account->team = NULL;
@@ -447,7 +459,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         switch ($edit['update_source']) {
         case 'user_account':
           // Ensure that BOINC data is altered
-          $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+
           $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
           $changing_pass = ($edit['pass']) ? true : false;
           if ($changing_email OR $changing_pass) {
@@ -455,10 +467,25 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
             $passwd_hash = password_hash( md5($passwd.$edit['mail']), PASSWORD_DEFAULT );
             $email_addr = $edit['mail'];
+
+            if ($changing_email) {
+              // locally store current email to set as previous email
+              $prev_email = $account->mail;
+              $mytime = (user_access('administer users')) ? $boinc_user->email_addr_change_time : time();
+              $querypart = "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}', previous_email_addr = '{$prev_email}', email_addr_change_time = $mytime";
+            }
+            else {
+              $querypart = "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'";
+            }
+
             // Update user account information
-            $result = $boinc_user->update(
-                "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
-            );
+            $result = $boinc_user->update($querypart);
+
+            if ($changing_email) {
+              // reload account
+              $account = user_load($account->uid);
+              _boincuser_send_emailchange($account, $email_addr, $prev_email);
+            }
           }
           break;
         case 'user_profile':
@@ -621,6 +648,8 @@ function boincuser_views_api() {
 * Implementation of hook_form_alter()
 */
 function boincuser_form_alter(&$form, $form_state, $form_id) {
+  require_boinc('token');
+
   global $user;
   switch ($form_id) {
   case 'flag_confirm':
@@ -855,6 +884,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $account = user_load($form['#uid']);
     drupal_set_title($account->boincuser_name);
     
+    // Set special message if user has not agreed to TOU
+    }
+
     // A bit hackish... but don't require the user to enter his password if
     // coming from the password reset function
     $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
@@ -869,6 +901,20 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publically that the user can change in Community Preferences.';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
+
+    // If email address was changed less than 7 days (7 * 86400 s)
+    // ago, it cannot be changed again.
+    $duration = TOKEN_DURATION_ONE_WEEK;
+    if (($account->boincuser_email_addr_change_time + $duration) > time()) {
+      $form['account']['mail']['#required'] = FALSE;
+      $form['account']['mailhelp'] = array(
+        '#value' => bts("You email address was changed within the past seven (7) days. Please look for an email to !prev_email if you need to revert this change. You may change your email address on !time.",
+          array(
+            '!prev_email' => $account->boincuser_previous_email_addr,
+            '!time' => date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time + $duration),
+          ), NULL, 'boinc:account-credentials-change'),
+      );
+    }
 
     if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
@@ -949,6 +995,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     
     // Rearrange form elements
+    $form['account']['mailhelp']['#weight'] = 4;
     $form['account']['mail']['#weight'] = 5;
     $form['account']['pass']['#weight'] = 15;
     $form['account']['boincuser_id']['#weight'] = 45;
@@ -1555,6 +1602,7 @@ function boincuser_create_account() {
   }
   
   // Process input
+  // @todo - lookup_prev_email_addr - check for unique email
   $boinc_user = BoincUser::lookup_email_addr($params['email_addr']);
   if ($boinc_user) {
     // Return authenticator for existing users
