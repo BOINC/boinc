@@ -332,6 +332,7 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_enableaccountcreateRPC' => variable_get('boinc_weboptions_enableaccountcreateRPC', TRUE),
     'boinc_weboptions_registrationtitle' => variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'),
     'boinc_weboptions_termsofuse' => variable_get('boinc_weboptions_termsofuse', ''),
+    'boinc_weboptions_overrideboinctou' => variable_get('boinc_weboptions_overrideboinctou', FALSE),
     'boinc_weboptions_agreequestion' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
     'boinc_weboptions_registrationtitle2' => variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
@@ -366,6 +367,13 @@ function boincuser_admin_weboptions(&$form_state) {
     '#cols' => 60,
     '#rows' => 8,
     '#description' => t('Text to be displayed on site\'s user registration page. Privacy policy and other data retention information goes here. If empty, there will be no terms of use message, and the title above and checkbox below will not be shown.'),
+  );
+
+  $form['boinc_weboptions_overrideboinctou'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Override BOINC terms of use.'),
+    '#default_value' => $default['boinc_weboptions_overrideboinctou'],
+    '#description' => t('Override the BOINC terms_of_use.txt file for get_profject_config.php RPC. If TRUE, the get_project_config.php RPC will use the above terms of use text entered above. Otherwise, the original terms_of_use.txt text file in the project directory is used. And you will need to be responsible for keeping both the text file and the above terms of use text up-to-date and in sync with each other.'),
   );
 
   $form['boinc_weboptions_agreequestion'] = array(
