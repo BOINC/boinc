@@ -130,11 +130,11 @@ function boincuser_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  $items['user/optin'] = array(
-    'title' => bts('Opt In to Terms of Use', array(), NULL, 'boinc:opt-in-form'),
-    'description' => 'Opt-in to site\'s term of use.',
+  $items['user/termsofuse'] = array(
+    'title' => bts('Terms of Use', array(), NULL, 'boinc:termsofuse-form'),
+    'description' => 'A site\'s term of use.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('boincuser_optinform'),
+    'page arguments' => array('boincuser_termsofuse_form'),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -229,7 +229,7 @@ function boincuser_init() {
     boincteam_show_messages();
   }
 
-  // Check if user has opt-in to the terms of use. If not, send the
+  // Check if user has agreed to the terms of use. If not, send the
   // user to the terms-of-use form. This is only makes sense if the
   // termsofuse is enabled, by having text in the termsofuse variable.
   $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
@@ -247,7 +247,7 @@ function boincuser_init() {
         // @todo - replace this static array with one that allows
         // admins to specify custom paths (patterns) to ignore.
         $paths_to_ignore = array(
-          'user/optin',
+          'user/termsofuse',
           'logout',
           'privacy',
           'moderation',
@@ -257,7 +257,7 @@ function boincuser_init() {
           $paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm/*';
         }
         if (!_boincuser_ignore_paths($path, $paths_to_ignore)) {
-          drupal_goto('user/optin');
+          drupal_goto('user/termsofuse');
         }
       }
     }
@@ -429,7 +429,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           return;
         }
 
-        // if terms of use exist, the user must have opted-in.
+        // if terms of use exist, the user must agree.
         $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
         if (!empty($termsofuse)) {
           $reference2 = boincuser_consentto_termsofuse($account);
@@ -496,31 +496,32 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 
 /**
  * Implementation of hook_user_login(); When user-logins, checks if
- * they have opt-in to the terms of use.
+ * they have agreed to the terms of use.
  *(forward compatible to Drupal 7).
  */
 function boincuser_user_login(&$edit, $account) {
   $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
-  if ( (!empty($termsofuse)) and ($account->uid) ) {
-    if ( !boincuser_check_termsofuse($account) and ($existinguser_tou) ) {
 
-      $administrator_role = array_search('administrator', user_roles(true));
-      if (!isset($account->roles[$administrator_role])) {
+  // Check if user has agreed to terms of use.
+  if ( (!empty($termsofuse)) and ($account->uid) and 
+       (!boincuser_check_termsofuse($account)) and ($existinguser_tou) ) {
 
-        // Find and save the current destination and use as an parameter
-        // to send the user back to here he/she came from.
-        $np = ltrim('user/optin', '/');
-        $path_for_destination = rawurlencode($np);
+    // Admins are exempted.
+    $administrator_role = array_search('administrator', user_roles(true));
+    if (!isset($account->roles[$administrator_role])) {
 
-        $query_for_destination = '';
-        $prevdest = $_REQUEST['destination'];
-        if ($prevdest) {
-          $query_for_destination = '?destination=' . $prevdest;
-        }
-        $_REQUEST['destination'] = $path_for_destination . $query_for_destination;
+      // Find and save the current destination and use as an parameter
+      // to send the user back to here he/she came from.
+      $np = ltrim('user/termsofuse', '/');
+      $path_for_destination = rawurlencode($np);
 
+      $query_for_destination = '';
+      $prevdest = $_REQUEST['destination'];
+      if ($prevdest) {
+        $query_for_destination = '?destination=' . $prevdest;
       }
+      $_REQUEST['destination'] = $path_for_destination . $query_for_destination;
 
     }
   }
@@ -1093,7 +1094,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#suffix' => '</div>',
       );
 
-      $form['optin'] = array(
+      $form['agreeTOU'] = array(
         '#type' => 'checkbox',
         '#title' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
         '#weight' => -8,
@@ -1294,6 +1295,12 @@ function boincuser_cron() {
   $num_deleted = BoincUserDeleted::delete_expired();
   if ($num_deleted>0) {
     watchdog('boincuser', "Deleted ${num_deleted} users from user_deleted table", WATCHDOG_NOTICE);
+  }
+
+  // Delete expired tokens from token table
+  $tokens_deleted = BoincToken::delete_expired();
+  if ($tokens_deleted>0) {
+    watchdog('boincuser', "Deleted ${tokens_deleted} tokens from token table", WATCHDOG_NOTICE);
   }
 }
 

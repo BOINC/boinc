@@ -870,8 +870,8 @@ function boincteam_create_team_panel() {
  * Link to user's team
  */
 function boincteam_dashboard_panel($uid = NULL) {
+  global $user;
   if (!$uid) {
-    global $user;
     $uid = $user->uid;
   }
   $output = '';
@@ -896,7 +896,7 @@ function boincteam_dashboard_panel($uid = NULL) {
     $output .= '  <span>' . number_format($team->total_credit, 0) . '</span>';
     $output .= '</div>' . "\n";
   }
-  else {
+  else if ($user->uid == $account->uid) {
     $output .= '<h2 class="pane-title">' . bts('Team (None)', array(), NULL, 'boinc:team-dashboard') . '</h2>';
     $output .= '<ul class="tab-list action-list">';
     $output .= '<li class="tab primary">';

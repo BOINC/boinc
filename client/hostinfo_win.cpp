@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -312,14 +312,14 @@ int get_memory_info(double& bytes, double& swap) {
     return 0;
 }
 
-
 // Returns the OS name and version
 //
 
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 int get_os_information(
-    char* os_name, int os_name_size, char* os_version, int os_version_size
+    char* os_name, const int os_name_size, char* os_version, const int os_version_size,
+    bool& os_wsl_enabled, char* os_wsl_name, const int os_wsl_name_size, char* os_wsl_version, const int os_wsl_version_size
 ) {
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
@@ -943,6 +943,12 @@ int get_os_information(
 
     snprintf( os_version, os_version_size, "%s%s%s", szSKU, szServicePack, szVersion );
 
+#ifdef _WIN64
+    if (osvi.dwMajorVersion >= 10) {
+        return get_wsl_information(os_wsl_enabled, os_wsl_name, os_wsl_name_size, os_wsl_version, os_wsl_version_size);
+    }
+#endif
+
     return 0;
 }
 
@@ -1430,7 +1436,8 @@ int HOST_INFO::get_host_info(bool init) {
     if (!init) return 0;
     ::get_memory_info(m_nbytes, m_swap);
     get_os_information(
-        os_name, sizeof(os_name), os_version, sizeof(os_version)
+        os_name, sizeof(os_name), os_version, sizeof(os_version),
+        os_wsl_enabled, os_wsl_name, sizeof(os_wsl_name), os_wsl_version, sizeof(os_wsl_version)
     );
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
