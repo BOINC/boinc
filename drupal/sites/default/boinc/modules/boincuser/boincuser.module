@@ -201,7 +201,7 @@ function boincuser_menu() {
     'type' => MENU_CALLBACK,
   );
   $items['user/%user/recoveremail/%'] = array(
-    'title' => t('Revert email change'),
+    'title' => t('Recover previous email'),
     'description' => t('Form to revert email to previous address.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_revertemail', 3),
@@ -259,6 +259,8 @@ function boincuser_init() {
           'logout',
           'privacy',
           'moderation',
+          'account/info/edit',
+          'user/' . $user->uid . '/recoveremail/*',
         );
         if (module_exists('boincuser_delete')) {
           $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
@@ -879,12 +881,21 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
   // User credentials form
   case 'user_profile_form':
-    
+
     // Use the displaly name as the title, not the username
     $account = user_load($form['#uid']);
     drupal_set_title($account->boincuser_name);
     
     // Set special message if user has not agreed to TOU
+    $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
+    $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+    if ( (!boincuser_check_termsofuse($account)) and ($existinguser_tou) and (!empty($termsofuse)) ) {
+      drupal_set_message(
+        bts('INFO: You have not agreed to the terms of use for @project. You may use this form to change your email address and/or password. Please note: you may not delete your account within seven (7) days of changing your email address.',
+        array(
+          '@project' => variable_get('site_name','Drupal-BOINC'),
+        ), NULL, 'boinc:account-credentials-change')
+      );
     }
 
     // A bit hackish... but don't require the user to enter his password if
@@ -1034,6 +1045,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
+
     break;
     
   case 'profile_node_form':
