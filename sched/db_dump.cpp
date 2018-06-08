@@ -1095,6 +1095,16 @@ int main(int argc, char** argv) {
         time_t now = time(0);
         tmp = localtime(&now);
         char base[256];
+        strncpy(base, spec.final_output_dir, sizeof(base));
+        strncat(base, "/.htaccess", sizeof(base) - strlen(base));
+        if (boinc_file_exists(base)) {
+            snprintf(buf, sizeof(buf), "cp %s %s", base, spec.output_dir);
+            retval = system(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL, "Can't copy .htaccess from old stats\n");
+                exit(1);
+            }
+        }
         if (strlen(spec.archive_dir)) {
             safe_strcpy(base, spec.archive_dir);
             strcat(base, "/stats");
