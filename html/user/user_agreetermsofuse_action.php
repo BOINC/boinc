@@ -38,11 +38,21 @@ if (!$agree) {
     error_page(tra("You have not agreed to our terms of use. You may not continue until you do so."));
 }
 
-// Obtain session information
-session_start();
-$user = $_SESSION['user'];
+// Obtain data from cookies
+if (isset($_COOKIE['tempuserid'])) {
+    $userid = $_COOKIE['tempuserid'];
+}
+else {
+    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+}
+if (isset($_COOKIE['tempperm'])) {
+    $perm = $_COOKIE['tempperm'];
+}
+else {
+    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+}
+$user = BoincUser::lookup_id_nocache($userid);
 $authenticator = $user->authenticator;
-$perm = $_SESSION['perm'];
 
 // Set consent in database
 $rc1 = consent_to_a_policy($user, 'ENROLL', 1, 0, 'Webform', time());
@@ -53,8 +63,8 @@ if (!$rc1) {
 
 // Log-in user
 send_cookie('auth', $authenticator, $perm);
-session_unset();
-session_destroy();
+clear_cookie('tempuserid');
+clear_cookie('tempperm');
 
 // Send user to next_url
 Header("Location: ".url_base()."$next_url");

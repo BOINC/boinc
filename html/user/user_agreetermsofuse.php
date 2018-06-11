@@ -23,6 +23,11 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
 
+if (!isset($_COOKIE['tempuserid'])) {
+    error_page(tra("You are not logged in. Please login to agree to our terms of use."));
+}
+
+
 check_get_args(array("next_url"));
 
 $next_url = get_str('next_url', true);

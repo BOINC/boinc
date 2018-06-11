@@ -38,9 +38,8 @@ function consent_to_a_policy($user, $consent_name, $consent_flag, $consent_not_r
 }
 
 function consent_after_login($user, $perm=true, $next_url = "") {
-    session_start();
-    $_SESSION['user'] = $user;
-    $_SESSION['perm'] = $perm;
+    send_cookie('tempuserid', $user->id, false);
+    send_cookie('tempperm', $perm, false);
     $save_url = $next_url;
     $consent_result = BoincConsent::lookup("userid={$user->id} AND consent_name='ENROLL' ORDER BY consent_time DESC LIMIT 1");
     if ($consent_result) {
@@ -49,8 +48,8 @@ function consent_after_login($user, $perm=true, $next_url = "") {
         }
         else{
             send_cookie('auth', $user->authenticator, $perm);
-            session_unset();
-            session_destroy();
+            clear_cookie('tempuserid');
+            clear_cookie('tempperm');
         }
     }
     else {
