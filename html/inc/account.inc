@@ -179,7 +179,7 @@ function user_agreetermsofuse_form($next_url) {
         // error - no terms of use for user to agree to!
     }
 
-    form_submit("I agree");
+    form_submit(tra("I agree"));
     form_end();
 }
 
