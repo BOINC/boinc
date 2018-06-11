@@ -825,6 +825,6 @@ create table consent_type (
     primary key (consent_id)
 ) engine=InnoDB;
 
-insert into consent_type (consent_id, shortname, description, enavled, protected, privacypref)
-    values (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 0);
-    values (2, 'STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 1, 1);
+insert into consent_type (consent_id, shortname, description, enabled, protected, privacypref)
+    values (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 0),
+    (2, 'STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 1, 1);
