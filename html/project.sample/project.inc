@@ -63,6 +63,8 @@ define("USE_STOPFORUMSPAM", true);
     // use http://www.stopforumspam.com to suppress spammer accounts
 define("RPC_DEBUG", false);
     // Enables PHP error messages in public Web RPCs
+define("TERMSOFUSE_FILE", "../../terms_of_use.txt");
+    // Defines the location of the terms of use file. Default location is in the project directory.
 
 //-------------- Project-specific preferences
 

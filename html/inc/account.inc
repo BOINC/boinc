@@ -117,9 +117,8 @@ function create_account_form($teamid, $next_url) {
     }
 
     // Add terms of use to Web form. User must agree by checking the checkbox.
-    $tou_file = "../../terms_of_use.txt";
-    if ( check_consent_type('ENROLL') and file_exists($tou_file) ) {
-        $terms_of_use = trim(file_get_contents($tou_file));
+    if ( check_consent_type('ENROLL') and defined('TERMSOFUSE_FILE') and (file_exists(TERMSOFUSE_FILE)) ) {
+        $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
         if ($terms_of_use) {
             panel('Terms of Use', function() use($terms_of_use) {
                 echo nl2br($terms_of_use);
@@ -163,8 +162,7 @@ function user_agreetermsofuse_form($next_url) {
     form_start(secure_url_base()."/user_agreetermsofuse_action.php", "post");
     form_input_hidden("next_url", $next_url);
 
-    $tou_file = "../../terms_of_use.txt";
-    $terms_of_use = trim(file_get_contents($tou_file));
+    $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
     if ($terms_of_use) {
         panel('Terms of Use', function() use($terms_of_use) {
             echo nl2br($terms_of_use);

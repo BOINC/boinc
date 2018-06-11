@@ -178,8 +178,7 @@ function validate_post_make_user() {
 
     // Check if consent to terms of use has been given.
     $myconsent = FALSE;
-    $tou_file = "../../terms_of_use.txt";
-    if ( check_consent_type('ENROLL') and file_exists($tou_file) ) {
+    if ( check_consent_type('ENROLL') and file_exists(TERMSOFUSE_FILE) ) {
         $agree = post_str("agree_to_terms_of_use", true);
         if (!$agree) {
             error_page(tra("You have not agreeed to our terms of use. Please agree to the terms of use by navigating back to the previous page, in order to create your account"));

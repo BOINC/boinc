@@ -103,7 +103,15 @@ if ($min_core_client_version) {
 
 show_platforms();
 
-$tou_file = "../../terms_of_use.txt";
+// Conditional added to allow for backwards-compatability. If a
+// project has not defined the constant TERMSOFUSE_FILE, then look for
+// the terms_of_use.txt file in the project base directory.
+if (defined('TERMSOFUSE_FILE')) {
+  $tou_file = TERMSOFUSE_FILE;
+}
+else {
+  $tou_file =  "../../terms_of_use.txt";
+}
 if (file_exists($tou_file)) {
     $terms_of_use = trim(file_get_contents($tou_file));
     if ($terms_of_use) {
