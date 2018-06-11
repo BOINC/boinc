@@ -75,8 +75,7 @@ function left(){
                     );
                 } else {
                     $x = format_credit($user->expavg_credit);
-                    $y = number_format($user->expavg_credit/200, 3);
-                    echo tra("You've contributed about %1 credits per day (%2 GFLOPS) to %3 recently.", $x, $y, PROJECT);
+                    echo tra("You've contributed about %1 credits per day to %2 recently.", $x, PROJECT);
                     if ($user->expavg_credit > 1) {
                         echo " ";
                         echo tra("Thanks!");
