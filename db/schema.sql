@@ -41,6 +41,8 @@
 -- fields ending with id (but not _id) are treated specially
 -- by the Python code (db_base.py)
 
+-- Put initial content of any table in content.sql, and not in this file.
+
 create table platform (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
@@ -824,7 +826,3 @@ create table consent_type (
     privacypref             integer         not null,
     primary key (consent_id)
 ) engine=InnoDB;
-
-insert into consent_type (consent_id, shortname, description, enabled, protected, privacypref)
-    values (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 0),
-    (2, 'STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 1, 1);

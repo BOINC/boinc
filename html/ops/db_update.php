@@ -1171,7 +1171,8 @@ function update_5_17_2018() {
         consent_flag            tinyint         not null,
         consent_not_required    tinyint         not null,
         source                  varchar(255)    not null,
-        primary key (id)
+        primary key (id),
+        index userid_cname (userid, consent_name)
         ) engine=InnoDB;
     ");
 
@@ -1182,13 +1183,14 @@ function update_5_17_2018() {
         enabled                 integer         not null,
         protected               integer         not null,
         privacypref             integer         not null,
-        primary key (consent_id)
+        primary key (consent_id),
+        index consent_name (shortname)
         ) engine=InnoDB;
     ");
 
     do_query("insert into consent_type
         (consent_id, shortname, description, enabled, protected, privacypref) values
-        (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 10);
+        (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 0);
     ");
     do_query("insert into consent_type
         (consent_id, shortname, description, enabled, protected, privacypref) values

@@ -178,3 +178,9 @@ alter table post_ratings
 alter table sent_email
     add index sent_email_userid(userid);
         -- for delete account
+
+alter table consent
+    add index userid_cname(userid, consent_name);
+
+alter table consent_type
+    add index consent_name(shortname);
