@@ -335,6 +335,7 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_overrideboinctou' => variable_get('boinc_weboptions_overrideboinctou', FALSE),
     'boinc_weboptions_agreequestion' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
     'boinc_weboptions_registrationtitle2' => variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'),
+    'boinc_weboptions_existinguser_tou' => variable_get('boinc_weboptions_existinguser_tou', FALSE),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
@@ -388,6 +389,13 @@ function boincuser_admin_weboptions(&$form_state) {
     '#title' => t('Instructions for username/email/password questions'),
     '#description' => t('Title text presented below terms of use and above username/email/password textfields.'),
     '#default_value' => $default['boinc_weboptions_registrationtitle2'],
+  );
+
+  $form['boinc_weboptions_existinguser_tou'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Are existing users forced to agree to the Terms of Use?'),
+    '#default_value' => $default['boinc_weboptions_existinguser_tou'],
+    '#description' => t('If TRUE, existing users are forced to agree to a terms of use (if present) when the login and the system has detected they have not agreed. Otherwise they may login as normal. This option has no affect on whether or not new users must agree to the terms of use.'),
   );
 
   $form['pathtitle'] = array(
