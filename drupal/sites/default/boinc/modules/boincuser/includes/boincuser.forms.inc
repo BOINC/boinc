@@ -665,21 +665,21 @@ function boincuser_termsofuse_form() {
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   $form['title1'] = array(
     '#weight' => -12,
-    '#value' => '<h2>' . bts( variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'boinc:termsofuse-form' ) . '</h2>',
+    '#value' => '<h2>' . bts( variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'project:termsofuse-form' ) . '</h2>',
     '#prefix' => '<div id="register-title1">',
     '#suffix' => '</div>',
   );
 
   $form['termsofuse'] = array(
     '#weight' => -10,
-    '#value' => bts($termsofuse, array(), NULL, 'boinc:termsofuse-form'),
+    '#value' => bts($termsofuse, array(), NULL, 'project:termsofuse-form'),
     '#prefix' => '<div id="register-termsofuse">',
     '#suffix' => '</div>',
   );
 
   $form['agreeTOU'] = array(
     '#type' => 'checkbox',
-    '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'boinc:termsofuse-form'),
+    '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:termsofuse-form'),
     '#weight' => -8,
     '#prefix' => '<div id="register-checkbox">',
     '#suffix' => '</div>',
@@ -695,7 +695,7 @@ function boincuser_termsofuse_form() {
   $form['submit'] = array(
     '#prefix' => '<p><p><p><li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('Yes', array(), NULL, 'boinc:termsofuse-form'),
+    '#value' => bts('Yes', array(), NULL, 'boinc:form-submit'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
@@ -703,7 +703,7 @@ function boincuser_termsofuse_form() {
   );
   $deletelink = '/user/' . $user->uid . '/delete';
   $form['deleteaccount'] = array(
-    '#value' => '<li class="tab">' . l(bts('NO - DELETE ACCOUNT', array(), NULL, 'boinc:delete'), $deletelink) . '</li>',
+    '#value' => '<li class="tab">' . l(bts('NO - DELETE ACCOUNT', array(), NULL, 'boinc:form-delete-user'), $deletelink) . '</li>',
   );
 
   // Set form redirect
