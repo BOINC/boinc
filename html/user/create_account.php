@@ -96,15 +96,16 @@ if ($user) {
 
     // If the project has configured to use the ENROLL consent_type, then
     // record it.
-    if (check_consent_type('ENROLL')) {
+    list($checkct, $ctid) = check_consent_type('ENROLL');
+    if ($checkct) {
         if ( (!is_null($consent_flag)) and $source) {
             // Record the user giving consent in database - if consent_flag is 0,
             // this is an 'anonymous account' and consent_not_required is
             // set to 1.
             if ($consent_flag==0) {
-                $rc = consent_to_a_policy($user, 'ENROLL', 0, 1, $source);
+                $rc = consent_to_a_policy($user, $ctid, 0, 1, $source);
             } else  {
-                $rc = consent_to_a_policy($user, 'ENROLL', 1, 0, $source);
+                $rc = consent_to_a_policy($user, $ctid, 1, 0, $source);
             }
             if (!$rc) {
                 xml_error(-1, "database error, please contact site administrators");

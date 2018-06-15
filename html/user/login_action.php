@@ -68,7 +68,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
 
     // Intercept next_url if consent has not yet been given
     $config = get_config();
-    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE)) {
+    if ( parse_bool($config, "enable_login_mustagree_termsofuse") and check_termsofuse() and (!check_user_consent($user, 'ENROLL'))) {
         $next_url = consent_after_login($user, $perm, $next_url);
     }
     else {
@@ -109,7 +109,7 @@ function login_via_link($id, $t, $h) {
 
     // Intercept next_url if consent has not yet been given
     $config = get_config();
-    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE)) {
+    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_termsofuse() and (!check_user_consent($user, 'ENROLL'))) {
         $next_url = consent_after_login($user, true, "");
     }
     else {
@@ -135,7 +135,7 @@ function login_with_auth($authenticator, $next_url, $perm) {
 
         // Intercept next_url if consent has not yet been given
         $config = get_config();
-        if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE)) {
+        if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_termsofuse() and (!check_user_consent($user, 'ENROLL'))) {
             $next_url = consent_after_login($user, $perm, $next_url);
         }
         else {
@@ -164,7 +164,7 @@ function login_with_ldap($uid, $passwd, $next_url, $perm) {
     }
     // Intercept next_url if consent has not yet been given
     $config = get_config();
-    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_consent_type('ENROLL') and defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE)) {
+    if (parse_bool($config, "enable_login_mustagree_termsofuse") and check_termsofuse() and (!check_user_consent($user, 'ENROLL'))) {
         $next_url = consent_after_login($user, $perm, $next_url);
     }
     else {

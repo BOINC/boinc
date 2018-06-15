@@ -147,6 +147,7 @@ foreach ($_consenttypes as $ct) {
         tra($ct->description),
         tra($ct->description),
         "consent_".urlencode($ct->shortname),
+        $ct->id,
         $ct->shortname,
         0
     );

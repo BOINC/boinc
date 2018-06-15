@@ -54,8 +54,9 @@ else {
 $user = BoincUser::lookup_id_nocache($userid);
 $authenticator = $user->authenticator;
 
-// Set consent in database
-$rc1 = consent_to_a_policy($user, 'ENROLL', 1, 0, 'Webform', time());
+// Set consent in database, consent_type is ENROLL.
+list($checkct, $ctid) = check_consent_type('ENROLL');
+$rc1 = consent_to_a_policy($user, $ctid, 1, 0, 'Webform', time());
 if (!$rc1) {
     error_page("Database error when attempting to INSERT into table consent with ID=$user->id. " . BoincDb::error() . " Please contact site administrators.");
 }

@@ -21,8 +21,7 @@
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 
-function consent_to_a_policy($user, $consent_name, $consent_flag, $consent_not_required, $source, $ctime = 0) {
-    $myn = BoincDb::escape_string($consent_name);
+function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {
         $mytime = $user->create_time;
@@ -31,39 +30,42 @@ function consent_to_a_policy($user, $consent_name, $consent_flag, $consent_not_r
         $mytime = $ctime;
     }
     return BoincConsent::insert(
-        "(id, userid, consent_name, consent_time, consent_flag, consent_not_required, source) " .
-        "values(0, $user->id, '$myn', $mytime, $consent_flag, $consent_not_required, '$mys')"
+        "(id, userid, consent_type_id, consent_time, consent_flag, consent_not_required, source) " .
+        "values(0, $user->id, $consent_type_id, $mytime, $consent_flag, $consent_not_required, '$mys')"
     );
 
+}
+
+// Checks to see if a user has consented to specfic consent_type_id.
+function check_user_consent($user, $consent_name) {
+    list($checkct, $ctid) = check_consent_type($consent_name);
+    if ($checkct) {
+        $consent_result = BoincConsent::lookup("userid={$user->id} AND consent_type_id=$ctid ORDER BY consent_time DESC LIMIT 1");
+        if ( ($consent_result) and ($consent_result->consent_flag) ) {
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
 
 function consent_after_login($user, $perm=true, $next_url = "") {
     send_cookie('tempuserid', $user->id, false);
     send_cookie('tempperm', $perm, false);
     $save_url = $next_url;
-    $consent_result = BoincConsent::lookup("userid={$user->id} AND consent_name='ENROLL' ORDER BY consent_time DESC LIMIT 1");
-    if ($consent_result) {
-        if ($consent_result->consent_flag != 1) {
-            $next_url = "user_agreetermsofuse.php?next_url=$save_url";
-        }
-        else{
-            send_cookie('auth', $user->authenticator, $perm);
-            clear_cookie('tempuserid');
-            clear_cookie('tempperm');
-        }
-    }
-    else {
-        $next_url = "user_agreetermsofuse.php?next_url=$save_url";
-    }
+    $next_url = "user_agreetermsofuse.php?next_url=$save_url";
     return $next_url;
 }
 
-// Checks to see if a particular consent_type name is in available and
-// enabled.
-function check_consent_type($name) {
+// Checks to see if a particular consent_type name is in
+// available. Returns an array of format: (BOOLEAN, INTEGER). The
+// boolean is T/F depending on whether that consent_type exists, and
+// if checkenabled=TRUE, if the consent_type is enabled/available for
+// use. The integer is the consent_type_id- the id from consent_type
+// table. If the boolean is FALSE, the integer returned is -1.
+function check_consent_type($name, $checkenabled=TRUE) {
     $ct = BoincConsentType::lookup("shortname = '{$name}'");
-    if ($ct and ($ct->enabled)) {
-        return TRUE;
+    if ($ct and ( !$checkenabled or ($ct->enabled)) ) {
+        return array(TRUE, $ct->id);
     }
-    return FALSE;
+    return array(FALSE, -1);
 }

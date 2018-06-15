@@ -22,11 +22,11 @@ require_once('../inc/util_ops.inc');
 
 // This function deletes a row from consent_type table.
 function mct_delete() {
-    $cid = post_int("consent_id");
-    $consent_type = BoincConsentType::lookup("consent_id = $cid");
+    $ctid = post_int("consent_type_id");
+    $consent_type = BoincConsentType::lookup("id = $ctid");
     if ($consent_type) {
         $myname = $consent_type->shortname;
-        $consent_type->delete_aux("consent_id = $cid");
+        $consent_type->delete_aux("id = $ctid");
         echo "<h2>Consent Type ${myname} deleted.</h2>";
     }
 }
@@ -52,7 +52,7 @@ function add_consenttype() {
 
 // Toggles the enable flag
 function mct_toggle_field($field) {
-    $cid = post_int("consent_id");
+    $ctid = post_int("consent_type_id");
     $toggle = post_str("toggle" . $field);
     if ($toggle == "Click to Enable") {
         $state = 1;
@@ -63,10 +63,10 @@ function mct_toggle_field($field) {
         $action = "Disabled";
     }
 
-    $consent_type = BoincConsentType::lookup("consent_id = $cid");
+    $consent_type = BoincConsentType::lookup("id = $ctid");
     if ($consent_type) {
         $myname = $consent_type->shortname;
-        $consent_type->update("$field=$state where consent_id=$cid");
+        $consent_type->update("$field=$state where id=$ctid");
         echo "<h2>Consent Type ${myname} <em>$field</em> changed to <em>$action</em></h2>";
     }
 }
@@ -92,7 +92,7 @@ function mct_show_form() {
         echo "<tr><form action=manage_consent_types.php method=POST>\n";
 
         // Name
-        echo "<input type=hidden name=consent_id value=$ct->consent_id>";
+        echo "<input type=hidden name=consent_type_id value=$ct->id>";
         echo "  <td>$ct->shortname</td>";
 
         // Description

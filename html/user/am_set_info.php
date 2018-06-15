@@ -241,11 +241,21 @@ if (strlen($query)) {
 // present, the RPC will still return 'success', even though the
 // consent table is not updated.
 if ( (isset($consent_name) and isset($consent_flag) and isset($consent_not_required) and isset($consent_source)) ) {
-    if ( check_consent_type($consent_name) ) {
-        $rc = consent_to_a_policy($user, $consent_name, $consent_flag, $consent_not_required, $consent_source, time());
-        if (!$rc) {
-            xml_error(-1, "database error: ".BoincDb::error());
+    list($checkct, $ctid) = check_consent_type($consent_name);
+    if ($checkct) {
+
+        // Check to see if latest consent of this name is already
+        // given.
+        $cr= BoincConsent::lookup("userid={$user->id} AND consent_type_id='${ctid}' ORDER BY consent_time DESC LIMIT 1");
+        if ( (($cr) and ($cr->consent_flag!=$consent_flag)) or
+             (!$cr) ) {
+
+            $rc = consent_to_a_policy($user, $ctid, $consent_flag, $consent_not_required, $consent_source, time());
+            if (!$rc) {
+                xml_error(-1, "database error: ".BoincDb::error());
+            }
         }
+
     }
 }
 
