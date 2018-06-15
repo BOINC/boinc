@@ -1166,34 +1166,35 @@ function update_5_17_2018() {
     do_query("create table consent (
         id                      integer         not null auto_increment,
         userid                  integer         not null,
-        consent_name            varchar(255)    not null,
+        consent_type_id         integer         not null,
         consent_time            integer         not null,
         consent_flag            tinyint         not null,
         consent_not_required    tinyint         not null,
         source                  varchar(255)    not null,
         primary key (id),
-        index userid_cname (userid, consent_name)
+        index userid_ctid(userid, consent_type_id),
+        index consent_timestamp(consent_time)
         ) engine=InnoDB;
     ");
 
     do_query("create table consent_type (
-        consent_id              integer         not null auto_increment,
+        id                      integer         not null auto_increment,
         shortname               varchar(255)    not null,
         description             varchar(255)    not null,
         enabled                 integer         not null,
         protected               integer         not null,
         privacypref             integer         not null,
-        primary key (consent_id),
+        primary key (id),
         index consent_name (shortname)
         ) engine=InnoDB;
     ");
 
     do_query("insert into consent_type
-        (consent_id, shortname, description, enabled, protected, privacypref) values
+        (id, shortname, description, enabled, protected, privacypref) values
         (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 0);
     ");
     do_query("insert into consent_type
-        (consent_id, shortname, description, enabled, protected, privacypref) values
+        (id, shortname, description, enabled, protected, privacypref) values
         (2, 'STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 1, 1);
     ");
 }

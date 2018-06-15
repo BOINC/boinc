@@ -809,7 +809,7 @@ create table host_deleted (
 create table consent (
     id                      integer         not null auto_increment,
     userid                  integer         not null,
-    consent_name            varchar(255)    not null,
+    consent_type_id         integer         not null,
     consent_time            integer         not null,
     consent_flag            tinyint         not null,
     consent_not_required    tinyint         not null,
@@ -818,11 +818,11 @@ create table consent (
 ) engine=InnoDB;
 
 create table consent_type (
-    consent_id              integer         not null auto_increment,
+    id                      integer         not null auto_increment,
     shortname               varchar(255)    not null,
     description             varchar(255)    not null,
     enabled                 integer         not null,
     protected               integer         not null,
     privacypref             integer         not null,
-    primary key (consent_id)
+    primary key (id)
 ) engine=InnoDB;

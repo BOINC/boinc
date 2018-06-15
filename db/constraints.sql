@@ -180,7 +180,8 @@ alter table sent_email
         -- for delete account
 
 alter table consent
-    add index userid_cname(userid, consent_name);
+    add index userid_ctid(userid, consent_type_id);
+    add index consent_timestamp(consent_time);
 
 alter table consent_type
     add index consent_name(shortname);
