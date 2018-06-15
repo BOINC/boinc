@@ -192,7 +192,6 @@ class PREF_CONSENT extends PREF {
         $this->tooltip_tr();
         echo "<td class=\"text-right \">$this->desc</td>";
         $consent_type_id = $this->consent_type_id;
-        $consent_name = $this->consent_name;
         $cr = BoincConsent::lookup("userid={$user->id} AND consent_type_id='{$consent_type_id} ORDER BY consent_time DESC LIMIT 1");
         if ($cr) {
             $this->show_value($user);
@@ -208,7 +207,6 @@ class PREF_CONSENT extends PREF {
         $this->tooltip_tr();
         echo "<td class=\"text-right \">$this->desc</td>";
         $consent_type_id = $this->consent_type_id;
-        $consent_name = $this->consent_name;
         $cr = BoincConsent::lookup("userid={$user->id} AND consent_type_id='{$consent_type_id}' ORDER BY consent_time DESC LIMIT 1");
         if ($cr) {
             $this->show_value($user);
@@ -227,7 +225,6 @@ class PREF_CONSENT extends PREF {
 
     function show_value($user) {
         $consent_type_id = $this->consent_type_id;
-        $consent_name = $this->consent_name;
         $cr = BoincConsent::lookup("userid={$user->id} AND consent_type_id='{$consent_type_id}' ORDER BY consent_time DESC LIMIT 1");
         if ($cr) {
             $value = $cr->consent_flag;
@@ -238,7 +235,6 @@ class PREF_CONSENT extends PREF {
     }
     function show_form($user, $error) {
         $consent_type_id = $this->consent_type_id;
-        $consent_name = $this->consent_name;
         $cr = BoincConsent::lookup("userid={$user->id} AND consent_type_id='{$consent_type_id}' ORDER BY consent_time DESC LIMIT 1");
         if ($cr) {
             if ($this->invert) {
@@ -259,7 +255,6 @@ class PREF_CONSENT extends PREF {
         // This function parses the form AND performs the database update
         $tag = $this->tag;
         $consent_type_id = $this->consent_type_id;
-        $consent_name = $this->consent_name;
         $formget = array_key_exists($tag, $_GET);
         if ($this->invert) $formget = !$formget;
         $flag = ($formget ? 1 : 0);
@@ -286,7 +281,7 @@ class PREF_CONSENT extends PREF {
         return false;
     }
     function set_default(&$user) {
-        $consent_name = $this->consent_name;
+        $consent_type_id = $this->consent_type_id;
 
         $rc = consent_to_a_policy($user, $consent_type_id, $this->default, 0, 'Webform');
         if (!$rc) {
