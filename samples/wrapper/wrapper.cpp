@@ -269,11 +269,31 @@ void str_replace_all(string &str, const string& s1, const string& s2) {
     }
 }
 
+// replace non-alphanumeric characters with _
+string trim(string &str){
+    string rv = "";
+    for (unsigned int i = 0; i < str.length(); i++)
+    {
+        char current = str[i];
+        if ( (current >= 'a' && current <= 'z') ||
+             (current >= 'A' && current <= 'Z') ||
+             (current >= '0' && current <= '9') ||
+             current == '_' ) {
+            rv += current;
+        } else {
+            rv += '_';
+        }
+    }
+    return rv;
+}
+
 // macro-substitute strings from job.xml
 // $PROJECT_DIR -> project directory
 // $NTHREADS --> --nthreads arg if present, else 1
 // $GPU_DEVICE_NUM --> gpu_device_num from init_data.xml, or --device arg
 // $PWD --> current directory
+// $USER_NAME --> name of user logged into client
+// $TEAM_NAME --> user's team name
 //
 void macro_substitute(string &str) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
@@ -281,6 +301,10 @@ void macro_substitute(string &str) {
 #ifdef DEBUG
     fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PROJECT_DIR", pd);
 #endif
+
+    string userName = aid.user_name, teamName = aid.team_name;
+    str_replace_all(str,"$USER_NAME",trim(userName));
+    str_replace_all(str,"$TEAM_NAME",trim(teamName));
 
     char nt[256];
     sprintf(nt, "%d", nthreads);
