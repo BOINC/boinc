@@ -95,7 +95,6 @@ function left(){
                     <li> %s
                     <li> %s
                     <li> %s
-                    </ul>
                     ',
                     tra("Want to help more?"),
                     tra("If BOINC is not installed on this computer, %1download it%2.",
@@ -104,6 +103,10 @@ function left(){
                     tra("Install BOINC on your other computers, tablets, and phones."),
                     tra("Tell your friends about BOINC, and show them how to join %1.", PROJECT)
                 );
+                if (function_exists('project_help_more')) {
+                    project_help_more();
+                }
+                echo "</ul>\n";
             } else {
                 echo "<p>";
                 $pd = "../project/project_description.php";
