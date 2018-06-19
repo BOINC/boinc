@@ -1621,7 +1621,13 @@ function boincuser_create_account() {
   }
   
   // Process input
-  // @todo - lookup_prev_email_addr - check for unique email
+  // Check this email against previous email addresses.
+  $tmpuser = BoincUser::lookup_pr3ev_email_addr($params['email_addr']);
+  if ($tmpuser) {
+    xml_error(-137);
+  }
+
+  // Check this email on current email addresses.
   $boinc_user = BoincUser::lookup_email_addr($params['email_addr']);
   if ($boinc_user) {
     // Return authenticator for existing users
