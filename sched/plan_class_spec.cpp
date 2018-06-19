@@ -32,6 +32,7 @@
 
 using std::string;
 
+static bool wu_restricted_plan_class;
 
 // this returns a numerical OS version for Darwin/OSX and Windows,
 // letting us define numerical ranges for these OS versions
@@ -77,6 +78,30 @@ static int android_version_num(HOST h) {
         return maj*10000 + min*100;
     }
     return 0;
+}
+
+static bool wu_is_infeasible_for_plan_class(const PLAN_CLASS_SPEC* pc, const WORKUNIT* wu) {
+    if (pc->min_wu_id && wu->id < pc->min_wu_id) {
+        if (config.debug_version_select)
+            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old for plan class '%s'\n", wu->id, pc->name);
+        return true;
+    }
+    if (pc->max_wu_id && wu->id > pc->max_wu_id) {
+        if (config.debug_version_select)
+            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new for plan class '%s'\n", wu->id, pc->name);
+        return true;
+    }
+    if (pc->min_batch && wu->batch < pc->min_batch) {
+        if (config.debug_version_select)
+            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old for plan class '%s'\n", wu->id, pc->name);
+        return true;
+    }
+    if (pc->max_batch && wu->batch > pc->max_batch) {
+        if (config.debug_version_select)
+            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new for plan class '%s'\n", wu->id, pc->name);
+        return true;
+    }
+    return false;
 }
 
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
@@ -184,25 +209,10 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
     }
 
     // WU restriction
-    if (min_wu_id && wu->id < min_wu_id) {
-        if (config.debug_version_select)
-	    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old\n", wu->id);
-	return false;
-    }
-    if (max_wu_id && wu->id > max_wu_id) {
-        if (config.debug_version_select)
-	    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new\n", wu->id);
-	return false;
-    }
-    if (min_batch && wu->batch < min_batch) {
-        if (config.debug_version_select)
-	    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old\n", wu->id);
-	return false;
-    }
-    if (max_batch && wu->batch > max_batch) {
-        if (config.debug_version_select)
-	    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new\n", wu->id);
-	return false;
+    if (min_wu_id || max_wu_id || min_batch || max_batch) {
+        if (wu_is_infeasible_for_plan_class(this, wu)) {
+            return false;
+        }
     }
 
     // CPU features
@@ -963,30 +973,12 @@ bool PLAN_CLASS_SPECS::check(
     return false;
 }
 
-bool PLAN_CLASS_SPECS::wu_is_infeasible(char* plan_class, const WORKUNIT* wu) {
-    for (unsigned int i=0; i<classes.size(); i++) {
-        if(!strcmp(classes[i].name, plan_class)) {
-            if (classes[i].min_wu_id && wu->id < classes[i].min_wu_id) {
-                if (config.debug_version_select)
-                    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old for plan class '%s'\n", wu->id, plan_class);
-                return true;
+bool PLAN_CLASS_SPECS::wu_is_infeasible(char* plan_class_name, const WORKUNIT* wu) {
+    if(wu_restricted_plan_class) {
+        for (unsigned int i=0; i<classes.size(); i++) {
+            if(!strcmp(classes[i].name, plan_class_name)) {
+                return wu_is_infeasible_for_plan_class(&classes[i], wu);
             }
-            if (classes[i].max_wu_id && wu->id > classes[i].max_wu_id) {
-                if (config.debug_version_select)
-                    log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new for plan class '%s'\n", wu->id, plan_class);
-                return true;
-            }
-            if (classes[i].min_batch && wu->batch < classes[i].min_batch) {
-                if (config.debug_version_select)
-                    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old for plan class '%s'\n", wu->id, plan_class);
-                return true;
-            }
-            if (classes[i].max_batch && wu->batch > classes[i].max_batch) {
-                if (config.debug_version_select)
-                    log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new for plan class '%s'\n", wu->id, plan_class);
-                return true;
-            }
-            break;
         }
     }
     return false;
@@ -1085,10 +1077,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_driver_version", min_driver_version)) continue;
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
-        if (xp.parse_int("min_wu_id", min_wu_id)) continue;
-        if (xp.parse_int("max_wu_id", max_wu_id)) continue;
-        if (xp.parse_int("min_batch", min_batch)) continue;
-        if (xp.parse_int("max_batch", max_batch)) continue;
+        if (xp.parse_int("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_int("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_int("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_int("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
