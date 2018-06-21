@@ -111,6 +111,7 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       break;
     case 'user_confirm_delete':
 
+      $disable_delete = FALSE;
       // If email address was changed less than 7 days (7 * 86400 s)
       // ago, it cannot be changed again.
       $duration = TOKEN_DURATION_ONE_WEEK;

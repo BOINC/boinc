@@ -536,7 +536,7 @@ function boincuser_user_login(&$edit, $account) {
   // Use the same code as boincuser_form_alter(), for case
   // 'user_profile_form', if the refering page is the user password
   // reset form, then do not check for terms of use.
-  $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
+  $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/$account->uid") === FALSE) ? 0 : 1;
   if ($reset_pass) {
     return;
   }
@@ -1631,7 +1631,7 @@ function boincuser_create_account() {
   
   // Process input
   // Check this email against previous email addresses.
-  $tmpuser = BoincUser::lookup_pr3ev_email_addr($params['email_addr']);
+  $tmpuser = BoincUser::lookup_prev_email_addr($params['email_addr']);
   if ($tmpuser) {
     xml_error(-137);
   }
