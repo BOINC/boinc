@@ -120,7 +120,7 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
             array(
               '!time' => date('F j, Y \a\t G:i T', $form['_account']['#value']->boincuser_email_addr_change_time + $duration),
             ), NULL, 'boinc:account-credentials-change')
-        );
+        , 'info');
         $disable_delete = TRUE;
       }
 
@@ -145,8 +145,6 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
         '#prefix' => "<div id='delete-instructions'>",
         '#suffix' => "</div>",
       );
-
-      // @todo - add markup section - if previous email address timestamp is < 7 days, then show message saying when account may be deleted. Also, remove the 'submit button' below.
 
       $form['main']['user_delete_action'] = array(
         '#type' => 'radios',

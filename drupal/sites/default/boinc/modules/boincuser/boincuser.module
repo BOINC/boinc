@@ -886,16 +886,23 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $account = user_load($form['#uid']);
     drupal_set_title($account->boincuser_name);
     
+    // Message for admins
+    if (user_access('administer users')) {
+      drupal_set_message(
+        bts('WARNING: You are editing the information for user. Please note: you may change a user\'s password by itself. But to change the user\'s email address you must change both the email address and the password simultaneously.')
+      , 'warning');
+    }
+
     // Set special message if user has not agreed to TOU
     $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
     $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
-    if ( (!boincuser_check_termsofuse($account)) and ($existinguser_tou) and (!empty($termsofuse)) ) {
+    if ( (!boincuser_check_termsofuse($account)) and ($existinguser_tou) and (!empty($termsofuse)) and (!user_access('administer users')) ) {
       drupal_set_message(
         bts('INFO: You have not agreed to the terms of use for @project. You may use this form to change your email address and/or password. Please note: you may not delete your account within seven (7) days of changing your email address.',
         array(
           '@project' => variable_get('site_name','Drupal-BOINC'),
         ), NULL, 'boinc:account-credentials-change')
-      );
+      , 'info');
     }
 
     // A bit hackish... but don't require the user to enter his password if
@@ -916,7 +923,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // If email address was changed less than 7 days (7 * 86400 s)
     // ago, it cannot be changed again.
     $duration = TOKEN_DURATION_ONE_WEEK;
-    if (($account->boincuser_email_addr_change_time + $duration) > time()) {
+    if (($account->boincuser_email_addr_change_time + $duration) > time() and (!user_access('administer users'))) {
       $form['account']['mail']['#required'] = FALSE;
       $form['account']['mailhelp'] = array(
         '#value' => bts("You email address was changed within the past seven (7) days. Please look for an email to !prev_email if you need to revert this change. You may change your email address on !time.",
