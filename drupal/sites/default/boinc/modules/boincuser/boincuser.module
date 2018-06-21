@@ -260,6 +260,7 @@ function boincuser_init() {
           'privacy',
           'moderation',
           'account/info/edit',
+          'user/' . $user->uid . '/edit',
           'user/' . $user->uid . '/recoveremail/*',
         );
         if (module_exists('boincuser_delete')) {
@@ -531,6 +532,14 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 function boincuser_user_login(&$edit, $account) {
   $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+
+  // Use the same code as boincuser_form_alter(), for case
+  // 'user_profile_form', if the refering page is the user password
+  // reset form, then do not check for terms of use.
+  $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
+  if ($reset_pass) {
+    return;
+  }
 
   // Check if user has agreed to terms of use.
   if ( (!empty($termsofuse)) and ($account->uid) and 
