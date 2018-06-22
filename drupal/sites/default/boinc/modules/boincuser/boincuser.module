@@ -1592,9 +1592,13 @@ function boincuser_create_account() {
       watchdog('boincuser', 'create_account: Failed to create Drupal user account for @email', array('@email' => $params['email_addr']), WATCHDOG_WARNING);
       xml_error(-137, 'error creating BOINC account');
     }// if drupal user created.
+
+    $output = array('authenticator' => $user->boincuser_account_key);
   }// if existing user found.
+
+  // Output authenticator
   echo " <account_out>\n";
-  echo "   <authenticator>{$user->boincuser_account_key}</authenticator>\n";
+  echo "   <authenticator>{$output['authenticator']}</authenticator>\n";
   echo "</account_out>\n";
 }
 
