@@ -83,6 +83,7 @@ CC_STATUS cc_status;
 #define GRIDREPUBLIC_BRAND_ID 1
 #define PROGRESSTHRUPROCESSORS_BRAND_ID 2
 #define CHARITYENGINE_BRAND_ID 3
+#define WORLDCOMMUNITYGRID_BRAND_ID 4
 
 char* brand_name = "BOINC";
 char* logo_file = "boinc_logo_black.jpg";
@@ -535,6 +536,9 @@ int main(int argc, char** argv) {
         } else if (brandId == CHARITYENGINE_BRAND_ID) {
             brand_name = "Charity Engine";
             logo_file = "CE_ss_logo.jpg";
+        } else if (brandId == WORLDCOMMUNITYGRID_BRAND_ID) {
+            brand_name = "World Community Grid";
+            logo_file = "wcg_ss_logo.jpg";
         }
     }
 #endif

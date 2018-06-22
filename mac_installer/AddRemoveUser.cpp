@@ -40,7 +40,7 @@ long GetBrandID(void);
 static int parse_posic_spawn_command_line(char* p, char** argv);
 int callPosixSpawn(const char *cmd);
 
-#define NUMBRANDS 4
+#define NUMBRANDS 5
 static char *appName[NUMBRANDS];
 static char *appPath[NUMBRANDS];
 static char *brandName[NUMBRANDS];
@@ -77,6 +77,9 @@ int main(int argc, char *argv[])
     appName[3] = "Charity Engine Desktop";
     appPath[3] = "/Applications/Charity Engine Desktop.app";
     brandName[3] = "Charity Engine";
+    appName[4] = "World Community Grid";
+    appPath[4] = "/Applications/World Community Grid.app";
+    brandName[4] = "World Community Grid";
 
     brandID = GetBrandID();
 

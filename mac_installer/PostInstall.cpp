@@ -143,7 +143,7 @@ void notused() {
 }
 /* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 
-#define NUMBRANDS 4
+#define NUMBRANDS 5
 #define MAX_LANGUAGES_TO_TRY 5
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
@@ -221,6 +221,13 @@ int main(int argc, char *argv[])
     saverName[3] = "Charity Engine";
     receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
     skinName[3] = "Charity Engine";
+
+    appName[4] = "World Community Grid";
+    appPath[4] = "/Applications/World Community Grid.app";
+    brandName[4] = "World Community Grid";
+    saverName[4] = "World Community Grid";
+    receiptName[4] = "/Library/Receipts/World Community Grid Installer.pkg";
+    skinName[4] = "World Community Grid";
 
     printf("\nStarting PostInstall app %s\n\n", argv[1]);
     fflush(stdout);
