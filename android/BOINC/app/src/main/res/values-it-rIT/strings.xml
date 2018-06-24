@@ -126,7 +126,7 @@
   <!--tab names-->
   <string name="tab_status">Stato</string>
   <string name="tab_projects">Progetti</string>
-  <string name="tab_tasks">Elaborazioni</string>
+  <string name="tab_tasks">Attività</string>
   <string name="tab_transfers">Trasferimenti</string>
   <string name="tab_preferences">Preferenze</string>
   <string name="tab_notices">Avvisi</string>
@@ -136,7 +136,7 @@
   <string name="status_running_long">Grazie per la partecipazione.</string>
   <string name="status_paused">Sospeso</string>
   <string name="status_idle">Nulla da fare</string>
-  <string name="status_idle_long">In attesa di nuove WU…</string>
+  <string name="status_idle_long">In attesa di nuove attività…</string>
   <string name="status_computing_disabled">Sospeso</string>
   <string name="status_computing_disabled_long">Premi play per far ripartire la rete e l\'elaborazione</string>
   <string name="status_launching">Avvio in corso…</string>
@@ -178,7 +178,7 @@
   <string name="prefs_disk_access_interval_description">Suggerisci un intervallo tra le scritture su disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite trasferimento giornaliero</string>
   <string name="prefs_network_daily_xfer_limit_mb_description">Limita il traffico giornaliero di BOINC.</string>
-  <string name="prefs_network_wifi_only_header">Trasferisci WU solo tramite WiFi</string>
+  <string name="prefs_network_wifi_only_header">Trasferisci attività solo tramite WiFi</string>
   <string name="prefs_autostart_header">Avvio automatico</string>
   <string name="prefs_show_notification_notices_header">Visualizza notifiche delle notizie</string>
   <string name="prefs_show_notification_suspended_header">Visualizza notifiche quando sospeso</string>
@@ -189,7 +189,7 @@
   <string name="prefs_cpu_time_max_header">Limite CPU</string>
   <string name="prefs_cpu_time_max_description">Limita il tempo CPU che BOINC usa per l\'elaborazione.</string>
   <string name="prefs_memory_max_idle_header">Limite RAM</string>
-  <string name="prefs_memory_max_idle_description">Limita il quantitativo di RAM che BOINC può occupare.</string>
+  <string name="prefs_memory_max_idle_description">Limita il quantitativo di RAM che le attività possono usare.</string>
   <string name="prefs_client_log_flags_header">Flag di log del client BOINC</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
   <string name="prefs_gui_log_level_description">Specifica la verbosità dei messaggi di log della GUI.</string>
@@ -203,9 +203,9 @@
   <string name="projects_credits_host_and_user">%1$,d (da questo dispositivo) %2$,d (in totale)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Sospeso dall\'utente</string>
-  <string name="projects_status_dontrequestmorework">Non chiedere nuove workunit</string>
+  <string name="projects_status_dontrequestmorework">Non chiedere nuove attività</string>
   <string name="projects_status_ended">Progetto terminato - Può essere rimosso</string>
-  <string name="projects_status_detachwhendone">Verrà rimosso quando le elaborazioni saranno terminate</string>
+  <string name="projects_status_detachwhendone">Verrà rimosso quando le attività saranno terminate</string>
   <string name="projects_status_schedrpcpending">Richiesta allo scheduler in attesa</string>
   <string name="projects_status_schedrpcinprogress">Richiesta allo scheduler in corso</string>
   <string name="projects_status_trickleuppending">Messaggio trickle in attesa</string>
@@ -217,8 +217,8 @@
   <string name="projects_control_remove">Rimuovi</string>
   <string name="projects_control_suspend">Sospendi</string>
   <string name="projects_control_resume">Riprendi</string>
-  <string name="projects_control_nonewtasks">Nessuna nuova workunit</string>
-  <string name="projects_control_allownewtasks">Permetti nuove workunit</string>
+  <string name="projects_control_nonewtasks">Nessuna nuova attività</string>
+  <string name="projects_control_allownewtasks">Permetti nuove attività</string>
   <string name="projects_control_reset">Reset</string>
   <string name="projects_control_dialog_title_acctmgr">Comandi dell\'account manager:</string>
   <string name="projects_control_sync_acctmgr">Sincronizza</string>
@@ -237,7 +237,7 @@
   <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Disabilita</string>
   <!--tasks tab strings-->
-  <string name="tasks_header_name">Nome workunit:</string>
+  <string name="tasks_header_name">Nome attività:</string>
   <string name="tasks_header_elapsed_time">Tempo trascorso:</string>
   <string name="tasks_header_project_paused">(sospesa)</string>
   <string name="tasks_header_deadline">Tempo limite:</string>
@@ -258,8 +258,8 @@
   <string name="tasks_custom_project_suspended_via_gui">progetto sospeso</string>
   <string name="tasks_custom_ready_to_report">pronto per l\'invio</string>
   <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">Annullare l\'elaborazione?</string>
-  <string name="confirm_abort_task_message">Annulla elaborazione:</string>
+  <string name="confirm_abort_task_title">Terminare l\'attività?</string>
+  <string name="confirm_abort_task_message">Termina attività:</string>
   <string name="confirm_abort_task_confirm">Annulla</string>
   <string name="confirm_cancel">Cancella</string>
   <string name="confirm_image_desc">Finestra di conferma</string>
@@ -311,8 +311,8 @@
   <string name="suspend_network_user_req">manualmente.</string>
   <!--rpc reasons-->
   <string name="rpcreason_userreq">Richiesto dall\'utente</string>
-  <string name="rpcreason_needwork">Richiesta lavoro</string>
-  <string name="rpcreason_resultsdue">Invio delle elaborazioni completate</string>
+  <string name="rpcreason_needwork">Per chiedere nuove attività</string>
+  <string name="rpcreason_resultsdue">Invio delle attività completate</string>
   <string name="rpcreason_trickleup">Invio messaggi trickle</string>
   <string name="rpcreason_acctmgrreq">Richiesto dal gestore account</string>
   <string name="rpcreason_init">Inizializzazione progetto</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versione</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003-2017 Università della California, Berkeley</string>
   <string name="about_copyright_reserved">Tutti i diritti riservati.</string>
   <string name="about_credits">Si ringrazia l\'istituto Max Planck per la fisica gravitazionale, IBM Corporation ed HTC Corporation per i loro contributi.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

@@ -1,0 +1,177 @@
+# BOINC client localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
+# 
+# Translators:
+# Jabier <j.lasa@koniker.coop>, 2016,2018
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-06-24 11:44 UTC\n"
+"PO-Revision-Date: 2018-04-04 20:29+0000\n"
+"Last-Translator: Jabier <j.lasa@koniker.coop>\n"
+"Language-Team: Basque (http://www.transifex.com/boinc/boinc/language/eu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: client/acct_mgr.cpp:531 client/acct_mgr.cpp:538
+msgid "Message from account manager"
+msgstr "Kontu-administratzailearen mezua"
+
+#: client/client_msgs.cpp:82
+msgid "Message from server"
+msgstr "Zerbitzariaren mezua"
+
+#: client/client_state.cpp:325
+msgid ""
+"Some tasks need more memory than allowed by your preferences.  Please check "
+"the preferences."
+msgstr "Zure hobespenetan baimendutakoa baino memoria gehiago behar dute ataza batzuk. Berrikusi hobespenak."
+
+#: client/client_state.cpp:682
+msgid "Couldn't write state file; check directory permissions"
+msgstr "Ezin izan da idatzi egoera-fitxategia; egiaztatu karpetaren baimenak"
+
+#: client/cs_cmdline.cpp:297
+msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
+msgstr "HTTP_PROXY ingurune-aldagaiak HTTP proxy bat zehaztu behar du"
+
+#: client/cs_scheduler.cpp:617
+#, c-format
+msgid ""
+"This project is using an old URL.  When convenient, remove the project, then"
+" add %s"
+msgstr "Proiektu hau zaharkitutako URL bat ari da erabiltzen. Nahi duzunean ezabatu proiektua eta ondoren gehitu %s"
+
+#: client/cs_statefile.cpp:850
+msgid "Syntax error in app_info.xml"
+msgstr "Sintaxi-errorea \"app_info.xml\" fitxategian"
+
+#: client/cs_statefile.cpp:894
+msgid "File referenced in app_info.xml does not exist: "
+msgstr "\"app_info.xml\"-en zehazten den fitxategia ez da existitzen: "
+
+#: client/current_version.cpp:91
+msgid "A new version of BOINC is available"
+msgstr "BOINCen bertsio berri bat dago eskuragarri"
+
+#: client/current_version.cpp:94 client/current_version.cpp:102
+msgid "Download"
+msgstr "Jaitsi"
+
+#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+msgid ""
+"cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+msgstr "ezin da CUDA edo OpenCL bidezko konputazioan erabili CUDA 6.5 edo berriagoa den kontrolatzailea"
+
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
+msgid "Unexpected text in cc_config.xml"
+msgstr "Espero ez den testua \"cc_config.xml\" fitxategian"
+
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
+msgid "Unrecognized tag in cc_config.xml"
+msgstr "Identifikatu gabeko etiketa \"cc_config.xml\" fitxategian"
+
+#: client/log_flags.cpp:487
+msgid "Missing start tag in cc_config.xml"
+msgstr "Hasierako etiketa falta da \"cc_config.xml\" fitxategian"
+
+#: client/log_flags.cpp:515
+msgid "Error in cc_config.xml options"
+msgstr "Akatsa \"cc_config.xml\" fitxategiko aukeretan"
+
+#: client/log_flags.cpp:533
+msgid "Missing end tag in cc_config.xml"
+msgstr "Amaierako etiketa falta da \"cc_config.xm\" fitxategian"
+
+#: client/project.cpp:992
+msgid "To fix this, you can "
+msgstr "Hau konpontzeko, aukerak:"
+
+#: client/project.cpp:995
+msgid "change Project Preferences on the project's web site"
+msgstr "Aldatu proiektuaren hobespenak proiektuaren webgunean"
+
+#: client/project.cpp:1001
+msgid "remove GPU exclusions in your cc_config.xml file"
+msgstr "kendu \"cc_config.xml\" fitxategian GPUak kanpoan uzteko adierazpena"
+
+#: client/project.cpp:1008
+msgid "change your settings at your account manager web site"
+msgstr "aldatu zure ezarpenak zure kontu-administratzailearen webgunean"
+
+#: sched/handle_request.cpp:317
+msgid "Invalid or missing account key.  To fix, remove and add this project."
+msgstr "Kontuaren pasahitza falta da edo baliogabea da. Konpontzeko, irten proiektutik eta batu berriro."
+
+#: sched/handle_request.cpp:951
+msgid ""
+"The project has changed its security key.  Please remove and add this "
+"project."
+msgstr "Proiektuaren segurtasun-pasahitza aldatu da. Irten proiektutik eta batu berriro."
+
+#: sched/handle_request.cpp:1022
+msgid "This project doesn't support operating system"
+msgstr "Proiektu honek ez du sistema eragilea onartzen"
+
+#: sched/handle_request.cpp:1048
+msgid "This project doesn't support CPU type"
+msgstr "Proiektu honek ez du PUZ mota onartzen"
+
+#: sched/handle_request.cpp:1072
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
+msgstr "Zure BOINC bezeroa oso zaharra da. Instalatu oraingo bertsioa."
+
+#: sched/handle_request.cpp:1348
+msgid "This project doesn't support computers of type"
+msgstr "Proiektu honek ez ditu onartzen mota honetako ordenagailuak"
+
+#: sched/sched_send.cpp:1115
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "Eguneratu kontrolatzailea atazak ordenagailuaren GPUarekin prozesatu ahal izateko"
+
+#: sched/sched_send.cpp:1122
+msgid ""
+"Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr "Eguneratu kontrolatzailea proiektu honetako GPU aplikazio guztiak erabili ahal izateko"
+
+#: sched/sched_send.cpp:1141
+msgid ""
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "BOINCen bertsio berriago bat behar da zure NVIDIA GPUa erabiltzeko; eguneratu uneko bertsioarekin"
+
+#: sched/sched_send.cpp:1175
+#, c-format
+msgid "An %s GPU is required to run tasks for this project"
+msgstr "Proiektu honetako atazak exekutatzeko beharrezkoa da %s GPUa"
+
+#: sched/sched_send.cpp:1291
+msgid "No tasks are available for the applications you have selected."
+msgstr "Ez dago lanik aukeratu dituzun aplikazioentzat."
+
+#: sched/sched_send.cpp:1317
+msgid "Your computer type is not supported by this project"
+msgstr "Proiektu honek ez du onartzen zurea bezalako ordenagailurik"
+
+#: sched/sched_send.cpp:1323
+msgid "Newer BOINC version required; please install current version"
+msgstr "BOINCen bertsio berriago bat behar da; instalatu uneko bertsioa"
+
+#: sched/sched_send.cpp:1334
+#, c-format
+msgid ""
+"Tasks for %s are available, but your preferences are set to not accept them"
+msgstr "%s(r)entzako atazak badaude baina ataza horiek ez onartzea hobetsi duzu"
+
+#: sched/sched_version.cpp:225
+msgid "Your app_info.xml file doesn't have a usable version of"
+msgstr "Zure \"app_info.xml\" fitxategiak ez du ondorengoaren bertsio erabilgarririk:"
