@@ -326,6 +326,7 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
             if (create_wsl_process(distro, command_uname_s, &handle)) {
                 os_name = read_from_pipe(handle);
                 strip_whitespace(os_name);
+                CloseHandle(handle);
             }
         }
 
@@ -335,6 +336,7 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
             if (create_wsl_process(distro, command_uname_r ,&handle)) {
                 os_version_extra = read_from_pipe(handle);
                 strip_whitespace(os_version_extra);
+                CloseHandle(handle);
             }
         }
 
