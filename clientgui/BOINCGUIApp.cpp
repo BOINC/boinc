@@ -303,6 +303,14 @@ bool CBOINCGUIApp::OnInit() {
 
     if (iErrorCode) {
 
+#if (defined(__WXMAC__) && (!defined (_DEBUG)))
+        if (!IsApplicationVisible()) {  // If we were (probably) launched from a Login Item
+            wxString launchAgentPath = wxFileName::GetHomeDir() + "/Library/LaunchAgent/edu.berkeley.boinc.plist";
+            if (wxFileName::FileExists(launchAgentPath)) {  // If PostInstall app set up a LaunchAgent for this user
+                boinc_sleep(15.);   // Allow time for LaunchAgent to terminate us before complaining
+            }
+        }
+#endif
         ShowApplication(true);
 
         if (iErrorCode == -1099) {

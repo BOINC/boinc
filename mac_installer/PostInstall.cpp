@@ -64,6 +64,8 @@
 #define CREATE_LOG 0    /* for debugging */
 #endif
 
+#define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
+
 #include <Carbon/Carbon.h>
 #include <grp.h>
 
@@ -91,6 +93,7 @@ using std::string;
 #include "SetupSecurity.h"
 #include "translate.h"
 #include "file_names.h"
+#include "util.h"
 
 
 #define admin_group_name "admin"
@@ -106,7 +109,9 @@ int DeleteReceipt(void);
 Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
+Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw);
 OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
+OSErr GetCurrentScreenSaverSelectionOnHighSierra(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
@@ -116,11 +121,12 @@ static void LoadPreferredLanguages();
 static Boolean ShowMessage(Boolean askYesNo, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
-OSErr UpdateAllVisibleUsers(long brandID);
-long GetBrandID(void);
+OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID);
+Boolean IsUserLoggedIn(const char *userName);
+void FindAllVisibleUsers(void);
+long GetBrandID(char *path);
 int TestRPCBind(void);
 pid_t FindProcessPID(char* name, pid_t thePID);
-static double dtime(void);
 static void SleepSeconds(double seconds);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
@@ -158,6 +164,8 @@ static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
 static char                     tempDirName[MAXPATHLEN];
 static time_t                   waitPermissionsStartTime;
+static vector<string>           human_user_names;
+static vector<uid_t>            human_user_IDs;
 
 static char *saverName[NUMBRANDS];
 static char *brandName[NUMBRANDS];
@@ -185,11 +193,12 @@ int main(int argc, char *argv[])
 {
     Boolean                 Success;
     long                    brandID = 0;
+    long                    oldBrandID = 0;
     int                     i;
-    pid_t                   managerPID = 0, installerPID = 0, coreClientPID = 0;
+    pid_t                   installerPID = 0, coreClientPID = 0;
     OSStatus                err;
     FILE                    *f;
-    char                    s[256];
+    char                    s[MAXPATHLEN];
 #ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
@@ -261,9 +270,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    managerPID = getPidIfRunning("edu.berkeley.boinc");
-    if (managerPID) {
-        kill(managerPID, SIGTERM);  // Quit any old instance of BOINC manager
+    for (i=0; i< NUMBRANDS; i++) {
+        snprintf(s, sizeof(s), "pkill \"%s\"", appName[i]);
+        callPosixSpawn (s);
     }
     sleep(2);
 
@@ -274,7 +283,15 @@ int main(int argc, char *argv[])
 
     installerPID = getPidIfRunning("com.apple.installer");
 
-    brandID = GetBrandID();
+    // BOINC Installer.app wrote a file to tell us the previously installed branding, if any
+    snprintf(s, sizeof(s), "/tmp/%s/OldBranding", tempDirName);
+    oldBrandID = GetBrandID(s);
+printf("oldBrandID = %ld\n", oldBrandID);    
+    // The new branding (if any) is in the resources of this PostInstall.app
+    getPathToThisApp(s, sizeof(s));
+    strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
+printf("path to new BrandID = %s\n", s);    
+    brandID = GetBrandID(s);
     
     if ((brandID < 0) || (brandID >= NUMBRANDS)) {       // Safety check
         brandID = 0;
@@ -349,7 +366,8 @@ int main(int argc, char *argv[])
                 "/Library/Application Support/BOINC Data/all_projects_list.xml");
     }
     
-    // copy temp file contining installer filename into the BOINC Data directory
+    // BOINC Installer.app wrote the account data file (if any) in temp dirctory
+    // Copy it into the BOINC Data directory if it exists
     snprintf(s, sizeof(s), "mv -f \"/tmp/%s/%s\" \"/Library/Application Support/BOINC Data/\"",
         tempDirName, ACCOUNT_DATA_FILENAME);
     err = callPosixSpawn (s);
@@ -489,7 +507,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    err = UpdateAllVisibleUsers(brandID);
+    err = UpdateAllVisibleUsers(brandID, oldBrandID);
     if (err != noErr) {
         REPORT_ERROR(true);
         return err;
@@ -615,8 +633,10 @@ int DeleteReceipt()
     pid_t                   installerPID = 0;
     OSStatus                err;
     Boolean                 restartNeeded = true;
-    char                    s[256];
+    char                    s[MAXPATHLEN];
     struct stat             sbuf;
+    passwd                  *pw;
+    Boolean                 launchForThisUser;
 
     if (Initialize() != noErr) {
         REPORT_ERROR(true);
@@ -627,7 +647,10 @@ int DeleteReceipt()
     printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     fflush(stdout);
     
-    brandID = GetBrandID();
+    // The new branding (if any) is in the resources of this PostInstall.app
+    getPathToThisApp(s, sizeof(s));
+    strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
+    brandID = GetBrandID(s);
 
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
@@ -646,7 +669,6 @@ int DeleteReceipt()
         }
 
 #ifdef SANDBOX
-        passwd *pw = NULL;
         pw = getpwnam(loginName);
         REPORT_ERROR(!pw);
         if (pw) {
@@ -679,6 +701,33 @@ int DeleteReceipt()
                 CFRelease(urlref);
                 CFRelease(CFAppPath);
             }
+        }
+
+        boinc_sleep(10);    // Allow time for current user's Manager to launch client'
+        
+        FindAllVisibleUsers();
+        
+        for (i=0; i<(int)human_user_IDs.size(); ++i) {
+            pw = getpwuid(human_user_IDs[i]);
+            if (pw == NULL) {
+                continue;
+            }
+        
+#ifdef SANDBOX
+            launchForThisUser = false;
+            if (IsUserLoggedIn(pw->pw_name)) {
+                launchForThisUser = (IsUserMemberOfGroup(pw->pw_name, admin_group_name)
+                                        || IsUserMemberOfGroup(pw->pw_name, boinc_master_group_name));
+            }
+#else   // SANDBOX
+            launchForThisUser = true;
+#endif  // SANDBOX
+
+            if (launchForThisUser) {
+                sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\"'", pw->pw_name, appPath[brandID]);
+                err = callPosixSpawn(s);
+                printf("command: %s returned error %d\n", s, err);
+           }
         }
     }
 
@@ -890,6 +939,9 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     char                    systemEventsPath[1024];
     pid_t                   systemEventsPID;
     OSErr                   err, err2;
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+    Boolean                 isHighSierraOrLater = (compareOSVersionTo(10, 13) >= 0);
+#endif
 
     fprintf(stdout, "Adjusting login items for user %s\n", userName);
     fflush(stdout);
@@ -971,7 +1023,14 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     for (i=0; i<NUMBRANDS; i++) {
         fprintf(stdout, "Deleting any login items containing %s for user %s\n", appName[i], userName);
         fflush(stdout);
-        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", userName, appName[i]);
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+        if (isHighSierraOrLater) {
+            sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete (every login item whose path contains \\\"%s\\\")\"'", userName, appName[i]);
+        } else
+#endif
+        {
+            sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[i]);
+        }
         err = callPosixSpawn(cmd);
         if (err) {
             REPORT_ERROR(true);
@@ -988,7 +1047,14 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     
     fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stdout);
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+    if (isHighSierraOrLater) {
+        sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to make new login item at end with properties {path:\\\"%s\\\", hidden:true, name:\\\"%s\\\"}\"'", userName, appPath[brandID], appName[brandID]);
+    } else
+#endif
+    {
+        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", userName, appPath[brandID], appName[brandID]);
+    }
     err = callPosixSpawn(cmd);
     if (err) {
         REPORT_ERROR(true);
@@ -1026,6 +1092,81 @@ cleanupSystemEvents:
     sleep(4);
         
     return (err == noErr);
+}
+
+
+// Under OS 10.13 High Sierra, telling System Events to modify Login Items for 
+// users who are not currently logged in no longer works, even when System Events 
+// is running as that user. 
+// So we create a LaunchAgent for that user. The next time that user logs in, the 
+// LaunchAgent will make the desired changes to that user's Login Items, launch 
+// BOINC Manager if appropriate, and delete itself.
+//
+// While we could just use a LaunchAgent to launch BOINC Manager on every login 
+// instead of using it to create a Login Item, we still need to remove any branded
+// Login Items kept from an earlier installation (perhaps before the user upgraded
+// the OS to High Sierra.) Also, I prefer Login Items because:
+//  * they are more readily visible to a less technically aware user through 
+//    System Preferences, and
+//  * they are more easily added or removed through System Preferences, and
+//  * continuing to use them is consistent with older versions of BOINC Manager.
+//
+Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw)
+{
+    struct stat             sbuf;
+    int                     i;
+    char                    s[2048];
+    
+    // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
+    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    //
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
+    if (stat(s, &sbuf) != 0) {
+        mkdir(s, 0755);
+        chown(s, pw->pw_uid, pw->pw_gid);
+    }
+
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+    FILE* f = fopen(s, "w");
+    if (!f) return false;
+    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+    fprintf(f, "<plist version=\"1.0\">\n");
+    fprintf(f, "<dict>\n");
+    fprintf(f, "\t<key>Label</key>\n");
+    fprintf(f, "\t<string>edu.berkeley.test</string>\n");
+    fprintf(f, "\t<key>ProgramArguments</key>\n");
+    fprintf(f, "\t<array>\n");
+    fprintf(f, "\t\t<string>sh</string>\n");
+    fprintf(f, "\t\t<string>-c</string>\n");
+    fprintf(f, "\t\t<string>");
+    for (i=0; i<NUMBRANDS; i++) {
+        fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[i]);
+    }
+    if (deleteLogInItem) {
+        // If this user was previously authorized to run the Manager, there 
+        // may still be a Login Item for this user, and the Login Item may
+        // launch the Manager before the LaunchAgent deletes the Login Item.
+        // To guard against this, we have the LaunchAgent kill the Manager
+        // (for this user only) if it is running.
+        //
+        fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[oldBrandID]);
+    } else {
+        fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
+        fprintf(f, "open -jg \"%s\";", appPath[brandID]);
+    }
+    fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
+    fprintf(f, "\t</array>\n");
+    fprintf(f, "\t<key>RunAtLoad</key>\n");
+    fprintf(f, "\t<true/>\n");
+    fprintf(f, "</dict>\n");
+    fprintf(f, "</plist>\n");
+    fclose(f);
+
+    chmod(s, 0644);
+    chown(s, pw->pw_uid, pw->pw_gid);
+
+    return true;
 }
 
 
@@ -1159,8 +1300,7 @@ static void LoadPreferredLanguages(){
 
     BOINCTranslationInit();
 
-    // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
-
+    // BOINC Installer.app wrote a list of our preferred languages to a temp file
     snprintf(s, sizeof(s), "/tmp/%s/BOINC_preferred_languages", tempDirName);
     f = fopen(s, "r");
     if (!f) return;
@@ -1312,11 +1452,9 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
 // Set login item for all members of group boinc_master to launch BOINC Manager.
 // If our install package included a skin, set those user's preferences to use that skin.
 // Optionally set BOINC as screensaver for all users running BOINC.
-OSErr UpdateAllVisibleUsers(long brandID)
+OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 {
     passwd              *pw;
-    vector<string>      human_user_names;
-    vector<uid_t>       human_user_IDs;
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
     char                human_user_name[256];
@@ -1330,15 +1468,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
     int                 err;
     Boolean             isAdminGroupMember, isBMGroupMember, isBPGroupMember;
     struct stat         sbuf;
-#ifdef SANDBOX
     char                cmd[256];
+#ifdef SANDBOX
     int                 BMGroupMembershipCount, BPGroupMembershipCount; 
     int                 i;
 #endif
     int                 userIndex;
-    char                buf[256];
-    char                *p;
-    int                 flag;
     
 //    char                nameOfSkin[256];
 //    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
@@ -1348,64 +1483,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
     puts("Beginning first pass through all users\n");
     fflush(stdout);
 
-    f = popen("dscl . list /Users UniqueID", "r");
-    REPORT_ERROR(!f);
-    if (f) {
-        while (PersistentFGets(buf, sizeof(buf), f)) {
-            p = strrchr(buf, ' ');
-            if (p) {
-                int id = atoi(p+1);
-                if (id < 501) continue;
-                human_user_IDs.push_back((uid_t)id);
-
-                while (p > buf) {
-                    if (*p != ' ') break;
-                    --p;
-                }
-
-               *(p+1) = '\0';
-                human_user_names.push_back(string(buf));
-                *(p+1) = ' ';
-            }
-        }
-        pclose(f);
-    }
-    
-    for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
-        flag = 0;
-        strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
-        sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);    
-        f = popen(cmd, "r");
-        REPORT_ERROR(!f);
-        if (f) {
-            while (PersistentFGets(buf, sizeof(buf), f)) {
-                p = strrchr(buf, ' ');
-                if (p) {
-                    if (strstr(p, "/var/empty") != NULL) flag = 1;
-                }
-            }
-            pclose(f);
-        }
-
-        sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
-        f = popen(cmd, "r");
-        REPORT_ERROR(!f);
-        if (f) {
-            while (PersistentFGets(buf, sizeof(buf), f)) {
-                p = strrchr(buf, ' ');
-                if (p) {
-                    if (strstr(p, "/usr/bin/false") != NULL) flag |= 2;
-               }
-            }
-            pclose(f);
-        }
-        
-        if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
-            human_user_names.erase(human_user_names.begin()+userIndex-1);
-            human_user_IDs.erase(human_user_IDs.begin()+userIndex-1);
-        }
-    }
-
+    FindAllVisibleUsers();
     
     for (userIndex=0; userIndex< (int)human_user_names.size(); ++userIndex) {
         strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
@@ -1475,15 +1553,20 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 }
 
             } else {
-                seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-                err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
+                if (compareOSVersionTo(10, 13) < 0) {
+                    seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+                    err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
+                    seteuid(saved_uid);                         // Set effective uid back to privileged user
+                } else {
+                    err = GetCurrentScreenSaverSelectionOnHighSierra(pw, s, sizeof(s) -1);
+                }
                 if (err == noErr) {
-                    if (!strstr(s, saverName[brandID])) {
+                    if (strcmp(s, saverName[brandID])) {
                         saverAlreadySetForAll = false;
                     }
                 }
-                seteuid(saved_uid);                         // Set effective uid back to privileged user
             }
+            printf("[1] Current Screensaver Selection for user %s is: %s\n", pw->pw_name, s);
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
@@ -1636,12 +1719,32 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
 
         // Set login item for this user
-        printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
-            pw->pw_name, geteuid(), deleteLoginItem);
-        fflush(stdout);
-
-        SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-
+        bool useOSASript = false;
+        
+        if ((compareOSVersionTo(10, 13) < 0)
+            || (strcmp(loginName, human_user_name) == 0) 
+                || (strcmp(loginName, pw->pw_name) == 0) 
+                    || (strcmp(loginName, pw->pw_gecos) == 0)) {
+            useOSASript = true;
+        }
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+        if (! useOSASript) {
+            useOSASript = IsUserLoggedIn(pw->pw_name);
+        }
+#endif
+       if (useOSASript) {
+            snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+            boinc_delete_file(s);
+            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
+                pw->pw_name, geteuid(), deleteLoginItem);
+            fflush(stdout);
+           SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+        } else {
+            printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
+                pw->pw_name, geteuid(), deleteLoginItem);
+            fflush(stdout);
+            SetLoginItemLaunchAgent(brandID, oldBrandID, deleteLoginItem, pw);
+        }
         if (isBMGroupMember) {
             // For some reason we need to call getpwnam again on OS 10.5
             pw = getpwnam(human_user_name);
@@ -1697,7 +1800,7 @@ OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
     CFStringRef nameKey = CFStringCreateWithCString(NULL,"moduleName",kCFStringEncodingASCII);
     CFStringRef moduleNameAsCFString;
     CFDictionaryRef theData;
-    
+
     theData = (CFDictionaryRef)CFPreferencesCopyValue(CFSTR("moduleDict"), 
                 CFSTR("com.apple.screensaver"), 
                 kCFPreferencesCurrentUser,
@@ -1709,22 +1812,59 @@ OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
         return (-1);
     }
     
-    if (CFDictionaryContainsKey(theData, nameKey)  == false) 	
-	{
+    if (CFDictionaryContainsKey(theData, nameKey)  == false)     
+    {
         REPORT_ERROR(true);
         moduleName[0] = 0;
         CFRelease(nameKey);
         CFRelease(theData);
-	    return(-1);
-	}
+        return(-1);
+    }
     
     moduleNameAsCFString = CFStringCreateCopy(NULL, (CFStringRef)CFDictionaryGetValue(theData, nameKey));
-    CFStringGetCString(moduleNameAsCFString, moduleName, maxLen, kCFStringEncodingASCII);		    
+    CFStringGetCString(moduleNameAsCFString, moduleName, maxLen, kCFStringEncodingASCII);            
 
     CFRelease(nameKey);
     CFRelease(theData);
     CFRelease(moduleNameAsCFString);
     return err;
+}
+
+
+OSErr GetCurrentScreenSaverSelectionOnHighSierra(passwd *pw, char *moduleName, size_t maxLen) {
+    char                buf[1024];
+    FILE                *f;
+    char                *p, *q;
+    int                 i;
+
+    *moduleName = '\0';
+    sprintf(buf, "su -l \"%s\" -c 'defaults -currentHost read com.apple.screensaver  moduleDict'", pw->pw_name);
+    f = popen(buf, "r");
+    if (f == NULL) {
+        REPORT_ERROR(true);
+        return 0;
+    }
+    
+    while (PersistentFGets(buf, sizeof(buf), f))
+    {
+        p = strstr(buf, "moduleName = ");
+        if (p) {
+            p += 13;    // Point past "moduleName = "
+            q = moduleName;
+            for (i=0; i<maxLen-1; ++i) {
+                if (*p == ';') {
+                    break;
+                }
+                *q++ = *p++;
+            }
+            *q = '\0';
+            pclose(f);
+            return 0;
+        }
+    }
+    
+    pclose(f);
+    return fnfErr;
 }
 
 
@@ -1805,13 +1945,100 @@ OSErr Initialize()	/* Initialize some managers */
 }
 
 
-long GetBrandID()
+Boolean IsUserLoggedIn(const char *userName){
+    char s[1024];
+    
+    sprintf(s, "w -h \"%s\"", userName);
+    FILE *f = popen(s, "r");
+    REPORT_ERROR(!f);
+    if (f) {
+        if (PersistentFGets(s, sizeof(s), f) != NULL) {
+            pclose (f);
+            printf("User %s is currently logged in\n", userName);
+            return true; // this user is logged in (perhaps via fast user switching)
+        }
+        pclose (f);         
+    }
+    return false;
+}
+
+
+void FindAllVisibleUsers() {
+    FILE                *f;
+    char                human_user_name[256];
+    char                cmd[256];
+    char                buf[256];
+    char                *p;
+    int                 flag;
+    int                 userIndex;
+
+    f = popen("dscl . list /Users UniqueID", "r");
+    REPORT_ERROR(!f);
+    if (f) {
+        while (PersistentFGets(buf, sizeof(buf), f)) {
+            p = strrchr(buf, ' ');
+            if (p) {
+                int id = atoi(p+1);
+                if (id < 501) continue;
+                human_user_IDs.push_back((uid_t)id);
+
+                while (p > buf) {
+                    if (*p != ' ') break;
+                    --p;
+                }
+
+               *(p+1) = '\0';
+                human_user_names.push_back(string(buf));
+                *(p+1) = ' ';
+            }
+        }
+        pclose(f);
+    }
+    
+    for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
+        flag = 0;
+        strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
+        sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);    
+        f = popen(cmd, "r");
+        REPORT_ERROR(!f);
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strstr(p, "/var/empty") != NULL) flag = 1;
+                }
+            }
+            pclose(f);
+        }
+
+        sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
+        f = popen(cmd, "r");
+        REPORT_ERROR(!f);
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strstr(p, "/usr/bin/false") != NULL) flag |= 2;
+               }
+            }
+            pclose(f);
+        }
+        
+        if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
+            human_user_names.erase(human_user_names.begin()+userIndex-1);
+            human_user_IDs.erase(human_user_IDs.begin()+userIndex-1);
+        }
+    }
+}
+
+
+long GetBrandID(char *path)
 {
     long iBrandId;
 
     iBrandId = 0;   // Default value
     
-    FILE *f = fopen("Contents/Resources/Branding", "r");
+    FILE *f = fopen(path, "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
@@ -1886,15 +2113,6 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     }
     pclose(f);
     return 0;
-}
-
-
-// return time of day (seconds since 1970) as a double
-//
-static double dtime(void) {
-    struct timeval tv;
-    gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
 }
 
 
