@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -110,8 +110,7 @@ Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw);
-OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
-OSErr GetCurrentScreenSaverSelectionOnHighSierra(passwd *pw, char *moduleName, size_t maxLen);
+OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
@@ -950,7 +949,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     err = noErr;
     systemEventsPath[0] = '\0';
 
-    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
+    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID, systemEventsPath, sizeof(systemEventsPath));
     REPORT_ERROR(err);
 
 #if CREATE_LOG
@@ -1284,8 +1283,8 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // Because language preferences are set on a per-user basis, we
 // must get the preferred languages while set to the current 
 // user, before the Apple Installer switches us to root.
-// So we get the preferred languages in our Installer.app which 
-// writes them to a temporary file which we retrieve here.
+// So we get the preferred languages in our BOINC Installer.app 
+// which writes them to a temporary file which we retrieve here.
 // We must do it this way because, for unknown reasons, the
 // CFBundleCopyLocalizationsForPreferences() API does not work
 // correctly if we seteuid and setuid to the logged in user by
@@ -1463,8 +1462,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     Boolean             setSaverForAllUsers = false;
     Boolean             allNonAdminUsersAreSet = true;
     Boolean             allowNonAdminUsersToRunBOINC = false;
-    Boolean             found = false;
-    FILE                *f;
     int                 err;
     Boolean             isAdminGroupMember, isBMGroupMember, isBPGroupMember;
     struct stat         sbuf;
@@ -1482,6 +1479,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     // Step through all users
     puts("Beginning first pass through all users\n");
     fflush(stdout);
+
+    saved_uid = geteuid();
 
     FindAllVisibleUsers();
     
@@ -1531,42 +1530,13 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 currentUserCanRunBOINC = true;
             }
             
-            saved_uid = geteuid();
-            
-            if (compareOSVersionTo(10, 6) < 0) {
-                sprintf(cmd, "sudo -u \"%s\" defaults -currentHost read com.apple.screensaver moduleName", pw->pw_name);
-                f = popen(cmd, "r");
-                REPORT_ERROR(!f);
-           
-                if (f) {
-                    found = false;
-                    while (PersistentFGets(s, sizeof(s), f)) {
-                        if (strstr(s, saverName[brandID])) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    pclose(f);
-                    if (!found) {
-                        saverAlreadySetForAll = false;
-                    }
-                }
-
-            } else {
-                if (compareOSVersionTo(10, 13) < 0) {
-                    seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-                    err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
-                    seteuid(saved_uid);                         // Set effective uid back to privileged user
-                } else {
-                    err = GetCurrentScreenSaverSelectionOnHighSierra(pw, s, sizeof(s) -1);
-                }
-                if (err == noErr) {
-                    if (strcmp(s, saverName[brandID])) {
-                        saverAlreadySetForAll = false;
-                    }
+            err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
+            if (err == noErr) {
+                if (strcmp(s, saverName[brandID])) {
+                    saverAlreadySetForAll = false;
                 }
             }
-            printf("[1] Current Screensaver Selection for user %s is: %s\n", pw->pw_name, s);
+            printf("[1] Current Screensaver Selection for user %s is: \"%s\"\n", pw->pw_name, s);
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
@@ -1756,20 +1726,10 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
         
             if (setSaverForAllUsers) {
-                if (compareOSVersionTo(10, 6) < 0) {
-                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName \"%s\"", pw->pw_name, saverName[brandID]);
-                    err = callPosixSpawn (s);
-                    REPORT_ERROR(err);
-                    sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/%s.saver\"",
-                                pw->pw_name, saverName[brandID]);
-                    err = callPosixSpawn (s);
-                    REPORT_ERROR(err);
-                } else {
-                    seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-                    sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
-                    err = SetScreenSaverSelection(saverName[brandID], s, 0);
-                    seteuid(saved_uid);     // Set effective uid back to privileged user
-                }
+                seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+                sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
+                err = SetScreenSaverSelection(saverName[brandID], s, 0);
+                seteuid(saved_uid);     // Set effective uid back to privileged user
             }
         }
 
@@ -1795,50 +1755,14 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 }
 
 
-OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen) {
-    OSErr err = noErr;
-    CFStringRef nameKey = CFStringCreateWithCString(NULL,"moduleName",kCFStringEncodingASCII);
-    CFStringRef moduleNameAsCFString;
-    CFDictionaryRef theData;
-
-    theData = (CFDictionaryRef)CFPreferencesCopyValue(CFSTR("moduleDict"), 
-                CFSTR("com.apple.screensaver"), 
-                kCFPreferencesCurrentUser,
-                kCFPreferencesCurrentHost
-                );
-    if (theData == NULL) {
-        REPORT_ERROR(true);
-        CFRelease(nameKey);
-        return (-1);
-    }
-    
-    if (CFDictionaryContainsKey(theData, nameKey)  == false)     
-    {
-        REPORT_ERROR(true);
-        moduleName[0] = 0;
-        CFRelease(nameKey);
-        CFRelease(theData);
-        return(-1);
-    }
-    
-    moduleNameAsCFString = CFStringCreateCopy(NULL, (CFStringRef)CFDictionaryGetValue(theData, nameKey));
-    CFStringGetCString(moduleNameAsCFString, moduleName, maxLen, kCFStringEncodingASCII);            
-
-    CFRelease(nameKey);
-    CFRelease(theData);
-    CFRelease(moduleNameAsCFString);
-    return err;
-}
-
-
-OSErr GetCurrentScreenSaverSelectionOnHighSierra(passwd *pw, char *moduleName, size_t maxLen) {
+OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen) {
     char                buf[1024];
     FILE                *f;
     char                *p, *q;
     int                 i;
 
     *moduleName = '\0';
-    sprintf(buf, "su -l \"%s\" -c 'defaults -currentHost read com.apple.screensaver  moduleDict'", pw->pw_name);
+    sprintf(buf, "su -l \"%s\" -c 'defaults -currentHost read com.apple.screensaver moduleDict'", pw->pw_name);
     f = popen(buf, "r");
     if (f == NULL) {
         REPORT_ERROR(true);
@@ -1852,9 +1776,11 @@ OSErr GetCurrentScreenSaverSelectionOnHighSierra(passwd *pw, char *moduleName, s
             p += 13;    // Point past "moduleName = "
             q = moduleName;
             for (i=0; i<maxLen-1; ++i) {
-                if (*p == ';') {
-                    break;
+                if (*p == '"') {
+                    ++p;
+                    continue;
                 }
+                if (*p == ';') break;
                 *q++ = *p++;
             }
             *q = '\0';

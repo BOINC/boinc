@@ -28,13 +28,18 @@
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <grp.h>        // getgrnam
 #include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>   // for chmod
 #include "mac_util.h"
+#include "filesys.h"
+#include "util.h"
 
 void printUsage(long brandID);
-Boolean SetLoginItemOSAScript(long brandID, Boolean addLogInItem, char *userName);
+Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
+Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *pw);
+OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
+OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, int type);
 pid_t FindProcessPID(char* name, pid_t thePID);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-static double dtime(void);
 static void SleepSeconds(double seconds);
 long GetBrandID(void);
 static int parse_posic_spawn_command_line(char* p, char** argv);
@@ -44,6 +49,7 @@ int callPosixSpawn(const char *cmd);
 static char *appName[NUMBRANDS];
 static char *appPath[NUMBRANDS];
 static char *brandName[NUMBRANDS];
+static char *saverName[NUMBRANDS];
 
 
 int main(int argc, char *argv[])
@@ -59,27 +65,36 @@ int main(int argc, char *argv[])
     group               grpBOINC_project, *grpBOINC_projectPtr;
     char                bmBuf[32768];
     char                bpBuf[32768];
+    char                loginName[256];
     short               index, i;
     char                *p;
     char                s[256];
-    FILE                *f;
     OSStatus            err;
     
     appName[0] = "BOINCManager";
     appPath[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
+    saverName[0] = "BOINCSaver";
+
     appName[1] = "GridRepublic Desktop";
     appPath[1] = "/Applications/GridRepublic Desktop.app";
     brandName[1] = "GridRepublic";
+    saverName[1] = "GridRepublic";
+
     appName[2] = "Progress Thru Processors Desktop";
     appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
     brandName[2] = "Progress Thru Processors";
+    saverName[2] = "Progress Thru Processors";
+
     appName[3] = "Charity Engine Desktop";
     appPath[3] = "/Applications/Charity Engine Desktop.app";
     brandName[3] = "Charity Engine";
+    saverName[3] = "Charity Engine";
+
     appName[4] = "World Community Grid";
     appPath[4] = "/Applications/World Community Grid.app";
     brandName[4] = "World Community Grid";
+    saverName[4] = "World Community Grid";
 
     brandID = GetBrandID();
 
@@ -90,6 +105,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 #endif
+    saved_uid = geteuid();
 
     if (argc < 3) {
         printUsage(brandID);
@@ -105,6 +121,9 @@ int main(int argc, char *argv[])
         printUsage(brandID);
         return 0;
     }
+
+    loginName[0] = '\0';
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     
     err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
     if (err) {          // Should never happen unless buffer too small
@@ -170,59 +189,42 @@ int main(int argc, char *argv[])
         }
 
         // Set or remove login item for this user
-        SetLoginItemOSAScript(brandID, AddUsers, pw->pw_name);
-
-        saved_uid = geteuid();
-        seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-
-        if (compareOSVersionTo(10, 6) < 0) {
-            sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleName", 
-                    pw->pw_name); 
+        if ((compareOSVersionTo(10, 13) < 0)
+            || (strcmp(loginName, pw->pw_name) == 0) 
+                || (strcmp(loginName, pw->pw_gecos) == 0)) {
+            snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+            boinc_delete_file(s);
+            SetLoginItemOSAScript(brandID, !AddUsers, pw->pw_name);
         } else {
-            sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                    pw->pw_name); 
-        }
-        f = popen(s, "r");
-        
-        if (f) {
-            saverIsSet = false;
-            while (PersistentFGets(s, sizeof(s), f)) {
-                if (strstr(s, "BOINCSaver")) {
-                    saverIsSet = true;
-                    break;
-                }
-            }
-            pclose(f);
+            SetLoginItemLaunchAgent(brandID, !AddUsers, pw);
         }
 
-        if ((!saverIsSet) && SetSavers) {
-            if (compareOSVersionTo(10, 6) < 0) {
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName BOINCSaver",
-                    pw->pw_name); 
-                callPosixSpawn(s);
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/BOINCSaver.saver\"", 
-                    pw->pw_name); 
-                callPosixSpawn(s);
-            } else {
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName BOINCSaver path \"/Library/Screen Savers/BOINCSaver.saver\"", 
-                        pw->pw_name);
-                callPosixSpawn(s);
+        saverIsSet = false;
+        err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
+#if VERBOSE
+        fprintf(stderr, "Current Screensaver Selection for user %s is: \"%s\"\n", pw->pw_name, s);
+#endif
+        if (err == noErr) {
+            if (!strcmp(s, saverName[brandID])) {
+                saverIsSet = true;
             }
+        }
+        
+        if ((!saverIsSet) && SetSavers) {
+            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+            sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
+            err = SetScreenSaverSelection(pw, saverName[brandID], s, 0);
+#if VERBOSE
+            fprintf(stderr, "SetScreenSaverSelection for user %s (%d) to \"%s\" returned error %d\n", pw->pw_name, geteuid(), saverName[brandID], err);
+#endif
+            seteuid(saved_uid);     // Set effective uid back to privileged user
         }
         
         if (saverIsSet && (!AddUsers)) {
-            if (compareOSVersionTo(10, 6) < 0) {
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName Flurry",
-                    pw->pw_name); 
-                callPosixSpawn(s);
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Screen Savers/Flurry.saver\"", 
-                    pw->pw_name); 
-                callPosixSpawn(s);
-            } else {
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path \"/callPosixSpawn/Library/Screen Savers/Flurry.saver\"",
-                        pw->pw_name);
-                callPosixSpawn(s);
-            }
+            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+            err = SetScreenSaverSelection(pw, "Flurry", "/System/Library/Screen Savers/Flurry.saver", 0);
+            fprintf(stderr, "SetScreenSaverSelection for user %s (%d) to Flurry returned error %d\n", pw->pw_name, geteuid(), err);
+            seteuid(saved_uid);     // Set effective uid back to privileged user
         }
 
         seteuid(saved_uid);                         // Set effective uid back to privileged user
@@ -248,7 +250,7 @@ enum {
 CFStringRef kSystemEventsBundleID = CFSTR("com.apple.systemevents");
 char *systemEventsAppName = "System Events";
 
-Boolean SetLoginItemOSAScript(long brandID, Boolean addLogInItem, char *userName)
+Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName)
 {
     int                     i, j;
     char                    cmd[2048];
@@ -291,7 +293,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean addLogInItem, char *userName
     }
         sleep(4);
     
-    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
+    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID, systemEventsPath, sizeof(systemEventsPath));
     if (err != noErr) {
         fprintf(stderr, "GetPathToAppFromID(kSystemEventsCreator) returned error %d \n", (int) err);
         fflush(stderr);
@@ -330,7 +332,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean addLogInItem, char *userName
     fprintf(stderr, "Deleting any login items containing %s for user %s\n", appName[brandID], userName);
     fflush(stderr);
 #endif
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", userName, appName[brandID]);
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[brandID]);
     err = callPosixSpawn(cmd);
     if (err) {
         fprintf(stderr, "Command: %s\n", cmd);
@@ -338,14 +340,14 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean addLogInItem, char *userName
         fflush(stderr);
     }
     
-    if (addLogInItem == false) {
+    if (deleteLogInItem) {
         err = noErr;
         goto cleanupSystemEvents;
     }
     
     fprintf(stderr, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stderr);
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", userName, appPath[brandID], appName[brandID]);
     err = callPosixSpawn(cmd);
     if (err) {
         fprintf(stderr, "Command: %s\n", cmd);
@@ -382,6 +384,76 @@ cleanupSystemEvents:
     sleep(4);
         
     return (err == noErr);
+}
+
+
+// Under OS 10.13 High Sierra, telling System Events to modify Login Items for 
+// users who are not currently logged in no longer works, even when System Events 
+// is running as that user. 
+// So we create a LaunchAgent for that user. The next time that user logs in, the 
+// LaunchAgent will make the desired changes to that user's Login Items, launch 
+// BOINC Manager if appropriate, and delete itself.
+//
+// While we could just use a LaunchAgent to launch BOINC Manager on every login 
+// instead of using it to create a Login Item, I prefer Login Items because:
+//  * they are more readily visible to a less technically aware user through 
+//    System Preferences, and
+//  * they are more easily added or removed through System Preferences, and
+//  * continuing to use them is consistent with older versions of BOINC Manager.
+//
+Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *pw)
+{
+    struct stat             sbuf;
+    char                    s[2048];
+    
+    // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
+    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    //
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
+    if (stat(s, &sbuf) != 0) {
+        mkdir(s, 0755);
+        chown(s, pw->pw_uid, pw->pw_gid);
+    }
+
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+    FILE* f = fopen(s, "w");
+    if (!f) return false;
+    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+    fprintf(f, "<plist version=\"1.0\">\n");
+    fprintf(f, "<dict>\n");
+    fprintf(f, "\t<key>Label</key>\n");
+    fprintf(f, "\t<string>edu.berkeley.test</string>\n");
+    fprintf(f, "\t<key>ProgramArguments</key>\n");
+    fprintf(f, "\t<array>\n");
+    fprintf(f, "\t\t<string>sh</string>\n");
+    fprintf(f, "\t\t<string>-c</string>\n");
+    fprintf(f, "\t\t<string>");
+    fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[brandID]);
+    if (deleteLogInItem) {
+        // If this user was previously authorized to run the Manager, there 
+        // may still be a Login Item for this user, and the Login Item may
+        // launch the Manager before the LaunchAgent deletes the Login Item.
+        // To guard against this, we have the LaunchAgent kill the Manager
+        // (for this user only) if it is running.
+        //
+        fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[brandID]);
+    } else {
+        fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
+        fprintf(f, "open -jg \"%s\";", appPath[brandID]);
+    }
+    fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
+    fprintf(f, "\t</array>\n");
+    fprintf(f, "\t<key>RunAtLoad</key>\n");
+    fprintf(f, "\t<true/>\n");
+    fprintf(f, "</dict>\n");
+    fprintf(f, "</plist>\n");
+    fclose(f);
+
+    chmod(s, 0644);
+    chown(s, pw->pw_uid, pw->pw_gid);
+
+    return true;
 }
 
 
@@ -422,6 +494,118 @@ pid_t FindProcessPID(char* name, pid_t thePID)
 }
 
 
+OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen) {
+    char                buf[1024];
+    FILE                *f;
+    char                *p, *q;
+    int                 i;
+
+    *moduleName = '\0';
+    sprintf(buf, "su -l \"%s\" -c 'defaults -currentHost read com.apple.screensaver moduleDict'", pw->pw_name);
+    f = popen(buf, "r");
+    if (f == NULL) {
+        fprintf(stderr, "Could not get current screensaver selection for user %s\n", pw->pw_name);
+        fflush(stderr);
+        return fnfErr;
+    }
+    
+    while (PersistentFGets(buf, sizeof(buf), f))
+    {
+        p = strstr(buf, "moduleName = ");
+        if (p) {
+            p += 13;    // Point past "moduleName = "
+            q = moduleName;
+            for (i=0; i<maxLen-1; ++i) {
+                if (*p == '"') {
+                    ++p;
+                    continue;
+                }
+                if (*p == ';') break;
+                *q++ = *p++;
+            }
+            *q = '\0';
+            pclose(f);
+            return 0;
+        }
+    }
+    
+    pclose(f);
+    return fnfErr;
+}
+
+
+OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, int type) {
+    OSErr err = noErr;
+    CFStringRef preferenceName = CFSTR("com.apple.screensaver");
+    CFStringRef mainKeyName = CFSTR("moduleDict");
+    CFDictionaryRef emptyData;
+    CFMutableDictionaryRef newData;
+    Boolean success;
+
+    CFStringRef nameKey = CFStringCreateWithCString(NULL, "moduleName", kCFStringEncodingASCII);
+    CFStringRef nameValue = CFStringCreateWithCString(NULL, moduleName, kCFStringEncodingASCII);
+        
+    CFStringRef pathKey = CFStringCreateWithCString(NULL, "path", kCFStringEncodingASCII);
+    CFStringRef pathValue = CFStringCreateWithCString(NULL, modulePath, kCFStringEncodingASCII);
+    
+    CFStringRef typeKey = CFStringCreateWithCString(NULL, "type", kCFStringEncodingASCII);
+    CFNumberRef typeValue = CFNumberCreate(NULL, kCFNumberIntType, &type);
+    
+    emptyData = CFDictionaryCreate(NULL, NULL, NULL, 0, NULL, NULL);
+    if (emptyData == NULL) {
+        fprintf(stderr, "Could not set screensaver for user %s\n", pw->pw_name);
+        fflush(stderr);
+        CFRelease(nameKey);
+        CFRelease(nameValue);
+        CFRelease(pathKey);
+        CFRelease(pathValue);
+        CFRelease(typeKey);
+        CFRelease(typeValue);
+        return(-1);
+    }
+
+    newData = CFDictionaryCreateMutableCopy(NULL,0, emptyData);
+
+    if (newData == NULL)
+    {
+        fprintf(stderr, "Could not set screensaver for user %s\n", pw->pw_name);
+        fflush(stderr);
+        CFRelease(nameKey);
+        CFRelease(nameValue);
+        CFRelease(pathKey);
+        CFRelease(pathValue);
+        CFRelease(typeKey);
+        CFRelease(typeValue);
+        CFRelease(emptyData);
+        return(-1);
+    }
+
+    CFDictionaryAddValue(newData, nameKey, nameValue);     
+    CFDictionaryAddValue(newData, pathKey, pathValue);     
+    CFDictionaryAddValue(newData, typeKey, typeValue);     
+
+    CFPreferencesSetValue(mainKeyName, newData, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+    success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+
+    if (!success) {
+        fprintf(stderr, "Could not set screensaver for user %s\n", pw->pw_name);
+        fflush(stderr);
+        err = -1;
+    }
+    
+    CFRelease(nameKey);
+    CFRelease(nameValue);
+    CFRelease(pathKey);
+    CFRelease(pathValue);
+    CFRelease(typeKey);
+    CFRelease(typeValue);
+    CFRelease(emptyData);
+    CFRelease(newData);
+
+    return err;
+}
+
+
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
@@ -440,14 +624,6 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     return (buf[0] ? buf : NULL);
 }
 
-
-// return time of day (seconds since 1970) as a double
-//
-static double dtime(void) {
-    struct timeval tv;
-    gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
-}
 
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepSeconds(double seconds) {
@@ -473,7 +649,7 @@ long GetBrandID()
 
     iBrandId = 0;   // Default value
     
-    FILE *f = fopen("Contents/Resources/Branding", "r");
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
