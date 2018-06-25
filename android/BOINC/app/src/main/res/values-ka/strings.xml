@@ -338,6 +338,7 @@
   <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
+    <item quantity="one">%2$,d ახალი შეტყობინება</item>
     <item quantity="other">%2$,d ახალი შეტყობინება</item>
   </plurals>
   <!--multi BOINC compatibility-->

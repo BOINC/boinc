@@ -334,13 +334,13 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-  <string name="about_copyright">\u00A9 2003–2017 Каліфорнійський університет, Берклі.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Нова примітка від %1$s</item>
     <item quantity="few">%2$,d нових приміток</item>
+    <item quantity="many">%2$,d нових приміток</item>
     <item quantity="other">%2$,d нових приміток</item>
   </plurals>
   <!--multi BOINC compatibility-->

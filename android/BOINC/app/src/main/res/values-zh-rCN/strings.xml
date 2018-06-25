@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">伯克利开放式网络计算平台 ( BOINC )</string>
-  <string name="about_copyright">\u00A9 2003–2017 加利福尼亚大学伯克利分校</string>
   <string name="about_copyright_reserved">所有权利保留。</string>
   <string name="about_credits">感谢马克斯普朗克引力物理学研究所、IBM 公司以及 HTC 公司的大力协助。</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
