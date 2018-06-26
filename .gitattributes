@@ -12,10 +12,10 @@
 *.rc                    text eol=lf
 *.php                   text eol=lf
 *.xpm                   text eol=lf
-*.cu					text eol=lf
-*.cl					text eol=lf
-*.c					    text eol=lf
-*.hpp					text eol=lf
+*.cu                    text eol=lf
+*.cl                    text eol=lf
+*.c	                    text eol=lf
+*.hpp                   text eol=lf
 
 # Project files
 #
