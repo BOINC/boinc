@@ -271,9 +271,12 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         char wsl_dist_version[256];
 
         const std::string& distro = distros[i];
-        WSL wsl(distro);
+        WSL wsl;
+        wsl.distro_name = distro;
         if (distro == default_distro) {
             wsl.is_default = true;
+        } else {
+            wsl.is_default = false;
         }
 
         // lsbrelease

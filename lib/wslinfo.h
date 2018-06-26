@@ -31,7 +31,7 @@ struct WSL {
     std::string version;
     bool is_default;
 
-    explicit WSL(const std::string&);
+    WSL();
 
     void clear();
 

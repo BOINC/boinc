@@ -19,12 +19,12 @@
 
 #include "wslinfo.h"
 
-WSL::WSL(const std::string& distro) {
+WSL::WSL() {
     clear();
-    distro_name = distro;
 }
 
 void WSL::clear() {
+    distro_name = "";
     name = "";
     version = "";
     is_default = false;
@@ -36,25 +36,26 @@ void WSL::write_xml(MIOFILE& f) {
     xml_escape(name.c_str(), n, sizeof(n));
     xml_escape(version.c_str(), v, sizeof(v));
     f.printf(
-        "   <%s>\n"
-        "       <name>%s</name>\n"
-        "       <version>%s</version>\n"
-        "       <is_default>%d</is_default>\n"
-        "   </%s>\n",
+        "        <distro>\n"
+        "            <distro_name>%s</distro_name>\n"
+        "            <name>%s</name>\n"
+        "            <version>%s</version>\n"
+        "            <is_default>%d</is_default>\n"
+        "        </distro>\n",
         dn,
         n,
         v,
-        is_default ? 1 : 0,
-        dn
+        is_default ? 1 : 0
     );
 }
 
 int WSL::parse(XML_PARSER& xp) {
     clear();
     while (!xp.get_tag()) {
-        if (!distro_name.empty() && xp.match_tag(std::string("/" + distro_name).c_str())) {
+        if (xp.match_tag("/distro")) {
             return 0;
         }
+        if (xp.parse_string("distro_name", distro_name)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("version", version)) continue;
         if (xp.parse_bool("is_default", is_default)) continue;
@@ -71,11 +72,11 @@ void WSLS::clear() {
 }
 
 void WSLS::write_xml(MIOFILE& f) {
-    f.printf("<wsl>\n");
+    f.printf("    <wsl>\n");
     for (size_t i = 0; i < wsls.size(); ++i) {
         wsls[i].write_xml(f);
     }
-    f.printf("</wsl>\n");
+    f.printf("    </wsl>\n");
 }
 
 int WSLS::parse(XML_PARSER& xp) {
@@ -84,9 +85,12 @@ int WSLS::parse(XML_PARSER& xp) {
         if (xp.match_tag("/wsl")) {
             return 0;
         }
-        WSL wsl(xp.parsed_tag);
-        wsl.parse(xp);
-        wsls.push_back(wsl);
+        if (xp.match_tag("distro"))
+        {
+            WSL wsl;
+            wsl.parse(xp);
+            wsls.push_back(wsl);
+        }
     }
     return ERR_XML_PARSE;
 }
