@@ -121,7 +121,7 @@ static Boolean ShowMessage(Boolean askYesNo, const char *format, ...);
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID);
-Boolean IsUserLoggedIn(const char *userName);
+static Boolean IsUserLoggedIn(const char *userName);
 void FindAllVisibleUsers(void);
 long GetBrandID(char *path);
 int TestRPCBind(void);
@@ -939,6 +939,8 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     pid_t                   systemEventsPID;
     OSErr                   err, err2;
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+    // NOTE: It may not be necessary to kill and relaunch the
+    // System Events application for each logged in user under High Sierra 
     Boolean                 isHighSierraOrLater = (compareOSVersionTo(10, 13) >= 0);
 #endif
 
@@ -1730,6 +1732,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
                 err = SetScreenSaverSelection(saverName[brandID], s, 0);
                 seteuid(saved_uid);     // Set effective uid back to privileged user
+                // This seems to work also:
+                // sprintf(s, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"/Library/Screen Savers/%s.saver\" type 0'", pw->pw_name, saverName[brandID], s);
+                // callPosixSpawn(s);
             }
         }
 
@@ -1871,7 +1876,7 @@ OSErr Initialize()	/* Initialize some managers */
 }
 
 
-Boolean IsUserLoggedIn(const char *userName){
+static Boolean IsUserLoggedIn(const char *userName){
     char s[1024];
     
     sprintf(s, "w -h \"%s\"", userName);
@@ -1931,23 +1936,31 @@ void FindAllVisibleUsers() {
             while (PersistentFGets(buf, sizeof(buf), f)) {
                 p = strrchr(buf, ' ');
                 if (p) {
-                    if (strstr(p, "/var/empty") != NULL) flag = 1;
+                    if (strstr(p, "/var/empty") != NULL) {
+                        flag = 1;
+                        break;
+                    }
                 }
             }
             pclose(f);
         }
 
-        sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
-        f = popen(cmd, "r");
-        REPORT_ERROR(!f);
-        if (f) {
-            while (PersistentFGets(buf, sizeof(buf), f)) {
-                p = strrchr(buf, ' ');
-                if (p) {
-                    if (strstr(p, "/usr/bin/false") != NULL) flag |= 2;
-               }
+        if (flag) {
+            sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
+            f = popen(cmd, "r");
+            REPORT_ERROR(!f);
+            if (f) {
+                while (PersistentFGets(buf, sizeof(buf), f)) {
+                    p = strrchr(buf, ' ');
+                    if (p) {
+                        if (strstr(p, "/usr/bin/false") != NULL) {
+                            flag |= 2;
+                            break;
+                        }
+                   }
+                }
+                pclose(f);
             }
-            pclose(f);
         }
         
         if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")

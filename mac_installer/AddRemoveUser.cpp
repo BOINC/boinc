@@ -20,6 +20,8 @@
 #define VERBOSE 0
 #define VERBOSE_SPAWN 0  /* for debugging callPosixSpawn */
 
+#define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
+
 #include <Carbon/Carbon.h>
 
 #include <unistd.h>	// getlogin
@@ -39,11 +41,15 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, int type);
 pid_t FindProcessPID(char* name, pid_t thePID);
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+static Boolean IsUserLoggedIn(const char *userName);
+#endif
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void SleepSeconds(double seconds);
 long GetBrandID(void);
 static int parse_posic_spawn_command_line(char* p, char** argv);
 int callPosixSpawn(const char *cmd);
+
 
 #define NUMBRANDS 5
 static char *appName[NUMBRANDS];
@@ -67,8 +73,10 @@ int main(int argc, char *argv[])
     char                bpBuf[32768];
     char                loginName[256];
     short               index, i;
+    FILE                *f;
+    int                 flag;
     char                *p;
-    char                s[256];
+    char                s[1024], buf[1024];
     OSStatus            err;
     
     appName[0] = "BOINCManager";
@@ -122,6 +130,8 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    printf("\n");
+
     loginName[0] = '\0';
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     
@@ -141,10 +151,54 @@ int main(int argc, char *argv[])
         // getpwnam works with either the full / login name (pw->pw_gecos) 
         // or the short / Posix name (pw->pw_name)
         pw = getpwnam(argv[index]);
-        if (pw == NULL) {
-            printf("User %s not found.\n", argv[index]);
+        if ((pw == NULL) || (pw->pw_uid < 501)) {
+            printf("User %s not found.\n\n", argv[index]);
             continue;
         }
+
+        flag = 0;
+        sprintf(s, "dscl . -read \"/Users/%s\" NFSHomeDirectory", pw->pw_name);    
+        f = popen(s, "r");
+        if (!f) {
+            flag = 1;
+            } else {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strstr(p, "/var/empty") != NULL) {
+                        flag = 1;
+                        break;
+                    }
+                }
+            }
+            pclose(f);
+        }
+
+        if (flag) {
+            sprintf(s, "dscl . -read \"/Users/%s\" UserShell", pw->pw_name);    
+            f = popen(s, "r");
+            if (!f) {
+                flag |= 2;
+            } else {
+                while (PersistentFGets(buf, sizeof(buf), f)) {
+                    p = strrchr(buf, ' ');
+                    if (p) {
+                        if (strstr(p, "/usr/bin/false") != NULL) {
+                            flag |= 2;
+                            break;
+                        }
+                    }
+                }
+                pclose(f);
+            }
+        }
+    
+        if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
+            printf("%s is not a valid user name.\n\n", argv[index]);
+            continue;
+        }
+
+        printf("%s user %s (/Users/%s)\n", AddUsers? "Adding" : "Removing", pw->pw_gecos, pw->pw_name);
 
         isBMGroupMember = false;
         i = 0;
@@ -189,9 +243,19 @@ int main(int argc, char *argv[])
         }
 
         // Set or remove login item for this user
+        bool useOSASript = false;
+        
         if ((compareOSVersionTo(10, 13) < 0)
             || (strcmp(loginName, pw->pw_name) == 0) 
                 || (strcmp(loginName, pw->pw_gecos) == 0)) {
+            useOSASript = true;
+        }
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+        if (! useOSASript) {
+            useOSASript = IsUserLoggedIn(pw->pw_name);
+        }
+#endif
+       if (useOSASript) {
             snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
             boinc_delete_file(s);
             SetLoginItemOSAScript(brandID, !AddUsers, pw->pw_name);
@@ -210,24 +274,40 @@ int main(int argc, char *argv[])
             }
         }
         
+        if (SetSavers) {
+            if (saverIsSet) {
+                printf("Screensaver already set to %s for user %s (/Users/%s)\n", saverName[brandID], pw->pw_gecos, pw->pw_name);
+            } else {
+                printf("Setting screensaver to %s for user %s (/Users/%s)\n", saverName[brandID], pw->pw_gecos, pw->pw_name);
+            }
+        }
+        
         if ((!saverIsSet) && SetSavers) {
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
             err = SetScreenSaverSelection(pw, saverName[brandID], s, 0);
 #if VERBOSE
-            fprintf(stderr, "SetScreenSaverSelection for user %s (%d) to \"%s\" returned error %d\n", pw->pw_name, geteuid(), saverName[brandID], err);
+            fprintf(stderr, "SetScreenSaverSelection for user %s (uid %d) to \"%s\" returned error %d\n", pw->pw_name, geteuid(), saverName[brandID], err);
 #endif
             seteuid(saved_uid);     // Set effective uid back to privileged user
+            // This seems to work also:
+            // sprintf(buf, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"%s\ type 0'", pw->pw_name, saverName[brandID], s);
+            // callPosixSpawn(s);
         }
         
         if (saverIsSet && (!AddUsers)) {
+            printf("Setting screensaver to Flurry for user %s (/Users/%s)\n", pw->pw_gecos, pw->pw_name);
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             err = SetScreenSaverSelection(pw, "Flurry", "/System/Library/Screen Savers/Flurry.saver", 0);
+#if VERBOSE
             fprintf(stderr, "SetScreenSaverSelection for user %s (%d) to Flurry returned error %d\n", pw->pw_name, geteuid(), err);
+#endif
             seteuid(saved_uid);     // Set effective uid back to privileged user
         }
 
         seteuid(saved_uid);                         // Set effective uid back to privileged user
+        
+        printf("\n");
     }
 
     printf("WARNING: Changes may require a system restart to take effect.\n");
@@ -257,6 +337,11 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     char                    systemEventsPath[1024];
     pid_t                   systemEventsPID;
     OSErr                   err = 0, err2 = 0;
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+    // NOTE: It may not be necessary to kill and relaunch the
+    // System Events application for each logged in user under High Sierra 
+    Boolean                 isHighSierraOrLater = (compareOSVersionTo(10, 13) >= 0);
+#endif
 
 #if VERBOSE
     fprintf(stderr, "Adjusting login items for user %s\n", userName);
@@ -264,95 +349,131 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 #endif
 
     // We must launch the System Events application for the target user
+    err = noErr;
+    systemEventsPath[0] = '\0';
 
-    // Find SystemEvents process.  If found, quit it in case
-    // it is running under a different user.
-#if VERBOSE
-    fprintf(stderr, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
-    fflush(stderr);
-#endif
-    systemEventsPID = FindProcessPID(systemEventsAppName, 0);
-    if (systemEventsPID != 0) {
-        err = kill(systemEventsPID, SIGKILL);
-    }
-    if (err != noErr) {
-        fprintf(stderr, "(systemEventsPID, SIGKILL) returned error %d \n", (int) err);
-        fflush(stderr);
-    }
-    // Wait for the process to be gone
-    for (i=0; i<50; ++i) {      // 5 seconds max delay
-        SleepSeconds(0.1);      // 1/10 second
-        systemEventsPID = FindProcessPID(systemEventsAppName, 0);
-        if (systemEventsPID == 0) break;
-    }
-    if (i >= 50) {
-        fprintf(stderr, "Failed to make System Events quit\n");
-        fflush(stderr);
-        err = noErr;
-        goto cleanupSystemEvents;
-    }
-        sleep(4);
-    
     err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID, systemEventsPath, sizeof(systemEventsPath));
-    if (err != noErr) {
-        fprintf(stderr, "GetPathToAppFromID(kSystemEventsCreator) returned error %d \n", (int) err);
-        fflush(stderr);
-        goto cleanupSystemEvents;
-    }
 #if VERBOSE
-    fprintf(stderr, "SystemEvents is at %s\n", systemEventsPath);
-    fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
-    fflush(stderr);
+    if (err == noErr) {
+        fprintf(stderr, "SystemEvents is at %s\n", systemEventsPath);
+    } else {
+        fprintf(stderr, "GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
+    }
 #endif
 
-    for (j=0; j<5; ++j) {
-        sprintf(cmd, "sudo -u \"%s\" -b \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
-        err = callPosixSpawn(cmd);
-        if (err) {
-            fprintf(stderr, "Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+    if (err == noErr) {
+        // Find SystemEvents process.  If found, quit it in case
+        // it is running under a different user.
+#if VERBOSE
+        fprintf(stderr, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
+        fflush(stderr);
+#endif
+        systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+        if (systemEventsPID != 0) {
+            err = kill(systemEventsPID, SIGKILL);
         }
-        // Wait for the process to start
+#if VERBOSE
+        if (err != noErr) {
+            fprintf(stderr, "(systemEventsPID, SIGKILL) returned error %d \n", (int) err);
+            fflush(stderr);
+        }
+#endif
+        // Wait for the process to be gone
         for (i=0; i<50; ++i) {      // 5 seconds max delay
             SleepSeconds(0.1);      // 1/10 second
             systemEventsPID = FindProcessPID(systemEventsAppName, 0);
-            if (systemEventsPID != 0) break;
+            if (systemEventsPID == 0) break;
         }
-        if (i < 50) break;  // Exit j loop on success
+        if (i >= 50) {
+#if VERBOSE
+            fprintf(stderr, "Failed to make System Events quit\n");
+            fflush(stderr);
+#endif
+            err = noErr;
+            goto cleanupSystemEvents;
+        }
+        sleep(4);
     }
-    if (j >= 5) {
-        fprintf(stderr, "Failed to launch System Events for user %s\n", userName);
+    
+    if (systemEventsPath[0] != '\0') {
+#if VERBOSE
+        fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
         fflush(stderr);
-        err = noErr;
-        goto cleanupSystemEvents;
-    }
+#endif
 
+        for (j=0; j<5; ++j) {
+            sprintf(cmd, "sudo -u \"%s\" -b \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
+            err = callPosixSpawn(cmd);
+#if VERBOSE
+            if (err) {
+                fprintf(stderr, "Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+                fflush(stderr);
+            }
+#endif
+            // Wait for the process to start
+            for (i=0; i<50; ++i) {      // 5 seconds max delay
+                SleepSeconds(0.1);      // 1/10 second
+                systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+                if (systemEventsPID != 0) break;
+            }
+            if (i < 50) break;  // Exit j loop on success
+        }
+        if (j >= 5) {
+#if VERBOSE
+            fprintf(stderr, "Failed to launch System Events for user %s\n", userName);
+            fflush(stderr);
+#endif
+            err = noErr;
+            goto cleanupSystemEvents;
+        }
+    }
     sleep(2);
     
 #if VERBOSE
     fprintf(stderr, "Deleting any login items containing %s for user %s\n", appName[brandID], userName);
     fflush(stderr);
 #endif
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[brandID]);
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+    if (isHighSierraOrLater) {
+        sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete (every login item whose path contains \\\"%s\\\")\"'", userName, appName[i]);
+    } else
+#endif
+    {
+        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[brandID]);
+    }
     err = callPosixSpawn(cmd);
+#if VERBOSE
     if (err) {
         fprintf(stderr, "Command: %s\n", cmd);
         fprintf(stderr, "Delete login item containing %s returned error %d\n", appName[brandID], err);
         fflush(stderr);
     }
+#endif
     
     if (deleteLogInItem) {
         err = noErr;
         goto cleanupSystemEvents;
     }
     
+#if VERBOSE
     fprintf(stderr, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stderr);
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", userName, appPath[brandID], appName[brandID]);
+#endif
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+    if (isHighSierraOrLater) {
+        sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to make new login item at end with properties {path:\\\"%s\\\", hidden:true, name:\\\"%s\\\"}\"'", userName, appPath[brandID], appName[brandID]);
+    } else
+#endif
+    {
+        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", userName, appPath[brandID], appName[brandID]);
+    }
     err = callPosixSpawn(cmd);
+#if VERBOSE
     if (err) {
         fprintf(stderr, "Command: %s\n", cmd);
         printf("[Make login item for %s returned error %d\n", appPath[brandID], err);
     }
+#endif
     fflush(stderr);
 
 cleanupSystemEvents:
@@ -366,20 +487,24 @@ cleanupSystemEvents:
     if (systemEventsPID != 0) {
         err2 = kill(systemEventsPID, SIGKILL);
     }
+#if VERBOSE
     if (err2 != noErr) {
         fprintf(stderr, "kill(systemEventsPID, SIGKILL) returned error %d \n", (int) err2);
         fflush(stderr);
     }
+#endif
     // Wait for the process to be gone
     for (i=0; i<50; ++i) {      // 5 seconds max delay
         SleepSeconds(0.1);      // 1/10 second
         systemEventsPID = FindProcessPID(systemEventsAppName, 0);
         if (systemEventsPID == 0) break;
     }
+#if VERBOSE
     if (i >= 50) {
         fprintf(stderr, "Failed to make System Events quit\n");
         fflush(stderr);
     }
+#endif
     
     sleep(4);
         
@@ -604,6 +729,25 @@ OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, in
 
     return err;
 }
+
+
+#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
+static Boolean IsUserLoggedIn(const char *userName){
+    char s[1024];
+    
+    sprintf(s, "w -h \"%s\"", userName);
+    FILE *f = popen(s, "r");
+    if (f) {
+        if (PersistentFGets(s, sizeof(s), f) != NULL) {
+            pclose (f);
+            printf("User %s is currently logged in\n", userName);
+            return true; // this user is logged in (perhaps via fast user switching)
+        }
+        pclose (f);         
+    }
+    return false;
+}
+#endif
 
 
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
