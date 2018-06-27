@@ -199,8 +199,6 @@ cp -fpRL clientgui/res/${MANAGERICON}.icns "../BOINC_Installer/Pkg_Root/Applicat
 rm -rf "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/BOINCMgr.icns"
 sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
-#JDA Need Branding
-cp -fpRL ./mac_installer/${BRANDINGFILE} ../BOINC_Installer/Installer\ Resources/Branding
 cp -fpRL ./mac_installer/${BRANDINGFILE} "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/Branding"
 cp -fpRL ./mac_installer/${BRANDINGFILE} ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/Branding
 
@@ -324,6 +322,9 @@ mv "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$a
 sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
 cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
+
+cp -fpRL ./mac_installer/${BRANDINGFILE} "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
+cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
 # Build the installer package inside the wrapper application's bundle
 
