@@ -19,6 +19,8 @@
 
 #define TESTING 0       /* for debugging */
 #define VERBOSE_TEST 0  /* for debugging callPosixSpawn */
+/* if (TESTING!=0), set DEBUG_PRINT to 1 to print debug output to log file or 0 to display in dialogs */
+#define DEBUG_PRINT 1
 
 #define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
 
@@ -67,9 +69,10 @@ static double dtime(void);
 static void SleepSeconds(double seconds);
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
+static void showDebugMsg(const char *format, ...);
 static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, Boolean yesNoButtons, const char *format, ...);
 int callPosixSpawn(const char *cmd, bool delayForResult=false);
-void print_to_log_file(const char *format, ...);
+static void print_to_log_file(const char *format, ...);
 
 static char gAppName[256];
 static char gBrandName[256];
@@ -100,6 +103,7 @@ int main(int argc, char *argv[])
     Boolean                     cancelled = false;
     pid_t                       activeAppPID = 0;
     struct stat                 sbuf;
+    FILE                        *f;
     OSStatus                    err = noErr;
     
     appName[0] = "BOINCManager";
@@ -132,9 +136,6 @@ int main(int argc, char *argv[])
     saverName[4] = "World Community Grid";
     receiptName[4] = "/Library/Receipts/World Community Grid Installer.pkg";
 
-    // getlogin() gives unreliable results under OS 10.6.2, so use environment
-    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
-
     pathToSelf[0] = '\0';
     // Get the full path to our executable inside this application's bundle
     getPathToThisApp(pathToSelf, sizeof(pathToSelf));
@@ -142,7 +143,6 @@ int main(int argc, char *argv[])
         ShowMessage(false, false, false, "Couldn't get path to self.");
         return err;
     }
-
     strlcpy(pathToVBoxUninstallTool, pathToSelf, sizeof(pathToVBoxUninstallTool));
     strlcat(pathToVBoxUninstallTool, "/Contents/Resources/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
 
@@ -195,6 +195,18 @@ int main(int argc, char *argv[])
     }
 
     // This is the initial launch.  Authenticate and relaunch ourselves with privileges.
+
+    // getlogin() gives unreliable results under OS 10.6.2, so use environment
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    mkdir("/tmp/UninstallBOINC", 0777);
+    chmod("/tmp/UninstallBOINC", 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    f = fopen("/tmp/UninstallBOINC/loginName", "w");
+    if (!f) {
+        ShowMessage(false, false, false, (char *)_("Error saving user name"), p);
+        return fnOpnErr;
+    }
+    fprintf(f, "%s", loginName);
+    fclose(f);
 
     GetPreferredLanguages();    // We must do this before switching to root user
     LoadPreferredLanguages();
@@ -381,11 +393,10 @@ int main(int argc, char *argv[])
 
 
 static OSStatus DoUninstall(void) {
+    FILE                        *f;
     pid_t                   coreClientPID = 0;
-    pid_t                   BOINCManagerPID = 0;
     int                     i;
     char                    cmd[1024];
-    char                    *p;
     passwd                  *pw;
     OSStatus                err = noErr;
 #if SEARCHFORALLBOINCMANAGERS
@@ -397,20 +408,25 @@ static OSStatus DoUninstall(void) {
 #endif
 
 #if TESTING
-    ShowMessage(false, false, false, "Permission OK after relaunch");
+    showDebugMsg("Permission OK after relaunch");
 #endif
 
-    // getlogin() gives unreliable results under OS 10.6.2, so use environment
-    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
-
-    // With fast user switching, each logged in user can 
-    // be running a separate copy of the Manager
-    for (i=0; i<100; ++i) { // Limit iterations for safety
-        BOINCManagerPID = getPidIfRunning("edu.berkeley.boinc");
-        if (BOINCManagerPID == 0) break;
-        kill(BOINCManagerPID, SIGTERM);
+    f = fopen("/tmp/UninstallBOINC/loginName", "r");
+    if (f) {
+        fgets(loginName, sizeof(loginName), f);
+        fclose(f);
     }
-    sleep(2);
+    
+    // With fast user switching, each logged in user can be running
+    // a separate copy of the Manager; pkill terminates all of them
+    for (i=0; i<NUMBRANDS; ++i) {
+#if TESTING
+        showDebugMsg("killing any running instances of %s", appName[i]);
+#endif
+        sprintf(cmd, "pkill -KILL \"%s\"", appName[i]);
+        callPosixSpawn(cmd);
+    }
+
 
     // Core Client may still be running if it was started without Manager
     coreClientPID = FindProcessPID("boinc", 0);
@@ -433,14 +449,14 @@ static OSStatus DoUninstall(void) {
         strlcat(myRmCommand, "\"", sizeof(myRmCommand));
     
 #if TESTING
-        ShowMessage(false, false, false, "manager: %s", myRmCommand);
+        showDebugMsg("manager: %s", myRmCommand);
 #endif
 
         p = strstr(myRmCommand, notBoot);
         
         if (p == myRmCommand+pathOffset) {
 #if TESTING
-            ShowMessage(false, false, false, "Not on boot volume: %s", myRmCommand);
+            showDebugMsg("Not on boot volume: %s", myRmCommand);
 #endif
             break;
         } else {
@@ -451,7 +467,7 @@ static OSStatus DoUninstall(void) {
             strlcpy(plistRmCommand, myRmCommand, sizeof(plistRmCommand));
             strlcat(plistRmCommand, "/Contents/info.plist", sizeof(plistRmCommand));
 #if TESTING
-        ShowMessage(false, false, false, "Deleting info.plist: %s", plistRmCommand);
+        showDebugMsg("Deleting info.plist: %s", plistRmCommand);
 #endif
             callPosixSpawn(plistRmCommand);
             cfPath = CFStringCreateWithCString(NULL, myRmCommand+pathOffset, kCFStringEncodingUTF8);
@@ -466,7 +482,7 @@ static OSStatus DoUninstall(void) {
             err = LSRegisterURL, true);
 #if TESTING
             if (err)
-                ShowMessage(false, false, false, "LSRegisterFSRef returned error %d", err);
+                showDebugMsg("LSRegisterFSRef returned error %d", err);
 #endif
             callPosixSpawn(myRmCommand);
         }
@@ -507,8 +523,7 @@ static OSStatus DoUninstall(void) {
     // Phase 5: Set BOINC Data owner and group to logged in user
     // We don't customize BOINC Data directory name for branding
 //    callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
-    p = getlogin();
-    pw = getpwnam(p);
+    pw = getpwnam(loginName);
     sprintf(cmd, "chown -R %d:%d \"/Library/Application Support/BOINC Data\"", pw->pw_uid, pw->pw_gid);
     callPosixSpawn (cmd);
     callPosixSpawn("chmod -R u+rw-s,g+r-w-s,o+r-w \"/Library/Application Support/BOINC Data\"");
@@ -521,7 +536,6 @@ static OSStatus DoUninstall(void) {
     callPosixSpawn ("dscl . -delete /groups/boinc_master");
     callPosixSpawn ("dscl . -delete /users/boinc_project");
     callPosixSpawn ("dscl . -delete /groups/boinc_project");
-
 
     return 0;
 }
@@ -540,7 +554,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
     dirp = opendir(dirPath);
     if (dirp == NULL) {      // Should never happen
-        ShowMessage(false, false, false, "Error: opendir(\"%s\") failed", dirPath);
+        showDebugMsg("Error: opendir(\"%s\") failed", dirPath);
         return -1;
     }
     
@@ -575,13 +589,13 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                             strlcat(myRmCommand, "\"", sizeof(myRmCommand));
                             if (CFStringCompare(thisID, bundleID, 0) == kCFCompareEqualTo) {
 #if TESTING
-                                ShowMessage(false, false, false, "Bundles: %s", myRmCommand);
+                                showDebugMsg("Bundles: %s", myRmCommand);
 #endif
 
                                callPosixSpawn(myRmCommand);
                             } else {
 #if TESTING
-//                                ShowMessage(false, false, false, "Bundles: Not deleting %s", myRmCommand+pathOffset);
+//                                showDebugMsg("Bundles: Not deleting %s", myRmCommand+pathOffset);
 #endif
                             }
 
@@ -589,26 +603,26 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                         } // if (thisID)
 #if TESTING
                         else
-                            ShowMessage(false, false, false, "CFBundleGetIdentifier failed for index %d", index);                                
+                            showDebugMsg("CFBundleGetIdentifier failed for index %d", index);                                
 #endif
                         CFRelease(thisBundle);                
                } //if (thisBundle)
 #if TESTING
                         else
-                            ShowMessage(false, false, false, "CFBundleCreate failed for index %d", index);
+                            showDebugMsg("CFBundleCreate failed for index %d", index);
 #endif
                 CFRelease(bundleURLRef);                
             } // if (bundleURLRef)
 #if TESTING
         else
-            ShowMessage(false, false, false, "CFURLCreateWithFileSystemPath failed");
+            showDebugMsg("CFURLCreateWithFileSystemPath failed");
 #endif
         
             CFRelease(urlStringRef);
         } // if (urlStringRef)
 #if TESTING
         else
-            ShowMessage(false, false, false, "CFStringCreateWithCString failed");
+            showDebugMsg("CFStringCreateWithCString failed");
 #endif
     }   // while true
     
@@ -641,9 +655,6 @@ static OSStatus CleanupAllVisibleUsers(void)
     int                 flag;
     char                buf[256];
     char                s[1024];
-    char                cmd[2048];
-    char                systemEventsPath[1024];
-    pid_t               systemEventsPID;
     FILE                *f;
     char                *p;
     int                 id;
@@ -654,19 +665,7 @@ static OSStatus CleanupAllVisibleUsers(void)
     saved_euid = geteuid();
 
     err = noErr;
-    systemEventsPath[0] = '\0';
-
     brandID = GetBrandID("/Library/Application Support/BOINC Data/Branding");
-    
-    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID,  systemEventsPath, sizeof(systemEventsPath));
-
-#if TESTING
-    if (err == noErr) {
-        ShowMessage(false, false, false, "SystemEvents is at %s", systemEventsPath);
-    } else {
-        ShowMessage(false, false, false, "GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
-    }
-#endif
 
     // First, find all users on system
     f = popen("dscl . list /Users UniqueID", "r");
@@ -692,7 +691,7 @@ static OSStatus CleanupAllVisibleUsers(void)
                 human_user_names.push_back(string(buf));
                 human_user_IDs.push_back((uid_t)id);
 #if TESTING
-                ShowMessage(false, false, false, "user ID %d: %s\n", id, buf);
+                showDebugMsg("user ID %d: %s\n", id, buf);
 #endif
                 *(p+1) = ' ';
             }
@@ -736,7 +735,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         // Skip all non-human (non-login) users
         if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
 #if TESTING
-            ShowMessage(false, false, false, "Flag=3: skipping user ID %d: %s", human_user_IDs[userIndex-1], buf);
+            showDebugMsg("Flag=3: skipping user ID %d: %s", human_user_IDs[userIndex-1], buf);
 #endif
             continue;
         }
@@ -746,15 +745,15 @@ static OSStatus CleanupAllVisibleUsers(void)
             continue;
 
 #if TESTING
-        ShowMessage(false, false, false, "Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d",
+        showDebugMsg("Deleting login item for user %s: Posix name=%s, Full name=%s, UID=%d",
                 human_user_name, pw->pw_name, pw->pw_gecos, pw->pw_uid);
 #endif
 
         // Remove user from groups boinc_master and boinc_project
-        sprintf(s, "dscl . -delete /groups/boinc_master users \"%s\"", human_user_name);
+        sprintf(s, "dscl . -delete /groups/boinc_master users \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
-        sprintf(s, "dscl . -delete /groups/boinc_project users \"%s\"", human_user_name);
+        sprintf(s, "dscl . -delete /groups/boinc_project users \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
        // Set login item for this user
@@ -775,13 +774,13 @@ static OSStatus CleanupAllVisibleUsers(void)
             snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
             boinc_delete_file(s);
 #if TESTING
-            ShowMessage(false, false, false, "calling DeleteLoginItemOSAScript for user %s, euid = %d\n", 
+            showDebugMsg("calling DeleteLoginItemOSAScript for user %s, euid = %d\n", 
                 pw->pw_name, geteuid());
 #endif
             DeleteLoginItemOSAScript(pw->pw_name);
         } else {
 #if TESTING
-            ShowMessage(false, false, false, "calling DeleteLoginItemLaunchAgent for user %s, euid = %d\n", 
+            showDebugMsg("calling DeleteLoginItemLaunchAgent for user %s, euid = %d\n", 
                 pw->pw_name, geteuid());
 #endif
             DeleteLoginItemLaunchAgent(brandID, pw);
@@ -795,8 +794,8 @@ static OSStatus CleanupAllVisibleUsers(void)
         sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", human_user_name);
         callPosixSpawn (s);
         
-        //  Set screensaver to "Computer Name" default screensaver only 
-        //  if it was BOINC, GridRepublic, Progress Thru Processors or Charity Engine.
+        //  Set screensaver to "Flurry" screensaver only 
+        //  if it was BOINC unbranded or branded screensaver.
         changeSaver = false;
 
         err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
@@ -806,36 +805,28 @@ static OSStatus CleanupAllVisibleUsers(void)
                     changeSaver = true;
                 }
             }
+#if TESTING
+            showDebugMsg("Current screensaver selection for user %s is %s\n", pw->pw_name, s);
+#endif
         }
         
         if (changeSaver) {
-            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-            err = SetScreenSaverSelection("Computer Name",
-                "/System/Library/Frameworks/ScreenSaver.framework/Resources/Computer Name.saver", 0);
-            seteuid(saved_euid);    // Set effective uid back to privileged user
 #if TESTING
-//    ShowMessage(false, false, false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, human_user_name, geteuid(), saved_uid);
+            showDebugMsg("Setting screensaver for user %s to Flurry\n", pw->pw_name);
 #endif
+            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+            err = SetScreenSaverSelection("Flurry", "/System/Library/Screen Savers/Flurry.saver", 0);
+            seteuid(saved_euid);    // Set effective uid back to privileged user
             // This seems to work also:
             // sprintf(s, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"Computer Name\" path \"/System/Library/Frameworks/ScreenSaver.framework/Resources/Computer Name.saver"\" type 0'");
             // callPosixSpawn(s);
+#if TESTING
+//    showDebugMsg("After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, human_user_name, geteuid(), saved_uid);
+#endif
         }
     }       // End userIndex loop
     
     sleep(1);
-    
-#if TESTING
-    ShowMessage(false, false, false, "Telling System Events to quit (at end)");
-#endif
-    systemEventsPID = FindProcessPID(systemEventsAppName, 0);
-    if (systemEventsPID != 0) {
-        err = kill(systemEventsPID, SIGKILL);
-    }
-#if TESTING
-    if (err != noErr) {
-        ShowMessage(false, false, false, "kill(systemEventsPID, SIGKILL) returned error %d ", (int) err);
-    }
-#endif
 
     return noErr;
 }
@@ -855,7 +846,7 @@ static void DeleteLoginItemOSAScript(char *userName)
 #endif
 
 #if TESTING
-    ShowMessage(false, false, false, "Adjusting login items for user %s\n", userName);
+    showDebugMsg("Adjusting login items for user %s\n", userName);
 #endif
 
     // We must launch the System Events application for the target user
@@ -866,9 +857,9 @@ static void DeleteLoginItemOSAScript(char *userName)
 
 #if TESTING
     if (err == noErr) {
-        ShowMessage(false, false, false, "SystemEvents is at %s\n", systemEventsPath);
+        showDebugMsg("SystemEvents is at %s\n", systemEventsPath);
     } else {
-        ShowMessage(false, false, false, "GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
+        showDebugMsg("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
     }
 #endif
 
@@ -876,7 +867,7 @@ static void DeleteLoginItemOSAScript(char *userName)
         // Find SystemEvents process.  If found, quit it in case 
         // it is running under a different user.
 #if TESTING
-        ShowMessage(false, false, false, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
+        showDebugMsg("Telling System Events to quit (at start of DeleteLoginItemOSAScript)\n");
 #endif
         systemEventsPID = FindProcessPID(systemEventsAppName, 0);
         if (systemEventsPID != 0) {
@@ -884,7 +875,7 @@ static void DeleteLoginItemOSAScript(char *userName)
         }
 #if TESTING
         if (err != noErr) {
-            ShowMessage(false, false, false, "(systemEventsPID, SIGKILL) returned error %d \n", (int) err);
+            showDebugMsg("(systemEventsPID, SIGKILL) returned error %d \n", (int) err);
         }
 #endif
         // Wait for the process to be gone
@@ -895,7 +886,7 @@ static void DeleteLoginItemOSAScript(char *userName)
         }
         if (i >= 50) {
 #if TESTING
-            ShowMessage(false, false, false, "Failed to make System Events quit\n");
+            showDebugMsg("Failed to make System Events quit\n");
 #endif
             err = noErr;
             goto cleanupSystemEvents;
@@ -905,7 +896,7 @@ static void DeleteLoginItemOSAScript(char *userName)
     
     if (systemEventsPath[0] != '\0') {
  #if TESTING
-        ShowMessage(false, false, false, "Launching SystemEvents for user %s\n", userName);
+        showDebugMsg("Launching SystemEvents for user %s\n", userName);
 #endif
 
         for (j=0; j<5; ++j) {
@@ -913,7 +904,7 @@ static void DeleteLoginItemOSAScript(char *userName)
             err = callPosixSpawn(cmd);
             if (err) {
  #if TESTING
-                ShowMessage(false, false, false, "Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+                showDebugMsg("Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
 #endif
             }
             // Wait for the process to start
@@ -926,7 +917,7 @@ static void DeleteLoginItemOSAScript(char *userName)
         }
         if (j >= 5) {
 #if TESTING
-            ShowMessage(false, false, false, "Failed to launch System Events for user %s\n", userName);
+            showDebugMsg("Failed to launch System Events for user %s\n", userName);
 #endif
             err = noErr;
             goto cleanupSystemEvents;
@@ -935,27 +926,29 @@ static void DeleteLoginItemOSAScript(char *userName)
     sleep(2);
     
     for (i=0; i<NUMBRANDS; i++) {
-        ShowMessage(false, false, false, "Deleting any login items containing %s for user %s\n", appName[i], userName);
+#if TESTING
+        showDebugMsg("Deleting any login items containing %s for user %s\n", appName[i], userName);
+#endif
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
         if (isHighSierraOrLater) {
-            sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete (every login item whose path contains \\\"%s\\\")\"'", userName, appName[i]);
+            sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete login item \\\"%s\\\"\"'", userName, appName[i]);
         } else
 #endif
         {
-            sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[i]);
+            sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", userName, appName[i]);
         }
         err = callPosixSpawn(cmd);
 #if TESTING
         if (err) {
-            ShowMessage(false, false, false, "Command: %s\n", cmd);
-            ShowMessage(false, false, false, "Delete login item containing %s returned error %d\n", appName[i], err);
+            showDebugMsg("Command: %s\n", cmd);
+            showDebugMsg("Delete login item containing %s returned error %d\n", appName[i], err);
         }
 #endif
     }
 
 cleanupSystemEvents:
     // Clean up in case this was our last user
-    fprintf(stdout, "Telling System Events to quit (at end of SetLoginItemOSAScript)\n");
+    fprintf(stdout, "Telling System Events to quit (at end of DeleteLoginItemOSAScript)\n");
     fflush(stdout);
     systemEventsPID = FindProcessPID(systemEventsAppName, 0);
     err2 = noErr;
@@ -964,7 +957,7 @@ cleanupSystemEvents:
     }
     if (err2 != noErr) {
 #if TESTING
-        ShowMessage(false, false, false, "kill(systemEventsPID, SIGKILL) returned error %d \n", (int) err2);
+        showDebugMsg("kill(systemEventsPID, SIGKILL) returned error %d \n", (int) err2);
 #endif
     }
     // Wait for the process to be gone
@@ -975,7 +968,7 @@ cleanupSystemEvents:
     }
     if (i >= 50) {
 #if TESTING
-        ShowMessage(false, false, false, "Failed to make System Events quit\n");
+        showDebugMsg("Failed to make System Events quit\n");
 #endif
     }
     
@@ -1005,7 +998,8 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
-    //
+
+    // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
     if (stat(s, &sbuf) != 0) {
         mkdir(s, 0755);
@@ -1097,7 +1091,7 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
     f = popen(buf, "r");
     if (f == NULL) {
 #if TESTING
-        ShowMessage(false, false, false, "Could not get current screensaver selection for user %s\n", pw->pw_name);
+        showDebugMsg("Could not get current screensaver selection for user %s\n", pw->pw_name);
 #endif
         return fnfErr;
     }
@@ -1305,7 +1299,6 @@ static void GetPreferredLanguages() {
     char * language;
     char *uscore;
     FILE *f;
-    char tempFileName[MAXPATHLEN];
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
@@ -1351,12 +1344,7 @@ static void GetPreferredLanguages() {
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
-    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s", loginName);
-    mkdir(tempFileName, 0777);
-    chmod(tempFileName, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
-    
-    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
-    f = fopen(tempFileName, "w");
+    f = fopen("/tmp/UninstallBOINC/BOINC_preferred_languages", "w");
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
     
@@ -1422,13 +1410,11 @@ static void LoadPreferredLanguages(){
     int i;
     char *p;
     char language[32];
-    char tempFileName[MAXPATHLEN];
 
     BOINCTranslationInit();
 
     // First pass wrote a list of our preferred languages to a temp file
-    snprintf(tempFileName, sizeof(tempFileName), "/tmp/UninstallBOINC-%s/BOINC_preferred_languages", loginName);
-    f = fopen(tempFileName, "r");
+    f = fopen("/tmp/UninstallBOINC/BOINC_preferred_languages", "r");
     if (!f) return;
     
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
@@ -1444,6 +1430,22 @@ static void LoadPreferredLanguages(){
         }
     }
     fclose(f);
+}
+
+
+static void showDebugMsg(const char *format, ...) {
+    va_list                 args;
+    char                    s[1024];
+
+    va_start(args, format);
+    vsprintf(s, format, args);
+    va_end(args);
+
+#if DEBUG_PRINT
+    print_to_log_file(s);
+#else
+    ShowMessage(false, false, false, s);
+#endif
 }
 
 
@@ -1645,8 +1647,8 @@ int callPosixSpawn(const char *cmdline, bool delayForResult) {
 }
 
 
-#if VERBOSE_TEST
-void strip_cr(char *buf)
+#if VERBOSE_TEST || TESTING
+static void strip_cr(char *buf)
 {
     char *theCR;
 
@@ -1661,16 +1663,18 @@ void strip_cr(char *buf)
 
 
 // For debugging
-void print_to_log_file(const char *format, ...) {
-#if VERBOSE_TEST
+static void print_to_log_file(const char *format, ...) {
+#if VERBOSE_TEST || TESTING
     FILE *f;
     va_list args;
     char buf[256];
     time_t t;
-    strlcpy(buf, getenv("HOME"), sizeof(buf));
-    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
+    sprintf(buf, "/Users/%s/Documents/test_log.txt", loginName);
     f = fopen(buf, "a");
     if (!f) return;
+    
+    // File will be owned by root, so make it world readable & writable
+    chmod(buf, 0666);
 
 //  freopen(buf, "a", stdout);
 //  freopen(buf, "a", stderr);

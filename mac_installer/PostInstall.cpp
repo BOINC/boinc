@@ -711,7 +711,7 @@ int DeleteReceipt()
             if (pw == NULL) {
                 continue;
             }
-        
+            if (strcmp(loginName, pw->pw_name) == 0) continue;
 #ifdef SANDBOX
             launchForThisUser = false;
             if (IsUserLoggedIn(pw->pw_name)) {
@@ -723,7 +723,8 @@ int DeleteReceipt()
 #endif  // SANDBOX
 
             if (launchForThisUser) {
-                sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\"'", pw->pw_name, appPath[brandID]);
+                // Launch Manager hidden (in background, without opening windows)
+                sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args -s'", pw->pw_name, appPath[brandID]);
                 err = callPosixSpawn(s);
                 printf("command: %s returned error %d\n", s, err);
            }
@@ -1026,11 +1027,11 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         fflush(stdout);
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
         if (isHighSierraOrLater) {
-            sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete (every login item whose path contains \\\"%s\\\")\"'", userName, appName[i]);
+            sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete login item \\\"%s\\\"\"'", userName, appName[i]);
         } else
 #endif
         {
-            sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[i]);
+            sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", userName, appName[i]);
         }
         err = callPosixSpawn(cmd);
         if (err) {
@@ -1120,7 +1121,8 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
-    //
+
+    // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
     if (stat(s, &sbuf) != 0) {
         mkdir(s, 0755);

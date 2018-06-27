@@ -242,6 +242,12 @@ int main(int argc, char *argv[])
             callPosixSpawn(s);
         }
 
+        if (!AddUsers) {
+            // Delete per-user BOINC Manager and screensaver files
+            sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", pw->pw_name);
+            callPosixSpawn (s);
+        }
+    
         // Set or remove login item for this user
         bool useOSASript = false;
         
@@ -435,11 +441,11 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 #endif
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
     if (isHighSierraOrLater) {
-        sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete (every login item whose path contains \\\"%s\\\")\"'", userName, appName[i]);
+        sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete login item \\\"%s\\\"\"'", userName, appName[i]);
     } else
 #endif
     {
-        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete (every login item whose path contains \"%s\")'", userName, appName[brandID]);
+        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", userName, appName[i]);
     }
     err = callPosixSpawn(cmd);
 #if VERBOSE
@@ -533,7 +539,8 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
     
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
-    //
+
+    // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
     if (stat(s, &sbuf) != 0) {
         mkdir(s, 0755);
