@@ -98,6 +98,7 @@ boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L$(top_srcdir)/lib
 if OS_WIN32
 boinc_client_CXXFLAGS += -I$(top_srcdir)/coprocs/NVIDIA/include
 boinc_client_SOURCES += hostinfo_win.cpp \
+	hostinfo_wsl.cpp \
 	sysmon_win.cpp \
 	win/boinc_cli.rc \
 	win/res/boinc.ico
