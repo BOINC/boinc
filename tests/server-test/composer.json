@@ -1,0 +1,10 @@
+{
+    "require": {
+        "phpunit/phpunit": "^7.2",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+
+    "scripts": {
+    "test": "./vendor/bin/phpunit"
+  }
+}
