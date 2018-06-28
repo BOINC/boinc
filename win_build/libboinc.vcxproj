@@ -238,6 +238,7 @@
     <ClInclude Include="..\lib\url.h" />
     <ClInclude Include="..\lib\util.h" />
     <ClInclude Include="..\lib\win_util.h" />
+    <ClInclude Include="..\lib\wslinfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\app_ipc.cpp">
@@ -310,6 +311,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\lib\win_util.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
