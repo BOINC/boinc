@@ -18,4 +18,4 @@ INSTALLERAPPNAME="World Community Grid Installer"
 INSTALLERICON="WCGrid"
 
 READMEFILE="WCGrid-ReadMe.rtf"
-BRANDINGFILE="WCGrid-Branding"
+BRANDING_INFO="BrandId=4"

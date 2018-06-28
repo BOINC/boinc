@@ -138,17 +138,16 @@ mkdir -p ../BOINC_Installer/Installer\ templates
 cp -fp mac_installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/${READMEFILE} ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 
-cp -fp mac_installer/complist.plist mac_installer/complist.plist.${SHORTBRANDNAME}
-sed -i "" s/BOINCManager.app/"${MANAGERAPPNAME}.app"/g mac_installer/complist.plist.${SHORTBRANDNAME}
-sed -i "" s/BOINCSaver.saver/"${SSAVERAPPNAME}.saver"/g mac_installer/complist.plist.${SHORTBRANDNAME}
-cp -fp mac_installer/complist.plist.${SHORTBRANDNAME} ../BOINC_Installer/Installer\ templates/complist.plist
+cp -fp mac_installer/complist.plist ../BOINC_Installer/Installer\ templates/complist.plist
+sed -i "" s/BOINCManager.app/"${MANAGERAPPNAME}.app"/g ../BOINC_Installer/Installer\ templates/complist.plist
+sed -i "" s/BOINCSaver.saver/"${SSAVERAPPNAME}.saver"/g ../BOINC_Installer/Installer\ templates/complist.plist
 
 
-cp -fp mac_installer/myDistribution mac_installer/myDistribution.${SHORTBRANDNAME}
-sed -i "" s/BOINCManager.app/"${MANAGERAPPNAME}.app"/g mac_installer/myDistribution.${SHORTBRANDNAME}
-sed -i "" s/BOINCSaver.saver/"${SSAVERAPPNAME}.saver"/g mac_installer/myDistribution.${SHORTBRANDNAME}
-sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g mac_installer/myDistribution.${SHORTBRANDNAME}
-cp -fp mac_installer/myDistribution.${SHORTBRANDNAME} ../BOINC_Installer/Installer\ templates/myDistribution
+cp -fp mac_installer/myDistribution ../BOINC_Installer/Installer\ templates/myDistribution
+sed -i "" s/BOINCManager.app/"${MANAGERAPPNAME}.app"/g ../BOINC_Installer/Installer\ templates/myDistribution
+sed -i "" s/BOINCSaver.saver/"${SSAVERAPPNAME}.saver"/g ../BOINC_Installer/Installer\ templates/myDistribution
+sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g ../BOINC_Installer/Installer\ templates/myDistribution
+
 
 # Update version number
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
@@ -199,8 +198,9 @@ cp -fpRL clientgui/res/${MANAGERICON}.icns "../BOINC_Installer/Pkg_Root/Applicat
 rm -rf "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/BOINCMgr.icns"
 sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
-cp -fpRL ./mac_installer/${BRANDINGFILE} "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/Branding"
-cp -fpRL ./mac_installer/${BRANDINGFILE} ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/Branding
+echo ${BRANDING_INFO} > "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/Branding"
+echo ${BRANDING_INFO} > ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/Branding
+
 
 
 ## OS 10.6 and OS10.7 require screensavers built with Garbage Collection, but Xcode 5.0.2
@@ -218,7 +218,7 @@ mv "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Con
 sed -i "" s/BOINCSaver/"${SSAVERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Info.plist"
 cp -fpRL clientscr/res/${SSAVERPREVIEW} "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/boinc.jpg"
 cp -fpRL clientscr/res/${SSAVERTHUMBNAIL}.png "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/thumbnail.png"
-cp -fpRL clientscr/res/${SSAVERTHUMBNAIL}\@2x.png "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/thumbnail\@2x.png"
+cp -fpRL clientscr/res/${SSAVERTHUMBNAIL}\@2x.png "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/thumbnail@2x.png"
 cp -fpRL clientscr/res/${SSAVERLOGO} "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/boinc_ss_logo.png"
 cp -fpRL clientscr/res/${SSAVERLOGO} ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 sed -i "" s/BOINC/"${SSAVERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings"
@@ -323,7 +323,7 @@ sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Re
 
 cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
 
-cp -fpRL ./mac_installer/${BRANDINGFILE} "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
+echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
 cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
 # Build the installer package inside the wrapper application's bundle
@@ -396,7 +396,5 @@ sudo rm -dfR ../BOINC_Installer/Pkg_Root
 sudo rm -dfR ../BOINC_Installer/locale
 sudo rm -dfR ../BOINC_Installer/Installer\ templates
 sudo rm -dfR ../BOINC_Installer/expandedVBox
-sudo rm -dfR mac_installer/complist.plist.${SHORTBRANDNAME}
-sudo rm -dfR mac_installer/myDistribution.${SHORTBRANDNAME}
 
 return 0
