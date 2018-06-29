@@ -48,6 +48,7 @@ function show_platforms() {
 }
 
 $config = get_config();
+global $master_url;
 $long_name = parse_config($config, "<long_name>");
 
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
