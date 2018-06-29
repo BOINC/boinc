@@ -41,6 +41,7 @@ using std::vector;
 #define GRIDREPUBLIC_BRAND_ID 1
 #define PROGRESSTHRUPROCESSORS_BRAND_ID 2
 #define CHARITYENGINE_BRAND_ID 3
+#define WORLDCOMMUNITYGRID_BRAND_ID 4
 
 
 // build table of all processes in system
@@ -161,6 +162,11 @@ int procinfo_setup(PROC_MAP& pm) {
             break;
         case CHARITYENGINE_BRAND_ID:
             if (!strcasestr(p.command, "Charity Engine")) {
+                p.is_boinc_app = true;
+            }
+            break;
+         case WORLDCOMMUNITYGRID_BRAND_ID:
+            if (!strcasestr(p.command, "World Community Grid")) {
                 p.is_boinc_app = true;
             }
             break;
