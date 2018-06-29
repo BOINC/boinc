@@ -41,7 +41,7 @@
 ##  INSTALLERAPPNAME="World Community Grid Installer"   ##The name of the installer app
 ##  INSTALLERICON="WCGridInstaller.icns"                ##The icon for the branded installer
 ##  READMEFILE="WCGrid-ReadMe.rtf"                      ##The branded readme file
-##  BRANDINGFILE="WCGrid-Branding"                      ##The branding file
+##  BRANDING_INFO="BrandId=4"                           ##Info to write into the branding file
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -264,67 +264,67 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     read INSTALLERSIGNINGIDENTITY <&8
 
     # Code Sign the BOINC client if we have a signing identity
-    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app/Contents/Resources/boinc"
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/boinc"
 
     # Code Sign the BOINC Manager if we have a signing identity
-    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app"
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app"
 fi
 
-sudo rm -dfR ../BOINC_Installer/New_Release_$1_$2_$3/
+sudo rm -dfR ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/
 
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables
 
-cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch
-sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/ReadMe.rtf
-sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/ReadMe.rtf
+cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/ReadMe.rtf
+sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/ReadMe.rtf
 
-cp -fp COPYING ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.txt
-sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.txt
-sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.txt
+cp -fp COPYING ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.txt
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.txt
+sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.txt
 
-cp -fp COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.LESSER.txt
-sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.LESSER.txt
-sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.LESSER.txt
+cp -fp COPYING.LESSER ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.LESSER.txt
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.LESSER.txt
+sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYING.LESSER.txt
 
-cp -fp COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
-sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
-sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
+cp -fp COPYRIGHT ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
+sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
 
-cp -fpRL "${BUILDPATH}/Uninstall BOINC.app/." "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/"
+cp -fpRL "${BUILDPATH}/Uninstall BOINC.app/." "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/"
 # Copy the localization files for the uninstaller into its bundle
 find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/locale/"$0"\""}' | xargs mkdir -p
 
 find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"locale/"$0"\" \"../BOINC_Installer/locale/"$0"\""}' | bash
 
-sudo cp -fpRL ../BOINC_Installer/locale "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources"
-sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Info.plist"
-sed -i "" s/"MacUninstaller"/"${UNINSTALLERICON}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Info.plist"
-mv "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/MacOS/Uninstall BOINC" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/MacOS/${UNINSTALLERAPPNAME}"
-sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
-cp -fpRL ./clientgui/res/${UNINSTALLERICON}.icns "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/"
-rm -rf "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/MacUninstaller.icns"
-cp -fpRL ./clientgui/res/${UNINSTALLERTRASHICON}.icns "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/PutInTrash.icns"
+sudo cp -fpRL ../BOINC_Installer/locale "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources"
+sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Info.plist"
+sed -i "" s/"MacUninstaller"/"${UNINSTALLERICON}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Info.plist"
+mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/MacOS/Uninstall BOINC" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/MacOS/${UNINSTALLERAPPNAME}"
+sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+cp -fpRL ./clientgui/res/${UNINSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/"
+rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/MacUninstaller.icns"
+cp -fpRL ./clientgui/res/${UNINSTALLERTRASHICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/PutInTrash.icns"
 
-sudo chown -R root:admin "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
-sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
+sudo chown -R root:admin "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
+sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 
 # Copy the installer wrapper application "BOINC Installer.app"
-cp -fpRL "${BUILDPATH}/BOINC Installer.app/." "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/"
-sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Info.plist"
-sed -i "" s/"MacInstaller"/"${INSTALLERICON}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Info.plist"
-cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/"
-rm -rf "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/MacInstaller.icns"
-mv "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/MacOS/BOINC Installer" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/MacOS/${INSTALLERAPPNAME}"
-sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+cp -fpRL "${BUILDPATH}/BOINC Installer.app/." "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/"
+sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Info.plist"
+sed -i "" s/"MacInstaller"/"${INSTALLERICON}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Info.plist"
+cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/"
+rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/MacInstaller.icns"
+mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/MacOS/BOINC Installer" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/MacOS/${INSTALLERAPPNAME}"
+sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
-cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
+cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
 
-echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
-cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
+echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
+cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
 # Build the installer package inside the wrapper application's bundle
 
@@ -333,35 +333,35 @@ cd "../BOINC_Installer/Installer templates"
 pkgbuild --quiet --scripts "../Installer Scripts" --ownership recommended --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
 
 if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
-    productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources/" --version "BOINC Manager $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+    productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources/" --version "${MANAGERAPPNAME} $1.$2.$3" --distribution "./myDistribution" "../New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}.pkg"
 else
-    productbuild --quiet --resources "../Installer Resources/" --version "${MANAGERAPPNAME} $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}.pkg"
+    productbuild --quiet --resources "../Installer Resources/" --version "${MANAGERAPPNAME} $1.$2.$3" --distribution "./myDistribution" "../New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}.pkg"
 fi
 cd "${BOINCPath}"
 
 # Build the stand-alone client distribution
-cp -fpRL mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
-cp -fpRL mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
-cp -fpRL COPYING ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYING.txt
-cp -fpRL COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYING.LESSER.txt
-cp -fpRL COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYRIGHT.txt
-cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
-sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/*
-sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/*
+cp -fpRL mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
+cp -fpRL mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
+cp -fpRL COPYING ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYING.txt
+cp -fpRL COPYING.LESSER ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYING.LESSER.txt
+cp -fpRL COPYRIGHT ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYRIGHT.txt
+cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/*
+sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/*
 
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir
-cp -fpRL "${BUILDPATH}/boinc" ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
-cp -fpRL "${BUILDPATH}/boinccmd" ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
-cp -fpRL curl/ca-bundle.crt ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir
+cp -fpRL "${BUILDPATH}/boinc" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
+cp -fpRL "${BUILDPATH}/boinccmd" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
+cp -fpRL curl/ca-bundle.crt ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/
 
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher
-cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
-cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
+mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher
+cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
+cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 
-sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
-sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
+sudo chown -R root:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
+sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
-cp -fpRL "${BUILDPATH}/SymbolTables/" ../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/
+cp -fpRL "${BUILDPATH}/SymbolTables/" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/
 
 ## If you wish to code sign the installer and uninstaller, create a file 
 ## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity
@@ -370,13 +370,13 @@ cp -fpRL "${BUILDPATH}/SymbolTables/" ../BOINC_Installer/New_Release_$1_$2_$3/${
 ## with default settings to allow running downloaded applications under OS 10.8
 if [ -n "${APPSIGNINGIDENTITY}" ]; then
     # Code Sign the BOINC installer application if we have a signing identity
-    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app"
 
     # Code Sign the BOINC uninstaller application if we have a signing identity
-    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 fi
 
-cd ../BOINC_Installer/New_Release_$1_$2_$3
+cd ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3
 
 ## Make everything in directory user-writable so project web code using auto-attach
 ## can delete it after inflating, modifying installer name and recompressing it.

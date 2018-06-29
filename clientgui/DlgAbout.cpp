@@ -121,15 +121,11 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     );
     m_AboutBOINCTitleCtrl->SetLabel(buf);
 
-#if 0
     m_AboutBOINCLogoCtrl->SetBitmap(wxBitmap(*(pSkinAdvanced->GetApplicationLogo())));
-
-    m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
 
     m_AboutBOINCURLCtrl->SetLabel(
         pSkinAdvanced->GetOrganizationWebsite().c_str()
     );
-#endif
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
