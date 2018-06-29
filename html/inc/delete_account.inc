@@ -19,6 +19,7 @@
 require_once("../inc/common_defs.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
 require_once("../inc/host.inc");
 require_once("../inc/friend.inc");
 require_once("../inc/boinc_db.inc");

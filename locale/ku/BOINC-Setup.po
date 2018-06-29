@@ -1,0 +1,116 @@
+# BOINC setup localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
+# 
+# Translators:
+# Alan Mustafa <alanmustafa@hotmail.com>, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-06-24 11:44 UTC\n"
+"PO-Revision-Date: 2018-06-24 12:54+0000\n"
+"Last-Translator: Alan Mustafa <alanmustafa@hotmail.com>\n"
+"Language-Team: Kurdish (http://www.transifex.com/boinc/boinc/language/ku/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ku\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:237
+msgid "Could not get user login name"
+msgstr "نەشێت ناڤ تێکەتنا بکارهێنەری ببینیت"
+
+#: mac_installer/Installer.cpp:199
+#, c-format
+msgid "Sorry, this version of %s requires system 10.6 or higher."
+msgstr "ببورە، ئەڤ دەرچویا %sپێتڤتی ب سیستەما 10.6  یان سەرترە."
+
+#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1222
+#: mac_installer/uninstall.cpp:1534
+msgid "Yes"
+msgstr "بەلێ"
+
+#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1223
+#: mac_installer/uninstall.cpp:1535
+msgid "No"
+msgstr "نەخێر"
+
+#. Future feature
+#: mac_installer/PostInstall.cpp:142
+msgid "Should BOINC run even when no user is logged in?"
+msgstr "ئەرێ بلا بوینک کاربکەت خوه چ بکارهێنەر تێنەکەتبیت؟"
+
+#: mac_installer/PostInstall.cpp:1508
+#, c-format
+msgid ""
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"\n"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "ئەو بکارهێنەرن رێک پێ دای بو رێڤەبرنا ڤی کومپیوتەری دێ ب ئوتەماتیکی رێک پێ هێتەدان بو رێڤەبرن و کونرولکرنا %s.\n\nئەرێ تە ژی هەر وەسا دڤێت کو بکارهێنەرێن نە رێڤەڤەری بشێن کو %s لسەر کومپیەوتەرا مەک برێڤە ببەن و کونترول بکەن؟"
+
+#: mac_installer/PostInstall.cpp:1536
+#, c-format
+msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
+msgstr "ئایا تەدڤێت کو %s وەک سکرینپارێز بو هەمی بکارهێنەرێن %s لسەر ڤی کومپیوتەرا ماکی دانی؟"
+
+#: mac_installer/uninstall.cpp:84
+msgid "OK"
+msgstr "باشە"
+
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:144
+msgid "Permission error after relaunch"
+msgstr "دەستورا شاشیێ پشتی دوبارە دەستپێکرنێ"
+
+#: mac_installer/uninstall.cpp:149
+msgid ""
+"Removal may take several minutes.\n"
+"Please be patient."
+msgstr "چێدبیت کو ژێبرن چەند خولەکەک پێ بچن.\nژ کەرەما خو بهن فرەهبن."
+
+#: mac_installer/uninstall.cpp:164
+#, c-format
+msgid ""
+"Are you sure you want to completely remove %s from your computer?\n"
+"\n"
+"This will remove the executables but will not touch %s data files."
+msgstr "ئەرێ تو پشتراستی کو تە دڤێت %s ب هەمیڤە ژ کومپیوتەرا خو ببەی؟\n\nئەڤە دێ پروگرامێن ئیجرای ژ کومپیوتەرا تە بەت بەس دەست ناکەتە دایی فایلن %s."
+
+#: mac_installer/uninstall.cpp:179
+#, c-format
+msgid "Canceled: %s has not been touched."
+msgstr "بەتالبو: %s نەهاتیە دەست لێدان."
+
+#: mac_installer/uninstall.cpp:243
+msgid "name  of user"
+msgstr "ناڤێ بکارهێنەری"
+
+#: mac_installer/uninstall.cpp:296
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr "ئەرێ تە دڤێت کو ڤیرچوال بوکسێ ژ کومپیوتەرا خو ببەی؟\n(ڤیرچوال بوکس دگەل بوینک هاتبو بارکرن.)"
+
+#: mac_installer/uninstall.cpp:334
+#, c-format
+msgid ""
+"Removal completed.\n"
+"\n"
+" You may want to remove the following remaining items using the Finder: \n"
+"the directory \"%s\"\n"
+"\n"
+"for each user, the file\n"
+"\"%s\"."
+msgstr "ژێبرن تەمام بو.\n\nبو تە چێ دبیت ئەو تشتن ل خارێ ژ بەرمایین برێکا لێگەریانێڤە ژێ ببەی:\nکوملیستا \"%s\"\n\nبو هەر بکارهێنەرەک، فایلا\n\"%s\"."
+
+#: mac_installer/uninstall.cpp:1532
+msgid "Cancel"
+msgstr "بەتالکرن"
+
+#: mac_installer/uninstall.cpp:1533
+msgid "Continue..."
+msgstr "بەردەوامبە..."

@@ -447,7 +447,7 @@ function user_quit_team($user) {
 function user_erase_team_owner($user) {
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
-        if ($team && $team.userid == $user->id) {
+        if ($team && $team->userid == $user->id) {
             $team->update("userid=0");
         }
     }

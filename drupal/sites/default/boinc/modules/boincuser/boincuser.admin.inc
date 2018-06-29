@@ -332,8 +332,10 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_enableaccountcreateRPC' => variable_get('boinc_weboptions_enableaccountcreateRPC', TRUE),
     'boinc_weboptions_registrationtitle' => variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'),
     'boinc_weboptions_termsofuse' => variable_get('boinc_weboptions_termsofuse', ''),
+    'boinc_weboptions_overrideboinctou' => variable_get('boinc_weboptions_overrideboinctou', FALSE),
     'boinc_weboptions_agreequestion' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
     'boinc_weboptions_registrationtitle2' => variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'),
+    'boinc_weboptions_existinguser_tou' => variable_get('boinc_weboptions_existinguser_tou', FALSE),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
@@ -349,7 +351,7 @@ function boincuser_admin_weboptions(&$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Enable create_account.php RPC'),
     '#default_value' => $default['boinc_weboptions_enableaccountcreateRPC'],
-    '#description' => t('If checked, users will be able to create an account remotely using the create_account.php RPC. This option is independent of the user regsitration option found in ') . l(t('User management -> User settings'), '/admin/user/settings') . '. If enabled, user <b>may not be able to opt-in</b> to your site\'s privacy and data retention policies!',
+    '#description' => t('If checked, users will be able to create an account remotely using the create_account.php RPC. This option is independent of the user regsitration option found in ') . l(t('User management -> User settings'), '/admin/user/settings') . '. If enabled, user <b>may not be able to see and agree to the terms-of-use</b> to your site\'s privacy and data retention policies!',
   );
 
   $form['boinc_weboptions_registrationtitle'] = array(
@@ -368,9 +370,16 @@ function boincuser_admin_weboptions(&$form_state) {
     '#description' => t('Text to be displayed on site\'s user registration page. Privacy policy and other data retention information goes here. If empty, there will be no terms of use message, and the title above and checkbox below will not be shown.'),
   );
 
+  $form['boinc_weboptions_overrideboinctou'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Override BOINC terms of use.'),
+    '#default_value' => $default['boinc_weboptions_overrideboinctou'],
+    '#description' => t('Override the BOINC terms_of_use.txt file for get_profject_config.php RPC. If TRUE, the get_project_config.php RPC will use the above terms of use text entered above. Otherwise, the original terms_of_use.txt text file in the project directory is used. And you will need to be responsible for keeping both the text file and the above terms of use text up-to-date and in sync with each other.'),
+  );
+
   $form['boinc_weboptions_agreequestion'] = array(
     '#type' => 'textfield',
-    '#title' => t('Terms of use opt-in question'),
+    '#title' => t('Terms of use agreement question'),
     '#description' => t('This text is presented to the user as the question next to the \'I agree\' checkbox.'),
     '#default_value' => $default['boinc_weboptions_agreequestion'],
   );
@@ -380,6 +389,13 @@ function boincuser_admin_weboptions(&$form_state) {
     '#title' => t('Instructions for username/email/password questions'),
     '#description' => t('Title text presented below terms of use and above username/email/password textfields.'),
     '#default_value' => $default['boinc_weboptions_registrationtitle2'],
+  );
+
+  $form['boinc_weboptions_existinguser_tou'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Are existing users forced to agree to the Terms of Use?'),
+    '#default_value' => $default['boinc_weboptions_existinguser_tou'],
+    '#description' => t('If TRUE, existing users are forced to agree to a terms of use (if present) when the login and the system has detected they have not agreed. Otherwise they may login as normal. This option has no affect on whether or not new users must agree to the terms of use.'),
   );
 
   $form['pathtitle'] = array(

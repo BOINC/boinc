@@ -42,6 +42,9 @@ public:
 
     /// Creates the controls and sizers
     void CreateControls();
+    
+    /// Handles clicks on links
+    void OnLinkClicked( wxHtmlLinkEvent & event );
 
 ////@begin CTermsOfUsePage event handler declarations
 

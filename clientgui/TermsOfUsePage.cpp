@@ -54,6 +54,7 @@ BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
     EVT_WIZARDEX_CANCEL( -1, CTermsOfUsePage::OnCancel )
     EVT_RADIOBUTTON( ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
     EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
+    EVT_HTML_LINK_CLICKED(ID_TERMSOFUSECTRL, CTermsOfUsePage::OnLinkClicked)
 ////@end CTermsOfUsePage event table entries
  
 END_EVENT_TABLE()
@@ -138,7 +139,19 @@ void CTermsOfUsePage::CreateControls()
 
 ////@end CTermsOfUsePage content construction
 }
-  
+
+
+void CTermsOfUsePage::OnLinkClicked( wxHtmlLinkEvent& event ) {
+    wxString url = event.GetLinkInfo().GetHref();
+    if (url.StartsWith(wxT("http://")) || url.StartsWith(wxT("https://"))) {
+        // wxHtmlLinkEvent doesn't have Veto(), but only loads the page if you
+          // call Skip().
+            wxLaunchDefaultBrowser(url);
+    } else {
+        event.Skip();
+    }
+ }
+
 /*!
  * Gets the previous page.
  */
@@ -224,14 +237,10 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Please read the following terms of use:")
     );
 
-    std::string tou = pc.terms_of_use;
-    xml_unescape(tou);
-    wxString terms_of_use(tou.c_str(), wxConvUTF8);
-    // HTML TOU can have no open/close html tags
-    // so I see no proper way to identify
-    // whether it is html or plain text
-    // and I have to use this dirty hack
-    if (pc.terms_of_use == tou) {
+    wxString terms_of_use(pc.terms_of_use.c_str(), wxConvUTF8);
+    // We need to replace all line endings in text TOU
+    // to make it looks properly in HTML Window
+    if (!pc.terms_of_use_is_html) {
         terms_of_use.Replace("\r\n", "<br>");
         terms_of_use.Replace("\r", "<br>");
         terms_of_use.Replace("\n", "<br>");

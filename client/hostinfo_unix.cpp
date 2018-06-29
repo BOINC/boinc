@@ -1629,65 +1629,6 @@ inline bool all_tty_idle(time_t t) {
     return true;
 }
 
-static const struct dir_input_dev {
-    const char *dir;
-    const char *dev;
-} input_patterns[] = {
-#ifdef unix
-    { "/dev/input","event" },
-    { "/dev/input","mouse" },
-    { "/dev/input/mice","" },
-#endif
-    // add other ifdefs here as necessary.
-    { NULL, NULL },
-};
-
-vector<string> get_input_list() {
-    // Create a list of all terminal devices on the system.
-    char devname[1024];
-    char fullname[1024];
-    int done,i=0;
-    vector<string> input_list;
-
-    do {
-        DIRREF dev=dir_open(input_patterns[i].dir);
-        if (dev) {
-            do {
-                // get next file
-                done=dir_scan(devname,dev,1024);
-                // does it match our tty pattern? If so, add it to the tty list.
-                if (!done && (strstr(devname,input_patterns[i].dev) == devname)) {
-                    // don't add anything starting with .
-                    if (devname[0] != '.') {
-                        sprintf(fullname,"%s/%s",input_patterns[i].dir,devname);
-                        input_list.push_back(fullname);
-                    }
-                }
-            } while (!done);
-            dir_close(dev);
-        }
-        i++;
-    } while (input_patterns[i].dir != NULL);
-    return input_list;
-}
-
-inline bool all_input_idle(time_t t) {
-    static vector<string> input_list;
-    struct stat sbuf;
-    unsigned int i;
-
-    if (input_list.size()==0) input_list=get_input_list();
-    for (i=0; i<input_list.size(); i++) {
-        // ignore errors
-        if (!stat(input_list[i].c_str(), &sbuf)) {
-            // printf("input: %s %d %d\n",input_list[i].c_str(),sbuf.st_atime,t);
-            if (sbuf.st_atime >= t) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
 #ifdef __APPLE__
 
 // We can't link the client with the AppKit framework because the client
@@ -2124,15 +2065,6 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     }
 #endif // HAVE_XSS
 
-    // Lets at least check the dev entries which should be correct for
-    // USB keyboards and mice.  If the linux kernel doc is correct it should
-    // also work for bluetooth input devices as well.
-    //
-    // See: https://www.kernel.org/doc/Documentation/input/input.txt
-    //
-    if (!all_input_idle(idle_time)) {
-        return false;
-    }
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
