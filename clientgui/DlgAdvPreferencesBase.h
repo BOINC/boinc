@@ -246,6 +246,7 @@ protected:
 
 public:
     CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );
+    bool isUsingPrivatePrefs();
 
 private:
     void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,

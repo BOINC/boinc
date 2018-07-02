@@ -37,6 +37,8 @@
 #define STATICBOXVERTICALSPACER 10
 #define DAYOFWEEKBORDERSIZE 10
 
+bool usingLocalPrefs;
+
 ///////////////////////////////////////////////////////////////////////////
 
 // NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
@@ -61,7 +63,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
 
 
-    bool usingLocalPrefs = doesLocalPrefsFileExist();
+    usingLocalPrefs = doesLocalPrefsFileExist();
     if (web_prefs_url->IsEmpty()) {
         m_bmpWarning = NULL;
     } else {
@@ -1081,6 +1083,11 @@ bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
     }
     
     return local_prefs_found;
+}
+
+// to make result available externally
+bool CDlgAdvPreferencesBase::isUsingPrivatePrefs() {
+	return usingLocalPrefs;
 }
 
 void CDlgAdvPreferencesBase::makeStaticBoxLabelItalic(wxStaticBox* staticBox) {
