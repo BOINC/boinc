@@ -196,6 +196,9 @@ void CC_CONFIG::show() {
     if (dont_use_vbox) {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
     }
+    if (dont_use_wsl) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use the Windows Subsystem for Linux");
+    }
     for (i=0; i<alt_platforms.size(); i++) {
         msg_printf(NULL, MSG_INFO,
             "Config: alternate platform: %s", alt_platforms[i].c_str()
@@ -362,6 +365,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("lower_client_priority", lower_client_priority)) continue;
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
+        if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
