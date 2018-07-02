@@ -1156,7 +1156,7 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 bool CDlgAdvPreferences::ConfirmSetLocal() {
     wxString strMessage     = wxEmptyString;
 	strMessage.Printf(
-            _("Changing to use the local BOINC settings defined on this page. BOINC will ignore your web-based preferences, even if you subsequently make changes there. Do you want to proceed?")
+            _("Changing to use the local BOINC preferences defined on this page. BOINC will ignore your web-based preferences, even if you subsequently make changes there. Do you want to proceed?")
 	);
     int res = wxGetApp().SafeMessageBox(
         strMessage,
