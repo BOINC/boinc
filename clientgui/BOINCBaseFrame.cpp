@@ -556,6 +556,9 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
                 return;
             }
         }
+    } else if (!wxGetApp().GetAskUserToReconnectToRemoteClient()) {
+        pDoc->Reconnect();
+        return;
     }
 
     // %s is the application name

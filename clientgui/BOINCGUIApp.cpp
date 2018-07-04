@@ -111,6 +111,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bSafeMessageBoxDisplayed = 0;
     m_bRunDaemon = true;
     m_bNeedRunDaemon = true;
+    m_bAskUserToReconnectToRemoteClient = true;
 
     // Initialize local variables
     int      iErrorCode = 0;
@@ -190,6 +191,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
+    m_pConfig->Read(wxT("AskUserToReconnectToRemoteClient"), &m_bAskUserToReconnectToRemoteClient, 1L);
 
     // Detect if the daemon should be launched
     m_bNeedRunDaemon = m_bNeedRunDaemon && m_bRunDaemon;
@@ -587,6 +589,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
+    m_pConfig->Write(wxT("AskUserToReconnectToRemoteClient"), m_bAskUserToReconnectToRemoteClient);
 }
 
 
