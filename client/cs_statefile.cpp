@@ -931,6 +931,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
+            if (cc_config.dont_use_wsl && strstr(avp->plan_class, "wsl")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping wsl app in app_info.xml; wsl disabled in cc_config.xml"
+                );
+                delete avp;
+                continue;
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             }

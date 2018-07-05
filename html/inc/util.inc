@@ -37,6 +37,7 @@ require_once("../inc/bootstrap.inc");
 // parse some stuff from config (do it here for efficiency)
 //
 $config = get_config();
+global $master_url;
 $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
