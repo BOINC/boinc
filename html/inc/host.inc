@@ -122,6 +122,7 @@ function show_host($host, $user, $ipprivate) {
     if ($host->serialnum) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
+    row2(tra("Virtualization"), vbox_desc($host->serialnum));
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
     $v = boinc_version($host->serialnum);
     if ($v) {
@@ -248,6 +249,21 @@ function top_host_table_start($sort_by) {
 
 function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
+}
+
+function vbox_desc($x){
+    if (preg_match("/\[vbox\|(.*)\|([01])\|([01])\]/",$x,$matches)){
+        $desc = "Virtualbox [".$matches[1]."] ".tra("installed").", ";
+        if ($matches[2]=="1" and $matches[3]=="1") {
+            return $desc.tra("CPU has hardware virtualization support and it is enabled");
+        } elseif ($matches[2]=="1" and $matches[3]=="0") {
+            return $desc.tra("CPU has hardware virtualization support but it is disabled");
+        } elseif ($matches[2]=="0") {
+            return $desc.tra("CPU does not have hardware virtualization support");
+        }
+    } else {
+        return tra("None");
+    }
 }
 
 // Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],
