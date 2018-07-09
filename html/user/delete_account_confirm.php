@@ -82,7 +82,7 @@ function delete_account_confirm_action() {
     
     page_head(tra("Account Deleted"));
     
-    echo "<p>".tra("Your account has been deleted.  If you want to contribute to ".PROJECT." in the future you will need to create a new account.")."</p>";
+    echo "<p>".tra("Your account has been deleted.  If you want to contribute to %1 in the future you will need to create a new account.",PROJECT)."</p>";
     
     page_tail();
 }
