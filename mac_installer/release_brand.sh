@@ -1,8 +1,8 @@
-#!/bin/csh
+#!/bin/bash
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2018 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -50,20 +50,26 @@
 ## If you wish to code sign the installer and uninstaller, create a file
 ## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
 ##
-## cd to the boinc directory:
+## cd to the root directory of the boinc tree, for example:
+##     cd <path>/boinc
 ##
-## Invoke this script with the three parts of version number as arguments and the full path to the brand description file.
-## For example, if the version is 3.2.1:
-##     source [path_to_this_script] 3 2 1 ./mac_installer/WCGridInstaller.environment
+## Then invoke this script with the three parts of version number as arguments and the full path 
+## to the brand description file. For example, if the version is 3.2.1:
+##     source ./mac_installer/release_brand.sh 3 2 1 ./mac_installer/WCGridInstaller.environment
 ##
 ## This will create a directory "BOINC_Installer" in the parent directory of
 ## the current directory 
+##
+## For testing only, you can use the development build by adding a fifth argument -dev
+## For example, if the version is 3.2.1:
+##     source /mac_installer/release_brand.sh 3 2 1 ./mac_installer/WCGridInstaller.environment -dev
 
 if [ $# -lt 4 ]; then
 echo "Usage:"
-echo "   cd [path]/boinc"
-echo "   source [path_to_this_script] major_version minor_version revision_number brand_description_file"
-echo "   ex) ./mac_installer/release_brand.sh 7 11 0 mac_installer/WCGridInstaller.environment"
+echo "   cd <path>/boinc"
+echo "   source path_to_this_script major_version minor_version revision_number brand_description_file [-dev]"
+echo "example:"
+echo "   source ./mac_installer/release_brand.sh 7 11 0 ./mac_installer/WCGridInstaller.environment"
 return 1
 fi
 
@@ -96,7 +102,7 @@ if [ "$DarwinMajorVersion" -gt 10 ]; then
     # XCode 3.x and 4.x use different paths for their build products.
     # Our scripts in XCode's script build phase write those paths to 
     # files to help this release script find the build products.
-    if [ "$4" = "-dev" ]; then
+    if [ "$5" = "-dev" ]; then
         exec 7<"mac_build/Build_Development_Dir"
         read -u 7 BUILDPATH
     else
@@ -105,11 +111,11 @@ if [ "$DarwinMajorVersion" -gt 10 ]; then
     fi
 
 else
-    # XCode 3.2 on OS 10.6 does sbuild Intel and PowerPC Universal binaries
+    # XCode 3.2 on OS 10.6 does build Intel and PowerPC Universal binaries
     arch="universal"
 
     # XCode 3.x and 4.x use different paths for their build products.
-    if [ "$4" = "-dev" ]; then
+    if [ "$5" = "-dev" ]; then
         if [ -d mac_build/build/Development/ ]; then
             BUILDPATH="mac_build/build/Development"
         else
