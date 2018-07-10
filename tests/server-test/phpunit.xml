@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="REST API Test Suite">
+            <directory suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+      <const name="protocol" value="http"/>
+        <const name="host" value="localhost"/>
+        <const name="port" value="80"/>
+        <const name="base" value="test"/>
+        <const name="num_platforms" value="4"/>
+    </php>
+</phpunit>
