@@ -42,17 +42,15 @@ docker exec -it boincserverdocker_apache_1 bash
 ```
 
 # Automated Tests
-The tests are written to be automation oriented integration tests.  At the moment the tests are simply testing a few of the [BOINC Web RPC's](https://boinc.berkeley.edu/trac/wiki/WebRpc).  They are executed using gradle and are written using [JUnit](http://junit.org/junit5/) and [REST-assured](http://rest-assured.io/).
+The tests are written to be automation oriented integration tests.  At the moment the tests are simply testing a few of the [BOINC Web RPC's](https://boinc.berkeley.edu/trac/wiki/WebRpc).  They are executed using [PHPUnit](https://phpunit.de/).
 
-Tests can easily be added to this framework to test the scheduler, file uploads using what is already set up.
+Tests can easily be added to this framework to test the scheduler, file uploads and more using what is already set up.
 
-If we want to extend this to test the web interface, we get leverage a platform like [Selenium WebDriver](http://www.seleniumhq.org/docs/03_webdriver.jsp) and run it under JUnit like we are doing with REST-assured.
 
-## Install gradle
-Please follow the instructions at https://gradle.org/install/#manually to install gradle.
+If we want to extend this to test the web interface, we get leverage a platform like Selenium WebDriver and run it under PHPUnit like we are doing with other tets.
 
 ## Run Tests
 Tests are run out of the **_tests_** subdirectory.  They require the BOINC project running (see above).  These test are run with the following command:
 ```
-gradle clean test
+composer test
 ```

@@ -5,7 +5,7 @@ echo "Attempting to install ansible, java and docker"
 #Check if using apt-get
 if [ -n "$(command -v apt-get)"  ];
 then
-    sudo apt-get -y -qq install ansible default-jdk
+    sudo apt-get -y -qq install ansible
     sudo apt-get -y -qq install docker-ce
     if [ $? -ne 0 ];
     then
@@ -18,7 +18,7 @@ fi
 if [ -n "$(command -v yum)" ]; 
 then
     sudo yum -y -q install epel-release
-    sudo yum -y -q install ansible java-1.8.0-openjdk docker
+    sudo yum -y -q install ansible docker composer
 fi
 
 # Add user to docker group so that they can run docker commands
@@ -40,8 +40,20 @@ then
     exit 1
 fi
 
+# Check if composer is installed.  If it isn't, direct user to instructions
+if [ -z "$(command -v composer)" ]; 
+then
+    echo "Please download and install composer.  See https://getcomposer.org/download/"
+    exit 1
+fi
+
 sudo systemctl enable docker
 sudo systemctl restart docker
 
+cd tests
+composer require phpunit/phpunit
+composer require guzzlehttp/guzzle
+composer update
+cd ..
 
 echo "Setup complete."
