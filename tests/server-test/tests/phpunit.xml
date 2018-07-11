@@ -2,8 +2,8 @@
 <phpunit bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="REST API Test Suite">
-            <directory suffix=".php">./config/</directory>
-            <directory suffix=".php">./user/</directory>
+            <directory suffix=".php">./config-tests/</directory>
+            <directory suffix=".php">./user-tests/</directory>
         </testsuite>
     </testsuites>
     <php>
