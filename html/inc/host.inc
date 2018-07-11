@@ -254,7 +254,7 @@ function host_nresults($host) {
 
 // Parse the Virtualbox version information from inside the serialnum field.
 // Prior to BOINC commit 6121ce1, the DB entry looked like e.g. "[vbox|5.0.0]"
-// where Virtualbox 5.0.0 gave the version number. After 6121ce1, the entry was
+// where 5.0.0 gave the Virtualbox version number. After 6121ce1, the entry was
 // "[vbox|5.0.0|1|1]", where now two additional flags give information about
 // hardware virtualization support. Older clients may have the old-style
 // serialnum in the DB despite the server being upgraded.
