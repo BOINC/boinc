@@ -52,6 +52,7 @@ using std::string;
 #include "mac_util.h"
 #include "translate.h"
 #include "file_names.h"
+#include "mac_branding.h"
 
 
 static OSStatus DoUninstall(void);
@@ -81,14 +82,6 @@ static char * gCatalog_Name = (char *)"BOINC-Setup";
 static char loginName[256];
 
 
-#define NUMBRANDS 5
-static char *appName[NUMBRANDS];
-static char *appPath[NUMBRANDS];
-static char *brandName[NUMBRANDS];
-static char *saverName[NUMBRANDS];
-static char *receiptName[NUMBRANDS];
-
-
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 void notused() {
     ShowMessage(true, false, false, (char *)_("OK"));
@@ -106,36 +99,6 @@ int main(int argc, char *argv[])
     FILE                        *f;
     OSStatus                    err = noErr;
     
-    appName[0] = "BOINCManager";
-    appPath[0] = "/Applications/BOINCManager.app";
-    brandName[0] = "BOINC";
-    saverName[0] = "BOINCSaver";
-    receiptName[0] = "/Library/Receipts/BOINC Installer.pkg";
-
-    appName[1] = "GridRepublic Desktop";
-    appPath[1] = "/Applications/GridRepublic Desktop.app";
-    brandName[1] = "GridRepublic";
-    saverName[1] = "GridRepublic";
-    receiptName[1] = "/Library/Receipts/GridRepublic Installer.pkg";
-
-    appName[2] = "Progress Thru Processors Desktop";
-    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    brandName[2] = "Progress Thru Processors";
-    saverName[2] = "Progress Thru Processors";
-    receiptName[2] = "/Library/Receipts/Progress Thru Processors Installer.pkg";
-
-    appName[3] = "Charity Engine Desktop";
-    appPath[3] = "/Applications/Charity Engine Desktop.app";
-    brandName[3] = "Charity Engine";
-    saverName[3] = "Charity Engine";
-    receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
-
-    appName[4] = "World Community Grid";
-    appPath[4] = "/Applications/World Community Grid.app";
-    brandName[4] = "World Community Grid";
-    saverName[4] = "World Community Grid";
-    receiptName[4] = "/Library/Receipts/World Community Grid Installer.pkg";
-
     pathToSelf[0] = '\0';
     // Get the full path to our executable inside this application's bundle
     getPathToThisApp(pathToSelf, sizeof(pathToSelf));
@@ -145,6 +108,11 @@ int main(int argc, char *argv[])
     }
     strlcpy(pathToVBoxUninstallTool, pathToSelf, sizeof(pathToVBoxUninstallTool));
     strlcat(pathToVBoxUninstallTool, "/Contents/Resources/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
+
+    if (!check_branding_arrays(cmd, sizeof(cmd))) {
+        ShowMessage(false, false, false, (char *)_("Branding array has too few entries: %s"), cmd);
+        return -1;
+    }
 
     // To allow for branding, assume name of executable inside bundle is same as name of bundle
     p = strrchr(pathToSelf, '/');         // Assume name of executable inside bundle is same as name of bundle
@@ -1056,7 +1024,9 @@ long GetBrandID(char *path)
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
 }
 

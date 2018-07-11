@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2009 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,6 +34,7 @@
 #include "mac_util.h"
 #include "filesys.h"
 #include "util.h"
+#include "mac_branding.h"
 
 void printUsage(long brandID);
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
@@ -49,13 +50,6 @@ static void SleepSeconds(double seconds);
 long GetBrandID(void);
 static int parse_posic_spawn_command_line(char* p, char** argv);
 int callPosixSpawn(const char *cmd);
-
-
-#define NUMBRANDS 5
-static char *appName[NUMBRANDS];
-static char *appPath[NUMBRANDS];
-static char *brandName[NUMBRANDS];
-static char *saverName[NUMBRANDS];
 
 
 int main(int argc, char *argv[])
@@ -79,31 +73,6 @@ int main(int argc, char *argv[])
     char                s[1024], buf[1024];
     OSStatus            err;
     
-    appName[0] = "BOINCManager";
-    appPath[0] = "/Applications/BOINCManager.app";
-    brandName[0] = "BOINC";
-    saverName[0] = "BOINCSaver";
-
-    appName[1] = "GridRepublic Desktop";
-    appPath[1] = "/Applications/GridRepublic Desktop.app";
-    brandName[1] = "GridRepublic";
-    saverName[1] = "GridRepublic";
-
-    appName[2] = "Progress Thru Processors Desktop";
-    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    brandName[2] = "Progress Thru Processors";
-    saverName[2] = "Progress Thru Processors";
-
-    appName[3] = "Charity Engine Desktop";
-    appPath[3] = "/Applications/Charity Engine Desktop.app";
-    brandName[3] = "Charity Engine";
-    saverName[3] = "Charity Engine";
-
-    appName[4] = "World Community Grid";
-    appPath[4] = "/Applications/World Community Grid.app";
-    brandName[4] = "World Community Grid";
-    saverName[4] = "World Community Grid";
-
     brandID = GetBrandID();
 
 #ifndef _DEBUG
@@ -131,6 +100,11 @@ int main(int argc, char *argv[])
     }
 
     printf("\n");
+
+    if (!check_branding_arrays(s, sizeof(s))) {
+        printf("Branding array has too few entries: %s\n", s);
+        return -1;
+    }
 
     loginName[0] = '\0';
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
@@ -805,7 +779,9 @@ long GetBrandID()
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
 }
 
