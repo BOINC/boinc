@@ -251,15 +251,26 @@ function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
 }
 
+
+// Parse the Virtualbox version information from inside the serialnum field.
+// Prior to BOINC commit 6121ce1, the DB entry looked like e.g. "[vbox|5.0.0]"
+// where Virtualbox 5.0.0 gave the version number. After 6121ce1, the entry was
+// "[vbox|5.0.0|1|1]", where now two additional flags give information about
+// hardware virtualization support. Older clients may have the old-style
+// serialnum in the DB despite the server being upgraded.
 function vbox_desc($x){
-    if (preg_match("/\[vbox\|(.*)\|([01])\|([01])\]/",$x,$matches)){
-        $desc = "Virtualbox [".$matches[1]."] ".tra("installed").", ";
-        if ($matches[2]=="1" and $matches[3]=="1") {
-            return $desc.tra("CPU has hardware virtualization support and it is enabled");
-        } elseif ($matches[2]=="1" and $matches[3]=="0") {
-            return $desc.tra("CPU has hardware virtualization support but it is disabled");
-        } elseif ($matches[2]=="0") {
-            return $desc.tra("CPU does not have hardware virtualization support");
+    if (preg_match("/\[vbox\|(.*?)(\|([01])\|([01]))?\]/",$x,$matches)){
+        $desc = "Virtualbox (".$matches[1].") ".tra("installed");
+        if (sizeof($matches)>2){
+            if ($matches[3]=="1" and $matches[4]=="1") {
+                return $desc.tra(", CPU has hardware virtualization support and it is enabled");
+            } elseif ($matches[3]=="1" and $matches[4]=="0") {
+                return $desc.tra(", CPU has hardware virtualization support but it is disabled");
+            } elseif ($matches[3]=="0") {
+                return $desc.tra(", CPU does not have hardware virtualization support");
+            }
+        } else {
+            return $desc;
         }
     } else {
         return tra("None");
