@@ -387,7 +387,7 @@ function form_select_multiple($label, $name, $items, $flags) {
 
 // $items is list of (name, label, checked)
 //
-function form_checkboxes($label, $items) {
+function form_checkboxes($label, $items, $attrs='') {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
@@ -402,9 +402,9 @@ function form_checkboxes($label, $items) {
         } else {
             echo "<br>\n";
         }
-        echo sprintf('<input type="checkbox" name="%s" %s> %s
+        echo sprintf('<input %s type="checkbox" name="%s" %s> %s
             ',
-            $i[0], $i[2]?"checked":"", $i[1]
+            $attrs, $i[0], $i[2]?"checked":"", $i[1]
         );
     }
     echo '</div>
@@ -456,11 +456,11 @@ function form_general($label, $item) {
 ';
 }
 
-function form_submit($text) {
+function form_submit($text, $attrs='') {
     form_general(
         "",
-        sprintf('<button type="submit" class="btn btn-success">%s</button>',
-            $text
+        sprintf('<button %s type="submit" class="btn btn-success">%s</button>',
+            $attrs, $text
         )
     );
 }

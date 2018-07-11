@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -252,6 +252,26 @@ void CLIENT_STATE::show_host_info() {
         tz<0?"":"+", tz
     );
 
+#ifdef _WIN64
+    if (host_info.wsl_available) {
+        msg_printf(NULL, MSG_INFO, "WSL detected:");
+        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
+            const WSL& wsl = host_info.wsls.wsls[i];
+            if (wsl.is_default) {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            } else {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            }
+        }
+    } else {
+        msg_printf(NULL, MSG_INFO, "No WSL found.");
+    }
+#endif
+
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -438,7 +458,7 @@ int CLIENT_STATE::init() {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        get_primary_platform(),
+        HOSTTYPE,
 #ifdef _DEBUG
         " (DEBUG)"
 #else

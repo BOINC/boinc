@@ -65,3 +65,4 @@ extern int write_modified_app_versions(
 );
 
 extern int grant_credit_by_app(RESULT& result, double credit);
+extern double low_average(std::vector<double>&);

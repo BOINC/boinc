@@ -26,7 +26,7 @@
   $total_count = 0;
   
   // Get the users with subscriptions to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $subscribed_boinc_users = db_query("
     SELECT DISTINCT userid FROM {subscriptions}
     ORDER BY userid ASC %s", $limit

@@ -17,6 +17,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Show a page with download links and instructions.
+// There's a logged-in user.
+//
+// If no project ID, redirect to BOINC web site
+// otherwise...
 //
 // - get platform from user agent string
 // - find latest version for that platform (regular and vbox)
@@ -30,8 +34,7 @@
 //
 // Notes:
 // 1) You need to have the client versions file
-//    (https://boinc.berkeley.edu/download_all.php?xml=1)
-//    saved as "versions.xml" in your html/user dir
+//      run html/ops/get_versions.php
 // 2) Put your project ID in a constant PROJECT_ID
 //    (this all works only for listed projects)
 
@@ -73,7 +76,7 @@ function client_info_to_platform($client_info) {
 
 // find release version for user's platform
 //
-function get_version() {
+function get_version($dev) {
     $v = simplexml_load_file("versions.xml");
     $client_info = $_SERVER['HTTP_USER_AGENT'];
     $p = client_info_to_platform($client_info);
@@ -81,10 +84,14 @@ function get_version() {
         if ((string)$v->dbplatform != $p) {
             continue;
         }
-        if (!strstr((string)$v->description, "ecommended")) {
-            continue;
+        if (strstr((string)$v->description, "Recommended")) {
+            return $v;
         }
-        return $v;
+        if ($dev) {
+            if (strstr((string)$v->description, "Development")) {
+                return $v;
+            }
+        }
     }
     return null;
 }
@@ -140,41 +147,74 @@ function download_button_vbox($v, $project_id, $token, $user) {
     );
 }
 
-function show_download_page($user) {
+// We can't use auto-attach; direct them to the BOINC download page
+//
+function direct_to_boinc() {
+    global $master_url;
+    page_head(tra("Download BOINC"));
+    text_start();
+    echo sprintf(
+        '<p>%s
+        <p><p>
+        %s
+        <p>
+        <a href=https://boinc.berkeley.edu/download.php>%s</a>
+        ',
+        tra("To download and install BOINC,
+            click on the link below and follow the instructions.
+        "),
+        tra("When BOINC first runs it will ask you to select a project.
+            Select %1 from the list,
+            or enter this project's URL: %2",
+            PROJECT,
+            $master_url
+        ),
+        tra("Go the BOINC download page.")
+    );
+    text_end();
+    page_tail();
+}
+
+function show_download_page($user, $dev) {
     global $config;
     $need_vbox = parse_bool($config, "need_vbox");
     $project_id = parse_config($config, "<project_id>");
     if (!$project_id) {
-        error_page("must specify project ID in config.xml");
+        direct_to_boinc();
+        return;
     }
-    $v = get_version();
+    $v = get_version($dev);
 
     // if we can't figure out the user's platform,
-    // take them to the download_all page
+    // take them to the download page on the BOINC site
     //
     if (!$v) {
-        Header("Location: https://boinc.berkeley.edu/download_all.php");
-        exit;
+        direct_to_boinc();
+        return;
     }
 
     page_head("Download software");
-    $mcv = parse_config($config, "<min_core_client_version>");
-    $dlv = "BOINC";
-    $dl = "BOINC";
-    if ($mcv) {
-        $dlv .= " version " . version_string_maj_min_rel($mcv). " or later";
-    }
 
-    $phrase = "this is";
+    $phrase = "";
     if ($need_vbox) {
-        $mvv = parse_config($config, "<vbox_min_version>");
-        $dl .= " and VirtualBox";
-        $dlv .= " and VirtualBox ".version_string_maj_min_rel($mvv)." or later";
-        $phrase = "these are";
+        $dlv = tra("the current versions of BOINC and VirtualBox");
+        $phrase = tra("these versions are");
+        $dl = tra("BOINC and VirtualBox");
+    } else {
+        $dlv = tra("the current version of BOINC");
+        $phrase = tra("this version is");
+        $dl = "BOINC";
     }
-    echo "To participate in ".PROJECT.", $dlv must be installed on your computer.
+    echo tra("To participate in %1, %2 must be installed on your computer.", PROJECT, $dlv);
+    echo"
         <p>
-        If $phrase already installed, <a href=download.php?action=installed>click here</a>.  Otherwise
+    ";
+    echo tra("If %1 already installed, %2click here%3; otherwise:",
+        $phrase,
+        "<a href=download.php?action=installed>",
+        "</a>"
+    );
+    echo "
         <p>
     ";
     $token = make_login_token($user);
@@ -191,10 +231,10 @@ function show_download_page($user) {
         table_row("", download_button($v, $project_id, $token, $user), "");
     }
     echo "</table></center>\n";
-    echo "<p><p>
-        When the download is finished,
-        open the downloaded file to install $dl.
-    ";
+    echo "<p><p>";
+    echo tra("When the download is finished, open the downloaded file to install %1.", $dl);
+    echo "<p><p>";
+    echo tra("All done? %1Click here to finish%2.", "<a href=welcome.php>", "</a>");
     page_tail();
 }
 
@@ -204,35 +244,53 @@ function installed() {
     global $config;
     $am = parse_bool($config, "account_manager");
     if ($am) {
-        page_head("Use ".PROJECT);
-        echo "To add ".PROJECT." on this computer:
-        <ul>
-        <li> In the BOINC manager, go to the Tools menu
-        <li> Select Use Account Manager
-        <li> Select ".PROJECT." from the menu
-        <li> Enter your email address and ".PROJECT." password.
-        </ul>
-        ";
+        page_head(tra("Use %1", PROJECT));
+        echo sprintf("%s
+            <ul>
+            <li> %s
+            <li> %s
+            <li> %s
+            <li> %s
+            </ul>
+            ",
+            tra("To use %1 on this computer:", PROJECT),
+            tra("In the BOINC manager, go to the Tools menu"),
+            tra("Select Use Account Manager"),
+            tra("Select %1 from the list", PROJECT),
+            tra("Enter your %1 email address and password.", PROJECT)
+        );
     } else {
-        page_head("Add ".PROJECT);
-        echo "To add ".PROJECT." on this computer:
-        <ul>
-        <li> In the BOINC manager, go to the Tools menu
-        <li> Select Add Project
-        <li> Select ".PROJECT." from the menu
-        <li> Enter your email address and ".PROJECT." password.
-        </ul>
-        ";
+        page_head(tra("Add %1", PROJECT));
+        echo sprintf("%s
+            <ul>
+            <li> %s
+            <li> %s
+            <li> %s
+            <li> %s
+            </ul>
+            ",
+            tra("To add %1 on this computer:", PROJECT),
+            tra("In the BOINC manager, go to the Tools menu"),
+            tra("Select Add Project"),
+            tra("Select %1 from the list", PROJECT),
+            tra("Enter your %1 email address and password.", PROJECT)
+        );
     }
+    echo "<p><p>";
+    echo sprintf('<a href=home.php class="btn btn-success">%s</a>
+        ',
+        tra('Continue to your home page')
+    );
     page_tail();
 }
 
 $user = get_logged_in_user();
 $action = get_str("action", true);
+$dev = get_str("dev", true);
 if ($action == "installed") {
     installed();
 } else {
-    show_download_page($user);
+    show_download_page($user, $dev);
 }
 
 ?>

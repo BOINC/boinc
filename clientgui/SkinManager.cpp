@@ -756,6 +756,7 @@ CSkinWizardATAM::~CSkinWizardATAM() {
 
 
 void CSkinWizardATAM::Clear() {
+    m_strTitle = wxEmptyString;
     m_strAccountInfoMessage = wxEmptyString;
 }
 
@@ -768,6 +769,10 @@ int CSkinWizardATAM::Parse(MIOFILE& in) {
         if (match_tag(buf, "</attach_to_account_manager>")) break;
         else if (parse_str(buf, "<account_info_message>", strBuffer)) {
             m_strAccountInfoMessage = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        }
+        else if (parse_str(buf, "<title>", strBuffer)) {
+            m_strTitle = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         }
     }

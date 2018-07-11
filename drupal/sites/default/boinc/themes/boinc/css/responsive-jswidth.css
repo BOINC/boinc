@@ -103,15 +103,17 @@
 /* Add caret left/down icons to the mobile menu for items that
    expand. */
 .has-js #navigation.usehamburger li.dhtml-menu.collapsed>a:after {
-    /* Caret left */
-    content: "\f0da";
-    font-family: FontAwesome;
-    padding-left: 5px;
+  /* Caret right */
+  content: '\f0da';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  padding-left: 5px;
 }
 
 .has-js #navigation.usehamburger li.dhtml-menu.expanded>a:after {
-    /* Caret down */
-    content: "\f0d7";
-    font-family: FontAwesome;
-    padding-left: 5px;
+  /* Caret down */
+  content: '\f0d7';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  padding-left: 5px;
 }

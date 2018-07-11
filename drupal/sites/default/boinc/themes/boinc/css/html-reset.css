@@ -249,6 +249,13 @@ a:focus {
 a:active {
 }
 
+a[href*='//']:before {
+  /* Link */
+  content: '\f0c1';
+  font-family: 'Font Awesome 5 Free';
+  padding-right: .1em;
+}
+
 /*
  * Tables
  *

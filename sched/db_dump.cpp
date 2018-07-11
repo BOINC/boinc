@@ -63,15 +63,19 @@ using std::vector;
 #define SORT_TOTAL_CREDIT   2
 #define SORT_EXPAVG_CREDIT  3
 
-#define TABLE_USER  0
-#define TABLE_TEAM  1
-#define TABLE_HOST  2
+#define NUM_TABLES          5
+
+#define TABLE_USER          0
+#define TABLE_TEAM          1
+#define TABLE_HOST          2
+#define TABLE_USER_DELETED  3
+#define TABLE_HOST_DELETED  4
 
 // must match the above
-const char* table_name[3] = {"user", "team", "host"};
-const char* tag_name[3] = {"users", "teams", "hosts"};
+const char* table_name[NUM_TABLES] = {"user", "team", "host", "user_deleted", "host_deleted"};
+const char* tag_name[NUM_TABLES] = {"users", "teams", "hosts", "users_deleted", "hosts_deleted"};
 
-int nusers, nhosts, nteams;
+int nusers, nhosts, nteams, nusers_deleted, nhosts_deleted;
 double total_credit;
 bool have_badges = false;
 
@@ -158,7 +162,7 @@ int ENUMERATION::parse(FILE* in) {
             continue;
         }
         if (parse_str(buf, "<table>", buf2, sizeof(buf2))) {
-            for (i=0; i<3; i++) {
+            for (i=0; i<NUM_TABLES; i++) {
                 if (!strcmp(buf2, table_name[i])) {
                     table = i;
                     break;
@@ -298,6 +302,17 @@ void NUMBERED_ZFILE::set_id(int id) {
     }
 }
 
+void write_host_deleted(HOST_DELETED& host_deleted, FILE* f) {
+    fprintf(f,
+        "<host>\n"
+        "    <id>%lu</id>\n"
+        "    <host_cpid>%s</host_cpid>\n"
+        "</host>\n",
+        host_deleted.hostid,
+        host_deleted.public_cross_project_id
+    );
+}
+
 void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
     char p_vendor[2048], p_model[2048], os_name[2048], os_version[2048];
@@ -410,6 +425,17 @@ void write_host(HOST& host, FILE* f, bool detail) {
     }
     fprintf(f,
         "</host>\n"
+    );
+}
+
+void write_user_deleted(USER_DELETED& user_deleted, FILE* f) {
+    fprintf(f,
+        "<user>\n"
+        "    <id>%lu</id>\n"
+        "    <cpid>%s</cpid>\n"
+        "</user>\n",
+        user_deleted.userid,
+        user_deleted.public_cross_project_id
     );
 }
 
@@ -695,6 +721,8 @@ int tables_file(char* dir) {
     if (nusers) fprintf(zf.f, "    <nusers_total>%d</nusers_total>\n", nusers);
     if (nteams) fprintf(zf.f, "    <nteams_total>%d</nteams_total>\n", nteams);
     if (nhosts) fprintf(zf.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
+    if (nusers_deleted) fprintf(zf.f, "    <nusers_deleted_total>%d</nusers_deleted_total>\n", nusers_deleted);
+    if (nhosts_deleted) fprintf(zf.f, "    <nhosts_deleted_total>%d</nhosts_deleted_total>\n", nhosts_deleted);
     if (total_credit) fprintf(zf.f, "    <total_credit>%lf</total_credit>\n", total_credit);
     print_apps(zf.f);
     print_badges(zf.f);
@@ -706,8 +734,10 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     unsigned int i;
     int n, retval;
     DB_USER user;
+    DB_USER_DELETED user_deleted;
     DB_TEAM team;
     DB_HOST host;
+    DB_HOST_DELETED host_deleted;
     char clause[256];
     char path[MAXPATHLEN];
 
@@ -744,6 +774,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         while (1) {
             retval = user.enumerate(clause, true);
             if (retval) break;
+            if (!strncmp("deleted", user.authenticator, 7)) continue;
             nusers++;
             total_credit += user.total_credit;
             for (i=0; i<outputs.size(); i++) {
@@ -765,12 +796,38 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             exit(retval);
         }
         break;
+    case TABLE_USER_DELETED:
+        n = 0;
+        while (1) {
+            retval = user_deleted.enumerate("order by userid");
+            if (retval) break;
+            nusers_deleted++;
+            for (i=0; i<outputs.size(); i++) {
+                OUTPUT& out = outputs[i];
+                if (sort == SORT_ID && out.recs_per_file) {
+                    out.nzfile->set_id(n++);
+                }
+                if (out.zfile) {
+                    write_user_deleted(user_deleted, out.zfile->f);
+                } else {
+                    write_user_deleted(user_deleted, out.nzfile->f);
+                }
+            }
+        }
+        if (retval != ERR_DB_NOT_FOUND) {
+            log_messages.printf(MSG_CRITICAL,
+                "user_deleted enum: %s", boincerror(retval)
+            );
+            exit(retval);
+        }
+        break;
     case TABLE_HOST:
         n = 0;
         while(1) {
             retval = host.enumerate(clause);
             if (retval) break;
             if (!host.userid) continue;
+            if (!strncmp("deleted", host.domain_name, 8)) continue;
             nhosts++;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
@@ -787,6 +844,31 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         if (retval != ERR_DB_NOT_FOUND) {
             log_messages.printf(MSG_CRITICAL,
                 "host enum: %s", boincerror(retval)
+            );
+            exit(retval);
+        }
+        break;
+    case TABLE_HOST_DELETED:
+        n = 0;
+        while(1) {
+            retval = host_deleted.enumerate("order by hostid");
+            if (retval) break;
+            nhosts_deleted++;
+            for (i=0; i<outputs.size(); i++) {
+                OUTPUT& out = outputs[i];
+                if (sort == SORT_ID && out.recs_per_file) {
+                    out.nzfile->set_id(n++);
+                }
+                if (out.zfile) {
+                    write_host_deleted(host_deleted, out.zfile->f);
+                } else {
+                    write_host_deleted(host_deleted, out.nzfile->f);
+                }
+            }
+        }
+        if (retval != ERR_DB_NOT_FOUND) {
+            log_messages.printf(MSG_CRITICAL,
+                "host_deleted enum: %s", boincerror(retval)
             );
             exit(retval);
         }

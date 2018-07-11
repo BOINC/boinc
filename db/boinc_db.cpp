@@ -71,8 +71,10 @@ void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void USER::clear() {memset(this, 0, sizeof(*this));}
+void USER_DELETED::clear() {memset(this, 0, sizeof(*this));}
 void TEAM::clear() {memset(this, 0, sizeof(*this));}
 void HOST::clear() {memset(this, 0, sizeof(*this));}
+void HOST_DELETED::clear() {memset(this, 0, sizeof(*this));}
 void RESULT::clear() {
     memset(this, 0, sizeof(*this));
     size_class = -1;
@@ -119,10 +121,14 @@ DB_APP_VERSION::DB_APP_VERSION(DB_CONN* dc) :
     DB_BASE("app_version", dc?dc:&boinc_db){}
 DB_USER::DB_USER(DB_CONN* dc) :
     DB_BASE("user", dc?dc:&boinc_db){}
+DB_USER_DELETED::DB_USER_DELETED(DB_CONN* dc) :
+    DB_BASE("user_deleted", dc?dc:&boinc_db){}
 DB_TEAM::DB_TEAM(DB_CONN* dc) :
     DB_BASE("team", dc?dc:&boinc_db){}
 DB_HOST::DB_HOST(DB_CONN* dc) :
     DB_BASE("host", dc?dc:&boinc_db){}
+DB_HOST_DELETED::DB_HOST_DELETED(DB_CONN* dc) :
+    DB_BASE("host_deleted", dc?dc:&boinc_db){}
 DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
     DB_BASE("workunit", dc?dc:&boinc_db){}
 DB_CREDITED_JOB::DB_CREDITED_JOB(DB_CONN* dc) :
@@ -192,8 +198,10 @@ DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
 DB_ID_TYPE DB_APP::get_id() {return id;}
 DB_ID_TYPE DB_APP_VERSION::get_id() {return id;}
 DB_ID_TYPE DB_USER::get_id() {return id;}
+DB_ID_TYPE DB_USER_DELETED::get_id() {return userid;}
 DB_ID_TYPE DB_TEAM::get_id() {return id;}
 DB_ID_TYPE DB_HOST::get_id() {return id;}
+DB_ID_TYPE DB_HOST_DELETED::get_id() {return hostid;}
 DB_ID_TYPE DB_WORKUNIT::get_id() {return id;}
 DB_ID_TYPE DB_RESULT::get_id() {return id;}
 DB_ID_TYPE DB_MSG_FROM_HOST::get_id() {return id;}
@@ -348,6 +356,7 @@ void DB_USER::db_print(char* buf){
     ESCAPE(project_prefs);
     ESCAPE(url);
     ESCAPE(signature);
+    ESCAPE(previous_email_addr);
     sprintf(buf,
         "create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
@@ -360,7 +369,8 @@ void DB_USER::db_print(char* buf){
         "seti_total_cpu=%.15e, signature='%s', has_profile=%d, "
         "cross_project_id='%s', passwd_hash='%s', "
         "email_validated=%d, donated=%d, "
-        "login_token='%s', login_token_time=%f",
+        "login_token='%s', login_token_time=%f, "
+	"previous_email_addr='%s', email_addr_change_time=%f",
         create_time, email_addr, name,
         authenticator,
         country, postal_code,
@@ -372,7 +382,8 @@ void DB_USER::db_print(char* buf){
         seti_total_cpu, signature, has_profile,
         cross_project_id, passwd_hash,
         email_validated, donated,
-        login_token, login_token_time
+        login_token, login_token_time,
+	previous_email_addr, email_addr_change_time
     );
     UNESCAPE(email_addr);
     UNESCAPE(name);
@@ -382,6 +393,7 @@ void DB_USER::db_print(char* buf){
     UNESCAPE(project_prefs);
     UNESCAPE(url);
     UNESCAPE(signature);
+    UNESCAPE(previous_email_addr);
 }
 
 void DB_USER::db_parse(MYSQL_ROW &r) {
@@ -417,6 +429,23 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     donated = atoi(r[i++]);
     strcpy2(login_token, r[i++]);
     login_token_time = atof(r[i++]);
+    strcpy2(previous_email_addr, r[i++]);
+    email_addr_change_time = atof(r[i++]);
+}
+
+void DB_USER_DELETED::db_print(char* buf){
+    sprintf(buf,
+        "public_cross_project_id=%s, create_time=%.15e",
+        public_cross_project_id, create_time
+    );
+} 
+
+void DB_USER_DELETED::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    userid = atol(r[i++]);
+    strcpy2(public_cross_project_id, r[i++]);
+    create_time = atof(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -886,6 +915,21 @@ int DB_HOST::fpops_stddev(double& stddev) {
         "select stddev(p_fpops) from host where expavg_credit>10"
     );
     return db->get_double(query, stddev);
+}
+
+void DB_HOST_DELETED::db_print(char* buf){
+    sprintf(buf,
+        "public_cross_project_id=%s, create_time=%.15e",
+        public_cross_project_id, create_time
+    );
+}
+
+void DB_HOST_DELETED::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    hostid = atol(r[i++]);
+    strcpy2(public_cross_project_id, r[i++]);
+    create_time = atof(r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){

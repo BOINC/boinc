@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
+require_once("../inc/password_compat/password.inc");
+require_once("../inc/user_util.inc");
 
 // do a very cursory check that the given text is valid;
 // for now, just make sure it has the given start and end tags,
@@ -110,7 +112,24 @@ $url = BoincDb::escape_string($url);
 $send_email = BoincDb::escape_string($send_email);
 $show_hosts = BoincDb::escape_string($show_hosts);
 $venue = BoincDb::escape_string($venue);
-if ($email_addr) {
+$send_changed_email_to_user = false;
+$email_addr = strtolower($email_addr);
+if ($email_addr && $email_addr != $user->email_addr) {
+    $tmpuser = BoincUser::lookup_email_addr($email_addr);
+    if ($tmpuser) {
+        xml_error(ERR_DB_NOT_UNIQUE, "There's already an account with that email address.");
+    }
+
+    //check if the email address is included in previous_email_addr window. 
+    //
+    $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
+    if ($tmpuser) {
+        xml_error(ERR_DB_NOT_UNIQUE, "Email address is already in use");
+    }
+    if ($user->email_addr_change_time + 604800 > time()) {
+        xml_error(ERR_BAD_EMAIL_ADDR, "Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change is incorrect.");
+    }
+
     if (!is_valid_email_addr($email_addr)) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
     }
@@ -171,12 +190,24 @@ if (!is_null($teamid)) {
 if ($venue) {
     $query .= " venue='$venue', ";
 }
-if ($email_addr && $email_addr!=$user->email_addr) {
-    $old_email_addr = $user->email_addr;
-    $query .= " email_addr='$email_addr', ";
+
+// Check to see if email_addr is different then what user->email-addr has
+// If it is different, then update the database and trigger sending an
+// email to the user that the email address has been changed.
+//
+if ($email_addr && $email_addr != $user->email_addr) {
+    $user->previous_email_addr = $user->email_addr;
+    $user->email_addr_change_time = time();
+    $user->email_addr = $email_addr;
+    $query .= " email_addr='$user->email_addr', ";
+    if ($user->previous_email_addr) {
+        $query .= " previous_email_addr='$user->previous_email_addr', email_addr_change_time=$user->email_addr_change_time, ";
+        $send_changed_email_to_user = true;
+    }
 }
 if ($password_hash) {
-    $query .= " passwd_hash='$password_hash', ";
+    $database_passwd_hash = password_hash($password_hash, PASSWORD_DEFAULT);
+    $query .= " passwd_hash='$database_passwd_hash', ";
 }
 
 if (strlen($query)) {
@@ -186,6 +217,9 @@ if (strlen($query)) {
     $query = "$query seti_id=seti_id";
     $result = $user->update($query);
     if ($result) {
+        if ($send_changed_email_to_user) {
+            send_changed_email($user);
+        }
         success("");
     } else {
         xml_error(-1, "database error: ".BoincDb::error());

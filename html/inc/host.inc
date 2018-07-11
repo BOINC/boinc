@@ -796,7 +796,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
 function anonymize_hosts($user) {
     $hosts = BoincHost::enum("userid=$user->id");
     foreach ($hosts as $h) {
-        $h->update("domain_name='', last_ip_addr=''");
+        $h->update("domain_name='deleted', last_ip_addr=''");
     }
 }
 

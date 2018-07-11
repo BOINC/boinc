@@ -26,7 +26,7 @@
   
   $count = 0;
   
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   if ($import_lurkers) {
     $boinc_accounts = db_query('SELECT id FROM user ORDER BY id %s', $limit);
   }

@@ -410,6 +410,9 @@ OSStatus CScreensaver::initBOINCApp() {
     case 3:
         m_BrandText = "Charity Engine Desktop";
          break;
+    case 4:
+        m_BrandText = "World Community Grid";
+         break;
     default:
         m_BrandText = "BOINC";
         break;

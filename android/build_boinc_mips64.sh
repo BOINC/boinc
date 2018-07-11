@@ -1,4 +1,5 @@
-#/bin/sh
+#!/bin/sh
+set -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
@@ -19,7 +20,7 @@ export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib64/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=mips64el-linux-android-gcc
 export CXX=mips64el-linux-android-g++
 export LD=mips64el-linux-android-ld
@@ -27,20 +28,20 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -W
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
+export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
 # Prepare android toolchain and environment
 ./build_androidtc_mips64.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
-cd $BOINC
+cd "$BOINC"
 if [ -n "$MAKECLEAN" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=mips64el-linux --with-boinc-platform="mips64el-android-linux-gnu" --with-boinc-alt-platform="mipsel-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=mips64el-linux --with-boinc-platform="mips64el-android-linux-gnu" --with-boinc-alt-platform="mipsel-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi

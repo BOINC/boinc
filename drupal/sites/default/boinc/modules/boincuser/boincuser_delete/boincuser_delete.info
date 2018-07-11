@@ -1,0 +1,9 @@
+; $Id$
+name = BOINC user delete
+description = Module to allow a user to delete own account, both Drupal and BOINC.
+core = 6.x
+dependencies[] = boincuser
+package = BOINC
+
+core = "6.x"
+datestamp = "1504725105"

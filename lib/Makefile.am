@@ -80,18 +80,21 @@ win_sources = \
     procinfo_win.cpp \
     run_app_windows.cpp \
     stackwalker_win.cpp \
-    win_util.cpp
+    win_util.cpp \
+    wslinfo.cpp
 win_headers= \
     boinc_win.h \
     diagnostics_win.h \
     run_app_windows.h \
     stackwalker_win.h \
-    win_util.h
+    win_util.h \
+    wslinfo.h
 else # !OS_WIN32
 if OS_DARWIN
 mac_sources = \
     procinfo_mac.cpp \
     mac/mac_backtrace.cpp \
+    mac/mac_spawn.cpp \
     mac/QBacktrace.c \
     mac/QCrashReport.c \
     mac/QMachOImage.c \
@@ -101,6 +104,7 @@ mac_sources = \
 mac_headers = \
     mac/dyld_gdb.h \
     mac/mac_backtrace.h \
+    mac/mac_spawn.h \
     mac/QBacktrace.h \
     mac/QCrashReport.h \
     mac/QMachOImage.h \

@@ -59,6 +59,24 @@ function boincwork_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 15
   );
+  if (module_exists('ignore_user')) {
+    $items['account/prefs/privacy/ignore_user/add'] = array(
+      'title' => 'Add from ignore list',
+      'description' => 'Add user that you with to ignore to your ignore list.',
+      'page callback' => 'boincwork_ignore_user_add_user',
+      'access callback' => 'user_access',
+      'access arguments' => array('ignore user'),
+      'type' => MENU_CALLBACK,
+    );
+    $items['account/prefs/privacy/ignore_user/remove'] = array(
+      'title' => 'Remove from ignore list',
+      'description' => 'Remove user from your ignore list.',
+      'page callback' => 'boincwork_ignore_user_remove_user',
+      'access callback' => 'user_access',
+      'access arguments' => array('ignore user'),
+      'type' => MENU_CALLBACK,
+    );
+  }// endif module_exists
   $items['account/certs'] = array(
     'title' =>'Account certificate',
     'page callback' => 'boincwork_certificates',
@@ -191,6 +209,17 @@ function boincwork_menu() {
 }
 
 /**
+ * Implementation of hook_theme().
+ */
+function boincwork_theme() {
+  return array(
+    'boincwork_privacyprefs_form' => array(
+      'arguments' => array('form'),
+    ),
+  );
+}
+
+/**
 * Implementation of hook_views_api().
 */
 function boincwork_views_api() {
@@ -228,6 +257,50 @@ function boincwork_locale_refresh() {
   return TRUE; // Meaning it completed with no issues
 }
 
+
+/**
+ * Implementation of hook_privatemsg_message_view_alter
+ */
+
+function boincwork_privatemsg_message_view_alter(&$vars) {
+  global $user;
+
+  $author = $vars['message']['author'];
+  if (!isset($vars['message']['thread_id'])) {
+    // No thread id, this is probably only a preview
+    return;
+  }
+  $thread_id = $vars['message']['thread_id'];
+
+  if ($user->uid != $author->uid) {
+    if ($vars['message']['is_blocked']) {
+      $vars['message_actions']['unignore_user'] = array(
+        'title' => bts('Stop Ignoring User', array(), NULL, 'boinc:ignore-user-remove'),
+        'href' => 'account/prefs/privacy/ignore_user/remove/'. $author->uid,
+        'query' => 'destination=messages/view/' . $thread_id,
+      );
+    }
+    else {
+      $vars['message_actions']['ignore_user'] = array(
+        'title' => bts('Ignore User', array(), NULL, 'boinc:ignore-user-add'),
+        'href' => 'account/prefs/privacy/ignore_user/add/'. $author->uid,
+        'query' => 'destination=messages/view/' . $thread_id,
+      );
+    }
+  }
+}
+
+/**
+ * Implementation of hook_cron()
+ */
+function boincwork_cron() {
+  // Delete expired hosts in the BOINC database, host_delete table.
+  require_boinc('boinc_db');
+  $num_deleted = BoincHostDeleted::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boincwork', "Deleted ${num_deleted} hosts from host_deleted table", WATCHDOG_NOTICE);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
@@ -852,7 +925,7 @@ function boincwork_host_delete($host_id) {
   if (boincwork_host_user_is_owner($host_id)) {
     if (!boincwork_host_get_task_count($host_id)) {
       // Delete the host record
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $host_deleted = db_query(
         "DELETE FROM {host} WHERE id = '%d'",
         $host_id
@@ -906,7 +979,7 @@ function boincwork_host_log($host_id = null) {
 function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
   global $user;
   $account = user_load($user->uid);
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   // Verify that this is my host
   $host_owner = db_result(db_query(
     "SELECT userid FROM {host} WHERE id = '%d'",
@@ -914,7 +987,7 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
   ));
   db_set_active('default');
   if ($host_owner AND $host_owner == $account->boincuser_id) {
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $updated = db_query(
       "UPDATE {host} SET venue = '%s' WHERE id = '%d'",
       $venue, $host_id
@@ -980,8 +1053,30 @@ function boincwork_get_output() {
  * Get the project configuration XML; used by client software
  */
 function boincwork_get_project_config() {
+  ob_start();
   include_boinc('user/get_project_config.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+
+  // obtain Drupal variables
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  $overrideboinctou = variable_get('boinc_weboptions_overrideboinctou', FALSE);
+
+  // If terms of use string exists and override is true, set terms-of-use
+  // to Drupal varaible.
+  if ( (!empty($termsofuse) && ($overrideboinctou)) ) {
+    if (!empty($xml['project_config']['terms_of_use'])) {
+      // Remove any existing terms of use
+      unset($xml['project_config']['terms_of_use']);
+    }
+
+    // Add terms of use from Drupal
+    $xml['project_config']['terms_of_use']['@value'] = $termsofuse;
+  }
+
+  print save_configuration($xml);
 }
+
 
 /**
  * Page callback for the remote job submission RPC (submit_rpc_handler.php).

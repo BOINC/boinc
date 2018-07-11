@@ -40,13 +40,24 @@ function main() {
     echo "<login_token_reply>\n";
     if (parse_bool($config, "account_manager")) {
         echo "   <user_name>$uname</user_name>\n";
+
+        // the following for pre-7.12 clients; can be removed later
+        //
         echo "   <login_name>$user->email_addr</login_name>\n";
         echo "   <passwd_hash>$user->passwd_hash</passwd_hash>\n";
+
+        // the following for later clients
+        //
+        echo "   <authenticator>$user->authenticator</authenticator>\n";
     } else {
-        $auth = weak_auth($user);
-        echo "   <weak_auth>$auth</weak_auth>\n";
+        // the following for pre-7.12 clients; remove soon
+        //
+        echo "   <authenticator>$user->authenticator</authenticator>\n";
         echo "   <user_name>$uname</user_name>\n";
-        if ($user->teamid && $team == BoincTeam::lookup_id($user->teamid)) {
+    }
+    if ($user->teamid) {
+        $team = BoincTeam::lookup_id($user->teamid);
+        if ($team) {
             $tname = htmlentities($team->name);
             echo "    <team_name>$tname</team_name>\n";
         }

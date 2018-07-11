@@ -115,3 +115,60 @@ function boincuser_update_6101() {
   db_add_field($result, 'boincuser', 'uotd_time', $spec);
   return $result;
 }
+
+/**
+ * Add delete_status and grace_period to boincuser table: used by
+ * boincuser_delete module.
+ */
+function boincuser_update_6200() {
+  $result = array();
+
+  $spec = array(
+    'description' => 'A flag to determine if this account is to be deleted or disabled.',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default'  => 0,
+  );
+  db_add_field($result, 'boincuser', 'delete_status', $spec);
+
+  $spec = array(
+    'description' => 'A flag to determine if the user has been notified 24 hours before his/her account is to be deleted or disabled.',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default'  => 0,
+  );
+  db_add_field($result, 'boincuser', 'delete_notified', $spec);
+
+  $spec = array(
+    'description' => 'A timestamp which if reached the account will be disabled or deleted.',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default'  => 0,
+  );
+  db_add_field($result, 'boincuser', 'grace_period', $spec);
+
+  return $result;
+}
+
+/**
+ * Add privacy_consent_dt field to boincuser table. Used to record
+ * when user consented to site's terms-of-use.
+ *
+ */
+function boincuser_update_6300() {
+  $result = array();
+
+  $spec = array(
+    'description' => 'A timestamp which records when a user has consented to the site\'s terms of use.',
+    'type'     => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default'  => 0,
+  );
+  db_add_field($result, 'boincuser', 'privacy_consent_dt', $spec);
+
+  return $result;
+}

@@ -125,7 +125,7 @@ std::wstring boinc_ascii_to_wide(const std::string& str) {
   int length_wide = MultiByteToWideChar(CP_ACP, 0, str.data(), -1, NULL, 0);
   wchar_t *string_wide = static_cast<wchar_t*>(_alloca((length_wide * sizeof(wchar_t)) + sizeof(wchar_t)));
   MultiByteToWideChar(CP_ACP, 0, str.data(), -1, string_wide, length_wide);
-  std::wstring result(string_wide, length_wide);
+  std::wstring result(string_wide, length_wide - 1);
   return result;
 }
 
@@ -133,7 +133,7 @@ std::string boinc_wide_to_ascii(const std::wstring& str) {
   int length_ansi = WideCharToMultiByte(CP_UTF8, 0, str.data(), -1, NULL, 0, NULL, NULL);
   char* string_ansi = static_cast<char*>(_alloca(length_ansi + sizeof(char)));
   WideCharToMultiByte(CP_UTF8, 0, str.data(), -1, string_ansi, length_ansi, NULL, NULL);
-  std::string result(string_ansi, length_ansi);
+  std::string result(string_ansi, length_ansi - 1);
   return result;
 }
 

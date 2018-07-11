@@ -16,7 +16,7 @@
 function boincteam_sync() {
   
   // Get the list of teams to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boinc_teams = db_query('
     SELECT id, name, description, userid, create_time, seti_id
     FROM team
@@ -123,7 +123,7 @@ function boincteam_import($boincteam, $nid = NULL) {
  */
 function _boincteam_userids($boincteamid, $boincid=TRUE) {
   $sql = 'SELECT user.id as id FROM {user} user WHERE user.teamid=%s';
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $dbres = db_query($sql, $boincteamid);
   db_set_active('default');
   $ids = array();
@@ -136,20 +136,4 @@ function _boincteam_userids($boincteamid, $boincid=TRUE) {
   else {
     return array_map('boincuser_lookup_uid', $ids);
   }
-}
-
-/**
- * Autocomplete function to search for username in boinc user
- * database.
- */
-function _boincteam_user_name_autocomplete($string) {
-  $matches = array();
-  db_set_active('boinc');
-  $result = db_query_range("SELECT id,name FROM {user} WHERE name LIKE '%s%'", $string, 0, 10);
-  db_set_active('default');
-  while ($user = db_fetch_object($result)) {
-    $matches[$user->name . '_' . $user->id] = $user->name . " (" . $user->id . ')';
-  }
-
-  drupal_json((object)$matches);
 }

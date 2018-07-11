@@ -17,6 +17,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Utility functions for BOINC web pages
+// Stuff that's not web-specific (e.g. that's used in non-web scripts)
+// should go in util_basic.inc
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -34,6 +37,7 @@ require_once("../inc/bootstrap.inc");
 // parse some stuff from config (do it here for efficiency)
 //
 $config = get_config();
+global $master_url;
 $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
@@ -123,7 +127,7 @@ function secure_url_base() {
 }
 
 function url_base() {
-    return secure_url_base();
+    return is_https()?secure_url_base():URL_BASE;
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
@@ -303,7 +307,6 @@ function page_head(
         break;
     }
     project_banner($title, $url_prefix, $is_main);
-    check_web_stopped();
 }
 }
 
@@ -516,12 +519,6 @@ function row_heading($x, $class='bg-primary') {
     echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
         ', $class, $x
     );
-}
-
-// return hard-to-guess string of 32 random hex chars
-//
-function random_string() {
-    return md5(uniqid(rand(), true));
 }
 
 function url_tokens($auth) {
@@ -933,6 +930,9 @@ function get_app_types() {
         if (strstr($av->plan_class, "ati")) {
             $t->ati = true;
             $t->count++;
+        } else if (strstr($av->plan_class, "amd")) {
+            $t->ati = true;
+            $t->count++;
         } else if (strstr($av->plan_class, "cuda")) {
             $t->cuda = true;
             $t->count++;
@@ -1044,10 +1044,6 @@ function show_badges_row($is_user, $item) {
     }
 }
 
-function dtime() {
-    return microtime(true);
-}
-
 // If this request is from a BOINC client, return its version as MMmmRR.
 // Otherwise return 0.
 // Format of user agent string is "BOINC client (windows_x86_64 7.3.17)"
@@ -1109,6 +1105,16 @@ function google_search_form($url) {
         </form>
         </nobr>
     ";
+}
+
+// use the following around text with long lines,
+// to limit the width and make it more readable.
+//
+function text_start($width=640) {
+    echo sprintf("<div style=\"max-width: %dpx;\">\n", $width);
+}
+function text_end() {
+    echo "</div>\n";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

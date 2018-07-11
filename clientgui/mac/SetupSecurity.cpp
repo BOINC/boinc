@@ -126,13 +126,15 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     Boolean                 isDirectory;
     OSStatus                err = noErr;
     
-#define NUMBRANDS 3
+#define NUMBRANDS 5
 
 char *saverName[NUMBRANDS];
 
 saverName[0] = "BOINCSaver";
 saverName[1] = "GridRepublic";
 saverName[2] = "Progress Thru Processors";
+saverName[3] = "Charity Engine";
+saverName[4] = "World Community Grid";
 
     if (geteuid() != 0) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions must be called as root");

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1323,7 +1323,14 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.match_tag("terms_of_use")) {
             char buf[65536];
             if (!xp.element_contents("</terms_of_use>", buf, sizeof(buf))) {
+                // HTML TOU can have no open/close html tags
+                // so I see no proper way to identify
+                // whether it is html or plain text
+                // and I have to use this dirty hack
+                const string tou = buf;
+                xml_unescape(buf);
                 terms_of_use = buf;
+                terms_of_use_is_html = terms_of_use != tou;
             }
             continue;
         }
@@ -1345,6 +1352,7 @@ void PROJECT_CONFIG::clear() {
     master_url.clear();
     web_rpc_url_base.clear();
     error_msg.clear();
+    terms_of_use_is_html = false;
     terms_of_use.clear();
     local_revision = 0;
     min_passwd_length = 6;

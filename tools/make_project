@@ -299,6 +299,18 @@ t.output = 'badge_assign.out'
 t.cmd = 'run_in_ops ./badge_assign.php'
 t.disabled = 0
 
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'delete_expired_tokens.out'
+t.cmd = 'run_in_ops ./delete_expired_tokens.php'
+t.disabled = 0
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'delete_expired_users_and_hosts.out'
+t.cmd = 'run_in_ops ./delete_expired_users_and_hosts.php'
+t.disabled = 0
+
 project.config.write()
 
 if not options.no_db:

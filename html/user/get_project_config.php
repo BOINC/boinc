@@ -48,6 +48,7 @@ function show_platforms() {
 }
 
 $config = get_config();
+global $master_url;
 $long_name = parse_config($config, "<long_name>");
 
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
@@ -61,6 +62,10 @@ echo "<project_config>
     <master_url>$master_url</master_url>
     <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
+
+if (parse_config($config, "<account_manager>")) {
+    echo "    <account_manager/>\n";
+}
 
 $local_revision = @trim(file_get_contents("../../local.revision"));
 if ($local_revision) {

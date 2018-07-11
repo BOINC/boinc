@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -155,6 +155,7 @@ struct CC_CONFIG {
     bool dont_contact_ref_site;
     bool dont_suspend_nci;
     bool dont_use_vbox;
+    bool dont_use_wsl;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;

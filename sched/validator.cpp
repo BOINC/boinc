@@ -40,10 +40,9 @@
 //
 //  [--no_credit]               don't grant credit
 //                              Use this, e.g., if using trickles for credit
-//  [--credit_from_wu]          get credit from WU XML
-//  [--credit_from_runtime X]   grant credit based on runtime,
-//                              assuming single-CPU app.
-//                              X is the max runtime.
+//  [--post_assigned_credit]    init_result() must set result.claimed_credit
+//  [--credit_from_wu]          get credit from workunit.canonical_credit
+//  [--credit_from_runtime]     grant credit based on runtime,
 //  [--wu_id n]                 Validate WU n (debugging)
 
 #include "config.h"
@@ -102,7 +101,7 @@ double max_granted_credit = 200 * 1000 * 365;
 bool update_credited_job = false;
 bool credit_from_wu = false;
 bool credit_from_runtime = false;
-double max_runtime = 0;
+bool post_assigned_credit = false;
 bool no_credit = false;
 bool dry_run = false;
 int wu_id = 0;
@@ -438,40 +437,65 @@ int handle_wu(
                 }
 
                 if (credit_from_wu) {
-                    retval = get_credit_from_wu(wu, viable_results, credit);
-                    if (retval) {
+                    credit = wu.canonical_credit;
+                    if (credit == 0) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%lu %s] get_credit_from_wu(): credit not specified in WU\n",
+                            "[WU#%lu %s] credit not specified in WU\n",
+                            wu.id, wu.name
+                        );
+                    }
+                } else if (credit_from_runtime) {
+                    // take the average of results whose runtime-based credit
+                    // is within range
+                    //
+                    vector<double> cc;
+                    for (i=0; i<viable_results.size(); i++) {
+                        RESULT& result = viable_results[i];
+                        double runtime = result.elapsed_time;
+                        double c = result.flops_estimate * runtime * COBBLESTONE_SCALE;
+                        if (c <=0 || c > max_granted_credit) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[WU#%lu %s] credit out of range: %f\n",
+                                wu.id, wu.name, c
+                            );
+                        } else {
+                            cc.push_back(c);
+                        }
+
+                        log_messages.printf(MSG_DEBUG,
+                            "[WU#%lu][RESULT#%lu] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
+                            wu.id, result.id,
+                            c, runtime, result.flops_estimate/1e9
+                        );
+                    }
+                    if (cc.size()) {
+                        credit = low_average(cc);
+                        log_messages.printf(MSG_DEBUG,
+                            "[WU#%lu %s] credit from runtime: %f\n",
+                            wu.id, wu.name, credit
+                        );
+                    } else {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%lu %s] credit from runtime: no results have valid credit\n",
                             wu.id, wu.name
                         );
                         credit = 0;
                     }
-                } else if (credit_from_runtime) {
+                } else if (post_assigned_credit) {
                     credit = 0;
                     for (i=0; i<viable_results.size(); i++) {
                         RESULT& result = viable_results[i];
-                        if (result.id == canonicalid) {
-                            DB_HOST host;
-                            retval = host.lookup_id(result.hostid);
-                            if (retval) {
-                                log_messages.printf(MSG_CRITICAL,
-                                    "[WU#%lu %s] host %lu lookup failed\n",
-                                    wu.id, wu.name, result.hostid
-                                );
-                                break;
-                            }
-                            double runtime = result.elapsed_time;
-                            if (runtime <=0 || runtime > max_runtime) {
-                                runtime = max_runtime;
-                            }
-                            credit = result.flops_estimate * runtime * COBBLESTONE_SCALE;
-                            log_messages.printf(MSG_NORMAL,
-                                "[WU#%lu][RESULT#%lu] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
-                                wu.id, result.id,
-                                credit, runtime, result.flops_estimate/1e9
-                            );
-                            break;
+                        if (result.id != canonicalid) {
+                            continue;
                         }
+                        credit = result.claimed_credit;
+                        break;
+                    }
+                    if (credit == 0) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%lu %s] post-assigned credit missing\n",
+                            wu.id, wu.name
+                        );
                     }
                 } else if (no_credit) {
                     credit = 0;
@@ -854,9 +878,10 @@ int main(int argc, char** argv) {
             update_credited_job = true;
         } else if (is_arg(argv[i], "credit_from_wu")) {
             credit_from_wu = true;
+        } else if (is_arg(argv[i], "post_assigned_credit")) {
+            post_assigned_credit = true;
         } else if (is_arg(argv[i], "credit_from_runtime")) {
             credit_from_runtime = true;
-            max_runtime = atof(argv[++i]);
         } else if (is_arg(argv[i], "no_credit")) {
             no_credit = true;
         } else if (is_arg(argv[i], "wu_id")) {
@@ -895,8 +920,20 @@ int main(int argc, char** argv) {
     }
 
     if (credit_from_runtime) {
+        if (max_granted_credit == 0) {
+            log_messages.printf(MSG_CRITICAL,
+                "if use credit_from_runtime, must specify max credit\n"
+            );
+            exit(1);
+        }
         log_messages.printf(MSG_NORMAL,
-            "using credit from runtime, max runtime: %f\n", max_runtime
+            "using credit from runtime\n"
+        );
+    }
+
+    if (max_granted_credit) {
+        log_messages.printf(MSG_NORMAL,
+            "max_granted_credit: %f\n", max_granted_credit
         );
     }
 
