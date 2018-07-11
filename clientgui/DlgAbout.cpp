@@ -126,6 +126,9 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCURLCtrl->SetLabel(
         pSkinAdvanced->GetOrganizationWebsite().c_str()
     );
+    m_AboutBOINCURLCtrl->SetURL(
+        pSkinAdvanced->GetOrganizationWebsite().c_str()
+    );
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
