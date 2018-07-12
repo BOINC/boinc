@@ -1140,10 +1140,10 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
     if(!ValidateInput()) {
         return;
     }
-	if (!isUsingPrivatePrefs()) {
+    if (!isUsingLocalPrefs()) {
         if(!this->ConfirmSetLocal()) {
             return;
-			}	
+        }
     }
     if(SavePreferencesSettings()) {
         pDoc->rpc.set_global_prefs_override_struct(prefs,mask);
@@ -1155,9 +1155,9 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 
 bool CDlgAdvPreferences::ConfirmSetLocal() {
     wxString strMessage     = wxEmptyString;
-	strMessage.Printf(
-            _("Changing to use the local BOINC preferences defined on this page. BOINC will ignore your web-based preferences, even if you subsequently make changes there. Do you want to proceed?")
-	);
+    strMessage.Printf(
+            _("Changing to use the local preferences defined on this page. This will override your web-based preferences, even if you subsequently make changes there. Do you want to proceed?")
+    );
     int res = wxGetApp().SafeMessageBox(
         strMessage,
         _("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);

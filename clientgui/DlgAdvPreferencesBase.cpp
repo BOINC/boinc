@@ -171,8 +171,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnCancel->SetToolTip( _("Close the dialog without saving.") );
     if (!usingLocalPrefs) {
-		m_btnCancel->SetDefault();
-	}
+        m_btnCancel->SetDefault();
+    }
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
     m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -1086,8 +1086,8 @@ bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
 }
 
 // to make result available externally
-bool CDlgAdvPreferencesBase::isUsingPrivatePrefs() {
-	return usingLocalPrefs;
+bool CDlgAdvPreferencesBase::isUsingLocalPrefs() {
+    return usingLocalPrefs;
 }
 
 void CDlgAdvPreferencesBase::makeStaticBoxLabelItalic(wxStaticBox* staticBox) {
