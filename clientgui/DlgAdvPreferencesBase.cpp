@@ -37,8 +37,6 @@
 #define STATICBOXVERTICALSPACER 10
 #define DAYOFWEEKBORDERSIZE 10
 
-bool usingLocalPrefs;
-
 ///////////////////////////////////////////////////////////////////////////
 
 // NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
@@ -63,7 +61,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
 
 
-    usingLocalPrefs = doesLocalPrefsFileExist();
+    m_bUsingLocalPrefs = doesLocalPrefsFileExist();
     if (web_prefs_url->IsEmpty()) {
         m_bmpWarning = NULL;
     } else {
@@ -78,7 +76,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
         wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
 
-        if (usingLocalPrefs) {
+        if (m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
                             _("Using local preferences.\n"
@@ -103,7 +101,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
             0, wxLEFT, 5
         );
         
-        if (!usingLocalPrefs) {
+        if (!m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
                      _("Set values and click Save to use local preferences instead."),
@@ -116,7 +114,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
         m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
         m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
-        if (!usingLocalPrefs) {
+        if (!m_bUsingLocalPrefs) {
             m_btnClear->Hide();
         }
         
@@ -163,14 +161,14 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnOK->SetToolTip( _("Save all values and close the dialog.") );
-    if (usingLocalPrefs) {
+    if (m_bUsingLocalPrefs) {
         m_btnOK->SetDefault();
     }
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnCancel->SetToolTip( _("Close the dialog without saving.") );
-    if (!usingLocalPrefs) {
+    if (!m_bUsingLocalPrefs) {
         m_btnCancel->SetDefault();
     }
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
@@ -1083,11 +1081,6 @@ bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
     }
     
     return local_prefs_found;
-}
-
-// to make result available externally
-bool CDlgAdvPreferencesBase::isUsingLocalPrefs() {
-    return usingLocalPrefs;
 }
 
 void CDlgAdvPreferencesBase::makeStaticBoxLabelItalic(wxStaticBox* staticBox) {

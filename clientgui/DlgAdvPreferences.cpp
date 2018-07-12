@@ -1124,7 +1124,7 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
     if(!ValidateInput()) {
         return;
     }
-    if (!isUsingLocalPrefs()) {
+    if (!m_bUsingLocalPrefs()) {
         if(!this->ConfirmSetLocal()) {
             return;
         }
