@@ -254,8 +254,11 @@ public:
 
     wxString    GetAccountInfoMessage() { return m_strAccountInfoMessage; }
 
+    wxString    GetWizardTitle() { return m_strTitle; }
+
 private:
     wxString    m_strAccountInfoMessage;
+    wxString    m_strTitle;
 };
 
 

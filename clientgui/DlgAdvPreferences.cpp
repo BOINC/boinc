@@ -1006,33 +1006,17 @@ bool CDlgAdvPreferences::IsValidFloatValueBetween(const wxString& value, double 
 
 /* checks if the value is a valid time */
 bool CDlgAdvPreferences::IsValidTimeValue(const wxString& value) {
-    for(unsigned int i=0; i < value.Length();i++) {
-        if(!IsValidTimeChar(value[i])) {
+    for (unsigned int i = 0; i < value.Length(); i++) {
+        if (!IsValidTimeChar(value[i])) {
             return false;
         }
     }
-    //verify correct format and range of time values
-    int h = -1, m = -1;
-    //verify the format itself
-    int parsed = sscanf(value.c_str(), "%d:%d", &h, &m);
-    if (parsed != 2) {
-        return false;
-    }
-    //verify hours
-    if (h < 0 || h > 23) {
-        return false;
-    }
-    //verify minutes
-    if (m < 0 || m > 59) {
-        return false;
-    }
     //all chars are valid, now what is with the value as a whole ?
+    if (value == wxT("24:00")) return true;
     wxDateTime dt;
-    const wxChar* stopChar = dt.ParseFormat(value,wxT("%H:%M"));
-    if(stopChar==NULL && value != wxT("24:00")) {
-        // conversion failed
-        return false;
-    }
+    const wxChar* stopChar = dt.ParseFormat(value, wxT("%H:%M"));
+    if (stopChar == NULL) return false;    // conversion failed
+    if (*stopChar != '\0') return false;   // conversion failed
     return true;
 }
 
