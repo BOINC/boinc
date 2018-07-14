@@ -200,7 +200,7 @@
   <string name="projects_add">Layihə əlavə et</string>
   <string name="projects_icon">Layihə ikonu</string>
   <string name="projects_credits">Kredit:</string>
-  <string name="projects_credits_host_and_user">% 1 $, d (bu cihazda)% 2 $, d (ümumi)</string>
+  <string name="projects_credits_host_and_user">%1$,d (bu cihazda) %2$,d (ümumi)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">İstifadəçi tərəfindən dayandırılıb</string>
   <string name="projects_status_dontrequestmorework">Yeni vəzifələr endirilməyəcək</string>
