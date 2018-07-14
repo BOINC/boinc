@@ -210,9 +210,6 @@ void CC_CONFIG::defaults() {
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
     alt_platforms.clear();
-    client_download_url = "https://boinc.berkeley.edu/download.php";
-    client_new_version_text = "";
-    client_version_check_url = "https://boinc.berkeley.edu/download.php?xml=1";
     config_coprocs.clear();
     disallow_attach = false;
     dont_check_file_sizes = false;
@@ -328,17 +325,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {
             alt_platforms.push_back(s);
-            continue;
-        }
-        if (xp.parse_string("client_download_url", client_download_url)) {
-            downcase_string(client_download_url);
-            continue;
-        }
-        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
-            continue;
-        }
-        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
-            downcase_string(client_version_check_url);
             continue;
         }
         if (xp.match_tag("coproc")) {
@@ -523,15 +509,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             alt_platforms[i].c_str()
         );
     }
-
-    out.printf(
-        "        <client_version_check_url>%s</client_version_check_url>\n"
-        "        <client_new_version_text>%s</client_new_version_text>\n"
-        "        <client_download_url>%s</client_download_url>\n",
-        client_version_check_url.c_str(),
-        client_new_version_text.c_str(),
-        client_download_url.c_str()
-    );
 
     for (int k=1; k<config_coprocs.n_rsc; k++) {
         if (!config_coprocs.coprocs[k].specified_in_config) continue;

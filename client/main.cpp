@@ -185,6 +185,7 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stderr, 0);
 
     cc_config.defaults();
+    nvc_config.defaults();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
@@ -233,7 +234,8 @@ static void init_core_client(int argc, char** argv) {
 #endif
 
     read_config_file(true);
-
+    read_vc_config_file();
+    
     // Win32 - detach from console if requested
 #ifdef _WIN32
     if (gstate.detach_console) {

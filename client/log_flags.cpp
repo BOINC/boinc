@@ -331,17 +331,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             alt_platforms.push_back(s);
             continue;
         }
-        if (xp.parse_string("client_download_url", client_download_url)) {
-            downcase_string(client_download_url);
-            continue;
-        }
-        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
-            continue;
-        }
-        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
-            downcase_string(client_version_check_url);
-            continue;
-        }
         if (xp.match_tag("coproc")) {
             COPROC c;
             retval = c.parse(xp);

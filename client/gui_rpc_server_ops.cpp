@@ -1030,7 +1030,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        cc_config.client_download_url.c_str()
+        nvc_config.client_download_url.c_str()
     );
 }
 

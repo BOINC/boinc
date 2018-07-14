@@ -24,15 +24,95 @@
 
 #include "client_msgs.h"
 #include "client_state.h"
-#include "log_flags.h"
+#include "file_names.h"
 
 #include "current_version.h"
+
+NVC_CONFIG nvc_config;
+
+NVC_CONFIG::NVC_CONFIG() {
+    defaults();
+}
+
+// this is called first thing by client
+//
+void NVC_CONFIG::defaults() {
+    client_download_url = "https://boinc.berkeley.edu/download.php";
+    client_new_version_text = "";
+    client_version_check_url = "https://boinc.berkeley.edu/download.php?xml=1";
+};
+
+int NVC_CONFIG::parse(FILE* f) {
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+
+    mf.init_file(f);
+    if (!xp.parse_start("nvc_config")) {
+        msg_printf_notice(NULL, false,
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+            "%s",
+            _("Missing start tag in nvc_config.xml")
+        );
+        return ERR_XML_PARSE;
+    }
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            msg_printf_notice(NULL, false,
+                "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+                "%s: %s",
+                _("Unexpected text in nvc_config.xml"),
+                xp.parsed_tag
+            );
+            continue;
+        }
+        if (xp.match_tag("/nvc_config")) {
+            notices.remove_notices(NULL, REMOVE_CONFIG_MSG);
+            return 0;
+        }
+        if (xp.parse_string("client_download_url", client_download_url)) {
+            downcase_string(client_download_url);
+            continue;
+        }
+        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
+            continue;
+        }
+        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
+            downcase_string(client_version_check_url);
+            continue;
+        }
+        msg_printf_notice(NULL, false,
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+            "%s: <%s>",
+            _("Unrecognized tag in nvc_config.xml"),
+            xp.parsed_tag
+        );
+        xp.skip_unexpected(true, "NVC_CONFIG.parse");
+    }
+    msg_printf_notice(NULL, false,
+        "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+        "%s",
+        _("Missing end tag in nvc_config.xml")
+    );
+    return ERR_XML_PARSE;
+}
+
+int read_vc_config_file() {
+    nvc_config.defaults();
+    FILE* f = boinc_fopen(NVC_CONFIG_FILE, "r");
+    if (!f) {
+        msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
+        return ERR_FOPEN;
+    }
+    nvc_config.parse(f);
+    fclose(f);
+    return 0;
+}
 
 int GET_CURRENT_VERSION_OP::do_rpc() {
     int retval;
 
     retval = gui_http->do_rpc(
-        this, cc_config.client_version_check_url.c_str(),
+        this, nvc_config.client_version_check_url.c_str(),
         GET_CURRENT_VERSION_FILENAME,
         true
     );
@@ -84,21 +164,21 @@ static bool parse_version(FILE* f, char* new_version, int len) {
 }
 
 static void show_newer_version_msg(const char* new_vers) {
-    if (cc_config.client_new_version_text.empty()) {
+    if (nvc_config.client_new_version_text.empty()) {
         msg_printf_notice(0, true,
             "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
             "%s (%s). <a href=%s>%s</a>",
             _("A new version of BOINC is available"),
             new_vers,
-            cc_config.client_download_url.c_str(),
+            nvc_config.client_download_url.c_str(),
             _("Download")
         );
     } else {
         msg_printf_notice(0, true, NULL,
             "%s (%s). <a href=%s>%s</a>",
-            cc_config.client_new_version_text.c_str(),
+            nvc_config.client_new_version_text.c_str(),
             new_vers,
-            cc_config.client_download_url.c_str(),
+            nvc_config.client_download_url.c_str(),
             _("Download")
         );
     }
