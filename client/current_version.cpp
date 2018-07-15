@@ -38,7 +38,7 @@ NVC_CONFIG::NVC_CONFIG() {
 //
 void NVC_CONFIG::defaults() {
     client_download_url = "https://boinc.berkeley.edu/download.php";
-    client_new_version_text = "";
+    client_new_version_name = "";
     client_version_check_url = "https://boinc.berkeley.edu/download.php?xml=1";
 };
 
@@ -73,7 +73,7 @@ int NVC_CONFIG::parse(FILE* f) {
             downcase_string(client_download_url);
             continue;
         }
-        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
+        if (xp.parse_string("client_new_version_name", client_new_version_name)) {
             continue;
         }
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
@@ -163,7 +163,9 @@ static bool parse_version(FILE* f, char* new_version, int len) {
 }
 
 static void show_newer_version_msg(const char* new_vers) {
-    if (nvc_config.client_new_version_text.empty()) {
+    char buf[1024];
+
+    if (nvc_config.client_new_version_name.empty()) {
         msg_printf_notice(0, true,
             "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
             "%s (%s). <a href=%s>%s</a>",
@@ -173,9 +175,12 @@ static void show_newer_version_msg(const char* new_vers) {
             _("Download")
         );
     } else {
+        snprintf(buf, sizeof(buf), _("A new version of %s is available"), 
+            nvc_config.client_new_version_name.c_str()
+        );
         msg_printf_notice(0, true, NULL,
             "%s (%s). <a href=%s>%s</a>",
-            nvc_config.client_new_version_text.c_str(),
+            buf,
             new_vers,
             nvc_config.client_download_url.c_str(),
             _("Download")

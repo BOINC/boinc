@@ -36,7 +36,7 @@ extern void newer_version_startup_check();
 
 struct NVC_CONFIG {
     std::string client_download_url;
-    std::string client_new_version_text;
+    std::string client_new_version_name;
     std::string client_version_check_url;
 
     NVC_CONFIG();

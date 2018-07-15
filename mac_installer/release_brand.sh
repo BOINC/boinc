@@ -197,7 +197,7 @@ cp -fp curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Suppo
 cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
 
 if [ -n "${NEWVERSIONCHECKDIR}" ]; then
-    cp -fp "win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
+    cp -fp "win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/nvc_config.xml
 fi
 
 cp -fp clientscr/res/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
