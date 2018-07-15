@@ -46,6 +46,6 @@ struct NVC_CONFIG {
 
 extern NVC_CONFIG nvc_config;
 
-extern int read_vc_config_file(void);
+extern int read_vc_config_file(const char* fname, NVC_CONFIG& nvc_config_file);
 
 #endif

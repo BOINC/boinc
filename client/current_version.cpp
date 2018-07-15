@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -96,14 +96,13 @@ int NVC_CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int read_vc_config_file() {
-    nvc_config.defaults();
-    FILE* f = boinc_fopen(NVC_CONFIG_FILE, "r");
+int read_vc_config_file(const char* fname, NVC_CONFIG& nvc_config_file) {
+    nvc_config_file.defaults();
+    FILE* f = boinc_fopen(fname, "r");
     if (!f) {
-        msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
         return ERR_FOPEN;
     }
-    nvc_config.parse(f);
+    nvc_config_file.parse(f);
     fclose(f);
     return 0;
 }
@@ -206,9 +205,25 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
 }
 
 // called at startup to see if the client state file
-// says there's a new version
+// says there's a new version. This must be called after
+// read_vc_config_file(NVC_CONFIG_FILE, nvc_config)
 //
 void newer_version_startup_check() {
+    NVC_CONFIG old_nvc_config;
+    
+    // This code expects our installer to rename any previous nvc_config.xml 
+    // file to old_nvc_config.xml.
+    //
+    // If version check URL has changed (perhaps due to installing a build of
+    // BOINC with different branding), reset any past new version information
+    //
+    read_vc_config_file(OLD_NVC_CONFIG_FILE, old_nvc_config);
+    boinc_delete_file(OLD_NVC_CONFIG_FILE);
+    if (old_nvc_config.client_version_check_url != nvc_config.client_version_check_url) {
+        gstate.newer_version = "";
+        return;
+    }
+
     if (!gstate.newer_version.empty()) {
         if (is_version_newer(gstate.newer_version.c_str())) {
             show_newer_version_msg(gstate.newer_version.c_str());
