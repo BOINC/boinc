@@ -26,10 +26,6 @@ require_once("../inc/delete_account.inc");
 require_once("../inc/boinc_db.inc");
 
 die("Delete this line first\n");
-$config = get_config();
-if (!parse_bool($config, "enable_delete_account")) {
-    die(tra("This feature is disabled.  Please enable it in the config.xml."));
-}
 
 $id = (int) $argv[1];
 
@@ -38,9 +34,9 @@ if (!$user) die("no such user\n");
 
 $retval = delete_account($user);
 if ($retval) {
-    echo tra("User deleted");
+    echo "Failed to delete user: $retval\n";
 } else {
-    echo tra("Failed to delete user");
+    echo "User deleted\n";
 }
 
 ?>
