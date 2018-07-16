@@ -26,6 +26,7 @@
 function make_login_token($user) {
     $now = time();
     if ($now - $user->login_token_time < 86400) {
+        $user->update("login_token_time=$now");
         return $user->login_token;
     }
     $token = substr(random_string(), 0, 8);
