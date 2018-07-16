@@ -457,6 +457,14 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
 
+        // The following 3 tags have been moved to nvc_config and
+        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // may have written their default values to CONFIG_FILE. 
+        // Silently skip them if present.
+        if (xp.parse_string("client_download_url", s)) continue;
+        if (xp.parse_string("client_new_version_text", s)) continue;
+        if (xp.parse_string("client_version_check_url", s)) continue;
+
         msg_printf_notice(NULL, false,
             "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s: <%s>",
