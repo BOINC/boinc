@@ -842,7 +842,7 @@ function boincuser_revertemail(&$form_state, $token) {
 function boincuser_revertemail_validate($form, &$form_state) {
   // Load account and boincuser
   $account = $form_state['values']['_account'];
-  $boinc_user = BoincUser::lookup_id($account->uid);
+  $boinc_user = BoincUser::lookup_id_nocache($account->boincuser_id);
 
   if (BoincUser::lookup_email_addr($boinc_user->previous_email_addr)) {
     form_set_error('mail', bts('An account already exists for @email. Please contact admins for @project. Previous email address cannot be used because another account is using it as their email address.',
