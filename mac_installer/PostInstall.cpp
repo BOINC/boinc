@@ -86,6 +86,8 @@
 #include <string>
 #include "url.h"
 
+#include "mac_branding.h"
+
 using std::vector;
 using std::string;
 
@@ -148,7 +150,6 @@ void notused() {
 }
 /* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 
-#define NUMBRANDS 5
 #define MAX_LANGUAGES_TO_TRY 5
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
@@ -166,12 +167,6 @@ static time_t                   waitPermissionsStartTime;
 static vector<string>           human_user_names;
 static vector<uid_t>            human_user_IDs;
 
-static char *saverName[NUMBRANDS];
-static char *brandName[NUMBRANDS];
-static char *appName[NUMBRANDS];
-static char *appPath[NUMBRANDS];
-static char *receiptName[NUMBRANDS];
-static char *skinName[NUMBRANDS];
 
 enum { launchWhenDone,
         logoutRequired,
@@ -202,43 +197,14 @@ int main(int argc, char *argv[])
     group                   *grp;
 #endif  // SANDBOX
 
-    appName[0] = "BOINCManager";
-    appPath[0] = "/Applications/BOINCManager.app";
-    brandName[0] = "BOINC";
-    saverName[0] = "BOINCSaver";
-    receiptName[0] = "/Library/Receipts/BOINC Installer.pkg";
-    skinName[0] = "Default";
-
-    appName[1] = "GridRepublic Desktop";
-    appPath[1] = "/Applications/GridRepublic Desktop.app";
-    brandName[1] = "GridRepublic";
-    saverName[1] = "GridRepublic";
-    receiptName[1] = "/Library/Receipts/GridRepublic Installer.pkg";
-    skinName[1] = "GridRepublic";
-
-    appName[2] = "Progress Thru Processors Desktop";
-    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    brandName[2] = "Progress Thru Processors";
-    saverName[2] = "Progress Thru Processors";
-    receiptName[2] = "/Library/Receipts/Progress Thru Processors Installer.pkg";
-    skinName[2] = "ProgressThruProcessors";
-
-    appName[3] = "Charity Engine Desktop";
-    appPath[3] = "/Applications/Charity Engine Desktop.app";
-    brandName[3] = "Charity Engine";
-    saverName[3] = "Charity Engine";
-    receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
-    skinName[3] = "Charity Engine";
-
-    appName[4] = "World Community Grid";
-    appPath[4] = "/Applications/World Community Grid.app";
-    brandName[4] = "World Community Grid";
-    saverName[4] = "World Community Grid";
-    receiptName[4] = "/Library/Receipts/World Community Grid Installer.pkg";
-    skinName[4] = "World Community Grid";
-
     printf("\nStarting PostInstall app %s\n\n", argv[1]);
     fflush(stdout);
+
+    if (!check_branding_arrays(s, sizeof(s))) {
+        ShowMessage(false, (char *)_("Branding array has too few entries: %s"), s);
+        return -1;
+    }
+
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0] == '\0') {
@@ -285,17 +251,18 @@ int main(int argc, char *argv[])
     // BOINC Installer.app wrote a file to tell us the previously installed branding, if any
     snprintf(s, sizeof(s), "/tmp/%s/OldBranding", tempDirName);
     oldBrandID = GetBrandID(s);
-printf("oldBrandID = %ld\n", oldBrandID);    
+    printf("oldBrandID = %ld\n", oldBrandID);    
+    fflush(stdout);
+
     // The new branding (if any) is in the resources of this PostInstall.app
     getPathToThisApp(s, sizeof(s));
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
-printf("path to new BrandID = %s\n", s);    
+    printf("path to new BrandID = %s\n", s);    
+    fflush(stdout);
     brandID = GetBrandID(s);
-    
-    if ((brandID < 0) || (brandID >= NUMBRANDS)) {       // Safety check
-        brandID = 0;
-    }
-    
+    printf("new BrandID = %ld\n", brandID);    
+    fflush(stdout);
+
     LoadPreferredLanguages();
 
     if (compareOSVersionTo(10, 6) < 0) {
@@ -1984,7 +1951,9 @@ long GetBrandID(char *path)
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
 }
 

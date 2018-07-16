@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,6 +34,8 @@
 #endif
 
 #ifdef __APPLE__                            // If Mac BOINC Manager
+#include "mac_branding.h"
+
 bool IsUserInGroup(char* groupName);
 #endif
 
@@ -78,14 +80,6 @@ int use_sandbox, int isManager, char* path_to_error, int len
     struct stat         sbuf;
     int                 retval;
     int                 useFakeProjectUserAndGroup = 0;
-
-#define NUMBRANDS 3
-
-char *saverName[NUMBRANDS];
-
-saverName[0] = "BOINCSaver";
-saverName[1] = "GridRepublic";
-saverName[2] = "Progress Thru Processors";
 
     useFakeProjectUserAndGroup = ! use_sandbox;
 #ifdef _DEBUG
