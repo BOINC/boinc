@@ -366,6 +366,27 @@ function _boincuser_ignore_paths($path, $paths_to_ignore) {
   return FALSE;
 }
 
+/**
+ * A 'menu redirect'. Redirect users from URL recoveremail.php to
+ * Drupal's recover email path.
+ */
+function _boincuser_redirect_recover_email() {
+  $params = array(
+    'boincid' => isset($_GET['id']) ? $_GET['id'] : '',
+    'token' => isset($_GET['token']) ? $_GET['token'] : ''
+  );
+
+  // If boincid or token is not present, then go to the home page.
+  if (empty($params['boincid']) or empty($params['token'])) {
+    $redirect = '';
+  }
+  else {
+    $uid = boincuser_lookup_uid($params['boincid']);
+    $redirect = "/user/${uid}/recoveremail/${params['token']}";
+  }
+  drupal_goto($redirect);
+}
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General BOINC functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */

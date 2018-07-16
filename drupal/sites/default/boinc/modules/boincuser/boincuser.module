@@ -208,6 +208,13 @@ function boincuser_menu() {
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
+  $items['recover_email.php'] = array(
+    'title' => t('Recover previous email'),
+    'description' => t('redirect'),
+    'page callback' => '_boincuser_redirect_recover_email',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -262,6 +269,7 @@ function boincuser_init() {
           'account/info/edit',
           'user/' . $user->uid . '/edit',
           'user/' . $user->uid . '/recoveremail/*',
+          'recover_email.php',
         );
         if (module_exists('boincuser_delete')) {
           $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
