@@ -495,7 +495,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             if ($changing_email) {
               // reload account
               $account = user_load($account->uid);
-              _boincuser_send_emailchange($account, $email_addr, $prev_email);
+              _boincuser_send_emailchange($account, $email_addr, $prev_email, user_access('administer users'));
             }
           }
           break;
