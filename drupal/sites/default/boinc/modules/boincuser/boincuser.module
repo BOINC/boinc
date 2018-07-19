@@ -1077,7 +1077,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Use the display name as the title, not the username
     $account = user_load($form['uid']['#value']);
     drupal_set_title($account->boincuser_name);
-    
+
+    // Set form['title'], but hide it
+    $form['title']['#default_value'] = $account->boincuser_name;
+    $form['title']['#access'] = FALSE;
+
     $form['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
@@ -1125,7 +1129,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
     
-    unset($form['title']);
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
     
