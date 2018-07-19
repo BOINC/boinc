@@ -38,6 +38,7 @@ struct NVC_CONFIG {
     std::string client_download_url;
     std::string client_new_version_name;
     std::string client_version_check_url;
+    std::string network_test_url;
 
     NVC_CONFIG();
     void defaults();

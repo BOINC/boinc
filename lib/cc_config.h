@@ -174,7 +174,6 @@ struct CC_CONFIG {
     int max_stdout_file_size;
     int max_tasks_reported;
     int ncpus;
-    std::string network_test_url;
     bool no_alt_platform;
     bool no_gpus;
     bool no_info_fetch;

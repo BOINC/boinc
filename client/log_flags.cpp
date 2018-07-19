@@ -415,10 +415,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
-        if (xp.parse_string("network_test_url", network_test_url)) {
-            downcase_string(network_test_url);
-            continue;
-        }
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
@@ -464,6 +460,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
+        if (xp.parse_string("network_test_url", s)) continue;
 
         msg_printf_notice(NULL, false,
             "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",

@@ -240,7 +240,6 @@ void CC_CONFIG::defaults() {
     max_stdout_file_size = 0;
     max_tasks_reported = 0;
     ncpus = -1;
-    network_test_url = "https://www.google.com/";
     no_alt_platform = false;
     no_gpus = false;
     no_info_fetch = false;
@@ -398,10 +397,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
-        if (xp.parse_string("network_test_url", network_test_url)) {
-            downcase_string(network_test_url);
-            continue;
-        }
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
@@ -442,6 +437,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
+        if (xp.parse_string("network_test_url", s)) continue;
 
         xp.skip_unexpected(true, "CC_CONFIG::parse_options");
     }
@@ -627,7 +623,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_stdout_file_size>%d</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
         "        <ncpus>%d</ncpus>\n"
-        "        <network_test_url>%s</network_test_url>\n"
         "        <no_alt_platform>%d</no_alt_platform>\n"
         "        <no_gpus>%d</no_gpus>\n"
         "        <no_info_fetch>%d</no_info_fetch>\n"
@@ -643,7 +638,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         max_stdout_file_size,
         max_tasks_reported,
         ncpus,
-        network_test_url.c_str(),
         no_alt_platform,
         no_gpus,
         no_info_fetch,

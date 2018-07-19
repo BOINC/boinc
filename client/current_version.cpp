@@ -40,6 +40,7 @@ void NVC_CONFIG::defaults() {
     client_download_url = "https://boinc.berkeley.edu/download.php";
     client_new_version_name = "";
     client_version_check_url = "https://boinc.berkeley.edu/download.php?xml=1";
+    network_test_url = "https://www.google.com/";
 };
 
 int NVC_CONFIG::parse(FILE* f) {
@@ -78,6 +79,10 @@ int NVC_CONFIG::parse(FILE* f) {
         }
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             downcase_string(client_version_check_url);
+            continue;
+        }
+        if (xp.parse_string("network_test_url", network_test_url)) {
+            downcase_string(network_test_url);
             continue;
         }
         msg_printf_notice(NULL, false,
