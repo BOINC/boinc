@@ -76,9 +76,9 @@ int validate_handler_init(int argc, char** argv) {
         }
     }
 
-    if (!init_script.size() && !compare_script.size()) {
+    if (!init_script.size() || !compare_script.size()) {
         log_messages.printf(MSG_CRITICAL,
-            "script names missing from command line\n"
+            "init_script and/or compare_script names are missing from command line\n"
         );
         return 1;
     }
