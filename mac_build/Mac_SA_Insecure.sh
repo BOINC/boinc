@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2018 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -33,8 +33,8 @@
 # entries and then run Mac_SA_Secure.sh to create new good entries.
 #
 #
-# Execute this as root in the BOINC directory:
-# cd {path_to_boinc_directory}
+# Execute this as root in the BOINC Data directory:
+# cd "/Library/Application Support/BOINC Data"
 # sudo sh {path}/Mac_SA_Insecure.sh user group
 #
 # After running this script, the boinc client must be run with 
