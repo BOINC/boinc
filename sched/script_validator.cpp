@@ -110,6 +110,12 @@ int init_result(RESULT& result, void*&) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
     }
+
+    if (init_script.size() == 0) {
+        fprintf(stderr, "init_result() failed: init_script parameter was not specified\n")
+        return 1;
+    }
+
     char cmd[4096];
     sprintf(cmd, "../bin/%s", init_script[0].c_str());
     for (i=1; i<init_script.size(); i++) {
@@ -150,6 +156,12 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
     }
+
+    if (compare_script.size() == 0) {
+        fprintf(stderr, "compare_results() failed: compare_script parameter was not specified\n")
+        return 1;
+    }
+
     char cmd[4096];
     sprintf(cmd, "../bin/%s", compare_script[0].c_str());
     for (i=1; i<compare_script.size(); i++) {
