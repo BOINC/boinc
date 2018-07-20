@@ -112,7 +112,7 @@ int init_result(RESULT& result, void*&) {
     }
 
     if (init_script.size() == 0) {
-        fprintf(stderr, "init_result() failed: init_script parameter was not specified\n")
+        fprintf(stderr, "init_result() failed: init_script parameter was not specified\n");
         return 1;
     }
 
@@ -158,7 +158,7 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
     }
 
     if (compare_script.size() == 0) {
-        fprintf(stderr, "compare_results() failed: compare_script parameter was not specified\n")
+        fprintf(stderr, "compare_results() failed: compare_script parameter was not specified\n");
         return 1;
     }
 
