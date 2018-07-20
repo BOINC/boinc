@@ -34,4 +34,19 @@ struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
 
 extern void newer_version_startup_check();
 
+struct NVC_CONFIG {
+    std::string client_download_url;
+    std::string client_new_version_name;
+    std::string client_version_check_url;
+    std::string network_test_url;
+
+    NVC_CONFIG();
+    void defaults();
+    int parse(FILE*);
+};
+
+extern NVC_CONFIG nvc_config;
+
+extern int read_vc_config_file(const char* fname, NVC_CONFIG& nvc_config_file);
+
 #endif

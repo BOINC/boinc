@@ -210,9 +210,6 @@ void CC_CONFIG::defaults() {
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
     alt_platforms.clear();
-    client_download_url = "https://boinc.berkeley.edu/download.php";
-    client_new_version_text = "";
-    client_version_check_url = "https://boinc.berkeley.edu/download.php?xml=1";
     config_coprocs.clear();
     disallow_attach = false;
     dont_check_file_sizes = false;
@@ -243,7 +240,6 @@ void CC_CONFIG::defaults() {
     max_stdout_file_size = 0;
     max_tasks_reported = 0;
     ncpus = -1;
-    network_test_url = "https://www.google.com/";
     no_alt_platform = false;
     no_gpus = false;
     no_info_fetch = false;
@@ -330,17 +326,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             alt_platforms.push_back(s);
             continue;
         }
-        if (xp.parse_string("client_download_url", client_download_url)) {
-            downcase_string(client_download_url);
-            continue;
-        }
-        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
-            continue;
-        }
-        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
-            downcase_string(client_version_check_url);
-            continue;
-        }
         if (xp.match_tag("coproc")) {
             COPROC c;
             retval = c.parse(xp);
@@ -412,10 +397,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
-        if (xp.parse_string("network_test_url", network_test_url)) {
-            downcase_string(network_test_url);
-            continue;
-        }
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
@@ -448,6 +429,15 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+
+        // The following 3 tags have been moved to nvc_config and
+        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // may have written their default values to CONFIG_FILE. 
+        // Silently skip them if present.
+        if (xp.parse_string("client_download_url", s)) continue;
+        if (xp.parse_string("client_new_version_text", s)) continue;
+        if (xp.parse_string("client_version_check_url", s)) continue;
+        if (xp.parse_string("network_test_url", s)) continue;
 
         xp.skip_unexpected(true, "CC_CONFIG::parse_options");
     }
@@ -523,15 +513,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             alt_platforms[i].c_str()
         );
     }
-
-    out.printf(
-        "        <client_version_check_url>%s</client_version_check_url>\n"
-        "        <client_new_version_text>%s</client_new_version_text>\n"
-        "        <client_download_url>%s</client_download_url>\n",
-        client_version_check_url.c_str(),
-        client_new_version_text.c_str(),
-        client_download_url.c_str()
-    );
 
     for (int k=1; k<config_coprocs.n_rsc; k++) {
         if (!config_coprocs.coprocs[k].specified_in_config) continue;
@@ -642,7 +623,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_stdout_file_size>%d</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
         "        <ncpus>%d</ncpus>\n"
-        "        <network_test_url>%s</network_test_url>\n"
         "        <no_alt_platform>%d</no_alt_platform>\n"
         "        <no_gpus>%d</no_gpus>\n"
         "        <no_info_fetch>%d</no_info_fetch>\n"
@@ -658,7 +638,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         max_stdout_file_size,
         max_tasks_reported,
         ncpus,
-        network_test_url.c_str(),
         no_alt_platform,
         no_gpus,
         no_info_fetch,

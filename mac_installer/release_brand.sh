@@ -42,6 +42,11 @@
 ##  INSTALLERICON="WCGridInstaller.icns"                ##The icon for the branded installer
 ##  READMEFILE="WCGrid-ReadMe.rtf"                      ##The branded readme file
 ##  BRANDING_INFO="BrandId=4"                           ##Info to write into the branding file
+##  NEWVERSIONCHECKDIR="WCG"                            ##Where to get nvc_config.xml, empty string if none
+##
+##  This script expects the skin to be at "./clientgui/skins/${SKINDIR}"
+##  This script expects the nvc_config.xml file (if any) to be at 
+##  "./win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml"
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -190,6 +195,10 @@ cd "${BOINCPath}"
 cp -fp curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
 cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
+
+if [ -n "${NEWVERSIONCHECKDIR}" ]; then
+    cp -fp "win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/nvc_config.xml
+fi
 
 cp -fp clientscr/res/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fp api/ttf/liberation-fonts-ttf-2.00.0/LiberationSans-Regular.ttf ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/LiberationSans-Regular.ttf

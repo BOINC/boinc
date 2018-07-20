@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -33,6 +33,7 @@
 
 #include "client_state.h"
 #include "log_flags.h"
+#include "current_version.h"
 #include "client_msgs.h"
 #include "http_curl.h"
 #include "sandbox.h"
@@ -300,7 +301,7 @@ static void windows_detect_autoproxy_settings() {
         WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
     autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
-    network_test_url = boinc_ascii_to_wide(cc_config.network_test_url).c_str();
+    network_test_url = boinc_ascii_to_wide(nvc_config.network_test_url).c_str();
 
     hWinHttp = WinHttpOpen(
         L"BOINC client",

@@ -640,6 +640,8 @@ int CLIENT_STATE::init() {
     cc_config.show();
 
     // inform the user if there's a newer version of client
+    // NOTE: this must be called AFTER
+    // read_vc_config_file(NVC_CONFIG_FILE, nvc_config)
     //
     newer_version_startup_check();
 
