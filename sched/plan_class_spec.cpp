@@ -201,13 +201,6 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
     //
     hu.sequential_app(sreq.host.p_fpops);
 
-    // disabled by configuration
-    if (disabled) {
-        if (config.debug_version_select)
-	    log_messages.printf(MSG_NORMAL, "[version] Plan class disabled\n");
-	return false;
-    }
-
     // WU restriction
     if (min_wu_id || max_wu_id || min_batch || max_batch) {
         if (wu_is_infeasible_for_plan_class(this, wu)) {
@@ -992,7 +985,6 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
-        if (xp.parse_bool("disabled", disabled)) continue;
         if (xp.parse_int("min_core_client_version", min_core_client_version)) continue;
         if (xp.parse_int("max_core_client_version", max_core_client_version)) continue;
         if (xp.parse_str("gpu_type", gpu_type, sizeof(gpu_type))) continue;

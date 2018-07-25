@@ -26,7 +26,6 @@
 // if you add anything here, initialize if in the constructor
 //
 struct PLAN_CLASS_SPEC {
-    bool disabled;
     char name[256];
     char gpu_type[256];
     bool cuda;
