@@ -93,6 +93,9 @@ using std::string;
 
 PLAN_CLASS_SPECS plan_class_specs;
 
+/* is there a plan class spec that restricts the worunit (or batch) */
+bool wu_restricted_plan_class;
+
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(
@@ -132,9 +135,11 @@ bool wu_is_infeasible_custom(
 #endif
 
     // WU restriction
-    if (plan_class_specs.classes.size() > 0) {
-        if (plan_class_specs.wu_is_infeasible(bav.avp->plan_class, &wu)) {
-            return true;
+    if (wu_restricted_plan_class) {
+        if (plan_class_specs.classes.size() > 0) {
+            if (plan_class_specs.wu_is_infeasible(bav.avp->plan_class, &wu)) {
+                return true;
+            }
         }
     }
 

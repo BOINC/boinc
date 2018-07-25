@@ -32,8 +32,6 @@
 
 using std::string;
 
-static bool wu_restricted_plan_class;
-
 // this returns a numerical OS version for Darwin/OSX and Windows,
 // letting us define numerical ranges for these OS versions
 //
