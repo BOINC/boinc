@@ -50,6 +50,8 @@ cd googletest/make
 make
 if [ $? -ne 0 ]; then cd ..; return 1; fi
 if [ "x${lprefix}" != "x" ]; then
+    mkdir -p ${lprefix}/lib
+    mkdir -p ${lprefix}/include
     (cp gtest_main.a ${lprefix}/lib && cp -r ../include/gtest ${lprefix}/include)
     if [ $? -ne 0 ]; then cd ..; return 1; fi
 fi
