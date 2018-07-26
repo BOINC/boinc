@@ -3,8 +3,11 @@
     src: config/boinc-server-docker-expose-mysql.yml
     dest: "{{base_dir}}/boinc-server-docker/boinc-server-docker-expose-mysql.yml"
     
+- name: Start docker containers for apacye and mysql
+  command: docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up mysql apache -d chdir="{{base_dir}}/boinc-server-docker"
+
 - name: Start docker containers
-  command: docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up -d chdir="{{base_dir}}/boinc-server-docker"
+  command: docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up makeproject chdir="{{base_dir}}/boinc-server-docker"
 
 - name: Remove mysql port opening file
   file:

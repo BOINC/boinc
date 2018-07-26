@@ -5,18 +5,37 @@
     recursive: yes
     force: yes
  
+ ##### If checking out code from master or alt source
 - name: Checkout master
   command: git checkout master chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  when: boinc_dir is not defined
 
 - name: Make sure we have the latest source
   command: git pull chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  when: boinc_dir is not defined
 
 - name: Delete test branch if already present
   command: git branch -D test_boinc_server chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
   ignore_errors: yes
+  when: boinc_dir is not defined
 
 - name: Create a new branch for testing
   command: git checkout -b test_boinc_server chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  when: boinc_dir is not defined
       
 - name: Pull the code we are testing into our test branch
   command: git pull {{ boinc_repository }} {{ boinc_branch }} chdir="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  when: boinc_dir is not defined
+
+###### If using code already present locally
+- name: Delete existing source directory
+  file: src="{{base_dir}}/boinc-server-docker/images/makeproject/boinc" state=absent
+  when: boinc_dir is defined
+  
+- name: Create source directory
+  file: src="{{base_dir}}/boinc-server-docker/images/makeproject/boinc" state=directory
+  when: boinc_dir is defined
+  
+- name: Copy source to directory expected
+  copy: remote_src=yes mode=preserve src="{{boinc_dir}}/" dest="{{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  when: boinc_dir is defined

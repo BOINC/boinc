@@ -21,6 +21,13 @@ If you need to build from a different branch and/or repository, you can specify 
 ansible-playbook -i hosts build.yml --extra-vars "boinc_repository=https://github.com/TheAspens/boinc boinc_branch=split_boinc_website"
 ```
 
+## Build docker containers from a local version of boinc
+If you need to build from a local branch and/or repository, you can specify the directory to build from to use.  For example, to build from the code in the boinc directory in my home directory you would do:
+
+```
+ansible-playbook -i hosts build.yml --extra-vars "boinc_dir=/home/knreed/boinc"
+```
+
 ## Start docker containers (Start BOINC project)
 Once you have built the version of BOINC you want, you can start the project by starting the containers:
 ```
