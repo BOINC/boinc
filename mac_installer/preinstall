@@ -18,4 +18,7 @@ rm -fR "/Library/Screen Savers/BOINCSaver.saver"
 # Remove any old "BOINC Manager.mo" files before installing "BOINC-Manager.mo" files (or vice-versa)
 rm -fR "/Library/Application Support/BOINC Data/locale/"
 
+# Remove any previous nvc_config.xml file
+rm -f "/Library/Application Support/BOINC Data/old_nvc_config.xml"
+
 exit 0
