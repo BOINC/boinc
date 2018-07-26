@@ -558,7 +558,7 @@ void DB_HOST::db_print(char* buf){
         "error_rate=%.15e, "
         "product_name='%s', "
         "gpu_active_frac=%.15e, "
-        "p_ngpus=%d, p_gpu_fpops=%.15e ",
+        "p_ngpus=%d, p_gpu_fpops=%.15e, p_ncpus_phys=%d ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -581,7 +581,7 @@ void DB_HOST::db_print(char* buf){
         _error_rate,
         product_name,
         gpu_active_frac,
-        p_ngpus, p_gpu_fpops
+        p_ngpus, p_gpu_fpops, p_ncpus_phys
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -643,6 +643,9 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     _error_rate = atof(r[i++]);
     strcpy2(product_name, r[i++]);
     gpu_active_frac = atof(r[i++]);
+    p_ngpus = atoi(r[i++]);
+    p_gpu_fpops = atof(r[i++]);
+    p_ncpus_phys = atoi(r[i++]);
 }
 
 int DB_HOST::update_diff_validator(HOST& h) {
@@ -748,10 +751,6 @@ int DB_HOST::update_diff_sched(HOST& h) {
     }
     if (p_ncpus != h.p_ncpus) {
         sprintf(buf, " p_ncpus=%d,", p_ncpus);
-        strcat(updates, buf);
-    }
-    if (p_ncpus_phys != h.p_ncpus_phys) {
-        sprintf(buf, " p_ncpus_phys=%d,", p_ncpus_phys);
         strcat(updates, buf);
     }
     if (strcmp(p_vendor, h.p_vendor)) {
@@ -878,6 +877,10 @@ int DB_HOST::update_diff_sched(HOST& h) {
     }
     if (p_gpu_fpops != h.p_gpu_fpops) {
         sprintf(buf, " p_gpu_fpops=%.15e,", p_gpu_fpops);
+        strcat(updates, buf);
+    }
+    if (p_ncpus_phys != h.p_ncpus_phys) {
+        sprintf(buf, " p_ncpus_phys=%d,", p_ncpus_phys);
         strcat(updates, buf);
     }
 
