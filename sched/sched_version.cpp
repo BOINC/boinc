@@ -522,7 +522,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     // and see if it supports the plan class
     //
     if (strlen(avp->plan_class)) {
-        if (!app_plan(*g_request, avp->plan_class, bav.host_usage)) {
+        if (!app_plan(*g_request, avp->plan_class, bav.host_usage, &wu)) {
             return NULL;
         }
     } else {
@@ -746,7 +746,7 @@ BEST_APP_VERSION* get_app_version(
             }
 
             if (strlen(av.plan_class)) {
-                if (!app_plan(*g_request, av.plan_class, host_usage)) {
+                if (!app_plan(*g_request, av.plan_class, host_usage, &wu)) {
                     if (config.debug_version_select) {
                         log_messages.printf(MSG_NORMAL,
                             "[version] [AV#%lu] app_plan() returned false\n",
