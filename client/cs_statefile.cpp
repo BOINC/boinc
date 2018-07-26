@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -507,6 +507,9 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
+        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
+            continue;
+        }
 #ifdef ENABLE_AUTO_UPDATE
         if (xp.match_tag("auto_update")) {
             if (!project) {
@@ -792,6 +795,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     }
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
+    }
+    if (client_version_check_url.size()) {
+        f.printf("<client_version_check_url>%s</client_version_check_url>\n", client_version_check_url.c_str());
     }
     for (i=1; i<platforms.size(); i++) {
         f.printf("<alt_platform>%s</alt_platform>\n", platforms[i].name.c_str());
