@@ -1379,6 +1379,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("ip_addr", last_ip_addr, sizeof(last_ip_addr))) continue;
         if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
         if (xp.parse_int("p_ncpus", p_ncpus)) continue;
+        if (xp.parse_int("p_ncpus_phys", p_ncpus_phys)) continue;
         if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
         if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
         if (xp.parse_double("p_fpops", p_fpops)) continue;

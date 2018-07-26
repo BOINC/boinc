@@ -213,6 +213,7 @@ create table host (
     gpu_active_frac         double          not null,
     p_ngpus                 integer         not null,
     p_gpu_fpops             double          not null,
+    p_ncpus_phys            integer         not null,
 
     primary key (id)
 ) engine=InnoDB;
@@ -803,4 +804,3 @@ create table host_deleted (
     create_time             double          not null,
     primary key (hostid)
 ) engine=InnoDB;
-

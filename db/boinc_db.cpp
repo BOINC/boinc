@@ -750,6 +750,10 @@ int DB_HOST::update_diff_sched(HOST& h) {
         sprintf(buf, " p_ncpus=%d,", p_ncpus);
         strcat(updates, buf);
     }
+    if (p_ncpus_phys != h.p_ncpus_phys) {
+        sprintf(buf, " p_ncpus_phys=%d,", p_ncpus_phys);
+        strcat(updates, buf);
+    }
     if (strcmp(p_vendor, h.p_vendor)) {
         escape_string(p_vendor, sizeof(p_vendor));
         sprintf(buf, " p_vendor='%s',", p_vendor);

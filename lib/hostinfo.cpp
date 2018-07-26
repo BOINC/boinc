@@ -51,6 +51,7 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(host_cpid, "");
 
     p_ncpus = 0;
+    p_ncpus_phys = 0;
     safe_strcpy(p_vendor, "");
     safe_strcpy(p_model, "");
     safe_strcpy(p_features, "");
@@ -117,6 +118,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
         if (xp.parse_str("ip_addr", ip_addr, sizeof(ip_addr))) continue;
         if (xp.parse_int("p_ncpus", p_ncpus)) continue;
+        if (xp.parse_int("p_ncpus_phys", p_ncpus_phys)) continue;
         if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
         if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) {
@@ -189,6 +191,7 @@ int HOST_INFO::write(
     out.printf(
         "    <host_cpid>%s</host_cpid>\n"
         "    <p_ncpus>%d</p_ncpus>\n"
+        "    <p_ncpus_phys>%d</p_ncpus_phys>\n"
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <p_features>%s</p_features>\n"
@@ -208,6 +211,7 @@ int HOST_INFO::write(
         "    <wsl_available>%d</wsl_available>\n",
         host_cpid,
         p_ncpus,
+        p_ncpus_phys,
         pv,
         pm,
         pf,

@@ -68,6 +68,7 @@
 //
 static bool obviously_different(HOST& h1, HOST& h2) {
     if (h1.p_ncpus != h2.p_ncpus) return true;
+    if (h1.p_ncpus_phys != h2.p_ncpus_phys) return true;
     if (strcmp(h1.p_vendor, h2.p_vendor)) return true;
     if (strcmp(h1.p_model, h2.p_model)) return true;
     if (strcmp(h1.os_name, h2.os_name)) return true;
@@ -572,6 +573,7 @@ static int modify_host_struct(HOST& host) {
     host.previous_uptime = g_request->host.previous_uptime;
     host.duration_correction_factor = g_request->host.duration_correction_factor;
     host.p_ncpus = g_request->host.p_ncpus;
+    host.p_ncpus_phys = g_request->host.p_ncpus_phys;
     strlcpy(host.p_vendor, g_request->host.p_vendor, sizeof(host.p_vendor));
         // unlikely this will change
     strlcpy(host.p_model, g_request->host.p_model, sizeof(host.p_model));

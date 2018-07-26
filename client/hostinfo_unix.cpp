@@ -39,6 +39,8 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <tuple>
+#include <set>
 #endif
 
 #if HAVE_XSS
@@ -122,6 +124,9 @@
 #include "hostinfo.h"
 
 using std::string;
+using std::tuple;
+using std::make_tuple;
+using std::set;
 
 #ifdef __APPLE__
 #include <IOKit/IOKitLib.h>
@@ -463,6 +468,8 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     bool model_info_found=false;
 #endif
     char buf2[256];
+    int physical_id=-1, core_id=-1;
+    set<tuple<int,int>> unique_physid_coreid;
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) {
@@ -663,7 +670,29 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 features_found = true;
             }
         }
+        
+        // /proc/cpuinfo prints out a "physical id" (this is a misleading name,
+        // its actualy the socket id) and "core id", for each logical CPU. two
+        // logical CPUs that are just hyperthreads on the same physical CPU will
+        // have identical "physical id" / "core id", so we can get the number of
+        // physical CPUs by counting the number of *unique* "physical id" /
+        // "core id" pairs
+        if (strstr(buf, "physical id")) {
+            physical_id = atoi(strchr(buf, ':') + 2);
+        }
+        if (strstr(buf, "core id")) {
+            core_id = atoi(strchr(buf, ':') + 2);
+            unique_physid_coreid.insert(make_tuple(physical_id, core_id));
+        }
     }
+    
+    // here we total the number of unique "physical id" / "core id" entries
+    // (unique_physid_coreid is a set thus contains no duplicates). if no
+    // entries were found, here we will set p_ncpus_phys = 0, which is an
+    // indication detection failed (eg ARM/PowerPC/HPPA which dont have
+    // hyperthreading)
+    host.p_ncpus_phys = unique_physid_coreid.size();
+
     safe_strcpy(model_buf, host.p_model);
 #if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {

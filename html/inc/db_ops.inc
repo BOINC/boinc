@@ -904,7 +904,10 @@ function admin_show_host($host) {
     $x = $host->timezone/3600;
     if ($x >= 0) $x="+$x";
     row("Local Standard Time", "UTC $x hours");
-    row("Number of CPUs", $host->p_ncpus);
+    row("Number of logical CPUs", $host->p_ncpus);
+    if ($host->p_ncpus_phys){
+        row("Number of physical CPUs", $host->p_ncpus_phys);
+    }
     row("CPU", "$host->p_vendor $host->p_model");
     row("GFLOPS", number_format($host->p_fpops/1e9, 2));
     row("GIOPS", number_format($host->p_iops/1e9, 2));

@@ -203,10 +203,17 @@ void CLIENT_STATE::show_host_info() {
         host_info.domain_name
     );
     nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
-    msg_printf(NULL, MSG_INFO,
-        "Processor: %d %s %s",
-        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
-    );
+    if (host_info.p_ncpus_phys == 0) {
+        msg_printf(NULL, MSG_INFO,
+            "Processor: %d logical CPUs, %s %s",
+            host_info.p_ncpus, host_info.p_vendor, host_info.p_model
+        );
+    } else {
+        msg_printf(NULL, MSG_INFO,
+            "Processor: %d logical / %d physical CPUs, %s %s",
+            host_info.p_ncpus, host_info.p_ncpus_phys, host_info.p_vendor, host_info.p_model
+        );
+    }
     if (ncpus != host_info.p_ncpus) {
         msg_printf(NULL, MSG_INFO, "Using %d CPUs", ncpus);
     }

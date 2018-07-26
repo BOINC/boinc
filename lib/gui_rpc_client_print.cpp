@@ -233,7 +233,8 @@ void HOST_INFO::print() {
     printf("  timezone: %d\n", timezone);
     printf("  domain name: %s\n", domain_name);
     printf("  IP addr: %s\n", ip_addr);
-    printf("  #CPUS: %d\n", p_ncpus);
+    printf("  #CPUS (logical): %d\n", p_ncpus);
+    printf("  #CPUS (physical): %d\n", p_ncpus_phys);
     printf("  CPU vendor: %s\n", p_vendor);
     printf("  CPU model: %s\n", p_model);
     printf("  CPU FP OPS: %f\n", p_fpops);

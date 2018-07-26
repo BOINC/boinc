@@ -292,7 +292,7 @@ struct HOST {
                             // nonzero means this host has been declared dead
     double duration_correction_factor;
 
-    int p_ncpus;            // Number of CPUs on host
+    int p_ncpus;            // Number of logical CPUs on host
     char p_vendor[256];     // Vendor name of CPU
     char p_model[256];      // Model of CPU
     double p_fpops;         // measured floating point ops/sec of CPU
@@ -360,6 +360,8 @@ struct HOST {
     double gpu_active_frac;
     int p_ngpus;
     double p_gpu_fpops;
+    int p_ncpus_phys;       // Number of physical CPUs on host
+
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,

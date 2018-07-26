@@ -56,7 +56,7 @@ public:
     char ip_addr[256];
     char host_cpid[64];
 
-    int p_ncpus;
+    int p_ncpus;                  // Total number of logical CPUs
     char p_vendor[256];
     char p_model[256];
     char p_features[1024];
@@ -94,6 +94,8 @@ public:
 
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
+
+    int p_ncpus_phys;             // Total number of physical CPUs
 
     HOST_INFO();
     int parse(XML_PARSER&, bool static_items_only = false);

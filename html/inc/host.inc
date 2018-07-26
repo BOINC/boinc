@@ -118,7 +118,10 @@ function show_host($host, $user, $ipprivate) {
         }
     }
     row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
-    row2(tra("Number of processors"), $host->p_ncpus);
+    row2("Number of logical CPUs", $host->p_ncpus);
+    if ($host->p_ncpus_phys){
+        row2("Number of physical CPUs", $host->p_ncpus_phys);
+    }
     if ($host->serialnum) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
