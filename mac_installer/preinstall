@@ -19,6 +19,6 @@ rm -fR "/Library/Screen Savers/BOINCSaver.saver"
 rm -fR "/Library/Application Support/BOINC Data/locale/"
 
 # Remove any previous nvc_config.xml file
-rm -f "/Library/Application Support/BOINC Data/old_nvc_config.xml"
+rm -f "/Library/Application Support/BOINC Data/nvc_config.xml"
 
 exit 0
