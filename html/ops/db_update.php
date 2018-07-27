@@ -1164,7 +1164,7 @@ function update_5_9_2018() {
 
 function update_7_26_2018() {
     return do_query(
-        alter table host add column p_ncpus_phys integer not null"
+        "alter table host add column p_ncpus_phys integer not null"
     );
 }
 
@@ -1225,8 +1225,9 @@ $db_updates = array (
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
     array(27025, "update_4_19_2018"),
-    array(27026, "update_5_9_2018")
+    array(27026, "update_5_9_2018"),
     array(27027, "update_7_26_2018")
 );
 
 ?>
+    
