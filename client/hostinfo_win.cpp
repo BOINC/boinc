@@ -1269,21 +1269,92 @@ typedef DWORD (WINAPI *GAPC)(WORD);
 #ifndef ALL_PROCESSOR_GROUPS
 #define ALL_PROCESSOR_GROUPS 0xffff
 #endif
-int get_processor_count(int& processor_count) {
+
+typedef BOOL (WINAPI *LPFN_GLPI)(
+    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION, PDWORD
+);
+
+DWORD CountSetBits(ULONG_PTR bitMask) {
+    DWORD LSHIFT = sizeof(ULONG_PTR)*8 - 1;
+    DWORD bitSetCount = 0;
+    ULONG_PTR bitTest = (ULONG_PTR)1 << LSHIFT;    
+    DWORD i;
+    
+    for (i = 0; i <= LSHIFT; ++i) {
+        bitSetCount += ((bitMask & bitTest)?1:0);
+        bitTest/=2;
+    }
+    return bitSetCount;
+}
+
+int get_processor_count(int& nlogical_cpus, int& nphysical_cpus) {
     GAPC gapc = (GAPC) GetProcAddress(
         GetModuleHandle(_T("kernel32.dll")),
         "GetActiveProcessorCount"
     );
 
     if (gapc) {
-        processor_count = gapc(ALL_PROCESSOR_GROUPS);
+        nlogical_cpus = gapc(ALL_PROCESSOR_GROUPS);
     } else {
         SYSTEM_INFO SystemInfo;
         memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
         ::GetSystemInfo( &SystemInfo );
 
-        processor_count = SystemInfo.dwNumberOfProcessors;
+        nlogical_cpus = SystemInfo.dwNumberOfProcessors;
     }
+
+    // try to get # physical CPUs
+    //
+    nphysical_cpus = nlogical_cpus;
+
+    LPFN_GLPI glpi;
+    BOOL done = FALSE;
+    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = NULL;
+    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION ptr = NULL;
+    DWORD returnLength = 0;
+    DWORD byteOffset = 0;
+    glpi = (LPFN_GLPI) GetProcAddress(
+        GetModuleHandle(TEXT("kernel32")),
+        "GetLogicalProcessorInformation"
+    );
+    if (NULL == glpi) {
+        return 0;
+    }
+
+    while (!done) {
+        DWORD rc = glpi(buffer, &returnLength);
+        if (FALSE == rc) {
+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                if (buffer) free(buffer);
+                buffer = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION)malloc(returnLength);
+                if (NULL == buffer) {
+                    return 0;
+                }
+            }  else  {
+                return 0;
+            }
+        } else {
+            done = TRUE;
+        }
+    }
+
+    ptr = buffer;
+    DWORD logicalProcessorCount = 0;
+    DWORD processorCoreCount = 0;
+
+    while (byteOffset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= returnLength) {
+        switch (ptr->Relationship) {
+        case RelationProcessorCore:
+            processorCoreCount++;
+
+            // A hyperthreaded core supplies more than one logical processor.
+            logicalProcessorCount += CountSetBits(ptr->ProcessorMask);
+            break;
+        }
+        byteOffset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+        ptr++;
+    }
+    nphysical_cpus = processorCoreCount;
     return 0;
 }
 
@@ -1293,7 +1364,7 @@ int get_processor_count(int& processor_count) {
 //
 int get_processor_info(
     char* p_vendor, int p_vendor_size, char* p_model, int p_model_size,
-    char* p_features, int p_features_size, double& p_cache, int& p_ncpus
+    char* p_features, int p_features_size, double& p_cache, int& p_ncpus, int& p_ncpus_phys
 ) {
     int family = 0, model = 0, stepping = 0, cache = 0;
     char vendor_name[256], processor_name[256], features[256];
@@ -1303,7 +1374,7 @@ int get_processor_info(
     get_processor_name(processor_name, sizeof(processor_name));
     get_processor_cache(cache);
     get_processor_features(vendor_name, features, sizeof(features));
-    get_processor_count(p_ncpus);
+    get_processor_count(p_ncpus, p_ncpus_phys);
 
     snprintf(p_vendor, p_vendor_size, "%s", vendor_name);
 
@@ -1449,7 +1520,8 @@ int HOST_INFO::get_host_info(bool init) {
         p_model, sizeof(p_model),
         p_features, sizeof(p_features),
         m_cache,
-        p_ncpus
+        p_ncpus,
+        p_ncpus_phys
     );
     collapse_whitespace(p_model);
     collapse_whitespace(p_vendor);
@@ -1517,5 +1589,3 @@ bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
     double seconds_time_to_run = 60 * idle_time_to_run;
     return seconds_idle > seconds_time_to_run;
 }
-
-
