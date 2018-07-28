@@ -142,7 +142,7 @@ bool wu_is_infeasible_custom(
 // the following is for an app that can use anywhere from 1 to 64 threads
 //
 static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
-    double ncpus = g_wreq->effective_ncpus;
+    double ncpus = g_wreq->usable_ncpus_logical;
         // number of usable CPUs, taking user prefs into account
     if (ncpus < 2) return false;
     int nthreads = (int)ncpus;
@@ -884,7 +884,7 @@ static inline bool app_plan_vbox(
     if (strstr(plan_class, "mt")) {
         if (can_use_multicore) {
             // Use number of usable CPUs, taking user prefs into account
-            double ncpus = g_wreq->effective_ncpus;
+            double ncpus = g_wreq->usable_ncpus_logical;
             hu.avg_ncpus = ncpus;
             sprintf(hu.cmdline, "--nthreads %f", ncpus);
         }

@@ -126,7 +126,22 @@ void add_job_files_to_host(WORKUNIT& wu) {
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
-// compute effective_ncpus;
+static int cap_ncpus(int n) {
+    if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
+        n = (int)((n*g_request->global_prefs.max_ncpus_pct)/100.);
+    }
+    if (n > config.max_ncpus) n = config.max_ncpus;
+    if (n < 1) n = 1;
+    if (n > MAX_CPUS) n = MAX_CPUS;
+    if (g_wreq->project_prefs.max_cpus) {
+        if (n > g_wreq->project_prefs.max_cpus) {
+            n = g_wreq->project_prefs.max_cpus;
+        }
+    }
+    return n;
+}
+
+// compute usable_ncpus_*;
 // get limits on:
 // # jobs per day
 // # jobs per RPC
@@ -137,38 +152,26 @@ void WORK_REQ::get_job_limits() {
     int i;
     
     memset(ninstances, 0, sizeof(ninstances));
-    int n;
-    n = g_reply->host.p_ncpus;
-    if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
-        n = (int)((n*g_request->global_prefs.max_ncpus_pct)/100.);
-    }
-    if (n > config.max_ncpus) n = config.max_ncpus;
-    if (n < 1) n = 1;
-    if (n > MAX_CPUS) n = MAX_CPUS;
-    if (project_prefs.max_cpus) {
-        if (n > project_prefs.max_cpus) {
-            n = project_prefs.max_cpus;
-        }
-    }
-    ninstances[PROC_TYPE_CPU] = n;
-    effective_ncpus = n;
+    usable_ncpus_logical = cap_ncpus(g_reply->host.p_ncpus);
+    usable_ncpus_physical = cap_ncpus(g_reply->host.p_ncpus_phys);
+    ninstances[PROC_TYPE_CPU] = usable_ncpus_logical;;
 
-    effective_ngpus = 0;
+    usable_ngpus = 0;
     for (i=1; i<g_request->coprocs.n_rsc; i++) {
         COPROC& cp = g_request->coprocs.coprocs[i];
         int proc_type = coproc_type_name_to_num(cp.type);
         if (proc_type < 0) continue;
-        n = cp.count;
+        int n = cp.count;
         if (n > MAX_GPUS) n = MAX_GPUS;
         ninstances[proc_type] = n;
-        effective_ngpus += n;
+        usable_ngpus += n;
     }
 
-    int mult = effective_ncpus + config.gpu_multiplier * effective_ngpus;
+    int mult = usable_ncpus_logical + config.gpu_multiplier * usable_ngpus;
     if (config.non_cpu_intensive) {
         mult = 1;
         ninstances[0] = 1;
-        if (effective_ngpus) effective_ngpus = 1;
+        if (usable_ngpus) usable_ngpus = 1;
     }
 
     if (config.max_wus_to_send) {
@@ -179,8 +182,8 @@ void WORK_REQ::get_job_limits() {
 
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] effective ncpus %d ngpus %d\n",
-            effective_ncpus, effective_ngpus
+            "[quota] usable ncpus logical %d physical %d ngpus %d\n",
+            usable_ncpus_logical, usable_ncpus_physical, usable_ngpus
         );
     }
     config.max_jobs_in_progress.reset(ninstances);
@@ -1622,7 +1625,7 @@ void send_work() {
     if (config.workload_sim && g_request->have_other_results_list) {
         init_ip_results(
             g_request->global_prefs.work_buf_min(),
-            g_wreq->effective_ncpus, g_request->ip_results
+            g_wreq->usable_ncpus_logical, g_request->ip_results
         );
     }
 

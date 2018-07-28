@@ -1373,7 +1373,16 @@ int HOST::parse(XML_PARSER& xp) {
     string stemp;
     int x;
     while (!xp.get_tag()) {
-        if (xp.match_tag("/host_info")) return 0;
+        if (xp.match_tag("/host_info")) {
+            // if # phys CPUs not given (old clients) conservatively
+            // set it to #logical/2.
+            // This affects only plan classes with <physical_cpus>
+            //
+            if (p_ncpus_phys == 0) {
+                p_ncpus_phys = std::max(1, p_ncpus/2);
+            }
+            return 0;
+        }
         if (xp.parse_int("timezone", timezone)) continue;
         if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
         if (xp.parse_str("ip_addr", last_ip_addr, sizeof(last_ip_addr))) continue;

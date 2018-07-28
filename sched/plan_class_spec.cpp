@@ -91,6 +91,26 @@ int PLAN_CLASS_SPECS::parse_file(const char* path) {
     return retval;
 }
 
+int PLAN_CLASS_SPEC::usable_ncpus() {
+    if (physical_cpus) {
+        return g_wreq->usable_ncpus_physical;
+    } else {
+        return g_wreq->usable_ncpus_logical;
+    }
+}
+
+inline int cpu_logical_per_physical() {
+    return g_wreq->usable_ncpus_logical/g_wreq->usable_ncpus_physical;
+}
+
+int PLAN_CLASS_SPEC::logical_cpus_per_thread() {
+    if (physical_cpus) {
+        return cpu_logical_per_physical();
+    } else {
+        return 1;
+    }
+}
+
 bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
     if (min_opencl_version && opencl_prop.opencl_device_version_int 
         && min_opencl_version > opencl_prop.opencl_device_version_int
@@ -214,11 +234,11 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     // min NCPUS
     //
-    if (min_ncpus && g_wreq->effective_ncpus < min_ncpus) {
+    if (min_ncpus && usable_ncpus()< min_ncpus) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: not enough CPUs: %d < %f\n",
-                g_wreq->effective_ncpus, min_ncpus
+                usable_ncpus(), min_ncpus
             );
         }
         return false;
@@ -421,7 +441,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
         }
 
-        // host must have VM acceleration in order to run multi-core jobs
+        // host must have VM acceleration in order to run multi-thread VMs
         //
         if (max_threads > 1) {
             if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
@@ -847,63 +867,69 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
     } else {
         // CPU only
+        // compute
+        // nthreads: the # of threads the app should use
+        // hu.avg_ncpus: the # of logical CPUs it will use
         //
+        int nthreads = 1;
         if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
+        } else if (!can_use_multicore) {
+            hu.avg_ncpus = logical_cpus_per_thread();
         } else {
-            if (can_use_multicore) {
-                if (max_threads > g_wreq->effective_ncpus) {
-                    hu.avg_ncpus = g_wreq->effective_ncpus;
-                } else {
-                    hu.avg_ncpus = max_threads;
-                }
-
-                // if per-CPU mem usage given
-                //
-                if (mem_usage_per_cpu) {
-                    if (!min_ncpus) min_ncpus = 1;
-                    double mem_usage_seq = mem_usage_base + min_ncpus*mem_usage_per_cpu;
-
-                    // see if client has enough memory to run at all
-                    //
-                    if (mem_usage_seq > g_wreq->usable_ram) {
-                        if (config.debug_version_select) {
-                            log_messages.printf(MSG_NORMAL,
-                                "[version] plan_class_spec: insufficient multicore RAM; %f < %f",
-                                g_wreq->usable_ram, mem_usage_seq
-                            );
-                        }
-                        return false;
-                    }
-
-                    // see how many CPUs we could use given memory usage
-                    //
-                    int n = (g_wreq->usable_ram - mem_usage_base)/mem_usage_per_cpu;
-                    // don't use more than this many
-                    //
-                    if (n < hu.avg_ncpus) {
-                        hu.avg_ncpus = n;
-                    }
-
-                    // compute memory usage; overrides wu.rsc_memory_bound
-                    //
-                    hu.mem_usage = mem_usage_base + hu.avg_ncpus*mem_usage_per_cpu;
-                    char buf[256];
-                    sprintf(buf, " --memory_size_mb %.0f", hu.mem_usage/MEGA);
-                    strcat(hu.cmdline, buf);
-                }
+            if (max_threads > usable_ncpus() - max_threads_diff) {
+                nthreads = usable_ncpus() - max_threads_diff;
             } else {
-                hu.avg_ncpus = 1;
+                nthreads = max_threads;
             }
+
+            // if per-thread mem usage given, we may need to reduce nthreads
+            //
+            if (mem_usage_per_cpu) {
+                // min_cpus actually means min threads
+                //
+                if (!min_ncpus) min_ncpus = 1;
+                double mem_usage_seq = mem_usage_base + min_ncpus*mem_usage_per_cpu;
+
+                // see if client has enough memory to run at all
+                //
+                if (mem_usage_seq > g_wreq->usable_ram) {
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[version] plan_class_spec: insufficient multicore RAM; %f < %f",
+                            g_wreq->usable_ram, mem_usage_seq
+                        );
+                    }
+                    return false;
+                }
+
+                // see how many threads we could use given memory usage
+                //
+                int n = (g_wreq->usable_ram - mem_usage_base)/mem_usage_per_cpu;
+                // don't use more than this many threads
+                //
+                if (n < nthreads) {
+                    nthreads = n;
+                }
+
+                // compute memory usage; overrides wu.rsc_memory_bound
+                //
+                hu.mem_usage = mem_usage_base + nthreads*mem_usage_per_cpu;
+                char buf[256];
+                sprintf(buf, " --memory_size_mb %.0f", hu.mem_usage/MEGA);
+                strcat(hu.cmdline, buf);
+            }
+
+            hu.avg_ncpus = nthreads*logical_cpus_per_thread();
         }
         if (nthreads_cmdline) {
             char buf[256];
-            sprintf(buf, " --nthreads %d", (int)hu.avg_ncpus);
+            sprintf(buf, " --nthreads %d", nthreads);
             strcat(hu.cmdline, buf);
         }
 
-        hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
-        hu.projected_flops = capped_host_fpops() * hu.avg_ncpus * projected_flops_scale;
+        hu.peak_flops = capped_host_fpops() * nthreads;
+        hu.projected_flops = capped_host_fpops() * nthreads * projected_flops_scale;
 
         // end CPU case
     }
@@ -955,8 +981,15 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             cpu_features.push_back(" " + (string)buf + " ");
             continue;
         }
+        if (xp.parse_bool("physical_cpus", physical_cpus)) continue;
         if (xp.parse_double("min_ncpus", min_ncpus)) continue;
-        if (xp.parse_int("max_threads", max_threads)) continue;
+        if (xp.parse_str("max_threads", buf, sizeof(buf))) {
+            int n = sscanf(buf, "%d %d", &max_threads, &max_threads_diff);
+            if (n < 2) {
+                max_threads_diff = 0;
+            }
+            continue;
+        }
         if (xp.parse_double("mem_usage_base_mb", mem_usage_base)) {
             mem_usage_base *= MEGA;
             continue;
@@ -1090,8 +1123,10 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     opencl = false;
     virtualbox = false;
     is64bit = false;
+    physical_cpus = false;
     min_ncpus = 0;
     max_threads = 1;
+    max_threads_diff = 0;
     mem_usage_base = 0;
     mem_usage_per_cpu = 0;
     nthreads_cmdline = false;

@@ -413,9 +413,10 @@ struct WORK_REQ_BASE {
     bool has_reliable_version;
         // whether the host has a reliable app version
 
-    int effective_ncpus;
+    int usable_ncpus_logical;
+    int usable_ncpus_physical;
         // # of usable CPUs on host, taking prefs into account
-    int effective_ngpus;
+    int usable_ngpus;
 
     // 6.7+ clients send separate requests for different resource types:
     //

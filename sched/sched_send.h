@@ -18,8 +18,6 @@
 #ifndef BOINC_SCHED_SEND_H
 #define BOINC_SCHED_SEND_H
 
-#include <string.h>
-
 #include "boinc_db.h"
 #include "sched_shmem.h"
 #include "sched_types.h"
@@ -55,7 +53,6 @@ extern void unlock_sema();
 extern const char* find_user_friendly_name(int appid);
 extern bool work_needed(bool);
 extern void send_work_setup();
-extern int effective_ncpus();
 extern int selected_app_message_index;
 extern void update_n_jobs_today();
 extern int nfiles_on_host(WORKUNIT&);

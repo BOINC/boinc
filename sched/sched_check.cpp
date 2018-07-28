@@ -232,7 +232,7 @@ static inline int check_deadline(
         }
         IP_RESULT candidate("", wu.delay_bound, est_dur);
         safe_strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, g_wreq->effective_ncpus, g_request->ip_results)) {
+        if (check_candidate(candidate, g_wreq->usable_ncpus_logical, g_request->ip_results)) {
             // it passed the feasibility test,
             // but don't add it to the workload yet;
             // wait until we commit to sending it

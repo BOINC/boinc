@@ -34,8 +34,10 @@ struct PLAN_CLASS_SPEC {
     bool virtualbox;
     bool is64bit;
     std::vector<std::string> cpu_features;
+    bool physical_cpus;
     double min_ncpus;
     int max_threads;
+    int max_threads_diff;
     double mem_usage_base;
     double mem_usage_per_cpu;
     bool nthreads_cmdline;
@@ -117,6 +119,8 @@ struct PLAN_CLASS_SPEC {
     bool opencl_check(OPENCL_DEVICE_PROP&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
     PLAN_CLASS_SPEC();
+    int usable_ncpus();
+    int logical_cpus_per_thread();
 };
 
 struct PLAN_CLASS_SPECS {
