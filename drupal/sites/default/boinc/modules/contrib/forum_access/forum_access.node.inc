@@ -118,7 +118,7 @@ function _forum_access_comment_form(&$form, &$form_state) {
   if ($user->uid != 1 && isset($form['nid']['#value'])) {
     $node = node_load($form['nid']['#value']);
     if ($tid = _forum_access_get_tid($node)) {
-      if (!forum_access_access($tid, 'comment_create')) {
+      if (!forum_access_access($tid, 'comment_create') and !(forum_access_access($tid, 'create') and ($node->uid==$user->uid)) ) {
         switch (arg(0)) {
           case 'node':
               // Remove the in-line comment form, replace with text message to user.
