@@ -386,12 +386,12 @@ static OSStatus DoUninstall(void) {
     }
     
     // With fast user switching, each logged in user can be running
-    // a separate copy of the Manager; pkill terminates all of them
+    // a separate copy of the Manager; killall terminates all of them
     for (i=0; i<NUMBRANDS; ++i) {
 #if TESTING
         showDebugMsg("killing any running instances of %s", appName[i]);
 #endif
-        sprintf(cmd, "pkill -KILL \"%s\"", appName[i]);
+        snprintf(cmd, sizeof(cmd), "killall \"%s\"", appName[i]);
         callPosixSpawn(cmd);
     }
 
@@ -997,7 +997,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     // To guard against this, we have the LaunchAgent kill the Manager
     // (for this user only) if it is running.
     //
-    fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[brandID]);
+    fprintf(f, "killall -u %d -9 \"%s\";", pw->pw_uid, appName[brandID]);
     fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");

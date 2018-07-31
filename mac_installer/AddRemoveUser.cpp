@@ -543,7 +543,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[brandID]);
+        fprintf(f, "killall -u %d -9 \"%s\";", pw->pw_uid, appName[brandID]);
     } else {
         fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
         fprintf(f, "open -jg \"%s\";", appPath[brandID]);
