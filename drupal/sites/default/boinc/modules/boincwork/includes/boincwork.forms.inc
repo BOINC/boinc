@@ -1636,7 +1636,7 @@ function communityprefs_form_submit($form, &$form_state) {
   pm_email_notify_user('submit', $edit, $user);
   
   // Avatar settings - only set if profile_node exists.
-  if (!empty($profile_node)) {
+  if ($profile_node) {
     if (!$edit['field_image']) $edit['field_image'] = array();
     $profile_node->field_image = $edit['field_image'];
     node_save($profile_node);
