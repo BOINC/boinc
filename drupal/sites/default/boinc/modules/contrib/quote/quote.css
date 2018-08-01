@@ -1,0 +1,13 @@
+/* $Id: quote.css,v 1.4 2006/03/31 19:12:23 karthik Exp $ */
+
+.quote-msg {
+  margin: 1em 2em 1em 2em;
+  padding: 1em;
+  border: 1px solid #DDD;
+  background-color: #F6F6F6;
+}
+.quote-author {
+  display: block;
+  font-weight: bold;
+  margin: 0 0 1em 0;
+}
