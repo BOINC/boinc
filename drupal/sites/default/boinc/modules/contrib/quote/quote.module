@@ -95,7 +95,8 @@ function quote_form_alter(&$form, &$form_state, $form_id) {
       $comment = db_fetch_object(db_query('SELECT c.*, u.uid, u.name AS registered_name FROM {comments} c INNER JOIN {users} u ON c.uid = u.uid WHERE c.cid = %d AND c.status = 0', $cid));
 
       if ($comment->uid) {
-        $author = $comment->registered_name;
+        $account = user_load($comment->uid);
+        $author = (!empty($account)) ? $author = $account->boincuser_name : variable_get('anonymous', 'Anonymous');
       }
       else {
         $author = (!empty($comment->name)) ? $comment->name : variable_get('anonymous', 'Anonymous');
@@ -106,7 +107,8 @@ function quote_form_alter(&$form, &$form_state, $form_id) {
       $node = node_load(array('nid' => $nid));
       if (in_array($node->type, _quote_variable_get('node_types'))) {
         $quote = $node->body;
-        $author = !empty($node->name) ? $node->name : variable_get('anonymous', 'Anonymous');
+        $account = user_load($node->uid);
+        $author = (!empty($account)) ? $author = $account->boincuser_name : variable_get('anonymous', 'Anonymous');
       }
       else {
         return;
