@@ -20,12 +20,14 @@
 //
 //  --variety variety
 //  [--d debug_level]
-//  [--one_pass]     // make one pass through table, then exit
+//  [--one_pass]        // make one pass through table, then exit
 //
-// This program must be linked with an app-specific function:
+// This program must be linked with an app-specific functions:
 //
+// int handle_trickle_init(int argc, char** argv);
+//      initialize
 // int handle_trickle(MSG_FROM_HOST&)
-//    handle a trickle message
+//      handle a trickle message
 //
 // return nonzero on error
 
@@ -46,7 +48,12 @@
 
 char variety[256];
 
-// make one pass through trickle_ups with handled == 0
+// can change the following in handle_trickle_init()
+//
+int handled_enum = 0;
+int handled_set = 1;
+
+// make one pass through trickle_ups with handled == handled_enum
 // return true if there were any
 //
 bool do_trickle_scan() {
@@ -55,7 +62,7 @@ bool do_trickle_scan() {
     bool found=false;
     int retval;
 
-    sprintf(buf, "where variety='%s' and handled=0", variety);
+    sprintf(buf, "where variety='%s' and handled=%d", variety, handled_enum);
     while (1) {
         retval = mfh.enumerate(buf);
         if (retval) {
@@ -71,7 +78,7 @@ bool do_trickle_scan() {
                 "handle_trickle(): %s", boincerror(retval)
             );
         }
-        mfh.handled = true;
+        mfh.handled = handled_set;
         mfh.update();
         found = true;
     }
