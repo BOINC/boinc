@@ -510,6 +510,33 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant name field
     unset($form['_author']);
+
+    // If user is role='community member' only, then user may not post
+    // any comments in non-forum node-types, team_forums are also not
+    // allowed.. This allows users who have site-wide comment
+    // permission to comment on forums in special
+    // circumstances. Additionally, any comments require a captcha.
+    //
+    $node = node_load($form['nid']['#value']);
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if ($node->type == 'forum') {
+        if (module_exists('captcha')) {
+          $form['comment_captcha'] = array(
+            '#type' => 'captcha',
+            '#weight' => 1000,
+          );
+        }
+      }
+      else {
+        $form = NULL;
+        $form['from'] = array(
+          '#type'  => 'item',
+          '#value' => 'You do not have permission to post comments in this forum.',
+        );
+      }
+    }
     
     break;
     
@@ -545,6 +572,18 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
+
+    // Add captcha for role='community member'
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if (module_exists('captcha')) {
+        $form['comment_captcha'] = array(
+          '#type' => 'captcha',
+          '#weight' => 1000,
+        );
+      }
+    }
 
     break;
   case 'boinccore_delete_confirm':

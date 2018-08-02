@@ -1261,25 +1261,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   case 'views_exposed_form':
       $form['submit']['#value'] = bts('Search', array(), NULL, 'boinc:search-user');
     break;
-
-  case 'comment_form':
-      // Additional logic: If the user cannot post due to total credit, make sure they 
-      // cannot post when node type is not forum. This allows users who have site-wide comment 
-      // permission to comment on forums in special circumstances. Thus they can comment on posts they 
-      // created, but not elsewhere on the site, e.g., News.
-      //
-      $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
-      $node = node_load($form['nid']['#value']);
-      $account = user_load($user->uid);
-      if ( ($account->boincuser_total_credit < $min_credit_to_post) and ($node->type != 'forum') ) {
-        $form = NULL;
-        $form['from'] = array(
-          '#type'  => 'item',
-          '#value' => 'You do not have permission to post comments in this forum.',
-        );
-        dd($form, 'form after');
-      }
-    break;
   }
 }
 
@@ -1294,7 +1275,7 @@ function boincuser_profile_node_form_after_build($form, &$form_state) {
   return $form;
 }
 
-/**
+/*12*
  * Implementation of hook_elements()
  * @see http://api.drupal.org/api/drupal/developer--hooks--core.php/function/hook_elements/6
  */
