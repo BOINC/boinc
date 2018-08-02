@@ -103,7 +103,7 @@
   <ul class="links">
     <li class="forum first last">
       <?php $account=user_load($user->uid); ?>
-      <?php if ($account->team AND $account->team == $team_forum->nid): ?>
+      <?php if ($account->team AND $account->team == $team_forum->nid AND (user_access('create team_forum content'))): ?>
         <?php print l(bts('Post new topic', array(), NULL, 'boinc:forum-post-new-topic'), "node/add/team-forum/{$team_forum_id}"); ?>
       <?php endif; ?>
     </li>
