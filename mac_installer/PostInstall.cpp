@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
     }
 
     for (i=0; i< NUMBRANDS; i++) {
-        snprintf(s, sizeof(s), "pkill \"%s\"", appName[i]);
+        snprintf(s, sizeof(s), "killall \"%s\"", appName[i]);
         callPosixSpawn (s);
     }
     sleep(2);
@@ -1120,7 +1120,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[oldBrandID]);
+        fprintf(f, "killall -u %d -9 \"%s\";", pw->pw_uid, appName[oldBrandID]);
     } else {
         fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
         fprintf(f, "open -jg \"%s\";", appPath[brandID]);
