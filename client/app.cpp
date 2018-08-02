@@ -587,8 +587,12 @@ bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
 // either find an unused an empty slot dir,
 // or create a new slot dir if needed
 //
+#ifdef SIM
+int ACTIVE_TASK::get_free_slot(RESULT*) {
+    return 0;
+}
+#else
 int ACTIVE_TASK::get_free_slot(RESULT* rp) {
-#ifndef SIM
     int j, retval;
     char path[MAXPATHLEN];
 
@@ -636,9 +640,9 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
             "[slot] assigning slot %d to %s", j, rp->name
         );
     }
-#endif
     return 0;
 }
+#endif
 
 bool ACTIVE_TASK_SET::slot_taken(int slot) {
     unsigned int i;

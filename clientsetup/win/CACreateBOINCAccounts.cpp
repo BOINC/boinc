@@ -79,7 +79,7 @@ UINT CACreateBOINCAccounts::OnExecution()
     BOOL             bBOINCProjectAccountCreated = FALSE;
     BOOL             bBOINCMasterAccountModified = FALSE;
     BOOL             bBOINCProjectAccountModified = FALSE;
-    UINT             uiReturnValue = -1;
+    UINT             uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
     if ( uiReturnValue ) return uiReturnValue;

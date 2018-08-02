@@ -77,7 +77,7 @@ UINT CASetPermissionBOINCData::OnExecution()
     tstring             strBOINCDataDirectory;
     tstring             strEnableProtectedApplicationExecution;
     tstring             strEnableUseByAllUsers;
-    UINT                uiReturnValue = -1;
+    UINT                uiReturnValue;
 
     uiReturnValue = GetProperty( _T("UserSID"), strUserSID );
     if ( uiReturnValue ) return uiReturnValue;

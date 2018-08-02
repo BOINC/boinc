@@ -67,7 +67,6 @@ UINT CAShutdownBOINCManager::OnExecution()
     TCHAR       szWindowTitle[256];
     LRESULT     lrReturnValue = NULL;
     UINT        uiLoopCounter = 0;
-    UINT        uiReturn = -1;
 
     const UINT WM_TASKBARSHUTDOWN = ::RegisterWindowMessage(_T("TaskbarShutdown"));
 

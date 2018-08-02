@@ -69,7 +69,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
     EXPLICIT_ACCESS     ea[2];
     ULONG               ulEntries = 0;
     tstring             strBOINCDataDirectory;
-    UINT                uiReturnValue = -1;
+    UINT                uiReturnValue;
 
     uiReturnValue = GetProperty( _T("DATADIR"), strBOINCDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
