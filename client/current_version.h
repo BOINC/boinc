@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,8 @@
 #define BOINC_CURRENT_VERSION_H
 
 #include "gui_http.h"
+
+#define DEFAULT_VERSION_CHECK_URL "https://boinc.berkeley.edu/download.php?xml=1"
 
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     int error_num;
@@ -47,6 +49,6 @@ struct NVC_CONFIG {
 
 extern NVC_CONFIG nvc_config;
 
-extern int read_vc_config_file(const char* fname, NVC_CONFIG& nvc_config_file);
+extern int read_vc_config_file(void);
 
 #endif

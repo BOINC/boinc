@@ -71,7 +71,6 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CLIENT_OPAQUE_FILENAME      "client_opaque.txt"
 #define CONFIG_FILE                 "cc_config.xml"
 #define NVC_CONFIG_FILE             "nvc_config.xml"
-#define OLD_NVC_CONFIG_FILE         "old_nvc_config.xml"
 #define COPROC_INFO_FILENAME        "coproc_info.xml"
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"

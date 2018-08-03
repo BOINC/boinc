@@ -180,6 +180,7 @@ CLIENT_STATE::CLIENT_STATE()
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
+    client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     detach_console = false;
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
@@ -641,7 +642,7 @@ int CLIENT_STATE::init() {
 
     // inform the user if there's a newer version of client
     // NOTE: this must be called AFTER
-    // read_vc_config_file(NVC_CONFIG_FILE, nvc_config)
+    // read_vc_config_file()
     //
     newer_version_startup_check();
 

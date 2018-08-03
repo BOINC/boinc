@@ -34,12 +34,12 @@ NVC_CONFIG::NVC_CONFIG() {
     defaults();
 }
 
-// this is called first thing by client
+// this is called first thing by client right after CC_CONFIG::defaults()
 //
 void NVC_CONFIG::defaults() {
     client_download_url = "https://boinc.berkeley.edu/download.php";
     client_new_version_name = "";
-    client_version_check_url = "https://boinc.berkeley.edu/download.php?xml=1";
+    client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     network_test_url = "https://www.google.com/";
 };
 
@@ -101,13 +101,13 @@ int NVC_CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int read_vc_config_file(const char* fname, NVC_CONFIG& nvc_config_file) {
-    nvc_config_file.defaults();
-    FILE* f = boinc_fopen(fname, "r");
+int read_vc_config_file() {
+    nvc_config.defaults();
+    FILE* f = boinc_fopen(NVC_CONFIG_FILE, "r");
     if (!f) {
         return ERR_FOPEN;
     }
-    nvc_config_file.parse(f);
+    nvc_config.parse(f);
     fclose(f);
     return 0;
 }
@@ -216,20 +216,14 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
 
 // called at startup to see if the client state file
 // says there's a new version. This must be called after
-// read_vc_config_file(NVC_CONFIG_FILE, nvc_config)
+// read_vc_config_file()
 //
 void newer_version_startup_check() {
-    NVC_CONFIG old_nvc_config;
-    
-    // This code expects our installer to rename any previous nvc_config.xml 
-    // file to old_nvc_config.xml.
-    //
     // If version check URL has changed (perhaps due to installing a build of
     // BOINC with different branding), reset any past new version information
     //
-    read_vc_config_file(OLD_NVC_CONFIG_FILE, old_nvc_config);
-    boinc_delete_file(OLD_NVC_CONFIG_FILE);
-    if (old_nvc_config.client_version_check_url != nvc_config.client_version_check_url) {
+    if (gstate.client_version_check_url != nvc_config.client_version_check_url) {
+        gstate.client_version_check_url = nvc_config.client_version_check_url;
         gstate.newer_version = "";
         return;
     }
