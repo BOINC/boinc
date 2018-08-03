@@ -20,6 +20,8 @@
 
 #include "gui_http.h"
 
+#define DEFAULT_VERSION_CHECK_URL "https://boinc.berkeley.edu/download.php?xml=1"
+
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     int error_num;
 
@@ -42,7 +44,6 @@ struct NVC_CONFIG {
 
     NVC_CONFIG();
     void defaults();
-    std::string get_default_version_check_url(void);
     int parse(FILE*);
 };
 
