@@ -49,6 +49,7 @@ env:
     - BOINC_TYPE=manager
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
+    - BOINC_TYPE=integration-test
     #- BOINC_TYPE=coverity
 
 matrix:
@@ -67,13 +68,18 @@ matrix:
     env: BOINC_TYPE=libs-mingw
   - os: osx
     env: BOINC_TYPE=apps-mingw
+  - os: osx
+    env: BOINC_TYPE=integration-test
 
 before_install:
+   - phpenv global 7.0
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
-   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install -y freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 realpath ) fi
+   - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( sudo apt-get install ansible/trusty-backports; sudo service mysql stop; ) fi
 
 before_script:
 - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
+- if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/installTestSuite.sh ) fi
 
 script:
 - if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
@@ -85,3 +91,4 @@ script:
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
+- if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
