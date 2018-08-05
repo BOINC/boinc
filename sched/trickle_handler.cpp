@@ -48,10 +48,15 @@
 
 char variety[256];
 
-// can change the following in handle_trickle_init()
+// values of mhf.handled.
+// Can change the following in handle_trickle_init()
 //
 int handled_enum = 0;
+    // enumerate messages with this
 int handled_set = 1;
+    // if successful, set to this
+int handled_error = 1;
+    // if handling error, set to this
 
 // make one pass through trickle_ups with handled == handled_enum
 // return true if there were any
@@ -73,12 +78,12 @@ bool do_trickle_scan() {
             break;
         }
         retval = handle_trickle(mfh);
-        if (!retval) {
+        if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "handle_trickle(): %s", boincerror(retval)
             );
         }
-        mfh.handled = handled_set;
+        mfh.handled = retval?handled_error:handled_set;
         mfh.update();
         found = true;
     }
