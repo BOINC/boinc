@@ -32,10 +32,6 @@
 #include "coproc.h"
 #include "common_defs.h"
 
-#ifdef _WIN64
-#include "wslinfo.h"
-#endif
-
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,
@@ -75,12 +71,6 @@ public:
 
     char os_name[256];
     char os_version[256];
-
-    // WSL information for Win10 only
-    bool wsl_available;
-#ifdef _WIN64
-    WSLS wsls;
-#endif
 
     char product_name[256];       // manufacturer and/or model of system
     char mac_address[256];      // MAC addr e.g. 00:00:00:00:00:00
@@ -128,10 +118,6 @@ public:
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
 };
 
-#ifdef _WIN64
-int get_wsl_information(bool& wsl_available, WSLS& wsls);
-#endif
-
 #ifdef __APPLE__
     int get_system_uptime();
 
@@ -155,6 +141,10 @@ typedef double (*nxIdleTimeProc)(NXEventHandle handle);
 #endif
 
 extern NXEventHandle gEventHandle;
+#endif
+
+#ifdef _WIN64
+extern BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi);
 #endif
 
 #endif
