@@ -55,6 +55,7 @@ using std::vector;
 #include "project_list.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
+#include "wslinfo.h"
 
 #ifdef SIM
 #include "../sched/edf_sim.h"
@@ -108,6 +109,7 @@ struct CLIENT_STATE {
     NET_STATS net_stats;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
+    WSLS wsls;
 
     // the following used only on Android
     DEVICE_STATUS device_status;

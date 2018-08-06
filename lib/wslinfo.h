@@ -40,11 +40,13 @@ struct WSL {
 };
 
 struct WSLS {
+    bool available;
     std::vector<WSL> wsls;
 
     WSLS();
-
+    int get_information();
     void clear();
+    void show();
 
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);    
