@@ -1275,7 +1275,7 @@ function boincuser_profile_node_form_after_build($form, &$form_state) {
   return $form;
 }
 
-/*12*
+/**
  * Implementation of hook_elements()
  * @see http://api.drupal.org/api/drupal/developer--hooks--core.php/function/hook_elements/6
  */
