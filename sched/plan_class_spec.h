@@ -120,6 +120,7 @@ struct PLAN_CLASS_SPEC {
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
     PLAN_CLASS_SPEC();
     int usable_ncpus();
+    int ncpus();
     int logical_cpus_per_thread();
 };
 

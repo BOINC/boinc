@@ -92,11 +92,11 @@ int PLAN_CLASS_SPECS::parse_file(const char* path) {
 }
 
 int PLAN_CLASS_SPEC::usable_ncpus() {
-    if (physical_cpus) {
-        return g_wreq->usable_ncpus_physical;
-    } else {
-        return g_wreq->usable_ncpus_logical;
-    }
+    return physical_cpus?g_wreq->usable_ncpus_physical:g_wreq->usable_ncpus_logical;
+}
+
+int PLAN_CLASS_SPEC::ncpus() {
+    return physical_cpus?g_request->host.p_ncpus_phys:g_request->host.p_ncpus;
 }
 
 inline int cpu_logical_per_physical() {
@@ -877,11 +877,16 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (!can_use_multicore) {
             hu.avg_ncpus = logical_cpus_per_thread();
         } else {
-            if (max_threads > usable_ncpus() - max_threads_diff) {
-                nthreads = usable_ncpus() - max_threads_diff;
-            } else {
-                nthreads = max_threads;
+            // nthreads
+            // - can be no more than usable_ncpus()
+            // - can be no more than actual #CPUs - diff
+            //
+            nthreads = std::min(max_threads, usable_ncpus());
+            nthreads = std::min(nthreads, ncpus() - max_threads_diff);
+            if (min_ncpus && nthreads<min_ncpus) {
+                return false;
             }
+            nthreads = std::max(nthreads, 1);
 
             // if per-thread mem usage given, we may need to reduce nthreads
             //
