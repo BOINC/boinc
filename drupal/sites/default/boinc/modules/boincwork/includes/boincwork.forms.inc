@@ -1635,13 +1635,15 @@ function communityprefs_form_submit($form, &$form_state) {
   // Private message settings
   pm_email_notify_user('submit', $edit, $user);
   
-  // Avatar settings
-  if (!$edit['field_image']) $edit['field_image'] = array();
-  $profile_node->field_image = $edit['field_image'];
-  node_save($profile_node);
-  // Flush this from the node cache or changes won't show up immediately!
-  $profile_node = node_load($profile_node->nid, NULL, TRUE);
-  
+  // Avatar settings - only set if profile_node exists.
+  if ($profile_node) {
+    if (!$edit['field_image']) $edit['field_image'] = array();
+    $profile_node->field_image = $edit['field_image'];
+    node_save($profile_node);
+    // Flush this from the node cache or changes won't show up immediately!
+    $profile_node = node_load($profile_node->nid, NULL, TRUE);
+  }
+
   // All other settings
   $settings = array(
     'signature' => $edit['signature'],
