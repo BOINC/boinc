@@ -479,6 +479,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             $passwd_hash = password_hash( md5($passwd.$edit['mail']), PASSWORD_DEFAULT );
             $email_addr = $edit['mail'];
 
+            // Algorithm for changing email and/or password
             if ($changing_email) {
               // locally store current email to set as previous email
               $prev_email = $account->mail;
@@ -498,6 +499,15 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
               _boincuser_send_emailchange($account, $email_addr, $prev_email, user_access('administer users'));
             }
           }
+
+          // Change boinc username
+          if ($edit['boincuser_name'] != $boinc_user->name) {
+            $boincuser_name = $edit['boincuser_name'];
+            $result = $boinc_user->update(
+                "name='{$boincuser_name}'"
+            );
+          }
+
           break;
         case 'user_profile':
           if ($edit['boincuser_name'] != $boinc_user->name) {
@@ -930,12 +940,25 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Adjust form elements already present
-    $form['account']['name']['#title'] = 'Drupal Username';
+    $form['account']['name']['#title'] = bts('Drupal Username', array(), NULL, 'boinc:drupal-username');
     $form['account']['name']['#size'] = 40;
     $form['account']['name']['#attributes']['autocomplete'] = 'off';
-    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publically that the user can change in Community Preferences.';
+    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publicly that the user can change in Community Preferences.';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
+
+    if (user_access('administer users')) {
+      // Add BOINC username (aka displayname)
+      $form['account']['boincuser_name'] = array(
+        '#type' => 'textfield',
+        '#title' => bts('BOINC Username', array(), NULL, 'boinc:user-or-team-name'),
+        '#default_value' => $account->boincuser_name,
+        '#maxlength' => USERNAME_MAX_LENGTH,
+        '#required' => TRUE,
+        '#description' => bts('This is the BOINC (external) username. This is the same setting as found in Account -> Preferences -> Community.', array(), NULL, 'boinc:username-change'),
+        '#size' => 40,
+      );
+    }
 
     // If email address was changed less than 7 days (7 * 86400 s)
     // ago, it cannot be changed again.
@@ -1030,6 +1053,8 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     
     // Rearrange form elements
+    $form['account']['name']['#weight'] = -2;
+    $form['account']['boincuser_name']['#weight'] = -1;
     $form['account']['mailhelp']['#weight'] = 4;
     $form['account']['mail']['#weight'] = 5;
     $form['account']['pass']['#weight'] = 15;
@@ -1069,7 +1094,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
-
     break;
     
   case 'profile_node_form':
