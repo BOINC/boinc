@@ -84,6 +84,9 @@
 #include <time.h>       // for time()
 #include <vector>
 #include <string>
+#define DLOPEN_NO_WARN
+#include <mach-o/dyld.h>
+#include <dlfcn.h>
 #include "url.h"
 
 #include "mac_branding.h"
@@ -116,6 +119,7 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
+static void FixLaunchServicesDataBase(uid_t userID, long brandID);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void LoadPreferredLanguages();
@@ -1220,6 +1224,95 @@ Boolean CheckDeleteFile(char *name)
     return false;
 }
 
+
+// If there are other copies of BOINC Manager with different branding
+// on the system, Noitifications may display the icon for the wrong
+// branding, due to the Launch Services database having one of the
+// other copies of BOINC Manager as the first entry. Each user has
+// their own copy of the Launch Services database, so this must be
+// done for each user.
+//
+// This probably will happen only on BOINC development systems where
+// Xcode has generated copies of BOINC Manager.
+static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
+    uid_t saved_uid;
+    char boincPath[MAXPATHLEN];
+    char cmd[MAXPATHLEN+250];
+    long i, n;
+    CFArrayRef appRefs = NULL;
+    OSStatus err;
+
+    if (compareOSVersionTo(10, 8) < 0) {
+        return;  // Notifications before OS 10.8 just bounce our Dock icon
+    }
+
+    saved_uid = geteuid();
+    CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
+
+    if (LSCopyApplicationURLsForBundleIdentifier) { // Weak linked; not available before OS 10.10
+        seteuid(userID);    // Temporarily set effective uid to this user
+        appRefs = LSCopyApplicationURLsForBundleIdentifier(bundleID, NULL);
+        seteuid(saved_uid);     // Set effective uid back to privileged user
+            if (appRefs == NULL) {
+                printf("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL\n");
+                goto registerOurApp;
+            }
+            n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+    } else {
+        n = 500;    // Prevent infinite loop
+    }
+
+    for (i=0; i<n; ++i) {     // Prevent infinite loop
+        if (appRefs) {
+            CFURLRef appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, i);
+            boincPath[0] = '\0';
+            if (appURL) {
+                CFRetain(appURL);
+                CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
+                CFStringGetCString(CFPath, boincPath, sizeof(boincPath), kCFStringEncodingUTF8);
+                if (CFPath) CFRelease(CFPath);
+                CFRelease(appURL);
+                appURL = NULL;
+            }
+        } else {
+            seteuid(userID);    // Temporarily set effective uid to this user
+            // GetPathToAppFromID() returns only first result from database
+            err = GetPathToAppFromID('BNC!', bundleID,  boincPath, sizeof(boincPath));
+            seteuid(saved_uid);     // Set effective uid back to privileged user
+            if (err) {
+                printf("Call %ld to GetPathToAppFromID returned error %d\n", i, err);
+                break;
+            }
+        }
+        if (strncmp(boincPath, appPath[brandID], sizeof(boincPath)) == 0) {
+            printf("**** Keeping %s\n", boincPath);
+            if (appRefs) CFRelease(appRefs);
+            return;     // Our (possibly branded) BOINC Manager app is now at top of database
+        }
+        printf("Unregistering %3ld: %s\n", i, boincPath);
+        // Remove this entry from the Launch Services database
+        sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -u \"%s\"", userID, boincPath);
+        err = callPosixSpawn(cmd);
+        if (err) {
+            printf("*** lsregister -u call returned error %d for %s\n", err, boincPath);
+            fflush(stdout);
+        }
+    }
+
+registerOurApp:
+    if (appRefs) CFRelease(appRefs);
+
+    // We have exhausted the Launch Services database without finding our
+    // (possibly branded) BOINC Manager app, so add it to the dataabase
+    printf("%s was not found in Launch Services database; registering it now\n", appPath[brandID]);
+    sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"%s\"", userID, appPath[brandID]);
+    err = callPosixSpawn(cmd);
+    if (err) {
+        printf("*** lsregister call returned error %d for %s\n", err, appPath[brandID]);
+        fflush(stdout);
+    }
+}
+
 void SetEUIDBackToUser (void)
 {
     uid_t login_uid;
@@ -1695,7 +1788,10 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 continue;
             }
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
-        
+
+            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+            FixLaunchServicesDataBase(pw->pw_uid, brandID);
+       
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
