@@ -16,7 +16,28 @@ function boincuser_delete_settings() {
   $form = array();
 
   $default = array(
+    'boincuser_delete_type' => variable_get('boincuser_delete_type', ''),
     'boincuser_delete_redirect' => variable_get('boincuser_delete_redirect', '<front>'),
+  );
+
+  $form['options'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Options'),
+  );
+  $form['options']['help'] = array(
+    '#value' => t('When a user deletes their account, which option is shown to the user? A soft/obfusate delete, a hard/wipe delete, or let the user chose between the two.'),
+    '#weight' => 11,
+  );
+  $form['options']['boincuser_delete_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Type of delete'),
+    '#default_value' => $default['boincuser_delete_type'],
+    '#options' => array(
+       'soft_obfuscate' => t('A soft/obfuscate delete. User\'s account is disabled, but some data is deleted.'),
+       'hard_wipe' => t('A hard/wipe delete. User\'s account is deleted along with many data.'),
+       'user_decides' => t('User is presented with radio buttons where they choose between the two options above.'),
+    ),
+    '#weight' => 21,
   );
 
   $form['redirect'] = array(
