@@ -92,8 +92,8 @@ function hosts_darwin() {
             "os_name='Darwin' and os_version='$v'"
         );
         $os_stats[$ver] = $stats;
-        $total->nhosts += $stats->n;
-        $total->rac += $stats->c;
+        $total->nhosts += $stats->nhosts;
+        $total->rac += $stats->rac;
     }
     $os_stats = sort_stats_by_rac($os_stats);
     $os_stats['total'] = $total;
