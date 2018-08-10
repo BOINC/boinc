@@ -984,13 +984,13 @@ if ($request_log) {
 
 xml_header();
 if (0) {
-    $r = file_get_contents("submit_req.xml");
+    $req = file_get_contents("submit_req.xml");
 } else {
-    $r = $_POST['request'];
+    $req = $_POST['request'];
 }
-$r = simplexml_load_string($r);
+$r = simplexml_load_string($req);
 if (!$r) {
-    xml_error(-1, "can't parse request message");
+    xml_error(-1, "can't parse request message: $req");
 }
 
 switch ($r->getName()) {
