@@ -146,10 +146,10 @@ function hosts_by_os() {
         set_cached_data(86400, serialize($data), "os");
     }
     $total_rac = $data->total_rac;
-    page_head("Host breakdown by operating system");
+    page_head("Computer breakdown by operating system");
     echo "<p><a href=host_stats.php?boinc_version=1>View breakdown by BOINC version</a><p>\n";
     start_table("table-striped");
-    row_heading_array(array("OS", "# of active hosts", "% of total RAC"));
+    row_heading_array(array("OS", "# of active computers", "% of recent credit"));
     //echo "total: $total_rac\n";
     foreach ($data->windows as $vers=>$stats) {
         show_type($vers, $stats);
@@ -199,10 +199,10 @@ function hosts_by_boinc_version() {
         set_cached_data(86400, serialize($data), "boinc_version");
     }
     $total_rac = $data->total_rac;
-    page_head("Host breakdown by BOINC version");
+    page_head("Computer breakdown by BOINC version");
     echo "<p><a href=host_stats.php>View breakdown by operating system</a><p>\n";
     start_table("table-striped");
-    row_heading_array(array("BOINC version", "# of active hosts", "% of total RAC"));
+    row_heading_array(array("BOINC version", "# of active computers", "% of recent credit"));
     foreach ($data->vers as $vers=>$stats) {
         show_type($vers, $stats);
     }

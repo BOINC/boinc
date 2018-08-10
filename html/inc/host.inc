@@ -225,7 +225,7 @@ function top_host_table_start($sort_by) {
     shuffle($host_sites);
     start_table('table-striped');
     $x = array(
-        tra("Computer info"),
+        tra("Info"),
         tra("Rank"),
         tra("Owner"),
     );

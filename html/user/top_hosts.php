@@ -71,7 +71,7 @@ if ($cacheddata){
 
 // Now display what we've got (either gotten from cache or from DB)
 //
-page_head(tra("Top hosts"));
+page_head(tra("Top computers"));
 top_host_table_start($sort_by);
 $i = 1 + $offset;
 $n = sizeof($data);
