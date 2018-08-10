@@ -76,6 +76,7 @@ struct DAILY_STATS {
 struct PROJECT_LIST_ENTRY {
     std::string name;
     std::string url;
+    std::string web_url;
     std::string general_area;
     std::string specific_area;
     std::string description;

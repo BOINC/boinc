@@ -110,10 +110,12 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxArmCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;
