@@ -1,30 +1,14 @@
-- name: Check for boinc-server-docker cloned
-  stat: path="{{base_dir}}/boinc-server-docker"
-  register: bsd_dir
+- name: Remove existing copy of boinc-server-docker
+  file: path="{{base_dir}}/boinc-server-docker" state=absent
 
-##### If boinc-server-docker not yet cloned
 - name: "Clone boinc-server-docker to {{base_dir}}"
   command: git clone https://github.com/marius311/boinc-server-docker.git chdir="{{base_dir}}"
-  when: bsd_dir.stat.isdir is not defined
 
 - name: "Use release 2.1.0 of boinc-server-docker"
   command: git checkout tags/2.1.0 chdir="{{base_dir}}/boinc-server-docker"
-  when: bsd_dir.stat.isdir is not defined
   
 - name: Init some submodules
   command: git submodule init images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
-  when: bsd_dir.stat.isdir is not defined
  
-##### If boinc-server-docker already cloned
-- name: "Update boinc-server-docker"
-  command: git pull chdir="{{base_dir}}/boinc-server-docker"
-  when: bsd_dir.stat.isdir is defined and bsd_dir.stat.isdir
-
-##### Error if invalid state
-- name: Fail since we are not in a valid state
-  fail: msg="Invalid state"
-  when: bsd_dir.stat.isdir is defined and not bsd_dir.stat.isdir
-  
-##### Do in both cases
 - name: "Fetch some submodules for boinc-server-docker in {{base_dir}}"
   command: git submodule update images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
