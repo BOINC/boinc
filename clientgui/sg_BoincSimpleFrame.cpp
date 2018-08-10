@@ -232,12 +232,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
 
     strMenuName.Printf(
-        _("&%s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("&%s help"), 
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,

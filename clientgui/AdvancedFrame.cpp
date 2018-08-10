@@ -661,11 +661,11 @@ bool CAdvancedFrame::CreateMenu() {
 
     strMenuName.Printf(
         _("&%s help"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
