@@ -524,11 +524,12 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         }
 
 #if defined(__aarch64__) || defined(__arm__)
-        if (
-            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
-            strstr(buf, "Hardware\t: ")
-        ) {
-            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
+        if (strstr(buf, "Hardware\t: ")) {
+            // Hardware is specifying the board this CPU is on,
+            // store it in product_name while we parse /proc/cpuinfo
+            // This makes sure we only ever copy as much bytes
+            // as we can still store in host.product_name
+            //
             int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
             strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
@@ -545,7 +546,9 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
 #elif defined(__aarch64__) || defined(__arm__)
-            // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
+            // Hardware is a fallback specifying the board this CPU is on
+            // (not ideal but better than nothing)
+            //
             strstr(buf, "model name") || strstr(buf, "Processor") || strstr(buf, "Hardware")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
@@ -554,9 +557,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             if (!model_hack && !model_found) {
                 model_found = true;
 #ifdef __powerpc__
-                char *coma = NULL;
-                if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
-                    *coma = '\0';    /* strip the unwanted line */
+                char *comma = NULL;
+                if ((comma = strrchr(buf, ','))) {
+                    // we have ", altivec supported"
+                    *comma = '\0';    / strip the unwanted line
                     strcpy(features, "altivec");
                     features_found = true;
                 }
@@ -564,9 +568,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
             } else if (!model_found) {
 #ifdef __ia64__
-                /* depending on kernel version, family can be either
-                a number or a string. If number, we have a model name,
-                else we don't */
+                // depending on kernel version, family can be either
+                // a number or a string.
+                // If number, we have a model name, else we don't
+                //
                 char *testc = NULL;
                 testc = strrchr(buf, ':')+2;
                 if (isdigit(*testc)) {
@@ -1454,7 +1459,6 @@ int HOST_INFO::get_os_info() {
 
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
-    char buf2[256];
     char dist_name[256], dist_version[256];
     string os_version_extra("");
     strcpy(dist_name, "");
@@ -1462,18 +1466,24 @@ int HOST_INFO::get_os_info() {
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
+    //
     FILE* f = popen(command_lsbrelease, "r");
     if (f) {
-        found_something = parse_linux_os_info(f, lsbrelease, dist_name, sizeof(dist_name),
-            dist_version, sizeof(dist_version));
+        found_something = parse_linux_os_info(
+            f, lsbrelease, dist_name, sizeof(dist_name),
+            dist_version, sizeof(dist_version)
+        );
         pclose(f);
     }
     if (!found_something) {
         // see: https://www.freedesktop.org/software/systemd/man/os-release.html
+        //
         f = fopen(file_osrelease, "r");
         if (f) {
-            found_something = parse_linux_os_info(f, osrelease, dist_name, sizeof(dist_name),
-                dist_version, sizeof(dist_version));
+            found_something = parse_linux_os_info(
+                f, osrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version)
+            );
             fclose(f);
         }
     }
@@ -1482,8 +1492,10 @@ int HOST_INFO::get_os_info() {
         // last ditch effort for older redhat releases
         f = fopen(file_redhatrelease, "r");
         if (f) {
-            found_something = parse_linux_os_info(f, redhatrelease, dist_name, sizeof(dist_name),
-                dist_version, sizeof(dist_version));
+            found_something = parse_linux_os_info(
+                f, redhatrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version)
+            );
             fclose(f);
         }
     }
@@ -1500,10 +1512,13 @@ int HOST_INFO::get_os_info() {
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
         // This will be part of the normal startup messages to show to the user
+        //
         msg_printf(NULL, MSG_INFO,
-                "[libc detection] gathered: %s, %s", libc_version.c_str(), libc_extra_info.c_str()
-            );
+            "[libc detection] gathered: %s, %s",
+            libc_version.c_str(), libc_extra_info.c_str()
+        );
         // add info to os_version_extra
+        //
         if (!os_version_extra.empty()) {
             os_version_extra += "|";
         }
@@ -1592,10 +1607,15 @@ vector<string> get_tty_list() {
         if (dev) {
             do {
                 // get next file
+                //
+
                 done=dir_scan(devname,dev,1024);
+
                 // does it match our tty pattern? If so, add it to the tty list.
+                //
                 if (!done && (strstr(devname,tty_patterns[i].dev) == devname)) {
                     // don't add anything starting with .
+                    //
                     if (devname[0] != '.') {
                         sprintf(fullname,"%s/%s",tty_patterns[i].dir,devname);
                         tty_list.push_back(fullname);

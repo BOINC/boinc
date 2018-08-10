@@ -1433,14 +1433,6 @@ int HOST_INFO::get_host_info(bool init) {
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
-#ifdef _WIN64
-    if (!cc_config.dont_use_wsl) {
-        OSVERSIONINFOEX osvi;
-        if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
-            get_wsl_information(wsl_available, wsls);
-        }
-    }
-#endif
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
     }

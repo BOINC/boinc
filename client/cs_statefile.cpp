@@ -421,6 +421,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             }
             continue;
         }
+#ifdef _WIN64
+        if (xp.match_tag("wsls")) {
+            wsls.parse(xp);
+        }
+#endif
         if (xp.match_tag("time_stats")) {
             retval = time_stats.parse(xp);
             if (retval) {
@@ -724,6 +729,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     f.printf("<client_state>\n");
     retval = host_info.write(f, true, true);
     if (retval) return retval;
+#ifdef _WIN64
+    wsls.write_xml(f);
+#endif
     retval = time_stats.write(f, false);
     if (retval) return retval;
     retval = net_stats.write(f);
