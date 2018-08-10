@@ -23,79 +23,81 @@ require_once("../inc/util.inc");
 require_once("../inc/cache.inc");
 
 $min_credit = .1;   // only count hosts with this much RAC
-$total_eac = 0;
+$total_rac = 0;
 
-function show_type($s, $x) {
-    global $total_eac;
-    $p = number_format(100*$x->c/$total_eac, 4);
-    row_array(array($s, $x->n, "$p %"));
+function show_type($type, $stats) {
+    global $total_rac;
+    $pct = $total_rac?number_format(100*$stats->rac/$total_rac, 4):0;
+    row_array(array($type, $stats->nhosts, "$pct %"));
 }
 
-function cmp_host($x, $y) {
-    if ($x->c < $y->c) return 1;
-    if ($x->c > $y->c) return -1;
+// a "stats" object consists of #hosts and RAC.  Compare the RAC.
+//
+function cmp_rac($stat1, $stat2) {
+    if ($stat1->rac < $stat2->rac) return 1;
+    if ($stat1->rac > $stat2->rac) return -1;
     return 0;
 }
 
-// sort an array whose values are structs with n, c
+// sort an array whose values are stats objects
 //
-function sort_hosts($x) {
-    uasort($x, 'cmp_host');
-    return $x;
+function sort_stats_by_rac($stats) {
+    uasort($stats, 'cmp_rac');
+    return $stats;
 }
 
 function get_stats($clause) {
     global $db, $min_credit;
-    $x = $db->enum_general(
+    $results = $db->enum_general(
         'StdClass',
-        "select count(*) as n, sum(expavg_credit) as c from host where expavg_credit>$min_credit and $clause"
+        "select count(*) as nhosts, sum(expavg_credit) as rac from host where expavg_credit>$min_credit and $clause"
     );
-    return $x[0];
+    return $results[0];
 }
 
 function hosts_win($os_names) {
     $total = new StdClass;
-    $total->n = 0;
-    $total->c = 0;
-    $h = array();
-    foreach ($os_names as $n) {
-        if (strstr($n, "Windows")) {
-            $x = get_stats("os_name='$n'");
-            $h[$n] = $x;
-            $total->n += $x->n;
-            $total->c += $x->c;
+    $total->nhosts = 0;
+    $total->rac = 0;
+    $os_stats = array();
+    foreach ($os_names as $os_name) {
+        if (strstr($os_name, "Windows")) {
+            $stats = get_stats("os_name='$os_name'");
+            $os_stats[$os_name] = $stats;
+            $total->nhosts += $stats->nhosts;
+            $total->rac += $stats->rac;
         }
     }
-    $h = sort_hosts($h);
-    $h['Windows total'] = $total;
-    return $h;
+    $os_stats = sort_stats_by_rac($os_stats);
+    $os_stats['Windows total'] = $total;
+    return $os_stats;
 }
 
 function hosts_darwin() {
     global $db, $min_credit;
-    $x = $db->enum_general(
+    $results = $db->enum_general(
         'StdClass',
         "select distinct(os_version) as v from host where os_name='Darwin' and expavg_credit>$min_credit"
     );
     $vers = array();
-    foreach ($x as $y) {
-        $vers[] = $y->v;
+    foreach ($results as $result) {
+        $vers[] = $result->v;
     }
     $total = new StdClass;
-    $total->n = 0;
-    $total->c = 0;
-    $h = array();
-    foreach ($vers as $v) {
-        $x = get_stats(
+    $total->nhosts = 0;
+    $total->rac = 0;
+    $os_stats = array();
+    foreach ($vers as $ver) {
+        $stats = get_stats(
             "os_name='Darwin' and os_version='$v'"
         );
-        $h[$v] = $x;
-        $total->n += $x->n;
-        $total->c += $x->c;
+        $os_stats[$ver] = $stats;
+        $total->nhosts += $stats->n;
+        $total->rac += $stats->c;
     }
-    $h = sort_hosts($h);
-    $h['total'] = $total;
-    return $h;
+    $os_stats = sort_stats_by_rac($os_stats);
+    $os_stats['total'] = $total;
+    return $os_stats;
 }
 
 function hosts_linux() {
@@ -104,12 +106,12 @@ function hosts_linux() {
 
 function hosts_other($os_names) {
     $d = array();
-    foreach ($os_names as $n) {
-        if (strstr($n, 'Windows')) continue;
-        if (strstr($n, 'Darwin')) continue;
-        if (strstr($n, 'Linux')) continue;
-        if (!$n) continue;
-        $d[$n] = get_stats("os_name='$n'");
+    foreach ($os_names as $os_name) {
+        if (strstr($os_name, 'Windows')) continue;
+        if (strstr($os_name, 'Darwin')) continue;
+        if (strstr($os_name, 'Linux')) continue;
+        if (!$os_name) continue;
+        $d[$os_name] = get_stats("os_name='$os_name'");
     }
     return $d;
 }
@@ -126,7 +128,7 @@ function get_os_data() {
         $os_names[] = $n->os_name;
     }
     $data = new StdClass;
-    $data->total_eac = $db->sum('host', 'expavg_credit', '');
+    $data->total_rac = $db->sum('host', 'expavg_credit', '');
     $data->windows = hosts_win($os_names);
     $data->darwin = hosts_darwin();
     $data->linux = hosts_linux();
@@ -135,7 +137,7 @@ function get_os_data() {
 }
 
 function hosts_by_os() {
-    global $db, $min_credit, $total_eac;
+    global $db, $min_credit, $total_rac;
     $data = get_cached_data(86400, "os");
     if ($data) {
         $data = unserialize($data);
@@ -143,21 +145,21 @@ function hosts_by_os() {
         $data = get_os_data();
         set_cached_data(86400, serialize($data), "os");
     }
-    $total_eac = $data->total_eac;
+    $total_rac = $data->total_rac;
     page_head("Host breakdown by operating system");
     echo "<p><a href=host_stats.php?boinc_version=1>View breakdown by BOINC version</a><p>\n";
     start_table("table-striped");
     row_heading_array(array("OS", "# of active hosts", "% of total RAC"));
-    //echo "total: $total_eac\n";
-    foreach ($data->windows as $n=>$x) {
-        show_type($n, $x);
+    //echo "total: $total_rac\n";
+    foreach ($data->windows as $vers=>$stats) {
+        show_type($vers, $stats);
     }
-    foreach ($data->darwin as $v=>$x) {
-        show_type("Darwin $v", $x);
+    foreach ($data->darwin as $vers=>$state) {
+        show_type("Darwin $vers", $state);
     }
     show_type("Linux total", $data->linux);
-    foreach ($data->other as $n=>$x) {
-        show_type($n, $x);
+    foreach ($data->other as $vers=>$stats) {
+        show_type($vers, $stats);
     }
     end_table();
     page_tail();
@@ -166,29 +168,29 @@ function hosts_by_os() {
 function get_boinc_version_data() {
     global $db, $min_credit;
     $db = BoincDb::get();
-    $vers = $db->enum_general(
+    $results = $db->enum_general(
         'StdClass',
-        "select distinct substring(serialnum, locate('BOINC', serialnum), 14) as x from host where expavg_credit>$min_credit"
+        "select distinct substring(serialnum, locate('BOINC', serialnum), 14) as boinc_vers from host where expavg_credit>$min_credit"
     );
     $boinc_versions = array();
-    foreach ($vers as $v) {
-        $v = substr($v->x, 6);
-        $v = strstr($v, "]", true);
-        if ($v) $boinc_versions[] = $v;
+    foreach ($results as $result) {
+        $boinc_vers = substr($result->boinc_vers, 6);
+        $boinc_vers = strstr($boinc_vers, "]", true);
+        if ($boinc_vers) $boinc_versions[] = $boinc_vers;
     }
     $vers = array();
-    foreach ($boinc_versions as $v) {
-        $vers[$v] = get_stats("serialnum like '%$v%'");
+    foreach ($boinc_versions as $boinc_vers) {
+        $vers[$boinc_vers] = get_stats("serialnum like '%$boinc_vers%'");
     }
-    $vers = sort_hosts($vers);
+    $vers = sort_stats_by_rac($vers);
     $data = new StdClass;
-    $data->total_eac = $db->sum('host', 'expavg_credit', '');
+    $data->total_rac = $db->sum('host', 'expavg_credit', '');
     $data->vers = $vers;
     return $data;
 }
 
 function hosts_by_boinc_version() {
-    global $db, $min_credit, $total_eac;
+    global $db, $min_credit, $total_rac;
     $data = get_cached_data(86400, "boinc_version");
     if ($data) {
         $data = unserialize($data);
@@ -196,13 +198,13 @@ function hosts_by_boinc_version() {
         $data = get_boinc_version_data();
         set_cached_data(86400, serialize($data), "boinc_version");
     }
-    $total_eac = $data->total_eac;
+    $total_rac = $data->total_rac;
     page_head("Host breakdown by BOINC version");
     echo "<p><a href=host_stats.php>View breakdown by operating system</a><p>\n";
     start_table("table-striped");
     row_heading_array(array("BOINC version", "# of active hosts", "% of total RAC"));
-    foreach ($data->vers as $v=>$x) {
-        show_type($v, $x);
+    foreach ($data->vers as $vers=>$stats) {
+        show_type($vers, $stats);
     }
     end_table();
     page_tail();
