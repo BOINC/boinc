@@ -1,5 +1,5 @@
 /* XPM */
-static char *linuxarmicon2_xpm[] = {
+static const char *linuxarmicon2_xpm[] = {
 "16 16 152 2",
 "  	c #108CAB",
 ". 	c #118CAB",

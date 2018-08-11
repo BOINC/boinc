@@ -1,5 +1,5 @@
 /* XPM */
-static char *amdicon2_xpm[] = {
+static const char *amdicon2_xpm[] = {
 "19 16 273 2",
 "  	c #FAFAFA",
 ". 	c #CAC9CB",

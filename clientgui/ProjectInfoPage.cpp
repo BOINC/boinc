@@ -42,12 +42,10 @@
 #include "res/windowsicon.xpm"
 #include "res/macosicon.xpm"
 #include "res/linuxicon.xpm"
-#include "res/androidicon.xpm"
+#include "res/androidicon2.xpm"
 #include "res/freebsdicon.xpm"
 #include "res/linuxarmicon2.xpm"
-// #include "res/atiicon.xpm"
 #include "res/amdicon2.xpm"
-// #include "res/nvidiaicon.xpm"
 #include "res/nvidiaicon2.xpm"
 #include "res/intelgpuicon2.xpm"
 #include "res/virtualboxicon.xpm"
@@ -341,7 +339,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformLinuxCtrl->SetToolTip(_("Supports Linux on Intel"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformAndroidCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("androidicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("androidicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     m_pProjectDetailsSupportedPlatformAndroidCtrl->SetToolTip(_("Supports Android"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformAndroidCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
@@ -450,9 +448,9 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(Linux_xpm);
         return bitmap;
     }
-    else if (name == wxT("androidicon.xpm"))
+    else if (name == wxT("androidicon2.xpm"))
     {
-        wxBitmap bitmap(androidicon_xpm);
+        wxBitmap bitmap(androidicon2_xpm);
         return bitmap;
     }
     else if (name == wxT("freebsdicon.xpm"))
@@ -465,21 +463,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(linuxarmicon2_xpm);
         return bitmap;
     }
-//    else if (name == wxT("atiicon.xpm"))
-//    {
-//        wxBitmap bitmap(atiicon_xpm);
-//        return bitmap;
-//    }
     else if (name == wxT("amdicon2.xpm"))
     {
         wxBitmap bitmap(amdicon2_xpm);
         return bitmap;
     }
-//    else if (name == wxT("nvidiaicon.xpm"))
-//    {
-//        wxBitmap bitmap(nvidiaicon_xpm);
-//        return bitmap;
-//    }
     else if (name == wxT("nvidiaicon2.xpm"))
     {
         wxBitmap bitmap(nvidiaicon2_xpm);
@@ -559,7 +547,6 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
         CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
-//        wxString strURL = pProjectInfo->m_strURL;
         wxString strWebURL = pProjectInfo->m_strWebURL;
         EllipseStringIfNeeded(strWebURL, m_pProjectDetailsURLCtrl);
 
@@ -732,9 +719,15 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
 						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
+
                     if (strProjectPlanClass.Find(_T("amd")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
 						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("intel_gpu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsIntelGPU = true;
+						if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("vbox")) != wxNOT_FOUND) {

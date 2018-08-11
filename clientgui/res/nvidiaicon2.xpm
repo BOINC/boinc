@@ -1,5 +1,5 @@
 /* XPM */
-static char *nvidiaicon2_xpm[] = {
+static const char *nvidiaicon2_xpm[] = {
 "22 16 170 2",
 "  	c #FFFFFF",
 ". 	c #FFFFFE",

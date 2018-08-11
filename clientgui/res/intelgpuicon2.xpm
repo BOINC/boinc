@@ -1,5 +1,5 @@
 /* XPM */
-static char *intelgpuicon2_xpm[] = {
+static const char *intelgpuicon2_xpm[] = {
 "13 16 139 2",
 "  	c #0A78BB",
 ". 	c #057AC1",
