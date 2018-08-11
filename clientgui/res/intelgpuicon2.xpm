@@ -157,7 +157,7 @@ static char *intelgpuicon2_xpm[] = {
 "6.7.M 8.9.0.a.b.8.M M 7.c.",
 "d.e.f.f.f.f.f.f.f.f.f.g.h."};
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -171,4 +171,4 @@ static char *intelgpuicon2_xpm[] = {
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.

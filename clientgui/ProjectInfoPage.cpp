@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ProjectInfoPage.h"
@@ -45,9 +45,9 @@
 #include "res/androidicon.xpm"
 #include "res/freebsdicon.xpm"
 #include "res/linuxarmicon2.xpm"
-#include "res/atiicon.xpm"
+// #include "res/atiicon.xpm"
 #include "res/amdicon2.xpm"
-#include "res/nvidiaicon.xpm"
+// #include "res/nvidiaicon.xpm"
 #include "res/nvidiaicon2.xpm"
 #include "res/intelgpuicon2.xpm"
 #include "res/virtualboxicon.xpm"
@@ -465,21 +465,21 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(linuxarmicon2_xpm);
         return bitmap;
     }
-    else if (name == wxT("atiicon.xpm"))
-    {
-        wxBitmap bitmap(atiicon_xpm);
-        return bitmap;
-    }
+//    else if (name == wxT("atiicon.xpm"))
+//    {
+//        wxBitmap bitmap(atiicon_xpm);
+//        return bitmap;
+//    }
     else if (name == wxT("amdicon2.xpm"))
     {
         wxBitmap bitmap(amdicon2_xpm);
         return bitmap;
     }
-    else if (name == wxT("nvidiaicon.xpm"))
-    {
-        wxBitmap bitmap(nvidiaicon_xpm);
-        return bitmap;
-    }
+//    else if (name == wxT("nvidiaicon.xpm"))
+//    {
+//        wxBitmap bitmap(nvidiaicon_xpm);
+//        return bitmap;
+//    }
     else if (name == wxT("nvidiaicon2.xpm"))
     {
         wxBitmap bitmap(nvidiaicon2_xpm);
@@ -724,7 +724,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     }
 
                     if (strProjectPlanClass.Find(_T("nvidia")) != wxNOT_FOUND) {
-                        pProjectInfo->m_bProjectSupportsIntelGPU = true;
+                        pProjectInfo->m_bProjectSupportsCUDA = true;
 						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
