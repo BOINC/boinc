@@ -25,6 +25,8 @@ require_once("../inc/cache.inc");
 $min_credit = .1;   // only count hosts with this much RAC
 $total_rac = 0;
 
+define("CACHE_PERIOD", 7*86400);
+
 function show_type($type, $stats) {
     global $total_rac;
     $pct = $total_rac?number_format(100*$stats->rac/$total_rac, 4):0;
@@ -138,18 +140,18 @@ function get_os_data() {
 
 function hosts_by_os() {
     global $db, $min_credit, $total_rac;
-    $data = get_cached_data(86400, "os");
+    $data = get_cached_data(CACHE_PERIOD, "os");
     if ($data) {
         $data = unserialize($data);
     } else {
         $data = get_os_data();
-        set_cached_data(86400, serialize($data), "os");
+        set_cached_data(CACHE_PERIOD, serialize($data), "os");
     }
     $total_rac = $data->total_rac;
     page_head("Computer breakdown by operating system");
     echo "<p><a href=host_stats.php?boinc_version=1>View breakdown by BOINC version</a><p>\n";
     start_table("table-striped");
-    row_heading_array(array("OS", "# of active computers", "% of recent credit"));
+    row_heading_array(array("Operating system", "# of active computers", "% of recent credit"));
     //echo "total: $total_rac\n";
     foreach ($data->windows as $vers=>$stats) {
         show_type($vers, $stats);
@@ -191,12 +193,12 @@ function get_boinc_version_data() {
 
 function hosts_by_boinc_version() {
     global $db, $min_credit, $total_rac;
-    $data = get_cached_data(86400, "boinc_version");
+    $data = get_cached_data(CACHE_PERIOD, "boinc_version");
     if ($data) {
         $data = unserialize($data);
     } else {
         $data = get_boinc_version_data();
-        set_cached_data(86400, serialize($data), "boinc_version");
+        set_cached_data(CACHE_PERIOD, serialize($data), "boinc_version");
     }
     $total_rac = $data->total_rac;
     page_head("Computer breakdown by BOINC version");
