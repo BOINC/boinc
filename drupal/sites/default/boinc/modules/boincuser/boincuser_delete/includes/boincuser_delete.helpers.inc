@@ -38,6 +38,58 @@ function _boincuser_delete_validatepasswd($boinc_user, $current_pass) {
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
+ * Delete the user function.
+ */
+function _boincuser_delete_deleteuser($account, $action=NULL) {
+  require_boinc('user_util');
+  require_boinc('delete_account');
+
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+
+  // watchdog message
+  watchdog('boincuser_delete', 'Deleting account drupal UID: %uid, BOINC id: %boincuser_id., BOINC displayname: %displayname',
+  array(
+    '%uid' =>  $account->uid,
+    '%boincuser_id' => $account->boincuser_id,
+    '%displayname' => $account->boincuser_name,
+  ), WATCHDOG_NOTICE);
+
+  // delete the account - This will delete the boinc user from the
+  // boinc project database, and then delete the Drupal user using the
+  // hook_user() functions.
+
+  switch ($action) {
+    case 'soft_obfuscate':
+      obfuscate_account($boinc_user);
+      _boincuser_delete_comment_reassign($account);
+      _boincuser_delete_node_reassign($account);
+      _boincuser_delete_privatemsg_delete($account);
+      _boincuser_delete_friends($account);
+      // delete the user's profile
+      $profile = content_profile_load('profile', $account->uid);
+      node_delete($profile->$nid);
+      // Drupal account -
+      //  * 'block'/disable the account
+      //  * set name, mail, pass, and init to deleted
+      //  * erase signature
+      $myarray = array(
+        'status'    => 0,
+        'name'      => 'deleted_' . time() . '_' . random_string(),
+        'mail'      => 'deleted_' . time() . '_' . random_string(),
+        'pass'      => 'deleted_' . time() . '_' . random_string(),
+        'signature' => '',
+        'init'      => 'deleted_' . time() . '_' . random_string(),
+      );
+      user_save($account, $myarray);
+      break;
+    case 'hard_wipe':
+      wipe_account($boinc_user);
+      user_delete(array(), $account->uid);
+      break;
+  }
+}
+
+/**
  * Assigns nodes to anonymous user.
  *
  * Copied from node.module, node_user()
