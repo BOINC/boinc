@@ -83,7 +83,7 @@ if ($content && (!$preview)){
         if ($post_id) {
             header("Location: forum_thread.php?id=$thread->id&postid=$post_id");
         } else {
-            error_page("Can't create post.");
+            error_page("Can't create post.  $forum_error");
         }
     }
 }
