@@ -64,7 +64,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
 {
     PSID        pSid;
     tstring     strOSVersion;
-    UINT        uiReturnValue = -1;
+    UINT        uiReturnValue;
 
 
     uiReturnValue = GetProperty( _T("VersionNT"), strOSVersion );

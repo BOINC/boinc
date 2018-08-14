@@ -76,7 +76,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     tstring             strBOINCDataProjectsDirectory;
     tstring             strEnableProtectedApplicationExecution;
     tstring             strEnableUseByAllUsers;
-    UINT                uiReturnValue = -1;
+    UINT                uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_ADMINS_GROUPNAME"), strBOINCAdminsGroupAlias );
     if ( uiReturnValue ) return uiReturnValue;

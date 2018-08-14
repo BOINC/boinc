@@ -481,8 +481,11 @@ static inline bool is_weak_auth(const char* auth) {
     return (strstr(auth, "_") != NULL);
 }
 
+#ifdef SIM
+void ACCT_MGR_OP::handle_reply(int ) {
+}
+#else
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
-#ifndef SIM
     unsigned int i;
     int retval;
     bool verified;
@@ -804,8 +807,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     gstate.acct_mgr_info.user_keywords = ami.user_keywords;
     gstate.acct_mgr_info.write_info();
     gstate.set_client_state_dirty("account manager RPC");
-#endif
 }
+#endif
 
 // write AM info to files.
 // This is done after each AM RPC.

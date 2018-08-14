@@ -64,7 +64,7 @@ UINT CAValidateRebootRequest::OnExecution()
     tstring strRebootRequested;
     tstring strRebootPendingFilename;
     FILE*   fRebootPending;
-    UINT    uiReturnValue = -1;
+    UINT    uiReturnValue;
 
 
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
