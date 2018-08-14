@@ -501,7 +501,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           }
 
           // Change boinc username
-          if ($edit['boincuser_name'] != $boinc_user->name) {
+          if ($edit['boincuser_name'] and ($edit['boincuser_name'] != $boinc_user->name)) {
             $boincuser_name = $edit['boincuser_name'];
             $result = $boinc_user->update(
                 "name='{$boincuser_name}'"
