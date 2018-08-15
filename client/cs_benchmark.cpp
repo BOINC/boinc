@@ -292,7 +292,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
                 perror("setpriority");
             }
 #endif
-            int retval = cpu_benchmarks(&benchmark_descs);
+            int retval = cpu_benchmarks(&benchmark_descs[i]);
             fflush(NULL);
             _exit(retval);
         } else {
