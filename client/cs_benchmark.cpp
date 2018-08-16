@@ -276,7 +276,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         benchmark_descs[i].error = false;
 #ifdef _WIN32
         benchmark_descs[i].handle = CreateThread(
-            NULL, 0, win_cpu_benchmarks, &benchmark_descs, 0,
+            NULL, 0, win_cpu_benchmarks, &benchmark_descs[i], 0,
             &benchmark_descs[i].pid
         );
         int n = host_info.p_ncpus;
