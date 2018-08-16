@@ -67,7 +67,7 @@ function _boincuser_delete_deleteuser($account, $action=NULL) {
       _boincuser_delete_friends($account);
       // delete the user's profile
       $profile = content_profile_load('profile', $account->uid);
-      node_delete($profile->$nid);
+      node_delete($profile->nid);
       // Drupal account -
       //  * 'block'/disable the account
       //  * set name, mail, pass, and init to deleted
@@ -86,6 +86,10 @@ function _boincuser_delete_deleteuser($account, $action=NULL) {
       wipe_account($boinc_user);
       user_delete(array(), $account->uid);
       break;
+    default:
+      watchdog('boincuser_delete', 'Delete action is %action, which is not \'soft_obfuscate\' or \'hard_wipe\'.', array(
+        '%action' => $action,
+      ), WATCHDOG_ERROR);
   }
 }
 

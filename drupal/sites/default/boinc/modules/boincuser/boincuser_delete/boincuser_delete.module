@@ -293,8 +293,6 @@ function boincuser_delete_submit($form, &$form_state) {
   global $base_url;
   global $base_path;
   module_load_include('inc', 'rules', 'modules/system.rules');
-  $mysubject = '';
-  $mymessage = '';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $site_url = $base_url . $base_path . "user/login";
 

@@ -91,8 +91,8 @@ function boincuser_delete_admindelete(&$form_state, $uid) {
     $form['account']['user_delete_action'] = array(
         '#type' => 'radios',
         '#options' => array(
-          'boincuser_delete_softdelete' => bts('<b>Soft delete</b> the account. The account will be disabled, and all posts/comments will be attributed to the Anonymous User. The user profile will be deleted, the host information deleted, and the user will be removed from any team.', array(), NULL, 'boinc:delete-user-account'),
-          'boincuser_delete_delete' => bts('<b>Delete</b> the account. The account will be deleted, and all posts/comments will be attributed to the Anonymous User. The user profile will be deleted.', array(), NULL, 'boinc:delete-user-account'),),
+          'soft_obfuscate' => bts('<b>Soft delete</b> the account. The account will be disabled, and all posts/comments will be attributed to the Anonymous User. The user profile will be deleted, the host information deleted, and the user will be removed from any team.', array(), NULL, 'boinc:delete-user-account'),
+          'hard_wipe' => bts('<b>Delete</b> the account. The account will be deleted, and all posts/comments will be attributed to the Anonymous User. The user profile will be deleted.', array(), NULL, 'boinc:delete-user-account'),),
       );
 
     $form['account']['surecheckbox'] = array(
@@ -145,7 +145,11 @@ function boincuser_delete_admindelete_validate($form, &$form_state) {
   $boinc_user = boincuser_load($user->uid, TRUE);
 
   if ($form_state['values']['user_delete_action'] == '') {
-    form_set_error('user_delete_action', bts('Please select an action to perform using the radio buttons.', array(), NULL, 'boinc:delete-user-account'));
+    form_set_error('user_delete_action', t('Please select an action to perform using the radio buttons.'));
+  }
+
+  if ( ($form_state['values']['user_delete_action'] != 'soft_obfuscate') and ($form_state['values']['user_delete_action'] != 'hard_wipe') ) {
+    form_set_error('user_delete_action', t('User Delete action not a predefined value, unknown error in radio buttons.'));
   }
 
   if (!($form_state['values']['surecheckbox'])) {
@@ -164,6 +168,7 @@ function boincuser_delete_admindelete_submit($form, &$form_state) {
   // This is the account to be deleted, and not the administrator's
   // account.
   $account = user_load(array('uid' => $form['#uid']));
+  $action = $form_state['values']['user_delete_action'];
 
   drupal_set_message(t('WARNING: Account @displayname, Drupal UID=@uid has been deleted.',
     array(
