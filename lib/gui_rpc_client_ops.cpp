@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 // This file contains:
 // 1) functions to clear and parse the various structs
@@ -170,6 +170,9 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) {
             continue;
         }
+        if (xp.parse_string("web_url", web_url)) {
+            continue;
+        }
         if (xp.parse_string("general_area", general_area)) continue;
         if (xp.parse_string("specific_area", specific_area)) continue;
         if (xp.parse_string("description", description)) {
@@ -193,6 +196,7 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
 void PROJECT_LIST_ENTRY::clear() {
     name.clear();
     url.clear();
+    web_url.clear();
     general_area.clear();
     specific_area.clear();
     description.clear();
