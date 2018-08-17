@@ -262,15 +262,13 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     remove_benchmark_file(BM_TYPE_INT);
     cpu_benchmarks_start = dtime();
 
-    if (!benchmark_descs.empty()) {
-        benchmark_descs.clear();
-    }
+    benchmark_descs.clear();
+    benchmark_descs.resize(ncpus);
+
     bm_ncpus = ncpus;
     benchmarks_running = true;
 
     for (i=0; i<bm_ncpus; i++) {
-        benchmark_descs.push_back(BENCHMARK_DESC());
-
         benchmark_descs[i].ordinal = i;
         benchmark_descs[i].done = false;
         benchmark_descs[i].error = false;
