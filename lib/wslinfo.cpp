@@ -64,6 +64,7 @@ int WSL::parse(XML_PARSER& xp) {
 }
 
 WSLS::WSLS() {
+    clear();
 }
 
 void WSLS::clear() {

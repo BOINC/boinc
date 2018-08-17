@@ -327,7 +327,6 @@ void CLIENT_STATE::check_if_need_benchmarks() {
 // Returns true if CPU benchmarks can be run
 //
 bool CLIENT_STATE::can_run_cpu_benchmarks() {
-    return true;
     if (tasks_suspended) return false;
 
     // if no projects attached yet, don't run
