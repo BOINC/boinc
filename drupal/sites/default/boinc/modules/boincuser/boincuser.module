@@ -274,6 +274,7 @@ function boincuser_init() {
         if (module_exists('boincuser_delete')) {
           $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
           $paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm/*';
+          $paths_to_ignore[] = 'user/' . $user->uid . '/odeleteconfirm/*';
         }
         if (!_boincuser_ignore_paths($path, $paths_to_ignore)) {
           drupal_goto('user/termsofuse');
