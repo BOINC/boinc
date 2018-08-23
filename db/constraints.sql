@@ -83,6 +83,10 @@ alter table msg_to_host
 alter table host
     add index host_user (userid),
         -- html_user/host_user.php
+    add index host_cpid (host_cpid),
+        -- scheduler request for user with many hosts
+    add index host_domain_name (domain_name),
+        -- scheduler request for user with many hosts
     add index host_avg (expavg_credit desc),
         -- db_dump.C
     add index host_tot (total_credit desc);
