@@ -363,6 +363,7 @@ extern bool str_replace(char* str, const char* old, const char* neww);
 extern char* sgets(char* buf, int len, char* &in);
 extern void non_ascii_escape(const char*, char*, int len);
 extern void xml_escape(const char*, char*, int len);
+extern void xml_escape_cdata(const char* in, char* out, int len);
 extern void xml_unescape(std::string&);
 extern void xml_unescape(char*);
 extern void extract_venue(const char*, const char*, char*, int len);

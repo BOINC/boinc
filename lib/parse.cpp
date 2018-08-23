@@ -33,6 +33,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <string>
+#include <string.h>
 #include <cmath>
 #include <ctype.h>
 #include <errno.h>
@@ -357,6 +358,57 @@ void xml_escape(const char* in, char* out, int len) {
         } else if (x == '&') {
             strcpy(p, "&amp;");
             p += 5;
+        } else if (x>127) {
+            snprintf(buf, sizeof(buf), "&#%d;", x);
+            strcpy(p, buf);
+            p += strlen(buf);
+        } else if (x<32) {
+            switch(x) {
+            case 9:
+            case 10:
+            case 13:
+                snprintf(buf, sizeof(buf), "&#%d;", x);
+                strcpy(p, buf);
+                p += strlen(buf);
+                break;
+            }
+        } else {
+            *p++ = x;
+        }
+        if (p > out + len - 8) break;
+    }
+    *p = 0;
+}
+
+// This excapes only the character sequences that are illegal in CData,
+// in particular "<![CDATA[", "]]>" and characters < #32 or > #127
+//
+// NOTE: output buffer should be 6X size of input
+//
+void xml_escape_cdata(const char* in, char* out, int len) {
+    char buf[256], *p;
+
+    p = out;
+
+    for (; *in; in++) {
+        int x = (int) *in;
+        x &= 0xff;   // just in case
+        if (x == '<') {
+            if (!strncmp(in, "<![CDATA[", 9)) {
+                strcpy(p, "&lt;![CDATA[");
+                p += 12;
+                in += 9; // skip the whole sequence
+            } else {
+                *p++ = x;
+            }
+        } else if (x == ']') {
+            if (!strncmp(in, "]]>", 3)) {
+                strcpy(p, "]]&gt;");
+                p += 6;
+                in += 3; // skip the whole sequence
+            } else {
+                *p++ = x;
+            }
         } else if (x>127) {
             snprintf(buf, sizeof(buf), "&#%d;", x);
             strcpy(p, buf);
