@@ -426,8 +426,19 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $user_params = array(
           'email_addr' => $edit['mail'],
           'name' => $myname,
-          'passwd_hash' => password_hash( md5($edit['pass'].$edit['mail']) , PASSWORD_DEFAULT ),
         );
+
+        // If the 'pass' variable is already a hash, then don't hash it again.
+        if ($edit['boinchash_flag']) {
+          $user_params['passwd_hash'] = $edit['pass'];
+        }
+        else {
+          // The passwd_hash here is only the md5() hash. This is
+          // because BOINC make_user(), called later, will run
+          // password_hash() on this md5 hash.
+          $user_params['passwd_hash'] = md5($edit['pass'].$edit['mail']);
+        }
+
         $boinc_user = boincuser_register_make_user($user_params);
         if (!$boinc_user) {
           // Account exists with this email addr
@@ -461,6 +472,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 
         // Don't save custom fields to the Drupal user object
         $edit['boincuser_name'] = null;
+        $edit['boinchash_flag'] = null;
       }
       break;
       
@@ -1694,12 +1706,13 @@ function boincuser_create_account() {
 
     $newUser = array(
       'name' => $unique_name,
-      'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
+      'pass' => $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
       'mail' => $params['email_addr'],
       'status' => 1,
       'init' => $params['email_addr'],
       'roles' => array($unrestricted_role => ''),
       'boincuser_name' => $params['user_name'],
+      'boinchash_flag' => TRUE,
     );
 
     // Create the drupal user. If the drupal user cannot be created,
