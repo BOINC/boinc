@@ -165,16 +165,17 @@ if [ ${retval} -ne 0 ]; then
     cd ..; exit 1;
 fi
 
-libSearchPath="./build/Deployment"
-if [ "${style}" == "Development" ]; then
-    libSearchPath="./build/Development"
-fi
-target="ss_app"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
+# screensaver disabled because Travis can't build some library correctly, see https://github.com/BOINC/boinc/issues/2662
+#libSearchPath="./build/Deployment"
+#if [ "${style}" == "Development" ]; then
+#    libSearchPath="./build/Development"
+#fi
+#target="ss_app"
+#source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+#if [ ${retval} -ne 0 ]; then
+#    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+#    cd ..; exit 1;
+#fi
 
 target="ScreenSaver"
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting GCC_ENABLE_OBJC_GC "unsupported" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
