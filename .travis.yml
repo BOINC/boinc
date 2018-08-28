@@ -37,7 +37,7 @@ env:
     - BOINC_TYPE=manager
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
-    - BOINC_TYPE=integration-test
+    - BOINC_TYPE=unit-test
 
 matrix:
   fast_finish: true
@@ -46,7 +46,7 @@ matrix:
       os: linux
       php: 7.0
       env:
-        - BOINC_TYPE=unit-test
+        - BOINC_TYPE=integration-test
     - language: cpp
       os: osx
       env: BOINC_TYPE=manager-osx
