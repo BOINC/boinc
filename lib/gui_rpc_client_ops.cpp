@@ -2636,7 +2636,7 @@ int RPC_CLIENT::get_app_config(const char* url, APP_CONFIGS& config) {
     MSG_VEC mv;
     char buf[1024];
 
-    sprintf(buf,
+    snprintf(buf, sizeof (buf),
         "<get_app_config>\n"
         "    <url>%s</url>\n"
         "</get_app_config>\n",

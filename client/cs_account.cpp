@@ -568,7 +568,7 @@ int CLIENT_STATE::add_project(
     // (unless PROJECT/app_info.xml is found, so that
     // people using anonymous platform don't have to get apps again)
     //
-    sprintf(path, "%s/%s", project->project_dir(), APP_INFO_FILE_NAME);
+    snprintf(path, sizeof(path),  "%s/%s", project->project_dir(), APP_INFO_FILE_NAME);
     if (boinc_file_exists(path)) {
         project->anonymous_platform = true;
         f = fopen(path, "r");

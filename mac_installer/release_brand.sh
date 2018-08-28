@@ -29,7 +29,7 @@
 ##  SHORTBRANDNAME="wcgrid"                             ##Used to name the branded files and directories in the BOINC_Installer directory
 ##  LONGBRANDNAME="World Community Grid"                ##Used to name the installer package
 ##  MANAGERAPPNAME="World Community Grid"               ##The name of the branded manager, replaces BOINC Manager
-##  MANAGERICON="WCGridMgr"                             ##The icon for the branded manager, replaces BOINCMgr.icns
+##  MANAGERICON="wcgrid"                                ##The icon for the branded manager, replaces BOINCMgr.icns
 ##  SSAVERAPPNAME="World Community Grid"                ##The branded screen saver name
 ##  SSAVERPREVIEW="wcgrid.jpg"                          ##The image used as the preview for the screen saver in system preferences
 ##  SSAVERTHUMBNAIL="wcgrid-thumbnail"                  ##The image used as the thumbnail for the screen saver in system preferences
@@ -37,10 +37,10 @@
 ##  SKINDIR="World Community Grid"                      ##The branded skin name to use
 ##  UNINSTALLERAPPNAME="Uninstall World Community Grid" ##The name of the uninstaller app
 ##  UNINSTALLERICON="WCGridUninstaller.icns"            ##The icon for the branded uninstaller
-##  UNINSTALLERTRASHICON="WCGridUninstaller.icns"       ##The icon for uninstaller PutInTrash 
 ##  INSTALLERAPPNAME="World Community Grid Installer"   ##The name of the installer app
 ##  INSTALLERICON="WCGridInstaller.icns"                ##The icon for the branded installer
-##  READMEFILE="WCGrid-ReadMe.rtf"                      ##The branded readme file
+##  READMEFILE="wcgrid-ReadMe.rtf"                      ##The branded readme file
+##  LICENSEFILE="wcgrid-License.rtf"                    ##Optional license file if any changes are needed for the brand
 ##  BRANDING_INFO="BrandId=4"                           ##Info to write into the branding file
 ##  NEWVERSIONCHECKDIR="WCG"                            ##Where to get nvc_config.xml, empty string if none
 ##
@@ -146,7 +146,7 @@ mkdir -p ../BOINC_Installer/Installer\ Resources/
 mkdir -p ../BOINC_Installer/Installer\ Scripts/
 mkdir -p ../BOINC_Installer/Installer\ templates
 
-cp -fp mac_installer/License.rtf ../BOINC_Installer/Installer\ Resources/
+cp -fp mac_installer/${LICENSEFILE} ../BOINC_Installer/Installer\ Resources/License.rtf
 cp -fp mac_installer/${READMEFILE} ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 
 cp -fp mac_installer/complist.plist ../BOINC_Installer/Installer\ templates/complist.plist
@@ -207,6 +207,8 @@ cp -fpRL "${BUILDPATH}/boincscr" ../BOINC_Installer/Pkg_Root/Library/Application
 
 cp -fpRL "${BUILDPATH}/BOINCManager.app/." "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/"
 sed -i "" s/BOINCManager/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Info.plist"
+
+
 sed -i "" s/BOINCMgr/"${MANAGERICON}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Info.plist"
 mv "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/MacOS/BOINCManager" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/MacOS/${MANAGERAPPNAME}"
 cp -fpRL clientgui/res/${MANAGERICON}.icns "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/"
@@ -322,7 +324,6 @@ mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_
 sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 cp -fpRL ./clientgui/res/${UNINSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/"
 rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/MacUninstaller.icns"
-cp -fpRL ./clientgui/res/${UNINSTALLERTRASHICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/PutInTrash.icns"
 
 sudo chown -R root:admin "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
@@ -360,7 +361,7 @@ cp -fpRL mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_${SHORTBRANDN
 cp -fpRL COPYING ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYING.txt
 cp -fpRL COPYING.LESSER ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYING.LESSER.txt
 cp -fpRL COPYRIGHT ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/COPYRIGHT.txt
-cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
+cp -fp mac_installer/${LICENSEFILE} ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/License.rtf
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/*
 sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/*
 
