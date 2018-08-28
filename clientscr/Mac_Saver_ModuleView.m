@@ -20,7 +20,7 @@
 //  BOINC_Saver_Module
 //
 
-// To debug BOINCSaver,saver under Xcode:
+// To debug BOINCSaver.saver under Xcode:
 //
 // [1] Copy ScreenSaverEngine.app to a location outside the /System directory 
 //     to allow bypassing limitations caused by System Integrity Protection
