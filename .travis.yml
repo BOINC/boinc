@@ -52,6 +52,10 @@ matrix:
       env: BOINC_TYPE=manager-osx
     - language: android
       env: BOINC_TYPE=manager-android
+      android:
+        components:
+          - android-10
+          - build-tools-17.0.0
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
