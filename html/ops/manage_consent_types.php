@@ -73,7 +73,7 @@ function mct_toggle_field($field) {
 
 // Builds the form for managing consent types
 function mct_show_form() {
-    $_consenttypes = BoincConsentType::enum(null, "ORDER BY protected DESC");
+    $_consenttypes = BoincConsentType::enum(null, "ORDER BY protectedct DESC");
 
     if (!in_rops()) {
         echo "<b>'Protected' consent types are defined by BOINC. You may add project-specific consent types using this form. (Unprotected consent types are defined here by this project.)</b>";
@@ -112,7 +112,7 @@ function mct_show_form() {
         }
 
         // Protected
-        echo "  <td>$ct->protected</td>";
+        echo "  <td>$ct->protectedct</td>";
 
         // Privacypref toggle
         if (!in_rops()) {
@@ -128,7 +128,7 @@ function mct_show_form() {
         }
 
         // Delete (if not protected)
-        if (!in_rops() and !($ct->protected)) {
+        if (!in_rops() and !($ct->protectedct)) {
             echo "<td><input class=\"btn btn-default\" name=delete type=submit value=Delete>";
         }
         else {
