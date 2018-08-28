@@ -140,7 +140,7 @@ if [ "x${lprefix}" != "x" ]; then
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
     export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --host=x86_64
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
 else
     # Get the names of the current versions of c-ares and openssl from
@@ -163,7 +163,7 @@ else
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
     export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
-    ./configure --enable-shared=NO --enable-ares="${libcares}" --host=x86_64
+    ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi

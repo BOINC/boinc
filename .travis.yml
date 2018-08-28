@@ -1,24 +1,12 @@
 language: cpp
-os:
-  - linux
-  - osx
 compiler:
   - gcc
-#  - clang
 
 branches:
   only:
     - master
     - coverity_scan
 
-#notifications:
-#  email:
-#    recipients:
-#      - boinc_cvs@ssl.berkeley.edu
-#    on_success: always
-#    on_failure: always
-
-# Use Trusty image and enable sudo to install apt dependencies
 dist: trusty
 sudo: required
 
@@ -49,24 +37,21 @@ env:
     - BOINC_TYPE=manager
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
-    #- BOINC_TYPE=coverity
+    - BOINC_TYPE=integration-test
 
 matrix:
   fast_finish: true
-  exclude:
-# the osx build currently builds everything in one go
-  - os: osx
-    env: BOINC_TYPE=libs
-  - os: osx
-    env: BOINC_TYPE=server
-  - os: osx
-    env: BOINC_TYPE=client
-  - os: osx
-    env: BOINC_TYPE=apps
-  - os: osx
-    env: BOINC_TYPE=libs-mingw
-  - os: osx
-    env: BOINC_TYPE=apps-mingw
+  include:
+    - language: php
+      os: linux
+      php: 7.0
+      env:
+        - BOINC_TYPE=unit-test
+    - language: cpp
+      os: osx
+      env: BOINC_TYPE=manager-osx
+    - language: android
+      env: BOINC_TYPE=manager-android
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
@@ -82,6 +67,9 @@ script:
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( make distclean && ./3rdParty/buildLinuxDependencies.sh --disable-webview --cache_dir ${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && make ) fi
-- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
+- if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( /bin/true ) fi
+- if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
+- if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( /bin/true ) fi
