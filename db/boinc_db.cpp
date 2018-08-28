@@ -112,6 +112,7 @@ void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
 void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_USER::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_TEAM::clear() {memset(this, 0, sizeof(*this));}
+void CONSENT_TYPE::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -2864,5 +2865,34 @@ void DB_CREDIT_TEAM::db_parse(MYSQL_ROW &r) {
     expavg_time = atof(r[i++]);
     credit_type = atoi(r[i++]);
 }
+
+void DB_CONSENT_TYPE::db_print(char *buf) {
+    sprintf(buf,
+	"id=%lu, "
+	"shortname='%s', "
+	"description='%s', "
+	"enabled=%d, "
+	"protected=%d, "
+	"privacypref=%d, ",
+	id,
+	shortname,
+	description,
+	enabled,
+	protectedct,
+	privacypref
+    );
+}
+
+void DB_CONSENT_TYPE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    strcpy2(shortname, r[i++]);
+    strcpy2(description, r[i++]);
+    enabled = atoi(r[i++]);
+    protectedct = atoi(r[i++]);
+    privacypref = atoi(r[i++]);
+}
+
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";
