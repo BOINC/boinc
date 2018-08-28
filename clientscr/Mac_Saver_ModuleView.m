@@ -431,7 +431,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 #endif  // NOT DEBUG_UNDER_XCODE
 
    myContext = [[NSGraphicsContext currentContext] graphicsPort];
-//    [myContext retain];
 
     // On OS 10.13 or later, use MachO comunication and IOSurfaceBuffer to
     // display the graphics output of our child graphics apps in our window.
