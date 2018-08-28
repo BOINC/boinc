@@ -1,0 +1,41 @@
+<?php
+// $Id: quote.install,v 1.1.2.1.2.1 2008/03/30 06:15:10 karthik Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function quote_install() {
+  $ret = array();
+
+  drupal_set_message(t('The quote module has been installed successfully.'));
+
+  return $ret;
+}
+
+/**
+ * Unify quote module settings into one variable.
+ */
+function quote_update_1() {
+  $quote = array(
+    'node_types' => variable_get('quote_node_types', array('blog', 'story')),
+    'node_link_display' => variable_get('quote_node_link_display', 1),
+    'subject_required' => variable_get('quote_subject_required', 1)
+  );
+
+  variable_set('quote', $quote);
+
+  variable_del('quote_node_types');
+  variable_del('quote_node_link_display');
+  variable_del('quote_subject_required');
+
+  return array();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function quote_uninstall() {
+  variable_del('quote');
+
+  drupal_set_message(t('The quote module has been uninstalled successfully.'));
+}

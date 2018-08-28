@@ -1,0 +1,99 @@
+# $Id: quote.pot,v 1.1.2.1 2008/05/13 06:30:34 karthik Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  quote.admin.inc,v 1.1.2.1 2008/03/28 22:59:59 karthik
+#  quote.module,v 1.29.2.10.2.1 2008/03/28 22:59:59 karthik
+#  quote.info,v 1.2.2.2.2.1 2008/03/28 22:59:59 karthik
+#  quote.install,v 1.1.2.1 2007/08/11 09:34:53 karthik
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-04-05 13:33+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: quote.admin.inc:15
+msgid "<p>The quote filter allows users to quote other posts in their\ncomments. Besides the following settings, the quote filter will need to be\nenabled for each <a href=\"!input-format\">input format</a> (as required). Please\nmake sure that the quote filter is arranged <em>after</em> any HTML filters and\n<em>before</em> the line break filter. For more information, please visit the\n<a href=\"!project-page\">project page</a>.</p>"
+msgstr ""
+
+#: quote.admin.inc:36
+msgid "Node associations"
+msgstr ""
+
+#: quote.admin.inc:37
+msgid "Select the node types to associate with the quote filter."
+msgstr ""
+
+#: quote.admin.inc:43
+msgid "Display the quote link for nodes"
+msgstr ""
+
+#: quote.admin.inc:44
+msgid "Leave this option disabled if you use a PHP or similar filter in your nodes. The quote link is always displayed for comments."
+msgstr ""
+
+#: quote.admin.inc:49
+msgid "Make the comment subject field a required field"
+msgstr ""
+
+#: quote.admin.inc:50
+msgid "Making the comment subject field a required field will ensure that unsightly [quote] tags are not displayed."
+msgstr ""
+
+#: quote.module:44;17 quote.info:0
+msgid "Quote"
+msgstr ""
+
+#: quote.module:45
+msgid "Quote this post in your reply."
+msgstr ""
+
+#: quote.module:56;0
+msgid "quote"
+msgstr ""
+
+#: quote.module:118
+msgid "Quote filter"
+msgstr ""
+
+#: quote.module:120
+msgid "Converts [quote] tags into &lt;div&gt; tags. Must apply after HTML filters."
+msgstr ""
+
+#: quote.module:133
+msgid "\n      <p>Quoted content can be placed between [quote] tags in order to be displayed as an indented quote. Every [quote] tag <em>must</em> have a corresponding [/quote] tag. For example:\n      <pre>[quote]This is a simple quote.[/quote]</pre> is displayed as:</p>\n      <div class=\"quote-msg\"><div class=\"quote-author\">Quote:</div>This is a simple quote.</div>\n      <p>Additionally, there is an optional attribute which allows quotes to specify the original author.\n      <pre>[quote=Mr. Drupal]This is a quote with an attribution line.[/quote]\n      </pre> is displayed as:</p>\n      <div class=\"quote-msg\"><div class=\"quote-author\">Mr. Drupal wrote:</div>This is a quote with an attribution line.</div>\n      <p>Finally, multiple [quote] tags can be nested within one another. Just remember that every [quote] tag <strong>must</strong> have a corresponding [/quote] tag.\n      <pre>\n      [quote]I think she says it best...\n      [quote=Ms. Quotation]This is a quote nested within another quote.[/quote]\n      but you can't argue with\n      [quote=Ms. Reply]The more quotes, the merrier.\n      Just don't get too carried away.[/quote]\n      And I have nothing more to say.[/quote]</pre> is displayed as:</p>\n      <div class=\"quote-msg\"><div class=\"quote-author\">Quote:</div>I think she says it best...\n      <div class=\"quote-msg\"><div class=\"quote-author\">Ms. Quotation wrote:</div>This is a quote nested within another quote.</div>\n      but you can't argue with\n      <div class=\"quote-msg\"><div class=\"quote-author\">Ms. Reply wrote:</div>The more quotes, the merrier. Just don't get too carried away.</div>\n      And I have nothing more to say.</div>\n    "
+msgstr ""
+
+#: quote.module:157
+msgid "You may quote other posts using [quote] tags."
+msgstr ""
+
+#: quote.module:201
+msgid "Quote:"
+msgstr ""
+
+#: quote.module:203
+msgid "%name wrote:"
+msgstr ""
+
+#: quote.module:18
+msgid "Configure the behaviour of the quote module."
+msgstr ""
+
+#: quote.install:10
+msgid "The quote module has been installed successfully."
+msgstr ""
+
+#: quote.info:0
+msgid "Allows users to quote posts or comments."
+msgstr ""
+

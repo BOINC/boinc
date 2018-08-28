@@ -1,0 +1,12 @@
+; $Id: quote.info,v 1.2.2.2.2.1 2008/03/28 22:59:59 karthik Exp $
+name = Quote
+description = Allows users to quote posts or comments.
+core = 6.x
+dependencies[] = comment
+dependencies[] = boincuser
+
+; Information added by drupal.org packaging script on 2010-11-14
+version = "6.x-1.2-boinc-2-dev"
+core = "6.x"
+project = "quote"
+datestamp = "1533153851"
