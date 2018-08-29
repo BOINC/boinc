@@ -54,8 +54,8 @@ matrix:
       env: BOINC_TYPE=manager-android
       android:
         components:
-          - android-10
-          - build-tools-17.0.0
+          - android-21
+          - build-tools-21.0.0
           - extra-google-m2repository
           - extra-android-m2repository
 

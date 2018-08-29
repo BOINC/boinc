@@ -95,7 +95,11 @@ wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
 tar xzf /tmp/curl.tgz --directory=$PREFIX
 export CURL_SRC=$PREFIX/curl-${CURL_VERSION}
 
-ls -LR $ANDROID_HOME
+export NDK_VERSION=11c
+wget -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+unzip /tmp/ndk.zip -d $HOME/NDK
+
+ls -LR $HOME/NDK
 
 # case "$arch" in
 #     "arm")
