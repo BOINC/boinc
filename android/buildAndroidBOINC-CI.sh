@@ -95,6 +95,8 @@ wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
 tar xzf /tmp/curl.tgz --directory=$PREFIX
 export CURL_SRC=$PREFIX/curl-${CURL_VERSION}
 
+ls -LR $ANDROID_HOME
+
 # case "$arch" in
 #     "arm")
 #         ./build_androidtc_arm.sh --cache_dir "${PREFIX}"

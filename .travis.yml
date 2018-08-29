@@ -29,27 +29,27 @@ env:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
-  matrix:
-    - BOINC_TYPE=libs
-    - BOINC_TYPE=server
-    - BOINC_TYPE=client
-    - BOINC_TYPE=apps
-    - BOINC_TYPE=manager
-    - BOINC_TYPE=libs-mingw
-    - BOINC_TYPE=apps-mingw
-    - BOINC_TYPE=integration-test
+  # matrix:
+  #   - BOINC_TYPE=libs
+  #   - BOINC_TYPE=server
+  #   - BOINC_TYPE=client
+  #   - BOINC_TYPE=apps
+  #   - BOINC_TYPE=manager
+  #   - BOINC_TYPE=libs-mingw
+  #   - BOINC_TYPE=apps-mingw
+  #   - BOINC_TYPE=integration-test
 
 matrix:
   fast_finish: true
   include:
-    - language: php
-      os: linux
-      php: 7.0
-      env:
-        - BOINC_TYPE=unit-test
-    - language: cpp
-      os: osx
-      env: BOINC_TYPE=manager-osx
+    # - language: php
+    #   os: linux
+    #   php: 7.0
+    #   env:
+    #     - BOINC_TYPE=unit-test
+    # - language: cpp
+    #   os: osx
+    #   env: BOINC_TYPE=manager-osx
     - language: android
       env: BOINC_TYPE=manager-android
       android:
