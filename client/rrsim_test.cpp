@@ -127,7 +127,7 @@ void msg_printf(PROJECT* p, int, const char* fmt, ...) {
     char buf[8192];
     va_list ap;
     va_start(ap, fmt);
-    vsprintf(buf, fmt, ap);
+    vsnprintf(buf, sizeof(buf), fmt, ap);
     va_end(ap);
     printf("%s: %s\n", p?p->name:"BOINC", buf);
 }

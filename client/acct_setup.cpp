@@ -383,7 +383,7 @@ int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
 ) {
     char url[1024];
     pli = _pli;
-    sprintf(url, "%slogin_token_lookup.php?user_id=%d&token=%s",
+    snprintf(url, sizeof(url), "%slogin_token_lookup.php?user_id=%d&token=%s",
         pli->master_url.c_str(), user_id, login_token
     );
     return gui_http->do_rpc(this, url, LOGIN_TOKEN_LOOKUP_REPLY, false);
