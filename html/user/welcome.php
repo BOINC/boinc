@@ -100,7 +100,7 @@ echo sprintf('
 );
 
 echo "<p><p>";
-echo sprintf('<a href=home.php class="btn btn-success">%s</a>
+echo sprintf('<a href='.USER_HOME.' class="btn btn-success">%s</a>
     ',
     tra('Continue to your home page')
 );
