@@ -1317,9 +1317,6 @@ AC_CONFIG_FILES([
                  packages/solaris/CSW/boincmanager/pkginfo
                  packages/solaris/CSW/boincmanager/prototype
                  samples/Makefile
-                 test/boinc_path_config.py:py/boinc_path_config.py.in
-                 test/Makefile
-                 test/version.inc
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
                  vda/Makefile
