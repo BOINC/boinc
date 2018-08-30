@@ -96,7 +96,7 @@ fi
 if [ -d "$PREFIX" ]; then
     echo "$PREFIX already exists. Will not clone but use it instead."
 else
-    git clone https://github.com/TheAspens/boinc-server-test.git "${PREFIX}"
+    git clone https://github.com/BOINC/boinc-server-test.git "${PREFIX}"
     if [ $? -ne 0 ]; then exit 1; fi
 fi
 
