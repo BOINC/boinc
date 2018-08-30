@@ -238,7 +238,7 @@ static void init_core_client(int argc, char** argv) {
     // NOTE: this must be called BEFORE newer_version_startup_check()
     //
     if (read_vc_config_file()) {
-        msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
+       // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
     }
     
     // Win32 - detach from console if requested
