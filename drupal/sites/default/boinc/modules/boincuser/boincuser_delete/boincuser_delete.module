@@ -137,8 +137,8 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
 
       // Configure radio options
       $deleteoptions = array(
-        'boincuser_delete_softdelete' => bts('<b>Soft delete</b> the account. Afterwards your account will be disabled, and all posts/comments will be attributed to the Anonymous User. However, your user profile will be deleted, your host information deleted, and you will be removed from any team you are a member of.', array(), NULL, 'boinc:delete-user-account'),
-        'boincuser_delete_delete' => bts('<b>Delete</b> the account. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted.', array(), NULL, 'boinc:delete-user-account'),
+        'boincuser_delete_softdelete' => bts('<b>Soft delete</b> the account. Afterwards your account will be disabled, and all posts/comments will be attributed to the Anonymous User. However, your user profile will be deleted, your host information will be deleted, and you will be removed from any team you are a member of.', array(), NULL, 'boinc:delete-user-account'),
+        'boincuser_delete_delete' => bts('<b>Delete</b> the account. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted, and your host information will be deleted.', array(), NULL, 'boinc:delete-user-account'),
       );
 
       $dtypes = variable_get('boincuser_delete_type', 'user_decides');
@@ -166,7 +166,7 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       $form['main']['help'] = array(
         '#value' => bts(
           "<p><b>Instructions:</b> In order to delete your account, you must provide your password below. You will then be sent an email to the email address on record, with a one-time token that expires in 24-hours. Clicking on this link will bring you to a second form where you must enter your password again. After doing so your account will be deleted.</p>" .
-          "<p>If necessary, you may !link first before deleting your addcount. But you must wait <b>seven (7) days</b> after an email address change before you may delete your account.</p>",
+          "<p>If necessary, you may !link first before deleting your account. But you must wait <b>seven (7) days</b> after an email address change before you may delete your account.</p>",
           array(
             '!link' => l(bts('change your email address', array(), NULL, 'boinc:delete-user-account'), '/account/info/edit'),
           ), NULL, 'boinc:delete-user-account'),
