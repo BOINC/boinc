@@ -36,7 +36,7 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
 cd "$BOINC"
-if [ -n "$MAKECLEAN" ]; then
+if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then

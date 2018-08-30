@@ -35,8 +35,8 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
 cd "$CURL"
-if [ -n "$MAKECLEAN" ]; then
-make clean
+if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
+make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom

@@ -35,7 +35,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
 cd "$CURL"
-if [ -n "$MAKECLEAN" ]; then
+if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
