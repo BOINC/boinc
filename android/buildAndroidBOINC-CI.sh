@@ -97,7 +97,7 @@ export CURL_SRC=$PREFIX/curl-${CURL_VERSION}
 
 export NDK_VERSION=11c
 wget -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-unzip /tmp/ndk.zip -qq -d $HOME
+unzip -qq /tmp/ndk.zip -d $HOME
 export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 
 # case "$arch" in
