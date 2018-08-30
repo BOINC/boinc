@@ -85,7 +85,7 @@ function left(){
                     }
                 }
                 echo "<p><p>";
-                echo sprintf('<center><a href=home.php class="btn btn-success">%s</a></center>
+                echo sprintf('<center><a href='.USER_HOME.' class="btn btn-success">%s</a></center>
                     ',
                     tra('Continue to your home page')
                 );

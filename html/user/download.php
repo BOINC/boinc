@@ -233,8 +233,9 @@ function show_download_page($user, $dev) {
     echo "</table></center>\n";
     echo "<p><p>";
     echo tra("When the download is finished, open the downloaded file to install %1.", $dl);
+    $welcome_page = defined('WELCOME_PAGE')?WELCOME_PAGE:"welcome.php";
     echo "<p><p>";
-    echo tra("All done? %1Click here to finish%2.", "<a href=welcome.php>", "</a>");
+    echo tra("All done? %1Click here to finish%2.", "<a href=$welcome_page>", "</a>");
     page_tail();
 }
 
@@ -277,7 +278,7 @@ function installed() {
         );
     }
     echo "<p><p>";
-    echo sprintf('<a href=home.php class="btn btn-success">%s</a>
+    echo sprintf('<a href='.USER_HOME.' class="btn btn-success">%s</a>
         ',
         tra('Continue to your home page')
     );
