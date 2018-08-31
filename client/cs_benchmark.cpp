@@ -68,6 +68,8 @@
 #include "log_flags.h"
 #include "client_state.h"
 
+#include <vector>
+
 // defaults in case benchmarks fail or time out.
 // better to err on the low side so hosts don't get too much work
 
@@ -119,7 +121,7 @@ struct BENCHMARK_DESC {
 #endif
 };
 
-static BENCHMARK_DESC* benchmark_descs=0;
+static std::vector<BENCHMARK_DESC*> benchmark_descs;
 static double cpu_benchmarks_start;
 static int bm_ncpus;
     // user might change ncpus during benchmarks.
@@ -260,28 +262,34 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     remove_benchmark_file(BM_TYPE_INT);
     cpu_benchmarks_start = dtime();
 
-    if (benchmark_descs) {
-        free(benchmark_descs);
+    if (!benchmark_descs.empty())
+    {
+        for (i = 0; i < benchmark_descs.size(); i++) {
+            delete benchmark_descs[i];
+        }
+        benchmark_descs.clear();
     }
+
     bm_ncpus = ncpus;
-    benchmark_descs = (BENCHMARK_DESC*)calloc(bm_ncpus, sizeof(BENCHMARK_DESC));
     benchmarks_running = true;
 
     for (i=0; i<bm_ncpus; i++) {
-        benchmark_descs[i].ordinal = i;
-        benchmark_descs[i].done = false;
-        benchmark_descs[i].error = false;
+        BENCHMARK_DESC* bd = new BENCHMARK_DESC();
+        benchmark_descs.push_back(bd);
+        bd->ordinal = i;
+        bd->done = false;
+        bd->error = false;
 #ifdef _WIN32
-        benchmark_descs[i].handle = CreateThread(
-            NULL, 0, win_cpu_benchmarks, benchmark_descs+i, 0,
-            &benchmark_descs[i].pid
+        bd->handle = CreateThread(
+            NULL, 0, win_cpu_benchmarks, bd, 0,
+            &bd->pid
         );
         int n = host_info.p_ncpus;
         int j = (i >= n/2)? 2*i+1-n : 2*i;
-        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
-        SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
+        SetThreadAffinityMask(bd->handle, 1<<j);
+        SetThreadPriority(bd->handle, THREAD_PRIORITY_IDLE);
 #else
-        sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
+        sprintf(bd->filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
         PROCESS_ID pid = fork();
         if (pid == 0) {
 #if HAVE_SETPRIORITY
@@ -289,11 +297,11 @@ void CLIENT_STATE::start_cpu_benchmarks() {
                 perror("setpriority");
             }
 #endif
-            int retval = cpu_benchmarks(benchmark_descs+i);
+            int retval = cpu_benchmarks(bd);
             fflush(NULL);
             _exit(retval);
         } else {
-            benchmark_descs[i].pid = pid;
+            bd->pid = pid;
         }
 #endif
     }
@@ -330,42 +338,42 @@ bool CLIENT_STATE::can_run_cpu_benchmarks() {
 
 // abort a running benchmark thread/process
 //
-void abort_benchmark(BENCHMARK_DESC& desc) {
-    if (desc.done) return;
+void abort_benchmark(BENCHMARK_DESC* desc) {
+    if (desc->done) return;
 #ifdef _WIN32
-    TerminateThread(desc.handle, 0);
-    CloseHandle(desc.handle);
+    TerminateThread(desc->handle, 0);
+    CloseHandle(desc->handle);
 #else
-    kill(desc.pid, SIGKILL);
+    kill(desc->pid, SIGKILL);
 #endif
 }
 
 // check a running benchmark thread/process.
 //
-void check_benchmark(BENCHMARK_DESC& desc) {
+void check_benchmark(BENCHMARK_DESC* desc) {
 #ifdef _WIN32
     DWORD exit_code = 0;
-    GetExitCodeThread(desc.handle, &exit_code);
+    GetExitCodeThread(desc->handle, &exit_code);
     if (exit_code != STILL_ACTIVE) {
-        CloseHandle(desc.handle);
-        desc.done = true;
+        CloseHandle(desc->handle);
+        desc->done = true;
     }
 #else
     int retval;
     int exit_code = 0;
-    retval = waitpid(desc.pid, &exit_code, WNOHANG);
+    retval = waitpid(desc->pid, &exit_code, WNOHANG);
     if (retval) {
-        desc.done = true;
-        FILE* f = fopen(desc.filename, "r");
+        desc->done = true;
+        FILE* f = fopen(desc->filename, "r");
         if (!f) {
-            desc.error = true;
+            desc->error = true;
             return;
         }
-        retval = desc.host_info.parse_cpu_benchmarks(f);
+        retval = desc->host_info.parse_cpu_benchmarks(f);
         fclose(f);
-        boinc_delete_file(desc.filename);
+        boinc_delete_file(desc->filename);
         if (retval) {
-            desc.error = true;
+            desc->error = true;
         }
     }
 #endif
@@ -477,18 +485,18 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     int ndone = 0;
     bool had_error = false;
     for (i=0; i<bm_ncpus; i++) {
-        if (!benchmark_descs[i].done) {
+        if (!benchmark_descs[i]->done) {
             check_benchmark(benchmark_descs[i]);
         }
-        if (benchmark_descs[i].done) {
+        if (benchmark_descs[i]->done) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
                     "[benchmark] CPU %d has finished", i
                 );
             }
             ndone++;
-            if (benchmark_descs[i].error) {
-                msg_printf(0, MSG_INFO, "%s", benchmark_descs[i].error_str);
+            if (benchmark_descs[i]->error) {
+                msg_printf(0, MSG_INFO, "%s", benchmark_descs[i]->error_str);
                 had_error = true;
             }
         }
@@ -510,19 +518,19 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                 if (log_flags.benchmark_debug) {
                     msg_printf(0, MSG_INFO,
                         "[benchmark] CPU %d: fp %f int %f intloops %f inttime %f",
-                        i, benchmark_descs[i].host_info.p_fpops,
-                        benchmark_descs[i].host_info.p_iops,
-                        benchmark_descs[i].int_loops,
-                        benchmark_descs[i].int_time
+                        i, benchmark_descs[i]->host_info.p_fpops,
+                        benchmark_descs[i]->host_info.p_iops,
+                        benchmark_descs[i]->int_loops,
+                        benchmark_descs[i]->int_time
                     );
                 }
-                p_fpops += benchmark_descs[i].host_info.p_fpops;
+                p_fpops += benchmark_descs[i]->host_info.p_fpops;
 #ifdef _WIN32
-                p_iops += benchmark_descs[0].host_info.p_iops;
+                p_iops += benchmark_descs[0]->host_info.p_iops;
 #else
-                p_iops += benchmark_descs[i].host_info.p_iops;
+                p_iops += benchmark_descs[i]->host_info.p_iops;
 #endif
-                p_membw += benchmark_descs[i].host_info.p_membw;
+                p_membw += benchmark_descs[i]->host_info.p_membw;
             }
             p_fpops /= bm_ncpus;
             p_iops /= bm_ncpus;
