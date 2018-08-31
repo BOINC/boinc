@@ -854,7 +854,7 @@ struct CONSENT_TYPE {
     char shortname[256];
     char description[256];
     int enabled;
-    int protectedct;
+    int protect;
     int privacypref;
     void clear();
 };

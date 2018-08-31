@@ -822,7 +822,7 @@ create table consent_type (
     shortname               varchar(255)    not null,
     description             varchar(255)    not null,
     enabled                 integer         not null,
-    protectedct             integer         not null,
+    protect                 integer         not null,
     privacypref             integer         not null,
     primary key (id)
 ) engine=InnoDB;
