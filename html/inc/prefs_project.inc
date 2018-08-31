@@ -141,7 +141,7 @@ $privacy_pref_descs = array (
 // table and extract those consent types with enabled=1 and
 // privacypref=1.
 $privacy_consent_descs = array();
-$_consenttypes = BoincConsentType::enum("enabled=1 AND privacypref=1", "ORDER BY protectedct DESC");
+$_consenttypes = BoincConsentType::enum("enabled=1 AND privacypref=1", "ORDER BY protect DESC");
 foreach ($_consenttypes as $ct) {
     $privacy_consent_descs[] = new PREF_CONSENT(
         tra($ct->description),

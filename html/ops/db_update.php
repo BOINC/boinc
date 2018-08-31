@@ -1182,7 +1182,7 @@ function update_5_17_2018() {
         shortname               varchar(255)    not null,
         description             varchar(255)    not null,
         enabled                 integer         not null,
-        protectedct             integer         not null,
+        protect                 integer         not null,
         privacypref             integer         not null,
         primary key (id),
         index consent_name (shortname)
@@ -1190,11 +1190,11 @@ function update_5_17_2018() {
     ");
 
     do_query("insert into consent_type
-        (id, shortname, description, enabled, protectedct, privacypref) values
+        (id, shortname, description, enabled, protect, privacypref) values
         (1, 'ENROLL', 'General terms-of-use for this BOINC project.', 0, 1, 0);
     ");
     do_query("insert into consent_type
-        (id, shortname, description, enabled, protectedct, privacypref) values
+        (id, shortname, description, enabled, protect, privacypref) values
         (2, 'STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 1, 1);
     ");
 }
