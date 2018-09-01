@@ -29,45 +29,47 @@ env:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
-  # matrix:
-  #   - BOINC_TYPE=libs
-  #   - BOINC_TYPE=server
-  #   - BOINC_TYPE=client
-  #   - BOINC_TYPE=apps
-  #   - BOINC_TYPE=manager
-  #   - BOINC_TYPE=libs-mingw
-  #   - BOINC_TYPE=apps-mingw
-  #   - BOINC_TYPE=integration-test
+  matrix:
+    - BOINC_TYPE=libs
+    - BOINC_TYPE=server
+    - BOINC_TYPE=client
+    - BOINC_TYPE=apps
+    - BOINC_TYPE=manager
+    - BOINC_TYPE=libs-mingw
+    - BOINC_TYPE=apps-mingw
+    - BOINC_TYPE=integration-test
 
 matrix:
   fast_finish: true
   include:
-    # - language: php
-    #   os: linux
-    #   php: 7.0
-    #   env:
-    #     - BOINC_TYPE=unit-test
-    # - language: cpp
-    #   os: osx
-    #   env: BOINC_TYPE=manager-osx
+    - language: php
+      os: linux
+      php: 7.0
+      env:
+        - BOINC_TYPE=unit-test
+    - language: cpp
+      os: osx
+      env: BOINC_TYPE=manager-osx
     - language: android
-      env: BOINC_TYPE=manager-android-arm
+      env: BOINC_TYPE=client-android-arm
     - language: android
-      env: BOINC_TYPE=manager-android-arm64
+      env: BOINC_TYPE=client-android-arm64
     - language: android
-      env: BOINC_TYPE=manager-android-mips
+      env: BOINC_TYPE=client-android-mips
     - language: android
-      env: BOINC_TYPE=manager-android-mips64
+      env: BOINC_TYPE=client-android-mips64
     - language: android
-      env: BOINC_TYPE=manager-android-x86
+      env: BOINC_TYPE=client-android-x86
     - language: android
-      env: BOINC_TYPE=manager-android-x86_64
-      # android:
-      #   components:
-      #     - android-23
-      #     - build-tools-25.0.0
-      #     - extra-google-m2repository
-      #     - extra-android-m2repository
+      env: BOINC_TYPE=client-android-x86_64
+    - language: android
+      env: BOINC_TYPE=manager-android
+      android:
+        components:
+          - android-23
+          - build-tools-25.0.0
+          - extra-google-m2repository
+          - extra-android-m2repository
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
@@ -86,11 +88,12 @@ script:
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
 - if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android-arm" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android-arm64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm64 ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android-mips" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch mips ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android-mips64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch mips64 ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android-x86" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86 ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android-x86_64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86_64 ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-arm" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-arm64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm64 ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-mips" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch mips ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-mips64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch mips64 ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-x86" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86 ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-x86_64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86_64 ) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && /bin/true ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( /bin/true ) fi
