@@ -156,9 +156,10 @@ extern "C" {
 #include <OS.h>
 #endif
 
-#if LINUX_LIKE_SYSTEM
+#ifdef ANDROID
 #if !defined(WIFEXITED) || !defined(WEXITSTATUS)
 #include <sys/wait.h>
+#endif
 #endif
 
 // Some OS define _SC_PAGE_SIZE instead of _SC_PAGESIZE
