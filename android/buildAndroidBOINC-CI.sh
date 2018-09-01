@@ -103,7 +103,7 @@ export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 # case "$arch" in
 #     "arm")
          ./build_androidtc_arm.sh #--cache_dir "${PREFIX}"
-#         ./build_openssl_arm.sh --cache_dir "${PREFIX}"
+         ./build_openssl_arm.sh #--cache_dir "${PREFIX}"
 #         ./build_curl_arm.sh --cache_dir "${PREFIX}"
 #         ./build_boinc_arm.sh --cache_dir "${PREFIX}"
 
@@ -111,7 +111,7 @@ export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 #     ;;
 #     "arm64")
          ./build_androidtc_arm64.sh #--cache_dir "${PREFIX}"
-#         ./build_openssl_arm64.sh --cache_dir "${PREFIX}"
+         ./build_openssl_arm64.sh #--cache_dir "${PREFIX}"
 #         ./build_curl_arm64.sh --cache_dir "${PREFIX}"
 #         ./build_boinc_arm64.sh --cache_dir "${PREFIX}"
 
@@ -119,7 +119,7 @@ export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 #     ;;
 #     "mips")
          ./build_androidtc_mips.sh #--cache_dir "${PREFIX}"
-#         ./build_openssl_mips.sh --cache_dir "${PREFIX}"
+         ./build_openssl_mips.sh #--cache_dir "${PREFIX}"
 #         ./build_curl_mips.sh --cache_dir "${PREFIX}"
 #         ./build_boinc_mips.sh --cache_dir "${PREFIX}"
 
@@ -127,7 +127,7 @@ export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 #     ;;
 #     "mips64")
          ./build_androidtc_mips64.sh #--cache_dir "${PREFIX}"
-#         ./build_openssl_mips64.sh --cache_dir "${PREFIX}"
+         ./build_openssl_mips64.sh #--cache_dir "${PREFIX}"
 #         ./build_curl_mips64.sh --cache_dir "${PREFIX}"
 #         ./build_boinc_mips64.sh --cache_dir "${PREFIX}"
 
@@ -135,7 +135,7 @@ export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 #     ;;
 #     "x86")
          ./build_androidtc_x86.sh #--cache_dir "${PREFIX}"
-#         ./build_openssl_x86.sh --cache_dir "${PREFIX}"
+         ./build_openssl_x86.sh #--cache_dir "${PREFIX}"
 #         ./build_curl_x86.sh --cache_dir "${PREFIX}"
 #         ./build_boinc_x86.sh --cache_dir "${PREFIX}"
 
@@ -143,7 +143,7 @@ export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 #     ;;
 #     "x86_64")
          ./build_androidtc_x86_64.sh #--cache_dir "${PREFIX}"
-#         ./build_openssl_x86_64.sh --cache_dir "${PREFIX}"
+         ./build_openssl_x86_64.sh #--cache_dir "${PREFIX}"
 #         ./build_curl_x86_64.sh --cache_dir "${PREFIX}"
 #         ./build_boinc_x86_64.sh --cache_dir "${PREFIX}"
 
