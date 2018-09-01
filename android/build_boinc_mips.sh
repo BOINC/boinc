@@ -9,7 +9,7 @@ set -e
 
 COMPILEBOINC="yes"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 export BOINC=".." #BOINC source code
 
