@@ -51,13 +51,17 @@ matrix:
     #   os: osx
     #   env: BOINC_TYPE=manager-osx
     - language: android
-      env: 
-        - BOINC_TYPE=manager-android-arm
-        - BOINC_TYPE=manager-android-arm64
-        - BOINC_TYPE=manager-android-mips
-        - BOINC_TYPE=manager-android-mips64
-        - BOINC_TYPE=manager-android-x86
-        - BOINC_TYPE=manager-android-x86_64
+      env: BOINC_TYPE=manager-android-arm
+    - language: android
+      env: BOINC_TYPE=manager-android-arm64
+    - language: android
+      env: BOINC_TYPE=manager-android-mips
+    - language: android
+      env: BOINC_TYPE=manager-android-mips64
+    - language: android
+      env: BOINC_TYPE=manager-android-x86
+    - language: android
+      env: BOINC_TYPE=manager-android-x86_64
       # android:
       #   components:
       #     - android-23
