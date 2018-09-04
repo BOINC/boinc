@@ -18,7 +18,7 @@ export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+export STDCPPTC="$TCINCLUDES/lib/armv7-a/libstdc++.a"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-clang
