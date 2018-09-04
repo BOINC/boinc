@@ -1756,17 +1756,8 @@ inline bool user_idle(time_t t, struct utmp* u) {
   //
   struct utmp *getutent() {
       if (ufp == NULL) {
-#if defined(UTMP_LOCATION)
           if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL)
-#elif defined(UTMP_FILE)
-          if ((ufp = fopen(UTMP_FILE, "r")) == NULL)
-#elif defined(_PATH_UTMP)
-          if ((ufp = fopen(_PATH_UTMP, "r")) == NULL)
-#else
-          if ((ufp = fopen("/etc/utmp", "r")) == NULL)
-#endif
-          { // Please keep all braces balanced in source files; repeated
-            // open braces in conditional compiles confuse Xcode's editor.
+          {
               return((struct utmp *)NULL);
           }
       }
