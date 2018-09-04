@@ -894,15 +894,14 @@ int ACCT_MGR_INFO::write_info() {
             no_project_notices?1:0,
             dynamic?1:0
         );
+        char buf[4096];
         if (strlen(user_name)) {
-            string x = user_name;
-            xml_unescape(x);
-            fprintf(f,    "<user_name>%s</user_name>\n", x.c_str());
+            xml_escape(user_name, buf, sizeof(buf));
+            fprintf(f,    "<user_name>%s</user_name>\n", buf);
         }
         if (strlen(team_name)) {
-            string x = team_name;
-            xml_unescape(x);
-            fprintf(f,    "<team_name>%s</team_name>\n", x.c_str());
+            xml_escape(team_name, buf, sizeof(buf));
+            fprintf(f,    "<team_name>%s</team_name>\n", buf);
         }
 
 
