@@ -49,7 +49,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
 import edu.berkeley.boinc.attach.SelectionListActivity;
@@ -61,7 +61,7 @@ import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
 import java.util.ArrayList;
 
-public class BOINCActivity extends ActionBarActivity {
+public class BOINCActivity extends AppCompatActivity {
 	
 	public static IMonitor monitor;
 	private Integer clientComputingStatus = -1;
