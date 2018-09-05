@@ -253,26 +253,6 @@ void CLIENT_STATE::show_host_info() {
         tz<0?"":"+", tz
     );
 
-#ifdef _WIN64
-    if (host_info.wsl_available) {
-        msg_printf(NULL, MSG_INFO, "WSL detected:");
-        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
-            const WSL& wsl = host_info.wsls.wsls[i];
-            if (wsl.is_default) {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
-                );
-            } else {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
-                );
-            }
-        }
-    } else {
-        msg_printf(NULL, MSG_INFO, "No WSL found.");
-    }
-#endif
-
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -288,6 +268,28 @@ void CLIENT_STATE::show_host_info() {
 #endif
     }
 }
+
+#ifdef _WIN64
+void WSLS::show() {
+    if (available) {
+        msg_printf(NULL, MSG_INFO, "WSL detected:");
+        for (size_t i = 0; i < wsls.size(); ++i) {
+            const WSL& wsl = wsls[i];
+            if (wsl.is_default) {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            } else {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            }
+        }
+    } else {
+        msg_printf(NULL, MSG_INFO, "No WSL found.");
+    }
+}
+#endif
 
 int rsc_index(const char* name) {
     const char* nm = strcmp(name, "CUDA")?name:GPU_TYPE_NVIDIA;
@@ -626,6 +628,12 @@ int CLIENT_STATE::init() {
     host_info.get_host_info(true);
     set_ncpus();
     show_host_info();
+#ifdef _WIN64
+    if (!cc_config.dont_use_wsl) {
+        wsls.get_information();
+        wsls.show();
+    }
+#endif
 
     // this follows parse_state_file() because that's where we read project names
     //

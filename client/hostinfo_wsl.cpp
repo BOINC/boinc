@@ -18,10 +18,9 @@
 #ifdef _WIN64
 
 #include "boinc_win.h"
-
 #include "str_replace.h"
-
 #include "hostinfo.h"
+#include "wslinfo.h"
 
 bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl) {
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
@@ -218,7 +217,12 @@ void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ost
 
 // Returns the OS name and version for WSL when enabled
 //
-int get_wsl_information(bool& wsl_available, WSLS& wsls) {
+int WSLS::get_information() {
+    available = false;
+    OSVERSIONINFOEX osvi;
+    if (!get_OSVERSIONINFO(osvi) || osvi.dwMajorVersion < 10) {
+        return 0;
+    }
     wsl_lib = NULL;
     in_read = NULL;
     in_write = NULL;
@@ -243,8 +247,6 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
     if (!pWslLaunch) {
         free_resources_and_exit(1);
     }
-
-    wsl_available = false;
 
     SECURITY_ATTRIBUTES sa;
     HANDLE handle;
@@ -283,33 +285,33 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         if (!create_wsl_process(distro, command_lsbrelease, &handle)) {
             continue;
         }
-        wsl_available = HOST_INFO::parse_linux_os_info(
+        available = HOST_INFO::parse_linux_os_info(
             read_from_pipe(handle), lsbrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
         CloseHandle(handle);
 
-        if (!wsl_available) {
+        if (!available) {
             //osrelease
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
             if (!create_wsl_process(distro, command_osrelease, &handle)) {
                 continue;
             }
-            wsl_available = HOST_INFO::parse_linux_os_info(
+            available = HOST_INFO::parse_linux_os_info(
                 read_from_pipe(handle), osrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
             CloseHandle(handle);
         }
 
         //redhatrelease
-        if (!wsl_available) {
+        if (!available) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
             if (!create_wsl_process(distro, command_redhatrelease, &handle)) {
                 continue;
             }
-            wsl_available = HOST_INFO::parse_linux_os_info(
+            available = HOST_INFO::parse_linux_os_info(
                 read_from_pipe(handle), redhatrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
             CloseHandle(handle);
         }
 
-        if (!wsl_available) {
+        if (!available) {
             continue;
         }
 
@@ -345,17 +347,15 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
 
         if (!os_name.empty()) {
             wsl.name = os_name + " " + wsl_dist_name;
-        }
-        else {
+        } else {
             wsl.name = wsl_dist_name;
         }
         if (!os_version_extra.empty()) {
             wsl.version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
-        }
-        else {
+        } else {
             wsl.version = wsl_dist_version;
         }
-        wsls.wsls.push_back(wsl);
+        wsls.push_back(wsl);
     }
 
     return free_resources_and_exit(0);

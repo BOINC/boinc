@@ -36,12 +36,12 @@ void WSL::write_xml(MIOFILE& f) {
     xml_escape(name.c_str(), n, sizeof(n));
     xml_escape(version.c_str(), v, sizeof(v));
     f.printf(
-        "        <distro>\n"
-        "            <distro_name>%s</distro_name>\n"
-        "            <name>%s</name>\n"
-        "            <version>%s</version>\n"
-        "            <is_default>%d</is_default>\n"
-        "        </distro>\n",
+        "    <distro>\n"
+        "        <distro_name>%s</distro_name>\n"
+        "        <name>%s</name>\n"
+        "        <version>%s</version>\n"
+        "        <is_default>%d</is_default>\n"
+        "    </distro>\n",
         dn,
         n,
         v,
@@ -68,15 +68,17 @@ WSLS::WSLS() {
 }
 
 void WSLS::clear() {
+    available = false;
     wsls.clear();
 }
 
 void WSLS::write_xml(MIOFILE& f) {
-    f.printf("    <wsl>\n");
+    f.printf("<wsl>\n");
+    if (available) f.printf("    <available/>\n");
     for (size_t i = 0; i < wsls.size(); ++i) {
         wsls[i].write_xml(f);
     }
-    f.printf("    </wsl>\n");
+    f.printf("</wsl>\n");
 }
 
 int WSLS::parse(XML_PARSER& xp) {
@@ -85,8 +87,8 @@ int WSLS::parse(XML_PARSER& xp) {
         if (xp.match_tag("/wsl")) {
             return 0;
         }
-        if (xp.match_tag("distro"))
-        {
+        if (xp.parse_bool("available", available)) continue;
+        if (xp.match_tag("distro")) {
             WSL wsl;
             wsl.parse(xp);
             wsls.push_back(wsl);
