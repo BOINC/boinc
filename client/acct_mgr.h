@@ -45,6 +45,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
     //
     char login_name[256];   // unique name (could be email addr)
     char user_name[256];    // non-unique name
+    char team_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
     char authenticator[256];
