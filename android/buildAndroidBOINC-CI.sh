@@ -86,13 +86,17 @@ if [ "${doclean}" = "yes" ]; then
 fi
 
 export OPENSSL_VERSION=1.0.2k
-wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-tar xzf /tmp/openssl.tgz --directory=$PREFIX
+if [ ! -d "$PREFIX/openssl-${OPENSSL_VERSION}" ]; then
+    wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+    tar xzf /tmp/openssl.tgz --directory=$PREFIX
+fi
 export OPENSSL_SRC=$PREFIX/openssl-${OPENSSL_VERSION}
 
 export CURL_VERSION=7.53.1
-wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-tar xzf /tmp/curl.tgz --directory=$PREFIX
+if [ ! -d "$PREFIX/curl-${CURL_VERSION}" ]; then
+    wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
+    tar xzf /tmp/curl.tgz --directory=$PREFIX
+fi
 export CURL_SRC=$PREFIX/curl-${CURL_VERSION}
 
 export NDK_VERSION=10e
