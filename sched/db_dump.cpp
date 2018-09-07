@@ -71,6 +71,8 @@ using std::vector;
 #define TABLE_USER_DELETED  3
 #define TABLE_HOST_DELETED  4
 
+#define CONSENT_TO_STATISTICS_EXPORT "STATSEXPRT"
+
 // must match the above
 const char* table_name[NUM_TABLES] = {"user", "team", "host", "user_deleted", "host_deleted"};
 const char* tag_name[NUM_TABLES] = {"users", "teams", "hosts", "users_deleted", "hosts_deleted"};
@@ -738,7 +740,11 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     DB_TEAM team;
     DB_HOST host;
     DB_HOST_DELETED host_deleted;
-    char clause[256];
+    DB_RESULT result;
+    DB_CONSENT_TYPE consent_type;
+    char clause[512];
+    char lookupclause[256];
+    char joinclause[512];
     char path[MAXPATHLEN];
 
     sprintf(path, "%s/%s", output_dir, filename);
@@ -768,12 +774,35 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         strcpy(clause, "where total_credit > 0 order by expavg_credit desc");
         break;
     }
+    
     switch(table) {
     case TABLE_USER:
+        // lookup consent_type
+        sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
+        retval = consent_type.lookup(lookupclause);
+	// If retval is 0: lookup is successful, and consent_type
+	// enabled flag is true, then edit the SQL clause to use the
+	// JOIN statements to extract only the users who have
+	// consented to statistics exports.
+	if ( (!retval) && (consent_type.enabled) ) {
+	    // This INNER JOIN clause does the following: It builds a
+	    // derived table (C) based on the consent table. In doing
+	    // so, it finds the consent status of the users, based on
+	    // their latest consent timestamp, and if the consent_flag
+	    // is TRUE; meaning the user has consented. Then in joins
+	    // table C to the user table, effectively returning users
+	    // who have consented to statistics exports.
+	    sprintf(joinclause, "INNER JOIN (SELECT B.userid FROM consent AS B INNER JOIN ( SELECT userid,MAX(consent_time) AS max_consent_time FROM consent GROUP BY userid ) AS A ON B.userid=A.userid AND B.consent_time=A.max_consent_time WHERE B.consent_flag=1 AND B.consent_type_id=%ld ) AS C ON user.id=C.userid", consent_type.id);
+	    strcat(joinclause, " ");
+	    strcat(joinclause, clause);
+	    strcpy(clause, joinclause);
+	}
+
         n = 0;
         while (1) {
             retval = user.enumerate(clause, true);
             if (retval) break;
+
             if (!strncmp("deleted", user.authenticator, 7)) continue;
             nusers++;
             total_credit += user.total_credit;
@@ -822,6 +851,28 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     case TABLE_HOST:
+        // lookup consent_type
+        sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
+        retval = consent_type.lookup(lookupclause);
+	// If retval is 0: lookup is successful, and consent_type
+	// enabled flag is true, then edit the SQL clause to use the
+	// JOIN statements to extract only the users who have
+	// consented to statistics exports.
+	if ( (!retval) && (consent_type.enabled) ) {
+	    // This INNER JOIN clause does the following: It builds a
+	    // derived table (C) based on the consent table. In doing
+	    // so, it finds the consent status of the users, based on
+	    // their latest consent timestamp, and if the consent_flag
+	    // is TRUE; meaning the user has consented. Then in joins
+	    // table C to the host table matching the user IDs,
+	    // effectively returning hosts belonging to users who have
+	    // consented to statistics exports.
+	    sprintf(joinclause, "INNER JOIN (SELECT B.userid FROM consent AS B INNER JOIN ( SELECT userid,MAX(consent_time) AS max_consent_time FROM consent GROUP BY userid ) AS A ON B.userid=A.userid AND B.consent_time=A.max_consent_time WHERE B.consent_flag=1 AND B.consent_type_id=%ld ) AS C ON host.userid=C.userid", consent_type.id);
+	    strcat(joinclause, " ");
+	    strcat(joinclause, clause);
+	    strcpy(clause, joinclause);
+	}
+
         n = 0;
         while(1) {
             retval = host.enumerate(clause);
