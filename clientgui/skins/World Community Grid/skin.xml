@@ -29,6 +29,7 @@
     <advanced>
       <application_name>World Community Grid</application_name>
       <application_short_name>World Community Grid</application_short_name>
+      <application_help_name>BOINC</application_help_name>
       <organization_name>World Community Grid</organization_name>
       <organization_website>https://www.worldcommunitygrid.org</organization_website>
       <organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
@@ -56,7 +57,6 @@
           <imagesrc>wcg_pause.png</imagesrc>
         </image>
       </application_snooze_icon>
-      <is_branded>1</is_branded>
     </advanced>
     <wizards>
       <attach_to_project>
