@@ -194,6 +194,8 @@ DB_CREDIT_USER::DB_CREDIT_USER(DB_CONN* dc) :
     DB_BASE("credit_user", dc?dc:&boinc_db){}
 DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
     DB_BASE("credit_team", dc?dc:&boinc_db){}
+DB_CONSENT_TYPE::DB_CONSENT_TYPE(DB_CONN* dc) :
+    DB_BASE("consent_type", dc?dc:&boinc_db){}
 
 DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
 DB_ID_TYPE DB_APP::get_id() {return id;}
@@ -213,6 +215,7 @@ DB_ID_TYPE DB_FILE::get_id() {return id;}
 DB_ID_TYPE DB_FILESET::get_id() {return id;}
 DB_ID_TYPE DB_SCHED_TRIGGER::get_id() {return id;}
 DB_ID_TYPE DB_VDA_FILE::get_id() {return id;}
+DB_ID_TYPE DB_CONSENT_TYPE::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
