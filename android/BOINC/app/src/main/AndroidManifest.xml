@@ -30,8 +30,8 @@
         android:xlargeScreens="true" />
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="23" />
+        android:minSdkVersion="19"
+        android:targetSdkVersion="26" />
 
     <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
