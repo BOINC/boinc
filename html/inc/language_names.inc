@@ -54,7 +54,7 @@ $language_names = array(
     array("sl", "Slovenščina", "Slovenian"),
     array("sv", "Svenska", "Swedish"),
     array("tr", "Türkçe", "Turkish"),
-    array("uk", "Українська", "Ukranian"),
+    array("uk", "Українська", "Ukrainian"),
     array("zh_CN", "简体中文", "Chinese"),
     array("zh_TW", "繁體中文", "Chinese (Taiwan)"),
 );
