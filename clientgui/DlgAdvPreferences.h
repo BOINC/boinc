@@ -28,35 +28,36 @@
 #include "cc_config.h"
 
 class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
-	DECLARE_DYNAMIC_CLASS( CDlgAdvPreferences )
+    DECLARE_DYNAMIC_CLASS( CDlgAdvPreferences )
     DECLARE_EVENT_TABLE()
-	void ReadPreferenceSettings();
-	bool SavePreferencesSettings();
-	void UpdateControlStates();
-	void SetSpecialTooltips();
+    void ReadPreferenceSettings();
+    bool SavePreferencesSettings();
+    void UpdateControlStates();
+    void SetSpecialTooltips();
     bool SaveState();
     bool RestoreState();
-	bool ValidateInput();
-	void SetValidators();
-	bool IsValidFloatChar(const wxChar& ch);
-	bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
+    bool ValidateInput();
+    void SetValidators();
+    bool IsValidFloatChar(const wxChar& ch);
+    bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
     bool IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal);
-	bool IsValidTimeChar(const wxChar& ch);
-	bool IsValidTimeValue(const wxString& value);
-	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
-	bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
-	bool ConfirmClear();
-	wxString DoubleToTimeString(double dt);
-	double TimeStringToDouble(wxString timeStr);
+    bool IsValidTimeChar(const wxChar& ch);
+    bool IsValidTimeValue(const wxString& value);
+    void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
+    bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
+    bool ConfirmClear();
+    bool ConfirmSetLocal();
+    wxString DoubleToTimeString(double dt);
+    double TimeStringToDouble(wxString timeStr);
     double RoundToHundredths(double td);
 public:
-	CDlgAdvPreferences(wxWindow* parent=NULL);//to act as standard constructor set a default value
-	virtual ~CDlgAdvPreferences();
-	//generic event handler
-	void OnHandleCommandEvent(wxCommandEvent& ev);
-	void OnOK(wxCommandEvent& event);
-	void OnHelp(wxCommandEvent& event);
-	void OnClear(wxCommandEvent& event);
+    CDlgAdvPreferences(wxWindow* parent=NULL);//to act as standard constructor set a default value
+    virtual ~CDlgAdvPreferences();
+    //generic event handler
+    void OnHandleCommandEvent(wxCommandEvent& ev);
+    void OnOK(wxCommandEvent& event);
+    void OnHelp(wxCommandEvent& event);
+    void OnClear(wxCommandEvent& event);
     void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
     bool OKToShow() { return m_bOKToShow; }
 private:
@@ -65,7 +66,7 @@ private:
     GLOBAL_PREFS      defaultPrefs;
     LOG_FLAGS log_flags;
     CC_CONFIG config;
-	wxArrayInt m_arrTabPageIds;
+    wxArrayInt m_arrTabPageIds;
     wxTextValidator* m_vTimeValidator;
     wxCheckBox* procDayChks[7];
     wxTextCtrl* procDayStartTxts[7];
