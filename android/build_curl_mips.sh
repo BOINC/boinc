@@ -9,7 +9,7 @@ set -e
 
 COMPILECURL="yes"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 CURL="${CURL_SRC:-$HOME/src/curl-7.48.0}" #CURL sources, required by BOINC
 
