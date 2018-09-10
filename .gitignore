@@ -9,6 +9,9 @@
 # Visual Studio build directories
 /win_build/Build/
 
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
 # Installshield build directories
 /win_build/installerv2/BOINC
 /win_build/installerv2/BOINC_vbox
