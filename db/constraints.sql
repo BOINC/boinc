@@ -179,6 +179,9 @@ alter table sent_email
     add index sent_email_userid(userid);
         -- for delete account
 
+alter table private_messages
+    add index userid(userid);
+
 alter table consent
     add index userid_ctid(userid, consent_type_id);
     add index consent_timestamp(consent_time);

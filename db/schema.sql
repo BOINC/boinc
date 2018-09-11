@@ -627,8 +627,7 @@ create table private_messages (
     opened                  tinyint         not null default 0,
     subject                 varchar(255)    not null,
     content                 text            not null,
-    primary key(id),
-    key userid (userid)
+    primary key(id)
 ) engine=MyISAM;
 
 create table credited_job (
