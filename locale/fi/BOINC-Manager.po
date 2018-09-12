@@ -4,14 +4,14 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017
+# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018
 # Kasvain <kasvain@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-11-09 20:21+0000\n"
+"POT-Creation-Date: 2018-06-24 11:44 UTC\n"
+"PO-Revision-Date: 2018-06-24 11:46+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -21,36 +21,36 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: clientgui/AccountInfoPage.cpp:352
+#: clientgui/AccountInfoPage.cpp:353
 #, c-format
 msgid "Identify your account at %s"
 msgstr "Yksilöi %s -tilisi"
 
-#: clientgui/AccountInfoPage.cpp:358
+#: clientgui/AccountInfoPage.cpp:359
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr "Syötä tilisi tiedot\n(luodaksesi tilin, käy projektin verkkosivuilla)"
 
-#: clientgui/AccountInfoPage.cpp:362
+#: clientgui/AccountInfoPage.cpp:363
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr "Tämä projekti ei tällä hetkellä hyväksy uusia tilejä.\nVoit liittyä projektiin vain, jos sinulla on jo tili."
 
-#: clientgui/AccountInfoPage.cpp:366
+#: clientgui/AccountInfoPage.cpp:367
 msgid "Are you already running this project?"
 msgstr "Oletko jo liittynyt tähän projektiin?"
 
-#: clientgui/AccountInfoPage.cpp:370
+#: clientgui/AccountInfoPage.cpp:371
 msgid "&No, new user"
 msgstr "&En, uusi käyttäjä"
 
-#: clientgui/AccountInfoPage.cpp:373
+#: clientgui/AccountInfoPage.cpp:374
 msgid "&Yes, existing user"
 msgstr "&Kyllä, olemassa oleva käyttäjä"
 
-#: clientgui/AccountInfoPage.cpp:378
+#: clientgui/AccountInfoPage.cpp:379
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -60,85 +60,85 @@ msgid ""
 "password fields."
 msgstr "Tilitietojasi ei voitu asettaa\nautomaattisesti.\n\nNapsauta \"Hae kirjautumistiedot\" -linkkiä\njotta tiedät, mitä laitat sähköpostiosoite- ja\nsalasanakenttiin."
 
-#: clientgui/AccountInfoPage.cpp:381
+#: clientgui/AccountInfoPage.cpp:382
 msgid "Find login information"
 msgstr "Hae kirjautumistiedot"
 
-#: clientgui/AccountInfoPage.cpp:401 clientgui/AccountInfoPage.cpp:623
+#: clientgui/AccountInfoPage.cpp:402 clientgui/AccountInfoPage.cpp:624
 msgid "&Password:"
 msgstr "&Salasana:"
 
-#: clientgui/AccountInfoPage.cpp:408 clientgui/AccountInfoPage.cpp:647
+#: clientgui/AccountInfoPage.cpp:409 clientgui/AccountInfoPage.cpp:648
 msgid "Choose a &password:"
 msgstr "Valitse &salasana:"
 
-#: clientgui/AccountInfoPage.cpp:411
+#: clientgui/AccountInfoPage.cpp:412
 msgid "C&onfirm password:"
 msgstr "Vahvista salasana:"
 
-#: clientgui/AccountInfoPage.cpp:418
+#: clientgui/AccountInfoPage.cpp:419
 #, c-format
 msgid "Are you already running %s?"
 msgstr "Osallistutko jo %s -projektiin?"
 
-#: clientgui/AccountInfoPage.cpp:447
+#: clientgui/AccountInfoPage.cpp:448
 msgid "&Username:"
 msgstr "&Käyttäjänimi:"
 
-#: clientgui/AccountInfoPage.cpp:476
+#: clientgui/AccountInfoPage.cpp:477
 msgid "&Email address or LDAP ID:"
 msgstr "&Sähköpostiosoite tai LDAP-tunnus:"
 
-#: clientgui/AccountInfoPage.cpp:480
+#: clientgui/AccountInfoPage.cpp:481
 msgid "&Email address:"
 msgstr "&Sähköpostiosoite:"
 
-#: clientgui/AccountInfoPage.cpp:488
+#: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "minimum length %d"
 msgstr "vähimmäispituus %d"
 
-#: clientgui/AccountInfoPage.cpp:495
+#: clientgui/AccountInfoPage.cpp:496
 msgid "Forgot your password?"
 msgstr "Salasana unohtunut?"
 
-#: clientgui/AccountInfoPage.cpp:502
+#: clientgui/AccountInfoPage.cpp:503
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr "Jos et ole vielä rekisteröitynyt tämän tilihallitsijan käyttäjäksi,\ntee se ennen kuin jatkat eteenpäin.  Napsauta allaolevaa linkkiä\nrekisteröityäksesi tai saadaksesi unohtuneen salasanan."
 
-#: clientgui/AccountInfoPage.cpp:505
+#: clientgui/AccountInfoPage.cpp:506
 msgid "Account manager web site"
 msgstr "Tilihallitsijan nettisivu"
 
-#: clientgui/AccountInfoPage.cpp:547
+#: clientgui/AccountInfoPage.cpp:548
 msgid "Add project"
 msgstr "Liity projektiin"
 
-#: clientgui/AccountInfoPage.cpp:549
+#: clientgui/AccountInfoPage.cpp:550
 msgid "Update account manager"
 msgstr "Päivitä tilihallitsija"
 
-#: clientgui/AccountInfoPage.cpp:551
+#: clientgui/AccountInfoPage.cpp:552
 msgid "Use account manager"
 msgstr "Käytä tilihallitsijaa"
 
-#: clientgui/AccountInfoPage.cpp:558
+#: clientgui/AccountInfoPage.cpp:559
 msgid "Please enter a user name."
 msgstr "Syötä käyttäjänimi."
 
-#: clientgui/AccountInfoPage.cpp:560
+#: clientgui/AccountInfoPage.cpp:561
 msgid "Please enter an email address."
 msgstr "Anna sähköpostiosoite."
 
-#: clientgui/AccountInfoPage.cpp:570
+#: clientgui/AccountInfoPage.cpp:571
 #, c-format
 msgid "Please enter a password of at least %d characters."
 msgstr "Anna vähintään %d merkin pituinen salasana."
 
-#: clientgui/AccountInfoPage.cpp:580
+#: clientgui/AccountInfoPage.cpp:581
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr "Salasana ja salasanan vahvistus eivät täsmää. Kirjoita ne uudelleen."
@@ -558,7 +558,7 @@ msgid "&Tools"
 msgstr "&Työkalut"
 
 #: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:306
-#: clientgui/wizardex.cpp:374 clientgui/wizardex.cpp:381
+#: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&Apua"
 
@@ -638,27 +638,27 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr "Sähköpostiosoitteella on jo tili ja sen\nsalasana on eri kuin antamasi.\n\nKäy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
 
-#: clientgui/AsyncRPC.cpp:1044
+#: clientgui/AsyncRPC.cpp:1035
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Ollaan yhteydessä BOINC-ohjelmaan.  Odota..."
 
-#: clientgui/AsyncRPC.cpp:1047
+#: clientgui/AsyncRPC.cpp:1038
 #, c-format
 msgid "&Quit %s"
 msgstr "&Sulje %s"
 
-#: clientgui/AsyncRPC.cpp:1049
+#: clientgui/AsyncRPC.cpp:1040
 #, c-format
 msgid "E&xit %s"
 msgstr "Lopeta %s"
 
-#: clientgui/AsyncRPC.cpp:1053
+#: clientgui/AsyncRPC.cpp:1044
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Verkkoyhteys"
 
-#: clientgui/AsyncRPC.cpp:1069 clientgui/DlgAdvPreferencesBase.cpp:167
-#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgExclusiveApps.cpp:151
+#: clientgui/AsyncRPC.cpp:1060 clientgui/DlgAdvPreferencesBase.cpp:167
+#: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:357
 msgid "Cancel"
 msgstr "Peruuta"
@@ -717,7 +717,7 @@ msgstr "%s ei pysty käynnistämään %s -ohjelmaa.\nAvaa Ohjauspaneeli->Valvont
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please run the client and try again."
-msgstr ""
+msgstr "%s ei pysty käynnistämään %s ohjelmaa.\nAja ohjelma ja yritä uudelleen."
 
 #: clientgui/BOINCBaseFrame.cpp:676
 #, c-format
@@ -793,7 +793,7 @@ msgstr "%s yhteys internetiin on katkaistu."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s yhteyden katkaisu internetiin epäonnistui."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:316
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -804,94 +804,94 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr "Sinulla ei ole oikeuksia hallinnoida %s -ohjelmaa.\n\nKäyttääksesi %s tällä käyttäjällä:\n- asenna %s uudelleen ja vastaa \"Kyllä\" kysymykseen ei-ylläpitäjäkäyttäjistä\n tai\n- ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master' käyttäjäryhmään."
 
-#: clientgui/BOINCGUIApp.cpp:319
+#: clientgui/BOINCGUIApp.cpp:324
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s -käyttöoikeuksia ei ole asetettu oikein; asenna %s uudelleen.\n(Virhekoodi %d"
 
-#: clientgui/BOINCGUIApp.cpp:325
+#: clientgui/BOINCGUIApp.cpp:330
 msgid " at "
 msgstr " paikassa "
 
-#: clientgui/BOINCGUIApp.cpp:328 clientgui/MainDocument.cpp:2512
+#: clientgui/BOINCGUIApp.cpp:333 clientgui/MainDocument.cpp:2512
 #: clientgui/MainDocument.cpp:2571 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:358
+#: clientgui/BOINCGUIApp.cpp:363
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "Tarvitaan uudelleenkäynnistys, jotta BOINC voisi toimia kunnolla.\nUudelleenkäynnistä tietokoneesi ja yritä uudelleen."
 
-#: clientgui/BOINCGUIApp.cpp:359 clientgui/DlgAbout.cpp:153
+#: clientgui/BOINCGUIApp.cpp:364 clientgui/DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCGUIApp.cpp:585
+#: clientgui/BOINCGUIApp.cpp:590
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Käyttöjärjestelmä käynnisti BOINC Managerin automaattisesti"
 
-#: clientgui/BOINCGUIApp.cpp:587
+#: clientgui/BOINCGUIApp.cpp:592
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Käynnistä BOINC niin, että vain tehtäväpalkin kuvake on näkyvissä"
 
-#: clientgui/BOINCGUIApp.cpp:589
+#: clientgui/BOINCGUIApp.cpp:594
 msgid "Directory containing the BOINC Client executable"
 msgstr "Hakemisto, joka sisältää BOINCin ohjelmatiedoston"
 
-#: clientgui/BOINCGUIApp.cpp:590
+#: clientgui/BOINCGUIApp.cpp:595
 msgid "BOINC data directory"
 msgstr "BOINCin datahakemisto"
 
-#: clientgui/BOINCGUIApp.cpp:592
+#: clientgui/BOINCGUIApp.cpp:597
 msgid "Host name or IP address"
 msgstr "Konenimi tai IP-osoite"
 
-#: clientgui/BOINCGUIApp.cpp:593
+#: clientgui/BOINCGUIApp.cpp:598
 msgid "GUI RPC port number"
 msgstr "GUI RPC porttinumero"
 
-#: clientgui/BOINCGUIApp.cpp:594
+#: clientgui/BOINCGUIApp.cpp:599
 msgid "Password"
 msgstr "Salasana"
 
-#: clientgui/BOINCGUIApp.cpp:595
+#: clientgui/BOINCGUIApp.cpp:600
 msgid "Startup BOINC with these optional arguments"
 msgstr "Käynnistä BOINC näillä lisäoptioilla"
 
-#: clientgui/BOINCGUIApp.cpp:596
+#: clientgui/BOINCGUIApp.cpp:601
 msgid "disable BOINC security users and permissions"
 msgstr "poista käytöstä BOINCin turvakäyttäjät ja käyttöoikeudet"
 
-#: clientgui/BOINCGUIApp.cpp:597
+#: clientgui/BOINCGUIApp.cpp:602
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "laita ulkoasun virheenkorjaus päälle nähdäksesi virheviestit"
 
-#: clientgui/BOINCGUIApp.cpp:598
+#: clientgui/BOINCGUIApp.cpp:603
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "useita BOINC Manager -instansseja sallittu"
 
-#: clientgui/BOINCGUIApp.cpp:600
+#: clientgui/BOINCGUIApp.cpp:605
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Ei käytetä: tilapäinen korjaus bugiin XCode 4.2:ssa"
 
-#: clientgui/BOINCGUIApp.cpp:602
+#: clientgui/BOINCGUIApp.cpp:607
 msgid "Don't run the client"
-msgstr ""
+msgstr "Älä aja ohjelmaa"
 
 #. These are just special tags so deal with them in a special way
-#: clientgui/BOINCGUIApp.cpp:870
+#: clientgui/BOINCGUIApp.cpp:875
 msgid "(Automatic Detection)"
 msgstr "(Automaattinen tunnistus)"
 
-#: clientgui/BOINCGUIApp.cpp:871
+#: clientgui/BOINCGUIApp.cpp:876
 msgid "(Unknown)"
 msgstr "(Tuntematon)"
 
-#: clientgui/BOINCGUIApp.cpp:872
+#: clientgui/BOINCGUIApp.cpp:877
 msgid "(User Defined)"
 msgstr "(Käyttäjän määrittelemä)"
 
@@ -1064,9 +1064,9 @@ msgstr "Tekijänoikeus:"
 
 #: clientgui/DlgAbout.cpp:192
 msgid ""
-"(C) 2003-2017 University of California, Berkeley.\n"
+"(C) 2003-2018 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2017 University of California, Berkeley.\nKaikki oikeudet pidätetään."
+msgstr ""
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
@@ -1098,7 +1098,7 @@ msgstr "Käytetään nettipohjaisia asetuksia paikasta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:107 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click Save to use local preferences instead."
-msgstr ""
+msgstr "Anna arvot ja napsauta Tallenna käyttääksesi paikallisia asetuksia."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
@@ -1128,7 +1128,7 @@ msgid "Daily schedules"
 msgstr "Päivittäiset toiminnot"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
-#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgExclusiveApps.cpp:146
+#: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
 #: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
 msgid "Save"
 msgstr "Tallenna"
@@ -1582,41 +1582,41 @@ msgstr "Hylkää paikalliset asetukset ja käytä nettipohjaisia asetuksia?"
 msgid "Confirmation"
 msgstr "Vahvistus"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:67
+#: clientgui/DlgDiagnosticLogFlags.cpp:66
 #, c-format
 msgid "%s Diagnostic Log Flags"
 msgstr "%s diagnostiikkalokin liput"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:85
+#: clientgui/DlgDiagnosticLogFlags.cpp:84
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
 msgstr "Nämä liput ottavat käyttöön eri tyypin diagnostiikkaviestejä tapahtumalokissa."
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:101
+#: clientgui/DlgDiagnosticLogFlags.cpp:100
 msgid "More info ..."
 msgstr "Lisää tietoa ..."
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:122 clientgui/DlgHiddenColumns.cpp:101
+#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
 msgstr "Tallenna kaikki arvot ja sulje ikkuna"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:104
+#: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
 msgstr "Oletukset"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:126 clientgui/DlgHiddenColumns.cpp:105
+#: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
 msgstr "Palauta oletusasetukset"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:130 clientgui/DlgHiddenColumns.cpp:109
+#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
 msgstr "Sulje ikkuna tallentamatta"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:133
+#: clientgui/DlgDiagnosticLogFlags.cpp:132
 msgid "Apply"
 msgstr "Käytä"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:134
+#: clientgui/DlgDiagnosticLogFlags.cpp:133
 msgid "Save all values"
 msgstr "Tallenna kaikki arvot"
 
@@ -1641,24 +1641,24 @@ msgstr "Aika"
 msgid "Message"
 msgstr "Viesti"
 
-#: clientgui/DlgEventLog.cpp:296 clientgui/DlgEventLog.cpp:346
+#: clientgui/DlgEventLog.cpp:330 clientgui/DlgEventLog.cpp:380
 msgid "&Show only this project"
 msgstr "&Näytä vain tämä projekti"
 
-#: clientgui/DlgEventLog.cpp:300 clientgui/DlgItemProperties.cpp:73
+#: clientgui/DlgEventLog.cpp:334 clientgui/DlgItemProperties.cpp:74
 msgid "Copy &All"
 msgstr "Kopioi &kaikki"
 
-#: clientgui/DlgEventLog.cpp:302 clientgui/DlgEventLog.cpp:306
+#: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:340
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopioi kaikki viestit leikepöydälle."
 
-#: clientgui/DlgEventLog.cpp:311 clientgui/DlgItemProperties.cpp:76
+#: clientgui/DlgEventLog.cpp:345 clientgui/DlgItemProperties.cpp:77
 msgid "Copy &Selected"
 msgstr "Kopioi &valitut"
 
-#: clientgui/DlgEventLog.cpp:314 clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:348 clientgui/DlgEventLog.cpp:356
 #: clientgui/ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1666,7 +1666,7 @@ msgid ""
 "messages."
 msgstr "Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä pitämällä shift- tai command-näppäintä pohjassa samalla kun napsautat viestiä."
 
-#: clientgui/DlgEventLog.cpp:316 clientgui/DlgEventLog.cpp:324
+#: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:358
 #: clientgui/ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1674,19 +1674,19 @@ msgid ""
 "messages."
 msgstr "Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä pitämällä shift- tai control-näppäintä pohjassa samalla kun napsautat viestiä."
 
-#: clientgui/DlgEventLog.cpp:331 clientgui/DlgItemProperties.cpp:79
+#: clientgui/DlgEventLog.cpp:365 clientgui/DlgItemProperties.cpp:81
 msgid "&Close"
 msgstr "&Sulje"
 
-#: clientgui/DlgEventLog.cpp:340
+#: clientgui/DlgEventLog.cpp:374
 msgid "Show all &messages"
 msgstr "Näytä kaikki &viestit"
 
-#: clientgui/DlgEventLog.cpp:341 clientgui/DlgEventLog.cpp:343
+#: clientgui/DlgEventLog.cpp:375 clientgui/DlgEventLog.cpp:377
 msgid "Show messages for all projects"
 msgstr "Näytä kaikkien projektien viestit"
 
-#: clientgui/DlgEventLog.cpp:347 clientgui/DlgEventLog.cpp:349
+#: clientgui/DlgEventLog.cpp:381 clientgui/DlgEventLog.cpp:383
 msgid "Show only the messages for the selected project"
 msgstr "Näytä vain valitun projektin viestit"
 
@@ -1810,7 +1810,7 @@ msgstr "Muista valinta äläkä näytä tätä uudelleen."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:414 clientgui/DlgSelectComputer.cpp:168
-#: clientgui/wizardex.cpp:378
+#: clientgui/wizardex.cpp:387
 msgid "&Cancel"
 msgstr "&Peruuta"
 
@@ -1838,273 +1838,273 @@ msgstr "Haluatko varmasti palauttaa kaikki sarakkeet oletusasetuksiinsa?"
 msgid "Confirm defaults"
 msgstr "Vahvista oletukset"
 
-#: clientgui/DlgItemProperties.cpp:204 clientgui/DlgItemProperties.cpp:207
-#: clientgui/DlgItemProperties.cpp:210 clientgui/DlgItemProperties.cpp:213
+#: clientgui/DlgItemProperties.cpp:206 clientgui/DlgItemProperties.cpp:209
+#: clientgui/DlgItemProperties.cpp:212 clientgui/DlgItemProperties.cpp:215
 msgid "Don't request tasks for "
 msgstr "Älä pyydä työtä prosessorille"
 
-#: clientgui/DlgItemProperties.cpp:204
+#: clientgui/DlgItemProperties.cpp:206
 msgid "Project preference"
 msgstr "Projektiasetukset"
 
-#: clientgui/DlgItemProperties.cpp:207
+#: clientgui/DlgItemProperties.cpp:209
 msgid "Account manager preference"
 msgstr "Tilihallitsijan asetukset"
 
-#: clientgui/DlgItemProperties.cpp:210
+#: clientgui/DlgItemProperties.cpp:212
 msgid "Project has no apps for "
 msgstr "Projektilla ei ole sovelluksia prosessorille "
 
-#: clientgui/DlgItemProperties.cpp:213
+#: clientgui/DlgItemProperties.cpp:215
 msgid "Client configuration excludes "
 msgstr "Ohjelman asetukset eivät salli prosessoria "
 
-#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:221
 #, c-format
 msgid "%s task request deferred for"
 msgstr "%s työn pyytämistä lykätty"
 
-#: clientgui/DlgItemProperties.cpp:223
+#: clientgui/DlgItemProperties.cpp:225
 #, c-format
 msgid "%s task request deferral interval"
 msgstr "%s työn pyytämisen lykkäysaikaväli"
 
 #. set dialog title
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:259
 msgid "Properties of project "
 msgstr "Tietoja projektista "
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:261 clientgui/DlgOptions.cpp:232
+#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:232
 msgid "General"
 msgstr "Yleiset"
 
-#: clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:264
 msgid "URL"
 msgstr "URL"
 
-#: clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgItemProperties.cpp:265
 msgid "User name"
 msgstr "Käyttäjänimi"
 
-#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:266
 msgid "Team name"
 msgstr "Tiiminimi"
 
-#: clientgui/DlgItemProperties.cpp:265 clientgui/ViewProjects.cpp:256
+#: clientgui/DlgItemProperties.cpp:267 clientgui/ViewProjects.cpp:256
 msgid "Resource share"
 msgstr "Resurssien jako"
 
-#: clientgui/DlgItemProperties.cpp:267
+#: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduler RPC deferred for"
 msgstr "RPC-aikataulutusta lykätty"
 
-#: clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:272
 msgid "File downloads deferred for"
 msgstr "Tiedoston latausta lykätty"
 
-#: clientgui/DlgItemProperties.cpp:273
+#: clientgui/DlgItemProperties.cpp:275
 msgid "File uploads deferred for"
 msgstr "Tiedoston lähetystä lykätty"
 
-#: clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:277
 msgid "Disk usage"
 msgstr "Levyn käyttö"
 
-#: clientgui/DlgItemProperties.cpp:276
+#: clientgui/DlgItemProperties.cpp:278
 msgid "Computer ID"
 msgstr "Tietokoneen tunniste"
 
-#: clientgui/DlgItemProperties.cpp:278
+#: clientgui/DlgItemProperties.cpp:280
 msgid "Non CPU intensive"
 msgstr "Ei prosessorikuormittava"
 
-#: clientgui/DlgItemProperties.cpp:278 clientgui/DlgItemProperties.cpp:280
-#: clientgui/DlgItemProperties.cpp:281 clientgui/DlgItemProperties.cpp:283
-#: clientgui/DlgItemProperties.cpp:286 clientgui/DlgItemProperties.cpp:295
-#: clientgui/DlgItemProperties.cpp:298 clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:283 clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:288 clientgui/DlgItemProperties.cpp:297
+#: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:303
 msgid "yes"
 msgstr "kyllä"
 
-#: clientgui/DlgItemProperties.cpp:280
+#: clientgui/DlgItemProperties.cpp:282
 msgid "Suspended via GUI"
 msgstr "Hyllytetty käyttöliittymän kautta"
 
-#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:281
+#: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:283
 msgid "no"
 msgstr "ei"
 
-#: clientgui/DlgItemProperties.cpp:281
+#: clientgui/DlgItemProperties.cpp:283
 msgid "Don't request tasks"
 msgstr "Älä pyydä työtä"
 
-#: clientgui/DlgItemProperties.cpp:283
+#: clientgui/DlgItemProperties.cpp:285
 msgid "Scheduler call in progress"
 msgstr "Pyyntö aikatauluttajalle käynnissä"
 
-#: clientgui/DlgItemProperties.cpp:286
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Trickle-up pending"
 msgstr "Väliaikaviesti odottaa"
 
-#: clientgui/DlgItemProperties.cpp:289 clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:291 clientgui/DlgItemProperties.cpp:293
 msgid "Host location"
 msgstr "Koneen sijainti"
 
-#: clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:293
 msgid "default"
 msgstr "oletus"
 
-#: clientgui/DlgItemProperties.cpp:295
+#: clientgui/DlgItemProperties.cpp:297
 msgid "Added via account manager"
 msgstr "Lisätty tilihallitsijan kautta"
 
-#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:300
 msgid "Remove when tasks done"
 msgstr "Poista pakettien valmistuttua"
 
-#: clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:303
 msgid "Ended"
 msgstr "Päättynyt"
 
-#: clientgui/DlgItemProperties.cpp:303
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Tasks completed"
 msgstr "Valmistuneet tehtävät"
 
-#: clientgui/DlgItemProperties.cpp:304
+#: clientgui/DlgItemProperties.cpp:306
 msgid "Tasks failed"
 msgstr "Epäonnistuneet tehtävät"
 
-#: clientgui/DlgItemProperties.cpp:306
+#: clientgui/DlgItemProperties.cpp:308
 msgid "Credit"
 msgstr "Pisteet"
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:309
 msgid "User"
 msgstr "Käyttäjä"
 
-#: clientgui/DlgItemProperties.cpp:310 clientgui/DlgItemProperties.cpp:318
+#: clientgui/DlgItemProperties.cpp:312 clientgui/DlgItemProperties.cpp:320
 #, c-format
 msgid "%s total, %s average"
 msgstr "%s kaikkiaan, %s keskimäärin"
 
-#: clientgui/DlgItemProperties.cpp:315
+#: clientgui/DlgItemProperties.cpp:317
 msgid "Host"
 msgstr "Kone"
 
-#: clientgui/DlgItemProperties.cpp:325
+#: clientgui/DlgItemProperties.cpp:327
 msgid "Scheduling"
 msgstr "Aikataulutus"
 
-#: clientgui/DlgItemProperties.cpp:326
+#: clientgui/DlgItemProperties.cpp:328
 msgid "Scheduling priority"
 msgstr "Aikataulutusprioriteetti"
 
-#: clientgui/DlgItemProperties.cpp:327
+#: clientgui/DlgItemProperties.cpp:329
 msgid "CPU"
 msgstr "CPU"
 
-#: clientgui/DlgItemProperties.cpp:351
+#: clientgui/DlgItemProperties.cpp:353
 msgid "Duration correction factor"
 msgstr "Korjauskerroin"
 
-#: clientgui/DlgItemProperties.cpp:359
+#: clientgui/DlgItemProperties.cpp:361
 msgid "Last scheduler reply"
 msgstr "Viimeisin aikatauluttajan vastaus"
 
-#: clientgui/DlgItemProperties.cpp:369
+#: clientgui/DlgItemProperties.cpp:371
 msgid "Properties of task "
 msgstr "Tiedot työpaketista "
 
-#: clientgui/DlgItemProperties.cpp:381 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:266
 msgid "Application"
 msgstr "Sovellus"
 
-#: clientgui/DlgItemProperties.cpp:382 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:267
 msgid "Name"
 msgstr "Nimi"
 
-#: clientgui/DlgItemProperties.cpp:383
+#: clientgui/DlgItemProperties.cpp:385
 msgid "State"
 msgstr "Tila"
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:388
 msgid "Received"
 msgstr "Vastaanotettu"
 
-#: clientgui/DlgItemProperties.cpp:389
+#: clientgui/DlgItemProperties.cpp:391
 msgid "Report deadline"
 msgstr "Raportoinnin takaraja"
 
-#: clientgui/DlgItemProperties.cpp:391
+#: clientgui/DlgItemProperties.cpp:393
 msgid "Resources"
 msgstr "Resurssit"
 
-#: clientgui/DlgItemProperties.cpp:394
+#: clientgui/DlgItemProperties.cpp:396
 msgid "Estimated computation size"
 msgstr "Arvioitu laskentakoko"
 
-#: clientgui/DlgItemProperties.cpp:409
+#: clientgui/DlgItemProperties.cpp:411
 msgid "Keywords"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:415 clientgui/DlgItemProperties.cpp:442
+#: clientgui/DlgItemProperties.cpp:417 clientgui/DlgItemProperties.cpp:444
 msgid "CPU time"
 msgstr "Suoritinaika"
 
-#: clientgui/DlgItemProperties.cpp:416
+#: clientgui/DlgItemProperties.cpp:418
 msgid "CPU time since checkpoint"
 msgstr "Prosessoriaika viimeisestä tarkistuspisteestä"
 
-#: clientgui/DlgItemProperties.cpp:418 clientgui/DlgItemProperties.cpp:443
+#: clientgui/DlgItemProperties.cpp:420 clientgui/DlgItemProperties.cpp:445
 msgid "Elapsed time"
 msgstr "Kulunut aika"
 
-#: clientgui/DlgItemProperties.cpp:420
+#: clientgui/DlgItemProperties.cpp:422
 msgid "Estimated time remaining"
 msgstr "Arvioitu jäljellä oleva aika"
 
-#: clientgui/DlgItemProperties.cpp:421
+#: clientgui/DlgItemProperties.cpp:423
 msgid "Fraction done"
 msgstr "Suoritettu osuus"
 
-#: clientgui/DlgItemProperties.cpp:422
+#: clientgui/DlgItemProperties.cpp:424
 msgid "Virtual memory size"
 msgstr "Virtuaalimuistin koko"
 
-#: clientgui/DlgItemProperties.cpp:423
+#: clientgui/DlgItemProperties.cpp:425
 msgid "Working set size"
 msgstr "Työjoukon koko"
 
-#: clientgui/DlgItemProperties.cpp:425
+#: clientgui/DlgItemProperties.cpp:427
 msgid "Directory"
 msgstr "Hakemisto"
 
-#: clientgui/DlgItemProperties.cpp:428
+#: clientgui/DlgItemProperties.cpp:430
 msgid "Process ID"
 msgstr "Prosessin tunniste"
 
-#: clientgui/DlgItemProperties.cpp:434 clientgui/DlgItemProperties.cpp:436
-#: clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:436 clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:440
 msgid "Progress rate"
 msgstr "Edistysmisnopeus"
 
-#: clientgui/DlgItemProperties.cpp:434
+#: clientgui/DlgItemProperties.cpp:436
 msgid "per hour"
 msgstr "tunnissa"
 
-#: clientgui/DlgItemProperties.cpp:436
+#: clientgui/DlgItemProperties.cpp:438
 msgid "per minute"
 msgstr "minuutissa"
 
-#: clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:440
 msgid "per second"
 msgstr "sekunnissa"
 
-#: clientgui/DlgItemProperties.cpp:446
+#: clientgui/DlgItemProperties.cpp:448
 msgid "Executable"
 msgstr "Suoritettava"
 
-#: clientgui/DlgItemProperties.cpp:511 clientgui/sg_TaskPanel.cpp:824
+#: clientgui/DlgItemProperties.cpp:513 clientgui/sg_TaskPanel.cpp:824
 #: clientgui/ViewWork.cpp:1115
 msgid "Local: "
 msgstr "Paikallinen: "
@@ -2139,11 +2139,11 @@ msgstr "Käynnistä BOINC Manager kun kirjaudut."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run the client?"
-msgstr ""
+msgstr "Aja ohjelma?"
 
 #: clientgui/DlgOptions.cpp:219
 msgid "Run the client when launching the Manager."
-msgstr ""
+msgstr "Aja ohjelma kun Manager käynnistetään."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
@@ -2227,7 +2227,7 @@ msgstr "SOCKS Proxy"
 
 #: clientgui/DlgOptions.cpp:410
 msgid "&Save"
-msgstr ""
+msgstr "&Tallenna"
 
 #: clientgui/DlgOptions.cpp:600
 msgid "always"
@@ -2719,7 +2719,7 @@ msgstr "Tarkista käyttäjänimi ja salasana."
 msgid "Check the email address and password, and try again."
 msgstr "Tarkista sähköpostiosoite ja salasana."
 
-#: clientgui/NoticeListCtrl.cpp:229
+#: clientgui/NoticeListCtrl.cpp:236
 msgid "more..."
 msgstr "lisää..."
 
@@ -3285,19 +3285,19 @@ msgstr "Suoritettavaa työtä ei ole"
 msgid "Unable to connect to the core client"
 msgstr "Yhteyttä ydinohjelmaan ei saada"
 
-#: clientgui/TermsOfUsePage.cpp:218
+#: clientgui/TermsOfUsePage.cpp:233
 msgid "Terms of Use"
 msgstr "Käyttöehdot"
 
-#: clientgui/TermsOfUsePage.cpp:222
+#: clientgui/TermsOfUsePage.cpp:237
 msgid "Please read the following terms of use:"
 msgstr "Lue nämä käyttöehdot:"
 
-#: clientgui/TermsOfUsePage.cpp:231
+#: clientgui/TermsOfUsePage.cpp:251
 msgid "I agree to the terms of use."
 msgstr "Hyväksyn käyttöehdot."
 
-#: clientgui/TermsOfUsePage.cpp:237
+#: clientgui/TermsOfUsePage.cpp:257
 msgid "I do not agree to the terms of use."
 msgstr "En hyväksy käyttöehtoja."
 
@@ -3829,15 +3829,15 @@ msgstr "Haluatko todella peruuttaa?"
 msgid "Question"
 msgstr "Kysymys"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:550
+#: clientgui/wizardex.cpp:386 clientgui/wizardex.cpp:559
 msgid "&Next >"
 msgstr "&Seuraava>"
 
-#: clientgui/wizardex.cpp:383
+#: clientgui/wizardex.cpp:392
 msgid "< &Back"
 msgstr "< &Takaisin"
 
-#: clientgui/wizardex.cpp:550
+#: clientgui/wizardex.cpp:559
 msgid "&Finish"
 msgstr "&Valmis"
 

@@ -139,7 +139,7 @@ void check_app_config() {
 
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
+        snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
         f = boinc_fopen(path, "r");
         if (!f) {
             clear_app_config(p);

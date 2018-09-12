@@ -9,47 +9,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-11-09 20:21+0000\n"
+"POT-Creation-Date: 2018-06-24 11:44 UTC\n"
+"PO-Revision-Date: 2018-06-24 11:46+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Georgian (http://www.transifex.com/boinc/boinc/language/ka/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ka\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: clientgui/AccountInfoPage.cpp:352
+#: clientgui/AccountInfoPage.cpp:353
 #, c-format
 msgid "Identify your account at %s"
 msgstr "ანგარიშის იდენტიფიცირება %s-ში"
 
-#: clientgui/AccountInfoPage.cpp:358
+#: clientgui/AccountInfoPage.cpp:359
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr "გთხოვთ, შეიყვანოთ თქვენი ანგარიშის ინფორმაცია\n(ანგარიშის შესაქმნელად, გთხოვთ, ეწვიოთ პროექტის ვებ-გვერდს)"
 
-#: clientgui/AccountInfoPage.cpp:362
+#: clientgui/AccountInfoPage.cpp:363
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr "ამ დროისთვის ეს პროექტი არ იღებს ახალ ანგარიშებს.\nთქვენ შეგიძლიათ მისი დამატება მხოლოდ თუ გაქვთ არსებული ანგარიში."
 
-#: clientgui/AccountInfoPage.cpp:366
+#: clientgui/AccountInfoPage.cpp:367
 msgid "Are you already running this project?"
 msgstr "უკვე გაშვებული გაქვთ ეს პროექტი?"
 
-#: clientgui/AccountInfoPage.cpp:370
+#: clientgui/AccountInfoPage.cpp:371
 msgid "&No, new user"
 msgstr "&არა, ახალი მომხმარებელი"
 
-#: clientgui/AccountInfoPage.cpp:373
+#: clientgui/AccountInfoPage.cpp:374
 msgid "&Yes, existing user"
 msgstr "&დიახ, არსებული მომხმარებელი"
 
-#: clientgui/AccountInfoPage.cpp:378
+#: clientgui/AccountInfoPage.cpp:379
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -59,85 +59,85 @@ msgid ""
 "password fields."
 msgstr "ჩვენ ვერ შევძელით თქვენ ანგარიშის ინფორმაციის დაყენება\nავტომატურად.\n\nგთხოვთ, დააწკაპოთ ბმულზე \nშესვლის ინფორმაციის ზებნა'\nქვემოთ, რომ ნახოთ რა ჩაწეროთ ელ.ფოსტის და\nპაროლის ველებში."
 
-#: clientgui/AccountInfoPage.cpp:381
+#: clientgui/AccountInfoPage.cpp:382
 msgid "Find login information"
 msgstr "შესვლის ინფორმაციის ძებნა"
 
-#: clientgui/AccountInfoPage.cpp:401 clientgui/AccountInfoPage.cpp:623
+#: clientgui/AccountInfoPage.cpp:402 clientgui/AccountInfoPage.cpp:624
 msgid "&Password:"
 msgstr "&პაროლი:"
 
-#: clientgui/AccountInfoPage.cpp:408 clientgui/AccountInfoPage.cpp:647
+#: clientgui/AccountInfoPage.cpp:409 clientgui/AccountInfoPage.cpp:648
 msgid "Choose a &password:"
 msgstr "აირჩიეთ &პაროლი:"
 
-#: clientgui/AccountInfoPage.cpp:411
+#: clientgui/AccountInfoPage.cpp:412
 msgid "C&onfirm password:"
 msgstr "დაადა&სტურეთ პაროლი:"
 
-#: clientgui/AccountInfoPage.cpp:418
+#: clientgui/AccountInfoPage.cpp:419
 #, c-format
 msgid "Are you already running %s?"
 msgstr "უკვე გაქვთ გაშვებული %s?"
 
-#: clientgui/AccountInfoPage.cpp:447
+#: clientgui/AccountInfoPage.cpp:448
 msgid "&Username:"
 msgstr "&მომხმარებლის სახელი:"
 
-#: clientgui/AccountInfoPage.cpp:476
+#: clientgui/AccountInfoPage.cpp:477
 msgid "&Email address or LDAP ID:"
 msgstr "&ელ.ფოსტის მისამართი ან LDAP-ის იდ:"
 
-#: clientgui/AccountInfoPage.cpp:480
+#: clientgui/AccountInfoPage.cpp:481
 msgid "&Email address:"
 msgstr "&ელ.ფოსტის მისამართი:"
 
-#: clientgui/AccountInfoPage.cpp:488
+#: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "minimum length %d"
 msgstr "მინიმალური სიგრძე %d"
 
-#: clientgui/AccountInfoPage.cpp:495
+#: clientgui/AccountInfoPage.cpp:496
 msgid "Forgot your password?"
 msgstr "დაგავიწყდათ თქვენი პაროლი?"
 
-#: clientgui/AccountInfoPage.cpp:502
+#: clientgui/AccountInfoPage.cpp:503
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr "თუ არ ხართ ჯერ რეგისტრირებული ამ ანგარიშის მმართველით,\nდარეგისტრირდით გაგრძელებამდე. დააწკაპეთ ქვემოთ მდებარე ბმულს\nდასარეგისტრირებლად ან დავიწყებული პაროლის მისაღებად."
 
-#: clientgui/AccountInfoPage.cpp:505
+#: clientgui/AccountInfoPage.cpp:506
 msgid "Account manager web site"
 msgstr "ანგარიშის მმართველის ვებ-გვერდი"
 
-#: clientgui/AccountInfoPage.cpp:547
+#: clientgui/AccountInfoPage.cpp:548
 msgid "Add project"
 msgstr "პროექტის დამატება"
 
-#: clientgui/AccountInfoPage.cpp:549
+#: clientgui/AccountInfoPage.cpp:550
 msgid "Update account manager"
 msgstr "ანგარიშის მმართველის განახლება"
 
-#: clientgui/AccountInfoPage.cpp:551
+#: clientgui/AccountInfoPage.cpp:552
 msgid "Use account manager"
 msgstr "ანგარიშის მმართველის გამოყენება"
 
-#: clientgui/AccountInfoPage.cpp:558
+#: clientgui/AccountInfoPage.cpp:559
 msgid "Please enter a user name."
 msgstr "გთხოვთ, შეიყვანოთ თქვენი მომხმარებლის სახელი."
 
-#: clientgui/AccountInfoPage.cpp:560
+#: clientgui/AccountInfoPage.cpp:561
 msgid "Please enter an email address."
 msgstr "გთხოვთ, შეიყვანოთ ელ.ფოსტის მისამართი."
 
-#: clientgui/AccountInfoPage.cpp:570
+#: clientgui/AccountInfoPage.cpp:571
 #, c-format
 msgid "Please enter a password of at least %d characters."
 msgstr "გთხოვთ, შეიყვანოთ მინიმუმ %d სიმბოლოიანი პაროლი."
 
-#: clientgui/AccountInfoPage.cpp:580
+#: clientgui/AccountInfoPage.cpp:581
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr "პაროლი და მისი დასტური არ დაემთხვა. გთხოვთ, აკრიფოთ თავიდან."
@@ -557,7 +557,7 @@ msgid "&Tools"
 msgstr "&ხელსაწყოები"
 
 #: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:306
-#: clientgui/wizardex.cpp:374 clientgui/wizardex.cpp:381
+#: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&დახმარება"
 
@@ -637,27 +637,27 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr "ანგარიში ამ ელ.ფოსტის მისამართით უკვე არსებობს და\nმას აქვს პაროლი, განსხვავებული თქვენს მიერ შეყვანილისგან.\n\nგთხოვთ, ეწვიოთ პროექტის ვებ-გვერდს და მიჰყვეთ ინსტრუქციებს."
 
-#: clientgui/AsyncRPC.cpp:1044
+#: clientgui/AsyncRPC.cpp:1035
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "მიმდინარეობს დაკავშირება BOINC-ის კლიენტთან. გთხოვთ, დაელოდოთ..."
 
-#: clientgui/AsyncRPC.cpp:1047
+#: clientgui/AsyncRPC.cpp:1038
 #, c-format
 msgid "&Quit %s"
 msgstr "%s-დან გა&მოსვლა"
 
-#: clientgui/AsyncRPC.cpp:1049
+#: clientgui/AsyncRPC.cpp:1040
 #, c-format
 msgid "E&xit %s"
 msgstr "%s-დან &გამოსვლა"
 
-#: clientgui/AsyncRPC.cpp:1053
+#: clientgui/AsyncRPC.cpp:1044
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - დაკავშირება"
 
-#: clientgui/AsyncRPC.cpp:1069 clientgui/DlgAdvPreferencesBase.cpp:167
-#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgExclusiveApps.cpp:151
+#: clientgui/AsyncRPC.cpp:1060 clientgui/DlgAdvPreferencesBase.cpp:167
+#: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:357
 msgid "Cancel"
 msgstr "გაუქმება"
@@ -792,7 +792,7 @@ msgstr "%s წარმატებით გამოეთიშა ინტ�
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s-მა ვერ მოახერხა ინტერნეტიდან გამოთიშვა."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:316
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -803,94 +803,94 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:319
+#: clientgui/BOINCGUIApp.cpp:324
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s-ის მფლობელობა ან უფლებება არ არის სწორად დაყენებული; გთხოვთ, გადააყენოთ %s.\n(შეცდომის კოდი %d"
 
-#: clientgui/BOINCGUIApp.cpp:325
+#: clientgui/BOINCGUIApp.cpp:330
 msgid " at "
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:328 clientgui/MainDocument.cpp:2512
+#: clientgui/BOINCGUIApp.cpp:333 clientgui/MainDocument.cpp:2512
 #: clientgui/MainDocument.cpp:2571 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:358
+#: clientgui/BOINCGUIApp.cpp:363
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "BOINC-ის სწორად გასაშვებად საჭიროა გადატვირთვა.\nგთხოვთ, გადატვირთოთ თქვენი კომპიუტერი და სცადოთ თავიდან."
 
-#: clientgui/BOINCGUIApp.cpp:359 clientgui/DlgAbout.cpp:153
+#: clientgui/BOINCGUIApp.cpp:364 clientgui/DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC-ის მმართველი"
 
-#: clientgui/BOINCGUIApp.cpp:585
+#: clientgui/BOINCGUIApp.cpp:590
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager-ი გაეშვა ავტომატურად ოპერაციული სისტემის მიერ"
 
-#: clientgui/BOINCGUIApp.cpp:587
+#: clientgui/BOINCGUIApp.cpp:592
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC-ის გაშვება ისე, რომ მხოლოდ ჩანდეს იარლიყი სისტემურ ზონაში"
 
-#: clientgui/BOINCGUIApp.cpp:589
+#: clientgui/BOINCGUIApp.cpp:594
 msgid "Directory containing the BOINC Client executable"
 msgstr "საქაღალდე, რომელიც შეიცავს BOINC Client-ის გაშვებად ფაილს"
 
-#: clientgui/BOINCGUIApp.cpp:590
+#: clientgui/BOINCGUIApp.cpp:595
 msgid "BOINC data directory"
 msgstr "BOINC-ის მონაცემთა საქაღალდე"
 
-#: clientgui/BOINCGUIApp.cpp:592
+#: clientgui/BOINCGUIApp.cpp:597
 msgid "Host name or IP address"
 msgstr "ჰოსტის სახელი ან იპ მისამართი"
 
-#: clientgui/BOINCGUIApp.cpp:593
+#: clientgui/BOINCGUIApp.cpp:598
 msgid "GUI RPC port number"
 msgstr "მგი-ს დპკ-ს პორტის ნომერი"
 
-#: clientgui/BOINCGUIApp.cpp:594
+#: clientgui/BOINCGUIApp.cpp:599
 msgid "Password"
 msgstr "პაროლი"
 
-#: clientgui/BOINCGUIApp.cpp:595
+#: clientgui/BOINCGUIApp.cpp:600
 msgid "Startup BOINC with these optional arguments"
 msgstr "BOINC-ის გაშვება ამ არჩევითი არგუმენტებით"
 
-#: clientgui/BOINCGUIApp.cpp:596
+#: clientgui/BOINCGUIApp.cpp:601
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC-ის უსაფრთხოების მომხმარებლების და უფლებების გათიშვა"
 
-#: clientgui/BOINCGUIApp.cpp:597
+#: clientgui/BOINCGUIApp.cpp:602
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "დააყენეთ თემის დებაგის რეჟიმი თემის მმართველის შეცდომების შეტყობინებების ჩასართავად"
 
-#: clientgui/BOINCGUIApp.cpp:598
+#: clientgui/BOINCGUIApp.cpp:603
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "BOINC Manager-ის მრავალჯერადი გაშვება დაშვებულია"
 
-#: clientgui/BOINCGUIApp.cpp:600
+#: clientgui/BOINCGUIApp.cpp:605
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "არ გამოიყენება: ბაგი ავლა XCode 4.2-ში"
 
-#: clientgui/BOINCGUIApp.cpp:602
+#: clientgui/BOINCGUIApp.cpp:607
 msgid "Don't run the client"
 msgstr ""
 
 #. These are just special tags so deal with them in a special way
-#: clientgui/BOINCGUIApp.cpp:870
+#: clientgui/BOINCGUIApp.cpp:875
 msgid "(Automatic Detection)"
 msgstr "(ავტომატური აღმოჩენა)"
 
-#: clientgui/BOINCGUIApp.cpp:871
+#: clientgui/BOINCGUIApp.cpp:876
 msgid "(Unknown)"
 msgstr "(უცნობი)"
 
-#: clientgui/BOINCGUIApp.cpp:872
+#: clientgui/BOINCGUIApp.cpp:877
 msgid "(User Defined)"
 msgstr "(მოხმარებლის მიერ დაყენებული)"
 
@@ -1063,7 +1063,7 @@ msgstr "უფლებების დაცვა:"
 
 #: clientgui/DlgAbout.cpp:192
 msgid ""
-"(C) 2003-2017 University of California, Berkeley.\n"
+"(C) 2003-2018 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
 
@@ -1127,7 +1127,7 @@ msgid "Daily schedules"
 msgstr "დღიური განრიგი"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
-#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgExclusiveApps.cpp:146
+#: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
 #: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
 msgid "Save"
 msgstr "შენახვა"
@@ -1581,41 +1581,41 @@ msgstr "გსურთ ადგილობრივი პარამეტ�
 msgid "Confirmation"
 msgstr "დადასტურება"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:67
+#: clientgui/DlgDiagnosticLogFlags.cpp:66
 #, c-format
 msgid "%s Diagnostic Log Flags"
 msgstr "%s-ის დიაგნოსტიკური ჟურნალის დროშები"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:85
+#: clientgui/DlgDiagnosticLogFlags.cpp:84
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
 msgstr "ეს დროშები რთავს სხვა და სხვა ტიპის დიაგნოსტიკურ შეტყობინებებს მოვლენების ჟურნალში"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:101
+#: clientgui/DlgDiagnosticLogFlags.cpp:100
 msgid "More info ..."
 msgstr "მეტი ინფორმაცია..."
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:122 clientgui/DlgHiddenColumns.cpp:101
+#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
 msgstr "ყველა მნიშვნელობის შენახვა და ფანჯრის დახურვა"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:104
+#: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
 msgstr "გაჩუმების პრინციპით დაყენებული"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:126 clientgui/DlgHiddenColumns.cpp:105
+#: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
 msgstr "გაჩუმების პრინციპიტ დაყენებული პარამეტრების აღდგენა"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:130 clientgui/DlgHiddenColumns.cpp:109
+#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
 msgstr "ფანჯრის დახურვა შენახვის გარეშე"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:133
+#: clientgui/DlgDiagnosticLogFlags.cpp:132
 msgid "Apply"
 msgstr "მიღება"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:134
+#: clientgui/DlgDiagnosticLogFlags.cpp:133
 msgid "Save all values"
 msgstr "ყველა მნიშვნელობის შენახვა"
 
@@ -1640,24 +1640,24 @@ msgstr "დრო"
 msgid "Message"
 msgstr "შეტყობინება"
 
-#: clientgui/DlgEventLog.cpp:296 clientgui/DlgEventLog.cpp:346
+#: clientgui/DlgEventLog.cpp:330 clientgui/DlgEventLog.cpp:380
 msgid "&Show only this project"
 msgstr "&მარტო ამ პროექტის ჩვენება"
 
-#: clientgui/DlgEventLog.cpp:300 clientgui/DlgItemProperties.cpp:73
+#: clientgui/DlgEventLog.cpp:334 clientgui/DlgItemProperties.cpp:74
 msgid "Copy &All"
 msgstr "&ყველაფრის კოპირება"
 
-#: clientgui/DlgEventLog.cpp:302 clientgui/DlgEventLog.cpp:306
+#: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:340
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "კოპირების ბუფერში მყოფი ყველა შეტყობინების კოპირება"
 
-#: clientgui/DlgEventLog.cpp:311 clientgui/DlgItemProperties.cpp:76
+#: clientgui/DlgEventLog.cpp:345 clientgui/DlgItemProperties.cpp:77
 msgid "Copy &Selected"
 msgstr "&არჩეულის კოპირება"
 
-#: clientgui/DlgEventLog.cpp:314 clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:348 clientgui/DlgEventLog.cpp:356
 #: clientgui/ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1665,7 +1665,7 @@ msgid ""
 "messages."
 msgstr "არჩეული შეტყობინებების კოპირება კოპირების ბუფერში. შეგიძლიათ აირჩიოთ მრავალი შეტყობინება, Shift-ის ან Command-კლავიშის დაჭერით შეტყობინებების არჩევისას."
 
-#: clientgui/DlgEventLog.cpp:316 clientgui/DlgEventLog.cpp:324
+#: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:358
 #: clientgui/ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1673,19 +1673,19 @@ msgid ""
 "messages."
 msgstr "არჩეული შეტყობინებების კოპირება კოპირების ბუფერში. შეგიძლიათ აირჩიოთ მრავალი შეტყობინება, Shift-ის ან Control-კლავიშის დაჭერით შეტყობინებების არჩევისას."
 
-#: clientgui/DlgEventLog.cpp:331 clientgui/DlgItemProperties.cpp:79
+#: clientgui/DlgEventLog.cpp:365 clientgui/DlgItemProperties.cpp:81
 msgid "&Close"
 msgstr "&დახურვა"
 
-#: clientgui/DlgEventLog.cpp:340
+#: clientgui/DlgEventLog.cpp:374
 msgid "Show all &messages"
 msgstr "ყველა &შეტყობინების ჩვენება"
 
-#: clientgui/DlgEventLog.cpp:341 clientgui/DlgEventLog.cpp:343
+#: clientgui/DlgEventLog.cpp:375 clientgui/DlgEventLog.cpp:377
 msgid "Show messages for all projects"
 msgstr "ყველა პროექტისთვის შეტყობინებების ჩვენება"
 
-#: clientgui/DlgEventLog.cpp:347 clientgui/DlgEventLog.cpp:349
+#: clientgui/DlgEventLog.cpp:381 clientgui/DlgEventLog.cpp:383
 msgid "Show only the messages for the selected project"
 msgstr "მხოლოდ არჩეული პროექტებისთვის შეტყობინებების ჩვენება"
 
@@ -1809,7 +1809,7 @@ msgstr "ამ არჩევანი დამახსოვრება დ
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:414 clientgui/DlgSelectComputer.cpp:168
-#: clientgui/wizardex.cpp:378
+#: clientgui/wizardex.cpp:387
 msgid "&Cancel"
 msgstr "&გაუქმება"
 
@@ -1837,273 +1837,273 @@ msgstr "დარწმუნებული ხართ, რომ გსუ�
 msgid "Confirm defaults"
 msgstr "გაჩუმების პრინციპით დაყენებულის დადასტურება"
 
-#: clientgui/DlgItemProperties.cpp:204 clientgui/DlgItemProperties.cpp:207
-#: clientgui/DlgItemProperties.cpp:210 clientgui/DlgItemProperties.cpp:213
+#: clientgui/DlgItemProperties.cpp:206 clientgui/DlgItemProperties.cpp:209
+#: clientgui/DlgItemProperties.cpp:212 clientgui/DlgItemProperties.cpp:215
 msgid "Don't request tasks for "
 msgstr "არ მოხდეს დავალებების მოთხოვნა შემდეგისთვის"
 
-#: clientgui/DlgItemProperties.cpp:204
+#: clientgui/DlgItemProperties.cpp:206
 msgid "Project preference"
 msgstr "პროექტის პარამეტრი"
 
-#: clientgui/DlgItemProperties.cpp:207
+#: clientgui/DlgItemProperties.cpp:209
 msgid "Account manager preference"
 msgstr "ანგარიშის მმართველის პარამეტრი"
 
-#: clientgui/DlgItemProperties.cpp:210
+#: clientgui/DlgItemProperties.cpp:212
 msgid "Project has no apps for "
 msgstr "პროექტს არ აქვს აპლიკაციები შემდეგისთვის"
 
-#: clientgui/DlgItemProperties.cpp:213
+#: clientgui/DlgItemProperties.cpp:215
 msgid "Client configuration excludes "
 msgstr "კლიენტის კონფიგურაცია გამორიცხავს"
 
-#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:221
 #, c-format
 msgid "%s task request deferred for"
 msgstr "%s დავალების მოთხოვნა გადატანილია:"
 
-#: clientgui/DlgItemProperties.cpp:223
+#: clientgui/DlgItemProperties.cpp:225
 #, c-format
 msgid "%s task request deferral interval"
 msgstr "%s დავალების მოთხოვნის გადატანის ინტერვალი"
 
 #. set dialog title
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:259
 msgid "Properties of project "
 msgstr "პროექტის თვისებები"
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:261 clientgui/DlgOptions.cpp:232
+#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:232
 msgid "General"
 msgstr "ზოგადი"
 
-#: clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:264
 msgid "URL"
 msgstr "URL"
 
-#: clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgItemProperties.cpp:265
 msgid "User name"
 msgstr "მომხმარებლის სახელი"
 
-#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:266
 msgid "Team name"
 msgstr "გუნდის სახელი"
 
-#: clientgui/DlgItemProperties.cpp:265 clientgui/ViewProjects.cpp:256
+#: clientgui/DlgItemProperties.cpp:267 clientgui/ViewProjects.cpp:256
 msgid "Resource share"
 msgstr "რესურსების ნაწილი"
 
-#: clientgui/DlgItemProperties.cpp:267
+#: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduler RPC deferred for"
 msgstr "დამგეგმის კომუნიკაცია გადადებულია "
 
-#: clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:272
 msgid "File downloads deferred for"
 msgstr "ფაილების გადმოტვირთვა გადადებულია"
 
-#: clientgui/DlgItemProperties.cpp:273
+#: clientgui/DlgItemProperties.cpp:275
 msgid "File uploads deferred for"
 msgstr "ფაილების ატვირთვა გადადებულია"
 
-#: clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:277
 msgid "Disk usage"
 msgstr "დისკის გამოყენება"
 
-#: clientgui/DlgItemProperties.cpp:276
+#: clientgui/DlgItemProperties.cpp:278
 msgid "Computer ID"
 msgstr "კომპიუტერის იდ"
 
-#: clientgui/DlgItemProperties.cpp:278
+#: clientgui/DlgItemProperties.cpp:280
 msgid "Non CPU intensive"
 msgstr "არა ცპ ინტენსიური"
 
-#: clientgui/DlgItemProperties.cpp:278 clientgui/DlgItemProperties.cpp:280
-#: clientgui/DlgItemProperties.cpp:281 clientgui/DlgItemProperties.cpp:283
-#: clientgui/DlgItemProperties.cpp:286 clientgui/DlgItemProperties.cpp:295
-#: clientgui/DlgItemProperties.cpp:298 clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:283 clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:288 clientgui/DlgItemProperties.cpp:297
+#: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:303
 msgid "yes"
 msgstr "დიახ"
 
-#: clientgui/DlgItemProperties.cpp:280
+#: clientgui/DlgItemProperties.cpp:282
 msgid "Suspended via GUI"
 msgstr "შეჩერებულია გმი-ს მეშვეობით"
 
-#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:281
+#: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:283
 msgid "no"
 msgstr "არა"
 
-#: clientgui/DlgItemProperties.cpp:281
+#: clientgui/DlgItemProperties.cpp:283
 msgid "Don't request tasks"
 msgstr "არ მოხდეს დავალებების მოთხოვნა"
 
-#: clientgui/DlgItemProperties.cpp:283
+#: clientgui/DlgItemProperties.cpp:285
 msgid "Scheduler call in progress"
 msgstr "მიმდინარეობს განრიგის გამოძახება"
 
-#: clientgui/DlgItemProperties.cpp:286
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Trickle-up pending"
 msgstr "ტრიქლ-აპის მოლოდინი"
 
-#: clientgui/DlgItemProperties.cpp:289 clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:291 clientgui/DlgItemProperties.cpp:293
 msgid "Host location"
 msgstr "ჰოსტის ადგილმდებარეობა"
 
-#: clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:293
 msgid "default"
 msgstr "გაჩუმების პრინციპით დაყენებული"
 
-#: clientgui/DlgItemProperties.cpp:295
+#: clientgui/DlgItemProperties.cpp:297
 msgid "Added via account manager"
 msgstr "დამატებულია ანგარიშის მმართველის მიერ"
 
-#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:300
 msgid "Remove when tasks done"
 msgstr "წაშლა დავალებების დასრულებისას"
 
-#: clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:303
 msgid "Ended"
 msgstr "დასრულდა"
 
-#: clientgui/DlgItemProperties.cpp:303
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Tasks completed"
 msgstr "დავალებები შესრულდა"
 
-#: clientgui/DlgItemProperties.cpp:304
+#: clientgui/DlgItemProperties.cpp:306
 msgid "Tasks failed"
 msgstr "დავალებების შესრულება ვერ მოხერხდა"
 
-#: clientgui/DlgItemProperties.cpp:306
+#: clientgui/DlgItemProperties.cpp:308
 msgid "Credit"
 msgstr "კრედიტი"
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:309
 msgid "User"
 msgstr "მომხმარებელ"
 
-#: clientgui/DlgItemProperties.cpp:310 clientgui/DlgItemProperties.cpp:318
+#: clientgui/DlgItemProperties.cpp:312 clientgui/DlgItemProperties.cpp:320
 #, c-format
 msgid "%s total, %s average"
 msgstr "%s სულ, %s საშუალოდ"
 
-#: clientgui/DlgItemProperties.cpp:315
+#: clientgui/DlgItemProperties.cpp:317
 msgid "Host"
 msgstr "ჰოსტი"
 
-#: clientgui/DlgItemProperties.cpp:325
+#: clientgui/DlgItemProperties.cpp:327
 msgid "Scheduling"
 msgstr "განრიგი"
 
-#: clientgui/DlgItemProperties.cpp:326
+#: clientgui/DlgItemProperties.cpp:328
 msgid "Scheduling priority"
 msgstr "განრიგის პრიორიტეტი"
 
-#: clientgui/DlgItemProperties.cpp:327
+#: clientgui/DlgItemProperties.cpp:329
 msgid "CPU"
 msgstr "ცპ"
 
-#: clientgui/DlgItemProperties.cpp:351
+#: clientgui/DlgItemProperties.cpp:353
 msgid "Duration correction factor"
 msgstr "ხანგრძლიობის კორექტირების ფაქტორი"
 
-#: clientgui/DlgItemProperties.cpp:359
+#: clientgui/DlgItemProperties.cpp:361
 msgid "Last scheduler reply"
 msgstr "ბოლო განრიგის მმართველის პასუხი"
 
-#: clientgui/DlgItemProperties.cpp:369
+#: clientgui/DlgItemProperties.cpp:371
 msgid "Properties of task "
 msgstr "დავალების თვისებები"
 
-#: clientgui/DlgItemProperties.cpp:381 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:266
 msgid "Application"
 msgstr "აპლიკაცია"
 
-#: clientgui/DlgItemProperties.cpp:382 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:267
 msgid "Name"
 msgstr "სახელი"
 
-#: clientgui/DlgItemProperties.cpp:383
+#: clientgui/DlgItemProperties.cpp:385
 msgid "State"
 msgstr "მდგომარეობა"
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:388
 msgid "Received"
 msgstr "მიღებულია"
 
-#: clientgui/DlgItemProperties.cpp:389
+#: clientgui/DlgItemProperties.cpp:391
 msgid "Report deadline"
 msgstr "დაბრუნების ვადა"
 
-#: clientgui/DlgItemProperties.cpp:391
+#: clientgui/DlgItemProperties.cpp:393
 msgid "Resources"
 msgstr "რესურსები"
 
-#: clientgui/DlgItemProperties.cpp:394
+#: clientgui/DlgItemProperties.cpp:396
 msgid "Estimated computation size"
 msgstr "მიახლოებითი გამოთვლის ზომა"
 
-#: clientgui/DlgItemProperties.cpp:409
+#: clientgui/DlgItemProperties.cpp:411
 msgid "Keywords"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:415 clientgui/DlgItemProperties.cpp:442
+#: clientgui/DlgItemProperties.cpp:417 clientgui/DlgItemProperties.cpp:444
 msgid "CPU time"
 msgstr "ცპ-ს დრო"
 
-#: clientgui/DlgItemProperties.cpp:416
+#: clientgui/DlgItemProperties.cpp:418
 msgid "CPU time since checkpoint"
 msgstr "ცპ-ს დრო ბოლო მდგომარეობიდან"
 
-#: clientgui/DlgItemProperties.cpp:418 clientgui/DlgItemProperties.cpp:443
+#: clientgui/DlgItemProperties.cpp:420 clientgui/DlgItemProperties.cpp:445
 msgid "Elapsed time"
 msgstr "გასული დრო"
 
-#: clientgui/DlgItemProperties.cpp:420
+#: clientgui/DlgItemProperties.cpp:422
 msgid "Estimated time remaining"
 msgstr "მიახლოებითი დარჩენილი დრო"
 
-#: clientgui/DlgItemProperties.cpp:421
+#: clientgui/DlgItemProperties.cpp:423
 msgid "Fraction done"
 msgstr "შესრულებული პორცია"
 
-#: clientgui/DlgItemProperties.cpp:422
+#: clientgui/DlgItemProperties.cpp:424
 msgid "Virtual memory size"
 msgstr "ვირტუალური მეხსიერების ზომა"
 
-#: clientgui/DlgItemProperties.cpp:423
+#: clientgui/DlgItemProperties.cpp:425
 msgid "Working set size"
 msgstr "სამუშაოს სიმრავლის ზომა"
 
-#: clientgui/DlgItemProperties.cpp:425
+#: clientgui/DlgItemProperties.cpp:427
 msgid "Directory"
 msgstr "საქაღალდე"
 
-#: clientgui/DlgItemProperties.cpp:428
+#: clientgui/DlgItemProperties.cpp:430
 msgid "Process ID"
 msgstr "პროცესის იდ"
 
-#: clientgui/DlgItemProperties.cpp:434 clientgui/DlgItemProperties.cpp:436
-#: clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:436 clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:440
 msgid "Progress rate"
 msgstr "პროგრესის ტემპი"
 
-#: clientgui/DlgItemProperties.cpp:434
+#: clientgui/DlgItemProperties.cpp:436
 msgid "per hour"
 msgstr "საათში"
 
-#: clientgui/DlgItemProperties.cpp:436
+#: clientgui/DlgItemProperties.cpp:438
 msgid "per minute"
 msgstr "წუთში"
 
-#: clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:440
 msgid "per second"
 msgstr "წამში"
 
-#: clientgui/DlgItemProperties.cpp:446
+#: clientgui/DlgItemProperties.cpp:448
 msgid "Executable"
 msgstr "გაშვებადი"
 
-#: clientgui/DlgItemProperties.cpp:511 clientgui/sg_TaskPanel.cpp:824
+#: clientgui/DlgItemProperties.cpp:513 clientgui/sg_TaskPanel.cpp:824
 #: clientgui/ViewWork.cpp:1115
 msgid "Local: "
 msgstr "ადგილობრივი:"
@@ -2718,7 +2718,7 @@ msgstr "შეამოწმეთ მომხმარებლის სა�
 msgid "Check the email address and password, and try again."
 msgstr "შეამოწმეთ ელ.ფოსტის მისამართი და პაროლი, და სცადეთ თავიდან."
 
-#: clientgui/NoticeListCtrl.cpp:229
+#: clientgui/NoticeListCtrl.cpp:236
 msgid "more..."
 msgstr "მეტი..."
 
@@ -3284,19 +3284,19 @@ msgstr "სამუშაო არ არის მისაწვდომი
 msgid "Unable to connect to the core client"
 msgstr "ბირთვ კლიენტთან დაკავშირება ვერ ხერხდება"
 
-#: clientgui/TermsOfUsePage.cpp:218
+#: clientgui/TermsOfUsePage.cpp:233
 msgid "Terms of Use"
 msgstr "გამოყენების პირობები"
 
-#: clientgui/TermsOfUsePage.cpp:222
+#: clientgui/TermsOfUsePage.cpp:237
 msgid "Please read the following terms of use:"
 msgstr "გთხოვთ, წაიკითხოთ შემდეგი გამოყენების პირობები:"
 
-#: clientgui/TermsOfUsePage.cpp:231
+#: clientgui/TermsOfUsePage.cpp:251
 msgid "I agree to the terms of use."
 msgstr "ვეთანხმები გამოყენების პირობებს."
 
-#: clientgui/TermsOfUsePage.cpp:237
+#: clientgui/TermsOfUsePage.cpp:257
 msgid "I do not agree to the terms of use."
 msgstr "არ ვეთანხმები გამოყენების პირობებს."
 
@@ -3828,15 +3828,15 @@ msgstr "დარწმუნებული ხართ, რომ გსუ�
 msgid "Question"
 msgstr "შეკითხვა"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:550
+#: clientgui/wizardex.cpp:386 clientgui/wizardex.cpp:559
 msgid "&Next >"
 msgstr "&წინ >"
 
-#: clientgui/wizardex.cpp:383
+#: clientgui/wizardex.cpp:392
 msgid "< &Back"
 msgstr "< &უკან"
 
-#: clientgui/wizardex.cpp:550
+#: clientgui/wizardex.cpp:559
 msgid "&Finish"
 msgstr "&დასრულება"
 

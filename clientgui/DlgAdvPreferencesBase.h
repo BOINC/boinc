@@ -243,6 +243,7 @@ protected:
     wxButton* m_btnHelp;
     
     wxString *web_prefs_url;
+    bool m_bUsingLocalPrefs;
 
 public:
     CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );

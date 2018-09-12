@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,57 @@
 //  BOINC_Saver_Module
 //
 
+// To debug BOINCSaver.saver under Xcode:
+//
+// [1] Copy ScreenSaverEngine.app to a location outside the /System directory 
+//     to allow bypassing limitations caused by System Integrity Protection
+//
+// [2] Prior to High Sierra ScreenSaverEngine.app is at:
+//     /System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine
+//     As of High Sierra ScreenSaverEngine.app is at:
+//     /System/Library/CoreServices/ScreenSaverEngine.app
+//
+// [3] In Xcode, select the ScreenSaver target as the active scheme. 
+//     Click on the scheme popup and select "Edit scheme ..."
+//
+// [4] In the Edit Scheme dialog, select "Run"
+//
+// [5] In the Edit Scheme dialog Info tab, in the "Build Configuration" popup select "Development"
+//
+// [6] In the Edit Scheme dialog Info tab, in the "Executable" popup select "Other..." 
+//   then browse to and select the copy of ScreenSaverEngine.app you made in step [1]
+//
+// [7] In the Edit Scheme dialog Arguments tab, add "-debug" and "-window" to 
+//     "Arguments passed on launch"
+//
+// [8] In the Finder, open the directory "/Library/Screen Avers" and remove "BOINCSaver.saver"
+//
+// [9] In Xcode's Project navigator, under "Products", control-click on "BOINCSaver.saver" and 
+//     select " Show in Finder"; make sure your are looking at the Development subdirectory.
+//
+// [10] In the Terminal application, enter "sudo ln -s " then drag the BOINCSaver.saver file
+//      from the Development subdirectory onto the Terminal Window, then type 
+//      "/Library/Screen\ Savers/BOINCSaver.saver" (without the quotes) and press the return key.
+//      Enter your password when requested.
+//
+// [12] In Mac_Saver_ModuleView.m, set the "#define DEBUG_UNDER_XCODE" to 1. (Be sure to set it 
+//      back to 0 to build the non-debugging version.)
+//
+// [13] In some cases, it may be useful to set the permissions and owner of gfx_switcher, which is
+//      embedded in the development BOINCSaver.saver bundle, by running the Mac_SA_Secure.sh script.
+//
+// [14] The screensaver display will appear in a window, with graphics apps appearing full screen 
+//      behind it. Under High Sierra, new-style graphics apps (those using Mach-O communication 
+//      and IOSurfaceBuffer) will appear all white, but the bottom left portion of their animation
+//      will appear in the screensaver window.
+//
+// It is best if the Xcode window is on a second display; otherwise the graphics apps will cover it. 
+// If you have only one display, you can dismiss the graphics app by clicking on it, but BOINCSaver
+// will soon relaunch it.
+//
+
+#define DEBUG_UNDER_XCODE 0 // See instructions above
+
 #define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED 1
 
 #import "Mac_Saver_ModuleView.h"
@@ -31,9 +82,7 @@
 #import <OpenGL/gl.h>
 #import <GLKit/GLKit.h>
 #include <servers/bootstrap.h>
-//#import <IOSurface/IOSurface.h>
-//#import <OpenGL/gl3.h>
-//#import <OpenGL/CGLIOSurface.h>
+#include <pthread.h>
 
 #include "mac_util.h"
 #import "MultiGPUMig.h"
@@ -71,6 +120,8 @@ typedef float CGFloat;
 
 static double gSS_StartTime = 0.0;
 mach_port_t gEventHandle = 0;
+extern bool IsDualGPUMacbook;
+extern pthread_mutex_t saver_mutex;
 
 int gGoToBlank;      // True if we are to blank the screen
 int gBlankingTime;   // Delay in minutes before blanking the screen
@@ -103,6 +154,9 @@ static int taskSlot;
 static NSRunningApplication *childApp;
 static double gfxAppStartTime;
 static bool UseSharedOffscreenBuffer(void);
+static double lastGetSSMsgTime;
+static pthread_t mainThreadID;
+static int CGWindowListTries;
 
 
 #define TEXTBOXMINWIDTH 400.0
@@ -115,6 +169,7 @@ static bool UseSharedOffscreenBuffer(void);
 
 // On OS 10.13+, assume graphics app is not compatible if no MachO connection after 5 seconds
 #define MAXWAITFORCONNECTION 5.0
+#define MAX_CGWINDOWLIST_TRIES 3
 
 int signof(float x) {
     return (x > 0.0 ? 1 : -1);
@@ -125,12 +180,16 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     childPid = thePID;
     taskSlot = slot;
     gfxAppStartTime = getDTime();
+    CGWindowListTries = 0;
     if (thePID == 0) {
         useCGWindowList = false;
         gfxAppStartTime = 0.0;
         if (imageView) {
-            [imageView removeFromSuperview];   // Releases imageView
-            imageView = nil;
+            // removeFromSuperview must be called from main thread
+            if (pthread_equal(mainThreadID, pthread_self())) {
+                [imageView removeFromSuperview];   // Releases imageView
+                imageView = nil;
+            }
         }
     }
 }
@@ -151,6 +210,8 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     int period;
 
     gEventHandle = NXOpenEventStatus();
+    
+    mainThreadID = pthread_self();
 
     initBOINCSaver();
 
@@ -250,10 +311,27 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         return;
     }
     
-    newFrequency = startBOINCSaver();  
-    if (newFrequency)
-        [ self setAnimationTimeInterval:1.0/newFrequency ];
+    NSWindow *myWindow = [ self window ];
+#if DEBUG_UNDER_XCODE
+    [ myWindow setLevel:2030 ]; 
+#else   // NOT DEBUG_UNDER_XCODE
+    NSRect windowFrame = [ myWindow frame ];
+    if ( (windowFrame.origin.x == 0) && (windowFrame.origin.y == 0) )   // Main screen
+#endif  // NOT DEBUG_UNDER_XCODE
+    {
+        // If a dual-GPU MacBook Pro was using integrated GPU, switching to discrete GPU will
+        // cause ScreenSaverEngine to call stopAnimation, initWithFrame and startAnimation.
+        // This will destroy the old ScreenSaverView and create a new one, so we need to 
+        // pass our new ScreenSaverView to our SharedGraphicsController.
+        if (mySharedGraphicsController) {
+            [mySharedGraphicsController init:self];
+        }
 
+        newFrequency = startBOINCSaver();  
+        if (newFrequency) {
+            [ self setAnimationTimeInterval:1.0/newFrequency ];
+        }
+    }
     gSS_StartTime = getDTime();
 }
 
@@ -300,7 +378,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     char *msg;
     CFStringRef cf_msg;
     double timeToBlock, frameStartTime = getDTime();
-    double          idleTime = 0;
     HIThemeTextInfo textInfo;
 
    if ([ self isPreview ]) {
@@ -322,32 +399,23 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [ self setAnimationTimeInterval:1/30.0 ];
 #endif
         return;
-    } else {
-        NSWindow *myWindow = [ self window ];
-        NSRect windowFrame = [ myWindow frame ];
-        if ( (windowFrame.origin.x == 0) && (windowFrame.origin.y == 0) ) { // Main screen
-            // On OS 10.13 or later, use MachO comunication and IOSurfaceBuffer to
-            // display the graphics output of our child graphics apps in our window.
-            if (UseSharedOffscreenBuffer() && !mySharedGraphicsController) {
-                mySharedGraphicsController = [[SharedGraphicsController alloc] init:self] ;
-            }
-        }
     }
 
+    NSWindow *myWindow = [ self window ];
+
+#if ! DEBUG_UNDER_XCODE
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
     // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-           idleTime =  CGEventSourceSecondsSinceLastEventType
+           double idleTime =  CGEventSourceSecondsSinceLastEventType
                     (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
         if (idleTime < 1.5) {
             [ NSApp terminate:nil ];
         }
     }
-
-   myContext = [[NSGraphicsContext currentContext] graphicsPort];
-//    [myContext retain];
+#endif  // NOT DEBUG_UNDER_XCODE
     
-    NSWindow *myWindow = [ self window ];
+#if ! DEBUG_UNDER_XCODE
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
@@ -360,9 +428,12 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 #endif
         return;         // We draw only to main screen
     }
+#endif  // NOT DEBUG_UNDER_XCODE
 
-	// On OS 10.13 or later, use MachO comunication and IOSurfaceBuffer to
-	// display the graphics output of our child graphics apps in our window.
+   myContext = [[NSGraphicsContext currentContext] graphicsPort];
+
+    // On OS 10.13 or later, use MachO comunication and IOSurfaceBuffer to
+    // display the graphics output of our child graphics apps in our window.
     // Graphics apps linked with our current libraries have support for
     // MachO comunication and IOSurfaceBuffer.
     //
@@ -371,6 +442,11 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // but this is far slower because it does not take advantage of GPU
     // acceleration, so it uses more CPU and animation may not appear smooth.
     //
+    if (UseSharedOffscreenBuffer() && !mySharedGraphicsController) {
+        mySharedGraphicsController = [SharedGraphicsController alloc];
+        [mySharedGraphicsController init:self];
+    }
+
     if (runningSharedGraphics || useCGWindowList ) {
         // Since ScreensaverEngine.app is running in the foreground, our child
         // graphics app may not get enough CPU cycles for good animation.
@@ -398,23 +474,49 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
                 launchedGfxApp("", 0, -1);  // Graphics app is no longer running
              }
              if (useCGWindowList) {
-                CGImageRef windowImage = CGWindowListCreateImage(CGRectNull,
-                                            kCGWindowListOptionIncludingWindow,
-                                            gfxAppWindowNum,
-                                            kCGWindowImageBoundsIgnoreFraming);
-                if (windowImage) {
-                    // Create a bitmap rep from the image...
-                    NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];
-                    // Create an NSImage and add the bitmap rep to it...
-                    NSImage *image = [[NSImage alloc] init];
-                    [image addRepresentation:bitmapRep];
-                    [image drawInRect:[self frame]];
-                    CGImageRelease(windowImage);
+                // As a safety precaution, prevent terminating gfx app while copying its window
+                pthread_mutex_lock(&saver_mutex);
+
+                // terminate_v6_screensaver may have removed imageView via launchedGfxApp("", 0, -1)
+                if (imageView) {
+                    CGImageRef windowImage = CGWindowListCreateImage(CGRectNull,
+                                                kCGWindowListOptionIncludingWindow,
+                                                gfxAppWindowNum,
+                                                kCGWindowImageBoundsIgnoreFraming);
+                    if (windowImage) {
+                        // Create a bitmap rep from the image...
+                        NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage:windowImage];
+                        // Create an NSImage and add the bitmap rep to it...
+                        NSImage *image = [[NSImage alloc] init];
+                        [image addRepresentation:bitmapRep];
+                        [image drawInRect:[self frame]];
+                        CGImageRelease(windowImage);
+                    }
                 }
+
+                pthread_mutex_unlock(&saver_mutex);
             }
         }
+        
         isErased = false;
+        if (IsDualGPUMacbook) {
+            // Check once per second for change in status of running on battery 
+            double timeNow = getDTime();
+            if ((timeNow - lastGetSSMsgTime) >= 1.0) {
+                getSSMessage(&msg, &coveredFreq);
+                lastGetSSMsgTime = timeNow;
+            }
+            windowIsCovered();
+            [ self setAnimationTimeInterval:1.0 ];
+        }
+        
         return;
+    }
+
+    if (imageView && !useCGWindowList) {
+        // removeFromSuperview must be called from main thread
+        [imageView removeFromSuperview];   // Releases imageView
+        imageView = nil;
     }
 
     NSRect viewBounds = [self bounds];
@@ -423,12 +525,22 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
     if (UseSharedOffscreenBuffer()) {
         // If runningSharedGraphics is still false after MAXWAITFORCONNECTION,
-        // assume graphics app is not compatible with OS 10.13+ and kill it.
+        // assume the graphics app has not been built with MachO comunication
+        // and IOSurfaceBuffer support, so try to use CGWindowListCreateImage 
+        // method. If that fails MAX_CGWINDOWLIST_TRIES times then assume 
+        // the graphics app is not compatible with OS 10.13+ and kill it.
         if (gfxAppStartTime) {
             if ((getDTime() - gfxAppStartTime)> MAXWAITFORCONNECTION) {
-                gfxAppStartTime = 0.0;
-                if ([self setUpToUseCGWindowList] == false) {
+                if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
+                    // After displaying message for 5 seconds, incompatibleGfxApp
+                    // will call launchedGfxApp("", 0, -1) which will clear 
+                    // gfxAppStartTime and CGWindowListTries
                     incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                } else {
+                    if ([self setUpToUseCGWindowList]) {
+                        CGWindowListTries = 0;
+                        gfxAppStartTime = 0.0;
+                    }
                 }
             }
         }
@@ -631,7 +743,9 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     
     // Check for a new graphics app sending us data
     if (UseSharedOffscreenBuffer() && gfxAppStartTime) {
-        [mySharedGraphicsController testConnection];
+        if (mySharedGraphicsController) {
+            [mySharedGraphicsController testConnection];
+        }
     }
 }
 
@@ -833,15 +947,16 @@ static bool okToDraw;
 
 @implementation SharedGraphicsController
 
-- (instancetype)init:(NSView*)saverView {
+- (void)init:(NSView*)saverView {
     screenSaverView = saverView;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-	    selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
-	
-    [self testConnection];
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+        name:NSPortDidBecomeInvalidNotification object:nil];
     
-    return self;
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+        selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
+    
+    [self testConnection];
 }
 
 

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 // This file contains:
 // 1) functions to clear and parse the various structs
@@ -170,6 +170,9 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) {
             continue;
         }
+        if (xp.parse_string("web_url", web_url)) {
+            continue;
+        }
         if (xp.parse_string("general_area", general_area)) continue;
         if (xp.parse_string("specific_area", specific_area)) continue;
         if (xp.parse_string("description", description)) {
@@ -193,6 +196,7 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
 void PROJECT_LIST_ENTRY::clear() {
     name.clear();
     url.clear();
+    web_url.clear();
     general_area.clear();
     specific_area.clear();
     description.clear();
@@ -1323,7 +1327,14 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.match_tag("terms_of_use")) {
             char buf[65536];
             if (!xp.element_contents("</terms_of_use>", buf, sizeof(buf))) {
+                // HTML TOU can have no open/close html tags
+                // so I see no proper way to identify
+                // whether it is html or plain text
+                // and I have to use this dirty hack
+                const string tou = buf;
+                xml_unescape(buf);
                 terms_of_use = buf;
+                terms_of_use_is_html = terms_of_use != tou;
             }
             continue;
         }
@@ -1345,6 +1356,7 @@ void PROJECT_CONFIG::clear() {
     master_url.clear();
     web_rpc_url_base.clear();
     error_msg.clear();
+    terms_of_use_is_html = false;
     terms_of_use.clear();
     local_revision = 0;
     min_passwd_length = 6;
@@ -2624,7 +2636,7 @@ int RPC_CLIENT::get_app_config(const char* url, APP_CONFIGS& config) {
     MSG_VEC mv;
     char buf[1024];
 
-    sprintf(buf,
+    snprintf(buf, sizeof (buf),
         "<get_app_config>\n"
         "    <url>%s</url>\n"
         "</get_app_config>\n",

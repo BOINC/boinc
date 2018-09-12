@@ -37,6 +37,7 @@ require_once("../inc/bootstrap.inc");
 // parse some stuff from config (do it here for efficiency)
 //
 $config = get_config();
+global $master_url;
 $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
@@ -927,6 +928,9 @@ function get_app_types() {
     $avs = BoincAppVersion::enum("deprecated=0");
     foreach ($avs as $av) {
         if (strstr($av->plan_class, "ati")) {
+            $t->ati = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "amd")) {
             $t->ati = true;
             $t->count++;
         } else if (strstr($av->plan_class, "cuda")) {

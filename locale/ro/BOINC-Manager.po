@@ -4,6 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Christian Beer <christian.beer@posteo.de>, 2018
 # Cristian Belei <bicscoala@yahoo.com>, 2017
 # I. F. <ifettich@netsoft.ro>, 2017
 # Marius Sirbu <marius.sirbu@outlook.com>, 2015
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-11-10 08:32+0000\n"
-"Last-Translator: I. F. <ifettich@netsoft.ro>\n"
+"POT-Creation-Date: 2018-06-24 11:44 UTC\n"
+"PO-Revision-Date: 2018-06-24 13:13+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/boinc/boinc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,36 +23,36 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: clientgui/AccountInfoPage.cpp:352
+#: clientgui/AccountInfoPage.cpp:353
 #, c-format
 msgid "Identify your account at %s"
 msgstr "Identificaţi contul dumneavoastră la %s"
 
-#: clientgui/AccountInfoPage.cpp:358
+#: clientgui/AccountInfoPage.cpp:359
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr "Vă rugăm introduceţi informaţiile contului\n(pentru a crea una cont, vizitaţi situl web al proiectului)"
 
-#: clientgui/AccountInfoPage.cpp:362
+#: clientgui/AccountInfoPage.cpp:363
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr "Acest proiect nu acceptă noi conturi.\nPuteţi să îl adăugaţi doar dacă aveţi deja un cont."
 
-#: clientgui/AccountInfoPage.cpp:366
+#: clientgui/AccountInfoPage.cpp:367
 msgid "Are you already running this project?"
 msgstr "Rulaţi deja acest proiect?"
 
-#: clientgui/AccountInfoPage.cpp:370
+#: clientgui/AccountInfoPage.cpp:371
 msgid "&No, new user"
 msgstr "&Nu, utilizator nou"
 
-#: clientgui/AccountInfoPage.cpp:373
+#: clientgui/AccountInfoPage.cpp:374
 msgid "&Yes, existing user"
 msgstr "&Da, utilizator existent"
 
-#: clientgui/AccountInfoPage.cpp:378
+#: clientgui/AccountInfoPage.cpp:379
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -61,85 +62,85 @@ msgid ""
 "password fields."
 msgstr "Nu s-au putut seta informaţiile contului\nautomat.\n\nVă rugăm selectaţi 'Caută informaţii login'\nmai jos pentru a afla ce trebuie să introduceţi în\ncâmpurile adresă de email şi parolă."
 
-#: clientgui/AccountInfoPage.cpp:381
+#: clientgui/AccountInfoPage.cpp:382
 msgid "Find login information"
 msgstr "Caută informaţii login"
 
-#: clientgui/AccountInfoPage.cpp:401 clientgui/AccountInfoPage.cpp:623
+#: clientgui/AccountInfoPage.cpp:402 clientgui/AccountInfoPage.cpp:624
 msgid "&Password:"
 msgstr "&Parola:"
 
-#: clientgui/AccountInfoPage.cpp:408 clientgui/AccountInfoPage.cpp:647
+#: clientgui/AccountInfoPage.cpp:409 clientgui/AccountInfoPage.cpp:648
 msgid "Choose a &password:"
 msgstr "Alegeţi o &parolă:"
 
-#: clientgui/AccountInfoPage.cpp:411
+#: clientgui/AccountInfoPage.cpp:412
 msgid "C&onfirm password:"
 msgstr "C&onfirmaţi parola:"
 
-#: clientgui/AccountInfoPage.cpp:418
+#: clientgui/AccountInfoPage.cpp:419
 #, c-format
 msgid "Are you already running %s?"
 msgstr "Rulaţi deja %s?"
 
-#: clientgui/AccountInfoPage.cpp:447
+#: clientgui/AccountInfoPage.cpp:448
 msgid "&Username:"
 msgstr "Nume &utilizator:"
 
-#: clientgui/AccountInfoPage.cpp:476
+#: clientgui/AccountInfoPage.cpp:477
 msgid "&Email address or LDAP ID:"
 msgstr "Adresă &email sau ID LDAP:"
 
-#: clientgui/AccountInfoPage.cpp:480
+#: clientgui/AccountInfoPage.cpp:481
 msgid "&Email address:"
 msgstr "Adresa &email:"
 
-#: clientgui/AccountInfoPage.cpp:488
+#: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "minimum length %d"
 msgstr "lungime minimă %d"
 
-#: clientgui/AccountInfoPage.cpp:495
+#: clientgui/AccountInfoPage.cpp:496
 msgid "Forgot your password?"
 msgstr "Aţi uitat parola?"
 
-#: clientgui/AccountInfoPage.cpp:502
+#: clientgui/AccountInfoPage.cpp:503
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr "Daca nu v-aţi înregistrat deja la acest manager de cont,\nvă rugăm să o faceţi înainte de a continua.  Selectaţi legătura\nde mai jos pentru a vă înregistra sau a regăsi o parolă uitată."
 
-#: clientgui/AccountInfoPage.cpp:505
+#: clientgui/AccountInfoPage.cpp:506
 msgid "Account manager web site"
 msgstr "Website manager de cont"
 
-#: clientgui/AccountInfoPage.cpp:547
+#: clientgui/AccountInfoPage.cpp:548
 msgid "Add project"
 msgstr "Adaugă proiect"
 
-#: clientgui/AccountInfoPage.cpp:549
+#: clientgui/AccountInfoPage.cpp:550
 msgid "Update account manager"
 msgstr "Actualizează managerul de cont"
 
-#: clientgui/AccountInfoPage.cpp:551
+#: clientgui/AccountInfoPage.cpp:552
 msgid "Use account manager"
 msgstr "Utilizaţi manager de cont"
 
-#: clientgui/AccountInfoPage.cpp:558
+#: clientgui/AccountInfoPage.cpp:559
 msgid "Please enter a user name."
 msgstr "Vă rugăm specificaţi un nume de utilizator."
 
-#: clientgui/AccountInfoPage.cpp:560
+#: clientgui/AccountInfoPage.cpp:561
 msgid "Please enter an email address."
 msgstr "Vă rugăm specificaţi o adresă de email."
 
-#: clientgui/AccountInfoPage.cpp:570
+#: clientgui/AccountInfoPage.cpp:571
 #, c-format
 msgid "Please enter a password of at least %d characters."
 msgstr "Vă rugăm să introduceţi o parolă cu cel puţin %d caractere."
 
-#: clientgui/AccountInfoPage.cpp:580
+#: clientgui/AccountInfoPage.cpp:581
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr "Parola si confirmarea parolei nu sunt identice. Vă rugăm să le reintroduceţi."
@@ -212,7 +213,7 @@ msgstr "Deschideți o altă fereastră %s"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Select computer...\tCtrl+Shift+I"
-msgstr "Selectați computerul...⇥Ctrl+Shift+I"
+msgstr "Selectați computerul...\tCtrl+Shift+I"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Connect to a BOINC client on another computer"
@@ -559,7 +560,7 @@ msgid "&Tools"
 msgstr "&Unelte"
 
 #: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:306
-#: clientgui/wizardex.cpp:374 clientgui/wizardex.cpp:381
+#: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&Ajutor"
 
@@ -639,27 +640,27 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr "Exista deja un cont cu această adresă de email,\ndar cu o parolă diferită de cea pe care aţi introdus-o dvs.\n\nVa rugăm accesaţi web site-ul proiectului si urmaţi instrucţiunile de acolo."
 
-#: clientgui/AsyncRPC.cpp:1044
+#: clientgui/AsyncRPC.cpp:1035
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Se comunică cu clientul BOINC.  Vă rugăm aşteptaţi ..."
 
-#: clientgui/AsyncRPC.cpp:1047
+#: clientgui/AsyncRPC.cpp:1038
 #, c-format
 msgid "&Quit %s"
 msgstr "&Închide %s"
 
-#: clientgui/AsyncRPC.cpp:1049
+#: clientgui/AsyncRPC.cpp:1040
 #, c-format
 msgid "E&xit %s"
 msgstr "I&eşire %s"
 
-#: clientgui/AsyncRPC.cpp:1053
+#: clientgui/AsyncRPC.cpp:1044
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Comunicaţie"
 
-#: clientgui/AsyncRPC.cpp:1069 clientgui/DlgAdvPreferencesBase.cpp:167
-#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgExclusiveApps.cpp:151
+#: clientgui/AsyncRPC.cpp:1060 clientgui/DlgAdvPreferencesBase.cpp:167
+#: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:357
 msgid "Cancel"
 msgstr "Anulează"
@@ -794,7 +795,7 @@ msgstr "%s s-a deconectat cu succes de la Internet."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s nu a reuşit să se deconecteze de la Internet."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:316
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -805,94 +806,94 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr "Nu sunteți autorizat să administrați %s.\n\nPentru a rula %s:\n- reinstalați %srăspunzînd \"Da\" la întrebarea despre utilizatori fără drepturi de administrare\nsau\n- contactați administratorul pentru a vă adăuga în grupul de utilizatori 'boinc_master'.     "
 
-#: clientgui/BOINCGUIApp.cpp:319
+#: clientgui/BOINCGUIApp.cpp:324
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s proprietatea sau permisiunile nu sunt setate corespunzător; vă rugăm reinstalaţi %s.\n(Cod eroare %d"
 
-#: clientgui/BOINCGUIApp.cpp:325
+#: clientgui/BOINCGUIApp.cpp:330
 msgid " at "
 msgstr " la "
 
-#: clientgui/BOINCGUIApp.cpp:328 clientgui/MainDocument.cpp:2512
+#: clientgui/BOINCGUIApp.cpp:333 clientgui/MainDocument.cpp:2512
 #: clientgui/MainDocument.cpp:2571 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:358
+#: clientgui/BOINCGUIApp.cpp:363
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "O repornire a calculatorului este necesară pentru ca BOINC să ruleze corespunzător.\nVă rugăm reporniţi calculatorul şi încercaţi din nou."
 
-#: clientgui/BOINCGUIApp.cpp:359 clientgui/DlgAbout.cpp:153
+#: clientgui/BOINCGUIApp.cpp:364 clientgui/DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCGUIApp.cpp:585
+#: clientgui/BOINCGUIApp.cpp:590
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Managerul BOINC a fost pornit automat de către sistemul de operare"
 
-#: clientgui/BOINCGUIApp.cpp:587
+#: clientgui/BOINCGUIApp.cpp:592
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Rulează BOINC numai în System Tray"
 
-#: clientgui/BOINCGUIApp.cpp:589
+#: clientgui/BOINCGUIApp.cpp:594
 msgid "Directory containing the BOINC Client executable"
 msgstr "Directorul care conţine executabilul Clientului BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:590
+#: clientgui/BOINCGUIApp.cpp:595
 msgid "BOINC data directory"
 msgstr "Director date BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:592
+#: clientgui/BOINCGUIApp.cpp:597
 msgid "Host name or IP address"
 msgstr "Nume gazdă sau adresă IP"
 
-#: clientgui/BOINCGUIApp.cpp:593
+#: clientgui/BOINCGUIApp.cpp:598
 msgid "GUI RPC port number"
 msgstr "număr port GUI RPC"
 
-#: clientgui/BOINCGUIApp.cpp:594
+#: clientgui/BOINCGUIApp.cpp:599
 msgid "Password"
 msgstr "Parola"
 
-#: clientgui/BOINCGUIApp.cpp:595
+#: clientgui/BOINCGUIApp.cpp:600
 msgid "Startup BOINC with these optional arguments"
 msgstr "Porneşte BOINC cu aceste argumente opţionale"
 
-#: clientgui/BOINCGUIApp.cpp:596
+#: clientgui/BOINCGUIApp.cpp:601
 msgid "disable BOINC security users and permissions"
 msgstr "dezactivează utilizatorii şi permisiunile de securitate BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:597
+#: clientgui/BOINCGUIApp.cpp:602
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "setează skin în modul de depanare pentru a activa mesajele de eroare ale managerului de skin-uri"
 
-#: clientgui/BOINCGUIApp.cpp:598
+#: clientgui/BOINCGUIApp.cpp:603
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "sunt permise mai multe insanţe ale Managerului BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:600
+#: clientgui/BOINCGUIApp.cpp:605
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Nefolosit: soluţie temporară pentru bug în XCode 4.2"
 
-#: clientgui/BOINCGUIApp.cpp:602
+#: clientgui/BOINCGUIApp.cpp:607
 msgid "Don't run the client"
 msgstr "Trebuie să NU rulați clientul"
 
 #. These are just special tags so deal with them in a special way
-#: clientgui/BOINCGUIApp.cpp:870
+#: clientgui/BOINCGUIApp.cpp:875
 msgid "(Automatic Detection)"
 msgstr "(Detectare Automata)"
 
-#: clientgui/BOINCGUIApp.cpp:871
+#: clientgui/BOINCGUIApp.cpp:876
 msgid "(Unknown)"
 msgstr "(Necunoscut)"
 
-#: clientgui/BOINCGUIApp.cpp:872
+#: clientgui/BOINCGUIApp.cpp:877
 msgid "(User Defined)"
 msgstr "(Definit de utilizator)"
 
@@ -1065,9 +1066,9 @@ msgstr "Drepturi de autor:"
 
 #: clientgui/DlgAbout.cpp:192
 msgid ""
-"(C) 2003-2017 University of California, Berkeley.\n"
+"(C) 2003-2018 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2017 University of California, Berkeley.\nToate drepturile rezervate."
+msgstr ""
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
@@ -1129,7 +1130,7 @@ msgid "Daily schedules"
 msgstr "Programe zilnice"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
-#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgExclusiveApps.cpp:146
+#: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
 #: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
 msgid "Save"
 msgstr "Salvează"
@@ -1583,41 +1584,41 @@ msgstr "Renunțați la preferințele locale și folosiți preferințele de pe we
 msgid "Confirmation"
 msgstr "Confirmare"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:67
+#: clientgui/DlgDiagnosticLogFlags.cpp:66
 #, c-format
 msgid "%s Diagnostic Log Flags"
 msgstr "%s Flag-uri Jurnal Diagnostic"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:85
+#: clientgui/DlgDiagnosticLogFlags.cpp:84
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
 msgstr "Aceste flag-uri activează diverse tipuri de mesaje de diagnostic în Jurnalul de Evenimente."
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:101
+#: clientgui/DlgDiagnosticLogFlags.cpp:100
 msgid "More info ..."
 msgstr "Mai multe informaţii ..."
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:122 clientgui/DlgHiddenColumns.cpp:101
+#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
 msgstr "Salvează toate valorile și închide dialogul"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:104
+#: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
 msgstr "Implicite"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:126 clientgui/DlgHiddenColumns.cpp:105
+#: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
 msgstr "Restaurează setările implicite"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:130 clientgui/DlgHiddenColumns.cpp:109
+#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
 msgstr "Închide dialogul fără a salva"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:133
+#: clientgui/DlgDiagnosticLogFlags.cpp:132
 msgid "Apply"
 msgstr "Aplică"
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:134
+#: clientgui/DlgDiagnosticLogFlags.cpp:133
 msgid "Save all values"
 msgstr "Salvează toate valorile"
 
@@ -1642,24 +1643,24 @@ msgstr "Timp"
 msgid "Message"
 msgstr "Mesaj"
 
-#: clientgui/DlgEventLog.cpp:296 clientgui/DlgEventLog.cpp:346
+#: clientgui/DlgEventLog.cpp:330 clientgui/DlgEventLog.cpp:380
 msgid "&Show only this project"
 msgstr "&Arată doar acest proiect"
 
-#: clientgui/DlgEventLog.cpp:300 clientgui/DlgItemProperties.cpp:73
+#: clientgui/DlgEventLog.cpp:334 clientgui/DlgItemProperties.cpp:74
 msgid "Copy &All"
 msgstr "Copi&ază Tot"
 
-#: clientgui/DlgEventLog.cpp:302 clientgui/DlgEventLog.cpp:306
+#: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:340
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Copiază toate mesajele in clipboard."
 
-#: clientgui/DlgEventLog.cpp:311 clientgui/DlgItemProperties.cpp:76
+#: clientgui/DlgEventLog.cpp:345 clientgui/DlgItemProperties.cpp:77
 msgid "Copy &Selected"
 msgstr "Copiază &Selectate"
 
-#: clientgui/DlgEventLog.cpp:314 clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:348 clientgui/DlgEventLog.cpp:356
 #: clientgui/ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1667,7 +1668,7 @@ msgid ""
 "messages."
 msgstr "Copiază mesajele selectate in clipboard. Puteţi selecta mai multe mesaje prin apăsarea si menţinerea tastelor shift sau control în timp ce selectaţi cu mouse-ul mesajele."
 
-#: clientgui/DlgEventLog.cpp:316 clientgui/DlgEventLog.cpp:324
+#: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:358
 #: clientgui/ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1675,19 +1676,19 @@ msgid ""
 "messages."
 msgstr "Copiază mesajele selectate in clipboard. Puteţi selecta mai multe mesaje prin apăsarea si menţinerea tastelor shift sau control în timp ce selectaţi cu mouse-ul mesajele."
 
-#: clientgui/DlgEventLog.cpp:331 clientgui/DlgItemProperties.cpp:79
+#: clientgui/DlgEventLog.cpp:365 clientgui/DlgItemProperties.cpp:81
 msgid "&Close"
 msgstr "&Închide"
 
-#: clientgui/DlgEventLog.cpp:340
+#: clientgui/DlgEventLog.cpp:374
 msgid "Show all &messages"
 msgstr "Arată toate &mesajele"
 
-#: clientgui/DlgEventLog.cpp:341 clientgui/DlgEventLog.cpp:343
+#: clientgui/DlgEventLog.cpp:375 clientgui/DlgEventLog.cpp:377
 msgid "Show messages for all projects"
 msgstr "Arată mesaje de la toate proiectele"
 
-#: clientgui/DlgEventLog.cpp:347 clientgui/DlgEventLog.cpp:349
+#: clientgui/DlgEventLog.cpp:381 clientgui/DlgEventLog.cpp:383
 msgid "Show only the messages for the selected project"
 msgstr "Arată doar mesajele pentru proiectul selectat"
 
@@ -1811,7 +1812,7 @@ msgstr "Ţine minte această decizie şi nu mai arăta acest dialog."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:414 clientgui/DlgSelectComputer.cpp:168
-#: clientgui/wizardex.cpp:378
+#: clientgui/wizardex.cpp:387
 msgid "&Cancel"
 msgstr "&Renunţă"
 
@@ -1839,273 +1840,273 @@ msgstr "Sunteți sigur că doriți resetarea coloanelor listei la configurația 
 msgid "Confirm defaults"
 msgstr "Confirmați implicite"
 
-#: clientgui/DlgItemProperties.cpp:204 clientgui/DlgItemProperties.cpp:207
-#: clientgui/DlgItemProperties.cpp:210 clientgui/DlgItemProperties.cpp:213
+#: clientgui/DlgItemProperties.cpp:206 clientgui/DlgItemProperties.cpp:209
+#: clientgui/DlgItemProperties.cpp:212 clientgui/DlgItemProperties.cpp:215
 msgid "Don't request tasks for "
 msgstr "Nu cere sarcini pentru"
 
-#: clientgui/DlgItemProperties.cpp:204
+#: clientgui/DlgItemProperties.cpp:206
 msgid "Project preference"
 msgstr "Preferinţe proiect"
 
-#: clientgui/DlgItemProperties.cpp:207
+#: clientgui/DlgItemProperties.cpp:209
 msgid "Account manager preference"
 msgstr "Preferinţe manager de cont"
 
-#: clientgui/DlgItemProperties.cpp:210
+#: clientgui/DlgItemProperties.cpp:212
 msgid "Project has no apps for "
 msgstr "Proiectul nu are aplicaţii pentru "
 
-#: clientgui/DlgItemProperties.cpp:213
+#: clientgui/DlgItemProperties.cpp:215
 msgid "Client configuration excludes "
 msgstr "Configurarea client exclude "
 
-#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:221
 #, c-format
 msgid "%s task request deferred for"
 msgstr "%s cerere de sarcină amânată pentru"
 
-#: clientgui/DlgItemProperties.cpp:223
+#: clientgui/DlgItemProperties.cpp:225
 #, c-format
 msgid "%s task request deferral interval"
 msgstr "%s interval de amânare a cererii de sarcini"
 
 #. set dialog title
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:259
 msgid "Properties of project "
 msgstr "Proprietăţi ale proiectului "
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:261 clientgui/DlgOptions.cpp:232
+#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:232
 msgid "General"
 msgstr "General"
 
-#: clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:264
 msgid "URL"
 msgstr "URL"
 
-#: clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgItemProperties.cpp:265
 msgid "User name"
 msgstr "Nume utilizator"
 
-#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:266
 msgid "Team name"
 msgstr "Nume echipă"
 
-#: clientgui/DlgItemProperties.cpp:265 clientgui/ViewProjects.cpp:256
+#: clientgui/DlgItemProperties.cpp:267 clientgui/ViewProjects.cpp:256
 msgid "Resource share"
 msgstr "Resurse partajate"
 
-#: clientgui/DlgItemProperties.cpp:267
+#: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduler RPC deferred for"
 msgstr "RPC Planificator amânat pentru"
 
-#: clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:272
 msgid "File downloads deferred for"
 msgstr "Descărcările de fişiere amânate pentru"
 
-#: clientgui/DlgItemProperties.cpp:273
+#: clientgui/DlgItemProperties.cpp:275
 msgid "File uploads deferred for"
 msgstr "Încărcările de fişiere amânate pentru"
 
-#: clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:277
 msgid "Disk usage"
 msgstr "Utilizare disc"
 
-#: clientgui/DlgItemProperties.cpp:276
+#: clientgui/DlgItemProperties.cpp:278
 msgid "Computer ID"
 msgstr "ID calculator"
 
-#: clientgui/DlgItemProperties.cpp:278
+#: clientgui/DlgItemProperties.cpp:280
 msgid "Non CPU intensive"
 msgstr "CPU neintensiv"
 
-#: clientgui/DlgItemProperties.cpp:278 clientgui/DlgItemProperties.cpp:280
-#: clientgui/DlgItemProperties.cpp:281 clientgui/DlgItemProperties.cpp:283
-#: clientgui/DlgItemProperties.cpp:286 clientgui/DlgItemProperties.cpp:295
-#: clientgui/DlgItemProperties.cpp:298 clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:283 clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:288 clientgui/DlgItemProperties.cpp:297
+#: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:303
 msgid "yes"
 msgstr "da"
 
-#: clientgui/DlgItemProperties.cpp:280
+#: clientgui/DlgItemProperties.cpp:282
 msgid "Suspended via GUI"
 msgstr "Suspendat din GUI"
 
-#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:281
+#: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:283
 msgid "no"
 msgstr "nu"
 
-#: clientgui/DlgItemProperties.cpp:281
+#: clientgui/DlgItemProperties.cpp:283
 msgid "Don't request tasks"
 msgstr "Nu cere sarcini"
 
-#: clientgui/DlgItemProperties.cpp:283
+#: clientgui/DlgItemProperties.cpp:285
 msgid "Scheduler call in progress"
 msgstr "Apel planificator în curs"
 
-#: clientgui/DlgItemProperties.cpp:286
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Trickle-up pending"
 msgstr "Trickle-up în aşteptare"
 
-#: clientgui/DlgItemProperties.cpp:289 clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:291 clientgui/DlgItemProperties.cpp:293
 msgid "Host location"
 msgstr "Locaţie gazdă"
 
-#: clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:293
 msgid "default"
 msgstr "implicit"
 
-#: clientgui/DlgItemProperties.cpp:295
+#: clientgui/DlgItemProperties.cpp:297
 msgid "Added via account manager"
 msgstr "Adăugat prin manager de cont"
 
-#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:300
 msgid "Remove when tasks done"
 msgstr "Şterge când task-urile sunt gata"
 
-#: clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:303
 msgid "Ended"
 msgstr "Finalizat"
 
-#: clientgui/DlgItemProperties.cpp:303
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Tasks completed"
 msgstr "Task-uri finalizate"
 
-#: clientgui/DlgItemProperties.cpp:304
+#: clientgui/DlgItemProperties.cpp:306
 msgid "Tasks failed"
 msgstr "Task-uri eșuate"
 
-#: clientgui/DlgItemProperties.cpp:306
+#: clientgui/DlgItemProperties.cpp:308
 msgid "Credit"
 msgstr "Credit"
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:309
 msgid "User"
 msgstr "Utilizator"
 
-#: clientgui/DlgItemProperties.cpp:310 clientgui/DlgItemProperties.cpp:318
+#: clientgui/DlgItemProperties.cpp:312 clientgui/DlgItemProperties.cpp:320
 #, c-format
 msgid "%s total, %s average"
 msgstr "%s total, %s în medie"
 
-#: clientgui/DlgItemProperties.cpp:315
+#: clientgui/DlgItemProperties.cpp:317
 msgid "Host"
 msgstr "Gazdă"
 
-#: clientgui/DlgItemProperties.cpp:325
+#: clientgui/DlgItemProperties.cpp:327
 msgid "Scheduling"
 msgstr "Planificare"
 
-#: clientgui/DlgItemProperties.cpp:326
+#: clientgui/DlgItemProperties.cpp:328
 msgid "Scheduling priority"
 msgstr "Prioritate planificare"
 
-#: clientgui/DlgItemProperties.cpp:327
+#: clientgui/DlgItemProperties.cpp:329
 msgid "CPU"
 msgstr "CPU"
 
-#: clientgui/DlgItemProperties.cpp:351
+#: clientgui/DlgItemProperties.cpp:353
 msgid "Duration correction factor"
 msgstr "Factor corecţie durată"
 
-#: clientgui/DlgItemProperties.cpp:359
+#: clientgui/DlgItemProperties.cpp:361
 msgid "Last scheduler reply"
 msgstr "Ultimul răspuns de la planificator"
 
-#: clientgui/DlgItemProperties.cpp:369
+#: clientgui/DlgItemProperties.cpp:371
 msgid "Properties of task "
 msgstr "Propietăţi ale task-ului "
 
-#: clientgui/DlgItemProperties.cpp:381 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:266
 msgid "Application"
 msgstr "Aplicaţia"
 
-#: clientgui/DlgItemProperties.cpp:382 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:267
 msgid "Name"
 msgstr "Nume"
 
-#: clientgui/DlgItemProperties.cpp:383
+#: clientgui/DlgItemProperties.cpp:385
 msgid "State"
 msgstr "Stare"
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:388
 msgid "Received"
 msgstr "Primit"
 
-#: clientgui/DlgItemProperties.cpp:389
+#: clientgui/DlgItemProperties.cpp:391
 msgid "Report deadline"
 msgstr "Ultima zi pentru raport"
 
-#: clientgui/DlgItemProperties.cpp:391
+#: clientgui/DlgItemProperties.cpp:393
 msgid "Resources"
 msgstr "Resurse"
 
-#: clientgui/DlgItemProperties.cpp:394
+#: clientgui/DlgItemProperties.cpp:396
 msgid "Estimated computation size"
 msgstr "Volum calcul estimat"
 
-#: clientgui/DlgItemProperties.cpp:409
+#: clientgui/DlgItemProperties.cpp:411
 msgid "Keywords"
 msgstr "Cuvinte cheie"
 
-#: clientgui/DlgItemProperties.cpp:415 clientgui/DlgItemProperties.cpp:442
+#: clientgui/DlgItemProperties.cpp:417 clientgui/DlgItemProperties.cpp:444
 msgid "CPU time"
 msgstr "Timp CPU"
 
-#: clientgui/DlgItemProperties.cpp:416
+#: clientgui/DlgItemProperties.cpp:418
 msgid "CPU time since checkpoint"
 msgstr "Timp CPU de la ultimul punct de control"
 
-#: clientgui/DlgItemProperties.cpp:418 clientgui/DlgItemProperties.cpp:443
+#: clientgui/DlgItemProperties.cpp:420 clientgui/DlgItemProperties.cpp:445
 msgid "Elapsed time"
 msgstr "Timp scurs"
 
-#: clientgui/DlgItemProperties.cpp:420
+#: clientgui/DlgItemProperties.cpp:422
 msgid "Estimated time remaining"
 msgstr "Timp rămas estimat"
 
-#: clientgui/DlgItemProperties.cpp:421
+#: clientgui/DlgItemProperties.cpp:423
 msgid "Fraction done"
 msgstr "Proporţie finalizat"
 
-#: clientgui/DlgItemProperties.cpp:422
+#: clientgui/DlgItemProperties.cpp:424
 msgid "Virtual memory size"
 msgstr "Dimensiune memorie virtuală"
 
-#: clientgui/DlgItemProperties.cpp:423
+#: clientgui/DlgItemProperties.cpp:425
 msgid "Working set size"
 msgstr "Dimensiune memorie de lucru"
 
-#: clientgui/DlgItemProperties.cpp:425
+#: clientgui/DlgItemProperties.cpp:427
 msgid "Directory"
 msgstr "Director"
 
-#: clientgui/DlgItemProperties.cpp:428
+#: clientgui/DlgItemProperties.cpp:430
 msgid "Process ID"
 msgstr "ID Proces"
 
-#: clientgui/DlgItemProperties.cpp:434 clientgui/DlgItemProperties.cpp:436
-#: clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:436 clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:440
 msgid "Progress rate"
 msgstr "Rată progres"
 
-#: clientgui/DlgItemProperties.cpp:434
+#: clientgui/DlgItemProperties.cpp:436
 msgid "per hour"
 msgstr "pe oră"
 
-#: clientgui/DlgItemProperties.cpp:436
+#: clientgui/DlgItemProperties.cpp:438
 msgid "per minute"
 msgstr "pe minut"
 
-#: clientgui/DlgItemProperties.cpp:438
+#: clientgui/DlgItemProperties.cpp:440
 msgid "per second"
 msgstr "pe secundă"
 
-#: clientgui/DlgItemProperties.cpp:446
+#: clientgui/DlgItemProperties.cpp:448
 msgid "Executable"
 msgstr "Executabil"
 
-#: clientgui/DlgItemProperties.cpp:511 clientgui/sg_TaskPanel.cpp:824
+#: clientgui/DlgItemProperties.cpp:513 clientgui/sg_TaskPanel.cpp:824
 #: clientgui/ViewWork.cpp:1115
 msgid "Local: "
 msgstr "Local: "
@@ -2720,7 +2721,7 @@ msgstr "Verificaţi numele de utilizator şi parola şi încercaţi din nou."
 msgid "Check the email address and password, and try again."
 msgstr "Verificaţi adresa de email şi parola şi încercaţi din nou."
 
-#: clientgui/NoticeListCtrl.cpp:229
+#: clientgui/NoticeListCtrl.cpp:236
 msgid "more..."
 msgstr "mai mult..."
 
@@ -3286,19 +3287,19 @@ msgstr "Nu există lucru disponibil pentru procesare"
 msgid "Unable to connect to the core client"
 msgstr "Nu s-a putut conecta la nucleul clientului"
 
-#: clientgui/TermsOfUsePage.cpp:218
+#: clientgui/TermsOfUsePage.cpp:233
 msgid "Terms of Use"
 msgstr "Condiţii de Utilizare"
 
-#: clientgui/TermsOfUsePage.cpp:222
+#: clientgui/TermsOfUsePage.cpp:237
 msgid "Please read the following terms of use:"
 msgstr "Vă rugăm citiţi următoarele condiţii de utilizare:"
 
-#: clientgui/TermsOfUsePage.cpp:231
+#: clientgui/TermsOfUsePage.cpp:251
 msgid "I agree to the terms of use."
 msgstr "Sunt de acord cu condiţiile de utilizare."
 
-#: clientgui/TermsOfUsePage.cpp:237
+#: clientgui/TermsOfUsePage.cpp:257
 msgid "I do not agree to the terms of use."
 msgstr "Nu sunt de acord cu condiţiile de utilizare."
 
@@ -3830,15 +3831,15 @@ msgstr "Sunteţi sigur că doriţi să abandonaţi?"
 msgid "Question"
 msgstr "Întrebare"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:550
+#: clientgui/wizardex.cpp:386 clientgui/wizardex.cpp:559
 msgid "&Next >"
 msgstr "&Următorul >"
 
-#: clientgui/wizardex.cpp:383
+#: clientgui/wizardex.cpp:392
 msgid "< &Back"
 msgstr "< &Înapoi"
 
-#: clientgui/wizardex.cpp:550
+#: clientgui/wizardex.cpp:559
 msgid "&Finish"
 msgstr "&Finalizare"
 

@@ -137,6 +137,19 @@ void CBOINCGUIApp::ShowApplication(bool bShow) {
 }
 
 
+///
+/// Gets the display name for this app
+void CBOINCGUIApp::getDisplayNameForThisApp(char* pathBuf, size_t bufSize) {
+    // Get the app's main bundle
+    NSBundle *main = [NSBundle mainBundle];
+    NSString *thePath = main.localizedInfoDictionary[(NSString *)kCFBundleNameKey];
+    if (thePath == nil) {
+        thePath = [NSProcessInfo processInfo].processName;
+    }
+    strlcpy(pathBuf, [thePath UTF8String], bufSize);
+}
+
+
 // NSTitledWindowMask is deprecated in OS 10.12 and is replaced by
 // NSWindowStyleMaskTitled, which is not defined before OS 10.12
 #ifndef NSWindowStyleMaskTitled

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -185,6 +185,7 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stderr, 0);
 
     cc_config.defaults();
+    nvc_config.defaults();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
@@ -233,7 +234,13 @@ static void init_core_client(int argc, char** argv) {
 #endif
 
     read_config_file(true);
-
+    
+    // NOTE: this must be called BEFORE newer_version_startup_check()
+    //
+    if (read_vc_config_file()) {
+       // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
+    }
+    
     // Win32 - detach from console if requested
 #ifdef _WIN32
     if (gstate.detach_console) {

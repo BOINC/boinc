@@ -22,7 +22,10 @@ require_once("../inc/prefs_project.inc");
 
 $user = get_logged_in_user();
 
-$subset = get_str("subset");
+$subset = get_str("subset", true);
+if (!$subset) {
+    $subset = "global";
+}
 $columns = get_int("cols", true);
 $updated = get_int("updated", true);
 $defaults = get_int("defaults", true);

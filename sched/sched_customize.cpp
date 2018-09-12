@@ -33,9 +33,8 @@
 // app_plan()
 //      Decide whether host can use an app version,
 //      and if so what resources it will use
+//      TODO: get rid of this, and just use XML spec
 //
-// app_plan_uses_gpu():
-//      Which plan classes use GPUs
 //
 // WARNING: if you modify this file, you must prevent it from
 // being overwritten the next time you update BOINC source code.
@@ -92,12 +91,17 @@ using std::string;
 #define OPENCL_NVIDIA_MIN_RAM CUDA_MIN_RAM
 #endif
 
+PLAN_CLASS_SPECS plan_class_specs;
+
+/* is there a plan class spec that restricts the worunit (or batch) */
+bool wu_restricted_plan_class;
+
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(
-    WORKUNIT& /*wu*/,
+    WORKUNIT& wu,
     APP& /*app*/,
-    BEST_APP_VERSION& /*bav*/
+    BEST_APP_VERSION& bav
 ) {
 #if 0
     // example 1: if WU name contains "_v1", don't use GPU apps.
@@ -129,6 +133,16 @@ bool wu_is_infeasible_custom(
         return true;
     }
 #endif
+
+    // WU restriction
+    if (wu_restricted_plan_class) {
+        if (plan_class_specs.classes.size() > 0) {
+            if (plan_class_specs.wu_is_infeasible(bav.avp->plan_class, &wu)) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 
@@ -731,7 +745,7 @@ static inline bool app_plan_opencl(
             );
             return false;
         }
-    } else if (strstr(plan_class, "ati")) {
+    } else if (strstr(plan_class, "amd")) {
         COPROC_ATI& c = sreq.coprocs.ati;
         if (!c.count) {
             if (config.debug_version_select) {
@@ -904,12 +918,10 @@ static inline bool app_plan_vbox(
     return true;
 }
 
-PLAN_CLASS_SPECS plan_class_specs;
-
 // app planning function.
 // See http://boinc.berkeley.edu/trac/wiki/AppPlan
 //
-bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu) {
     char buf[256];
     static bool check_plan_class_spec = true;
     static bool have_plan_class_spec = false;
@@ -947,11 +959,13 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return false;
     }
     if (have_plan_class_spec) {
-        return plan_class_specs.check(sreq, plan_class, hu);
+        return plan_class_specs.check(sreq, plan_class, hu, wu);
     }
 
     if (!strcmp(plan_class, "mt")) {
         return app_plan_mt(sreq, hu);
+    } else if (strstr(plan_class, "opencl_cpu_intel")) {
+        return app_plan_opencl_cpu_intel(sreq, hu);
     } else if (strstr(plan_class, "opencl") == plan_class) {
         return app_plan_opencl(sreq, plan_class, hu);
     } else if (strstr(plan_class, "ati") == plan_class) {
@@ -964,8 +978,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
-    } else if (strstr(plan_class, "opencl_cpu_intel")) {
-        return app_plan_opencl_cpu_intel(sreq, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

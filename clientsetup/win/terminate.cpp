@@ -117,7 +117,7 @@ int diagnostics_update_process_list( std::vector<BOINC_PROCESS>& ps ) {
 tstring downcase_string(tstring& orig) {
     tstring retval = orig;
     for (size_t i=0; i < retval.length(); i++) {
-        retval[i] = tolower(retval[i]);
+        retval[i] = (wchar_t)tolower(retval[i]);
     }
     return retval;
 }

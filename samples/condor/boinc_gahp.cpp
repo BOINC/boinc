@@ -513,7 +513,7 @@ void handle_fetch_output(COMMAND& c) {
             sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
             s = string(buf) + escape_str(error_msg);
         } else {
-            sprintf(buf, "cd %s; unzip %s_output.zip", req.dir, req.job_name);
+            sprintf(buf, "cd %s; unzip -o %s_output.zip >/dev/null", req.dir, req.job_name);
             retval = system(buf);
             if (retval) {
                 s = string("unzip\\ failed");

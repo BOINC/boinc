@@ -46,8 +46,9 @@ function discussion_forums_user_default_permissions() {
     'name' => 'create forum topics',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'moderator',
-      '2' => 'verified contributor',
+      '1' => 'community member',
+      '2' => 'moderator',
+      '3' => 'verified contributor',
     ),
   );
 
@@ -81,7 +82,8 @@ function discussion_forums_user_default_permissions() {
     'name' => 'edit own forum topics',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'verified contributor',
+      '1' => 'community member',
+      '2' => 'verified contributor',
     ),
   );
 
@@ -90,8 +92,9 @@ function discussion_forums_user_default_permissions() {
     'name' => 'post comments',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'moderator',
-      '2' => 'verified contributor',
+      '1' => 'community member',
+      '2' => 'moderator',
+      '3' => 'verified contributor',
     ),
   );
 
@@ -100,8 +103,9 @@ function discussion_forums_user_default_permissions() {
     'name' => 'post comments without approval',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'moderator',
-      '2' => 'verified contributor',
+      '1' => 'community member',
+      '2' => 'moderator',
+      '3' => 'verified contributor',
     ),
   );
 

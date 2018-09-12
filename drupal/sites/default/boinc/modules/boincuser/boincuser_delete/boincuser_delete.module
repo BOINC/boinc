@@ -28,14 +28,45 @@ function boincuser_delete_perm() {
 function boincuser_delete_menu() {
   $items = array();
   $items['admin/boinc/user_delete'] = array(
-    'title' => 'Preferences: BOINC user delete',
-    'description' => "Configure the BOINC user delete action.",
+    'title' => t('Preferences: BOINC user delete'),
+    'description' => t('Configure the BOINC user delete action.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_delete_settings'),
     'access arguments' => array('administer users'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser_delete.admin.inc',
   );
+
+  $items['admin/boinc/user_delete/%'] = array(
+    'title' => t('Admin delete user'),
+    'description' => t('Deletes a user as an admin'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_delete_admindelete', 3),
+    'access arguments' => array('administer users'),
+    'type' => MENU_CALLBACK,
+    'file' => 'boincuser_delete.admin.inc',
+  );
+
+  $items['user/%user/deleteconfirm/%'] = array(
+    'title' => t('Final confirmation for account deletion'),
+    'description' => t('Final confirmation for account deletion'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_delete_finalconfirmation', 3),
+    'access callback' => 'boincuser_delete_access',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['user/%user/odeleteconfirm/%'] = array(
+    'title' => t('Final confirmation for account deletion'),
+    'description' => t('Final confirmation for account deletion'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_delete_softdelconfirmation', 3),
+    'access callback' => 'boincuser_delete_access',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -62,11 +93,9 @@ function boincuser_delete_menu_alter(&$callbacks) {
 function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
   global $user;
 
-  $graceperiod = variable_get('boincuser_delete_grace_period', 60*60*24*7*2);
-
   switch($form_id) {
     case 'user_profile_form':
-      if ( ( user_access('delete own account') AND ($form['#uid'] == $user->uid) AND (arg(3)=='') ) OR ( user_access('administer users') ) ) {
+      if ( user_access('delete own account') AND ($form['#uid'] == $user->uid) AND (arg(3)=='') ) {
         $form['delete'] = array(
           '#type' => 'submit',
           '#value' => bts('Delete Account', array(), null, 'boinc:delete-user-account'),
@@ -76,11 +105,54 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
           '#suffix' => '</li>',
         );
       }
+      else if ( user_access('administer users') ) {
+        $form['delete'] = array(
+          '#type' => 'submit',
+          '#value' => bts('Delete Account', array(), null, 'boinc:delete-user-account'),
+          '#weight' => 1009,
+          '#submit' => array('_boincuser_delete_goto_admindelete'),
+          '#prefix' => '<li class="tab">',
+          '#suffix' => '</li>',
+        );
+      }
       else {
         unset($form['delete']);
       }
       break;
     case 'user_confirm_delete':
+
+      $disable_delete = FALSE;
+      // If email address was changed less than 7 days (7 * 86400 s)
+      // ago, it cannot be changed again.
+      $duration = TOKEN_DURATION_ONE_WEEK;
+      if (($form['_account']['#value']->boincuser_email_addr_change_time + $duration) > time()) {
+        drupal_set_message(
+          bts("INFO: Your email address was changed within the past seven (7) days. You may not delete your account until after !time.",
+            array(
+              '!time' => date('F j, Y \a\t G:i T', $form['_account']['#value']->boincuser_email_addr_change_time + $duration),
+            ), NULL, 'boinc:account-credentials-change')
+        , 'info');
+        $disable_delete = TRUE;
+      }
+
+      // Configure radio options
+      $deleteoptions = array(
+        'boincuser_delete_softdelete' => bts('<b>Soft delete</b> the account. Afterwards your account will be disabled, and all posts/comments will be attributed to the Anonymous User. However, your user profile will be deleted, your host information will be deleted, and you will be removed from any team you are a member of.', array(), NULL, 'boinc:delete-user-account'),
+        'boincuser_delete_delete' => bts('<b>Delete</b> the account. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted, and your host information will be deleted.', array(), NULL, 'boinc:delete-user-account'),
+      );
+
+      $dtypes = variable_get('boincuser_delete_type', 'user_decides');
+      // unset the other option if dtype is set. i.e., if dtype is set
+      // to soft delete, unset the hard delete option.
+      switch ($dtypes) {
+        case 'soft_obfuscate':
+          unset($deleteoptions['boincuser_delete_delete']);
+          break;
+        case 'hard_wipe':
+          unset($deleteoptions['boincuser_delete_softdelete']);
+          break;
+      }
+
       $question = 'Are you sure you want to delete the account <em>' . htmlspecialchars($form['_account']['#value']->boincuser_name) . '</em>?';
       drupal_set_title($question);
 
@@ -90,29 +162,45 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
         '#type' => 'fieldset',
         '#weight' => 1,
       );
-      // Disabled the ability for user to disable his/her account. Can uncomment these lines should be re-enabled.
-      $form['main']['user_delete_action'] = array(
-        '#type' => 'radios',
-        //'#title' => t('Please choose an option'),
-        //'#default_value' => 'boincuser_delete_disable',
-        '#options' => array(
-          //'boincuser_delete_disable' => bts('<b>Disable</b> the account after @graceperiod days. Afterwards you account will be disabled, but your user profile will be deleted.', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
-          'boincuser_delete_delete' => bts('<b>Delete</b> the account after @graceperiod days. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted.', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
-        ),
-        '#weight' => 11,
-      );
 
       $form['main']['help'] = array(
-        '#type' => 'item',
-        //'#title' => '<b>All options</b>',
-        '#description' => bts('If you login to your account within @graceperiod days, the delete action will be canceled. If you choose to delete your account, after @graceperiod days, there is no way to recover your account!', array('@graceperiod' => $graceperiod/(60*60*24)), NULL, 'boinc:delete-user-account'),
+        '#value' => bts(
+          "<p><b>Instructions:</b> In order to delete your account, you must provide your password below. You will then be sent an email to the email address on record, with a one-time token that expires in 24-hours. Clicking on this link will bring you to a second form where you must enter your password again. After doing so your account will be deleted.</p>" .
+          "<p>If necessary, you may !link first before deleting your account. But you must wait <b>seven (7) days</b> after an email address change before you may delete your account.</p>",
+          array(
+            '!link' => l(bts('change your email address', array(), NULL, 'boinc:delete-user-account'), '/account/info/edit'),
+          ), NULL, 'boinc:delete-user-account'),
+        '#weight' => 11,
+        '#prefix' => "<div id='delete-instructions'>",
+        '#suffix' => "</div>",
+      );
+
+      $form['main']['user_delete_action'] = array(
+        '#type' => 'radios',
+        '#options' => $deleteoptions,
         '#weight' => 21,
       );
+      if ($disable_delete) {
+        $form['main']['user_delete_action']['#disabled'] = TRUE;
+      }
 
       $form['separator_bottom'] = array(
         '#value' => '<div class="separator buttons"></div>',
         '#weight' => 999,
       );
+
+      // Password field
+      if (!$disable_delete) {
+        $form['main']['current_pass'] = array(
+          '#type' => 'password',
+          '#title' => bts('Enter your password before clicking Submit', array(), NULL, 'boinc:delete-user-account'),
+          '#size' => 17,
+          '#attributes' => array(
+            'autocomplete' => 'off',
+          ),
+          '#weight' => 25,
+        );
+      }
 
       // Configure the action buttons
       $uid = $form['_account']['#value']->uid;
@@ -128,11 +216,18 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       $form['actions']['submit']['#suffix'] = '</li>';
       $form['actions']['submit']['#value'] = bts('Submit', array(), NULL, 'boinc:form-submit');
       $form['actions']['submit']['#weight'] = 1002;
+      if ($disable_delete) {
+        $form['actions']['submit']['#disabled'] = TRUE;
+        $form['actions']['submit']['#value'] = '';
+      }
 
       $form['actions']['cancel']['#prefix'] = '<li class="tab">';
       $form['actions']['cancel']['#suffix'] = '</li>';
       $form['actions']['cancel']['#weight'] = 1003;
       $form['actions']['cancel']['#value'] = l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), 'account/info/edit');
+      if ($disable_delete) {
+        $form['actions']['cancel']['#prefix'] = '<li class="first tab">';
+      }
 
       $form['actions']['form control tabs suffix'] = array(
         '#value' => '</ul>',
@@ -140,6 +235,7 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       );
 
       $form['#redirect'] = 'account/' . $uid;
+      $form['#validate'] = array('boincuser_delete_validate');
       $form['#submit'] = array('boincuser_delete_submit');
       break;
 
@@ -148,17 +244,41 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
 
 
 /**
+ * Disable or delete user and content validate form
+ *
+ * This function ensures that the user has correctly entered his/her
+ * password.
+ */
+function boincuser_delete_validate($form, &$form_state) {
+  require_boinc('boinc_db');
+
+  if ($form_state['values']['user_delete_action'] == '') {
+    form_set_error('user_delete_action', bts('Please select an action to perform using the radio buttons.', array(), NULL, 'boinc:delete-user-account'));
+  }
+
+  // check BOINC user exists
+  $account = $form_state['values']['_account'];
+  $boinc_user = boincuser_load($account->uid, TRUE);
+  if (!$boinc_user) {
+    return form_set_error('current_pass',
+      bts('There was a problem deleting your account. Please contact the site administrators.', array(), NULL, 'boinc:delete-user-account')
+    );
+  }
+
+  if (_boincuser_delete_validatepasswd($boinc_user, $form_state['values']['current_pass'])) {
+    return true;
+  }
+}
+
+/**
  * Disable or delete user and content after form submission.
  *
  * This function does not actually disable or delete a user. Instead a
- * field, delete_status, is set by this function for the
- * user. Normally, delete_status is 0. An account to be disabled has
- * delete_status=1, an account to be deleted has
- * delete_status=2. After a period of time has passed, the user's
- * account will be disabled or deleted. This is done in the
- * implementation of hook_cron().
+ * URL with a one-time token is sent to the user, which must be used
+ * to delete the account.
  */
 function boincuser_delete_submit($form, &$form_state) {
+  require_boinc('token');
   global $user;
 
   $uid = $form_state['values']['_account']->uid;
@@ -166,73 +286,54 @@ function boincuser_delete_submit($form, &$form_state) {
 
   if (!$account) {
     drupal_set_message(bts('ERROR: The user account @uid does not exist.', array('@uid' => $uid), array(), NULL, 'delete-user-account'), 'error');
-    watchdog('user', 'Attempted to cancel non-existing user account: %uid.', array('%uid' => $uid), WATCHDOG_ERROR);
+    watchdog('user', 'Attempted to cancel non-existing user account UID: %uid.', array('%uid' => $uid), WATCHDOG_ERROR);
     return;
   }
 
   global $base_url;
   global $base_path;
   module_load_include('inc', 'rules', 'modules/system.rules');
-  $mysubject = '';
-  $mymessage = '';
   $site_name = variable_get('site_name', 'Drupal-BOINC');
-  $site_url = $base_url . $base_path . "user/login?destination=home";
-
-  // Default grace period is two weeks
-  $graceperiod = variable_get('boincuser_delete_grace_period', 60*60*24*7*2);
-  $fts = time() + $graceperiod;
+  $site_url = $base_url . $base_path . "user/login";
 
   // Perform the requested operation
   $op = $form_state['values']['user_delete_action'];
+  // create token with 1 day/24 hour expiration
+  $mytoken = create_token($account->boincuser_id, 'D', 24*60*60);
   switch ($op) {
-    case 'boincuser_delete_disable':
-      // Set delete_status in boincuser table. Set the grace period.
-      $usql = 'UPDATE {boincuser} SET boincuser.delete_status=1, boincuser.grace_period=%d WHERE boincuser.uid=%d';
-      $qrc = db_query($usql, $fts, $uid);
-      $mysubject = "Notification of account disabled at {$site_name}";
-      $mymessage = ''
-        . "{$account->boincuser_name},\n"
-        . "\n"
-        . "We have received a request to disable your user account at "
-        . "${site_name}. You have a grace period of "
-        . $graceperiod/(60*60*24)
-        . " days to change your mind. Simply login to your account on the "
-        . "${site_name} Web site and your request will be canceled.\n"
-        . "\n"
-        . "If you did not initiate this request, please login to the "
-        . "${site_name} Web site (${site_url}) to cancel and then contact "
-        . "the administrators.\n"
-        . "\n"
-        . "Thanks, \n"
-        . "\n"
-        . "{$site_name} support team";
+    case 'boincuser_delete_softdelete':
+      $myurl = "${base_url}/user/{$account->uid}/odeleteconfirm/$mytoken";
       break;
     case 'boincuser_delete_delete':
-      // Set delete_status in boincuser table. Set the grace period.
-      $usql = 'UPDATE {boincuser} SET boincuser.delete_status=2, boincuser.grace_period=%d WHERE boincuser.uid=%d';
-      $qrc = db_query($usql, $fts, $uid);
-      $mysubject = "Notification of account deletion at {$site_name}";
-      $mymessage = ''
-        . "{$account->boincuser_name},\n"
-        . "\n"
-        . "We have received a request to DELETE your user account at "
-        . "${site_name}. You have a grace period of "
-        . $graceperiod/(60*60*24)
-        . " days to change your mind. Simply login to your account on the "
-        . "${site_name} Web site and your request will be canceled.\n"
-        . "\n"
-        . "If you did not initiate this request, please login to the "
-        . "${site_name} Web site (${site_url}) to cancel the deletion and "
-        . "then contact the administrators.\n"
-        . "\n"
-        . "Thanks, \n"
-        . "\n"
-        . "{$site_name} support team";
+      $myurl = "${base_url}/user/{$account->uid}/deleteconfirm/$mytoken";
       break;
   }
 
-  // create array for sending email to user to notify account is being
-  // disabled/deleted.
+  $mysubject = "Instructions for account deletion at {$site_name}";
+  $mymessage = ''
+    . "{$account->boincuser_name},\n"
+    . "\n"
+    . "We have received a request to DELETE your user account at "
+    . "${site_name}. Below in this email is a one-time token you must "
+    . "use. Either click on the link or copy-and-paste the URL into your "
+    . "browser address bar. Then you will be required to enter your password "
+    . "again to confirm your identity.\n"
+    . "\n"
+    . "${myurl}\n"
+    . "\n"
+    . "This one-time token will expire in 24 hours. Afterwards you must "
+    . "re-request deletion of your account in order to generate a new token.\n"
+    . "\n"
+    . "If you did not initiate this request, please login to the "
+    . "${site_name} Web site (${site_url}) and "
+    . "then contact the administrators.\n"
+    . "\n"
+    . "Thanks, \n"
+    . "\n"
+    . "{$site_name} support team";
+
+  // Create array for sending email to user to notify account is being
+  // disabled/deleted. Then send email.
   $settings = array(
     'from' => '',
     'subject' => $mysubject,
@@ -240,8 +341,204 @@ function boincuser_delete_submit($form, &$form_state) {
   );
   rules_action_mail_to_user($account, $settings);
 
-  // After cancelling account, ensure that user is logged out.
-  watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
+  drupal_set_message(bts("INFO: You have requested account deletion. Please check your email for further instructions.", array(), NULL, 'boinc:delete-user-account'),'info');
+
+  $redirect = variable_get('boincuser_delete_redirect', '<front>');
+  // Redirect
+  if (!empty($redirect)) {
+    drupal_goto($redirect);
+  }
+  else {
+    drupal_goto();
+  }
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Additional Forms
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * The final confirmation form for the user to delete their account.
+ */
+function boincuser_delete_finalconfirmation(&$form_state, $token) {
+  require_boinc('token');
+
+  global $user;
+  $form = array();
+
+  // check BOINC user exists
+  $account = user_load(array('uid' => $user->uid));
+  $uid = $user->uid;
+  $boincid = $account->boincuser_id;
+  // check $token is valid
+  if (!is_valid_token($boincid, $token, 'D')) {
+    drupal_set_message(bts('ERROR: You have supplied an incorrect (most likely expired) token. Please obtain a new token by !link your account be deleted.',
+    array(
+      '!link' => l(bts('re-requesting', array(), NULL, 'boinc:delete-user-account'), "/user/${uid}/delete"),
+    ),
+    NULL, 'boinc:delete-user-account'), 'error');
+    drupal_goto();
+  }
+
+  // Attach account to this form.
+  $form['_account'] = array('#type' => 'value', '#value' => $account);
+
+  // This form is for hard/wipe delete
+  $form['_action'] = array('#type' => 'value', '#value' => 'hard_wipe');
+
+  // Instructions
+  $form['main']['instructions1'] = array(
+    '#value' => '<p>'.
+    bts('You are one-step away from deleting your account. Enter your password in the textbox below and click submit. This action is irreversable: once you delete your account, there is no way un-delete.', array(), NULL, 'boinc:delete-user-account').
+    '</p>',
+  );
+
+  $form['main']['instructions2'] = array(
+    '#value' => '<p>'.
+    bts('If you wish to cancel, click cancel and you will be taken to your account dashboard.', array(), NULL, 'boinc:delete-user-account').
+    '</p>',
+  );
+
+  // Password field
+  $form['main']['current_pass'] = array(
+    '#type' => 'password',
+    '#title' => bts('Enter your password before clicking Submit', array(), NULL, 'boinc:delete-user-account'),
+    '#size' => 17,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+    '#weight' => 25,
+  );
+
+  // Form control
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">',
+    '#weight' => 1001,
+  );
+  $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => bts('Submit', array(), NULL, 'boinc:form-submit'),
+    '#suffix' => '</li>',
+    '#weight' => 1002,
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "account/") . '</li>',
+    '#weight' => 1003,
+  );
+  $form['form control tabs suffix'] = array(
+    '#value' => '</ul>',
+    '#weight' => 1004,
+  );
+
+  return $form;
+}
+
+/**
+ * Final confirmation form for the user to delete their account, using
+ * the soft/obfuscate method.
+ */
+function boincuser_delete_softdelconfirmation(&$form_state, $token) {
+  require_boinc('token');
+
+  global $user;
+  $form = array();
+
+  // check BOINC user exists
+  $account = user_load(array('uid' => $user->uid));
+  $uid = $user->uid;
+  $boincid = $account->boincuser_id;
+
+  // check $token is valid
+  if (!is_valid_token($boincid, $token, 'D')) {
+    drupal_set_message(bts('ERROR: You have supplied an incorrect (most likely expired) token. Please obtain a new token by !link your account be deleted.',
+    array(
+      '!link' => l(bts('re-requesting', array(), NULL, 'boinc:delete-user-account'), "/user/${uid}/delete"),
+    ),
+    NULL, 'boinc:delete-user-account'), 'error');
+    drupal_goto();
+  }
+
+  // Attach account to this form.
+  $form['_account'] = array('#type' => 'value', '#value' => $account);
+
+  // This form is for hard/wipe delete
+  $form['_action'] = array('#type' => 'value', '#value' => 'soft_obfuscate');
+
+  // Instructions
+  $form['main']['instructions1'] = array(
+    '#value' => '<p>'.
+    bts('You are one-step away from deleting your account. Enter your password in the textbox below and click submit. This action is irreversable: once you delete your account, there is no way un-delete.', array(), NULL, 'boinc:delete-user-account').
+    '</p>',
+  );
+
+  $form['main']['instructions2'] = array(
+    '#value' => '<p>'.
+    bts('If you wish to cancel, click cancel and you will be taken to your account dashboard.', array(), NULL, 'boinc:delete-user-account').
+    '</p>',
+  );
+
+  // Password field
+  $form['main']['current_pass'] = array(
+    '#type' => 'password',
+    '#title' => bts('Enter your password before clicking Submit', array(), NULL, 'boinc:delete-user-account'),
+    '#size' => 17,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+    '#weight' => 25,
+  );
+
+  // Form control
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">',
+    '#weight' => 1001,
+  );
+  $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => bts('Submit', array(), NULL, 'boinc:form-submit'),
+    '#suffix' => '</li>',
+    '#weight' => 1002,
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "account/") . '</li>',
+    '#weight' => 1003,
+  );
+  $form['form control tabs suffix'] = array(
+    '#value' => '</ul>',
+    '#weight' => 1004,
+  );
+
+  //set validation and submit to the functions below
+  $form['#validate'][] = 'boincuser_delete_finalconfirmation_validate';
+  $form['#submit'][] = 'boincuser_delete_finalconfirmation_submit';
+  return $form;
+}
+
+/**
+ * Validation for final confirmation
+ */
+function boincuser_delete_finalconfirmation_validate($form, &$form_state) {
+  $account = $form_state['values']['_account'];
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+
+  if (_boincuser_delete_validatepasswd($boinc_user, $form_state['values']['current_pass'])) {
+    return true;
+  }
+}
+
+/**
+ * Submit for final confirmation
+ */
+function boincuser_delete_finalconfirmation_submit($form, &$form_state) {
+  global $user;
+
+  // Delete the user
+  $account = $form_state['values']['_account'];
+  $action = $form_state['values']['_action'];
+  _boincuser_delete_deleteuser($account, $action);
 
   // Destroy the current session:
   session_destroy();
@@ -260,122 +557,5 @@ function boincuser_delete_submit($form, &$form_state) {
   else {
     drupal_goto();
   }
-}
 
-
-/**
- * Implementation of hook_user().
- */
-function boincuser_delete_user($op, &$edit, &$account, $category = NULL) {
-  if ($account->uid > 1) {
-    switch($op) {
-    case 'login':
-      // Function is forward compatible to Drupal 7
-      boincuser_delete_user_login($edit, $account);
-      break;
-    }
-  }
-}
-
-/**
- * Implementation of hook_user_login (forward compatible to Drupal 7).
- */
-function boincuser_delete_user_login(&$edit, $account) {
-  // Check user delete_status, and if non-zero set to 0.
-  $sql = 'SELECT boincuser.delete_status FROM {boincuser} WHERE boincuser.uid=%d';
-  $delete_status = db_result(db_query($sql, $account->uid));
-  if ($delete_status>0) {
-    $usql = 'UPDATE {boincuser} SET boincuser.delete_status=0, boincuser.delete_notified=0, boincuser.grace_period=0 WHERE boincuser.uid=%d';
-    $qrc = db_query($usql, $account->uid);
-
-    switch ($delete_status) {
-      case 1:
-        $verb = bts('disable', array(), NULL, 'boinc:account-deletion');
-        break;
-      case 2:
-        $verb = bts('delete', array(), NULL, 'boinc:account-deletion');
-        break;
-      default:
-        watchdog('boincuser_delete', 'variable delete_status not defined within acceptable bounds, @delete_status', array('@delete_status' => $delete_status), WATCHDOG_ERROR);
-        // If delete_status is not a defined case, then abort this function.
-        return;
-    }
-
-    $wa = bts(
-      'STATUS: You have logged in and thus canceled your account @action request. If you did not initiate the initial @action request, please contact the Web site administrators. You may re-request to @action your account in Account -> !credentials.',
-      array(
-        '@action' => $verb,
-        '!credentials' => l(bts('Credentials', array(), NULL, 'boinc:account-credentials-link'), 'account/info/edit'),
-      ),
-      NULL, 'boinc:cancel-account-deletion'
-    );
-    drupal_set_message($wa, 'status');
-  }
-}
-
-
-/**
- * Implementation of hook_cron().
- */
-function boincuser_delete_cron() {
-  _boincuser_delete_expired();
-}
-
-/**
- * Either disable or delete a user after it's grace period expires.
- */
-function _boincuser_delete_expired() {
-  module_load_include('inc', 'drupal_queue', 'drupal_queue');
-  $qdisable = DrupalQueue::get('queue_disable');
-  $qdelete = DrupalQueue::get('queue_delete');
-  $qnotify = DrupalQueue::get('queue_notify');
-
-  // disable accounts
-  $sql1 = "SELECT boincuser.uid AS uid FROM {boincuser} WHERE boincuser.delete_status=1 AND boincuser.grace_period < %d";
-  $dbres1 = db_query($sql1, time());
-  if ($dbres1) {
-    while ($result = db_fetch_array($dbres1)) {
-      $myuid = $result['uid'];
-      $qdisable->createItem($myuid);
-    }
-  }
-
-  // delete accounts
-  $sql2 = "SELECT boincuser.uid AS uid FROM {boincuser} WHERE boincuser.delete_status=2 AND boincuser.grace_period < %d";
-  $dbres2 = db_query($sql2, time());
-  if ($dbres2) {
-    while ($result = db_fetch_array($dbres2)) {
-      $myuid = $result['uid'];
-      $qdelete->createItem($myuid);
-    }
-  }
-
-  // notify users disable/deletion is imminant
-  $sql3 = "SELECT boincuser.uid AS uid, boincuser.delete_status AS ds FROM {boincuser} WHERE boincuser.delete_status>0 AND boincuser.delete_notified=0 AND (boincuser.grace_period - 60*60*24) < %d";
-  $dbres3 = db_query($sql3, time());
-  if ($dbres3) {
-    while ($result = db_fetch_array($dbres3)) {
-      $qnotify->createItem($result);
-    }
-  }
-}
-
-/**
- * Implementation of hook_cron_queue_info()
- */
-function boincuser_delete_cron_queue_info() {
-  $queues = array();
-  $queues['queue_disable'] = array(
-    'worker callback' => '_boincuser_delete_disableuser',
-    'time' => 60,
-  );
-  $queues['queue_delete'] = array(
-    'worker callback' => '_boincuser_delete_deleteuser',
-    'time' => 60,
-  );
-  $queues['queue_notify'] = array(
-    'worker callback' => '_boincuser_delete_notify',
-    'time' => 60,
-  );
-  return $queues;
 }

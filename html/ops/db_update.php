@@ -1162,7 +1162,14 @@ function update_5_9_2018() {
     ");
 }
 
-function update_5_17_2018() {
+function update_8_23_2018() {
+    $retval = do_query("alter table host add index host_userid_cpid (userid, host_cpid)");
+    $retval = $retval && do_query("alter table host drop index host_user");
+    return $retval && do_query("alter table host add index host_domain_name (domain_name)");
+}
+
+
+function update_9_12_2018() {
     do_query("create table consent (
         id                      integer         not null auto_increment,
         userid                  integer         not null,
@@ -1264,7 +1271,8 @@ $db_updates = array (
     array(27024, "update_4_18_2018"),
     array(27025, "update_4_19_2018"),
     array(27026, "update_5_9_2018"),
-    array(27027, "update_5_17_2018")
+    array(27027, "update_8_23_2018")
+    array(27028, "update_9_12_2018")
 );
 
 ?>

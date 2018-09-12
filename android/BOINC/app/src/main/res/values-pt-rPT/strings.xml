@@ -183,11 +183,11 @@
   <string name="prefs_show_notification_notices_header">Mostrar notificações para novas notícias</string>
   <string name="prefs_show_notification_suspended_header">Mostrar notificação quando suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
-  <string name="prefs_cpu_number_cpus_description">Limita o número de cores de CPU que o BOINC utiliza para computação.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pausar com o uso da CPU acima de</string>
-  <string name="prefs_cpu_other_load_suspension_description">Determina quando o BOINC pausa a computação, devido à utilização do CPU por outras aplicações.</string>
+  <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC utiliza para computação.</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pausar com a utilização da CPU acima de</string>
+  <string name="prefs_cpu_other_load_suspension_description">Determina quando o BOINC pausa a computação, devido à utilização da CPU por outras aplicações.</string>
   <string name="prefs_cpu_time_max_header">Limite da CPU</string>
-  <string name="prefs_cpu_time_max_description">Limita o tempo de CPU que o BOINC utiliza para computação.</string>
+  <string name="prefs_cpu_time_max_description">Limita o tempo da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_memory_max_idle_header">Limite da RAM</string>
   <string name="prefs_memory_max_idle_description">Limita a quantidade de RAM utilizada permitida às tarefas.</string>
   <string name="prefs_client_log_flags_header">Log das bandeiras do BOINC</string>
@@ -294,7 +294,7 @@
   <string name="suspend_tod">Fora da janela de tempo limite para a computação.</string>
   <string name="suspend_bm">O BOINC está a executar o teste de desempenho no seu dispositivo...</string>
   <string name="suspend_disksize">Sem espaço em disco.</string>
-  <string name="suspend_cputhrottle">Estrangulamento de CPU agendado.</string>
+  <string name="suspend_cputhrottle">Diminuição de velocidade da CPU agendada.</string>
   <string name="suspend_noinput">Sem actividade recente do utilizador.</string>
   <string name="suspend_delay">Atraso de inicialização.</string>
   <string name="suspend_exclusiveapp">Uma aplicação exclusiva está em execução.</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
   <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
-  <string name="about_copyright">\u00A9 2003–2017 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC pelo seu suporte.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

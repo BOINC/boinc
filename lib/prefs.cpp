@@ -284,9 +284,9 @@ void GLOBAL_PREFS::enabled_defaults() {
     max_bytes_sec_down = 100*KILO;
     max_bytes_sec_up = 100*KILO;
     cpu_times.start_hour = 0;
-    cpu_times.end_hour = 23.983;    // 23:59
+    cpu_times.end_hour = 24.0;    // 24:00
     net_times.start_hour = 0;
-    net_times.end_hour = 23.983;    // 23:59
+    net_times.end_hour = 24.0;    // 24:00
 }
 
 // call before parsing
