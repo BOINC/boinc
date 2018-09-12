@@ -1173,7 +1173,8 @@ function update_5_17_2018() {
         source                  varchar(255)    not null,
         primary key (id),
         index userid_ctid(userid, consent_type_id),
-        index consent_timestamp(consent_time)
+        index consent_timestamp(consent_time),
+        index flag_ctid(consent_flag, consent_type_id)
         ) engine=InnoDB;
     ");
 
@@ -1187,6 +1188,12 @@ function update_5_17_2018() {
         primary key (id),
         index consent_name (shortname)
         ) engine=InnoDB;
+    ");
+
+    do_query("alter table consent
+       add foreign key(consent_type_id)
+       references consent_type(id)
+       on update cascade;
     ");
 
     do_query("insert into consent_type

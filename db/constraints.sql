@@ -182,6 +182,12 @@ alter table sent_email
 alter table consent
     add index userid_ctid(userid, consent_type_id);
     add index consent_timestamp(consent_time);
+    add index flag_ctid(consent_flag, consent_type_id);
+
+alter table consent
+    add foreign key(consent_type_id)
+    references consent_type(id)
+    on update cascade;
 
 alter table consent_type
     add index consent_name(shortname);
