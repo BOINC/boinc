@@ -71,7 +71,7 @@ using std::vector;
 #define TABLE_USER_DELETED  3
 #define TABLE_HOST_DELETED  4
 
-#define CONSENT_TO_STATISTICS_EXPORT "STATSEXPRT"
+#define CONSENT_TO_STATISTICS_EXPORT "STATSEXPORT"
 
 // must match the above
 const char* table_name[NUM_TABLES] = {"user", "team", "host", "user_deleted", "host_deleted"};
