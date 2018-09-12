@@ -1271,7 +1271,7 @@ $db_updates = array (
     array(27024, "update_4_18_2018"),
     array(27025, "update_4_19_2018"),
     array(27026, "update_5_9_2018"),
-    array(27027, "update_8_23_2018")
+    array(27027, "update_8_23_2018"),
     array(27028, "update_9_12_2018")
 );
 
