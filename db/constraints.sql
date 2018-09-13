@@ -186,7 +186,7 @@ alter table private_messages
     add index userid(userid);
 
 alter table consent
-    add index userid_ctid(userid, consent_type_id),
+    add index userid_ctid_timestamp(userid, consent_type_id, consent_time),
     add index consent_timestamp(consent_time),
     add index flag_ctid(consent_flag, consent_type_id);
 
