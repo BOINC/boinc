@@ -31,7 +31,6 @@
  */
 
 function boincuser_quote_form_alter(&$form, $form_state, $form_id) {
-  //global $user;
   switch ($form_id) {
   // Comment form
   case 'comment_form':
