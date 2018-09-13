@@ -825,3 +825,18 @@ create table consent_type (
     privacypref             integer         not null,
     primary key (id)
 ) engine=InnoDB;
+
+-- SQL View representing the latest consent state of users for all
+-- consent_types. Used in sched/db_dump and Web site preferences to
+-- determine if a user has consented to a particular consent type.
+create view latest_consent as
+SELECT userid,
+       consent_type_id,
+       consent_flag
+  FROM consent
+ WHERE NOT EXISTS
+       (SELECT *
+          FROM consent AS filter
+         WHERE consent.userid = filter.userid
+           AND consent.consent_type_id = filter.consent_type_id
+           AND filter.consent_time > consent.consent_time);

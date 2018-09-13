@@ -1211,6 +1211,22 @@ function update_9_12_2018() {
         (id, shortname, description, enabled, protect, privacypref) values
         (2, 'STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 1, 1);
     ");
+
+    // SQL View representing the latest consent state of users for all
+    // consent_types. Used in sched/db_dump and Web site preferences to
+    // determine if a user has consented to a particular consent type.
+    do_query("create view latest_consent as
+SELECT userid,
+       consent_type_id,
+       consent_flag
+  FROM consent
+ WHERE NOT EXISTS
+       (SELECT *
+          FROM consent AS filter
+         WHERE consent.userid = filter.userid
+           AND consent.consent_type_id = filter.consent_type_id
+           AND filter.consent_time > consent.consent_time);
+    ");
 }
 
 // Updates are done automatically if you use "upgrade".
