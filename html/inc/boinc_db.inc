@@ -945,6 +945,20 @@ class BoincConsentType {
 
 }
 
+// Class to interface with SQL View latest_consent. Only read
+// operations permitted.
+class BoincLatestConsent {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('latest_consent', 'BoincLatestConsent', $clause);
+    }
+
+    static function enum($where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum('latest_consent', 'BoincLatestConsent', $where_clause, $order_clause);
+    }
+}
+
 // DEPRECATED: use BoincDb::escape_string where possible
 // 
 // apply this to any user-supplied strings used in queries
