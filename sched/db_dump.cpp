@@ -785,14 +785,18 @@ int ENUMERATION::make_it_happen(char* output_dir) {
 	// JOIN statements to extract only the users who have
 	// consented to statistics exports.
 	if ( (!retval) && (consent_type.enabled) ) {
-	    // This INNER JOIN clause does the following: It builds a
-	    // derived table (lastest) based on the consent table. In doing
-	    // so, it finds the consent status of users, based on
-	    // their latest consent timestamp, and if the consent_flag
-	    // is TRUE; meaning the user has consented. Then in joins
-	    // table latest to the user table, effectively returning users
+	    // This INNER JOIN clause does the following. It joins the
+	    // user table with the latest_consent View table, see
+	    // schema.sql for this view's definition. The
+	    // latest_consent represents the latest consent status for
+	    // all users and consent_types. Effectively returning users
 	    // who have consented to statistics exports.
-	    sprintf(joinclause, "INNER JOIN (SELECT consent.id, consent.userid, consent.consent_type_id, consent.consent_time, consent.consent_flag FROM consent LEFT JOIN consent AS filter ON consent.userid=filter.userid AND consent.consent_type_id = filter.consent_type_id AND filter.consent_time > consent.consent_time WHERE filter.userid IS NULL AND consent.consent_flag=1 AND consent.consent_type_id=%ld) AS latest ON user.id = latest.userid", consent_type.id);
+	    sprintf(joinclause, "INNER JOIN (\
+            SELECT userid\
+              FROM latest_consent\
+             WHERE consent_type_id=%ld\
+               AND consent_flag=1) AS lc\
+            ON user.id = lc.userid", consent_type.id);
 	    strcat(joinclause, " ");
 	    strcat(joinclause, clause);
 	    strcpy(clause, joinclause);
@@ -859,14 +863,19 @@ int ENUMERATION::make_it_happen(char* output_dir) {
 	// JOIN statements to extract only the users who have
 	// consented to statistics exports.
 	if ( (!retval) && (consent_type.enabled) ) {
-	    // This INNER JOIN clause does the following: It builds a
-	    // derived table (lastest) based on the consent table. In doing
-	    // so, it finds the consent status of users, based on
-	    // their latest consent timestamp, and if the consent_flag
-	    // is TRUE; meaning the user has consented. Then in joins
-	    // table latest to the user table, effectively returning users
-	    // who have consented to statistics exports.
-	    sprintf(joinclause, "INNER JOIN (SELECT consent.id, consent.userid, consent.consent_type_id, consent.consent_time, consent.consent_flag FROM consent LEFT JOIN consent AS filter ON consent.userid=filter.userid AND consent.consent_type_id = filter.consent_type_id AND filter.consent_time > consent.consent_time WHERE filter.userid IS NULL AND consent.consent_flag=1 AND consent.consent_type_id=%ld) AS latest ON host.userid = latest.userid", consent_type.id);
+	    // This INNER JOIN clause does the following. It joins the
+	    // host table with the latest_consent View table, see
+	    // schema.sql for this view's definition. The
+	    // latest_consent represents the latest consent status for
+	    // all users and consent_types. Effectively returning
+	    // hosts of users who have consented to statistics
+	    // exports.
+	    sprintf(joinclause, "INNER JOIN (\
+            SELECT userid\
+              FROM latest_consent\
+             WHERE consent_type_id=%ld\
+               AND consent_flag=1) AS lc\
+            ON host.userid = lc.userid", consent_type.id);
 	    strcat(joinclause, " ");
 	    strcat(joinclause, clause);
 	    strcpy(clause, joinclause);
