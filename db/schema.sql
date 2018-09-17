@@ -816,12 +816,13 @@ create table consent (
     primary key (id)
 ) engine=InnoDB;
 
+-- @todo - change 'protect' to 'project_specific'
 create table consent_type (
     id                      integer         not null auto_increment,
     shortname               varchar(255)    not null,
     description             varchar(255)    not null,
     enabled                 integer         not null,
-    protect                 integer         not null,
+    project_specific        integer         not null,
     privacypref             integer         not null,
     primary key (id)
 ) engine=InnoDB;

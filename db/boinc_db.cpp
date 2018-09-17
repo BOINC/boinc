@@ -2875,13 +2875,13 @@ void DB_CONSENT_TYPE::db_print(char *buf) {
 	"shortname='%s', "
 	"description='%s', "
 	"enabled=%d, "
-	"protect=%d, "
+	"project_specific=%d, "
 	"privacypref=%d, ",
 	id,
 	shortname,
 	description,
 	enabled,
-	protect,
+	project_specific,
 	privacypref
     );
 }
@@ -2893,7 +2893,7 @@ void DB_CONSENT_TYPE::db_parse(MYSQL_ROW &r) {
     strcpy2(shortname, r[i++]);
     strcpy2(description, r[i++]);
     enabled = atoi(r[i++]);
-    protect = atoi(r[i++]);
+    project_specific = atoi(r[i++]);
     privacypref = atoi(r[i++]);
 }
 
