@@ -30,8 +30,8 @@ function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_no
         $mytime = $ctime;
     }
     return BoincConsent::insert(
-        "(id, userid, consent_type_id, consent_time, consent_flag, consent_not_required, source) " .
-        "values(0, $user->id, $consent_type_id, $mytime, $consent_flag, $consent_not_required, '$mys')"
+        "(userid, consent_type_id, consent_time, consent_flag, consent_not_required, source) " .
+        "values($user->id, $consent_type_id, $mytime, $consent_flag, $consent_not_required, '$mys')"
     );
 
 }
