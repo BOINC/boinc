@@ -42,8 +42,8 @@ function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_no
 function check_user_consent($user, $consent_name) {
     list($checkct, $ctid) = check_consent_type($consent_name);
     if ($checkct) {
-        $consent_result = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id=$ctid");
-        if ( ($consent_result) and ($consent_result->consent_flag) ) {
+        $consent_result = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id=$ctid AND consent_flag=1");
+        if ($consent_result) {
             return TRUE;
         }
     }
