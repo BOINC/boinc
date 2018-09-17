@@ -1190,7 +1190,7 @@ function update_9_12_2018() {
         shortname               varchar(255)    not null,
         description             varchar(255)    not null,
         enabled                 integer         not null,
-        protect                 integer         not null,
+        project_specific        integer         not null,
         privacypref             integer         not null,
         primary key (id),
         index consent_name (shortname)

@@ -44,7 +44,7 @@ function add_consenttype() {
     }
 
     BoincConsentType::insert(
-        "(shortname, description) VALUES ('$shortname', '$description')"
+        "(shortname, description, project_specific) VALUES ('$shortname', '$description', 1)"
     );
 
     echo "<h2>Consent Type added.</h2>";
@@ -73,17 +73,17 @@ function mct_toggle_field($field) {
 
 // Builds the form for managing consent types
 function mct_show_form() {
-    $_consenttypes = BoincConsentType::enum(null, "ORDER BY protect DESC");
+    $_consenttypes = BoincConsentType::enum(null, "ORDER BY project_specific ASC");
 
     if (!in_rops()) {
-        echo "<b>'Protected' consent types are defined by BOINC. You may add project-specific consent types using this form. (Unprotected consent types are defined here by this project.)</b>";
+        echo "<b>ProjectSpecific=0 consent types are defined by BOINC. You may add and remove project-specific consent types using this form.</b>";
     }
     start_table("");
     table_header(
         "Name",
         "Description",
         "Enabled",
-        "Protected",
+        "ProjectSpecific",
         "PrivacyPrefs",
         ""
     );
@@ -111,8 +111,8 @@ function mct_show_form() {
             echo "  <td>$ct->enabled</td>";
         }
 
-        // Protect(ed) consent type
-        echo "  <td>$ct->protect</td>";
+        // Project_specific) consent type
+        echo "  <td>$ct->project_specific</td>";
 
         // Privacypref toggle
         if (!in_rops()) {
@@ -127,8 +127,8 @@ function mct_show_form() {
             echo "  <td>$ct->privacypref</td>";
         }
 
-        // Delete (if not protected)
-        if (!in_rops() and !($ct->protect)) {
+        // Delete (if project_specific)
+        if (!in_rops() and ($ct->project_specific)) {
             echo "<td><input class=\"btn btn-default\" name=delete type=submit value=Delete>";
         }
         else {
