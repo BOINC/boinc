@@ -178,7 +178,7 @@ function validate_post_make_user() {
 
     // Check if consent to terms of use has been given.
     $myconsent = FALSE;
-    list($checkct, $ctid) = check_consent_type('ENROLL');
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($checkct and check_termsofuse()) {
         $agree = post_str("agree_to_terms_of_use", true);
         if (!$agree) {

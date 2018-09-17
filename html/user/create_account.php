@@ -94,9 +94,9 @@ if ($user) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
     }
 
-    // If the project has configured to use the ENROLL consent_type, then
+    // If the project has configured to use the CONSENT_TYPE_ENROLL, then
     // record it.
-    list($checkct, $ctid) = check_consent_type('ENROLL');
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($checkct) {
         if ( (!is_null($consent_flag)) and $source) {
             // Record the user giving consent in database - if consent_flag is 0,

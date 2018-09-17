@@ -118,7 +118,7 @@ function create_account_form($teamid, $next_url) {
     }
 
     // Add terms of use to Web form. User must agree by checking the checkbox.
-    list($checkct, $ctid) = check_consent_type('ENROLL');
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($checkct and check_termsofuse()) {
         $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
         if ($terms_of_use) {

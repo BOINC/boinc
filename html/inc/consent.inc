@@ -21,6 +21,8 @@
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 
+define('CONSENT_TYPE_ENROLL','ENROLL');
+
 function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {

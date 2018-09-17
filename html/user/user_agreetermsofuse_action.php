@@ -54,8 +54,8 @@ else {
 $user = BoincUser::lookup_id_nocache($userid);
 $authenticator = $user->authenticator;
 
-// Set consent in database, consent_type is ENROLL.
-list($checkct, $ctid) = check_consent_type('ENROLL');
+// Set CONSENT_TYPE_ENROLL in database.
+list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
 if ($checkct) {
     $rc1 = consent_to_a_policy($user, $ctid, 1, 0, 'Webform', time());
     if (!$rc1) {

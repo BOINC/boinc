@@ -137,7 +137,7 @@ function insert_case($t, $user) {
     }
     $make_user = FALSE;
     if (!$user) {
-        list($checkct, $ctid) = check_consent_type('ENROLL');
+        list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
         if ($checkct) {
             echo "   cannot make user when an consent to terms of use is required\n";
         }
