@@ -122,7 +122,7 @@ function create_account_form($teamid, $next_url) {
     if ($checkct and check_termsofuse()) {
         $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
         if ($terms_of_use) {
-            panel('Terms of Use', function() use($terms_of_use) {
+            panel(tra('Terms of Use'), function() use($terms_of_use) {
                 echo nl2br($terms_of_use);
             }
             );
@@ -166,7 +166,7 @@ function user_agreetermsofuse_form($next_url) {
 
     $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
     if ($terms_of_use) {
-        panel('Terms of Use', function() use($terms_of_use) {
+        panel(tra('Terms of Use'), function() use($terms_of_use) {
             echo nl2br($terms_of_use);
         }
         );
