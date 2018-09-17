@@ -437,10 +437,10 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         msg_printf(NULL, MSG_INFO,
             "Using account manager %s", pli->name.c_str()
         );
-        strcpy(gstate.acct_mgr_info.project_name, pli->name.c_str());
-        strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
-        strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
-        strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
+        safe_strcpy(gstate.acct_mgr_info.project_name, pli->name.c_str());
+        safe_strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
+        safe_strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
+        safe_strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
         gstate.acct_mgr_info.write_info();
     } else {
         msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
@@ -450,8 +450,8 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         );
         PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
         if (p) {
-            strcpy(p->user_name, user_name.c_str());
-            strcpy(p->team_name, team_name.c_str());
+            safe_strcpy(p->user_name, user_name.c_str());
+            safe_strcpy(p->team_name, team_name.c_str());
             xml_unescape(p->user_name);
             xml_unescape(p->team_name);
         }
