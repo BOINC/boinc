@@ -134,7 +134,7 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
 
-    bool usingLocalPrefs = doesLocalPrefsFileExist();
+    m_bUsingLocalPrefs = doesLocalPrefsFileExist();
     if (! web_prefs_url->IsEmpty()) {
         wxStaticBox* topSectionStaticBox = new wxStaticBox();
         topSectionStaticBox->SetBackgroundStyle(wxBG_STYLE_TRANSPARENT);
@@ -157,7 +157,7 @@ void CPanelPreferences::CreateControls()
 
         wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
 
-        if (usingLocalPrefs) {
+        if (m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
                             _("Using local preferences.\n"
@@ -183,7 +183,7 @@ void CPanelPreferences::CreateControls()
             0, wxLEFT, 5
         );
         
-        if (!usingLocalPrefs) {
+        if (!m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
                      _("Set values and click Save to use local preferences instead."),
@@ -216,7 +216,7 @@ void CPanelPreferences::CreateControls()
 
         m_btnClear = new wxButton( topSectionStaticBox, ID_SGPREFERENCESCLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
         m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
-        if (!usingLocalPrefs) {
+        if (!m_bUsingLocalPrefs) {
             m_btnClear->Hide();
         }
         
@@ -351,11 +351,17 @@ void CPanelPreferences::CreateControls()
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
 
     wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-
+    itemButton44->SetToolTip( _("Save all values and close the dialog.") );
+    if (m_bUsingLocalPrefs) {
+        itemButton44->SetDefault();
+    }
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton45->SetDefault();
+    itemButton45->SetToolTip( _("Close the dialog without saving.") );
+    if (!m_bUsingLocalPrefs) {
+        itemButton45->SetDefault();
+    }
     itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
 
@@ -542,6 +548,11 @@ bool CPanelPreferences::OnOK() {
 
     if(!ValidateInput()) {
         return false;
+    }
+    if (!m_bUsingLocalPrefs) {
+        if(!ConfirmSetLocal()) {
+            return false;
+        }
     }
     SavePreferenceSettings();
 
@@ -1188,4 +1199,16 @@ bool CDlgPreferences::ConfirmClear() {
 		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT, this);
 	
 	return res==wxYES;
+}
+
+bool CPanelPreferences::ConfirmSetLocal() {
+    wxString strMessage     = wxEmptyString;
+    strMessage.Printf(
+            _("Changing to use the local preferences defined on this page. This will override your web-based preferences, even if you subsequently make changes there. Do you want to proceed?")
+    );
+    int res = wxGetApp().SafeMessageBox(
+        strMessage,
+        _("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
+
+    return res==wxYES;
 }

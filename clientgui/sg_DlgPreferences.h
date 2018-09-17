@@ -124,6 +124,7 @@ public:
 
     void OnButtonClear();
     bool OnOK();
+    bool ConfirmSetLocal();
 
     bool UpdateControlStates();
 
@@ -135,6 +136,7 @@ public:
     bool ReadPreferenceSettings();
     bool SavePreferenceSettings();
 	bool ValidateInput();
+    bool m_bUsingLocalPrefs;
 	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
 	bool IsValidFloatChar(const wxChar& ch);
 	bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
