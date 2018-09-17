@@ -98,6 +98,19 @@ if ($user) {
     // record it.
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($checkct) {
+        // As of Sept 2018, this code allows 'legacy' boinc clients to
+        // create accounts. If consent_flag is null, e.g., if an older
+        // BOINC client creates an account withouth this new
+        // parameter, the account is created as normal and there is no
+        // updateto the consent table.
+        //
+        // In the future, when the majority of BOINC clients and
+        // Account Managers have been updated to use the consent_flag
+        // parameter, then this code should be revised to only allow
+        // clients who do use this flag to continue. I.e., if
+        // is_null($consent_flag) returns TRUE, then return an
+        // xml_error(-1, ...).
+
         if ( (!is_null($consent_flag)) and $source) {
             // Record the user giving consent in database - if consent_flag is 0,
             // this is an 'anonymous account' and consent_not_required is
