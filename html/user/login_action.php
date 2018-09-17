@@ -64,18 +64,9 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
             exit;
         }
     }
-    $authenticator = $user->authenticator;
 
     // Intercept next_url if consent has not yet been given
-    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    $config = get_config();
-    if ( parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
-        $next_url = consent_after_login($user, $perm, $next_url);
-    }
-    else {
-        send_cookie('auth', $authenticator, $perm);
-    }
-
+    $next_url = intercept_login($user, $perm, $next_url);
     Header("Location: ".url_base()."$next_url");
 }
 
@@ -109,15 +100,7 @@ function login_via_link($id, $t, $h) {
     }
 
     // Intercept next_url if consent has not yet been given
-    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    $config = get_config();
-    if (parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
-        $next_url = consent_after_login($user, true, "");
-    }
-    else {
-        send_cookie('auth', $user->authenticator, true);
-        $next_url = "home.php";
-    }
+    $next_url = intercept_login($user, true, "home.php");
     Header("Location: ".url_base()."$next_url");
 }
 
@@ -136,14 +119,7 @@ function login_with_auth($authenticator, $next_url, $perm) {
     } else {
 
         // Intercept next_url if consent has not yet been given
-        list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-        $config = get_config();
-        if (parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
-            $next_url = consent_after_login($user, $perm, $next_url);
-        }
-        else {
-            send_cookie('auth', $authenticator, $perm);
-        }
+        $next_url = intercept_login($user, $perm, $next_url);
         Header("Location: ".url_base()."$next_url");
     }
 }
@@ -166,14 +142,7 @@ function login_with_ldap($uid, $passwd, $next_url, $perm) {
         error_page("Couldn't create user");
     }
     // Intercept next_url if consent has not yet been given
-    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    $config = get_config();
-    if (parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
-        $next_url = consent_after_login($user, $perm, $next_url);
-    }
-    else {
-        send_cookie('auth', $user->authenticator, $perm);
-    }
+    $next_url = intercept_login($user, $perm, $next_url);
     Header("Location: ".url_base()."$next_url");
     return;
 }

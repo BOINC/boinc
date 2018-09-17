@@ -50,14 +50,6 @@ function check_user_consent($user, $consent_name) {
     return FALSE;
 }
 
-function consent_after_login($user, $perm=true, $next_url = "") {
-    send_cookie('tempuserid', $user->id, false);
-    send_cookie('tempperm', $perm, false);
-    $save_url = $next_url;
-    $next_url = "user_agreetermsofuse.php?next_url=$save_url";
-    return $next_url;
-}
-
 // Checks to see if a particular consent_type name is in
 // available. Returns an array of format: (BOOLEAN, INTEGER). The
 // boolean is T/F depending on whether that consent_type exists, and
@@ -70,4 +62,23 @@ function check_consent_type($name, $checkenabled=TRUE) {
         return array(TRUE, $ct->id);
     }
     return array(FALSE, -1);
+}
+
+// When a user uses the Web site to login, this funtion checks the
+// ENROLL consent and intercepts the login, presenting the terms of
+// use page Web form before they can continue.
+function intercept_login($user, $perm, $in_next_url = "") {
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+    $config = get_config();
+    if ( parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
+        // sent user to terms-of-use Web form after login
+        send_cookie('tempuserid', $user->id, false);
+        send_cookie('tempperm', $perm, false);
+        $save_url = $in_next_url;
+        return "user_agreetermsofuse.php?next_url=$save_url";
+    }
+    else {
+        send_cookie('auth', $user->authenticator, $perm);
+        return $in_next_url;
+    }
 }
