@@ -53,7 +53,7 @@ function boincuser_menu() {
     'title' => 'Edit',
     'description' => 'Edit a user profile',
     'page callback' => 'boincuser_edit_profile',
-    'access callback' => 'user_is_logged_in',
+    'access arguments' => array('edit own profile content'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
