@@ -21,6 +21,7 @@
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 
+define('MIN_BOINCCLIENT_VERSION_TOU', 61000);
 define('CONSENT_TYPE_ENROLL','ENROLL');
 
 function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
