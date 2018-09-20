@@ -37,7 +37,6 @@
 ##  SKINDIR="World Community Grid"                      ##The branded skin name to use
 ##  UNINSTALLERAPPNAME="Uninstall World Community Grid" ##The name of the uninstaller app
 ##  UNINSTALLERICON="WCGridUninstaller.icns"            ##The icon for the branded uninstaller
-##  UNINSTALLERTRASHICON="WCGridUninstaller.icns"       ##The icon for uninstaller PutInTrash 
 ##  INSTALLERAPPNAME="World Community Grid Installer"   ##The name of the installer app
 ##  INSTALLERICON="WCGridInstaller.icns"                ##The icon for the branded installer
 ##  READMEFILE="WCGrid-ReadMe.rtf"                      ##The branded readme file
@@ -52,8 +51,12 @@
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
 ##   before running this script.
 ##
-## If you wish to code sign the installer and uninstaller, create a file
-## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+## If you wish to code sign the client, manager, installer and uninstaller,
+## create a file ~/BOINCCodeSignIdentities.txt whose first line is the
+## application code signing identity and whose second line is the installer
+## code signing identity.
+## If you wish to also code sign the installer package, add a second line
+## to ~/BOINCCodeSignIdentities.txt with the installer code signing identity.
 ##
 ## cd to the root directory of the boinc tree, for example:
 ##     cd <path>/boinc
@@ -322,7 +325,6 @@ mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_
 sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 cp -fpRL ./clientgui/res/${UNINSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/"
 rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/MacUninstaller.icns"
-cp -fpRL ./clientgui/res/${UNINSTALLERTRASHICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/PutInTrash.icns"
 
 sudo chown -R root:admin "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
