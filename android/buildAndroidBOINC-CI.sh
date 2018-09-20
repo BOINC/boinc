@@ -89,7 +89,7 @@ export COMPILEOPENSSL="no"
 export OPENSSL_VERSION=1.0.2p
 if [ ! -d "$PREFIX/openssl-${OPENSSL_VERSION}" ]; then
     wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-    tar xzf /tmp/openssl.tgz --directory=$PREFIX4
+    tar xzf /tmp/openssl.tgz --directory=$PREFIX
     export COMPILEOPENSSL="yes"
 fi
 export OPENSSL_SRC=$PREFIX/openssl-${OPENSSL_VERSION}
