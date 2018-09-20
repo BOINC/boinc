@@ -4,31 +4,29 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Daniele Masini <d.masini.it@gmail.com>, 2016
-# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# OlatusRooc <sebastiano.pistore.info@aol.com>, 2016
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2018
+# Luka Radojlović <lukaradojlovic2@gmail.com>, 2018
+# Luka Radojlović <lukaradojlovic2@gmail.com>, 2018
+# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2018-08-24 14:08+0000\n"
-"Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
-"Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
+"PO-Revision-Date: 2018-06-25 18:13+0000\n"
+"Last-Translator: Luka Radojlović <lukaradojlovic2@gmail.com>\n"
+"Language-Team: Serbian (Latin) (http://www.transifex.com/boinc/boinc/language/sr%40latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it_IT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sr@latin\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "Italiano"
+msgstr "Srpski"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Italian"
+msgstr "Serbian"
 
 #: doc/account_managers.inc:7
 msgid ""
@@ -36,7 +34,7 @@ msgid ""
 "helps you with setting preferences, joining or creating teams, connecting "
 "your computers to projects, and much more.  Whether you're a new or an "
 "existing BOINC user, BAM will help you get the most out of BOINC."
-msgstr "BAM! ti aiuta nella creazione e nella gestione degli account dei progetti BOINC e nella gestione delle preferenze, nell'adesione e nella creazione di team, nell'assegnare i computer ai diversi progetti, e molto altro ancora. Sia che tu sia un nuovo utente BOINC sia che lo usi già da tempo, troverai BAM uno strumento per far rendere  al massimo BOINC con il minimo sforzo."
+msgstr "BAM! Vam pomaže u pravljenju i upravljanju vašim BOINC projektnim nalozima i pomaže Vam sa podešavanjem, pridruživanju ili pravljenju timova, povezivanjem kompjutera sa projektima, i mnogo više. Bilo da si nov ili postojeći BOINC korisnik, BAM će Vam pomoći da dobijete najviše od BOINC-a."
 
 #: doc/account_managers.inc:13
 msgid ""
@@ -44,330 +42,330 @@ msgid ""
 "on public-interest research projects when the machines are not otherwise in "
 "use. This screensaver does not affect performance of the host computer any "
 "more than an ordinary screensaver does."
-msgstr "Gli utenti di GridRepublic eseguono uno screensaver, quando le loro macchine non vengono utilizzate , che mostra i calcoli eseguiti sui loro computer per aiutare dei progetti di ricerca di interesse generale. Lo screensaver non influisce sulle prestazioni dei computer più di quanto faccia un qualunque salvaschermo."
+msgstr "Članovi GridRepublike pokreću čuvar ekrana koji im omogućava da njihovim kompjuterima da obavljaju istraživačke projekte u javnom interesu kada njihove mašine nisu iskorišćene na drugi način. Ovaj čuvar ekrana ne utiče na performanse hostovog kompjutera ne više od običnog čuvara ekrana."
 
 #: doc/docutil.php:21
 msgid "Search"
-msgstr "Cerca"
+msgstr "Traži"
 
 #: doc/docutil.php:107
 msgid "Return to BOINC main page"
-msgstr "Torna alla home di BOINC"
+msgstr "Povratak na glavnu stranu BOINC"
 
 #: doc/docutil.php:118
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "Questa pagina %spuò essere tradotta%s."
+msgstr "Ova stranica je %stranslatable%s ."
 
 #: doc/download.php:42
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
-msgstr "BOINC è un programma che ti permette di usare il tempo inutilizzato del processore del computer per aiutare progetti come SETI@home, Climateprediction.net, Rosetta@home, World Community Grid e molti altri."
+msgstr "BOINC je pogram koji ti pomaže da doniraš vreme svog neaktivnog računara radi pomoći naučnim projektima kao što su SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, i mnogim ostalim."
 
 #: doc/download.php:44
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Dopo l'installazione di BOINC sul tuo computer potrai scegliere di aiutare tutti i progetti che vorrai."
+msgstr "Nakon instalacije BOINC-a na svom računaru, možeš se povezati sa bezbrojem ovakvih projekata."
 
 #: doc/download.php:46
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Puoi eseguire questo software su un computer solo se ne sei il proprietario o se hai il permesso del suo proprietario."
+msgstr "Možeš pokrenuti ovaj softver na računaru samo ako ga poseduješ ili imaš dozvolu njegovog vlasnika."
 
 #: doc/download.php:51
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se hai delle difficoltà con gli store ufficiali."
+msgstr "Predlažemo Vam da preuymete BOINC sa Google Play prodavnice ili Amazon prodavnice aplikacije, ne odavde."
 
 #: doc/download.php:86
 msgid "System requirements"
-msgstr "Requisiti di sistema"
+msgstr "Sistemski zahtevi"
 
 #: doc/download.php:87
 msgid "Release notes"
-msgstr "Note di rilascio"
+msgstr "Release notes"
 
 #: doc/download.php:88 doc/index.php:122
 msgid "Help"
-msgstr "Aiuto"
+msgstr "pomoć"
 
 #: doc/download.php:89
 msgid "All versions"
-msgstr "Tutte le versioni"
+msgstr "Sve verzije"
 
 #: doc/download.php:90
 msgid "Version history"
-msgstr "Cronologia delle versioni"
+msgstr "Istorija verzija"
 
 #: doc/download.php:91
 msgid "GPU computing"
-msgstr "Elaborazione con GPU"
+msgstr "GPU računarstvo"
 
 #: doc/download.php:111
 msgid "BOINC: compute for science"
-msgstr "BOINC: elabora per la scienza"
+msgstr "BOINC : Compute za nauku"
 
 #: doc/index.php:29
 msgid "Computing power"
-msgstr "Potenza di calcolo"
+msgstr "Snaga računanja"
 
 #: doc/index.php:37
 msgid "Top 100 volunteers"
-msgstr "Primi 100 volontari"
+msgstr "Top 100 volontera"
 
 #: doc/index.php:38
 msgid "Statistics"
-msgstr "Statistiche"
+msgstr "Statistika"
 
 #: doc/index.php:67
 msgid "24-hour average:"
-msgstr "Media ultime 24 ore:"
+msgstr "24 -časovni prosek :"
 
 #: doc/index.php:67
 msgid "PetaFLOPS."
-msgstr "PetaFLOP."
+msgstr "PetaFLOPS."
 
 #: doc/index.php:69
 msgid "Active:"
-msgstr "Attivi:"
+msgstr "Aktivno :"
 
 #: doc/index.php:69
 msgid "volunteers,"
-msgstr "volontari,"
+msgstr "volonteri,"
 
 #: doc/index.php:69
 msgid "computers.\n"
-msgstr "computer.\n"
+msgstr "računari.\n"
 
 #: doc/index.php:76
 msgid "News"
-msgstr "Avvisi"
+msgstr "Novosti"
 
 #: doc/index.php:81
 msgid "Database not available; please try again later."
-msgstr "Database non disponibile; per favore riprovare più tardi."
+msgstr "Baza sa podacima nije dostupna; molimo pokušajte ponovo kasnije."
 
 #. "Volunteer" is used as a verb
 #: doc/index.php:90
 msgid "Volunteer"
-msgstr "Volontario"
+msgstr "Dobrovoljac"
 
 #: doc/index.php:92
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Utilizza il tempo libero del tuo computer (Windows, Mac, Linux, o Android) per curare malattie, studiare il riscaldamento globale, scoprire pulsar, e per molti altri tipi di ricerca scientifica.  È innocuo, sicuro e facile:"
+msgstr "Koristi neaktivno vreme računara (Windows, Mac, Linux, ili Android) da izlečiš bolesti, izučavaš globalno zagrevanje, otkrivaš pulsare, i istražuješ mnoge druge naučne projekte. I sve to na siguran, bezbedan, i lak način:"
 
 #: doc/index.php:95
 msgid "Download"
-msgstr "Scaricalo"
+msgstr "Preuzimanje"
 
 #: doc/index.php:98
 msgid ""
 "For Android devices, get the BOINC app from the Google Play Store; for "
 "Kindle, get it from the Amazon App Store."
-msgstr "Per l'uso su dispositivi Android, consigliamo di scaricare BOINC da Google Play Store; per l'uso su dispositivi Kindle da Amazon App Store."
+msgstr "Za android uredjaje, preuzmite BOINC aplikaciju sa Google Play prodavnice; za Kindle, preuzmite sa Amazon prodavnice."
 
 #: doc/index.php:102
 msgid ""
 "You can choose to support %1 projects %2 such as %3, %4, and %5, among many "
 "others."
-msgstr "Puoi scegliere di sostenere %1 progetti %2 come %3, %4, oppure %5, ad esempio."
+msgstr "Možete odabrati da podržite %1 projekte %2 kao što su %3, %4, i %5, medju ostalima."
 
 #: doc/index.php:109
 msgid ""
 "If you run several projects, try an %1 account manager %2 such as %3 "
 "GridRepublic %4 or %5 BAM! %6. "
-msgstr "Se supporti numerosi progetti, potresti provare ad usare un %1 account manager %2 come %3 GridRepublic %4 oppure %5 BAM! %6. "
+msgstr "Ako pokrećete više isovremenih projekata, pokušajte %1 menadžer naloga %2 kao što su %3 GridRepublika %4 or %5 BAM! %6."
 
 #: doc/index.php:116
 msgid "Learn more:"
-msgstr "Per saperne di più:"
+msgstr "Saznaj više:"
 
 #: doc/index.php:119
 msgid "Message boards"
-msgstr "Bacheche"
+msgstr "Tabla poruka"
 
 #: doc/index.php:120
 msgid "Projects"
-msgstr "Progetti"
+msgstr "Projekti"
 
 #: doc/index.php:121
 msgid "Manual"
-msgstr "Manuale"
+msgstr "Uputstvo"
 
 #: doc/index.php:123
 msgid "Add-ons"
-msgstr "Add-on"
+msgstr "Add-ons"
 
 #: doc/index.php:124
 msgid "Links"
-msgstr "Link"
+msgstr "Linkovi"
 
 #: doc/index.php:129
 msgid "Other ways to help:"
-msgstr "Ci sono altri cose che puoi fare per aiutarci:"
+msgstr "Drugi načini za pomoć:"
 
 #: doc/index.php:132
 msgid "Overview"
-msgstr "Panoramica"
+msgstr "Pregled"
 
 #: doc/index.php:133
 msgid "Translate"
-msgstr "Tradurre"
+msgstr "Prevedi"
 
 #: doc/index.php:134
 msgid "Test"
-msgstr "Testare"
+msgstr "Testiraj"
 
 #: doc/index.php:135
 msgid "Document"
-msgstr "Documentare"
+msgstr "Dokument"
 
 #: doc/index.php:136
 msgid "Publicize"
-msgstr "Fare propaganda"
+msgstr "Publikacije"
 
 #: doc/index.php:137
 msgid "Report bugs"
-msgstr "Segnalare bug"
+msgstr "Prijavi bug"
 
 #: doc/index.php:147
 msgid "High-throughput computing with BOINC"
-msgstr "Calcolo intensivo tramite BOINC"
+msgstr "Visokotemeljnopropusno računanje sa BOINC-om"
 
 #: doc/index.php:150
 msgid ""
 "%1 Scientists %2: use BOINC to create a %3 volunteer computing project %4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1 Scienziati %2: usate BOINC per realizzare un %3 Progetto di calcolo volontario %4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
+msgstr "%1 Naučnici %2: koriste BOINC da naprave %3 volonterski računarski projekat %4,  pružajući Vamm snagu hiljada CPU-ova i GPU-ova."
 
 #: doc/index.php:154
 msgid ""
 "%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
 "Center %4."
-msgstr "%1 Università %2: usate BOINC per creare un %3 Mainframe virtualizzato %4."
+msgstr "%1 Univerziteti %2: koriste BOINC da bi napravili %3 Virtuelni kampusni centar superračunanja %4."
 
 #: doc/index.php:159
 msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
-msgstr "%1 Aziende %2: utilizzate BOINC per il %3 Grid computing %4."
+msgstr "%1 Kompanije %2: koriste BOINC za %3 dekstop mrežno računanje %4."
 
 #: doc/index.php:164
 msgid "Documentation"
-msgstr "Documentazione"
+msgstr "Dokumentacija"
 
 #: doc/index.php:165
 msgid "BOINC and Docker"
-msgstr "BOINC e Docker"
+msgstr "BOINC i Docker"
 
 #: doc/index.php:173
 msgid "Software development"
-msgstr "Sviluppo del software"
+msgstr "Razvijanje softvera"
 
 #: doc/index.php:176
 msgid ""
 "BOINC is a software platform for volunteer computing. It includes client, "
 "server, and web components, and APIs for connecting other components."
-msgstr "BOINC è una piattaforma software per il calcolo distribuito. Include un client per diverse piattaforme, un server, componenti per interagire tramite un'interfaccia web, e delle API per coordinare il tutto."
+msgstr "BOINC je softverna platforma za volontersko računanje. Ona sadrži klijent, server, i web komponentu, i APIs za povezivanje komponenata."
 
 #: doc/index.php:179
 msgid "Source code"
-msgstr "Codice sorgente"
+msgstr "Izvorna šifra"
 
 #: doc/index.php:180
 msgid "Building BOINC"
-msgstr "Compilare BOINC"
+msgstr "Pravljenje BOINC"
 
 #: doc/index.php:182
 msgid "Design documents"
-msgstr "Linee guida di progettazione"
+msgstr "Dokumenti dizajna"
 
 #: doc/index.php:185
 msgid ""
 "We're always looking for programmers to help us maintain and develop BOINC."
-msgstr "Siamo sempre in cerca di programmatori per la manutenzione del codice di BOINC e l'implementazione di nuove funzionalità."
+msgstr "Uvek tražimo programere koji će nam pomoći da održavamo i razvijamo BOINC."
 
 #: doc/index.php:188
 msgid "Development process"
-msgstr "Processo di sviluppo"
+msgstr "Proces razvoja"
 
 #: doc/index.php:189
 msgid "Development tasks"
-msgstr "Attività di sviluppo"
+msgstr "Zadaci razvoja"
 
 #: doc/index.php:192
 msgid "BOINC is distributed under the LGPL open-source license."
-msgstr "BOINC è rilasciato nei termini della licenza open source LGPL."
+msgstr "BOINC je distribuiran pod okriljem LGPL open-source licence."
 
 #: doc/index.php:200
 msgid "The BOINC project"
-msgstr "Progetto BOINC"
+msgstr "BOINC projekat"
 
 #: doc/index.php:203
 msgid ""
 "BOINC is a community-based project.  Everyone is welcome to participate."
-msgstr "BOINC è un progetto partecipativo. Tutti possono partecipare e sono i benvenuti."
+msgstr "BOINC je zajednički-baziran projekat. Svi su dobrodošli da se pridruže."
 
 #: doc/index.php:207
 msgid "Email lists"
-msgstr "Mailing list"
+msgstr "Imejl lista"
 
 #: doc/index.php:208
 msgid "Events"
-msgstr "Eventi"
+msgstr "Dogadjaji"
 
 #: doc/index.php:209
 msgid "Graphics"
-msgstr "Grafica"
+msgstr "Grafikoni"
 
 #: doc/index.php:210
 msgid "Governance"
-msgstr "Gestione"
+msgstr "Uprava"
 
 #: doc/help.php:7
 msgid "Live help via Skype or email"
-msgstr "Assistenza dal vivo via Skype o email"
+msgstr "Pomoć uživo preko Skype ili imejla"
 
 #: doc/help.php:11
 msgid ""
 "BOINC Live Help lets get one-on-one help from an experienced BOINC user, who"
 " can answer questions about BOINC, help you install and use BOINC, and "
 "troubleshoot problems."
-msgstr "L'assistenza dal vivo è pensata per mettere direttamente in contatto le persone in difficoltà con un utente esperto, che si sia reso precedentemente disponibile a rispondere a dubbi su BOINC, aiutare nell'installazione e nell'uso, ed a seguire l'utente nella risoluzione di problemi relativi a BOINC."
+msgstr "BOINC podrška uživo Vam omogućava jedan-na-jedan podršku od iskusnog BOINC korisnika, koji može da Vam odgovori na pitanja o njemu, pomogne u instalaciji i korišćenju BOINC-a, i reši probleme."
 
 #: doc/help.php:14
 msgid "You can communicate with a helper"
-msgstr "Puoi comunicare con un volontario dell'assistenza"
+msgstr "Možete pričati sa pomoćnikom"
 
 #: doc/help.php:16
 msgid "by email"
-msgstr "via email"
+msgstr "preko imejla"
 
 #: doc/help.php:18
 msgid ""
 "\n"
 "by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page."
-msgstr "\na voce, via %1 Skype %2, un sistema telefonico basato su Internet. Se non disponi di un client Skype puoi %3 scaricarlo ed installarlo %4, in un attimo. Una volta pronto, torna in questa pagina."
+msgstr "\nrazgovorom, koristeči %1 Skype %2, bespatan internet-baziran telefonski sistem. Ako već nemate Skype, možete ga %3 preuzeti i instalirati sada %4. Kada završite, vratite se na ovu stranu."
 
 #: doc/help.php:25
 msgid "using Skype chat"
-msgstr "usando la chat di Skype"
+msgstr "koristeći Skype čet"
 
 #: doc/help.php:28
 msgid ""
 "Volunteers speaking many languages are available. Please select a language "
 "(number of helpers is shown):"
-msgstr "I volontari parlano diverse lingue. Scegli la lingua in cui preferisci essere assistito (il numero dei parlanti di ogni lingua è indicato tra parentesi):"
+msgstr "Volonteri koji govore razne jezike su dostupni. Molimo odaberite jezik (broj pomoćnika je prikazan):"
 
 #: doc/help.php:43
 msgid "Be a Help Volunteer"
-msgstr "Diventa un volontario dell'assistenza online"
+msgstr "Budite pomoć volontera"
 
 #: doc/help.php:46
 #, php-format
@@ -375,47 +373,47 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr "Se sei un utente esperto di BOINC ti incoraggiamo a %sdiventare un volontario dell'assistenza online%s.  È molto importante per la ricerca scientifica e per il calcolo distribuito volontario: inoltre è anche divertente!"
+msgstr "Ako ste iskusan BOINC korisnik, ohrabrujemo Vas da %s postanete volonter podrške %s. To je sjajan način da pomognete naučnom istraživanju i volonteskom računanju - i zabavno je!"
 
 #: doc/help.php:52
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Se sei già un volontario dell'assistenza online per modificare le tue opzioni %sclicca qui%s."
+msgstr "Ako ste već deo Volonter podrške: da bi uredili podešavanja, %skliknite ovde %s."
 
 #: doc/help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC."
-msgstr "Le persone elencate in questa pagina sono volontarie e prestano la loro opera a titolo gratuito. La loro consulenza non è sottoposta ad approvazione da parte di BOINC."
+msgstr "BOINC pomoćnici su neplaćeni volonteri. Njihov savet ne odobrava BOINC."
 
 #: doc/help_funcs.php:139
 msgid ""
 "%1 Never %2 give email address or password information to BOINC helpers."
-msgstr "Non fornire %1 MAI %2 il tuo indirizzo e-mail o la tua password ai volontari di BOINC."
+msgstr "%1 Nikada %2 ne dajte imejl adresu ili informacije o šifri BOINC pomoćnicima."
 
 #: doc/projects.php:151
 msgid "Unknown"
-msgstr "Sconosciuta"
+msgstr "Nepoznat"
 
 #: doc/download_util.inc:88
 msgid ""
 "We recommend that you also install %1 VirtualBox %2, so your computer can "
 "work on science projects that require it."
-msgstr "Raccomandiamo l'installazione di VirtualBox perché alcuni progetti lo richiedono (ogni progetto che ne ha bisogno lo specifica)."
+msgstr "Preporučujemo Vam da takodje instalirate %1 VirtualBox %2, da bi Vaš kompjuter mogao da radi na naučnim projektima koji to zahtevaju."
 
 #: doc/download_util.inc:90
 msgid "Learn more about VirtualBox."
-msgstr "Leggi di più su VirtualBox."
+msgstr "Saznajte više o VirtualBok ."
 
 #: doc/download_util.inc:104
 msgid "Download BOINC + VirtualBox"
-msgstr "Scarica BOINC + Virtualbox"
+msgstr "Dovnload BOINC + VirtualBok"
 
 #. "for %s" identifies the operating system, e.g. "for Windows"
 #: doc/download_util.inc:108 doc/download_util.inc:124
 #, php-format
 msgid "for %s"
-msgstr "per %s"
+msgstr "za %s"
 
 #: doc/download_util.inc:111 doc/download_util.inc:127
 #, php-format
@@ -429,64 +427,64 @@ msgstr "VirtualBox %s"
 
 #: doc/download_util.inc:122
 msgid "Download BOINC"
-msgstr "Scarica BOINC"
+msgstr "Dovnload BOINC"
 
 #: doc/projects.inc:17
 msgid "Distributed sensing"
-msgstr "Rilevamento distribuito"
+msgstr "Distribuirano opažanje"
 
 #: doc/projects.inc:22
 msgid "University of Southern California"
-msgstr "Università della California del Sud"
+msgstr "Univerzitet Južne Kalifornije "
 
 #: doc/projects.inc:23
 msgid "Seismology"
-msgstr "Sismologia"
+msgstr "Seizmologija"
 
 #: doc/projects.inc:24
 msgid ""
 "Quake-Catcher Network uses sensors attached to computers and smartphones to "
 "detect seismic waves."
-msgstr "Quake-Catcher Network utilizza sensori collegati a computer e smartphone per rilevare onde sismiche."
+msgstr "Quake-Catcher mreža koristi senzore prikačene na kompjutere i smart telefone da detektuje sezmičke talase."
 
 #: doc/projects.inc:32
 msgid "BOINC Poland Foundation"
-msgstr "Fondazione BOINC Polonia"
+msgstr "BOINC Poljska fondacija"
 
 #: doc/projects.inc:33
 msgid "Environmental research"
-msgstr "Ricerca ambientale"
+msgstr "Istraživanje životne sredine"
 
 #: doc/projects.inc:34
 msgid ""
 "Radioactive@Home is creating a free and continuously updated map of "
 "radiation levels using sensors connected to volunteers' computers.  You must"
 " buy a sensor to participate."
-msgstr "Radioactive@Home ha come scopo la creazione di una mappa liberamente disponibile a tutti e continuamente aggiornata dei livelli di radiazioni, usando sensori collegati ai computer dei volontari.  È necessario acquistare un sensore per partecipare."
+msgstr "Radioaktivni@Home je stvaranje slobodne i stalno ažurira mapu nivoa radijacije koristeći senzore povezane sa računarima volontera . Morate kupiti senzor da učestvuju ."
 
 #: doc/projects.inc:43
 msgid "Cognitive science and artifical intelligence"
-msgstr "Scienze cognitive ed intelligenza artificiale"
+msgstr "Kognitivne nauke i napredna inteligencija"
 
 #: doc/projects.inc:49
 msgid "Cognitive Science"
-msgstr "Scienze cognitive"
+msgstr "Kognitivne nauke "
 
 #: doc/projects.inc:50
 msgid ""
 "MindModeling@Home uses computational cognitive process modeling to better "
 "understand the human mind, and specifically to study the mechanisms and "
 "processes that enable and moderate human performance and learning."
-msgstr "MindModeling@Home utilizza la modellazione computazionale dei processi cognitivi per capire meglio la mente umana ed in particolare per studiare i meccanismi ed i processi che permettono ed ostacolano le prestazioni umane e l'apprendimento."
+msgstr "MindModeling@Home koristi računar da bi modelisao kognitivne procese i tako bolje razumeli ljudski um, i specifično istražili mehanizme i procese koji omogućavaju i monitorišu ljudske performanse i učenje."
 
 #: doc/projects.inc:68 doc/projects.inc:474 doc/projects.inc:598
 #: doc/projects.inc:608 doc/projects.inc:664
 msgid "Independent"
-msgstr "Indipendente"
+msgstr "Nezavisno"
 
 #: doc/projects.inc:69
 msgid "Artificial intelligence"
-msgstr "Intelligenza artificiale"
+msgstr "Veštačka inteligencija"
 
 #: doc/projects.inc:70
 msgid ""
@@ -494,39 +492,39 @@ msgid ""
 "intelligence that uses semantic networks, stemmers, part of speech "
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
-msgstr "Analizzare e convertire reti semantiche da utilizzare in FreeHAL, un'intelligenza artificiale che utilizza reti semantiche, stemmers, parti di database linguistici, e parti di analizzatori grammaticali allo scopo di imitare il comportamento umano nelle conversazioni."
+msgstr "Rasčlani i konvertuj semanticke mreže za korist FreeHAL, veštačke inteligencije koja koristi semantičke mreže, stemere, deo baznih podataka o govoru, i deo govornih tagova u cilju da imitira ljudsko ponašanje u razgovoru."
 
 #: doc/projects.inc:80
 msgid "Biology and Medicine"
-msgstr "Biologia e medicina"
+msgstr "Biologija i medicina"
 
 #: doc/projects.inc:86
 msgid "Medical physiology"
-msgstr "Fisiologia medica"
+msgstr "Medicinska fiziologija"
 
 #: doc/projects.inc:87
 msgid ""
 "DENIS@Home does cardiac electrophysiological simulations, studying the "
 "electrical activity of the heart."
-msgstr "Denis@Home esegue simulazioni elettrofisiologiche cardiache, studiando l'attività elettrica del cuore."
+msgstr "DENIS@Home izučava kardio elektrofiziološke simulacije, istražujući električku aktivnost srca."
 
 #: doc/projects.inc:96
 msgid "Molecular biology"
-msgstr "Biologia molecolare"
+msgstr "Molekularna biologija"
 
 #: doc/projects.inc:97
 msgid ""
 "RNA World seeks to identify, analyze, structurally predict and design RNA "
 "molecules on the basis of established bioinformatics software."
-msgstr "RNA World mira ad identificare, analizzare, prevedere la struttura e progettare molecole di RNA usando software bioinformatici già testati."
+msgstr "RNA World pokušava da identifikuje, analira, strukturno predvidi i dizajnira RNA molekule na bazi utvrdjenog bioinformatičkog softvera."
 
 #: doc/projects.inc:105
 msgid "University College Dublin"
-msgstr "University College di Dublino"
+msgstr "Univerzitetski fakultet Dablin"
 
 #: doc/projects.inc:106
 msgid "Antimalarial drug discovery"
-msgstr "Farmacologia degli antimalarici"
+msgstr "Otkriće leka za malariju"
 
 #: doc/projects.inc:107
 msgid ""
@@ -534,15 +532,15 @@ msgid ""
 " medication. We therefore urgently need to discover new drugs, targeting new"
 " proteins in the parasite. The FiND@Home project is aimed at finding these "
 "new targets."
-msgstr "Il parassita che è causa della malaria continua a sviluppare resistenza ai farmaci che si rendono via via disponibili. Abbiamo pertanto un urgente bisogno di sviluppare nuovi farmaci, che agiscano sulle proteine che si evolvono nel parassita. FiND@Home mira a scoprire quali sono queste proteine e come colpirle."
+msgstr "Parazit koji izaziva malariju nastavlja da evoluira rezistenciju na dostupne lekove. Mi zato pod hitno tražimo nove lekove, ciljajući na proteine parazita. FiND@Home projekat ima za cilj da nadje ove nove ciljeve."
 
 #: doc/projects.inc:145
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr "Barcelona Biomedical Research Park (PRBB)"
+msgstr "Biomedicinski istraživački park u Barseloni (PRBB)"
 
 #: doc/projects.inc:146
 msgid "Molecular simulations of proteins"
-msgstr "Simulazioni molecolari di proteine"
+msgstr "Molekularne simulacije proteina"
 
 #: doc/projects.inc:147
 msgid ""
@@ -550,15 +548,15 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "GPUGrid.net apre nuovi scenari computazionali grazie al primo codice di dinamica molecolare esteso a tutti gli atomi (CellMD) appositamente ottimizzato per girare sulle GPU NVIDIA. Di colpo diventano possibili nuove applicazioni biomediche che conferiscono un nuovo ruolo alla biologia computazionale nella ricerca biomedica."
+msgstr "CPUGrid.net pokreće kompjuterske scenarije u obliku prvog celoa-atomnog molekularnodinamickog koda (CellMD) specijalno optimizovanog da pokreće NVIDIA GPU. Nove biomedicinske aplikacije ubrzo postaju u kome novu ulogu imaju računarska biologija za medicinska istraživanja."
 
 #: doc/projects.inc:209
 msgid "University of Washington"
-msgstr "Università di Washington"
+msgstr "Universiti of Vashington"
 
 #: doc/projects.inc:210
 msgid "Biology"
-msgstr "Biologia"
+msgstr "Biologija"
 
 #: doc/projects.inc:211
 msgid ""
@@ -568,19 +566,19 @@ msgid ""
 "couldn't possibly attempt without your help. You will also be helping our "
 "efforts at designing new proteins to fight diseases such as HIV, malaria, "
 "cancer, and Alzheimer's"
-msgstr "Determinare le forme 3d delle proteine in una ricerca che in ultima analisi può condurre allo sviluppo di cure per alcune delle principali malattie umane. Eseguendo Rosetta@home ci aiuterete a velocizzare e rendere più precisa la nostra ricerca in modi che non potevamo nemmeno immaginare senza il tuo aiuto. Sarete anche in grado di aiutare i nostri sforzi a progettare nuove proteine per combattere malattie come HIV, malaria, cancro ed Alzheimer"
+msgstr "Odredite 3-dimenzioniske oblike proteina u istraživanju koje može dovesti do pronalaska lekova za najveće svetske bolesti. Pokretanjem Rosseta@home pomoći ćete nam da ubrzamo proces i proširimo istraživanja na načine koje ne bi mogli bez Vaše pomoći.\nTrakodje Vi ćete pomogati u pokušajima dizajniranja novih proteina u borbi protiv bolesti kao što su HIV, malarija, rak, i alchajmer"
 
 #: doc/projects.inc:229
 msgid "Earth Sciences"
-msgstr "Scienze della Terra"
+msgstr "nauke planete Zemlje"
 
 #: doc/projects.inc:241
 msgid "Oxford University"
-msgstr "Università di Oxford"
+msgstr "Univerzitet u Oksfordu"
 
 #: doc/projects.inc:242
 msgid "Climate study"
-msgstr "Climatologia"
+msgstr "Klima studija"
 
 #: doc/projects.inc:243
 msgid ""
@@ -592,16 +590,16 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Investigare le approssimazioni che sono accettabili nei modelli climatici allo stato dell'arte. Eseguendo l'elaborazione di un modello migliaia di volte contiamo di scoprire in che modo esso risponda a piccole variazioni di queste approssimazioni - sufficientemente piccole da non far diventare le approssimazioni meno realistiche. Questo ci consentirà di migliorare la nostra comprensione di quanto sensibili siano i nostri modelli ai piccoli cambiamenti, anche ad aspetti quali i cambiamenti nel ciclo dell'anidride carbonica e dello zolfo. Potremo così fare studi sul clima nel prossimo secolo, sotto un ampio ventaglio di scenari diversi."
+msgstr "Istražite aproksimacije koje se bave pitanjima modela klime. Pokretanjem modela hiljadama puta nadamo se da ćemo saznati kako model odgovara na najmanje promene u aproksimaciji- dovoljne da se ne smanji realnost.  Ovo će nam omogućiti da unapredimo naše shvatanje osetljivosti modela na male promene i takodje promena u ciklusima sulfata i ugljen-dioksida. Ovo će nam omogućiti da istražimo kako se klima može menjati u sledećem veku pod uticajem različitih scenaria."
 
 #: doc/projects.inc:251
 msgid "Physical Science"
-msgstr "Fisica"
+msgstr "Fizička Nauka"
 
 #: doc/projects.inc:276 doc/projects.inc:325 doc/projects.inc:335
 #: doc/projects.inc:345
 msgid "Astronomy"
-msgstr "Astronomia"
+msgstr "astronomija"
 
 #: doc/projects.inc:277
 msgid ""
@@ -611,11 +609,11 @@ msgid ""
 "calculations on multi-wavelength (ultraviolet, optical and near-infrared "
 "light) images of galaxies to produce an atlas that will help astronomers to "
 "better understand the distant universe."
-msgstr "TheSkyNet POGS è un progetto di astronomia che studia 16 diverse proprietà delle galassie, tra cui luminosità, massa, quantità di polvere e quanto velocemente si stanno formando le stelle. Stiamo utilizzando la potenza di elaborazione per condurre calcoli pixel-per-pixel sulle immagini di multi-lunghezza d'onda (luce ultravioletta, ottica e infrarosso) di galassie per produrre un atlante che aiuterà gli astronomi a capire meglio l'universo lontano."
+msgstr "TheSkyNet POGS je astronomski projekat istraživanja 16 različitih svojstava galaksija, uključujući osvetljenje, masu, količinu prašine u brzinu formiranja zvezda. Mi koristimo snagu Vašeg procesora da bi sproveli piksel-po-piksel računanja na višetalasima (UV, optičke i skoro infracrvenu svetlost) slike galaksija da bi proizveli atlas koji pomaže astronomima da bolje shvate daleke univerzume."
 
 #: doc/projects.inc:287 doc/projects.inc:373
 msgid "Astrophysics"
-msgstr "Astrofisica"
+msgstr "astrofizika"
 
 #: doc/projects.inc:288
 msgid ""
@@ -623,52 +621,52 @@ msgid ""
 "of the asteroid population. As input data, we use any asteroid photometry "
 "that is available. The results are asteroid convex shape models with the "
 "direction of the spin axis and the rotation period."
-msgstr "L'obiettivo del progetto è quello di derivare forme e spin per una parte significativa della popolazione degli asteroidi. Come dati di input, usiamo qualsiasi fotometria di asteroidi che è disponibile. I risultati sono modelli di forma convessa dell'asteroide con la direzione dell'asse di rotazione e il periodo di rotazione."
+msgstr "Cilj ovog projekta je da izvede obilke spina za značajne delove populacije asteroida. Kao input podatke, koristimo dostupnu fotometriju asteroida. Rezultati su konveksni modeli asteroida sa pravcem ose spina i rotacionim periodom."
 
 #: doc/projects.inc:324
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "Università dell'Illinois ad Urbana-Champaign"
+msgstr "Univerzitet Ilinoisa u Urbana-Šampanji"
 
 #: doc/projects.inc:326
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
-msgstr "L'obiettivo di Cosmology@Home è di cercare il modello che meglio descrive il nostro Universo e trovare l'intervallo di modelli che concordano con i dati disponibili dalla fisica delle particelle astronomiche."
+msgstr "Cilj Cosmology@Home potrage je da pronadje model koji najbolje opisuje Univerzum i nadje\nspektar modela koji se slažu sa dostupnim čestičnofizičkim podacima."
 
 #: doc/projects.inc:336
 msgid ""
 "Universe@Home aims to create the first database of the simulated stellar "
 "content of the Universe, from the earliest stars to the most exotic black "
 "hole binaries."
-msgstr "Universe@Home mira a creare il primo database del contenuto simulato stellare dell'universo, dalle stelle più vecchie ai buchi neri binari più esotici."
+msgstr "Universe@Home ima za cilj da kreira prvu bazu podataka simuliranog zvezdanog sadržaja Univerzuma, od prve zvezde do najvećih crnih rupa."
 
 #: doc/projects.inc:339
 msgid "Do research in physics and astronomy"
-msgstr "Fare ricerca in fisica ed astronomia"
+msgstr "Istražujte fiziku i astronomiju"
 
 #: doc/projects.inc:344
 msgid "Rensselaer Polytechnic Institute"
-msgstr "Politecnico Rensselaer a Troy"
+msgstr "Politehnički institut Rensselaer"
 
 #: doc/projects.inc:346
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
-msgstr "L'obiettivo di Milkyway@Home è di creare un modello tridimensionale più accurato possibile della Via Lattea usando i dati raccolti dallo Sloan Digital Sky Survey."
+msgstr "Cilj Milkway@Home je da stvori visoko preciznu tridimenzionski model galaksija Mlečnog puta koristeći podatke sakupljene od strane Sloan digitalnog istraživanja neba."
 
 #: doc/projects.inc:349
 msgid "Study the structure of the Milky Way galaxy"
-msgstr "Studio della struttura della Via Lattea"
+msgstr "Izučavajte strukturu Mlečnog puta "
 
 #: doc/projects.inc:354
 msgid "Leiden University, The Netherlands"
-msgstr "Università di Leida, Paesi Bassi"
+msgstr "Univerzitet u Lajdenu, Holandija"
 
 #: doc/projects.inc:355
 msgid "Chemistry"
-msgstr "Chimica"
+msgstr "Hemija"
 
 #: doc/projects.inc:356
 msgid ""
@@ -678,17 +676,17 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Calcoli relativi alla scienza delle superfici utilizzando la dinamica classica. Leiden Classical permette a volontari, studenti e altri scienziati di accodare le proprie richieste di elaborazione nella rete. Ogni utente ha la sua coda personale per le simulazioni di dinamica classica. In questo modo degli studenti hanno già usato la rete per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti)."
+msgstr "Površinska naučna istraživanja koriste klasičnu dinamiku. Lajdanova klasika omogućava volonterima, studentima i drugim naučnicima da podnesu lička računanja u mrežu. Svaki korisnik ima svoj lični red za zadatke klasične dinamike. Ovako studenti imaju mrežu za simulaciju tečnog argona, ili da testiraju valjanost zakona idealnog gasa pomoću mrežne simulacije."
 
 #: doc/projects.inc:359
 msgid "Help students do atomic simulations"
-msgstr "Aiutare gli studenti a fare simulazioni atomiche"
+msgstr "Pomozite studentima da rade atomske simulacije"
 
 #: doc/projects.inc:372
 msgid ""
 "University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
 "Gravitational Physics - Hanover (Germany)"
-msgstr "Università del Wisconsin - Milwaukee (USA), Max Planck Institute for Gravitational Physics - Hanover (Germania)"
+msgstr "Univerzitet u Viskonsinu - MIlvoki (SAD), Maks Plankov institu za gravitacionu fiziku u Hanoveru (Nemačka)"
 
 #: doc/projects.inc:374
 msgid ""
@@ -696,19 +694,19 @@ msgid ""
 "astrophysical signals from spinning neutron stars (often called pulsars) "
 "using data from the LIGO gravitational-wave detectors, the Arecibo radio "
 "telescope, and the Fermi gamma-ray satellite."
-msgstr "Einstein@Home utilizza il tempo di inattività del vostro computer per cercare deboli segnali astrofisici da stelle di neutroni rotanti (spesso chiamate pulsar), utilizzando i dati dal rilevatore di onde gravitazionali LIGO, dal radiotelescopio di Arecibo e dal satellite per il raggi gamma Fermi."
+msgstr "Einstein@Home koristi snagu nekorišćenog računara da  bi istraživao slabe astrofizičke signale neutrnoskih zvezda (pulsara) koristeći podatke LIGO-a gravitacionotalasnih detektora, Arecibo radio teleskop, i Fermi gamatalasne satelite."
 
 #: doc/projects.inc:377
 msgid "Help detect pulsars and gravitational waves"
-msgstr "Aiuto nel rilevamento di pulsar ed onde gravitazionali"
+msgstr "Pomaže u otkrivanju pulsara i gravitacionih talasa"
 
 #: doc/projects.inc:390
 msgid "CERN (European Organization for Nuclear Research)"
-msgstr "CERN (Organizzazione europea per la ricerca nucleare)"
+msgstr "CERN (Evropska organizacija za nuklearna istraživanja)"
 
 #: doc/projects.inc:391
 msgid "Physics"
-msgstr "Fisica"
+msgstr "Fizika"
 
 #: doc/projects.inc:392
 msgid ""
@@ -717,19 +715,19 @@ msgid ""
 "physics laboratory.  It is the most powerful instrument ever built to "
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
-msgstr "Il Large Hadron Collider (LHC) è un acceleratore di particelle sito al CERN, l'Organizzazione Europea per la Ricerca Nucleare, il più grande laboratorio di fisica delle particelle del mondo. Oggi è il più potente strumento del mondo per lo studio delle proprietà delle particelle. LHC@home esegue simulazioni per migliorare il progetto di LHC e dei suoi rivelatori."
+msgstr "Veliko hadronski sudarač (LHC) je ubrzator čestica u CERN-u, Evropskoj organizaciji za nuklearna istraživanja, svetskog najveće fizičke čestične laboratorije. To je najači instument ikada konstruisan radi istraživanja svojstava čestica. LHC@home koristi simulacije kako bi poboljšao dizajn LHC-a i njegovih detektora."
 
 #: doc/projects.inc:395
 msgid "Improve the design of the Large Hadron Collider"
-msgstr "Migliorare il progetto di LHC"
+msgstr "Unapredi dizajn LHC"
 
 #: doc/projects.inc:420
 msgid "University of California, Berkeley"
-msgstr "Università di Berkeley, California"
+msgstr "Univerzitet Kalifornije, Berkli"
 
 #: doc/projects.inc:421
 msgid "Astrophysics, astrobiology"
-msgstr "Astrofisica, astrobiologia"
+msgstr "Astrofizika , Astrobiologi"
 
 #: doc/projects.inc:422
 msgid ""
@@ -738,37 +736,37 @@ msgid ""
 "radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
-msgstr "SETI (Search for Extraterrestrial Intelligence, Ricerca di intelligenza extraterrestre) è un'area scientifica il cui obiettivo è rilevare vita intelligente al di fuori della Terra. Uno degli approcci che adotta, noto come SETI radio, utilizza radiotelescopi per ascoltare segnali radio a banda stretta provenienti dallo spazio. È noto che tali segnali non sono di origine naturale, quindi la loro rilevazione costituirebbe una prova dell'esistenza di tecnologia extraterrestre."
+msgstr "SETI (Search for Extraterrestial Intelligence) je oblast nauke koja ima za cilj da otkrije inteligente oblike života van Zemlje. Jedan pristup, poznat kao SETI radio, koristi radio teleskope da osluša radio signale usko-propusnog opsega  iz vasione. Takvi signali se ne dešavaju u prirodi, zato bi otkrivanje bilo dokaz za postojanje vaznemaljske tehnologije."
 
 #: doc/projects.inc:425
 msgid "Search for evidence of extra-terrestrial life"
-msgstr "Ricerca di prove di vita extraterrestre"
+msgstr "Potraga za dokazima vanzemaljski život"
 
 #: doc/projects.inc:449
 msgid "Multiple applications"
-msgstr "Applicazioni multiple"
+msgstr "Multiple aplikacije"
 
 #: doc/projects.inc:455
 msgid "Molecular biology, Computer Science"
-msgstr "Biologia molecolare, informatica"
+msgstr "Molekularna biologija, računarske nauke "
 
 #: doc/projects.inc:456
 msgid ""
 "The Citizen Science Grid is dedicated to supporting a wide range of research"
 " and educational projects using volunteer computing and citizen science."
-msgstr "Il Citizen Science Grid è dedicato a sostenere una vasta gamma di ricerche e progetti educativi utilizzando il calcolo volontario e la scienza della città."
+msgstr "Gradjanska naučna mreža je posvećena podršci velikog spektra istraživanja i edukacionih projekata koristeći volontersko računanje i gradjansku nauku."
 
 #: doc/projects.inc:459
 msgid "Support science from the University of North Dakota"
-msgstr "Sostenere la ricerca dell'Università del Nord Dakota"
+msgstr "Podržite nauku Univerziteta u Severnoj Dakoti"
 
 #: doc/projects.inc:464
 msgid "Chinese Academy of Sciences"
-msgstr "Accademia cinese delle scienze"
+msgstr "Kineska Akademija Nauka"
 
 #: doc/projects.inc:465
 msgid "Physics, biochemistry, and others"
-msgstr "Fisica, biochimica, altre"
+msgstr "Fizika, biohemija i ostalo"
 
 #: doc/projects.inc:466
 msgid ""
@@ -776,33 +774,33 @@ msgid ""
 "Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with "
 "projects studying protein structure, nanotechnology, cancer genomics, and "
 "high energy physics."
-msgstr "CAS@home è portato avanti dal Centro di calcolo dell'Istituto di Fisica delle alte energie (IHEP), dell'Accademia cinese delle scienze, per servire gli scienziati cinesi i cui progetti ricadano nello studio della struttura delle proteine, la nanotecnologia, l'oncogenetica, e la fisica delle alte energie."
+msgstr "CAS@home je hostiran od strane računarskog centra instituta za visokoenergetsku fiziku (IHEP), Kineske Akademije Nauka, za Kineske naučnike sa projektima istraživanja proteinske strukture, nanotehnologija, genomika raka, i visokoenergetsku fiziku."
 
 #: doc/projects.inc:469
 msgid "Help Chinese researchers"
-msgstr "Aiutare i ricercatori cinesi"
+msgstr "Pomozi kineskim istraživačima"
 
 #: doc/projects.inc:475
 msgid "Mathematics, physics, evolution"
-msgstr "Matematica, fisica, biologia evoluzionistica"
+msgstr "Matematika, fizika i evolucija"
 
 #: doc/projects.inc:476
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr "Yoyo@home è un wrapper tra BOINC e vari altri progetti di calcolo volontario esistenti: ECM, Muon, Evolution@home, e distributed.net"
+msgstr "Yoyo@home je adapter izmedju BOINC-a i nekoliko drugih postojećih volonterskih računarskih projekata: ECM, Muon, Evolution@home, i distirbuted.net"
 
 #: doc/projects.inc:479
 msgid "Do research in math, physics, and evolution"
-msgstr "Fare ricerca in matematica, fisica ed evoluzione"
+msgstr "Da istraživanja iz matematike , fizike , i evolucije"
 
 #: doc/projects.inc:504
 msgid "IBM Corporate Citizenship"
-msgstr "IBM Corporate Citizenship"
+msgstr "Gradjanstvo IBM korporacije "
 
 #: doc/projects.inc:505
 msgid "Medical, environmental and other humanitarian research"
-msgstr "Medicina, ambiente ed altre ricerche benefiche"
+msgstr "Medicina, ekološka i ostala humanitarna istraživanja "
 
 #: doc/projects.inc:506
 msgid ""
@@ -810,20 +808,20 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research"
 " includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
-msgstr "Ricerche critiche non profit su alcuni dei problemi importanti dell'umanità e si prefigge di creare la più grande rete di calcolo distribuito.  Le ricerche includono HIV-AIDS, cancro, malattie tropicali, malattie poco studiate, energia solare, acqua pulita ed altri campi."
+msgstr "Da bi poboljšali kritčki besprofitno istraživanje na nekim od najvećih problema čovečanstva stvorena je najveća računarska volonterska mreža. Istraživanja uključuju HIV-SIDA, rak, tropske i potisnute bolesti, solarnu energiju, čiste vode i razne ostale."
 
 #: doc/projects.inc:509
 msgid "Do biomedical and environmental research"
-msgstr "Fare ricerca biomedica e ambientale"
+msgstr "Bavi se biomedicinskim i ekološkim istraživanjima"
 
 #: doc/projects.inc:514
 msgid "Mathematics, computing, and games"
-msgstr "Matematica, calcolo computazionale e teoria dei giochi"
+msgstr "Matematika, računanje i igre"
 
 #: doc/projects.inc:540 doc/projects.inc:609 doc/projects.inc:665
 #: doc/projects.inc:675 doc/projects.inc:685
 msgid "Mathematics"
-msgstr "Matematica"
+msgstr "Matematika"
 
 #: doc/projects.inc:541
 msgid ""
@@ -833,64 +831,64 @@ msgid ""
 "formulate conjectures about number fields. Ultimately, this research will "
 "lead to a deeper understanding of the profound properties of numbers, the "
 "basic building blocks of all mathematics."
-msgstr "NumberFields@home ricerca per campi con proprietà speciali. L'applicazione principale di questa ricerca è il regno della teoria dei numeri algebrica. I teorici dei numeri possono estrarre i dati per modelli interessanti per aiutarli a formulare congetture sui campi dei numeri. In definitiva, questa ricerca porterà a una più profonda comprensione delle proprietà profonde dei numeri, i blocchi base di tutta la matematica."
+msgstr "NumberFields@home pretražuje polja sa specijalnim svojstvima. Primarnu aplikaciju ovog istraživanja je u oblasti algebarske numeričke teorije. Theorije brojeva mogu rudariti podatke i traže zanimljive oblike kako bi formulisali pretpostavke o brojevnim poljima. Konačno, ovo istraživanje će dovesti do dubljeg poznavanja temeljnih svojstava brojeva, osnovnih, osnovnih činioca celokupne matematike."
 
 #: doc/projects.inc:544
 msgid "Do research in algebraic number theory"
-msgstr "Fare ricerca in teoria dei numeri algebrica"
+msgstr "Istražuj teoriju algebarskih brojeva"
 
 #: doc/projects.inc:560
 msgid "Computer Science"
-msgstr "Informatica"
+msgstr "Informatika"
 
 #: doc/projects.inc:561
 msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
-msgstr "Risolvere i problemi con una complessità e importanza pratica (problemi di inversione di funzioni discrete, ottimizzazione discreta, bioinformatica, ecc.) che possono essere efficacemente ridotti al problema di soddisfacibilità booleana."
+msgstr "Rešava teške i praktične, bitne probleme (problemi inverzije diskretne funkcije, diskretne optimizacije, bioinformatike, itd.) koji se mogu efikasno smanjiti na Booleanov zadovaljavajući problem."
 
 #: doc/projects.inc:564
 msgid "Study computational complexity"
-msgstr "Studiare la complessità computazionale"
+msgstr "Studija računskih složenosti"
 
 #: doc/projects.inc:589
 msgid "Cryptography and combinatorics"
-msgstr "Crittografia e calcolo combinatorio"
+msgstr "Kriptografija i kombinatorika"
 
 #: doc/projects.inc:590 doc/projects.inc:593
 msgid "Run applications from distributed.net"
-msgstr "Eseguire applicazioni da distributed.net"
+msgstr "Pokrenite aplikaciju sa distributed.net"
 
 #: doc/projects.inc:599
 msgid "Cryptography"
-msgstr "Crittografia"
+msgstr "Cryptography"
 
 #: doc/projects.inc:600
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "Tentare di decodificare tre messaggi codificati con la macchina Enigma dalla Germania nazista. I segnali vennero intercettati nell'Atlantico del nord nel 1942 e si crede siano intatti, anche se il loro contenuto è ancora sconosciuto."
+msgstr "Pokušaj dešifrovanja 3 originalne Enigma poruke. Signali su presretnuti u severnom Atlantiku 1942. i veruje se da su nerešivi."
 
 #: doc/projects.inc:603
 msgid "Decode WWII submarine messages"
-msgstr "Decodificare i messaggi dei sommergibili della Seconda guerra mondiale"
+msgstr "Dekodiraj poruke sa podmornica iz Drugog svetskog rata."
 
 #: doc/projects.inc:610
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr "Studiare la congettura di Collatz, una congettura matematica irrisolta"
+msgstr "Istraživaje Collatz pretpostavke, nerešene pretpostavke u matematici"
 
 #: doc/projects.inc:613
 msgid "Study the Collatz Conjecture"
-msgstr "Studiare la congettura di Collatz"
+msgstr "Istražujte Collatz pretpostavku"
 
 #: doc/projects.inc:618
 msgid "California State University Fullerton"
-msgstr "Università statale della California a Fullerton"
+msgstr "Državni Univerzite Fullerton u Kaliforniji"
 
 #: doc/projects.inc:619
 msgid "Factorization of large integers"
-msgstr "Fattorizzazione di numeri interi grandi"
+msgstr "Faktorizacija velikih celih brojeva"
 
 #: doc/projects.inc:620
 msgid ""
@@ -900,62 +898,62 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS@Home è un progetto di ricerca che utilizza computer connessi ad Internet per effettuare l'iterazione del crivello di reticoli (lattice sieving) nella fattorizzazione di grandi interi con il metodo del crivello dei campi di numeri. Da giovane studente, hai fatto la tua prima esperienza di scomposizione di interi in fattori primi, ad esempio 15 = 3 * 5 oppure 35 = 5 * 7. NFS@Home è una continuazione di quell'esperienza, solo con interi con centinaia di cifre."
+msgstr "NFS@home je istraživački projekat koj koristi kompjutere koji su povezani na internet kako bi istraživao oblike u prosejavanju brojevnih polja i faktorizaciji velikih celih brojeva. Kao mladi student, dobijate prvo iskustvo u rastavljanju celih u proste brojeve, kao što su 15=3 * 5 ili 35= 5 * 7. NFS@Home je nastavak tog iskustva, ali samo sa celim brojevima koji su dugi 100 karaktera."
 
 #: doc/projects.inc:623
 msgid "Study the factorization of large integers"
-msgstr "Studiare la fattorizzazione dei numeri interi grandi"
+msgstr "Studira faktorizaciju velikih celih brojeva"
 
 #: doc/projects.inc:666
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
-msgstr "Primegrid ha progetti multipli che cercano differenti forme di grandi numeri primi, inclusa la ricerca del più grande numero primo conosciuto."
+msgstr "Primegrid ima više projekata koji traže različite forme veoma velike primarne brojeve, uključujući potragu za najveći poznat primarni broj."
 
 #: doc/projects.inc:669
 msgid "Search for large prime numbers"
-msgstr "Ricerca di grandi numeri primi"
+msgstr "Traganje za velike prostih brojeva"
 
 #: doc/projects.inc:674
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr "Hochschule RheinMain University of Applied Sciences"
+msgstr "Hohškola Rajna, Majna Univerzitet primenjenih nauka"
 
 #: doc/projects.inc:676
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
-msgstr "Cercare controesempi a due congetture riguardanti l'identificazione di numeri primi"
+msgstr "Potraga za kontraprimerima do dve konjekture koje se odnose na identifikaciju primarnih brojeva"
 
 #: doc/projects.inc:679
 msgid "Study the properties of prime numbers"
-msgstr "Studiare le proprietà dei numeri primi"
+msgstr "Proučite svojstva prostih brojeva"
 
 #: doc/projects.inc:684
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr "MTA-SZTAKI Laboratorio di sistemi paralleli e distribuiti (Ungheria)"
+msgstr "MTA - SZTAKI Laboratorija paralelnih i distribuiranih sistema (Mađarska)"
 
 #: doc/projects.inc:686
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "Trovare tutti i sistemi generalizzati di numeri binari (nei quali le basi sono matrici e le cifre sono vettori) fino a dimensione 11."
+msgstr "Istražuje generalizovane binarne brojne sisteme (u kojim su baze matrice i cifre su vektori) do 11-te dimenzije."
 
 #: doc/projects.inc:689
 msgid "Study number theory"
-msgstr "Studiare la teoria dei numeri"
+msgstr "Studija teorija brojeva"
 
 #: doc/projects.inc:746
 msgid ""
 "Testing and comparison of heuristic methods for getting separations of "
 "parallel algorithms working in the CAD system for designing logic control "
 "systems"
-msgstr "Test e confronto di metodi euristici per ottenere separazioni di algoritmi paralleli che funzionino in ambienti CAD orientati alla progettazione di sistemi di controllo"
+msgstr "Testiranje i poredjenje heurističkih metoda za dobijanje separacije paralelnih algoritama radeći u CAD sistemu za dizajniranje logički kontrolisanih sistema"
 
 #: html/inc/news.inc:41
 msgid "Discuss"
-msgstr "Discuti"
+msgstr "Diskusija"
 
 #: html/inc/news.inc:112
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Gli avvisi sono disponibili come %sfeed RSS%s"
+msgstr "Vest je dostupna kao %s RSS feed %s"

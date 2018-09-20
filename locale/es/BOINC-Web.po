@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2017
-# Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2017
+# Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2017-2018
 # Antonio Regidor García <chikitosan@gmail.com>, 2015
 # el buve, 2015
 # fco.aguilarm <fco.aguilarm@gmail.com>, 2015
@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2017-12-16 15:26+0000\n"
-"Last-Translator: Liliana Faouen <liliana.faouen@gmail.com>\n"
+"PO-Revision-Date: 2018-07-26 20:56+0000\n"
+"Last-Translator: Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/boinc/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +41,7 @@ msgid ""
 "helps you with setting preferences, joining or creating teams, connecting "
 "your computers to projects, and much more.  Whether you're a new or an "
 "existing BOINC user, BAM will help you get the most out of BOINC."
-msgstr "BAM! Le ayuda a crear y administrar sus cuentas de proyectos de BOINC y le ayuda a establecer preferencias, unirse o crear equipos, conectando sus equipos a proyectos y mucho más. Si usted es un usuario de BOINC nuevo o existente, BAM le ayudará a sacar el máximo provecho de BOINC."
+msgstr "BAM! te ayuda a crear y administrar tus cuentas de proyecto de BOINC y a establecer preferencias, unirte o crear equipos, conectando tus computadoras a los proyectos, y mucho más. Tanto si eres un usuario de BOINC nuevo o antiguo, BAM te ayudará a sacar el máximo provecho de BOINC."
 
 #: doc/account_managers.inc:13
 msgid ""
@@ -123,15 +123,15 @@ msgstr "Potencia de cálculo"
 
 #: doc/index.php:37
 msgid "Top 100 volunteers"
-msgstr "Mejores 100 voluntarios"
+msgstr "Los 100 mejores voluntarios"
 
 #: doc/index.php:38
 msgid "Statistics"
-msgstr "Estadística"
+msgstr "Estadísticas"
 
 #: doc/index.php:67
 msgid "24-hour average:"
-msgstr "media de 24 horas:"
+msgstr "Promedio de 24 horas:"
 
 #: doc/index.php:67
 msgid "PetaFLOPS."
@@ -147,7 +147,7 @@ msgstr "voluntarios,"
 
 #: doc/index.php:69
 msgid "computers.\n"
-msgstr "computadores.\n"
+msgstr "computadoras.\n"
 
 #: doc/index.php:76
 msgid "News"
@@ -233,15 +233,15 @@ msgstr "Prueba"
 
 #: doc/index.php:135
 msgid "Document"
-msgstr "Documento"
+msgstr "Documentación"
 
 #: doc/index.php:136
 msgid "Publicize"
-msgstr "Publicar"
+msgstr "Divulgar"
 
 #: doc/index.php:137
 msgid "Report bugs"
-msgstr "Reportar errores"
+msgstr "Informar errores"
 
 #: doc/index.php:147
 msgid "High-throughput computing with BOINC"
@@ -257,7 +257,7 @@ msgstr "%1 Los científicos %2: usan BOINC para crear un %3 proyecto de cómputo
 msgid ""
 "%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
 "Center %4."
-msgstr "%1Universidades%2: usen BOINC para crear un %3Centro Virtual de Supercomputación%4"
+msgstr "%1 Universidades %2: utiliza BOINC para crear un %3 Centro Virtual de Supercomputación %4"
 
 #: doc/index.php:159
 msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
@@ -291,7 +291,7 @@ msgstr "Construyendo BOINC"
 
 #: doc/index.php:182
 msgid "Design documents"
-msgstr "Documentos de diseño"
+msgstr "Diseñar documentos"
 
 #: doc/index.php:185
 msgid ""
@@ -344,7 +344,7 @@ msgid ""
 "BOINC Live Help lets get one-on-one help from an experienced BOINC user, who"
 " can answer questions about BOINC, help you install and use BOINC, and "
 "troubleshoot problems."
-msgstr "BOINC Live Help permite obtener la ayuda directa de un usuario experimentado de BOINC, quien puede responder preguntas sobre BOINC, ayudarle a instalar y utilizar BOINC y solucionar problemas."
+msgstr "La ayuda en linea de BOINC te permite obtener ayuda personalizada de un usuario de BOINC experimentado, que puede responder preguntas sobre BOINC, ayudarle a instalar y usar BOINC y solucionar problemas."
 
 #: doc/help.php:14
 msgid "You can communicate with a helper"
@@ -475,7 +475,7 @@ msgstr "Ciencia cognitiva e inteligencia artificial"
 
 #: doc/projects.inc:49
 msgid "Cognitive Science"
-msgstr "Ciencia Cognitiva"
+msgstr "Ciencia cognitiva"
 
 #: doc/projects.inc:50
 msgid ""
@@ -687,7 +687,7 @@ msgstr "Cálculos de ciencia de superficies usando dinámica clásica. Leiden Cl
 
 #: doc/projects.inc:359
 msgid "Help students do atomic simulations"
-msgstr "Ayuda estudiantes a hacer simulaciones atómicas"
+msgstr "Ayuda a estudiantes a hacer simulaciones atómicas"
 
 #: doc/projects.inc:372
 msgid ""

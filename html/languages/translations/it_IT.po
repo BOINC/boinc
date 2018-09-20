@@ -7,6 +7,7 @@
 # Alessandro Dalla Rosa <exit96dalla@gmail.com>, 2015
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
+# Filippo Rossi <rossi.filippo@gmail.com>, 2018
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-06-24 11:44 UTC\n"
-"PO-Revision-Date: 2018-06-24 11:46+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2018-09-20 18:11 UTC\n"
+"PO-Revision-Date: 2018-09-20 18:14+0000\n"
+"Last-Translator: Rom Walton\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,47 +33,47 @@ msgstr "Italiano"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Italian"
 
-#: html/inc/account.inc:69 html/user/signup.php:37
+#: html/inc/account.inc:70 html/user/signup.php:37
 msgid "An invitation code is required to create an account."
 msgstr "Per poter creare l'account è necessario un codice d'invito."
 
-#: html/inc/account.inc:70 html/user/signup.php:38
+#: html/inc/account.inc:71 html/user/signup.php:38
 msgid "Invitation code"
 msgstr "Codice d'invito"
 
-#: html/inc/account.inc:78 html/user/account_finish.php:41
+#: html/inc/account.inc:79 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "Identificati sul nostro sito. Usa il tuo nome reale oppure un alias."
 
-#: html/inc/account.inc:79
+#: html/inc/account.inc:80
 msgid "Screen name"
 msgstr "Nickname"
 
-#: html/inc/account.inc:85
+#: html/inc/account.inc:86
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Devi inserire un indirizzo email valido nella forma 'nome@dominio'."
 
-#: html/inc/account.inc:86 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:87 html/inc/user.inc:244 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Indirizzo email"
 
-#: html/inc/account.inc:97 html/user/signup.php:65
+#: html/inc/account.inc:98 html/user/signup.php:65
 msgid "Must be at least %1 characters"
 msgstr "Deve essere di almeno %1 caratteri"
 
 #. we need the password here not for verification,
 #. but because we store it salted with email address,
 #. which is about to change.
-#: html/inc/account.inc:98 html/user/delete_account_confirm.php:54
+#: html/inc/account.inc:99 html/user/delete_account_confirm.php:54
 #: html/user/delete_account_request.php:51 html/user/edit_email_form.php:48
 msgid "Password"
 msgstr "Password"
 
-#: html/inc/account.inc:104 html/user/account_finish.php:45
+#: html/inc/account.inc:105 html/user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
 msgstr "Seleziona la nazione che vuoi rappresentare, se lo desideri."
 
-#: html/inc/account.inc:105 html/inc/team.inc:44 html/inc/team.inc:136
+#: html/inc/account.inc:106 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
 #: html/inc/user.inc:250 html/inc/user.inc:436 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:45 html/user/profile_search_action.php:44
@@ -82,27 +83,27 @@ msgstr "Seleziona la nazione che vuoi rappresentare, se lo desideri."
 msgid "Country"
 msgstr "Stato"
 
-#: html/inc/account.inc:112 html/user/account_finish.php:52
+#: html/inc/account.inc:113 html/user/account_finish.php:52
 msgid "Postal or ZIP Code"
 msgstr "CAP"
 
-#: html/inc/account.inc:112
+#: html/inc/account.inc:113
 msgid "Optional"
 msgstr "Dati facoltativi"
 
-#: html/inc/account.inc:124
+#: html/inc/account.inc:125
 msgid "Email address:"
 msgstr "Indirizzo email:"
 
-#: html/inc/account.inc:128
+#: html/inc/account.inc:129
 msgid "Password:"
 msgstr "Password:"
 
-#: html/inc/account.inc:128
+#: html/inc/account.inc:129
 msgid "forgot password?"
 msgstr "hai dimenticato la password?"
 
-#: html/inc/account.inc:135
+#: html/inc/account.inc:136
 msgid "Stay logged in"
 msgstr "Rimani autenticato"
 
@@ -246,7 +247,7 @@ msgid "Join"
 msgstr "Unisciti"
 
 #: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
-#: html/inc/bootstrap.inc:202 html/inc/user.inc:286
+#: html/inc/bootstrap.inc:195 html/inc/user.inc:286
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -275,192 +276,187 @@ msgid "Server status"
 msgstr "Stato del server"
 
 #: html/inc/bootstrap.inc:176
-msgid "Statistics"
-msgstr "Statistiche"
+msgid "Credit statistics"
+msgstr ""
 
 #: html/inc/bootstrap.inc:177 html/user/apps.php:32
 msgid "Applications"
 msgstr "Applicazioni"
 
-#: html/inc/bootstrap.inc:187
-msgid "Participants"
-msgstr "Partecipanti"
-
-#: html/inc/bootstrap.inc:188 html/inc/user.inc:449 html/inc/user.inc:451
-#: html/user/server_status.php:152
-msgid "Computers"
-msgstr "Computer"
-
-#. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-#: html/inc/bootstrap.inc:189 html/inc/bootstrap.inc:200 html/user/team.php:27
-msgid "Teams"
-msgstr "Team"
-
-#: html/inc/bootstrap.inc:190 html/user/stats.php:48
+#: html/inc/bootstrap.inc:178
 msgid "GPU models"
 msgstr "Modelli di GPU"
 
-#: html/inc/bootstrap.inc:191 html/user/stats.php:49
+#: html/inc/bootstrap.inc:179
 msgid "CPU models"
 msgstr "Modelli di CPU"
 
-#: html/inc/bootstrap.inc:194 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/bootstrap.inc:180
+msgid "Computer types"
+msgstr ""
+
+#: html/inc/bootstrap.inc:187 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/inc/user.inc:163 html/user/explain_state.php:94
 msgid "Computing"
 msgstr "Elaborazione"
 
-#: html/inc/bootstrap.inc:197 html/inc/user.inc:548
+#: html/inc/bootstrap.inc:190 html/inc/user.inc:548 html/user/welcome.php:79
 msgid "Community"
 msgstr "Comunità"
 
-#: html/inc/bootstrap.inc:198 html/inc/forum.inc:170 html/inc/forum.inc:202
+#: html/inc/bootstrap.inc:191 html/inc/forum.inc:174 html/inc/forum.inc:206
 #: html/inc/user.inc:363 html/inc/user.inc:493 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Bacheche"
 
-#: html/inc/bootstrap.inc:200
+#. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
+#: html/inc/bootstrap.inc:193 html/user/stats.php:40 html/user/team.php:27
+msgid "Teams"
+msgstr "Team"
+
+#: html/inc/bootstrap.inc:193
 msgid "create or join a team"
 msgstr "crea o unisciti ad un team"
 
-#: html/inc/bootstrap.inc:201 html/user/profile_menu.php:34
+#: html/inc/bootstrap.inc:194 html/user/profile_menu.php:34
 msgid "Profiles"
 msgstr "Profili"
 
-#: html/inc/bootstrap.inc:203
+#: html/inc/bootstrap.inc:196
 msgid "User search"
 msgstr "Cerca utente"
 
-#: html/inc/bootstrap.inc:204
+#: html/inc/bootstrap.inc:197
 msgid "User of the day"
 msgstr "Utente del giorno"
 
-#: html/inc/bootstrap.inc:205 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:192
 msgid "Certificate"
 msgstr "Certificato"
 
-#: html/inc/bootstrap.inc:207
+#: html/inc/bootstrap.inc:200
 msgid "Site"
 msgstr "Sito"
 
-#: html/inc/bootstrap.inc:208
+#: html/inc/bootstrap.inc:201
 msgid "Site search"
 msgstr "Cerca nel sito"
 
-#: html/inc/bootstrap.inc:209
+#: html/inc/bootstrap.inc:202
 msgid "Languages"
 msgstr "Lingue"
 
 #. names for the above
-#: html/inc/forum.inc:40
+#: html/inc/forum.inc:44
 msgid "Oldest first"
 msgstr "Prima i più vecchi"
 
-#: html/inc/forum.inc:41 html/inc/forum.inc:47
+#: html/inc/forum.inc:45 html/inc/forum.inc:51
 msgid "Newest first"
 msgstr "Prima i più recenti"
 
-#: html/inc/forum.inc:42
+#: html/inc/forum.inc:46
 msgid "Highest rated posts first"
 msgstr "Prima i messaggi più votati"
 
-#: html/inc/forum.inc:44
+#: html/inc/forum.inc:48
 msgid "Newest post first"
 msgstr "Prima i messaggi più recenti"
 
-#: html/inc/forum.inc:45
+#: html/inc/forum.inc:49
 msgid "Most views first"
 msgstr "Prima i più visualizzati"
 
-#: html/inc/forum.inc:46
+#: html/inc/forum.inc:50
 msgid "Most posts first"
 msgstr "Prima le discussioni con più messaggi"
 
-#: html/inc/forum.inc:88
+#: html/inc/forum.inc:92
 msgid "This answered my question"
 msgstr "Ha risposto alla mia domanda"
 
-#: html/inc/forum.inc:89
+#: html/inc/forum.inc:93
 msgid "I also have this question"
 msgstr "Ho anche questa domanda da porre"
 
-#: html/inc/forum.inc:90
+#: html/inc/forum.inc:94
 msgid "Off-topic"
 msgstr "Off-topic"
 
-#: html/inc/forum.inc:107
+#: html/inc/forum.inc:111
 msgid "Volunteer moderator"
 msgstr "Moderatore volontario"
 
-#: html/inc/forum.inc:108
+#: html/inc/forum.inc:112
 msgid "Project administrator"
 msgstr "Amministratore del progetto"
 
-#: html/inc/forum.inc:109
+#: html/inc/forum.inc:113
 msgid "Project developer"
 msgstr "Sviluppatore del progetto"
 
-#: html/inc/forum.inc:110
+#: html/inc/forum.inc:114
 msgid "Project tester"
 msgstr "Tester del progetto"
 
-#: html/inc/forum.inc:111
+#: html/inc/forum.inc:115
 msgid "Volunteer developer"
 msgstr "Sviluppatore volontario"
 
-#: html/inc/forum.inc:112
+#: html/inc/forum.inc:116
 msgid "Volunteer tester"
 msgstr "Tester volontario"
 
-#: html/inc/forum.inc:113
+#: html/inc/forum.inc:117
 msgid "Project scientist"
 msgstr "Scienziato del progetto"
 
-#: html/inc/forum.inc:114
+#: html/inc/forum.inc:118
 msgid "Help desk expert"
 msgstr "Esperto di helpdesk"
 
 #. Search
-#: html/inc/forum.inc:144
+#: html/inc/forum.inc:148
 msgid "Search for words in forum messages"
 msgstr "Cerca termini tra i messaggi del forum"
 
-#: html/inc/forum.inc:144
+#: html/inc/forum.inc:148
 msgid "Search forums"
 msgstr "Cerca nel forum"
 
-#: html/inc/forum.inc:145
+#: html/inc/forum.inc:149
 msgid "Advanced search"
 msgstr "Ricerca avanzata"
 
-#: html/inc/forum.inc:151 html/inc/user.inc:367 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:367 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Messaggi privati"
 
-#: html/inc/forum.inc:170 html/user/forum_forum.php:74
+#: html/inc/forum.inc:174 html/user/forum_forum.php:74
 msgid "Questions and Answers"
 msgstr "Domande e risposte"
 
-#: html/inc/forum.inc:206 html/inc/forum.inc:214
+#: html/inc/forum.inc:210 html/inc/forum.inc:218
 msgid "%1 message board"
 msgstr "Bacheca di %1"
 
-#: html/inc/forum.inc:255 html/inc/result.inc:785
+#: html/inc/forum.inc:259 html/inc/result.inc:785
 msgid "Previous"
 msgstr "Precedente"
 
-#: html/inc/forum.inc:293 html/inc/result.inc:794
+#: html/inc/forum.inc:297 html/inc/result.inc:794
 msgid "Next"
 msgstr "Successivo"
 
-#: html/inc/forum.inc:422 html/inc/forum.inc:1293
-#: html/user/forum_forum.php:145 html/user/forum_reply.php:127
+#: html/inc/forum.inc:426 html/inc/forum.inc:1307
+#: html/user/forum_forum.php:146 html/user/forum_reply.php:127
 #: html/user/forum_report_post.php:86
 msgid "Author"
 msgstr "Autore"
 
-#: html/inc/forum.inc:422 html/inc/pm.inc:86 html/inc/pm.inc:167
+#: html/inc/forum.inc:426 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
 #: html/user/forum_edit.php:141 html/user/forum_post.php:127
 #: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
@@ -468,293 +464,293 @@ msgstr "Autore"
 msgid "Message"
 msgstr "Messaggio"
 
-#: html/inc/forum.inc:602 html/inc/pm.inc:95 html/inc/pm.inc:177
+#: html/inc/forum.inc:606 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr "Spedisci il messaggio"
 
-#: html/inc/forum.inc:602
+#: html/inc/forum.inc:606
 msgid "Send %1 a private message"
 msgstr "Spedisci %1 un messaggio privato"
 
-#: html/inc/forum.inc:603
+#: html/inc/forum.inc:607
 msgid "Joined: %1"
 msgstr "Iscritto: %1"
 
-#: html/inc/forum.inc:612
+#: html/inc/forum.inc:616
 msgid "Posts: %1"
 msgstr "Messaggi: %1"
 
-#: html/inc/forum.inc:618
+#: html/inc/forum.inc:622
 msgid "Credit: %1"
 msgstr "Crediti: %1"
 
-#: html/inc/forum.inc:619
+#: html/inc/forum.inc:623
 msgid "RAC: %1"
 msgstr "RAC: %1"
 
-#: html/inc/forum.inc:649
+#: html/inc/forum.inc:653
 msgid "You haven't read this message yet"
 msgstr "Non hai ancora letto questo messaggio"
 
-#: html/inc/forum.inc:649
+#: html/inc/forum.inc:653
 msgid "Unread"
 msgstr "Non letto"
 
-#: html/inc/forum.inc:652 html/inc/forum.inc:657 html/inc/forum.inc:770
+#: html/inc/forum.inc:656 html/inc/forum.inc:661 html/inc/forum.inc:774
 msgid "Message %1"
 msgstr "Messaggio %1"
 
-#: html/inc/forum.inc:653 html/inc/user.inc:451 html/user/forum_forum.php:182
+#: html/inc/forum.inc:657 html/inc/user.inc:451 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "nascosto"
 
-#: html/inc/forum.inc:654
+#: html/inc/forum.inc:658
 msgid "Posted: %1"
 msgstr "Messaggi: %1"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:661
 msgid " - in response to "
 msgstr " - in risposta a "
 
-#: html/inc/forum.inc:660 html/inc/prefs_util.inc:609
+#: html/inc/forum.inc:664 html/inc/prefs_util.inc:609
 #: html/inc/prefs_util.inc:611
 msgid "Edit"
 msgstr "Modifica"
 
-#: html/inc/forum.inc:660
+#: html/inc/forum.inc:664
 msgid "Edit this message"
 msgstr "Modifica questo messaggio"
 
-#: html/inc/forum.inc:666
+#: html/inc/forum.inc:670
 msgid "Last modified: %1"
 msgstr "Ultima modifica: %1"
 
-#: html/inc/forum.inc:670
+#: html/inc/forum.inc:674
 msgid ""
 "This post is hidden because the sender is on your 'ignore' list.  Click %1 "
 "here %2 to view hidden posts"
-msgstr "Questo post è nascosto perché il mittente è nell'elenco \"ignorare\". Fai clic %1 qui %2 per visualizzare i messaggi nascosti"
+msgstr "Questo post è nascosto perché il mittente è nell'elenco \"ignora\". Fai clic %1 qui %2 per visualizzare i messaggi nascosti"
 
-#: html/inc/forum.inc:708 html/inc/forum.inc:719
+#: html/inc/forum.inc:712 html/inc/forum.inc:723
 msgid "Report this post as offensive"
 msgstr "Segnale questo messaggio come offensivo"
 
-#: html/inc/forum.inc:708 html/inc/forum.inc:719
+#: html/inc/forum.inc:712 html/inc/forum.inc:723
 msgid "Report as offensive"
 msgstr "Segnala come offensivo"
 
-#: html/inc/forum.inc:712
+#: html/inc/forum.inc:716
 msgid "Rating: %1"
 msgstr "Valutazione: %1"
 
-#: html/inc/forum.inc:712
+#: html/inc/forum.inc:716
 msgid "rate: "
 msgstr "valutazione: "
 
-#: html/inc/forum.inc:715
+#: html/inc/forum.inc:719
 msgid "Click if you like this message"
 msgstr "Clicca se ti piace questo messaggio"
 
-#: html/inc/forum.inc:715
+#: html/inc/forum.inc:719
 msgid "Rate +"
 msgstr "Valuta +"
 
-#: html/inc/forum.inc:717
+#: html/inc/forum.inc:721
 msgid "Click if you don't like this message"
 msgstr "Clicca se non ti piace questo messaggio"
 
-#: html/inc/forum.inc:717
+#: html/inc/forum.inc:721
 msgid "Rate -"
 msgstr "Valuta -"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:726 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:730 html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "Rispondi"
 
-#: html/inc/forum.inc:726
+#: html/inc/forum.inc:730
 msgid "Post a reply to this message"
 msgstr "Rispondi a questo messaggio"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:729
+#: html/inc/forum.inc:733
 msgid "Quote"
 msgstr "Cita"
 
-#: html/inc/forum.inc:729
+#: html/inc/forum.inc:733
 msgid "Post a reply by quoting this message"
 msgstr "Rispondi a questo messaggio citandolo"
 
-#: html/inc/forum.inc:751
+#: html/inc/forum.inc:755
 msgid "Hidden by a moderator"
 msgstr "Nascosto da un moderatore"
 
-#: html/inc/forum.inc:772
+#: html/inc/forum.inc:776
 msgid "Posted %1 by %2"
 msgstr "Inviato %1 da %2"
 
-#: html/inc/forum.inc:792
+#: html/inc/forum.inc:796
 msgid "You may not post or rate messages until %1"
 msgstr "Non puoi inviare o valutare messaggi fino al %1"
 
-#: html/inc/forum.inc:817
+#: html/inc/forum.inc:821
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
 msgstr "I post dovranno essere 'adatti ai bambini': non dovranno avere contenuti osceni, che incitano all'odio, sessualmente espliciti oppure anche soltanto provocanti."
 
-#: html/inc/forum.inc:818
+#: html/inc/forum.inc:822
 msgid "No commercial advertisements."
 msgstr "Nessuna pubblicità."
 
-#: html/inc/forum.inc:819
+#: html/inc/forum.inc:823
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
 msgstr "Non ci saranno collegamenti a siti contenenti materiale sessualmente esplicito o provocante, siti che praticano il gioco d'azzardo, né siti apologizzanti l'intolleranza."
 
-#: html/inc/forum.inc:820
+#: html/inc/forum.inc:824
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
-msgstr "Nessun messaggio scritto con lo scopo intenzionale di disturbare o far scoppiare tra utenti terzi, oppure a far andare deliberatamente OT un thread."
+msgstr "Nessun messaggio scritto con lo scopo intenzionale di disturbare o far scoppiare liti tra utenti, oppure far andare deliberatamente OT un thread."
 
-#: html/inc/forum.inc:821
+#: html/inc/forum.inc:825
 msgid "No messages that are deliberately hostile, threatening, or insulting."
 msgstr "Nessun messaggio che sia deliberatamente ostile, minaccioso od offensivo."
 
-#: html/inc/forum.inc:822
+#: html/inc/forum.inc:826
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
 msgstr "Nessuna ingiuria che coinvolga razze, religioni, nazionalità, generi sessuali, classi sociali o tendenze sessuali."
 
-#: html/inc/forum.inc:823
+#: html/inc/forum.inc:827
 msgid "Posts that violate these rules may be deleted."
-msgstr "I post che violano almeno una di queste norme possono essere cancellati."
+msgstr "I post che violano queste norme potrebbero essere cancellati."
 
-#: html/inc/forum.inc:824
+#: html/inc/forum.inc:828
 msgid "The posting privileges of violators may be suspended or revoked."
 msgstr "Per chi viola le regole, la possibilità di scrivere può essere sospesa o revocata."
 
-#: html/inc/forum.inc:825
+#: html/inc/forum.inc:829
 msgid "If your account is suspended, don't create a new one."
 msgstr "Se il tuo account viene sospeso non crearne uno nuovo."
 
-#: html/inc/forum.inc:844
+#: html/inc/forum.inc:848
 msgid "Rules:"
 msgstr "Regole:"
 
-#: html/inc/forum.inc:1154 html/user/forum_thread.php:195
+#: html/inc/forum.inc:1168 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Rendi visibile"
 
-#: html/inc/forum.inc:1154
+#: html/inc/forum.inc:1168
 msgid "Unhide this post"
 msgstr "Rendi visibile questo messaggio"
 
-#: html/inc/forum.inc:1156 html/user/forum_thread.php:201
+#: html/inc/forum.inc:1170 html/user/forum_thread.php:201
 msgid "Hide"
 msgstr "Nascondi"
 
-#: html/inc/forum.inc:1156
+#: html/inc/forum.inc:1170
 msgid "Hide this post"
 msgstr "Nascondi questo messaggio"
 
-#: html/inc/forum.inc:1161 html/user/forum_thread.php:234
+#: html/inc/forum.inc:1175 html/user/forum_thread.php:234
 msgid "Move"
 msgstr "Sposta"
 
-#: html/inc/forum.inc:1161
+#: html/inc/forum.inc:1175
 msgid "Move post to a different thread"
 msgstr "Sposta questo argomento in un'altra discussione"
 
-#: html/inc/forum.inc:1166
+#: html/inc/forum.inc:1180
 msgid "Banish author"
 msgstr "Banna l'autore"
 
-#: html/inc/forum.inc:1173
+#: html/inc/forum.inc:1187
 msgid "Vote to banish author"
 msgstr "Vota per bannare l'utente"
 
-#: html/inc/forum.inc:1177
+#: html/inc/forum.inc:1191
 msgid "Vote not to banish author"
 msgstr "Vota per non bannare l'utente"
 
-#: html/inc/forum.inc:1182
+#: html/inc/forum.inc:1196
 msgid "Start vote to banish author"
 msgstr "Inizia la votazione per bannare l'utente"
 
-#: html/inc/forum.inc:1187 html/inc/user.inc:354
+#: html/inc/forum.inc:1201 html/inc/user.inc:354
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Cancella"
 
-#: html/inc/forum.inc:1187
+#: html/inc/forum.inc:1201
 msgid "Delete this post"
 msgstr "Cancella questo messaggio"
 
-#: html/inc/forum.inc:1227
+#: html/inc/forum.inc:1241
 msgid "Only team members can post to the team message board"
 msgstr "Solo i membri del team possono inviare messaggi nella bacheca"
 
-#: html/inc/forum.inc:1237
+#: html/inc/forum.inc:1251
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "Per creare un nuovo argomento su %1 devi avere un certo numero di crediti. Questo sistema è stato inserito per prevenire abusi del sistema."
 
-#: html/inc/forum.inc:1244
+#: html/inc/forum.inc:1258
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "Ora non puoi aprire altri argomenti. Riprova più tardi. Questa precauzione è stata inserita per proteggere il sistema da eventuali abusi."
 
-#: html/inc/forum.inc:1251
+#: html/inc/forum.inc:1265
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "Questa discussione è bloccata. Solo i moderatori e gli amministratori possono scrivere qui."
 
-#: html/inc/forum.inc:1256
+#: html/inc/forum.inc:1270
 msgid "Can't post to a hidden thread."
 msgstr "Non è possibile scrivere in un thread nascosto."
 
-#: html/inc/forum.inc:1291
+#: html/inc/forum.inc:1305
 msgid "Thread"
 msgstr "Argomento"
 
-#: html/inc/forum.inc:1292 html/inc/team.inc:142 html/user/forum_forum.php:144
-#: html/user/forum_index.php:97
+#: html/inc/forum.inc:1306 html/inc/team.inc:142 html/user/forum_forum.php:145
+#: html/user/forum_index.php:98
 msgid "Posts"
 msgstr "Messaggi"
 
-#: html/inc/forum.inc:1294 html/user/forum_forum.php:146
+#: html/inc/forum.inc:1308 html/user/forum_forum.php:147
 msgid "Views"
 msgstr "Visite"
 
-#: html/inc/forum.inc:1295 html/inc/team.inc:142 html/user/forum_forum.php:147
-#: html/user/forum_help_desk.php:49 html/user/forum_index.php:98
+#: html/inc/forum.inc:1309 html/inc/team.inc:142 html/user/forum_forum.php:148
+#: html/user/forum_help_desk.php:49 html/user/forum_index.php:99
 msgid "Last post"
 msgstr "Ultimo messaggio"
 
-#: html/inc/forum.inc:1352
+#: html/inc/forum.inc:1366
 msgid "New posts in the thread %1"
 msgstr "Nuovi messaggi nella discussione %1"
 
-#: html/inc/forum.inc:1357
+#: html/inc/forum.inc:1371
 msgid "New posts in subscribed thread"
 msgstr "Nuovi messaggi in discussioni alle quali sei iscritto"
 
-#: html/inc/forum.inc:1358
+#: html/inc/forum.inc:1372
 msgid "There are new posts in the thread '%1'"
 msgstr "Ci sono nuovi messaggi nella discussione '%1'"
 
-#: html/inc/forum.inc:1368
+#: html/inc/forum.inc:1382
 msgid "Mark all threads as read"
 msgstr "Segna tutti gli argomenti come letti"
 
-#: html/inc/forum.inc:1369
+#: html/inc/forum.inc:1383
 msgid "Mark all threads in all message boards as read."
 msgstr "Segna tutte le discussioni della bacheca come lette."
 
@@ -819,11 +815,11 @@ msgstr "Ora locale"
 msgid "UTC %1 hours"
 msgstr "UTC %1"
 
-#: html/inc/host.inc:106 html/inc/host.inc:108 html/inc/host.inc:229
+#: html/inc/host.inc:106 html/inc/host.inc:108 html/inc/host.inc:230
 msgid "Owner"
 msgstr "Proprietario"
 
-#: html/inc/host.inc:108 html/inc/host.inc:373
+#: html/inc/host.inc:108 html/inc/host.inc:400
 msgid "Anonymous"
 msgstr "Anonimo"
 
@@ -831,8 +827,8 @@ msgstr "Anonimo"
 msgid "Created"
 msgstr "Creato"
 
-#: html/inc/host.inc:114 html/inc/host.inc:234 html/inc/host.inc:237
-#: html/inc/host.inc:717 html/inc/team.inc:111 html/inc/team.inc:233
+#: html/inc/host.inc:114 html/inc/host.inc:235 html/inc/host.inc:238
+#: html/inc/host.inc:744 html/inc/team.inc:111 html/inc/team.inc:233
 #: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
 #: html/inc/team.inc:385 html/inc/user.inc:130 html/inc/user.inc:147
 #: html/user/profile_search_action.php:45
@@ -863,163 +859,167 @@ msgstr "Numero di processori"
 msgid "Coprocessors"
 msgstr "Coprocessori"
 
-#: html/inc/host.inc:125 html/inc/host.inc:728
+#: html/inc/host.inc:125
+msgid "Virtualization"
+msgstr ""
+
+#: html/inc/host.inc:126 html/inc/host.inc:755
 msgid "Operating System"
 msgstr "Sistema operativo"
 
-#: html/inc/host.inc:128 html/inc/host.inc:240
+#: html/inc/host.inc:129 html/inc/host.inc:241
 msgid "BOINC version"
 msgstr "Versione di BOINC"
 
-#: html/inc/host.inc:132 html/inc/prefs.inc:243
+#: html/inc/host.inc:133 html/inc/prefs.inc:243
 msgid "Memory"
 msgstr "Memoria"
 
-#: html/inc/host.inc:132 html/inc/host.inc:142 html/inc/host.inc:145
-#: html/inc/host.inc:148
+#: html/inc/host.inc:133 html/inc/host.inc:143 html/inc/host.inc:146
+#: html/inc/host.inc:149
 msgid "%1 GB"
 msgstr "%1 GB"
 
-#: html/inc/host.inc:136
+#: html/inc/host.inc:137
 msgid "Cache"
 msgstr "Cache"
 
-#: html/inc/host.inc:136
+#: html/inc/host.inc:137
 msgid "%1 KB"
 msgstr "%1 KB"
 
-#: html/inc/host.inc:142
+#: html/inc/host.inc:143
 msgid "Swap space"
 msgstr "Spazio di swap"
 
-#: html/inc/host.inc:145
+#: html/inc/host.inc:146
 msgid "Total disk space"
 msgstr "Spazio totale su disco"
 
-#: html/inc/host.inc:148
+#: html/inc/host.inc:149
 msgid "Free Disk Space"
 msgstr "Spazio libero su disco"
 
-#: html/inc/host.inc:152
+#: html/inc/host.inc:153
 msgid "Measured floating point speed"
 msgstr "Velocità calcolo in virgola mobile"
 
-#: html/inc/host.inc:152 html/inc/host.inc:155
+#: html/inc/host.inc:153 html/inc/host.inc:156
 msgid "%1 billion ops/sec"
 msgstr "%1 miliardi di ops/sec"
 
-#: html/inc/host.inc:155
+#: html/inc/host.inc:156
 msgid "Measured integer speed"
 msgstr "Velocità calcolo in numeri interi"
 
-#: html/inc/host.inc:159 html/inc/host.inc:161
+#: html/inc/host.inc:160 html/inc/host.inc:162
 msgid "Average upload rate"
 msgstr "Velocità media di upload"
 
-#: html/inc/host.inc:159 html/inc/host.inc:166
+#: html/inc/host.inc:160 html/inc/host.inc:167
 msgid "%1 KB/sec"
 msgstr "%1 KB/sec"
 
-#: html/inc/host.inc:161 html/inc/host.inc:168 html/inc/result.inc:230
+#: html/inc/host.inc:162 html/inc/host.inc:169 html/inc/result.inc:230
 #: html/inc/result.inc:240 html/inc/result.inc:258 html/inc/result.inc:276
 #: html/inc/result.inc:292 html/user/explain_state.php:56
 #: html/user/host_app_versions.php:28
 msgid "Unknown"
 msgstr "Sconosciuta"
 
-#: html/inc/host.inc:166 html/inc/host.inc:168
+#: html/inc/host.inc:167 html/inc/host.inc:169
 msgid "Average download rate"
 msgstr "Velocità media di download"
 
-#: html/inc/host.inc:172 html/user/host_app_versions.php:82
+#: html/inc/host.inc:173 html/user/host_app_versions.php:82
 msgid "Average turnaround time"
 msgstr "Tempo medio di completamento"
 
-#: html/inc/host.inc:172 html/user/forum_search.php:48
+#: html/inc/host.inc:173 html/user/forum_search.php:48
 #: html/user/forum_search.php:49 html/user/forum_search.php:50
 #: html/user/forum_search.php:51
 msgid "%1 days"
 msgstr "%1 giorni"
 
-#: html/inc/host.inc:173
+#: html/inc/host.inc:174
 msgid "Application details"
 msgstr "Dettagli dell'applicazione"
 
-#: html/inc/host.inc:174
+#: html/inc/host.inc:175
 msgid "Show"
 msgstr "Visualizza"
 
-#: html/inc/host.inc:184 html/inc/host.inc:351 html/inc/user.inc:173
+#: html/inc/host.inc:185 html/inc/host.inc:378 html/inc/user.inc:173
 msgid "Tasks"
 msgstr "Attività"
 
-#: html/inc/host.inc:189 html/inc/host.inc:213
+#: html/inc/host.inc:190 html/inc/host.inc:214
 msgid "Number of times client has contacted server"
 msgstr "Numero di volte che BOINC Manager ha contattato il server"
 
-#: html/inc/host.inc:190
+#: html/inc/host.inc:191
 msgid "Last time contacted server"
 msgstr "Ultima volta in cui è stato contattato il server"
 
-#: html/inc/host.inc:191
+#: html/inc/host.inc:192
 msgid "Fraction of time BOINC is running"
 msgstr "Frazione di tempo nel quale BOINC è in uso"
 
-#: html/inc/host.inc:193
+#: html/inc/host.inc:194
 msgid ""
 "While BOINC is running, fraction of time computer has an Internet connection"
 msgstr "Quando BOINC è attivo, frazione di tempo in cui il computer è connesso ad Internet"
 
-#: html/inc/host.inc:195
+#: html/inc/host.inc:196
 msgid "While BOINC is running, fraction of time computing is allowed"
 msgstr "Quando BOINC è attivo, percentuale di tempo in cui è permessa l'elaborazione"
 
-#: html/inc/host.inc:196
+#: html/inc/host.inc:197
 msgid "While is BOINC running, fraction of time GPU computing is allowed"
 msgstr "Quando BOINC è attivo, percentuale di tempo in cui è permessa l'elaborazione con GPU"
 
-#: html/inc/host.inc:198
+#: html/inc/host.inc:199
 msgid "Average CPU efficiency"
 msgstr "Efficienza media CPU"
 
-#: html/inc/host.inc:202
+#: html/inc/host.inc:203
 msgid "Task duration correction factor"
 msgstr "Fattore di correzione durata delle attività"
 
-#: html/inc/host.inc:205 html/inc/host.inc:706
+#: html/inc/host.inc:206 html/inc/host.inc:733
 msgid "Location"
 msgstr "Posizione"
 
-#: html/inc/host.inc:207
+#: html/inc/host.inc:208
 msgid "Delete this computer"
 msgstr "Cancella questo computer"
 
-#: html/inc/host.inc:211
+#: html/inc/host.inc:212
 msgid "Merge duplicate records of this computer"
 msgstr "Unisci risultati multipli di questo computer"
 
-#: html/inc/host.inc:211
+#: html/inc/host.inc:212
 msgid "Merge"
 msgstr "Unisci"
 
-#: html/inc/host.inc:214 html/inc/host.inc:731
+#: html/inc/host.inc:215 html/inc/host.inc:758
 msgid "Last contact"
 msgstr "Ultimo contatto"
 
-#: html/inc/host.inc:227
-msgid "Computer info"
-msgstr "Informazioni computer"
+#: html/inc/host.inc:228
+msgid "Info"
+msgstr ""
 
-#: html/inc/host.inc:228 html/inc/host.inc:709 html/inc/team.inc:375
+#: html/inc/host.inc:229 html/inc/host.inc:736 html/inc/team.inc:375
 #: html/user/per_app_list.php:61 html/user/top_users.php:47
 msgid "Rank"
 msgstr "Posizione"
 
-#: html/inc/host.inc:233 html/inc/host.inc:714
+#: html/inc/host.inc:234 html/inc/host.inc:741
 msgid "Avg. credit"
 msgstr "Media dei crediti"
 
-#: html/inc/host.inc:236 html/inc/team.inc:112 html/inc/team.inc:234
+#: html/inc/host.inc:237 html/inc/team.inc:112 html/inc/team.inc:234
 #: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
 #: html/inc/team.inc:384 html/inc/user.inc:148
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
@@ -1028,88 +1028,109 @@ msgstr "Media dei crediti"
 msgid "Recent average credit"
 msgstr "Media dei crediti recenti"
 
-#: html/inc/host.inc:241 html/inc/host.inc:723 html/inc/result.inc:74
+#: html/inc/host.inc:242 html/inc/host.inc:750 html/inc/result.inc:74
 #: html/user/host_app_versions.php:23
 msgid "CPU"
 msgstr "CPU"
 
-#: html/inc/host.inc:242 html/inc/host.inc:725
+#: html/inc/host.inc:243 html/inc/host.inc:752
 msgid "GPU"
 msgstr "GPU"
 
-#: html/inc/host.inc:243
+#: html/inc/host.inc:244
 msgid "Operating system"
 msgstr "Sistema operativo"
 
-#: html/inc/host.inc:328
+#: html/inc/host.inc:263
+msgid "installed"
+msgstr ""
+
+#: html/inc/host.inc:266
+msgid ", CPU has hardware virtualization support and it is enabled"
+msgstr ""
+
+#: html/inc/host.inc:268
+msgid ", CPU has hardware virtualization support but it is disabled"
+msgstr ""
+
+#: html/inc/host.inc:270
+msgid ", CPU does not have hardware virtualization support"
+msgstr ""
+
+#: html/inc/host.inc:276 html/inc/team.inc:73 html/inc/team.inc:607
+#: html/inc/user.inc:399 html/inc/user.inc:488
+msgid "None"
+msgstr "Nessuno"
+
+#: html/inc/host.inc:355
 msgid "(%1 processors)"
 msgstr "(%1 processori)"
 
-#: html/inc/host.inc:347
+#: html/inc/host.inc:374
 msgid "Details"
 msgstr "Dettagli"
 
-#: html/inc/host.inc:357
+#: html/inc/host.inc:384
 msgid "Cross-project stats:"
 msgstr "Statistiche di tutti i progetti:"
 
-#: html/inc/host.inc:541
+#: html/inc/host.inc:568
 msgid "Host %1 has overlapping lifetime:"
 msgstr "L'host %1 ha un tempo di sovrapposizione:"
 
-#: html/inc/host.inc:548
+#: html/inc/host.inc:575
 msgid "Host %1 has an incompatible OS:"
 msgstr "L'Host %1 ha un SO incompatibile:"
 
-#: html/inc/host.inc:554
+#: html/inc/host.inc:581
 msgid "Host %1 has an incompatible CPU:"
 msgstr "L'host %1 ha una CPU incompatibile:"
 
-#: html/inc/host.inc:621
+#: html/inc/host.inc:648
 msgid "same host"
 msgstr "stesso host"
 
-#: html/inc/host.inc:624
+#: html/inc/host.inc:651
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "Non è possibile unire host %1 con host %2 - sono incompatibili"
 
-#: html/inc/host.inc:627
+#: html/inc/host.inc:654
 msgid "Merging host %1 into host %2"
 msgstr "Unione host %1 con host %2"
 
-#: html/inc/host.inc:644
+#: html/inc/host.inc:671
 msgid "Couldn't update credit of new computer"
 msgstr "Non posso aggiornare il credito dei nuovi computer"
 
-#: html/inc/host.inc:648
+#: html/inc/host.inc:675
 msgid "Couldn't update results"
 msgstr "Non posso aggiornare i risultati"
 
-#: html/inc/host.inc:653
+#: html/inc/host.inc:680
 msgid "Couldn't retire old computer"
 msgstr "Non posso ritirare un vecchio computer"
 
-#: html/inc/host.inc:655
+#: html/inc/host.inc:682
 msgid "Retired old computer %1"
 msgstr "Ritirato il vecchio computer %1"
 
-#: html/inc/host.inc:678 html/inc/host.inc:681
+#: html/inc/host.inc:705 html/inc/host.inc:708
 msgid "Show:"
 msgstr "Visualizza:"
 
-#: html/inc/host.inc:678 html/inc/host.inc:681
+#: html/inc/host.inc:705 html/inc/host.inc:708
 msgid "All computers"
 msgstr "Tutti i computer"
 
-#: html/inc/host.inc:678 html/inc/host.inc:681
+#: html/inc/host.inc:705 html/inc/host.inc:708
 msgid "Only computers active in past 30 days"
 msgstr "Solo computer attivi negli ultimi 30 giorni"
 
-#: html/inc/host.inc:694 html/inc/result.inc:702
+#: html/inc/host.inc:721 html/inc/result.inc:702
 msgid "Computer ID"
 msgstr "ID del computer"
 
-#: html/inc/host.inc:699 html/inc/result.inc:692 html/inc/team.inc:229
+#: html/inc/host.inc:726 html/inc/result.inc:692 html/inc/team.inc:229
 #: html/inc/team.inc:376 html/inc/user.inc:236 html/user/account_finish.php:41
 #: html/user/per_app_list.php:61 html/user/team_admins.php:65
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
@@ -1117,15 +1138,15 @@ msgstr "ID del computer"
 msgid "Name"
 msgstr "Nome"
 
-#: html/inc/host.inc:703
+#: html/inc/host.inc:730
 msgid "Model"
 msgstr "Modello"
 
-#: html/inc/host.inc:720
+#: html/inc/host.inc:747
 msgid "BOINC<br>version"
 msgstr "Versione<br>BOINC"
 
-#: html/inc/host.inc:789 html/user/merge_by_name.php:65
+#: html/inc/host.inc:816 html/user/merge_by_name.php:65
 msgid "Merge computers by name"
 msgstr "Unisci i computer per nome"
 
@@ -1220,7 +1241,7 @@ msgid ""
 "time before sending more messages."
 msgstr "Non sei autorizzato ad inviare messaggi privati così spesso. Per favore aspetta qualche minuto prima di inviarne degli altri."
 
-#: html/inc/pm.inc:273 html/user/forum_forum.php:194
+#: html/inc/pm.inc:273 html/user/forum_forum.php:198
 msgid "unread"
 msgstr "non letto"
 
@@ -1492,7 +1513,7 @@ msgstr "Esempio: BOINC può trasferire al massimo 2000 MB di dati ogni 30 giorni
 msgid "MB every"
 msgstr "MB ogni"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:371
+#: html/inc/prefs.inc:212 html/inc/util.inc:372
 msgid "days"
 msgstr "giorni"
 
@@ -2143,7 +2164,7 @@ msgstr "Tipo di team"
 msgid "Show only active teams"
 msgstr "Mostra solo i team attivi"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1103 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1104 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Cerca"
@@ -2163,11 +2184,6 @@ msgstr "Richiesto da te"
 #: html/inc/team.inc:68
 msgid "founder response deadline is %1"
 msgstr "il limite massimo per una risposta del fondatore è %1"
-
-#: html/inc/team.inc:73 html/inc/team.inc:607 html/inc/user.inc:399
-#: html/inc/user.inc:488
-msgid "None"
-msgstr "Nessuno"
 
 #: html/inc/team.inc:75
 msgid "Initiate request"
@@ -2202,8 +2218,8 @@ msgstr "Tipo"
 msgid "Message board"
 msgstr "Bacheca"
 
-#: html/inc/team.inc:142 html/user/forum_forum.php:143
-#: html/user/forum_index.php:96
+#: html/inc/team.inc:142 html/user/forum_forum.php:144
+#: html/user/forum_index.php:97
 msgid "Threads"
 msgstr "Argomenti"
 
@@ -2460,7 +2476,7 @@ msgstr "Cambia"
 
 #: html/inc/user.inc:266
 msgid "delete account"
-msgstr ""
+msgstr "cancella l'account"
 
 #: html/inc/user.inc:270
 msgid "email address"
@@ -2490,7 +2506,7 @@ msgstr "Chiavi di accesso"
 msgid "When and how BOINC uses your computer"
 msgstr "Quando e come usi BOINC sul tuo computer"
 
-#: html/inc/user.inc:290
+#: html/inc/user.inc:290 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Preferenze di elaborazione"
 
@@ -2506,7 +2522,7 @@ msgstr "Preferenze per la comunità"
 msgid "Preferences for this project"
 msgstr "Preferenze per questo progetto"
 
-#: html/inc/user.inc:298 html/user/prefs.php:30
+#: html/inc/user.inc:298 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Preferenze per %1"
 
@@ -2563,6 +2579,11 @@ msgstr "Trova degli amici"
 #: html/inc/user.inc:506 html/inc/user.inc:515
 msgid "Friends"
 msgstr "Amici"
+
+#: html/inc/user.inc:449 html/inc/user.inc:451 html/user/server_status.php:152
+#: html/user/stats.php:47
+msgid "Computers"
+msgstr "Computer"
 
 #: html/inc/user.inc:497
 msgid "Contact"
@@ -2623,7 +2644,7 @@ msgstr "Il codice d'invito inserito non è valido."
 #: html/inc/user_util.inc:211
 msgid ""
 "Invalid email address: please enter a valid address of the form name@xxx.yyy"
-msgstr ""
+msgstr "Indirizzo email non valido: per favore inserisci un indirizzo nel formato nome@xxx.yyy"
 
 #: html/inc/user_util.inc:215 html/inc/user_util.inc:219
 msgid "There's already an account with that email address."
@@ -2641,75 +2662,75 @@ msgstr "La nuova password è troppo corta: la lunghezza minima è di %1 caratter
 msgid "Couldn't create account"
 msgstr "Non è stato possibile creare l'account"
 
-#: html/inc/util.inc:195
+#: html/inc/util.inc:196
 msgid "log out"
 msgstr "esci"
 
-#: html/inc/util.inc:197
+#: html/inc/util.inc:198
 msgid "log in"
 msgstr "accedi"
 
 #. kludge
-#: html/inc/util.inc:300 html/user/login_form.php:43
+#: html/inc/util.inc:301 html/user/login_form.php:43
 msgid "Log in"
 msgstr "Entra"
 
-#: html/inc/util.inc:301
+#: html/inc/util.inc:302
 msgid "Create an account"
 msgstr "Crea un account"
 
-#: html/inc/util.inc:302
+#: html/inc/util.inc:303
 msgid "Server status page"
 msgstr "Stato server"
 
-#: html/inc/util.inc:345
+#: html/inc/util.inc:346
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Si è verificato un errore del database durante l'elaborazione della richiesta; per favore riprova più tardi."
 
-#: html/inc/util.inc:354
+#: html/inc/util.inc:355
 msgid "Unable to handle request"
 msgstr "Impossibile gestire la richiesta"
 
-#: html/inc/util.inc:374
+#: html/inc/util.inc:375
 msgid "hours"
 msgstr "ore"
 
-#: html/inc/util.inc:377
+#: html/inc/util.inc:378
 msgid "min"
 msgstr "minuti"
 
-#: html/inc/util.inc:380
+#: html/inc/util.inc:381
 msgid "sec"
 msgstr "secondi"
 
-#: html/inc/util.inc:557
+#: html/inc/util.inc:558
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "Tempo di connessione al link scaduto. Per favore clicca Indietro, aggiorna la pagina e prova ancora."
 
-#: html/inc/util.inc:632
+#: html/inc/util.inc:633
 msgid "Use BBCode tags to format your text"
 msgstr "Usa i tag BBCode per formattare il testo"
 
-#: html/inc/util.inc:876
+#: html/inc/util.inc:877
 msgid "Project down for maintenance"
 msgstr "Progetto sospeso per manutenzione"
 
-#: html/inc/util.inc:879
+#: html/inc/util.inc:880
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 è temporaneamente fuori servizio per manutenzione. Riprova più tardi."
 
-#: html/inc/util.inc:906
+#: html/inc/util.inc:907
 msgid "Unable to connect to database - please try again later"
 msgstr "Impossibile connettersi al database - per favore riprova più tardi"
 
-#: html/inc/util.inc:910
+#: html/inc/util.inc:911
 msgid "Unable to select database - please try again later"
 msgstr "Impossibile selezionare il database - per favore riprova più tardi"
 
-#: html/inc/util.inc:1082
+#: html/inc/util.inc:1083
 msgid "characters remaining"
 msgstr "caratteri rimanenti"
 
@@ -2985,97 +3006,99 @@ msgstr "Per prevenire lo spam, è richiesta una media di crediti superiore a %1 
 #: html/user/delete_account_confirm.php:29
 #: html/user/delete_account_request.php:28
 msgid "This feature is disabled.  Please contact the project administrator."
-msgstr ""
+msgstr "Questa funzionalità è disabilitata. Per favore contatta l'amministratore del progetto."
 
 #: html/user/delete_account_confirm.php:40
 #: html/user/delete_account_confirm.php:68
 msgid ""
 "The token you used has expired or is otherwise not valid.  Please request a "
 "new one <a href=\"delete_account_request.php\">here</a>"
-msgstr ""
+msgstr "Il token che hai utilizzato è scaduto o non valido. Ti preghiamo di richiederne uno nuovo <a href=\"delete_account_request.php\">qui</a>"
 
 #: html/user/delete_account_confirm.php:44
 #: html/user/delete_account_confirm.php:55
 #: html/user/delete_account_request.php:39
 msgid "Delete Account"
-msgstr ""
+msgstr "Cancella account"
 
 #: html/user/delete_account_confirm.php:46
 msgid "Thank you for verifying ownership of your account."
-msgstr ""
+msgstr "Grazie per aver verificato il possesso del tuo account."
 
 #: html/user/delete_account_confirm.php:47
 msgid ""
 "You can now delete your account by entering in your password below and "
 "clicking the \"Delete Account\" button."
-msgstr ""
+msgstr "Puoi ora cancellare il tuo account inserendo la tua password nello spazio sottostante e cliccando il tasto \"Cancella Account\"."
 
 #: html/user/delete_account_confirm.php:48
 msgid ""
 "As a reminder, your account <b>cannot be recovered</b> once you delete it."
-msgstr ""
+msgstr "Le ricordiamo, che il suo account <b>non puo' essere recuperato</b> una volta cancellato. "
 
-#: html/user/delete_account_confirm.php:79
+#: html/user/delete_account_confirm.php:80
 msgid ""
 "Failed to delete your account.  Please contact the project administrator."
-msgstr ""
+msgstr "Cancellazione Account fallita. Per favore contatta l'amministratore del progetto."
 
-#: html/user/delete_account_confirm.php:83
+#: html/user/delete_account_confirm.php:84
 msgid "Account Deleted"
-msgstr ""
+msgstr "Account cancellato"
 
-#: html/user/delete_account_confirm.php:85
-msgid "Your account has been deleted.  If you want to contribute to "
+#: html/user/delete_account_confirm.php:86
+msgid ""
+"Your account has been deleted.  If you want to contribute to %1 in the "
+"future you will need to create a new account."
 msgstr ""
 
 #: html/user/delete_account_request.php:35
 msgid ""
 "You are not allowed to delete your account until after 7 days from when you "
 "last changed your email address."
-msgstr ""
+msgstr "Non sei autorizzato a cancellare il tuo account fino a 7 giorni trascorsi dal tuo ultimo cambiamento di indirizzo email."
 
 #: html/user/delete_account_request.php:41
 msgid ""
 "You have the ability to delete your account.  Please note that this "
 "<b>cannot be undone</b> once it is completed."
-msgstr ""
+msgstr "Hai la possibilità di cancellare il tuo account. Ti preghiamo di notare che questa operazione <b>non puo' essere annullata</b> una volta completata."
 
 #: html/user/delete_account_request.php:42
 msgid "The process works as follows:"
-msgstr ""
+msgstr "La procedura funziona nel seguente modo:"
 
 #: html/user/delete_account_request.php:44
 msgid ""
 "Enter in your password below and click on the \"Send Confirmation Email\" "
 "button"
-msgstr ""
+msgstr "Inserisci la tua password nello spazio sottostante e clicca il tasto \"Invia una Email di Conferma\""
 
 #: html/user/delete_account_request.php:45
 msgid "You will receive an email which contains a link.  Click on that link"
-msgstr ""
+msgstr "Riceverai una email contenente un link. Clicca su quel link"
 
 #: html/user/delete_account_request.php:46
 msgid ""
 "On the page displayed, you will need to re-enter your password and then "
 "click \"Delete Account\""
-msgstr ""
+msgstr "Nella pagina visualizzata, dovrai reinserire la tua password e quindi cliccare \"Cancella Account\""
 
 #: html/user/delete_account_request.php:47
 msgid "Your account will then be immediately deleted"
-msgstr ""
+msgstr "Il tuo account sarà immediatamente cancellato"
 
 #: html/user/delete_account_request.php:52
 msgid "Send Confirmation Email"
-msgstr ""
+msgstr "Invia una email di conferma"
 
 #: html/user/delete_account_request.php:63
 msgid "Confirmation Email Sent"
-msgstr ""
+msgstr "Email di conferma inviata"
 
 #: html/user/delete_account_request.php:64
 msgid ""
 "The email to confirm your request to delete your account has been sent."
-msgstr ""
+msgstr "L'email di conferma della tua richiesta di cancellazione dell'account è stata inviata."
 
 #: html/user/delete_profile.php:32
 msgid "couldn't delete profile - please try again later"
@@ -3111,7 +3134,7 @@ msgid ""
 msgstr "Se sei sicuro, clicca 'Sì'\nper rimuovere il tuo profilo dal nostro database."
 
 #: html/user/delete_profile.php:54 html/user/donations.php:321
-#: html/user/donations.php:325 html/user/friend.php:250
+#: html/user/donations.php:325 html/user/friend.php:250 html/user/join.php:39
 #: html/user/prefs_remove.php:53 html/user/user_search.php:62
 #: html/user/user_search.php:67
 msgid "Yes"
@@ -3122,7 +3145,8 @@ msgid "Delete my profile"
 msgstr "Cancella il mio profilo"
 
 #: html/user/delete_profile.php:55 html/user/friend.php:251
-#: html/user/user_search.php:61 html/user/user_search.php:66
+#: html/user/join.php:40 html/user/user_search.php:61
+#: html/user/user_search.php:66
 msgid "No"
 msgstr "No"
 
@@ -3239,73 +3263,104 @@ msgstr "Le istruzioni per l'installazione e l'uso di BOINC si trovano qui %1 e q
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "Questo elenco è gestito in modo centralizzato dal %1 sito di BOINC %2."
 
-#: html/user/download.php:164
-msgid "the current versions of BOINC and VirtualBox"
-msgstr ""
+#: html/user/download.php:154
+msgid "Download BOINC"
+msgstr "Scarica BOINC"
 
-#: html/user/download.php:165
-msgid "these versions are"
+#: html/user/download.php:163
+msgid ""
+"To download and install BOINC,\n"
+"            click on the link below and follow the instructions.\n"
+"        "
 msgstr ""
 
 #: html/user/download.php:166
-msgid "BOINC and VirtualBox"
-msgstr ""
-
-#: html/user/download.php:168
-msgid "the current version of BOINC"
-msgstr ""
-
-#: html/user/download.php:169
-msgid "this version is"
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"            Select %1 from the list,\n"
+"            or enter this project's URL: %2"
 msgstr ""
 
 #: html/user/download.php:172
+msgid "Go the BOINC download page."
+msgstr ""
+
+#: html/user/download.php:200
+msgid "the current versions of BOINC and VirtualBox"
+msgstr "la versione attuale di BOINC e VirtualBox"
+
+#: html/user/download.php:201
+msgid "these versions are"
+msgstr "Queste versioni sono"
+
+#: html/user/download.php:202
+msgid "BOINC and VirtualBox"
+msgstr "BOINC e VirtualBox"
+
+#: html/user/download.php:204
+msgid "the current version of BOINC"
+msgstr "la versione attuale di BOINC"
+
+#: html/user/download.php:205
+msgid "this version is"
+msgstr "la versione è"
+
+#: html/user/download.php:208
 msgid "To participate in %1, %2 must be installed on your computer."
-msgstr ""
+msgstr "Per partecipare a %1, %2 deve essere installato sul tuo computer."
 
-#: html/user/download.php:176
+#: html/user/download.php:212
 msgid "If %1 already installed, %2click here%3; otherwise:"
-msgstr ""
+msgstr "Se %1 è già installato, %2cclicca qui %3 invece:"
 
-#: html/user/download.php:199
+#: html/user/download.php:235
 msgid "When the download is finished, open the downloaded file to install %1."
+msgstr "Quando il download sarà completato, apri il file scaricato per installare %1."
+
+#: html/user/download.php:237
+msgid "All done? %1Click here to finish%2."
 msgstr ""
 
-#: html/user/download.php:209
+#: html/user/download.php:247
 msgid "Use %1"
-msgstr ""
+msgstr "Usa %1"
 
-#: html/user/download.php:218
+#: html/user/download.php:256
 msgid "To use %1 on this computer:"
-msgstr ""
+msgstr "Per utilizzare %1 su questo computer:"
 
-#: html/user/download.php:219 html/user/download.php:235
+#: html/user/download.php:257 html/user/download.php:273
 msgid "In the BOINC manager, go to the Tools menu"
-msgstr ""
+msgstr "In BOINC manager, vai al menu Strumenti"
 
-#: html/user/download.php:220
+#: html/user/download.php:258
 msgid "Select Use Account Manager"
-msgstr ""
+msgstr "Seleziona Usa Account Manager"
 
-#: html/user/download.php:221 html/user/download.php:237
+#: html/user/download.php:259 html/user/download.php:275
 msgid "Select %1 from the list"
-msgstr ""
+msgstr "Seleziona %1 dalla lista"
 
-#: html/user/download.php:222 html/user/download.php:238
+#: html/user/download.php:260 html/user/download.php:276
 msgid "Enter your %1 email address and password."
-msgstr ""
+msgstr "Inserisci il tuo %1 indirizzo email e la tua password."
 
-#: html/user/download.php:225
+#: html/user/download.php:263
 msgid "Add %1"
-msgstr ""
+msgstr "Aggiungi %1"
 
-#: html/user/download.php:234
+#: html/user/download.php:272
 msgid "To add %1 on this computer:"
-msgstr ""
+msgstr "Per aggiungere %1 su questo computer:"
 
-#: html/user/download.php:236
+#: html/user/download.php:274
 msgid "Select Add Project"
-msgstr ""
+msgstr "Seleziona Aggiungi progetto"
+
+#: html/user/download.php:282 html/user/sample_index.php:90
+#: html/user/welcome.php:105
+msgid "Continue to your home page"
+msgstr "Continua alla tua homepage"
 
 #: html/user/edit_email_action.php:37
 msgid "Change email address of account"
@@ -3444,7 +3499,7 @@ msgid ""
 "Check out %1 various free services %2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr "Dai un'occhiati ai %1 servizi gratuiti %2\n<br> che forniscono 'immagini per le firme dinamiche da usare nei forum, social, ecc...\n<br> e che mostrano informazioni sui tuoi crediti recenti, notizie dei progetto ed altro."
+msgstr "Dai un'occhiati ai %1 servizi gratuiti %2\n<br> che forniscono 'immagini per le firme dinamiche da usare nei forum, social, ecc...\n<br> e che mostrano informazioni sui tuoi crediti recenti, avvisi dei progetto ed altro."
 
 #: html/user/edit_forum_preferences_form.php:93
 msgid "Attach signature by default"
@@ -3917,67 +3972,67 @@ msgstr "Aggiungi un nuovo messaggio a questo forum"
 msgid "This message board is available as an %1 RSS feed %2"
 msgstr "Questa bacheca è disponibile anche come %1 feed RSS %2"
 
-#: html/user/forum_forum.php:182
+#: html/user/forum_forum.php:186
 msgid "This thread is hidden"
 msgstr "Questo thread è stato nascosto dai moderatori"
 
-#: html/user/forum_forum.php:186
+#: html/user/forum_forum.php:190
 msgid "This thread is sticky and locked, and you haven't read it yet"
 msgstr "Questo thread è evidenziato e bloccato, e non letto"
 
-#: html/user/forum_forum.php:186
+#: html/user/forum_forum.php:190
 msgid "sticky/locked/unread"
 msgstr "evidenziati/bloccati/non letti"
 
-#: html/user/forum_forum.php:188
+#: html/user/forum_forum.php:192
 msgid "This thread is sticky and you haven't read it yet"
 msgstr "Questo thread è evidenzato e non letto"
 
-#: html/user/forum_forum.php:188
+#: html/user/forum_forum.php:192
 msgid "sticky/unread"
 msgstr "evidenziato/non letto"
 
-#: html/user/forum_forum.php:192
+#: html/user/forum_forum.php:196
 msgid "You haven't read this thread yet, and it's locked"
 msgstr "Non hai ancora letto questo messaggio, ed è bloccato"
 
-#: html/user/forum_forum.php:192
+#: html/user/forum_forum.php:196
 msgid "unread/locked"
 msgstr "non letto/bloccato"
 
-#: html/user/forum_forum.php:194
+#: html/user/forum_forum.php:198
 msgid "You haven't read this thread yet"
 msgstr "Non hai ancora letto questo messaggio"
 
-#: html/user/forum_forum.php:200
+#: html/user/forum_forum.php:204
 msgid "This thread is sticky and locked"
 msgstr "Questo messaggio è offensivo e bloccato"
 
-#: html/user/forum_forum.php:200
+#: html/user/forum_forum.php:204
 msgid "sticky/locked"
 msgstr "evidenziato/bloccato"
 
-#: html/user/forum_forum.php:202
+#: html/user/forum_forum.php:206
 msgid "This thread is sticky"
 msgstr "Questo messaggio è offensivo"
 
-#: html/user/forum_forum.php:202
+#: html/user/forum_forum.php:206
 msgid "sticky"
 msgstr "offensivo"
 
-#: html/user/forum_forum.php:206
+#: html/user/forum_forum.php:210
 msgid "This thread is locked"
 msgstr "Questo messaggio è bloccato"
 
-#: html/user/forum_forum.php:206
+#: html/user/forum_forum.php:210
 msgid "locked"
 msgstr "bloccato"
 
-#: html/user/forum_forum.php:208
+#: html/user/forum_forum.php:212
 msgid "You read this thread"
 msgstr "Hai letto questo messaggio"
 
-#: html/user/forum_forum.php:208
+#: html/user/forum_forum.php:212
 msgid "read"
 msgstr "leggi"
 
@@ -3991,7 +4046,7 @@ msgid ""
 "BOINC Online Help %2."
 msgstr "Parla dal vivo via Skype con un volontario, in una delle diverse lingue. Vai all'%1 Aiuto online di BOINC %2."
 
-#: html/user/forum_help_desk.php:47 html/user/forum_index.php:95
+#: html/user/forum_help_desk.php:47 html/user/forum_index.php:96
 msgid "Topic"
 msgstr "Tema"
 
@@ -4009,7 +4064,7 @@ msgid ""
 "section of the message boards."
 msgstr "Se hai dei dubbi o dei problemi consulta la sezione %1 Domande & Risposte %2 della bacheca."
 
-#: html/user/forum_index.php:125
+#: html/user/forum_index.php:128
 msgid "Subscribed threads"
 msgstr "Thread seguiti"
 
@@ -4726,7 +4781,7 @@ msgid ""
 "shown in parentheses."
 msgstr "Questa lista visualizza i modelli di GPU più performanti sulle diverse piattaforme. Le velocità relative, misurate dal tempo medio di esecuzione delle attività, è visualizzata tra parentesi."
 
-#: html/user/home.php:42
+#: html/user/home.php:42 html/user/welcome.php:20
 msgid "Welcome to %1"
 msgstr "Benvenuto in %1"
 
@@ -5066,56 +5121,42 @@ msgid ""
 "own risk."
 msgstr "Questi altri progetti non sono associati con %1, quindi non possiamo garantirne la sicurezza o la natura delle loro ricerche. L'adesione a tali progetti è sotto la vostra sola responsabilità."
 
-#: html/user/join.php:32 html/user/join.php:35
-msgid "I'm new"
-msgstr "Sono uno nuovo"
+#: html/user/join.php:38
+msgid "Is BOINC installed on this device?"
+msgstr ""
 
-#: html/user/join.php:32 html/user/join.php:37
-msgid "I'm a BOINC user"
-msgstr "Sono già un utente BOINC"
-
-#: html/user/join.php:52
+#: html/user/join.php:63 html/user/join.php:87
 msgid "Read our %1 Rules and Policies %2."
 msgstr "Leggi le nostre %1 Regole e linee di condotta %2."
 
-#: html/user/join.php:54
-msgid "Download the BOINC desktop software."
-msgstr "Scarica BOINC per desktop."
+#: html/user/join.php:65
+msgid "Download and install BOINC."
+msgstr ""
 
-#: html/user/join.php:56
+#: html/user/join.php:67
 msgid "Download"
 msgstr "Scaricamento"
 
-#: html/user/join.php:58
+#: html/user/join.php:69
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
 msgstr "Per l'uso su dispositivi Android, consigliamo di scaricare BOINC da Google Play Store oppure da Amazon App Store."
 
-#: html/user/join.php:61
-msgid "Run the installer."
-msgstr "Lancia l'installer."
+#: html/user/join.php:72
+msgid "Run BOINC."
+msgstr ""
 
-#: html/user/join.php:62
+#: html/user/join.php:73 html/user/join.php:91
 msgid "Choose %1 from the list, or enter %2"
 msgstr "Scegli %1 dalla lista, o immetti %2"
 
-#: html/user/join.php:76
-msgid "Install BOINC on this device if not already present."
-msgstr "Installate BOINC su questo dispositivo se non è già presente."
+#: html/user/join.php:89
+msgid "In the BOINC Manager, select Tools / Add Project."
+msgstr ""
 
-#: html/user/join.php:79
-msgid "Select Tools / Add Project. Choose %1 from the list, or enter %2"
-msgstr "Seleziona Strumenti / Connessione ad un progetto. Quindi scegli %1 dalla lista, o scrivi %2 nella casella di testo"
-
-#: html/user/join.php:82
-msgid ""
-"If you're running a command-line version of BOINC on this computer, %1 "
-"create an account %2, then use %3 boinccmd --project_attach %4 to add the "
-"project."
-msgstr "Se utilizzi la versione a riga di comando, prima di tutto %1 Crea un account %2, quindi lancia %3 boinccmd --project_attach %4 per connetterti al progetto."
-
-#: html/user/join.php:97 html/user/sample_index.php:109
+#. use auto-attach if possible
+#: html/user/join.php:100 html/user/sample_index.php:128
 #: html/user/team_join_form.php:34
 msgid "Join %1"
 msgstr "Entra in %1"
@@ -5390,14 +5431,14 @@ msgstr "%1 per %2"
 msgid "Back to preferences"
 msgstr "Ritorna alle preferenze"
 
-#: html/user/prefs.php:33
+#: html/user/prefs.php:36
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr "Le tue preferenze sono state aggiornate e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure quando lancerai il comando %2 Aggiorna %3 di BOINC manager."
 
-#: html/user/prefs.php:42
+#: html/user/prefs.php:45
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
@@ -5438,7 +5479,7 @@ msgid ""
 "others to see!"
 msgstr "Se non l'hai ancora fatto, puoi %1 creare un profilo %2 per presentarti agli altri!"
 
-#: html/user/profile_menu.php:44
+#: html/user/profile_menu.php:44 html/user/sample_index.php:141
 msgid "User of the Day"
 msgstr "Utente del giorno"
 
@@ -5522,29 +5563,29 @@ msgstr "Nessun è stato trovato nessun profilo contenente '%1'"
 
 #: html/user/recover_email.php:41
 msgid "Recover email address"
-msgstr ""
+msgstr "Recupera indirizzo email"
 
 #: html/user/recover_email.php:53
 msgid "There is already an account with that email address."
-msgstr ""
+msgstr "Esiste già un account che usa questo indirizzo email."
 
 #: html/user/recover_email.php:53
 msgid ""
 "Please contact the admin.  Previous email address could not be reverted as "
 "another account is using it as their email address."
-msgstr ""
+msgstr "La preghiamo di contattare l'amministratore. L'indirizzo email precedente non è stato reimpostato in quanto un altro account lo sta utilizzando come proprio indirizzo email."
 
 #: html/user/recover_email.php:55
 msgid "Email address has been reverted."
-msgstr ""
+msgstr "L'indirizzo email è stato reimpostato."
 
 #: html/user/recover_email.php:55
 msgid "You need to reset your password:  "
-msgstr ""
+msgstr "Occorre reimpostare la tua passoword:"
 
 #: html/user/recover_email.php:65 html/user/recover_email.php:68
 msgid "Invalid token."
-msgstr ""
+msgstr "Token non valido."
 
 #: html/user/result.php:33
 msgid "No such task:"
@@ -5570,32 +5611,61 @@ msgstr "Manca l'ID dell'utente o l'ID del computer"
 msgid "No tasks to display"
 msgstr "Nessuna attività da visualizzare"
 
-#: html/user/sample_index.php:53
+#: html/user/sample_index.php:54
 msgid "%1 is temporarily shut down for maintenance."
 msgstr "%1 è temporaneamente fuori servizio per manutenzione."
 
-#: html/user/sample_index.php:63
+#: html/user/sample_index.php:64
 msgid "Welcome, %1"
-msgstr ""
+msgstr "Benvenuto, %1"
 
-#: html/user/sample_index.php:63
+#: html/user/sample_index.php:64
 msgid "What is %1?"
 msgstr "Cos'è %1?"
 
-#: html/user/sample_index.php:69
+#: html/user/sample_index.php:70
 msgid "Thanks for joining %1"
-msgstr ""
+msgstr "Grazie per aver aderito %1"
 
-#: html/user/sample_index.php:75
+#: html/user/sample_index.php:72
 msgid ""
-"You've contributed about %1 credits per day (%2 GFLOPS) to %3 recently."
+"Your computer hasn't completed any tasks yet.  If you need help, %1go "
+"here%2."
 msgstr ""
 
-#: html/user/sample_index.php:86
-msgid "Continue to your home page"
+#: html/user/sample_index.php:78
+msgid "You've contributed about %1 credits per day to %2 recently."
+msgstr ""
+
+#: html/user/sample_index.php:81
+msgid "Thanks!"
+msgstr ""
+
+#: html/user/sample_index.php:84
+msgid "Please make sure BOINC is installed and enabled on your computer."
+msgstr ""
+
+#: html/user/sample_index.php:99
+msgid "Want to help more?"
+msgstr ""
+
+#: html/user/sample_index.php:100
+msgid "If BOINC is not installed on this computer, %1download it%2."
+msgstr ""
+
+#: html/user/sample_index.php:103
+msgid "Install BOINC on your other computers, tablets, and phones."
+msgstr ""
+
+#: html/user/sample_index.php:104
+msgid "Tell your friends about BOINC, and show them how to join %1."
 msgstr ""
 
 #: html/user/sample_index.php:130
+msgid "Already joined? %1Log in%2."
+msgstr ""
+
+#: html/user/sample_index.php:151
 msgid "News"
 msgstr "Avvisi"
 
@@ -5653,44 +5723,43 @@ msgstr "Computer %1"
 
 #: html/user/signup.php:46
 msgid "Identifies you on this web site. Use your real name or a nickname."
-msgstr ""
+msgstr "Identificati su questo sito web. Utilizza il tuo vero nome o un nickname."
 
 #: html/user/signup.php:47
 msgid "Choose screen name"
-msgstr ""
+msgstr "Scegli un nickname"
 
 #: html/user/signup.php:53
 msgid "An address where you can receive emails."
-msgstr ""
+msgstr "Un indirizzo a cui puoi ricevere email."
 
 #: html/user/signup.php:54
 msgid "Your email address"
-msgstr ""
+msgstr "Il tuo indirizzo email"
 
 #: html/user/signup.php:66
 msgid "Choose password"
-msgstr ""
+msgstr "Scegli una password"
 
 #: html/user/stats.php:21
-msgid "Statistics and leaderboards"
-msgstr "Statistiche e classifiche"
+msgid "Credit leader boards and statistics"
+msgstr ""
 
 #: html/user/stats.php:30
-msgid "Statistics for %1"
-msgstr "Statistiche di %1"
+msgid "Leader boards for %1"
+msgstr ""
 
-#. Now display what we've got (either gotten from cache or from DB)
-#: html/user/stats.php:32 html/user/top_users.php:109
-msgid "Top participants"
-msgstr "I migliori utenti"
+#: html/user/stats.php:32
+msgid "Participants"
+msgstr "Partecipanti"
 
-#: html/user/stats.php:40 html/user/team.php:47
-msgid "Top teams"
-msgstr "I migliori team"
+#: html/user/stats.php:48
+msgid "Operating systems"
+msgstr ""
 
-#: html/user/stats.php:47
-msgid "Top computers"
-msgstr "I migliori computer"
+#: html/user/stats.php:49
+msgid "BOINC versions"
+msgstr ""
 
 #: html/user/stats.php:53
 msgid ""
@@ -6347,6 +6416,10 @@ msgstr "Per unirti ad un team visita la pagina del team, poi clicca su %1 Unisci
 msgid "Find a team"
 msgstr "Trova un team"
 
+#: html/user/team.php:47
+msgid "Top teams"
+msgstr "I migliori team"
+
 #: html/user/team.php:49
 msgid "All teams"
 msgstr "Tutti i team"
@@ -6469,7 +6542,7 @@ msgstr "%1 Non mi interessa %2 unirmi ad un team."
 
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:74
-msgid "Top hosts"
+msgid "Top computers"
 msgstr "I migliori computer"
 
 #. Now display what we've got (either gotten from cache or from DB)
@@ -6484,6 +6557,11 @@ msgstr "Non ci sono team %1"
 #: html/user/top_users.php:57
 msgid "Participant since"
 msgstr "Partecipante dal"
+
+#. Now display what we've got (either gotten from cache or from DB)
+#: html/user/top_users.php:109
+msgid "Top participants"
+msgstr "I migliori utenti"
 
 #: html/user/uotd.php:32
 msgid "No user of the day has been chosen."
@@ -6667,6 +6745,70 @@ msgid ""
 "previous weak account key becomes invalid."
 msgstr "Se cambi la tua password, la tua chiave di accesso debole cambia, e quella precedente non sarà più valida."
 
+#: html/user/welcome.php:22
+msgid ""
+"\n"
+"    At this point BOINC should be installed and running on your computer;\n"
+"    the system tray should have an icon like this: %1\n"
+"    If not, %2get help here%3.\n"
+"    "
+msgstr ""
+
+#: html/user/welcome.php:36
+msgid "What happens now?"
+msgstr ""
+
+#: html/user/welcome.php:37
+msgid ""
+"BOINC, running in the background, will download computing jobs,\n"
+"        process them, and upload the results.\n"
+"        This will happen automatically; you don't have to do anything.\n"
+"        This computation may cause your computer's fan to run,\n"
+"        and it may slightly increase your electric bill.\n"
+"    "
+msgstr ""
+
+#: html/user/welcome.php:49
+msgid "How to monitor and control BOINC"
+msgstr ""
+
+#: html/user/welcome.php:50
+msgid ""
+"You can monitor what BOINC is doing, and control it, using the BOINC Manager.\n"
+"        Open this by double-clicking on the BOINC icon.\n"
+"        Details are %1here%2."
+msgstr ""
+
+#: html/user/welcome.php:63
+msgid ""
+"BOINC is designed to not impact\n"
+"        the performance of your computer for normal use.\n"
+"        If it does, you can reduce this impact by,\n"
+"        for example, limiting the amount of memory BOINC uses.\n"
+"        You can control many settings.\n"
+"        Check this out %1here%2."
+msgstr ""
+
+#: html/user/welcome.php:80
+msgid ""
+"You can meet and communicate with other %1 participants\n"
+"        in a variety of ways - take a look under the Community\n"
+"        menu above."
+msgstr ""
+
+#: html/user/welcome.php:90
+msgid "Other projects"
+msgstr ""
+
+#: html/user/welcome.php:91
+msgid ""
+"%1 is one of many science projects using BOINC.\n"
+"        Your computer is now 'attached' to %1,\n"
+"        but you can attach it to other projects if you want.\n"
+"        It will process jobs for all attached projects.\n"
+"        %2Learn about how to do this%3."
+msgstr ""
+
 #: html/user/workunit.php:46
 msgid "Workunit %1"
 msgstr "Elaborazione %1"
@@ -6729,7 +6871,7 @@ msgstr "Generato"
 
 #: html/project.sample/project.inc:175
 msgid "Your personal background."
-msgstr "Il tuo sfondo personale."
+msgstr "Informazioni di base."
 
 #: html/project.sample/project.inc:179
 msgid ""
