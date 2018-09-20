@@ -797,9 +797,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
              WHERE consent_type_id=%ld\
                AND consent_flag=1) AS lc\
             ON user.id = lc.userid", consent_type.id);
-	    strcat(joinclause, " ");
-	    strcat(joinclause, clause);
-	    strcpy(clause, joinclause);
+	    safe_strcat(joinclause, " ");
+	    safe_strcat(joinclause, clause);
+	    safe_strcpy(clause, joinclause);
 	}
 
         n = 0;
@@ -876,9 +876,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
              WHERE consent_type_id=%ld\
                AND consent_flag=1) AS lc\
             ON host.userid = lc.userid", consent_type.id);
-	    strcat(joinclause, " ");
-	    strcat(joinclause, clause);
-	    strcpy(clause, joinclause);
+	    safe_strcat(joinclause, " ");
+	    safe_strcat(joinclause, clause);
+	    safe_strcpy(clause, joinclause);
 	}
 
         n = 0;
