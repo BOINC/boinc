@@ -146,6 +146,7 @@ function make_user_ldap($email_addr, $name) {
 
     //show_hosts defaults to TRUE (1), but config option
     //'enable_privacy_by_default' will set the default to FALSE(0).
+    $default_show_hosts = 1;
     $config = get_config();
     if (parse_bool($config, "enable_privacy_by_default")) {
         $default_show_hosts = 0;
