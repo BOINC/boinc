@@ -114,7 +114,14 @@ function make_user(
     $country = BoincDb::escape_string($country);
     $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
 
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 0, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$database_passwd_hash', 0, 0)");
+    //show_hosts defaults to TRUE (1), but config option
+    //'enable_privacy_by_default' will set the default to FALSE(0).
+    $default_show_hosts = 1;
+    $config = get_config();
+    if (parse_bool($config, "enable_privacy_by_default")) {
+        $default_show_hosts = 0;
+    }
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, $default_show_hosts, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$database_passwd_hash', 0, 0)");
 
     if (!$uid) {
         return null;
@@ -136,7 +143,14 @@ function make_user_ldap($email_addr, $name) {
     $cross_project_id = random_string();
     $passwd_hash = random_string();
     $now = time();
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, 0, '$cross_project_id', '$passwd_hash')");
+
+    //show_hosts defaults to TRUE (1), but config option
+    //'enable_privacy_by_default' will set the default to FALSE(0).
+    $config = get_config();
+    if (parse_bool($config, "enable_privacy_by_default")) {
+        $default_show_hosts = 0;
+    }
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, $default_show_hosts, '$cross_project_id', '$passwd_hash')");
 
     if ($uid) {
         return BoincUser::lookup_id($uid);
