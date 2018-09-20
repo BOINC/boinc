@@ -91,7 +91,7 @@ function boincuser_check_credit_requirements() {
     }
     else {
       drupal_set_message(bts(
-        'You must earn @count more credits to be able to post comments on this site.',
+        'You must earn @count more credits to be able to post comments on this site and create or modify your user profile.',
         array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
       ), 'warning', FALSE);
       if (isset($account->roles[$unrestricted_role])) {
