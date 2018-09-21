@@ -59,6 +59,12 @@ matrix:
     - language: android
       env: BOINC_TYPE=client-android-x86_64
     - language: android
+      android:
+        components:
+            - build-tools-28.0.2
+            - android-26
+            - extra-google-m2repository
+            - extra-android-m2repository    
       env: BOINC_TYPE=manager-android
 
 before_install:
@@ -84,6 +90,6 @@ script:
 - if [[ "${BOINC_TYPE}" == "client-android-arm64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm64 ) fi
 - if [[ "${BOINC_TYPE}" == "client-android-x86" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86 ) fi
 - if [[ "${BOINC_TYPE}" == "client-android-x86_64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86_64 ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( /bin/true ) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android/BOINC && ./gradlew assemble ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
