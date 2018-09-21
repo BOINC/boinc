@@ -12,6 +12,9 @@
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 
+#Visual Studio Code options directory
+.vscode/
+
 # Installshield build directories
 /win_build/installerv2/BOINC
 /win_build/installerv2/BOINC_vbox
