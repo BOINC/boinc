@@ -8,14 +8,14 @@
 # Can Demirel <aycandemirel@hotmail.com>, 2016
 # Efe Egemen Sen <egemen123456@outlook.com>, 2016
 # Emre GÜN <thondras@gmail.com>, 2015
-# ilkeryus <ilkeryus@gmail.com>, 2016
+# ilkeryus <ilkeryus@gmail.com>, 2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2017-11-09 20:23+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-07-10 11:27+0000\n"
+"Last-Translator: ilkeryus <ilkeryus@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,14 +245,14 @@ msgid "You are banned from community participation until @date"
 msgstr "Topluluğa katılmaktan @date tarihine dek men edildiniz."
 
 msgid "There is no user on your team with that email address."
-msgstr ""
+msgstr "Ekibinizde bu e-posta adresiyle kayıtlı hiç kullanıcı yok."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr ""
+msgstr "Einstein@Home, LIGO kütleçekim dalgası dedektöründen gelen verileri kullanarak, bilgisayarınızın boşta kalma süresinde ekran koruyucu çalıştırarak, dönen izole kompakt objelerden (pulsarlar bunlar arasındadır) gelen yerçekimi dalgalarını arayan bir programdır."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
@@ -261,7 +261,7 @@ msgid ""
 msgstr "Einstein@Home, LIGO kütleçekim dalgası dedektöründen gelen verileri kullanarak, bilgisayarınızın boşta kalma süresinde, dönen izole kompakt objelerden (pulsarlar bunlar arasındadır) gelen yerçekimi dalgalarını arayan bir programdır."
 
 msgid "Add separate preferences for @venue"
-msgstr ""
+msgstr "@venue için ayrı tercihler ekle"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
@@ -269,31 +269,31 @@ msgid ""
 msgstr "Takım üyesi @name takım yöneticisi olmayı talep etti. Bu olabilir çünkü takımdan ayrıldınız ya da uzun süredir takımla ilişiğiniz yok."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr ""
+msgstr "Takım kurucunun transfer isteğinize cevap vermek için 1 günü var."
 
 msgid "Message board title is required."
-msgstr ""
+msgstr "Mesaj panosu başlığı gereklidir."
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr ""
+msgstr "Uyarı: İçeriğiniz Apache Solr yorumları aramadan önce <a href=\"@url\">yeniden endekslenmiş olmalı</a>."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr ""
+msgstr "Yorumların Apace Solr tarafından indekslendiği içerik türlerini seçin. Bu yapılandırmayı değiştirdikten sonra içeriğiniz yeniden endekslenmelidir."
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr ""
+msgstr "Bir kullanıcının e-postasını değiştirirseniz, şifreyi de aynı anda değiştirmelisiniz."
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr ""
+msgstr "Kullanım: 'Yapılandırmayı kaydet' yukarıdaki tercihleri drupal veritabanına kaydeder. Bunlar, bir kullanıcı Hesap Tercihleri sayfasını yüklediğinde tercihler formunu dolduracak olan önceden ayarlanmış hesaplama (global) tercihleri olacaktır."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -303,12 +303,12 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr ""
+msgstr "'Config.xml'den disk kullanım ayarları ile yapılandırmayı kaydet' yukarıdaki tercihleri drupal veritabanına kaydedecek, aynı zamanda BOINC projesinin config.xml dosyasından disk kullanım ayarlarını da yükleyecektir. Bunlar, yukarıda belirlediğiniz disk kullanım ayarlarının üzerine yazacaktır. Dikkat: Disk kullanım ayarlarını config.xml dosyasından drupal veritabanına yüklerseniz, kullanıcının kişisel tercihleri değişmez. Tercih ayarlarını manuel olarak değiştirmeleri gerekir."
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "My stats"
-msgstr ""
+msgstr "İstatistiklerim"
 
 #: menu-link
 msgctxt "menu-link"
@@ -333,7 +333,7 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr ""
+msgstr "Kişisel geçmişiniz"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -345,7 +345,7 @@ msgstr "Bize kendinizi anlatın. Örneğin, nereden olduğunuzu, yaşınızı, m
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr ""
+msgstr "Bu proje hakkındaki fikirleriniz"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -354,7 +354,7 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr ""
+msgstr "@this_project hakkındaki düşüncelerinizi bize bildirin.\n1. Neden @this_project'i kullanıyorsunuz?\n2. Proje ile ilgili görüşleriniz nelerdir?\n3. Herhangi bir öneri?"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -374,17 +374,17 @@ msgstr "Ülke"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr ""
+msgstr "Profil resmi"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr ""
+msgstr "Web Sitesi URL'si"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr ""
+msgstr "@this_project İlerleme"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -394,27 +394,27 @@ msgstr "Projeler"
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr ""
+msgstr "Arkadaş eklenmedi."
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr ""
+msgstr "Tüm Arkadaşları Görüntüle"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr ""
+msgstr "Arkadaş istekleri"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr ""
+msgstr "Arkadaş Onaylarını Bekliyor"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr ""
+msgstr "Site ara"
 
 #: menu-link
 msgctxt "menu-link"
@@ -424,7 +424,7 @@ msgstr "Haberler"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr ""
+msgstr "Sertifikalar"
 
 #: account-host-list
 msgctxt "account-host-list"
@@ -434,7 +434,7 @@ msgstr "Tüm bilgisayarlar"
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr ""
+msgstr "Son 30 gün içinde aktif olan bilgisayarlar"
 
 #: menu-link
 msgctxt "menu-link"
@@ -449,27 +449,27 @@ msgstr "Topluluk"
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr ""
+msgstr "Gizlilik"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonelikler"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonelikler"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr ""
+msgstr "Güncellendi"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr ""
+msgstr "Kuyruk"
 
 #: menu-link
 msgctxt "menu-link"
@@ -479,7 +479,7 @@ msgstr "Profil"
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Son 30 gün içinde aktif"
 
 #: user-host-list
 msgctxt "user-host-list"
@@ -519,7 +519,7 @@ msgstr "Yeni oluştur"
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr ""
+msgstr "Bilgisayarları göster"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -539,17 +539,17 @@ msgstr "Kimlik doğrulayıcı girişi"
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr ""
+msgstr "Denetleme için kuyrukta içerik yok."
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr ""
+msgstr "Kullanıcı profili denetleme kuyruğu"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Son 30 gün içinde aktif"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
@@ -559,7 +559,7 @@ msgstr "Buradan yorum:"
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonelikler"
 
 #: country-of-origin
 msgctxt "country-of-origin"
@@ -991,17 +991,17 @@ msgstr "Doğrulama durumu"
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr ""
+msgstr "Zirve çalışma seti boyutu"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr ""
+msgstr "Zirve takas boyutu"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr ""
+msgstr "Zirve disk kullanımı"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1148,27 +1148,27 @@ msgstr "Alıntı"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr ""
+msgstr "Bu yorumu alıntıyla yanıtla"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr ""
+msgstr "Katılınan: @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr ""
+msgstr "Mesajlar: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr ""
+msgstr "Kredi: @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr ""
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
@@ -1475,37 +1475,37 @@ msgstr "İşlemci kullanımı"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr ""
+msgstr "Bilgisayar pildeyken duraklasın mı?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr ""
+msgstr "Taşınabilir bilgisayarlarda pil gücüyle çalışırken hesaplamayı dıraklatır."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr ""
+msgstr "Bilgisayar kullanımda olduğunda askıya duraklasın mı?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr ""
+msgstr "Bilgisayarı siz kullanırken bilgi işlem ve dosya aktarımlarını duraklatır."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr ""
+msgstr "Bilgisayar kullanımda olduğunda GPU ile hesaplama duraklasın mı?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr ""
+msgstr "Bilgisayarı siz kullanırken GPU ile hesaplamayı duraklatır."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr ""
+msgstr "\"Kullanımda\" demek fare veya klavyeyi son kullanmamdan bu yana henüz bu kadar süre geçmedi demektir:"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1515,7 +1515,7 @@ msgstr "dakika"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr ""
+msgstr "Bu, bilgisayarın ne zaman \"kullanımda\" olarak kabul edildiğini belirler."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1540,7 +1540,7 @@ msgstr "Bilgisayarınız diğer uygulamaları çalıştırmakla meşgulse hesapl
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr ""
+msgstr "Yalnızca bu saatler arasında hesapla"
 
 #: account-preference
 msgctxt "account-preference"
@@ -1555,7 +1555,7 @@ msgstr "Hesaplama her gün sadece belirli saatler arasında yapılır."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr ""
+msgstr "Durakladığında GPU harici işler bellekte kalsın mı?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1563,7 +1563,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "\"Evet\" ise duraklatılan görevler bellekte kalır ve hiçbir kayıp yaşanmadan çalışmaya devam eder. \"Hayır\" ise, duraklatılan görevler bellekten kaldırılır ve son kontrol noktasından devam eder."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1613,7 +1613,7 @@ msgstr "Disk ve bellek kullanımı"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr ""
+msgstr "Disk: Bundan fazlasını kullanma:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1623,7 +1623,7 @@ msgstr "BOINC tarafından kullanılabilecek toplam disk alanını sınırlandır
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr ""
+msgstr "Disk: En az bu kadar alan bırak"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1786,14 +1786,14 @@ msgstr "Örneğin, BOINC son 30 günde en fazla 2000 MB veri aktarımı yapabile
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr ""
+msgstr "Görüntü dosyaları için veri doğrulaması atlansın mı?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr ""
+msgstr "Yalnızca internet servis sağlayıcınız görüntü dosyalarını değiştiriyorsa \"Evet\" olarak işaretleyin. Doğrulamayı atlamak, BOINC'in güvenliğini zayıflatacaktır."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -1842,7 +1842,7 @@ msgstr "CPU kullan"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr ""
+msgstr "Bu projeden yalnızca CPU'ya görevler isteyin."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1852,7 +1852,7 @@ msgstr "NVIDIA GPU kullan"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr ""
+msgstr "Bu projeden NVIDIA GPU görevlerini isteyin."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1862,7 +1862,7 @@ msgstr "ATI GPU kullan"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr ""
+msgstr "Bu projeden ATI GPU görevlerini isteyin."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1872,7 +1872,7 @@ msgstr "Intel GPU kullan"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr ""
+msgstr "Bu projeden Intel GPU görevlerini isteyin."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -2035,12 +2035,12 @@ msgstr "Forumlarda imzaları gizle"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr ""
+msgstr "Kullanıcıları forumlarda yoksay:"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr ""
+msgstr "Yok sayılan kullanıcılar listesini <a href=\"@ignore-user-list\">Gör/Düzenle</a>."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
@@ -2175,7 +2175,7 @@ msgstr "Takımları ara"
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr ""
+msgstr "Bu iş birimi için görevler beklemede."
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
@@ -2269,7 +2269,7 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr ""
+msgstr "'@venue' kümesi için herhangi bir tercih bulunamadı. Aşağıdaki tercihleri hesabınıza kaydetmek için alttaki DEĞİŞİKLİKLERİ KAYDET seçeneğini tıklayın."
 
 #: join-page
 msgctxt "join-page"
@@ -2284,7 +2284,7 @@ msgstr "Kurulumu çalıştır"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr ""
+msgstr "yanıtla"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2294,7 +2294,7 @@ msgstr "Bu yorumu yanıtla"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr ""
+msgstr "Bu konuya bir alıntıyla cevap verin"
 
 #: private-message
 msgctxt "private-message"
@@ -2461,7 +2461,7 @@ msgstr "Sizin için uygun bir takım bulamazsanız, bir takım oluşturabilirsin
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr ""
+msgstr "Yeni bir takım oluşturmak için giriş yapın"
 
 #: join-page
 msgctxt "join-page"
@@ -2689,7 +2689,7 @@ msgstr "Görünümü değiştir"
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr ""
+msgstr "Dosyaları yalnızca aşağıdakiler saatler arasında aktar:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -3212,7 +3212,7 @@ msgstr "@email uygun formatta değil, lütfen kontrol edin"
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr ""
+msgstr "Arkadaşlık isteğini onayla"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
@@ -3222,7 +3222,7 @@ msgstr "Kullanıcı engellemesini kaldır"
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr ""
+msgstr "1 gün kaldı"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -3317,14 +3317,14 @@ msgstr "Sorulduğunda @siteurl girin"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr ""
+msgstr "Yönergeler"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr ""
+msgstr "@email için bir hesap yok - lütfen bir BOINC istemcisi kullanarak bir hesap oluşturun -- !yönergeleri"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3358,7 +3358,7 @@ msgstr "Beklemede"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr ""
+msgstr "Hesabınız için görevler"
 
 #: task-table
 msgctxt "task-table"
@@ -3368,7 +3368,7 @@ msgstr "Uygulama"
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr ""
+msgstr "Tüm Uygulamalar"
 
 #: task-table
 msgctxt "task-table"
@@ -3393,7 +3393,7 @@ msgstr "Gönderilme"
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr ""
+msgstr "Raporlama Zamanı veya Son Tarih"
 
 #: task-table
 msgctxt "task-table"
@@ -3413,12 +3413,12 @@ msgstr "CPU zamanı"
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr ""
+msgstr "Alacak Kredi"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr ""
+msgstr "Verilen Kredi"
 
 #: task-table
 msgctxt "task-table"
@@ -3458,32 +3458,32 @@ msgstr "Sıfırla"
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr ""
+msgstr "Süzgeç Uygula"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr ""
+msgstr "Bu ana bilgisayarda değişiklik yapmanıza izin verilmiyor."
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr ""
+msgstr "Bilgisayar @host_id için görevler"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr ""
+msgstr "Bu ana bilgisayarın yeri güncellendi."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr ""
+msgstr "Bu değişiklik, ana bilgisayar projeyle iletişim kurduktan sonra yürürlüğe girecektir."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr ""
+msgstr "Profil mevcut değil."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
@@ -3529,7 +3529,7 @@ msgstr "Yükleyiciyi çalıştırın."
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr ""
+msgstr "Listeden @sitename öğesini seçin veya @siteurl yazın."
 
 #: join-page
 msgctxt "join-page"
@@ -3541,7 +3541,7 @@ msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "<i>Araçlar / Proje ekle</i>'yi seçin. Listeden @sitename öğesini seçin veya @siteurl yazın. "
 
 #: join-page
 msgctxt "join-page"
@@ -3550,7 +3550,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "Eğer BOINC'in bir komut satırı sürümünü çalıştırıyorsanız, \n        önce bu projede bir hesap oluşturmak için (gerekirse başka bir yerde) \n        BOINC Manager yazılımını kullanın, sonra komut satırı sürümü ile bağlanmak için,\n       <b>!boinccmd</b>ile bu hesabı kullanın."
 
 #: join-page
 msgctxt "join-page"
@@ -3558,52 +3558,52 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "Eğer pre-5.0 öncesi BOINC sürümünü çalıştırıyorsanız,\n        bu projede bir hesap oluşturmak için lütfen daha yeni bir\n        sürüme yükseltin."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr ""
+msgstr "@user @team'in kurucusudur!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "İçeriği çeviri için parçalar halinde bölmeye yardımcı BOINC çeviri filtresi"
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "Düğüm içeriğini çeviri için parçalara böler."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr ""
+msgstr "BOINC çeviri filtresi"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "Filtrelenecek içerik türleri"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "Hangi içerik (düğüm) türlerinin çeviri için parçalara ayrılacağını seçin."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr ""
+msgstr "Hata ayıklama bilgisini yazdır"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr ""
+msgstr "Ek hata ayıklama bilgisini yazdırır. Bu seçenek yapım sitelerinde devre dışı bırakılmalıdır."
 
 #: join-page
 msgctxt "join-page"
@@ -3613,7 +3613,7 @@ msgstr "Kurallar ve İlkeler"
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr ""
+msgstr "!rules_and_policies belgemizi okuyun."
 
 #: account-password
 msgctxt "account-password"
@@ -3675,72 +3675,72 @@ msgstr "Zengin metin etkinleştir"
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr ""
+msgstr "abone ol"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr ""
+msgstr "aboneliği bitir"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr ""
+msgstr "Rapor"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr ""
+msgstr "Raporu iptal et"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr ""
+msgstr "Bayrakları sıfırla"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr ""
+msgstr "Kullanıcıyı yok say"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr ""
+msgstr "Tüm işler"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr ""
+msgstr "Raporlanma ya da son teslim tarihi"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr ""
+msgstr "Çalışma zamanı (sn)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr ""
+msgstr "CPU zamanı (sn)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr ""
+msgstr "Kabul edilen sonuç"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr ""
+msgstr "Azami sonuç sayısı (hatalı/toplam/başarılı)"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr ""
+msgstr "Sitenin Ana Sayfası için mesaj"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr ""
+msgstr "Sitenin Ana Sayfa varış sayfasında görüntülenecek metin."
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3767,7 +3767,7 @@ msgstr "Yayınlanmamış"
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr ""
+msgstr "Bu konunun gizliliğini kaldır"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3819,17 +3819,17 @@ msgstr "Lütfen Takım Tipi Seçiniz"
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr ""
+msgstr "BOINC Kimliği"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr ""
+msgstr "Görev veritabanında bulunamadı."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr ""
+msgstr "İşbirimi veritabanında bulunamadı."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
@@ -3839,7 +3839,7 @@ msgstr "Stderr çıktısı"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr ""
+msgstr "Lütfen dikkat: kullanıcı profilleri denetime tabidir."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3848,60 +3848,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "@site_name'a katıldığınız için teşekkür ederiz, @user_name. Hesabınız oluşturuldu. BOINC istemciniz, herhangi bir ek eylem veya yapılandırma olmaksızın, atanmış görevler üzerinde çalışmaya başlamalıdır. Daha fazla bilgi ve ek seçenekler için lütfen aşağıdaki bağlantıları ziyaret edin. (Bağlantılar yeni bir pencerede açılacak.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr ""
+msgstr "Topluluk Tercihleri"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr ""
+msgstr "Kullanıcı adınızı !community_preferences bölümünde değiştirin."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr ""
+msgstr "Kullanıcı adınız, kendinizi bu Web sitesindeki diğer gönüllülere tanıtmak için kullanılır."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "Ayrıca, hesabınızın varsayılan dilini ayarlayabilir ve bildirim ayarlarını yapabilirsiniz."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr ""
+msgstr "Hesaplama Tercihleri"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr ""
+msgstr "!computing_preferences ayarlarınızı değiştirin."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "BOINC istemcisinin bilgisayarınızdaki görevler için ne kadar CPU, RAM ve Disk alanı kullanabileceğini ayarlayabilirsiniz."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr ""
+msgstr "Varsayılan olarak, @site_name görevlerini herhangi bir ek yapılandırma olmadan çalıştırırsınız."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr ""
+msgstr "forumlar"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3909,24 +3909,24 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr ""
+msgstr "Bazı gönüllülerin bazı görevleri yürütme deneyimi kazanana kadar varsayılan ayarları bırakmaları önerilir. Anlamadığınız bir ortamda değişiklik yapmadan önce !forums sayfalarında sorularınızı sorun."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr ""
+msgstr "Kullanıcı Profili"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr ""
+msgstr "Bir !user_profile oluşturun."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr ""
+msgstr "Bir kullanıcı profili, diğer gönüllülere kim olduğunuzu ve neden @site_name'e katıldığınızı bildirecektir."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3936,29 +3936,29 @@ msgstr "Takım"
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr ""
+msgstr "Bir !team'e katılın."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr ""
+msgstr "Diğer gönüllülerden oluşan bir takıma katılabilirsiniz."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr ""
+msgstr "Hesap Gösterge Tablosu"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr ""
+msgstr "!account_dashboard'inize gidin."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr ""
+msgstr "Hesap gösterge tablonuz, bilgisayar(lar)ınız ve atanan görev(ler) hakkında bilgi ve bağlantılara sahiptir."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3968,17 +3968,17 @@ msgstr "Yardım"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr ""
+msgstr "!help sayfalarımızı ziyaret edin."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr ""
+msgstr "Topluluğumuzun !forums'larında yardım isteyin."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr ""
+msgstr "HATA: Bu kimlik doğrulayıcıyla ilişkili bir hesap yok. "
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3988,19 +3988,19 @@ msgstr "Tercihlerin son güncellenmesi: @mod_time"
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr ""
+msgstr "Ana bilgisayar veritabanında bulunamadı."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr ""
+msgstr "HATA: Hesabınızı yüklerken bir sorun oluştu. Kullanıcı adınız ve şifreniz ile giriş yapmayı deneyin."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr ""
+msgstr "Ekibinizde bu e-posta adresiyle kayıtlı hiç kullanıcı yok."
 
 #: account-finish
 msgctxt "account-finish"
@@ -4010,30 +4010,30 @@ msgstr "moderasyon"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr ""
+msgstr "Lütfen dikkat: kullanıcı profilleri !denetim altındadır."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr ""
+msgstr "Varsayılan olarak bir arama HERHANGİ bir arama terimi ile eşleşir. Birden fazla terimle sonuçlanan sonuçlar, arama sonuçlarında daha yukarıda gösterilecektir."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr ""
+msgstr "Arama motorunun TÜM arama terimleriyle sonuç vermesi için 'VE' seçeneğini kullanabilirsiniz."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr ""
+msgstr "Örneğin, “boinc AND client” araması sadece boinc ve client içeren sonuçları bulunduracaktır."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr ""
+msgstr "Arama Yardımı"

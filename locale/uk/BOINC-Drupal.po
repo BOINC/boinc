@@ -5,196 +5,194 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Николай Сахаров <saharovna@gmail.com>, 2015
-# Olga Liienko <o.k.lienko@gmail.com>, 2015
-# Vasya Pupkin <vecherins@gmail.com>, 2018
-# Viktor Kostin <youseeisme@gmail.com>, 2018
-# Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2016
-# Денис Саяпин <deniss.sayapin@gmail.com>, 2018
-# Николай Сахаров <saharovna@gmail.com>, 2016,2018
+# makalu makalu <awakenings@outlook.com>, 2018
+# Roman Illin <roman_illin@yahoo.de>, 2017
+# Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2015
+# Александр Столярук <alexstolyaruk@gmail.com>, 2017
+# Максим Перепелиця <maxim.perepelitsya@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-08-15 07:45+0000\n"
-"Last-Translator: Николай Сахаров <saharovna@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
+"PO-Revision-Date: 2018-09-02 20:52+0000\n"
+"Last-Translator: makalu makalu <awakenings@outlook.com>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
-msgstr "Я новичок"
+msgstr "Я новачок"
 
 msgid "I'm a BOINC user"
-msgstr "Я пользователь BOINC"
+msgstr "Я користувач BOINC"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "Вы должны заработать ещё @count очков, чтобы появилась возможность оставлять комментарии на этом сайте."
+msgstr "Ви повинні заробити ще @count балів, щоб залишати коментарі на  сторінці."
 
 msgid "Enforced by version @number"
-msgstr "Начиная с версии @number"
+msgstr "Починаючи з версії @number"
 
 msgid "Total Credit"
-msgstr "Всего очков"
+msgstr "Усього балів"
 
 msgid "App ID"
-msgstr "ID приложения"
+msgstr "ID додатка"
 
 msgid "Friends (@count)"
-msgstr "Друзья (@count)"
+msgstr "Друзів (@count)"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home — это программа, которая, используя время простоя компьютера, запускает заставку для поиска гравитационных волн от быстро вращающихся нейтронных звёзд (также называемых пульсарами) и использует данные, полученные от детектора гравитационных волн LIGO."
+msgstr "Einstein@Home це програма, яка використовує під час простоювання комп'ютера запускає заставку для пошуку гравітаційних хвиль від нейтронних зірок, які обертаються (їх також називають пульсарами), використовуючи дані з детектора гравітаційних хвиль LIGO."
 
 msgid "Run while computer is on battery power?"
-msgstr "Выполнять обработку, когда компьютер работает от аккумулятора?"
+msgstr "Запустити, навіть якщо комп'ютер працює від акумулятора?"
 
 msgid "Only applies to portable computers"
-msgstr "Применимо только к портативным компьютерам"
+msgstr "Відноситься тільки до портативних комп'ютерів"
 
 msgid "Run while computer is in use?"
-msgstr "Выполнять обработку, когда компьютер используется?"
+msgstr "Запускати, коли комп'ютер використовується для роботи?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "Выполнять обработку на ГП, когда компьютер используется?"
+msgstr "Запустити обрахунки графічним процесором, коли комп'ютер використовується для роботи?"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "\"Использование\" означает активность мыши или клавиатуры за последние"
+msgstr "«В роботі» означає введення даних миші/клавіатури в минулому"
 
 msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "Приостановить работу, если нет активности мыши или клавиатуры за последние"
+msgstr "Призупинити роботу, якщо немає активності мишки або клавіатури за останні"
 
 msgid "Needed to enter low-power mode on some computers"
-msgstr "Необходимо для входа в режим пониженного энергопотребления на некоторых компьютерах"
+msgstr "На деяких комп'ютерах необхідно перейти в режим зниженого енергоспоживання"
 
 msgid "Suspend work if CPU usage is above"
-msgstr "Приостановить, если использование процессора выше"
+msgstr "Призупинити роботу, якщо використання процесора перевищує"
 
 msgid "0 means no restriction. Enforced by version @number"
-msgstr "0 означает отсутствие ограничений. Начиная с версии @number"
+msgstr "0 означає відсутність обмежень. Починаючи з версії @number"
 
 msgid "Do work only between the hours of:"
-msgstr "Обрабатывать только между указанными часами:"
+msgstr "Працювати лише між годинами:"
 
 msgid "No restriction if equal"
-msgstr "Без ограничений если равны"
+msgstr "Обмеження не діє при рівності значень"
 
 msgid "Leave tasks in memory while suspended?"
-msgstr "Оставлять в памяти неактивные задания?"
+msgstr "Залишати завдання у пам'яті, коли призупинено?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "Если \"да\", приостановленные задания будут занимать место в файле подкачки"
+msgstr "Якщо вказати «так», неактивні завдання буде переміщено у файл підкачки"
 
 msgid "Recommended: @period minutes"
-msgstr "Рекомендуется: @period минут"
+msgstr "Рекомендація: @period хвилин"
 
 msgid "On multiprocessors, use at most"
-msgstr "На многопроцессорных системах использовать не более"
+msgstr "На мультипроцесорних системах використовувати не більше"
 
 msgid "processors"
-msgstr "процессоров"
+msgstr "процесорів"
 
 msgid "Set to 0 for no limit"
-msgstr "Значение 0 - нет ограничений"
+msgstr "Щоб не було обмежень встановити значення 0"
 
 msgid "Can be used to reduce CPU heat"
-msgstr "Может использоваться для уменьшения нагрева процессора"
+msgstr "Може використовуватися для зменшення нагріву процесора"
 
 msgid "Disk: use at most"
-msgstr "Диск: использовать не более"
+msgstr "Диск: використовувати не більше"
 
 msgid "Disk: leave free at least"
-msgstr "Диск: оставлять свободным не менее"
+msgstr "Диск: залишити вільним принаймні"
 
 msgid "Values smaller than @number are ignored"
-msgstr "Значения меньше, чем @number, игнорируются"
+msgstr "Значення менше, ніж @number, ігноруються"
 
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Задания сохраняют промежуточные результаты на диск примерно каждые"
+msgstr "Зберігати проміжні результати щонайбільше кожні"
 
 msgid "Swap space: use at most"
-msgstr "Файл подкачки: использовать не более"
+msgstr "Віртуальна пам'ять: використовувати не більше"
 
 msgid "Computer is connected to the Internet about every"
-msgstr "Компьютер подключается к сети Интернет примерно каждые"
+msgstr "Комп'ютер підключається до мережі Інтернет приблизно кожні"
 
 msgid ""
 "Leave blank or 0 if always connected. @project will try to maintain at least"
 " this much work."
-msgstr "Оставьте пустым или 0, если всегда подключен. @project попытается поддерживать как минимум указанный объём работы."
+msgstr "Залиште порожнім або вкажіть 0, якщо він завжди підключений. @project спробує підтримувати як мінімум вказаний обсяг роботи."
 
 msgid "Maintain enough work for an additional"
-msgstr "Поддерживать достаточный объём работы для дополнительных"
+msgstr "Підтримувати достатній обсяг роботи для додаткових"
 
 msgid "Matters only if you have a modem, ISDN, or VPN connection"
-msgstr "Применимо только если у вас есть модем, ISDN или VPN подключения"
+msgstr "Важливо тільки у випадку, якщо у вас є модемне, ISDN або VPN підключення"
 
 msgid "Maximum download rate"
-msgstr "Максимальная скорость загрузки"
+msgstr "Максимальна швидкість завантаження"
 
 msgid "Maximum upload rate"
-msgstr "Максимальная скорость отправки"
+msgstr "Максимальна швидкість відвантаження"
 
 msgid "Use network only between the hours of:"
-msgstr "Использовать сеть только между указанными часами:"
+msgstr "Використовувати мережу тільки між зазначеними годинами:"
 
 msgid "Transfer at most"
-msgstr "Передавать не более"
+msgstr "Передавати не більше"
 
 msgid "Skip image file verification?"
-msgstr "Пропускать проверку файлов изображений?"
+msgstr "Пропустити перевірку файлу образу?"
 
 msgid ""
 "Check this ONLY if your Internet provider modifies image files (UMTS does "
 "this, for example). Skipping verification reduces the security of BOINC."
-msgstr "Выберите этот пункт ТОЛЬКО если ваш Интернет-провайдер изменяет файлы изображений (например, так делает UMTS). Пропуск проверки уменьшает безопасность BOINC."
+msgstr "Позначити ТІЛЬКИ В ТОМУ ВИПАДКУ, якщо Ваш інтернет-провайдер змінює файли образів (наприклад, це робить UMTS). Пропуск перевірки зменшує безпеку BOINC."
 
 msgid "What is @this_project?"
-msgstr "Что такое @this_project?"
+msgstr "Що таке @this_project?"
 
 msgid "Project"
 msgstr "Проект"
 
 msgid "Total credits"
-msgstr "Всего очков"
+msgstr "Усього балів"
 
 msgid "Recent avg credits"
-msgstr "Очков в среднем за последнее время"
+msgstr "Балів у середньому за день"
 
 msgid "Web site"
-msgstr "Вебсайт"
+msgstr "Веб-сайт"
 
 #: preference set
 msgctxt "preference set"
 msgid "Home"
-msgstr "Главная"
+msgstr "Дім"
 
 msgid "Reply"
-msgstr "Ответить"
+msgstr "Відповісти"
 
 msgid "Reply to this comment with quote"
-msgstr "Ответить на этот комментарий с цитатой"
+msgstr "Відповісти на цей коментар із цитатою"
 
 msgid "this project"
-msgstr "этот проект"
+msgstr "цей проект"
 
 msgid "Featured"
-msgstr "Рекомендуемые"
+msgstr "Рекомендовані"
 
 msgid "Locked"
-msgstr "Заблокировано"
+msgstr "Заблоковано"
 
 msgid "Seconds"
-msgstr "Cекунд"
+msgstr "Секунд"
 
 msgid "project"
 msgstr "проект"
@@ -209,20 +207,20 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name добавил Вас как друга в проекте !site. Вы можете утвердить или отклонить этот запрос. Отклонение запроса не отправит уведомление, но при этом запрос будет удалён из обоих ваших учётных записей.\n\nЧтобы просмотреть этот запрос, пройдите по ссылке ниже:\n!link\n\n!message\n\nСпасибо,\nКоманда !site"
+msgstr "Користувач !name додав Вас як друга на !site. Ви можете затвердити або відхилити цей запит. Після відхилення запиту ніяких повідомлень не буде надсилатися, але запит буде видалений із обох  облікових записів.\n\nКлацніть по посиланню нижче, щоб переглянути цей запит:\n!link\n\n!message\n\nДякуємо,\nКоманда !site"
 
 msgid "Please set the minimum time required between posts."
-msgstr "Пожалуйста, установите минимальное время между сообщениями."
+msgstr "Будь ласка, встановіть мінімальний час між повідомленнями."
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr "Пожалуйста, установите минимальное количество очков, которое пользователю необходимо заработать для того, чтобы писать на этой доске сообщений."
+msgstr "Будь ласка, встановіть мінімальну кількість балів, яку користувачеві необхідно заробити для того, щоб писати на цій дошці повідомлень."
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
-msgstr "Пожалуйста, установите минимальное среднее количество очков, которое пользователю необходимо иметь для того, чтобы писать на этой доске сообщений."
+msgstr "Будь ласка, встановіть мінімальну середню кількість балів, яку користувачеві необхідно мати для того, щоб писати на цій дошці повідомлень."
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -234,69 +232,69 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name подтвердил дружбу с вами в проекте !site.\n\nСледуйте по этой ссылке, чтобы просмотреть его или её профиль:\n!link\n\n!message\n\nСпасибо,\nКоманда !site"
+msgstr "!name підтвердив вас як друга на !site.\n\nПерейдіть за цим посиланням, щоб переглянути його, або її профіль:\n!link\n\n!message\n\nДякуємо,\nКоманда !site"
 
 msgid ""
 "A team foundership change was already requested recently. Only one request "
 "is allowed within a period of 90 days."
-msgstr "Недавно уже была запрошена смена основателя команды. Разрешён только один запрос в течение 90 дней."
+msgstr "Запит на зміну засновника вже недавно надсилався. Дозволено лише один запит протягом 90 днів."
 
 msgid "Team name is required."
-msgstr "Требуется имя команды."
+msgstr "Назва команди обов'язкова."
 
 msgid "You are banned from community participation until @date"
-msgstr "Вам запрещено участие в сообществе до @date"
+msgstr "Вам заборонена участь в співтоваристві до @date"
 
 msgid "There is no user on your team with that email address."
-msgstr "В вашей команде нет пользователей с таким адресом электронной почты."
+msgstr "У вашій команді немає користувачів з такою адресою електронної пошти."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr "Einstein@Home - это программа, которая использует ваш компьютер во время его простоя для поиска гравитационных волн, испускаемых быстро вращающимися изолированными компактными объектами (в том числе пульсарами), выполняя анализ данных детектора гравитационных волн LIGO."
+msgstr "Einstein@Home — це програма, яка використовує вільний час вашого компʼютера для пошуку ґравітаційних хвиль від ізольованих компактних обʼєктів (зокрема пульсарів), що обертаються, виконуючи аналіз даних детектора гравітаційних хвиль LIGO."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
 " gravitational waves from spinning isolated compact objects (among which are"
 " pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home - это программа, которая использует ваш компьютер во время его простоя для поиска гравитационных волн, испускаемых быстро вращающимися изолированными компактными объектами (в том числе пульсарами), выполняя анализ данных детектора гравитационных волн LIGO."
+msgstr "Einstein@Home — це програма, яка використовує вільний час вашого компʼютера для пошуку ґравітаційних хвиль від ізольованих компактних обʼєктів (зокрема пульсарів), що обертаються, за допомогою даних, що надходять з детектора ґравітаційних хвиль у лазерно-інтерферометричній обсерваторії (LIGO)."
 
 msgid "Add separate preferences for @venue"
-msgstr "Добавить отдельные настройки для конфигурации @venue"
+msgstr "Додати окремі налаштування для конфігурації @venue"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
 "left the team or have not had contact with the team for a long time."
-msgstr "Участник команды @name запросил полномочия основателя команды. Это, возможно, произошло из-за того, что Вы покинули команду или не контактировали с командой в течение долгого времени."
+msgstr "Член команди @name запросив повноваження засновника цієї команди. Це, можливо, відбулося через те, що Ви покинули команду або не контактували з командою протягом довгого відрізку часу."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr "У основателя вашей команды есть 1 день чтобы ответить на ваш запрос."
+msgstr "У засновника вашої команди є 1 день щоб відповісти на ваш запит."
 
 msgid "Message board title is required."
-msgstr "Необходимо название доски сообщений."
+msgstr "Назва для дошки повідомлень обов'язкова."
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr "Внимание: Перед тем, как Apache Solr начнет искать комментарии, ваш контент <a href=\"@url\">должен быть переиндексирован</a>."
+msgstr "Увага: Перед тим, як Apache Solr почне шукати коментарі, ваш контент <a href=\"@url\">повинен бути переіндексований</a>."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr "Выберите типы контента, в которых комментарии индексируются с помощью Apace Solr. После изменения этой конфигурации содержимое должно быть переиндексировано."
+msgstr "Виберіть типи контенту, в яких коментарі індексуються за допомогою Apace Solr. Після зміни цієї конфігурації вміст має бути переіндексуваний."
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr "Вместе с изменением электронной почты пользователя Вы также должны изменить и пароль."
+msgstr "Якщо ви змінюєте електронну пошту користувача, то ви повинні змінити і пароль."
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr "Использование: 'Сохранить конфигурацию' сохранит вышеуказанные настройки в базу данных drupal. Это будут предустановленные вычислительные (глобальные) настройки, которые заполнят форму настройки после загрузки пользователем страницы Настройки учётной записи."
+msgstr "Використання: 'Зберегти конфігурацію' збереже вищевказані налаштування в базу даних drupal. Це будуть попередньо встановлені обчислювальні (глобальні) налаштування, які заповнять форму налаштувань, коли користувач завантажить сторінку Налаштувань Облікового Запису."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -306,7 +304,7 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr "'Сохранить конфигурацию с настройками использования диска из config.xml' сохранит вышеуказанные настройки в базу данных drupal, а также загрузит настройки использования диска из файла config.xml проекта BOINC. Это перезапишет все параметры использования диска, которые Вы установили выше. Внимание: личные настройки пользователя не изменятся, если Вы загрузите параметры использования диска из config.xml здесь в базу данных drupal. Они должны изменить настройки вручную."
+msgstr "'Зберегти конфігурацію з налаштуваннями використання диска з config.xml' збереже вищевказані налаштування в базу даних drupal, а також завантажить налаштування використання диска з файлу config.xml проекту BOINC. Це перезапише всі параметри використання диска, які Ви встановили вище. Увага: особисті налаштування користувача не зміняться, якщо Ви завантажте параметри використання диска з config.xml в базу даних drupal. Вони повинні змінити налаштування вручну."
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -316,17 +314,17 @@ msgstr "Моя статистика"
 #: menu-link
 msgctxt "menu-link"
 msgid "Home"
-msgstr "Главная"
+msgstr "Дім"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Credentials"
-msgstr "Полномочия"
+msgstr "Безпека"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Dashboard"
-msgstr "Панель управления"
+msgstr "Панель інформації"
 
 #: footer-link
 msgctxt "footer-link"
@@ -336,19 +334,19 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr "Ваша личная информация"
+msgstr "Ваша особиста інформація"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr "Расскажите нам о себе. Вы можете рассказать нам о том, откуда Вы, о своем возрасте, образовании, увлечениях, или ещё о чём-нибудь."
+msgstr "Розкажіть нам про себе. Ви можете розповісти нам про те, звідки Ви, про свій вік, освіту, захоплення або ще про щось."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr "Ваше мнение об этом проекте"
+msgstr "Ваша думка про цей проект"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -357,12 +355,12 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr "Выскажите нам свои мысли о @this_project\n   1. Почему Вы запускаете @this_project?\n   2. Каковы ваши взгляды о проекте?\n   3. Есть ли какие-либо предложения?"
+msgstr "Висловіть нам свої думки про @this_project\n    1. Чому ви запускаєте @this_project?\n    2. Які у вас погляди на проект?\n    3. Якісь пропозиції?    "
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Postal code"
-msgstr "Почтовый индекс"
+msgstr "Поштовий індекс"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -372,137 +370,137 @@ msgstr "Аватар"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Country"
-msgstr "Страна"
+msgstr "Країна"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr "Изображение профиля"
+msgstr "Зображення профілю"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr "Ссылка сайта"
+msgstr "Адреса вебсайту"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr "Прогресс @this_project"
+msgstr "Прогрес @this_project"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Projects"
-msgstr "Проекты"
+msgstr "Проекти"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr "Не было добавлено ни одного друга."
+msgstr "Не було додано жодного друга."
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr "Показать Всех Друзей"
+msgstr "Переглянути Усіх Друзів"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr "Заявки в Друзья"
+msgstr "Запити На Дружбу"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr "Ожидание Подтверждения Друга"
+msgstr "Очікування Схвалення Друга "
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr "Поиск по сайту"
+msgstr "Пошук по сайту"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "News"
-msgstr "Новости"
+msgstr "Новини"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr "Сертификаты"
+msgstr "Сертифікати"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "All computers"
-msgstr "Все компьютеры"
+msgstr "Всі комп'ютери"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr "Активные компьютеры за последние 30 дней"
+msgstr "Активні комп'ютери за останні 30 днів"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Preferences"
-msgstr "Настройки"
+msgstr "Налаштування"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Community"
-msgstr "Сообщество"
+msgstr "Спільнота"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr "Конфиденциальность"
+msgstr "Конфіденційність"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr "Подписки"
+msgstr "Підписки"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr "Подписки"
+msgstr "Підписки"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr "Обновлено"
+msgstr "Оновлено"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr "Очередь"
+msgstr "Черга"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Profile"
-msgstr "Профиль"
+msgstr "Профіль"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr "Активен за последние 30 дней"
+msgstr "Активність за останні 30 днів"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "All computers"
-msgstr "Все компьютеры"
+msgstr "Всі комп'ютери"
 
 #: user-info
 msgctxt "user-info"
 msgid "Joined"
-msgstr "Вступил"
+msgstr "Приєднався"
 
 #: user-info
 msgctxt "user-info"
 msgid "Posts"
-msgstr "Сообщения"
+msgstr "Повідомлення"
 
 #: user-info
 msgctxt "user-info"
 msgid "Credit"
-msgstr "Очки"
+msgstr "Бали"
 
 #: user-info
 msgctxt "user-info"
@@ -512,102 +510,102 @@ msgstr "RAC"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Inbox"
-msgstr "Входящие"
+msgstr "Вхідні"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Compose new"
-msgstr "Создать новый"
+msgstr "Створити новий"
 
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr "Показать компьютеры"
+msgstr "Показати комп'ютери"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject profile"
-msgstr "Отклонить профиль"
+msgstr "Відхилити профіль"
 
 #: moderate-ban-user
 msgctxt "moderate-ban-user"
 msgid "Ban user"
-msgstr "Заблокировать пользователя"
+msgstr "Заблокувати користувача"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Authenticator login"
-msgstr "Войти используя проверку подлинности"
+msgstr "Увійти за допомогою перевірки автентичності"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr "Нет контента в очереди на модерацию."
+msgstr "В черзі на модерацію зараз немає контенту ."
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr "Очередь модерации профилей пользователей"
+msgstr "Черга модерації профілів користувачів"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr "Активен за последние 30 дней"
+msgstr "Активність за останні 30 днів"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
 msgid "Comment form"
-msgstr "Форма комментария"
+msgstr "Форма коментаря"
 
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr "Подписки"
+msgstr "Підписки"
 
 #: country-of-origin
 msgctxt "country-of-origin"
 msgid "Country"
-msgstr "Страна"
+msgstr "Країна"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Login"
-msgstr "Войти"
+msgstr "Увійти"
 
 #: email-address-to-login
 msgctxt "email-address-to-login"
 msgid "Email address"
-msgstr "Адрес электронной почты"
+msgstr "Адреса електронної пошти"
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Enter your @s email address."
-msgstr "Введите ваш адрес электронной почты @s."
+msgstr "Введіть вашу @s адресу електронної пошти."
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Log in"
-msgstr "Войти"
+msgstr "Увійти"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "search"
-msgstr "поиск"
+msgstr "пошук"
 
 #: front-page
 msgctxt "front-page"
 msgid "Join now"
-msgstr "Вступить"
+msgstr "Зараз же приєднатися"
 
 #: user-account
 msgctxt "user-account"
 msgid "Account"
-msgstr "Учётная запись"
+msgstr "Обліковий запис"
 
 #: footer-link:-1:ignoreoverwrite
 msgctxt "footer-link:-1:ignoreoverwrite"
 msgid "Applications"
-msgstr "Приложения"
+msgstr "Додатки"
 
 #: footer-link
 msgctxt "footer-link"
@@ -617,72 +615,72 @@ msgstr "Статус сервера"
 #: team-id
 msgctxt "team-id"
 msgid "Team ID"
-msgstr "ID команды"
+msgstr "ID Команди"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Founder"
-msgstr "Основатель"
+msgstr "Засновник"
 
 #: user-or-team-RAC
 msgctxt "user-or-team-RAC"
 msgid "Recent average credit"
-msgstr "В среднем за день"
+msgstr "У середньому за день"
 
 #: user-or-team-name
 msgctxt "user-or-team-name"
 msgid "Name"
-msgstr "Имя"
+msgstr "Назва"
 
 #: team-members
 msgctxt "team-members"
 msgid "Members"
-msgstr "Участники"
+msgstr "Учасники"
 
 #: user-or-team-total-credits
 msgctxt "user-or-team-total-credits"
 msgid "Total credit"
-msgstr "Всего очков"
+msgstr "Усього балів"
 
 #: user-details
 msgctxt "user-details"
 msgid "User ID"
-msgstr "ID пользователя"
+msgstr "Ідентифікатор користувача"
 
 #: user-on-team
 msgctxt "user-on-team"
 msgid "User"
-msgstr "Участник"
+msgstr "Користувач"
 
 #: team-when-user-became-an-admin
 msgctxt "team-when-user-became-an-admin"
 msgid "Admin since"
-msgstr "Администратор с"
+msgstr "Адміністратор з"
 
 #: user-joined-or-leaving-team
 msgctxt "user-joined-or-leaving-team"
 msgid "User joined"
-msgstr "Пользователь вступил"
+msgstr "Користувач приєднався"
 
 #: team-history-timestamp
 msgctxt "team-history-timestamp"
 msgid "Timestamp"
-msgstr "Штамп времени"
+msgstr "Відмітка про час"
 
 #: user-id
 msgctxt "user-id"
 msgid "Id"
-msgstr "Id"
+msgstr "id"
 
 #: user-info
 msgctxt "user-info"
 msgid "Account Key"
-msgstr "Ключ учётной записи"
+msgstr "Ключ Облікового Запису"
 
 #: user-info
 msgctxt "user-info"
 msgid "Member since"
-msgstr "Участник с"
+msgstr "Учасник з"
 
 #: user-info
 msgctxt "user-info"
@@ -692,27 +690,27 @@ msgstr "CPID"
 #: user-info
 msgctxt "user-info"
 msgid "Email Address"
-msgstr "Адрес электронной почты"
+msgstr "Адреса електронної пошти"
 
 #: user-info
 msgctxt "user-info"
 msgid "Password Hash"
-msgstr "Хэш пароля"
+msgstr "Хеш Пароля"
 
 #: user-info
 msgctxt "user-info"
 msgid "Postal Code"
-msgstr "Почтовый индекс"
+msgstr "Поштовий індекс"
 
 #: user-info
 msgctxt "user-info"
 msgid "Send Email"
-msgstr "Отправить письмо"
+msgstr "Відправити Листа"
 
 #: user-info
 msgctxt "user-info"
 msgid "Show Hosts"
-msgstr "Показать компьютеры"
+msgstr "Показати Хости"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
@@ -722,411 +720,411 @@ msgstr "URL"
 #: host-list
 msgctxt "host-list"
 msgid "Computer ID"
-msgstr "ID компьютера"
+msgstr "Ідентифікатор комп'ютера"
 
 #: host-list
 msgctxt "host-list"
 msgid "Location"
-msgstr "Размещение"
+msgstr "Розміщення"
 
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time work is allowed"
-msgstr "% времени разрешённого выполнения расчётов за время работы BOINC"
+msgstr "% часу дозволеної роботи за час роботи BOINC"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average turnaround time"
-msgstr "Среднее время обработки"
+msgstr "Середній час обробки"
 
 #: host-details
 msgctxt "host-details"
 msgid "Created"
-msgstr "Создан"
+msgstr "Створений"
 
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "% времени подключения компьютера к Интернет за время работы BOINC"
+msgstr "% часу підключення комп'ютера до Інтернету за час роботи BOINC"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average CPU efficiency"
-msgstr "Средняя эффективность ЦП"
+msgstr "Середня ефективність процесора"
 
 #: host-details
 msgctxt "host-details"
 msgid "Free disk space"
-msgstr "Свободное дисковое пространство"
+msgstr "Вільний дисковий простір"
 
 #: host-details
 msgctxt "host-details"
 msgid "Total disk space"
-msgstr "Полное дисковое пространство"
+msgstr "Повний дисковий простір"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite
 msgctxt ""
 "details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-"
 "ignoreoverwrite"
 msgid "Name"
-msgstr "Имя"
+msgstr "Назва"
 
 #: host-details
 msgctxt "host-details"
 msgid "Task duration correction factor"
-msgstr "Фактор исправления продолжительности выполнения задания"
+msgstr "Фактор виправлення тривалості виконання завдання"
 
 #: host-details
 msgctxt "host-details"
 msgid "Avg. credit"
-msgstr "В среднем за день"
+msgstr "У середньому за день"
 
 #: host-details
 msgctxt "host-details"
 msgid "External IP address"
-msgstr "Внешний IP-адрес"
+msgstr "Зовнішня IP-адреса"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cross project ID"
-msgstr "Межпроектный ID"
+msgstr "Міжпроектний ID"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last IP address"
-msgstr "Последний IP-адрес"
+msgstr "Остання IP-адреса"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cache"
-msgstr "Кэш"
+msgstr "Кеш"
 
 #: host-details
 msgctxt "host-details"
 msgid "Memory"
-msgstr "Память"
+msgstr "Пам'ять"
 
 #: host-details
 msgctxt "host-details"
 msgid "Swap space"
-msgstr "Файл подкачки"
+msgstr "Файл підкачки"
 
 #: host-details
 msgctxt "host-details"
 msgid "Maximum daily WU quota per CPU"
-msgstr "Максимальная ежедневная квота заданий на ЦП"
+msgstr "Максимальна щоденна квота завдань на ЦП"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average download rate"
-msgstr "Средняя скорость загрузки данных"
+msgstr "Середня швидкість завантаження даних"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average upload rate"
-msgstr "Средняя скорость отправки данных"
+msgstr "Середня швидкість відправлення даних"
 
 #: host-details
 msgctxt "host-details"
 msgid "Same IP address count"
-msgstr "Сколько раз был этот же IP-адрес"
+msgstr "Скільки разів був цей IP-адрес"
 
 #: host-details
 msgctxt "host-details"
 msgid "% of time BOINC client is running"
-msgstr "% времени работы клиента BOINC"
+msgstr "% часу роботи клієнта BOINC"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system"
-msgstr "Операционная система"
+msgstr "Операційна система"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system version"
-msgstr "Версия операционной системы"
+msgstr "Версія операційної системи"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured floating point speed"
-msgstr "Измеренная скорость вычислений с плавающей запятой"
+msgstr "Виміряна швидкість обчислень з плаваючою комою"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured integer speed"
-msgstr "Измеренная скорость целочисленных вычислений"
+msgstr "Виміряна швидкість цілочисельних обчислень"
 
 #: host-details
 msgctxt "host-details"
 msgid "CPU model"
-msgstr "Модель процессора"
+msgstr "Модель ЦП"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of processors"
-msgstr "Число процессоров"
+msgstr "Кількість процесорів"
 
 #: host-details
 msgctxt "host-details"
 msgid "CPU"
-msgstr "Тип ЦП"
+msgstr "процесор"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of times client has contacted server"
-msgstr "Количество контактов клиента с сервером"
+msgstr "Кількість контактів клієнта з сервером"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last contact"
-msgstr "Последний контакт"
+msgstr "Останній контакт"
 
 #: host-details
 msgctxt "host-details"
 msgid "Serial number"
-msgstr "Серийный номер"
+msgstr "Серійний номер"
 
 #: host-details
 msgctxt "host-details"
 msgid "Timezone"
-msgstr "Часовой пояс"
+msgstr "Часовий пояс"
 
 #: platform-details
 msgctxt "platform-details"
 msgid "Platform ID"
-msgstr "ID платформы"
+msgstr "ID Платформи"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task ID"
-msgstr "ID задания"
+msgstr "ID Завдання"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit ID"
-msgstr "ID задачи"
+msgstr "ID задачі"
 
 #: task-details
 msgctxt "task-details"
 msgid "Host ID"
-msgstr "ID компьютера"
+msgstr "ID комп’ютера"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application ID"
-msgstr "ID приложения"
+msgstr "ID Додатка"
 
 #: task-details
 msgctxt "task-details"
 msgid "Application version"
-msgstr "Версия приложения"
+msgstr "Версія додатку"
 
 #: task-details
 msgctxt "task-details"
 msgid "Claimed credit"
-msgstr "Запрошено очков"
+msgstr "Заявлено балів"
 
 #: task-details
 msgctxt "task-details"
 msgid "Client state"
-msgstr "Состояние клиента"
+msgstr "Стан клієнта"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time"
-msgstr "Время ЦП"
+msgstr "Процесорний час"
 
 #: task-details:-1:ignoreoverwrite
 msgctxt "task-details:-1:ignoreoverwrite"
 msgid "Created"
-msgstr "Создан"
+msgstr "Створений"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time"
-msgstr "Время выполнения"
+msgstr "Час виконання"
 
 #: task-details
 msgctxt "task-details"
 msgid "Exit status"
-msgstr "Статус выхода"
+msgstr "Статус виходу"
 
 #: task-details
 msgctxt "task-details"
 msgid "Granted credit"
-msgstr "Предоставлено очков"
+msgstr "Надано балів"
 
 #: task-details
 msgctxt "task-details"
 msgid "Outcome"
-msgstr "Результат выполнения"
+msgstr "Результат виконання"
 
 #: task-details
 msgctxt "task-details"
 msgid "Received time"
-msgstr "Время получения"
+msgstr "Час отримання "
 
 #: task-details
 msgctxt "task-details"
 msgid "Report deadline"
-msgstr "Крайний срок отчёта"
+msgstr "Відправити до"
 
 #: task-details
 msgctxt "task-details"
 msgid "Sent"
-msgstr "Отправлен"
+msgstr "Відправлений"
 
 #: task-details
 msgctxt "task-details"
 msgid "Server state"
-msgstr "Состояние сервера"
+msgstr "Стан сервера"
 
 #: task-details
 msgctxt "task-details"
 msgid "Stderr out"
-msgstr "Текст протокола"
+msgstr "Текст протоколу"
 
 #: task-details
 msgctxt "task-details"
 msgid "Validation state"
-msgstr "Состояние проверки"
+msgstr "Стан перевірки"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr "Пиковое использование памяти"
+msgstr "Піковое використання пам'яті"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr "Пиковое использование виртуальной памяти"
+msgstr "Пікове використання віртуальної пам'яті"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr "Пиковое использование диска"
+msgstr "Пікове використання диска"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical credit"
-msgstr "Канонических очков"
+msgstr "Канонічних балів"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result ID"
-msgstr "ID канонического результата"
+msgstr "ID канонічного результату"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Created time"
-msgstr "Время создания"
+msgstr "Час створення "
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Error mask"
-msgstr "Маска ошибок"
+msgstr "Маска помилки"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Minimum quorum"
-msgstr "Минимальный кворум"
+msgstr "Мінімальний кворум"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreovewrite
 msgctxt ""
 "details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-"
 "ignoreovewrite"
 msgid "Name"
-msgstr "Имя"
+msgstr "Назва"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max error tasks"
-msgstr "Макс количество ошибочных заданий"
+msgstr "Макс кількість помилкових завдань"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max success tasks"
-msgstr "Макс количество успешных заданий"
+msgstr "Макс кількість успішних завдань"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max total tasks"
-msgstr "Макс общее количество заданий"
+msgstr "Макс загальна кількість завдань"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Needs validation"
-msgstr "Необходима проверка"
+msgstr "Необхідна перевірка"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Initial replication"
-msgstr "Начальная репликация"
+msgstr "Початкова реплікація"
 
 #: application-details
 msgctxt "application-details"
 msgid "Target number of results"
-msgstr "Целевое количество результатов"
+msgstr "Цільова кількість результатів"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application version ID"
-msgstr "ID версии приложения"
+msgstr "ID версії додатку"
 
 #: application-details
 msgctxt "application-details"
 msgid "Plan class"
-msgstr "План-класс"
+msgstr "План класу"
 
 #: application-details
 msgctxt "application-details"
 msgid "Version number"
-msgstr "Номер версии"
+msgstr "Номер версії"
 
 #: host-details
 msgctxt "host-details"
 msgid "Computer"
-msgstr "Компьютер"
+msgstr "Комп'ютер"
 
 #: application-details
 msgctxt "application-details"
 msgid "App version ID"
-msgstr "ID версии приложения"
+msgstr "ID версії додатку"
 
 #: application-details
 msgctxt "application-details"
 msgid "Consecutive valid tasks"
-msgstr "Правильные задания завершённые подряд"
+msgstr "Правильні завдання завершені підряд"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks completed"
-msgstr "Число завершённых заданий"
+msgstr "Кількість завершених завдань"
 
 #: application-details
 msgctxt "application-details"
 msgid "Max tasks per day"
-msgstr "Максимум заданий в день"
+msgstr "Максимум завдань у день"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks today"
-msgstr "Число заданий сегодня"
+msgstr "Кількість завдань сьогодні"
 
 #: application-details:-1:ignoreoverwrite
 msgctxt "application-details:-1:ignoreoverwrite"
 msgid "Average turnaround time"
-msgstr "Среднее время обработки"
+msgstr "Середній час обробки"
 
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Moderation"
-msgstr "Модерация"
+msgstr "Модерація"
 
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Unvetted profiles"
-msgstr "Профили, не прошедшие проверку"
+msgstr "Неперевірені профілі"
 
 #: team-dashboard
 msgctxt "team-dashboard"
@@ -1136,12 +1134,12 @@ msgstr "Команда"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Posts contributed"
-msgstr "Сообщений размещено"
+msgstr "Повідомлень розміщено"
 
 #: rss-feed-description
 msgctxt "rss-feed-description"
 msgid "The latest news from the @site_name project"
-msgstr "Последние новости от проекта @site_name"
+msgstr "Останні новини від проекту @site_name"
 
 #: forum-reply-to-comment-with-quote
 msgctxt "forum-reply-to-comment-with-quote"
@@ -1151,77 +1149,77 @@ msgstr "Цитата"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr "Ответить на этот комментарий с цитатой"
+msgstr "Відповісти на цей коментар із цитатою"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr "Присоединились: @join_date"
+msgstr "Приєднався: @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr "Сообщений: @post_count"
+msgstr "Повідомлень: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr "Очков: @user_credits"
+msgstr "Балів: @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr "В среднем: @user_rac"
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
 msgid "Message @id"
-msgstr "Сообщение @id"
+msgstr "Повідомлення @id"
 
 #: comment-action-links
 msgctxt "comment-action-links"
 msgid "moderation"
-msgstr "модерация"
+msgstr "модерація"
 
 #: task-dtails-errorlog
 msgctxt "task-dtails-errorlog"
 msgid "Stderr output"
-msgstr "Текст протокола"
+msgstr "Текст протоколу"
 
 #: message-header
 msgctxt "message-header"
 msgid "message @id"
-msgstr "сообщение @id"
+msgstr "повідомлення @id"
 
 #: message-header
 msgctxt "message-header"
 msgid " in response to !parent"
-msgstr " в ответ на !parent"
+msgstr " у відповідь на !parent"
 
 #: front-page
 msgctxt "front-page"
 msgid "Welcome back!"
-msgstr "С возвращением!"
+msgstr "З поверненням!"
 
 #: front-page
 msgctxt "front-page"
 msgid "Learn more"
-msgstr "Подробнее"
+msgstr "Дізнатися більше"
 
 #: front-page
 msgctxt "front-page"
 msgid "View account"
-msgstr "Просмотр учётной записи"
+msgstr "Переглянути обліковий запис"
 
 #: front-page
 msgctxt "front-page"
 msgid "User of the day"
-msgstr "Пользователь Дня"
+msgstr "Користувач дня"
 
 #: front-page
 msgctxt "front-page"
 msgid "Over 500,000 volunteers and counting."
-msgstr "Свыше 500 000 добровольцев и больше."
+msgstr "Понад 500000 добровольців і розрахункових одиниць."
 
 #: front-page
 msgctxt "front-page"
@@ -1241,94 +1239,94 @@ msgstr "Linux"
 #: front-page
 msgctxt "front-page"
 msgid "Credits per day"
-msgstr "Очков в день"
+msgstr "Балів в день"
 
 #: front-page-discuss-news
 msgctxt "front-page-discuss-news"
 msgid "discuss"
-msgstr "обсудить"
+msgstr "обговорення"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Logout"
-msgstr "Выйти"
+msgstr "Вийти із системи"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "Create content"
-msgstr "Создать контент"
+msgstr "Створити контент"
 
 #: anonymous-user
 msgctxt "anonymous-user"
 msgid "Anonymous"
-msgstr "Анонимный"
+msgstr "Анонімний"
 
 #: help-with-user-input-with-BBCode
 msgctxt "help-with-user-input-with-BBCode"
 msgid "BBcode help"
-msgstr "Справка по BBcode"
+msgstr "Довідка по BBcode"
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post comment"
-msgstr "Добавить комментарий"
+msgstr "Опублікувати коментар"
 
 #: form-cancel
 msgctxt "form-cancel"
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Відмінити"
 
 #: host-details
 msgctxt "host-details"
 msgid "Details"
-msgstr "Подробности"
+msgstr "Подробиці"
 
 #: host-tasks-link
 msgctxt "host-tasks-link"
 msgid "Tasks"
-msgstr "Задания"
+msgstr "Завдання"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers pending"
-msgstr "Компьютеры в ожидании"
+msgstr "Комп'ютерів в очікуванні"
 
 #: host-list
 msgctxt "host-list"
 msgid ""
 "This user does not yet have any associated computers. Computers will be "
 "displayed when they have earned their first credits."
-msgstr "У этого пользователя ещё нет каких-либо связанных компьютеров. Компьютеры появятся, когда они заработают свои первые очки."
+msgstr "У цього користувача ще не має будь-яких пов'язаних комп'ютерів. Комп'ютери будуть відображатися після того, як вони зароблять свої перші бали."
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Avg credit"
-msgstr "В среднем за день"
+msgstr "Балів у середньому"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "More"
-msgstr "Больше"
+msgstr "Більше"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers hidden"
-msgstr "Компьютеры скрыты"
+msgstr "Комп’ютери приховані"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has chosen not to show information about their computers."
-msgstr "Этот пользователь предпочёл скрыть информацию о своих компьютерах."
+msgstr "Цей користувач побажав приховати інформацію про свої комп’ютери."
 
 #: project-name:-1:ignoreoverwrite
 msgctxt "project-name:-1:ignoreoverwrite"
 msgid "Name"
-msgstr "Имя"
+msgstr "Назва"
 
 #: page-submitted-info
 msgctxt "page-submitted-info"
 msgid "Submitted by !username on !datetime"
-msgstr "Отправил !username от !datetime"
+msgstr "Відправив !username о !datetime"
 
 #: user-profile
 msgctxt "user-profile"
@@ -1338,74 +1336,74 @@ msgstr "Фон"
 #: user-profile
 msgctxt "user-profile"
 msgid "Opinion"
-msgstr "Мнение"
+msgstr "Думка"
 
 #: website-of-user-of-team
 msgctxt "website-of-user-of-team"
 msgid "Website"
-msgstr "Веб-сайт"
+msgstr "Інтернет сторінка"
 
 #: users-table
 msgctxt "users-table"
 msgid "View user profile."
-msgstr "Просмотреть профиль пользователя."
+msgstr "Переглянути профіль користувача."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Enter your password to save changes"
-msgstr "Введите свой пароль, чтобы сохранить изменения"
+msgstr "Введіть свій пароль, щоб зберегти зміни"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Enter your current password if changing your email\n"
 "          address or password."
-msgstr "Введите свой текущий пароль, чтобы изменить\nсвой адрес электронной почты или пароль."
+msgstr "Введіть поточний пароль, якщо змінюєте електронну адресу\nадресу або пароль."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "BOINC user ID"
-msgstr "ID пользователя BOINC"
+msgstr "Ідентифікатор користувача BOINC"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Drupal user ID"
-msgstr "ID пользователя Drupal"
+msgstr "Ідентифікатор користувача Drupal"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Account key"
-msgstr "Ключ учётной записи"
+msgstr "Ключ облікового запису"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Weak account key"
-msgstr "Слабый ключ учётной записи"
+msgstr "Слабкий ключ облікового запису"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Cross-project ID"
-msgstr "Межпроектный ID (CPID)"
+msgstr "Міжпроектний ID (CPID)"
 
 #: form-save
 msgctxt "form-save"
 msgid "Save changes"
-msgstr "Сохранить изменения"
+msgstr "Зберегти зміни"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Change password"
-msgstr "Поменять пароль"
+msgstr "Змінити пароль"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "Generic"
-msgstr "Универсальный"
+msgstr "Загальні"
 
 #: account-preferences-location:-1:ignoreoverwrite
 msgctxt "account-preferences-location:-1:ignoreoverwrite"
 msgid "Home"
-msgstr "Главная"
+msgstr "Дім"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
@@ -1415,17 +1413,17 @@ msgstr "Школа"
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "Work"
-msgstr "Работа"
+msgstr "Робота"
 
 #: form-yes-no:-1:binary-form-option-pairs-with-no
 msgctxt "form-yes-no:-1:binary-form-option-pairs-with-no"
 msgid "yes"
-msgstr "да"
+msgstr "Так"
 
 #: form-yes-no:-1:binary-form-option-pairs-with-yes
 msgctxt "form-yes-no:-1:binary-form-option-pairs-with-yes"
 msgid "no"
-msgstr "нет"
+msgstr "ні"
 
 #: account-preferences-preset:-1:for a user to choose a computing or project
 #: preference preset.
@@ -1433,7 +1431,7 @@ msgctxt ""
 "account-preferences-preset:-1:for a user to choose a computing or project "
 "preference preset."
 msgid "Presets"
-msgstr "Начальные установки"
+msgstr "Задані"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
@@ -1448,117 +1446,117 @@ msgstr "Максимум"
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Green"
-msgstr "Зелёный"
+msgstr "Зелений"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Minimum"
-msgstr "Минимум"
+msgstr "Мінімум"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Custom"
-msgstr "Пользовательский"
+msgstr "Користувацький"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Update preset"
-msgstr "Обновление начальных установок"
+msgstr "Оновлення початкових установок"
 
 #: account-preferences-option
 msgctxt "account-preferences-option"
 msgid "Advanced settings"
-msgstr "Дополнительные настройки"
+msgstr "Додаткові налаштування"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Processor usage"
-msgstr "Использование процессора"
+msgstr "Використання процесора"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr "Приостановить при питании от аккумулятора?"
+msgstr "Призупинити, коли комп'ютер працює від батареї?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr "Приостанавливает вычисления на портативных устройствах при низком заряде аккумулятора."
+msgstr "Призупиняє обчислення на портативних пристроях при низькому заряді акумулятора."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr "Приостанавливать при использовании компьютера?"
+msgstr "Призупинити, коли комп'ютер використовується?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr "Приостанавливает вычисления и передачу файлов при использовании компьютера."
+msgstr "Призупиняє обчислення і передачу файлів, коли ви використовуєте комп'ютер."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr "Приостановить вычисления на ГП при использовании компьютера?"
+msgstr "Призупинити обчислення графічним процесором під час використання комп'ютера?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr "Приостанавливает вычисления на ГП при использовании компьютера."
+msgstr "Призупиняє обчислення графічним процесором, під час використання комп'ютера."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr "\"Использование\" означает ввод с помощью мыши/клавиатуры за последние"
+msgstr "\"В роботі\" означає введення даних миші/клавіатури в минулому"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "minutes"
-msgstr "минут"
+msgstr "хвилин"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr "Это определяет, когда компьютер считается \"используемым\"."
+msgstr "Це визначає, коли комп'ютер вважатиметься \"в роботі\"."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when no mouse/keyboard input in last"
-msgstr "Приостановить, если мышь/клавиатура не использовались за последние"
+msgstr "Призупинити, якщо немає активності мишки або клавіатури протягом останніх"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Это позволяет некоторым компьютерам перейти в режим низкого потребления энергии, когда они не используются."
+msgstr "Це дозволяє деяким комп'ютерам перейти до режиму економії енергії у разі невикористанняю"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Приостановить, если использование процессора не-BOINC-задачами выше"
+msgstr "Призупинити, коли використання процесора не-BOINC додатками перевищує"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Приостановить вычисления, когда ваш компьютер занят, выполняя другие программы."
+msgstr "Призупинити обчислення, коли комп'ютер зайнятий роботою інших додатків."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr "Вычислять только между:"
+msgstr "Обчислювати лише між:"
 
 #: account-preference
 msgctxt "account-preference"
 msgid "and"
-msgstr "и"
+msgstr "і"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only during a particular period each day."
-msgstr "Вычислять каждый день только во время определённого периода."
+msgstr "Обчислювати лише протягом певного періоду кожного дня."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr "Оставлять в памяти неактивные задания, которые не используют графический процессор?"
+msgstr "Залишати завдання, які не обробляються графічним процесором, у пам'яті, коли призупинено?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1566,39 +1564,39 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr "Если \"Да\", приостановленные задания остаются в памяти и возобновляются без потери выполненной работы. Если \"Нет\", приостановленные задания удаляются из памяти и перезапускаются с их последней контрольной точки."
+msgstr "Якщо відмічено \"Так\", призупинені завдання залишаються в пам'яті і при відновленні роботи результати не втрачаються. Якщо відмічено \"Ні\", призупинені завдання видаляються із пам'яті, і робота відновлюється із контрольної точки."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Switch between tasks every"
-msgstr "Переключение между заданиями каждые"
+msgstr "Перемикатися між завданнями кожні"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "If you run several projects, BOINC may switch between them this often."
-msgstr "Если у Вас работает несколько проектов, то BOINC может переключаться между ними с указанной периодичностью."
+msgstr "Якщо у вас працює декілька проектів, BIONIC може переключатися між ними з такою частотою."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Use at most"
-msgstr "Использовать не более"
+msgstr "Використовувати щонайбільше"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the processors"
-msgstr "% процессоров"
+msgstr "% процесорів"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Оставлять часть процессоров свободными для других приложений. Пример: 75% означает использовать 6 ядер на 8-ядерном процессоре."
+msgstr "Залишити частину ядер процесора вільними для інших застосунків. Приклад: 75% означає, що буде використовуватися 6 ядер 8-ядерного процесора."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the CPU time"
-msgstr "% процессорного времени"
+msgstr "% процесорного часу"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1606,51 +1604,51 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Приостанавливать/возобновлять вычисления каждые несколько секунд, чтобы понизить температуру ЦП и уменьшить потребляемую энергию. Пример: 75% означает вычислять 3 секунды, подождать 1 секунду и повторить."
+msgstr "Призупинення/відновлення обрахунків кожні кілька секунд, щоб зменшити температуру процесора і заощадити енергію. Приклад: 75% означатиме обрахунки протягом 3 секунд, очікування 1 секунду, і повторити."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk and memory usage"
-msgstr "Использование диска и памяти"
+msgstr "Використання диска і пам'яті"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr "Диск: использовать не более"
+msgstr "Диск: використовувати не більше"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the total amount of disk space used by BOINC."
-msgstr "Ограничивает общий объём дискового пространства, используемого BOINC."
+msgstr "Обмежити обсяг дискового простору, який буде використовуватися BOINC."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr "Диск: оставлять не менее"
+msgstr "Диск: залишити принаймні"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where BOINC "
 "stores data."
-msgstr "Ограничивает использование диска, чтобы оставалось не менее указанного объёма свободного места на томе, где BOINC хранит данные."
+msgstr "Обмежити використання диска, щоб залишити достатньо вільного місця у томі, де BOINC зберігає дані."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of total"
-msgstr "% от полного объема диска"
+msgstr "% від повного обсягу диска"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit the percentage of disk space used by BOINC on the volume where it "
 "stores data."
-msgstr "Ограничивает процент дискового пространства, используемого BOINC на томе, где он хранит данные."
+msgstr "Обмежити відсоток дискового простору, який може використовувати BOINC у томі, де зберігаються дані."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Request tasks to checkpoint at most every"
-msgstr "Запрашивать сохранение промежуточных результатов заданий примерно каждые"
+msgstr "Запит на контрольні точки завдання щонайбільше кожні"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1662,171 +1660,171 @@ msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr "Эта настройка управляет тем, как часто задания сохраняют на диск своё состояние для того, чтобы они могли позже продолжить с этой точки."
+msgstr "Цей елемент керування вказує, як часто зберігати стан завдання на диск, щоб пізніше можна було продовжувати далі з того моменту."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Page/swap file: use at most"
-msgstr "Виртуальная память/файл подкачки: использовать не более"
+msgstr "Файл підкачки: використовувати не більше"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the swap space (page file) used by BOINC."
-msgstr "Ограничивает виртуальную память (файл подкачки), используемую BOINC."
+msgstr "Обмежити дисковий простір (файл підкачки), доступний BOINC для використання."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is in use, use at most"
-msgstr "Память: когда компьютер используется, использовать не более"
+msgstr "Пам'ять: коли комп'ютер використовується, забирати не більше"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're using the computer."
-msgstr "Ограничивает память, используемую BOINC, когда Вы используете компьютер."
+msgstr "Обмежити використання пам'яті для BOINC коли комп'ютер використовується."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Память: когда компьютер не используется, использовать не более"
+msgstr "Пам'ять: коли комп'ютер не використовується, забирати не більше"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're not using the computer."
-msgstr "Ограничивает память, используемую BOINC, когда Вы не используете компьютер."
+msgstr "Обмежити використання пам'яті для BOINC коли комп'ютер не використовується."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Network usage"
-msgstr "Использование сети"
+msgstr "Використання мережі"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least"
-msgstr "Запасать на не менее"
+msgstr "Зберігати щонайменше для"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "days of work"
-msgstr "дней работы"
+msgstr "днів роботи"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Поддерживать минимально допустимое количество заданий, чтобы компьютер был занят в течение указанного времени."
+msgstr "Зберігати достатньо завдань, щоб тримати комп'ютер зайнятим протягом цього часу."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store up to an additional"
-msgstr "Запасать дополнительно на"
+msgstr "Зберігати додатково до"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "days"
-msgstr "дней"
+msgstr "днів"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Поддерживать дополнительное количество заданий выше минимального уровня. Определяет, сколько работы запрашивается при обращении к проекту."
+msgstr "Зберігати додаткові завдання понад мінімальний рівень.  Визначає, скільки роботи запитується при зверненні до проекту."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Confirm before connecting to Internet?"
-msgstr "Предупреждать перед подключением к сети Интернет?"
+msgstr "Підтверджувати перед підключенням до Інтернету?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Используется только при наличии модемного, ISDN- или VPN-подключения."
+msgstr "Може бути корисним, тільки при наявності модемного, ISDN або VPN підключення."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disconnect when done?"
-msgstr "Разорвать соединение после завершения?"
+msgstr "Розірвати з'єднання після завершення?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit download rate to"
-msgstr "Ограничить скорость загрузки"
+msgstr "Обмежити швидкості завантаження до"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the download rate of file transfers."
-msgstr "Ограничивает скорость загрузки при передаче файлов."
+msgstr "Обмеження швидкості завантаження файлів."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit upload rate to"
-msgstr "Ограничить скорость отправки"
+msgstr "Обмежити швидкість віддачі до"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the upload rate of file transfers."
-msgstr "Ограничивает скорость отправки при передаче файлов."
+msgstr "Обмеження швидкості віддачі файлів."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only between"
-msgstr "Передавать файлы только между"
+msgstr "Передавати файли лише між"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only during a particular period each day."
-msgstr "Передавать файлы только в конкретный период каждый день."
+msgstr "Передавати файли лише протягом певного періоду кожного дня."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit usage to"
-msgstr "Ограничить использование до"
+msgstr "Обмежити використання до"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
-msgstr "Пример: BOINC должен передавать не более 2000 Мб данных каждые 30 дней."
+msgstr "Приклад: BOINC дозволяється передати щонайбільше 2000 Мб даних протягом кожних 30 днів."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr "Пропустить проверку данных для файлов изображений?"
+msgstr "Скасувати перевірку даних файлів образів?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr "Выберите \"Да\" только в том случае, если ваш интернет-провайдер изменяет файлы изображений. Пропуск проверки уменьшает безопасность BOINC."
+msgstr "Виберіть \"Так\", якщо Ваш інтернет провайдер змінює файли, що завантажуються. Пропуск перевірки зменшує безпеку BOINC."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Show comparison view"
-msgstr "Показать сравнение"
+msgstr "Показати порівняння"
 
 #: host-details
 msgctxt "host-details"
 msgid "@count million ops/sec"
-msgstr "@count млн операций/с"
+msgstr "@count мільйон операцій/с"
 
 #: host-details
 msgctxt "host-details"
 msgid "@rate KiB/sec"
-msgstr "@rate КБ/с"
+msgstr "@rate Кб/с"
 
 #: host-details
 msgctxt "host-details"
 msgid "@count days"
-msgstr "@count дней"
+msgstr "@count днів"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Resource settings"
-msgstr "Настройки ресурсов"
+msgstr "Налаштування ресурсів"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Resource share"
-msgstr "Выделено ресурсов"
+msgstr "Виділено ресурсів"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1835,265 +1833,265 @@ msgid ""
 "project. Example: if you participate in two BOINC projects with resource "
 "shares of 100 and 200, the first will get 1/3 of your resources and the "
 "second will get 2/3."
-msgstr "Определяет долю ресурсов вашего компьютера, выделенных на этот проект. Пример: Если Вы участвуете в двух проектах BOINC с долями ресурсов 100 и 200, первый проект получит 1/3 ваших ресурсов, а второй получит 2/3."
+msgstr "Визначає пропорції ресурсів вашого комʼютера, доступних для цього проєкту. Наприклад: якщо ви берете участь у двох проєктах BOINC, що мають долі ресурсів 100 і 200, перший отримає 1/3 ресурсів, а другий — 2/3."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use CPU"
-msgstr "Использовать ЦП"
+msgstr "Використання ЦП"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr "Запрос задач этого проекта только для ЦП."
+msgstr "Запит завдань цього проекту тільки для ЦП."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use NVIDIA GPU"
-msgstr "Использовать ГП NVIDIA"
+msgstr "Використання ГП NVIDIA"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr "Запрос задач этого проекта для ГП NVIDIA."
+msgstr "Запит завдань цього проекту тільки для ГП NVIDIA."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use ATI GPU"
-msgstr "Использовать ГП ATI"
+msgstr "Використання ГП ATI"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr "Запрос задач этого проекта для ГП ATI."
+msgstr "Запит завдань цього проекту тільки для ГП ATI."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use INTEL GPU"
-msgstr "Использовать ГП INTEL"
+msgstr "Використання ГП INTEL"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr "Запрос задач этого проекта для ГП Intel."
+msgstr "Запит завдань цього проекту тільки для ГП Intel."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Beta settings"
-msgstr "Настройки бета-версии"
+msgstr "Налаштування бета-версії"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Run test applications?"
-msgstr "Выполнять тестовые приложения?"
+msgstr "Запустити тестовий додаток?"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
-msgstr "Это поможет нам в разработке приложений, но может привести к ошибкам в расчётах заданий на вашем компьютере"
+msgstr "Це допомагає нам у розробці додатків, але може призвести до помилок при виконанні на вашому компʼютері"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid " Default value: @default"
-msgstr "Значение по умолчанию: @default"
+msgstr " Значення по замовчуванню: @default"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Applications"
-msgstr "Приложения"
+msgstr "Додатки"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Default set"
-msgstr "Набор по умолчанию"
+msgstr "Набір за замовчуванням"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Set used for new computers"
-msgstr "Набор для новых компьютеров"
+msgstr "Набір для нових комп'ютерів"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "General settings"
-msgstr "Общие настройки"
+msgstr "Загальні налаштування"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Time zone"
-msgstr "Часовой пояс"
+msgstr "Часовий пояс"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Notification settings"
-msgstr "Настройки уведомлений"
+msgstr "Налаштування сповіщень"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for private messages?"
-msgstr "Получать уведомления по электронной почте для личных сообщений?"
+msgstr "Отримувати повідомлення електронною поштою для приватних повідомлень?"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for friend requests?"
-msgstr "Получать уведомления по электронной почте для запросов о дружбе?"
+msgstr "Отримувати повідомлення електронною поштою для запитів дружби?"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Language settings"
-msgstr "Языковые настройки"
+msgstr "Налаштування мови"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Language"
-msgstr "Язык"
+msgstr "Мова"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "This account's default language for e-mails and preferred language for site "
 "presentation."
-msgstr "Язык по умолчанию в этой учётной записи для электронных писем и предпочтительный язык для внешнего вида сайта."
+msgstr "Мова за замовчуванням в цьому обліковому записі для електронних листів і бажана мова для зовнішнього вигляду сайту."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, it will be used for your user picture."
-msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, он будет использоваться в качестве фотографии пользователя."
+msgstr "Якщо у Вас є <a href=\"@gravatar-check\">дійсний Gravatar</a>, пов'язаний з вашою адресою електронної пошти, він буде використовуватися в якості фотографії користувача."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Ваш Gravatar не будет отображаться, если Вы загрузите пользовательскую фотографию."
+msgstr "Ваш Gravatar не буде відображатися, якщо Ви завантажте фотографію користувача."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, use it for your user picture."
-msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, используйте его в качестве фотографии пользователя."
+msgstr "Якщо у Вас є </a>дійсний Gravatar</a>, пов'язаний з вашою адресою електронної пошти, використовуйте його в якості фотографії користувача."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "Gravatar не будет отображаться если загружен аватар."
+msgstr "Gravatar не буде відображатися, якщо завантажений аватар."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Avatar settings"
-msgstr "Настройки аватара"
+msgstr "Налаштування аватара"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Upload an avatar"
-msgstr "Загрузить аватар"
+msgstr "Завантажити аватар"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Forum settings"
-msgstr "Настройки форума"
+msgstr "Налаштування форума"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "In discussion topics, show at most @comments_per_page"
-msgstr "В темах обсуждений показывать не более @comments_per_page"
+msgstr "У темах обговорень показувати не більше @comments_per_page"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "comments per page"
-msgstr "комментариев на страницу"
+msgstr "коментарів на сторінку"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Sort comments in discussions"
-msgstr "Сортировка комментариев в обсуждениях"
+msgstr "Сортування коментарів в дискусіях"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Newest post first"
-msgstr "Сначала с самыми новыми сообщениями"
+msgstr "Спочатку з найновішими повідомленнями"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Oldest post first"
-msgstr "Сначала самые старые сообщения"
+msgstr "Спочатку найстарші повідомлення"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Signature"
-msgstr "Подпись"
+msgstr "Підпис"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr "Ваша подпись будет видна всем в конце ваших комментариев."
+msgstr "Ваш підпис буде публічно показано в кінці коментарів."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Hide signatures in forums"
-msgstr "Скрывать подписи на форумах"
+msgstr "Сховати підписи на форумах"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr "Игнорировать пользователей на форумах:"
+msgstr "Ігнорувати користувачів на форумах:"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr "<a href=\"@ignore-user-list\">Просмотр/Редактирование</a> вашего списка игнорируемых пользователей."
+msgstr "<a href=\"@ignore-user-list\">Переглянути/Редагувати</a> список ваших ігнорованих користувачів."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Privacy settings"
-msgstr "Настройки конфиденциальности"
+msgstr "Налаштування конфіденційністі"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "Могут ли @project и ваша команда (при наличии) отправлять Вам электронные письма?"
+msgstr "Чи можуть @project і Ваша команда відправляти Вам електронні листи?"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Should @project show your computers on its web site?"
-msgstr "Должен ли @project показывать ваши компьютеры на своём веб-сайте?"
+msgstr "Чи повинен @project показувати Ваші комп'ютери на своєму веб-сайті?"
 
 #: host-list
 msgctxt "host-list"
 msgid "No active computers"
-msgstr "Нет активных компьютеров"
+msgstr "Немає активних комп'ютерів"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has no computers that have been active in the last 30 days."
-msgstr "У этого пользователя нет компьютеров, которые были активны в течение последних 30 дней."
+msgstr "У цього користувача немає комп'ютерів, які були б активними протягом останніх 30 днів."
 
 #: forum-post-posted-time-not-available
 msgctxt "forum-post-posted-time-not-available"
 msgid "n/a"
-msgstr "н/д"
+msgstr "н/з"
 
 #: forum-post-posted-time-ago
 msgctxt "forum-post-posted-time-ago"
 msgid "@time ago"
-msgstr "@time назад"
+msgstr "@time тому"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Threads"
-msgstr "Обсуждения"
+msgstr "Обговорення"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Posts"
-msgstr "Сообщения"
+msgstr "Повідомлення"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Last post"
-msgstr "Последнее сообщение"
+msgstr "Останнє повідомлення"
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2103,7 +2101,7 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "Пожалуйста, будьте ответственны в том, что Вы пишите, и не создавайте сообщения, которые являются оскорбительными или обидными. Оскорбительные сообщения или темы могут быть удалены модераторами форума без предупреждения или обсуждения. Не отвечайте на оскорбительные сообщения. Нажмите на кнопку \"отчёт\", расположенную в нижней части сообщения, чтобы обратить на него внимание модераторов."
+msgstr "Будь ласка, підходьте з відповідальністю до того, що ви пишете, не створюйте повідомлення, які є образливими. Образливі повідомлення або теми можуть бути видалені модераторами форуму без попередження або обговорення. Не відповідайте на образливі повідомлення. Натисніть на кнопку \"повідомити\", розташовану в нижній частині повідомлення, щоб звернути на нього увагу модераторів."
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2113,47 +2111,47 @@ msgid ""
 "where you are free to discuss anything relevant to the underlying science. "
 "Participants interested in broader discussions should post to unofficial "
 "forums for @project."
-msgstr "Мы также просим Вас вести все обсуждения на досках сообщений, касающихся @project или BOINC, за небольшим исключением доски сообщений о Науке, где Вы можете обсуждать всё, что относится к науке, лежащей в основе проекта. Участникам, заинтересованным в более широких обсуждениях, следует общаться на неофициальных форумах @project."
+msgstr "Ми також просимо Вас вести всі обговорення на дошках повідомлень, що стосуються @project або BOINC, за невеликим винятком дошки повідомлень про Науку, де Ви можете обговорювати все, що відноситься до науки, що лежить в основі проекту. Учасникам, зацікавленим в більш широких обговореннях, слід спілкуватися на неофіційних форумах @project."
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
 msgid "These message boards now support BBCode tags only."
-msgstr "Эти доски сообщений теперь поддерживают только теги BBCode."
+msgstr "Ці дошки повідомлень тепер підтримують тільки теги BBCode."
 
 #: forum-footer
 msgctxt "forum-footer"
 msgid "Manage subscriptions"
-msgstr "Управление подписками"
+msgstr "Керувати підписками"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "Teams"
-msgstr "Команды"
+msgstr "Команди"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "access team members' email addresses"
-msgstr "иметь доступ к адресам электронной почты участников команды"
+msgstr "мати доступ до адрес електронної пошти учасників команди"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "edit the team's name and description"
-msgstr "редактировать название и описание команды"
+msgstr "редагувати назву і опис команди"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "add or remove team admins"
-msgstr "добавить или удалить Администраторов команды"
+msgstr "додати або видалити Адміністраторів команди"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "remove members from the team"
-msgstr "удалять участников из команды"
+msgstr "видаляти учасників з команди"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "disband a team if it has no members"
-msgstr "расформировать команду, в которой нет участников"
+msgstr "розформувати команду, в якій немає учасників"
 
 #: account-team-panel
 msgctxt "account-team-panel"
@@ -2163,69 +2161,69 @@ msgstr "Моя команда"
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "You are a member of @team."
-msgstr "Вы участник команды @team."
+msgstr "Ви учасник команди @team."
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "View my team"
-msgstr "Просмотр моей команды"
+msgstr "Подивитися мою команду"
 
 #: search-team
 msgctxt "search-team"
 msgid "Search teams"
-msgstr "Поиск команд"
+msgstr "Пошук команд"
 
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr "Задания для этой задачи находятся в ожидании."
+msgstr "Завдання для цієї задачі знаходяться в очікуванні."
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
 msgid "Submitted on !datetime"
-msgstr "Отправлено !datetime"
+msgstr "Представлено об !datetime"
 
 #: Comments-section-header
 msgctxt "Comments-section-header"
 msgid "Comments"
-msgstr "Комментарии"
+msgstr "Коментарі"
 
 #: form-clear
 msgctxt "form-clear"
 msgid "Clear"
-msgstr "Удалить"
+msgstr "Очистити"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid ""
 "This will remove all of your settings from the @name preference set. Are you"
 " sure?"
-msgstr "Это удалит все ваши настройки из конфигурации @name. Вы уверены?"
+msgstr "Це видалить всі ваші налаштування з @name конфігурації. Ви впевнені?"
 
 #: task-list
 msgctxt "task-list"
 msgid "No @type tasks"
-msgstr "Нет заданий типа @type"
+msgstr "Немає завдань типу @type"
 
 #: task-list
 msgctxt "task-list"
 msgid "There are no tasks of this type on record"
-msgstr "Нет заданий этого типа"
+msgstr "Немає завдань цього типу"
 
 #: host-details
 msgctxt "host-details"
 msgid "Show IP address"
-msgstr "Показать IP-адрес"
+msgstr "Показати IP-адресу"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "hours"
-msgstr "часов"
+msgstr "годин"
 
 #: form-merge
 msgctxt "form-merge"
 msgid "Merge"
-msgstr "Объединить"
+msgstr "Об'єднати"
 
 #: view-team-info
 msgctxt "view-team-info"
@@ -2235,243 +2233,243 @@ msgstr "Тип"
 #: view-team-info
 msgctxt "view-team-info"
 msgid "New members in last day"
-msgstr "Новые участники за последний день"
+msgstr "Нові учасники за останній день"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Total members"
-msgstr "Всего участников"
+msgstr "Всього учасників"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Active members"
-msgstr "Активных участников"
+msgstr "Активних учасників"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Members with credit"
-msgstr "Участников с заработанными очками"
+msgstr "Учасників із заробленими балами"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "Website"
-msgstr "Веб-сайт"
+msgstr "Інтернет сторінка"
 
 #: team-description
 msgctxt "team-description"
 msgid "Description"
-msgstr "Описание"
+msgstr "Опис"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "no projects..."
-msgstr "нет проектов..."
+msgstr "жодного проекту..."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr "Настройки для конфигурации '@venue' не найдены. Нажмите Сохранить изменения ниже, чтобы сохранить следующие настройки в своей учётной записи."
+msgstr "Налаштування для конфігурації '@venue' не знайдені. Натисніть Зберегти Зміни нижче, щоб зберегти ці налаштування для свого облікового запису."
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the desktop software"
-msgstr "Загрузите программное обеспечение для настольного компьютера"
+msgstr "Завантажити програмне забезпечення для настільних систем"
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer"
-msgstr "Запустите программу установки"
+msgstr "Запустіть програму установки"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr "ответить"
+msgstr "відповісти"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment"
-msgstr "Ответить на этот комментарий"
+msgstr "Відповісти на цей коментар"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr "Ответить на эту тему с цитатой"
+msgstr "Відповісти на цю тему із цитатою"
 
 #: private-message
 msgctxt "private-message"
 msgid "Send message"
-msgstr "Отправить сообщение"
+msgstr "Відправити повідомлення"
 
 #: forum-post-new-comment
 msgctxt "forum-post-new-comment"
 msgid "Post new comment"
-msgstr "Добавить новый комментарий"
+msgstr "Опублікувати новий коментар"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "commented on"
-msgstr "прокомментировал"
+msgstr "прокоментував"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "started discussion"
-msgstr "началось обсуждение"
+msgstr "почалася дискусія"
 
 #: forum-sticky-comment
 msgctxt "forum-sticky-comment"
 msgid "Make sticky"
-msgstr "Закрепить"
+msgstr "Закріпити"
 
 #: forum-sticky-comment
 msgctxt "forum-sticky-comment"
 msgid "Make this topic sticky"
-msgstr "Закрепить эту тему"
+msgstr "Закріпити цю тему"
 
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock"
-msgstr "Заблокировать"
+msgstr "Заблокувати"
 
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock this thread for comments"
-msgstr "Заблокировать это обсуждение для комментариев"
+msgstr "Заблокувати це обговорення для коментарів"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide"
-msgstr "Скрыть"
+msgstr "Приховати"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this topic"
-msgstr "Скрыть эту тему"
+msgstr "Приховати цю тему"
 
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert"
-msgstr "Конвертировать"
+msgstr "Конвертувати"
 
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert this comment to a new topic"
-msgstr "Конвертировать этот комментарий в новую тему"
+msgstr "Конвертувати цей коментар у нову тему"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this comment"
-msgstr "Скрыть этот комментарий"
+msgstr "Приховати цей коментар"
 
 #: forum-delete-comment
 msgctxt "forum-delete-comment"
 msgid "Delete this comment"
-msgstr "Удалить этот комментарий"
+msgstr "Видалити цей коментар"
 
 #: forum-edit-comment
 msgctxt "forum-edit-comment"
 msgid "Edit this comment"
-msgstr "Редактировать этот комментарий"
+msgstr "Редагувати цей коментар "
 
 #: search-with-no-results
 msgctxt "search-with-no-results"
 msgid "No results found..."
-msgstr "Результаты не найдены..."
+msgstr "Результатів не знайдено..."
 
 #: user-profile:-1:message-shown-when-awating-moderation
 msgctxt "user-profile:-1:message-shown-when-awating-moderation"
 msgid "Profile awaiting moderator approval"
-msgstr "Профиль ожидает одобрения модератором"
+msgstr "Профіль очікує схвалення модератором"
 
 #: friend-add
 msgctxt "friend-add"
 msgid "Add as friend"
-msgstr "Добавить друга"
+msgstr "Додати друга"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: комментарий размещён в \"!topic_name\""
+msgstr "!site: коментар розміщений на \"!topic_name\""
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author ответил в \"!topic_name\"."
+msgstr "!author опублікував відповідь на \"!topic_name\"."
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid ""
 "To view this topic at !site, click here: \n"
 "!comment_url"
-msgstr "Для просмотра этой темы на сайте !site нажмите здесь: \n!comment_url"
+msgstr "Щоб переглянути цю тему на !site, натисніть тут:\n!comment_url"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave team"
-msgstr "Покинуть команду"
+msgstr "Покинути команду"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Click here to revoke your membership with @this_team"
-msgstr "Нажмите здесь, чтобы отменить ваше членство в команде @this_team"
+msgstr "Натисніть тут, щоб відкликати ваше членство в @this_team"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave this team"
-msgstr "Покинуть эту команду"
+msgstr "Покинути цю команду"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Request foundership"
-msgstr "Запросить смену основателя"
+msgstr "Надіслати запит на зміну засновника"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "Если основатель команды не активен и Вы хотите взять на себя роль основателя, нажмите ниже, чтобы запросить право основателя команды @this_team."
+msgstr "Якщо засновник команди не є активний, і ви хочете взяти на себе роль засновника, натисніть нижче, щоб запросити право засновника команди @this_team."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Initiate request"
-msgstr "Инициировать запрос"
+msgstr "Ініціювати запит"
 
 #: form-delete
 msgctxt "form-delete"
 msgid "Delete"
-msgstr "Удалить"
+msgstr "Видалити"
 
 #: account-host-delete
 msgctxt "account-host-delete"
 msgid ""
 "This will delete host @id from your account forever. Are you sure this is "
 "OK?"
-msgstr "Хост @id будет удалён из вашей учётной записи навсегда. Вы уверены, что это нормально?"
+msgstr "Хост @id буде видалений з вашого облікового запису назавжди. Ви впевнені, що саме це вам потрібно?"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a new team"
-msgstr "Создать новую команду"
+msgstr "Створити нову команду"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid ""
 "If you cannot find a team that is right for you, you can create a team."
-msgstr "Если Вы не можете найти подходящую Вам команду, Вы можете создать новую команду."
+msgstr "Якщо ви не можете знайти команду, яка підходить саме для вас, ви можете створити власну команду."
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr "Войти, чтобы создать новую команду"
+msgstr "Увійти, щоб створити нову команду"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "If you're already running BOINC, select <i>Add\n"
 "      Project</i>."
-msgstr "Если Вы уже используете BOINC, выберите команду <i>Добавить проект</i>."
+msgstr "Якщо BOINC у вас вже працюєте, виберіть <i>Додати\nпроект</i>."
 
 #: join-page
 msgctxt "join-page"
@@ -2480,7 +2478,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "Если Вы используете версию BOINC для командной строки, для создания учётной записи в этом проекте сначала используйте программное обеспечение BOINC Manager (или другое в случае необходимости), а затем используйте эту учётную запись для подключения с помощью версии для командной строки."
+msgstr "Якщо ви користуєтеся BOINC із командного рядка BOINC,\nспочатку скористуйтеся програмою BOINC Manager (у разі необхідності в іншому місці) для створення\nоблікового запису в цьому проекті, потім можна скористуватися  цим обліковим записом, щоб підключитися\nу версії  з командного рядка."
 
 #: join-page
 msgctxt "join-page"
@@ -2488,656 +2486,656 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version to create an account\n"
 "        at this project."
-msgstr "Если Вы используете версию BOINC ниже 5.0, выполните обновление до более новой версии для создания учетной записи в этом проекте."
+msgstr "Якщо ви використовуєте версію BOINC, попередню до версії 5.0, будь ласка,\nоновіть до більш сучасної версії, щоб створити обліковий запис\nдля цього проекту."
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "ignore list"
-msgstr "списке игнорирования"
+msgstr "список ігнорування"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "here"
-msgstr "здесь"
+msgstr "тут"
 
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr "!username в вашем !ignore_list. Нажмите !here, чтобы увидеть это сообщение."
+msgstr "!username в вашому !ignore_list. Натисніть тут, щоб переглянути це повідомлення."
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
 msgid "Revise or post comment"
-msgstr "Изменить или добавить комментарий"
+msgstr "Перевірити або опублікувати коментар"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "This is not available until your profile is set up."
-msgstr "Это не доступно до тех пор, пока не настроен ваш профиль."
+msgstr "Це недоступне, поки ваш профіль не налаштований."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Create a profile"
-msgstr "Создать профиль"
+msgstr "Створити профіль"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "You must earn 1 more credit!"
-msgstr "Вы должны заработать ещё 1 очко!"
+msgstr "Ви повинні заробити ще 1 бал!"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join team"
-msgstr "Вступить в команду"
+msgstr "Приєднатися до команди"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Click here to become a member of @this_team"
-msgstr "Нажмите здесь, чтобы стать участником команды @this_team"
+msgstr "Натисніть тут, щоб стати учасником в @this_team"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join this team"
-msgstr "Вступить в эту команду"
+msgstr "Приєднатися до цієї команди"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "@count days remaining"
-msgstr "осталось @count дней"
+msgstr "залишилося @count днів "
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Forgot password"
-msgstr "Забыли пароль"
+msgstr "Забули пароль?"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "authenticator-based login"
-msgstr "вход на основе проверки подлинности"
+msgstr "Логін на основі автентифікатора"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "Enter your email address to receive instructions for resetting your password"
 " (or use the !authenticator_login)."
-msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля (или используйте !authenticator_login)."
+msgstr "Введіть свою адресу електронної пошти, щоб отримати інструкції щодо скидання пароля (або використовуйте !authenticator_login)."
 
 #: form-send
 msgctxt "form-send"
 msgid "Send"
-msgstr "Отправить"
+msgstr "Відправити"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr "Если Вы забыли адрес электронной почты вашей учётной записи, или Вы не можете получить письмо:"
+msgstr "Якщо Ви забули адресу електронної пошти Вашого облікового запису або не можете отримати листа:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
 "how:"
-msgstr "Если BOINC запускался под этой учётной записью, Вы можете получить доступ к ней. Для этого нужно сделать следующее:"
+msgstr "Якщо BOINC запускався під цим Вашим обліковим записом, Ви можете отримати доступ до нього. Для цього потрібно зробити наступне:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "BOINC documentation"
-msgstr "Документация BOINC"
+msgstr "Документація BOINC"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Go to the BOINC data directory on your computer (see !boinc_wiki for help "
 "finding this)."
-msgstr "Перейдите в каталог данных BOINC на вашем компьютере (см.  !boinc_wiki для получения помощи)."
+msgstr "Перейдіть в каталог даних BOINC на своєму комп'ютері (дивись !boinc_wiki щоб зрозуміти як)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Find your account file for this project; it will have a name like %file "
 "(where the project URL is %url)."
-msgstr "Найдите там файл учётной записи для этого проекта; он будет называться %file (где %url - URL-адрес проекта)."
+msgstr "Знайдіть там файл облікового запису для цього проекту; він буде називатися %file (де %url - URL-адреса проекту)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "Откройте этот файл в текстовом редакторе, например в Блокноте. Вы увидите что-то вроде:"
+msgstr "Відкрийте цей файл у текстовому редакторі, наприклад в Блокноті. Ви побачите щось на кшталт:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Select and Copy the string between &lt;authenticator&gt; and "
 "&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "Выберите и скопируйте строку между &lt;authenticator&gt; и &lt;/authenticator&gt; (%auth в вышеприведённом примере)."
+msgstr "Виберіть і скопіюйте рядок між &lt;authenticator&gt; і &lt;/authenticator&gt; (%auth у наведеному вище прикладі)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Paste the string into the field below, and click OK."
-msgstr "Вставьте эту строку в расположенное ниже поле, и нажмите OK."
+msgstr "Вставте цей рядок у розташоване нижче поле, і натисніть Гаразд."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "Теперь Вы авторизованы; обновите адрес электронной почты и пароль для вашей учётной записи."
+msgstr "Тепер Ви авторизовані; оновіть адресу електронної пошти і пароль для свого облікового запису."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Log in with authenticator"
-msgstr "Авторизоваться с аутентификатором"
+msgstr "Увійти з аутентифікатором"
 
 #: form-ok
 msgctxt "form-ok"
 msgid "OK"
-msgstr "OK"
+msgstr "Гаразд"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "Учётной записи не существует для @email -- выберите \"Создать новую учётную запись\", чтобы зарегистрироваться"
+msgstr "Не існує облікового запису з таким @email - виберіть \"Створити новий обліковий запис\", щоб зареєструватися"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Authentication is required when changing E-mail address or setting new "
 "password."
-msgstr "При изменении адреса электронной почты или установке нового пароля требуется проверка подлинности."
+msgstr "Аутентифікація потрібна для зміні адреси електронної пошти або встановленні нового пароля."
 
 #: forum-post-new-topic
 msgctxt "forum-post-new-topic"
 msgid "Post new topic"
-msgstr "Опубликовать новую тему"
+msgstr "Опублікувати нову тему"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Sorry, unrecognized email address or password."
-msgstr "К сожалению, адрес электронной почты или пароль не распознаны."
+msgstr "Вибачте, електронна адреса або пароль не розпізнані."
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Have you forgotten your password?"
-msgstr "Вы забыли ваш пароль?"
+msgstr "Ви забули свій пароль?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "Эти параметры применяются ко всем проектам BOINC, в которых Вы участвуете."
+msgstr "Ці налаштування поширюються на всі проекти BOINC, в яких Ви приймаєте участь."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "На компьютерах, подключенных к нескольким проектам, будут использоваться настройки, изменённые самыми последними."
+msgstr "На комп'ютерах, які прикріплені до декільких проектів, будуть використовуватися налаштування, які змінювались останніми."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Preferences last modified: @mod_time"
-msgstr "Последнее изменение настроек: @mod_time"
+msgstr "Остання зміна налаштувань: @mod_time"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Combined preferences"
-msgstr "Объединённые настройки"
+msgstr "Об'єднані налаштування"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Switch View"
-msgstr "Переключить вид"
+msgstr "Перемкнути Відображення"
 
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr "Передавать файлы только между:"
+msgstr "Передавати файли лише між:"
 
 #: account-preference
 msgctxt "account-preference"
 msgid "every"
-msgstr "каждые"
+msgstr "кожні"
 
 #: form-edit
 msgctxt "form-edit"
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Редагувати"
 
 #: form-add
 msgctxt "form-add"
 msgid "Add"
-msgstr "Добавить"
+msgstr "Додати"
 
 #: host-details
 msgctxt "host-details"
 msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (такой же последние @count раз)"
+msgstr "@ip_address (такий самий останні @count раз)"
 
 #: message-header
 msgctxt "message-header"
 msgid "parent removed"
-msgstr "родитель удалён"
+msgstr "джерело видалено"
 
 #: host-details
 msgctxt "host-details"
 msgid "Unknown"
-msgstr "Неизвестно"
+msgstr "Невідомо"
 
 #: add-new-user
 msgctxt "add-new-user"
 msgid "A BOINC account already exists for @email."
-msgstr "Для @email уже существует учётная запись BOINC."
+msgstr "Обліковий запис BOINC вже існує для @email."
 
 #: friend-remove
 msgctxt "friend-remove"
 msgid "Remove friend"
-msgstr "Удалить друга"
+msgstr "Видалити друга"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create new team"
-msgstr "Создать новую команду"
+msgstr "Створити нову команду"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Send request"
-msgstr "Отправить запрос"
+msgstr "Надіслати запит"
 
 #: friends-remove
 msgctxt "friends-remove"
 msgid "Remove friend"
-msgstr "Удалить друга"
+msgstr "Видалити друга"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "posted"
-msgstr "опубликовано"
+msgstr "опубліковано"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your community preferences have been updated."
-msgstr "Ваши настройки сообщества были обновлены."
+msgstr "Ваші налаштування спільноти оновлено."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Invalid setting for \"%preference\""
-msgstr "Недопустимый параметр для \"%preference\""
+msgstr "Невірне налаштування для \"%preference\""
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Team forum"
-msgstr "Форум команды"
+msgstr "Форум команди"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "A discussion forum has been set up for team members."
-msgstr "Дискуссионный форум был создан для участников команды."
+msgstr "Для членів команди створено дискусійний форум."
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Enter forum"
-msgstr "Войти на форум"
+msgstr "Увійти на форум"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Approve request"
-msgstr "Утвердить запрос"
+msgstr "Затвердити запит"
 
 #: friend-request-email
 msgctxt "friend-request-email"
 msgid "!name accepted your friend request [!site]"
-msgstr "!name принял ваш запрос дружбы [!site]"
+msgstr "!name прийняв ваш запит дружби [!site]"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve profile"
-msgstr "Утвердить профиль"
+msgstr "Затвердити профіль"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve this profile content"
-msgstr "Утвердить содержимое этого профиля"
+msgstr "Затвердити вміст цього профілю"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject this profile content"
-msgstr "Отклонить содержимое этого профиля"
+msgstr "Відхилити вміст цього профілю"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
 msgid "Make unsticky"
-msgstr "Открепить"
+msgstr "Відкріпити"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
 msgid "Remove sticky status from this topic"
-msgstr "Удалить признак закрепления с этой темы"
+msgstr "Видалити ознака закріплення з цієї теми"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide"
-msgstr "Показать"
+msgstr "Показати"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this comment"
-msgstr "Показать этот комментарий"
+msgstr "Показати цей коментар"
 
 #: comment-action-link
 msgctxt "comment-action-link"
 msgid "Unpublished"
-msgstr "Неопубликовано"
+msgstr "Неопубліковано"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a team"
-msgstr "Создать команду"
+msgstr "Створити команду"
 
 #: form-choose
 msgctxt "form-choose"
 msgid "Choose type"
-msgstr "Выберите тип"
+msgstr "Виберіть тип"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name"
-msgstr "Название команды"
+msgstr "Назва команди"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "Text only, no HTML tags"
-msgstr "Только текст, без тегов HTML"
+msgstr "Тільки текст, без тегів HTML."
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name -- HTML version (optional)"
-msgstr "Название команды -- HTML-версия (не обязательно)"
+msgstr "Назва команди — HTML версія (не обов'язково)"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "You may use limited HTML tags"
-msgstr "Вы можете использовать ограниченные теги HTML"
+msgstr "Ви можете використовувати обмежені теги HTML"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team website (optional)"
-msgstr "Веб-сайт команды (не обязательно)"
+msgstr "Команда сайту (не обов'язково)"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Displayed on the team's page"
-msgstr "Отображается на странице команды"
+msgstr "Відображається на сторінці команди"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Type of team"
-msgstr "Тип команды"
+msgstr "Тип команди"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Accept new members?"
-msgstr "Принимать новых участников?"
+msgstr "Приймати нових учасників?"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Description of team"
-msgstr "Описание команды"
+msgstr "Опис команди"
 
 #: team-form-save
 msgctxt "team-form-save"
 msgid "Save team"
-msgstr "Сохранить команду"
+msgstr "Зберегти команду"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team"
-msgstr "Управление командой"
+msgstr "Управління командою"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View member list"
-msgstr "Список участников"
+msgstr "Список учасників"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Member names and emails"
-msgstr "Имена и адреса электронной почты участников"
+msgstr "Імена та адреси електронної пошти учасників"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View change history"
-msgstr "Просмотр истории изменений"
+msgstr "Перегляд історії змін"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "See member activity"
-msgstr "Активность участников"
+msgstr "Активність учасників"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team message board"
-msgstr "Управление доской сообщений команды"
+msgstr "Управління дошкою повідомлень команди"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Create or manage message board"
-msgstr "Создание или управление доской сообщений"
+msgstr "Створення або управління дошкою повідомлень"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members"
-msgstr "Удалить участников"
+msgstr "Видалити учасників"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Change founder"
-msgstr "Поменять основателя"
+msgstr "Змінити засновника"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team admins"
-msgstr "Управление администрацией команды"
+msgstr "Управління адміністрацією команди"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Edit team info"
-msgstr "Редактировать информацию о команде"
+msgstr "Редагувати інформацію про команду"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Remove team"
-msgstr "Удалить команду"
+msgstr "Видалити команду"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
-msgstr "Иногда BOINC по ошибке назначает различные идентификаторы одному и тому же компьютеру. Вы можете исправить это объединив старые идентификаторы с самым новым."
+msgstr "Іноді BOINC помилково призначає різні ідентифікатори одному і тому самому комп’ютеру. Ви можете виправити це об’єднавши старі ідентифікатори з найновішими."
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
 "with computer ID @id)"
-msgstr "Отметьте компьютеры, такие же как и @name (создан @date в @time с ID компьютера @id)"
+msgstr "Відмітьте комп’ютери, такі ж як і @name (створений @date о @time, ID комп’ютера @id)"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Компьютеры @old_ids успешно объединены с @id."
+msgstr "Комп'ютери @old_ids успішно об'єднані з @id."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Введённый пароль не действителен. Пожалуйста, проверьте, что он правильный."
+msgstr "Ваш пароль недійсний. Будь ласка, перевірте, що він правильний."
 
 #: remove-team-member
 msgctxt "remove-team-member"
 msgid "Remove"
-msgstr "Удалить"
+msgstr "Видалити"
 
 #: team-emails-are-hidden
 msgctxt "team-emails-are-hidden"
 msgid "hidden"
-msgstr "скрыто"
+msgstr "приховане"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computer @old_id has been merged successfully into @id."
-msgstr "Компьютер @old_id успешно объединён с @id."
+msgstr "Комп'ютер @old_id успішно об'єднаний з @id."
 
 #: link-to-BOINC-wide-teams-Website
 msgctxt "link-to-BOINC-wide-teams-Website"
 msgid "BOINC-wide teams site"
-msgstr "Сайт глобальных команд BOINC"
+msgstr "Сайт глобальних команд BOINC"
 
 #: team-edit-warning-message
 msgctxt "team-edit-warning-message"
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr "Это глобальная команда BOINC. Изменения могут быть сделаны на !site."
+msgstr "Це глобальна команда BOINC. Зміни можуть бути зроблені на !site."
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post topic"
-msgstr "Опубликовать тему"
+msgstr "Опублікувати тему"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Maximum value exceeded for @field"
-msgstr "Для @field превышено максимальное значение"
+msgstr "Для @field перевищено максимальне значення"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "The team founder has @count days to respond to your transfer request."
-msgstr "У основателя команды есть @count дней для ответа на ваш запрос."
+msgstr "У засновника вашої команди є @count днів щоб відповісти на ваш запит."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Invalid data type for @field"
-msgstr "Недопустимый тип данных для @field"
+msgstr "Неправильний тип даних для @field"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Minimum value not met for @field"
-msgstr "Минимальное значение не встретилось для @field"
+msgstr "Мінімальне значення не зустрічалося для @field"
 
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock"
-msgstr "Разблокировать"
+msgstr "Розблокувати"
 
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock this thread for comments"
-msgstr "Разблокировать это обсуждение для комментариев"
+msgstr "Розблокувати це обговорення для коментарів"
 
 #: friends-add
 msgctxt "friends-add"
 msgid "Add as friend"
-msgstr "Добавить друга"
+msgstr "Додати друга"
 
 #: friend-request-email
 msgctxt "friend-request-email"
 msgid "Friend request from !name [!site]"
-msgstr "Запрос дружбы от !name [!site]"
+msgstr "Запит дружби від !name [!site]"
 
 #: friend-request-email:-1:a-private-message
 msgctxt "friend-request-email:-1:a-private-message"
 msgid "Message"
-msgstr "Сообщение"
+msgstr "Повідомлення"
 
 #: friend-cancel
 msgctxt "friend-cancel"
 msgid "Cancel friend request"
-msgstr "Отменить запрос дружбы"
+msgstr "Скасувати запит на дружбу"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "At least one application must be selected"
-msgstr "По крайней мере одно приложение должно быть выбрано"
+msgstr "Принаймні один додаток має бути вибраний"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Create team message board"
-msgstr "Создать доску сообщений команды"
+msgstr "Створити дошку повідомлень команди"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Message board title"
-msgstr "Заголовок доски сообщений"
+msgstr "Тема дошки повідомлень"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum time between posts"
-msgstr "Минимальное время между сообщениями"
+msgstr "Мінімальний час між повідомленнями"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum total credit to post"
-msgstr "Минимальное общее количество очков для написания сообщений"
+msgstr "Мінімальна загальна кількість балів для написання повідомлення"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum avg credit to post"
-msgstr "Минимальное среднее количество очков для написания сообщений"
+msgstr "Мінімальна середня кількість балів для написання повідомлень"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Allow public to read board?"
-msgstr "Разрешить публичный доступ на чтение доски?"
+msgstr "Надати публічний доступ на читання дошки?"
 
 #: team-forum-create/edit:-1:ignoreoverwrite
 msgctxt "team-forum-create/edit:-1:ignoreoverwrite"
 msgid "Description"
-msgstr "Описание"
+msgstr "Опис"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Create message board"
-msgstr "Создать доску сообщений"
+msgstr "Створити дошку повідомлень"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "About message boards"
-msgstr "О досках сообщений"
+msgstr "Про дошки повідомлень"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may post"
-msgstr "Только участники могут оставлять сообщения"
+msgstr "Тільки учасники можуть залишати повідомлення"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may read (optional)"
-msgstr "Только участники могут читать (опционально)"
+msgstr "Тільки учасники можуть читати повідомлення (не обов'язково)"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "Основатель и Администраторы команды обладают правами модератора"
+msgstr "Засновник і Адміністратори команди мають права модератора"
 
 #: search-user
 msgctxt "search-user"
 msgid "Search"
-msgstr "Поиск"
+msgstr "Знайти"
 
 #: team-founder-change
 msgctxt "team-founder-change"
 msgid "respond to the request"
-msgstr "ответьте на запрос"
+msgstr "відповісти на запит"
 
 #: team-founder-change
 msgctxt "team-founder-change"
 msgid ""
 "A foundership transfer request has been made for your team. Please !respond."
-msgstr "Для вашей команды был сделан запрос на передачу полномочий основателя. Пожалуйста, !respond."
+msgstr "Запит на зміну засновника було зроблено для вашої команди. Будь-ласка, !відреагуйте."
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Respond to transfer request"
-msgstr "Ответить на запрос передачи"
+msgstr "Відповісти на запит передачі даних"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3145,164 +3143,164 @@ msgid ""
 "If you don't decline the request by @date, @name will have the option of "
 "assuming team foundership. (note: To accept the request, assign foundership "
 "to @name using the form below)"
-msgstr "Если Вы не отмените запрос до @date, у участника @name будет возможность принять полномочия основателя команды. (примечание: Чтобы принять запрос, назначьте полномочия основателя участнику @name, используя форму ниже)"
+msgstr "Якщо Ви не скасуєте запит до %1, учасник %2 матиме можливість прийняти права засновника команди. (зверніть увагу: Для того, щоб прийняти запит, надайте права засновника учаснику %3, використовуючи форму нижче)"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Deny request"
-msgstr "Отклонить запрос"
+msgstr "Відхилити запит"
 
 #: team-make-founder
 msgctxt "team-make-founder"
 msgid "Make founder"
-msgstr "Сделать основателя"
+msgstr "Створити засновника"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Changing the team founder"
-msgstr "Изменение основателя команды"
+msgstr "Зміна засновника команди"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Notes about changes in foundership:"
-msgstr "Заметки об изменениях в возможностях основателя команды:"
+msgstr "Нотатки про зміни в можливостях засновника команди:"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any member of the team is eligible"
-msgstr "Любой участник команды имеет право"
+msgstr "Будь-який учасник команди має право"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Current founder becomes a normal user"
-msgstr "Текущий основатель становится обычным пользователем"
+msgstr "Поточний засновник стає звичайним користувачем"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Foundership can be requested by team members:"
-msgstr "Права основателя могут быть запрошены членами команды:"
+msgstr "Права засновника можуть запросити членами команди:"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "One request is allowed at a time"
-msgstr "Единовременно разрешён только один запрос"
+msgstr "Одночасно дозволений тільки один запит"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "It must be 60 days since any previous request"
-msgstr "Должно пройти 60 дней с момента любого предыдущего запроса"
+msgstr "Повинно пройти 60 днів з моменту будь-якого попереднього запиту"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any active request must be older than 90 days"
-msgstr "Любой активный запрос должен быть старше 90 дней"
+msgstr "Будь-який активний запит повинен бути старше 90 днів"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Current founder has 60 days to respond to a request"
-msgstr "У текущего основателя есть 60 дней для ответа на запрос"
+msgstr "У поточного засновника є 60 днів для відповіді на запит"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "That authenticator is not valid."
-msgstr "Этот аутентификатор не является допустимым."
+msgstr "Цей аутентифікатор не є допустимим."
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "@email is not a well formed email address, please verify"
-msgstr "@email не является хорошо сформированным адресом электронной почты, пожалуйста, проверьте"
+msgstr "@email не є добре сформованим адресою електронної пошти, будь ласка, перевірте"
 
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr "Утвердить запрос дружбы"
+msgstr "Затвердити запит дружби"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
 msgid "Lift user ban"
-msgstr "Снять запрет с пользователя"
+msgstr "Зняти бан з користувача"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr "остался 1 день"
+msgstr "залишився 1 день "
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "There is no account with that authenticator."
-msgstr "Учётная запись с таким аутентификатором отсутствует."
+msgstr "Обліковий запис з таким аутентифікатором відсутній."
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Add team admin"
-msgstr "Добавить администратора команды"
+msgstr "Додати адміністратора команди"
 
 #: team--add-admin
 msgctxt "team--add-admin"
 msgid "Enter email address"
-msgstr "Введите адрес электронной почты"
+msgstr "Введіть адресу електронної пошти"
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Current team admins"
-msgstr "Текущие администраторы команды"
+msgstr "Поточні адміністратори команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "About team admins"
-msgstr "Об администраторах команды"
+msgstr "Про адміністраторів команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins can:"
-msgstr "Администраторы команды могут:"
+msgstr "Адміністратори команди можуть:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Edit team information"
-msgstr "Редактировать информацию о команде"
+msgstr "Редагувати інформацію про команду"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "View the team's join / quit history"
-msgstr "Просматривать историю вступления/выхода из команды"
+msgstr "Переглядати історію приєднання / виходу з команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Moderate the team forum"
-msgstr "Модерировать форум команды"
+msgstr "Редагувати форум команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members from the team"
-msgstr "Удалять участников из команды"
+msgstr "Видаляти учасників з команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Disband a team if it has no members"
-msgstr "Расформировать команду, в которой нет участников"
+msgstr "Розформувати команду, в якій немає учасників"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins cannot:"
-msgstr "Администраторы команды не могут:"
+msgstr "Адміністратори команди не можуть:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Change the team founder"
-msgstr "Поменять основателя команды"
+msgstr "Змінити засновника команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Add / Remove team admins"
-msgstr "Добавить или удалить администраторов команды"
+msgstr "Додати / Видалити адміністраторів команди"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid ""
 "If a team admin quits the team, they cease to be a team admin. We recommend "
 "only selecting people you know and trust"
-msgstr "Если администратор команды покинет команду, он перестанет быть администратором команды. Мы рекомендуем выбирать только людей, которых Вы знаете и доверяете."
+msgstr "Якщо адміністратор команди покине команду, він перестане бути адміністратором команди. Ми рекомендуємо вибирати тільки тих людей, яких Ви знаєте і довіряєте."
 
 #: team-general-info
 msgctxt "team-general-info"
@@ -3310,118 +3308,118 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "Участники @project могут образовывать команды. Вы можете принадлежать только одной команде. Вы можете вступить или выйти из команды в любое время. Чтобы примкнуть к команде, посетите страницу команды и нажмите кнопку «Вступить в эту команду». Каждая команда имеет основателя, который может:"
+msgstr "Учасники проекту @project можуть створювати команди. Ви можете належати тільки одній команді. Ви можете будь-коли приєднатися до команди, або покинути її. Щоб приєднатися до команди, відвідайте сторінку команди та натисніть кнопку \"Приєднатися до цієї команди\". Кожна команда має засновника, які може:"
 
 #: join-page
 msgctxt "join-page"
 msgid "When prompted enter @siteurl"
-msgstr "При появлении запроса введите @siteurl"
+msgstr "У відповідь на запит введіть @siteurl"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr "Инструкции"
+msgstr "Інструкції"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr "Учётной записи не существует для @email -- создайте учётную запись в клиенте BOINC -- !instructions"
+msgstr "Облікового запису не існує для @email — створіть обліковий запис в клієнті BOINC — !Instructions"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "@count days have elapsed since your request and the founder has not "
 "responded."
-msgstr "@count дней прошли с момента подачи вашего запроса, а основатель так и не ответил."
+msgstr "@count днів пройшли з моменту подачі вашого запиту, а засновник так і не відповів."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "You now have @count days to assume foundership before another team member "
 "may submit a request."
-msgstr "Теперь у Вас есть @count дней, чтобы стать основателем, прежде чем другой участник команды сможет сделать запрос."
+msgstr "Тепер у Вас є @count днів, щоб стати засновником, перш ніж інший учасник команди зможе зробити запит."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Assume foundership"
-msgstr "Принять полномочия основателя"
+msgstr "Прийняти повноваження засновника"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Remove request"
-msgstr "Удалить запрос"
+msgstr "Видалити запит"
 
 #: workunit-detail
 msgctxt "workunit-detail"
 msgid "Pending"
-msgstr "Ожидание"
+msgstr "Очікування"
 
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr "Задания для вашей учётной записи"
+msgstr "Завдання для вашого облікового запису"
 
 #: task-table
 msgctxt "task-table"
 msgid "Application"
-msgstr "Приложение"
+msgstr "Додаток"
 
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr "Все приложения"
+msgstr "Усі додатки"
 
 #: task-table
 msgctxt "task-table"
 msgid "Task ID"
-msgstr "ID задания"
+msgstr "ID Завдання"
 
 #: task-table
 msgctxt "task-table"
 msgid "Workunit ID"
-msgstr "ID задачи"
+msgstr "ID задачі"
 
 #: task-table
 msgctxt "task-table"
 msgid "Computer"
-msgstr "Компьютер"
+msgstr "Комп'ютер"
 
 #: task-table
 msgctxt "task-table"
 msgid "Sent"
-msgstr "Отправлен"
+msgstr "Відправлений"
 
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr "Время подтверждения или крайний срок"
+msgstr "Час Підтвердження або Крайній термін"
 
 #: task-table
 msgctxt "task-table"
 msgid "Status"
-msgstr "Статус"
+msgstr "Стан"
 
 #: task-table
 msgctxt "task-table"
 msgid "Run time"
-msgstr "Время выполнения"
+msgstr "Час виконання"
 
 #: task-table
 msgctxt "task-table"
 msgid "CPU time"
-msgstr "Время ЦП"
+msgstr "Процесорний час"
 
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr "Запрошено очков"
+msgstr "Заявлено Балів"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr "Предоставлено очков"
+msgstr "Надано Балів"
 
 #: task-table
 msgctxt "task-table"
@@ -3431,120 +3429,120 @@ msgstr "Все"
 #: task-table
 msgctxt "task-table"
 msgid "In progress"
-msgstr "В процессе"
+msgstr "У процесі"
 
 #: task-table
 msgctxt "task-table"
 msgid "Pending"
-msgstr "Ожидание"
+msgstr "Очікування"
 
 #: task-table
 msgctxt "task-table"
 msgid "Valid"
-msgstr "Правильный"
+msgstr "Правильний"
 
 #: task-table
 msgctxt "task-table"
 msgid "Invalid"
-msgstr "Неправильный"
+msgstr "Неправильний"
 
 #: task-table
 msgctxt "task-table"
 msgid "Error"
-msgstr "Ошибка"
+msgstr "Помилка"
 
 #: task-table
 msgctxt "task-table"
 msgid "Reset"
-msgstr "Сбросить"
+msgstr "Перезапустити"
 
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr "Применить фильтр"
+msgstr "Застосувати фільтр"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr "Вы не можете вносить изменения в этот компьютер."
+msgstr "Ви не можете вносити зміни на цей комп'ютер."
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr "Задания для компьютера @host_id"
+msgstr "Завдання для комп'ютера @host_id"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr "Расположение этого компьютера обновлено."
+msgstr "Розташування цього комп'ютера оновлено."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr "Это изменение будет учтено в следующий раз, когда компьютер свяжется с проектом."
+msgstr "Ця зміна буде врахована в наступний раз, коли комп'ютер зв'яжеться з проектом."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr "Профиль не существует."
+msgstr "Профіль не існує."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "Это удалит все ваши настройки из конфигурации \"@name\". Вы уверены?"
+msgstr "Це видалить всі ваші налаштування з \"@name\" конфігурації. Ви впевнені?"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "Это удалит все ваши настройки из конфигурации \"@name\". Вы уверены?"
+msgstr "Це видалить всі ваші налаштування з \"@name\" конфігурації. Ви впевнені?"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "You may create a message board for use by @team"
-msgstr "Вы можете создать доску сообщений для общения в команде @team."
+msgstr "Ви можете створити дошку повідомлень для спілкування в команді @team"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Please enter your email address"
-msgstr "Укажите адрес вашей электронной почты"
+msgstr "Будь ласка, вкажіть вашу адресу електронної пошти"
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the BOINC desktop software."
-msgstr "Загрузите BOINC для настольного компьютера."
+msgstr "Завантажити програмне забезпечення BOINC для настільних систем"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr "Для устройств Android загрузите BOINC с Google Play Store или Amazon App Store."
+msgstr "Для пристроїв Android завантажте BOINC з магазину Google Play Store або в магазині Amazon App Store."
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer."
-msgstr "Запустите программу установки."
+msgstr "Запуск програми установки."
 
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr "Выберите @sitename из списка или введите @siteurl."
+msgstr "Виберіть @sitename зі списку або введіть @siteurl."
 
 #: join-page
 msgctxt "join-page"
 msgid "Install BOINC on this device if not already present."
-msgstr "Установите BOINC на это устройство, если ещё отсутствует."
+msgstr "Встановіть BOINC на цьому пристрої, якщо він ще не присутній."
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr "Выберите <i>Сервис / Добавить проект</i>. Выберите @sitename из списка или введите @siteurl."
+msgstr "Виберіть <i>Інструменти / Додати Проект</i>. Виберіть @sitename зі списку або введіть @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3553,7 +3551,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr "Если Вы используете версию BOINC для командной строки, для создания учётной записи в этом проекте сначала используйте программное обеспечение BOINC Manager (или другое в случае необходимости), а затем используйте эту учётную запись для подключения с помощью версии для командной строки <b>!boinccmd</b>."
+msgstr "Якщо ви користуєтеся BOINC із командного рядка BOINC,\nспочатку скористуйтеся програмою BOINC Manager (у разі необхідності в іншому місці) для створення\nоблікового запису в цьому проекті, потім можна скористуватися  цим обліковим записом, щоб підключитися\nу версії  з командного рядка використовуючи <b>!boinccmd</b>."
 
 #: join-page
 msgctxt "join-page"
@@ -3561,62 +3559,62 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr "Если Вы используете версию BOINC ниже 5.0, выполните обновление до более новой версии BOINC для создания учётной записи в проекте @this_project."
+msgstr "Якщо ви використовуєте версію BOINC, попередню до версії 5.0, будь ласка,\nоновіть до більш сучасної версії BOINC, щоб створити обліковий запис\nдля @this_project."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr "@user является основателем команды @team!"
+msgstr "@user є засновником команди @team!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr "Фильтр перевода BOINC для того, чтобы помочь разделить содержимое на куски для переводов."
+msgstr "Фільтр перекладу BOINC для того, щоб допомогти розділити вміст на шматки для переказів."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr "Разделяет содержимое узла на блоки для перевода."
+msgstr "Розділяє вміст вузла на блоки для перекладу."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr "Фильтр перевода BOINC"
+msgstr "Фільтр перекладу BOINC"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr "Типы содержимого для фильтрации"
+msgstr "Типи вмісту для фільтрації"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr "Выберите типы содержимого (узлов), которые будут разбиты на блоки для перевода."
+msgstr "Виберіть типи вмісту (вузлів), які будуть розбиті на блоки для перекладу."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr "Печать отладочной информации"
+msgstr "Друк налагоджувальної інформації"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr "Выводит дополнительную отладочную информацию. Этот параметр должен быть отключен на производственных площадках."
+msgstr "Виводить додаткову налагоджувальну інформацію. Цей параметр повинен бути відключений на виробничих майданчиках."
 
 #: join-page
 msgctxt "join-page"
 msgid "Rules and Policies"
-msgstr "Правила и политика"
+msgstr "Правила та політика"
 
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr "Прочтите наши !rules_and_policies."
+msgstr "Прочитайте наші !rules_and_policies."
 
 #: account-password
 msgctxt "account-password"
@@ -3626,198 +3624,198 @@ msgstr "Пароль"
 #: login-page
 msgctxt "login-page"
 msgid "Enter the password that accompanies your username."
-msgstr "Введите пароль, соответствующий вашему имени пользователя."
+msgstr "Введіть пароль, який відноситься до імені користувача вашого облікового запису."
 
 #: login-page
 msgctxt "login-page"
 msgid "Request new password"
-msgstr "Запросить новый пароль"
+msgstr "Потрібен новий пароль"
 
 #: forum
 msgctxt "forum"
 msgid "Mark all topics read"
-msgstr "Пометить все темы прочитанными"
+msgstr "Помітити всі теми прочитаними"
 
 #: forum
 msgctxt "forum"
 msgid "Mark all forums read"
-msgstr "Пометить все форумы прочитанными"
+msgstr "Помітити всі форуми прочитаними"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr "Ошибка проверки CAPTCHA: неизвестный код сеанса. Если проблема не устраняется, обратитесь к администратору сайта."
+msgstr "Помилка перевірки CAPTCHA: невідомий код сеансу. Якщо проблема не зникла, зверніться до адміністратора сайту."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr "Ответ, введённый для CAPTCHA, был неправильным."
+msgstr "Відповідь, введена для CAPTCHA, була неправильною."
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "Access denied. You must login to view this page."
-msgstr "Доступ запрещён. Вы должны войти для просмотра этой страницы."
+msgstr "Доступ заборонено. Ви повинні увійти для перегляду цієї сторінки."
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "You are not authorized to access this page."
-msgstr "У Вас нет доступа к этой странице."
+msgstr "У Вас немає доступу до цієї сторінки."
 
 #: forum
 msgctxt "forum"
 msgid "Disable rich-text"
-msgstr "Отключить RTF"
+msgstr "Відключити RTF"
 
 #: forum
 msgctxt "forum"
 msgid "Enable rich-text"
-msgstr "Включить RTF"
+msgstr "Включити RTF"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr "подписаться"
+msgstr "Підписатися"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr "отписаться"
+msgstr "Відписатися"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr "Предупредить"
+msgstr "Повідомити"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr "Отменить предупреждение"
+msgstr "Скасувати попередження"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr "Сбросить флаги"
+msgstr "Скинути флаги"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr "Игнорировать пользователя"
+msgstr "ігнорувати користувача"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr "Все задания"
+msgstr "Усі завдання"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr "Время подтверждения или крайний срок"
+msgstr "Час підтвердження або крайній термін"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr "Время выполнения (сек)"
+msgstr "Час виконання (сек)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr "Время ЦП (сек)"
+msgstr "Процесорний час (сек)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr "Канонический результат"
+msgstr "Канонічний результат"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr "Макс. # ошибок/всего/успешных заданий"
+msgstr "Макс. # помилок/всього/успішних завдань"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr "Сообщение для главной страницы сайта"
+msgstr "Повідомлення для Головної Сторінки Сайту"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr "Текст для отображения на главной целевой странице сайта."
+msgstr "Текст для відображення на головній цільовій сторінці сайту."
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for rejecting this profile"
-msgstr "Причина для отклонения этого профиля"
+msgstr "Причина для відхилення цього профілю"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of the problem and how to fix it."
-msgstr "Эта причина будет включена в сообщение электронной почты пользователю. Пожалуйста, напишите краткое объяснение проблемы и как её исправить."
+msgstr "Ця причина буде включена в повідомлення електронної пошти користувачеві. Будь ласка, напишіть коротке пояснення проблеми і як її виправити."
 
 #: form-submit
 msgctxt "form-submit"
 msgid "Submit"
-msgstr "Отправить"
+msgstr "Відправити"
 
 #: comment-action-links
 msgctxt "comment-action-links"
 msgid "Unpublished"
-msgstr "Неопубликовано"
+msgstr "неопубліковано"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr "Показать эту тему"
+msgstr "Показати цю тему"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for banning this user"
-msgstr "Причина для запрета этого пользователя"
+msgstr "Підстава для блокування цього користувача"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of why the user is being banned."
-msgstr "Эта причина будет включена в электронное письмо пользователю. Пожалуйста, напишите краткое объяснение, почему этот пользователь запрещён."
+msgstr "Підстава буде включена до електронного листа користувачеві. Будь ласка, напишіть коротке пояснення того, чому користувач заблокований."
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Duration of the ban"
-msgstr "Продолжительность запрета"
+msgstr "Тривалість блокування"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Количество дней до истечения срока действия запрета. Установите значение 0, чтобы запретить навсегда."
+msgstr "Кількість днів до закінчення терміну блокування. Встановіть у 0, щоб заблокувати довічно."
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "A team named \"@name\" already exists."
-msgstr "Команда с названием \"@name\" уже существует."
+msgstr "Команда з назвою \"@name\" вже існує."
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Edit message board"
-msgstr "Редактировать доску сообщений"
+msgstr "Редагувати дошку повідомлень"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Save message board"
-msgstr "Сохранить доску сообщений"
+msgstr "Зберегти дошку повідомлень"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "This is a team-only message board"
-msgstr "Это командная доска сообщений"
+msgstr "Це командна дошка повідомлень"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Please select a team type."
-msgstr "Пожалуйста, выберите тип команды."
+msgstr "Будь ласка, оберіть тип команди."
 
 #: boincid
 msgctxt "boincid"
@@ -3827,22 +3825,22 @@ msgstr "BOINC ID"
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr "Задача не найдена в базе данных."
+msgstr "Завдання не знайдена в базі даних."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr "Рабочий блок не найден в базе данных."
+msgstr "Робочий блок не знайдений в базі даних."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
 msgid "Stderr output"
-msgstr "Текст протокола"
+msgstr "Текст протоколу"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr "Замечание: профили пользователей подлежат модерации."
+msgstr "Зауваження: профілі користувачів підлягають модерації."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3851,60 +3849,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr "Спасибо @user_name, что присоединились к @site_name. Ваша учётная запись создана. Ваш BOINC-клиент должен начать работу над назначенными задачами в ближайшее время, без каких-либо дополнительных действий или настроек. Пожалуйста, посетите ссылки ниже для получения дополнительной информации и дополнительных опций. (Ссылки откроются в новом окне.)"
+msgstr "Дякуємо Вам @user_name, що приєдналися до @site_name. Ваш обліковий запис створено. Ваш BOINC-клієнт повинен почати роботу над призначеними завданнями найближчим часом, без будь-яких додаткових дій або налаштувань. Будь ласка, відвідайте посилання нижче для отримання додаткової інформації та додаткових опцій. (Посилання відкриються в новому вікні.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr "Настройки сообщества"
+msgstr "Налаштування Спільноти"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr "Измените свое имя пользователя в !community_preferences."
+msgstr "Змініть своє ім'я користувача в !community_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr "Ваше имя пользователя используется, чтобы идентифицировать себя с другими добровольцами на этом веб-сайте."
+msgstr "Ваше ім'я користувача використовується, щоб ідентифікувати себе з іншими добровольцями на цьому веб-сайті."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr "Кроме того, Вы можете установить язык по умолчанию для своей учётной записи и настроить параметры уведомлений."
+msgstr "Крім того, Ви можете встановити мову за замовчуванням для свого облікового запису і налаштувати параметри повідомлень."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr "Настройки вычислений"
+msgstr "Налаштування Обчислень"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr "Измените свои !computing_preferences."
+msgstr "Змініть свої !community_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr "Вы можете настроить объем ЦП, оперативной памяти и дискового пространства, который BOINC-клиент может использовать для выполнения задач на вашем компьютере."
+msgstr "Ви можете налаштувати обсяг ЦП, оперативної пам'яті і дискового простору, який BOINC-клієнт може використовувати для виконання завдань на вашому комп'ютері."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr "По умолчанию задачи @site_name выполняются без каких-либо дополнительных настроек."
+msgstr "За замовчуванням завдання @site_name виконуються без будь-яких додаткових налаштувань."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr "форумы"
+msgstr "Форуми"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3912,24 +3910,24 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr "Рекомендуется, чтобы новые добровольцы оставляли настройки по умолчанию, пока не наберутся опыта выполнения некоторого количества задач. Задавайте вопросы в !forums, чтобы получить совет, прежде чем вносить изменения в настройки, которые непонятны."
+msgstr "Рекомендується, щоб нові добровольці залишали настройки за замовчуванням, поки не наберуться досвіду виконання деякої кількості завдань. Задавайте питання на !forums, щоб отримати пораду, перш ніж вносити зміни в налаштування, які незрозумілі."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr "Профиль пользователя"
+msgstr "Профіль користувача"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr "Создать !user_profile."
+msgstr "Створити !user_profile."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr "Профиль пользователя будет информировать других добровольцев, кто Вы и почему Вы присоединились к @site_name."
+msgstr "Профіль користувача буде інформувати інших добровольців, хто Ви і чому Ви приєдналися до @site_name."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3939,17 +3937,17 @@ msgstr "Команда"
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr "Присоединиться к !team."
+msgstr "Приєднатися до !team."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr "Вы можете присоединиться к команде, состоящей из других добровольцев."
+msgstr "Ви можете приєднатися до команди, що складається з інших добровольців."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr "Личный кабинет"
+msgstr "Особистий кабінет"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3961,82 +3959,82 @@ msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr "В Вашем личном кабинете представленна информация и ссылки о Вашем компьютере(ах) и принятой(ых) задаче."
+msgstr "У Вашому особистому кабінеті представлена інформація і посилання про Ваш комп'ютер(и) і прийнятої(і) задач(і)."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Help"
-msgstr "Помощь"
+msgstr "Допомога"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr "Посетите страницу !help."
+msgstr "Відвідайте сторінку !help."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr "Попросите о помощи в нашем сообществе на !forums."
+msgstr "Попросіть про допомогу в нашому суспільстві на !forums."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr "Ошибка: нет аккаунта с таким идентификатором."
+msgstr "ПОМИЛКА: Обліковий запис з таким аутентифікатором відсутній."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Preferences last modified: @mod_time"
-msgstr "Последнее изменение настроек: @mod_time"
+msgstr "Остання зміна налаштувань: @mod_time"
 
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr "Узел не найден в базе данных."
+msgstr "Хост не знайдений в базі даних."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr "ОШИБКА: возникла проблема с загрузкой вашей учётной записи. Попробуйте войти в систему под своим именем пользователя и паролем."
+msgstr "ПОМИЛКА: Виникла проблема із завантаженням вашого облікового запису. Спробуйте увійти в систему під своїм ім'ям користувача і паролем."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr "В вашей команде нет пользователей с таким адресом электронной почты."
+msgstr "У вашій команді немає користувачів з такою адресою електронної пошти."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "moderation"
-msgstr "модерация"
+msgstr "модерація"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr "Замечание: профили пользователей подлежат !moderation."
+msgstr "Зауваження: профілі користувачів підлягають !moderation."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr "По умолчанию поиск соответствует любому поисковому запросу. Результаты с более чем одним термином будут представлены выше в результатах поиска."
+msgstr "За замовчуванням пошук відповідає БУДЬ-ЯКОМУ пошуковому запиту. Результати з більш ніж одним терміном будуть представлені вище в результатах пошуку."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr "Вы можете использовать 'AND', чтобы поисковая система возвращала результаты со ВСЕМИ поисковыми терминами."
+msgstr "Ви можете використовувати 'AND', щоб пошукова система повертала результати з УСІМА пошуковими термінами."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr "Например, поиск 'boinc AND client' будет содержать только результаты со словами boinc и client."
+msgstr "Наприклад, пошук 'boinc AND client' буде містити результати тільки зі словами boinc і client."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr "Помощь по поиску"
+msgstr "Допомога з пошуком"
