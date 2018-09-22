@@ -414,7 +414,7 @@ int read_file_string(
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* /*file*/, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -436,7 +436,7 @@ int run_program(
     }
 
     retval = CreateProcessA(
-        file,
+        NULL,
         cmdline,
         NULL,
         NULL,
@@ -479,11 +479,11 @@ int run_program(
             retval = chdir(dir);
             if (retval) return retval;
         }
-        execv(file, argv);
+        execvp(file, argv);
 #ifdef _USING_FCGI_
-        FCGI::perror("execv");
+        FCGI::perror("execvp");
 #else
-        perror("execv");
+        perror("execvp");
 #endif
         exit(errno);
     }
