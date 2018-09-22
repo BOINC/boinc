@@ -661,8 +661,6 @@ int COPROCS::launch_child_process_to_detect_gpus() {
          NULL
     }; 
 
-    chdir(client_dir);
-    
     retval = run_program(
         client_dir,
         client_path,
@@ -672,8 +670,6 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         prog
     );
 
-    chdir(data_dir);
-    
     if (retval) {
         if (log_flags.coproc_debug) {
             msg_printf(0, MSG_INFO,
