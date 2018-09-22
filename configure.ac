@@ -993,11 +993,6 @@ if test -e "/proc/self/stat"; then
     AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
 fi
 
-dnl Check for /proc/self/exe (Linux)
-if test -e "/proc/self/exe"; then
-    AC_DEFINE(HAVE__PROC_SELF_EXE, 1, [Define to 1 if /proc/self/exe exists])
-fi
-
 dnl Check for /proc/meminfo (Linux)
 if test -e "/proc/meminfo"; then
     AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
