@@ -58,6 +58,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define chdir _chdir
@@ -66,6 +67,8 @@
 #include "config.h"
 #include <setjmp.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #endif
 
 #include "coproc.h"
@@ -683,9 +686,25 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 
     retval = get_exit_status(prog);
     if (retval) {
+        char buf[200];
+#ifdef _WIN32
+        char buf2[200];
+        windows_format_error_string(retval, buf2, sizeof(buf2));
+        snprintf(buf, sizeof(buf), "process exited with status 0x%x: %s", retval, buf2);
+#else
+        if (WIFEXITED(retval)) {
+            int code = WEXITSTATUS(retval);
+            snprintf(buf, sizeof(buf), "process exited with status %d: %s", code, strerror(code));
+        } else if (WIFSIGNALED(retval)) {
+            int sig = WTERMSIG(retval);
+            snprintf(buf, sizeof(buf), "process was terminated by signal %d", sig);
+        } else {
+            snprintf(buf, sizeof(buf), "unknown status %d", retval);
+        }
+#endif
         msg_printf(0, MSG_INFO,
-            "GPU detection failed. error code %d",
-            retval
+            "GPU detection failed: %s",
+            buf
         );
     }
 
