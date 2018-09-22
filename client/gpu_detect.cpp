@@ -595,6 +595,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 #else
     int prog;
 #endif
+    char quoted_client_path[MAXPATHLEN];
     char quoted_data_dir[MAXPATHLEN+2];
     char data_dir[MAXPATHLEN];
     int retval = 0;
@@ -612,20 +613,31 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         }
     }
     
+    // use full path to exe if possible, otherwise keep using argv[0]
+    char execpath[MAXPATHLEN];
+    if (!get_real_executable_path(execpath, sizeof(execpath))) {
+        client_path = execpath;
+    }
+
     boinc_getcwd(data_dir);
 
 #ifdef _WIN32
+    strlcpy(quoted_client_path, "\"", sizeof(quoted_client_path));
+    strlcat(quoted_client_path, client_path, sizeof(quoted_client_path));
+    strlcat(quoted_client_path, "\"", sizeof(quoted_client_path));
+
     strlcpy(quoted_data_dir, "\"", sizeof(quoted_data_dir));
     strlcat(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
     strlcat(quoted_data_dir, "\"", sizeof(quoted_data_dir));
 #else
+    strlcpy(quoted_client_path, client_path, sizeof(quoted_client_path));
     strlcpy(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
 #endif
 
     if (log_flags.coproc_debug) {
         msg_printf(0, MSG_INFO,
             "[coproc] launching child process at %s",
-            client_path
+            quoted_client_path
         );
         msg_printf(0, MSG_INFO,
             "[coproc] relative to directory %s",
@@ -639,7 +651,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             
     int argc = 4;
     char* const argv[5] = {
-         const_cast<char *>(CLIENT_EXEC_FILENAME), 
+         const_cast<char *>(quoted_client_path),
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
          const_cast<char *>(quoted_data_dir),
