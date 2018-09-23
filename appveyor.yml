@@ -11,6 +11,14 @@ platform:
 pull_requests:
   do_not_increment_build_number: true
 
+notifications:
+  - provider: Email
+    to:
+      - boinc_cvs@ssl.berkeley.edu
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
+
 branches:
   only:
   - master
