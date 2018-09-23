@@ -22,7 +22,6 @@
 ## BOINC_TYPE should always be consistent with content in .travis.yml and appveyor.yml
 ## Change artefacts in each prepare_*() function below.
 ## Don't hardlink files because this can be run on a filesystem without hardlinks
-## Don't put files into a zip as this is done by the actual deployment script
 ## On error always exit non-zero so the deploy script does not run
 
 # check working directory because the script needs to be called like: ./deploy/prepare_deployment.sh
@@ -31,6 +30,7 @@ if [ ! -d "deploy" ]; then
     exit 1
 fi
 
+ROOTDIR=$(pwd)
 # main funtion is at the end
 
 cp_if_exists() {
@@ -39,11 +39,26 @@ cp_if_exists() {
     fi
 }
 
+prepare_7z_archive() {
+    if [[ $(ls -A "${TARGET_DIR}" | wc -l) -eq 0 ]]; then
+        echo "Directory '$TARGET_DIR' is empty";
+        exit 1;
+    fi
+    cd "${TARGET_DIR}"
+    7z a "${TYPE}.7z" '-x!*.7z' '*'  &>/dev/null
+    if [ $? -gt 1 ]; then # an exit code of 1 is still a success says 7z
+        cd ${ROOTDIR}
+        echo "error while creating 7z archive; files not uploaded"
+        exit 1
+    fi
+}
+
 prepare_client() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists client/boinc "${TARGET_DIR}"
     cp_if_exists client/boinccmd "${TARGET_DIR}"
     cp_if_exists client/switcher "${TARGET_DIR}"
+    prepare_7z_archive
 }
 
 prepare_apps() {
@@ -59,11 +74,13 @@ prepare_apps() {
   cp_if_exists samples/vboxwrapper/vboxwrapper "${TARGET_DIR}"
   cp_if_exists samples/worker/worker "${TARGET_DIR}"
   cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
+  prepare_7z_archive
 }
 
 prepare_manager() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists clientgui/boincmgr "${TARGET_DIR}"
+    prepare_7z_archive
 }
 
 prepare_apps_mingw() {

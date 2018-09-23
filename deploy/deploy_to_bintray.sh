@@ -19,7 +19,8 @@
 #
 
 ## Push binaries to Bintray (https://bintray.com/docs/api/)
-## Creates a 7z archive from the content of $1
+## Uploads a specific 7z archive from directory given by $1
+## TODO: change arguments to include BOINC_TYPE and FILEPATH, eventually allow multiple files
 
 # be carefull with set -x in this script because of ${BINTRAY_API_KEY} which needs to stay secret
 set -e # Exit on errors
@@ -51,7 +52,7 @@ if [ "${BINTRAY_API_KEY}" == "" ] ; then
 fi
 
 CI_RUN="${TRAVIS:-false}"
-BOINC_TYPE="$(basename "${SOURCE_DIR}")"
+BOINC_TYPE="$(basename "${SOURCE_DIR}")" # TODO: do not infer TYPE from directory, instead make it an argument
 API=https://api.bintray.com
 BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"
 BINTRAY_API_KEY="$BINTRAY_API_KEY" # env
@@ -74,6 +75,7 @@ if [[ $CI_RUN == "true" ]]; then
     case $TRAVIS_EVENT_TYPE in
         pull_request)
         PKG_NAME="pull-requests"
+        GIT_REV=${TRAVIS_PULL_REQUEST_SHA:0:8}
         VERSION="PR${TRAVIS_PULL_REQUEST}_${BUILD_DATE}_${GIT_REV}"
         VERSION_DESC="CI build created from PR #${TRAVIS_PULL_REQUEST} on ${BUILD_DATE}"
         ;;
@@ -108,19 +110,10 @@ data="{
 set +x
 ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions"
 
-echo "Uploading and publishing ${SOURCE_DIR}..."
-PKG_DIR=$(dirname "${SOURCE_DIR}")
-cd "${PKG_DIR}"
-7z a "${BOINC_TYPE}.7z" "${BOINC_TYPE}/"  &>/dev/null
-if [ $? -gt 1 ]; then # an exit code of 1 is still a success says 7z
-    cd ..
-    echo "error while creating 7z archive; files not uploaded"
-    return 1
-fi
-cd "${ROOTDIR}"
-if [ -f "${PKG_DIR}/${BOINC_TYPE}.7z" ]; then
+echo "Uploading and publishing ${SOURCE_DIR}/${BOINC_TYPE}.7z..."
+if [ -f "${SOURCE_DIR}/${BOINC_TYPE}.7z" ]; then
     set +x
-    ${CURL} -H Content-Type:application/octet-stream -T "${PKG_DIR}/${BOINC_TYPE}.7z" "${API}/content/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/${VERSION}/${BOINC_TYPE}_${VERSION}.7z?publish=1&override=1"
+    ${CURL} -H Content-Type:application/octet-stream -T "${SOURCE_DIR}/${BOINC_TYPE}.7z" "${API}/content/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/${VERSION}/${BOINC_TYPE}_${VERSION}.7z?publish=1&override=1"
 fi
 
 if [ "$TRAVIS_BUILD_ID" ] ; then
