@@ -642,10 +642,12 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             "[coproc] launching child process at %s",
             quoted_client_path
         );
-        msg_printf(0, MSG_INFO,
-            "[coproc] relative to directory %s",
-            client_dir
-        );
+        if (!is_path_absolute(client_path)) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] relative to directory %s",
+                client_dir
+            );
+        }
         msg_printf(0, MSG_INFO,
             "[coproc] with data directory %s",
             quoted_data_dir
