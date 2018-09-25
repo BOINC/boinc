@@ -129,8 +129,14 @@ fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
 export NDK_VERSION=17c
-wget -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-unzip -qq /tmp/ndk.zip -d $HOME
+export NDK_FLAGFILE="$PREFIX/${arch}/NDK-${NDK_VERSION}_done"
+if [ ! -e "${NDK_FLAGFILE}" ]; then
+    wget -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+    unzip -qq /tmp/ndk.zip -d $HOME
+    rm -rf "${PREFIX}/${arch}"
+    mkdir -p "${PREFIX}/${arch}"
+    touch "${NDK_FLAGFILE}"
+fi
 export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 
 export ANDROID_TC=$PREFIX
