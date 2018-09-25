@@ -95,6 +95,7 @@ else
 fi
 
 mkdir -p "${PREFIX}"
+mkdir -p "${BUILD_DIR}"
 
 if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
