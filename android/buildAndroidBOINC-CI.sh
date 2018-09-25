@@ -50,6 +50,10 @@ while [ $# -gt 0 ]; do
         cache_dir="$2"
         shift
         ;;
+        --build_dir)
+        build_dir="$2"
+        shift
+        ;;
         --clean)
         doclean="yes"
         ;;
@@ -73,42 +77,63 @@ if [ "x$cache_dir" != "x" ]; then
      fi
 else
     cd ../
-    PREFIX="$(pwd)/3rdParty/buildCache/android"
+    PREFIX="$(pwd)/3rdParty/buildCache/android-tc"
+    cd android/
+fi
+
+if [ "x$build_dir" != "x" ]; then
+    if isPathCanonical "$build_dir" && [ "$build_dir" != "/" ]; then
+         PREFIX="$build_dir"
+     else
+         echo "build_dir must be an absolute path without ./ or ../ in it"
+         exit 1
+     fi
+else
+    cd ../
+    BUILD_DIR="$(pwd)/3rdParty/android"
     cd android/
 fi
 
 mkdir -p "${PREFIX}"
+mkdir -p "${BUILD_DIR}"
 
 if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
     rm -rf "${PREFIX}"
     mkdir -p "${PREFIX}"
+    echo "cleaning build dir"
+    rm -rf "${BUILD_DIR}"
+    mkdir -p "${BUILD_DIR}"
 fi
 
 export COMPILEOPENSSL="no"
 export OPENSSL_VERSION=1.0.2p
-if [ ! -d "$PREFIX/openssl-${OPENSSL_VERSION}" ]; then
+OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
+if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-    tar xzf /tmp/openssl.tgz --directory=$PREFIX
+    tar xzf /tmp/openssl.tgz --directory=$BUILD_DIR
     export COMPILEOPENSSL="yes"
+    touch "${OPENSSL_FLAGFILE}"
 fi
-export OPENSSL_SRC=$PREFIX/openssl-${OPENSSL_VERSION}
+export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 export COMPILECURL="no"
 export CURL_VERSION=7.61.0
-if [ ! -d "$PREFIX/curl-${CURL_VERSION}" ]; then
+CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}_done"
+if [ ! -e "${CURL_FLAGFILE}" ]; then
     wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-    tar xzf /tmp/curl.tgz --directory=$PREFIX
+    tar xzf /tmp/curl.tgz --directory=$BUILD_DIR
     export COMPILECURL="yes"
+    touch "${CURL_FLAGFILE}"
 fi
-export CURL_SRC=$PREFIX/curl-${CURL_VERSION}
+export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
 export NDK_VERSION=17c
 wget -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
 unzip -qq /tmp/ndk.zip -d $HOME
 export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 
-export ANDROID_TC=$PREFIX/android-tc
+export ANDROID_TC=$PREFIX
 
 case "$arch" in
     "arm")
