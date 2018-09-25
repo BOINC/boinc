@@ -131,9 +131,11 @@ export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 export NDK_VERSION=17c
 export NDK_FLAGFILE="$PREFIX/${arch}/NDK-${NDK_VERSION}_done"
 if [ ! -e "${NDK_FLAGFILE}" ]; then
-    rm -rf "${PREFIX}/${arch}"
     wget -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
     unzip -qq /tmp/ndk.zip -d $HOME
+    rm -rf "${PREFIX}/${arch}"
+    mkdir -p "${PREFIX}/${arch}"
+    touch "${NDK_FLAGFILE}"
 fi
 export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 
@@ -142,7 +144,6 @@ export ANDROID_TC=$PREFIX
 case "$arch" in
     "arm")
         ./build_androidtc_arm.sh
-        touch "${NDK_FLAGFILE}"
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
         ./build_boinc_arm.sh
@@ -150,7 +151,6 @@ case "$arch" in
     ;;
     "arm64")
         ./build_androidtc_arm64.sh
-        touch "${NDK_FLAGFILE}"
         ./build_openssl_arm64.sh
         ./build_curl_arm64.sh
         ./build_boinc_arm64.sh
@@ -158,7 +158,6 @@ case "$arch" in
     ;;
     "x86")
         ./build_androidtc_x86.sh
-        touch "${NDK_FLAGFILE}"
         ./build_openssl_x86.sh
         ./build_curl_x86.sh
         ./build_boinc_x86.sh
@@ -166,7 +165,6 @@ case "$arch" in
     ;;
     "x86_64")
         ./build_androidtc_x86_64.sh
-        touch "${NDK_FLAGFILE}"
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
         ./build_boinc_x86_64.sh
