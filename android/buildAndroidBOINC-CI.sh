@@ -19,6 +19,10 @@ set -e
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+export OPENSSL_VERSION=1.0.2p
+export CURL_VERSION=7.61.0
+export NDK_VERSION=17c
+
 export ANDROID_HOME=$HOME/Android/Sdk
 export NDK_ROOT=$HOME/Android/Ndk
 export ANDROID_TC=$HOME/Android/Toolchains
@@ -107,7 +111,6 @@ if [ "${doclean}" = "yes" ]; then
 fi
 
 export COMPILEOPENSSL="no"
-export OPENSSL_VERSION=1.0.2p
 OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
@@ -118,7 +121,6 @@ fi
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 export COMPILECURL="no"
-export CURL_VERSION=7.61.0
 CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}_done"
 if [ ! -e "${CURL_FLAGFILE}" ]; then
     wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
@@ -128,7 +130,6 @@ if [ ! -e "${CURL_FLAGFILE}" ]; then
 fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
-export NDK_VERSION=17c
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
 if [ ! -e "${NDK_FLAGFILE}" ]; then
     rm -rf "${PREFIX}/${arch}"
