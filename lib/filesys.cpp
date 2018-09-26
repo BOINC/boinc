@@ -977,3 +977,20 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #endif
     return 0;
 }
+
+bool is_path_absolute(const std::string path) {
+#ifdef _WIN32
+    if (path.length() >= 3 && isalpha(path[0]) && path[1] == ':' && (path[2] == '\\' || path[2] == '/')) {
+        // c:\file
+        return true;
+    }
+    if (path.length() >= 2 && (path[0] == '\\' || path[0] == '/') && (path[1] == '\\' || path[1] == '/')) {
+        // \\server\file
+        // \\?\c:\file
+        return true;
+    }
+    return false;
+#else
+    return path.length() >= 1 && path[0] == '/';
+#endif
+}
