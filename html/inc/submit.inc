@@ -198,6 +198,15 @@ function get_error($reply, $outer_tag) {
 }
 
 //// API functions follow
+function boinc_ping($req) {
+    $req_xml = "<ping>
+    <authenticator>$req->authenticator</authenticator>
+</ping>
+";
+    list($reply, $errmsg) = do_http_op($req, $req_xml, "");
+    if ($errmsg) return array(null, $errmsg);
+    return array($reply, null);
+}
 
 function boinc_estimate_batch($req) {
     list($reply, $errmsg) = do_batch_op($req, "estimate_batch");
