@@ -325,6 +325,7 @@ function boincuser_admin_scheduler_submit($form, &$form_state) {
   * Drupal-BOINC Web site related options.
   */
 function boincuser_admin_weboptions(&$form_state) {
+  global $base_url;
   $form = array();
 
   //form defaults
@@ -336,12 +337,13 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_agreequestion' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
     'boinc_weboptions_registrationtitle2' => variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'),
     'boinc_weboptions_existinguser_tou' => variable_get('boinc_weboptions_existinguser_tou', FALSE),
+    'boinc_weboptions_pathstoignore' => variable_get('boinc_weboptions_pathstoignore', "moderation\ncontent/moderation\nprivacy"),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
     'boinc_other_frontpage' => variable_get('boinc_other_frontpage', ''),
   );
-  
+
   // Define the form
   $form['registrationtitle'] = array(
     '#value' => '<h3>BOINC Registration</h3>',
@@ -398,6 +400,17 @@ function boincuser_admin_weboptions(&$form_state) {
     '#description' => t('If TRUE, existing users are forced to agree to a terms of use (if present) when the login and the system has detected they have not agreed. Otherwise they may login as normal. This option has no affect on whether or not new users must agree to the terms of use.'),
   );
 
+  $form['boinc_weboptions_pathstoignore'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Paths to ignore the Terms of Use page'),
+    '#default_value' => $default['boinc_weboptions_pathstoignore'],
+    '#cols' => 60,
+    '#rows' => 8,
+    '#description' => t('A list of Drupal URLs/paths to ignore for Terms of Use (ToU). If the option above \'Are existing users forced to agree to the Terms of Use?\' is activated, then some paths need to be ignored when checking if a user has agreed to the ToU. A good example is the logout path, "logout", or else users will not be able to logout!
+<p>There is a default list of paths that must be ignored or else the site will not function. They are not included in this box. Here you may provide additional paths are ignored, for example the privacy policy page may be accessible so that users may read it before agreeing to the site\'s ToU.
+<p>Paths should be entered one per line. All path should be <em>lower-case</em>, and  should not include a leading \'/\'. Example: account/info/edit, will allow the user to visit ' . $base_url . '/account/info/edit without first agreeing to the ToU. Regexp are allowed. Example account/* will allow the user to visit any path starting with ' . $base_url . '/account/.'),
+  );
+
   $form['pathtitle'] = array(
     '#value' => '<h3>Path Options</h3>',
   );
@@ -428,7 +441,7 @@ function boincuser_admin_weboptions(&$form_state) {
     '#rows' => 8,
     '#description' => bts('Text to be displayed on the site\'s Home landing page.', array(), NULL, 'boinc:admin-boinc-other-options'),
   );
-    
+
   return system_settings_form($form);
 }
 
