@@ -1624,12 +1624,12 @@ function communityprefs_form_validate($form, &$form_state) {
   $edit = $form_state['values'];
 
   if ($edit['boincuser_name'] != $boinc_user->name) {
-    $blacklist = array_map('strtolower',
-      preg_split('/\r\n|\r|\n/',
-        variable_get('boinc_weboptions_blacklisted_usernames', array())
-      )
-    );
-    if (in_array(strtolower($edit['boincuser_name']), $blacklist)) {
+    $blacklist1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_blacklisted_usernames', array()));
+    $blacklist2 = array();
+    if (is_array($blacklist1)) {
+      $blacklist2 = array_map('strtolower', $blacklist1);
+    }
+    if (in_array(strtolower($edit['boincuser_name']), $blacklist2)) {
       form_set_error('boincuser_name',
         bts('You may not use username @blname, as that name is now allowed. Please chose another name.',
             array('@blname' => $edit['boincuser_name']),
