@@ -7,7 +7,7 @@ set -e
 
 # Script to compile OpenSSL for Android
 
-COMPILEOPENSSL="yes"
+COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -32,7 +32,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
 
-if [ -n "$COMPILEOPENSSL" ]; then
+if [ "$COMPILEOPENSSL" = "yes" ]; then
 echo "================building openssl from $OPENSSL============================="
 cd "$OPENSSL"
 if [ -n "$MAKECLEAN" ]; then
