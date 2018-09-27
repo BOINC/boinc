@@ -86,14 +86,6 @@ function boinc_standard_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'boinc_weboptions_blacklisted_usernames';
-  $strongarm->value = 'admin
-administrator';
-  $export['boinc_weboptions_blacklisted_usernames'] = $strongarm;
-
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'boinctranslate_filter_debug_4';
   $strongarm->value = '0';
   $export['boinctranslate_filter_debug_4'] = $strongarm;
