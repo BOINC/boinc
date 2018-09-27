@@ -1624,7 +1624,7 @@ function communityprefs_form_validate($form, &$form_state) {
   $edit = $form_state['values'];
 
   if ($edit['boincuser_name'] != $boinc_user->name) {
-    $blacklist1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_blacklisted_usernames', array()));
+    $blacklist1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"));
     $blacklist2 = array();
     if (is_array($blacklist1)) {
       $blacklist2 = array_map('strtolower', $blacklist1);

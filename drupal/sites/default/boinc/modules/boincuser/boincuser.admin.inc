@@ -340,9 +340,9 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
     'boinc_other_frontpage' => variable_get('boinc_other_frontpage', ''),
-    'boinc_weboptions_blacklisted_usernames' => variable_get('boinc_weboptions_blacklisted_usernames', array()),
+    'boinc_weboptions_blacklisted_usernames' => variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"),
   );
-  
+
   // Define the form
   $form['registrationtitle'] = array(
     '#value' => '<h3>BOINC Registration</h3>',
