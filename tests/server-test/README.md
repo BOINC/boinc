@@ -45,7 +45,7 @@ ansible-playbook -i hosts stop_and_remove.yml
 ## Handy Commands for interacting with your BOINC website
 Access bash prompt in apache container:
 ```
-docker exec -it boincserverdocker_apache_1 bash
+docker exec -it boinc-server-docker_apache_1 bash
 ```
 
 # Automated Tests
