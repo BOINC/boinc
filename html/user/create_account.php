@@ -97,12 +97,17 @@ if ($user) {
     // If the project has configured to use the CONSENT_TYPE_ENROLL, then
     // record it.
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    if ($checkct) {
+    if ($checkct and check_termsofuse()) {
         // As of Sept 2018, this code allows 'legacy' boinc clients to
-        // create accounts. If consent_flag is null, e.g., if an older
-        // BOINC client creates an account without this new
-        // parameter, the account is created as normal and there is no
-        // updateto the consent table.
+        // create accounts. If consent_flag is null and client is an older
+        // BOINC client, less than the minimum, creates an account without
+        // this new parameter, the account is created as normal and there
+        // is no update to the consent DB table.
+        //
+        // If BOINC client version is greater than or equal to the
+        // minimum defined, then assume consent has been given. Because
+        // the user must have clicked through the terms-of-use dialog
+        // box. In this case a new entry is created in the consent DB table.
         //
         // In the future, when the majority of BOINC clients and
         // Account Managers have been updated to use the consent_flag
@@ -110,10 +115,6 @@ if ($user) {
         // clients who do use this flag to continue. I.e., if
         // is_null($consent_flag) returns TRUE, then return an
         // xml_error(-1, ...).
-
-        // If BOINC client version is larger than the minimum defined,
-        // then assume consent has been given, because the user must
-        // have clicked through the terms-of-use dialog box.
         $client_version = boinc_client_version();
         if ($client_version >= MIN_BOINCCLIENT_VERSION_TOU) {
             $consent_flag=1;
