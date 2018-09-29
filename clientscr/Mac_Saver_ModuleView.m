@@ -427,10 +427,12 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
     // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-           double idleTime =  CGEventSourceSecondsSinceLastEventType
-                    (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-        if (idleTime < 1.5) {
-            [ NSApp terminate:nil ];
+        if (compareOSVersionTo(10, 14) < 0) {
+               double idleTime =  CGEventSourceSecondsSinceLastEventType
+                        (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+            if (idleTime < 1.5) {
+                [ NSApp terminate:nil ];
+            }
         }
     }
 #endif  // NOT DEBUG_UNDER_XCODE
@@ -770,10 +772,11 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 
 - (void)animateOneFrame {
-    
-    NSRect windowFrame = [ [ self window ] frame ];
-    if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
-        return;         // We draw only to main screen
+    if ( ! [ self isPreview ] ) {    
+        NSRect windowFrame = [ [ self window ] frame ];
+        if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
+            return;         // We draw only to main screen
+        }
     }
     //  Drawing in animateOneFrame doesn't seem to work under OS 10.14 Mojave
     // but drawing in drawRect: seems slow under erarlier versions of OS X
