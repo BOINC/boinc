@@ -427,7 +427,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
     // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-        if (compareOSVersionTo(10, 14) < 0) {
+        if (! mojave) {
                double idleTime =  CGEventSourceSecondsSinceLastEventType
                         (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
             if (idleTime < 1.5) {
@@ -435,9 +435,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             }
         }
     }
-#endif  // NOT DEBUG_UNDER_XCODE
-    
-#if ! DEBUG_UNDER_XCODE
+
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
