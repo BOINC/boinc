@@ -44,16 +44,16 @@ function boincuser_login_validate($form, &$form_state) {
  */
 function boincuser_login_authenticate($form_values) {
   global $boincuser_authenticated;
-  $email_addr = strtolower($form_values['email']);
+  $lower_email_addr = strtolower($form_values['email']);
   $passwd = $form_values['pass'];
-  $passwd_hash = md5($passwd.$email_addr);
+  $passwd_hash = md5($passwd.$lower_email_addr);
   
   // Include BOINC user library
   require_boinc('boinc_db');
   require_boinc('user_util');
 
   // Get the BOINC user and check credentials
-  $boinc_user = BoincUser::lookup_email_addr($email_addr);
+  $boinc_user = BoincUser::lookup_email_addr($lower_email_addr);
   if (!$boinc_user) return false;
 
   if (!check_passwd_hash($boinc_user, $passwd_hash)) {
@@ -110,12 +110,14 @@ function boincuser_register_validate($form, &$form_state) {
     }
   }
 
-  $tmp_user = BoincUser::lookup_prev_email_addr($form_state['values']['mail']);
+  // Lower-case the email address
+  $lower_email_addr = strtolower($form_state['values']['mail']);
+  $tmp_user = BoincUser::lookup_prev_email_addr($lower_email_addr);
   if ($tmp_user) {
     // User already exists
     form_set_error('mail', bts('An account already exists for @email. Contact the administrators for @project for additional help.',
       array(
-        '@email' => $form_state['values']['mail'],
+        '@email' => $lower_email_addr,
         '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user',
       )
     , NULL, 'boinc:register-new-user'));
@@ -126,10 +128,10 @@ function boincuser_register_validate($form, &$form_state) {
   // is a duplicate. However, in the case where there is no Drupal
   // account, but a BOINC account exists with this email, the check
   // will fail.
-  $boinc_user = BoincUser::lookup_email_addr($form_state['values']['mail']);
+  $boinc_user = BoincUser::lookup_email_addr($lower_email_addr);
   if ($boinc_user) {
     // User already exists
-    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $form_state['values']['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
+    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $lower_email_addr, '@project' => PROJECT), NULL, 'boinc:add-new-user'));
     return false;
   }
 
@@ -388,6 +390,10 @@ function boincuser_account_validate($edit, $account) {
     // Check previous email addresses as well, this user's current
     // email cannot be the same as another user's previous email
     // address.
+
+    // set email address lower-case
+    $edit['mail'] = strtolower($edit['mail']);
+
     $boinc_user_already_exists = ( BoincUser::lookup_email_addr($edit['mail']) || BoincUser::lookup_prev_email_addr($edit['mail']) );
     if ($boinc_user_already_exists) {
       form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail']), NULL, 'boinc:add-new-user'));
@@ -416,7 +422,7 @@ function boincuser_account_validate($edit, $account) {
       unset($_SESSION['reset_pass']);
     }
     else {
-      $given_hash = md5($edit['current_pass'] . $account->mail);
+      $given_hash = md5($edit['current_pass'] . strtolower($account->mail));
       if (!$edit['current_pass']) {
         form_set_error('current_pass', bts('Authentication is required when changing E-mail address or setting new password.', array(), NULL, 'boinc:account-credentials-change'));
       }
@@ -452,11 +458,14 @@ function boincuser_request_pass_validate($form, &$form_state) {
   if (!$edit['name']) form_set_error('name', bts('Please enter your email address', array(), NULL, 'boinc:forgot-password'));
   elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name']), NULL, 'boinc:forgot-password'));
   else {
+    // set email addrress to lower case
+    $lower_email_addr = strtolower($edit['name']);
+
     // First look for an existing Drupal account
-    if ($account = user_load_by_mail($edit['name'])) return;
+    if ($account = user_load_by_mail($lower_email_addr)) return;
     // Otherwise, check the BOINC db for this email address
     require_boinc('boinc_db');
-    $boinc_user = BoincUser::lookup_email_addr($edit['name']);
+    $boinc_user = BoincUser::lookup_email_addr($lower_email_addr);
     if ($boinc_user) {
       // If the user is in BOINC but not Drupal, bring them over...
       boincuser_register_make_drupal_user($boinc_user);
@@ -865,7 +874,7 @@ function boincuser_revertemail_submit($form, &$form_state) {
   $account = $form_state['values']['_account'];
   $boinc_user = BoincUser::lookup_id_nocache($account->boincuser_id);
 
-  $pem = $boinc_user->previous_email_addr;
+  $pem = strtolower($boinc_user->previous_email_addr);
 
   // Set new password based on previous email address and entered
   // password.

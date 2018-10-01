@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Vasyan Nyasha <vasyannyasha@gmail.com>, 2017
+# makalu makalu <awakenings@outlook.com>, 2018
 # Максим Перепелиця <maxim.perepelitsya@gmail.com>, 2016
 # Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017
 # Сергій «lagidnyj» Лагода <student.laser@gmail.com>, 2017
@@ -13,14 +14,14 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2017-12-01 10:54+0000\n"
-"Last-Translator: Сергій «lagidnyj» Лагода <student.laser@gmail.com>\n"
+"PO-Revision-Date: 2018-09-01 12:33+0000\n"
+"Last-Translator: makalu makalu <awakenings@outlook.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -35,7 +36,7 @@ msgid ""
 "helps you with setting preferences, joining or creating teams, connecting "
 "your computers to projects, and much more.  Whether you're a new or an "
 "existing BOINC user, BAM will help you get the most out of BOINC."
-msgstr ""
+msgstr "BAM! допомагає вам у створенні, налаштуванні та керуванні обліковими записами вашого проекта BOINC, допомагає створити свою або приєднатись до існуючої команди, а також підключити комп'ютери до проектів, та багато чого іншого.  Неважливо, ви новий або існуючий користувач BOINC, BAM! допоможе вам максимально ефективно використовувати BIONIC."
 
 #: doc/account_managers.inc:13
 msgid ""
@@ -43,7 +44,7 @@ msgid ""
 "on public-interest research projects when the machines are not otherwise in "
 "use. This screensaver does not affect performance of the host computer any "
 "more than an ordinary screensaver does."
-msgstr ""
+msgstr "Члени GridRepublic запускають заставку, що дозволяє їх комп'ютерам працювати на громадських дослідницьких проектах, коли машини не використовуються. Ця заставка не впливає на продуктивність комп'ютера більше, ніж звичайна заставка."
 
 #: doc/docutil.php:21
 msgid "Search"
@@ -171,19 +172,19 @@ msgstr "Завантажити"
 msgid ""
 "For Android devices, get the BOINC app from the Google Play Store; for "
 "Kindle, get it from the Amazon App Store."
-msgstr ""
+msgstr "BOINC для Android можна знайти в Google Play Store, а версію для Kindle можна завантажити з Amazon App Store."
 
 #: doc/index.php:102
 msgid ""
 "You can choose to support %1 projects %2 such as %3, %4, and %5, among many "
 "others."
-msgstr ""
+msgstr "Ви можете вибрати для підтримки %1 проекти %2 такі як %3, %4 та %5, серед багатьох інших."
 
 #: doc/index.php:109
 msgid ""
 "If you run several projects, try an %1 account manager %2 such as %3 "
 "GridRepublic %4 or %5 BAM! %6. "
-msgstr ""
+msgstr "Якщо ви запустили декілька проектів, спробуйте %1 менеджер проектів %2 такий як %3 GridRepublic %4 або %5 BAM! %6."
 
 #: doc/index.php:116
 msgid "Learn more:"
@@ -231,31 +232,31 @@ msgstr "Документ"
 
 #: doc/index.php:136
 msgid "Publicize"
-msgstr ""
+msgstr "Рекламувати"
 
 #: doc/index.php:137
 msgid "Report bugs"
-msgstr ""
+msgstr "Повідомляти про помилки"
 
 #: doc/index.php:147
 msgid "High-throughput computing with BOINC"
-msgstr ""
+msgstr "Високопродуктивні обчислення з BOINC"
 
 #: doc/index.php:150
 msgid ""
 "%1 Scientists %2: use BOINC to create a %3 volunteer computing project %4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr ""
+msgstr "%1 Вчені %2: використовуйте BOINC для того, щоб створити %3 проект добровільних розподілених обчислень %4, який надасть Вам обчислювальну потужність тисяч процесорів та графічних прискорювачів. "
 
 #: doc/index.php:154
 msgid ""
 "%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
 "Center %4."
-msgstr ""
+msgstr "%1 Університети %2: використовуйте BOINC для того, щоб створити %3 Віртуальний суперкомп'ютерний центр ВНЗ %4."
 
 #: doc/index.php:159
 msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
-msgstr ""
+msgstr "%1 Компанії %2: використовуйте BOINC для %3 розподілених обчислень в локальній мережі %4."
 
 #: doc/index.php:164
 msgid "Documentation"
@@ -263,7 +264,7 @@ msgstr "Документація"
 
 #: doc/index.php:165
 msgid "BOINC and Docker"
-msgstr ""
+msgstr "BOINC та Docker"
 
 #: doc/index.php:173
 msgid "Software development"
@@ -273,7 +274,7 @@ msgstr "Розробка програмного забезпечення"
 msgid ""
 "BOINC is a software platform for volunteer computing. It includes client, "
 "server, and web components, and APIs for connecting other components."
-msgstr ""
+msgstr "BOINC - це програмна платформа для добровільних обчислень. Вона включає в себе клієнт, сервер та веб-компоненти, а також API для підключення інших компонентів."
 
 #: doc/index.php:179
 msgid "Source code"
@@ -281,11 +282,11 @@ msgstr "Вихідний код"
 
 #: doc/index.php:180
 msgid "Building BOINC"
-msgstr ""
+msgstr "Зібрати BOINC"
 
 #: doc/index.php:182
 msgid "Design documents"
-msgstr ""
+msgstr "Проектна документація"
 
 #: doc/index.php:185
 msgid ""
@@ -342,7 +343,7 @@ msgstr "За допомогою цієї гарячої лінії BOINC, ви �
 
 #: doc/help.php:14
 msgid "You can communicate with a helper"
-msgstr ""
+msgstr "Ви можете спілкуватися з помічником"
 
 #: doc/help.php:16
 msgid "by email"
@@ -352,7 +353,7 @@ msgstr "Відправити листа"
 msgid ""
 "\n"
 "by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page."
-msgstr ""
+msgstr "\nголосом, за допомогою %1 Skype %2, безкоштовної  інтернет-телефонної системи. Якщо у Вас ще немає Skype, Ви можете %3 завантажити та встановити його зараз %4. Коли Ви закінчите, поверніться на цю сторінку."
 
 #: doc/help.php:25
 msgid "using Skype chat"
@@ -385,12 +386,12 @@ msgstr "Якщо Ви вже є помічником: для зміни свої
 #: doc/help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC."
-msgstr ""
+msgstr "Помічники BOINC - це волонтери, які не отримують оплату.  BOINC не несе відповідальність за їхні поради."
 
 #: doc/help_funcs.php:139
 msgid ""
 "%1 Never %2 give email address or password information to BOINC helpers."
-msgstr ""
+msgstr "%1 Ніколи %2 не надавайте інформацію про адресу електронної пошти або пароль помічникам BOINC."
 
 #: doc/projects.php:151
 msgid "Unknown"
@@ -400,7 +401,7 @@ msgstr "Невідомо"
 msgid ""
 "We recommend that you also install %1 VirtualBox %2, so your computer can "
 "work on science projects that require it."
-msgstr ""
+msgstr "Ми рекомендуємо Вам також встановити %1 VirtualBox %2, щоб Ваш комп'ютер міг приймати участь у наукових проектах, які цього вимагають."
 
 #: doc/download_util.inc:90
 msgid "Learn more about VirtualBox."
@@ -446,7 +447,7 @@ msgstr "Сейсмологія"
 msgid ""
 "Quake-Catcher Network uses sensors attached to computers and smartphones to "
 "detect seismic waves."
-msgstr ""
+msgstr "Quake-Catcher мережу використовує датчики комп'ютерів і смартфонів для виявлення сейсмічних хвиль."
 
 #: doc/projects.inc:32
 msgid "BOINC Poland Foundation"
@@ -775,7 +776,7 @@ msgid ""
 "Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with "
 "projects studying protein structure, nanotechnology, cancer genomics, and "
 "high energy physics."
-msgstr ""
+msgstr "CAS@home розташован в Обчислювальному Центрі Інституту Фізики Високих Енергій (ОЦФЕ), Китайської Академії Наук, для китайських вчених з проектами, що вивчають білкову структуру, нанотехнології, геноміку раку та фізику високих енергій."
 
 #: doc/projects.inc:469
 msgid "Help Chinese researchers"
@@ -832,7 +833,7 @@ msgid ""
 "formulate conjectures about number fields. Ultimately, this research will "
 "lead to a deeper understanding of the profound properties of numbers, the "
 "basic building blocks of all mathematics."
-msgstr ""
+msgstr "NumberFields@home шукає поля з особливими властивостями. Первинне застосування цього дослідження полягає в галузі алгебраїчної теорії чисел. Теоретики можуть видобувати дані для цікавих моделей, щоб допомогти їм сформулювати іпотези про числові поля. Зрештою, це дослідження приведе до глибшого розуміння глибинних властивостей чисел, основних будівельних блоків всієї математики."
 
 #: doc/projects.inc:544
 msgid "Do research in algebraic number theory"
@@ -847,7 +848,7 @@ msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
-msgstr ""
+msgstr "Вирішення важких і практично важливих завдань (звернення дискретних функцій, дискретної оптимізації, біоінформатики та інше), які можуть бути ефективно зведені до задачі здійсненності булевих формул."
 
 #: doc/projects.inc:564
 msgid "Study computational complexity"

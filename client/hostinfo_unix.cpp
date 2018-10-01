@@ -465,30 +465,30 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         msg_printf(NULL, MSG_INFO,
             "Can't open /proc/cpuinfo to get CPU info"
         );
-        strcpy(host.p_model, "unknown");
-        strcpy(host.p_vendor, "unknown");
+        safe_strcpy(host.p_model, "unknown");
+        safe_strcpy(host.p_vendor, "unknown");
         return;
     }
 
 #ifdef __mips__
-    strcpy(host.p_model, "MIPS ");
+    safe_strcpy(host.p_model, "MIPS ");
     model_hack = true;
 #elif __alpha__
-    strcpy(host.p_vendor, "HP (DEC) ");
+    safe_strcpy(host.p_vendor, "HP (DEC) ");
     vendor_hack = true;
 #elif __hppa__
-    strcpy(host.p_vendor, "HP ");
+    safe_strcpy(host.p_vendor, "HP ");
     vendor_hack = true;
 #elif __ia64__
-    strcpy(host.p_model, "IA-64 ");
+    safe_strcpy(host.p_model, "IA-64 ");
     model_hack = true;
 #elif defined(__arm__) || defined(__aarch64__)
-    strcpy(host.p_vendor, "ARM");
+    safe_strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
 #endif
 
     host.m_cache=-1;
-    strcpy(features, "");
+    safe_strcpy(features, "");
     while (fgets(buf, 1024, f)) {
         strip_whitespace(buf);
         if (
@@ -529,7 +529,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
-                strcat(host.product_name, " ");
+                safe_strcat(host.product_name, " ");
             }
             safe_strcat(host.product_name, buf2);
         }
@@ -553,7 +553,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 char *coma = NULL;
                 if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
                     *coma = '\0';    /* strip the unwanted line */
-                    strcpy(features, "altivec");
+                    safe_strcpy(features, "altivec");
                     features_found = true;
                 }
 #endif
@@ -663,7 +663,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     safe_strcpy(model_buf, host.p_model);
 #if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (family>=0) {
             sprintf(buf, "Family %d ", family);
             safe_strcat(model_buf, buf);
@@ -676,11 +676,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             sprintf(buf, "Stepping %d", stepping);
             safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #else
     if (model_info_found) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (strlen(implementer)>0) {
             sprintf(buf, "Impl %s ", implementer);
             safe_strcat(model_buf, buf);
@@ -701,7 +701,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             sprintf(buf, "Rev %s", revision);
             safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #endif
     if (strlen(features)) {
@@ -1155,7 +1155,7 @@ int HOST_INFO::get_cpu_info() {
     long cpu_type;
     char *cpu_type_name;
 
-    strcpy(p_vendor, "HP (DEC)");
+    safe_strcpy(p_vendor, "HP (DEC)");
 
     getsysinfo( GSI_PROC_TYPE, (caddr_t) &cpu_type, sizeof( cpu_type));
     CPU_TYPE_TO_TEXT( (cpu_type& 0xffffffff), cpu_type_name);
@@ -1453,8 +1453,8 @@ int HOST_INFO::get_os_info() {
     char buf2[256];
     char dist_name[256], dist_version[256];
     string os_version_extra("");
-    strcpy(dist_name, "");
-    strcpy(dist_version, "");
+    safe_strcpy(dist_name, "");
+    safe_strcpy(dist_version, "");
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
@@ -1488,7 +1488,7 @@ int HOST_INFO::get_os_info() {
         os_version_extra = (string)os_version;
         safe_strcpy(os_version, dist_version);
         if (strlen(dist_name)) {
-            strcat(os_name, " ");
+            safe_strcat(os_name, " ");
             safe_strcat(os_name, dist_name);
         }
     }
@@ -1510,9 +1510,9 @@ int HOST_INFO::get_os_info() {
     }
 
     if (!os_version_extra.empty()) {
-        strcat(os_version, " [");
-        strcat(os_version, os_version_extra.c_str());
-        strcat(os_version, "]");
+        safe_strcat(os_version, " [");
+        safe_strcat(os_version, os_version_extra.c_str());
+        safe_strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     return 0;

@@ -413,6 +413,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       // Create a BOINC account unless importing from BOINC.
       if (!$imported) {
 
+        // set email address lower-case
+        $lower_email_addr = strtolower($edit['mail']);
+
         if ($edit['boincuser_name']) {
           $myname = $edit['boincuser_name'];
         }
@@ -424,7 +427,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         }
 
         $user_params = array(
-          'email_addr' => $edit['mail'],
+          'email_addr' => $lower_email_addr,
           'name' => $myname,
         );
 
@@ -436,7 +439,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           // The passwd_hash here is only the md5() hash. This is
           // because BOINC make_user(), called later, will run
           // password_hash() on this md5 hash.
-          $user_params['passwd_hash'] = md5($edit['pass'].$edit['mail']);
+          $user_params['passwd_hash'] = md5($edit['pass'].$lower_email_addr);
         }
 
         $boinc_user = boincuser_register_make_user($user_params);
@@ -473,6 +476,10 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         // Don't save custom fields to the Drupal user object
         $edit['boincuser_name'] = null;
         $edit['boinchash_flag'] = null;
+        // Set email address to lower case in Drupal users table
+        if ($account) {
+          user_save($account, array('mail' => $lower_email_addr));
+        }
       }
       break;
       
@@ -487,20 +494,21 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
           $changing_pass = ($edit['pass']) ? true : false;
           if ($changing_email OR $changing_pass) {
+            // set email address to lower-case
+            $lower_email_addr = strtolower($edit['mail']);
+
             // Set password hash appropriately
             $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
-            $passwd_hash = password_hash( md5($passwd.$edit['mail']), PASSWORD_DEFAULT );
-            $email_addr = $edit['mail'];
-
+            $passwd_hash = password_hash( md5($passwd.$lower_email_addr), PASSWORD_DEFAULT );
             // Algorithm for changing email and/or password
             if ($changing_email) {
               // locally store current email to set as previous email
               $prev_email = $account->mail;
               $mytime = (user_access('administer users')) ? $boinc_user->email_addr_change_time : time();
-              $querypart = "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}', previous_email_addr = '{$prev_email}', email_addr_change_time = $mytime";
+              $querypart = "email_addr='{$lower_email_addr}', passwd_hash='{$passwd_hash}', previous_email_addr = '{$prev_email}', email_addr_change_time = $mytime";
             }
             else {
-              $querypart = "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'";
+              $querypart = "email_addr='{$lower_email_addr}', passwd_hash='{$passwd_hash}'";
             }
 
             // Update user account information
@@ -509,8 +517,13 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             if ($changing_email) {
               // reload account
               $account = user_load($account->uid);
-              _boincuser_send_emailchange($account, $email_addr, $prev_email, user_access('administer users'));
+              _boincuser_send_emailchange($account, $lower_email_addr, $prev_email, user_access('administer users'));
             }
+
+            // Change email to edit to lower-case version, this sets
+            // email in Drupal database to the lower-case email
+            // address.
+            $edit['mail'] = strtolower($lower_email_addr);
           }
 
           // Change boinc username
