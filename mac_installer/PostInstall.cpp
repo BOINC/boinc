@@ -269,11 +269,11 @@ int main(int argc, char *argv[])
 
     LoadPreferredLanguages();
 
-    if (compareOSVersionTo(10, 6) < 0) {
+    if (compareOSVersionTo(10, 7) < 0) {
         BringAppToFront();
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
-        ShowMessage(false, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
+        ShowMessage(false, "Sorry, this version of %s requires system 10.7 or higher.", brandName[brandID]);
 
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);

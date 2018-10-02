@@ -210,13 +210,13 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (compareOSVersionTo(10, 6) < 0) {
+    if (compareOSVersionTo(10, 7) < 0) {
         LoadPreferredLanguages();
         BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.7 or higher."), brand);
 
         snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
         err = callPosixSpawn(temp);
