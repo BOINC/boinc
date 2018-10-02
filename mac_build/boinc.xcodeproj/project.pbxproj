@@ -374,6 +374,7 @@
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB00FA120E110E000C8ABEF /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DDB00FA220E111F100C8ABEF /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDB0805E2163019F00520B63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DDB295C9185B0DBD00B9F842 /* MacNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDB295C8185B0DBD00B9F842 /* MacNotification.mm */; };
 		DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
@@ -2404,7 +2405,7 @@
 			attributes = {
 				LastUpgradeCheck = 0620;
 			};
-			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc-xc10" */;
+			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -2464,6 +2465,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD3E14DB0A774397007E0084 /* boinc in Resources */,
+				DDB0805E2163019F00520B63 /* InfoPlist.strings in Resources */,
 				DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4417,7 +4419,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc-xc10" */ = {
+		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,
