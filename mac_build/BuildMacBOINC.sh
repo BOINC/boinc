@@ -32,6 +32,7 @@
 # Updated 3/13/16 to add -target and -setting optional arguments
 # Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
 # Updated 10/19/17 Special handling of screensaver build is no longer needed
+# Updated 10/2/18 for Xcode 10
 #
 ## This script requires OS 10.8 or later
 #
@@ -144,8 +145,8 @@ major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Darwin version 7.x.y corresponds to OS 10.3.x
 # Darwin version 6.x corresponds to OS 10.2.x
 
-if [ "$major" -lt "10" ]; then
-    echo "ERROR: Building BOINC requires System 10.6 or later.  For details, see build instructions at"
+if [ "$major" -lt "11" ]; then
+    echo "ERROR: Building BOINC requires System 10.7 or later.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -154,7 +155,7 @@ if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
     style="Deployment"
-    echo "Deployment (release) build for architectures: i386, x86_64"
+    echo "Deployment (release) build for architecture: x86_64"
 fi
 
 echo ""
