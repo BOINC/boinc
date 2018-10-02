@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -17,6 +17,7 @@
 
 
 # Python bindings of the remote job submission and file management APIs
+# See https://boinc.berkeley.edu/trac/wiki/RemoteJobs#Pythonbinding
 
 import urllib
 import copy
@@ -61,6 +62,8 @@ class JOB_DESC:
             xml += '%s\n'%self.input_template
         if hasattr(self, 'output_template'):
             xml += '%s\n'%self.output_template
+        if hasattr(self, 'priority'):
+            xml += '<priority>%d</priority>\n'%(self.priority)
         if hasattr(self, 'files'):
             for file in self.files:
                 xml += file.to_xml()
@@ -88,6 +91,11 @@ class BATCH_DESC:
         if hasattr(self, 'app_version_num'):
             xml += '<app_version_num>%d</app_version_num>\n'%(self.app_version_num)
 
+        if hasattr(self, 'allocation_priority'):
+            if self.allocation_priority:
+                xml += '<allocation_priority/>\n'
+        if hasattr(self, 'priority'):
+            xml += '<priority>%d</priority>\n'%(self.priority)
         for job in self.jobs:
             xml += job.to_xml()
         xml += '</batch>\n</%s>\n' %(op)

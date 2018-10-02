@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,9 +29,12 @@
 //      boinc_query_job(): get details of a job
 //      boinc_retire_batch(): retire a batch; delete output files
 //      boinc_submit_batch(): submit a batch
+//
+//  See https://boinc.berkeley.edu/trac/wiki/RemoteJobs#PHPinterface
 
-//// Implementation stuff follows
 
+// Convert a request message from PHP object to XML string
+//
 function req_to_xml($req, $op) {
     if (!isset($req->batch_name)) {
         $req->batch_name = "batch_".time();
@@ -52,6 +55,14 @@ function req_to_xml($req, $op) {
     }
     if ((isset($req->app_version_num)) && ($req->app_version_num)) {
         $x .= "    <app_version_num>$req->app_version_num</app_version_num>
+";
+    }
+    if (!empty($req->allocation_priority)) {
+        $x .= "    <allocation_priority/>
+";
+    }
+    if (isset($req->priority)) {
+        $x .= "    <priority>$req->priority</priority>
 ";
     }
     foreach ($req->jobs as $job) {
@@ -77,6 +88,10 @@ function req_to_xml($req, $op) {
 ";
         } elseif (!empty($job->target_host)) {
             $x .= "        <target_host>$job->target_host</target_host>
+";
+        }
+        if (isset($job->priority)) {
+            $x .= "        <priority>$job->priority</priority>
 ";
         }
         foreach ($job->input_files as $file) {
@@ -106,6 +121,8 @@ function req_to_xml($req, $op) {
     return $x;
 }
 
+// check whether the PHP structure looks like a batch request object
+//
 function validate_request($req) {
     if (!is_object($req)) return "req is not an object";
     if (!array_key_exists('project', $req)) return "missing req->project";
@@ -119,6 +136,8 @@ function validate_request($req) {
     return null;
 }
 
+// Given a request object and XML string, issue the HTTP POST request
+//
 function do_http_op($req, $xml, $op) {
     $ch = curl_init("$req->project/submit_rpc_handler.php");
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -157,6 +176,8 @@ function do_http_op($req, $xml, $op) {
     }
 }
 
+// do a batch op (estimate or submit)
+//
 function do_batch_op($req, $op) {
     $retval = validate_request($req);
     if ($retval) return array(null, $retval);
@@ -164,6 +185,8 @@ function do_batch_op($req, $op) {
     return do_http_op($req, $xml, $op);
 }
 
+// convert a batch description from XML string to object
+//
 function batch_xml_to_object($batch) {
     $b = new StdClass;
     $b->id = (int)($batch->id);
@@ -198,6 +221,7 @@ function get_error($reply, $outer_tag) {
 }
 
 //// API functions follow
+
 function boinc_ping($req) {
     $req_xml = "<ping>
     <authenticator>$req->authenticator</authenticator>

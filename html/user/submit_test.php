@@ -1,5 +1,20 @@
 <?php
-require_once("submit.inc");
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2018 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // tests for remote job submission interfaces
 //
@@ -7,9 +22,11 @@ require_once("submit.inc");
 // line 0: project URL
 // line 1: authenticator
 //
-// you must run this in a dir with a link to submit.inc
+// you must run this in a dir with a copy of or link to html/inc/submit.inc
 
 // TODO: add more tests
+
+require_once("submit.inc");
 
 // for this test, you must have
 // - an app "uppercase"
@@ -24,10 +41,10 @@ function test_submit_batch($req) {
     $f->mode = "local_staged";
     $f->source = "input";
 
-    $job = new StdClass;
-    $job->input_files = array($f);
 
     for ($i=10; $i<20; $i++) {
+        $job = new StdClass;
+        $job->input_files = array($f);
         $job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
         $req->jobs[] = $job;
