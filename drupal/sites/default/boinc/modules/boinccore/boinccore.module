@@ -830,6 +830,12 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   default:
   }
   node_save($node);
+  // If hiding a forum topic (node) and not an administrator, go to
+  // the forum page. Otherwise the user will reach an access-denied
+  // page.
+  if (($action=="hide") and (!user_access('administer forums'))) {
+    drupal_goto("community/forum/{$node->tid}");
+  }
   drupal_goto("node/{$nid}");
 }
 
