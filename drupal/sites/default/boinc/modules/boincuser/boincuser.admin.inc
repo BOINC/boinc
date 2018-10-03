@@ -407,8 +407,8 @@ function boincuser_admin_weboptions(&$form_state) {
     '#cols' => 60,
     '#rows' => 8,
     '#description' => t('A list of Drupal URLs/paths to ignore for Terms of Use (ToU). If the option above \'Are existing users forced to agree to the Terms of Use?\' is activated, then some paths need to be ignored when checking if a user has agreed to the ToU. A good example is the logout path, "logout", or else users will not be able to logout!
-<p>There is a default list of paths that must be ignored or else the site will not function. They are not included in this box. Here you may provide additional paths are ignored, for example the privacy policy page may be accessible so that users may read it before agreeing to the site\'s ToU.
-<p>Paths should be entered one per line. All path should be <em>lower-case</em>, and  should not include a leading \'/\'. Example: account/info/edit, will allow the user to visit ' . $base_url . '/account/info/edit without first agreeing to the ToU. Regexp are allowed. Example account/* will allow the user to visit any path starting with ' . $base_url . '/account/.'),
+<p>There is a default list of paths that must be ignored or else the site will not function. They are not included in this box. Here you may provide additional paths to be ignored, for example the privacy policy page may be accessible so that users may read it before agreeing to the site\'s ToU.
+<p>Paths should be entered one per line. All paths should be <em>lower-case</em> and  should not include a leading \'/\'. Example: account/info/edit will allow the user to visit ' . $base_url . '/account/info/edit without first agreeing to the ToU. Regexp are allowed. Example: account/* will allow the user to visit any path starting with ' . $base_url . '/account/.'),
   );
 
   $form['pathtitle'] = array(
