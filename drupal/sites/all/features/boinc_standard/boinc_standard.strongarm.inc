@@ -1988,7 +1988,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_email_verification';
-  $strongarm->value = 0;
+  $strongarm->value = 1;
   $export['user_email_verification'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -2049,7 +2049,13 @@ After logging in, you will be redirected to !edit_uri so you can change your pas
   $strongarm->name = 'user_mail_register_no_approval_required_body';
   $strongarm->value = 'Hello,
 
-Thank you for registering at !site. You may now log in to !login_uri using your email address and your passphrase.
+Thank you for registering at !site. You may now log in to !uri_brief by clicking on this link or copying and pasting it in your browser:
+
+!login_url
+
+This is a one-time login, so it can be used only once. It expires after one day and nothing will happen if it\'s not used.
+
+After logging in, you will be redirected to !edit_uri, where you can choose your password.
 
 --  !site team';
   $export['user_mail_register_no_approval_required_body'] = $strongarm;
@@ -2209,7 +2215,7 @@ Your account on !site has been deleted.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_register';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['user_register'] = $strongarm;
 
   $strongarm = new stdClass;
