@@ -342,6 +342,7 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
     'boinc_other_frontpage' => variable_get('boinc_other_frontpage', ''),
+    'boinc_weboptions_blacklisted_usernames' => variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"),
   );
 
   // Define the form
@@ -440,6 +441,19 @@ function boincuser_admin_weboptions(&$form_state) {
     '#cols' => 60,
     '#rows' => 8,
     '#description' => bts('Text to be displayed on the site\'s Home landing page.', array(), NULL, 'boinc:admin-boinc-other-options'),
+  );
+
+  $form['Othertitle'] = array(
+    '#value' => '<h3>Other Options</h3>',
+  );
+
+  $form['boinc_weboptions_blacklisted_usernames'] = array (
+    '#type' => 'textarea',
+    '#title' => t('BOINC username blacklist'),
+    '#default_value' => $default['boinc_weboptions_blacklisted_usernames'],
+    '#cols' => 60,
+    '#rows' => 7,
+    '#description' => t('Username blacklist: List of names that users will not be able to choose as their BOINC username. This will only affect Web registration and when a user changes their name using the Web site. Names should be entered one per line.<p>All names should be <em>lower-case</em>. The comparison made is case-insensitive.<p>If you wish to <em>disable</em> this feature, remove all names from this textbox; the blacklist will be empty.'),
   );
 
   return system_settings_form($form);

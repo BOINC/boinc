@@ -1614,6 +1614,34 @@ function communityprefs_form(&$form_state) {
 }
 
 /**
+  * Handle validation submission of community preferences form.
+  */
+function communityprefs_form_validate($form, &$form_state) {
+  // require_boinc();
+  global $user;
+  $account = user_load($user->uid);
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+  $edit = $form_state['values'];
+
+  if ($edit['boincuser_name'] != $boinc_user->name) {
+    $blacklist1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"));
+    $blacklist2 = array();
+    if (is_array($blacklist1)) {
+      $blacklist2 = array_map('strtolower', $blacklist1);
+    }
+    if (in_array(strtolower($edit['boincuser_name']), $blacklist2)) {
+      form_set_error('boincuser_name',
+        bts('You may not use username @blname, as that name is not allowed. Please choose another name.',
+            array('@blname' => $edit['boincuser_name']),
+            NULL, 'boinc:account-preferences-community'));
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
   * Handle post-validation submission of community preferences form.
   */
 function communityprefs_form_submit($form, &$form_state) {

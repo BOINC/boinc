@@ -53,7 +53,7 @@ function boincuser_menu() {
     'title' => 'Edit',
     'description' => 'Edit a user profile',
     'page callback' => 'boincuser_edit_profile',
-    'access callback' => 'user_is_logged_in',
+    'access arguments' => array('edit own profile content'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
@@ -1480,6 +1480,16 @@ function boincuser_view_profile($account = null) {
     global $user;
     $account = $user;
   }
+
+  $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
+  $verified_contributor = array_search('verified contributor', user_roles(true));
+  if (!isset($account->roles[$verified_contributor])) {
+    drupal_set_message(bts(
+        'You may only create or modify your user profile after earning @count credits.',
+        array('@count' => $min_credit_to_post), NULL, 'boinc:view-profile'
+    ), 'warning', FALSE);
+  }
+
   // For now, just call the user module profile view function
   user_build_content($account);
   return theme('user_profile', $account);
