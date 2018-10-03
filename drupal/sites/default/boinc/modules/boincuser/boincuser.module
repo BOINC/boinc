@@ -259,8 +259,7 @@ function boincuser_init() {
         $path = drupal_get_path_alias($_GET['q']);
 
         // Any paths that should NOT be redirected go here.
-        // This are the static paths that hardcoded here. The Web site
-        // will not function correctly if these are not included!
+        // The site will not function correctly if these are not exempt!
         $paths0 = array(
           'user/termsofuse',
           'logout',
