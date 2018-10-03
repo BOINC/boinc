@@ -21,7 +21,6 @@ require_once("../inc/email.inc");
 
 check_get_args(array());
 
-redirect_to_secure_url("edit_email_form.php");
 $user = get_logged_in_user();
 
 page_head(tra("Change email address"));

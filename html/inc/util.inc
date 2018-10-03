@@ -1010,15 +1010,19 @@ function do_download($path,$name="") {
     readfile($path);
 }
 
-function redirect_to_secure_url($url) {
+// if have SSL but not using it, redirect
+//
+function redirect_to_secure_url() {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
+        && empty($_SERVER['HTTPS'])
     ) {
-        Header("Location: ".SECURE_URL_BASE."/$url");
+        Header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit;
     }
 }
+
+redirect_to_secure_url();
 
 function badges_string($is_user, $item, $height) {
     if (DISABLE_BADGES) return null;
