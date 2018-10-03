@@ -814,6 +814,8 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     }
 
     // Check if we are already attached to that project: 
+    const std::string http = "http://";
+    const std::string https = "https://";
  	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
  	    PROJECT* project = pDoc->project(i);
         if (project) {
@@ -822,7 +824,25 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
             canonicalize_master_url(project_url);
             canonicalize_master_url(new_project_url);
-                
+
+            // remove http(s):// at the beginning of project address
+            // there is no reason to connect to secure address project
+            // if we're already connected to the non-secure address
+            // or vice versa
+            size_t pos = project_url.find(http);
+            if (pos != std::string::npos) {
+                project_url.erase(pos, http.length());
+            } else if ((pos = project_url.find(https)) != std::string::npos) {
+                project_url.erase(pos, https.length());
+            }
+
+            if ((pos = new_project_url.find(http)) != std::string::npos) {
+                new_project_url.erase(pos, http.length());
+            }
+            else if ((pos = new_project_url.find(https)) != std::string::npos) {
+                new_project_url.erase(pos, https.length());
+            }
+
             if (project_url == new_project_url) {
                 bAlreadyAttached = true;
                 break;
