@@ -1631,7 +1631,7 @@ function communityprefs_form_validate($form, &$form_state) {
     }
     if (in_array(strtolower($edit['boincuser_name']), $blacklist2)) {
       form_set_error('boincuser_name',
-        bts('You may not use username @blname, as that name is now allowed. Please chose another name.',
+        bts('You may not use username @blname, as that name is not allowed. Please choose another name.',
             array('@blname' => $edit['boincuser_name']),
             NULL, 'boinc:account-preferences-community'));
       return false;
