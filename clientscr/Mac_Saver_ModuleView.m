@@ -169,7 +169,7 @@ static bool mojave;
 #define MAXDELTA 16
 
 // On OS 10.13+, assume graphics app is not compatible if no MachO connection after 5 seconds
-#define MAXWAITFORCONNECTION 5.0
+#define MAXWAITFORCONNECTION 8.0
 #define MAX_CGWINDOWLIST_TRIES 3
 
 int signof(float x) {
