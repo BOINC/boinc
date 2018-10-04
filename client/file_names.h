@@ -97,7 +97,11 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define STATE_FILE_PREV             "client_state_prev.xml"
 #define STDERR_FILE_NAME            "stderr.txt"
 #define STDOUT_FILE_NAME            "stdout.txt"
+#if defined(_WIN32) || defined(__APPLE__)
 #define SWITCHER_DIR                "switcher"
+#else
+#include "file_names_unix.h"
+#endif
 #define SWITCHER_FILE_NAME          "switcher"
 #define TASK_STATE_FILENAME         "boinc_task_state.xml"
 #define TEMP_ACCT_FILE_NAME         "temp_acct.xml"

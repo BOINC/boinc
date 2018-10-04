@@ -24,7 +24,7 @@ endif
 
 bin_PROGRAMS = boinc_client boinccmd
 if !OS_WIN32
-bin_PROGRAMS += switcher
+pkglibexec_PROGRAMS = switcher
 endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
@@ -106,7 +106,17 @@ else
 if OS_DARWIN
 boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup
 else
-boinc_client_SOURCES += hostinfo_unix.cpp
+boinc_client_SOURCES += \
+	hostinfo_unix.cpp \
+	file_names_unix.h
+
+edit = $(SED) -e 's|@pkglibexecdir[@]|$(pkglibexecdir)|g'
+
+file_names_unix.h: file_names_unix.h.in Makefile
+	$(AM_V_GEN)$(edit) $@.in > $@
+
+BUILT_SOURCES = file_names_unix.h
+CLEANFILES = file_names_unix.h
 endif
 endif
 boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
