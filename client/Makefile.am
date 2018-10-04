@@ -24,7 +24,7 @@ endif
 
 bin_PROGRAMS = boinc_client boinccmd
 if !OS_WIN32
-pkglibexec_PROGRAMS = switcher
+pkglibexec_PROGRAMS = switcher setprojectgrp
 endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
@@ -136,6 +136,10 @@ endif
 switcher_SOURCES = switcher.cpp
 switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib
 switcher_LDADD = $(LIBBOINC)
+
+setprojectgrp_SOURCES = setprojectgrp.cpp
+setprojectgrp_LDFLAGS = $(AM_LDFLAGS) -L../lib
+setprojectgrp_LDADD = $(LIBBOINC)
 
 ## since we are using libtool we need some magic to get boinc and boinc_client
 ## to both be installed properly.  The next two rules do that...
