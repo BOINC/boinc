@@ -23,6 +23,8 @@
 //
 // setprojectgrp runs setuid boinc_master and setgid boinc_project
 
+#include "config.h"
+
 #include <unistd.h>
 #include <grp.h>
 #include <cstdio>
