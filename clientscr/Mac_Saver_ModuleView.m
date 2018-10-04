@@ -169,7 +169,7 @@ static bool mojave;
 #define MAXDELTA 16
 
 // On OS 10.13+, assume graphics app is not compatible if no MachO connection after 5 seconds
-#define MAXWAITFORCONNECTION 5.0
+#define MAXWAITFORCONNECTION 8.0
 #define MAX_CGWINDOWLIST_TRIES 3
 
 int signof(float x) {
@@ -347,10 +347,12 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     [ super stopAnimation ];
 
     if ([ self isPreview ]) return;
+#if ! DEBUG_UNDER_XCODE
     NSRect windowFrame = [ [ self window ] frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         return;         // We draw only to main screen
     }
+#endif
     if (imageView) {
         useCGWindowList = false;
         // removeFromSuperview must be called from main thread
@@ -548,7 +550,9 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         // and IOSurfaceBuffer support, so try to use CGWindowListCreateImage 
         // method. If that fails MAX_CGWINDOWLIST_TRIES times then assume 
         // the graphics app is not compatible with OS 10.13+ and kill it.
-        if (gfxAppStartTime) {
+        //
+        // taskSlot<0 if no worker app is running, so launching default graphics
+        if (gfxAppStartTime && (taskSlot >= 0)) { 
             if ((getDTime() - gfxAppStartTime)> MAXWAITFORCONNECTION) {
                 if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
                     // After displaying message for 5 seconds, incompatibleGfxApp
@@ -770,12 +774,14 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 
 - (void)animateOneFrame {
+#if ! DEBUG_UNDER_XCODE
     if ( ! [ self isPreview ] ) {    
         NSRect windowFrame = [ [ self window ] frame ];
         if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
             return;         // We draw only to main screen
         }
     }
+#endif
     //  Drawing in animateOneFrame doesn't seem to work under OS 10.14 Mojave
     // but drawing in drawRect: seems slow under erarlier versions of OS X
     if (mojave) {
