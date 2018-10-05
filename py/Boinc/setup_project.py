@@ -9,6 +9,7 @@ import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
 from Boinc.boinc_db import *
 import os, sys, glob, time, shutil, re, random
+import subprocess
 
 class Options:
     pass
@@ -339,6 +340,28 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
             shutil.copy(srcdir('html/user/sample_motd.php'), dir('html/user/motd.php'))
         os.system("rm -f "+dir('html/languages/translations/*'))
         install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
+        os.remove(srcdir('html/inc/release.inc'))
+        try:
+            s = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
+            commit = s.stdout.read()[:7]
+            s = subprocess.Popen(["git", "branch"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
+            branch = s.stdout.read().split('*')[1].split('\n')[0].strip()
+            s = subprocess.Popen(["git", "tag", "-l", "--points-at", "HEAD"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
+            version = s.stdout.read().split("/")[-1].strip()
+            content = '''<?php
+
+$git_commit = {commit}
+$git_branch = {branch}
+$server_version = {version}
+
+\?>
+'''.format(commit=commit, branch=branch, version=version)
+            f = open(srcdir('html/inc/release.inc'), 'w')
+            f.write(content)
+            f.close()
+        except Exception, e:    
+            print 'Not running from git source, no version or commit detected.'
+
 
     # copy Python stuff
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),

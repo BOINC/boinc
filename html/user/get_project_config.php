@@ -18,6 +18,8 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
+if(file_exists('../inc/release.inc'))
+    include '../inc/release.inc';
 
 BoincDb::get(true);
 xml_header();
@@ -62,6 +64,14 @@ echo "<project_config>
     <master_url>$master_url</master_url>
     <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
+
+if ( isset($git_commit) ) {
+    echo "<git_commit>$git_commit</git_commit>\n";
+}
+
+if ( isset($server_version) ) {
+    echo "<server_version>$server_version</server_version>\n";
+}
 
 if (parse_config($config, "<account_manager>")) {
     echo "    <account_manager/>\n";
