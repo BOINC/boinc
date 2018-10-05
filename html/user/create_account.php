@@ -99,15 +99,20 @@ if ($user) {
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($checkct and check_termsofuse()) {
         // As of Sept 2018, this code allows 'legacy' boinc clients to
-        // create accounts. If consent_flag is null and client is an older
-        // BOINC client, less than the minimum, creates an account without
-        // this new parameter, the account is created as normal and there
-        // is no update to the consent DB table.
+        // create accounts. If consent_flag is null the code creates
+        // an account as normal and there is no update to the consent
+        // DB table.
         //
-        // If BOINC client version is greater than or equal to the
-        // minimum defined, then assume consent has been given. Because
-        // the user must have clicked through the terms-of-use dialog
-        // box. In this case a new entry is created in the consent DB table.
+        // Logic:
+        // * An old(er) BOINC Manager or third party GUI that doesn't
+        // * support the new consent features.
+        //   -> consent_flag not set (NULL).
+        // * A new(er) BOINC GUI, the terms of use are shown and user
+        // * agrees.
+        //   -> consent_flag=1
+        // * A new or older GUI, terms of use shown but the user not
+        // * not agree.
+        //   -> no create account RPC at all
         //
         // In the future, when the majority of BOINC clients and
         // Account Managers have been updated to use the consent_flag
@@ -115,11 +120,6 @@ if ($user) {
         // clients who do use this flag to continue. I.e., if
         // is_null($consent_flag) returns TRUE, then return an
         // xml_error(-1, ...).
-        $client_version = boinc_client_version();
-        if ($client_version >= MIN_BOINCCLIENT_VERSION_TOU) {
-            $consent_flag=1;
-            $source='BoincClient';
-        }
         if ( (!is_null($consent_flag)) and $source) {
             // Record the user giving consent in database - if consent_flag is 0,
             // this is an 'anonymous account' and consent_not_required is
