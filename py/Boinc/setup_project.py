@@ -340,7 +340,10 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
             shutil.copy(srcdir('html/user/sample_motd.php'), dir('html/user/motd.php'))
         os.system("rm -f "+dir('html/languages/translations/*'))
         install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
-        os.remove(srcdir('html/inc/release.inc'))
+        try:
+            os.remove(srcdir('html/inc/release.inc'))
+        except OSError:
+            pass
         try:
             s = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
             commit = s.stdout.read()[:7]
