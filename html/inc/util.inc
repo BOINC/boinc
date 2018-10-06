@@ -1022,7 +1022,9 @@ function redirect_to_secure_url() {
     }
 }
 
-redirect_to_secure_url();
+if (php_sapi_name() != "cli") {
+    redirect_to_secure_url();
+}
 
 function badges_string($is_user, $item, $height) {
     if (DISABLE_BADGES) return null;
