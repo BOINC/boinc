@@ -1088,7 +1088,9 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
 {
     struct stat             sbuf;
     int                     i;
+    char                    path[MAXPATHLEN];
     char                    s[2048];
+    OSErr                   err;
     
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
@@ -1111,25 +1113,21 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     fprintf(f, "\t<string>edu.berkeley.test</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>sh</string>\n");
-    fprintf(f, "\t\t<string>-c</string>\n");
+    fprintf(f, "\t\t<string>/\"Users/%s/Library/LaunchAgents/%s_Finish_Install\"</string>\n", pw->pw_name, appName[brandID]);
     fprintf(f, "\t\t<string>");
-    for (i=0; i<NUMBRANDS; i++) {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[i]);
-    }
-    if (deleteLogInItem) {
+    if (deleteLogInItem || (brandID != oldBrandID)) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
         // launch the Manager before the LaunchAgent deletes the Login Item.
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "killall -u %d -9 \"%s\";", pw->pw_uid, appName[oldBrandID]);
-    } else {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
-        fprintf(f, "open -jg \"%s\";", appPath[brandID]);
+        fprintf(f, "-d \"%s\" ", appName[oldBrandID]);
     }
-    fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
+    if (!deleteLogInItem) {
+        fprintf(f, "-a \"%s\" ", appName[brandID]);
+    }
+    fprintf(f, "</string>\n");
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
@@ -1140,6 +1138,20 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     chmod(s, 0644);
     chown(s, pw->pw_uid, pw->pw_gid);
 
+    getPathToThisApp(path, sizeof(path));
+    strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(s)-1);
+
+    snprintf(s, sizeof(s), "cp -f %s Users/%s/Library/LaunchAgents/%s_Finish_Install\"</string>\n", path, pw->pw_name, appName[brandID]);
+    err = callPosixSpawn(s);
+     if (err) {
+        printf("[2] Copy boinc_finish_install for user %s returned error %d\n", pw->pw_name, err);
+       fflush(stdout);
+    }
+
+    snprintf(s, sizeof(s), "Users/%s/Library/LaunchAgents/%s_Finish_Install\"</string>\n", pw->pw_name, appName[brandID]);
+    chmod(s, 0755);
+    chown(s, pw->pw_uid, pw->pw_gid);
+    
     return true;
 }
 
