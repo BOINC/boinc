@@ -414,7 +414,7 @@ int read_file_string(
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* /*file*/, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -436,7 +436,7 @@ int run_program(
     }
 
     retval = CreateProcessA(
-        NULL,
+        file,
         cmdline,
         NULL,
         NULL,
