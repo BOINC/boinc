@@ -58,7 +58,7 @@ BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"
 BINTRAY_API_KEY="$BINTRAY_API_KEY" # env
 BINTRAY_REPO="${BINTRAY_REPO:-boinc-ci}"
 BINTRAY_REPO_OWNER="${BINTRAY_REPO_OWNER:-boinc}" # owner and user not always the same
-WEBSITE_URL="${WEBSITE_URL:-http://boinc.berkeley.edu}"
+WEBSITE_URL="${WEBSITE_URL:-https://boinc.berkeley.edu}"
 ISSUE_TRACKER_URL="${ISSUE_TRACKER_URL:-https://github.com/BOINC/boinc/issues}"
 VCS_URL="${VCS_URL:-https://github.com/BOINC/boinc.git}" # Mandatory for packages in free Bintray repos
 
