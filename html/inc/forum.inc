@@ -220,17 +220,15 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-// start a table containing messages, where the layout is fixed
-// (to accommodate long [pre] lines)
-// and the left column (author info) has fixed size
+// start a table of forum posts
 //
 function start_forum_table($headings) {
     $a = array();
     foreach ($headings as $h) {
         $a[] = null;
     }
-    $a[0] = 'style="width: 10em;"';
-    start_table('table-striped', 'table-layout:fixed');
+    $a[1] = 'style="width: 100%"';
+    start_table('table-striped');
     row_heading_array($headings, $a);
 }
 
@@ -588,7 +586,7 @@ function show_post(
         <a name=\"$post->id\"></a>
     ";
 
-    echo user_links($user, 0);
+    echo user_links($user, 0, 30);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     echo "<span class=\"small\">";
