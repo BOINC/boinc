@@ -586,19 +586,17 @@ int CMainDocument::OnPoll() {
                     pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
                 }
             }
-        }
-
-        if (wxGetApp().GetNeedRunDaemon()) {
-            if (IsComputerNameLocal(hostName)) {
+            if (wxGetApp().GetNeedRunDaemon()) {
                 if (m_pClientManager->StartupBOINCCore()) {
                     Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
-                } else {
+                }
+                else {
                     m_pNetworkConnection->ForceDisconnect();
                     pFrame->ShowDaemonStartFailedAlert();
                 }
-            } else {
-                Connect(hostName, portNum, password, TRUE, password.IsEmpty());
             }
+        } else {
+            Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
     }
 
