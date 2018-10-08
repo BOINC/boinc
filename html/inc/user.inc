@@ -349,7 +349,7 @@ function user_links($user, $badge_height=0, $name_limit=0) {
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
     }
-    return "<nobr>$x</nobr>";
+    return $name_limit?"<nobr>$x</nobr>":$x;
 }
 
 function show_community_private($user) {
