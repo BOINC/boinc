@@ -18,8 +18,8 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
-if(file_exists('../inc/release.inc'))
-    include '../inc/release.inc';
+if(file_exists('../../release.inc'))
+    include '../../release.inc';
 
 BoincDb::get(true);
 xml_header();

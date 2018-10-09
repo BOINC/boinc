@@ -341,25 +341,24 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
         os.system("rm -f "+dir('html/languages/translations/*'))
         install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
         try:
-            os.remove(srcdir('html/inc/release.inc'))
+            os.remove(os.path.join(dest_dir, 'release.inc'))
         except OSError:
             pass
         try:
             s = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
             commit = s.stdout.read()[:7]
-            s = subprocess.Popen(["git", "branch"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
-            branch = s.stdout.read().split('*')[1].split('\n')[0].strip()
-            s = subprocess.Popen(["git", "tag", "-l", "--points-at", "HEAD"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
+            s = subprocess.Popen(["git", "describe", "--match", "server_release/*", "--tags", "--exact", "HEAD"],
+                                 stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
             version = s.stdout.read().split("/")[-1].strip()
             content = '''<?php
-
+global $git_commit;
+global $server_version;
 $git_commit = {commit}
-$git_branch = {branch}
 $server_version = {version}
 
 \?>
-'''.format(commit=commit, branch=branch, version=version)
-            f = open(srcdir('html/inc/release.inc'), 'w')
+'''.format(commit=commit, version=version)
+            f = open(os.path.join(dest_dir, 'release.inc'), 'w')
             f.write(content)
             f.close()
         except Exception, e:    
