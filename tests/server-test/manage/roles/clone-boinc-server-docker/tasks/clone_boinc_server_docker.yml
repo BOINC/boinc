@@ -2,10 +2,10 @@
   file: path="{{base_dir}}/boinc-server-docker" state=absent
 
 - name: "Clone boinc-server-docker to {{base_dir}}"
-  command: git clone https://github.com/marius311/boinc-server-docker.git chdir="{{base_dir}}"
+  command: git clone https://github.com/TheAspens/boinc-server-docker.git chdir="{{base_dir}}"
 
-- name: "Use release 3.0.1 of boinc-server-docker"
-  command: git checkout tags/3.0.1 chdir="{{base_dir}}/boinc-server-docker"
+- name: "Use release 3.0.2 of boinc-server-docker"
+  command: git checkout tags/3.0.2 chdir="{{base_dir}}/boinc-server-docker"
   
 - name: Init some submodules
   command: git submodule init images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
