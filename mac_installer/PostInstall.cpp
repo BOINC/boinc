@@ -1104,9 +1104,13 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
             alreadyCopied = true;
         }
 
-        snprintf(s, sizeof(s), "Users/%s/Library/LaunchAgents/%s_Finish_Install\"</string>\n", pw->pw_name, appName[brandID]);
+        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
         chmod(s, 0755);
-        chown(s, pw->pw_uid, pw->pw_gid);
+        group *bmgrp = getgrnam(boinc_master_group_name);
+        passwd *bmpw = getpwnam(boinc_master_user_name);
+        if (bmgrp && bmpw) {
+            chown(s, bmpw->pw_uid, bmgrp->gr_gid);
+        }
     }
 
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created

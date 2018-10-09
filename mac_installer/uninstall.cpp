@@ -978,7 +978,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
             alreadyCopied = true;
         }
 
-        snprintf(s, sizeof(s), "Users/%s/Library/LaunchAgents/%s_Finish_Uninstall\"</string>\n", pw->pw_name, appName[brandID]);
+        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
         chmod(s, 0755);
         chown(s, pw->pw_uid, pw->pw_gid);
     }
