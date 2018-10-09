@@ -500,15 +500,6 @@ static OSStatus DoUninstall(void) {
     // Phase 6: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
     
-    // This directory contains only the BOINC_Finish_Install and
-    // BOINC_Finish_Uninstall command-line utilities
-    snprintf(cmd, sizeof(cmd), "rm -rf \"/Library/Application Support/BOINC/\"");
-    err = callPosixSpawn(cmd);
-     if (err) {
-        printf("[2] Command %s returned error %d\n", cmd, err);
-       fflush(stdout);
-    }
-    
     callPosixSpawn ("dscl . -delete /users/boinc_master");
     callPosixSpawn ("dscl . -delete /groups/boinc_master");
     callPosixSpawn ("dscl . -delete /users/boinc_project");
@@ -976,11 +967,9 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     OSErr                   err;
    
     if (!alreadyCopied) {
-        mkdir("\"/Library/Application Support/BOINC\"", 0755);
         getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_Finish_Uninstall", sizeof(s)-1);
-
-        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC/%s_Finish_Install\"", path, appName[brandID]);
+        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(s)-1);
+        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Uninstall\"", path, appName[brandID]);
         err = callPosixSpawn(s);
          if (err) {
             printf("[2] Command %s returned error %d\n", s, err);
@@ -989,7 +978,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
             alreadyCopied = true;
         }
 
-        snprintf(s, sizeof(s), "Users/%s/Library/LaunchAgents/%s_Finish_Install\"</string>\n", pw->pw_name, appName[brandID]);
+        snprintf(s, sizeof(s), "Users/%s/Library/LaunchAgents/%s_Finish_Uninstall\"</string>\n", pw->pw_name, appName[brandID]);
         chmod(s, 0755);
         chown(s, pw->pw_uid, pw->pw_gid);
     }
@@ -1015,7 +1004,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>\"/Library/Application Support/BOINC/%s_Finish_Uninstall\"</string>\n", appName[brandID]);
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Uninstall</string>\n", appName[brandID]);
     // If this user was previously authorized to run the Manager, there 
     // may still be a Login Item for this user, and the Login Item may
     // launch the Manager before the LaunchAgent deletes the Login Item.
@@ -1025,7 +1014,8 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     // Actually, the uninstaller should have deleted the Manager before 
     // that could happen, so this step is probably unnecessary.
     //
-    fprintf(f, "\t\t<string>-d \"%s\"</string>\n", appName[brandID]);
+    fprintf(f, "\t\t<string>-d</string>\n");
+    fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");

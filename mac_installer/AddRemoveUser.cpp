@@ -523,7 +523,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         chown(s, pw->pw_uid, pw->pw_gid);
     }
     
-    snprintf(s, sizeof(s), "/Library/Application Support/BOINC/%s_Finish_Install", appName[brandID]);
+    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install", appName[brandID]);
     if (stat(s, &sbuf) != 0) {
         return SetLoginItemLaunchAgentShellScript(brandID, deleteLogInItem, pw);
     } else {
@@ -591,8 +591,7 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>\"/Library/Application Support/BOINC/%s_Finish_Install\"</string>\n", appName[brandID]);
-    fprintf(f, "\t\t<string>");
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
     if (deleteLogInItem) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
@@ -600,9 +599,11 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "-d \"%s\" ", appName[brandID]);
+        fprintf(f, "\t\t<string>-d</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
     } else  {
-        fprintf(f, "-a \"%s\"", appName[brandID]);
+        fprintf(f, "\t\t<string>-a</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
     }
     fprintf(f, "</string>\n");
     fprintf(f, "\t</array>\n");
