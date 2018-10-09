@@ -209,6 +209,7 @@ class VBOX_BASE : public VBOX_JOB {
         virtual void dump_vmguestlog_entries();
         virtual int dump_screenshot();
         virtual std::string read_vm_log();
+	virtual void detect_hw_virt();
 
 
         virtual int is_registered() = 0;

@@ -787,6 +787,8 @@ int main(int argc, char** argv) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
+    pVM->detect_hw_virt();
+
     retval = pVM->run(current_cpu_time > 0);
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
