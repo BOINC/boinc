@@ -75,6 +75,9 @@ int main(int argc, const char * argv[]) {
             fflush(stderr);
         }
     }
+
+    FixLaunchServicesDataBase();
+
     for (i=1; i<argc; i+=2) {
         if (strcmp(argv[i], "-d") == 0) {
             // If this user was previously authorized to run the Manager, the Login Item
@@ -107,8 +110,6 @@ int main(int argc, const char * argv[]) {
         }   // end if (strcmp(argv[i], "-a") == 0)
     }   // end for (i=i; i<argc; i+=2)
     
-    FixLaunchServicesDataBase();
-
     pw = getpwuid(getuid());
     
     snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
