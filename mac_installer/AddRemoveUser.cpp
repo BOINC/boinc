@@ -39,6 +39,8 @@
 void printUsage(long brandID);
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *pw);
+Boolean SetLoginItemLaunchAgentShellScript(long brandID, Boolean deleteLogInItem, passwd *pw);
+Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogInItem, passwd *pw);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, int type);
 pid_t FindProcessPID(char* name, pid_t thePID);
@@ -510,9 +512,9 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
 {
     struct stat             sbuf;
     char                    s[2048];
-    
+
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    // previously (such as by Ininstaller or by installing a differently branded BOINC.)
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -520,6 +522,18 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         mkdir(s, 0755);
         chown(s, pw->pw_uid, pw->pw_gid);
     }
+    
+    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install", appName[brandID]);
+    if (stat(s, &sbuf) != 0) {
+        return SetLoginItemLaunchAgentShellScript(brandID, deleteLogInItem, pw);
+    } else {
+        return SetLoginItemLaunchAgentFinishInstallApp(brandID, deleteLogInItem, pw);    
+    }
+}
+
+
+Boolean SetLoginItemLaunchAgentShellScript(long brandID, Boolean deleteLogInItem, passwd *pw) {
+    char                    s[2048];
 
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
     FILE* f = fopen(s, "w");
@@ -560,6 +574,51 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
     chown(s, pw->pw_uid, pw->pw_gid);
 
     return true;
+}
+
+
+Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogInItem, passwd *pw){
+    char                    s[2048];
+    
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+    FILE* f = fopen(s, "w");
+    if (!f) return false;
+    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+    fprintf(f, "<plist version=\"1.0\">\n");
+    fprintf(f, "<dict>\n");
+    fprintf(f, "\t<key>Label</key>\n");
+    fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
+    fprintf(f, "\t<key>ProgramArguments</key>\n");
+    fprintf(f, "\t<array>\n");
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
+    if (deleteLogInItem) {
+        // If this user was previously authorized to run the Manager, there 
+        // may still be a Login Item for this user, and the Login Item may
+        // launch the Manager before the LaunchAgent deletes the Login Item.
+        // To guard against this, we have the LaunchAgent kill the Manager
+        // (for this user only) if it is running.
+        //
+        fprintf(f, "\t\t<string>-d</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    } else  {
+        fprintf(f, "\t\t<string>-a</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    }
+    fprintf(f, "</string>\n");
+    fprintf(f, "\t</array>\n");
+    fprintf(f, "\t<key>RunAtLoad</key>\n");
+    fprintf(f, "\t<true/>\n");
+    fprintf(f, "</dict>\n");
+    fprintf(f, "</plist>\n");
+    fclose(f);
+
+    chmod(s, 0644);
+    chown(s, pw->pw_uid, pw->pw_gid);
+
+    return true;
+
+
 }
 
 
