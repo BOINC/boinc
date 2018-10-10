@@ -69,7 +69,6 @@ function stage_file($path) {
     if (!file_exists($path)) error_exit("no such file: $path\n");
     $file = basename($path);
     $dl_path = dir_hier_path($file, $download_dir, $fanout);
-    $dl_md5_path = "$dl_path.md5";
 
     if ($verbose) {
         echo "staging $file to $dl_path\n";
@@ -93,7 +92,7 @@ function stage_file($path) {
             if (!$ret) error_exit("    copy failed\n");
             if ($verbose) echo "    moved file\n";
         }
-        touch("$path.md5");
+        touch("$dl_path.md5");
         break;
     case -1:
         error_exit("
