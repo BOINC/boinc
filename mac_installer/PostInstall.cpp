@@ -196,7 +196,9 @@ int main(int argc, char *argv[])
     pid_t                   installerPID = 0, coreClientPID = 0;
     OSStatus                err;
     FILE                    *f;
-    char                    s[MAXPATHLEN];
+    char                    s[2048];
+    char                    path[MAXPATHLEN];
+    
 #ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
@@ -475,6 +477,28 @@ int main(int argc, char *argv[])
             CFRelease(urlref);
             REPORT_ERROR(err);
         }
+    }
+
+    if (compareOSVersionTo(10, 13) >= 0) {
+        getPathToThisApp(path, sizeof(path));
+        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(s)-1);
+        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Install\"", path, appName[brandID]);
+        err = callPosixSpawn(s);
+        REPORT_ERROR(err);
+        if (err) {
+            printf("Command %s returned error %d\n", s, err);
+            fflush(stdout);
+        }
+
+        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
+        chmod(s, 0755);
+#ifdef SANDBOX
+        group *bmgrp = getgrnam(boinc_master_group_name);
+        passwd *bmpw = getpwnam(boinc_master_user_name);
+        if (bmgrp && bmpw) {
+            chown(s, bmpw->pw_uid, bmgrp->gr_gid);
+        }
+#endif
     }
 
     err = UpdateAllVisibleUsers(brandID, oldBrandID);
@@ -1086,32 +1110,8 @@ cleanupSystemEvents:
 //
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw)
 {
-    static bool             alreadyCopied = false;
     struct stat             sbuf;
-    char                    path[MAXPATHLEN];
     char                    s[2048];
-    OSErr                   err;
-    
-    if (!alreadyCopied) {
-        getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(s)-1);
-        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Install\"", path, appName[brandID]);
-        err = callPosixSpawn(s);
-         if (err) {
-            printf("[2] Command %s returned error %d\n", s, err);
-            fflush(stdout);
-        } else {
-            alreadyCopied = true;
-        }
-
-        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
-        chmod(s, 0755);
-        group *bmgrp = getgrnam(boinc_master_group_name);
-        passwd *bmpw = getpwnam(boinc_master_user_name);
-        if (bmgrp && bmpw) {
-            chown(s, bmpw->pw_uid, bmgrp->gr_gid);
-        }
-    }
 
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
@@ -1277,7 +1277,8 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
                 printf("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL\n");
                 goto registerOurApp;
             }
-            n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+        n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+        printf("LSCopyApplicationURLsForBundleIdentifier returned %ld results\n", n);
     } else {
         n = 500;    // Prevent infinite loop
     }
@@ -1793,10 +1794,14 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+
+            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+            FixLaunchServicesDataBase(pw->pw_uid, brandID);
         } else {
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
+            // SetLoginItemLaunchAgent will run helper app which will call FixLaunchServicesDataBase()
             SetLoginItemLaunchAgent(brandID, oldBrandID, deleteLoginItem, pw);
         }
         if (isBMGroupMember) {
@@ -1809,9 +1814,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             }
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
 
-            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
-            FixLaunchServicesDataBase(pw->pw_uid, brandID);
-       
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
