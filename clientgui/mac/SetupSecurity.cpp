@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,6 +31,8 @@
 #include "file_names.h"
 #include "mac_util.h"
 #include "SetupSecurity.h"
+
+#include "mac_branding.h"
 
 // Set VERBOSE_TEST to 1 for debugging DoSudoPosixSpawn()
 #define VERBOSE_TEST 0
@@ -126,14 +128,6 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     Boolean                 isDirectory;
     OSStatus                err = noErr;
     
-#define NUMBRANDS 3
-
-char *saverName[NUMBRANDS];
-
-saverName[0] = "BOINCSaver";
-saverName[1] = "GridRepublic";
-saverName[2] = "Progress Thru Processors";
-
     if (geteuid() != 0) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions must be called as root");
     }
@@ -151,7 +145,7 @@ saverName[2] = "Progress Thru Processors";
         // Get the full path to our executable inside this application's bundle
         getPathToThisApp(dir_path, sizeof(dir_path));
         if (!dir_path[0]) {
-            ShowSecurityError(false, false, false, "Couldn't get path to self.");
+            ShowSecurityError("Couldn't get path to self.");
             return -1;
         }
         

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -175,10 +175,12 @@ CLIENT_STATE::CLIENT_STATE()
     must_check_work_fetch = true;
     retry_shmem_time = 0;
     no_gui_rpc = false;
-    enable_gui_rpcs = true;
+    autologin_in_progress = false;
+    autologin_fetching_project_list = false;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
+    client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     detach_console = false;
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
@@ -250,6 +252,26 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
         tz<0?"":"+", tz
     );
+
+#ifdef _WIN64
+    if (host_info.wsl_available) {
+        msg_printf(NULL, MSG_INFO, "WSL detected:");
+        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
+            const WSL& wsl = host_info.wsls.wsls[i];
+            if (wsl.is_default) {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            } else {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            }
+        }
+    } else {
+        msg_printf(NULL, MSG_INFO, "No WSL found.");
+    }
+#endif
 
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
@@ -437,7 +459,7 @@ int CLIENT_STATE::init() {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        get_primary_platform(),
+        HOSTTYPE,
 #ifdef _DEBUG
         " (DEBUG)"
 #else
@@ -619,6 +641,8 @@ int CLIENT_STATE::init() {
     cc_config.show();
 
     // inform the user if there's a newer version of client
+    // NOTE: this must be called AFTER
+    // read_vc_config_file()
     //
     newer_version_startup_check();
 
@@ -731,7 +755,7 @@ int CLIENT_STATE::init() {
 
     // check for initialization files
     //
-    process_autologin();
+    process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
 
@@ -787,13 +811,12 @@ int CLIENT_STATE::init() {
     //
     proxy_info_startup();
 
-    if (gstate.projects.size() == 0) {
-        msg_printf(NULL, MSG_INFO,
-            "This computer is not attached to any projects"
-        );
-        msg_printf(NULL, MSG_INFO,
-            "Visit https://boinc.berkeley.edu for instructions"
-        );
+    if (!autologin_in_progress) {
+        if (gstate.projects.size() == 0) {
+            msg_printf(NULL, MSG_INFO,
+                "This computer is not attached to any projects"
+            );
+        }
     }
 
     // get list of BOINC projects occasionally,
@@ -843,7 +866,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         gui_rpc_fds.zero();
         http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
-        if (enable_gui_rpcs) {
+        if (!autologin_in_progress) {
             gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         }
 

@@ -44,6 +44,8 @@ struct PLAN_CLASS_SPEC {
     regex_t os_regex;
     bool have_cpu_vendor_regex;
     regex_t cpu_vendor_regex;
+    bool have_cpu_model_regex;
+    regex_t cpu_model_regex;
     double min_os_version;
         // Win versions can be 9 digits; may as well be safe
     double max_os_version;
@@ -59,6 +61,12 @@ struct PLAN_CLASS_SPEC {
         // for non-compute-intensive, or override for GPU apps
     bool have_host_summary_regex;
     regex_t host_summary_regex;
+    int user_id;
+    double infeasible_random;
+    int min_wu_id;
+    int max_wu_id;
+    int min_batch;
+    int max_batch;
 
     // GPU apps
     //
@@ -72,6 +80,8 @@ struct PLAN_CLASS_SPEC {
     int max_driver_version;
     char gpu_utilization_tag[256];
         // the project prefs tag for user-supplied gpu_utilization factor
+    double min_gpu_peak_flops;
+    double max_gpu_peak_flops;
 
     // AMD/ATI apps
     //
@@ -109,7 +119,7 @@ struct PLAN_CLASS_SPEC {
 
     int parse(XML_PARSER&);
     bool opencl_check(OPENCL_DEVICE_PROP&);
-    bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
+    bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu);
     PLAN_CLASS_SPEC();
 };
 
@@ -117,6 +127,7 @@ struct PLAN_CLASS_SPECS {
     std::vector<PLAN_CLASS_SPEC> classes;
     int parse_file(const char*);
     int parse_specs(FILE*);
-    bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu);
+    bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu);
+    bool wu_is_infeasible(char* plan_class, const WORKUNIT* wu);
     PLAN_CLASS_SPECS(){};
 };

@@ -39,6 +39,7 @@ OBJS = \
 	net_stats.o \
 	pers_file_xfer.o \
 	project.o \
+	project_list.o \
 	result.o \
     rr_sim.o \
 	sandbox.o \
@@ -54,6 +55,7 @@ OBJS = \
     ../lib/crypt.o \
     ../lib/filesys.o \
     ../lib/hostinfo.o \
+    ../lib/keyword.o \
     ../lib/md5.o \
     ../lib/md5_file.o \
     ../lib/mfile.o \
@@ -64,6 +66,7 @@ OBJS = \
     ../lib/opencl_boinc.o \
     ../lib/parse.o \
     ../lib/prefs.o \
+    ../lib/project_init.o \
     ../lib/proxy_info.o \
     ../lib/shmem.o \
     ../lib/str_util.o \

@@ -59,11 +59,5 @@ if (!parse_bool($config, "disable_account_creation")
     echo tra("or %1 create an account %2.", "<a href=\"create_account_form.php?next_url=$next_url\">","</a>");
 }
 
-echo "
-    <script type=\"text/javascript\">
-        document.f.email_addr.focus();
-    </script>
-";
-
 page_tail();
 ?>

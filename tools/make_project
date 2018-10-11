@@ -299,6 +299,18 @@ t.output = 'badge_assign.out'
 t.cmd = 'run_in_ops ./badge_assign.php'
 t.disabled = 0
 
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'delete_expired_tokens.out'
+t.cmd = 'run_in_ops ./delete_expired_tokens.php'
+t.disabled = 0
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'delete_expired_users_and_hosts.out'
+t.cmd = 'run_in_ops ./delete_expired_users_and_hosts.php'
+t.disabled = 0
+
 project.config.write()
 
 if not options.no_db:
@@ -347,54 +359,49 @@ print >>open(httpd_conf_template_filename,'w'), '''
 
     Alias /%(project_shortname)s_ops %(proot)s/html/ops
     ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
-
-    # in the following, the "Order" and "Allow" lines are for Apache 2.2;
-    # for Apache 2.4, replace them with the single line
-    # Require all granted
-    #        or
-    # Require all denied
-
+    
+    # In the following, the "denied" and "granted" lines are for Apache 2.4
+    # For Apache 2.2, replace them with the lines
+    # Order deny,allow
+    # Deny from all
+    #      or
+    # Order allow,deny
+    # Allow from all
+    
     # NOTE: Turn off access to certain default directories
     <Directory "%(proot)s/keys">
-        Order deny,allow
-        Deny from all
+        Require all denied
     </Directory>
     <Directory "%(proot)s/upload">
-        Order deny,allow
-        Deny from all
+        Require all denied
     </Directory>
 
     # NOTE: Allow access but disable PHP script execution
     <Directory "%(proot)s/download">
         RemoveType .php .phtml
-        Order allow,deny
-        Allow from all
+        Require all granted
     </Directory>
     <Directory "%(proot)s/html/stats">
         RemoveType .php .phtml
-        Order allow,deny
-        Allow from all
+        Require all granted
     </Directory>
     <Directory "%(proot)s/html/user_profile">
         RemoveType .php .phtml
-        Order allow,deny
-        Allow from all
+        Require all granted
     </Directory>
 
     # NOTE: Allow access and allow PHP script execution
     <Directory "%(proot)s/html">
         Options Indexes MultiViews
         AllowOverride AuthConfig
-        Order allow,deny
-        Allow from all
+        Require all granted
     </Directory>
 
     # NOTE: Allow access and allow CGI execution
     <Directory "%(proot)s/cgi-bin">
         Options ExecCGI
         AllowOverride AuthConfig
-        Order allow,deny
-        Allow from all
+        Require all granted
     </Directory>
 
 ''' %locals()

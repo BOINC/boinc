@@ -1,17 +1,18 @@
 # BOINC setup localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Seggev Shoresh, 2017
 # Shmuel Shwartz, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2016-12-29 13:49+0000\n"
-"Last-Translator: Shmuel Shwartz\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-21 23:57+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +21,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:135
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+msgid "Could not get user login name"
+msgstr ""
+
+#: mac_installer/Installer.cpp:199
 #, c-format
 msgid "Sorry, this version of %s requires system 10.6 or higher."
 msgstr "מצטערים, גירסה זו של %s דורשת מערכת 10.6 ומעלה."
 
-#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
-#: mac_installer/uninstall.cpp:1616
+#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
+#: mac_installer/uninstall.cpp:1512
 msgid "Yes"
 msgstr "כן"
 
-#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
-#: mac_installer/uninstall.cpp:1617
+#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
+#: mac_installer/uninstall.cpp:1513
 msgid "No"
 msgstr "לא"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:130
+#: mac_installer/PostInstall.cpp:142
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "האם על BOINC לפעול גם כאשר אף משתמש אינו מחובר?"
 
-#: mac_installer/PostInstall.cpp:1375
+#: mac_installer/PostInstall.cpp:1501
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -48,27 +53,27 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "משתמשים המורשים לנהל מחשב זה יאופשרו אוטומטית להפעיל ולשלוט ב-%s.\n\nהאם ברצונך שגם משתמשים שאינם מנהלי מערכת יוכלו לנהל ולשלוט ב-%s  ב-Mac זה?"
 
-#: mac_installer/PostInstall.cpp:1403
+#: mac_installer/PostInstall.cpp:1529
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "האם ברצונך להגדיר את %s כשומר מסך עבור כל המשתמשים ב-%s  ב-Mac זה?"
 
-#: mac_installer/uninstall.cpp:80
+#: mac_installer/uninstall.cpp:84
 msgid "OK"
 msgstr "אישור"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:134
+#: mac_installer/uninstall.cpp:144
 msgid "Permission error after relaunch"
 msgstr "הרשאה שגיאה לאחר הפעה מחדש"
 
-#: mac_installer/uninstall.cpp:139
+#: mac_installer/uninstall.cpp:149
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "ההסרה עשויה להימשך מספר דקות.\nנא המתן בסבלנות."
 
-#: mac_installer/uninstall.cpp:156
+#: mac_installer/uninstall.cpp:164
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -76,27 +81,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "האם אתה בטוח שברצונך להסיר את %s לחלוטין מהמחשב שלך?\n\nפעולה זו תסיר את קבצי ההפעלה אך לא תיגע בקבצי הנתונים של %s."
 
-#: mac_installer/uninstall.cpp:163
+#: mac_installer/uninstall.cpp:179
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "בוטל: לא בוצע כל שינוי ב-%s."
 
-#: mac_installer/uninstall.cpp:174
-#, c-format
-msgid "An error occurred: error code %d"
-msgstr "אירעה שגיאה: קוד שגיאה %d"
-
-#: mac_installer/uninstall.cpp:230
+#: mac_installer/uninstall.cpp:243
 msgid "name  of user"
 msgstr "שם המשתמש"
 
-#: mac_installer/uninstall.cpp:272
+#: mac_installer/uninstall.cpp:296
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "האם ברצונך להסיר גם את VirtualBox מהמחשב שלך?\n(VirtualBox הותקן יחד עם BOINC.)"
 
-#: mac_installer/uninstall.cpp:312
+#: mac_installer/uninstall.cpp:334
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -108,17 +108,10 @@ msgid ""
 "\"%s\"."
 msgstr "ההסרה הושלמה.\n\nייתכן שתרצה להסיר את הפריטים הנותרים הבאים באמצעות Finder: \nספריית \"%s\"\n\nעבור כל משתמש, הקובץ \n\"%s\"."
 
-#: mac_installer/uninstall.cpp:871
-#, c-format
-msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
-"\n"
-msgstr "הזן את סיסמת מנהל המערכת כדי להסיר לחלוטין את %s מהמחשב שלך.\n\n"
-
-#: mac_installer/uninstall.cpp:1614
+#: mac_installer/uninstall.cpp:1510
 msgid "Cancel"
 msgstr "ביטול"
 
-#: mac_installer/uninstall.cpp:1615
+#: mac_installer/uninstall.cpp:1511
 msgid "Continue..."
 msgstr "המשך..."

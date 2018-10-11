@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -292,6 +292,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
+    pWA->EnableNextButton();
 
     // We are entering this page, so reterieve the previously used email
     // address and/or username.
@@ -492,7 +493,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {
         m_pAccountForgotPasswordCtrl->SetLabel(
-            _("Forgot your account info?")
+            _("Forgot your password?")
         );
         m_pAccountForgotPasswordCtrl->SetURL(
             wxString(pWA->GetProjectURL() + _T("get_passwd.php"))

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -30,6 +30,9 @@
 #include <sys/wait.h>
 #include <app_ipc.h>
 #include <malloc/malloc.h>
+#include <pthread.h>
+
+extern pthread_mutex_t saver_mutex;
 #endif
 
 // Common application includes
@@ -273,6 +276,13 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
     char gfx_pid[16];
     pid_t thePID;
     int i;
+    
+    if (graphics_application == 0) return 0;
+    
+    // MUTEX may help prevent crashes when terminating an older gfx app which
+    // we were displaying using CGWindowListCreateImage under OS X >= 10.13
+    // Also prevents reentry when called from our other thread
+    pthread_mutex_lock(&saver_mutex);
 
     sprintf(gfx_pid, "%d", graphics_application);
     getcwd( current_dir, sizeof(current_dir));
@@ -303,6 +313,8 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
             break;
         }
     }
+
+    pthread_mutex_unlock(&saver_mutex);
 #endif
 
 #ifdef _WIN32
@@ -850,6 +862,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 graphics_app_result_ptr = NULL;
                 m_bDefault_gfx_running = false;
                 m_bScience_gfx_running = false;
+#ifdef __APPLE__
+                launchedGfxApp("", 0, -1);
+#endif
                 continue;
             }
         }

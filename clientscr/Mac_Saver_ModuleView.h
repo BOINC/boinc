@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -42,12 +42,15 @@
 - (IBAction)closeSheetSave:(id) sender;
 - (IBAction)closeSheetCancel:(id) sender;
 
+- (bool) setUpToUseCGWindowList;
+- (void) doPeriodicTasks;
+
 @end
 
 @interface SharedGraphicsController : NSObject <NSMachPortDelegate>
 
 @property (NS_NONATOMIC_IOSONLY, readonly) GLuint currentTextureName;
-- (instancetype)init:(NSView*)saverView;
+- (void)init:(NSView*)saverView;
 - (void)portDied:(NSNotification *)notification;
 - (void)testConnection;
 

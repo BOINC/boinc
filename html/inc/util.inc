@@ -17,6 +17,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Utility functions for BOINC web pages
+// Stuff that's not web-specific (e.g. that's used in non-web scripts)
+// should go in util_basic.inc
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -34,6 +37,7 @@ require_once("../inc/bootstrap.inc");
 // parse some stuff from config (do it here for efficiency)
 //
 $config = get_config();
+global $master_url;
 $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
@@ -94,6 +98,9 @@ if (!defined('NO_GLOBAL_PREFS')) {
 if (!defined('USER_HOME')) {
     define('USER_HOME', 'home.php');
 }
+if (!defined('POST_MAX_LINKS')) {
+    define('POST_MAX_LINKS', 0);
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
@@ -120,7 +127,7 @@ function secure_url_base() {
 }
 
 function url_base() {
-    return secure_url_base();
+    return is_https()?secure_url_base():URL_BASE;
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
@@ -300,7 +307,6 @@ function page_head(
         break;
     }
     project_banner($title, $url_prefix, $is_main);
-
 }
 }
 
@@ -315,6 +321,7 @@ function page_tail(
     $is_main=false
         // passed to project_footer;
 ) {
+    echo "<br>\n";
     project_footer($is_main, $show_date, $url_prefix);
     echo '
         <script src="'.secure_url_base().'/jquery.min.js"></script>
@@ -512,12 +519,6 @@ function row_heading($x, $class='bg-primary') {
     echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
         ', $class, $x
     );
-}
-
-// return hard-to-guess string of 32 random hex chars
-//
-function random_string() {
-    return md5(uniqid(rand(), true));
 }
 
 function url_tokens($auth) {
@@ -860,19 +861,6 @@ function show_button_small($url, $text, $desc=null) {
     echo button_text($url, $text, $desc, "btn-primary btn-xs");
 }
 
-// When multiple buttons (or actions) are presented in a list you can
-// use this convenience method to avoid having to wrap each button in <li></li> elements
-// @param url The destination URL of the button
-// @param text The text to display on the button
-// @param desc The title of the destination - typically used as a popup
-// @param class The optional CSS class of the button. Defaults to a standard button
-//
-function show_actionlist_button($url, $text, $desc, $class="btn btn-default"){
-    echo "<li>";
-    echo show_button($url, $text, $desc, $class);
-    echo "</li>";
-}
-
 // used for showing icons
 //
 function show_image($src, $title, $alt, $height=null) {
@@ -883,21 +871,26 @@ function show_image($src, $title, $alt, $height=null) {
     echo "<img class=\"icon\" border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
+function show_project_down() {
+    global $did_page_head;
+    if (!$did_page_head) {
+        page_head(tra("Project down for maintenance"));
+    }
+    echo tra(
+        "%1 is temporarily shut down for maintenance.  Please try again later.",
+        PROJECT
+    );
+    page_tail();
+    exit();
+}
+
 function check_web_stopped() {
-    global $generating_xml, $did_page_head;
+    global $generating_xml;
     if (web_stopped()) {
         if ($generating_xml) {
             xml_error(-183);
         } else {
-			if (!$did_page_head) {
-				page_head(tra("Project down for maintenance"));
-			}
-            echo tra(
-				"%1 is temporarily shut down for maintenance.  Please try again later.",
-				PROJECT
-			);
-            page_tail();
-            exit();
+            show_project_down();
         }
     }
 }
@@ -935,6 +928,9 @@ function get_app_types() {
     $avs = BoincAppVersion::enum("deprecated=0");
     foreach ($avs as $av) {
         if (strstr($av->plan_class, "ati")) {
+            $t->ati = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "amd")) {
             $t->ati = true;
             $t->count++;
         } else if (strstr($av->plan_class, "cuda")) {
@@ -1048,10 +1044,6 @@ function show_badges_row($is_user, $item) {
     }
 }
 
-function dtime() {
-    return microtime(true);
-}
-
 // If this request is from a BOINC client, return its version as MMmmRR.
 // Otherwise return 0.
 // Format of user agent string is "BOINC client (windows_x86_64 7.3.17)"
@@ -1113,6 +1105,16 @@ function google_search_form($url) {
         </form>
         </nobr>
     ";
+}
+
+// use the following around text with long lines,
+// to limit the width and make it more readable.
+//
+function text_start($width=640) {
+    echo sprintf("<div style=\"max-width: %dpx;\">\n", $width);
+}
+function text_end() {
+    echo "</div>\n";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

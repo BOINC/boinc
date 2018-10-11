@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,8 @@
 #ifdef __APPLE__
 #include "mac/MacGUI.pch"
 #include "mac_util.h"
+
+#include "mac_branding.h"
 #endif
 
 #include "stdwx.h"
@@ -659,11 +661,11 @@ bool CAdvancedFrame::CreateMenu() {
 
     strMenuName.Printf(
         _("&%s help"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
@@ -1839,7 +1841,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 fscanf(f, "BrandId=%ld\n", &iBrandID);
                 fclose(f);
             }
-            if ((iBrandID > 0) && (iBrandID < 4))
+            if ((iBrandID > 0) && (iBrandID < NUMBRANDS))
 #endif
             {
                 // If successful, hide the main window if we showed it
@@ -1884,7 +1886,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
-    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach && !autoattach_in_progress()) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         // client isn't attached to any projects.
         // Look for an account to attach to, either in project_init.xml
         // or in browser cookies

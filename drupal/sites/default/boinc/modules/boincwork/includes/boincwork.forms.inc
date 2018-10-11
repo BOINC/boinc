@@ -696,7 +696,7 @@ function boincwork_host_get_compatible_hosts($host_id) {
   $account = user_load($user->uid);
   $compatible_hosts = array();
   $host_count = 0;
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $current_host = db_fetch_object(db_query("
     SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
       p_vendor, p_model
@@ -708,7 +708,7 @@ function boincwork_host_get_compatible_hosts($host_id) {
   $current_host->task_count = boincwork_host_get_task_count($current_host->id);
   $current_host->is_new = !$current_host->total_credit AND !$current_host->task_count;
   // Get the list of all other hosts owned by this user for comparison
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $all_other_hosts = db_query("
     SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
       p_vendor, p_model
@@ -771,7 +771,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
   
   // Move credit from the old host to the new host
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $credit_updated = db_query("
     UPDATE {host}
     SET
@@ -790,7 +790,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   }
   
   // Move results from the old host to the new host
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $results_updated = db_query("
     UPDATE {result}
     SET hostid = '%d'
@@ -806,7 +806,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   }
   
   // Retire the old host
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $old_host_retired = db_query("
     UPDATE {host}
     SET
@@ -1584,25 +1584,6 @@ function communityprefs_form(&$form_state) {
     );
   }
 
-  //Ignored users list
-  if (module_exists('ignore_user')) {
-    $form['forums']['ignored_users'] = array(
-      '#value' => '<div class="form-item">'
-        . '<label>'
-	. bts('Ignore Users in forums:', array(), NULL, 'boinc:account-preferences-community')
-	. '</label>'
-        . bts('<a href="@ignore-user-list">View/Edit</a> your ignored users list.',
-	    array(
-	      '@ignore-user-list' => url('ignore_user/list'),
-	      array(
-            'attributes' => array('class' => 'form-link')
-          )
-	    ),
-        NULL, 'boinc:account-preferences-community')
-	. '</div>',
-    );
-  }//endif module_exists('ignore_user')
-
   //Bottom separator
   $form['separator_bottom'] = array(
     '#value' => '<div class="separator buttons"></div>',
@@ -1633,6 +1614,34 @@ function communityprefs_form(&$form_state) {
 }
 
 /**
+  * Handle validation submission of community preferences form.
+  */
+function communityprefs_form_validate($form, &$form_state) {
+  // require_boinc();
+  global $user;
+  $account = user_load($user->uid);
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+  $edit = $form_state['values'];
+
+  if ($edit['boincuser_name'] != $boinc_user->name) {
+    $blacklist1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"));
+    $blacklist2 = array();
+    if (is_array($blacklist1)) {
+      $blacklist2 = array_map('strtolower', $blacklist1);
+    }
+    if (in_array(strtolower($edit['boincuser_name']), $blacklist2)) {
+      form_set_error('boincuser_name',
+        bts('You may not use username @blname, as that name is not allowed. Please choose another name.',
+            array('@blname' => $edit['boincuser_name']),
+            NULL, 'boinc:account-preferences-community'));
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
   * Handle post-validation submission of community preferences form.
   */
 function communityprefs_form_submit($form, &$form_state) {
@@ -1654,13 +1663,15 @@ function communityprefs_form_submit($form, &$form_state) {
   // Private message settings
   pm_email_notify_user('submit', $edit, $user);
   
-  // Avatar settings
-  if (!$edit['field_image']) $edit['field_image'] = array();
-  $profile_node->field_image = $edit['field_image'];
-  node_save($profile_node);
-  // Flush this from the node cache or changes won't show up immediately!
-  $profile_node = node_load($profile_node->nid, NULL, TRUE);
-  
+  // Avatar settings - only set if profile_node exists.
+  if ($profile_node) {
+    if (!$edit['field_image']) $edit['field_image'] = array();
+    $profile_node->field_image = $edit['field_image'];
+    node_save($profile_node);
+    // Flush this from the node cache or changes won't show up immediately!
+    $profile_node = node_load($profile_node->nid, NULL, TRUE);
+  }
+
   // All other settings
   $settings = array(
     'signature' => $edit['signature'],
@@ -1738,12 +1749,74 @@ function boincwork_privacyprefs_form(&$form_state) {
   );
   $form['privacy']['show_hosts'] = array(
     '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
+    '#description' => bts('At times, you may be asked to enable this option in order to receive help from the forums. Advanced users may need to be able to inspect your computers\' information in order to help diagnose any problems.', array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['privacy']['show_hosts']
   );
-  
+
+  // Ignore and block users
+  if (module_exists('ignore_user')) {
+    $form['ignoreblock'] = array(
+      '#title' => bts('Ignore Users', array(), NULL, 'boinc:account-preferences-privacy'),
+      '#type' => 'fieldset',
+      '#description' => bts('<p>You may ignore users in the forums and block users from sending you private messages.<p>', array(), NULL, 'boinc:ignore-user-help'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE
+    );
+
+    // Table for ignored users
+    $form['ignoreblock']['current_ignore_section'] = array(
+      '#type' => 'item',
+      '#value' => bts('Current users on your Ignore List', array(), NULL, 'boinc:ignore-user-list'),
+      '#prefix' => '<h4>',
+      '#suffix' => '</h4>',
+      '#weight' => -20,
+    );
+
+    $ignored_users = _ignore_user_ignored_users();
+    foreach ($ignored_users as $ignored_user) {
+      $form['ignoreblock']['username'][$ignored_user['iuid']] = array(
+        '#value' => $ignored_user['username'],
+      );
+      $form['ignoreblock']['delete'][$ignored_user['iuid']] = array(
+        '#value' => l(
+          bts('delete', array(), NULL, 'boinc:ignore-user-delete-button'),
+          'account/prefs/privacy/ignore_user/remove/'. $ignored_user['iuid'],
+          array()
+        ),
+      );
+    }
+    $form['ignoreblock']['pager'] = array('#value' => theme('pager', NULL, 10, 0));
+
+    // Sub-form to add user to ignore list
+    $form['ignoreblock']['add_ignore_user_section'] = array(
+      '#type' => 'item',
+      '#value' => bts('Add user to Ignore List', array(), NULL, 'boinc:ignore-user-add'),
+      '#prefix' => '<h4>',
+      '#suffix' => '</h4>',
+      '#weight' => 10,
+    );
+
+    $form['ignoreblock']['addusername_toignorelist'] = array(
+      '#type' => 'textfield',
+      '#title' => bts('Username', array(), NULL, 'boinc:ignore-user-searchbox'),
+      '#description' => bts('To lookup a username start typing in the search box. A list of usernames will appear as you type. The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.', array(), NULL, 'boinc:ignore-user-searchbox-help'),
+      '#weight' => 11,
+      '#size' => 50,
+      '#autocomplete_path' => 'boincuser/autocomplete',
+    );
+
+    $form['ignoreblock']['addusername_submit'] = array(
+      '#type' => 'submit',
+      '#value' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
+      '#submit' => array('_boincwork_ignore_list_form_submit'),
+      '#weight' => 12,
+      '#attributes' => array('class' => 'add_ignore_user'),
+    );
+  }// endif module_exists
+
   $form['prefs']['separator_bottom'] = array(
     '#value' => '<div class="separator buttons"></div>'
   );
@@ -1756,6 +1829,8 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
     '#value' => bts('Save changes', array(), NULL, 'boinc:form-save'),
+    '#validate' => array('boincwork_privacyprefs_form_validate'),
+    '#submit' => array('boincwork_privacyprefs_form_submit'),
     '#suffix' => '</li>'
   );
   $form['prefs']['form control tabs'] = array(
@@ -1766,6 +1841,50 @@ function boincwork_privacyprefs_form(&$form_state) {
   );
   
   return $form;
+}
+
+/**
+ * Theme the form where user's can manage their ignore list
+ */
+function theme_boincwork_privacyprefs_form($form) {
+
+  $output = '';
+  $output .= drupal_render($form['privacy']);
+
+  $header = array(
+    bts('Username', array(), NULL, 'boinc:ignore-user-list'),
+    bts('Operations', array(), NULL, 'boinc:ignore-user-list')
+  );
+
+  $rows = array();
+  if (isset($form['ignoreblock']['username']) && is_array($form['ignoreblock']['username'])) {
+    foreach (element_children($form['ignoreblock']['username']) as $key) {
+      $row = array();
+      $row[] = drupal_render($form['ignoreblock']['username'][$key]);
+      $row[] = drupal_render($form['ignoreblock']['delete'][$key]);
+      $rows[] = $row;
+    }
+  }
+  else {
+    $rows[] = array(
+      array(
+        'data' => bts('You have not added any users to your Ignore List.', array(), NULL, 'boinc:ignore-user-list'),
+        'colspan' => '2',
+      )
+    );
+  }
+
+  $attr = array('class' => 'ignore_user');
+  $form['ignoreblock']['current_list']['ignored_users']['#value'] = theme('table', $header, $rows, $attr);
+  $output .= drupal_render($form['current_list']);
+
+  if ($form['pager']['#value']) {
+    $output .= drupal_render($form['pager']);
+  }
+
+  $output .= drupal_render($form);
+
+  return $output;
 }
 
 /**
@@ -1796,11 +1915,27 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
   
   //project_prefs_update($boincuser, $main_prefs);
   
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("UPDATE user SET send_email = '{$boincuser->send_email}', show_hosts = '{$boincuser->show_hosts}' WHERE id = '{$boincuser->id}'");
   db_set_active('default');
   
   drupal_set_message(t('Your privacy preferences have been updated.'));
+}
+
+/**
+ * Additional submit handler for privacy form, button to add user to
+ * ignore list.
+ */
+function _boincwork_ignore_list_form_submit($form, $form_state) {
+  boincwork_ignore_user_add_user_username($form_state['values']['addusername_toignorelist']);
+  drupal_set_message(
+    bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
+      array(
+        '@username' => $form_state['values']['addusername_toignorelist'],
+        '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+      ),
+      NULL, 'boinc:ignore-user-add'),
+    'status');
 }
 
 /**

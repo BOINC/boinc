@@ -46,6 +46,7 @@ int PROJECT_LIST_ITEM::parse(XML_PARSER& xp, bool is_am) {
 }
 
 int PROJECT_LIST::read_file() {
+    items.clear();
     FILE* f = fopen(ALL_PROJECTS_LIST_FILENAME, "r");
     if (!f) return ERR_FOPEN;
     MIOFILE mf;
@@ -56,6 +57,7 @@ int PROJECT_LIST::read_file() {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "missing start tag in project list file"
         );
+        fclose(f);
         return ERR_XML_PARSE;
     }
     while (!xp.get_tag()) {

@@ -167,7 +167,6 @@ void HideThisApp() {
 
 static ServerController *myserverController;
 
-static uint32_t nextFrameIndex;
 static uint32_t currentFrameIndex;
 
 static IOSurfaceRef ioSurfaceBuffers[NUM_IOSURFACE_BUFFERS];
@@ -294,8 +293,13 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 @end
 
 
-void MacPrepareOffscreenBuffer() {
-	GLuint name, namef;
+void MacPassOffscreenBufferToScreenSaver() {
+    NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
+    NSView *myView = [ myContext view ];
+    GLsizei w = myView.bounds.size.width;
+    GLsizei h = myView.bounds.size.height;
+
+    GLuint name, namef;
 
     if (!myserverController) {
         myserverController = [[[ServerController alloc] init] retain];
@@ -318,13 +322,8 @@ void MacPrepareOffscreenBuffer() {
         }
     }
     
-	if(!textureNames[nextFrameIndex])
-	{
-        NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
-        NSView *myView = [ myContext view ];
-        GLsizei w = myView.bounds.size.width;
-        GLsizei h = myView.bounds.size.height;
-
+    if(!textureNames[currentFrameIndex])
+    {
         CGLContextObj cgl_ctx = (CGLContextObj)[myContext CGLContextObj];
         
         glGenTextures(1, &name);
@@ -332,11 +331,11 @@ void MacPrepareOffscreenBuffer() {
         glBindTexture(GL_TEXTURE_RECTANGLE, name);
         // At the moment, CGLTexImageIOSurface2D requires the GL_TEXTURE_RECTANGLE target
         CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE, GL_RGBA, w, h, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
-                        ioSurfaceBuffers[nextFrameIndex], 0);
+                        ioSurfaceBuffers[currentFrameIndex], 0);
         glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);	
+        glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         
         // Generate an FBO and bind the texture to it as a render target.
         glBindTexture(GL_TEXTURE_RECTANGLE, 0);
@@ -352,23 +351,36 @@ void MacPrepareOffscreenBuffer() {
         }
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_RECTANGLE, depthBufferName);
 
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        
-        fboNames[nextFrameIndex] = namef;
-        textureNames[nextFrameIndex] = name;
-	}
-    currentFrameIndex = nextFrameIndex;
-	nextFrameIndex = (nextFrameIndex + 1) % NUM_IOSURFACE_BUFFERS;
+        fboNames[currentFrameIndex] = namef;
+        textureNames[currentFrameIndex] = name;
+    }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, fboNames[currentFrameIndex]);
-}
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);   // First, draw to default FBO (screen FBO)
 
-void MacPassOffscreenBufferToScreenSaver() {
-    glutSwapBuffers();
+    // To see the original rendering in the graphics app's full-screen window
+    // for debugging, temporarily enable this "glutSwapBuffers" statement
+//    glutSwapBuffers();  // FOR DEBUGGING ONLY
+
+    // Copy the default FBO to the IOSurface texture's FBO
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboNames[currentFrameIndex]);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+    glBlitFramebuffer(0,0,w,h, 0,0,w,h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+    // To see the contents of the IOSurface in the graphics app's full-screen window
+    // for debugging, temporarily change "#if 0" to #if 1" bin the next line:
+ #if 0  // FOR DEBUGGING ONLY
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, fboNames[currentFrameIndex]);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBlitFramebuffer(0,0,w,h, 0,0,w,h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+#endif
+
+   glutSwapBuffers();
     [myserverController sendIOSurfaceMachPortToClients: currentFrameIndex
                         withMachPort:ioSurfaceMachPorts[currentFrameIndex]];
     glFlush();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    currentFrameIndex = (currentFrameIndex + 1) % NUM_IOSURFACE_BUFFERS;
 }
 
 // Code for debugging:

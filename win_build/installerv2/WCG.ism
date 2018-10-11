@@ -54,7 +54,7 @@
 		<title>##COMPANY_PRODUCT##</title>
 		<subject>##COMPANY_PRODUCT_SUBJECT##</subject>
 		<author>##COMPANY_NAME##</author>
-		<keywords>BOINC World Commity Grid</keywords>
+		<keywords>BOINC World Community Grid</keywords>
 		<comments>##IDS_FEATURE_BOINC_DESCRIPTION##</comments>
 		<template>Intel;1033</template>
 		<lastauthor>Administrator</lastauthor>
@@ -256,7 +256,7 @@
 		<row><td>ISSELFREG.DLL</td><td/><td>&lt;ISProductFolder&gt;\redist\language independent\i386\isregsvr.dll</td></row>
 		<row><td>ISSetupFilesHelper</td><td/><td>&lt;ISProductFolder&gt;\redist\language independent\i386\SFHelper.dll</td></row>
 		<row><td>InteriorBin1</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_IsDialogBanner.bmp</td></row>
-		<row><td>NewBinary1</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\IsDialogBanner.ibd</td></row>
+		<row><td>NewBinary1</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_IsDialogBanner.bmp</td></row>
 		<row><td>NewBinary10</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_IsDialogBitmap.bmp</td></row>
 		<row><td>NewBinary11</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
 		<row><td>NewBinary12</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\DestIcon.ibd</td></row>
@@ -269,7 +269,6 @@
 		<row><td>NewBinary19</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_splash.bmp</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
 		<row><td>NewBinary20</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_IsDialogBanner.bmp</td></row>
-		<row><td>NewBinary21</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_IsDialogBitmap.bmp</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
 		<row><td>NewBinary5</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_IsDialogBitmap.bmp</td></row>
@@ -292,13 +291,10 @@
 	<table name="CheckBox">
 		<col key="yes" def="s72">Property</col>
 		<col def="S64">Value</col>
-		<row><td>AgreeToLicense</td><td>Yes</td></row>
 		<row><td>ENABLEPROTECTEDAPPLICATIONEXECUTION3</td><td>1</td></row>
 		<row><td>ENABLESCREENSAVER</td><td>1</td></row>
 		<row><td>ENABLEUSEBYALLUSERS</td><td>1</td></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td></row>
-		<row><td>LicenseAgreement</td><td>Yes</td></row>
-		<row><td>LicenseAgreementAgree</td><td>1</td></row>
 	</table>
 
 	<table name="Class">
@@ -360,8 +356,8 @@
 		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManager</td><td>{7EBB5E76-86BA-4EBA-98AA-DD908C215D72}</td><td>INSTALLDIR</td><td>0</td><td/><td>boincmgr.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerGlobalization</td><td>{F92B6595-2E79-45F0-BF41-4EDB52645FFC}</td><td>LOCALE</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCManagerSkinDefault</td><td>{F315CC2D-FA00-4620-9CC7-01C17451A72C}</td><td>DEFAULT</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCManagerSkinWCG</td><td>{AD6F1C10-1DF7-4EDE-8ED8-18A9BA07CECA}</td><td>WORLD_COMMUNITY_GRID</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCManagerSkin</td><td>{AD6F1C10-1DF7-4EDE-8ED8-18A9BA07CECA}</td><td>DEFAULT</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCManagerSkinWCG</td><td>{E2FA3114-756A-4ED2-A7CF-26C5C78BFF56}</td><td>WORLD_COMMUNITY_GRID</td><td>8</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartMenu</td><td>{71A32D47-CA9B-4A6E-8811-2723938317C1}</td><td>INSTALLDIR</td><td>0</td><td>ENABLESTARTMENUITEMS = 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartup</td><td>{2BA019A7-8985-46BC-9309-FB8AD4C83906}</td><td>INSTALLDIR</td><td>0</td><td>ENABLEUSEBYALLUSERS &lt;&gt; 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartupAll</td><td>{175B1B4B-D4D7-4D21-968A-8EDF6F8C4BE3}</td><td>INSTALLDIR</td><td>0</td><td>ENABLEUSEBYALLUSERS = 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -397,7 +393,7 @@
 		<col def="I4">ISControlId</col>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="S72">Binary_</col>
-		<row><td>AdminChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>AdminChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>AdminChangeFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>ComboText</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Combo</td><td>DirectoryCombo</td><td>21</td><td>64</td><td>277</td><td>80</td><td>458755</td><td>TARGETDIR</td><td>##IDS__IsAdminInstallBrowse_4##</td><td>Up</td><td/><td>0</td><td/><td/><td/></row>
@@ -412,7 +408,7 @@
 		<row><td>AdminChangeFolder</td><td>TailText</td><td>Text</td><td>21</td><td>193</td><td>99</td><td>13</td><td>3</td><td/><td>##IDS__IsAdminInstallBrowse_FolderName##</td><td>Tail</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Up</td><td>PushButton</td><td>310</td><td>66</td><td>19</td><td>19</td><td>3670019</td><td/><td/><td>NewFolder</td><td>##IDS__IsAdminInstallBrowse_UpOneLevel##</td><td>0</td><td/><td/><td>NewBinary3</td></row>
 		<row><td>AdminNetworkLocation</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>InstallNow</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>AdminNetworkLocation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>AdminNetworkLocation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>AdminNetworkLocation</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminNetworkLocation</td><td>Browse</td><td>PushButton</td><td>286</td><td>124</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsAdminInstallPoint_Change##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminNetworkLocation</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>SetupPathEdit</td><td/><td>0</td><td/><td/><td/></row>
@@ -426,7 +422,7 @@
 		<row><td>AdminWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>326</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>AdminWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary5</td></row>
+		<row><td>AdminWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>AdminWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsAdminInstallPointWelcome_Wizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>65539</td><td/><td>##IDS__IsAdminInstallPointWelcome_ServerImage##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -434,7 +430,7 @@
 		<row><td>CancelSetup</td><td>No</td><td>PushButton</td><td>135</td><td>57</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsCancelDlg_No##</td><td>Yes</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CancelSetup</td><td>Text</td><td>Text</td><td>48</td><td>15</td><td>194</td><td>30</td><td>3</td><td/><td>##IDS__IsCancelDlg_ConfirmCancel##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CancelSetup</td><td>Yes</td><td>PushButton</td><td>62</td><td>57</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsCancelDlg_Yes##</td><td>No</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>ChangeFolderData</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>ChangeFolderData</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>ChangeFolderData</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderData</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>ComboText</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderData</td><td>Combo</td><td>DirectoryCombo</td><td>21</td><td>64</td><td>277</td><td>80</td><td>4128779</td><td>_BrowseDataProperty</td><td>##IDS__IsBrowseFolderDlg_4##</td><td>Up</td><td/><td>0</td><td/><td/><td/></row>
@@ -448,7 +444,7 @@
 		<row><td>ChangeFolderData</td><td>Tail</td><td>PathEdit</td><td>21</td><td>207</td><td>332</td><td>17</td><td>15</td><td>_BrowseDataProperty</td><td>##IDS__IsBrowseFolderDlg_11##</td><td>OK</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderData</td><td>TailText</td><td>Text</td><td>21</td><td>193</td><td>99</td><td>13</td><td>3</td><td/><td>##IDS__IsBrowseFolderDlg_FolderName##</td><td>Tail</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderData</td><td>Up</td><td>PushButton</td><td>310</td><td>66</td><td>19</td><td>19</td><td>3670019</td><td/><td/><td>NewFolder</td><td>##IDS__IsBrowseFolderDlg_UpOneLevel##</td><td>0</td><td/><td/><td>NewBinary3</td></row>
-		<row><td>ChangeFolderInstall</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>ChangeFolderInstall</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>ChangeFolderInstall</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderInstall</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>ComboText</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderInstall</td><td>Combo</td><td>DirectoryCombo</td><td>21</td><td>64</td><td>277</td><td>80</td><td>4128779</td><td>_BrowseInstallProperty</td><td>##IDS__IsBrowseFolderDlg_4##</td><td>Up</td><td/><td>0</td><td/><td/><td/></row>
@@ -462,7 +458,7 @@
 		<row><td>ChangeFolderInstall</td><td>Tail</td><td>PathEdit</td><td>21</td><td>207</td><td>332</td><td>17</td><td>15</td><td>_BrowseInstallProperty</td><td>##IDS__IsBrowseFolderDlg_11##</td><td>OK</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderInstall</td><td>TailText</td><td>Text</td><td>21</td><td>193</td><td>99</td><td>13</td><td>3</td><td/><td>##IDS__IsBrowseFolderDlg_FolderName##</td><td>Tail</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ChangeFolderInstall</td><td>Up</td><td>PushButton</td><td>310</td><td>66</td><td>19</td><td>19</td><td>3670019</td><td/><td/><td>NewFolder</td><td>##IDS__IsBrowseFolderDlg_UpOneLevel##</td><td>0</td><td/><td/><td>NewBinary3</td></row>
-		<row><td>DiskSpaceRequirements</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>DiskSpaceRequirements</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>DiskSpaceRequirements</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>DlgDesc</td><td>Text</td><td>17</td><td>23</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsFeatureDetailsDlg_SpaceRequired##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>DlgLine</td><td>Line</td><td>48</td><td>234</td><td>326</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
@@ -471,7 +467,7 @@
 		<row><td>DiskSpaceRequirements</td><td>List</td><td>VolumeCostList</td><td>8</td><td>55</td><td>358</td><td>125</td><td>393223</td><td/><td>##IDS__IsFeatureDetailsDlg_Numbers##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>OK</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFeatureDetailsDlg_OK##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FeatureNotSupported</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>FeatureNotSupported</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>FeatureNotSupported</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>FeatureNotSupported</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FeatureNotSupported</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FeatureNotSupported</td><td>DlgDesc</td><td>Text</td><td>21</td><td>23</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__FeatueNotSupportedDlg_DialogDescription##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
@@ -488,17 +484,15 @@
 		<row><td>FilesInUse</td><td>Ignore</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFilesInUse_Ignore##</td><td>Exit</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>List</td><td>ListBox</td><td>21</td><td>87</td><td>331</td><td>135</td><td>7</td><td>FileInUseProcess</td><td/><td>Retry</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>Retry</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFilesInUse_Retry##</td><td>Ignore</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Text1</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>InstallNow</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Copyright</td><td>Text</td><td>135</td><td>193</td><td>228</td><td>35</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_WarningCopyright##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Copyright</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>Copyright</td><td>Text</td><td>135</td><td>144</td><td>228</td><td>73</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_WarningCopyright##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary21</td></row>
-		<row><td>InstallWelcome</td><td>InstallNow</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS__IsVerifyReadyDlg_Install##</td><td>LicenseAgreementCheck</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>LicenseAgreementButton</td><td>PushButton</td><td>241</td><td>111</td><td>86</td><td>18</td><td>3</td><td/><td>##NEW_STRING35##</td><td>Back</td><td/><td/><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>LicenseAgreementCheck</td><td>CheckBox</td><td>135</td><td>115</td><td>11</td><td>11</td><td>3</td><td>AgreeToLicense</td><td>##NEW_STRING32##</td><td>LicenseAgreementButton</td><td/><td/><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Text1</td><td>Text</td><td>149</td><td>115</td><td>89</td><td>13</td><td>65539</td><td>NewProperty1</td><td>##NEW_STRING33##</td><td>Copyright</td><td/><td/><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_WelcomeProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_InstallProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>InstallWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>9</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_WelcomeProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>TextLine2</td><td>Text</td><td>136</td><td>54</td><td>228</td><td>45</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_InstallProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>LicenseAgreement</td><td>Agree</td><td>RadioButtonGroup</td><td>8</td><td>190</td><td>291</td><td>40</td><td>3</td><td>AgreeToLicense</td><td/><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>LicenseAgreement</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
@@ -506,9 +500,9 @@
 		<row><td>LicenseAgreement</td><td>DlgDesc</td><td>Text</td><td>21</td><td>23</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsLicenseDlg_ReadLicenseAgreement##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>DlgLine</td><td>Line</td><td>48</td><td>234</td><td>326</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>DlgTitle</td><td>Text</td><td>13</td><td>6</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsLicenseDlg_LicenseAgreement##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>LicenseAgreement</td><td>ISPrintButton</td><td>PushButton</td><td>301</td><td>212</td><td>65</td><td>17</td><td>3</td><td/><td>##IDS_PRINT_BUTTON##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>LicenseAgreement</td><td>Memo</td><td>ScrollableText</td><td>8</td><td>55</td><td>358</td><td>151</td><td>7</td><td/><td/><td/><td/><td>0</td><td/><td>&lt;ISProjectFolder&gt;\redist\0409\eula.rtf</td><td/></row>
-		<row><td>LicenseAgreement</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>LicenseAgreement</td><td>ISPrintButton</td><td>PushButton</td><td>301</td><td>188</td><td>65</td><td>17</td><td>3</td><td/><td>##IDS_PRINT_BUTTON##</td><td>Agree</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>LicenseAgreement</td><td>Memo</td><td>ScrollableText</td><td>8</td><td>55</td><td>358</td><td>130</td><td>7</td><td/><td/><td/><td/><td>0</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\eula.rtf</td><td/></row>
+		<row><td>LicenseAgreement</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceType</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceType</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>MaintenanceType</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
@@ -525,7 +519,7 @@
 		<row><td>MaintenanceWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>MaintenanceWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>MaintenanceWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>MaintenanceWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsMaintenanceWelcome_WizardWelcome##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsMaintenanceWelcome_MaintenanceOptionsDescription##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -552,12 +546,12 @@
 		<row><td>PatchWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>PatchWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>PatchWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>PatchWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsPatchDlg_Update##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsPatchDlg_WelcomePatchWizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>54</td><td>228</td><td>45</td><td>65539</td><td/><td>##IDS__IsPatchDlg_PatchClickUpdate##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToInstall</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>InstallNow</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>ReadyToInstall</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary1</td></row>
+		<row><td>ReadyToInstall</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
 		<row><td>ReadyToInstall</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToInstall</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToInstall</td><td>DlgDesc</td><td>Text</td><td>21</td><td>23</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsVerifyReadyDlg_WizardReady##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -585,7 +579,7 @@
 		<row><td>SetupCompleteError</td><td>Finish</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFatalError_Finish##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>FinishText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsFatalError_NotModified##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>FinishText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsFatalError_ClickFinish##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupCompleteError</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>SetupCompleteError</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>SetupCompleteError</td><td>RestContText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsFatalError_KeepOrRestore##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>RestContText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsFatalError_RestoreOrContinueLater##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsFatalError_WizardCompleted##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -593,7 +587,7 @@
 		<row><td>SetupCompleteSuccess</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>LaunchProgramCheck</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_CANCEL##</td><td>Image</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupCompleteSuccess</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td>Back</td><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>SetupCompleteSuccess</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td>Back</td><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>SetupCompleteSuccess</td><td>LaunchProgramCheck</td><td>CheckBox</td><td>151</td><td>114</td><td>10</td><td>9</td><td>2</td><td>LAUNCHPROGRAM</td><td/><td>LaunchProgramText</td><td/><td/><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>LaunchProgramText</td><td>Text</td><td>165</td><td>114</td><td>198</td><td>15</td><td>65538</td><td>NewProperty1</td><td>##NEW_STRING2##</td><td>OK</td><td/><td/><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsExitDialog_Finish##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
@@ -603,6 +597,51 @@
 		<row><td>SetupCompleteSuccess</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>65538</td><td/><td>##IDS__IsExitDialog_InstallSuccess##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>TextLine3</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>65538</td><td/><td>##IDS__IsExitDialog_UninstallSuccess##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>UpdateTextLine1</td><td>Text</td><td>134</td><td>30</td><td>228</td><td>45</td><td>65538</td><td/><td>##IDS__IsExitDialog_Update_SetupFinished##</td><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Advanced</td><td>PushButton</td><td>301</td><td>209</td><td>66</td><td>17</td><td>3</td><td/><td>##NEW_STRING1##</td><td>Back</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##ID_STRING14##</td><td>CheckBox4</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
+		<row><td>SetupConfig</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##ID_STRING19##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##ID_STRING20##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##ID_STRING15##</td><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>CheckBox2</td><td>CheckBox</td><td>21</td><td>127</td><td>331</td><td>13</td><td>1</td><td>ENABLESCREENSAVER</td><td>##NEW_STRING22##</td><td>CheckBox3</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>CheckBox3</td><td>CheckBox</td><td>21</td><td>143</td><td>331</td><td>13</td><td>1</td><td>ENABLEPROTECTEDAPPLICATIONEXECUTION3</td><td>##NEW_STRING24##</td><td>Advanced</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>CheckBox4</td><td>CheckBox</td><td>21</td><td>185</td><td>331</td><td>13</td><td>1</td><td>ENABLEUSEBYALLUSERS</td><td>##NEW_STRING25##</td><td>CheckBox2</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>DlgDesc</td><td>Text</td><td>21</td><td>23</td><td>292</td><td>25</td><td>65539</td><td/><td>##ID_STRING17##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
+		<row><td>SetupConfig</td><td>DlgLine</td><td>Line</td><td>48</td><td>234</td><td>326</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>DlgTitle</td><td>Text</td><td>12</td><td>5</td><td>292</td><td>25</td><td>65539</td><td/><td>##ID_STRING16##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
+		<row><td>SetupConfig</td><td>Icon1</td><td>Icon</td><td>21</td><td>52</td><td>24</td><td>24</td><td>5767169</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary12</td></row>
+		<row><td>SetupConfig</td><td>Icon2</td><td>Icon</td><td>21</td><td>87</td><td>24</td><td>24</td><td>5767169</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary12</td></row>
+		<row><td>SetupConfig</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##ID_STRING13##</td><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Text1</td><td>Text</td><td>57</td><td>65</td><td>240</td><td>13</td><td>3</td><td>_BrowseInstallProperty</td><td>##NEW_STRING16##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Text2</td><td>Text</td><td>57</td><td>52</td><td>290</td><td>12</td><td>3</td><td>NewProperty1</td><td>##NEW_STRING17##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Text3</td><td>Text</td><td>57</td><td>100</td><td>240</td><td>13</td><td>3</td><td>_BrowseDataProperty1</td><td>##NEW_STRING18##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Text4</td><td>Text</td><td>21</td><td>202</td><td>267</td><td>22</td><td>3</td><td>NewProperty211</td><td>##NEW_STRING27##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Text5</td><td>Text</td><td>57</td><td>87</td><td>290</td><td>11</td><td>3</td><td>NewProperty21</td><td>##NEW_STRING21##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfig</td><td>Text6</td><td>Text</td><td>34</td><td>159</td><td>328</td><td>25</td><td>1</td><td/><td>##NEW_STRING30##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##ID_STRING22##</td><td>ChangeInstall</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>InteriorBin1</td></row>
+		<row><td>SetupConfigAdvanced</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##ID_STRING27##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##ID_STRING28##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##ID_STRING23##</td><td>ChangeData</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>ChangeData</td><td>PushButton</td><td>301</td><td>100</td><td>66</td><td>17</td><td>3</td><td/><td>##NEW_STRING8##</td><td>Back</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>ChangeInstall</td><td>PushButton</td><td>301</td><td>65</td><td>66</td><td>17</td><td>3</td><td/><td>##NEW_STRING5##</td><td>CheckBox4</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>CheckBox2</td><td>CheckBox</td><td>21</td><td>127</td><td>331</td><td>13</td><td>3</td><td>ENABLESCREENSAVER</td><td>##NEW_STRING12##</td><td>CheckBox3</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>CheckBox3</td><td>CheckBox</td><td>21</td><td>143</td><td>331</td><td>13</td><td>3</td><td>ENABLEPROTECTEDAPPLICATIONEXECUTION3</td><td>##NEW_STRING13##</td><td>Next</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>CheckBox4</td><td>CheckBox</td><td>21</td><td>210</td><td>331</td><td>13</td><td>3</td><td>ENABLEUSEBYALLUSERS</td><td>##NEW_STRING15##</td><td>CheckBox2</td><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>DlgDesc</td><td>Text</td><td>21</td><td>23</td><td>292</td><td>25</td><td>65539</td><td/><td>##ID_STRING25##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>DlgLine</td><td>Line</td><td>48</td><td>234</td><td>326</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>DlgTitle</td><td>Text</td><td>13</td><td>6</td><td>292</td><td>25</td><td>65539</td><td/><td>##ID_STRING24##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Icon1</td><td>Icon</td><td>21</td><td>52</td><td>24</td><td>24</td><td>5767169</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary12</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Icon2</td><td>Icon</td><td>21</td><td>87</td><td>24</td><td>24</td><td>5767169</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary12</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##ID_STRING21##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Text1</td><td>Text</td><td>57</td><td>65</td><td>240</td><td>13</td><td>3</td><td>_BrowseInstallProperty</td><td>##NEW_STRING6##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Text2</td><td>Text</td><td>57</td><td>52</td><td>290</td><td>11</td><td>3</td><td>NewProperty1</td><td>##NEW_STRING7##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Text3</td><td>Text</td><td>57</td><td>100</td><td>240</td><td>13</td><td>3</td><td>_BrowseDataProperty</td><td>##NEW_STRING9##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Text4</td><td>Text</td><td>57</td><td>87</td><td>290</td><td>11</td><td>3</td><td>NewProperty2</td><td>##NEW_STRING10##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Text5</td><td>Text</td><td>34</td><td>158</td><td>328</td><td>44</td><td>3</td><td/><td>##NEW_STRING14##</td><td/><td/><td/><td/><td/><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>Text6</td><td>Text</td><td>34</td><td>158</td><td>328</td><td>44</td><td>3</td><td/><td>##NEW_STRING31##</td><td/><td/><td/><td/><td/><td/></row>
 		<row><td>SetupError</td><td>A</td><td>PushButton</td><td>192</td><td>80</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsErrorDlg_Abort##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupError</td><td>C</td><td>PushButton</td><td>192</td><td>80</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL2##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupError</td><td>ErrorText</td><td>Text</td><td>50</td><td>15</td><td>200</td><td>50</td><td>3</td><td/><td>##IDS__IsErrorDlg_ErrorText##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -617,7 +656,7 @@
 		<row><td>SetupInitialization</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupInitialization</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>SetupInitialization</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>SetupInitialization</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_NEXT##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsInitDlg_WelcomeWizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>30</td><td>65539</td><td/><td>##IDS__IsInitDlg_PreparingWizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -627,7 +666,7 @@
 		<row><td>SetupInterrupted</td><td>Finish</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsUserExit_Finish##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>FinishText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsUserExit_NotModified##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>FinishText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsUserExit_ClickFinish##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupInterrupted</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>SetupInterrupted</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
 		<row><td>SetupInterrupted</td><td>RestContText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsUserExit_KeepOrRestore##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>RestContText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsUserExit_RestoreOrContinue##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>65539</td><td/><td>##IDS__IsUserExit_WizardCompleted##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -635,7 +674,7 @@
 		<row><td>SetupProgress</td><td>ActionProgress95</td><td>ProgressBar</td><td>59</td><td>113</td><td>275</td><td>12</td><td>65537</td><td/><td>##IDS__IsProgressDlg_ProgressDone##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>ActionText</td><td>Text</td><td>59</td><td>100</td><td>275</td><td>12</td><td>3</td><td/><td>##IDS__IsProgressDlg_2##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupProgress</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary20</td></row>
+		<row><td>SetupProgress</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary1</td></row>
 		<row><td>SetupProgress</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>DlgDesc</td><td>Text</td><td>21</td><td>23</td><td>292</td><td>25</td><td>65538</td><td/><td>##IDS__IsProgressDlg_UninstallingFeatures2##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -654,7 +693,7 @@
 		<row><td>SetupResume</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupResume</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupResume</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupResume</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1048577</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary10</td></row>
+		<row><td>SetupResume</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>100</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary5</td></row>
 		<row><td>SetupResume</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupResume</td><td>PreselectedText</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>65539</td><td/><td>##IDS__IsResumeDlg_WizardResume##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupResume</td><td>ResumeText</td><td>Text</td><td>135</td><td>46</td><td>228</td><td>45</td><td>65539</td><td/><td>##IDS__IsResumeDlg_ResumeSuspended##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -673,8 +712,6 @@
 		<col key="yes" def="s255">Condition</col>
 		<row><td>InstallWelcome</td><td>Copyright</td><td>Hide</td><td>SHOWCOPYRIGHT="No"</td></row>
 		<row><td>InstallWelcome</td><td>Copyright</td><td>Show</td><td>SHOWCOPYRIGHT="Yes"</td></row>
-		<row><td>InstallWelcome</td><td>InstallNow</td><td>Disable</td><td>AgreeToLicense &lt;&gt; "Yes"</td></row>
-		<row><td>InstallWelcome</td><td>InstallNow</td><td>Enable</td><td>AgreeToLicense = "Yes"</td></row>
 		<row><td>LicenseAgreement</td><td>Next</td><td>Disable</td><td>AgreeToLicense &lt;&gt; "Yes"</td></row>
 		<row><td>LicenseAgreement</td><td>Next</td><td>Enable</td><td>AgreeToLicense = "Yes"</td></row>
 		<row><td>ReadyToInstall</td><td>DlgTitle</td><td>Show</td><td>ProgressType0="Modify"</td></row>
@@ -701,6 +738,12 @@
 		<row><td>SetupCompleteSuccess</td><td>TextLine2</td><td>Show</td><td>ProgressType2="installed" And ((ACTION&lt;&gt;"INSTALL") OR (NOT ISENABLEDWUSFINISHDIALOG) OR (ISENABLEDWUSFINISHDIALOG And Installed))</td></row>
 		<row><td>SetupCompleteSuccess</td><td>TextLine3</td><td>Show</td><td>ProgressType2="uninstalled" And ((ACTION&lt;&gt;"INSTALL") OR (NOT ISENABLEDWUSFINISHDIALOG) OR (ISENABLEDWUSFINISHDIALOG And Installed))</td></row>
 		<row><td>SetupCompleteSuccess</td><td>UpdateTextLine1</td><td>Show</td><td>ISENABLEDWUSFINISHDIALOG And NOT Installed And ACTION="INSTALL"</td></row>
+		<row><td>SetupConfigAdvanced</td><td>CheckBox3</td><td>Disable</td><td>NOT VersionNT</td></row>
+		<row><td>SetupConfigAdvanced</td><td>CheckBox4</td><td>Disable</td><td>NOT VersionNT</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Text5</td><td>Hide</td><td>VersionNT &gt;= 600</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Text5</td><td>Show</td><td>Version9X OR VersionNT &lt; 600</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Text6</td><td>Hide</td><td>Version9X OR VersionNT &lt; 600</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Text6</td><td>Show</td><td>VersionNT &gt;= 600</td></row>
 		<row><td>SetupInterrupted</td><td>Back</td><td>Default</td><td>UpdateStarted</td></row>
 		<row><td>SetupInterrupted</td><td>Back</td><td>Disable</td><td>NOT UpdateStarted</td></row>
 		<row><td>SetupInterrupted</td><td>Back</td><td>Enable</td><td>UpdateStarted</td></row>
@@ -771,13 +814,13 @@
 		<row><td>FilesInUse</td><td>Retry</td><td>EndDialog</td><td>Retry</td><td>1</td><td>0</td></row>
 		<row><td>InstallWelcome</td><td>Back</td><td>NewDialog</td><td>SplashBitmap</td><td>Display_IsBitmapDlg</td><td>1</td></row>
 		<row><td>InstallWelcome</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
-		<row><td>InstallWelcome</td><td>InstallNow</td><td>EndDialog</td><td>Return</td><td>OutOfNoRbDiskSpace &lt;&gt; 1</td><td>1</td></row>
-		<row><td>InstallWelcome</td><td>InstallNow</td><td>NewDialog</td><td>OutOfSpace</td><td>OutOfNoRbDiskSpace = 1</td><td>2</td></row>
-		<row><td>InstallWelcome</td><td>LicenseAgreementButton</td><td>NewDialog</td><td>LicenseAgreement</td><td>1</td><td>1</td></row>
+		<row><td>InstallWelcome</td><td>Next</td><td>DoAction</td><td>CADisableProtectedApplicationExecution</td><td>NOT VersionNT</td><td>2</td></row>
+		<row><td>InstallWelcome</td><td>Next</td><td>DoAction</td><td>CADisableUseByAllUsers</td><td>NOT VersionNT</td><td>3</td></row>
+		<row><td>InstallWelcome</td><td>Next</td><td>NewDialog</td><td>LicenseAgreement</td><td>1</td><td>1</td></row>
 		<row><td>LicenseAgreement</td><td>Back</td><td>NewDialog</td><td>InstallWelcome</td><td>1</td><td>1</td></row>
 		<row><td>LicenseAgreement</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
 		<row><td>LicenseAgreement</td><td>ISPrintButton</td><td>DoAction</td><td>ISPrint</td><td>1</td><td>1</td></row>
-		<row><td>LicenseAgreement</td><td>Next</td><td>NewDialog</td><td>NoDialog</td><td>1</td><td>1</td></row>
+		<row><td>LicenseAgreement</td><td>Next</td><td>NewDialog</td><td>SetupConfig</td><td>1</td><td>1</td></row>
 		<row><td>MaintenanceType</td><td>Back</td><td>NewDialog</td><td>MaintenanceWelcome</td><td>1</td><td>1</td></row>
 		<row><td>MaintenanceType</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
 		<row><td>MaintenanceType</td><td>Next</td><td>NewDialog</td><td>ReadyToInstall</td><td>_IsMaintenance = "Reinstall"</td><td>8</td></row>
@@ -801,7 +844,7 @@
 		<row><td>PatchWelcome</td><td>Next</td><td>Reinstall</td><td>ALL</td><td>PATCH And REINSTALL=""</td><td>1</td></row>
 		<row><td>PatchWelcome</td><td>Next</td><td>ReinstallMode</td><td>omus</td><td>PATCH And REINSTALLMODE=""</td><td>2</td></row>
 		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>MaintenanceType</td><td>Installed AND _IsMaintenance = "Reinstall"</td><td>2</td></row>
-		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>NoDialog</td><td>NOT Installed</td><td>1</td></row>
+		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>SetupConfig</td><td>NOT Installed</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>EndDialog</td><td>Return</td><td>OutOfNoRbDiskSpace &lt;&gt; 1</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>NewDialog</td><td>OutOfSpace</td><td>OutOfNoRbDiskSpace = 1</td><td>2</td></row>
@@ -810,14 +853,14 @@
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>[ProgressType1]</td><td>Installing</td><td>1</td><td>3</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>[ProgressType2]</td><td>installed</td><td>1</td><td>4</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>[ProgressType3]</td><td>installs</td><td>1</td><td>5</td></row>
-		<row><td>ReadyToRemove</td><td>Back</td><td>NewDialog</td><td>MaintenanceType</td><td>1</td><td>0</td></row>
-		<row><td>ReadyToRemove</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
+		<row><td>ReadyToRemove</td><td>Back</td><td>NewDialog</td><td>MaintenanceType</td><td>1</td><td>1</td></row>
+		<row><td>ReadyToRemove</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
 		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>EndDialog</td><td>Return</td><td>OutOfNoRbDiskSpace &lt;&gt; 1</td><td>2</td></row>
 		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>NewDialog</td><td>OutOfSpace</td><td>OutOfNoRbDiskSpace = 1</td><td>2</td></row>
 		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>Remove</td><td>ALL</td><td>1</td><td>1</td></row>
-		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>[ProgressType1]</td><td>Uninstalling</td><td>1</td><td>0</td></row>
-		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>[ProgressType2]</td><td>uninstalled</td><td>1</td><td>0</td></row>
-		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>[ProgressType3]</td><td>uninstalls</td><td>1</td><td>0</td></row>
+		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>[ProgressType1]</td><td>Uninstalling</td><td>1</td><td>3</td></row>
+		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>[ProgressType2]</td><td>uninstalled</td><td>1</td><td>4</td></row>
+		<row><td>ReadyToRemove</td><td>RemoveNow</td><td>[ProgressType3]</td><td>uninstalls</td><td>1</td><td>5</td></row>
 		<row><td>SetupCompleteError</td><td>Back</td><td>EndDialog</td><td>Return</td><td>1</td><td>2</td></row>
 		<row><td>SetupCompleteError</td><td>Back</td><td>[Suspend]</td><td>{}</td><td>1</td><td>1</td></row>
 		<row><td>SetupCompleteError</td><td>Cancel</td><td>EndDialog</td><td>Return</td><td>1</td><td>2</td></row>
@@ -831,6 +874,20 @@
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>LaunchBOINCManagerXP</td><td>LAUNCHPROGRAM And (ACTION &lt;&gt; "ADMIN") And VersionNT &lt; 600</td><td>3</td></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>LaunchBOINCTrayXP</td><td>LAUNCHPROGRAM And (ACTION &lt;&gt; "ADMIN") And VersionNT &lt; 600</td><td>4</td></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
+		<row><td>SetupConfig</td><td>Advanced</td><td>NewDialog</td><td>SetupConfigAdvanced</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfig</td><td>Back</td><td>NewDialog</td><td>LicenseAgreement</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfig</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfig</td><td>Next</td><td>DoAction</td><td>CAVerifyInstallDirectories</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfig</td><td>Next</td><td>NewDialog</td><td>ReadyToInstall</td><td>RETURN_VERIFYINSTALLDIRECTORIES = "1"</td><td>3</td></row>
+		<row><td>SetupConfig</td><td>Next</td><td>NewDialog</td><td>SetupConfigAdvanced</td><td>RETURN_VERIFYINSTALLDIRECTORIES &lt;&gt; "1"</td><td>2</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Back</td><td>NewDialog</td><td>SetupConfig</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfigAdvanced</td><td>ChangeData</td><td>SpawnDialog</td><td>ChangeFolderData</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfigAdvanced</td><td>ChangeData</td><td>[_BrowseDataProperty]</td><td>DATADIR</td><td>1</td><td>2</td></row>
+		<row><td>SetupConfigAdvanced</td><td>ChangeInstall</td><td>SpawnDialog</td><td>ChangeFolderInstall</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfigAdvanced</td><td>ChangeInstall</td><td>[_BrowseInstallProperty]</td><td>INSTALLDIR</td><td>1</td><td>2</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Next</td><td>DoAction</td><td>CAVerifyInstallDirectories</td><td>1</td><td>1</td></row>
+		<row><td>SetupConfigAdvanced</td><td>Next</td><td>NewDialog</td><td>ReadyToInstall</td><td>RETURN_VERIFYINSTALLDIRECTORIES = "1"</td><td>2</td></row>
 		<row><td>SetupError</td><td>A</td><td>EndDialog</td><td>ErrorAbort</td><td>1</td><td>0</td></row>
 		<row><td>SetupError</td><td>C</td><td>EndDialog</td><td>ErrorCancel</td><td>1</td><td>0</td></row>
 		<row><td>SetupError</td><td>I</td><td>EndDialog</td><td>ErrorIgnore</td><td>1</td><td>0</td></row>
@@ -849,8 +906,8 @@
 		<row><td>SetupResume</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
 		<row><td>SetupResume</td><td>Next</td><td>EndDialog</td><td>Return</td><td>OutOfNoRbDiskSpace &lt;&gt; 1</td><td>0</td></row>
 		<row><td>SetupResume</td><td>Next</td><td>NewDialog</td><td>OutOfSpace</td><td>OutOfNoRbDiskSpace = 1</td><td>0</td></row>
-		<row><td>SplashBitmap</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
-		<row><td>SplashBitmap</td><td>Next</td><td>NewDialog</td><td>InstallWelcome</td><td>1</td><td>0</td></row>
+		<row><td>SplashBitmap</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
+		<row><td>SplashBitmap</td><td>Next</td><td>NewDialog</td><td>InstallWelcome</td><td>1</td><td>1</td></row>
 	</table>
 
 	<table name="CreateFolder">
@@ -961,8 +1018,8 @@
 		<row><td>DiskSpaceRequirements</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>OK</td><td>OK</td><td>OK</td><td>Feature Details</td><td/><td>0</td><td/></row>
 		<row><td>FeatureNotSupported</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Back</td><td>Back</td><td>Cancel</td><td>Interior</td><td/><td>0</td><td/></row>
 		<row><td>FilesInUse</td><td>50</td><td>50</td><td>374</td><td>266</td><td>19</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Retry</td><td>Retry</td><td>Exit</td><td>Files in Use</td><td/><td>0</td><td/></row>
-		<row><td>InstallWelcome</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Cancel</td><td>InstallNow</td><td>Cancel</td><td>Welcome Panel</td><td/><td>0</td><td/></row>
-		<row><td>LicenseAgreement</td><td>50</td><td>50</td><td>374</td><td>266</td><td>2</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Back</td><td>Next</td><td>Cancel</td><td>License Agreement</td><td/><td>0</td><td/></row>
+		<row><td>InstallWelcome</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Next</td><td>Next</td><td>Cancel</td><td>Welcome Panel</td><td/><td>0</td><td/></row>
+		<row><td>LicenseAgreement</td><td>50</td><td>50</td><td>374</td><td>266</td><td>2</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Agree</td><td>Next</td><td>Cancel</td><td>License Agreement</td><td/><td>0</td><td/></row>
 		<row><td>MaintenanceType</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>RadioGroup</td><td>Next</td><td>Cancel</td><td>Change, Reinstall, Remove</td><td/><td>0</td><td/></row>
 		<row><td>MaintenanceWelcome</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Next</td><td>Next</td><td>Cancel</td><td>Maintenance Welcome</td><td/><td>0</td><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>50</td><td>50</td><td>374</td><td>266</td><td>19</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>OK</td><td>OK</td><td>Cancel</td><td>RestartManager Files in Use</td><td/><td>0</td><td/></row>
@@ -972,6 +1029,8 @@
 		<row><td>ReadyToRemove</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>RemoveNow</td><td>RemoveNow</td><td>Cancel</td><td>Verify Remove</td><td/><td>0</td><td/></row>
 		<row><td>SetupCompleteError</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Finish</td><td>Finish</td><td>Finish</td><td>Fatal Error</td><td/><td>0</td><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>OK</td><td>LaunchProgramCheck</td><td>OK</td><td>Exit</td><td/><td>0</td><td/></row>
+		<row><td>SetupConfig</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##ID_STRING18##</td><td>Advanced</td><td>CheckBox4</td><td>Cancel</td><td>Interior</td><td/><td>0</td><td/></row>
+		<row><td>SetupConfigAdvanced</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##ID_STRING26##</td><td>Next</td><td>CheckBox4</td><td>Cancel</td><td>Interior</td><td/><td>0</td><td/></row>
 		<row><td>SetupError</td><td>50</td><td>10</td><td>270</td><td>110</td><td>65543</td><td>##IDS__IsErrorDlg_InstallerInfo##</td><td>ErrorText</td><td>O</td><td>C</td><td>Error</td><td/><td>0</td><td/></row>
 		<row><td>SetupInitialization</td><td>50</td><td>50</td><td>374</td><td>266</td><td>5</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Cancel</td><td>Cancel</td><td>Cancel</td><td>Setup Initialization</td><td/><td>0</td><td/></row>
 		<row><td>SetupInterrupted</td><td>50</td><td>50</td><td>374</td><td>266</td><td>3</td><td>##IDS_PRODUCTNAME_INSTALLSHIELD##</td><td>Finish</td><td>Finish</td><td>Finish</td><td>User Exit</td><td/><td>0</td><td/></row>
@@ -1725,12 +1784,12 @@
 		<row><td>BOINC</td><td>_BOINCDataProjects</td></row>
 		<row><td>BOINC</td><td>_BOINCDataSlots</td></row>
 		<row><td>BOINC</td><td>_BOINCDepends</td></row>
+		<row><td>BOINC</td><td>_BOINCManagerSkinWCG</td></row>
 		<row><td>BOINC</td><td>_BOINCSvcCtrl</td></row>
 		<row><td>BOINC</td><td>_BOINCTray</td></row>
 		<row><td>BOINC</td><td>_BOINCTrayStartup</td></row>
 		<row><td>BOINCManager</td><td>_BOINCManager</td></row>
-		<row><td>BOINCManager</td><td>_BOINCManagerSkinDefault</td></row>
-		<row><td>BOINCManager</td><td>_BOINCManagerSkinWCG</td></row>
+		<row><td>BOINCManager</td><td>_BOINCManagerSkin</td></row>
 		<row><td>BOINCManager</td><td>_BOINCManagerStartMenu</td></row>
 		<row><td>BOINCManagerGlobalization</td><td>_BOINCManagerGlobalization</td></row>
 		<row><td>BOINCManagerStartup</td><td>_BOINCManagerStartup</td></row>
@@ -1754,6 +1813,7 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>all_projects_list.xml</td><td>_BOINCData</td><td>ALL_PR~1.XML|all_projects_list.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\all_projects_list.xml</td><td>1</td><td/></row>
+		<row><td>background_image.png</td><td>_BOINCManagerSkinWCG</td><td>BACKGR~1.PNG|background_image.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\background_image.png</td><td>1</td><td/></row>
 		<row><td>boinc.exe</td><td>_BOINC</td><td>boinc.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.exe</td><td>1</td><td/></row>
 		<row><td>boinc.exe1</td><td>BOINCServiceConfig</td><td>boinc.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.exe</td><td>1</td><td/></row>
 		<row><td>boinc.scr</td><td>_Screensaver</td><td>boinc.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.scr</td><td>1</td><td/></row>
@@ -1767,17 +1827,29 @@
 		<row><td>cc_config.xml</td><td>_BOINCData</td><td>CC_CON~1.XML|cc_config.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\WCG\cc_config.xml</td><td>1</td><td/></row>
 		<row><td>copying</td><td>_BOINCDepends</td><td>COPYING</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\COPYING</td><td>1</td><td/></row>
 		<row><td>copyright</td><td>_BOINCDepends</td><td>COPYRI~1|COPYRIGHT</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\COPYRIGHT</td><td>1</td><td/></row>
+		<row><td>green_dot.png</td><td>_BOINCManagerSkinWCG</td><td>GREEN_~1.PNG|Green_dot.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\Green_dot.png</td><td>1</td><td/></row>
 		<row><td>libcurl.dll</td><td>_BOINCDepends</td><td>libcurl.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libcurl.dll</td><td>1</td><td/></row>
 		<row><td>libeay32.dll</td><td>_BOINCDepends</td><td>libeay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libeay32.dll</td><td>1</td><td/></row>
 		<row><td>liberationsans_regular.ttf</td><td>_BOINCScreensaver</td><td>LIBERA~1.TTF|LiberationSans-Regular.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\api\ttf\liberation-fonts-ttf-2.00.0\LiberationSans-Regular.ttf</td><td>1</td><td/></row>
 		<row><td>msvcp100.dll</td><td>_BOINCDepends</td><td>msvcp100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcp100.dll</td><td>1</td><td/></row>
 		<row><td>msvcr100.dll</td><td>_BOINCDepends</td><td>msvcr100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcr100.dll</td><td>1</td><td/></row>
+		<row><td>nvc_config.xml</td><td>_BOINCData</td><td>NVC_CO~1.XML|nvc_config.xml</td><td>0</td><td>65535.0.0.0</td><td/><td>0</td><td>1</td><td>&lt;ISProjectFolder&gt;\redist\WCG\nvc_config.xml</td><td>17</td><td/></row>
 		<row><td>placeholder.txt</td><td>_BOINCData</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt1</td><td>_BOINCDataProjects</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
-		<row><td>project_init.xml</td><td>_BOINCData</td><td>PROJEC~1.XML|project_init.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\WCG\project_init.xml</td><td>1</td><td/></row>
+		<row><td>red_dot.png</td><td>_BOINCManagerSkinWCG</td><td>Red_dot.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\Red_dot.png</td><td>1</td><td/></row>
+		<row><td>skin.xml</td><td>_BOINCManagerSkinWCG</td><td>skin.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\skin.xml</td><td>1</td><td/></row>
 		<row><td>sqlite3.dll</td><td>_BOINCManager</td><td>sqlite3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sqlite3.dll</td><td>1</td><td/></row>
 		<row><td>ssleay32.dll</td><td>_BOINCDepends</td><td>ssleay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ssleay32.dll</td><td>1</td><td/></row>
+		<row><td>wcg.ico</td><td>_BOINCManagerSkinWCG</td><td>wcg.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg.ico</td><td>1</td><td/></row>
+		<row><td>wcg_32.png</td><td>_BOINCManagerSkinWCG</td><td>wcg_32.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_32.png</td><td>1</td><td/></row>
+		<row><td>wcg_50.png</td><td>_BOINCManagerSkinWCG</td><td>wcg_50.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_50.png</td><td>1</td><td/></row>
+		<row><td>wcg_about.ico</td><td>_BOINCManagerSkinWCG</td><td>WCG_AB~1.ICO|wcg_about.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_about.ico</td><td>1</td><td/></row>
+		<row><td>wcg_pause.png</td><td>_BOINCManagerSkinWCG</td><td>WCG_PA~1.PNG|wcg_pause.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_pause.png</td><td>1</td><td/></row>
+		<row><td>wcg_play.png</td><td>_BOINCManagerSkinWCG</td><td>wcg_play.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_play.png</td><td>1</td><td/></row>
+		<row><td>wcg_ss_logo.jpg1</td><td>_BOINCScreensaver</td><td>WCG_SS~1.JPG|wcg_ss_logo.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\res\wcg_ss_logo.jpg</td><td>1</td><td/></row>
+		<row><td>wcg_stop.png</td><td>_BOINCManagerSkinWCG</td><td>wcg_stop.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_stop.png</td><td>1</td><td/></row>
+		<row><td>yellow_dot.png</td><td>_BOINCManagerSkinWCG</td><td>YELLOW~1.PNG|Yellow_dot.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\Yellow_dot.png</td><td>1</td><td/></row>
 		<row><td>zlib1.dll</td><td>_BOINCDepends</td><td>zlib1.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zlib1.dll</td><td>1</td><td/></row>
 	</table>
 
@@ -2049,8 +2121,8 @@
 		<row><td>_BOINCDepends</td><td/><td/><td>_FFEA3851_DCBE_4134_BAEF_76D1DC569A44_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCManager</td><td/><td/><td>_44FFC458_BD5C_42B3_81CB_5FAA31C5854B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCManagerGlobalization</td><td/><td/><td>_00D343CC_FF44_42D5_8AC7_3BEF51779299_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>_BOINCManagerSkinDefault</td><td/><td/><td>_2DF7BFAA_1FC2_4BF4_9F33_A05D40FEBE0E_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>_BOINCManagerSkinWCG</td><td/><td/><td>_2DF7BFAA_1FC2_4BF4_9F33_A05D40FEBE0E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>_BOINCManagerSkin</td><td/><td/><td>_2DF7BFAA_1FC2_4BF4_9F33_A05D40FEBE0E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>_BOINCManagerSkinWCG</td><td/><td/><td>_9AFEA2E9_4354_4C06_8EAE_FFF9B78D86F4_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCManagerStartMenu</td><td/><td/><td>_2622DF6B_7A95_4B51_928A_565369395CA2_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCManagerStartup</td><td/><td/><td>_6DC69561_CA50_4E2A_85B9_6140E6C0A329_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCManagerStartupAll</td><td/><td/><td>_6DC69561_CA50_4E2A_85B9_6140E6C0A329_FILTER</td><td/><td/><td/><td/></row>
@@ -2147,8 +2219,7 @@
 		<col def="S0">ExcludeFiles</col>
 		<col def="I4">ISAttributes</col>
 		<row><td>_BOINCManagerGlobalization</td><td>&lt;PATH_TO_LOCALE_FILES&gt;</td><td>4</td><td>BOINC-Manager.mo;BOINC-Client.mo;BOINC-Web.mo</td><td/><td>2</td></row>
-		<row><td>_BOINCManagerSkinDefault</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\Default</td><td>4</td><td>*.xml, *.jpg, *.png</td><td/><td>10</td></row>
-		<row><td>_BOINCManagerSkinWCG</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid</td><td>4</td><td>*.xml, *.jpg, *.png</td><td/><td>10</td></row>
+		<row><td>_BOINCManagerSkin</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\Default</td><td>4</td><td>*.xml, *.jpg, *.png</td><td/><td>10</td></row>
 	</table>
 
 	<table name="ISFeatureDIMReferences">
@@ -2420,7 +2491,7 @@
 		<row><td>WEBx86</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx86</td><td>ProductName</td><td/></row>
 		<row><td>WEBx86</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_7.6.28_windows_intelx86</td></row>
+		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_7.13.0_windows_intelx86</td></row>
 		<row><td>WEBx86</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -2455,7 +2526,7 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2016 University of California at Berkeley. All Rights Reserved.</td><td>42708367</td><td/><td/><td/><td>1</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td/><td/><td>Copyright (C) 2015 University of California at Berkeley. All Rights Reserved.</td><td>42708365</td><td/><td/><td/><td>1</td></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">
@@ -2707,9 +2778,9 @@
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
 		<row><td>COMPANY_NAME</td><td>1033</td><td>Space Sciences Laboratory, U.C. Berkeley</td><td>0</td><td/><td>1301824496</td></row>
-		<row><td>COMPANY_PRODUCT</td><td>1033</td><td>World Community Grid for Windows</td><td>0</td><td/><td>-316431375</td></row>
+		<row><td>COMPANY_PRODUCT</td><td>1033</td><td>World Community Grid for Windows</td><td>0</td><td/><td>564544022</td></row>
 		<row><td>COMPANY_PRODUCT_SUBJECT</td><td>1033</td><td>BOINC</td><td>0</td><td/><td>-1650978224</td></row>
-		<row><td>COMPANY_URL</td><td>1033</td><td>http://www.worldcommunitygrid.org/</td><td>0</td><td/><td>-316427183</td></row>
+		<row><td>COMPANY_URL</td><td>1033</td><td>http://www.worldcommunitygrid.org/</td><td>0</td><td/><td>564550230</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN</td><td>1033</td><td>You must have administrative privileges in order to install [ProductName].</td><td>0</td><td/><td>1301828691</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_IE5FOUND</td><td>1033</td><td>Internet Explorer 5 or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>983266765</td></row>
@@ -3468,7 +3539,7 @@
 		<row><td>IDS_FEATURE_BOINC_MANAGER_DESCRIPTION</td><td>1033</td><td>Lets you monitor and control BOINC</td><td>0</td><td/><td>-2086887957</td></row>
 		<row><td>IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_DESCRIPTION</td><td>1033</td><td>Localized content for the BOINC Manager</td><td>0</td><td/><td>1570293525</td></row>
 		<row><td>IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_NAME</td><td>1033</td><td>BOINC Manager globalization files</td><td>0</td><td/><td>-2086894133</td></row>
-		<row><td>IDS_FEATURE_BOINC_MANAGER_NAME</td><td>1033</td><td>WORLDC~1|World Community Grid</td><td>0</td><td/><td>-182231669</td></row>
+		<row><td>IDS_FEATURE_BOINC_MANAGER_NAME</td><td>1033</td><td>WORLDC~1|World Community Grid</td><td>0</td><td/><td>564577494</td></row>
 		<row><td>IDS_FEATURE_BOINC_NAME</td><td>1033</td><td>BOINC</td><td>0</td><td/><td>-241553406</td></row>
 		<row><td>IDS_FEATURE_BOINC_README_DESCRIPTION</td><td>1033</td><td/><td>0</td><td/><td>-1248297332</td></row>
 		<row><td>IDS_FEATURE_BOINC_README_NAME</td><td>1033</td><td>Readme</td><td>0</td><td/><td>1981312079</td></row>
@@ -3477,7 +3548,7 @@
 		<row><td>IDS_INSTALLDIR</td><td>1033</td><td>[INSTALLDIR]</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS_ISSCRIPT_VERSION_MISSING</td><td>1033</td><td>The InstallScript engine is missing from this machine.  If available, please run ISScript.msi, or contact your support personnel for further assistance.</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS_ISSCRIPT_VERSION_OLD</td><td>1033</td><td>The InstallScript engine on this machine is older than the version required to run this setup.  If available, please install the latest version of ISScript.msi, or contact your support personnel for further assistance.</td><td>0</td><td/><td>-2087162399</td></row>
-		<row><td>IDS_NEXT</td><td>1033</td><td>Next</td><td>0</td><td/><td>-316460719</td></row>
+		<row><td>IDS_NEXT</td><td>1033</td><td>&amp;Next &gt;</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS_OK</td><td>1033</td><td>OK</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS_PREREQUISITE_SETUP_BROWSE</td><td>1033</td><td>Open [ProductName]'s original [SETUPEXENAME]</td><td>0</td><td/><td/></row>
 		<row><td>IDS_PREREQUISITE_SETUP_INVALID</td><td>1033</td><td>This executable file does not appear to be the original executable file for [ProductName]. Without using the original [SETUPEXENAME] to install additional dependencies, [ProductName] may not work correctly. Would you like to find the original [SETUPEXENAME]?</td><td>0</td><td/><td/></row>
@@ -3774,7 +3845,7 @@ The show graphics feature does NOT work in this configuration.</td><td>0</td><td
 		<row><td>IDS__IsVerifyRemoveAllDlg_ClickRemove</td><td>1033</td><td>Click Remove to remove [ProductName] from your computer. After removal, this program will no longer be available for use.</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS__IsVerifyRemoveAllDlg_Remove</td><td>1033</td><td>&amp;Remove</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS__IsVerifyRemoveAllDlg_RemoveProgram</td><td>1033</td><td>{&amp;MSSansBold8}Remove the Program</td><td>0</td><td/><td>-2087162399</td></row>
-		<row><td>IDS__IsWelcomeDlg_InstallProductName</td><td>1033</td><td>The InstallShield(R) Wizard will install [ProductName] on your computer. Click Install to begin the installation.</td><td>0</td><td/><td>-584878806</td></row>
+		<row><td>IDS__IsWelcomeDlg_InstallProductName</td><td>1033</td><td>The InstallShield(R) Wizard will install [ProductName] on your computer. To continue, click Next.</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS__IsWelcomeDlg_WarningCopyright</td><td>1033</td><td>WARNING: This program is protected by copyright law and international treaties.</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS__IsWelcomeDlg_WelcomeProductName</td><td>1033</td><td>{&amp;TahomaBold10}Welcome to the InstallShield Wizard for [ProductName]</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS__ServiceConfigDlg_DialogDescription</td><td>1033</td><td>Allows you to configure the settings for the service installation configuration</td><td>0</td><td/><td>1712855439</td></row>
@@ -3797,7 +3868,7 @@ The show graphics feature does NOT work in this configuration.</td><td>0</td><td
 		<row><td>ID_STRING13</td><td>1033</td><td>&amp;Next &gt;</td><td>0</td><td/><td>1427891947</td></row>
 		<row><td>ID_STRING14</td><td>1033</td><td>&lt; &amp;Back</td><td>0</td><td/><td>1427891947</td></row>
 		<row><td>ID_STRING15</td><td>1033</td><td>Cancel</td><td>0</td><td/><td>1427891947</td></row>
-		<row><td>ID_STRING16</td><td>1033</td><td>{&amp;MSSansBold8}BOINC Configuration</td><td>0</td><td/><td>1713050220</td></row>
+		<row><td>ID_STRING16</td><td>1033</td><td>{&amp;MSSansBold8}World Community Grid Configuration</td><td>0</td><td/><td>1713050220</td></row>
 		<row><td>ID_STRING17</td><td>1033</td><td>These are the current installation options</td><td>0</td><td/><td>1713070700</td></row>
 		<row><td>ID_STRING18</td><td>1033</td><td>[ProductName] - InstallShield Wizard</td><td>0</td><td/><td>1427891947</td></row>
 		<row><td>ID_STRING19</td><td>1033</td><td>{&amp;MSSWhiteSerif8}InstallShield</td><td>0</td><td/><td>1427891947</td></row>
@@ -3807,7 +3878,7 @@ The show graphics feature does NOT work in this configuration.</td><td>0</td><td
 		<row><td>ID_STRING22</td><td>1033</td><td>&lt; &amp;Back</td><td>0</td><td/><td>1427886156</td></row>
 		<row><td>ID_STRING23</td><td>1033</td><td>Cancel</td><td>0</td><td/><td>1427886156</td></row>
 		<row><td>ID_STRING24</td><td>1033</td><td>{&amp;MSSansBold8}Customize installation options</td><td>0</td><td/><td>1713051244</td></row>
-		<row><td>ID_STRING25</td><td>1033</td><td>Customize how BOINC is installed on your computer</td><td>0</td><td/><td>1713081964</td></row>
+		<row><td>ID_STRING25</td><td>1033</td><td>Customize how World Community Grid is installed on your computer</td><td>0</td><td/><td>1713081964</td></row>
 		<row><td>ID_STRING26</td><td>1033</td><td>[ProductName] - InstallShield Wizard</td><td>0</td><td/><td>1427886156</td></row>
 		<row><td>ID_STRING27</td><td>1033</td><td>{&amp;MSSWhiteSerif8}InstallShield</td><td>0</td><td/><td>1427886156</td></row>
 		<row><td>ID_STRING28</td><td>1033</td><td>{&amp;Tahoma8}InstallShield</td><td>0</td><td/><td>1427886156</td></row>
@@ -3825,7 +3896,7 @@ The show graphics feature does NOT work in this configuration.</td><td>0</td><td
 		<row><td>ID_STRING39</td><td>1033</td><td>[ProductName] requires that your computer is running Windows XP or newer.</td><td>0</td><td/><td>1520664781</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>Closing any running instances of the BOINC Manager</td><td>0</td><td/><td>1092167440</td></row>
 		<row><td>ID_STRING40</td><td>1033</td><td>Installing [ProductName] on a domain controller is not currently supported.</td><td>0</td><td/><td>-887319952</td></row>
-		<row><td>ID_STRING41</td><td>1033</td><td>WORLDC~1|World Community Grid</td><td>0</td><td/><td>-182215285</td></row>
+		<row><td>ID_STRING41</td><td>1033</td><td>WORLDC~1|World Community Grid</td><td>0</td><td/><td>564548822</td></row>
 		<row><td>ID_STRING42</td><td>1033</td><td>BOINCM~1|BOINC Manager</td><td>0</td><td/><td>1042342766</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>You are installing BOINC on a Windows NT 4.0 domain controller.  You'll need to manually grant the selected user the permission to 'Logon As a Service' through the User Manager for Domains.</td><td>0</td><td/><td>-2086873461</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>Setup may need to grant the selected username permission to 'Logon As a Service', is it okay to do so?</td><td>0</td><td/><td>429505505</td></row>
@@ -3836,23 +3907,23 @@ The show graphics feature does NOT work in this configuration.</td><td>0</td><td
 		<row><td>NEW_STRING1</td><td>1033</td><td>Advanced</td><td>0</td><td/><td>1427847019</td></row>
 		<row><td>NEW_STRING10</td><td>1033</td><td>Data directory:</td><td>0</td><td/><td>1713079948</td></row>
 		<row><td>NEW_STRING11</td><td>1033</td><td>Launch BOINC Manager on system startup</td><td>0</td><td/><td>-308562610</td></row>
-		<row><td>NEW_STRING12</td><td>1033</td><td>Use BOINC Screensaver</td><td>0</td><td/><td>1427843980</td></row>
+		<row><td>NEW_STRING12</td><td>1033</td><td>Use Screensaver</td><td>0</td><td/><td>1427843980</td></row>
 		<row><td>NEW_STRING13</td><td>1033</td><td>Service Install</td><td>0</td><td/><td>-257862135</td></row>
 		<row><td>NEW_STRING14</td><td>1033</td><td>Run project applications under an unprivileged account. This provides increased protection from faulty applications, but it may cause graphics to not work with older applications.
 (A reboot may be required.)</td><td>0</td><td/><td>773605198</td></row>
-		<row><td>NEW_STRING15</td><td>1033</td><td>Allow all users on this computer to control BOINC</td><td>0</td><td/><td>1427864940</td></row>
+		<row><td>NEW_STRING15</td><td>1033</td><td>Allow all users on this computer to control World Community Grid</td><td>0</td><td/><td>1427864940</td></row>
 		<row><td>NEW_STRING16</td><td>1033</td><td>[INSTALLDIR]</td><td>0</td><td/><td>1713099212</td></row>
 		<row><td>NEW_STRING17</td><td>1033</td><td>Program directory:</td><td>0</td><td/><td>1713048204</td></row>
 		<row><td>NEW_STRING18</td><td>1033</td><td>[DATADIR]</td><td>0</td><td/><td>1713099212</td></row>
 		<row><td>NEW_STRING19</td><td>1033</td><td>Launch BOINC Manager on system startup</td><td>0</td><td/><td>1713099212</td></row>
-		<row><td>NEW_STRING2</td><td>1033</td><td>Launch the BOINC Manager</td><td>0</td><td/><td>1897522304</td></row>
+		<row><td>NEW_STRING2</td><td>1033</td><td>Launch the Manager</td><td>0</td><td/><td>1897522304</td></row>
 		<row><td>NEW_STRING20</td><td>1033</td><td>If checked, your system will be protected from faulty BOINC project applications.
 However, this may cause screensaver graphics to not work with older applications.</td><td>0</td><td/><td>-2086924949</td></row>
 		<row><td>NEW_STRING21</td><td>1033</td><td>Data directory:</td><td>0</td><td/><td>1713064588</td></row>
-		<row><td>NEW_STRING22</td><td>1033</td><td>Use BOINC Screensaver</td><td>0</td><td/><td>1713099212</td></row>
+		<row><td>NEW_STRING22</td><td>1033</td><td>Use Screensaver</td><td>0</td><td/><td>1713099212</td></row>
 		<row><td>NEW_STRING23</td><td>1033</td><td>&amp;Change...</td><td>0</td><td/><td>1713099212</td></row>
 		<row><td>NEW_STRING24</td><td>1033</td><td>Service Install</td><td>0</td><td/><td>-257825303</td></row>
-		<row><td>NEW_STRING25</td><td>1033</td><td>Allow all users on this computer to control BOINC</td><td>0</td><td/><td>1713099212</td></row>
+		<row><td>NEW_STRING25</td><td>1033</td><td>Allow all users on this computer to control World Community Grid</td><td>0</td><td/><td>1713099212</td></row>
 		<row><td>NEW_STRING26</td><td>1033</td><td>&amp;Change...</td><td>0</td><td/><td>1713099212</td></row>
 		<row><td>NEW_STRING27</td><td>1033</td><td>Click Next to use these options.
 Click Advanced to customize options.</td><td>0</td><td/><td>1713105580</td></row>
@@ -3864,10 +3935,6 @@ BOINC will not start until you have restarted your computer.</td><td>0</td><td/>
 A reboot may be required.</td><td>0</td><td/><td>773602862</td></row>
 		<row><td>NEW_STRING31</td><td>1033</td><td>Run project applications under an unprivileged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs)
 (A reboot may be required.)</td><td>0</td><td/><td>-257853911</td></row>
-		<row><td>NEW_STRING32</td><td>1033</td><td/><td>0</td><td/><td>-584849974</td></row>
-		<row><td>NEW_STRING33</td><td>1033</td><td>I accept the terms in the</td><td>0</td><td/><td>-584886646</td></row>
-		<row><td>NEW_STRING34</td><td>1033</td><td>{&amp;Hyperlink}license agreement</td><td>0</td><td/><td>-584906133</td></row>
-		<row><td>NEW_STRING35</td><td>1033</td><td>License Agreement</td><td>0</td><td/><td>-316469813</td></row>
 		<row><td>NEW_STRING4</td><td>1033</td><td>Click Next to use installation defaults.
 Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>NEW_STRING5</td><td>1033</td><td>&amp;Change...</td><td>0</td><td/><td>1427880076</td></row>
@@ -3976,7 +4043,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_setup.ico</td><td>0</td></row>
-		<row><td>BOINCManagerShortc_F7954F668D014CCABF4885F5ED00A35D.exe</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_setup.ico</td><td>0</td></row>
+		<row><td>BOINCManagerShortc_DC43596A4BAF457489776B002E6DC135.exe</td><td/><td>&lt;ISProjectFolder&gt;\redist\WCG\wcg_setup.ico</td><td>0</td></row>
 		<row><td>NewShortcut1_1F831FAF6288497299C84802D2DCC55C.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td/></row>
 		<row><td>NewShortcut2_0DD4D63A90D3496F8A8CF0ABD3175580.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinctray.exe</td><td>0</td></row>
 	</table>
@@ -4468,7 +4535,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>ARPREADME</td><td>##IDS_README_LOCATION##</td><td/></row>
 		<row><td>ARPURLINFOABOUT</td><td>##COMPANY_URL##</td><td/></row>
 		<row><td>ARPURLUPDATEINFO</td><td>##COMPANY_URL##</td><td/></row>
-		<row><td>AgreeToLicense</td><td/><td/></row>
+		<row><td>AgreeToLicense</td><td>No</td><td/></row>
 		<row><td>BOINC_ADMINS_GROUPNAME</td><td/><td/></row>
 		<row><td>BOINC_MASTER_PASSWORD</td><td/><td/></row>
 		<row><td>BOINC_MASTER_USERNAME</td><td/><td/></row>
@@ -4520,11 +4587,11 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{76611F90-554F-420B-9753-EF47AFF76789}</td><td/></row>
+		<row><td>ProductCode</td><td>{A48CBA96-E95D-4CF3-BB3E-741D88686A5C}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>World Community Grid</td><td/></row>
-		<row><td>ProductVersion</td><td>7.6.28</td><td/></row>
+		<row><td>ProductVersion</td><td>7.13.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4561,6 +4628,8 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="L64">Text</col>
 		<col def="L50">Help</col>
 		<col def="I4">ISControlId</col>
+		<row><td>AgreeToLicense</td><td>1</td><td>No</td><td>0</td><td>15</td><td>291</td><td>15</td><td>##IDS__AgreeToLicense_0##</td><td/><td/></row>
+		<row><td>AgreeToLicense</td><td>2</td><td>Yes</td><td>0</td><td>0</td><td>291</td><td>15</td><td>##IDS__AgreeToLicense_1##</td><td/><td/></row>
 		<row><td>RestartManagerOption</td><td>1</td><td>CloseRestart</td><td>6</td><td>9</td><td>331</td><td>14</td><td>##IDS__IsMsiRMFilesInUse_CloseRestart##</td><td/><td/></row>
 		<row><td>RestartManagerOption</td><td>2</td><td>Reboot</td><td>6</td><td>21</td><td>331</td><td>14</td><td>##IDS__IsMsiRMFilesInUse_RebootAfter##</td><td/><td/></row>
 		<row><td>SETUPTYPE</td><td>1</td><td>Single</td><td>0</td><td>0</td><td>270</td><td>15</td><td>##IDS__IsSetupTypeDlg_Single##</td><td/><td>0</td></row>
@@ -4587,12 +4656,13 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="s72">Component_</col>
 		<col def="I4">ISAttributes</col>
 		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
+		<row><td>Registry11</td><td>1</td><td>SOFTWARE\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>Skin</td><td>World Community Grid</td><td>_BOINCScreensaver</td><td>0</td></row>
 		<row><td>Registry2</td><td>1</td><td>Control Panel\Desktop</td><td>ScreenSaveActive</td><td>1</td><td>_ScreensaverEnableNT</td><td>0</td></row>
+		<row><td>Registry25</td><td>1</td><td>SOFTWARE\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td/><td/><td>_BOINCManagerStartup</td><td>1</td></row>
 		<row><td>Registry3</td><td>1</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartup</td><td>0</td></row>
 		<row><td>Registry30</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boinctray</td><td>"[INSTALLDIR]boinctray.exe"</td><td>_BOINCTrayStartup</td><td>0</td></row>
 		<row><td>Registry4</td><td>1</td><td>Control Panel\Desktop</td><td>ScreenSaveTimeOut</td><td>300</td><td>_ScreensaverEnableNT</td><td>0</td></row>
 		<row><td>Registry5</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
-		<row><td>_BA7763A9B272C0A7A5A48B1F6BCC3D3E</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>Skin</td><td>World Community Grid</td><td>_BOINCManagerSkinWCG</td><td/></row>
 	</table>
 
 	<table name="RemoveFile">
@@ -4693,7 +4763,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_F7954F668D014CCABF4885F5ED00A35D.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_DC43596A4BAF457489776B002E6DC135.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
@@ -4720,7 +4790,6 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>ArialBlueStrike10</td><td>Arial</td><td>10</td><td>16711680</td><td>8</td></row>
 		<row><td>CourierNew8</td><td>Courier New</td><td>8</td><td/><td/></row>
 		<row><td>CourierNew9</td><td>Courier New</td><td>9</td><td/><td/></row>
-		<row><td>Hyperlink</td><td>MS Sans Serif</td><td>8</td><td>16711680</td><td>4</td></row>
 		<row><td>MSGothic9</td><td>MS Gothic</td><td>9</td><td/><td/></row>
 		<row><td>MSSGreySerif8</td><td>MS Sans Serif</td><td>8</td><td>8421504</td><td/></row>
 		<row><td>MSSWhiteSerif8</td><td>Tahoma</td><td>8</td><td>16777215</td><td/></row>

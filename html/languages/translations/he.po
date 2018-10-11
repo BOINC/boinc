@@ -1,0 +1,6633 @@
+# BOINC project generic website localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
+# 
+# Translators:
+# Ido Zahavy <goldenwelf@gmail.com>, 2017
+# Seggev Shoresh, 2017
+# Shmuel Shwartz, 2016-2017
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2018-01-17 16:10+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "עברית"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Hebrew"
+
+#: html/inc/account.inc:64
+msgid "An invitation code is required to create an account."
+msgstr "נדרש קוד הזמנה כדי ליצור חשבון."
+
+#: html/inc/account.inc:65
+msgid "Invitation code"
+msgstr ""
+
+#: html/inc/account.inc:73 html/user/account_finish.php:41
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "מזהה אותך באתר האינטרנט שלנו. השתמש בשמך האמיתי או בכינוי."
+
+#: html/inc/account.inc:74
+msgid "Screen name"
+msgstr "שם מסך"
+
+#: html/inc/account.inc:80
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "צריכה להיות כתובת תקפה בסגנון 'שם@דומיין'."
+
+#: html/inc/account.inc:81 html/inc/user.inc:244 html/user/get_passwd.php:30
+msgid "Email address"
+msgstr "כתובת אימייל"
+
+#: html/inc/account.inc:92
+msgid "Must be at least %1 characters"
+msgstr "נדרשים לפחות %1 תווים"
+
+#. we need the password here not for verification,
+#. but because we store it salted with email address,
+#. which is about to change.
+#: html/inc/account.inc:93 html/user/edit_email_form.php:45
+msgid "Password"
+msgstr "סיסמה"
+
+#: html/inc/account.inc:97
+msgid "Confirm password"
+msgstr "אימות סיסמה"
+
+#: html/inc/account.inc:100 html/user/account_finish.php:45
+msgid "Select the country you want to represent, if any."
+msgstr "בחר את המדינה אותה ברצונך לייצג, אם בכלל."
+
+#: html/inc/account.inc:101 html/inc/team.inc:44 html/inc/team.inc:136
+#: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:486
+#: html/inc/user.inc:250 html/inc/user.inc:442 html/user/account_finish.php:45
+#: html/user/edit_user_info_form.php:45 html/user/profile_search_action.php:44
+#: html/user/team_email_list.php:78 html/user/team_search.php:88
+#: html/user/top_users.php:56 html/user/user_search.php:56
+#: html/user/user_search.php:132
+msgid "Country"
+msgstr "מדינה"
+
+#: html/inc/account.inc:108 html/user/account_finish.php:52
+msgid "Postal or ZIP Code"
+msgstr "מיקוד"
+
+#: html/inc/account.inc:108
+msgid "Optional"
+msgstr "רשות"
+
+#: html/inc/account.inc:120
+msgid "Email address:"
+msgstr "כתובת דוא\"ל:"
+
+#: html/inc/account.inc:124
+msgid "Password:"
+msgstr "סיסמה:"
+
+#: html/inc/account.inc:124
+msgid "forgot password?"
+msgstr "שכחת את הסיסמה?"
+
+#: html/inc/account.inc:129
+msgid "Stay logged in"
+msgstr "הישאר מחובר"
+
+#: html/inc/bbcode_html.inc:10
+msgid "Bold text: [b]text[/b]  (alt+b)"
+msgstr "טקסט מודגש: [b]טקסט[/b] (alt+b)"
+
+#: html/inc/bbcode_html.inc:11
+msgid "Italic text: [i]text[/i]  (alt+i)"
+msgstr "טקסט נטוי: [i]טקסט[/i] (alt+i)"
+
+#: html/inc/bbcode_html.inc:12
+msgid "Underline text: [u]text[/u]  (alt+u)"
+msgstr "טקסט עם קו תחתון: [u]טקסט[/u] (alt+u)"
+
+#: html/inc/bbcode_html.inc:13
+msgid "Strikethrough text: [s]text[/s]  (alt+k)"
+msgstr "טקסט עם קו חוצה: [s]טקסט[/s] (alt+k)"
+
+#: html/inc/bbcode_html.inc:14
+msgid "Quote text: [quote]text[/quote]  (alt+q)"
+msgstr "צטט טקסט: [quote]טקסט[/quote] (alt+q)"
+
+#: html/inc/bbcode_html.inc:15
+msgid "Code display: [code]code[/code]  (alt+c)"
+msgstr "תצוגת קוד: [code]קוד[/code] (alt+c)"
+
+#: html/inc/bbcode_html.inc:16
+msgid "List: [list]text[/list] (alt+l)"
+msgstr "רשימה: [list]טקסט[/list] (alt+l)"
+
+#: html/inc/bbcode_html.inc:17
+msgid "Ordered list: [list=1]text[/list]  (alt+o)"
+msgstr "רשימה מסודרת: [list=1]טקסט[/list] (alt+o)"
+
+#: html/inc/bbcode_html.inc:18
+msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
+msgstr "הכנס תמונה: [img]http://image_url[/img] (alt+p)"
+
+#: html/inc/bbcode_html.inc:19
+msgid ""
+"Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
+msgstr "הכנס כתובת אינטרנט: [url]http://url[/url] או [url=http://url]טקסט הכתובת[/url] (alt+w)"
+
+#: html/inc/bbcode_html.inc:24
+msgid "Font color"
+msgstr "צבע גופן"
+
+#: html/inc/bbcode_html.inc:25
+msgid ""
+"Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
+msgstr "צבע גופן: [color=red]טקסט[/color] עצה: באפשרותך גם להשתמש ב-color=#FF0000"
+
+#: html/inc/bbcode_html.inc:26 html/inc/bbcode_html.inc:42
+#: html/inc/prefs_util.inc:538
+msgid "Default"
+msgstr "ברירת מחדל"
+
+#: html/inc/bbcode_html.inc:27
+msgid "Dark Red"
+msgstr "אדום כהה"
+
+#: html/inc/bbcode_html.inc:28
+msgid "Red"
+msgstr "אדום"
+
+#: html/inc/bbcode_html.inc:29
+msgid "Orange"
+msgstr "כתום"
+
+#: html/inc/bbcode_html.inc:30
+msgid "Brown"
+msgstr "חום"
+
+#: html/inc/bbcode_html.inc:31
+msgid "Yellow"
+msgstr "צהוב"
+
+#: html/inc/bbcode_html.inc:32
+msgid "Green"
+msgstr "ירוק"
+
+#: html/inc/bbcode_html.inc:33
+msgid "Olive"
+msgstr "ירוק זית"
+
+#: html/inc/bbcode_html.inc:34
+msgid "Cyan"
+msgstr "ציאן"
+
+#: html/inc/bbcode_html.inc:35
+msgid "Blue"
+msgstr "כחול"
+
+#: html/inc/bbcode_html.inc:36
+msgid "Dark Blue"
+msgstr "כחול כהה"
+
+#: html/inc/bbcode_html.inc:37
+msgid "Indigo"
+msgstr "אינדיגו"
+
+#: html/inc/bbcode_html.inc:38
+msgid "Violet"
+msgstr "סגול"
+
+#: html/inc/bbcode_html.inc:40
+msgid "Font size"
+msgstr "גודל גופן"
+
+#: html/inc/bbcode_html.inc:41
+msgid "Font size: [size=x-small]small text[/size]"
+msgstr "גודל גופן: [size=x-small]טקסט קטן[/size]"
+
+#: html/inc/bbcode_html.inc:43
+msgid "Small"
+msgstr "קטן"
+
+#: html/inc/bbcode_html.inc:44
+msgid "Normal"
+msgstr "רגיל"
+
+#: html/inc/bbcode_html.inc:45
+msgid "Large"
+msgstr "גדול"
+
+#: html/inc/bbcode_html.inc:48
+msgid "Close all open bbCode tags"
+msgstr "סגור את כל תגיות ה-bbCode הפתוחות"
+
+#: html/inc/bbcode_html.inc:48
+msgid "Close Tags"
+msgstr "סגור תגיות"
+
+#: html/inc/bootstrap.inc:156 html/inc/user.inc:187
+msgid "Account"
+msgstr "חשבון"
+
+#: html/inc/bootstrap.inc:157
+msgid "Join"
+msgstr "הצטרף"
+
+#: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
+#: html/inc/bootstrap.inc:202 html/inc/user.inc:279
+msgid "Preferences"
+msgstr "העדפות"
+
+#: html/inc/bootstrap.inc:160
+msgid "About %1"
+msgstr "אודות %1"
+
+#: html/inc/bootstrap.inc:161
+msgid "Help"
+msgstr "עזרה"
+
+#: html/inc/bootstrap.inc:162 html/inc/user.inc:129
+msgid "Project"
+msgstr "מיזם"
+
+#: html/inc/bootstrap.inc:168
+msgid "Participate"
+msgstr "השתתף"
+
+#: html/inc/bootstrap.inc:169
+msgid "Do work"
+msgstr "עבוד"
+
+#: html/inc/bootstrap.inc:175 html/user/server_status.php:109
+msgid "Server status"
+msgstr "מצב השרת"
+
+#: html/inc/bootstrap.inc:176
+msgid "Statistics"
+msgstr "סטטיסטיקות"
+
+#: html/inc/bootstrap.inc:177 html/user/apps.php:32
+msgid "Applications"
+msgstr "יישומים"
+
+#: html/inc/bootstrap.inc:187
+msgid "Participants"
+msgstr "משתתפים"
+
+#: html/inc/bootstrap.inc:188 html/inc/user.inc:455 html/inc/user.inc:457
+#: html/user/server_status.php:152
+msgid "Computers"
+msgstr "מחשבים"
+
+#. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
+#: html/inc/bootstrap.inc:189 html/inc/bootstrap.inc:200 html/user/team.php:27
+msgid "Teams"
+msgstr "צוותים"
+
+#: html/inc/bootstrap.inc:190 html/user/stats.php:48
+msgid "GPU models"
+msgstr "דגמי מעבד גרפי"
+
+#: html/inc/bootstrap.inc:191 html/user/stats.php:49
+msgid "CPU models"
+msgstr "דגמי מעבד"
+
+#: html/inc/bootstrap.inc:194 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/user.inc:163 html/user/explain_state.php:94
+msgid "Computing"
+msgstr "חישוב"
+
+#: html/inc/bootstrap.inc:197 html/inc/user.inc:565
+msgid "Community"
+msgstr "קהילה"
+
+#: html/inc/bootstrap.inc:198 html/inc/forum.inc:170 html/inc/forum.inc:202
+#: html/inc/user.inc:369 html/inc/user.inc:508 html/user/forum_forum.php:76
+#: html/user/forum_index.php:72
+msgid "Message boards"
+msgstr "לוחות הודעות"
+
+#: html/inc/bootstrap.inc:200
+msgid "create or join a team"
+msgstr "צור או הצטרף לצוות"
+
+#: html/inc/bootstrap.inc:201 html/user/profile_menu.php:34
+msgid "Profiles"
+msgstr "פרופילים"
+
+#: html/inc/bootstrap.inc:203
+msgid "User search"
+msgstr "חיפוש משתמש"
+
+#: html/inc/bootstrap.inc:204
+msgid "User of the day"
+msgstr "משתמש היום"
+
+#: html/inc/bootstrap.inc:205 html/inc/user.inc:192
+msgid "Certificate"
+msgstr "תעודה"
+
+#: html/inc/bootstrap.inc:207
+msgid "Site"
+msgstr "אתר"
+
+#: html/inc/bootstrap.inc:208
+msgid "Site search"
+msgstr "חיפוש באתר"
+
+#: html/inc/bootstrap.inc:209
+msgid "Languages"
+msgstr "שפות"
+
+#. names for the above
+#: html/inc/forum.inc:40
+msgid "Oldest first"
+msgstr "ישנות ראשונות"
+
+#: html/inc/forum.inc:41 html/inc/forum.inc:47
+msgid "Newest first"
+msgstr "חדשות ראשונות"
+
+#: html/inc/forum.inc:42
+msgid "Highest rated posts first"
+msgstr "רשומות שדורגו גבוה ראשונות"
+
+#: html/inc/forum.inc:44
+msgid "Newest post first"
+msgstr "רשומות חדשות ראשונות"
+
+#: html/inc/forum.inc:45
+msgid "Most views first"
+msgstr "הנצפות ביותר ראשונות"
+
+#: html/inc/forum.inc:46
+msgid "Most posts first"
+msgstr "הרשומות הרבות ביותר ראשונות"
+
+#: html/inc/forum.inc:88
+msgid "This answered my question"
+msgstr ""
+
+#: html/inc/forum.inc:89
+msgid "I also have this question"
+msgstr ""
+
+#: html/inc/forum.inc:90
+msgid "Off-topic"
+msgstr ""
+
+#: html/inc/forum.inc:107
+msgid "Volunteer moderator"
+msgstr "מְמַתֵּן מתנדב"
+
+#: html/inc/forum.inc:108
+msgid "Project administrator"
+msgstr "מנהל המיזם"
+
+#: html/inc/forum.inc:109
+msgid "Project developer"
+msgstr "מפתח המיזם"
+
+#: html/inc/forum.inc:110
+msgid "Project tester"
+msgstr "בודק המיזם"
+
+#: html/inc/forum.inc:111
+msgid "Volunteer developer"
+msgstr "מפתח מתנדב"
+
+#: html/inc/forum.inc:112
+msgid "Volunteer tester"
+msgstr "בּוֹחֵן מתנדב"
+
+#: html/inc/forum.inc:113
+msgid "Project scientist"
+msgstr "מדען מיזם"
+
+#: html/inc/forum.inc:114
+msgid "Help desk expert"
+msgstr "מומחה מוקד עזרה"
+
+#. Search
+#: html/inc/forum.inc:144
+msgid "Search for words in forum messages"
+msgstr "חפש מילים בפורום"
+
+#: html/inc/forum.inc:144
+msgid "Search forums"
+msgstr "חפש פורומים"
+
+#: html/inc/forum.inc:145
+msgid "Advanced search"
+msgstr "חיפוש מתקדם"
+
+#: html/inc/forum.inc:151 html/inc/user.inc:373 html/user/pm.php:57
+#: html/user/pm.php:127
+msgid "Private messages"
+msgstr "הודעות פרטיות"
+
+#: html/inc/forum.inc:170 html/user/forum_forum.php:74
+msgid "Questions and Answers"
+msgstr "שאלות ותשובות"
+
+#: html/inc/forum.inc:206 html/inc/forum.inc:214
+msgid "%1 message board"
+msgstr "%1 לוח הודעות"
+
+#: html/inc/forum.inc:255 html/inc/result.inc:784
+msgid "Previous"
+msgstr "הקודם"
+
+#: html/inc/forum.inc:293 html/inc/result.inc:793
+msgid "Next"
+msgstr "הבא"
+
+#: html/inc/forum.inc:422 html/inc/forum.inc:1293
+#: html/user/forum_forum.php:145 html/user/forum_reply.php:127
+#: html/user/forum_report_post.php:86
+msgid "Author"
+msgstr "יוצר"
+
+#: html/inc/forum.inc:422 html/inc/pm.inc:86 html/inc/pm.inc:167
+#: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
+#: html/user/forum_edit.php:141 html/user/forum_post.php:126
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
+#: html/user/pm.php:79 html/user/pm.php:138
+msgid "Message"
+msgstr "הודעה"
+
+#: html/inc/forum.inc:602 html/inc/pm.inc:95 html/inc/pm.inc:177
+msgid "Send message"
+msgstr "שלח הודעה"
+
+#: html/inc/forum.inc:602
+msgid "Send %1 a private message"
+msgstr "שלח הודעה פרטית ל%1"
+
+#: html/inc/forum.inc:603
+msgid "Joined: %1"
+msgstr "הצטרפו: %1"
+
+#: html/inc/forum.inc:612
+msgid "Posts: %1"
+msgstr "פוסטים: %1"
+
+#: html/inc/forum.inc:618
+msgid "Credit: %1"
+msgstr "נקודות זכות: %1"
+
+#: html/inc/forum.inc:619
+msgid "RAC: %1"
+msgstr ""
+
+#: html/inc/forum.inc:649
+msgid "You haven't read this message yet"
+msgstr "לא קראתם הודעה זו עדיין"
+
+#: html/inc/forum.inc:649
+msgid "Unread"
+msgstr "לא נקרא"
+
+#: html/inc/forum.inc:652 html/inc/forum.inc:657 html/inc/forum.inc:770
+msgid "Message %1"
+msgstr "הודעה %1"
+
+#: html/inc/forum.inc:653 html/inc/user.inc:457 html/user/forum_forum.php:182
+msgid "hidden"
+msgstr "מוסתר"
+
+#: html/inc/forum.inc:654
+msgid "Posted: %1"
+msgstr "פורסמו: %1"
+
+#: html/inc/forum.inc:657
+msgid " - in response to "
+msgstr " - בתגובה ל"
+
+#: html/inc/forum.inc:660 html/inc/prefs_util.inc:609
+#: html/inc/prefs_util.inc:611
+msgid "Edit"
+msgstr "עריכה"
+
+#: html/inc/forum.inc:660
+msgid "Edit this message"
+msgstr "ערוך הודעה זו"
+
+#: html/inc/forum.inc:666
+msgid "Last modified: %1"
+msgstr "נערך לאחרונה: %1"
+
+#: html/inc/forum.inc:670
+msgid ""
+"This post is hidden because the sender is on your 'ignore' list.  Click %1 "
+"here %2 to view hidden posts"
+msgstr "פוסט זה מוסתר מכיוון שהשולח נמצא ברשימת ה'התעלמות' שלך. לחץ %1 כאן %2 כדי לצפות בפוסטים מוסתרים"
+
+#: html/inc/forum.inc:708 html/inc/forum.inc:719
+msgid "Report this post as offensive"
+msgstr "דווח רשומה זו כפוגענית"
+
+#: html/inc/forum.inc:708 html/inc/forum.inc:719
+msgid "Report as offensive"
+msgstr "דווח כפוגעני"
+
+#: html/inc/forum.inc:712
+msgid "Rating: %1"
+msgstr "דירוג: %1"
+
+#: html/inc/forum.inc:712
+msgid "rate: "
+msgstr "דירוג:"
+
+#: html/inc/forum.inc:715
+msgid "Click if you like this message"
+msgstr "לחץ אם אתה אוהב את הודעה זאת"
+
+#: html/inc/forum.inc:715
+msgid "Rate +"
+msgstr "דרג +"
+
+#: html/inc/forum.inc:717
+msgid "Click if you don't like this message"
+msgstr "לחץ אם אתה לא אוהב הודעה זאת"
+
+#: html/inc/forum.inc:717
+msgid "Rate -"
+msgstr "דירוג -"
+
+#. "Reply" is used as a verb
+#: html/inc/forum.inc:726 html/user/pm.php:99 html/user/pm.php:140
+msgid "Reply"
+msgstr "השב"
+
+#: html/inc/forum.inc:726
+msgid "Post a reply to this message"
+msgstr "פרסם תגובה להודעה זו"
+
+#. "Quote" is used as a verb
+#: html/inc/forum.inc:729
+msgid "Quote"
+msgstr "צטט"
+
+#: html/inc/forum.inc:729
+msgid "Post a reply by quoting this message"
+msgstr "פרסם תגובה באמצעות ציטוט הודעה זו"
+
+#: html/inc/forum.inc:751
+msgid "Hidden by a moderator"
+msgstr "הוסתר ע\"י מְמַתֵּן"
+
+#: html/inc/forum.inc:772
+msgid "Posted %1 by %2"
+msgstr "פורסם %1 ע\"י %2"
+
+#: html/inc/forum.inc:792
+msgid "You may not post or rate messages until %1"
+msgstr "אינך רשאי לפרסם או לדרג הודעות עד %1"
+
+#: html/inc/forum.inc:817
+msgid ""
+"Posts must be 'kid friendly': they may not contain content that is obscene, "
+"hate-related, sexually explicit or suggestive."
+msgstr ""
+
+#: html/inc/forum.inc:818
+msgid "No commercial advertisements."
+msgstr ""
+
+#: html/inc/forum.inc:819
+msgid ""
+"No links to web sites involving sexual content, gambling, or intolerance of "
+"others."
+msgstr ""
+
+#: html/inc/forum.inc:820
+msgid ""
+"No messages intended to annoy or antagonize other people, or to hijack a "
+"thread."
+msgstr ""
+
+#: html/inc/forum.inc:821
+msgid "No messages that are deliberately hostile, threatening, or insulting."
+msgstr ""
+
+#: html/inc/forum.inc:822
+msgid ""
+"No abusive messages involving race, religion, nationality, gender, class or "
+"sexuality."
+msgstr ""
+
+#: html/inc/forum.inc:823
+msgid "Posts that violate these rules may be deleted."
+msgstr ""
+
+#: html/inc/forum.inc:824
+msgid "The posting privileges of violators may be suspended or revoked."
+msgstr ""
+
+#: html/inc/forum.inc:825
+msgid "If your account is suspended, don't create a new one."
+msgstr ""
+
+#: html/inc/forum.inc:844
+msgid "Rules:"
+msgstr "כללים:"
+
+#: html/inc/forum.inc:1154 html/user/forum_thread.php:195
+msgid "Unhide"
+msgstr "הצג"
+
+#: html/inc/forum.inc:1154
+msgid "Unhide this post"
+msgstr "בטל החבאת רשומה זו"
+
+#: html/inc/forum.inc:1156 html/user/forum_thread.php:201
+msgid "Hide"
+msgstr "הסתר"
+
+#: html/inc/forum.inc:1156
+msgid "Hide this post"
+msgstr "החבא רשומה זו"
+
+#: html/inc/forum.inc:1161 html/user/forum_thread.php:234
+msgid "Move"
+msgstr "הזז"
+
+#: html/inc/forum.inc:1161
+msgid "Move post to a different thread"
+msgstr "העבר פוסט לשרשור אחר"
+
+#: html/inc/forum.inc:1166
+msgid "Banish author"
+msgstr "גרש מחבר"
+
+#: html/inc/forum.inc:1173
+msgid "Vote to banish author"
+msgstr "הצבע בעד גירוש מחבר"
+
+#: html/inc/forum.inc:1177
+msgid "Vote not to banish author"
+msgstr "הצבע נגד גירוש מחבר"
+
+#: html/inc/forum.inc:1182
+msgid "Start vote to banish author"
+msgstr "החל הצבעה לגירוש מחבר"
+
+#: html/inc/forum.inc:1187 html/inc/user.inc:360
+#: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
+msgid "Delete"
+msgstr "מחק"
+
+#: html/inc/forum.inc:1187
+msgid "Delete this post"
+msgstr "מחק רשומה זו"
+
+#: html/inc/forum.inc:1227
+msgid "Only team members can post to the team message board"
+msgstr "רק חברי צוות יכולים לפרסם בלוח ההודעות הצוותי."
+
+#: html/inc/forum.inc:1237
+msgid ""
+"To create a new thread in %1 you must have a certain level of average "
+"credit. This is to protect against abuse of the system."
+msgstr "כדי ליצור שרשור חדש ב%1 אתה נדרש להחזיק ברמה מסוימת של נקודות זכות ממוצעות. זאת כדי להגן נגד שימוש לרעה במערכת."
+
+#: html/inc/forum.inc:1244
+msgid ""
+"You cannot create threads right now. Please wait before trying again. This "
+"is to protect against abuse of the system."
+msgstr "אינך יכול ליצור שרשורים כרגע. אנא המתן לפני שאתה מנסה שוב. זה כדי להגן מפני ניצול לרעה של המערכת."
+
+#: html/inc/forum.inc:1251
+msgid ""
+"This thread is locked. Only forum moderators and administrators are allowed "
+"to post there."
+msgstr "שרשור זה נעול. רק מנחי פורום ומנהלי מערכת רשאים לפרסם שם."
+
+#: html/inc/forum.inc:1256
+msgid "Can't post to a hidden thread."
+msgstr "לא ניתן לפרסם לשרשור מוסתר."
+
+#: html/inc/forum.inc:1291
+msgid "Thread"
+msgstr "שרשור"
+
+#: html/inc/forum.inc:1292 html/inc/team.inc:142 html/user/forum_forum.php:144
+#: html/user/forum_index.php:97
+msgid "Posts"
+msgstr "הודעות"
+
+#: html/inc/forum.inc:1294 html/user/forum_forum.php:146
+msgid "Views"
+msgstr "צפיות"
+
+#: html/inc/forum.inc:1295 html/inc/team.inc:142 html/user/forum_forum.php:147
+#: html/user/forum_help_desk.php:49 html/user/forum_index.php:98
+msgid "Last post"
+msgstr "הודעה אחרונה"
+
+#: html/inc/forum.inc:1352
+msgid "New posts in the thread %1"
+msgstr "פוסטים חדשים בשרשור %1"
+
+#: html/inc/forum.inc:1357
+msgid "New posts in subscribed thread"
+msgstr "פוסטים חדשים בשרשור מנוי"
+
+#: html/inc/forum.inc:1358
+msgid "There are new posts in the thread '%1'"
+msgstr "ישנם פוסטים חדשים בשרשור '%1'"
+
+#: html/inc/forum.inc:1368
+msgid "Mark all threads as read"
+msgstr "סמן את כל האשכולות כנקראו"
+
+#: html/inc/forum.inc:1369
+msgid "Mark all threads in all message boards as read."
+msgstr "סמן את כל השרשורים בכל לוחות ההודעות כ'נקראו'."
+
+#: html/inc/host.inc:25
+msgid "No host"
+msgstr "אין שרת מארח"
+
+#: html/inc/host.inc:27
+msgid "Unavailable"
+msgstr "לא זמין"
+
+#: html/inc/host.inc:56 html/inc/prefs.inc:681 html/inc/prefs_util.inc:539
+msgid "Home"
+msgstr "בית"
+
+#: html/inc/host.inc:57 html/inc/prefs.inc:682 html/inc/prefs_util.inc:541
+#: html/user/server_status.php:136
+msgid "Work"
+msgstr "עבודה"
+
+#: html/inc/host.inc:58 html/inc/prefs.inc:683 html/inc/prefs_util.inc:540
+msgid "School"
+msgstr "בית ספר"
+
+#: html/inc/host.inc:61
+msgid "Update location"
+msgstr "עדכן מיקום"
+
+#: html/inc/host.inc:85
+msgid "Computer information"
+msgstr "מידע אודות המחשב"
+
+#: html/inc/host.inc:89 html/inc/host.inc:94
+msgid "IP address"
+msgstr "כתובת IP"
+
+#: html/inc/host.inc:89
+msgid "(same the last %1 times)"
+msgstr "(זהה ב-%1 פעמים האחרונות)"
+
+#: html/inc/host.inc:91
+msgid "External IP address"
+msgstr "כתובת IP חיצונית"
+
+#: html/inc/host.inc:94
+msgid "Show IP address"
+msgstr "הצג כתובת IP"
+
+#: html/inc/host.inc:96
+msgid "Domain name"
+msgstr "שם תחום"
+
+#: html/inc/host.inc:98
+msgid "Product name"
+msgstr "שם מוצר"
+
+#: html/inc/host.inc:102
+msgid "Local Standard Time"
+msgstr "זמן תקני מקומי"
+
+#: html/inc/host.inc:102
+msgid "UTC %1 hours"
+msgstr "UTC %1 שעות"
+
+#: html/inc/host.inc:106 html/inc/host.inc:108 html/inc/host.inc:229
+msgid "Owner"
+msgstr "בעלים"
+
+#: html/inc/host.inc:108 html/inc/host.inc:373
+msgid "Anonymous"
+msgstr "אנונימי"
+
+#: html/inc/host.inc:112 html/inc/result.inc:694 html/user/apps.php:57
+msgid "Created"
+msgstr "נוצר"
+
+#: html/inc/host.inc:114 html/inc/host.inc:234 html/inc/host.inc:237
+#: html/inc/host.inc:717 html/inc/team.inc:111 html/inc/team.inc:233
+#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
+#: html/inc/team.inc:385 html/inc/user.inc:130 html/inc/user.inc:147
+#: html/user/profile_search_action.php:45
+#: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
+#: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
+#: html/user/top_users.php:54 html/user/user_search.php:131
+msgid "Total credit"
+msgstr "נקודות זכות כלליות"
+
+#: html/inc/host.inc:115 html/inc/user.inc:131 html/user/team_search.php:84
+#: html/user/user_search.php:130
+msgid "Average credit"
+msgstr "ממוצע נקודות זכות"
+
+#: html/inc/host.inc:117
+msgid "Cross project credit"
+msgstr "נקודות זכות עבור מיזם מוצלב"
+
+#: html/inc/host.inc:120
+msgid "CPU type"
+msgstr "סוג מעבד"
+
+#: html/inc/host.inc:121
+msgid "Number of processors"
+msgstr "מספר מעבדים"
+
+#: html/inc/host.inc:123
+msgid "Coprocessors"
+msgstr "מעבדי עזר"
+
+#: html/inc/host.inc:125 html/inc/host.inc:728
+msgid "Operating System"
+msgstr "מערכת הפעלה"
+
+#: html/inc/host.inc:128 html/inc/host.inc:240
+msgid "BOINC version"
+msgstr "גרסת BOINC"
+
+#: html/inc/host.inc:132 html/inc/prefs.inc:243
+msgid "Memory"
+msgstr "זיכרון"
+
+#: html/inc/host.inc:132 html/inc/host.inc:142 html/inc/host.inc:145
+#: html/inc/host.inc:148
+msgid "%1 GB"
+msgstr "%1 GB"
+
+#: html/inc/host.inc:136
+msgid "Cache"
+msgstr "מטמון"
+
+#: html/inc/host.inc:136
+msgid "%1 KB"
+msgstr "%1 KB"
+
+#: html/inc/host.inc:142
+msgid "Swap space"
+msgstr "שטח החלפה"
+
+#: html/inc/host.inc:145
+msgid "Total disk space"
+msgstr "שטח דיסק כללי"
+
+#: html/inc/host.inc:148
+msgid "Free Disk Space"
+msgstr "שטח דיסק פנוי"
+
+#: html/inc/host.inc:152
+msgid "Measured floating point speed"
+msgstr "מהירות מחושבת של נקודה צפה"
+
+#: html/inc/host.inc:152 html/inc/host.inc:155
+msgid "%1 billion ops/sec"
+msgstr "%1 מיליארד תהליכים לשנייה"
+
+#: html/inc/host.inc:155
+msgid "Measured integer speed"
+msgstr "מהירות מחושבת של מספר שלם"
+
+#: html/inc/host.inc:159 html/inc/host.inc:161
+msgid "Average upload rate"
+msgstr "קצב העלאה ממוצע"
+
+#: html/inc/host.inc:159 html/inc/host.inc:166
+msgid "%1 KB/sec"
+msgstr "%1 KB לשניה"
+
+#: html/inc/host.inc:161 html/inc/host.inc:168 html/inc/result.inc:230
+#: html/inc/result.inc:240 html/inc/result.inc:258 html/inc/result.inc:276
+#: html/inc/result.inc:292 html/user/explain_state.php:56
+#: html/user/host_app_versions.php:28
+msgid "Unknown"
+msgstr "לא ידוע"
+
+#: html/inc/host.inc:166 html/inc/host.inc:168
+msgid "Average download rate"
+msgstr "קצב הורדה ממוצע"
+
+#: html/inc/host.inc:172 html/user/host_app_versions.php:82
+msgid "Average turnaround time"
+msgstr "זמן סבב ממוצע"
+
+#: html/inc/host.inc:172 html/user/forum_search.php:48
+#: html/user/forum_search.php:49 html/user/forum_search.php:50
+#: html/user/forum_search.php:51
+msgid "%1 days"
+msgstr "%1 ימים"
+
+#: html/inc/host.inc:173
+msgid "Application details"
+msgstr "פרטי יישום"
+
+#: html/inc/host.inc:174
+msgid "Show"
+msgstr "הצג"
+
+#: html/inc/host.inc:184 html/inc/host.inc:351 html/inc/user.inc:173
+msgid "Tasks"
+msgstr "משימות"
+
+#: html/inc/host.inc:189 html/inc/host.inc:213
+msgid "Number of times client has contacted server"
+msgstr "מספר הפעמים שהלקוח יצר קשר עם השרת"
+
+#: html/inc/host.inc:190
+msgid "Last time contacted server"
+msgstr "יצירת קשר אחרונה עם השרת"
+
+#: html/inc/host.inc:191
+msgid "Fraction of time BOINC is running"
+msgstr "חלק יחסי מזמן הפעלת BOINC"
+
+#: html/inc/host.inc:193
+msgid ""
+"While BOINC is running, fraction of time computer has an Internet connection"
+msgstr "כל עוד BOINC פועל, חלק יחסי מהזמן בו למחשב יש חיבור לאינטרנט"
+
+#: html/inc/host.inc:195
+msgid "While BOINC is running, fraction of time computing is allowed"
+msgstr "כל עוד BOINC פועל, חלק יחסי מהזמן בו מותר לבצע חישובים"
+
+#: html/inc/host.inc:196
+msgid "While is BOINC running, fraction of time GPU computing is allowed"
+msgstr "כל עוד BOINC פועל, חלק יחסי מהזמן בו מותר לבצע חישובים באמצעות מעבד גרפי"
+
+#: html/inc/host.inc:198
+msgid "Average CPU efficiency"
+msgstr "יעילות מעבד ממוצעת"
+
+#: html/inc/host.inc:202
+msgid "Task duration correction factor"
+msgstr "גורם התיקון של משך המשימה"
+
+#: html/inc/host.inc:205 html/inc/host.inc:706
+msgid "Location"
+msgstr "מיקום"
+
+#: html/inc/host.inc:207
+msgid "Delete this computer"
+msgstr "מחק מחשב זה"
+
+#: html/inc/host.inc:211
+msgid "Merge duplicate records of this computer"
+msgstr "מזג רשומות כפולות של מחשב זה"
+
+#: html/inc/host.inc:211
+msgid "Merge"
+msgstr "מזג"
+
+#: html/inc/host.inc:214 html/inc/host.inc:731
+msgid "Last contact"
+msgstr "יצירת קשר אחרון"
+
+#: html/inc/host.inc:227
+msgid "Computer info"
+msgstr "מידע אודות המחשב"
+
+#: html/inc/host.inc:228 html/inc/host.inc:709 html/inc/team.inc:375
+#: html/user/per_app_list.php:61 html/user/top_users.php:47
+msgid "Rank"
+msgstr "דרגה"
+
+#: html/inc/host.inc:233 html/inc/host.inc:714
+msgid "Avg. credit"
+msgstr "ממוצע נקודות זכות"
+
+#: html/inc/host.inc:236 html/inc/team.inc:112 html/inc/team.inc:234
+#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
+#: html/inc/team.inc:384 html/inc/user.inc:148
+#: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
+#: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
+#: html/user/top_users.php:53
+msgid "Recent average credit"
+msgstr "ממוצע נקודות זכות לאחרונה"
+
+#: html/inc/host.inc:241 html/inc/host.inc:723 html/inc/result.inc:74
+#: html/user/host_app_versions.php:23
+msgid "CPU"
+msgstr "מעבד"
+
+#: html/inc/host.inc:242 html/inc/host.inc:725
+msgid "GPU"
+msgstr "מעבד גרפי"
+
+#: html/inc/host.inc:243
+msgid "Operating system"
+msgstr "מערכת הפעלה"
+
+#: html/inc/host.inc:328
+msgid "(%1 processors)"
+msgstr "(%1 מעבדים)"
+
+#: html/inc/host.inc:347
+msgid "Details"
+msgstr "פרטים"
+
+#: html/inc/host.inc:357
+msgid "Cross-project stats:"
+msgstr "סטטיסטיקות מיזם מוצלב:"
+
+#: html/inc/host.inc:541
+msgid "Host %1 has overlapping lifetime:"
+msgstr "למחשב %1 יש אורך חיים חופף:"
+
+#: html/inc/host.inc:548
+msgid "Host %1 has an incompatible OS:"
+msgstr "למחשב %1 יש מערכת הפעלה לא מתאימה:"
+
+#: html/inc/host.inc:554
+msgid "Host %1 has an incompatible CPU:"
+msgstr "למחשב %1 יש מעבד לא מתאים:"
+
+#: html/inc/host.inc:621
+msgid "same host"
+msgstr "אותו מחשב"
+
+#: html/inc/host.inc:624
+msgid "Can't merge host %1 into %2 - they're incompatible"
+msgstr "לא ניתן למזג מחשב %1 ל-%2 - אין ביניהם התאמה"
+
+#: html/inc/host.inc:627
+msgid "Merging host %1 into host %2"
+msgstr "מתבצע מיזוג של מחשב %1 למחשב %2"
+
+#: html/inc/host.inc:644
+msgid "Couldn't update credit of new computer"
+msgstr "לא ניתן לעדכן נקודות זכות עבור המחשב החדש"
+
+#: html/inc/host.inc:648
+msgid "Couldn't update results"
+msgstr "לא ניתן לעדכן תוצאות"
+
+#: html/inc/host.inc:653
+msgid "Couldn't retire old computer"
+msgstr "לא ניתן לבטל מחשב ישן"
+
+#: html/inc/host.inc:655
+msgid "Retired old computer %1"
+msgstr "מחשב ישן שבוטל %1"
+
+#: html/inc/host.inc:678 html/inc/host.inc:681
+msgid "Show:"
+msgstr "הצג:"
+
+#: html/inc/host.inc:678 html/inc/host.inc:681
+msgid "All computers"
+msgstr "כל המחשבים"
+
+#: html/inc/host.inc:678 html/inc/host.inc:681
+msgid "Only computers active in past 30 days"
+msgstr "רק מחשבים אשר היו פעילים ב-30 הימים האחרונים"
+
+#: html/inc/host.inc:694 html/inc/result.inc:702
+msgid "Computer ID"
+msgstr "זיהוי מחשב"
+
+#: html/inc/host.inc:699 html/inc/result.inc:692 html/inc/team.inc:229
+#: html/inc/team.inc:376 html/inc/user.inc:236 html/user/account_finish.php:41
+#: html/user/per_app_list.php:61 html/user/team_admins.php:65
+#: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
+#: html/user/top_users.php:48 html/user/user_search.php:128
+msgid "Name"
+msgstr "שם"
+
+#: html/inc/host.inc:703
+msgid "Model"
+msgstr "דגם"
+
+#: html/inc/host.inc:720
+msgid "BOINC<br>version"
+msgstr "גרסת<br>BOINC"
+
+#: html/inc/host.inc:789 html/user/merge_by_name.php:65
+msgid "Merge computers by name"
+msgstr "מזג מחשבים לפי שם"
+
+#: html/inc/news.inc:41
+msgid "Discuss"
+msgstr "דיון"
+
+#: html/inc/news.inc:112
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr "חדשות זמינות כ%sעדכון RSS%s"
+
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
+#: html/user/pm.php:142
+msgid "Inbox"
+msgstr "דואר נכנס"
+
+#: html/inc/pm.inc:26 html/inc/pm.inc:275
+msgid "Write"
+msgstr "כתוב"
+
+#: html/inc/pm.inc:32
+msgid ""
+"\n"
+"        <ul>\n"
+"        <li> Messages may not contain content that is obscene, hate-related,\n"
+"            sexually explicit or suggestive.\n"
+"        <li> No commercial advertisements.\n"
+"        <li> No links to web sites involving sexual content,\n"
+"            gambling, or intolerance of others.\n"
+"        <li> No messages intended to annoy or antagonize other people.\n"
+"        <li> No messages that are deliberately hostile, threatening, or insulting.\n"
+"        <li> No abusive comments involving race, religion,\n"
+"            nationality, gender, class or sexuality.\n"
+"        <li> The privileges of violators may be suspended or revoked.\n"
+"        <li> If your account is suspended, don't create a new one.\n"
+"        </ul>\n"
+"    "
+msgstr ""
+
+#: html/inc/pm.inc:61 html/user/team_manage.php:33
+msgid "Send message to team"
+msgstr "שלח הודעה לקבוצה"
+
+#: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
+#: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
+#: html/user/forum_edit.php:107 html/user/forum_edit.php:108
+#: html/user/forum_edit.php:153 html/user/forum_post.php:65
+#: html/user/forum_post.php:97 html/user/forum_post.php:98
+#: html/user/forum_post.php:143 html/user/forum_reply.php:77
+#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
+#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
+msgid "Preview"
+msgstr "תצוגה מקדימה"
+
+#: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
+#: html/user/pm.php:79 html/user/pm.php:133
+msgid "Subject"
+msgstr "נושא"
+
+#: html/inc/pm.inc:105 html/inc/user.inc:512
+msgid "Send private message"
+msgstr "שלח הודעה פרטית"
+
+#: html/inc/pm.inc:121 html/user/pm.php:125
+msgid "no such message"
+msgstr "אין הודעה כזאת"
+
+#: html/inc/pm.inc:157
+msgid "To"
+msgstr "ל"
+
+#: html/inc/pm.inc:157
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "זיהויי משתמש או שמות משתמש מיוחדים, מופרדים באמצעות פסיק"
+
+#: html/inc/pm.inc:210
+msgid "sent you a private message; subject:"
+msgstr "שלח לך הודעה פרטית; נושא;"
+
+#: html/inc/pm.inc:217
+msgid "Private message%1 from %2, subject:"
+msgstr "הודעה פרטית %1 מתוך %2, נושא:"
+
+#: html/inc/pm.inc:225
+msgid "Couldn't create message"
+msgstr "לא ניתן ליצור הודעה"
+
+#: html/inc/pm.inc:263
+msgid ""
+"You are not allowed to send privates messages so often. Please wait some "
+"time before sending more messages."
+msgstr "אינך מורשה לשלוח הודעות פרטיות בתכיפות כה גדולה. אנא המתן מעט בטרם תשלח הודעות נוספות."
+
+#: html/inc/pm.inc:273 html/user/forum_forum.php:194
+msgid "unread"
+msgstr "לא נקרא"
+
+#: html/inc/pm.inc:283
+msgid "For email notification, %1 edit community prefs %2"
+msgstr "עבור התראות דוא\"ל, %1 ערוך העדפות קהילה %2"
+
+#: html/inc/pm.inc:299
+msgid "Private message"
+msgstr "הודעה פרטית"
+
+#: html/inc/prefs.inc:51 html/inc/prefs.inc:193
+msgid "Usage limits"
+msgstr "הגבלות שימוש"
+
+#: html/inc/prefs.inc:53 html/inc/prefs.inc:61
+msgid "Use at most"
+msgstr "השתמש לכל היותר ב-"
+
+#: html/inc/prefs.inc:55
+#, no-php-format
+msgid ""
+"Keep some CPUs free for other applications. Example: 75% means use 6 cores "
+"on an 8-core CPU."
+msgstr "השאר כמה יחידות עיבוד פנויות לתוכנות אחרות. למשל: 75% אומר שימוש ב-6 ליבות עיבוד מתוך 8 שקיימים למעבד"
+
+#: html/inc/prefs.inc:58
+#, no-php-format
+msgid "% of the CPUs"
+msgstr "% מהמעבדים"
+
+#: html/inc/prefs.inc:63
+#, no-php-format
+msgid ""
+"Suspend/resume computing every few seconds to reduce CPU temperature and "
+"energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
+"and repeat."
+msgstr "השעה/המשך חישובים כל כמה שניות כדי לצמצם טמפרטורת מעבד וניצול אנרגיה. לדוגמא: 75% פירושו חשב למשך 3 שניות, חכה למשך שנייה 1 וחזור."
+
+#: html/inc/prefs.inc:66
+#, no-php-format
+msgid "% of CPU time"
+msgstr "% מזמן המעבד"
+
+#: html/inc/prefs.inc:68 html/inc/prefs.inc:214
+msgid "When to suspend"
+msgstr "מתי להשעות"
+
+#: html/inc/prefs.inc:70
+msgid "Suspend when computer is on battery"
+msgstr "השהה כאשר המחשב על בטרייה"
+
+#: html/inc/prefs.inc:71
+msgid ""
+"Check this to suspend computing on portables when running on battery power."
+msgstr "סמן את זה כדי להשהות חישוב במכשירים ניידים כאשר משתמשים בסוללה"
+
+#: html/inc/prefs.inc:76
+msgid "Suspend when computer is in use"
+msgstr "השהה כאשר המחשב בשימוש"
+
+#: html/inc/prefs.inc:77
+msgid ""
+"Check this to suspend computing and file transfers when you're using the "
+"computer."
+msgstr "סמן את זה כדי להשהות חישוב והעברת קבצים כאשר אתה משתמש במחשב"
+
+#: html/inc/prefs.inc:82
+msgid "Suspend GPU computing when computer is in use"
+msgstr "השהה עיבוד גרפי כאשר מחשב נמצא בשימוש"
+
+#: html/inc/prefs.inc:83
+msgid "Check this to suspend GPU computing when you're using the computer."
+msgstr "סמן את זה כדי להשהות את החישוב הגרפי כאשר אתה משתמש במחשב"
+
+#: html/inc/prefs.inc:88
+msgid "'In use' means mouse/keyboard input in last"
+msgstr "'בשימוש' משמע עכבר/מקלדת שומש ב"
+
+#: html/inc/prefs.inc:89
+msgid "This determines when the computer is considered 'in use'."
+msgstr "זה מגדיר מתי המחשב מוגדר 'בשימוש'"
+
+#: html/inc/prefs.inc:91 html/inc/prefs.inc:98 html/inc/prefs.inc:128
+msgid "minutes"
+msgstr "הדקות האחרונות"
+
+#: html/inc/prefs.inc:95
+msgid "Suspend when no mouse/keyboard input in last"
+msgstr "השהה כאשר אין  קלט מהעכבר/מקלדת למשך"
+
+#: html/inc/prefs.inc:96
+msgid "This allows some computers to enter low-power mode when not in use."
+msgstr "זה מאפשר לחלק מהמחשבים להיכנס למצב שימוש נמוך בחשמל כאשר לא בשימוש"
+
+#: html/inc/prefs.inc:101
+msgid "Suspend when non-BOINC CPU usage is above"
+msgstr "השהה כאשר שימוש עיבוד בתוכנות אחרות עולה על"
+
+#: html/inc/prefs.inc:102
+msgid "Suspend computing when your computer is busy running other programs."
+msgstr "השהה חישובים כאשר המחשב שלך עסוק בהרצת יישומים אחרים."
+
+#: html/inc/prefs.inc:107
+msgid "Compute only between"
+msgstr "חשב רק בין:"
+
+#: html/inc/prefs.inc:108
+msgid "Compute only during a particular period each day."
+msgstr "חשב רק בזמן מסוים של כל יום."
+
+#: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
+#: html/user/forum_banishment_vote_action.php:65
+#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
+#: html/user/forum_moderate_thread.php:61
+msgid "Other"
+msgstr "אחר"
+
+#: html/inc/prefs.inc:113
+msgid "Store at least"
+msgstr "אחסן לפחות"
+
+#: html/inc/prefs.inc:114
+msgid "Store at least enough tasks to keep the computer busy for this long."
+msgstr "אחסן לפחות מספיק מטלות כדי להשאיר את המחשב עסוק לפרק זמן זה."
+
+#: html/inc/prefs.inc:116 html/inc/prefs.inc:122
+msgid "days of work"
+msgstr "ימי עבודה"
+
+#: html/inc/prefs.inc:119
+msgid "Store up to an additional"
+msgstr "אחסן עד עוד"
+
+#: html/inc/prefs.inc:120
+msgid ""
+"Store additional tasks above the minimum level.  Determines how much work is"
+" requested when contacting a project."
+msgstr "אחסן מטלות נוספות מעבר לרמה המינימלית. קובע כמה עבודה מתבקשת בעת יצירת קשר עם מיזם."
+
+#: html/inc/prefs.inc:125
+msgid "Switch between tasks every"
+msgstr "החלף בין משימות כל"
+
+#: html/inc/prefs.inc:126
+msgid "If you run several projects, BOINC may switch between them this often."
+msgstr "אם אתה מריץ מספר מיזמים, BOINC עלול להחליף ביניהם בתדירות זו."
+
+#: html/inc/prefs.inc:131
+msgid "Request tasks to checkpoint at most every"
+msgstr "בקש ממטלות לבצע נקודת מכוון לכל היותר כל"
+
+#: html/inc/prefs.inc:132
+msgid ""
+"This controls how often tasks save their state to disk, so that later they "
+"can be continued from that point."
+msgstr ""
+
+#: html/inc/prefs.inc:134
+msgid "seconds"
+msgstr "שניות"
+
+#: html/inc/prefs.inc:142 html/inc/prefs.inc:154
+msgid "Use no more than"
+msgstr "השתמש לכל היותר ב-"
+
+#: html/inc/prefs.inc:143
+msgid "Limit the total amount of disk space used by BOINC."
+msgstr "הגבל את שטח הדיסק הכולל שבשימוש ע\"י BOINC"
+
+#: html/inc/prefs.inc:145
+msgid "GB"
+msgstr "GB"
+
+#: html/inc/prefs.inc:148
+msgid "Leave at least"
+msgstr "השאר לפחות"
+
+#: html/inc/prefs.inc:149
+msgid ""
+"Limit disk usage to leave this much free space on the volume where BOINC "
+"stores data."
+msgstr ""
+
+#: html/inc/prefs.inc:151
+msgid "GB free"
+msgstr "ג\"ב פנוי"
+
+#: html/inc/prefs.inc:155
+msgid ""
+"Limit the percentage of disk space used by BOINC on the volume where it "
+"stores data."
+msgstr ""
+
+#: html/inc/prefs.inc:158
+#, no-php-format
+msgid "% of total"
+msgstr "% מהסך הכללי"
+
+#: html/inc/prefs.inc:164
+msgid "When computer is in use, use at most"
+msgstr "כאשר המחשב נמצא בשימוש, השתמש לכל היותר"
+
+#: html/inc/prefs.inc:165
+msgid "Limit the memory used by BOINC when you're using the computer."
+msgstr ""
+
+#: html/inc/prefs.inc:168 html/inc/prefs.inc:175 html/inc/prefs.inc:188
+#, no-php-format
+msgid "%"
+msgstr "%"
+
+#: html/inc/prefs.inc:171
+msgid "When computer is not in use, use at most"
+msgstr "כאשר המחשב לא נמצא בשימוש, השתמש לכל היותר"
+
+#: html/inc/prefs.inc:172
+msgid "Limit the memory used by BOINC when you're not using the computer."
+msgstr "הגבל את הזיכרון שבשימוש ע\"י BOINC כאשר אתה לא משתמש במחשב."
+
+#: html/inc/prefs.inc:178
+msgid "Leave non-GPU tasks in memory while suspended"
+msgstr "השאר משימות לא גרפיות בזיכרון בזמן השהיה"
+
+#: html/inc/prefs.inc:179
+msgid ""
+"If checked, suspended tasks stay in memory, and resume with no work lost. If"
+" unchecked, suspended tasks are removed from memory, and resume from their "
+"last checkpoint."
+msgstr ""
+
+#: html/inc/prefs.inc:184
+msgid "Page/swap file: use at most"
+msgstr ""
+
+#: html/inc/prefs.inc:185
+msgid "Limit the swap space (page file) used by BOINC."
+msgstr ""
+
+#: html/inc/prefs.inc:195
+msgid "Limit download rate to"
+msgstr "הגבל קצב הורדה ל"
+
+#: html/inc/prefs.inc:196
+msgid "Limit the download rate of file transfers."
+msgstr "הגבל קצב הורדה של העברת קבצים."
+
+#: html/inc/prefs.inc:198 html/inc/prefs.inc:204
+msgid "KB/second"
+msgstr "קילובייט/שנייה"
+
+#: html/inc/prefs.inc:201
+msgid "Limit upload rate to"
+msgstr "הגבל קצב העלאה ל-"
+
+#: html/inc/prefs.inc:202
+msgid "Limit the upload rate of file transfers."
+msgstr "הגבל קצב העלאה של העברת קבצים"
+
+#: html/inc/prefs.inc:207
+msgid "Limit usage to"
+msgstr "הגבל שימוש ל"
+
+#: html/inc/prefs.inc:208
+msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
+msgstr "לדוגמא: על BOINC להעביר לכל היותר 2000MB של נתונים כל 30 יום."
+
+#: html/inc/prefs.inc:211
+msgid "MB every"
+msgstr "מ\"ב"
+
+#: html/inc/prefs.inc:212 html/inc/util.inc:369
+msgid "days"
+msgstr "ימים"
+
+#: html/inc/prefs.inc:216
+msgid "Transfer files only between"
+msgstr "העבר קבצים רק בין"
+
+#: html/inc/prefs.inc:217
+msgid "Transfer files only during a particular period each day."
+msgstr "העבר קבצים רק במהלך תקופה מסוימת בכל יום."
+
+#: html/inc/prefs.inc:222
+msgid "Skip data verification for image files"
+msgstr "דלג על בדיקת מידע של קובצי התמונות"
+
+#: html/inc/prefs.inc:223
+msgid ""
+"Check this only if your Internet provider modifies image files. Skipping "
+"verification reduces the security of BOINC."
+msgstr ""
+
+#: html/inc/prefs.inc:228
+msgid "Confirm before connecting to Internet"
+msgstr "אשר לפני התחברות לאינטרנט"
+
+#: html/inc/prefs.inc:229 html/inc/prefs.inc:235
+msgid "Useful only if you have a modem, ISDN or VPN connection."
+msgstr "שימושי רק אם יש לך חיבור מודם, ISDN או VPN"
+
+#: html/inc/prefs.inc:234
+msgid "Disconnect when done"
+msgstr "התנתק בסיום"
+
+#: html/inc/prefs.inc:242
+msgid "Disk"
+msgstr "דיסק"
+
+#: html/inc/prefs.inc:244
+msgid "Network"
+msgstr "Verkko"
+
+#. These texts are used in multiple places in prefs_edit.php and add_venue.php
+#: html/inc/prefs.inc:247
+msgid ""
+"These preferences apply to all the BOINC projects in which you participate."
+msgstr "העדפות אלו יחולו על כל מיזמי BOINC בהם אתה משתתף."
+
+#: html/inc/prefs.inc:250
+msgid ""
+"%1 Unable to update preferences. %2 The values marked in red below were out "
+"of range or not numeric."
+msgstr ""
+
+#: html/inc/prefs.inc:494
+msgid "Separate preferences for %1"
+msgstr "העדפות נפרדות עבור %1"
+
+#: html/inc/prefs.inc:502 html/inc/prefs.inc:543
+#: html/inc/prefs_project.inc:293
+msgid "Edit preferences"
+msgstr "ערוך העדפות"
+
+#: html/inc/prefs.inc:503 html/inc/prefs_util.inc:610
+#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:36
+msgid "Remove"
+msgstr "הסרה"
+
+#: html/inc/prefs.inc:510 html/inc/prefs.inc:511
+msgid "Add separate preferences for %1"
+msgstr "הוסף העדפות נפרדות עבור %1"
+
+#: html/inc/prefs.inc:520
+msgid "These settings apply to all computers using this account except"
+msgstr ""
+
+#: html/inc/prefs.inc:522
+msgid ""
+"computers where you have set preferences locally using the BOINC Manager"
+msgstr ""
+
+#: html/inc/prefs.inc:524
+msgid "Android devices"
+msgstr "מכשירי אנדרואיד"
+
+#: html/inc/prefs.inc:527
+msgid "(Switch view)"
+msgstr "(החלף תצוגה)"
+
+#: html/inc/prefs.inc:529 html/inc/prefs_project.inc:275
+msgid "Combined preferences"
+msgstr "העדפות משולבות"
+
+#: html/inc/prefs.inc:536 html/inc/prefs_project.inc:286
+msgid "Primary (default) preferences"
+msgstr "העדפות ראשיות (ברירת מחדל)"
+
+#: html/inc/prefs.inc:553
+msgid "Preferences last modified:"
+msgstr "העדפות נערכו לאחרונה: "
+
+#: html/inc/prefs.inc:569
+msgid "Add preferences"
+msgstr "הוסף העדפות"
+
+#: html/inc/prefs.inc:573
+msgid "Update preferences"
+msgstr "עדכון העדפות"
+
+#: html/inc/prefs.inc:644 html/inc/prefs_util.inc:575
+#: html/inc/prefs_util.inc:578
+#: html/project.sample/project_specific_prefs.inc:71
+#: html/project.sample/project_specific_prefs.inc:257
+msgid "yes"
+msgstr "כן"
+
+#: html/inc/prefs.inc:646 html/inc/prefs_util.inc:575
+#: html/inc/prefs_util.inc:578
+#: html/project.sample/project_specific_prefs.inc:73
+#: html/project.sample/project_specific_prefs.inc:257
+msgid "no"
+msgstr "לא"
+
+#. TODO: make this a subclass of PREF
+#: html/inc/prefs.inc:654
+msgid "Default computer location"
+msgstr "מיקום ברירת מחדל של המחשב"
+
+#: html/inc/prefs.inc:655
+msgid ""
+"New computers will use this location for computing and project preferences."
+msgstr ""
+
+#: html/inc/prefs_project.inc:54
+msgid "Resource share"
+msgstr "שתוף משאבים"
+
+#: html/inc/prefs_project.inc:55
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. For example, if you participate in two BOINC projects with resource"
+" shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr ""
+
+#: html/inc/prefs_project.inc:63
+msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
+msgstr "האץ משימות חישוב גרפי על ידי הקצאת יחידת עיבוד לכל אחת?"
+
+#: html/inc/prefs_project.inc:72
+msgid "Use CPU"
+msgstr "השתמש במעבד"
+
+#: html/inc/prefs_project.inc:81
+msgid "Use ATI GPU"
+msgstr "השתמש במעבד גרפי ATI"
+
+#: html/inc/prefs_project.inc:90
+msgid "Use NVIDIA GPU"
+msgstr "השתמש במעבד גרפי NVIDIA"
+
+#: html/inc/prefs_project.inc:99
+msgid "Use Intel GPU"
+msgstr "השתמש במעבד גרפי של Intel"
+
+#: html/inc/prefs_project.inc:109
+msgid "Run test applications?"
+msgstr "הפעיל יישומי בדיקה?"
+
+#: html/inc/prefs_project.inc:110
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "זה עוזר לנו לפתח יישומים, אך עלול לגרום לעבודות להיכשל במחשב שלך"
+
+#: html/inc/prefs_project.inc:117
+msgid ""
+"Emails will be sent from %1; make sure your spam filter accepts this "
+"address."
+msgstr "הודעות דוא\"ל יישלחו מ-%1; וודא כי מסנן דואר הזבל שלך מאשר כתובת זו."
+
+#: html/inc/prefs_project.inc:125
+msgid "Is it OK for %1 and your team (if any) to email you?"
+msgstr "האם ניתן לאפשר ל-%1 והצוות שלך (אם קיים) לשלוח לך דוא\"ל?"
+
+#: html/inc/prefs_project.inc:132
+msgid "Should %1 show your computers on its web site?"
+msgstr "האם על %1 להציג את מחשביך באתר שלו?"
+
+#: html/inc/prefs_project.inc:272
+msgid "(Switch View)"
+msgstr "(החלף תצוגה)"
+
+#: html/inc/prefs_project.inc:278
+msgid "Project specific settings"
+msgstr "הגדרות ספציפיות של המיזם"
+
+#: html/inc/prefs_util.inc:33
+msgid "bad venue: %1"
+msgstr "מיקום שגוי: %1"
+
+#: html/inc/prefs_util.inc:39
+msgid "bad subset: %1"
+msgstr "תת-קבוצה שגויה: %1"
+
+#: html/inc/prefs_util.inc:470 html/inc/prefs_util.inc:494
+msgid "and"
+msgstr "ו"
+
+#: html/inc/prefs_util.inc:583 html/user/forum_search.php:55
+msgid "no limit"
+msgstr "ללא הגבלה"
+
+#: html/inc/prefs_util.inc:608 html/user/team_admins.php:82
+msgid "Add"
+msgstr "הוספה"
+
+#: html/inc/profile.inc:85
+msgid ""
+"Your profile will be made visible to other people as soon as it has been "
+"approved by the project. This may take up to a few days."
+msgstr "הפרופיל שלך יהיה גלוי לאחרים ברגע שיאושר ע\"י המיזם. הדבר עשוי לקחת מספר ימים."
+
+#: html/inc/profile.inc:91
+msgid ""
+"Your profile has been marked as unacceptable. It is not visible to other "
+"people. Please change it."
+msgstr "הפרופיל שלך סומן כבלתי קביל. הוא אינו גלוי לאחרים. אנא שנה אותו."
+
+#: html/inc/profile.inc:171 html/user/friend.php:107 html/user/friend.php:184
+msgid "Database error"
+msgstr "שגיאת מסד נתונים"
+
+#: html/inc/profile.inc:194
+msgid ""
+"To prevent spam, profiles of users with an average credit of less than %1 "
+"are displayed only to logged-in users. We apologize for this inconvenience."
+msgstr ""
+
+#: html/inc/profile.inc:198
+msgid "User is banished"
+msgstr "משתמש מוחרם"
+
+#: html/inc/profile.inc:212
+msgid "No profile exists for that user ID."
+msgstr "לא קיים פרופיל עבור זיהוי משתמש זה."
+
+#: html/inc/profile.inc:221 html/user/create_profile.php:316
+msgid "Edit your profile"
+msgstr "ערוך את הפרופיל שלך"
+
+#: html/inc/profile.inc:267
+msgid "Your feedback on this profile"
+msgstr "המשוב שלך על פרופיל זה"
+
+#: html/inc/profile.inc:269
+msgid "Recommend this profile for User of the Day:"
+msgstr "המלץ על פרופיל זה למשתמש היום:"
+
+#: html/inc/profile.inc:270
+msgid "I %1 like %2 this profile"
+msgstr ""
+
+#: html/inc/profile.inc:273
+msgid "Alert administrators to an offensive profile:"
+msgstr "התרע בפני המנהלים מפני פרופיל פוגעני:"
+
+#: html/inc/profile.inc:274
+msgid "I %1 do not like %2 this profile"
+msgstr ""
+
+#: html/inc/result.inc:58
+msgid "Anonymous platform"
+msgstr "פלטפורמה אנונימית"
+
+#: html/inc/result.inc:76 html/user/host_app_versions.php:24
+msgid "NVIDIA GPU"
+msgstr "מעבד גרפי של NVIDIA"
+
+#: html/inc/result.inc:78 html/user/host_app_versions.php:25
+msgid "ATI GPU"
+msgstr "מעבד גרפי של ATI"
+
+#: html/inc/result.inc:80 html/user/host_app_versions.php:26
+msgid "Intel GPU"
+msgstr "מעבד גרפי של Intel"
+
+#: html/inc/result.inc:105
+msgid "pending"
+msgstr "ממתין"
+
+#: html/inc/result.inc:128 html/user/forum_search.php:62
+msgid "All"
+msgstr "הכל"
+
+#: html/inc/result.inc:129 html/inc/result.inc:190 html/inc/result.inc:237
+#: html/user/server_status.php:166
+msgid "In progress"
+msgstr "בתהליך"
+
+#: html/inc/result.inc:130
+msgid "Validation pending"
+msgstr "ממתין לאימות"
+
+#: html/inc/result.inc:131
+msgid "Validation inconclusive"
+msgstr "אימות לא חד משמעי"
+
+#: html/inc/result.inc:132 html/inc/result.inc:282
+msgid "Valid"
+msgstr "תקף"
+
+#: html/inc/result.inc:133 html/inc/result.inc:285
+msgid "Invalid"
+msgstr "לא תקף"
+
+#: html/inc/result.inc:134 html/inc/result.inc:223
+msgid "Error"
+msgstr "שגיאה"
+
+#: html/inc/result.inc:188 html/inc/result.inc:235
+#: html/user/explain_state.php:34
+msgid "Inactive"
+msgstr "אינו פעיל"
+
+#: html/inc/result.inc:189 html/inc/result.inc:236
+#: html/user/explain_state.php:37 html/user/server_status.php:165
+msgid "Unsent"
+msgstr "לא נשלח"
+
+#: html/inc/result.inc:195
+msgid "Completed, waiting for validation"
+msgstr "הושלם, ממתין לתיקוף"
+
+#: html/inc/result.inc:196
+msgid "Completed and validated"
+msgstr "הושלם ותוקף"
+
+#: html/inc/result.inc:197
+msgid "Completed, marked as invalid"
+msgstr "הושלם, סומן כלא תקף"
+
+#: html/inc/result.inc:198
+msgid "Completed, can't validate"
+msgstr "הושלם, לא ניתן לתקף"
+
+#: html/inc/result.inc:199
+msgid "Completed, validation inconclusive"
+msgstr "הושלם, תיקוף אינו חד משמעי"
+
+#: html/inc/result.inc:200
+msgid "Completed, too late to validate"
+msgstr "הושלם, מאוחר מדי לתקף"
+
+#: html/inc/result.inc:202
+msgid "Completed"
+msgstr "הושלם"
+
+#: html/inc/result.inc:203 html/inc/result.inc:247
+#: html/user/explain_state.php:62
+msgid "Couldn't send"
+msgstr "לא ניתן לשלוח"
+
+#: html/inc/result.inc:208 html/inc/result.inc:271
+msgid "Cancelled by server"
+msgstr "בוטל ע\"י השרת"
+
+#: html/inc/result.inc:213
+msgid "Not started by deadline - canceled"
+msgstr ""
+
+#: html/inc/result.inc:216
+msgid "Error while downloading"
+msgstr "שגיאה בעת הורדה"
+
+#: html/inc/result.inc:218
+msgid "Error while computing"
+msgstr "שגיאה בעת חישוב"
+
+#: html/inc/result.inc:219
+msgid "Error while uploading"
+msgstr "שגיאה בעת העלאה"
+
+#: html/inc/result.inc:220
+msgid "Aborted"
+msgstr "בוטל"
+
+#: html/inc/result.inc:221 html/inc/result.inc:274
+msgid "Upload failed"
+msgstr "העלאה נכשלה"
+
+#: html/inc/result.inc:224
+msgid "Timed out - no response"
+msgstr "חלף זמן שהוקצב - אין תגובה"
+
+#: html/inc/result.inc:225 html/inc/result.inc:254
+#: html/user/explain_state.php:71
+msgid "Didn't need"
+msgstr "לא נזקק"
+
+#: html/inc/result.inc:226 html/inc/result.inc:255
+#: html/user/explain_state.php:74
+msgid "Validate error"
+msgstr "שגיאת תיקוף"
+
+#: html/inc/result.inc:227 html/inc/result.inc:256
+msgid "Abandoned"
+msgstr "ננטש"
+
+#: html/inc/result.inc:238 html/user/explain_state.php:43
+msgid "Over"
+msgstr ""
+
+#: html/inc/result.inc:246 html/user/explain_state.php:59
+msgid "Success"
+msgstr "הצלחה"
+
+#: html/inc/result.inc:250
+msgid "Computation error"
+msgstr "שגיאת חישוב"
+
+#: html/inc/result.inc:252
+msgid "Redundant result"
+msgstr "תוצאה מיותרת"
+
+#: html/inc/result.inc:253 html/user/explain_state.php:68
+msgid "No reply"
+msgstr "אין תשובה"
+
+#: html/inc/result.inc:263 html/user/explain_state.php:85
+msgid "New"
+msgstr "חדש"
+
+#: html/inc/result.inc:264 html/user/explain_state.php:91
+msgid "Downloading"
+msgstr "מוריד"
+
+#: html/inc/result.inc:265
+msgid "Processing"
+msgstr "מעבד"
+
+#: html/inc/result.inc:266
+msgid "Compute error"
+msgstr "שגיאת חישוב"
+
+#: html/inc/result.inc:267 html/user/explain_state.php:97
+msgid "Uploading"
+msgstr "מעלה"
+
+#: html/inc/result.inc:268 html/user/explain_state.php:88
+msgid "Done"
+msgstr "הסתיים"
+
+#: html/inc/result.inc:273
+msgid "Aborted by user"
+msgstr "בוטל ע\"י המשתמש"
+
+#: html/inc/result.inc:281
+msgid "Initial"
+msgstr "התחלתי"
+
+#: html/inc/result.inc:287
+msgid "Not necessary"
+msgstr "אינו נחוץ"
+
+#: html/inc/result.inc:288
+msgid "Workunit error - check skipped"
+msgstr "שגיאת יחידת עבודה - דילוג על בדיקה"
+
+#: html/inc/result.inc:289
+msgid "Checked, but no consensus yet"
+msgstr "נבדק, אך טרם התקבלה הסכמה"
+
+#: html/inc/result.inc:290
+msgid "Task was reported too late to validate"
+msgstr "המשימה דווחה מאוחר מדי לתיקוף"
+
+#: html/inc/result.inc:316
+msgid "Couldn't send result"
+msgstr "לא ניתן לשלוח תוצאה"
+
+#: html/inc/result.inc:320
+msgid "Too many errors (may have bug)"
+msgstr "יותר מדי שגיאות (ייתכן וקיים באג)"
+
+#: html/inc/result.inc:324
+msgid "Too many results (may be nondeterministic)"
+msgstr "יותר מדי תוצאות (ייתכן ואינו דטרמיניסטי)"
+
+#: html/inc/result.inc:328
+msgid "Too many total results"
+msgstr "יותר מדי תוצאות כלליות"
+
+#: html/inc/result.inc:332
+msgid "WU cancelled"
+msgstr "יחידת עבודה בוטלה"
+
+#: html/inc/result.inc:336
+msgid "Canonical result is missing"
+msgstr ""
+
+#: html/inc/result.inc:340
+msgid "Unrecognized Error: %1"
+msgstr "שגיאה לא מזוהה: %1"
+
+#: html/inc/result.inc:369
+msgid "Task name"
+msgstr "שם המשימה"
+
+#: html/inc/result.inc:369 html/inc/result.inc:374 html/inc/result.inc:377
+#: html/inc/result.inc:380
+msgid "click for details"
+msgstr "לחץ לפרטים"
+
+#: html/inc/result.inc:369
+msgid "Show IDs"
+msgstr "הצג זיהויים"
+
+#: html/inc/result.inc:374
+msgid "Show names"
+msgstr "הצג שמות"
+
+#: html/inc/result.inc:377 html/user/result.php:36
+msgid "Task"
+msgstr "משימה"
+
+#: html/inc/result.inc:380
+msgid "Work unit"
+msgstr "יחידת עבודה"
+
+#: html/inc/result.inc:391
+msgid "Computer"
+msgstr "מחשב"
+
+#: html/inc/result.inc:394 html/inc/result.inc:695
+msgid "Sent"
+msgstr "נשלח"
+
+#: html/inc/result.inc:395
+msgid "Time reported<br />or deadline"
+msgstr "זמן דיווח<br />או תאריך יעד"
+
+#: html/inc/result.inc:396
+msgid "explain"
+msgstr "הסבר"
+
+#: html/inc/result.inc:397 html/user/server_status.php:112
+msgid "Status"
+msgstr "מצב"
+
+#: html/inc/result.inc:401
+msgid "Run time<br />(sec)"
+msgstr "זמן ריצה<br />(שניות)"
+
+#: html/inc/result.inc:402
+msgid "CPU time<br />(sec)"
+msgstr "זמן מעבד<br />(שניות)"
+
+#: html/inc/result.inc:403 html/inc/result.inc:706
+msgid "Credit"
+msgstr "נקודות זכות"
+
+#: html/inc/result.inc:407 html/inc/result.inc:813
+#: html/user/server_status.php:164
+msgid "Application"
+msgstr "יישום"
+
+#: html/inc/result.inc:693
+msgid "Workunit"
+msgstr "יחידת עבודה"
+
+#: html/inc/result.inc:696
+msgid "Report deadline"
+msgstr "תאריך יעד לדיווח"
+
+#: html/inc/result.inc:697
+msgid "Received"
+msgstr "התקבל"
+
+#: html/inc/result.inc:698
+msgid "Server state"
+msgstr "מצב השרת"
+
+#: html/inc/result.inc:699
+msgid "Outcome"
+msgstr "תוצאה"
+
+#: html/inc/result.inc:700
+msgid "Client state"
+msgstr "מצב המחשב"
+
+#: html/inc/result.inc:701
+msgid "Exit status"
+msgstr "מצב יציאה"
+
+#: html/inc/result.inc:703
+msgid "Run time"
+msgstr "זמן ריצה"
+
+#: html/inc/result.inc:704
+msgid "CPU time"
+msgstr "זמן מעבד"
+
+#: html/inc/result.inc:705
+msgid "Validate state"
+msgstr "מצב תיקוף"
+
+#: html/inc/result.inc:707
+msgid "Device peak FLOPS"
+msgstr ""
+
+#: html/inc/result.inc:708
+msgid "Application version"
+msgstr "גרסת יישום"
+
+#: html/inc/result.inc:733
+msgid "Output files"
+msgstr "קבצי פלט"
+
+#: html/inc/result.inc:736
+msgid "Stderr output"
+msgstr "פלט Stderr"
+
+#: html/inc/result.inc:795
+msgid "State"
+msgstr "מצב"
+
+#: html/inc/result.inc:836
+msgid "Task name:"
+msgstr "שם משימה:"
+
+#: html/inc/team.inc:40
+msgid "Search criteria (use one or more)"
+msgstr "חיפוש מאפיין (אחד או יותר)"
+
+#: html/inc/team.inc:42
+msgid "Key words"
+msgstr "מילות מפתח"
+
+#: html/inc/team.inc:42
+msgid "Find teams with these words in their names or descriptions"
+msgstr "מצא צוותים עם מילים אלו בשמות או בתיאור שלהן"
+
+#: html/inc/team.inc:50 html/inc/team.inc:484
+msgid "Type of team"
+msgstr "סוג הצוות"
+
+#: html/inc/team.inc:52
+msgid "Show only active teams"
+msgstr "הצג צוותים פעילים בלבד"
+
+#: html/inc/team.inc:53 html/inc/util.inc:1103 html/user/profile_menu.php:78
+#: html/user/site_search.php:29 html/user/user_search.php:73
+msgid "Search"
+msgstr "חיפוש"
+
+#: html/inc/team.inc:62
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "התבקש על ידך, ותאריך היעד לתשובת מייסד עבר."
+
+#: html/inc/team.inc:64
+msgid "Complete foundership transfer"
+msgstr "השלם העברת בעלות מייסד"
+
+#: html/inc/team.inc:68
+msgid "Requested by you"
+msgstr "התבקש על ידך"
+
+#: html/inc/team.inc:68
+msgid "founder response deadline is %1"
+msgstr "תאריך יעד לתשובת מייסד הוא %1"
+
+#: html/inc/team.inc:73 html/inc/team.inc:594 html/inc/user.inc:405
+#: html/inc/user.inc:503
+msgid "None"
+msgstr "לא קיים"
+
+#: html/inc/team.inc:75
+msgid "Initiate request"
+msgstr "זום בקשה"
+
+#: html/inc/team.inc:78
+msgid "Deferred"
+msgstr "נדחה"
+
+#: html/inc/team.inc:92
+msgid "Team info"
+msgstr "מידע על הצוות"
+
+#: html/inc/team.inc:94 html/user/team_forum.php:75
+#: html/user/team_search.php:82
+msgid "Description"
+msgstr "תיאור"
+
+#: html/inc/team.inc:107
+msgid "Web site"
+msgstr "אתר אינטרנט"
+
+#: html/inc/team.inc:134
+msgid "Cross-project stats"
+msgstr "סטטיסטיקות מיזם מוצלב"
+
+#: html/inc/team.inc:137 html/inc/team.inc:391 html/user/team_search.php:86
+msgid "Type"
+msgstr "סוג"
+
+#: html/inc/team.inc:141 html/user/team_manage.php:67
+msgid "Message board"
+msgstr "לוח הודעות"
+
+#: html/inc/team.inc:142 html/user/forum_forum.php:143
+#: html/user/forum_index.php:96
+msgid "Threads"
+msgstr "שרשורים"
+
+#: html/inc/team.inc:150
+msgid "Join this team"
+msgstr "הצטרף לצוות זה"
+
+#: html/inc/team.inc:151
+msgid ""
+"Note: if 'OK to email' is set in your project preferences, joining a team "
+"gives its founder access to your email address."
+msgstr "הערה: אם בהעדפות המיזם שלך מוגדר \"אישור לדוא\"ל\", הצטרפות לצוות תאפשר למייסד גישה לכתובת הדוא\"ל שלך."
+
+#: html/inc/team.inc:154
+msgid "Not accepting new members"
+msgstr "לא מקבלים חברים חדשים"
+
+#: html/inc/team.inc:161
+msgid "Foundership change requested"
+msgstr "התבקש שינוי בעלות מייסד"
+
+#: html/inc/team.inc:162
+msgid "Respond by %1"
+msgstr "השב עד %1"
+
+#: html/inc/team.inc:166
+msgid "Team foundership change"
+msgstr "שינוי בעלות מייסד הצוות"
+
+#: html/inc/team.inc:170 html/inc/team.inc:377
+msgid "Members"
+msgstr "חברים"
+
+#: html/inc/team.inc:171 html/inc/team.inc:272
+msgid "Founder"
+msgstr "מייסד"
+
+#: html/inc/team.inc:185
+msgid "Admins"
+msgstr "מנהלים"
+
+#: html/inc/team.inc:200
+msgid "New members in last day"
+msgstr "חברים חדשים ביום האחרון"
+
+#: html/inc/team.inc:201
+msgid "Total members"
+msgstr "סה\"כ חברים"
+
+#: html/inc/team.inc:201 html/inc/team.inc:203 html/inc/team.inc:204
+msgid "view"
+msgstr "הצג"
+
+#: html/inc/team.inc:203
+msgid "Active members"
+msgstr "חברים פעילים"
+
+#: html/inc/team.inc:204
+msgid "Members with credit"
+msgstr "חברים עם נקודות זכות"
+
+#: html/inc/team.inc:274
+msgid "Admin"
+msgstr "מנהל"
+
+#: html/inc/team.inc:295 html/user/forum_user_posts.php:124
+#: html/user/per_app_list.php:248 html/user/top_hosts.php:86
+#: html/user/top_teams.php:115 html/user/top_users.php:122
+msgid "Previous %1"
+msgstr "קודם %1"
+
+#: html/inc/team.inc:299 html/user/forum_user_posts.php:133
+#: html/user/per_app_list.php:253 html/user/profile_search_action.php:63
+#: html/user/top_hosts.php:92 html/user/top_teams.php:120
+#: html/user/top_users.php:127
+msgid "Next %1"
+msgstr "הבא %1"
+
+#: html/inc/team.inc:307
+msgid "No such team."
+msgstr "לא קיים צוות."
+
+#: html/inc/team.inc:320
+msgid "This operation requires foundership."
+msgstr "פעולה זו מצריכה בעלות מייסד."
+
+#: html/inc/team.inc:344
+msgid "This operation requires team admin privileges"
+msgstr "פעולה זו מצריכה הרשאות מנהל צוות"
+
+#: html/inc/team.inc:453
+msgid ""
+"WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
+" be overwritten. Edit the %1 BOINC-wide team %2 instead."
+msgstr ""
+
+#: html/inc/team.inc:459
+msgid ""
+"%1 Privacy note %2: if you create a team, your project preferences (resource"
+" share, graphics preferences) will be visible to the public."
+msgstr ""
+
+#: html/inc/team.inc:463
+msgid "Team name, text version"
+msgstr "שם הצוות, גרסת טקסט"
+
+#: html/inc/team.inc:464
+msgid "Don't use HTML tags."
+msgstr "אל תשתמש בתגי HTML."
+
+#: html/inc/team.inc:467
+msgid "Team name, HTML version"
+msgstr "שם הצוות, גרסת HTML"
+
+#: html/inc/team.inc:469 html/inc/team.inc:479
+msgid "You may use %1 limited HTML tags %2."
+msgstr ""
+
+#: html/inc/team.inc:470
+msgid "If you don't know HTML, leave this box blank."
+msgstr "אם אין לך ידע ב-HTML, השאר תיבה זו ריקה."
+
+#: html/inc/team.inc:473
+msgid "URL of team web page, if any"
+msgstr "כתובת אתר האינטרנט של הצוות, אם קיימת"
+
+#: html/inc/team.inc:473
+msgid "without \"http://\""
+msgstr "ללא \"http://\""
+
+#: html/inc/team.inc:474
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "ניתן יהיה להגיע לכתובת זו מדף הצוות באתר זה."
+
+#: html/inc/team.inc:477
+msgid "Description of team"
+msgstr "תיאור הצוות"
+
+#: html/inc/team.inc:493
+msgid "Accept new members?"
+msgstr "האם לקבל חברים חדשים?"
+
+#: html/inc/team_types.inc:24
+msgid "Company"
+msgstr "חברה"
+
+#: html/inc/team_types.inc:25
+msgid "Primary school"
+msgstr "בית ספר יסודי"
+
+#: html/inc/team_types.inc:26
+msgid "Secondary school"
+msgstr "תיכון"
+
+#: html/inc/team_types.inc:27
+msgid "Junior college"
+msgstr "מכללה"
+
+#: html/inc/team_types.inc:28
+msgid "University or department"
+msgstr "אוניברסיטה או אגף"
+
+#: html/inc/team_types.inc:29
+msgid "Government agency"
+msgstr "ארגון ממשלתי"
+
+#: html/inc/team_types.inc:30
+msgid "Non-profit organization"
+msgstr "עמותה"
+
+#: html/inc/team_types.inc:31
+msgid "National"
+msgstr "ארצי"
+
+#: html/inc/team_types.inc:32
+msgid "Local/regional"
+msgstr "מקומי/אזורי"
+
+#: html/inc/team_types.inc:33
+msgid "Computer type"
+msgstr "סוג מחשב"
+
+#: html/inc/team_types.inc:34
+msgid "Social/political/religious"
+msgstr "חברתי/פוליטי/דתי"
+
+#: html/inc/uotd.inc:30
+msgid "User profile"
+msgstr "פרופיל משתמש"
+
+#: html/inc/user.inc:122
+msgid "Projects in which you are participating"
+msgstr "מיזמים בהם אתה משתתף"
+
+#: html/inc/user.inc:124
+msgid "Projects in which %1 is participating"
+msgstr "מיזמים בהם %1 משתתף"
+
+#: html/inc/user.inc:129
+msgid "Click for user page"
+msgstr "לחץ לקבלת דף משתמש"
+
+#: html/inc/user.inc:132
+msgid "Since"
+msgstr "מאז"
+
+#: html/inc/user.inc:170
+msgid "Computers on this account"
+msgstr "מחשבים של חשבון זה"
+
+#: html/inc/user.inc:170 html/inc/user.inc:173 html/inc/user.inc:273
+#: html/inc/user.inc:360 html/inc/user.inc:455 html/inc/user.inc:536
+#: html/user/view_profile.php:66
+msgid "View"
+msgstr "הצג"
+
+#: html/inc/user.inc:185
+msgid "Cross-project ID"
+msgstr "זיהוי מיזם מוצלב"
+
+#: html/inc/user.inc:186
+msgid "Cross-project statistics"
+msgstr "סטטיסטיקות מיזם מוצלב"
+
+#: html/inc/user.inc:189 html/inc/user.inc:405 html/inc/user.inc:501
+#: html/inc/user.inc:503 html/user/user_search.php:129
+msgid "Team"
+msgstr "צוות"
+
+#: html/inc/user.inc:191
+msgid "Cross-project"
+msgstr "מיזם מוצלב"
+
+#: html/inc/user.inc:193
+msgid "Stats on your cell phone"
+msgstr "קבלת נתונים לנייד שלך"
+
+#: html/inc/user.inc:248 html/inc/user.inc:448
+msgid "URL"
+msgstr "כתובת אתר"
+
+#: html/inc/user.inc:252
+msgid "Postal code"
+msgstr "מיקוד"
+
+#: html/inc/user.inc:254 html/inc/user.inc:441
+msgid "%1 member since"
+msgstr "%1 חבר מאז"
+
+#. LDAP accounts can't change email or password
+#: html/inc/user.inc:259 html/inc/user.inc:263
+msgid "Change"
+msgstr "שינוי"
+
+#: html/inc/user.inc:264
+msgid "email address"
+msgstr "כתובת אימייל"
+
+#: html/inc/user.inc:265
+msgid "password"
+msgstr "סיסמא"
+
+#: html/inc/user.inc:266
+msgid "other account info"
+msgstr "מידע חשבון אחר"
+
+#: html/inc/user.inc:269 html/inc/user.inc:440
+msgid "User ID"
+msgstr "זיהוי משתמש"
+
+#: html/inc/user.inc:269
+msgid "Used in community functions"
+msgstr "נמצא בשימוש בפונקציות קהילה"
+
+#: html/inc/user.inc:272 html/user/weak_auth.php:23
+msgid "Account keys"
+msgstr "מפתחות חשבון"
+
+#: html/inc/user.inc:282
+msgid "When and how BOINC uses your computer"
+msgstr "מתי וכיצד משתמש BOINC במחשבך"
+
+#: html/inc/user.inc:283
+msgid "Computing preferences"
+msgstr "העדפות חישוב"
+
+#: html/inc/user.inc:286
+msgid "Message boards and private messages"
+msgstr "לוחות הודעות והודעות פרטיות"
+
+#: html/inc/user.inc:287 html/user/edit_forum_preferences_form.php:31
+msgid "Community preferences"
+msgstr "העדפות קהילה"
+
+#: html/inc/user.inc:290
+msgid "Preferences for this project"
+msgstr "העדפות עבור מיזם זה"
+
+#: html/inc/user.inc:291 html/user/prefs.php:30
+msgid "%1 preferences"
+msgstr "העדפות %1"
+
+#: html/inc/user.inc:308
+msgid "View the profile of %1"
+msgstr "הצג את הפרופיל של %1"
+
+#: html/inc/user.inc:309 html/inc/user.inc:364 html/inc/user.inc:536
+msgid "Profile"
+msgstr "פרופיל"
+
+#: html/inc/user.inc:362
+msgid "Create"
+msgstr "צור"
+
+#: html/inc/user.inc:369 html/inc/user.inc:508
+msgid "%1 posts"
+msgstr "הרשומות של %1"
+
+#. ------------ Notification -----------
+#: html/inc/user.inc:387 html/user/edit_forum_preferences_form.php:40
+msgid "Notifications"
+msgstr "התראות"
+
+#: html/inc/user.inc:393
+msgid "Quit team"
+msgstr "עזוב צוות"
+
+#: html/inc/user.inc:395 html/inc/user.inc:412
+msgid "Administer"
+msgstr "נהל"
+
+#: html/inc/user.inc:401 html/inc/user.inc:414
+msgid "(foundership change request pending)"
+msgstr "(בקשת שינוי בעלות מייסד ממתינה)"
+
+#: html/inc/user.inc:403
+msgid "Member of team"
+msgstr "חבר בצוות"
+
+#: html/inc/user.inc:405
+msgid "find a team"
+msgstr "מצא צוות"
+
+#: html/inc/user.inc:416
+msgid "Founder but not member of"
+msgstr "מייסד אך לא חבר ב"
+
+#: html/inc/user.inc:422
+msgid "Find friends"
+msgstr "מצא חברים"
+
+#: html/inc/user.inc:430 html/inc/user.inc:432 html/inc/user.inc:519
+#: html/inc/user.inc:521 html/inc/user.inc:530
+msgid "Friends"
+msgstr "חברים"
+
+#: html/inc/user.inc:463 html/inc/user.inc:469
+msgid "Donor"
+msgstr "תורם"
+
+#: html/inc/user.inc:512
+msgid "Contact"
+msgstr "צור קשר"
+
+#: html/inc/user.inc:515
+msgid "This person is a friend"
+msgstr "גורם זה הוא חבר"
+
+#: html/inc/user.inc:516 html/user/friend.php:250
+msgid "Cancel friendship"
+msgstr "ביטול חברות"
+
+#: html/inc/user.inc:519 html/user/friend.php:39
+msgid "Request pending"
+msgstr "בקשה ממתינה"
+
+#: html/inc/user.inc:521
+msgid "Add as friend"
+msgstr "הוסף כחבר"
+
+#: html/inc/user.inc:545
+msgid "Account information"
+msgstr "מידע אודות החשבון"
+
+#: html/inc/user_util.inc:40
+msgid "user name cannot have leading or trailing white space"
+msgstr "שם משתמש לא יכול להכיל רווחים בתחילתו או בסופו"
+
+#: html/inc/user_util.inc:44
+msgid "user name must be nonempty"
+msgstr "שם משתמש אינו יכול להיות ריק"
+
+#: html/inc/user_util.inc:48
+msgid "user name may not contain HTML tags"
+msgstr "שם משתמש אינו יכול להכיל תגיות HTML"
+
+#: html/inc/user_util.inc:108
+msgid "Can't create account"
+msgstr "לא ניתן ליצור חשבון"
+
+#: html/inc/user_util.inc:111
+msgid "Click your browser's <b>Back</b> button to try again."
+msgstr "לחץ על כפתור <b>אחורה</b> שבדפדפן שלך ונסה שוב."
+
+#: html/inc/user_util.inc:132 html/user/team_create_action.php:43
+msgid "Your reCAPTCHA response was not correct. Please try again."
+msgstr ""
+
+#: html/inc/user_util.inc:156
+msgid "You must supply an invitation code to create an account."
+msgstr "עלייך לספק קוד הזמנה בכדי ליצור חשבון."
+
+#: html/inc/user_util.inc:159
+msgid "The invitation code you gave is not valid."
+msgstr "קוד ההזמנה אשר סיפקת אינו תקף."
+
+#: html/inc/user_util.inc:170
+msgid ""
+"Invalid email address: you must enter a valid address of the form "
+"name@domain"
+msgstr ""
+
+#: html/inc/user_util.inc:174
+msgid "There's already an account with that email address."
+msgstr "כבר קיים חשבון עם כתובת דוא\"ל זו."
+
+#: html/inc/user_util.inc:180 html/user/edit_passwd_action.php:32
+msgid "New passwords are different"
+msgstr "סיסמאות חדשות הן שונות"
+
+#: html/inc/user_util.inc:187 html/user/edit_passwd_action.php:40
+msgid "Passwords may only include ASCII characters."
+msgstr "סיסמאות יכולות להכיל רק תווי ASCII"
+
+#: html/inc/user_util.inc:192 html/user/edit_passwd_action.php:44
+msgid "New password is too short: minimum password length is %1 characters."
+msgstr "סיסמה חדשה קצרה מדי: אורך סיסמה מינימלי הוא %1 תווים."
+
+#: html/inc/user_util.inc:218
+msgid "Couldn't create account"
+msgstr "יצירת חשבון נכשלה"
+
+#: html/inc/util.inc:192
+msgid "log out"
+msgstr "ניתוק"
+
+#: html/inc/util.inc:194
+msgid "log in"
+msgstr "התחברות"
+
+#. kludge
+#: html/inc/util.inc:297 html/user/login_form.php:43
+msgid "Log in"
+msgstr "היכנס"
+
+#: html/inc/util.inc:298
+msgid "Create an account"
+msgstr "צור חשבון"
+
+#: html/inc/util.inc:299
+msgid "Server status page"
+msgstr "מצב השרת"
+
+#: html/inc/util.inc:343
+msgid ""
+"A database error occurred while handling your request; please try again "
+"later."
+msgstr "שגיאת מסד נתונים בעת הטיפול בבקשתך; אנא נסה שנית מאוחר יותר."
+
+#: html/inc/util.inc:352
+msgid "Unable to handle request"
+msgstr "לא ניתן לטפל בבקשה"
+
+#: html/inc/util.inc:372
+msgid "hours"
+msgstr "שעות"
+
+#: html/inc/util.inc:375
+msgid "min"
+msgstr "דקות"
+
+#: html/inc/util.inc:378
+msgid "sec"
+msgstr "שניות"
+
+#: html/inc/util.inc:561
+msgid ""
+"Link has timed out. Please click Back, refresh the page, and try again."
+msgstr "פג תוקף קישור. אנא לחץ על חזור, רענן את העמוד ונסה שוב."
+
+#: html/inc/util.inc:636
+msgid "Use BBCode tags to format your text"
+msgstr "השתמש בתגי BBCode בכדי לפרמט את הטקסט"
+
+#: html/inc/util.inc:884
+msgid "Project down for maintenance"
+msgstr "המיזם הופסק לצרכי תחזוקה"
+
+#: html/inc/util.inc:887
+msgid "%1 is temporarily shut down for maintenance.  Please try again later."
+msgstr ""
+
+#: html/inc/util.inc:905
+msgid "Unable to connect to database - please try again later"
+msgstr "לא ניתן להתחבר למסד הנתונים - אנא נסה שנית מאוחר יותר"
+
+#: html/inc/util.inc:909
+msgid "Unable to select database - please try again later"
+msgstr "לא ניתן לבחור מסד נתונים - אנא נסה שנית מאוחר יותר"
+
+#: html/inc/util.inc:1082
+msgid "characters remaining"
+msgstr "תווים נותרים"
+
+#: html/inc/util_ops.inc:130
+msgid "Stay logged in on this computer"
+msgstr "הישאר מחובר במחשב זה"
+
+#: html/user/account_finish_action.php:27
+msgid "You must supply a name for your account"
+msgstr "עלייך לספק שם עבור חשבונך"
+
+#: html/user/account_finish_action.php:30
+msgid "HTML tags not allowed in name"
+msgstr "תגיות HTML אינן מורשות בשם"
+
+#: html/user/account_finish.php:34
+msgid "Finish account setup"
+msgstr "סיים הגדרת חשבון"
+
+#: html/user/account_finish.php:52
+msgid "Optional; not shown to others"
+msgstr "רשות; לא מוצג לאחרים"
+
+#: html/user/add_venue.php:40 html/user/add_venue.php:64
+#: html/user/prefs_edit.php:41 html/user/prefs_edit.php:65
+#: html/user/prefs_edit.php:93
+msgid "Edit %1 preferences"
+msgstr "ערוך העדפות %1"
+
+#: html/user/add_venue.php:82
+msgid "Add %1 preferences for %2"
+msgstr "הוסף %1 העדפות עבור %2"
+
+#: html/user/apps.php:33
+msgid ""
+"%1 currently has the following applications. When you participate in %1, "
+"tasks for one or more of these applications will be assigned to your "
+"computer. The current version of the application will be downloaded to your "
+"computer. This happens automatically; you don't have to do anything."
+msgstr ""
+
+#: html/user/apps.php:55
+msgid "Platform"
+msgstr "פלטפורמה"
+
+#: html/user/apps.php:56
+msgid "Version"
+msgstr "גרסא"
+
+#: html/user/apps.php:58
+msgid "Average computing"
+msgstr "ממוצע חישוב"
+
+#: html/user/bbcode.php:23
+msgid "BBCode tags"
+msgstr "תגיות BBCode"
+
+#: html/user/bbcode.php:25
+msgid ""
+"BBCode tags let you format text in your profile and message-board postings.\n"
+"It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
+"have used %1 in HTML) and end with ] (where you would have used %2 in\n"
+"HTML)."
+msgstr ""
+
+#: html/user/bbcode.php:31
+msgid "Examples"
+msgstr "דוגמאות"
+
+#: html/user/bbcode.php:32
+msgid "Bold"
+msgstr "מודגש"
+
+#: html/user/bbcode.php:33
+msgid "Italic"
+msgstr "נטוי"
+
+#: html/user/bbcode.php:34
+msgid "Underline"
+msgstr "קו תחתון"
+
+#: html/user/bbcode.php:35
+msgid "Strikethrough"
+msgstr ""
+
+#: html/user/bbcode.php:36
+msgid "Superscript"
+msgstr ""
+
+#: html/user/bbcode.php:37
+msgid "Big text"
+msgstr "טקסט גדול"
+
+#: html/user/bbcode.php:38
+msgid "Red text"
+msgstr "טקסט אדום"
+
+#: html/user/bbcode.php:39
+msgid "link to website"
+msgstr "קישור לאתר"
+
+#: html/user/bbcode.php:40
+msgid "Quoted text"
+msgstr "טקסט מצוטט"
+
+#: html/user/bbcode.php:40
+msgid "use for quoted blocks of text"
+msgstr ""
+
+#: html/user/bbcode.php:41
+msgid "use to display an image"
+msgstr ""
+
+#: html/user/bbcode.php:42
+msgid "Code snippet here"
+msgstr "קטע קוד כאן"
+
+#: html/user/bbcode.php:42
+msgid "use to display some code"
+msgstr ""
+
+#: html/user/bbcode.php:43
+msgid "Pre-formatted text"
+msgstr "טקסט לפני עיצוב"
+
+#: html/user/bbcode.php:43
+msgid "use to display pre-formatted (usually monospaced) text"
+msgstr ""
+
+#: html/user/bbcode.php:44 html/user/bbcode.php:45
+msgid "Item 1"
+msgstr "איבר 1"
+
+#: html/user/bbcode.php:44 html/user/bbcode.php:45
+msgid "Item2"
+msgstr "איבר2"
+
+#: html/user/bbcode.php:44 html/user/bbcode.php:45
+msgid "Item 2"
+msgstr "איבר 2"
+
+#: html/user/bbcode.php:48
+msgid "link to an issue on the BOINC Github repository"
+msgstr "קישור לסוגיה במאגר של BOINC ב-Github"
+
+#: html/user/bbcode.php:51
+msgid "link to a Wiki page on the BOINC Github repository"
+msgstr "קישור לעמוד Wiki במאגר של BOINC ב-Github"
+
+#: html/user/bbcode.php:55
+msgid ""
+"If you don't close a tag or don't specify a parameter correctly,\n"
+"the raw tag itself will display instead of the formatted text."
+msgstr ""
+
+#: html/user/create_account_form.php:42 html/user/create_account_form.php:74
+msgid "Create account"
+msgstr "צור חשבון"
+
+#: html/user/create_account_form.php:48
+msgid ""
+"If you already have an account and want to run %1 on this computer, %2 go "
+"here %3."
+msgstr ""
+
+#: html/user/create_account_form.php:65
+msgid ""
+"This account will belong to the team %1 and will have the project "
+"preferences of its founder."
+msgstr "מיזם זה ישתייך לצוות %1 ויהיה בעל העדפות המיזם של מייסד הצוות."
+
+#: html/user/create_profile.php:53
+msgid "Picture"
+msgstr "תמונה"
+
+#: html/user/create_profile.php:67
+msgid "%1 Your profile picture is shown to the left."
+msgstr "%1 תמונת הפרופיל שלך מוצגת מצד שמאל."
+
+#: html/user/create_profile.php:69
+msgid ""
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1"
+" or less)."
+msgstr "בכדי להחליף אותה, לחץ על כפתור \"עיון\" ובחר קובץ JPEG או PNG (%1 או פחות)."
+
+#: html/user/create_profile.php:72
+msgid "To remove it from your profile, check this box:"
+msgstr "בכדי להסירה מהפרופיל שלך, סמן תיבה זו:"
+
+#: html/user/create_profile.php:80
+msgid ""
+"If you would like include a picture with your profile, click the \"Browse\" "
+"button and select a JPEG or PNG file. Please select images of %1 or less."
+msgstr "אם ברצונך להוסיף תמונה לפרופיל שלך, לחץ על כפתור \"עיון\" ובחר בקובץ JPEG או PNG. אנא בחר תמונה בגודל %1 או פחות."
+
+#: html/user/create_profile.php:92
+msgid "Language"
+msgstr "שפה"
+
+#: html/user/create_profile.php:95
+msgid "Select the language in which your profile is written:"
+msgstr "בחר את שפת הפרופיל שלך:"
+
+#: html/user/create_profile.php:107
+msgid "Submit profile"
+msgstr "הגש פרופיל"
+
+#: html/user/create_profile.php:113
+msgid "Create/edit profile"
+msgstr "צור/ערוך פרופיל"
+
+#: html/user/create_profile.php:135
+msgid "The format of your uploaded image is not supported."
+msgstr "הפורמט של התמונות שלך אינו נתמך."
+
+#: html/user/create_profile.php:164
+msgid ""
+"Your %1 profile %2 lets you share your opinions and background with the %3 "
+"community."
+msgstr ""
+
+#: html/user/create_profile.php:208
+msgid "Your ReCaptcha response was not correct.  Please try again."
+msgstr "תגובת ה-ReCaptcha שלך שגויה. אנא נסה שנית."
+
+#: html/user/create_profile.php:217
+msgid ""
+"Your first response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr "תגובתך הראשונה סומנה כזבל על-ידי מערכת למניעת זיבול של Akismet. אנא ערוך את הטקסט ונסה שנית."
+
+#: html/user/create_profile.php:225
+msgid ""
+"Your second response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr "תגובתך השנייה סומנה כזבל על-ידי מערכת למניעת זיבול של Akismet. אנא ערוך את הטקסט ונסה שנית."
+
+#: html/user/create_profile.php:241
+msgid "Your profile submission was empty."
+msgstr "הפרופיל שהגשת הינו ריק."
+
+#: html/user/create_profile.php:282
+msgid "Could not update the profile: database error"
+msgstr "לא ניתן לעדכן את הפרופיל: שגיאת מסד נתונים"
+
+#: html/user/create_profile.php:298
+msgid "Could not create the profile: database error"
+msgstr "לא ניתן ליצור את הפרופיל: שגיאת מסד נתונים"
+
+#: html/user/create_profile.php:303
+msgid "Profile saved"
+msgstr "הפרופיל נשמר"
+
+#: html/user/create_profile.php:305
+msgid ""
+"Congratulations! Your profile was successfully entered into our database."
+msgstr "ברכותינו! הפרופיל שלך נכנס בהצלחה למסד הנתונים שלנו."
+
+#: html/user/create_profile.php:308
+msgid "View your profile"
+msgstr "צפה בפרופיל שלך"
+
+#: html/user/create_profile.php:318
+msgid "Create a profile"
+msgstr "צור פרופיל"
+
+#: html/user/create_profile.php:346
+msgid ""
+"To prevent spam, an average credit of %1 or greater is required to create or"
+" edit a profile.  We apologize for this inconvenience."
+msgstr "בכדי למנוע זיבול, נדרש ממוצע של %1 נקודות זכות או יותר. אנו מתנצלים על אי הנוחות."
+
+#: html/user/delete_account.php:57
+msgid "Couldn't delete account"
+msgstr "לא ניתן למחוק חשבון"
+
+#: html/user/delete_account.php:59
+msgid "Account deleted"
+msgstr "חשבון נמחק"
+
+#: html/user/delete_account.php:60
+msgid "Your account has been deleted."
+msgstr "חשבונך נמחק"
+
+#: html/user/delete_account.php:64
+msgid "Confirm delete account"
+msgstr "אשר מחיקת חשבון"
+
+#: html/user/delete_account.php:67
+msgid ""
+"Deleting your account will remove all of your\n"
+"personal information from our servers,\n"
+"including your profile and message-board posts.\n"
+"No jobs will be issued to any computers attached\n"
+"to this account."
+msgstr ""
+
+#: html/user/delete_account.php:73
+msgid ""
+"This cannot be undone.\n"
+"Once your account has been deleted, you cannot get it back."
+msgstr ""
+
+#: html/user/delete_account.php:76
+msgid "Are you sure you want to delete your account?"
+msgstr "האם אתה בטוח כי ברצונך למחוק את חשבונך?"
+
+#: html/user/delete_account.php:79 html/user/delete_profile.php:54
+#: html/user/donations.php:321 html/user/donations.php:325
+#: html/user/friend.php:250 html/user/prefs_remove.php:53
+#: html/user/user_search.php:62 html/user/user_search.php:67
+msgid "Yes"
+msgstr "כן"
+
+#: html/user/delete_account.php:79
+msgid "Delete this account"
+msgstr "מחק חשבון זה"
+
+#: html/user/delete_account.php:80 html/user/delete_profile.php:55
+#: html/user/friend.php:251 html/user/user_search.php:61
+#: html/user/user_search.php:66
+msgid "No"
+msgstr "לא"
+
+#: html/user/delete_account.php:80
+msgid "Do not delete this account"
+msgstr "אל תמחק חשבון זה"
+
+#: html/user/delete_profile.php:32
+msgid "couldn't delete profile - please try again later"
+msgstr "לא ניתן למחוק פרופיל - אנא נסה שנית מאוחר יותר"
+
+#: html/user/delete_profile.php:35
+msgid "Delete Confirmation"
+msgstr "אימות מחיקה"
+
+#: html/user/delete_profile.php:37
+msgid "Your profile has been deleted."
+msgstr "הפרופיל שלך נמחק"
+
+#: html/user/delete_profile.php:42
+msgid "Profile delete confirmation"
+msgstr "אימות מחיקת פרופיל"
+
+#: html/user/delete_profile.php:45
+msgid "Are you sure?"
+msgstr "אתה בטוח?"
+
+#: html/user/delete_profile.php:46
+msgid ""
+"Deleted profiles are gone forever and cannot be recovered --\n"
+"you will have to start from scratch\n"
+"if you want another profile in the future."
+msgstr ""
+
+#: html/user/delete_profile.php:50
+msgid ""
+"If you're sure, click 'Yes'\n"
+"to remove your profile from our database."
+msgstr "אם אתה בטוח, לחץ 'כן'\nלמחוק את המפרופיל שלך מהמערכת שלנו."
+
+#: html/user/delete_profile.php:54
+msgid "Delete my profile"
+msgstr "מחק את הפרופיל שלי"
+
+#: html/user/delete_profile.php:55
+msgid "Do not delete my profile"
+msgstr "אל תמחק את הפרופיל שלי"
+
+#: html/user/donated.php:25
+msgid "PayPal - Transaction Completed"
+msgstr "PayPal - עסקה הושלמה"
+
+#: html/user/donated.php:28
+msgid "Thank you for donating!"
+msgstr "תודה על התרומה!"
+
+#: html/user/donated.php:29
+msgid "Your donation for has been completed."
+msgstr "תרומתך הסתיימה."
+
+#: html/user/donated.php:30
+msgid ""
+"Your donation will be added to the progress bar after confirmation by "
+"PayPal."
+msgstr ""
+
+#: html/user/donated.php:32
+msgid "You have canceled your donation."
+msgstr "ביטלת את תרומתך."
+
+#: html/user/donations.php:24
+msgid "This project is not accepting donations."
+msgstr "מיזם זה אינו מקבל תרומות."
+
+#: html/user/donations.php:34
+msgid "%1 donations"
+msgstr "%1 תרומות"
+
+#: html/user/donations.php:39
+msgid ""
+"This project is accepting donations via\n"
+"%1."
+msgstr "במיזם הזה מקבל תרומות דרך\n%1."
+
+#: html/user/donations.php:41
+msgid ""
+"To donate, fill in the amount you want to donate using the field below.\n"
+"        PayPal is accepting multiple currencies\n"
+"        (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars,\n"
+"         Yen, Australian Dollars, New Zealand Dollars,\n"
+"        Swiss Francs, Hong Kong Dollars, Singapore Dollars, Swedish Kronor,\n"
+"        Danish Kroner, Polish Zloty, Norwegian Kroner,\n"
+"        Hungarian Forint, Czech Koruna).\n"
+"        You can use included currency converter\n"
+"        to see the donation amount equivalent in different currencies\n"
+"        (please note that the rates are only estimates\n"
+"         and the actual amount may differ)."
+msgstr ""
+
+#: html/user/donations.php:315
+msgid "Amount you would like to donate"
+msgstr "סכום שברצונך לתרום"
+
+#: html/user/donations.php:316
+msgid "Estimated value in"
+msgstr "ערך מוערך ב"
+
+#: html/user/donations.php:319 html/user/donations.php:323
+msgid "Anonymous donation"
+msgstr "תרומה אנונימית"
+
+#: html/user/donations.php:319
+msgid ""
+"Select this if you dont want your name and account number displayed in\n"
+"donator lists.<br>If not checked, you will be recorded as user ID %1"
+msgstr ""
+
+#: html/user/donations.php:323
+msgid "To assign the donation with your user ID, please log in."
+msgstr ""
+
+#: html/user/donations.php:327
+msgid "Proceed"
+msgstr "המשך"
+
+#: html/user/donations.php:328
+msgid "Donations are accepted through"
+msgstr "תרומות מתקבלות באמצעות"
+
+#: html/user/download_network.php:25
+msgid "Download BOINC add-on software"
+msgstr "הורדת תכנת תוסף עבור BOINC"
+
+#: html/user/download_network.php:28
+msgid "You can download applications in several categories."
+msgstr "ניתן להוריד יישומים במספר קטגוריות."
+
+#: html/user/download_network.php:31
+msgid ""
+"These applications are not endorsed by %1 and you use them at your own risk."
+msgstr "יישומים אלו אינם מאושרים על-ידי %1 והשימוש בהם הוא על אחריותך."
+
+#: html/user/download_network.php:33
+msgid ""
+"We do not provide instructions for installing these applications.\n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
+"If this is not enough you should contact the author."
+msgstr "אנו לא מספקים הוראות להתקנת יישומים אלו.\nעם זאת, שהמחבר עשוי היה לספק מעט עזרה לגבי התקנה או הסרה של היישום .\nאם אין זה מספיק עליך ליצור קשר עם המחבר."
+
+#: html/user/download_network.php:36
+msgid "Instructions for installing and running BOINC are %1 here %2."
+msgstr ""
+
+#: html/user/download_network.php:38
+msgid "This list is managed centrally at %1 the BOINC website %2."
+msgstr ""
+
+#: html/user/edit_email_action.php:31
+msgid "Change email address of account"
+msgstr "שנה כתובת דוא\"ל של חשבון"
+
+#: html/user/edit_email_action.php:34 html/user/edit_email_action.php:36
+msgid "New email address '%1' is invalid."
+msgstr "כתובת דוא\"ל חדשה '%1' אינה תקינה."
+
+#: html/user/edit_email_action.php:38
+msgid "New email address is same as existing address. Nothing is changed."
+msgstr ""
+
+#: html/user/edit_email_action.php:42
+msgid "There's already an account with that email address"
+msgstr ""
+
+#: html/user/edit_email_action.php:54
+msgid "Invalid password."
+msgstr "סיסמה שגויה"
+
+#: html/user/edit_email_action.php:62
+msgid "The email address of your account is now %1."
+msgstr "כתובת הדוא\"ל של חשבונך היא עכשיו %1."
+
+#: html/user/edit_email_action.php:64
+msgid "Please %1 validate this email address %2."
+msgstr ""
+
+#: html/user/edit_email_action.php:67
+msgid ""
+"We can't update your email address due to a database problem.  Please try "
+"again later."
+msgstr ""
+
+#: html/user/edit_email_form.php:27 html/user/edit_email_form.php:46
+msgid "Change email address"
+msgstr "שנה כתובת דוא\"ל"
+
+#: html/user/edit_email_form.php:36
+msgid "New email address"
+msgstr "כתובת דוא\"ל חדשה"
+
+#: html/user/edit_email_form.php:37
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "צריכה להיות כתובת תקפה בצורת 'שם@דומיין'"
+
+#: html/user/edit_forum_preferences_action.php:33
+msgid "Confirm reset"
+msgstr "וודא איפוס"
+
+#: html/user/edit_forum_preferences_action.php:34
+msgid ""
+"This action will erase any changes you have made in your community "
+"preferences. To cancel, click your browser's Back button."
+msgstr ""
+
+#: html/user/edit_forum_preferences_action.php:38
+msgid "Reset preferences"
+msgstr "איפוס העדפות"
+
+#. Not the right kind of file
+#: html/user/edit_forum_preferences_action.php:95
+msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
+msgstr ""
+
+#: html/user/edit_forum_preferences_action.php:120
+msgid "Your signature was too long, please keep it less than 250 characters."
+msgstr "החתימה שלך הייתה ארוכה מדי, אנא צמצמם אותה לפּחות מ-250 תווים."
+
+#: html/user/edit_forum_preferences_action.php:139
+#: html/user/edit_forum_preferences_action.php:154
+msgid "No such user:"
+msgstr "לא קיים משתמש זה:"
+
+#: html/user/edit_forum_preferences_form.php:45
+msgid ""
+"How should we notify you of new private messages, friend requests, posts in "
+"subscribed threads, and other events?"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:46
+msgid "On my Account page (no email)"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:47
+msgid "Immediately, by email"
+msgstr "מיידית, באמצעות דוא\"ל"
+
+#: html/user/edit_forum_preferences_form.php:48
+msgid "In a single daily email"
+msgstr "ביום בודד, באמצעות דוא\"ל"
+
+#: html/user/edit_forum_preferences_form.php:65
+msgid "Message-board identity"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:66
+msgid "Avatar"
+msgstr "אווטאר"
+
+#: html/user/edit_forum_preferences_form.php:67
+msgid "An image representing you on the message boards."
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:68
+msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:70
+msgid "Don't use an avatar"
+msgstr "אל תשתמש בתמונת פרופיל"
+
+#: html/user/edit_forum_preferences_form.php:72
+msgid "Use a Globally Recognized Avatar provided by %1"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:74
+msgid "Use this uploaded avatar:"
+msgstr "השתמש בתמונת פרופיל שהועלתה זו:"
+
+#: html/user/edit_forum_preferences_form.php:77
+msgid "Avatar preview"
+msgstr "תצוגה מקדימה של תמונת פרופיל"
+
+#: html/user/edit_forum_preferences_form.php:77
+msgid "This is how your avatar will look"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:86
+msgid "Signature for message board posts"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:89
+msgid ""
+"Check out %1 various free services %2\n"
+"<br> providing dynamic 'signature images'\n"
+"<br> showing your latest credit info, project news, etc."
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:93
+msgid "Attach signature by default"
+msgstr "צרף חתימה כברירת מחדל"
+
+#: html/user/edit_forum_preferences_form.php:96
+msgid "Signature preview"
+msgstr "תצוגה מקדימה של חתימה"
+
+#: html/user/edit_forum_preferences_form.php:97
+msgid "This is how your signature will look in the forums"
+msgstr "כך תיראה חתימתך בפורומים"
+
+#: html/user/edit_forum_preferences_form.php:115
+msgid "Message display"
+msgstr "הצגת הודעות"
+
+#: html/user/edit_forum_preferences_form.php:117
+msgid "What to display"
+msgstr "מה להציג"
+
+#: html/user/edit_forum_preferences_form.php:118
+msgid "Hide avatar images"
+msgstr "החבא תמונות פרופיל"
+
+#: html/user/edit_forum_preferences_form.php:119
+msgid "Hide signatures"
+msgstr "הסתר חתימות"
+
+#: html/user/edit_forum_preferences_form.php:120
+msgid "Show images as links"
+msgstr "הצג תמונות בתור קישורים"
+
+#: html/user/edit_forum_preferences_form.php:121
+msgid "Open links in new window/tab"
+msgstr "פתח קישורים בחלון/לשונית חדש/ה"
+
+#: html/user/edit_forum_preferences_form.php:122
+msgid "Highlight special users"
+msgstr "הדגש משתמשים מיוחדים"
+
+#: html/user/edit_forum_preferences_form.php:123
+msgid "Display this many messages per page"
+msgstr "הצג כמות זו של משתמשים עבור כל עמוד"
+
+#: html/user/edit_forum_preferences_form.php:127
+msgid "How to sort"
+msgstr "איך למיין"
+
+#: html/user/edit_forum_preferences_form.php:128
+msgid "Threads:"
+msgstr "שרשורים:"
+
+#: html/user/edit_forum_preferences_form.php:128
+msgid "Posts:"
+msgstr "רשומות:"
+
+#: html/user/edit_forum_preferences_form.php:129
+msgid "Jump to first new post in thread automatically"
+msgstr "דלג לפוסט חדש ראשון בשרשור אוטומטית"
+
+#: html/user/edit_forum_preferences_form.php:130
+msgid "Don't move sticky posts to top"
+msgstr "אל תזיז פוסטים דביקים להתחלה"
+
+#. DISABLE_FORUMS
+#. ------------ Message filtering  -----------
+#: html/user/edit_forum_preferences_form.php:137
+msgid "Message filtering"
+msgstr "סינון הודעות"
+
+#: html/user/edit_forum_preferences_form.php:153
+msgid "Filtered users"
+msgstr "משתמשים מסוננים"
+
+#: html/user/edit_forum_preferences_form.php:154
+msgid "Ignore message board posts and private messages from these users."
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:156
+msgid "User ID (For instance: 123456789)"
+msgstr ""
+
+#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
+msgid "Add user to filter"
+msgstr "הוסף משתמש למסנן"
+
+#: html/user/edit_forum_preferences_form.php:161
+#: html/user/edit_forum_preferences_form.php:162
+msgid "Update"
+msgstr "עדכן"
+
+#: html/user/edit_forum_preferences_form.php:162
+msgid "Click here to update preferences"
+msgstr "לחץ כאן לעדכון העדפות"
+
+#: html/user/edit_forum_preferences_form.php:164
+#: html/user/edit_forum_preferences_form.php:166
+msgid "Reset"
+msgstr "Nollaa"
+
+#: html/user/edit_forum_preferences_form.php:165
+msgid "Or click here to reset preferences to the defaults"
+msgstr "או לחץ כאן כדי לאפס את ההעדפות לברירות המחדל"
+
+#: html/user/edit_passwd_action.php:50
+msgid ""
+"We can't update your password due to a database problem. Please try again "
+"later."
+msgstr ""
+
+#: html/user/edit_passwd_action.php:53 html/user/edit_passwd_form.php:25
+#: html/user/edit_passwd_form.php:30
+msgid "Change password"
+msgstr "שינוי סיסמא"
+
+#: html/user/edit_passwd_action.php:54
+msgid "Your password has been changed."
+msgstr "סיסמתך שונתה."
+
+#: html/user/edit_passwd_form.php:28
+msgid "New password"
+msgstr "סיסמא חדשה"
+
+#: html/user/edit_passwd_form.php:29
+msgid "New password, again"
+msgstr "סיסמא חדשה, שוב"
+
+#: html/user/edit_user_info_action.php:31
+msgid "HTML tags are not allowed in your name."
+msgstr "תגיות HTML אסורות לשימוש בשמך."
+
+#: html/user/edit_user_info_action.php:34
+msgid "You must supply a name for your account."
+msgstr "עלייך לספק שם עבור חשבונך."
+
+#: html/user/edit_user_info_action.php:61
+msgid "Couldn't update user info."
+msgstr "לא ניתן לעדכן מידע משתמש."
+
+#: html/user/edit_user_info_form.php:27
+msgid "Edit account information"
+msgstr "ערוך מידע חשבון"
+
+#: html/user/edit_user_info_form.php:33
+msgid "Screen name %1 real name or nickname%2"
+msgstr ""
+
+#: html/user/edit_user_info_form.php:39
+msgid "URL %1 of your personal web page; optional%2"
+msgstr ""
+
+#: html/user/edit_user_info_form.php:52
+msgid "Postal (ZIP) code %1 Optional%2"
+msgstr "מיקוד %1 אפשרי%2"
+
+#: html/user/explain_state.php:27
+msgid "Server states"
+msgstr "מצב השרת"
+
+#: html/user/explain_state.php:30
+msgid ""
+"A tasks's <b>server state</b> indicates whether the task has been sent to a "
+"computer, and if so whether the computer has finished it. Possible values "
+"are:"
+msgstr ""
+
+#: html/user/explain_state.php:35
+msgid ""
+"The task is not ready to send (for example, because its input files are "
+"unavailable)"
+msgstr ""
+
+#: html/user/explain_state.php:38
+msgid "The task is ready to send, but hasn't been sent yet."
+msgstr ""
+
+#: html/user/explain_state.php:40
+msgid "In Progress"
+msgstr "בתהליך"
+
+#: html/user/explain_state.php:41
+msgid "The task has been sent; waiting for completion."
+msgstr ""
+
+#: html/user/explain_state.php:44
+msgid ""
+"The task has been sent to a computer and either it has timed out or the "
+"computer has reported its completion."
+msgstr ""
+
+#: html/user/explain_state.php:49
+msgid "Outcomes"
+msgstr "תוצאות"
+
+#: html/user/explain_state.php:52
+msgid ""
+"A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
+"Possible values are:"
+msgstr ""
+
+#: html/user/explain_state.php:57
+msgid ""
+"The task was sent to a computer, but the computer has not yet completed the "
+"work and reported the outcome."
+msgstr ""
+
+#: html/user/explain_state.php:60
+msgid "A computer completed and reported the task successfully."
+msgstr ""
+
+#: html/user/explain_state.php:63
+msgid ""
+"The server wasn't able to send the task to a computer (perhaps because its "
+"resource requirements were too large)"
+msgstr ""
+
+#: html/user/explain_state.php:65
+msgid "Client error"
+msgstr "תקלת לקוח"
+
+#: html/user/explain_state.php:66
+msgid "The task was sent to a computer and an error occurred."
+msgstr "המטלה נשלחה אל מחשב והתרחשה תקלה."
+
+#: html/user/explain_state.php:69
+msgid ""
+"The task was sent to a computer and no reply was received within the time "
+"limit."
+msgstr ""
+
+#: html/user/explain_state.php:72
+msgid ""
+"The task wasn't sent to a computer because enough other tasks were completed"
+" for this workunit."
+msgstr ""
+
+#: html/user/explain_state.php:75
+msgid ""
+"The task was reported but could not be validated, typically because the "
+"output files were lost on the server."
+msgstr ""
+
+#: html/user/explain_state.php:80
+msgid "Client states"
+msgstr ""
+
+#: html/user/explain_state.php:81
+msgid ""
+"A result's <b>client state</b> indicates the stage of processing at which an"
+" error occurred."
+msgstr ""
+
+#: html/user/explain_state.php:86
+msgid "The computer has not yet completed the task."
+msgstr "המחשב עדיין לא השלים את המטלה."
+
+#: html/user/explain_state.php:89
+msgid "The computer completed the task successfully."
+msgstr "המחשב השלים את המטלה בהצלחה."
+
+#: html/user/explain_state.php:92
+msgid "The computer couldn't download the application or input files."
+msgstr "המחשב לא הצליח להוריד את היישום או את קבצי הקלט."
+
+#: html/user/explain_state.php:95
+msgid "An error occurred during computation."
+msgstr "התרחשה תקלה במהלך החישוב."
+
+#: html/user/explain_state.php:98
+msgid "The computer couldn't upload the output files."
+msgstr "המחשב לא הצליח להעלות את קבצי הפלט."
+
+#: html/user/explain_state.php:103
+msgid "Time reported and deadline"
+msgstr ""
+
+#: html/user/explain_state.php:106
+msgid ""
+"A task's <b>Time reported or deadline</b> field depends on whether the task "
+"has been reported yet:"
+msgstr ""
+
+#: html/user/explain_state.php:110
+msgid "Already reported"
+msgstr "כבר דווח"
+
+#: html/user/explain_state.php:110
+msgid "The date/time it was reported"
+msgstr "השעה והתאריך בהן דווח"
+
+#: html/user/explain_state.php:111
+msgid "Not reported yet, deadline in the future"
+msgstr "לא דווח עדיין, מועד אחרון עתידי"
+
+#: html/user/explain_state.php:112
+msgid "Deadline, shown in green."
+msgstr "מועד אחרון, מוצג בירוק."
+
+#: html/user/explain_state.php:114
+msgid "Not reported yet, deadline in the past"
+msgstr "לא דווח עדיין, מועד אחרון עבר"
+
+#: html/user/explain_state.php:115
+msgid "Deadline, shown in red."
+msgstr "מועד אחרון, מוצג באדום."
+
+#: html/user/explain_state.php:120
+msgid "Unknown field"
+msgstr "אזור לא ידוע"
+
+#: html/user/ffmail_action.php:28
+msgid "Sending emails"
+msgstr "שולח דוא\"לים"
+
+#: html/user/ffmail_action.php:43
+msgid "failed to send email to %1: %2"
+msgstr "נכשל שליחת דוא\"ל ל-:%1 %2"
+
+#: html/user/ffmail_action.php:48
+msgid "failed to send email to %1"
+msgstr "נכשל שליחת דוא\"ל ל-:%1"
+
+#: html/user/ffmail_action.php:51
+msgid "email sent successfully to %1"
+msgstr "דוא\"ל נשלח בהצלחה ל-%1"
+
+#: html/user/ffmail_action.php:55
+msgid "Thanks for telling your friends about %1"
+msgstr "תודה על שסיפרת לחבריך על %1"
+
+#: html/user/ffmail_action.php:57
+msgid ""
+"You forgot to enter email addresses; Please %1 return to the form %2 and "
+"enter them."
+msgstr ""
+
+#: html/user/ffmail_form.php:33
+msgid "Tell your friends about %1"
+msgstr ""
+
+#: html/user/ffmail_form.php:49
+msgid ""
+"Use this form to send email messages to people you think might be interested"
+" in %1."
+msgstr ""
+
+#: html/user/ffmail_form.php:55
+msgid "To:"
+msgstr "מען:"
+
+#: html/user/ffmail_form.php:59
+msgid "Send"
+msgstr "שלח"
+
+#. Can't moderate without being moderator
+#: html/user/forum_banishment_vote_action.php:35
+#: html/user/forum_banishment_vote.php:37
+msgid "You are not authorized to banish users."
+msgstr "אינך מורשה לגרש משתמשים."
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "אתה נדרש לציין פעולה..."
+
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
+#: html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "מגונה"
+
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
+#: html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "דואר שנאה"
+
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "בקשת משתמש?"
+
+#: html/user/forum_banishment_vote.php:43
+#: html/user/forum_banishment_vote.php:48
+msgid "Banishment Vote"
+msgstr "הצבאת גירוש"
+
+#: html/user/forum_banishment_vote.php:52
+msgid "No user with this ID found."
+msgstr "א נמצא משתמש עם מזהה זה."
+
+#: html/user/forum_banishment_vote.php:57 html/user/forum_moderate_post.php:83
+msgid "User is already banished"
+msgstr "משתמש כבר גורש"
+
+#: html/user/forum_banishment_vote.php:62 html/user/forum_moderate_post.php:86
+msgid ""
+"Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting "
+"for chosen time period.<br/>It should be done only if %1 has consistently "
+"exhibited trollish behavior."
+msgstr "האם אתה בטוח שברצונך לגרש את %1?<br/>הדבר ימנע מ%1 מלפרסם לתקופת הזמן שנבחרה.<br/>יש לעשות זאת רק אם %1 התנהג בצורה טרולית באופן קבוע."
+
+#: html/user/forum_banishment_vote.php:64
+msgid ""
+"Select the reason category, optionally write a longer description of why the"
+" user should be banished."
+msgstr ""
+
+#: html/user/forum_banishment_vote.php:65
+#: html/user/forum_moderate_thread.php:56
+msgid "Category"
+msgstr "קטגוריה"
+
+#: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
+#: html/user/forum_moderate_thread.php:100
+msgid "Reason"
+msgstr "סיבה"
+
+#: html/user/forum_banishment_vote.php:72
+#: html/user/forum_moderate_thread.php:100
+msgid "Mailed if nonempty"
+msgstr ""
+
+#: html/user/forum_banishment_vote.php:78
+msgid "Proceed with vote"
+msgstr "המשך עם הצבעה"
+
+#: html/user/forum_edit.php:41
+msgid ""
+"You can no longer edit this post.<br/>Posts can only be edited at most %1 "
+"minutes after they have been created."
+msgstr ""
+
+#: html/user/forum_edit.php:47
+msgid "You are not authorized to edit this post."
+msgstr ""
+
+#: html/user/forum_edit.php:92
+msgid "Edit post"
+msgstr "ערוך הודעה"
+
+#: html/user/forum_edit.php:118
+msgid "Edit your message"
+msgstr "ערוך את ההודעה שלך"
+
+#: html/user/forum_edit.php:123 html/user/forum_edit.php:128
+#: html/user/forum_post.php:119 html/user/forum_post.php:121
+#: html/user/team_forum.php:72
+msgid "Title"
+msgstr "כותרת"
+
+#: html/user/forum_edit.php:152 html/user/forum_post.php:142
+msgid "Add my signature to this post"
+msgstr "הוסף את חתימתי לרשומה זו"
+
+#: html/user/forum_forum.php:46
+msgid "Not visible to you"
+msgstr "לא נראה עבורך"
+
+#: html/user/forum_forum.php:83
+msgid "Team message board for %1"
+msgstr "לוח הודעות צוותי עבור %1"
+
+#: html/user/forum_forum.php:100
+msgid "New thread"
+msgstr "שרשור חדש"
+
+#: html/user/forum_forum.php:100
+msgid "Add a new thread to this forum"
+msgstr "הוסף שרשור חדש לפורום זה"
+
+#: html/user/forum_forum.php:123
+msgid "This message board is available as an %1 RSS feed %2"
+msgstr ""
+
+#: html/user/forum_forum.php:182
+msgid "This thread is hidden"
+msgstr "שרשור זה מוחבא"
+
+#: html/user/forum_forum.php:186
+msgid "This thread is sticky and locked, and you haven't read it yet"
+msgstr ""
+
+#: html/user/forum_forum.php:186
+msgid "sticky/locked/unread"
+msgstr ""
+
+#: html/user/forum_forum.php:188
+msgid "This thread is sticky and you haven't read it yet"
+msgstr ""
+
+#: html/user/forum_forum.php:188
+msgid "sticky/unread"
+msgstr ""
+
+#: html/user/forum_forum.php:192
+msgid "You haven't read this thread yet, and it's locked"
+msgstr "עוד לא קראת את השרשור הזה והוא נעול"
+
+#: html/user/forum_forum.php:192
+msgid "unread/locked"
+msgstr ""
+
+#: html/user/forum_forum.php:194
+msgid "You haven't read this thread yet"
+msgstr "עוד לא קראת את השרשור הזה"
+
+#: html/user/forum_forum.php:200
+msgid "This thread is sticky and locked"
+msgstr "השרשור הזה הוא 'דביק' ונעול"
+
+#: html/user/forum_forum.php:200
+msgid "sticky/locked"
+msgstr ""
+
+#: html/user/forum_forum.php:202
+msgid "This thread is sticky"
+msgstr ""
+
+#: html/user/forum_forum.php:202
+msgid "sticky"
+msgstr "דביק"
+
+#: html/user/forum_forum.php:206
+msgid "This thread is locked"
+msgstr "שרשור זה נעול"
+
+#: html/user/forum_forum.php:206
+msgid "locked"
+msgstr "נעול"
+
+#: html/user/forum_forum.php:208
+msgid "You read this thread"
+msgstr "קראת שרשור זה"
+
+#: html/user/forum_forum.php:208
+msgid "read"
+msgstr ""
+
+#: html/user/forum_help_desk.php:29
+msgid "Questions and answers"
+msgstr "שאלות ותשובות"
+
+#: html/user/forum_help_desk.php:32
+msgid ""
+"Talk live via Skype with a volunteer, in any of several languages. Go to %1 "
+"BOINC Online Help %2."
+msgstr ""
+
+#: html/user/forum_help_desk.php:47 html/user/forum_index.php:95
+msgid "Topic"
+msgstr "נושא"
+
+#: html/user/forum_help_desk.php:48
+msgid "Questions"
+msgstr "שאלות"
+
+#: html/user/forum_index.php:57 html/user/team_forum.php:70
+msgid "Discussion among members of %1"
+msgstr "דיון בין חברי %1"
+
+#: html/user/forum_index.php:80
+msgid ""
+"If you have a question or problem, please use the %1 Questions & Answers %2 "
+"section of the message boards."
+msgstr ""
+
+#: html/user/forum_index.php:125
+msgid "Subscribed threads"
+msgstr "שרשורים מנויים"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "אינך מורשה למַתֵּן פוזט זה."
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr ""
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "לא ניתן להביר לקטגוריה אחרת"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "לא מורשה לגרש משתמשים"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "גירוש"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "המשתמש %1 גורש."
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr ""
+
+#: html/user/forum_moderate_post.php:45
+msgid "Moderate post"
+msgstr "מַתֵּן פוסט"
+
+#: html/user/forum_moderate_post.php:55
+msgid "Hide post"
+msgstr "הסתר פוסט"
+
+#: html/user/forum_moderate_post.php:62 html/user/forum_moderate_thread.php:60
+msgid "Commercial spam"
+msgstr "דואר זבל פרסומי"
+
+#: html/user/forum_moderate_post.php:63
+msgid "Doublepost"
+msgstr "פרסום כפול"
+
+#: html/user/forum_moderate_post.php:70
+msgid "Move post"
+msgstr "העבר פוסט"
+
+#: html/user/forum_moderate_post.php:72
+msgid "Destination thread ID:"
+msgstr "מזהה שרשור יעד:"
+
+#: html/user/forum_moderate_post.php:85
+msgid "Banish user"
+msgstr "גרש משתמש"
+
+#: html/user/forum_moderate_post.php:87
+msgid "Ban duration"
+msgstr "משך חרם"
+
+#: html/user/forum_moderate_post.php:88
+msgid "6 hours"
+msgstr "6 שעות"
+
+#: html/user/forum_moderate_post.php:89
+msgid "12 hours"
+msgstr "12 שעות"
+
+#: html/user/forum_moderate_post.php:90 html/user/forum_search.php:47
+msgid "1 day"
+msgstr "יום אחד"
+
+#: html/user/forum_moderate_post.php:91
+msgid "1 week"
+msgstr "שבוע אחד"
+
+#: html/user/forum_moderate_post.php:92
+msgid "2 weeks"
+msgstr "2 שבועות"
+
+#: html/user/forum_moderate_post.php:93
+msgid "1 month"
+msgstr "חודש 1"
+
+#: html/user/forum_moderate_post.php:94
+msgid "Forever"
+msgstr "לתמיד"
+
+#: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
+#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:143
+#: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
+#: html/user/friend.php:83
+msgid "OK"
+msgstr "אישור"
+
+#: html/user/forum_moderate_post.php:112
+msgid "Optional explanation %1 This is included in email to user.%2"
+msgstr "הסבר אופציונלי %1 זה כלול בהודעת הדוא\"ל למשתמש.%2"
+
+#: html/user/forum_moderate_thread.php:38
+msgid "not authorized"
+msgstr "לא מאושר"
+
+#: html/user/forum_moderate_thread.php:41
+msgid "Moderate thread '%1'"
+msgstr "מַתֵּן שרשור '%1'"
+
+#: html/user/forum_moderate_thread.php:54
+msgid ""
+"Select the reason category, or write a longer description of why you're "
+"hiding or locking the thread; then press OK."
+msgstr ""
+
+#: html/user/forum_moderate_thread.php:78
+msgid "Current forum"
+msgstr "פורום נוכחי"
+
+#: html/user/forum_moderate_thread.php:79
+msgid "Destination forum"
+msgstr "פורום יעד"
+
+#: html/user/forum_moderate_thread.php:83
+msgid "New title:"
+msgstr "כותרת חדשה:"
+
+#: html/user/forum_post.php:44
+msgid ""
+"Only project admins may create a thread here. However, you may reply to "
+"existing threads."
+msgstr ""
+
+#: html/user/forum_post.php:64
+msgid ""
+"Your message was flagged as spam by the Akismet anti-spam system. Please "
+"modify your text and try again."
+msgstr ""
+
+#: html/user/forum_post.php:78
+msgid "Create new thread"
+msgstr "צור שרשור חדש"
+
+#: html/user/forum_post.php:110
+msgid "Create a new thread"
+msgstr "צור שרשור חדש"
+
+#: html/user/forum_post.php:115
+msgid "Remember to add a title"
+msgstr "זכור להוסיף כותרת"
+
+#: html/user/forum_post.php:140
+msgid "Show this item as a Notice in the BOINC Manager"
+msgstr "הצג פריט זה כהערה במנהל BOINC"
+
+#: html/user/forum_post.php:140
+msgid "Do so only for items likely to be of interest to all volunteers."
+msgstr ""
+
+#: html/user/forum_rate.php:57
+msgid "You need more average or total credit to rate a post."
+msgstr "אתה זקוק לעוד נקודות זכות כוללות או ממוצעות כדי לדרג פוסט."
+
+#: html/user/forum_rate.php:61
+msgid "You have already rated this post."
+msgstr "כבר דירגת פוסט זה."
+
+#: html/user/forum_rate.php:61 html/user/forum_rate.php:77
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:74
+#: html/user/forum_report_post.php:108 html/user/forum_subscribe.php:56
+#: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
+msgid "Return to thread"
+msgstr "חזור לשרשור"
+
+#: html/user/forum_rate.php:71
+msgid "Input Recorded"
+msgstr "קלט הוקלט"
+
+#: html/user/forum_rate.php:72
+msgid "Your input has been recorded. Thanks for your help."
+msgstr "התוכן שלך נרשם. תודה לך על העזרה."
+
+#: html/user/forum_rate.php:74
+msgid "Vote Registered"
+msgstr "הצבעה נרשמה"
+
+#: html/user/forum_rate.php:75
+msgid "Your rating has been recorded. Thanks for your input."
+msgstr "הדירוג שלך נרשם. תודה לך על המשוב."
+
+#: html/user/forum_rate.php:79
+msgid "Vote Submission Problem"
+msgstr "בעיה בהגשצ הצבעה"
+
+#: html/user/forum_reply.php:76
+msgid ""
+"Your post has been flagged as spam by the Akismet anti-spam system. Please "
+"modify your text and try again."
+msgstr ""
+
+#: html/user/forum_reply.php:91 html/user/forum_thread.php:164
+#: html/user/forum_thread.php:293
+msgid "Post to thread"
+msgstr "פרסם רשומה בשרשור"
+
+#: html/user/forum_reply.php:142
+msgid "Message:"
+msgstr "הודעה:"
+
+#: html/user/forum_reply.php:145
+msgid "reply to %1 Message ID %2:"
+msgstr "השב אל %1 מזהה הודעה %2:;"
+
+#: html/user/forum_reply.php:171
+msgid "Post reply"
+msgstr "תגובת פוסט"
+
+#: html/user/forum_reply.php:174
+msgid "Add my signature to this reply"
+msgstr "הוסף אץ החתימה שלי לתגובה זו"
+
+#: html/user/forum_report_post.php:48
+msgid "You need more average or total credit to report a post."
+msgstr "אתה זקוק לעוד נקודות זכות כוללות או ממוצעות כדי לדווח על פוסט."
+
+#: html/user/forum_report_post.php:70
+msgid "Report Registered"
+msgstr "דיווח נרשם"
+
+#: html/user/forum_report_post.php:71
+msgid "Your report has been recorded. Thanks for your input."
+msgstr "הדיווח שלך נרשם. תודה לך על המשוב."
+
+#: html/user/forum_report_post.php:72
+msgid ""
+"A moderator will now look at your report and decide what will happen - this "
+"may take a little while, so please be patient"
+msgstr "מְמַתֵּן יצפה כעת בדיווח שלך ויחליט מה יקרה - זה עלול לקחת זמן מסוים, אז אנא היו סבלניים."
+
+#: html/user/forum_report_post.php:76
+msgid "Report a forum post"
+msgstr "דווח על פוסט פורום"
+
+#: html/user/forum_report_post.php:78
+msgid ""
+"Before reporting this post, consider using the +/- rating system instead. If"
+" enough users rate a post negatively it will eventually be hidden.<br />You "
+"can find the rating system at the bottom of the post."
+msgstr ""
+
+#: html/user/forum_report_post.php:90
+msgid "Report post"
+msgstr "דווח על פוסט"
+
+#: html/user/forum_report_post.php:93
+msgid ""
+"Why do you find the post offensive: %1 Please include enough information so "
+"that a person that has not yet read the thread will quickly be able to "
+"identify the issue. %2"
+msgstr ""
+
+#: html/user/forum_report_post.php:104
+msgid "Report not registered"
+msgstr "דיווח לא נרשם"
+
+#: html/user/forum_report_post.php:105
+msgid "Your report could not be recorded. Please wait a while and try again."
+msgstr "לא ניתן היה לרשום את הדיווח שלך. אנא מספר רגעים ונסה שנית."
+
+#: html/user/forum_report_post.php:106
+msgid ""
+"If this is not a temporary error, please report it to the project "
+"developers."
+msgstr "אם זו אינה תקלה זמנית, אנא דווח עליה למפתחי המיזם."
+
+#: html/user/forum_rss.php:38
+msgid "%1 RSS feed"
+msgstr ""
+
+#: html/user/forum_rss.php:39
+msgid "This message board is available as an RSS feed."
+msgstr ""
+
+#: html/user/forum_rss.php:41
+msgid "Options:"
+msgstr "אפשרויות:"
+
+#: html/user/forum_rss.php:45
+msgid "Include only posts by user ID %1 (default: all users)."
+msgstr "כלול פוסטים מאת מזהה משתמש %1 בלבד (ברירת מחדל: כל המשתמשים)."
+
+#: html/user/forum_rss.php:47
+msgid "Include only posts from the last %1 days (default: 30)."
+msgstr "כלול פוסטים מ-%1 הימים האחרונים בלבד (ברירת מחדל: 30)."
+
+#: html/user/forum_rss.php:49
+msgid "Threads only: %1 (Include only the first post of every thread)"
+msgstr ""
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "תוצאות חיפוש בפורום"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "כותרות שרשורים התואמות את החיפוש שלך:"
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "הודעות התואמות את החיפוש שלך:"
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr ""
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1 try the same search on Google. %2"
+msgstr "באפשרותך גם %1 לנסות את אותו החיפוש בגוגל. %2"
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "בצע חיפוש נוסף"
+
+#: html/user/forum_search.php:29
+msgid "Forum search"
+msgstr "חיפוש בפורום"
+
+#: html/user/forum_search.php:33
+msgid "Search query"
+msgstr "שאילתת חיפוש"
+
+#: html/user/forum_search.php:34
+msgid "Search for keywords:"
+msgstr "חפש מילות מפתח:"
+
+#: html/user/forum_search.php:35
+msgid "Posts that contain all the specified words will be displayed"
+msgstr "פוסטים המכילים את כל המילים המפורטות יוצגו"
+
+#: html/user/forum_search.php:37
+msgid "For example: \"screensaver freeze\""
+msgstr "לדוגמא: \"הקפאת שומר מסך\""
+
+#: html/user/forum_search.php:38
+msgid "Search for author ID:"
+msgstr "חפש מזהה מחבר:"
+
+#: html/user/forum_search.php:39
+msgid "Only posts by this author will be displayed"
+msgstr "רק פוסטים מאת מחבר זה יוצגו"
+
+#: html/user/forum_search.php:41
+msgid "For example: \"43214\""
+msgstr "לדוגמא: \"43214\""
+
+#: html/user/forum_search.php:43
+msgid "Search options"
+msgstr "אפשרויות חיפוש"
+
+#: html/user/forum_search.php:44
+msgid "Search limits"
+msgstr "גבולות חיפוש"
+
+#: html/user/forum_search.php:45
+msgid "Search at most this many days back in time"
+msgstr "חפש לכל היותר כמספר ימים זה לאחור"
+
+#: html/user/forum_search.php:52 html/user/forum_search.php:53
+msgid "%1 months"
+msgstr "%1 חודשים"
+
+#: html/user/forum_search.php:54
+msgid "1 year"
+msgstr "שנה 1"
+
+#: html/user/forum_search.php:74
+msgid "Forum"
+msgstr "פורום"
+
+#: html/user/forum_search.php:75
+msgid "Only display posts from this forum"
+msgstr "הצג פוסטים מפורום זה בלבד"
+
+#: html/user/forum_search.php:86
+msgid "Sort by"
+msgstr "מיין לפי"
+
+#: html/user/forum_search.php:90
+msgid "Start the search"
+msgstr "התחל את החיפוש"
+
+#: html/user/forum_subscribe.php:48
+msgid "Subscription successful"
+msgstr "מינוי בוצע בהצלחה"
+
+#: html/user/forum_subscribe.php:51
+msgid ""
+"You are now subscribed to %1. You will be notified whenever there is a new "
+"post."
+msgstr "הינך מנוי כעת ל%1. אתה תיודע בכל פעם שישנו פוסט חדש."
+
+#: html/user/forum_subscribe.php:53
+msgid "Subscription failed"
+msgstr "מינוי נכשל"
+
+#: html/user/forum_subscribe.php:54
+msgid ""
+"We are currently unable to subscribe you to %1. Please try again later.."
+msgstr "אין באפשרותינו לרשום אותך ל%1 כרגע. אנא נסה שוב מאוחר יותר.."
+
+#: html/user/forum_subscribe.php:63
+msgid "Unsubscription successful"
+msgstr "ביטול מינוי בוצע בהצלחה"
+
+#: html/user/forum_subscribe.php:66
+msgid ""
+"You are no longer subscribed to %1. You will no longer receive notifications"
+" for this thread."
+msgstr "אינך מנוי ל%1 יותר. אתה לא תקבל עוד התראות עבור שרשור זה."
+
+#: html/user/forum_subscribe.php:68
+msgid "Unsubscription failed"
+msgstr "ביטול מינוי נכשל"
+
+#: html/user/forum_subscribe.php:69
+msgid ""
+"We are currently unable to unsubscribe you from %1. Please try again later.."
+msgstr "אין באפשרותינו לבטל את המנוי שלך ל%1 כרגע. אנא נסה שוב מאוחר יותר.."
+
+#: html/user/forum_subscribe.php:76
+msgid "Unknown subscription action"
+msgstr "פעולת מינוי לא ידועה"
+
+#: html/user/forum_thread.php:66
+msgid "This forum is not visible to you."
+msgstr "פורום זה אינו גלוי לך."
+
+#: html/user/forum_thread.php:74
+msgid "This thread has been hidden by moderators."
+msgstr "שרשור זה הוסתר ע\"י מְמַתְּנִים."
+
+#: html/user/forum_thread.php:118
+msgid "Message board moderation"
+msgstr ""
+
+#: html/user/forum_thread.php:131
+msgid "My question was answered"
+msgstr "שאלתי נענתה"
+
+#: html/user/forum_thread.php:132
+msgid "Click here if your question has been adequately answered"
+msgstr "לחץ כאן אם שאלתך נענתה באופן מספק"
+
+#: html/user/forum_thread.php:140
+msgid "I've also got this question"
+msgstr "כמו כן, ברצוני לשאול שאלה זו"
+
+#: html/user/forum_thread.php:165 html/user/forum_thread.php:294
+msgid "Add a new message to this thread"
+msgstr "הוסף רשומה חדשה לשרשור זה"
+
+#: html/user/forum_thread.php:177
+msgid "Unsubscribe"
+msgstr "ביטול הרשמה"
+
+#: html/user/forum_thread.php:178
+msgid "You are subscribed to this thread.  Click here to unsubscribe."
+msgstr "אתה מנוי לשרשור זה. לחץ כאן כדי לבטל את ההרשמה."
+
+#: html/user/forum_thread.php:184
+msgid "Subscribe"
+msgstr "הרשמה"
+
+#: html/user/forum_thread.php:185
+msgid "Click to get email when there are new posts in this thread"
+msgstr "לחץ לקבלת הודעות דוא\"ל כאשר ישנן רשומות חדשות בשרשור זה"
+
+#: html/user/forum_thread.php:196
+msgid "Unhide this thread"
+msgstr "בטל הסתרה של שרשור זה"
+
+#: html/user/forum_thread.php:202
+msgid "Hide this thread"
+msgstr "הסתר שרשור זה"
+
+#: html/user/forum_thread.php:208
+msgid "Make unsticky"
+msgstr "בטל נעיצה"
+
+#: html/user/forum_thread.php:209
+msgid "Make this thread not sticky"
+msgstr "בטל נעיצה של שרשור זה"
+
+#: html/user/forum_thread.php:214
+msgid "Make sticky"
+msgstr "נעץ"
+
+#: html/user/forum_thread.php:215
+msgid "Make this thread always appear at top of forum"
+msgstr "גרום לשרשור זה להופיע תמיד בראש הפורום"
+
+#: html/user/forum_thread.php:221
+msgid "Unlock"
+msgstr "בטל נעילה"
+
+#: html/user/forum_thread.php:222
+msgid "Allow new posts in this thread"
+msgstr "אפשר פוסטים חדשים בשרשור זה"
+
+#: html/user/forum_thread.php:227
+msgid "Lock"
+msgstr "נעל"
+
+#: html/user/forum_thread.php:228
+msgid "Don't allow new posts in this thread"
+msgstr "אל תאפשר פוסטים חדשים בשרשור זה"
+
+#: html/user/forum_thread.php:235
+msgid "Move this thread to a different forum"
+msgstr "העבר שרשור זה לפורום אחר"
+
+#: html/user/forum_thread.php:240
+msgid "Edit title"
+msgstr "ערוך כותרת"
+
+#: html/user/forum_thread.php:241
+msgid "Edit thread title"
+msgstr "ערוך כותרת שרשור"
+
+#: html/user/forum_thread.php:249
+msgid "Delete thread permanently"
+msgstr "מחק שרשור לצמיתות"
+
+#: html/user/forum_thread.php:259
+msgid "Export as Notice"
+msgstr "ייצא כהערה"
+
+#: html/user/forum_thread.php:265
+msgid "Don't export"
+msgstr "אל תייצא"
+
+#: html/user/forum_thread.php:266
+msgid "Don't export this news item as a Notice"
+msgstr "אל תייצא פריט חדשות זה כהערה"
+
+#: html/user/forum_thread.php:279
+msgid "Sort"
+msgstr "מיין"
+
+#. --------------
+#: html/user/forum_thread_status.php:54
+msgid "Thread status updated"
+msgstr "סטטוס שרשור עודכן"
+
+#: html/user/forum_thread_status.php:55
+msgid "The status has been updated."
+msgstr "הסטטוס עודכן."
+
+#: html/user/forum_user_posts.php:75
+msgid "Posts by %1"
+msgstr "פוסטים מאת %1"
+
+#: html/user/friend.php:35
+msgid "Already friends"
+msgstr "כבר חברים"
+
+#: html/user/friend.php:41
+msgid "You requested friendship with %1 on %2."
+msgstr "ביקשת להיות חבר של %1 ב-%2."
+
+#: html/user/friend.php:43
+msgid "This request is still pending confirmation."
+msgstr "בקשה זו עדיין ממתינה לאישור."
+
+#: html/user/friend.php:54
+msgid "%1 is not accepting friendship requests from you"
+msgstr "%1 אינו מקבל בקשות חברות ממך"
+
+#: html/user/friend.php:63
+msgid "You can't be friends with yourself"
+msgstr "אינך יכול להיות חבר של עצמך"
+
+#: html/user/friend.php:71
+msgid "Add friend"
+msgstr "הוסף חבר"
+
+#: html/user/friend.php:76
+msgid ""
+"You have asked to add %1 as a friend. We will notify %1 and will ask him/her"
+" to confirm that you are friends."
+msgstr ""
+
+#: html/user/friend.php:79
+msgid "Add an optional message here:"
+msgstr "הוסף הודעה אופציונאלית כאן:"
+
+#: html/user/friend.php:117
+msgid "Friend request sent"
+msgstr "בקשת חברות נשלחה"
+
+#: html/user/friend.php:118
+msgid "We have notified %1 of your request."
+msgstr "יידענו את %1 על בקשתך."
+
+#: html/user/friend.php:128
+msgid "Please log in as %1"
+msgstr "אנא התחבר בתור %1"
+
+#: html/user/friend.php:129
+msgid "You must log in as %1 to view this friend request"
+msgstr "אתה חייב להתחבר בתור %1 כדי לצפות בבקשת חברות זו"
+
+#: html/user/friend.php:140
+msgid "Friend request"
+msgstr "בקשת חברות"
+
+#: html/user/friend.php:143
+msgid "%1 has requested friendship with you."
+msgstr "%1 ביקש להיות חבר שלך/"
+
+#: html/user/friend.php:145
+msgid "%1 says: %2"
+msgstr "%1 אומר: %2"
+
+#: html/user/friend.php:149
+msgid "Accept friendship"
+msgstr "קבל חברות"
+
+#: html/user/friend.php:150
+msgid "Click accept if %1 is in fact a friend"
+msgstr "לחץ על קבל אם %1 הוא אכן חבר"
+
+#: html/user/friend.php:155
+msgid "Decline"
+msgstr "דחייה"
+
+#: html/user/friend.php:156
+msgid "Click decline if %1 is not a friend"
+msgstr "לחץ על דחייה אם %1 אינו חבר"
+
+#: html/user/friend.php:198
+msgid "Friendship confirmed"
+msgstr "חברות אושרה"
+
+#: html/user/friend.php:199
+msgid "Your friendship with %1 has been confirmed."
+msgstr "חברותך עם %1 אושרה."
+
+#: html/user/friend.php:217
+msgid "Friendship declined"
+msgstr "חברות נדחתה"
+
+#: html/user/friend.php:218
+msgid "You have declined friendship with %1"
+msgstr "דחית חברות עם %1"
+
+#: html/user/friend.php:233
+msgid "Notification not found"
+msgstr "התראה לא נמצאה"
+
+#: html/user/friend.php:235
+msgid "Friend confirmed"
+msgstr "החבר אושר"
+
+#: html/user/friend.php:236
+msgid "You are now friends with %1."
+msgstr "אתה כעת חבר של %1."
+
+#: html/user/friend.php:244
+msgid "Cancel friendship?"
+msgstr "לבטל חברות?"
+
+#: html/user/friend.php:246
+msgid "Are you sure you want to cancel your friendship with %1?"
+msgstr "האם אתה בטוח כי ברצונך לבטל את חברותך עם %1?"
+
+#: html/user/friend.php:251
+msgid "Stay friends"
+msgstr "השארו חברים"
+
+#: html/user/friend.php:261
+msgid "Friendship cancelled"
+msgstr "חברות בוטלה"
+
+#: html/user/friend.php:262
+msgid "Your friendship with %1 has been cancelled."
+msgstr "חברותך עם %1 בוטלה."
+
+#: html/user/get_passwd.php:26
+msgid ""
+"Enter your account's email address below, and click OK. You will be sent "
+"email instructions for resetting your password."
+msgstr ""
+
+#: html/user/get_passwd.php:34
+msgid "Reset password"
+msgstr ""
+
+#: html/user/gpu_list.php:150 html/user/gpu_list.php:176
+msgid "No GPU tasks reported"
+msgstr "לא דווחו מטלות מעבד גרפי"
+
+#: html/user/gpu_list.php:209
+msgid "Top GPU models"
+msgstr "דגמי מעבדים גרפיים מובילים"
+
+#: html/user/gpu_list.php:210
+msgid ""
+"The following lists show the most productive GPU models on different "
+"platforms.  Relative speeds, measured by average elapsed time of tasks, are "
+"shown in parentheses."
+msgstr ""
+
+#: html/user/home.php:42
+msgid "Welcome to %1"
+msgstr "ברוכים הבאים ל-%1"
+
+#: html/user/home.php:43
+msgid "View and edit your account preferences using the links below."
+msgstr "צפה וערוך את העדפות החשבון שלך בעזרת הקישורים הבאים."
+
+#: html/user/home.php:46
+msgid "If you have not already done so, %1 download BOINC client software %2."
+msgstr "אם לא עשית זאת כבר, %1 הורד את תוכנת לקוח BOINC %2."
+
+#: html/user/home.php:49
+msgid "Your account"
+msgstr "חשבונך"
+
+#: html/user/host_app_versions.php:45
+msgid "anonymous platform"
+msgstr "פלטפורמה אנונימית"
+
+#: html/user/host_app_versions.php:62
+msgid "Missing platform"
+msgstr "פלטפורמה חסרה"
+
+#: html/user/host_app_versions.php:73
+msgid "Number of tasks completed"
+msgstr "מספר משימות שהסתיימו"
+
+#: html/user/host_app_versions.php:74
+msgid "Max tasks per day"
+msgstr "משימות מרביות ליום"
+
+#: html/user/host_app_versions.php:75
+msgid "Number of tasks today"
+msgstr "מספר משימות היום"
+
+#: html/user/host_app_versions.php:76
+msgid "Consecutive valid tasks"
+msgstr "משימות חוקיות עוקבות"
+
+#: html/user/host_app_versions.php:80
+msgid "Average processing rate"
+msgstr "קצב ביצוע ממוצע"
+
+#: html/user/host_app_versions.php:90
+msgid "Application details for host %1"
+msgstr "פרטי יישום עבור מחשב %1"
+
+#: html/user/host_delete.php:31
+msgid "We have no record of that computer."
+msgstr "אין לנו אף רשומה של מחשב זה."
+
+#: html/user/host_delete.php:38
+msgid ""
+"You can not delete our record of this computer because our database still "
+"contains work for it. You must wait a few days until the work for this "
+"computer has been deleted from the project database."
+msgstr ""
+
+#: html/user/host_delete.php:40
+msgid "Delete record of computer"
+msgstr "מחק רשומה של מחשב"
+
+#: html/user/host_delete.php:41
+msgid "Record deleted."
+msgstr "רשומה נמחקה."
+
+#: html/user/host_delete.php:42 html/user/host_edit_action.php:65
+msgid "Return to list of your computers"
+msgstr "החזר רשימה של המחשבים שלך"
+
+#: html/user/host_edit_action.php:39
+msgid "Merge computer records"
+msgstr "מזג רשומות מחשבים"
+
+#: html/user/host_edit_form.php:35
+msgid "Merge computers"
+msgstr "מזג מחשבים"
+
+#: html/user/host_edit_form.php:38
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "לפעמים BOINC מקצה זהויות נפרדות לאותו המחשב בטעות. באפשרותך לתקן זאת על-ידי מיזוג זהויות ישנות עם החדשות."
+
+#: html/user/host_edit_form.php:56
+msgid "No hosts are eligible for merging with this one."
+msgstr "אין מארחים הניתנים למיזוג עם מארח זה."
+
+#: html/user/host_edit_form.php:58 html/user/host_edit_form.php:114
+msgid "Show details"
+msgstr "הצג פרטים"
+
+#: html/user/host_edit_form.php:66
+msgid ""
+"Check the computers that are the same as %1 (created %2, computer ID %3):"
+msgstr ""
+
+#: html/user/host_edit_form.php:70 html/user/workunit.php:50
+msgid "name"
+msgstr "שם"
+
+#: html/user/host_edit_form.php:70 html/user/workunit.php:52
+msgid "created"
+msgstr "נוצר"
+
+#: html/user/host_edit_form.php:70
+msgid "computer ID"
+msgstr "זהות המחשב"
+
+#: html/user/host_edit_form.php:77
+msgid "no hostname"
+msgstr "שם מארח חסר"
+
+#: html/user/host_edit_form.php:109
+msgid "Merge hosts"
+msgstr "מזג מארחים"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "מחשבים המשתייכים ל-%1"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "מחשבים מוסתרים"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "משתמש זה בחר שלא להציג מידע לגבי המחשבים שלו/ה."
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "המחשבים שלך"
+
+#: html/user/host_update_credit.php:27
+msgid "Updating computer credit"
+msgstr "מעדכן נקודות זכות מחשב"
+
+#: html/user/host_update_credit.php:37
+msgid "Host credit updated"
+msgstr "נקודות זכות מארח עודכנו"
+
+#: html/user/host_venue_action.php:41
+msgid "Host venue updated"
+msgstr ""
+
+#: html/user/host_venue_action.php:43
+msgid "none"
+msgstr "אין"
+
+#: html/user/host_venue_action.php:46
+msgid "The venue of this host has been set to %1."
+msgstr ""
+
+#: html/user/host_venue_action.php:48
+msgid ""
+"This change will take effect the next time the host communicates with this "
+"project."
+msgstr "שינוי זה ייכנס לתוקף בפעם הבאה שהמארח יתקשר עם מיזם זה."
+
+#: html/user/host_venue_action.php:50
+msgid "Return to host page"
+msgstr "חזור לדף המארח"
+
+#: html/user/html.php:23
+msgid "Allowed HTML tags"
+msgstr "תגיות HTML מותרות"
+
+#: html/user/html.php:25
+msgid "The following HTML tags are allowed in team descriptions:"
+msgstr "תגיות ה-HTML הבאות מותרות בתיאורי הצוות:"
+
+#: html/user/html.php:27
+msgid "bold"
+msgstr "מודגש"
+
+#: html/user/html.php:28
+msgid "italics"
+msgstr "נטוי"
+
+#: html/user/html.php:29
+msgid "hyperlink"
+msgstr "קישור"
+
+#: html/user/html.php:30
+msgid "paragraph"
+msgstr "פסקה"
+
+#: html/user/html.php:31
+msgid "break"
+msgstr "שובר שורה"
+
+#: html/user/html.php:32
+msgid "preformatted"
+msgstr "מתוסדר מראש"
+
+#: html/user/html.php:33
+msgid ""
+"image; height cannot exceed 450 pixels. Please do not link to images without"
+" permission of the web site where the image is hosted."
+msgstr "תמונה; הגובה לא יכול לחרוג מ-450 פיקסלים. אנא אל תיצור קישורים לתמונות ללא רשות של אתר האינטרנט המארח את התמונה."
+
+#: html/user/html.php:35
+msgid "You can also use ampersand notation for special characters."
+msgstr "באפשרותך גם להשתמש בסימון \"גם\" עבור תווים מיוחדים."
+
+#: html/user/info.php:24
+msgid "Rules and policies"
+msgstr "חוקים ומדיניות"
+
+#: html/user/info.php:35
+msgid "Run %1 only on authorized computers"
+msgstr "הרץ את %1 רק על מחשבים מורשים"
+
+#: html/user/info.php:36
+msgid ""
+"Run %1 only on computers that you own, or for which you have obtained the "
+"owner's permission. Some companies and schools have policies that prohibit "
+"using their computers for projects such as %1."
+msgstr "הרץ את %1 רק על מחשבים אשר משתייכים לך, או על מחשבים אשר לגביהם קיבלת את רשות הבעלים. בחלק מהחברות ובתי-הספר קיימת מדיניות האוסרת שימוש במחשביהם למיזמים כגון %1."
+
+#: html/user/info.php:38
+msgid "How %1 will use your computer"
+msgstr "איזה שימוש יעשה %1 במחשבך"
+
+#: html/user/info.php:39
+msgid ""
+"When you run %1 on your computer, it will use part of the computer's CPU "
+"power, disk space, and network bandwidth. You can control how much of your "
+"resources are used by %1, and when it uses them."
+msgstr "כאשר תריץ את %1 על מחשבך, הוא ינצל חלק מכוח העיבוד, שטח הדיסק ורוחב הפס של המחשב. באפשרותך לשלוט בכמות המשאבים בהם %1 יעשה שימוש, ובזמן השימוש בהם."
+
+#: html/user/info.php:40
+msgid ""
+"The work done by your computer contributes to the goals of %1, as described "
+"on its web site. The application programs may change from time to time."
+msgstr "העבודה אשר מתבצעת על-ידי מחשבך תורמת למטרות של %1, כפי שמתואר באתר שלו. תוכנות היישום עשויות להשתנות מדי פעם."
+
+#: html/user/info.php:42
+msgid "Privacy policy"
+msgstr "מדיניות פרטיות"
+
+#: html/user/info.php:43
+msgid ""
+"Your account on %1 is identified by a name that you choose. This name may be"
+" shown on the %1 web site, along with a summary of the work your computer "
+"has done for %1. If you want to be anonymous, choose a name that doesn't "
+"reveal your identity."
+msgstr "חשבונך ב-%1 מזוהה על-ידי שם לבחירתך. שם זה עשוי להיות מוצג באתר של %1, מלווה בסיכום העבודה אשר מחשבך ביצע עבור %1. אם ברצונך להשאר אנונימי, בחר בשם אשר אינו חושף את זהותך."
+
+#: html/user/info.php:44
+msgid ""
+"If you participate in %1, information about your computer (such as its "
+"processor type, amount of memory, etc.) will be recorded by %1 and used to "
+"decide what type of work to assign to your computer. This information will "
+"also be shown on %1's web site. Nothing that reveals your computer's "
+"location (e.g. its domain name or network address) will be shown."
+msgstr "אם אתה נוטל חלק ב-%1, מידע אודות מחשבך (כגון סוג מעבד, כמות זכרון וכו') יתועד על-ידי %1 וינוצל בכדי להחליט לגבי סוג העבודה אשר יוקצב עבור מחשבך. כמו כן, מידע זה יוצג באתר של %1. לא יוצג אף פרט אשר חושף את מיקום מחשבך (כגון שם תחום או כתובת רשת)."
+
+#: html/user/info.php:45
+msgid ""
+"To participate in %1, you must give an address where you receive email. This"
+" address will not be shown on the %1 web site or shared with organizations. "
+"%1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "בכדי להשתתף ב-%1, עלייך לספק כתובת אליה תקבל הודעות דוא\"ל. כתובת זו לא תוצג באתר של %1 או תשותף עם ארגונים. %1 עשוי לשלוח עלוני מידע תקופתיים; עם זאת, באפשרותך לבטלם בכל עת. "
+
+#: html/user/info.php:46
+msgid ""
+"Private messages sent on the %1 web site are visible only to the sender and "
+"recipient.  %1 does not examine or police the content of private messages.  "
+"If you receive unwanted private messages from another %1 user, you may add "
+"them to your %2 message filter %3.  This will prevent you from seeing any "
+"public or private messages from that user."
+msgstr ""
+
+#: html/user/info.php:47
+msgid ""
+"If you use our web site forums you must follow the %2 posting guidelines %3."
+"  Messages posted to the %1 forums are visible to everyone, including non-"
+"members.  By posting to the forums, you are granting irrevocable license for"
+" anyone to view and copy your posts."
+msgstr ""
+
+#: html/user/info.php:48
+msgid "Is it safe to run %1?"
+msgstr "האם זה בטוח להריץ את %1?"
+
+#: html/user/info.php:49
+msgid ""
+"Any time you download a program through the Internet you are taking a "
+"chance: the program might have dangerous errors, or the download server "
+"might have been hacked. %1 has made efforts to minimize these risks. We have"
+" tested our applications carefully. Our servers are behind a firewall and "
+"are configured for high security. To ensure the integrity of program "
+"downloads, all executable files are digitally signed on a secure computer "
+"not connected to the Internet."
+msgstr "בכל פעם בה אתה מוריד תכנה מהאינטרנט, אתה נוטל סיכון: שגיאות מסוכנות עלולות להופיע בתכנה, או ששרת ההורדה נפרץ. %1 עשה מאמצים בכדי למזער סיכונים אלה. בדקנו את היישומים שלנו בזהירות. שרתינו מוגנים על-ידי חומת אש ומוגדרים לרמת אבטחה גבוהה. על מנת להבטיח את שלמות הורדות התכנה, כל הקבצים הניתנים להרצה נחתמו דיגיטלית על מחשב מאובטח אשר לא מחובר לרשת האינטרנט."
+
+#: html/user/info.php:50
+msgid ""
+"The applications run by %1 may cause some computers to overheat. If this "
+"happens, stop running %1 or use a %2 utility program %3 that limits CPU "
+"usage."
+msgstr ""
+
+#: html/user/info.php:51
+msgid ""
+"%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 פותח על-ידי %2. BOINC פותחה על-ידי אוניברסיטת קליפורניה."
+
+#: html/user/info.php:53
+msgid "Liability"
+msgstr "אחריות"
+
+#: html/user/info.php:54
+msgid ""
+"%1 and %2 assume no liability for damage to your computer, loss of data, or "
+"any other event or condition that may occur as a result of participating in "
+"%1."
+msgstr "%1 ו-%2 אינם נוטלים כל אחריות על נזק אשר ייגרם למחשבך, איבוד מידע או כל אירוע או מצב אחר, אשר עלול להיגרם כתוצאה מהשתתפות ב-%1."
+
+#: html/user/info.php:56
+msgid "Other BOINC projects"
+msgstr "מיזמי BOINC אחרים"
+
+#: html/user/info.php:57
+msgid ""
+"Other projects use the same platform, BOINC, as %1. You may want to consider"
+" participating in one or more of these projects. By doing so, your computer "
+"will do useful work even when %1 has no work available for it."
+msgstr "מיזמים אחרים משתמשים באותה הפלטפורמה, BOINC, כמו %1. אולי תרצה לשקול להשתתף באחד או יותר ממיזמים אלו. כך, מחשבך יוכל לבצע עבודה מועילה, גם כאשר ל-%1 אין עבודה זמינה למחשבך."
+
+#: html/user/info.php:58
+msgid ""
+"These other projects are not associated with %1, and we cannot vouch for "
+"their security practices or the nature of their research. Join them at your "
+"own risk."
+msgstr "מיזמים אחרים אלו אינם משוייכים ל-%1, ואין באפשרותינו לערוב לאמצעי אבטחתם או לטבע מחקרם. הצטרף אליהם על אחריותך."
+
+#: html/user/join.php:26 html/user/join.php:29
+msgid "I'm new"
+msgstr "אני חדש"
+
+#: html/user/join.php:26 html/user/join.php:31
+msgid "I'm a BOINC user"
+msgstr "אני משתמש BOINC"
+
+#: html/user/join.php:46
+msgid "Read our %1 Rules and Policies %2."
+msgstr "קרא את %1 החוקים והמדינויות %2 שלנו."
+
+#: html/user/join.php:48
+msgid "Download the BOINC desktop software."
+msgstr "הורד את תוכנת BOINC השולחנית."
+
+#: html/user/join.php:50
+msgid "Download"
+msgstr "הורדה"
+
+#: html/user/join.php:52
+msgid ""
+"For Android devices, download BOINC from the Google Play Store or Amazon App"
+" Store."
+msgstr "עבור התקני אנדרואיד, הורד את BOINC מחנות Google Play \nאו מחנות היישומונים של Amazon."
+
+#: html/user/join.php:55
+msgid "Run the installer."
+msgstr "הפעל את תוכנית ההתקנה."
+
+#: html/user/join.php:56
+msgid "Choose %1 from the list, or enter %2"
+msgstr "בחר את %1 מהרשימה, או הזן %2"
+
+#: html/user/join.php:70
+msgid "Install BOINC on this device if not already present."
+msgstr "התקן את BOINC בהתקן זה אם לא נמצא כבר."
+
+#: html/user/join.php:73
+msgid "Select Tools / Add Project. Choose %1 from the list, or enter %2"
+msgstr "בחר כלים \\ הוסף מיזם. בחר את %1 מהרשימה, או הזן %2"
+
+#: html/user/join.php:76
+msgid ""
+"If you're running a command-line version of BOINC on this computer, %1 "
+"create an account %2, then use %3 boinccmd --project_attach %4 to add the "
+"project."
+msgstr ""
+
+#: html/user/join.php:91 html/user/sample_index.php:95
+#: html/user/team_join_form.php:34
+msgid "Join %1"
+msgstr "הצטרף ל-%1"
+
+#: html/user/language_select.php:46
+msgid "Language selection"
+msgstr "בחירת שפה"
+
+#: html/user/language_select.php:57
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is %1."
+msgstr "אתר זה זמין במספר שפות. השפה הנוכחית היא %1."
+
+#: html/user/language_select.php:62
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr "לרוב, בחירת השפה נקבעת על-ידי הגדרת השפה של הדפדפן, שהיא: %1. באפשרותך לשנות הגדרה זו באמצעות:"
+
+#: html/user/language_select.php:67
+msgid "Firefox: Tools/Options/General"
+msgstr "Firefox: כלים-אפשרויות-כללי"
+
+#: html/user/language_select.php:69
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr "Internet Explorer: כלים-אפשרויות אינטרנט-שפות"
+
+#: html/user/language_select.php:73
+msgid "Or you can select a language from the following menu:"
+msgstr "לחלופין, באפשרותך לבחור שפה מהתפריט הבא:"
+
+#: html/user/language_select.php:85
+msgid ""
+"Translations are done by volunteers.  If your native language is missing or "
+"incomplete, %1 you can help translate %2."
+msgstr ""
+
+#: html/user/login_form.php:59
+msgid "or %1 create an account %2."
+msgstr "או %1 צור חשבון %2."
+
+#: html/user/merge_by_name.php:31
+msgid "Processing %1"
+msgstr "מעבד %1"
+
+#: html/user/merge_by_name.php:43
+msgid "Merged %1 into %2"
+msgstr "%1 מוזג לתוך %2"
+
+#: html/user/merge_by_name.php:72
+msgid "Return to the list of your computers"
+msgstr "חזור לרשימת המחשבים שלך"
+
+#: html/user/merge_by_name.php:76
+msgid ""
+"This operation merges computers based on their domain name.\n"
+"        <p>\n"
+"        For each domain name, it will merge all older computers\n"
+"        having that name with the newest computer having that name.\n"
+"        Incompatible computers will not be merged.\n"
+"        <p>"
+msgstr ""
+
+#: html/user/merge_by_name.php:82
+msgid "Go ahead and do this"
+msgstr "התקדם ועשה זאת"
+
+#: html/user/merge_by_name.php:83
+msgid "Return to the list of computers"
+msgstr "חזור לרשימת המחשבים"
+
+#: html/user/moderation.php:28
+msgid ""
+"Our message boards are moderated. Posts are subject to the following rules:"
+msgstr ""
+
+#: html/user/moderation.php:31
+msgid ""
+"If you think a post violates any of the rules, you can notify moderators by "
+"clicking the red X below the post and filling out the form."
+msgstr ""
+
+#: html/user/moderation.php:33
+msgid ""
+"This moderation policy is set by the %1 project.  If you have comments about"
+" the policy or its enforcement, email %2."
+msgstr ""
+
+#: html/user/pending.php:66
+msgid "Pending credit"
+msgstr "נקודות זכות ממתינות"
+
+#: html/user/pending.php:68
+msgid "Result ID"
+msgstr "מזהה תוצאה"
+
+#: html/user/pending.php:68
+msgid "Workunit ID"
+msgstr "מזהה יחידת עבודה"
+
+#: html/user/pending.php:68
+msgid "Host ID"
+msgstr "מזהה מארח"
+
+#: html/user/pending.php:68
+msgid "Claimed credit"
+msgstr "נקודות זכות שנתבעו"
+
+#: html/user/pending.php:81
+msgid "Pending credit: %1"
+msgstr "נקודות זכות ממתינות: %1"
+
+#: html/user/per_app_list.php:42
+msgid "Total"
+msgstr "סה\"כ"
+
+#: html/user/per_app_list.php:42
+msgid "Average"
+msgstr "ממוצע"
+
+#: html/user/per_app_list.php:203
+msgid "Top teams by application"
+msgstr "צוותים מובילים לפי יישום"
+
+#: html/user/per_app_list.php:203
+msgid "Top participants by application"
+msgstr "משתתפים מובילים לפי יישום"
+
+#: html/user/per_app_list.php:228 html/user/top_hosts.php:59
+#: html/user/top_teams.php:92 html/user/top_users.php:105
+msgid "Limit exceeded - Sorry, first %1 items only"
+msgstr "חריגה מהמגבלה - אנו מתנצלים, %1 הפריטים הראשונים בלבד"
+
+#: html/user/pm.php:29
+msgid "Block messages from this user"
+msgstr "חסום הודעות ממשתמש זה"
+
+#: html/user/pm.php:29
+msgid "Block user"
+msgstr "חסום משתמש"
+
+#: html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "הודעתך נשלחה."
+
+#: html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "אין לך הודעות פרטיות."
+
+#: html/user/pm.php:79
+msgid "Sender and date"
+msgstr "שולח ותאריך"
+
+#: html/user/pm.php:99
+msgid "Reply to this message"
+msgstr "השב להודעה זו"
+
+#: html/user/pm.php:100
+msgid "Delete this message"
+msgstr "מחק הודעה זו"
+
+#: html/user/pm.php:105
+msgid "Select all"
+msgstr "בחר הכל"
+
+#: html/user/pm.php:107
+msgid "Unselect all"
+msgstr "בטל בחירה של הכל"
+
+#: html/user/pm.php:110
+msgid "Delete selected messages"
+msgstr "מחק הודעות נבחרות"
+
+#: html/user/pm.php:134
+msgid "Sender"
+msgstr "שולח"
+
+#: html/user/pm.php:137
+msgid "Date"
+msgstr "תאריך"
+
+#: html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "עלייך למלא את כל השדות על מנת לשלוח הודעה פרטית"
+
+#: html/user/pm.php:202
+msgid "Message sent"
+msgstr "הודעה נשלחה"
+
+#: html/user/pm.php:203
+msgid "Your message was sent to %1 team members."
+msgstr "הודעתך נשלחה לחברי צוות %1."
+
+#: html/user/pm.php:224
+msgid ""
+"Your message was flagged as spam\n"
+"            by the Akismet anti-spam system.\n"
+"            Please modify your text and try again."
+msgstr "הודעתך סומנה כזבל על ידי \nהמערכת למניעת זיבול של Akismet.\nאנא שנה את הטקסט שלך ונסה שנית."
+
+#: html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "לא ניתן למצוא משתמש עם הזיהוי %1"
+
+#: html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "לא ניתן למצוא משתמש עם שם המשתמש %1"
+
+#. Non-unique username
+#: html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 אינו שם משתמש ייחודי; עלייך להשתמש בזיהוי משתמש"
+
+#: html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "משתמש %1 (זיהוי: %2) אינו מקבל הודעות פרטיות ממך."
+
+#: html/user/pm.php:276 html/user/view_profile.php:28
+msgid "No such user"
+msgstr "לא קיים משתמש"
+
+#: html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "האם לחסום את %1?"
+
+#: html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "האם אתה בטוח כי ברצונך לחסום את המשתמש %1 לשליחת הודעות פרטיות?"
+
+#: html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "שים לב, כי באפשרותך לחסום כמות מוגבלת של משתמשים."
+
+#: html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "ברגע שהמשתמש נחסם, באפשרותך לבטל את החסימה על-ידי שימוש בדף העדפות פורום."
+
+#: html/user/pm.php:288
+msgid "No, cancel"
+msgstr "לא, ביטול"
+
+#: html/user/pm.php:297 html/user/team_admins.php:101
+msgid "no such user"
+msgstr "לא קיים משתמש"
+
+#: html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "משתמש %1 נחסם"
+
+#: html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "משתמש %1 נחסם לשליחת הודעות פרטיות."
+
+#: html/user/pm.php:303
+msgid "To unblock, visit %1 message board preferences %2"
+msgstr "לביטול חסימה, בקר %1 בהעדפות לוח הודעות %2"
+
+#: html/user/pm.php:365
+msgid "Unknown action"
+msgstr "פעולה לא ידועה"
+
+#: html/user/prefs_edit.php:66 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1 עבור %2"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "חזרה להעדפות"
+
+#: html/user/prefs.php:33
+msgid ""
+"Your preferences have been updated, and\n"
+"          will take effect when your computer communicates with %1\n"
+"          or you issue the %2 Update %3 command from the BOINC Manager."
+msgstr ""
+
+#: html/user/prefs.php:42
+msgid ""
+"Your preferences have been reset to the defaults, and\n"
+"          will take effect when your computer communicates with %1\n"
+"          or you issue the %2 Update %3 command from the BOINC Manager."
+msgstr ""
+
+#: html/user/prefs_remove.php:46
+msgid "Confirm delete preferences"
+msgstr "אשר מחיקת העדפות"
+
+#: html/user/prefs_remove.php:49
+msgid "Are you sure you want to delete your separate %1 preferences for %2?"
+msgstr "האם אתה בטוח כי ברצונך למחוק את ההעדפות הנפרדות של %1 עבור %2?"
+
+#: html/user/prefs_remove.php:53
+msgid "Remove preferences"
+msgstr "הסר העדפות"
+
+#: html/user/prefs_remove.php:55
+msgid "Cancel"
+msgstr "ביטול"
+
+#: html/user/profile_menu.php:37
+msgid ""
+"%1 Profiles %2 let individuals share backgrounds and opinions with the %3 "
+"community."
+msgstr ""
+
+#: html/user/profile_menu.php:38
+msgid ""
+"Explore the diversity of your fellow volunteers, and contribute your own "
+"views for others to enjoy."
+msgstr "גלה את המגוון הרחב של עמיתיך המתנדבים, ותרום את השקפותיך להנאתם של אחרים."
+
+#: html/user/profile_menu.php:39
+msgid ""
+"If you haven't already, you can %1 create your own user profile %2 for "
+"others to see!"
+msgstr ""
+
+#: html/user/profile_menu.php:44
+msgid "User of the Day"
+msgstr "משתמש היום"
+
+#: html/user/profile_menu.php:59
+msgid "User Profile Explorer"
+msgstr "סייר פרופיל משתמש"
+
+#: html/user/profile_menu.php:62
+msgid "View the %1 User Picture Gallery %2."
+msgstr "צפה %1 בגלריית תמונות המשתמש %2."
+
+#: html/user/profile_menu.php:63
+msgid "Browse profiles %1 by country %2."
+msgstr "עיין בפרויקטים %1 לפי מדינה %2."
+
+#: html/user/profile_menu.php:64
+msgid ""
+"Browse profiles %1 at random %2, %3 at random with pictures %2, or %4 at "
+"random without pictures %2."
+msgstr ""
+
+#: html/user/profile_menu.php:68
+msgid "Alphabetical profile listings:"
+msgstr "רשומות פרופילים לפי א\"ב:"
+
+#: html/user/profile_menu.php:74
+msgid "Search profile text"
+msgstr "חיפוש טקסט בפרופיל"
+
+#: html/user/profile_menu.php:100
+msgid "No profiles"
+msgstr "אין פרופילים"
+
+#: html/user/profile_menu.php:101
+msgid "No profiles matched your query."
+msgstr "לא נמצאו פרופילים המתאימים לחיפושך."
+
+#: html/user/profile_rate.php:31
+msgid "Invalid vote type:"
+msgstr "סוג הצבעה לא תקף:"
+
+#: html/user/profile_rate.php:36
+msgid "Vote Recorded"
+msgstr "הצבעה נרשמה"
+
+#: html/user/profile_rate.php:40
+msgid "Thank you"
+msgstr "תודה לך"
+
+#: html/user/profile_rate.php:43
+msgid "Your recommendation has been recorded."
+msgstr "המלצתך נרשמה."
+
+#: html/user/profile_rate.php:45
+msgid "Your vote to reject this profile has been recorded."
+msgstr "הצבעתך לדחיית פרופיל זה נרשמה."
+
+#: html/user/profile_rate.php:48
+msgid "Return to profile."
+msgstr "חזרה לפרופיל."
+
+#: html/user/profile_search_action.php:38
+msgid "Profiles containing '%1'"
+msgstr "פרופילים המכילים '%1'"
+
+#: html/user/profile_search_action.php:42
+msgid "User name"
+msgstr "שם משתמש"
+
+#: html/user/profile_search_action.php:43
+msgid "Joined project"
+msgstr "הצטרפת למיזם"
+
+#: html/user/profile_search_action.php:46
+msgid "Recent credit"
+msgstr "נקודות זכות מתקופה אחרונה"
+
+#: html/user/profile_search_action.php:56
+msgid "No profiles found containing '%1'"
+msgstr "אין פרופילים המכילים '%1'"
+
+#: html/user/result.php:33
+msgid "No such task:"
+msgstr "אין מזימה כזו:"
+
+#: html/user/results.php:29
+msgid "This feature is turned off temporarily"
+msgstr "תכונה זו אינה פעילה זמנית"
+
+#: html/user/results.php:56
+msgid "No computer with ID %1 found"
+msgstr "לא נמצא מחשב עם הזיהוי %1"
+
+#: html/user/results.php:63
+msgid "No access"
+msgstr "אין גישה"
+
+#: html/user/results.php:69
+msgid "Missing user ID or host ID"
+msgstr "חסר זיהוי משתמש או מחשב"
+
+#: html/user/results.php:106
+msgid "No tasks to display"
+msgstr "אין משימות להצגה"
+
+#: html/user/sample_index.php:53
+msgid "%1 is temporarily shut down for maintenance."
+msgstr "%1 מושבת זמנית לצרכי תחזוקה."
+
+#: html/user/sample_index.php:63
+msgid "What is %1?"
+msgstr "מה זה %1?"
+
+#: html/user/sample_index.php:116
+msgid "News"
+msgstr "חדשות"
+
+#: html/user/server_status.php:57
+msgid "Not Running"
+msgstr "לא פועל"
+
+#: html/user/server_status.php:61
+msgid "Running"
+msgstr "רץ"
+
+#: html/user/server_status.php:65
+msgid "Disabled"
+msgstr "מנוטרל"
+
+#: html/user/server_status.php:103
+msgid "Project status"
+msgstr "מצב המיזם"
+
+#: html/user/server_status.php:112
+msgid "Program"
+msgstr "תכנית"
+
+#: html/user/server_status.php:112
+msgid "Host"
+msgstr "מחשב"
+
+#: html/user/server_status.php:135
+msgid "Computing status"
+msgstr "מצב החישוב"
+
+#: html/user/server_status.php:146
+msgid "Users"
+msgstr "משתמשים"
+
+#: html/user/server_status.php:161
+msgid "Tasks by application"
+msgstr "משימות לפי יישום"
+
+#: html/user/server_status.php:167
+msgid "Runtime of last 100 tasks in hours: average, min, max"
+msgstr "זמן הרצה של 100 המטלות האחרונות בשעות: ממוצע, מינימום, מקסימום"
+
+#: html/user/server_status.php:168
+msgid "Users in last 24 hours"
+msgstr "משתמשים ב-24 שעות האחרונות"
+
+#: html/user/server_status.php:187
+msgid "Database schema version: "
+msgstr "גרסת סכימת מסד נתונים:"
+
+#: html/user/show_host_detail.php:40
+msgid "Computer %1"
+msgstr "מחשב %1"
+
+#: html/user/stats.php:21
+msgid "Statistics and leaderboards"
+msgstr "סטטיסטיקות וטבלאות מובילים"
+
+#: html/user/stats.php:30
+msgid "Statistics for %1"
+msgstr "סטטיסטיקות עבור %1"
+
+#. Now display what we've got (either gotten from cache or from DB)
+#: html/user/stats.php:32 html/user/top_users.php:109
+msgid "Top participants"
+msgstr "משתתפים מובילים"
+
+#: html/user/stats.php:40 html/user/team.php:47
+msgid "Top teams"
+msgstr "צוותים מובילים"
+
+#: html/user/stats.php:47
+msgid "Top computers"
+msgstr "מחשבים מובילים"
+
+#: html/user/stats.php:53
+msgid ""
+"More detailed statistics for %1 and other BOINC-based projects are available"
+" at several web sites:"
+msgstr "סטטיסטיקות מפורטות יותר עבור %1 ומיזמים מבוססי BOINC אחרים ניתן למצוא בכמה אתרי אינטרנט:"
+
+#: html/user/stats.php:56
+msgid ""
+"You can also get your current statistics in the form of a \"signature "
+"image\":"
+msgstr "באפשרותך לקבל את הסטטיסטיקות הנוכחיות שלך בצורת \"תמונת חתימה\":"
+
+#: html/user/stats.php:59
+msgid ""
+"Additionally you can get your individual statistics summed across all BOINC "
+"projects from several sites; see your %1 home page %2."
+msgstr ""
+
+#: html/user/team_admins.php:36
+msgid "Remove Team Admin status from this member"
+msgstr "הסר את הרשאות מנהל צוות ממשתמש זה"
+
+#: html/user/team_admins.php:42 html/user/team_admins.php:54
+msgid "Add or remove Team Admins"
+msgstr "הוסף או הסר מנהלי צוות"
+
+#: html/user/team_admins.php:43
+msgid "You can select team members as 'Team Admins'. Team Admins can:"
+msgstr "באפשרותך לבחור חברי צוות להיות מנהלי צוות. מנהלי צוות יכולים:"
+
+#: html/user/team_admins.php:45
+msgid "Edit team information (name, URL, description, country)"
+msgstr "ערוך את מידע הצוות (שם, כתובת אינטרנט, תיאור, מדינה)"
+
+#: html/user/team_admins.php:46
+msgid "View the team's join/quit history"
+msgstr "צפה בהיסטוריית הצטרפות/עזיבת הצוות"
+
+#: html/user/team_admins.php:47
+msgid "Send messages to the team"
+msgstr "שלח הודעות לצוות"
+
+#: html/user/team_admins.php:48
+msgid ""
+"Moderate the team forum, if any (admins get email notification of moderation"
+" events and red X reports)"
+msgstr ""
+
+#: html/user/team_admins.php:50
+msgid "Team Admins cannot:"
+msgstr "מנהלי צוות לא יכולים:"
+
+#: html/user/team_admins.php:52
+msgid "Change the team founder"
+msgstr "שנה את מייסד הצוות"
+
+#: html/user/team_admins.php:53 html/user/team_manage.php:58
+msgid "Remove members"
+msgstr "להסיר משתמשים"
+
+#: html/user/team_admins.php:56
+msgid "If a Team Admin quits the team, they cease to be a Team Admin."
+msgstr "אם מנהל צוות עוזב את הצוות, הוא מפסיק להיות מנהל צוות."
+
+#: html/user/team_admins.php:57
+msgid ""
+"We recommend that you select only people you know and trust very well as "
+"Team Admins."
+msgstr "אנו ממליצים כי תבחר רק אנשים אותם אתה מכיר וסומך עליהם להיות מנהלי צוות."
+
+#: html/user/team_admins.php:62
+msgid "There are currently no Team Admins"
+msgstr "כרגע לא קיימים מנהלי צוות"
+
+#: html/user/team_admins.php:64
+msgid "Current Team Admins"
+msgstr "מנהלי צוות נוכחיים"
+
+#: html/user/team_admins.php:65
+msgid "Became Team Admin on"
+msgstr "הפוך למנהל צוות ב-"
+
+#: html/user/team_admins.php:80
+msgid "Add Team Admin"
+msgstr "הוסף מנהל צוות"
+
+#: html/user/team_admins.php:81
+msgid "Email address of team member:"
+msgstr "כתובת הדוא\"ל של חבר הצוות:"
+
+#: html/user/team_admins.php:93
+msgid "failed to remove admin"
+msgstr "כשלון בהסרת מנהל"
+
+#: html/user/team_admins.php:102
+msgid "User is not member of team"
+msgstr "המשתמש אינו חבר בצוות"
+
+#: html/user/team_admins.php:104
+msgid "%1 is already an admin of %2"
+msgstr "%1 הוא כבר מנהל של %2"
+
+#: html/user/team_admins.php:108
+msgid "Couldn't add admin"
+msgstr "לא ניתן להוסיף מנהל"
+
+#: html/user/team_admins.php:114 html/user/team_manage.php:85
+#: html/user/team_quit_form.php:30
+#: html/user/team_remove_inactive_action.php:30
+msgid "No such team"
+msgstr "לא קיים צוות"
+
+#: html/user/team_change_founder_action.php:32
+#: html/user/team_change_founder_form.php:35 html/user/team_display.php:72
+#: html/user/team_edit_action.php:32 html/user/team_edit_form.php:31
+#: html/user/team_email_list.php:64
+msgid "no such team"
+msgstr "לא קיים צוות"
+
+#: html/user/team_change_founder_action.php:40
+msgid "User is not a member of %1"
+msgstr "המשתמש אינו חבר ב-%1"
+
+#: html/user/team_change_founder_action.php:43
+msgid "Changing founder of %1"
+msgstr "משנה את מייסד %1"
+
+#: html/user/team_change_founder_action.php:45
+msgid "%1 is now founder of %2"
+msgstr "%1 הוא כעת המייסד של %2"
+
+#: html/user/team_change_founder_form.php:39
+msgid "Change founder of %1"
+msgstr "שינוי המייסד של %1"
+
+#: html/user/team_change_founder_form.php:45
+msgid ""
+"Team member %1 requested this team's foundership on %2, but left the team, "
+"thus canceling the request."
+msgstr "חבר הצוות %1 ביקש את הרשאות מייסד צוות זה בתאריך %2, אך עזב את הצוות, ובכך ביטל את הבקשה."
+
+#: html/user/team_change_founder_form.php:51
+msgid ""
+"Team member %1 has requested this team's foundership. This may be because "
+"you left the team or haven't had contact with the team for a long time."
+msgstr "חבר הצוות %1 ביקש את הרשאות מייסד צוות זה. הדבר ייתכן עקב עזיבתך את הצוות או חוסר תקשורת עם הצוות במשך זמן רב."
+
+#: html/user/team_change_founder_form.php:57
+msgid "decline request"
+msgstr "סירוב לבקשה"
+
+#: html/user/team_change_founder_form.php:60
+msgid ""
+"If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
+"                  To accept the request, assign foundership to %3 using the form below."
+msgstr "אם לא תסרב לבקשתו של %1, ל-%2 תהיה אפשרות לקבל על עצמו את הרשאות מייסד הצוות. <br /><br />\nכדי לקבל את הבקשה, הקצה את הרשאות המייסד ל-%3 בעזרת הטופס הבא."
+
+#: html/user/team_change_founder_form.php:68
+msgid "No transfer request is pending."
+msgstr "אין בקשת העברה ממתינה."
+
+#: html/user/team_change_founder_form.php:71
+msgid ""
+"To assign foundership of this team to another member, check the box next to "
+"member name and click %1 Change founder %2 below."
+msgstr ""
+
+#: html/user/team_change_founder_form.php:81
+msgid "New founder?"
+msgstr "מייסד חדש?"
+
+#: html/user/team_change_founder_form.php:113 html/user/team_manage.php:60
+msgid "Change founder"
+msgstr "שינוי מייסד"
+
+#: html/user/team_change_founder_form.php:116
+msgid "There are no users to transfer team to."
+msgstr "אין משתמשים להעביר אליהם את הצוות."
+
+#: html/user/team_create_action.php:50
+msgid "You must choose a non-blank team name"
+msgstr "עלייך לבחור שם צוות שאינו ריק"
+
+#: html/user/team_create_action.php:55
+msgid "A team named %1 already exists - try another name"
+msgstr "צוות בשם %1 כבר קיים - נסה שם אחר"
+
+#: html/user/team_create_action.php:75
+msgid "Could not create team - please try later."
+msgstr "לא ניתן ליצור צוות - אנא נסה מאוחר יותר."
+
+#: html/user/team_create_form.php:37 html/user/team_create_form.php:43
+msgid "Create a team"
+msgstr "צור צוות"
+
+#: html/user/team_create_form.php:41
+msgid ""
+"You belong to %1. You must %2 quit this team %3 before creating a new one."
+msgstr ""
+
+#: html/user/team_delta.php:66
+msgid "Not founder or admin"
+msgstr "לא מייסד או מנהל"
+
+#: html/user/team_delta.php:73
+msgid "Team history for %1"
+msgstr "היסטוריית צוות עבור %1"
+
+#: html/user/team_delta.php:77
+msgid "When"
+msgstr "מתי"
+
+#: html/user/team_delta.php:78
+msgid "User"
+msgstr "משתמש"
+
+#: html/user/team_delta.php:79
+msgid "Action"
+msgstr "פעולה"
+
+#: html/user/team_delta.php:80
+msgid "Total credit at time of action"
+msgstr "סך נקודות זכות בזמן הפעולה"
+
+#: html/user/team_edit_action.php:55
+msgid "bad country"
+msgstr "מדינה שגויה"
+
+#: html/user/team_edit_action.php:61
+msgid "The name '%1' is being used by another team."
+msgstr "השם '%1' נמצא בשימוש של צוות אחר."
+
+#: html/user/team_edit_action.php:64
+msgid "Must specify team name"
+msgstr "יש לציין את שם הצוות"
+
+#: html/user/team_edit_action.php:92
+msgid "Could not update team - please try again later."
+msgstr "לא ניתן לעדכן צוות - אנא נסה שנית מאוחר יותר."
+
+#: html/user/team_edit_form.php:35
+msgid "Edit %1"
+msgstr "עריכת %1"
+
+#: html/user/team_edit_form.php:36
+msgid "Update team info"
+msgstr "עדכן מידע אודות הצוות"
+
+#: html/user/team_email_list.php:70 html/user/team_members.php:51
+msgid "Members of %1"
+msgstr "חברי %1"
+
+#: html/user/team_email_list.php:75
+msgid "ID"
+msgstr "מזהה"
+
+#: html/user/team_email_list.php:93
+msgid "Show as plain text"
+msgstr "הצג כטקסט פשוט"
+
+#: html/user/team_forum.php:30 html/user/team_forum.php:41
+msgid "Create Message Board"
+msgstr "יצירת לוח הודעות"
+
+#: html/user/team_forum.php:31
+msgid "You may create a message board for use by %1."
+msgstr "באפשרותך ליצור לוח הודעות לשימוש ע\"י %1."
+
+#: html/user/team_forum.php:33
+msgid "Only team members will be able to post."
+msgstr "רק חברי הצוות יורשו להציב רשומות."
+
+#: html/user/team_forum.php:34
+msgid "At your option, only members will be able to read."
+msgstr "אם תרצה, רק חברים יוכלו לקרוא."
+
+#: html/user/team_forum.php:35
+msgid "You and your Team Admins will have moderator privileges."
+msgstr "לך ולמנהלי הצוות שלך יהיו הרשאות מְמַתֵּן."
+
+#: html/user/team_forum.php:42
+msgid "Create a message board for %1"
+msgstr "יצירת לוח הודעות עבור %1"
+
+#: html/user/team_forum.php:50
+msgid "Team already has a message board"
+msgstr "כבר קיים לוח הודעות לצוות"
+
+#: html/user/team_forum.php:61
+msgid "Team Message Board"
+msgstr "לוח ההודעות של הצוות"
+
+#: html/user/team_forum.php:78
+msgid "Minimum time between posts (seconds)"
+msgstr "זמן מינימלי בין הצבת הודעות (שניות)"
+
+#: html/user/team_forum.php:81
+msgid "Minimum total credit to post"
+msgstr "סך נקודות זכות מזערי כדי לפרסם רשומות"
+
+#: html/user/team_forum.php:84
+msgid "Minimum average credit to post"
+msgstr "נקודות זכות ממוצעות מינימליות לפרסום"
+
+#: html/user/team_forum.php:87
+msgid "Submit"
+msgstr "הגשה"
+
+#: html/user/team_forum.php:97
+msgid "Remove your team's message board."
+msgstr "הסר את לוח ההודעות של הצוות."
+
+#: html/user/team_forum.php:105
+msgid "Really remove message board?"
+msgstr "האם להסיר את לוח ההודעות?"
+
+#: html/user/team_forum.php:106
+msgid ""
+"Are you sure you want to remove your team's message board? All threads and "
+"posts will be permanently removed. (You may, however, create a new message "
+"board later)."
+msgstr "האם אתה בטוח כי ברצונך להסיר את לוח ההודעות של הצוות שלך? כל השרשורים והרשומות יוסרו לצמיתות. (למרות זאת, באפשרותך ליצור לוח הודעות חדש בהמשך)."
+
+#: html/user/team_forum.php:108
+msgid "Yes - remove message board"
+msgstr "כן - הסר את לוח ההודעות"
+
+#: html/user/team_forum.php:129
+msgid "Message board removed"
+msgstr "לוח הודעות הוסר"
+
+#: html/user/team_forum.php:132
+msgid ""
+"Your team's message board has been removed. You may now %1 create a new one "
+"%2."
+msgstr ""
+
+#: html/user/team_forum.php:151
+msgid "Team Message Board Updated"
+msgstr "לוח ההודעות של הצוות עודכן"
+
+#: html/user/team_forum.php:152
+msgid "Update successful"
+msgstr "עדכון בוצע בהצלחה"
+
+#: html/user/team_forum.php:155
+msgid "Update failed"
+msgstr "עדכון נכשל"
+
+#: html/user/team_forum.php:162
+msgid "Team has no forum"
+msgstr "לצוות אין פורום"
+
+#: html/user/team_founder_transfer_action.php:38
+msgid "You must be a member of a team to access this page."
+msgstr "עלייך להיות חבר בצוות בכדי להיכנס לדף זה."
+
+#: html/user/team_founder_transfer_action.php:100
+msgid "Requesting foundership of %1"
+msgstr "מבקש הרשאות מייסד של %1"
+
+#: html/user/team_founder_transfer_action.php:108
+msgid ""
+"The current founder has been notified of your request by email and private message.<br /><br />\n"
+"                       If the founder does not respond within 60 days you will be allowed to become the founder."
+msgstr "המייסד הנוכחי קיבל הודעה בדוא\"ל והודעה פרטית בנוגע לבקשתך.<br /><br />\n אם המייסד לא יגיב תוך 60 יום, תורשה להפוך למייסד."
+
+#: html/user/team_founder_transfer_action.php:112
+#: html/user/team_founder_transfer_action.php:127
+msgid "Foundership request not allowed now"
+msgstr "לא ניתן לבקש הרשאות מייסד בזמן זה"
+
+#: html/user/team_founder_transfer_action.php:119
+msgid "Assumed foundership of %1"
+msgstr "הוקצאו הרשאות מייסד של %1"
+
+#: html/user/team_founder_transfer_action.php:121
+msgid ""
+"Congratulations, you are now the founder of team %1. Go to %2 Your Account "
+"page %3 to find the Team Admin options."
+msgstr ""
+
+#: html/user/team_founder_transfer_action.php:134
+msgid "Decline founder change request"
+msgstr "סרב לבקשת החלפת המייסד"
+
+#: html/user/team_founder_transfer_action.php:141
+msgid "The foundership request from %1 has been declined."
+msgstr "בקשת הרשאות המייסד של %1 נדחתה"
+
+#: html/user/team_founder_transfer_action.php:144
+msgid "There were no foundership requests."
+msgstr "לא קיימות בקשות להרשאות מייסד."
+
+#: html/user/team_founder_transfer_action.php:148
+msgid "undefined action %1"
+msgstr "פעולה לא מוגדרת %1"
+
+#: html/user/team_founder_transfer_action.php:151
+#: html/user/team_founder_transfer_form.php:85
+msgid "Return to team page"
+msgstr "חזרה לדף הצוות"
+
+#: html/user/team_founder_transfer_form.php:30
+msgid "You need to be a member of a team to access this page."
+msgstr "עלייך להיות חבר בצוות בכדי להיכנס לדף זה."
+
+#: html/user/team_founder_transfer_form.php:33
+msgid "Request foundership of %1"
+msgstr "בקשת הרשאות מייסד של %1"
+
+#: html/user/team_founder_transfer_form.php:40
+msgid "You are now founder of team %1."
+msgstr "אתה כעת המייסד של הצוות %1."
+
+#: html/user/team_founder_transfer_form.php:46
+msgid "You requested the foundership of %1 on %2."
+msgstr "ביקשת את הרשאות המייסד של %1 בתאריך %2."
+
+#: html/user/team_founder_transfer_form.php:49
+msgid ""
+"60 days have elapsed since your request, and the founder has not responded. "
+"You may now assume foundership by clicking here:"
+msgstr "חלפו 60 יום מאז בקשתך, והמייסד טרם הגיב. באפשרותך להקצות את הרשאות המייסד לעצמך ע\"י לחיצה כאן:"
+
+#: html/user/team_founder_transfer_form.php:52
+msgid "Assume foundership"
+msgstr "הקצה הרשאות מייסד"
+
+#: html/user/team_founder_transfer_form.php:56
+msgid ""
+"The founder was notified of your request. If he/she does not respond by %1 "
+"you will be given an option to become founder."
+msgstr "הודעה על בקשתך נשלחה למייסד. אם הוא/היא לא יגיב/תגיב עד %1, יהיה באפשרותך להפוך למייסד."
+
+#: html/user/team_founder_transfer_form.php:62
+msgid ""
+"If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
+"                       Are you sure you want to request foundership?"
+msgstr "אם מייסד הצוות אינו פעיל וברצונך לקבל את תפקיד המייסד, לחץ על הלחצן למטה. המייסד הנוכחי יקבל דוא\"ל המפרט את בקשתך ויוכל להעביר לך את הרשאות המייסד או לסרב לבקשה. אם המייסד לא יענה תוך 60 יום, תוכל להפוך למייסד.<br /><br />\nהאם אתה בטוח שברצונך לבקש הרשאות מייסד?"
+
+#: html/user/team_founder_transfer_form.php:67
+msgid "Request foundership"
+msgstr "בקשת הרשאות מייסד"
+
+#: html/user/team_founder_transfer_form.php:76
+msgid "Founder change has already been requested by %1 on %2."
+msgstr "שינוי המייסד כבר התבקש ע\"י %1 בתאריך %2."
+
+#: html/user/team_founder_transfer_form.php:79
+msgid ""
+"A foundership change was requested during the last 90 days, so new requests "
+"are not allowed. Please try again later."
+msgstr "שינוי הרשאות מייסד כבר התבקש במהלך 90 הימים האחרונים, ולכן לא ניתן לבקש שוב. אנא נסה שנית מאוחר יותר."
+
+#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
+#: html/user/team_join.php:34
+msgid "The team %1 is not joinable."
+msgstr " לצוות %1 לא ניתן להצטרף."
+
+#: html/user/team_join_action.php:37 html/user/team_join.php:37
+msgid "Already a member"
+msgstr "כבר חבר"
+
+#: html/user/team_join_action.php:38 html/user/team_join.php:38
+msgid "You are already a member of %1."
+msgstr "הנך כבר חבר ב-%1."
+
+#: html/user/team_join_action.php:42
+msgid "Joined %1"
+msgstr "הצטרפת ל-%1"
+
+#: html/user/team_join_action.php:43
+msgid "You have joined %1."
+msgstr "הצטרפת ל-%1."
+
+#: html/user/team_join_action.php:45 html/user/team_join.php:44
+msgid "Couldn't join team - please try again later."
+msgstr "לא ניתן להצטרף לצוות - אנא נסה שנית מאוחר יותר."
+
+#: html/user/team_join_form.php:35
+msgid "Please note:"
+msgstr "שים לב:"
+
+#: html/user/team_join_form.php:37
+msgid "Joining a team gives its founder access to your email address."
+msgstr "הצטרפות לצוות מעניקה למייסד גישה לכתובת הדוא\"ל שלך."
+
+#: html/user/team_join_form.php:38
+msgid "Joining a team does not affect your account's credit."
+msgstr "הצטרפות לצוות אינה משפיעה על נקודות הזכות שלך."
+
+#: html/user/team_join_form.php:45
+msgid "Join team"
+msgstr "הצטרף לצוות"
+
+#: html/user/team_lookup.php:88
+msgid "Search Results"
+msgstr "תוצאות חיפוש"
+
+#: html/user/team_lookup.php:90
+msgid "Search results for '%1'"
+msgstr "תוצאות חיפוש עבור '%1'"
+
+#: html/user/team_lookup.php:92
+msgid "You may view these teams' members, statistics, and information."
+msgstr "באפשרותך לצפות בחברים, הסטטיסטיקות והמידע של הצוותים האלו."
+
+#: html/user/team_lookup.php:102
+msgid "More than 100 teams match your search. The first 100 are shown."
+msgstr "למעלה מ-100 צוותים התאימו לחיפוש שלך. 100 הראשונים מוצגים."
+
+#: html/user/team_lookup.php:108
+msgid ""
+"End of results. %1 If you cannot find the team you are looking for, you may "
+"%2 create a team %3 yourself."
+msgstr ""
+
+#: html/user/team_manage.php:28
+msgid "Team administration for %1"
+msgstr "ניהול צוות עבור %1"
+
+#: html/user/team_manage.php:31
+msgid "Edit team info"
+msgstr "ערוך את המידע אודות הצוות"
+
+#: html/user/team_manage.php:32
+msgid "Change team name, URL, description, type, or country"
+msgstr "שנה את שם הצוות, כתובת אתר האינטרנט, התיאור, הסוג או המדינה."
+
+#: html/user/team_manage.php:35
+msgid "Member list:"
+msgstr "רשימת חברים:"
+
+#: html/user/team_manage.php:36 html/user/team_manage.php:41
+msgid "HTML"
+msgstr "HTML"
+
+#: html/user/team_manage.php:37
+msgid "text"
+msgstr "טקסט"
+
+#: html/user/team_manage.php:38 html/user/team_manage.php:42
+msgid "XML"
+msgstr "XML"
+
+#: html/user/team_manage.php:39
+msgid "View member info"
+msgstr "הצג מידע חבר"
+
+#: html/user/team_manage.php:40
+msgid "View change history:"
+msgstr "הצג היסטוריית שינויים:"
+
+#: html/user/team_manage.php:43
+msgid "See when members joined or quit this team"
+msgstr "ראה מתי חברים הצטרפו לצוות או עזבו אותו"
+
+#: html/user/team_manage.php:54
+msgid "Respond to foundership request."
+msgstr "הגב לבקשת הרשאות מייסד."
+
+#: html/user/team_manage.php:54
+msgid "If you don't respond by %1, %2 may assume foundership of this team."
+msgstr "אם לא תגיב עד %1, %2 יוכל להקצות לעצמו את הרשאות המייסד של הצוות."
+
+#: html/user/team_manage.php:59
+msgid "Remove inactive or unwanted members from this team"
+msgstr "הסר חברים לא פעילים או לא רצויים מהצוות"
+
+#: html/user/team_manage.php:61
+msgid "Transfer foundership to another member"
+msgstr "העבר הרשאות מייסד לחבר אחר"
+
+#: html/user/team_manage.php:62
+msgid "Add/remove Team Admins"
+msgstr "הוסף/הסר מנהלי צוות"
+
+#: html/user/team_manage.php:63
+msgid "Give selected team members Team Admin privileges"
+msgstr "הענק לחברי הצוות הנבחרים הרשאות מנהלי צוות"
+
+#: html/user/team_manage.php:65
+msgid "Remove team"
+msgstr "הסר צוות"
+
+#: html/user/team_manage.php:66
+msgid "Allowed only if team has no members"
+msgstr "אפשרי רק כאשר אין חברים בצוות"
+
+#: html/user/team_manage.php:68
+msgid "Create or manage a team message board"
+msgstr "צור או נהל לוח הודעות של צוות"
+
+#: html/user/team_manage.php:73
+msgid ""
+"To have this team created on all BOINC projects (current and future) you can"
+" make it into a %1 BOINC-wide team %2."
+msgstr ""
+
+#: html/user/team_manage.php:75
+msgid ""
+"Team admins are encouraged to join and participate in the Google %1 boinc-"
+"team-founders %2 group."
+msgstr ""
+
+#: html/user/team_manage.php:91
+msgid "Can't delete non-empty team"
+msgstr "לא ניתן למחוק צוות לא ריק"
+
+#: html/user/team_manage.php:95
+msgid "Team %1 deleted"
+msgstr "צוות %1 נמחק"
+
+#: html/user/team_members.php:38
+msgid "Limit exceeded:  Can only display the first 1000 members."
+msgstr "חריגה מהמגבלה: ניתן להציג רק את 1000 החברים הראשונים."
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2 teams %3."
+msgstr "%1 משתתפים רשאים להקים %2 צוותים %3."
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "באפשרותך להשתייך לצוות אחד בלבד. תוכל להצטרף לצוות או לעזוב אותו בכל זמן שתרצה."
+
+#: html/user/team.php:33
+msgid "Each team has a %1 founder %2 who may:"
+msgstr "לכל צוות יש %1 מייסד %2 אשר רשאי:"
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "ערוך את שם הצוות ותיאורו"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "הוסף או הסר מנהלי צוות"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "הסר חברים מהצוות"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "פרק צוות אם אין בו חברים"
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1 Join this team %2."
+msgstr "כדי להצטרף לצוות, בקר בעמוד הצוות שלו ולחץ על %1 הצטרף לצוות זה %2."
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "מצא צוות"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "כל הצוותים"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "הצוותים של %1"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "צור צוות חדש"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1 create a team "
+"%2."
+msgstr ""
+
+#: html/user/team_quit_action.php:34
+msgid "Unable to quit team"
+msgstr "לא ניתן לעזוב את הצוות"
+
+#: html/user/team_quit_action.php:35
+msgid "Team doesn't exist, or you don't belong to it."
+msgstr "צוות לא קיים, או שאינך משתייך אליו."
+
+#: html/user/team_quit_form.php:33
+msgid "Quit %1"
+msgstr "עזוב את %1"
+
+#: html/user/team_quit_form.php:34
+msgid ""
+"<strong>Please note before quitting a team:</strong>\n"
+"         <ul>\n"
+"         <li>If you quit a team, you may rejoin later, or join any other team you desire\n"
+"         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
+"         </ul>"
+msgstr "<strong>שים לב לפני הפרישה מצוות:</strong>\n<ul>\n<li>אם תפרוש מצוות, ביכולתך להצטרף מחדש מאוחר יותר, או להצטרף לכל צוות אחר שתחפוץ בו\n<li>פרישה מצוות לא משפיעה על סטטיסטיקת נקודות הזכות האישיות שלך בשום דרך.\n</ul>"
+
+#: html/user/team_quit_form.php:42
+msgid "Quit Team"
+msgstr "עזוב צוות"
+
+#: html/user/team_remove_inactive_action.php:33
+msgid "Removing users from %1"
+msgstr "מסיר משתמשים מ-%1"
+
+#: html/user/team_remove_inactive_action.php:41
+msgid "%1 is not a member of %2"
+msgstr "%1 אינו חבר ב-%2"
+
+#: html/user/team_remove_inactive_action.php:44
+msgid "%1 has been removed"
+msgstr "%1 הוסר"
+
+#: html/user/team_remove_inactive_form.php:34
+msgid "Remove members from %1"
+msgstr "הסרת חברים מ-%1"
+
+#: html/user/team_remove_inactive_form.php:42
+msgid "Remove?"
+msgstr "האם להסיר?"
+
+#: html/user/team_remove_inactive_form.php:43
+msgid "Name (ID)"
+msgstr "שם (זיהוי)"
+
+#: html/user/team_remove_inactive_form.php:68
+msgid "No members are eligible for removal."
+msgstr "לא קיימים חברים המתאימים להסרה."
+
+#: html/user/team_remove_inactive_form.php:71
+msgid "Remove users"
+msgstr "הסר משתמשים"
+
+#: html/user/team_search.php:76
+msgid "Team name"
+msgstr "שם הצוות"
+
+#: html/user/team_search.php:79
+msgid "Validated?"
+msgstr "תוקף?"
+
+#: html/user/team_search.php:115
+msgid "Team search results"
+msgstr "תוצאות חיפוש צוות"
+
+#: html/user/team_search.php:117
+msgid "No teams were found matching your criteria. Try another search."
+msgstr "לא נמצאו צוותים המתאימים לקריטריונים שלך. נסה חיפוש נוסף."
+
+#: html/user/team_search.php:119
+msgid "Or you can %1 create a new team %2."
+msgstr "או שאתה יכול %1 ליצור צוות חדש %2."
+
+#: html/user/team_search.php:123
+msgid ""
+"The following teams match one or more of your search criteria.\n"
+"            To join a team, click its name to go to the team page,\n"
+"               then click %1 Join this team %2."
+msgstr ""
+
+#: html/user/team_search.php:130
+msgid "Change your search"
+msgstr "שינוי החיפוש"
+
+#: html/user/team_search.php:204
+msgid ""
+"You can team up with other people with similar interests, or from the same "
+"country, company, or school."
+msgstr "תוכל להצטרף לאנשים אחרים בעלי תחומי עניין זהים, או מאותה המדינה, חברה או אותו בית-ספר."
+
+#: html/user/team_search.php:206
+msgid "Use this form to find teams that might be right for you."
+msgstr "השתמש בטופס זה בכדי למצוא צוותים העשויים להתאים לך."
+
+#: html/user/team_search.php:211
+msgid "%1 I'm not interested %2 in joining a team right now."
+msgstr "%1 אני לא מעוניין %2 להצטרף לצוות כרגע."
+
+#. Now display what we've got (either gotten from cache or from DB)
+#: html/user/top_hosts.php:74
+msgid "Top hosts"
+msgstr "המחשבים המובילים"
+
+#. Now display what we've got (either gotten from cache or from DB)
+#: html/user/top_teams.php:98
+msgid "Top %1 teams"
+msgstr "%1 הצוותים המובילים"
+
+#: html/user/top_teams.php:101
+msgid "There are no %1 teams"
+msgstr "לא קיימים צוותים של %1"
+
+#: html/user/top_users.php:57
+msgid "Participant since"
+msgstr "משתתף מאז"
+
+#: html/user/uotd.php:32
+msgid "No user of the day has been chosen."
+msgstr "לא נבחר משתמש היום."
+
+#: html/user/uotd.php:36
+msgid "User of the Day for %1: %2"
+msgstr "המשתמש היומי עבור %1: %2"
+
+#: html/user/user_search.php:51
+msgid "Filters"
+msgstr "מסננים"
+
+#: html/user/user_search.php:53
+msgid "User name starts with"
+msgstr "שם משתמש מתחיל ב-"
+
+#: html/user/user_search.php:56
+msgid "Any"
+msgstr "כל"
+
+#: html/user/user_search.php:59
+msgid "With profile?"
+msgstr "עם פרופיל?"
+
+#: html/user/user_search.php:60 html/user/user_search.php:65
+msgid "Either"
+msgstr "אחד מהשניים"
+
+#: html/user/user_search.php:64
+msgid "On a team?"
+msgstr "נמצא בצוות?"
+
+#: html/user/user_search.php:69
+msgid "Ordering"
+msgstr ""
+
+#: html/user/user_search.php:70
+msgid "Decreasing sign-up time"
+msgstr "הפחתת זמן הרשמה"
+
+#: html/user/user_search.php:71
+msgid "Decreasing average credit"
+msgstr "הפחתת נקודות זכות ממוצעות"
+
+#: html/user/user_search.php:72
+msgid "Decreasing total credit"
+msgstr "הפחתת נקודות זכות כוללות"
+
+#: html/user/user_search.php:87
+msgid "search string must be at least 3 characters"
+msgstr "מחרוזת החיפוש צריכה להכיל מינימום 3 תווים"
+
+#: html/user/user_search.php:121
+msgid "User search results"
+msgstr "תוצאות חיפוש משתמש"
+
+#: html/user/user_search.php:133
+msgid "Joined"
+msgstr "הצטרף"
+
+#: html/user/user_search.php:143
+msgid "No users match your search criteria."
+msgstr "לא נמצאו משתמשים המתאימים לקריטריונים שלך."
+
+#: html/user/userw.php:35
+msgid "User not found!"
+msgstr "משתמש לא נמצא!"
+
+#: html/user/userw.php:44
+msgid "Account Data<br/>for %1<br/>Time:"
+msgstr ""
+
+#: html/user/userw.php:47
+msgid "Team:"
+msgstr "צוות:"
+
+#: html/user/userw.php:48
+msgid "Team TotCred:"
+msgstr "סך נקודות הזכות של הצוות:"
+
+#: html/user/userw.php:49
+msgid "Team AvgCred:"
+msgstr "ממוצע נקודות הזכות של הצוות:"
+
+#: html/user/userw.php:51
+msgid "Team: None"
+msgstr "צוות: אף אחד"
+
+#: html/user/validate_email_addr.php:30
+msgid "Validate BOINC email address"
+msgstr "תיקוף כתובת דוא\"ל של BOINC"
+
+#: html/user/validate_email_addr.php:31
+msgid ""
+"Please visit the following link to validate the email address of your %1 "
+"account:"
+msgstr "אנא בקר בקישור הבא בכדי לתקף את כתובת הדוא\"ל של חשבונך ב-%1:"
+
+#: html/user/validate_email_addr.php:34
+msgid "Validate email sent"
+msgstr "נשלח דוא\"ל לתיקוף"
+
+#: html/user/validate_email_addr.php:35
+msgid ""
+"An email has been sent to %1. Visit the link it contains to validate your "
+"email address."
+msgstr "דוא\"ל עבור %1 נשלח. בקר בקישור אשר הוא מכיל בכדי לתקף את כתובת הדוא\"ל שלך."
+
+#: html/user/validate_email_addr.php:44
+msgid "No such user."
+msgstr "לא קיים משתמש."
+
+#: html/user/validate_email_addr.php:49
+msgid "Error in URL data - can't validate email address"
+msgstr "שגיאה בנתוני URL - לא ניתן לתקף כתובת דוא\"ל"
+
+#: html/user/validate_email_addr.php:54
+msgid "Database update failed - please try again later."
+msgstr "עדכון מסד נתונים נכשל - אנא נסה שנית מאוחר יותר."
+
+#: html/user/validate_email_addr.php:57
+msgid "Validate email address"
+msgstr "תיקוף כתובת דוא\"ל"
+
+#: html/user/validate_email_addr.php:58
+msgid "The email address of your account has been validated."
+msgstr "כתובת הדוא\"ל של חשבונך תוקפה."
+
+#: html/user/view_profile.php:38
+msgid "This user has no profile"
+msgstr "למשתמש זה אין פרופיל"
+
+#: html/user/view_profile.php:56
+msgid "Profile: %1"
+msgstr "פרופיל: %1"
+
+#: html/user/view_profile.php:65
+msgid "Account data"
+msgstr "נתוני חשבון"
+
+#: html/user/weak_auth.php:52
+msgid ""
+"You can access your account either by using your email address and password,\n"
+"    or by using an assigned 'account key'.\n"
+"    Your account key is:"
+msgstr ""
+
+#: html/user/weak_auth.php:57
+msgid "This key can be used to:"
+msgstr "מפתח זה יכול לשמש כדי:"
+
+#: html/user/weak_auth.php:59
+msgid "log in to your account on the web"
+msgstr "כנס לחשבון שלך באינטרנט"
+
+#: html/user/weak_auth.php:61
+msgid ""
+"to attach a computer to your account without using the BOINC Manager.\n"
+"       To do so, install BOINC,\n"
+"       create a file named %1 in the BOINC\n"
+"       data directory, and set its contents to:"
+msgstr ""
+
+#: html/user/weak_auth.php:73
+msgid "Weak account key"
+msgstr "מפתח חשבון חלש"
+
+#: html/user/weak_auth.php:74
+msgid ""
+"Your 'weak account key' can be used to attach computers to your account\n"
+"    as described above, but cannot be used to log in to your account or change it in any way.\n"
+"    If you want to attach untrusted or insecure computers to your account,\n"
+"    do so using your weak account key.\n"
+"    Your weak account key is:"
+msgstr ""
+
+#: html/user/weak_auth.php:81
+msgid ""
+"If you change your password, your weak account key changes, and your "
+"previous weak account key becomes invalid."
+msgstr ""
+
+#: html/user/workunit.php:46
+msgid "Workunit %1"
+msgstr "יחידת עבודה %1"
+
+#: html/user/workunit.php:51
+msgid "application"
+msgstr "יישום"
+
+#: html/user/workunit.php:54
+msgid "keywords"
+msgstr ""
+
+#: html/user/workunit.php:57
+msgid "canonical result"
+msgstr "תוצאה קאנונית"
+
+#: html/user/workunit.php:60
+msgid "granted credit"
+msgstr "נקודות זכות מוענקות"
+
+#: html/user/workunit.php:69
+msgid "Tasks in progress"
+msgstr "משימות בביצוע"
+
+#: html/user/workunit.php:69
+msgid "suppressed pending completion"
+msgstr "סיום ממתין שנדחק"
+
+#: html/user/workunit.php:72
+msgid "minimum quorum"
+msgstr ""
+
+#: html/user/workunit.php:73
+msgid "initial replication"
+msgstr "שכפול ראשוני"
+
+#: html/user/workunit.php:74
+msgid "max # of error/total/success tasks"
+msgstr "מספר מירבי של משימות שגויות/כוללות/מוצלחות"
+
+#: html/user/workunit.php:78
+msgid "errors"
+msgstr "שגיאות"
+
+#: html/user/workunit.php:81
+msgid "validation"
+msgstr "אימות"
+
+#: html/user/workunit.php:81
+msgid "Pending"
+msgstr "ממתין"
+
+#: html/user/workunit.php:102
+msgid "can't find workunit"
+msgstr "לא ניתן למצוא יחידת עבודה"
+
+#: html/project.sample/project.inc:132
+msgid "Generated"
+msgstr "נוצר"
+
+#: html/project.sample/project.inc:167
+msgid "Your personal background."
+msgstr "הרקע האישי שלך."
+
+#: html/project.sample/project.inc:171
+msgid ""
+"Tell us about yourself. You could tell us where you're from, your age, "
+"occupation, hobbies, or anything else about yourself."
+msgstr "ספר לנו על עצמך. תוכל לספר מהיכן אתה, מה גילך, עיסוקך, תחביביך או כל דבר אחר."
+
+#: html/project.sample/project.inc:175
+msgid "Your opinions about %1"
+msgstr "דעותיך על %1"
+
+#: html/project.sample/project.inc:179
+msgid ""
+"Tell us your thoughts about %1<ol>\n"
+"    <li>Why do you run %1?\n"
+"    <li>What are your views about the project?\n"
+"    <li>Any suggestions?\n"
+"    </ol>"
+msgstr "ספר לנו את מחשבותייך על %1<ol>\n<li>מדוע אתה מריץ את %1?\n<li>מהן השקפותייך על המיזם?\n<li>הצעות כלשהן?\n</ol>"
+
+#: html/project.sample/project_specific_prefs.inc:40
+msgid "Color scheme for graphics"
+msgstr "תרשימי צבעים עבור גרפיקות"
+
+#: html/project.sample/project_specific_prefs.inc:42
+#, no-php-format
+msgid "Maximum CPU % for graphics %1 0...100 %2"
+msgstr "% מעבד מקסימלי עבור גרפיקה %1 0...100 %2"
+
+#: html/project.sample/project_specific_prefs.inc:43
+msgid "Run only the selected applications"
+msgstr "הרץ את היישומים הנבחרים בלבד"
+
+#: html/project.sample/project_specific_prefs.inc:44
+msgid ""
+"Only get tasks for certain applications. Useful to focus on particular "
+"applications, or to exclude them."
+msgstr ""
+
+#: html/project.sample/project_specific_prefs.inc:45
+msgid ""
+"If no work for selected applications is available, accept work from other "
+"applications?"
+msgstr "אם לא קיימת עבודה עבור היישומים הנבחרים, האם לקבל עבודה מיישומים אחרים?"
+
+#: html/project.sample/project_specific_prefs.inc:46
+msgid "Use faster non-graphical applications if available?"
+msgstr "להשתמש ביישומים לא-גרפיים מבירים יותר אם קיימים?"
+
+#: html/project.sample/project_specific_prefs.inc:77
+msgid "(all applications)"
+msgstr "(כל היישומים)"
+
+#: html/project.sample/project_specific_prefs.inc:95
+#: html/project.sample/project_specific_prefs.inc:106
+msgid "No limit"
+msgstr "בלי הגבלה"
+
+#: html/project.sample/project_specific_prefs.inc:152
+msgid "Max # of jobs for this project"
+msgstr "מס. מקסימלי של עבודות עבור מיזם זה"
+
+#: html/project.sample/project_specific_prefs.inc:159
+msgid "Max # of CPUs for this project"
+msgstr "מס. מקסימלי של יחידות עיבוד עבור מיזם זה"
+
+#: html/project.sample/project_specific_prefs.inc:240
+#: html/project.sample/project_specific_prefs.inc:260
+msgid "Max # jobs"
+msgstr "מס. מקסימלי של עבודות"
+
+#: html/project.sample/project_specific_prefs.inc:243
+#: html/project.sample/project_specific_prefs.inc:263
+msgid "Max # CPUs"
+msgstr "מס. מקסימלי של יחידות עיבוד"

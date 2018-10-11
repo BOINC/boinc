@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -53,6 +53,8 @@
 #ifdef __WXMAC__
 #include "util.h"
 #include "mac_util.h"
+
+#include "mac_branding.h"
 #endif
 
 // Workaround for Linux refresh problem
@@ -230,12 +232,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
 
     strMenuName.Printf(
-        _("&%s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("&%s help"), 
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
@@ -817,7 +819,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 fscanf(f, "BrandId=%ld\n", &iBrandID);
                 fclose(f);
             }
-            if ((iBrandID > 0) && (iBrandID < 4))
+            if ((iBrandID > 0) && (iBrandID < NUMBRANDS))
 #endif
             {
                 // If successful, hide the main window if we showed it
@@ -832,7 +834,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             }
 #endif
         }
-    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach && !autoattach_in_progress()) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         if (pis.url.size() > 0) {
 
             strProjectName = pis.name.c_str();

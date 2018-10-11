@@ -2,7 +2,7 @@
 <!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2016 University of California
+  Copyright (C) 2018 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -367,7 +367,7 @@
     <string name="about_name">BOINC</string>
     <string name="about_version">Version</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">\u00A9 2003&#8211;2017 University of California, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003&#8211;2018 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC Corporation for their support.</string>
 

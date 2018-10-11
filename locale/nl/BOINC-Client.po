@@ -1,161 +1,177 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC client localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Jord <elst93@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-02-09 20:53+0000\n"
-"Last-Translator: Rom Walton\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-21 23:57+0000\n"
+"Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: acct_mgr.cpp:450 acct_mgr.cpp:459
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "Bericht van de account manager"
 
-#: client_msgs.cpp:81
+#: client/client_msgs.cpp:82
 msgid "Message from server"
 msgstr "Bericht van de server"
 
-#: client_state.cpp:258
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr "Sommige taken hebben meer geheugen nodig dan toegestaan door uw voorkeuren.  Controleer alstublieft de voorkeuren."
+msgstr "Sommige taken hebben meer geheugen nodig dan toegestaan door je voorkeuren.  Controleer alstublieft de voorkeuren."
 
-#: client_state.cpp:520
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Statusbestand aanmaken mislukt; controleer de maprechten"
 
-#: cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "De HTTP_PROXY omgevings-variabele verwijst niet naar een HTTP proxy"
 
-#: cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr "Het door u gebruikte URL is voor dit project niet geldig.  U wordt geadviseerd dit project te verwijderen en vervolgens %s toe te voegen"
+"This project is using an old URL.  When convenient, remove the project, then"
+" add %s"
+msgstr "Dit project gebruikt een oude URL. Wanneer het uitkomt, verwijder het project, en voeg dan %stoe"
 
-#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaxis fout in app_info.xml"
 
-#: cs_statefile.cpp:868
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Volgend bestand vermeld in app_info.xml bestaat niet: "
 
-#: current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "Er is een nieuwe BOINC versie beschikbaar."
+#: client/current_version.cpp:91
+msgid "A new version of BOINC is available"
+msgstr "Een nieuwe BOINC versie is beschikbaar"
 
-#: current_version.cpp:94 current_version.cpp:102
+#: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
 msgstr "Download"
 
-#: log_flags.cpp:269 log_flags.cpp:449
+#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+msgid ""
+"cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+msgstr "kan niet gebruikt worden voor CUDA of OpenCL berekeningen met CUDA driver 6.5 en later"
+
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "Onverwachte tekst in cc_config.xml"
 
-#: log_flags.cpp:423 log_flags.cpp:475
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Niet herkende instructie in cc_config.xml"
 
-#: log_flags.cpp:440
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "Ontbrekende start instructie in cc_config.xml"
 
-#: log_flags.cpp:465
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "Optie fout in cc_config.xml"
 
-#: log_flags.cpp:483
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "Ontbrekende eind instructie in cc_config.xml"
 
-#: ../sched/handle_request.cpp:307
+#: client/project.cpp:991
+msgid "To fix this, you can "
+msgstr "Om dit te  veranderen, kan u"
+
+#: client/project.cpp:994
+msgid "change Project Preferences on the project's web site"
+msgstr "de voorkeuren voor dit project op de website van het project veranderen"
+
+#: client/project.cpp:1000
+msgid "remove GPU exclusions in your cc_config.xml file"
+msgstr "je GPU uitsluitingen in je cc_config.xml verwijderen"
+
+#: client/project.cpp:1007
+msgid "change your settings at your account manager web site"
+msgstr "de instellingen op je accountmanagers website veranderen"
+
+#: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Ongeldige of ontbrekende account-key.  Oplossing: verwijder het project en voeg het vervolgens opnieuw toe."
 
-#: ../sched/handle_request.cpp:849
-msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "Ongeldige code signing-key.  Oplossing: verwijder het project en voeg het vervolgens opnieuw toe."
-
-#: ../sched/handle_request.cpp:859
+#: sched/handle_request.cpp:951
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "De beveiligingssleutel van het project is gewijzigd.  Verwijder dit project en voeg het vervolgens opnieuw toe."
 
-#: ../sched/handle_request.cpp:943
+#: sched/handle_request.cpp:1022
 msgid "This project doesn't support operating system"
 msgstr "Dit project ondersteunt het besturingssysteem niet"
 
-#: ../sched/handle_request.cpp:969
+#: sched/handle_request.cpp:1048
 msgid "This project doesn't support CPU type"
 msgstr "Dit project ondersteunt deze CPU niet"
 
-#: ../sched/handle_request.cpp:993
+#: sched/handle_request.cpp:1072
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Nieuwere versie van BOINC vereist.  Installeer a.u.b de meest recente."
 
-#: ../sched/handle_request.cpp:1259
+#: sched/handle_request.cpp:1347
 msgid "This project doesn't support computers of type"
 msgstr "Dit project ondersteund geen computers van het type"
 
-#: ../sched/sched_send.cpp:1092
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Om taken te kunnen verwerken met de aanwezige GPU, is het nodig om het stuurprogramma bij te werken"
 
-#: ../sched/sched_send.cpp:1099
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Om alle GPU-afhankelijke functies van dit project te benutten, is het nodig om het stuurprogramma bij te werken"
 
-#: ../sched/sched_send.cpp:1118
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Nieuwere versie van BOINC vereist voor de aanwezige NVIDIA GPU; instaleer a.u.b de meest recente"
 
-#: ../sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Dit project vereist een %s GPU om taken te verwerken"
 
-#: ../sched/sched_send.cpp:1262
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "Er is geen werk beschikbaar voor de geselecteerde applicaties."
 
-#: ../sched/sched_send.cpp:1288
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "Dit type computer wordt niet door het project ondersteund"
 
-#: ../sched/sched_send.cpp:1294
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "Nieuwere versie van BOINC vereist; installeer a.u.b de meest recente"
 
-#: ../sched/sched_send.cpp:1305
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "Er zijn taken voor %s beschikbaar, maar deze zijn bij de instellingen uitgesloten"
 
-#: ../sched/sched_types.cpp:254
-msgid "Unknown app name in app_info.xml"
-msgstr "Onbekende applicatie naam in app_info.xml"
-
-#: ../sched/sched_version.cpp:214
+#: sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Het app_info.xml bestand vermeldt geen bruikbare versie van"

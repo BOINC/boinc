@@ -304,16 +304,16 @@ void CLIENT_STATE::detect_platforms() {
 
 // write XML list of supported platforms
 //
-void CLIENT_STATE::write_platforms(PROJECT* p, MIOFILE& mf) {
-    if (p->anonymous_platform) {
-        mf.printf("    <platform_name>anonymous</platform_name>\n");
+void CLIENT_STATE::write_platforms(PROJECT* p, FILE *f) {
+    if (p && p->anonymous_platform) {
+        fprintf(f, "    <platform_name>anonymous</platform_name>\n");
     } else {
-        mf.printf(
+        fprintf(f,
             "    <platform_name>%s</platform_name>\n", get_primary_platform()
         );
         for (unsigned int i=1; i<platforms.size(); i++) {
             PLATFORM& platform = platforms[i];
-            mf.printf(
+            fprintf(f,
                 "    <alt_platform>\n"
                 "        <name>%s</name>\n"
                 "    </alt_platform>\n",

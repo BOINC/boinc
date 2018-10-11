@@ -36,10 +36,19 @@ struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
     // were mysterious bugs where setting it to "" didn't work
     //
+
+    // Account managers originally authenticated with name/password;
+    // e.g. BAM!, Gridrepublic.
+    // This has drawbacks, e.g. no way to change password.
+    // So we added the option of using a random-string authenticator.
+    // If this is present, use it rather than name/passwd.
+    //
     char login_name[256];   // unique name (could be email addr)
     char user_name[256];    // non-unique name
+    char team_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
+    char authenticator[256];
     char opaque[256];
         // opaque data, from the AM, to be included in future AM requests
     char signing_key[MAX_KEY_LEN];
@@ -52,6 +61,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // in AM RPCs (used for "farm management")
     bool no_project_notices;
         // if set, don't show notices from projects
+
+    // TODO: get rid of the following here and in the manager
     bool cookie_required;
         // use of cookies are required during initial signup
         // NOTE: This bool gets dropped after the client has
@@ -60,19 +71,34 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // if the cookies could not be detected, provide a
         // link to a website to go to so the user can find
         // what login name and password they have been assigned
+
     bool password_error;
-    bool send_rec;
-        // send REC in AM RPCs
+    bool dynamic;
+        // This AM dynamically decides what projects to assign.
+        // - send EC in AM RPCs
+        // - send starvation info if idle resources
     USER_KEYWORDS user_keywords;
+        // user's yes/no keywords.
+        // These are conveyed to projects in scheduler requests
+
+    // vars related to starvation prevention,
+    // where we issue a "starved RPC" if a resource has been idle
+    // for more than 10 min
+
+    double first_starved;           // start of starvation interval
+    double starved_rpc_backoff;     // interval between starved RPCs
+    double starved_rpc_min_time;    // earliest time to do a starved RPC
 
     inline bool using_am() {
         if (!strlen(master_url)) return false;
+        if (strlen(authenticator)) return true;
         if (!strlen(login_name)) return false;
         if (!strlen(password_hash)) return false;
         return true;
     }
-    inline bool same_am(const char* mu, const char* ln, const char* ph) {
+    inline bool same_am(const char* mu, const char* ln, const char* ph, const char* auth) {
         if (strcmp(mu, master_url)) return false;
+        if (!strcmp(auth, authenticator)) return true;
         if (strcmp(ln, login_name)) return false;
         if (strcmp(ph, password_hash)) return false;
         return true;
@@ -152,10 +178,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     bool got_rss_feeds;
     std::vector<RSS_FEED>rss_feeds;
 
-    int do_rpc(
-        std::string url, std::string name, std::string password,
-        bool via_gui
-    );
+    int do_rpc(ACCT_MGR_INFO&, bool via_gui);
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 

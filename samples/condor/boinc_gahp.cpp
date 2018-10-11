@@ -35,8 +35,9 @@
 #include "parse.h"
 #include "remote_submit.h"
 #include "svn_version.h"
+#include "version.h"
 
-#define BOINC_GAHP_VERSION "1.0.1"
+#define BOINC_GAHP_VERSION "1.0.2"
 
 using std::map;
 using std::pair;
@@ -70,6 +71,8 @@ struct SUBMIT_REQ {
     char app_name[256];
     vector<JOB> jobs;
     int batch_id;
+    JOB_PARAMS job_params;
+    char app_version_num[256];
 };
 
 struct LOCAL_FILE {
@@ -279,6 +282,21 @@ int COMMAND::parse_submit(char* p) {
         }
         submit_req.jobs.push_back(job);
     }
+    
+    JOB_PARAMS jp;
+    char *chr = NULL;
+    chr = strtok_r(NULL, " ", &p);
+    if (chr != NULL) {
+      jp.rsc_fpops_est = atof(chr);
+      jp.rsc_fpops_bound = atof(strtok_r(NULL, " ", &p));
+      jp.rsc_memory_bound = atof(strtok_r(NULL, " ", &p));
+      jp.rsc_disk_bound = atof(strtok_r(NULL, " ", &p));
+      jp.delay_bound = atof(strtok_r(NULL, " ", &p));
+      strlcpy(submit_req.app_version_num, strtok_r(NULL, " ", &p), sizeof(submit_req.app_version_num));
+    }
+
+    submit_req.job_params = jp;
+
     return 0;
 }
 
@@ -322,9 +340,10 @@ void handle_submit(COMMAND& c) {
         return;
     }
 
-    retval = submit_jobs(
+    retval = submit_jobs_params(
         project_url, authenticator,
-        req.app_name, req.batch_id, req.jobs, error_msg
+	req.app_name, req.batch_id, req.jobs, error_msg,
+	req.job_params, atoi(req.app_version_num)
     );
     if (retval) {
         sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);
@@ -495,7 +514,7 @@ void handle_fetch_output(COMMAND& c) {
             sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
             s = string(buf) + escape_str(error_msg);
         } else {
-            sprintf(buf, "cd %s; unzip %s_output.zip", req.dir, req.job_name);
+            sprintf(buf, "cd %s; unzip -o %s_output.zip >/dev/null", req.dir, req.job_name);
             retval = system(buf);
             if (retval) {
                 s = string("unzip\\ failed");
@@ -705,7 +724,7 @@ int COMMAND::parse_command() {
 }
 
 void print_version(bool startup) {
-    BPRINTF("%s$GahpVersion: %s %s BOINC\\ GAHP\\ GIT:%x $\n", startup ? "" : "S ", BOINC_GAHP_VERSION, __DATE__, GIT_REVISION);
+    BPRINTF("%s$GahpVersion: %s %s BOINC\\ %s\\ GAHP $\n", startup ? "" : "S ", BOINC_GAHP_VERSION, __DATE__, BOINC_VERSION_STRING);
 }
 
 int n_results() {

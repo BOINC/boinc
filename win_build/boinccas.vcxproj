@@ -102,7 +102,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -133,7 +133,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -161,7 +161,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -194,7 +194,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib;../win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>

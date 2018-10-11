@@ -1,4 +1,5 @@
-#/bin/sh
+#!/bin/sh
+set -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
@@ -17,30 +18,30 @@ export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+export STDCPPTC="$TCINCLUDES/lib/armv7-a/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
-export CC=arm-linux-androideabi-gcc
-export CXX=arm-linux-androideabi-g++
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
+export CC=arm-linux-androideabi-clang
+export CXX=arm-linux-androideabi-clang++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -march=armv7-a -Wl,--fix-cortex-a8"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -D__ANDROID_API__=19"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -D__ANDROID_API__=19"
+export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
+export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
-cd $BOINC
-if [ -n "$MAKECLEAN" ]; then
+cd "$BOINC"
+if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi

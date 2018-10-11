@@ -22,6 +22,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
+require_once("../inc/password_compat/password.inc");
 
 // check for email/password case
 //
@@ -34,7 +36,7 @@ if ($email_addr && $passwd) {
         admin_error_page("No account found with email address $email_addr");
     }
     $passwd_hash = md5($passwd.$email_addr);
-    if ($passwd_hash != $user->passwd_hash) {
+    if (!check_passwd_hash($user, $passwd_hash)) {
         admin_error_page("Login failed");
     }
     $authenticator = $user->authenticator;

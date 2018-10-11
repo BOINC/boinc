@@ -67,7 +67,6 @@ UINT CAShutdownBOINCManager::OnExecution()
     TCHAR       szWindowTitle[256];
     LRESULT     lrReturnValue = NULL;
     UINT        uiLoopCounter = 0;
-    UINT        uiReturn = -1;
 
     const UINT WM_TASKBARSHUTDOWN = ::RegisterWindowMessage(_T("TaskbarShutdown"));
 
@@ -83,7 +82,7 @@ UINT CAShutdownBOINCManager::OnExecution()
         hWndBOINCManagerSystray = FindWindow( _T("wxTaskBarExWindowClass"), _T("BOINCManagerSystray") );
         if ( NULL != hWndBOINCManagerSystray )
         {
-            GetWindowText( hWndBOINCManagerSystray, szWindowTitle, (sizeof(szWindowTitle) * sizeof(TCHAR)));
+            GetWindowText( hWndBOINCManagerSystray, szWindowTitle, (sizeof(szWindowTitle) / sizeof(TCHAR)));
             LogProgress( szWindowTitle );
 
             lrReturnValue = SendMessage( hWndBOINCManagerSystray, WM_TASKBARSHUTDOWN, NULL, NULL );

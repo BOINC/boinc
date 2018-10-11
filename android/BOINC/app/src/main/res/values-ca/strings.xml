@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versió</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2016 Universitat de Califòrnia, Berkeley.</string>
   <string name="about_copyright_reserved">Reservats tots els drets.</string>
   <string name="about_credits">Gràcies a l\'Institut Max Planck de Física Gravitacional, IBM Corporation i HTC Corporation pel seu suport.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

@@ -19,6 +19,8 @@
 // minimal set of utility functions, usable outside a BOINC project.
 // Doesn't pull in translation.inc etc.
 
+require_once("../inc/random_compat/random.inc");
+
 $generating_xml = false;
 
 function project_dir() {
@@ -169,36 +171,17 @@ function url_get_contents($url) {
     return $content;
 }
 
-// Stuff related to password hashing.
-// Originally we hashed with MD5.
-// But MD5 is so fast that brute-force cracking would be easy
-// for hackers who break into a project's server.
-// So now we additionally hash with bcrypt,
-// if available (PHP >= 5.5) via PHP's password_hash() function.
+
+// return hard-to-guess string of 32 random hex chars
 //
-// So there are two levels of hash:
+function random_string() {
+    return bin2hex(random_bytes(16));
+}
+
+// return high-resolution time
 //
-// hash_0: md5(password.email_addr)
-// hash_1: password_hash(hash_0, PASSWORD_DEFAULT)
-//
-// hash_0 is what gets sent over the network,
-// from the client and account manager RPCs.
-//
-// hash_1 is what gets stored in the DB
-//   except that hash_0 is stored in the DB if
-//   - the project has pre-5.5 PHP, or
-//   - the project hasn't run the update script (see below)
-//
-// It would be slightly more secure if hash_1 was used on the network.
-// But that would require a client and account manager change,
-// and it would require them to know whether the server has password_hash().
-//
-// We supply a script update_password_hash.php.
-// This changes the user table from hash_0 to hash_1.
-// Projects can run it whenever they want;
-// those using old PHP can wait until they upgrade PHP.
-//
-// To simplify the transition:
-// - When we're authorizing a user, 
+function dtime() {
+    return microtime(true);
+}
 
 ?>

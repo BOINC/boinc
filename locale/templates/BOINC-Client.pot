@@ -1,19 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2017 University of California
+# Copyright (C) 2018 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 08921a4611d2338c1ba4bc3493e2715cebda345a\n"
+"Project-Id-Version: BOINC 0a200b2dbfb038a0cd1eb2a7103d80f2e8a46879\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2017-11-09 20:14 UTC\n"
+"POT-Creation-Date: 2018-09-20 18:11 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-#: client/acct_mgr.cpp:502 client/acct_mgr.cpp:509
+#: client/acct_mgr.cpp:542 client/acct_mgr.cpp:549
 msgid "Message from account manager"
 msgstr ""
 
@@ -21,17 +21,17 @@ msgstr ""
 msgid "Message from server"
 msgstr ""
 
-#: client/client_state.cpp:312
+#: client/client_state.cpp:336
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
 
-#: client/client_state.cpp:669
+#: client/client_state.cpp:695
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 
-#: client/cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:297
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr ""
 
@@ -42,20 +42,41 @@ msgid ""
 "add %s"
 msgstr ""
 
-#: client/cs_statefile.cpp:850
+#: client/cs_statefile.cpp:856
 msgid "Syntax error in app_info.xml"
 msgstr ""
 
-#: client/cs_statefile.cpp:894
+#: client/cs_statefile.cpp:900
 msgid "File referenced in app_info.xml does not exist: "
 msgstr ""
 
+#: client/current_version.cpp:55
+msgid "Missing start tag in nvc_config.xml"
+msgstr ""
+
+#: client/current_version.cpp:64
+msgid "Unexpected text in nvc_config.xml"
+msgstr ""
+
 #: client/current_version.cpp:91
+msgid "Unrecognized tag in nvc_config.xml"
+msgstr ""
+
+#: client/current_version.cpp:99
+msgid "Missing end tag in nvc_config.xml"
+msgstr ""
+
+#: client/current_version.cpp:177
 msgid "A new version of BOINC is available"
 msgstr ""
 
-#: client/current_version.cpp:94 client/current_version.cpp:102
+#: client/current_version.cpp:180 client/current_version.cpp:191
 msgid "Download"
+msgstr ""
+
+#: client/current_version.cpp:183
+#, c-format
+msgid "A new version of %s is available"
 msgstr ""
 
 #: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
@@ -63,39 +84,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr ""
 
-#: client/log_flags.cpp:316 client/log_flags.cpp:496
+#: client/log_flags.cpp:319 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:470 client/log_flags.cpp:525
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:487
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:515
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr ""
 
-#: client/log_flags.cpp:533
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr ""
 
-#: client/project.cpp:991
+#: client/project.cpp:1003
 msgid "To fix this, you can "
 msgstr ""
 
-#: client/project.cpp:994
+#: client/project.cpp:1006
 msgid "change Project Preferences on the project's web site"
 msgstr ""
 
-#: client/project.cpp:1000
+#: client/project.cpp:1012
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr ""
 
-#: client/project.cpp:1007
+#: client/project.cpp:1019
 msgid "change your settings at your account manager web site"
 msgstr ""
 
@@ -122,7 +143,7 @@ msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
 
-#: sched/handle_request.cpp:1347
+#: sched/handle_request.cpp:1348
 msgid "This project doesn't support computers of type"
 msgstr ""
 

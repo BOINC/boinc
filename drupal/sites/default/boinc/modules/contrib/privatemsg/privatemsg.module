@@ -1431,7 +1431,7 @@ function privatemsg_user_name_autocomplete($string) {
   $matches = array();
   if (!empty($fragment)) {
     $query = _privatemsg_assemble_query('autocomplete', $fragment, $names);
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $result = db_query_range($query['query'], $fragment, 0, 10);
     db_set_active('default');
     $prefix = count($names) ? implode(', ', $names) . ', ' : '';

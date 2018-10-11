@@ -2,6 +2,7 @@
 
 require_once("../inc/util_ops.inc");
 require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
 
 admin_page_head("Add User");
 

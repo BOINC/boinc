@@ -25,6 +25,10 @@ require_once("../inc/text_transform.inc");
 
 define('THREADS_PER_PAGE', 50);
 
+$forum_error = "";
+    // for functions that return null on error,
+    // look here for an explanation
+
 // sorting styles (for both threads and posts)
 //
 define('MODIFIED_NEW', 1);
@@ -112,6 +116,17 @@ $special_user_bitfield[S_VOLUNTEER] = tra("Volunteer developer");
 $special_user_bitfield[S_VOLUNTEER_TESTER] = tra("Volunteer tester");
 $special_user_bitfield[S_SCIENTIST] = tra("Project scientist");
 $special_user_bitfield[S_HELP_DESK_EXPERT] = tra("Help desk expert");
+
+function link_count($x) {
+    $n = 0;
+    while (1) {
+        $x = strstr($x, "[url");
+        if (!$x) break;
+        $n++;
+        $x = substr($x, 4);
+    }
+    return $n;
+}
 
 // show a banner with search form on left and PM info on right
 //
@@ -865,12 +880,23 @@ function notify_subscribers($thread, $user) {
 // Don't do these things directly - use these functions
 //
 function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
+    global $forum_error;
+    if (POST_MAX_LINKS
+        && link_count($content) > POST_MAX_LINKS
+        && !is_moderator($user, $forum)
+    ) {
+        $forum_error = "Too many links.";
+        return null;
+    }
     $content = substr($content, 0, 64000);
     $content = BoincDb::escape_string($content);
     $now = time();
     $sig = $signature?1:0;
     $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', 0, $parent_id, 0, 0, $sig, 0)");
-    if (!$id) return null;
+    if (!$id) {
+        $forum_error = "Failed to add post to DB.";
+        return null;
+    }
 
     notify_subscribers($thread, $user);
 
@@ -900,6 +926,14 @@ function update_forum_timestamp($forum) {
 }
 
 function create_thread($title, $content, $user, $forum, $signature, $export) {
+    global $forum_error;
+    if (POST_MAX_LINKS
+        && link_count($content) > POST_MAX_LINKS
+        && !is_moderator($user, $forum)
+    ) {
+        $forum_error = "Too many links.";
+        return null;
+    }
     $title = trim($title);
     $title = sanitize_tags($title);
     $title = BoincDb::escape_string($title);
@@ -909,7 +943,10 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
         $status = 1;
     }
     $id  = BoincThread::insert("(forum, owner, status, title, timestamp, views, replies, activity, sufferers, score, votes, create_time, hidden, sticky, locked) values ($forum->id, $user->id, $status, '$title', $now, 0, -1, 0, 0, 0, 0, $now, 0, 0, 0)");
-    if (!$id) return null;
+    if (!$id) {
+        $forum_error = "Failed to add thread to DB.";
+        return null;
+    }
     $thread = BoincThread::lookup_id($id);
     create_post($content, 0, $user, $forum, $thread, $signature);
     $forum->update("threads=threads+1");

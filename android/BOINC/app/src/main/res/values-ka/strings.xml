@@ -334,11 +334,11 @@
   <string name="about_name">BOINC-ი</string>
   <string name="about_version">ვერსია</string>
   <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
-  <string name="about_copyright">\u00A9 2003-2016 კალიფორნიის უნივერსიტეტი, ბერკლი</string>
   <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
   <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
+    <item quantity="one">%2$,d ახალი შეტყობინება</item>
     <item quantity="other">%2$,d ახალი შეტყობინება</item>
   </plurals>
   <!--multi BOINC compatibility-->

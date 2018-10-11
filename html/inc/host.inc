@@ -122,6 +122,7 @@ function show_host($host, $user, $ipprivate) {
     if ($host->serialnum) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
+    row2(tra("Virtualization"), vbox_desc($host->serialnum));
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
     $v = boinc_version($host->serialnum);
     if ($v) {
@@ -224,7 +225,7 @@ function top_host_table_start($sort_by) {
     shuffle($host_sites);
     start_table('table-striped');
     $x = array(
-        tra("Computer info"),
+        tra("Info"),
         tra("Rank"),
         tra("Owner"),
     );
@@ -248,6 +249,32 @@ function top_host_table_start($sort_by) {
 
 function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
+}
+
+
+// Parse the Virtualbox version information from inside the serialnum field.
+// Prior to BOINC commit 6121ce1, the DB entry looked like e.g. "[vbox|5.0.0]"
+// where 5.0.0 gave the Virtualbox version number. After 6121ce1, the entry was
+// "[vbox|5.0.0|1|1]", where now two additional flags give information about
+// hardware virtualization support. Older clients may have the old-style
+// serialnum in the DB despite the server being upgraded.
+function vbox_desc($x){
+    if (preg_match("/\[vbox\|(.*?)(\|([01])\|([01]))?\]/",$x,$matches)){
+        $desc = "Virtualbox (".$matches[1].") ".tra("installed");
+        if (sizeof($matches)>2){
+            if ($matches[3]=="1" and $matches[4]=="1") {
+                return $desc.tra(", CPU has hardware virtualization support and it is enabled");
+            } elseif ($matches[3]=="1" and $matches[4]=="0") {
+                return $desc.tra(", CPU has hardware virtualization support but it is disabled");
+            } elseif ($matches[3]=="0") {
+                return $desc.tra(", CPU does not have hardware virtualization support");
+            }
+        } else {
+            return $desc;
+        }
+    } else {
+        return tra("None");
+    }
 }
 
 // Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],
@@ -796,7 +823,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
 function anonymize_hosts($user) {
     $hosts = BoincHost::enum("userid=$user->id");
     foreach ($hosts as $h) {
-        $h->update("domain_name='', last_ip_addr=''");
+        $h->update("domain_name='deleted', last_ip_addr=''");
     }
 }
 

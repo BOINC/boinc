@@ -304,7 +304,7 @@ int create_work2(
     // check for presence of result template.
     // we don't need to actually look at it.
     //
-    const char* p = config.project_path(result_template_filename);
+    const char* p = config_loc.project_path(result_template_filename);
     if (!boinc_file_exists(p)) {
         fprintf(stderr,
             "create_work: result template file %s doesn't exist\n", p

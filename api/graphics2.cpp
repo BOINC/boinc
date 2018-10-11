@@ -88,12 +88,7 @@ bool throttled_app_render(int x, int y, double t) {
             boinc_calling_thread_cpu_time(t0);
         }
         
-#ifdef __APPLE__
-        if (UseSharedOffscreenBuffer()) {
-            MacPrepareOffscreenBuffer();
-        }
-#endif
-        app_graphics_render(x, y, t);
+       app_graphics_render(x, y, t);
 
 #ifdef __APPLE__
         if (UseSharedOffscreenBuffer()) {

@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_loading">Kargatzen! Itxaron mesedez...</string>
+  <string name="generic_button_continue">Jarraitu</string>
+  <string name="generic_button_finish">Amaitu</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Aukeratu lagundu nahi dituzun proiektu zientifikoak:</string>
+  <string name="attachproject_list_header">Aukeratu proiektu bat</string>
+  <string name="attachproject_list_manual_button">Gehitu proiektua URL bidez</string>
+  <string name="attachproject_list_manual_dialog_title">Sartu proiektuaren URLa:</string>
+  <string name="attachproject_list_manual_dialog_button">Gehitu proiektua</string>
+  <string name="attachproject_list_manual_no_url">Sartu proiektuaren URLa</string>
+  <string name="attachproject_list_acctmgr_button">Gehitu kontu-administratzailea</string>
+  <string name="attachproject_list_no_internet">Ez dago Internet konexiorik</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Sartu kontuko informazioa</string>
+  <string name="attachproject_credential_input_desc">Sartu aukeratutako proiektuetan kontuko informazioa:</string>
+  <string name="attachproject_credential_input_show_pwd">Erakutsi pasahitza</string>
+  <string name="attachproject_individual_credential_input">Gehitu proiektuak banaka</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Arazoak egon dira proiektu zientifikoak gehitzerakoan:</string>
+  <string name="attachproject_conflict_undefined">Ezin izan da konektatu</string>
+  <string name="attachproject_conflict_not_unique">Kontua existitzen da pasahitz ezberdin batekin</string>
+  <string name="attachproject_conflict_bad_password">Pasahitza ez da zuzena</string>
+  <string name="attachproject_conflict_unknown_user">Kontua ez da existitzen</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontua ez da existitzen, joan proiektuaren webgunera izena emateko</string>
+  <!--working-->
+  <string name="attachproject_working_attaching">Gehitzen</string>
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Gogoragarria</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Nola lagundu:</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Konektatu WIFIra </string>
+  <string name="attachproject_hint_contribtion_charger">2. Entxufatu kargagailua</string>
+  <string name="attachproject_hint_contribtion_screen">3. Itzali pantaila</string>
+  <string name="attachproject_hint_projectwebsite_header">Begiratu proiektuaren webguneak:</string>
+  <string name="attachproject_hint_projectwebsite_science">Zientziari buruz azalpen gehiago</string>
+  <string name="attachproject_hint_projectwebsite_stats">Begiratu emandako laguntzaren estatistika</string>
+  <string name="attachproject_hint_projectwebsite_community">Jarri harremanetan beste bolondresekin</string>
+  <string name="attachproject_hint_platforms_header">Zure ordenagailuarentzat edo eramangarriarentzat ere eskuragarri dago BOINC, azalpen gehiagorako begiratu boinc.berkeley.edu.</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Proiektuaren zerbitzariarekin kontaktatzen...</string>
+  <string name="attachproject_login_image_description">Proiektuaren logoa.</string>
+  <string name="attachproject_login_header_general_area">Arlo orokorra:</string>
+  <string name="attachproject_login_header_specific_area">Arlo zehatza:</string>
+  <string name="attachproject_login_header_description">Azalpena:</string>
+  <string name="attachproject_login_header_home">Hasiera:</string>
+  <string name="attachproject_login_header_url">Webgunea:</string>
+  <string name="attachproject_login_header_platform">Android:</string>
+  <string name="attachproject_login_platform_supported">Proiektu honek onartzen du gailu mota hau</string>
+  <string name="attachproject_login_platform_not_supported">Proiektu honek ez du onartzen gailu mota hau</string>
+  <string name="attachproject_login_category_terms_of_use">Erabilpen baldintzak honentzat</string>
+  <string name="attachproject_login_accept_terms_of_use">Proiektu honetan kontu bat sortzearekin batera goiko erabilpen baldintzak onartzen dituzu.</string>
+  <string name="attachproject_login_category_login">Hasi saioa oraingo kontuarekin</string>
+  <string name="attachproject_login_header_id_email">Helbide elektronikoa:</string>
+  <string name="attachproject_login_header_id_name">Izena:</string>
+  <string name="attachproject_login_header_pwd">Pasahitza:</string>
+  <string name="attachproject_login_category_creation">Berria hemen</string>
+  <string name="attachproject_login_header_creation_enabled">Sortu kontu bat parte hartzeko:</string>
+  <string name="attachproject_login_header_creation_client_disabled">Joan proiektuaren webgunera kontu bat sortzeko:</string>
+  <string name="attachproject_login_header_creation_disabled">Proiektu honek ez du orain kontu berririk onartzen.</string>
+  <string name="attachproject_login_button_registration">Izena eman</string>
+  <string name="attachproject_login_button_login">Hasi saioa</string>
+  <string name="attachproject_login_button_forgotpw">Pasahitza ahaztuta</string>
+  <string name="attachproject_login_error_toast">Ezin izan da proiektuarekin kontaktatu!</string>
+  <string name="attachproject_login_attached">Gehituta</string>
+  <!--project registration-->
+  <string name="attachproject_registration_header">Kontuaren izen-ematea honentzat:</string>
+  <string name="attachproject_registration_header_url">Proiektua:</string>
+  <string name="attachproject_registration_header_email">Helbide elektronikoa:</string>
+  <string name="attachproject_registration_header_username">Izena:</string>
+  <string name="attachproject_registration_header_teamname">Taldea:</string>
+  <string name="attachproject_registration_header_pwd">Pasahitza:</string>
+  <string name="attachproject_registration_header_pwd_confirm">... Berridatzi:</string>
+  <string name="attachproject_registration_button">Sortu</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">Erabili BOINCen kontu-administratzailea proiektuak gehitu eta kudeatzeko</string>
+  <string name="attachproject_acctmgr_header">Gehitu kontu-administratzailea</string>
+  <string name="attachproject_acctmgr_header_url">URLa</string>
+  <string name="attachproject_acctmgr_header_name">Erabiltzailea:</string>
+  <string name="attachproject_acctmgr_header_pwd">Pasahitza:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Berridatzi:</string>
+  <string name="attachproject_acctmgr_button">Gehitu</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Ez da erabiltzailea aurkitu</string>
+  <string name="attachproject_error_short_pwd">Pasahitza laburregia</string>
+  <string name="attachproject_error_no_internet">Konexio akatsa</string>
+  <string name="attachproject_error_pwd_no_match">Pasahitzak ez datoz bat</string>
+  <string name="attachproject_error_pwd_no_retype">Idatzi pasahitza berriro</string>
+  <string name="attachproject_error_no_url">Sartu URLa</string>
+  <string name="attachproject_error_no_email">Sartu helbide elektronikoa</string>
+  <string name="attachproject_error_no_pwd">Sartu pasahitza</string>
+  <string name="attachproject_error_no_name">Sartu erabiltzaile-izena</string>
+  <string name="attachproject_error_unknown">huts eginda</string>
+  <string name="attachproject_error_bad_username">Erabiltzaile izena baztertu da</string>
+  <string name="attachproject_error_email_in_use">Helbide elektronikoa dagoeneko erabilita</string>
+  <string name="attachproject_error_project_down">Proiektua lineaz kanpo dago</string>
+  <string name="attachproject_error_email_bad_syntax">helbide elektronikoa baztertu da</string>
+  <string name="attachproject_error_bad_pwd">Pasahitza baztertu da</string>
+  <string name="attachproject_error_creation_disabled">Kontu-sortzea desgaituta dago proiektu honetan</string>
+  <string name="attachproject_error_invalid_url">URL baliogabea</string>
+  <!--working activity-->
+  <string name="attachproject_working_back_button">Atzera</string>
+  <string name="attachproject_working_finish_button">Amaitu</string>
+  <string name="attachproject_working_check_desc">Arrakastatsua</string>
+  <string name="attachproject_working_failed_desc">Huts eginda</string>
+  <string name="attachproject_working_ongoing">...</string>
+  <string name="attachproject_working_finished">.</string>
+  <string name="attachproject_working_description">:</string>
+  <string name="attachproject_working_connect">Konektatu</string>
+  <string name="attachproject_working_verify">Egiaztatu kontua</string>
+  <string name="attachproject_working_register">Erregistratu kontua</string>
+  <string name="attachproject_working_login">Hasi saioa</string>
+  <string name="attachproject_working_acctmgr">Gehitu kontu-administratzailea</string>
+  <string name="attachproject_working_acctmgr_sync">Sinkronizatu</string>
+  <!--main activity-->
+  <string name="main_noproject_warning">Sakatu hemen proiektu bat aukeratzeko.</string>
+  <string name="main_error">Whooops</string>
+  <string name="main_error_long">...ez luke hau gertatu behar!\Klik egin ikonoan berriro saiatzeko.</string>
+  <string name="main_title_icon_desc">BOINC ikonoa</string>
+  <!--tab names-->
+  <string name="tab_status">Egoera</string>
+  <string name="tab_projects">Proiektuak</string>
+  <string name="tab_tasks">Atazak</string>
+  <string name="tab_transfers">Transferentziak</string>
+  <string name="tab_preferences">Hobespenak</string>
+  <string name="tab_notices">Oharrak</string>
+  <string name="tab_desc">Nabigazioa</string>
+  <!--status strings-->
+  <string name="status_running">Prozesatzen</string>
+  <string name="status_running_long">Eskerrik asko parte hartzeagatik.</string>
+  <string name="status_paused">Etenda</string>
+  <string name="status_idle">Egitekorik gabe</string>
+  <string name="status_idle_long">Atazen zain...</string>
+  <string name="status_computing_disabled">Etenda</string>
+  <string name="status_computing_disabled_long">Sakatu erreproduzitu, sarea eta konputazioa berriro hasteko.</string>
+  <string name="status_launching">Hasten...</string>
+  <string name="status_noproject">Aukeratu proiektu bat bertan parte hartzeko.</string>
+  <string name="status_closing">Ixten...</string>
+  <string name="status_benchmarking">Errendimendu-proba gauzatzen...</string>
+  <string name="status_image_description">proiektuaren irudia</string>
+  <!--preferences tab strings-->
+  <string name="prefs_loading">Hobespenak irakurtzen...</string>
+  <string name="prefs_submit_button">Gorde</string>
+  <string name="prefs_dialog_title">Sartu balio berria:</string>
+  <string name="prefs_dialog_title_selection">Aukeratu:</string>
+  <string name="prefs_category_general">Orokorra</string>
+  <string name="prefs_category_network">Sarea</string>
+  <string name="prefs_category_power">Korrontea</string>
+  <string name="prefs_category_cpu">PUZa</string>
+  <string name="prefs_category_storage">Biltegiratzea</string>
+  <string name="prefs_category_memory">Memoria</string>
+  <string name="prefs_category_debug">Araztu</string>
+  <string name="prefs_show_advanced_header">Erakutsi hobespen aurreratuak eta kontrolak...</string>
+  <string name="prefs_suspend_when_screen_on">Pausarazi konputazioa pantaila piztuta dagoenean</string>
+  <string name="prefs_stationary_device_mode_header">Gailu-egonkor modua</string>
+  <string name="prefs_stationary_device_mode_description">Konputazioa baimentzen du energia hobespenei jaramonik egin gabe. Gaitu soilik gailuak bateriarik ez badu.</string>
+  <string name="prefs_power_source_header">Konputaziorako energia iturriak</string>
+  <string name="prefs_power_source_description">BOINCek konputaziorako erabil ditzakeen energia iturriak aukeratzen ditu.</string>
+  <string name="prefs_power_source_ac">Lokia</string>
+  <string name="prefs_power_source_usb">USB konexioa</string>
+  <string name="prefs_power_source_wireless">Haririk gabeko kargagailua</string>
+  <string name="prefs_power_source_battery">Bateria</string>
+  <string name="battery_charge_min_pct_header">Bateriaren gutxieneko karga-maila</string>
+  <string name="battery_charge_min_pct_description">BOINCek konputazioa eteten du bateriaren karga-maila zehaztutakoa baino baxuagoa denean.</string>
+  <string name="battery_temperature_max_header">Bateriaren gehieneko tenperatura</string>
+  <string name="battery_temperature_max_description">BOINCek konputazioa eteten du bateriaren tenperatura zehaztutakoa baino altuagoa denean. Ez da gomendatzen balio hau aldatzea.</string>
+  <string name="prefs_disk_max_pct_header">Erabilitako gehieneko biltegiratze tamaina</string>
+  <string name="prefs_disk_max_pct_description">Zure gailuko biltegiratze tamainaren ehuneko zenbat erabil dezake BOINCek?</string>
+  <string name="prefs_disk_min_free_gb_header">Gutxieneko biltegiratze tamaina libre</string>
+  <string name="prefs_disk_min_free_gb_description">Zure gailuko biltegiratze tamainatik zenbat gelditu beharko litzateke libre?</string>
+  <string name="prefs_disk_access_interval_header">Sartzeko denbora-tartea</string>
+  <string name="prefs_disk_access_interval_description">Diskoko atzipenen arteko denbora-tartea iradokitzen du</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Eguneko transferentzia muga</string>
+  <string name="prefs_network_daily_xfer_limit_mb_description">BOINCek eragindako eguneroko datu-trafikoa mugatzen du.</string>
+  <string name="prefs_network_wifi_only_header">Transferitu atazak soilik WiFia dagoenean</string>
+  <string name="prefs_autostart_header">Abiarazte automatikoa</string>
+  <string name="prefs_show_notification_notices_header">Erakutsi ohar berrien jakinarazpenak</string>
+  <string name="prefs_show_notification_suspended_header">Erakutsi jakinarazpena etenda dagoenean</string>
+  <string name="prefs_cpu_number_cpus_header">Erabilitako prozesadore-nukleoak</string>
+  <string name="prefs_cpu_number_cpus_description">BOINCek konputaziorako erabiltzen dituen prozesadore-nukleo kopurua mugatzen du.</string>
+  <string name="prefs_cpu_other_load_suspension_header">Eten PUZaren erabilerak maila hau gainditzen badu:</string>
+  <string name="prefs_cpu_other_load_suspension_description">Beste aplikazioen PUZaren erabileragatik BOINCek konputazioa noiz pausarazten duen zehazten du.</string>
+  <string name="prefs_cpu_time_max_header">PUZ muga</string>
+  <string name="prefs_cpu_time_max_description">Mugatu BOINCek konputaziorako erabiltzen duen PUZ denbora.</string>
+  <string name="prefs_memory_max_idle_header">RAM memoriaren muga</string>
+  <string name="prefs_memory_max_idle_description">Atazek erabil dezaketen RAM kopurua mugatzen du.</string>
+  <string name="prefs_client_log_flags_header">BOINC bezeroaren erregistro banderak</string>
+  <string name="prefs_gui_log_level_header">GUIren erregistro maila</string>
+  <string name="prefs_gui_log_level_description">GUIren erregistro-mezuen luzera zehazten du.</string>
+  <string name="prefs_unit_celsius">°C</string>
+  <string name="prefs_unit_seconds">seg</string>
+  <!--projects tab strings-->
+  <string name="projects_loading">Proiektuak irakurtzen...</string>
+  <string name="projects_add">Gehitu proiektua</string>
+  <string name="projects_icon">Proiektuaren ikonoa</string>
+  <string name="projects_credits">Kreditua:</string>
+  <string name="projects_credits_host_and_user">%1$,d (gailu honetan) %2$,d (guztira)</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Erabiltzaileak etena</string>
+  <string name="projects_status_dontrequestmorework">Ez da ataza berririk deskargatuko</string>
+  <string name="projects_status_ended">Proiektua amaituta - ezabatzeko prest</string>
+  <string name="projects_status_detachwhendone">Atazak burututakoan ezabatuko da</string>
+  <string name="projects_status_schedrpcpending">Antolatzaileari eskaera egiteke</string>
+  <string name="projects_status_schedrpcinprogress">Antolatzaileari eskaera egiten</string>
+  <string name="projects_status_trickleuppending">Mezua zerbitzarira bidaltzeke</string>
+  <string name="projects_status_backoff">Komunikazioa programatuta:</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">Proiektuko aginduak:</string>
+  <string name="projects_control_visit_website">Begiratu webgunea</string>
+  <string name="projects_control_update">Eguneratu</string>
+  <string name="projects_control_remove">Kendu</string>
+  <string name="projects_control_suspend">Eten</string>
+  <string name="projects_control_resume">Berrekin</string>
+  <string name="projects_control_nonewtasks">Ez eskatu ataza gehiago</string>
+  <string name="projects_control_allownewtasks">Onartu ataza berriak</string>
+  <string name="projects_control_reset">Berrezarri</string>
+  <string name="projects_control_dialog_title_acctmgr">Kontu-administratzaileko aginduak:</string>
+  <string name="projects_control_sync_acctmgr">Sinkronizatu</string>
+  <string name="projects_control_remove_acctmgr">Desgaitu</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_title">Proiektua kendu?</string>
+  <string name="projects_confirm_detach_message">Ziur al zaude ezabatu nahi duzula</string>
+  <string name="projects_confirm_detach_message2">BOINCetik?</string>
+  <string name="projects_confirm_detach_confirm">Kendu</string>
+  <string name="projects_confirm_reset_title">Berrabiarazi proiektua </string>
+  <string name="projects_confirm_reset_message">Ziur al zaude berrabiarazi nahi duzula</string>
+  <string name="projects_confirm_reset_message2">\?</string>
+  <string name="projects_confirm_reset_confirm">Berrezarri</string>
+  <string name="projects_confirm_remove_acctmgr_title">Desgaitu kontu-administratzailea</string>
+  <string name="projects_confirm_remove_acctmgr_message">Ziur al zaude erabiltzeari utzi nahi diozula</string>
+  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Desgaitu</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_name">Atazaren izena: </string>
+  <string name="tasks_header_elapsed_time">Igarotako denbora:</string>
+  <string name="tasks_header_project_paused">(etenda)</string>
+  <string name="tasks_header_deadline">Epemuga:</string>
+  <string name="tasks_result_new">berria</string>
+  <string name="tasks_result_files_downloading">jaisteko itxaroten</string>
+  <string name="tasks_result_files_downloaded">deskarga burututa</string>
+  <string name="tasks_result_compute_error">kalkulu errorea</string>
+  <string name="tasks_result_files_uploading">bidaltzen</string>
+  <string name="tasks_result_files_uploaded">karga burututa</string>
+  <string name="tasks_result_aborted">geldiarazia</string>
+  <string name="tasks_result_upload_failed">bidalketak huts egin du </string>
+  <string name="tasks_active_uninitialized">prest</string>
+  <string name="tasks_active_executing">exekutatzen</string>
+  <string name="tasks_active_suspended">etenda</string>
+  <string name="tasks_active_abort_pending">eteten</string>
+  <string name="tasks_active_quit_pending">eteten</string>
+  <string name="tasks_custom_suspended_via_gui">etenda</string>
+  <string name="tasks_custom_project_suspended_via_gui">proiektua etenda</string>
+  <string name="tasks_custom_ready_to_report">emaitzak bidaltzeko prest</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_title">Ataza bertan behera utzi?</string>
+  <string name="confirm_abort_task_message">Bertan behera utzi ataza:</string>
+  <string name="confirm_abort_task_confirm">Bertan behera utzi</string>
+  <string name="confirm_cancel">Utzi</string>
+  <string name="confirm_image_desc">Berresteko elkarrizketa-koadroa</string>
+  <!--transfers tab strings-->
+  <string name="trans_loading">Transferentziak irakurtzen...</string>
+  <string name="trans_upload">Kargatu</string>
+  <string name="trans_download">Jaitsi</string>
+  <string name="trans_retryin">saiatu berriro</string>
+  <string name="trans_failed">huts eginda</string>
+  <string name="trans_suspended">etenda</string>
+  <string name="trans_active">aktibo</string>
+  <string name="trans_pending">egiteke</string>
+  <string name="trans_projectbackoff">proiektua geldituta</string>
+  <string name="trans_header_name">Fitxategia:</string>
+  <string name="trans_control_retry">Saiatu transferentziak gauzatzen</string>
+  <string name="confirm_abort_trans_title">Transferentzia bertan behera utzi?</string>
+  <string name="confirm_abort_trans_message">Bertan behera utzi fitxategia:</string>
+  <string name="confirm_abort_trans_confirm">Bertan behera utzi</string>
+  <!--notices tab strings-->
+  <string name="notices_loading">Oharrak irakurtzen...</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_loading">Erregistroko mezuak kargatzen...</string>
+  <string name="eventlog_client_header">Bezeroaren mezuak</string>
+  <string name="eventlog_gui_header">GUIko mezuak</string>
+  <string name="eventlog_copy_toast">Erregistroa arbelean kopiatuta.</string>
+  <string name="eventlog_email_subject">BOINCeko gertaeren erregistroa Android-en:</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">Konputazioa etenda.</string>
+  <string name="suspend_batteries">Konektatu zure gailua kargagailu batera konputazioarekin jarraitzeko.</string>
+  <string name="suspend_screen_on">Itzali pantaila konputazioarekin jarraitzeko.</string>
+  <string name="suspend_useractive">Erabiltzailea aktibo dago.</string>
+  <string name="suspend_tod">Konputazio denbora-tartetik kanpo.</string>
+  <string name="suspend_bm">Errendimendu-proba ari da egiten BOINC zure gailuan...</string>
+  <string name="suspend_disksize">Diskoan lekurik gabe.</string>
+  <string name="suspend_cputhrottle">PUZaren bizkortzaile programatua.</string>
+  <string name="suspend_noinput">Azkenaldian erabiltzaile-jarduerarik ez.</string>
+  <string name="suspend_delay">Hasieraketa atzerapena.</string>
+  <string name="suspend_exclusiveapp">Aplikazio bat modu esklusiboan exekutatzen ari da .</string>
+  <string name="suspend_cpu">Zure gailua lanpetuta dago beste aplikazioekin.</string>
+  <string name="suspend_network_quota">Sareko transferentzien mugara heldu da BOINC.</string>
+  <string name="suspend_os">Android-ek gelditua.</string>
+  <string name="suspend_wifi">WiFi-ra konektatu gabe.</string>
+  <string name="suspend_battery_charging">Bateria kargatzeko zain.</string>
+  <string name="suspend_battery_charging_long">Konputazioari berrekingo zaio bateriak ondorengo karga maila lortzean:</string>
+  <string name="suspend_battery_charging_long2"></string>
+  <string name="suspend_battery_charging_current">une honetan</string>
+  <string name="suspend_battery_overheating">Bateria hoztu zain</string>
+  <string name="suspend_user_req">Konputazioari berrekiten...</string>
+  <string name="suspend_network_user_req">eskuz.</string>
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Erabiltzaileak eskatua</string>
+  <string name="rpcreason_needwork">Bilatu lana</string>
+  <string name="rpcreason_resultsdue">Burututako atazen berri eman</string>
+  <string name="rpcreason_trickleup">Bidali mezua zerbitzarira</string>
+  <string name="rpcreason_acctmgrreq">Kontu-administratzaileak eskatua</string>
+  <string name="rpcreason_init">Proiektuaren hasieratzea</string>
+  <string name="rpcreason_projectreq">Proiektuak eskatua</string>
+  <string name="rpcreason_unknown">Arrazoi ezezaguna</string>
+  <!--menu-->
+  <string name="menu_refresh">Eguneratu</string>
+  <string name="menu_emailto">Bidali posta elektroniko moduan</string>
+  <string name="menu_copy">Kopiatu arbelean</string>
+  <string name="menu_eventlog">Gertaeren erregistroa</string>
+  <string name="menu_exit">Irten BOINCetik</string>
+  <string name="menu_run_mode_disable">Eten</string>
+  <string name="menu_run_mode_enable">Berrekin</string>
+  <string name="menu_about">Honi buruz</string>
+  <string name="menu_help">Laguntza</string>
+  <!--about dialog-->
+  <string name="about_button">Itzuli</string>
+  <string name="about_title">Honi buruz</string>
+  <string name="about_name">BOINC</string>
+  <string name="about_version">Bertsioa</string>
+  <string name="about_name_long">Sare bidezko Konputaziorako Berkeleyko Azpiegitura Irekia</string>
+  <string name="about_copyright_reserved">Eskubide guztiak erreserbatuta.</string>
+  <string name="about_credits">Eskerrik asko Max Planck-en Grabitazioaren Fisikako Institutuari, IBM Korporazioari eta HTC Korporazioari beraien laguntzagatik.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">%1$s(e)tik ohar berriak</item>
+    <item quantity="other">%2$,d ohar berri</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">Borondatezko konputazio-aplikazioa hauteman da</string>
+  <string name="nonexcl_dialog_text">Borondatezko beste konputazio-aplikazio bat exekutatzen ari da gailu honetan. Aldi bakoitzean bakarra exekuta daiteke soilik.</string>
+  <string name="nonexcl_dialog_exit">Irten</string>
+  <!--social integration-->
+  <string name="social_invite_button">Gonbidatu lagunak</string>
+  <string name="social_invite_intent_title">Nola nahi duzu partekatu?</string>
+  <string name="social_invite_content_title">Zientzia egiten ari naiz nire telefono adimendunean!</string>
+  <string name="social_invite_content_body">Nire %1$s erabiltzen ari naiz konputazio bidezko zientzia egiteko. Zuk ere egin dezakezu! Jaitsi aplikazioa hemendik: %2$s</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+</resources>

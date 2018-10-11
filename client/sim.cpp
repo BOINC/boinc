@@ -385,7 +385,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         app_versions[i]->dont_use = false;
     }
 
-    work_fetch.request_string(buf2);
+    work_fetch.request_string(buf2, sizeof(buf2));
     sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
     html_msg += buf;
 
@@ -448,7 +448,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         decrement_request(rp);
     }
 
-    njobs += new_results.size();
+    njobs += (int)new_results.size();
     msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
     sprintf(buf, "got %lu tasks<br>", new_results.size());
     html_msg += buf;

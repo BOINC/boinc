@@ -53,7 +53,7 @@ function boincuser_menu() {
     'title' => 'Edit',
     'description' => 'Edit a user profile',
     'page callback' => 'boincuser_edit_profile',
-    'access callback' => 'user_is_logged_in',
+    'access arguments' => array('edit own profile content'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
@@ -130,6 +130,14 @@ function boincuser_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+  $items['user/termsofuse'] = array(
+    'title' => bts('Terms of Use', array(), NULL, 'boinc:termsofuse-form'),
+    'description' => 'A site\'s term of use.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_termsofuse_form'),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   $items['user_control'] = array(
     'page callback' => 'boincuser_control',
     'access arguments' => array('access user profiles'),
@@ -187,13 +195,34 @@ function boincuser_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  $items['boincuser/autocomplete'] = array(
+    'page callback' => '_boincuser_user_name_autocomplete',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['user/%user/recoveremail/%'] = array(
+    'title' => t('Recover previous email'),
+    'description' => t('Form to revert email to previous address.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_revertemail', 3),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
+  $items['recover_email.php'] = array(
+    'title' => t('Recover previous email'),
+    'description' => t('redirect'),
+    'page callback' => '_boincuser_redirect_recover_email',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
 /**
- *
+ * Implementation of hook_init()
  */
 function boincuser_init() {
+  global $user;
   // Skip this check for charts, which are loaded separately
   // (may get duplicate or unexpected messages otherwise)
   if (substr($_GET['q'], 0, 7) == 'charts/') {
@@ -214,6 +243,53 @@ function boincuser_init() {
     // Display any persistent team messages
     boincteam_show_messages();
   }
+
+  // Check if user has agreed to the terms of use. If not, send the
+  // user to the terms-of-use form. This is only makes sense if the
+  // termsofuse is enabled, by having text in the termsofuse variable.
+  $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if ( (!empty($termsofuse)) and ($user->uid) ) {
+    if ( !boincuser_check_termsofuse($user) and ($existinguser_tou) ) {
+
+      // Admins are exempt, otherwise the admin may not be able to
+      // access the site!
+      $administrator_role = array_search('administrator', user_roles(true));
+      if (!isset($user->roles[$administrator_role])) {
+        $path = drupal_get_path_alias($_GET['q']);
+
+        // Any paths that should NOT be redirected go here.
+        // The site will not function correctly if these are not exempt!
+        $paths0 = array(
+          'user/termsofuse',
+          'logout',
+          'account/info/edit',
+          'user/' . $user->uid . '/edit',
+          'user/' . $user->uid . '/recoveremail/*',
+          'recover_email.php',
+        );
+        if (module_exists('boincuser_delete')) {
+          $paths0[] = 'user/' . $user->uid . '/delete';
+          $paths0[] = 'user/' . $user->uid . '/deleteconfirm/*';
+          $paths0[] = 'user/' . $user->uid . '/odeleteconfirm/*';
+        }
+
+        // Paths added by the admin
+        $paths1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_pathstoignore', "moderation\ncontent/moderation\nprivacy"));
+        $paths2 = array();
+        if (is_array($paths1)) {
+          $paths2 = array_map('strtolower', $paths1);
+        }
+
+        // paths to ignore
+        $paths_to_ignore = array_unique( array_merge($paths0, $paths2) );
+
+        if (!_boincuser_ignore_paths($path, $paths_to_ignore)) {
+          drupal_goto('user/termsofuse');
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -221,6 +297,11 @@ function boincuser_init() {
  * Drupal user operations
  */
 function boincuser_user($op, &$edit, &$account, $category = NULL) {
+  require_boinc('boinc_db');
+  require_boinc('user');
+  require_boinc('xml');
+
+  require_boinc('password_compat/password');
   // Handle BOINC integration for users with UID > 1 (skip anonymous and admin)
   if ($account->uid > 1) {
     switch($op) {
@@ -233,7 +314,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       ));
       $account->boincuser_id = $drupal_user->boinc_id;
       $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $boinc_user = db_fetch_object(db_query("
         SELECT
           name,
@@ -244,7 +325,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           expavg_time,
           cross_project_id,
           teamid,
-          venue
+          venue,
+          previous_email_addr,
+          email_addr_change_time
         FROM {user}
         WHERE id = %d",
         $account->boincuser_id
@@ -258,6 +341,8 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
       $account->boincuser_default_pref_set = $boinc_user->venue;
       $account->boincteam_id = $boinc_user->teamid;
+      $account->boincuser_previous_email_addr = $boinc_user->previous_email_addr;
+      $account->boincuser_email_addr_change_time = $boinc_user->email_addr_change_time;
       db_set_active('default');
       // Set Drupal team ID
       $account->team = NULL;
@@ -305,26 +390,6 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     case 'validate':
       if (isset($edit['validation_source'])) {
         switch ($edit['validation_source']) {
-        case 'user_register':
-          // Information being checked before adding a user
-          if (!boincuser_register_validate($edit)) {
-            // BOINC user validation failed for registration; set an error accordingly
-            form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT), NULL, 'boinc:add-new-user'));
-          }
-          else {
-            // Save profile information for use during Insert
-            $_SESSION['profileInfo'] = array(
-              'country' => $edit['field_country'][0]['value'],
-              'zip' => $edit['field_zip'][0]['value'],                  
-              'url' => $edit['field_url'][0]['value'],
-              'background' => $edit['field_background'][0]['value'],
-              'opinions' => $edit['field_opinions'][0]['value']
-            );
-            // With BOINC validation passed, make sure name is unique
-            $edit['name'] = create_proper_drupalname($edit['boincuser_name']);
-          }
-          break;
-          
         case 'user_account':
           // Validate data before updating user account info
           boincuser_account_validate($edit, $account);
@@ -340,9 +405,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       
     case 'insert':
       // New user being added to the system
-      $profile_info = $_SESSION['profileInfo'];
       $imported = $_SESSION['importedUser'];
-      unset($_SESSION['profileInfo']);
       unset($_SESSION['importedUser']);
       
       watchdog(
@@ -352,51 +415,79 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         WATCHDOG_NOTICE
       );
       
-      // NOTE: Registrations are normally handled via the create_account RPC,
-      // so the following will not run (kept in case form registration is used)
-      
-      // If from the registration form, create a BOINC user and relationships
-      
-      if ($profile_info and !$imported) {
-        // Create a BOINC account unless importing from BOINC
+      // The create_acount RPC will call this block of code when
+      // user_save() is used. If user is registering using the Web
+      // registration form, create a BOINC user and relationships.
+      // Create a BOINC account unless importing from BOINC.
+      if (!$imported) {
+
+        // set email address lower-case
+        $lower_email_addr = strtolower($edit['mail']);
+
+        if ($edit['boincuser_name']) {
+          $myname = $edit['boincuser_name'];
+        }
+        else if ($edit['name']) {
+          $myname = $edit['name'];
+        }
+        else {
+          $myname = 'noname';
+        }
+
         $user_params = array(
-          'email_addr' => $edit['mail'],
-          'name' => $edit['boincuser_name'],
-          'passwd_hash' => md5($edit['pass'].$edit['mail']),
-          'country' => $profile_info['country'],
-          'postal_code' => $profile_info['zip']
+          'email_addr' => $lower_email_addr,
+          'name' => $myname,
         );
+
+        // If the 'pass' variable is already a hash, then don't hash it again.
+        if ($edit['boinchash_flag']) {
+          $user_params['passwd_hash'] = $edit['pass'];
+        }
+        else {
+          // The passwd_hash here is only the md5() hash. This is
+          // because BOINC make_user(), called later, will run
+          // password_hash() on this md5 hash.
+          $user_params['passwd_hash'] = md5($edit['pass'].$lower_email_addr);
+        }
+
         $boinc_user = boincuser_register_make_user($user_params);
         if (!$boinc_user) {
           // Account exists with this email addr
           form_set_error('email', bts('Error creating BOINC account.', array(), NULL, 'boinc:add-new-user'));
           return;
         }
+
         // Add user to community role by default (not banned)
         $unrestricted_role = array_search('community member', user_roles(true)); 
         $edit['roles'] = array(
           $unrestricted_role => ''
         );
-        // Set profile data in BOINC db
-        db_set_active('boinc');
-        // TODO: add language, image support; error handling
-        $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
-        if (!$reference) {
-          drupal_set_message(t('Error creating BOINC profile.'), 'error');
-        }
-        $reference = db_query("UPDATE {user} SET url='%s' WHERE id='%d'", $profile_info['url'], $boinc_user->id);
-        if (!$reference) {
-          drupal_set_message(t('Error updating BOINC account.'), 'error');
-        }
+
+        // Disable show_hosts flag, set to TRUE by default
+        db_set_active('boinc_rw');
+        db_query("UPDATE {user} SET show_hosts=0 WHERE id='%d'", $boinc_user->id);
         db_set_active('default');
+
         // Cross reference Drupal account with BOINC
         $reference = db_query("INSERT INTO {boincuser} SET uid='%d', boinc_id='%d'", $account->uid, $boinc_user->id);
         if (!$reference) {
           drupal_set_message(t('Error connecting BOINC account.'), 'error');
           return;
         }
+
+        // if terms of use exist, the user must agree.
+        $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+        if (!empty($termsofuse)) {
+          $reference2 = boincuser_consentto_termsofuse($account);
+        }
+
         // Don't save custom fields to the Drupal user object
         $edit['boincuser_name'] = null;
+        $edit['boinchash_flag'] = null;
+        // Set email address to lower case in Drupal users table
+        if ($account) {
+          user_save($account, array('mail' => $lower_email_addr));
+        }
       }
       break;
       
@@ -407,19 +498,50 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         switch ($edit['update_source']) {
         case 'user_account':
           // Ensure that BOINC data is altered
-          $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+
           $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
           $changing_pass = ($edit['pass']) ? true : false;
           if ($changing_email OR $changing_pass) {
+            // set email address to lower-case
+            $lower_email_addr = strtolower($edit['mail']);
+
             // Set password hash appropriately
             $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
-            $passwd_hash = md5($passwd.$edit['mail']);
-            $email_addr = $edit['mail'];
+            $passwd_hash = password_hash( md5($passwd.$lower_email_addr), PASSWORD_DEFAULT );
+            // Algorithm for changing email and/or password
+            if ($changing_email) {
+              // locally store current email to set as previous email
+              $prev_email = $account->mail;
+              $mytime = (user_access('administer users')) ? $boinc_user->email_addr_change_time : time();
+              $querypart = "email_addr='{$lower_email_addr}', passwd_hash='{$passwd_hash}', previous_email_addr = '{$prev_email}', email_addr_change_time = $mytime";
+            }
+            else {
+              $querypart = "email_addr='{$lower_email_addr}', passwd_hash='{$passwd_hash}'";
+            }
+
             // Update user account information
+            $result = $boinc_user->update($querypart);
+
+            if ($changing_email) {
+              // reload account
+              $account = user_load($account->uid);
+              _boincuser_send_emailchange($account, $lower_email_addr, $prev_email, user_access('administer users'));
+            }
+
+            // Change email to edit to lower-case version, this sets
+            // email in Drupal database to the lower-case email
+            // address.
+            $edit['mail'] = strtolower($lower_email_addr);
+          }
+
+          // Change boinc username
+          if ($edit['boincuser_name'] and ($edit['boincuser_name'] != $boinc_user->name)) {
+            $boincuser_name = $edit['boincuser_name'];
             $result = $boinc_user->update(
-                "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
+                "name='{$boincuser_name}'"
             );
           }
+
           break;
         case 'user_profile':
           if ($edit['boincuser_name'] != $boinc_user->name) {
@@ -437,12 +559,82 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $edit['boincuser_name'] = null;
       }
       break;
-      
+
+    case 'login':
+      // Function is forward compatible to Drupal 7
+      boincuser_user_login($edit, $account);
+      break;
+
+    case 'delete':
+      // Function is forward compatible to Drupal 7
+      boincuser_user_delete($account);
+      break;
+
     default:
       
     }
   }
 }
+
+/**
+ * Implementation of hook_user_login(); When user-logins, checks if
+ * they have agreed to the terms of use.
+ *(forward compatible to Drupal 7).
+ */
+function boincuser_user_login(&$edit, $account) {
+  $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+
+  // Use the same code as boincuser_form_alter(), for case
+  // 'user_profile_form', if the refering page is the user password
+  // reset form, then do not check for terms of use.
+  $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/$account->uid") === FALSE) ? 0 : 1;
+  if ($reset_pass) {
+    return;
+  }
+
+  // Check if user has agreed to terms of use.
+  if ( (!empty($termsofuse)) and ($account->uid) and 
+       (!boincuser_check_termsofuse($account)) and ($existinguser_tou) ) {
+
+    // Admins are exempted.
+    $administrator_role = array_search('administrator', user_roles(true));
+    if (!isset($account->roles[$administrator_role])) {
+
+      // Find and save the current destination and use as an parameter
+      // to send the user back to here he/she came from.
+      $np = ltrim('user/termsofuse', '/');
+      $path_for_destination = rawurlencode($np);
+
+      $query_for_destination = '';
+      $prevdest = $_REQUEST['destination'];
+      if ($prevdest) {
+        $query_for_destination = '?destination=' . $prevdest;
+      }
+      $_REQUEST['destination'] = $path_for_destination . $query_for_destination;
+
+    }
+  }
+}
+
+/**
+ * Implementation of hook_user_delete(); deletes boinc user data
+ * (forward compatible to Drupal 7).
+ */
+function boincuser_user_delete($account) {
+
+  $boincid = $account->boincuser_id;
+  // bug in comment module, remove user name from comments. Find all
+  // comments with uid=0 and clear the field 'name'.
+  $qrc1 = db_query("UPDATE {comments} SET comments.name='' WHERE comments.uid=0");
+
+  // Delete entry in drupal boincuser table.
+  $qrc2 = db_query("DELETE FROM {boincuser} WHERE uid=%d", $account->uid);
+  if (!$qrc2) {
+    watchdog('user', 'Error deleting user account, boincuser table UID: %uid.', array('%uid' => $account->uid), WATCHDOG_ERROR);
+  }
+}
+
 
 /**
  * Implementation of hook_nodeapi(); add custom actions to node operations
@@ -471,7 +663,7 @@ function boincuser_node_update($node) {
     $country = $node->field_country[0]['value'];
     $postal_code = $node->field_zip[0]['value'];
     $url = $node->field_url[0]['value'];
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $account_updated = db_query("
       UPDATE user
       SET country = '%s', postal_code = '%s', url = '%s', has_profile = 1
@@ -485,7 +677,7 @@ function boincuser_node_update($node) {
     // Save profile data
     $response1 = $node->field_background[0]['value'];
     $response2 = $node->field_opinions[0]['value'];
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $profile_updated = db_query("
       INSERT INTO profile
       SET userid = %d, response1 = '%s', response2 = '%s'
@@ -519,6 +711,8 @@ function boincuser_views_api() {
 * Implementation of hook_form_alter()
 */
 function boincuser_form_alter(&$form, $form_state, $form_id) {
+  require_boinc('token');
+
   global $user;
   switch ($form_id) {
   case 'flag_confirm':
@@ -748,11 +942,30 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
   // User credentials form
   case 'user_profile_form':
-    
+
     // Use the displaly name as the title, not the username
     $account = user_load($form['#uid']);
     drupal_set_title($account->boincuser_name);
     
+    // Message for admins
+    if (user_access('administer users')) {
+      drupal_set_message(
+        bts('WARNING: You are editing the information for user. Please note: you may change a user\'s password by itself. But to change the user\'s email address you must change both the email address and the password simultaneously.')
+      , 'warning');
+    }
+
+    // Set special message if user has not agreed to TOU
+    $existinguser_tou = variable_get('boinc_weboptions_existinguser_tou', FALSE);
+    $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+    if ( (!boincuser_check_termsofuse($account)) and ($existinguser_tou) and (!empty($termsofuse)) and (!user_access('administer users')) ) {
+      drupal_set_message(
+        bts('INFO: You have not agreed to the terms of use for @project. You may use this form to change your email address and/or password. Please note: you may not delete your account within seven (7) days of changing your email address.',
+        array(
+          '@project' => variable_get('site_name','Drupal-BOINC'),
+        ), NULL, 'boinc:account-credentials-change')
+      , 'info');
+    }
+
     // A bit hackish... but don't require the user to enter his password if
     // coming from the password reset function
     $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
@@ -761,12 +974,39 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Adjust form elements already present
-    $form['account']['name']['#title'] = 'Drupal Username';
+    $form['account']['name']['#title'] = bts('Drupal Username', array(), NULL, 'boinc:drupal-username');
     $form['account']['name']['#size'] = 40;
     $form['account']['name']['#attributes']['autocomplete'] = 'off';
-    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publically that the user can change in Community Preferences.';
+    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publicly that the user can change in Community Preferences.';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
+
+    if (user_access('administer users')) {
+      // Add BOINC username (aka displayname)
+      $form['account']['boincuser_name'] = array(
+        '#type' => 'textfield',
+        '#title' => bts('BOINC Username', array(), NULL, 'boinc:user-or-team-name'),
+        '#default_value' => $account->boincuser_name,
+        '#maxlength' => USERNAME_MAX_LENGTH,
+        '#required' => TRUE,
+        '#description' => bts('This is the BOINC (external) username. This is the same setting as found in Account -> Preferences -> Community.', array(), NULL, 'boinc:username-change'),
+        '#size' => 40,
+      );
+    }
+
+    // If email address was changed less than 7 days (7 * 86400 s)
+    // ago, it cannot be changed again.
+    $duration = TOKEN_DURATION_ONE_WEEK;
+    if (($account->boincuser_email_addr_change_time + $duration) > time() and (!user_access('administer users'))) {
+      $form['account']['mail']['#required'] = FALSE;
+      $form['account']['mailhelp'] = array(
+        '#value' => bts("You email address was changed within the past seven (7) days. Please look for an email to !prev_email if you need to revert this change. You may change your email address on !time.",
+          array(
+            '!prev_email' => $account->boincuser_previous_email_addr,
+            '!time' => date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time + $duration),
+          ), NULL, 'boinc:account-credentials-change'),
+      );
+    }
 
     if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
       // Add a password authenticator, required to change email or pw
@@ -832,21 +1072,24 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['submit']['#value'] = bts('Save changes', array(), NULL, 'boinc:form-save');
     $form['submit']['#suffix'] = '</li>';
     $form['submit']['#weight'] = 1002;
-    if (isset($form['delete']) AND is_array($form['delete'])) {
-      $form['delete']['#prefix'] = '<li class="tab">';
-      $form['delete']['#suffix'] = '</li>';
-      $form['delete']['#weight'] = 1003;
-    }
     $form['cancel'] = array(
       '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>',
-      '#weight' => 1004,
+      '#weight' => 1003,
     );
+    if (isset($form['delete']) AND is_array($form['delete'])) {
+      $form['delete']['#prefix'] = '<li class="first alt tab">';
+      $form['delete']['#suffix'] = '</li>';
+      $form['delete']['#weight'] = 1004;
+    }
     $form['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
     );
     
     // Rearrange form elements
+    $form['account']['name']['#weight'] = -2;
+    $form['account']['boincuser_name']['#weight'] = -1;
+    $form['account']['mailhelp']['#weight'] = 4;
     $form['account']['mail']['#weight'] = 5;
     $form['account']['pass']['#weight'] = 15;
     $form['account']['boincuser_id']['#weight'] = 45;
@@ -859,7 +1102,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant / unnecessary form elements
     unset($form['theme_select']);
-    unset($form['delete']);
+    if (!module_exists('boincuser_delete')) {
+      unset($form['delete']);
+    }
     
     // These are on the Community preferences form (boincwork module)
     unset($form['enable_pm_mail']);
@@ -883,7 +1128,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
-
     break;
     
   case 'profile_node_form':
@@ -891,7 +1135,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Use the display name as the title, not the username
     $account = user_load($form['uid']['#value']);
     drupal_set_title($account->boincuser_name);
-    
+
+    // Set form['title'], but hide it
+    $form['title']['#default_value'] = $account->boincuser_name;
+    $form['title']['#access'] = FALSE;
+
     $form['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
@@ -939,7 +1187,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
     
-    unset($form['title']);
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
     
@@ -967,10 +1214,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.', array(), NULL, 'boinc:user-register'), 
         '#required' => TRUE
       ),
-      'validation_source' => array(
-        '#type' => 'hidden',
-        '#value' => 'user_register'
-      )
     ));
     // Set name temporarily to dummy value to beat validation
     $form['name'] = array(
@@ -978,6 +1221,39 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => rand() . '.' . time()
     );
     
+    // Terms of use section
+    $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+    if (!empty($termsofuse)) {
+      $form['title1'] = array(
+        '#weight' => -12,
+        '#value' => '<h2>' . bts(variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'project:user-register' ) . '</h2>',
+        '#prefix' => '<div id="register-title1">',
+        '#suffix' => '</div>',
+      );
+
+      $form['termsofuse'] = array(
+        '#weight' => -10,
+        '#value' => bts($termsofuse, array(), NULL, 'project:user-register'),
+        '#prefix' => '<div id="register-termsofuse">',
+        '#suffix' => '</div>',
+      );
+
+      $form['agreeTOU'] = array(
+        '#type' => 'checkbox',
+        '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:user-register'),
+        '#weight' => -8,
+        '#prefix' => '<div id="register-checkbox">',
+        '#suffix' => '</div>',
+      );
+    }
+
+    $form['title2'] = array(
+      '#weight' => -6,
+      '#value' => '<h2>' . bts(variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'), array(), NULL, 'project:user-register') . '</h2>',
+      '#prefix' => '<div id="register-title2">',
+      '#suffix' => '</div>',
+    );
+
     if (module_exists('captcha')) {
       // Add an optional captcha
       $form['register_captcha'] = array(
@@ -986,6 +1262,8 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       );
     }
     
+    $form['#validate'][] = 'boincuser_register_validate';
+
     $form['submit']['#weight'] = 1001;
     break;
     
@@ -1152,6 +1430,23 @@ function boincuser_views_pre_execute(&$view) {
   }
 }
 
+/**
+ * Implementation of hook_cron()
+ */
+function boincuser_cron() {
+  // Delete expired users in the BOINC database, user_delete table.
+  require_boinc('boinc_db');
+  $num_deleted = BoincUserDeleted::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boincuser', "Deleted ${num_deleted} users from user_deleted table", WATCHDOG_NOTICE);
+  }
+
+  // Delete expired tokens from token table
+  $tokens_deleted = BoincToken::delete_expired();
+  if ($tokens_deleted>0) {
+    watchdog('boincuser', "Deleted ${tokens_deleted} tokens from token table", WATCHDOG_NOTICE);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
@@ -1185,6 +1480,16 @@ function boincuser_view_profile($account = null) {
     global $user;
     $account = $user;
   }
+
+  $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
+  $verified_contributor = array_search('verified contributor', user_roles(true));
+  if (!isset($account->roles[$verified_contributor])) {
+    drupal_set_message(bts(
+        'You may only create or modify your user profile after earning @count credits.',
+        array('@count' => $min_credit_to_post), NULL, 'boinc:view-profile'
+    ), 'warning', FALSE);
+  }
+
   // For now, just call the user module profile view function
   user_build_content($account);
   return theme('user_profile', $account);
@@ -1222,6 +1527,13 @@ function join_page($type = null) {
   switch ($type) {
   case 'boinc':
     $output .= '<ol>';
+    if ($registration_enabled) {
+      $output .= '<li>' . bts('First !create_an_account here at @sitename.',
+      array(
+        '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
+        '@sitename' => $site_name,
+      ), NULL, 'boinc:join-page') . '</li>';
+    }
     $output .= '  <li>' . bts("Install BOINC on this device if not already present.", array(), NULL, 'boinc:join-page') . '</li>';
     $output .= '  <li>' . bts("Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter @siteurl.",
     array(
@@ -1229,28 +1541,25 @@ function join_page($type = null) {
       '@siteurl' => $base_url,
     ), NULL, 'boinc:join-page') . '</li>';
     if ($registration_enabled) {
-      $output .= '<li>' . bts("If you're running a command-line or pre-5.0 version
-        of BOINC, !create_an_account first. Then use <b>!boinccmd</b> to add the project.",
+      $output .= '<li>' . bts("If you're running a command-line or pre-5.0 version of BOINC, use <b>!boinccmd</b> to add the project.",
         array(
-          '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
           '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
-        ), array(), NULL, 'boinc:join-page') . '</li>';
+        ), NULL, 'boinc:join-page') . '</li>';
     }
     else {
       $output .= '<li>' . bts("If you're running a command-line version of BOINC,
-        first use the BOINC Manager software (elsewhere if necessary) to create an
-        an account at this project, then use that account to connect with the
-        command-line version using <b>!boinccmd</b>.",
+        please follow the <b>!instructionslink</b> to first <i>create an account</i>, and then <i>attach</i> to this project. Use the same project URL as above.",
         array(
-          '!boinccmd' => l('boinccmd --project_attach', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
-        ), NULL, 'boinc:join-page') . '</li>';
-      $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
-        upgrade to a more recent version of BOINC to create an account
-        at @this_project.",
-        array(
-          '@this_project' => $site_name,
+          '!instructionslink' => l('instructions', 'http://boinc.berkeley.edu/wiki/Boinccmd_tool'),
         ), NULL, 'boinc:join-page') . '</li>';
     }
+    $output .= '<li>' . bts("If you're running a pre-5.0 version of BOINC, please
+      upgrade to a more recent version of BOINC to create an account
+      at @this_project.",
+      array(
+        '@this_project' => $site_name,
+      ), NULL, 'boinc:join-page') . '</li>';
+    $output .=  '</ol>';
     break;
   case 'new':
   default:
@@ -1266,7 +1575,14 @@ function join_page($type = null) {
 
     // Join page output
     $output .= '<ol>';
-    if ( menu_valid_path(array('link_path' => $ruleslink)) ) {
+    if ($registration_enabled) {
+      $output .= '<li>' . bts('First !create_an_account here at @sitename.',
+      array(
+        '!create_an_account' => l(bts('create an account', array(), NULL, 'boinc:join-page'), 'user/registration'),
+        '@sitename' => $site_name,
+      ), NULL, 'boinc:join-page') . '</li>';
+    }
+    else if ( menu_valid_path(array('link_path' => $ruleslink)) ) {
       $output .= '  <li>' . bts("Read our !rules_and_policies.", array(
         '!rules_and_policies' => l(bts('Rules and Policies', array(), NULL, 'boinc:join-page'), $ruleslink),
       ), NULL, 'boinc:join-page') . '</li>';
@@ -1353,8 +1669,10 @@ function boincuser_home_page() {
  * Create a new user account based on supplied parameters.
  */
 function boincuser_create_account() {
+  global $base_url;
+
   require_boinc('boinc_db');
-  require_boinc('user');
+  require_boinc('user_util');
   require_boinc('xml');
   $params = array(
     'email_addr' => isset($_GET['email_addr']) ? $_GET['email_addr'] : '',
@@ -1366,7 +1684,14 @@ function boincuser_create_account() {
   xml_header();
   
   // Account creation disabled
-  
+  $enablethisRPC = variable_get('boinc_weboptions_enableaccountcreateRPC', TRUE);
+  if (!$enablethisRPC) {
+    $mess = bts('Account creation is done through our Web site. Please register at @url', array(
+      '@url' => $base_url . '/user/registration',
+    ),
+    NULL, 'boinc:create_account');
+    xml_error(-208, $mess);
+  }
   // Invalid invite code
   
   // Validate input
@@ -1384,12 +1709,21 @@ function boincuser_create_account() {
   }
   
   // Process input
+  // Check this email against previous email addresses.
+  $tmpuser = BoincUser::lookup_prev_email_addr($params['email_addr']);
+  if ($tmpuser) {
+    xml_error(-137);
+  }
+
+  // Check this email on current email addresses.
   $boinc_user = BoincUser::lookup_email_addr($params['email_addr']);
   if ($boinc_user) {
     // Return authenticator for existing users
-    if ($params['passwd_hash'] == $boinc_user->passwd_hash) {
+    if ( ($params['passwd_hash'] == $boinc_user->passwd_hash) or
+    password_verify($params['passwd_hash'], $boinc_user->passwd_hash) ) {
       $output = array('authenticator' => $boinc_user->authenticator);
-    } else {
+    }
+    else {
       xml_error(-137);
     }
   }
@@ -1403,39 +1737,30 @@ function boincuser_create_account() {
 
     $newUser = array(
       'name' => $unique_name,
-      'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
+      'pass' => $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
       'mail' => $params['email_addr'],
       'status' => 1,
       'init' => $params['email_addr'],
       'roles' => array($unrestricted_role => ''),
+      'boincuser_name' => $params['user_name'],
+      'boinchash_flag' => TRUE,
     );
 
-    // Create the drupal user. If the drupal user cannot be created, then stop with error message.
+    // Create the drupal user. If the drupal user cannot be created,
+    // then stop with error message.
+    // The user is created in the 'insert' op in hook_user.
     $user = user_save(null, $newUser);
-    if ($user) {
-      // Create the BOINC user.
-      $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
-      if ($boinc_user) {
-        // Cross reference Drupal account with BOINC.
-        $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
-        if (!$reference) {
-          xml_error(-1, 'error connecting BOINC account to Drupal');
-        }
-      }
-      else {
-        // Delete the drupal user just created.
-        user_delete(array(), $user->uid);
-
-        xml_error(-137, 'error creating BOINC account');
-      }// if boinc user created.
-    }
-    else {
-      watchdog('boincuser', 'create_accout: Failed to create Drupal user account for @email', array('@email' => $params['email_addr']), WATCHDOG_WARNING);
-      xml_error(-1, 'error creating Drupal user account');
+    if (!$user) {
+      watchdog('boincuser', 'create_account: Failed to create Drupal user account for @email', array('@email' => $params['email_addr']), WATCHDOG_WARNING);
+      xml_error(-137, 'error creating BOINC account');
     }// if drupal user created.
+
+    $output = array('authenticator' => $user->boincuser_account_key);
   }// if existing user found.
+
+  // Output authenticator
   echo " <account_out>\n";
-  echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
+  echo "   <authenticator>{$output['authenticator']}</authenticator>\n";
   echo "</account_out>\n";
 }
 
@@ -1494,7 +1819,6 @@ function boincuser_account_finish() {
     $modsentence = bts('Please note: user profiles are subject to moderation.', array(), NULL, 'boinc:account-finish');
   }
 
-  // @todo - add bts() function calls
   $username = $user->boincuser_name;
   $site_name = variable_get('site_name', 'Drupal-BOINC');
   $output = "<p>" . bts('Thank you @user_name for joining @site_name. Your account has been created. Your BOINC client should start working on assigned tasks soon, without any additional action or configuration. Please visit the links below for more information and additional options. (Links will open in a new window.)',

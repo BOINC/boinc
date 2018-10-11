@@ -9,6 +9,12 @@
 # Visual Studio build directories
 /win_build/Build/
 
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
+#Visual Studio Code options directory
+.vscode/
+
 # Installshield build directories
 /win_build/installerv2/BOINC
 /win_build/installerv2/BOINC_vbox
@@ -81,6 +87,7 @@ boinc_path_config.py
 pkginfo
 prototype
 client/scripts/boinc-client
+client/scripts/boinc-client.service
 config.h
 config.log
 config.status
@@ -95,6 +102,10 @@ test/version.inc
 *.lo
 *.a
 *.la
+py/lib/Boinc
+
+## Python bytecode
+*.pyc
 
 ## Drupal
 # ignore files with private/sensitive content in a public repo

@@ -111,7 +111,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -173,7 +173,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -236,7 +236,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -297,7 +297,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -354,6 +354,8 @@
     <ClCompile Include="..\client\app_start.cpp" />
     <ClCompile Include="..\client\async_file.cpp" />
     <ClCompile Include="..\client\coproc_sched.cpp" />
+    <ClCompile Include="..\client\hostinfo_linux.cpp" />
+    <ClCompile Include="..\client\hostinfo_wsl.cpp" />
     <ClCompile Include="..\client\mac_address.cpp" />
     <ClCompile Include="..\client\project_list.cpp" />
     <ClCompile Include="..\client\thread.cpp" />

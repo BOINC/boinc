@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -640,7 +640,9 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
         gstate.acct_mgr_info.project_name
     );
 
-    if (strlen(gstate.acct_mgr_info.login_name)) {
+    if (strlen(gstate.acct_mgr_info.login_name)
+        || strlen(gstate.acct_mgr_info.authenticator)
+    ) {
         grc.mfout.printf("   <have_credentials/>\n");
     }
 
@@ -927,16 +929,23 @@ static void handle_project_attach_poll(GUI_RPC_CONN& grc) {
 
 // This RPC, regrettably, serves 3 purposes
 // - to join an account manager
+//   pass URL of account manager and account name/passwd
 // - to trigger an RPC to the current account manager
-//   (perhaps with "use_config_file")
-// - to quit an account manager (with null args)
+//   either
+//   pass URL/name/passwd hash of current AM
+//      TODO: get rid of this option;
+//      the manager shouldn't have to keep track of this info
+//   or pass <use_config_file/> flag: do RPC to current AM
+// - to quit an account manager
+//   url/name/passwd args are null
 //
 static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
-    string url, name, password;
+    string url, name, password, authenticator;
     string password_hash, name_lc;
     bool use_config_file = false;
     bool bad_arg = false;
     bool url_found=false, name_found=false, password_found = false;
+    ACCT_MGR_INFO ami;
 
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_string("url", url)) {
@@ -953,7 +962,18 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
         }
         if (grc.xp.parse_bool("use_config_file", use_config_file)) continue;
     }
-    if (!use_config_file) {
+    if (use_config_file) {
+        // really means: use current AM
+        //
+        if (!gstate.acct_mgr_info.using_am()) {
+            bad_arg = true;
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Not using account manager"
+            );
+        } else {
+            ami = gstate.acct_mgr_info;
+        }
+    } else {
         bad_arg = !url_found || !name_found || !password_found;
         if (!bad_arg) {
             name_lc = name;
@@ -964,28 +984,22 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
                 // Remove 'hash:'
                 password_hash = password.substr(5);
             }
-        }
-    } else {
-        if (!strlen(gstate.acct_mgr_info.master_url)) {
-            bad_arg = true;
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Account manager info missing from config file"
-            );
-        } else {
-            url = gstate.acct_mgr_info.master_url;
-            name = gstate.acct_mgr_info.login_name;
-            password_hash = gstate.acct_mgr_info.password_hash;
-        }
+            safe_strcpy(ami.master_url, url.c_str());
+            safe_strcpy(ami.login_name, name.c_str());
+            safe_strcpy(ami.password_hash, password_hash.c_str());
+            safe_strcpy(ami.authenticator, authenticator.c_str());
+       }
     }
+
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
     } else if (gstate.acct_mgr_info.using_am()
         && !url.empty()
-        && !gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str())
+        && !gstate.acct_mgr_info.same_am(url.c_str(), name.c_str(), password_hash.c_str(), authenticator.c_str())
     ){
         grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
+        gstate.acct_mgr_op.do_rpc(ami, true);
         grc.mfout.printf("<success/>\n");
     }
 }
@@ -1016,7 +1030,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        cc_config.client_download_url.c_str()
+        nvc_config.client_download_url.c_str()
     );
 }
 

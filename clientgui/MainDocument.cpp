@@ -477,6 +477,9 @@ int CMainDocument::OnInit() {
     m_pClientManager = new CBOINCClientManager();
     wxASSERT(m_pClientManager);
 
+    // client may auto-attach only when first launched
+    m_bAutoAttaching = autoattach_in_progress();
+    
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;

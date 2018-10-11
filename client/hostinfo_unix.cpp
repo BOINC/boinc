@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -74,11 +74,7 @@
 #include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
-#if defined(ANDROID) && !defined(ANDROID_64)
-#include <linux/swap.h>
-#else
 #include <sys/swap.h>
-#endif
 #endif
 
 #if HAVE_SYS_SYSCTL_H
@@ -164,7 +160,9 @@ extern "C" {
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
 //
-#define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
+#if (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__))  && !defined(__HAIKU__)
+#define LINUX_LIKE_SYSTEM 1
+#endif
 
 // Returns the offset between LOCAL STANDARD TIME and UTC.
 // LOCAL_STANDARD_TIME = UTC_TIME + get_timezone().
@@ -467,30 +465,30 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         msg_printf(NULL, MSG_INFO,
             "Can't open /proc/cpuinfo to get CPU info"
         );
-        strcpy(host.p_model, "unknown");
-        strcpy(host.p_vendor, "unknown");
+        safe_strcpy(host.p_model, "unknown");
+        safe_strcpy(host.p_vendor, "unknown");
         return;
     }
 
 #ifdef __mips__
-    strcpy(host.p_model, "MIPS ");
+    safe_strcpy(host.p_model, "MIPS ");
     model_hack = true;
 #elif __alpha__
-    strcpy(host.p_vendor, "HP (DEC) ");
+    safe_strcpy(host.p_vendor, "HP (DEC) ");
     vendor_hack = true;
 #elif __hppa__
-    strcpy(host.p_vendor, "HP ");
+    safe_strcpy(host.p_vendor, "HP ");
     vendor_hack = true;
 #elif __ia64__
-    strcpy(host.p_model, "IA-64 ");
+    safe_strcpy(host.p_model, "IA-64 ");
     model_hack = true;
 #elif defined(__arm__) || defined(__aarch64__)
-    strcpy(host.p_vendor, "ARM");
+    safe_strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
 #endif
 
     host.m_cache=-1;
-    strcpy(features, "");
+    safe_strcpy(features, "");
     while (fgets(buf, 1024, f)) {
         strip_whitespace(buf);
         if (
@@ -531,7 +529,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
-                strcat(host.product_name, " ");
+                safe_strcat(host.product_name, " ");
             }
             safe_strcat(host.product_name, buf2);
         }
@@ -555,7 +553,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 char *coma = NULL;
                 if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
                     *coma = '\0';    /* strip the unwanted line */
-                    strcpy(features, "altivec");
+                    safe_strcpy(features, "altivec");
                     features_found = true;
                 }
 #endif
@@ -665,7 +663,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     safe_strcpy(model_buf, host.p_model);
 #if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (family>=0) {
             sprintf(buf, "Family %d ", family);
             safe_strcat(model_buf, buf);
@@ -678,11 +676,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             sprintf(buf, "Stepping %d", stepping);
             safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #else
     if (model_info_found) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (strlen(implementer)>0) {
             sprintf(buf, "Impl %s ", implementer);
             safe_strcat(model_buf, buf);
@@ -703,7 +701,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             sprintf(buf, "Rev %s", revision);
             safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #endif
     if (strlen(features)) {
@@ -791,7 +789,7 @@ static void get_cpu_info_mac(HOST_INFO& host) {
 
     len = sizeof(features);
     sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
-    
+
     // Convert Mac CPU features string to match that returned by Linux
     for(p=features; *p; p++) {
         *p = tolower(*p);
@@ -959,7 +957,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     for (i = 0; i < 32; i++) {
         if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {
-            snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ", 
+            snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
                 kFeatures[i]);
             strlcat(host.p_features, buf, sizeof(host.p_features));
             found++;
@@ -1021,11 +1019,11 @@ int get_network_usage_totals(
         if (!sysctlBuffer) return ERR_MALLOC;
         sysctlBufferSize = currentSize;
     }
-    
+
     // Read in new data
     if (sysctl(mib, 6, sysctlBuffer, &currentSize, NULL, 0) != 0) return errno;
-    
-    // Walk through the reply 
+
+    // Walk through the reply
     uint8_t *currentData = sysctlBuffer;
     uint8_t *currentDataEnd = sysctlBuffer + currentSize;
 
@@ -1047,7 +1045,7 @@ int get_network_usage_totals(
             currentData += ifmsg->ifm_msglen;
             continue;
         }
-        
+
 #if 0   // Use this code if we want only Ethernet interface 0
         if (!strcmp(sdl->sdl_data, "en0")) {
             total_received = ifmsg->ifm_data.ifi_ibytes;
@@ -1062,232 +1060,10 @@ int get_network_usage_totals(
     return 0;
 }
 
-
-#if defined(__i386__) || defined(__x86_64__)
-
-// Code to get maximum CPU temperature (Apple Intel only)
-// Adapted from Apple System Management Control (SMC) Tool under the GPL
-
-#define KERNEL_INDEX_SMC      2
-
-#define SMC_CMD_READ_BYTES    5
-#define SMC_CMD_READ_KEYINFO  9
-
-typedef struct {
-    char                  major;
-    char                  minor;
-    char                  build;
-    char                  reserved[1]; 
-    UInt16                release;
-} SMCKeyData_vers_t;
-
-typedef struct {
-    UInt16                version;
-    UInt16                length;
-    UInt32                cpuPLimit;
-    UInt32                gpuPLimit;
-    UInt32                memPLimit;
-} SMCKeyData_pLimitData_t;
-
-typedef struct {
-    UInt32                dataSize;
-    UInt32                dataType;
-    char                  dataAttributes;
-} SMCKeyData_keyInfo_t;
-
-typedef char              SMCBytes_t[32]; 
-
-typedef struct {
-  UInt32                  key; 
-  SMCKeyData_vers_t       vers; 
-  SMCKeyData_pLimitData_t pLimitData;
-  SMCKeyData_keyInfo_t    keyInfo;
-  char                    result;
-  char                    status;
-  char                    data8;
-  UInt32                  data32;
-  SMCBytes_t              bytes;
-} SMCKeyData_t;
-
-static io_connect_t conn;
-
-kern_return_t SMCOpen() {
-    kern_return_t       result;
-    mach_port_t         masterPort;
-    io_iterator_t       iterator;
-    io_object_t         device;
-
-    result = IOMasterPort(MACH_PORT_NULL, &masterPort);
-
-    CFMutableDictionaryRef matchingDictionary = IOServiceMatching("AppleSMC");
-    result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    device = IOIteratorNext(iterator);
-    IOObjectRelease(iterator);
-    if (device == 0) {
-        return result;
-    }
-
-    result = IOServiceOpen(device, mach_task_self(), 0, &conn);
-    IOObjectRelease(device);
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    return kIOReturnSuccess;
-}
-
-kern_return_t SMCClose() {
-    if (conn) {
-        return IOServiceClose(conn);
-    }
-    return kIOReturnSuccess;
-}
-
-kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
-    kern_return_t       result;
-    SMCKeyData_t        inputStructure;
-    SMCKeyData_t        outputStructure;
-    size_t              structureOutputSize = 0;
-
-    memset(&inputStructure, 0, sizeof(inputStructure));
-    memset(&outputStructure, 0, sizeof(outputStructure));
-    memset(val, 0, sizeof(SMCBytes_t));
-
-    inputStructure.key = key;
-    inputStructure.data8 = SMC_CMD_READ_KEYINFO;
-
-#if 1   // Requires OS 10.5
-    result = IOConnectCallStructMethod(conn,
-        KERNEL_INDEX_SMC,
-        &inputStructure,
-        sizeof(inputStructure),
-        &outputStructure,
-        &structureOutputSize
-    );
-#else   // Deprecated in OS 10.5
-    result = IOConnectMethodStructureIStructureO(conn,
-        KERNEL_INDEX_SMC,
-        sizeof(inputStructure),
-        &structureOutputSize,
-        &inputStructure,
-        &outputStructure
-    );
-#endif
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    inputStructure.keyInfo.dataSize = outputStructure.keyInfo.dataSize;
-    inputStructure.data8 = SMC_CMD_READ_BYTES;
-
-#if 1   // Requires OS 10.5
-    result = IOConnectCallStructMethod(conn,
-        KERNEL_INDEX_SMC,
-        &inputStructure,
-        sizeof(inputStructure),
-        &outputStructure,
-        &structureOutputSize
-    );
-#else   // Deprecated in OS 10.5
-    result = IOConnectMethodStructureIStructureO(conn,
-        KERNEL_INDEX_SMC,
-        sizeof(inputStructure),
-        &structureOutputSize,
-        &inputStructure,
-        &outputStructure
-    );
-#endif
-    if (result != kIOReturnSuccess) {
-        return result;
-    }
-
-    memcpy(val, outputStructure.bytes, sizeof(outputStructure.bytes));
-
-    return kIOReturnSuccess;
-}
-
-
-// Check die temperatures (TC0D, TC1D, etc.) and 
-// heatsink temperatures (TCAH, TCBH, etc.)
-// Returns the highest current CPU temperature as degrees Celsius.
-// Returns zero if it fails (or on a PowerPC Mac).
-double get_max_cpu_temperature() {
-    kern_return_t       result;
-    double              maxTemp = 0, thisTemp;
-    int                 i;
-    union tempKey {
-        UInt32          word;
-        char            bytes[4];
-    };
-    tempKey             key;
-    SMCBytes_t          val;
-    static bool         skip[20];
-
-    // open connection to SMC kext if this is the first time
-    if (!conn) {
-        result = SMCOpen();
-        if (result != kIOReturnSuccess) {
-            return 0;
-        }
-    }
-
-    for (i=0; i<36; ++i) {
-        if (skip[i]) continue;
-        if (i < 10) {
-            key.word = 'TC0D';          // Standard sensors
-            key.bytes[1] += i;          // TC0D, TC1D ... TC9D
-        } else if (i < 20){
-            key.word = 'TC0H';          // iMac and perhaps others
-            key.bytes[1] += (i - 10);   // TC0H, TC1H ... TC9H
-        } else if (i < 26){
-            key.word = 'TCAH';          // MacPro
-            key.bytes[1] += (i - 20);   // TCAH, TCBH ... TCFH
-        } else {
-            key.word = 'TC0F';          // MacBookPro
-            key.bytes[1] += (i - 26);   // TC0F, TC1F ... TC9F
-        }
-        
-        result = SMCReadKey(key.word, val);
-        if (result != kIOReturnSuccess) {
-        //printf("%c%c%c%c returned result %d\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], result);
-            skip[i] = true;
-            continue;
-        }
-        
-        if (val[0] < 1) {
-        //printf("%c%c%c%c returned val[0] = %d\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], (int)val[0]);
-            skip[i] = true;
-            continue;
-        }
-        
-        thisTemp = (double)val[0];
-        thisTemp += ((double)val[1]) / 256;
-        //printf("%c%c%c%c returned temperature = %f\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], thisTemp);
-        if (thisTemp > maxTemp) {
-            maxTemp = thisTemp;
-        }
-    }
-
-    //printf("max temperature = %f\n", maxTemp);
-    return maxTemp;
-}
-
-#else       // PowerPC
-
-int get_max_cpu_temperature() {
-    return 0;
-}
-
-#endif
-
 // Is this a dual GPU MacBook with automatic GPU switching?
 bool isDualGPUMacBook() {
     io_service_t service = IO_OBJECT_NULL;
-    
+
     service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleGraphicsControl"));
     return (service != IO_OBJECT_NULL);
 }
@@ -1379,7 +1155,7 @@ int HOST_INFO::get_cpu_info() {
     long cpu_type;
     char *cpu_type_name;
 
-    strcpy(p_vendor, "HP (DEC)");
+    safe_strcpy(p_vendor, "HP (DEC)");
 
     getsysinfo( GSI_PROC_TYPE, (caddr_t) &cpu_type, sizeof( cpu_type));
     CPU_TYPE_TO_TEXT( (cpu_type& 0xffffffff), cpu_type_name);
@@ -1408,7 +1184,7 @@ int HOST_INFO::get_cpu_count() {
 #if defined(ANDROID)
     // this should work on most devices
     p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
-    
+
     // work around for bug in Android's bionic
     // format of /sys/devices/system/cpu/present:
     // 0 : single core
@@ -1426,7 +1202,7 @@ int HOST_INFO::get_cpu_count() {
             cpus_sys_path = j + 1;
         }
     }
-    
+
     // return whatever number is greater
     if(cpus_sys_path > p_ncpus){
         p_ncpus = cpus_sys_path;
@@ -1444,7 +1220,7 @@ int HOST_INFO::get_cpu_count() {
     len = sizeof(p_ncpus);
     sysctl(mib, 2, &p_ncpus, &len, NULL, 0);
 #elif defined(_HPUX_SOURCE)
-    struct pst_dynamic psd; 
+    struct pst_dynamic psd;
     pstat_getdynamic ( &psd, sizeof ( psd ), (size_t)1, 0 );
     p_ncpus = psd.psd_proc_cnt;
 #else
@@ -1472,6 +1248,18 @@ int HOST_INFO::get_memory_info() {
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_USEABLE_MEMORY);
+#elif defined(__APPLE__)
+    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a
+    // 4-byte value, even if passed an 8-byte buffer, and limits the returned
+    // value to 2GB when the actual RAM size is > 2GB.
+    // But HW_MEMSIZE returns a uint64_t value.
+    //
+    // _SC_PHYS_PAGES is defined as of Apple SDK 10.11 but sysconf(_SC_PHYS_PAGES)
+    // fails in older OS X versions, so we must test __APPLE__ before _SC_PHYS_PAGES
+    uint64_t mem_size;
+    size_t len = sizeof(mem_size);
+    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #elif defined(_SC_PHYS_PAGES)
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
@@ -1480,17 +1268,8 @@ int HOST_INFO::get_memory_info() {
             sysconf(_SC_PAGESIZE), sysconf(_SC_PHYS_PAGES)
         );
     }
-#elif defined(__APPLE__)
-    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
-    // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
-    // value to 2GB when the actual RAM size is > 2GB.
-    // But HW_MEMSIZE returns a uint64_t value.
-    uint64_t mem_size;
-    size_t len = sizeof(mem_size);
-    sysctlbyname("hw.memsize", &mem_size, &len, NULL, 0);
-    m_nbytes = mem_size;
 #elif defined(_HPUX_SOURCE)
-    struct pst_static pst; 
+    struct pst_static pst;
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
     m_nbytes = (long double)pst.physical_memory * (long double)pst.page_size;
 #elif defined(__osf__)
@@ -1499,7 +1278,7 @@ int HOST_INFO::get_memory_info() {
     int mem_size;
     getsysinfo( GSI_PHYSMEM, (caddr_t) &mem_size, sizeof( mem_size));
     m_nbytes = 1024.* (double)mem_size;
-#elif defined(HW_PHYSMEM) 
+#elif defined(HW_PHYSMEM)
     // for OpenBSD & NetBSD & FreeBSD
     int mem_size;
     mib[0] = CTL_HW;
@@ -1541,13 +1320,13 @@ int HOST_INFO::get_memory_info() {
         }
     }
 #elif defined(__APPLE__)
-    // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap  
-    // space is limited only by free disk space, so we get that info instead. 
-    // This is larger than free disk space reported by get_filesystem_info() 
+    // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap
+    // space is limited only by free disk space, so we get that info instead.
+    // This is larger than free disk space reported by get_filesystem_info()
     // because it includes space available only to the kernel / super-user.
     //
     // http://developer.apple.com/documentation/Performance/Conceptual/ManagingMemory/Articles/AboutMemory.html says:
-    //    Unlike most UNIX-based operating systems, Mac OS X does not use a 
+    //    Unlike most UNIX-based operating systems, Mac OS X does not use a
     //    preallocated swap partition for virtual memory. Instead, it uses all
     //    of the available space on the machine's boot partition.
     struct statfs fs_info;
@@ -1560,9 +1339,9 @@ int HOST_INFO::get_memory_info() {
 #elif defined(HAVE_VMMETER_H) && defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // MacOSX, I think...
     // <http://www.osxfaq.com/man/3/sysctl.ws>
-    // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following 
+    // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following
     // code fails to get the total swap space.  See note above for APPLE case.
-    // I've left this code here in case it is used by a different platform, 
+    // I've left this code here in case it is used by a different platform,
     // though I believe the first argument should be CTL_VM instead of CTL_USER.
     struct vmtotal vm_info;
 
@@ -1583,6 +1362,51 @@ int HOST_INFO::get_memory_info() {
 
     return 0;
 }
+
+#if LINUX_LIKE_SYSTEM
+// gather libc version from the system installed ldd binary
+// a usual first line looks like: ldd (Debian GLIBC 2.24-11+deb9u1) 2.24
+// where the last part is copied to version and the string between parenthesis
+// is copied to extra_info
+//
+// return BOINC_SUCCESS if at least version could be found (extra_info may remain empty)
+// return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
+//
+int get_libc_version(string& version, string& extra_info) {
+    char buf[1024] = "";
+    string strbuf;
+    FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
+    if (f) {
+        char* retval = fgets(buf, sizeof(buf), f);
+        strbuf = (string)buf;
+        while (fgets(buf, sizeof(buf), f)) {
+            // consume output to allow command to exit gracefully
+        }
+        int status = pclose(f);
+        if (!retval || status == -1 || !WIFEXITED(status) || WEXITSTATUS(status)) {
+            return ERR_NOT_FOUND;
+        }
+        strip_whitespace(strbuf);
+        string::size_type parens1 = strbuf.find('(');
+        string::size_type parens2 = strbuf.rfind(')');
+        string::size_type blank = strbuf.rfind(' ');
+
+        if (blank != string::npos) {
+            // extract version number
+            version = strbuf.substr(blank+1);
+        } else {
+            return ERR_NOT_FOUND;
+        }
+        if (parens1 != string::npos && parens2 != string::npos && parens1 < parens2) {
+            // extract extra information without parenthesis
+            extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
+        }
+    } else {
+        return ERR_NOT_FOUND;
+    }
+    return BOINC_SUCCESS;
+}
+#endif
 
 // get os_name, os_version
 //
@@ -1626,126 +1450,69 @@ int HOST_INFO::get_os_info() {
 
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
-    char buf[256],buf2[256];
-    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
-    strcpy(dist_pretty, "");
-    strcpy(dist_name, "");
-    strcpy(dist_version, "");
-    strcpy(dist_codename, "");
+    char buf2[256];
+    char dist_name[256], dist_version[256];
+    string os_version_extra("");
+    safe_strcpy(dist_name, "");
+    safe_strcpy(dist_version, "");
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
-    FILE* f = popen("/usr/bin/lsb_release -a 2>&1", "r");
+    FILE* f = popen(command_lsbrelease, "r");
     if (f) {
-        while (fgets(buf, 256, f)) {
-            strip_whitespace(buf);
-            if ( strstr(buf, "Description:") ) {
-                found_something = true;
-                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
-                strip_whitespace(dist_pretty);
-            }
-            if ( strstr(buf, "Distributor ID:") ) {
-                found_something = true;
-                safe_strcpy(dist_name, strchr(buf, ':') + 1);
-                strip_whitespace(dist_name);
-            }
-            if ( strstr(buf, "Release:") ) {
-                found_something = true;
-                safe_strcpy(dist_version, strchr(buf, ':') + 1);
-                strip_whitespace(dist_version);
-            }
-            if ( strstr(buf, "Codename:") ) {
-                found_something = true;
-                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
-                strip_whitespace(dist_codename);
-            }
-        }
+        found_something = parse_linux_os_info(f, lsbrelease, dist_name, sizeof(dist_name),
+            dist_version, sizeof(dist_version));
         pclose(f);
     }
     if (!found_something) {
         // see: https://www.freedesktop.org/software/systemd/man/os-release.html
-        f = fopen("/etc/os-release", "r");
+        f = fopen(file_osrelease, "r");
         if (f) {
-            while (fgets(buf, 256, f)) {
-                strip_whitespace(buf);
-                // check if substr is at the beginning of the line
-                if ( strstr(buf, "PRETTY_NAME=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_pretty, buf2);
-                    continue;
-                }
-                if ( strstr(buf, "NAME=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_name, buf2);
-                    continue;
-                }
-                if ( strstr(buf, "VERSION=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_version, buf2);
-                    continue;
-                }
-                // could also be "UBUNTU_CODENAME="
-                if ( strstr(buf, "CODENAME=") ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_codename, buf2);
-                    continue;
-                }
-            }
+            found_something = parse_linux_os_info(f, osrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version));
             fclose(f);
         }
     }
 
     if (!found_something) {
         // last ditch effort for older redhat releases
-        f = fopen("/etc/redhat-release", "r");
+        f = fopen(file_redhatrelease, "r");
         if (f) {
-            fgets(buf, 256, f);
-            found_something = true;
-            strip_whitespace(buf);
-            safe_strcpy(dist_pretty, buf);
+            found_something = parse_linux_os_info(f, redhatrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version));
             fclose(f);
         }
     }
 
     if (found_something) {
-        strcpy(buf2, "");
-        if (strlen(dist_pretty)) {
-            safe_strcat(buf2, dist_pretty);
-        } else {
-            if (strlen(dist_name)) {
-                safe_strcat(buf2, dist_name);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_version)) {
-                safe_strcat(buf2, dist_version);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_codename)) {
-                safe_strcat(buf2, dist_codename);
-                strcat(buf2, " ");
-            }
-            strip_whitespace(buf2);
-        }
-        strcat(buf2, " [");
-        safe_strcat(buf2, os_version);
-        strcat(buf2, "]");
-        safe_strcpy(os_version, buf2);
+        os_version_extra = (string)os_version;
+        safe_strcpy(os_version, dist_version);
         if (strlen(dist_name)) {
-            strcat(os_name, " ");
+            safe_strcat(os_name, " ");
             safe_strcat(os_name, dist_name);
         }
+    }
+
+    string libc_version(""), libc_extra_info("");
+    if (!get_libc_version(libc_version, libc_extra_info)) {
+        // This will be part of the normal startup messages to show to the user
+        msg_printf(NULL, MSG_INFO,
+                "[libc detection] gathered: %s, %s", libc_version.c_str(), libc_extra_info.c_str()
+            );
+        // add info to os_version_extra
+        if (!os_version_extra.empty()) {
+            os_version_extra += "|";
+        }
+        os_version_extra += "libc " + libc_version;
+        if (!libc_extra_info.empty()) {
+            os_version_extra += " (" + libc_extra_info + ")";
+        }
+    }
+
+    if (!os_version_extra.empty()) {
+        safe_strcat(os_version, " [");
+        safe_strcat(os_version, os_version_extra.c_str());
+        safe_strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     return 0;
@@ -1815,7 +1582,7 @@ vector<string> get_tty_list() {
     char fullname[1024];
     int done,i=0;
     vector<string> tty_list;
-    
+
     do {
         DIRREF dev=dir_open(tty_patterns[i].dir);
         if (dev) {
@@ -1858,65 +1625,6 @@ inline bool all_tty_idle(time_t t) {
     return true;
 }
 
-static const struct dir_input_dev {
-    const char *dir;
-    const char *dev;
-} input_patterns[] = {
-#ifdef unix
-    { "/dev/input","event" },
-    { "/dev/input","mouse" },
-    { "/dev/input/mice","" },
-#endif
-    // add other ifdefs here as necessary.
-    { NULL, NULL },
-};
-
-vector<string> get_input_list() {
-    // Create a list of all terminal devices on the system.
-    char devname[1024];
-    char fullname[1024];
-    int done,i=0;
-    vector<string> input_list;
-    
-    do {
-        DIRREF dev=dir_open(input_patterns[i].dir);
-        if (dev) {
-            do {
-                // get next file
-                done=dir_scan(devname,dev,1024);
-                // does it match our tty pattern? If so, add it to the tty list.
-                if (!done && (strstr(devname,input_patterns[i].dev) == devname)) {
-                    // don't add anything starting with .
-                    if (devname[0] != '.') {
-                        sprintf(fullname,"%s/%s",input_patterns[i].dir,devname);
-                        input_list.push_back(fullname);
-                    }
-                }
-            } while (!done);
-            dir_close(dev);
-        }
-        i++;
-    } while (input_patterns[i].dir != NULL);
-    return input_list;
-}
-
-inline bool all_input_idle(time_t t) {
-    static vector<string> input_list;
-    struct stat sbuf;
-    unsigned int i;
-
-    if (input_list.size()==0) input_list=get_input_list();
-    for (i=0; i<input_list.size(); i++) {
-        // ignore errors
-        if (!stat(input_list[i].c_str(), &sbuf)) {
-            // printf("input: %s %d %d\n",input_list[i].c_str(),sbuf.st_atime,t);
-            if (sbuf.st_atime >= t) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
 #ifdef __APPLE__
 
 // We can't link the client with the AppKit framework because the client
@@ -1931,35 +1639,35 @@ int get_system_uptime() {
     return ((int)now - (int)tv.tv_sec);
 }
 
-// NXIdleTime() is an undocumented Apple API to return user idle time, which 
-// was implemented from before OS 10.0 through OS 10.5.  In OS 10.4, Apple 
-// added the CGEventSourceSecondsSinceLastEventType() API as a replacement for 
-// NXIdleTime().  However, BOINC could not use this newer API when configured 
-// as a pre-login launchd daemon unless that daemon was running as root, 
-// because it could not connect to the Window Server.  So BOINC continued to 
-// use NXIdleTime().  
+// NXIdleTime() is an undocumented Apple API to return user idle time, which
+// was implemented from before OS 10.0 through OS 10.5.  In OS 10.4, Apple
+// added the CGEventSourceSecondsSinceLastEventType() API as a replacement for
+// NXIdleTime().  However, BOINC could not use this newer API when configured
+// as a pre-login launchd daemon unless that daemon was running as root,
+// because it could not connect to the Window Server.  So BOINC continued to
+// use NXIdleTime().
 //
-// In OS 10.6, Apple removed the NXIdleTime() API.  BOINC can instead use the 
-// IOHIDGetParameter() API in OS 10.6.  When BOINC is a pre-login launchd 
-// daemon running as user boinc_master, this API works properly under OS 10.6 
+// In OS 10.6, Apple removed the NXIdleTime() API.  BOINC can instead use the
+// IOHIDGetParameter() API in OS 10.6.  When BOINC is a pre-login launchd
+// daemon running as user boinc_master, this API works properly under OS 10.6
 // but fails under OS 10.5 and earlier.
 //
-// In OS 10.7, IOHIDGetParameter() fails to recognize activity from remote 
-// logins via Apple Remote Desktop or Screen Sharing (VNC), but the 
-// CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC, 
+// In OS 10.7, IOHIDGetParameter() fails to recognize activity from remote
+// logins via Apple Remote Desktop or Screen Sharing (VNC), but the
+// CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC,
 // except when BOINC is a pre-login launchd daemon running as user boinc_master.
 //
 // IOHIDGetParameter() is deprecated in OS 10.12, but IORegistryEntryFromPath()
 // and IORegistryEntryCreateCFProperty() do the same thing and have been
 // available since OS 10.0.
 //
-// Also, CGEventSourceSecondsSinceLastEventType() does not detect user activity 
+// Also, CGEventSourceSecondsSinceLastEventType() does not detect user activity
 // when the user who launched the client is switched out by fast user switching.
 //
-// So we use weak-linking of NxIdleTime() to prevent a run-time crash from the 
-// dynamic linker and use it if it exists. 
-// If NXIdleTime does not exist, we call both IOHIDGetParameter() and 
-// CGEventSourceSecondsSinceLastEventType().  If both return without error, 
+// So we use weak-linking of NxIdleTime() to prevent a run-time crash from the
+// dynamic linker and use it if it exists.
+// If NXIdleTime does not exist, we call both IOHIDGetParameter() and
+// CGEventSourceSecondsSinceLastEventType().  If both return without error,
 // we use the lower of the two returned values.
 //
 //TODO: I believe that the IOHIDSystemEntry returned by IORegistryEntryFromPath()
@@ -1980,9 +1688,9 @@ bool HOST_INFO::users_idle(
 
     CFTypeRef idleTimeProperty;
     io_registry_entry_t IOHIDSystemEntry;
-    
+
     if (error_posted) goto bail;
-    
+
     IOHIDSystemEntry = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IOHIDSystem");
     if (IOHIDSystemEntry != MACH_PORT_NULL) {
         idleTimeProperty = IORegistryEntryCreateCFProperty(IOHIDSystemEntry, CFSTR(EVSIOIDLE), kCFAllocatorDefault, kNilOptions);
@@ -2000,9 +1708,9 @@ bool HOST_INFO::users_idle(
             goto bail;
         }
     }
-    
+
     if (!gstate.executing_as_daemon) {
-        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType  
+        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType
                 (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
 
         if (idleTimeFromCG < idleTime) {
@@ -2141,12 +1849,12 @@ const vector<string> X_display_values_initialize() {
     static const string dir = "/tmp/.X11-unix/";
     vector<string> display_values;
     vector<string>::iterator it;
-  
+
     DIR *dp;
     struct dirent *dirp;
     if ((dp = opendir(dir.c_str())) == NULL) {
         if (log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] Error (%d) opening %s.", errno, dir.c_str()
             );
         }
@@ -2232,14 +1940,14 @@ bool xss_idle(long idle_threshold) {
 
         Display* disp = NULL;
         long idle_time = 0;
-    
+
         disp = XOpenDisplay(it->c_str());
         // XOpenDisplay may return NULL if there is no running X
         // or DISPLAY points to wrong/invalid display
         //
         if (disp == NULL) {
             if (log_flags.idle_detection_debug) {
-	            msg_printf(NULL, MSG_INFO, 
+	            msg_printf(NULL, MSG_INFO,
 	                "[idle_detection] DISPLAY '%s' not found or insufficient access.",
 	                it->c_str()
                 );
@@ -2279,10 +1987,10 @@ bool xss_idle(long idle_threshold) {
         idle_time = idle_time / 1000;
 
         if (log_flags.idle_detection_debug) {
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
             );
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] idle threshold: %ld", idle_threshold
             );
             msg_printf(NULL, MSG_INFO,
@@ -2353,15 +2061,6 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     }
 #endif // HAVE_XSS
 
-    // Lets at least check the dev entries which should be correct for
-    // USB keyboards and mice.  If the linux kernel doc is correct it should
-    // also work for bluetooth input devices as well.
-    //
-    // See: https://www.kernel.org/doc/Documentation/input/input.txt
-    //
-    if (!all_input_idle(idle_time)) {
-        return false;
-    }
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
@@ -2376,4 +2075,3 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 }
 
 #endif  // ! __APPLE__
-

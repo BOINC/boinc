@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.9.0)
+AC_INIT(BOINC, 7.13.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -592,7 +592,7 @@ else
    echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h locale.h xlocale.h])
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h])
 
    AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
    AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
@@ -638,14 +638,6 @@ AH_TOP([
 ])
 AH_BOTTOM([
 
-#if !HAVE_DECL__CONFIGTHREADLOCALE
-#define NO_PER_THREAD_LOCALE 1
-#undef HAVE__CONFIGTHREADLOCALE
-#else
-#undef NO_PER_THREAD_LOCALE
-#define HAVE__CONFIGTHREADLOCALE 1
-#endif
-
 #ifndef HAVE_RES_INIT
 #define res_init() (0)
 #endif
@@ -666,7 +658,7 @@ AC_TYPE_SIGNAL
 if test "${isWIN32}" = "yes" ; then
   AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h)
 fi
-AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h)
+AC_CHECK_HEADERS([sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h])
 
 save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
@@ -924,9 +916,9 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup _strdup strdupa _strdupa daemon stat64 putenv setenv unsetenv res_init strtoull localtime localtime_r gmtime gmtime_r)
+AC_CHECK_FUNCS([ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup _strdup strdupa _strdupa daemon stat64 putenv setenv unsetenv res_init strtoull localtime localtime_r gmtime gmtime_r uselocale _configthreadlocale])
 
-AC_CHECK_DECLS([_fpreset, fpreset, _configthreadlocale],
+AC_CHECK_DECLS([_fpreset, fpreset],
     [],[],[[
 #include <stdio.h>
 #if HAVE_SYS_TYPES_H
@@ -973,12 +965,6 @@ AC_CHECK_DECLS([_fpreset, fpreset, _configthreadlocale],
 #ifdef HAVE_MATH_H
 #include <math.h>
 #endif
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
-#ifdef HAVE_XLOCALE_H
-#include <xlocale.h>
-#endif
 ]])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
@@ -1005,11 +991,6 @@ fi
 dnl Check for /proc/self/stat (Linux)
 if test -e "/proc/self/stat"; then
     AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
-fi
-
-dnl Check for /proc/self/exe (Linux)
-if test -e "/proc/self/exe"; then
-    AC_DEFINE(HAVE__PROC_SELF_EXE, 1, [Define to 1 if /proc/self/exe exists])
 fi
 
 dnl Check for /proc/meminfo (Linux)
@@ -1302,6 +1283,7 @@ AC_CONFIG_FILES([
                  client/win/boinc_path_config.py:py/boinc_path_config.py.in
                  client/scripts/Makefile
                  client/scripts/boinc-client
+                 client/scripts/boinc-client.service
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile

@@ -335,13 +335,13 @@
   <string name="about_version">Verzia</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
-  <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
   <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">%2$,d nový oznam</item>
     <item quantity="few">%2$,d nový oznamy</item>
+    <item quantity="many">%2$,d nových oznamov</item>
     <item quantity="other">%2$,d nových oznamov</item>
   </plurals>
   <!--multi BOINC compatibility-->

@@ -1,0 +1,9 @@
+; $Id$
+name = BOINC user quote
+description = Module that alters the quote module to print a user's BOINC display name in forums when being quoted.
+core = 6.x
+dependencies[] = boincuser
+dependencies[] = quote
+package = BOINC
+
+datestamp = "1536162592"

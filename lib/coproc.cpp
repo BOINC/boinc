@@ -554,9 +554,24 @@ void COPROC_NVIDIA::set_peak_flops() {
             cores_per_proc = 192;
             break;
         case 5:
-        default:
             flops_per_clock = 2;
             cores_per_proc = 128;
+            break;
+        case 6:
+            flops_per_clock = 2;
+            switch (minor) {
+            case 0:    // special for Tesla P100 (GP100)
+                cores_per_proc = 64;
+                break;
+            default:
+                cores_per_proc = 128;
+                break;
+            }
+            break;
+        case 7:    // for both cc7.0 (Titan V, Tesla V100) and cc7.5 (RTX, Tesla T4)
+        default:
+            flops_per_clock = 2;
+            cores_per_proc = 64;
             break;
         }
 

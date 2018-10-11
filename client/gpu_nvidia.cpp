@@ -431,7 +431,9 @@ void* cudalib = NULL;
         (*p_cuDeviceGetAttribute)(&cc.pci_info.domain_id, CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID, device);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
-#if defined(_WIN32) && !defined(SIM)
+#ifdef SIM
+        cc.display_driver_version = 0;
+#elif defined(_WIN32)
         cc.display_driver_version = Version;
 #elif defined(__APPLE__)
         cc.display_driver_version = NSVersionOfRunTimeLibrary("cuda");

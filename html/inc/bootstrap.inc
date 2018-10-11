@@ -173,24 +173,17 @@ function sample_navbar(
         $x = array(
             array(tra("Preferences"), $url_prefix."prefs.php?subset=global"),
             array(tra("Server status"), $url_prefix."server_status.php"),
-            array(tra("Statistics"), $url_prefix."stats.php"),
+            array(tra("Credit statistics"), $url_prefix."stats.php"),
             array(tra("Applications"), $url_prefix."apps.php"),
+            array(tra("GPU models"), $url_prefix."gpu_list.php"),
+            array(tra("CPU models"), $url_prefix."cpu_list.php"),
+            array(tra("Computer types"), $url_prefix."host_stats.php"),
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
             }
         }
-        $x = array_merge($x,
-            array(
-                'Leader boards:',
-                array(tra("Participants"), $url_prefix."top_users.php"),
-                array(tra("Computers"), $url_prefix."top_hosts.php"),
-                array(tra("Teams"), $url_prefix."top_teams.php"),
-                array(tra("GPU models"), $url_prefix."gpu_list.php"),
-                array(tra("CPU models"), $url_prefix."cpu_list.php"),
-            )
-        );
         navbar_menu(tra("Computing"), $x);
     }
 
@@ -297,21 +290,21 @@ function form_end() {
     ';
 }
 
-define('FORM_LEFT_CLASS', 'col-sm-5');
-define('FORM_LEFT_OFFSET', 'col-sm-offset-5');
-define('FORM_RIGHT_CLASS', 'col-sm-7');
+define('FORM_LEFT_CLASS', 'col-sm-4');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-4');
+define('FORM_RIGHT_CLASS', 'col-sm-8');
 
-function form_input_text($label, $name, $value='', $type='text', $attrs='') {
+function form_input_text($label, $name, $value='', $type='text', $attrs='', $extra='') {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
             <div class="%s">
-                <input %s type="%s" class="form-control" name="%s" value="%s">
+                <input %s type="%s" class="form-control" name="%s" value="%s">%s
             </div>
         </div>
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
-        $attrs, $type, $name, $value
+        $attrs, $type, $name, $value, $extra
     );
 }
 
@@ -385,9 +378,9 @@ function form_select_multiple($label, $name, $items, $flags) {
     echo "</select></div></div>\n";
 }
 
-// $items is list of (name, label)
+// $items is list of (name, label, checked)
 //
-function form_checkboxes($label, $items) {
+function form_checkboxes($label, $items, $attrs='') {
     echo sprintf('
         <div class="form-group">
             <label class="control-label %s">%s</label>
@@ -395,10 +388,16 @@ function form_checkboxes($label, $items) {
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
+    $first = true;
     foreach ($items as $i) {
-        echo sprintf('<input type="checkbox" name="%s"> %s <br>
+        if ($first) {
+            $first = false;
+        } else {
+            echo "<br>\n";
+        }
+        echo sprintf('<input %s type="checkbox" name="%s" %s> %s
             ',
-            $i[0], $i[1]
+            $attrs, $i[0], $i[2]?"checked":"", $i[1]
         );
     }
     echo '</div>
@@ -450,11 +449,11 @@ function form_general($label, $item) {
 ';
 }
 
-function form_submit($text) {
+function form_submit($text, $attrs='') {
     form_general(
         "",
-        sprintf('<button type="submit" class="btn btn-success">%s</button>',
-            $text
+        sprintf('<button %s type="submit" class="btn btn-success">%s</button>',
+            $attrs, $text
         )
     );
 }

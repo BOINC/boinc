@@ -121,7 +121,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)boinc_win.pch</PrecompiledHeaderOutputFile>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -134,10 +134,10 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;wsock32.lib;psapi.lib;libcmt.lib;libcpmt.lib;libboinc_staticcrt.lib;libboincapi_staticcrt.lib;libgraphics2.lib;freetype2410.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;wsock32.lib;psapi.lib;libcmt.lib;libcpmt.lib;freetype2410.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boincscr.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -161,7 +161,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/freetype/include;../../boinc_depends_win_vs2010/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/freetype/include;../../boinc_depends_win_vs2010/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FTGL_LIBRARY_STATIC;_WCG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -173,7 +173,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)boinc_win.pch</PrecompiledHeaderOutputFile>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -186,10 +186,10 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;wsock32.lib;psapi.lib;libcmt.lib;libcpmt.lib;libboinc_staticcrt.lib;libboincapi_staticcrt.lib;libgraphics2.lib;freetype2410.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;wsock32.lib;psapi.lib;libcmt.lib;libcpmt.lib;freetype2410.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boincscr.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -234,10 +234,10 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;shell32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;wsock32.lib;advapi32.lib;libboinc_staticcrt.lib;libboincapi_staticcrt.lib;libgraphics2.lib;freetype2410_D.lib;ftgl_static_D.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;shell32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;wsock32.lib;advapi32.lib;freetype2410_D.lib;ftgl_static_D.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boincscr.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -269,7 +269,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)boinc_win.pch</PrecompiledHeaderOutputFile>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -282,10 +282,10 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;shell32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;wsock32.lib;advapi32.lib;libboinc_staticcrt.lib;libboincapi_staticcrt.lib;libgraphics2.lib;freetype2410_D.lib;ftgl_static_D.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;shell32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;wsock32.lib;advapi32.lib;freetype2410_D.lib;ftgl_static_D.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boincscr.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -300,12 +300,14 @@
     <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
     <ClCompile Include="..\clientscr\ss_app.cpp" />
     <ClCompile Include="..\api\ttfont.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\cc_config.h" />
     <ClInclude Include="..\clientscr\boinc_ss_opengl.h" />
     <ClInclude Include="..\clientscr\ss_app.h" />
     <ClInclude Include="..\api\ttfont.h" />
+    <ClInclude Include="..\lib\keyword.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\clientscr\boinc_ss_opengl.rc" />
@@ -321,6 +323,10 @@
     </ProjectReference>
     <ProjectReference Include="jpeglib.vcxproj">
       <Project>{5f065eac-b881-4e9a-9e34-7a21d7a01d98}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="libboinc_staticcrt.vcxproj">
+      <Project>{b00664bd-71eb-46c1-957e-cd851418d395}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="libgraphics2.vcxproj">

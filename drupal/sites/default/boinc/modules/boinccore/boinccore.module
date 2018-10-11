@@ -16,6 +16,7 @@
 
 //require_once('includes/boinccore.forms.inc');
 //require_once('includes/boinccore.helpers.inc');
+require_once('includes/boinccore.rules.inc');
 require_once('boinccore.admin.inc');
 
 
@@ -184,6 +185,39 @@ function boinccore_menu_alter(&$items) {
       'weight' => 1,
       'type' => MENU_CALLBACK,
     );
+  }
+
+  // 'Remove' menu paths for ignore_user and privatemsg
+  // (pm_block_user) module which we have 'overridden' with
+  // boincwork's own functions.
+  if (module_exists('ignore_user')) {
+    $check = array(
+      'ignore_user/add',
+      'ignore_user/remove',
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
+
+    // Redirect user to privacy prefs page.
+    $path1 = 'ignore_user/list';
+    if (isset($items[$path1])) {
+      $items[$path1]['page callback'] = 'drupal_goto';
+      $items[$path1]['page arguments'] = array('account/prefs/privacy');
+    }
+  }
+
+  if (module_exists('pm_block_user')) {
+    $check = array(
+      'messages/block/%user',
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
   }
 }
 
@@ -356,6 +390,9 @@ function boinccore_cron() {
     boinccore_rules_action_mail_to_moderators($settings);
     variable_set('boinccore_last_content_moderation_reminder', time());
   }
+
+  // Delete expired tokens in BOINC DB
+  _boinccore_delete_expired_tokens();
 }
 
 /**
@@ -473,6 +510,33 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant name field
     unset($form['_author']);
+
+    // If user is role='community member' only, then user may not post
+    // any comments in non-forum node-types, team_forums are also not
+    // allowed.. This allows users who have site-wide comment
+    // permission to comment on forums in special
+    // circumstances. Additionally, any comments require a captcha.
+    //
+    $node = node_load($form['nid']['#value']);
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if ($node->type == 'forum') {
+        if (module_exists('captcha')) {
+          $form['comment_captcha'] = array(
+            '#type' => 'captcha',
+            '#weight' => 1000,
+          );
+        }
+      }
+      else {
+        $form = NULL;
+        $form['from'] = array(
+          '#type'  => 'item',
+          '#value' => 'You do not have permission to post comments in this forum.',
+        );
+      }
+    }
     
     break;
     
@@ -508,6 +572,18 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
+
+    // Add captcha for role='community member'
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if (module_exists('captcha')) {
+        $form['comment_captcha'] = array(
+          '#type' => 'captcha',
+          '#weight' => 1000,
+        );
+      }
+    }
 
     break;
   case 'boinccore_delete_confirm':
@@ -754,6 +830,12 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   default:
   }
   node_save($node);
+  // If hiding a forum topic (node) and not an administrator, go to
+  // the forum page. Otherwise the user will reach an access-denied
+  // page.
+  if (($action=="hide") and (!user_access('administer forums'))) {
+    drupal_goto("community/forum/{$node->tid}");
+  }
   drupal_goto("node/{$nid}");
 }
 
@@ -772,12 +854,14 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   switch ($action) {
   case 'unhide':
     comment_publish_action($comment);
+    rules_invoke_event('boinccore_comment_unhidden', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_publish($comment);
     }
     break;
   case 'hide':
     comment_unpublish_action($comment);
+    rules_invoke_event('comment_unpublish', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_unpublish($comment);
     }
@@ -813,6 +897,8 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
     module_load_include('inc', 'comment', 'comment.admin');
     _comment_delete_thread($comment);
     
+    rules_invoke_event('boinccore_comment_convert', $comment);
+
     $return_path = "node/{$node->nid}";
     $return_anchor = NULL;
     break;
@@ -896,7 +982,7 @@ function boinccore_am_set_info() {
     if (isset($xml['am_set_info_reply']['success'])) {
       // Find the account in Drupal
       $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $boinc_id = db_result(db_query("
         SELECT id
         FROM {user}
@@ -1137,7 +1223,7 @@ function boinccore_team_email_list() {
 
   if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($credit_only) {
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $result = db_query("
         SELECT
           u.id, u.name, u.cross_project_id, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
@@ -1162,7 +1248,7 @@ function boinccore_team_email_list() {
     }
     else {
       // Query BOINC database user table
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $result = db_query("
         SELECT
           u.id, u.name, u.cross_project_id, u.create_time, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
@@ -1952,4 +2038,19 @@ function boinccore_moderation_overview_panel() {
   }
   $output .= '</ul>';
   return $output;
+}
+
+
+/**
+ * Utility function to delete expired tokens in the BOINC database,
+ * token table.
+ *
+ */
+function  _boinccore_delete_expired_tokens() {
+  require_boinc('boinc_db');
+
+  $num_deleted = BoincToken::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boinccore', "Deleted ${num_deleted} tokens from table token", WATCHDOG_NOTICE);
+  }
 }

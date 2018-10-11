@@ -1193,10 +1193,8 @@ int APP_VERSION::write(FILE* fout) {
     }
     fprintf(fout,
         "    <avg_ncpus>%f</avg_ncpus>\n"
-        "    <max_ncpus>%f</max_ncpus>\n"
         "    <flops>%f</flops>\n",
         bavp->host_usage.avg_ncpus,
-        bavp->host_usage.max_ncpus,
         bavp->host_usage.projected_flops
     );
     if (strlen(bavp->host_usage.cmdline)) {

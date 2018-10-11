@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">新增專案</string>
   <string name="projects_icon">專案圖示</string>
   <string name="projects_credits">積分:</string>
-  <string name="projects_credits_host_and_user">%1$,d (在此裝置上) %2$,d (總共)</string>
+  <string name="projects_credits_host_and_user">%1$,d (裝置上) %2$,d (總計)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">用戶已暫停</string>
   <string name="projects_status_dontrequestmorework">拒絕新任務</string>
@@ -334,11 +334,14 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
-    <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2018 美國加州大學柏克萊分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">特別感謝 Max Planck Institute for Gravitational Physics, IBM Corporation 和 HTC Corporation 的技術支援。</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="other">%2$,d 則新提醒</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">偵測到志願運算 APP</string>
   <string name="nonexcl_dialog_text">有其它志願運算 APP 正在此裝置執行。只容許一個版本執行。</string>
   <string name="nonexcl_dialog_exit">退出</string>
@@ -348,5 +351,6 @@
   <string name="social_invite_content_title">我正在用智慧型手機研究科學!</string>
   <string name="social_invite_content_body">我的 %1$s 正在為科學運算。希望您加入! APP 下載: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

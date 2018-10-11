@@ -214,6 +214,15 @@ struct USER {
     int donated;
     char login_token[32];
     double login_token_time;
+    char previous_email_addr[256];
+    double email_addr_change_time;
+    void clear();
+};
+
+struct USER_DELETED {
+    DB_ID_TYPE userid;
+    char public_cross_project_id[256];
+    double create_time;
     void clear();
 };
 
@@ -377,6 +386,13 @@ struct HOST {
     void fix_nans();
     void clear();
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
+};
+
+struct HOST_DELETED {
+    DB_ID_TYPE hostid;
+    char public_cross_project_id[256];
+    double create_time;
+    void clear();
 };
 
 // values for file_delete state
@@ -589,7 +605,7 @@ struct RESULT {
     int batch;
     int file_delete_state;          // see above; values for file_delete_state
     int validate_state;
-    double claimed_credit;          // deprecated
+    double claimed_credit;          // used for post-assigned credit
     double granted_credit;          // == canonical credit of WU
     double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order

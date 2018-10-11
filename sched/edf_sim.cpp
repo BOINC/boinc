@@ -58,9 +58,10 @@ using std::vector;
 #define TIME_SCALE 1
 //#define TIME_SCALE 3600
 
-static void log_msg(int level, const char* format, ...) {
 #ifdef SIM
+static void log_msg(int, const char* format, ...) {
 #else
+static void log_msg(int level, const char* format, ...) {
     switch(level) {
     case SUMMARY:
         if (!config.debug_send) return;

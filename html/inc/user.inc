@@ -39,7 +39,7 @@ function get_other_projects($user) {
     // Check the cache for that URL
     //
     $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
-    if ($cacheddata){
+    if ($cacheddata) {
         $remote = unserialize($cacheddata);
     } else {
         // Fetch the XML, use curl if fopen() is disallowed
@@ -110,7 +110,7 @@ function show_project($project) {
 
 function cmp($a, $b) {
     if ($a->expavg_credit == $b->expavg_credit) return 0;
-    return ($a->expavg_credit < $b->expavg_credit)? 1 : -1;
+    return ($a->expavg_credit < $b->expavg_credit) ? 1 : -1;
 }
 
 function show_other_projects($user, $personal) {
@@ -133,7 +133,7 @@ function show_other_projects($user, $personal) {
         ),
         array("", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT)
     );
-    foreach($user->projects as $project) {
+    foreach ($user->projects as $project) {
         show_project($project);
     }
     end_table();
@@ -260,10 +260,17 @@ function show_user_info_private($user) {
             "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
         );
     } else {
+        $delete_account_str = "";
+        $config = get_config();
+        if (parse_bool($config, "enable_delete_account")) {
+            $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
+        }
+        
         row2(tra("Change"),
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
             &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+            .$delete_account_str
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
@@ -310,13 +317,8 @@ function friend_links($user) {
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
     $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    if ($user->donated == 2) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK_TWO;
+    if (function_exists("project_user_links")) {
+        $x .= project_user_links($user);
     }
     $x .= "</td></tr></table>\n";
     return $x;
@@ -336,19 +338,11 @@ function user_links($user, $badge_height=0) {
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    if ($user->donated == 2) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK_TWO;
+    if (function_exists("project_user_links")){
+        $x .= project_user_links($user);
     }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
-    }
-    if (function_exists("project_user_links")){
-        $x .= project_user_links($user);
     }
     return $x;
 }
@@ -457,17 +451,8 @@ function show_user_summary_public($user) {
             row2(tra("Computers"), tra("hidden"));
         }
     }
-    if ($user->donated == 1) { 
-        if (file_exists("../project/donations.inc")) {
-            require_once("../project/donations.inc");
-            row2(tra("Donor"), DONATION_LINK);
-        }
-    }
-    if ($user->donated == 2) {
-        if (file_exists("../project/donations.inc")) {
-            require_once("../project/donations.inc");
-            row2(tra("Donor"), DONATION_LINK_TWO);
-        }
+    if (function_exists("project_user_summary_public")) {
+        project_user_summary_public($user);
     }
 }
 
@@ -547,18 +532,16 @@ function show_account_private($user) {
             show_preference_links();
             show_user_stats_private($user);
 
-            if (file_exists("../project/donations.inc")) {
-                require_once("../project/donations.inc");
-                if (function_exists('show_user_donations_private')) {
-                    show_user_donations_private($user);
-                }
+            if (function_exists('show_user_donations_private')) {
+                show_user_donations_private($user);
             }
             end_table();
             if (!NO_COMPUTING) {
                 show_other_projects($user, true);
             }
-            project_user_page_private($user);
-            //echo "<a href=delete_account.php>Delete account</a>\n";
+            if (function_exists("project_user_page_private")) {
+                project_user_page_private($user);
+            }
         },
         function() use ($user) {
             start_table();
@@ -568,6 +551,7 @@ function show_account_private($user) {
         }
     );
 }
+
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 

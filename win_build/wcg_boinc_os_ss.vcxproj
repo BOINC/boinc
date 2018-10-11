@@ -139,7 +139,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../;../api/;../lib;../client/;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../;../api/;../lib;../client/;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;_WCG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -155,7 +155,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc80.pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -196,7 +196,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../;../api/;../lib;../client/;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../;../api/;../lib;../client/;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;_WCG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -252,7 +252,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../api/;../lib/;../client;..;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../api/;../lib/;../client;..;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE;_WCG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -306,7 +306,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../api/;../lib/;../client;..;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../api/;../lib/;../client;..;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE;_WCG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -322,7 +322,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc80.pdb</ProgramDataBaseFileName>
       <BrowseInformation>
       </BrowseInformation>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -364,6 +364,7 @@
     <ClCompile Include="..\lib\gui_rpc_client.cpp" />
     <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
     <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
@@ -381,6 +382,7 @@
     <ClCompile Include="..\lib\url.cpp" />
     <ClCompile Include="..\lib\util.cpp" />
     <ClCompile Include="..\lib\win_util.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\base64.h" />
@@ -392,6 +394,7 @@
     <ClInclude Include="..\lib\filesys.h" />
     <ClInclude Include="..\lib\gui_rpc_client.h" />
     <ClInclude Include="..\lib\hostinfo.h" />
+    <ClInclude Include="..\lib\keyword.h" />
     <ClInclude Include="..\lib\md5.h" />
     <ClInclude Include="..\lib\md5_file.h" />
     <ClInclude Include="..\lib\mfile.h" />
@@ -409,6 +412,7 @@
     <ClInclude Include="..\lib\url.h" />
     <ClInclude Include="..\lib\util.h" />
     <ClInclude Include="..\lib\win_util.h" />
+    <ClInclude Include="..\lib\wslinfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\clientscr\res\boinc.bmp" />

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,10 +29,16 @@
 #include <Carbon/Carbon.h>
 
 #include "SetupSecurity.h"
+#include "mac_branding.h"
 
 int main(int argc, char *argv[]) {
     OSStatus            err;
     char boincPath[MAXPATHLEN];
+
+    if (!check_branding_arrays(boincPath, sizeof(boincPath))) {
+        printf("Branding array has too few entries: %s\n", boincPath);
+        return -1;
+    }
     
     err = CreateBOINCUsersAndGroups();
     if (err != noErr)

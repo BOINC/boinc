@@ -192,6 +192,10 @@ function boinc_preprocess_page(&$vars, $hook) {
       $locality = $lang_code[0];
     }
   }
+  // If there is no language set for some reason, default to English (en).
+  if (empty($locality)) {
+    $locality = "en";
+  }
   $vars['flag_path'] = base_path() . path_to_theme() . "/images/flags/{$locality}.png";
 
   $server_status_url = variable_get('boinc_server_status_url', '');
@@ -343,6 +347,9 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   _boinc_create_moderator_links($links, $moderator_links);
   $vars['links'] = $links;
   $vars['moderator_links'] = $moderator_links;
+
+  // Ignore user link
+  $vars['ignore_link'] = _boinc_ignore_user_link('node', $vars['node']);
 }
 
 
@@ -377,6 +384,9 @@ function boinc_preprocess_comment(&$vars, $hook) {
   _boinc_create_moderator_links($links, $moderator_links);
   $vars['links'] = $links;
   $vars['moderator_links'] = $moderator_links;
+
+  // Ignore user link
+  $vars['ignore_link'] = _boinc_ignore_user_link('comment', $vars['comment']);
 }
 
 /**
@@ -871,4 +881,54 @@ function _boinc_action_links() {
   }
   $output .= '</ul>';
   return $output;
+}
+
+/**
+ * Private function, based on ignore_user ignore_user_link()
+ * function. Modified for boinc functionality.
+ */
+function _boinc_ignore_user_link($type, $object = NULL, $teaser = FALSE) {
+  global $user;
+
+  if (!$user || !$user->uid) {
+    return;
+  }
+
+  static $ignored;
+  $links = array();
+
+  if ($type == 'node' && $user->uid != $object->uid && $object->uid != 0 && user_access('ignore user')) {
+    if (!isset($ignored[$object->uid])) {
+      $ignored[$object->uid] = db_result(db_query('SELECT COUNT(*) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $object->uid));
+    }
+    if ($ignored[$object->uid] == 0) {
+      $links['ignore_user'] = array(
+        'title' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
+        'href' => 'account/prefs/privacy/ignore_user/add/'. $object->uid,
+        'query' => 'destination='. $_GET['q'],
+        'attributes' => array(
+          'class' => 'ignore-user',
+          'title' => bts('Add user to your ignore list', array(), NULL, 'boinc:ignore-user-add'),
+        ),
+      );
+    }
+  }
+  else if ($type == 'comment' && $user->uid != $object->uid && $object->uid != 0 && user_access('ignore user')) {
+    if (!isset($ignored[$object->uid])) {
+      $ignored[$object->uid] = db_result(db_query('SELECT COUNT(*) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $object->uid));
+    }
+    if ($ignored[$object->uid] == 0) {
+      $links['ignore_user'] = array(
+        'title' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
+        'href' => 'account/prefs/privacy/ignore_user/add/'. $object->uid,
+        'query' => 'destination='. $_GET['q'],
+        'attributes' => array(
+          'class' => 'ignore-user',
+          'title' => bts('Add user to your ignore list', array(), NULL, 'boinc:ignore-user-add'),
+        ),
+      );
+    }
+  }
+
+  return $links;
 }

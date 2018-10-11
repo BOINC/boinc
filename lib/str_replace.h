@@ -20,17 +20,12 @@
 #ifndef BOINC_STR_REPLACE_H
 #define BOINC_STR_REPLACE_H
 
-#if (defined(HAVE_CONFIG_H) || defined(__APPLE__))
-#include "config.h"
-#endif
-
 #ifndef _WIN32
 #include <sys/types.h>
-#endif
-
-#ifdef __APPLE__
 #include <ctype.h>
 #endif
+
+#include "config.h"
 
 // strlcpy and strlcat guarantee NULL-terminated result
 // (unlike strncpy and strncat)

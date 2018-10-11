@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,13 +20,38 @@
 // - forms for create / login
 // - function to make login token
 
-// make login token, store in user record, return token
+// If have recent token, return it.
+// Else make login token, store in user record, return token
 //
 function make_login_token($user) {
-    $token = substr(random_string(), 0, 8);
     $now = time();
+    if ($now - $user->login_token_time < 86400) {
+        $user->update("login_token_time=$now");
+        return $user->login_token;
+    }
+    $token = substr(random_string(), 0, 8);
     $user->update("login_token='$token', login_token_time=$now");
     return $token;
+}
+
+// return HTML string for a checkbox for toggling password visibility
+//
+function passwd_visible_checkbox($name) {
+    return sprintf('
+<script>
+function toggle_passwd() {
+    var c = document.getElementById("passwd_visible");
+    var x = document.getElementById("%s");
+    if (c.checked) {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>Show password</small></label>
+        ', $name
+    );
 }
 
 function create_account_form($teamid, $next_url) {
@@ -73,9 +98,8 @@ function create_account_form($teamid, $next_url) {
             tra("Must be at least %1 characters", $min_passwd_length),
             tra("Password")
         ),
-        "passwd", "", "password"
+        "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd")
     );
-    form_input_text(tra("Confirm password"), "passwd2", "", "password");
     form_select(
         sprintf('<span title="%s">%s</span>',
             tra("Select the country you want to represent, if any."),
@@ -93,33 +117,28 @@ function create_account_form($teamid, $next_url) {
 }
 
 function login_form($next_url) {
-    echo "
-        <form name=\"f\" method=\"post\" action=\"".secure_url_base()."/login_action.php\">
-        <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
-    ";
-    start_table();
+    form_start(secure_url_base()."/login_action.php", "post");
+    form_input_hidden("next_url", $next_url);
     if (LDAP_HOST) {
         $x = "Email address or LDAP user name:";
     } else {
         $x = tra("Email address:");
     }
-    if (!NO_COMPUTING) {
-        $x .= '<br><small><a href="get_passwd.php">'.tra("forgot email address?")."</a></small>";
-    }
-    row2($x, '<input class="form-control" name=email_addr type="text" size=40 tabindex=1>');
-    row2(tra("Password:") . '<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
-        '<input class="form-control" type="password" name="passwd" size="40" tabindex="2">'
+    form_input_text($x, "email_addr", '', 'text', $attrs='autofocus tabindex="1"');
+    form_input_text(
+        tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
+        "passwd",
+        "",
+        "password",
+        'id="passwd" tabindex="2"',
+        passwd_visible_checkbox("passwd")
     );
-    row2(tra("Stay logged in"),
-        '<input type="checkbox" name="stay_logged_in" checked>'
+    form_checkboxes(tra("Stay logged in"),
+        array(array("stay_logged_in", "", true)), 
+        'tabindex="3"'
     );
-
-    row2("",
-        "<input class=\"btn btn-success\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
-    );
-
-    end_table();
-    echo "</form>\n";
+    form_submit("Log in", 'tabindex="4"');
+    form_end();
 }
 
 ?>

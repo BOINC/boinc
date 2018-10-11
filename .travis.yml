@@ -1,24 +1,12 @@
 language: cpp
-os:
-  - linux
-  - osx
 compiler:
   - gcc
-#  - clang
 
 branches:
   only:
     - master
     - coverity_scan
 
-#notifications:
-#  email:
-#    recipients:
-#      - boinc_cvs@ssl.berkeley.edu
-#    on_success: always
-#    on_failure: always
-
-# Use Trusty image and enable sudo to install apt dependencies
 dist: trusty
 sudo: required
 
@@ -49,31 +37,44 @@ env:
     - BOINC_TYPE=manager
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
-    #- BOINC_TYPE=coverity
+    - BOINC_TYPE=unit-test
 
 matrix:
   fast_finish: true
-  exclude:
-# the osx build currently builds everything in one go
-  - os: osx
-    env: BOINC_TYPE=libs
-  - os: osx
-    env: BOINC_TYPE=server
-  - os: osx
-    env: BOINC_TYPE=client
-  - os: osx
-    env: BOINC_TYPE=apps
-  - os: osx
-    env: BOINC_TYPE=libs-mingw
-  - os: osx
-    env: BOINC_TYPE=apps-mingw
+  include:
+    - language: php
+      os: linux
+      php: 7.0
+      env:
+        - BOINC_TYPE=integration-test
+    - language: cpp
+      os: osx
+      env: BOINC_TYPE=manager-osx
+    - language: android
+      env: BOINC_TYPE=client-android-arm
+    - language: android
+      env: BOINC_TYPE=client-android-arm64
+    - language: android
+      env: BOINC_TYPE=client-android-x86
+    - language: android
+      env: BOINC_TYPE=client-android-x86_64
+    - language: android
+      android:
+        components:
+            - build-tools-28.0.2
+            - android-26
+            - extra-google-m2repository
+            - extra-android-m2repository    
+      env: BOINC_TYPE=manager-android
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
-   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install -y freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 realpath ) fi
+   - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( sudo apt-get install ansible/trusty-backports; sudo service mysql stop; ) fi
 
 before_script:
 - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
+- if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/installTestSuite.sh ) fi
 
 script:
 - if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
@@ -81,6 +82,14 @@ script:
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux && make ) fi
-- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
+- if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( make distclean && ./3rdParty/buildLinuxDependencies.sh --disable-webview --cache_dir ${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && make ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
+- if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-arm" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-arm64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm64 ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-x86" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86 ) fi
+- if [[ "${BOINC_TYPE}" == "client-android-x86_64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86_64 ) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android/BOINC && ./gradlew assemble ) fi
+- if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
+- if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi

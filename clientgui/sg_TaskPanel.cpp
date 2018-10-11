@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -319,14 +319,11 @@ numSlides = 0;
         Enable( false );
 
 #endif  // HIDEDEFAULTSLIDE
-        // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
         
-        if (selData->dotColor == runningIcon) {    // Advance only if running
-            if (changeSlide) {
-                if (++newSlide >= numSlides) {
-                    newSlide = 0;
-                }
+        if (changeSlide) {
+            if (++newSlide >= numSlides) {
+                newSlide = 0;
             }
         }
         if (newSlide < 0) {

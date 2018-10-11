@@ -19,14 +19,17 @@
 #
 #
 # Script to build Macintosh Universal Intel library (i386 and x86_64)
-# of FreeType-2.6.2 for use in building BOINC graphics.
+# of FreeType for use in building BOINC graphics.
 # The resulting library is at:
-#   [path]/freetype-2.6.2/objs/.libs/libfreetype.a
+#   [path]/freetype-x.x.x/objs/.libs/libfreetype.a
+# where x.x.x is the freetype version number
+
 #
 # by Charlie Fenton 7/27/12
 # Updated 2/7/14 for OS 10.9
 # Updated 4/8/15 to check for spaces in path
 # Updated 1/5/16 for FreeType-2.6.2
+# Updated 1/25/18 for any version of FreeType (changed only comments)
 #
 ## This script requires OS 10.6 or later
 #
@@ -34,8 +37,9 @@
 ## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the freetype-2.6.2 directory.
-##     cd [path]/freetype-2.6.2/
+## Where x.x.x is the freetype version number:
+## In Terminal, CD to the freetype-x.x.x directory.
+##     cd [path]/freetype-x.x.x/
 ## then run this script:
 ##     source [path]/buildfreetype.sh [ -clean ] [--prefix PATH]
 ##

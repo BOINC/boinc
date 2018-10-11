@@ -93,7 +93,7 @@
   <string name="attachproject_error_pwd_no_match">Wachtwoorden zijn niet identiek</string>
   <string name="attachproject_error_pwd_no_retype">Vul wachtwoord opnieuw in</string>
   <string name="attachproject_error_no_url">Vul a.u.b. URL in</string>
-  <string name="attachproject_error_no_email">Voer uw e-mailadres in</string>
+  <string name="attachproject_error_no_email">Voer je e-mailadres in</string>
   <string name="attachproject_error_no_pwd">Voer een wachtwoord in</string>
   <string name="attachproject_error_no_name">Voer gebruikersnaam in</string>
   <string name="attachproject_error_unknown">mislukt</string>
@@ -133,7 +133,7 @@
   <string name="tab_desc">Navigatie</string>
   <!--status strings-->
   <string name="status_running">Berekenen</string>
-  <string name="status_running_long">Dank u voor uw deelname.</string>
+  <string name="status_running_long">Dank je voor je deelname.</string>
   <string name="status_paused">Onderbroken</string>
   <string name="status_idle">Niets te doen</string>
   <string name="status_idle_long">Wachten op taaktoewijzing...</string>
@@ -161,7 +161,7 @@
   <string name="prefs_stationary_device_mode_header">Stationaire apparaatmodus</string>
   <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht stroom voorkeuren. Alleen inschakelen als het apparaat niet over een batterij beschikt.</string>
   <string name="prefs_power_source_header">Stroombronnen voor berekeningen</string>
-  <string name="prefs_power_source_description">Hiermee selecteert u stroombronnen die BOINC mag gebruiken voor berekeningen.</string>
+  <string name="prefs_power_source_description">Hiermee selecteer je stroombronnen die BOINC mag gebruiken voor berekeningen.</string>
   <string name="prefs_power_source_ac">Wandcontactdoos</string>
   <string name="prefs_power_source_usb">USB verbinding</string>
   <string name="prefs_power_source_wireless">Draadloze oplader</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versie</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2016 Universiteit van Californië, Berkeley</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
   <string name="about_credits">Met dank aan het Max Planck Instituut voor gravitationele natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -348,7 +347,7 @@
   <string name="nonexcl_dialog_exit">Afsluiten</string>
   <!--social integration-->
   <string name="social_invite_button">Vrienden uitnodigen</string>
-  <string name="social_invite_intent_title">Hoe wilt u dit delen?</string>
+  <string name="social_invite_intent_title">Hoe wil je dit delen?</string>
   <string name="social_invite_content_title">Ik doe wetenschap op mijn smartphone!</string>
   <string name="social_invite_content_body">Ik doe met behulp van mijn %1$s berekeningen voor de wetenschap. Doe dit ook! Download app van: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->

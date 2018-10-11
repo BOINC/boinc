@@ -134,6 +134,8 @@ struct SCHEDULER_REPLY {
     std::vector<std::string> trickle_up_urls;
     bool got_rss_feeds;
         // whether scheduler reply included <rss_feeds>
+    bool too_recent;
+        // whether reply included "too recent" message
 
     void clear();
     SCHEDULER_REPLY();

@@ -56,7 +56,7 @@ function boincuser_check_credit_requirements() {
   $community_role = array_search('community member', user_roles(true));
   $unrestricted_role = array_search('verified contributor', user_roles(true));
   
-  // Set user roles based on current penalty status and total credit
+  // Set user roles based on current penalty status...
   if ($account->boincuser_penalty_expiration > time()) {
     drupal_set_message(bts(
       'You are banned from community participation until @date',
@@ -72,25 +72,36 @@ function boincuser_check_credit_requirements() {
     }
     user_save($account, array('roles' => $account->roles));
   }
-  elseif ($account->boincuser_total_credit >= $min_credit_to_post) {
-    if (!isset($account->roles[$unrestricted_role])) {
-      // This user is now above the credit threshold and is allowed full
-      // privileges
-      $account->roles[$unrestricted_role] = 'verified contributor';
-      user_save($account, array('roles' => $account->roles));
-    }
-  }
   else {
-    drupal_set_message(bts(
-      'You must earn @count more credits to be able to post comments on this site.',
-      array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
-    ), 'warning', FALSE);
-    if (isset($account->roles[$unrestricted_role])) {
-      // Either the threshold has been raised or credits have been revoked;
-      // this user no longer qualifies for full privileges
-      unset($account->roles[$unrestricted_role]);
+    if (!isset($account->roles[$community_role])) {
+      // The user should be a 'community member' role. If the user was
+      // previously banned, this will restore that role.
+      $account->roles[$community_role] = 'community member';
       user_save($account, array('roles' => $account->roles));
     }
+
+    // ... and total credit.
+    if ($account->boincuser_total_credit >= $min_credit_to_post) {
+      if (!isset($account->roles[$unrestricted_role])) {
+        // This user is now above the credit threshold and is allowed full
+        // privileges
+        $account->roles[$unrestricted_role] = 'verified contributor';
+        user_save($account, array('roles' => $account->roles));
+      }
+    }
+    else {
+      drupal_set_message(bts(
+        'You must earn @count more credits to be able to post comments on this site and create or modify your user profile.',
+        array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
+      ), 'warning', FALSE);
+      if (isset($account->roles[$unrestricted_role])) {
+        // Either the threshold has been raised or credits have been revoked;
+        // this user no longer qualifies for full privileges
+        unset($account->roles[$unrestricted_role]);
+        user_save($account, array('roles' => $account->roles));
+      }
+    }
+
   }
 }
 
@@ -121,7 +132,7 @@ function boincuser_get_first_unread_comment_id($nid, $uid = NULL) {
  */
 function boincuser_select_user_of_the_day() {
   // First get a list of users with recent credit
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $users_with_credit = db_query("
     SELECT
       id
@@ -187,6 +198,88 @@ function boincuser_select_user_of_the_day() {
   return $uotd;
 }
 
+
+/**
+ * Send the user an email about his/her email change.
+ *
+ * An email is sent to the user's previous email address informing
+ * them of the email change, and providing a way to revert the
+ * change. An email is also sent to the new (current) address,
+ * informing the user of the change.
+ *
+ * The user is given a secure URL with which to revert the
+ * change. Because the email address is not yet changed by Drupal when
+ * this function is called, it may be called with optional parameters
+ * new and prev email.
+ */
+function _boincuser_send_emailchange($account, $new_email=NULL, $prev_email=NULL, $adminuser=FALSE) {
+  require_boinc('token');
+  module_load_include('inc', 'rules', 'modules/system.rules');
+
+  global $base_url;
+  $site_name = variable_get('site_name', 'Drupal-BOINC');
+
+  if (is_null($new_email)) {
+    $new_email = $account->mail;
+  }
+  if (is_null($prev_email)) {
+    $prev_email = $account->boincuser_previous_email_addr;
+  }
+
+  // @todo - set constant in drupal, or use BOINC contsants
+  $duration = TOKEN_DURATION_ONE_WEEK;
+  $changedate = date('F j, Y \a\t G:i T', time());
+  $newdate = date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time + $duration);
+  $token = create_token($account->boincuser_id, TOKEN_TYPE_CHANGE_EMAIL, $duration);
+  if ($adminuser) {
+    $graf1 = "Your email address was changed from {$prev_email} to {$new_email} "
+      . "on {$changedate}. If you need to reverse this change, please look for "
+      . "an email send to the email address: {$prev_email}.\n";
+  }
+  else {
+    $graf1 = "Your email address was changed from {$prev_email} to {$new_email} "
+      . "on {$changedate}. You will not be able to change your email address "
+      . "until {$newdate}. If you need to reverse this change, please look for "
+      . "an email send to the email address: {$prev_email}.\n";
+  }
+
+  // Send email #1 to current address
+  $mysubject = "Notification of email change at {$site_name}";
+  $mymessage = ''
+      . "{$account->boincuser_name},\n"
+      . "\n"
+      . $graf1
+      . "\n"
+      . "Thanks, \n"
+      . "{$site_name} support team\n";
+
+  $settings = array(
+    'from' => '',
+    'to' => $new_email,
+    'subject' => $mysubject,
+    'message' => $mymessage,
+  );
+  rules_action_mail_to_user($account, $settings);
+
+  // Send email #2 to previous address.
+  $mymessage = ''
+      . "Your email address has been changed. If you did not intend to take this action, then please click this link to reverse this change, or copy-and-paste the link into your browser location bar. You will need to change your password as well.\n"
+      . "\n"
+      . "{$base_url}/user/{$account->uid}/recoveremail/{$token}\n"
+      . "\n"
+      . "Thanks, \n"
+      . "{$site_name} support team\n";
+
+  $settings = array(
+    'from' => '',
+    'to' => $prev_email,
+    'subject' => $mysubject,
+    'message' => $mymessage,
+  );
+
+  rules_action_mail($settings);
+}
+
 /**
  * Determine the first unique name from a given base. Also cleans the
  * username so that it will be valid for drupal. And truncates user
@@ -222,6 +315,84 @@ function create_proper_drupalname($requested_name) {
   return $unique_name;
 }
 
+
+/**
+ * Determine if user has agreed to the terms of use. If not, the user
+ * must agree to terms of use. Returns TRUE/FALSE depending on
+ * database record.
+ *
+ * @params object $user
+ *   This is a drupal user object.
+ *
+ */
+function boincuser_check_termsofuse($user) {
+  // @todo - the condition for the terms of use needs to be saved in the
+  // project's user table, which does not exist, but may be added
+  // upstream. If/when that occurs, check it here.
+  $qres = db_query('SELECT bu.privacy_consent_dt FROM {boincuser} AS bu WHERE uid=%d', $user->uid);
+  $consent_dt = db_result($qres);
+  // Check datetime of consent, it should not be zero.
+  if ($consent_dt > 1 ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Update the database to record user has consented to the terms of use.
+ *
+ * @params object $user
+ *   This is a drupal user object.
+ *
+ */
+function boincuser_consentto_termsofuse($user) {
+  $uid = $user->uid;
+
+  // @todo - Modify BOINC project database to record consent.
+  $sql = 'UPDATE {boincuser} set privacy_consent_dt = %d WHERE uid=%d';
+  $qrc = db_query($sql, time(), $uid);
+  return $qrc;
+}
+
+/**
+ * Ignore certain paths. Returns true of path is in the
+ * paths_to_ignore array of regular expressions patterns.
+ */
+function _boincuser_ignore_paths($path, $paths_to_ignore) {
+
+  foreach ($paths_to_ignore as $pi) {
+    // @todo Currently this function uses {} as PHP regexp
+    // delimiters. Curly brace is not really allowed un URLs, but a
+    // more robust function would first check for these curly braces
+    // in the path_to_ignore patterms, just in case.
+    if (preg_match('{' . $pi . '}', $path)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * A 'menu redirect'. Redirect users from URL recoveremail.php to
+ * Drupal's recover email path.
+ */
+function _boincuser_redirect_recover_email() {
+  $params = array(
+    'boincid' => isset($_GET['id']) ? $_GET['id'] : '',
+    'token' => isset($_GET['token']) ? $_GET['token'] : ''
+  );
+
+  // If boincid or token is not present, then go to the home page.
+  if (empty($params['boincid']) or empty($params['token'])) {
+    $redirect = '';
+  }
+  else {
+    $uid = boincuser_lookup_uid($params['boincid']);
+    $redirect = "/user/${uid}/recoveremail/${params['token']}";
+  }
+  drupal_goto($redirect);
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General BOINC functions
@@ -423,4 +594,20 @@ function boincuser_views_friends_block_header($context = null) {
   $friend_count = flag_friend_get_friend_count($account_id);
   return '<h2 class="pane-title">' . bts('Friends (@count)', 
     array('@count' => $friend_count)) . '</h2>';
+}
+
+/**
+ * Autocomplete function to search for username in boinc user
+ * database.
+ */
+function _boincuser_user_name_autocomplete($string) {
+  $matches = array();
+  db_set_active('boinc_ro');
+  $result = db_query_range("SELECT id,name FROM {user} WHERE name LIKE '%s%'", $string, 0, 10);
+  db_set_active('default');
+  while ($user = db_fetch_object($result)) {
+      $matches[$user->name . '_' . $user->id] = htmlentities($user->name) . " (" . $user->id . ')';
+  }
+
+  drupal_json((object)$matches);
 }

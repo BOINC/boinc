@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия</string>
   <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
-  <string name="about_copyright">\u00A9 2003–2016 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
   <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

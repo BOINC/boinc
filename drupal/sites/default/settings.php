@@ -90,14 +90,46 @@
  *   $db_url = 'mysqli://username:password@localhost/databasename';
  *   $db_url = 'pgsql://username:password@localhost/databasename';
  */
+
+/**
+ * BOINC database configuration
+ *
+ * Place in file dbconfig.php the variables used below to set the
+ * databases. The drupal database is the 'default'
+ * database. 'boinc_rw' is the BOINC project database. If you have a
+ * replica (read-only) BOINC project database, you may define it as
+ * 'boinc_ro'. (N.B., if there is no 'boinc_ro' database defined,
+ * the Drupal-BOINC code will use 'boinc_rw' for all BOINC database
+ * queries.
+ *
+ * Drupal database variables
+ *  - dbtype   : type such as mysql or mysqli (when in doubt, use mysqli)
+ *  - dbuser   : name of database user
+ *  - dbpass   : password of database user
+ *  - dbserver : database server remote IP, or 'localhost'
+ *  - dbname   : name of database, often 'drupal'
+ *
+ * For the BOINC project databases, the variables are the same but
+ * have prefix 'boinc_rw' and 'boinc_ro'.
+ */
 require_once('dbconfig.php');
 if (!isset($dbserver) || empty($dbserver))
   $dbserver='localhost';
 $db_url = array(
   'default' => "{$dbtype}://{$dbuser}:".urlencode($dbpass)."@{$dbserver}/{$dbname}",
-  'boinc' => "{$boinc_dbtype}://{$boinc_dbuser}:".urlencode($boinc_dbpass)."@{$boinc_dbserver}/{$boinc_dbname}"
+  'boinc_rw' => "{$boinc_rw_dbtype}://{$boinc_rw_dbuser}:".urlencode($boinc_rw_dbpass)."@{$boinc_rw_dbserver}/{$boinc_rw_dbname}"
 );
 $db_prefix = '';
+
+// Set boinc_ro if variables are present, otherwise duplicate
+// 'boinc_rw' entry as 'boinc_ro'.
+
+if (isset($boinc_ro_dbtype) && isset($boinc_ro_dbuser) && isset($boinc_ro_dbpass) && isset($boinc_ro_dbserver) && isset($boinc_ro_dbname)) {
+  $db_url['boinc_ro'] = "{$boinc_ro_dbtype}://{$boinc_ro_dbuser}:".urlencode($boinc_ro_dbpass)."@{$boinc_ro_dbserver}/{$boinc_ro_dbname}";
+}
+else {
+  $db_url['boinc_ro'] = $db_url['boinc_rw'];
+}
 
 /**
  * Base URL (optional).
@@ -119,9 +151,6 @@ $db_prefix = '';
  * for you.
  */
 # $base_url = 'http://www.example.com';  // NO trailing slash!
-if (stream_resolve_include_path('baseurl.php')) {
-  include_once('baseurl.php');
-}
 
 /**
  * PHP settings:
@@ -174,6 +203,18 @@ ini_set('upload_max_filesize', '8MB');
 #   'theme_default' => 'minnelli',
 #   'anonymous' => 'Visitor',
 # );
-$conf = array(
-  'maintenance_theme' => 'einstein',
-);
+
+/**
+ * Load local development override configuration, if available.
+ *
+ * Use settings.local.php to override variables on secondary (staging,
+ * development, etc) installations of this site. Typically used to disable
+ * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
+ * other things that should not happen on development and testing sites.
+ *
+ * Keep this code block at the end of this file to take full effect.
+ */
+
+if (stream_resolve_include_path('settings.local.php')) {
+  include 'settings.local.php';
+}

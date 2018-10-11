@@ -19,6 +19,11 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+#include "config.h"
+
 #if HAVE_XLOCALE_H
 #include <xlocale.h>
 #endif
@@ -36,7 +41,9 @@
 
 extern bool s_bSkipExitConfirmation;
 
-// Delay in milliseconds before showing AsyncRPCDlg
+// Delay in milliseconds before showing AsyncRPCDlg during auto-attach to project
+#define RPC_WAIT_DLG_DELAY_DURING_AUTOATTACH 60000
+// Delay in milliseconds before showing AsyncRPCDlg normally
 #define RPC_WAIT_DLG_DELAY 1500
 // How often to check for events when minimized and waiting for Demand RPC
 #define DELAY_WHEN_MINIMIZED 500
@@ -135,25 +142,16 @@ void *RPCThread::Entry() {
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
 
-#ifndef NO_PER_THREAD_LOCALE
-#ifdef __WXMSW__
-    // On Windows, set all locales for this thread on a per-thread basis
+#ifdef HAVE__CONFIGTHREADLOCALE
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
     setlocale(LC_ALL, "C");
-#else
-    // We initialize RPC_Thread_Locale to fix a compiler warning
-    locale_t RPC_Thread_Locale = LC_GLOBAL_LOCALE;
-#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
-    if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
+#elif defined(HAVE_USELOCALE)
+    locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", (locale_t) 0);
+    uselocale(RPC_Thread_Locale);
 #endif
-    {
-        // On Mac / Unix / Linux, set "C" locale for this thread only
-        RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", NULL);
-        uselocale(RPC_Thread_Locale);
-    }
-#endif      // ifndef __WXMSW__
-#endif      // ifndef NO_PER_THREAD_LOCALE
    
+
+
     m_pRPC_Thread_Mutex->Lock();
     m_pDoc->m_bRPCThreadIsReady = true;
     while(true) {
@@ -165,14 +163,9 @@ void *RPCThread::Entry() {
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
-#if !defined(NO_PER_THREAD_LOCALE) && !defined(__WXMSW__)
-#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
-        if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
-#endif
-        {
+#ifdef HAVE_USELOCALE
             uselocale(LC_GLOBAL_LOCALE);
             freelocale(RPC_Thread_Locale);
-        }
 #endif
             m_pRPC_Thread_Mutex->Unlock();  // Just for safety - not really needed
             // Tell CMainDocument that thread has gracefully ended 
@@ -474,7 +467,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     int retval = 0;
     int response = wxID_OK;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
-    long delayTimeRemaining, timeToSleep;
+    long timeToDelay, delayTimeRemaining, timeToSleep;
     bool shown = false;
     
     if (!m_RPCThread) return -1;
@@ -544,18 +537,29 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             return -1;
         }
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
-        // or while BOINC is minimized
+        // or while BOINC is minimized or during auto-attach to project
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
         wxStopWatch Dlgdelay = wxStopWatch();        
         m_RPCWaitDlg = new AsyncRPCDlg();
         m_bWaitingForRPC = true;
+        if (m_bAutoAttaching) {
+            // client may auto-attach only when first launched
+            // so don't keep checking once it is false
+            m_bAutoAttaching = autoattach_in_progress();
+        }
         
         // Allow RPC_WAIT_DLG_DELAY seconds for Demand RPC to complete before 
         // displaying "Please Wait" dialog, but keep checking for completion.
-        delayTimeRemaining = RPC_WAIT_DLG_DELAY;
+        if (m_bAutoAttaching) {
+            timeToDelay = RPC_WAIT_DLG_DELAY_DURING_AUTOATTACH;
+        } else {
+            timeToDelay = RPC_WAIT_DLG_DELAY;
+        }
+        
+        delayTimeRemaining = timeToDelay;
         while (true) {
             if (delayTimeRemaining >= 0) {  // Prevent overflow if minimized for a very long time
-                delayTimeRemaining = RPC_WAIT_DLG_DELAY - Dlgdelay.Time();
+                delayTimeRemaining = timeToDelay - Dlgdelay.Time();
             }
             
             if (pFrame) {
@@ -583,7 +587,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 wxSafeYield(NULL, true);
             }
             
-            // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
+            // OnRPCComplete() clears m_bWaitingForRPC and deletes m_RPCWaitDlg if RPC completed
             if (! m_bWaitingForRPC) {
                 return retval;
             }
@@ -748,8 +752,8 @@ void CMainDocument::HandleCompletedRPC() {
             if (m_RPCWaitDlg->IsShown()) {
                 m_RPCWaitDlg->EndModal(wxID_OK);
             }
-                m_RPCWaitDlg->Destroy();
-                m_RPCWaitDlg = NULL;
+            m_RPCWaitDlg->Destroy();
+            m_RPCWaitDlg = NULL;
         }
         m_bWaitingForRPC = false;
     }
