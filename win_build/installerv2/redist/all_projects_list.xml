@@ -3,7 +3,8 @@
     <project>
         <name>DENIS@Home</name>
         <id>4</id>
-        <url>https://denis.usj.es/denisathome/</url>
+        <url>http://denis.usj.es/denisathome/</url>
+        <web_url>https://denis.usj.es/denisathome/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Medical physiology</specific_area>
         <description><![CDATA[DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart.]]></description>
@@ -17,12 +18,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <summary>Study the physiology of the heart</summary>
-        <keywords>9 1003 1012</keywords>
+        <keywords>9 20 30</keywords>
     </project>
     <project>
         <name>RNA World</name>
         <id>5</id>
         <url>http://www.rnaworld.de/rnaworld/</url>
+        <web_url>http://www.rnaworld.de/rnaworld/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular biology</specific_area>
         <description><![CDATA[RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.]]></description>
@@ -39,12 +41,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/rna4.png</image>
       <summary>Study and design RNA molecules</summary>
-        <keywords>9 12 1003 1004</keywords>
+        <keywords>9 12 20 21</keywords>
     </project>
     <project>
         <name>GPUGrid.net</name>
         <id>6</id>
         <url>http://www.gpugrid.net/</url>
+        <web_url>http://www.gpugrid.net/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular simulations of proteins</specific_area>
         <description><![CDATA[GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.]]></description>
@@ -63,12 +66,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/gpugrid.png</image>
       <summary>Help biomedical research</summary>
-        <keywords>9 1003 1012 1025</keywords>
+        <keywords>9 20 30 47</keywords>
     </project>
     <project>
         <name>Rosetta@home</name>
         <id>7</id>
         <url>http://boinc.bakerlab.org/rosetta/</url>
+        <web_url>http://boinc.bakerlab.org/rosetta/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Biology</specific_area>
         <description><![CDATA[Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, malaria, cancer, and Alzheimer's]]></description>
@@ -83,12 +87,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/rosetta_at_home_logo.jpg</image>
       <summary>Study diseases such as HIV, malaria, cancer, and Alzheimer's</summary>
-        <keywords>9 13 11 1006 1007 1011</keywords>
+        <keywords>9 13 11 23 24 28</keywords>
     </project>
     <project>
         <name>Acoustics@home</name>
         <id>9</id>
         <url>http://www.acousticsathome.ru/boinc/</url>
+        <web_url>http://www.acousticsathome.ru/boinc/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Physics, Underwater acoustics</specific_area>
         <description><![CDATA[In underwater acoustics the notion of geoacoustic inversion refers to a collection of techniques that can be used for the reconstruction of medium parameters. The medium parameters are usually understood as the sound speed profile in water (i.e., the dependence of the sound speed on the depth) and the sound speed and density in the sea bottom sediment layers. Medium parameters reconstruction is of great importance for problems of underwater communication and for the development of underwater navigation systems.]]></description>
@@ -100,53 +105,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <summary>Study underwater acoustics</summary>
-        <keywords>6 1003 1022</keywords>
-    </project>
-    <project>
-        <name>theSkyNet POGS</name>
-        <id>10</id>
-        <url>http://pogs.theskynet.org/pogs/</url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Astronomy</specific_area>
-        <description><![CDATA[TheSkyNet POGS is an astronomy project studying 16 different properties of galaxies, including brightness, mass, amount of dust and how fast stars are forming. We are using your processing power to conduct pixel-by-pixel calculations on multi-wavelength (ultraviolet, optical and near-infrared light) images of galaxies to produce an atlas that will help astronomers to better understand the distant universe.]]></description>
-        <home>The International Centre for Radio Astronomy Research (Perth, Australia)</home>
-    <platforms>
-        <name>arm-android-linux-gnu[android_arm_non_pie]</name>
-        <name>arm-android-linux-gnu[android_arm_non_pie_old_client]</name>
-        <name>arm-android-linux-gnu[android_arm_pie]</name>
-        <name>arm-android-linux-gnu[android_arm_pie_old_client]</name>
-        <name>i686-pc-linux-gnu</name>
-        <name>windows_intelx86</name>
-        <name>windows_x86_64</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-pc-linux-gnu</name>
-    </platforms>
-      <summary>Analyze images of space</summary>
-        <keywords>1 1001 1002</keywords>
-    </project>
-    <project>
-        <name>SourceFinder</name>
-        <id>37</id>
-        <url>https://sourcefinder.theskynet.org/duchamp/</url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Astronomy</specific_area>
-        <description><![CDATA[Sourcefinder aims to test the effectiveness of algorithms that process 'cubes' of data that contain radio sources, and identify the location of the sources within the cube.]]></description>
-        <home>The International Centre for Radio Astronomy Research (Perth, Australia)</home>
-    <platforms>
-        <name>i686-apple-darwin[vbox32]</name>
-        <name>i686-pc-linux-gnu[vbox32]</name>
-        <name>windows_intelx86[vbox32]</name>
-        <name>windows_x86_64[vbox64]</name>
-        <name>x86_64-apple-darwin[vbox64]</name>
-        <name>x86_64-pc-linux-gnu[vbox64]</name>
-    </platforms>
-      <summary>Improve radio astronomy algorithms</summary>
-        <keywords>1 1001 1002</keywords>
+        <keywords>6 20 44</keywords>
     </project>
     <project>
         <name>Asteroids@home</name>
         <id>11</id>
         <url>http://asteroidsathome.net/boinc/</url>
+        <web_url>http://asteroidsathome.net/boinc/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
         <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
@@ -182,12 +147,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/asteroids_logo.jpg</image>
       <summary>Study the properties of asteroids</summary>
-        <keywords>1 1003 1014 1015</keywords>
+        <keywords>1 20 36 37</keywords>
     </project>
     <project>
         <name>Cosmology@Home</name>
         <id>12</id>
         <url>http://www.cosmologyathome.org/</url>
+        <web_url>http://www.cosmologyathome.org/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astronomy</specific_area>
         <description><![CDATA[The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data.]]></description>
@@ -202,36 +168,34 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/cosmo.jpg</image>
       <summary>Study the evolution of the Universe</summary>
-        <keywords>1 5 1006 1007 1034</keywords>
+        <keywords>1 5 23 24 56</keywords>
     </project>
     <project>
         <name>Universe@Home</name>
         <id>13</id>
         <url>https://universeathome.pl/universe/</url>
+        <web_url>https://universeathome.pl/universe/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astronomy</specific_area>
         <description><![CDATA[Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries.]]></description>
         <home>University of Warsaw</home>
     <platforms>
-        <name>aarch64-android-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu</name>
         <name>arm-android-linux-gnu[android_arm_pie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
-        <name>armv6l-unknown-linux-gnueabihf</name>
         <name>armv7l-unknown-linux-gnueabihf</name>
-        <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>windows_x86_64[opencl_ati_101]</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/universe_at_home.png</image>
       <summary>Do research in physics and astronomy</summary>
-        <keywords>1 1003 1021 1036</keywords>
+        <keywords>1 20 43 57</keywords>
     </project>
     <project>
         <name>Milkyway@home</name>
         <id>14</id>
         <url>http://milkyway.cs.rpi.edu/milkyway/</url>
+        <web_url>http://milkyway.cs.rpi.edu/milkyway/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astronomy</specific_area>
         <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
@@ -257,30 +221,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
-        <keywords>1 1006 1007 1038</keywords>
-    </project>
-    <project>
-        <name>Leiden Classical</name>
-        <id>15</id>
-        <url>http://boinc.gorlaeus.net/</url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Chemistry</specific_area>
-        <description><![CDATA[Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid.]]></description>
-        <home>Leiden University, The Netherlands</home>
-    <platforms>
-        <name>i686-pc-linux-gnu</name>
-        <name>windows_intelx86</name>
-        <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-unknown-linux-gnu</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/leiden_classical.png</image>
-      <summary>Help students do atomic simulations</summary>
-        <keywords>36 1003 1037</keywords>
+        <keywords>1 23 24 58</keywords>
     </project>
     <project>
         <name>Einstein@home</name>
         <id>16</id>
-        <url>https://einsteinathome.org/</url>
+        <url>http://einstein.phys.uwm.edu/</url>
+        <web_url>https://einsteinathome.org/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
         <description><![CDATA[Einstein@Home uses your computer's idle time to search for weak astrophysical signals from spinning neutron stars (often called pulsars) using data from the LIGO gravitational-wave detectors, the Arecibo radio telescope, and the Fermi gamma-ray satellite.]]></description>
@@ -313,7 +260,6 @@
         <name>windows_intelx86[BRP4G-opencl-ati]</name>
         <name>windows_intelx86[FGRPSSE]</name>
         <name>windows_intelx86[opencl-intel_gpu]</name>
-        <name>windows_x86_64</name>
         <name>windows_x86_64[BRP4G-Beta-opencl-ati]</name>
         <name>windows_x86_64[BRP4G-Beta-opencl-intel_gpu]</name>
         <name>windows_x86_64[BRP4G-opencl-ati]</name>
@@ -328,8 +274,6 @@
         <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
         <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[Lion]</name>
-        <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
         <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda55]</name>
         <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
@@ -341,16 +285,16 @@
         <name>x86_64-pc-linux-gnu[FGRPopencl1K-ati]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl1K-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
-        <name>x86_64-pc-linux-gnu[LIBC215]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
       <summary>Help detect pulsars and gravitational waves</summary>
-        <keywords>1 4 3 1003 1004 1009</keywords>
+        <keywords>1 4 3 59 26</keywords>
     </project>
     <project>
         <name>LHC@home</name>
         <id>17</id>
         <url>https://lhcathome.cern.ch/lhcathome/</url>
+        <web_url>https://lhcathome.cern.ch/lhcathome/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Physics</specific_area>
         <description><![CDATA[The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors.]]></description>
@@ -365,35 +309,43 @@
         <name>i686-pc-linux-gnu[vbox32]</name>
         <name>powerpc64le-unknown-linux-gnu</name>
         <name>ppc64-linux-gnu</name>
+        <name>windows_intelx86[avx]</name>
         <name>windows_intelx86[sse2]</name>
         <name>windows_intelx86[vbox32]</name>
         <name>windows_x86_64[avx]</name>
         <name>windows_x86_64[sse2]</name>
         <name>windows_x86_64[vbox64]</name>
+        <name>windows_x86_64[vbox64_mt_mcore]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
+        <name>windows_x86_64[vbox64_mt_mcore_lhcb]</name>
         <name>x86-android-linux-gnu[sse2]</name>
         <name>x86_64-android-linux-gnu[sse2]</name>
         <name>x86_64-apple-darwin[avx]</name>
         <name>x86_64-apple-darwin[sse2]</name>
         <name>x86_64-apple-darwin[vbox64]</name>
+        <name>x86_64-apple-darwin[vbox64_mt_mcore]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_atlas]</name>
+        <name>x86_64-apple-darwin[vbox64_mt_mcore_lhcb]</name>
         <name>x86_64-pc-freebsd[avx]</name>
         <name>x86_64-pc-freebsd[sse2]</name>
         <name>x86_64-pc-linux-gnu[avx]</name>
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[sse2]</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
+        <name>x86_64-pc-linux-gnu[vbox64_mt_mcore]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
+        <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_lhcb]</name>
         <name>x86_64-pc-openbsd[sse2]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
-        <keywords>6 7 1003 1010</keywords>
+        <keywords>6 7 59 27</keywords>
     </project>
     <project>
         <name>SETI@home</name>
         <id>18</id>
         <url>http://setiathome.berkeley.edu/</url>
+        <web_url>http://setiathome.berkeley.edu/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics, astrobiology</specific_area>
         <description><![CDATA[SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology.]]></description>
@@ -417,6 +369,7 @@
         <name>arm-android-linux-gnu[armv7-vfpv4-nopie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>i686-apple-darwin</name>
+        <name>i686-apple-darwin[osx_12]</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[sse]</name>
         <name>i686-pc-linux-gnu[sse2]</name>
@@ -458,6 +411,7 @@
         <name>x86_64-apple-darwin[opencl_intel_gpu_mac]</name>
         <name>x86_64-apple-darwin[opencl_intel_gpu_sah]</name>
         <name>x86_64-apple-darwin[opencl_nvidia_mac]</name>
+        <name>x86_64-apple-darwin[osx_12]</name>
         <name>x86_64-apple-darwin[sse3]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda60]</name>
@@ -483,12 +437,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/seti_logo.png</image>
       <summary>Search for evidence of extra-terrestrial life</summary>
-        <keywords>1 2 1006 1007 1008</keywords>
+        <keywords>1 2 23 24 25</keywords>
     </project>
     <project>
         <name>Amicable Numbers</name>
         <id>23</id>
         <url>https://sech.me/boinc/Amicable/</url>
+        <web_url>https://sech.me/boinc/Amicable/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA['Amicable numbers' are pairs where the sum of the proper divisors of each is equal to the other number. The goal of this project is to collect all amicable numbers up to a very large limit.]]></description>
@@ -506,12 +461,13 @@
         <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
     </platforms>
       <summary>Do research in number theory</summary>
-        <keywords>15 32 1003</keywords>
+        <keywords>15 32 20</keywords>
     </project>
     <project>
         <name>NumberFields@home</name>
         <id>24</id>
         <url>https://numberfields.asu.edu/NumberFields/</url>
+        <web_url>https://numberfields.asu.edu/NumberFields/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
@@ -525,12 +481,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
       <summary>Do research in algebraic number theory</summary>
-        <keywords>15 1006 1007 1033</keywords>
+        <keywords>15 23 24 55</keywords>
     </project>
     <project>
         <name>ODLK</name>
         <id>38</id>
         <url>https://boinc.progger.info/odlk/</url>
+        <web_url>https://boinc.progger.info/odlk/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[OLDK is building a database of canonical forms of diagonal Latin squares of the 10th order]]></description>
@@ -544,12 +501,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <summary>Discover Latin Squares</summary>
-        <keywords>15 1003 1022 1024</keywords>
+        <keywords>15 20 44 46</keywords>
     </project>
     <project>
         <name>ODLK1</name>
         <id>39</id>
         <url>http://boinc.multi-pool.info/latinsquares/</url>
+        <web_url>http://boinc.multi-pool.info/latinsquares/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[OLDK is building a database of canonical forms of diagonal Latin squares of the 10th order]]></description>
@@ -563,12 +521,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <summary>Discover Latin Squares</summary>
-        <keywords>15 1003 1022 1024</keywords>
+        <keywords>15 20 44 46</keywords>
     </project>
     <project>
         <name>SAT@home</name>
         <id>25</id>
         <url>http://sat.isa.ru/pdsat/</url>
+        <web_url>http://sat.isa.ru/pdsat/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Computer Science</specific_area>
         <description><![CDATA[Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.]]></description>
@@ -581,12 +540,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/sat_logo.png</image>
       <summary>Study computational complexity</summary>
-        <keywords>15 1003 1022 1024</keywords>
+        <keywords>15 20 44 46</keywords>
     </project>
     <project>
         <name>Moo! Wrapper</name>
         <id>26</id>
         <url>http://moowrap.net/</url>
+        <web_url>http://moowrap.net/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Cryptography and combinatorics</specific_area>
         <description><![CDATA[Run applications from distributed.net]]></description>
@@ -622,6 +582,7 @@
         <name>Enigma@Home</name>
         <id>27</id>
         <url>http://www.enigmaathome.net/</url>
+        <web_url>http://www.enigmaathome.net/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Cryptography</specific_area>
         <description><![CDATA[Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken.]]></description>
@@ -643,61 +604,53 @@
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
     </platforms>
       <summary>Decode WWII submarine messages</summary>
-        <keywords>15 1003</keywords>
+        <keywords>15 20</keywords>
     </project>
     <project>
         <name>Collatz Conjecture</name>
         <id>28</id>
         <url>https://boinc.thesonntags.com/collatz/</url>
+        <web_url>https://boinc.thesonntags.com/collatz/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Study the Collatz Conjecture, an unsolved conjecture in mathematics]]></description>
         <home>Independent</home>
     <platforms>
-        <name>arm-android-linux-gnu[android_arm_non_pie]</name>
-        <name>arm-android-linux-gnu[android_arm_pie]</name>
-        <name>arm-unknown-linux-gnueabi</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>armv6l-unknown-linux-gnueabi</name>
-        <name>armv6l-unknown-linux-gnueabihf</name>
         <name>i686-pc-linux-gnu</name>
-        <name>i686-pc-linux-gnu[cuda40]</name>
-        <name>i686-pc-linux-gnu[opencl_amd_gpu]</name>
-        <name>i686-pc-linux-gnu[opencl_intel_gpu]</name>
-        <name>i686-pc-linux-gnu[opencl_nvidia_gpu]</name>
-        <name>mipsel-android-linux-gnu</name>
+        <name>i686-pc-linux-gnu[ati_opencl]</name>
+        <name>i686-pc-linux-gnu[intel_opencl]</name>
+        <name>i686-pc-linux-gnu[nvidia_opencl]</name>
+        <name>i686-pc-linux-gnu[opencl_ati_gpu]</name>
         <name>windows_intelx86</name>
-        <name>windows_intelx86[ati14]</name>
-        <name>windows_intelx86[cuda55]</name>
-        <name>windows_intelx86[opencl_amd_gpu]</name>
+        <name>windows_intelx86[opencl_ati_gpu]</name>
         <name>windows_intelx86[opencl_intel_gpu]</name>
         <name>windows_intelx86[opencl_nvidia_gpu]</name>
         <name>windows_intelx86[SSE]</name>
         <name>windows_x86_64</name>
-        <name>windows_x86_64[ati14]</name>
-        <name>windows_x86_64[cuda55]</name>
-        <name>windows_x86_64[opencl_amd_gpu]</name>
+        <name>windows_x86_64[opencl_ati_gpu]</name>
         <name>windows_x86_64[opencl_intel_gpu]</name>
         <name>windows_x86_64[opencl_nvidia_gpu]</name>
-        <name>x86-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[opencl_amd_gpu]</name>
-        <name>x86_64-apple-darwin[opencl_intel_gpu]</name>
-        <name>x86_64-apple-darwin[opencl_nvidia_gpu]</name>
+        <name>x86_64-apple-darwin[ati_opencl]</name>
+        <name>x86_64-apple-darwin[intel_opencl]</name>
+        <name>x86_64-apple-darwin[nvidia_opencl]</name>
+        <name>x86_64-apple-darwin[opencl_ati]</name>
+        <name>x86_64-apple-darwin[opencl_intel]</name>
+        <name>x86_64-apple-darwin[opencl_nvidia]</name>
         <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[cuda40]</name>
-        <name>x86_64-pc-linux-gnu[cuda55]</name>
-        <name>x86_64-pc-linux-gnu[opencl_amd_gpu]</name>
-        <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
-        <name>x86_64-pc-linux-gnu[opencl_nvidia_gpu]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_gpu]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
     </platforms>
       <summary>Study the Collatz Conjecture</summary>
-        <keywords>15 32 1003</keywords>
+        <keywords>15 32 20</keywords>
     </project>
     <project>
         <name>NFS@home</name>
         <id>29</id>
         <url>https://escatter11.fullerton.edu/nfs/</url>
+        <web_url>https://escatter11.fullerton.edu/nfs/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Factorization of large integers</specific_area>
         <description><![CDATA[NFS@Home is a research project that uses Internet-connected computers to do the lattice sieving step in the Number Field Sieve factorization of large integers. As a young school student, you gained your first experience at breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. NFS@Home is a continuation of that experience, only with integers that are hundreds of digits long.]]></description>
@@ -714,12 +667,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
       <summary>Study the factorization of large integers</summary>
-        <keywords>15 32 1006 1007 1032</keywords>
+        <keywords>15 32 23 24 54</keywords>
     </project>
     <project>
         <name>PrimeGrid</name>
         <id>30</id>
         <url>http://www.primegrid.com/</url>
+        <web_url>http://www.primegrid.com/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number.]]></description>
@@ -872,12 +826,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/primegrid_logo.png</image>
       <summary>Search for large prime numbers</summary>
-        <keywords>15 32 1003</keywords>
+        <keywords>15 32 20</keywords>
     </project>
     <project>
         <name>primaboinca</name>
         <id>31</id>
         <url>http://www.primaboinca.com/</url>
+        <web_url>http://www.primaboinca.com/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Search for counterexamples to two conjectures related to the identification of prime numbers]]></description>
@@ -889,33 +844,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/logo_primaboinca.gif</image>
       <summary>Study the properties of prime numbers</summary>
-        <keywords>15 32 1003 1004</keywords>
-    </project>
-    <project>
-        <name>SZTAKI Desktop Grid</name>
-        <id>32</id>
-        <url>http://szdg.lpds.sztaki.hu/szdg/</url>
-        <general_area>Mathematics, computing, and games</general_area>
-        <specific_area>Mathematics</specific_area>
-        <description><![CDATA[Find all the generalized binary number systems (in which bases are matrices and digits are vectors) up to dimension 11.]]></description>
-        <home>MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)</home>
-    <platforms>
-        <name>i686-apple-darwin</name>
-        <name>i686-pc-linux-gnu</name>
-        <name>powerpc-apple-darwin</name>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86_64</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-pc-linux-gnu</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/szdg1_small.jpg</image>
-      <summary>Study number theory</summary>
-        <keywords>15 1003 1018</keywords>
+        <keywords>15 32 20 21</keywords>
     </project>
     <project>
         <name>Gerasim@Home</name>
         <id>33</id>
         <url>http://gerasim.boinc.ru/</url>
+        <web_url>http://gerasim.boinc.ru/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Computer engineering</specific_area>
         <description><![CDATA[Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems]]></description>
@@ -927,12 +862,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/gerasim.gif</image>
-        <keywords>15 1003 1022</keywords>
+        <keywords>15 20 44</keywords>
     </project>
     <project>
         <name>SRBase</name>
         <id>34</id>
         <url>http://srbase.my-firewall.org/sr5/</url>
+        <web_url>http://srbase.my-firewall.org/sr5/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.]]></description>
@@ -947,9 +883,45 @@
         <keywords>15 32</keywords>
     </project>
     <project>
+        <name>Distributed Hardware Evolution Project</name>
+        <id>40</id>
+        <url>https://dhep.ga/boinc/</url>
+        <web_url>https://dhep.ga/boinc/</web_url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Electrical Engineering</specific_area>
+        <description><![CDATA[DHEP uses a Genetic Algorithm in a coevolutionary setting to synthesise future super-reliable electronics such as those used in autonomous vehicles, power stations, medical equipment, aerospace. These are of increasingly paramount importance as more and more human lives rely on well functioning hardware.]]></description>
+        <home>University of Sussex</home>
+    <platforms>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <image>https://boinc.berkeley.edu/images/dhep.png</image>
+      <summary>Help design super-reliable electronic circuits</summary>
+        <keywords>15 20 48</keywords>
+    </project>
+    <project>
+        <name>DBN Upper Bound</name>
+        <id>41</id>
+        <url>http://anthgrid.com/dbnupperbound/</url>
+        <web_url>http://anthgrid.com/dbnupperbound/</web_url>
+        <general_area>Mathematics, computing, and games</general_area>
+        <specific_area>Mathematics</specific_area>
+        <description><![CDATA[DBN Upper Bound does computations related to the Riemann zeta function.]]></description>
+        <home>Independent</home>
+    <platforms>
+        <name>windows_x86_64[vbox64_mt]</name>
+        <name>x86_64-apple-darwin[vbox64_mt]</name>
+        <name>x86_64-pc-linux-gnu[vbox64_mt]</name>
+    </platforms>
+        <keywords>15</keywords>
+    </project>
+    <project>
         <name>Climateprediction.net</name>
         <id>8</id>
-        <url>http://climateapps2.oucs.ox.ac.uk/cpdnboinc/</url>
+        <url>http://www.cpdn.org/cpdnboinc/</url>
+        <web_url>http://climateprediction.net/</web_url>
         <general_area>Earth Sciences</general_area>
         <specific_area>Climate study</specific_area>
         <description><![CDATA[Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.]]></description>
@@ -961,12 +933,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
       <summary>Study long-term climate change</summary>
-        <keywords>29 35 1003 1026 1027</keywords>
+        <keywords>29 35 20 48 49</keywords>
     </project>
     <project>
         <name>Citizen Science Grid</name>
         <id>19</id>
         <url>https://csgrid.org/csg/</url>
+        <web_url>https://csgrid.org/csg/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Molecular biology, Computer Science</specific_area>
         <description><![CDATA[The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.]]></description>
@@ -979,12 +952,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <summary>Support science from the University of North Dakota</summary>
-        <keywords>9 15 1006 1007 1035</keywords>
+        <keywords>9 15 23 24 60</keywords>
     </project>
     <project>
         <name>CAS@home</name>
         <id>20</id>
         <url>http://casathome.ihep.ac.cn/</url>
+        <web_url>http://casathome.ihep.ac.cn/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Physics, biochemistry, and others</specific_area>
         <description><![CDATA[CAS@home is hosted by the Computing Centre of the Institute of High Energy Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with projects studying protein structure, nanotechnology, cancer genomics, and high energy physics.]]></description>
@@ -996,12 +970,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/cas_at_home.jpg</image>
       <summary>Help Chinese researchers</summary>
-        <keywords>6 9 1005 1028</keywords>
+        <keywords>6 9 22 50</keywords>
     </project>
     <project>
         <name>Yoyo@home</name>
         <id>21</id>
         <url>http://www.rechenkraft.net/yoyo/</url>
+        <web_url>http://www.rechenkraft.net/yoyo/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Mathematics, physics, evolution</specific_area>
         <description><![CDATA[Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net]]></description>
@@ -1023,12 +998,13 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <summary>Do research in math, physics, and evolution</summary>
-        <keywords>15 6 12 1003 1004</keywords>
+        <keywords>15 6 12 20 21</keywords>
     </project>
     <project>
         <name>World Community Grid</name>
         <id>22</id>
         <url>http://www.worldcommunitygrid.org/</url>
+        <web_url>http://www.worldcommunitygrid.org/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Medical, environmental and other humanitarian research</specific_area>
         <description><![CDATA[To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more.]]></description>
@@ -1043,12 +1019,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/wcg.jpg</image>
       <summary>Do biomedical and environmental research</summary>
-        <keywords>9 29 1006 1007</keywords>
+        <keywords>9 29 23 24</keywords>
     </project>
     <project>
         <name>MindModeling@Home</name>
         <id>3</id>
         <url>https://mindmodeling.org/</url>
+        <web_url>https://mindmodeling.org/</web_url>
         <general_area>Cognitive science and artificial intelligence</general_area>
         <specific_area>Cognitive Science</specific_area>
         <description><![CDATA[MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.]]></description>
@@ -1065,12 +1042,13 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/mmlogo.gif</image>
       <summary>Model the human brain</summary>
-        <keywords>16 1006 1007 1029</keywords>
+        <keywords>16 23 24 51</keywords>
     </project>
     <project>
         <name>Quake Catcher Network</name>
         <id>1</id>
         <url>http://quakecatcher.net/sensor/</url>
+        <web_url>http://quakecatcher.net/sensor</web_url>
         <general_area>Distributed sensing</general_area>
         <specific_area>Seismology</specific_area>
         <description><![CDATA[Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves.]]></description>
@@ -1078,12 +1056,13 @@
     <platforms>
     </platforms>
       <summary>Help detect earthquakes</summary>
-        <keywords>29 1006 1007 1031</keywords>
+        <keywords>29 23 24 53</keywords>
     </project>
     <project>
         <name>Radioactive@Home</name>
         <id>2</id>
         <url>http://radioactiveathome.org/boinc/</url>
+        <web_url>http://radioactiveathome.org/boinc/</web_url>
         <general_area>Distributed sensing</general_area>
         <specific_area>Environmental research</specific_area>
         <description><![CDATA[Radioactive@Home is creating a free and continuously updated map of radiation levels using sensors connected to volunteers' computers.  You must buy a sensor to participate.]]></description>
@@ -1099,7 +1078,7 @@
     </platforms>
       <image>https://boinc.berkeley.edu/images/radioactive.jpg</image>
       <summary>Monitor radiation levels</summary>
-        <keywords>34 1003 1021</keywords>
+        <keywords>34 20 43</keywords>
     </project>
    <account_manager>
         <name>BAM!</name>

@@ -20,7 +20,7 @@ def buildVersionCode() {
 
 // Derive version name from release tag and add commit SHA1
 def buildVersionName() {
-    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.].*)/
+    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.]?.*)/
     def version = ': DEVELOPMENT'
 
     def head = versionDetails()

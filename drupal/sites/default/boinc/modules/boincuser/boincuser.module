@@ -53,7 +53,7 @@ function boincuser_menu() {
     'title' => 'Edit',
     'description' => 'Edit a user profile',
     'page callback' => 'boincuser_edit_profile',
-    'access callback' => 'user_is_logged_in',
+    'access arguments' => array('edit own profile content'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
@@ -259,23 +259,31 @@ function boincuser_init() {
         $path = drupal_get_path_alias($_GET['q']);
 
         // Any paths that should NOT be redirected go here.
-        // @todo - replace this static array with one that allows
-        // admins to specify custom paths (patterns) to ignore.
-        $paths_to_ignore = array(
+        // The site will not function correctly if these are not exempt!
+        $paths0 = array(
           'user/termsofuse',
           'logout',
-          'privacy',
-          'moderation',
           'account/info/edit',
           'user/' . $user->uid . '/edit',
           'user/' . $user->uid . '/recoveremail/*',
           'recover_email.php',
         );
         if (module_exists('boincuser_delete')) {
-          $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
-          $paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm/*';
-          $paths_to_ignore[] = 'user/' . $user->uid . '/odeleteconfirm/*';
+          $paths0[] = 'user/' . $user->uid . '/delete';
+          $paths0[] = 'user/' . $user->uid . '/deleteconfirm/*';
+          $paths0[] = 'user/' . $user->uid . '/odeleteconfirm/*';
         }
+
+        // Paths added by the admin
+        $paths1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_pathstoignore', "moderation\ncontent/moderation\nprivacy"));
+        $paths2 = array();
+        if (is_array($paths1)) {
+          $paths2 = array_map('strtolower', $paths1);
+        }
+
+        // paths to ignore
+        $paths_to_ignore = array_unique( array_merge($paths0, $paths2) );
+
         if (!_boincuser_ignore_paths($path, $paths_to_ignore)) {
           drupal_goto('user/termsofuse');
         }
@@ -1472,6 +1480,16 @@ function boincuser_view_profile($account = null) {
     global $user;
     $account = $user;
   }
+
+  $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
+  $verified_contributor = array_search('verified contributor', user_roles(true));
+  if (!isset($account->roles[$verified_contributor])) {
+    drupal_set_message(bts(
+        'You may only create or modify your user profile after earning @count credits.',
+        array('@count' => $min_credit_to_post), NULL, 'boinc:view-profile'
+    ), 'warning', FALSE);
+  }
+
   // For now, just call the user module profile view function
   user_build_content($account);
   return theme('user_profile', $account);

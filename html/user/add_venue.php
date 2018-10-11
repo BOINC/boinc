@@ -35,6 +35,8 @@ if ($action) {
     if ($subset == "global") {
         $prefs = prefs_parse_global($user->global_prefs);
         $prefs->$venue = $prefs;
+
+        $new_prefs = new stdClass();
         $error = prefs_global_parse_form($new_prefs);
         if ($error != false) {
             $title = tra("Edit %1 preferences", subset_name($subset));
@@ -56,7 +58,8 @@ if ($action) {
     } else {
         $prefs = prefs_parse_project($user->project_prefs);
         $prefs->$venue = $prefs;
-
+ 
+        $new_prefs = new stdClass();
         $project_error = prefs_project_parse_form($new_prefs);
         $error = prefs_resource_parse_form($new_prefs);
 
