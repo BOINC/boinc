@@ -463,17 +463,12 @@ int main(int argc, char** argv) {
         ) {
             int i, len=1024;
             char commandLine[1024];
-            char execpath[MAXPATHLEN];
             STARTUPINFO si;
             PROCESS_INFORMATION pi;
 
-            if (get_real_executable_path(execpath, sizeof(execpath))) {
-                strlcpy(execpath, argv[0], sizeof(execpath));
-            }
-
             argv[index] = "-detach_phase_two";
 
-            snprintf(commandLine, sizeof(commandLine), "\"%s\"", execpath);
+            sprintf(commandLine, "\"%s\"", CLIENT_EXEC_FILENAME);
             for (i = 1; i < argc; i++) {
                 strlcat(commandLine, " ", len);
                 strlcat(commandLine, argv[i], len);

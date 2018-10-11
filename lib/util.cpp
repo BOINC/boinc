@@ -41,14 +41,8 @@
 
 #ifndef _WIN32
 #include "config.h"
-#if defined(__APPLE__)
-#include <mach-o/dyld.h>
-#endif
 #if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_SYS_SYSCTL_H
-#include <sys/sysctl.h>
 #endif
 #include <sys/types.h>
 #include <sys/time.h>
@@ -414,7 +408,7 @@ int read_file_string(
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* /*file*/, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -436,7 +430,7 @@ int run_program(
     }
 
     retval = CreateProcessA(
-        NULL,
+        file,
         cmdline,
         NULL,
         NULL,
@@ -479,11 +473,11 @@ int run_program(
             retval = chdir(dir);
             if (retval) return retval;
         }
-        execvp(file, argv);
+        execv(file, argv);
 #ifdef _USING_FCGI_
-        FCGI::perror("execvp");
+        FCGI::perror("execv");
 #else
-        perror("execvp");
+        perror("execv");
 #endif
         exit(errno);
     }
@@ -635,50 +629,23 @@ double rand_normal() {
 // determines the real path and filename of the current process
 // not the current working directory
 //
+#ifdef HAVE__PROC_SELF_EXE
 int get_real_executable_path(char* path, size_t max_len) {
-#if defined(__APPLE__)
-    uint32_t size = (uint32_t)max_len;
-    if (_NSGetExecutablePath(path, &size)) {
-        return ERR_BUFFER_OVERFLOW;
-    }
-    return BOINC_SUCCESS;
-#elif (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__)) && defined(KERN_PROC_PATHNAME)
-#if defined(__DragonFly__) || defined(__FreeBSD__)
-    int name[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
-#else
-    int name[4] = { CTL_KERN, KERN_PROC_ARGS, -1, KERN_PROC_PATHNAME };
-#endif
-    if (sysctl(name, 4, path, &max_len, NULL, 0)) {
-        return errno == ENOMEM ? ERR_BUFFER_OVERFLOW : ERR_PROC_PARSE;
-    }
-    return BOINC_SUCCESS;
-#elif defined(_WIN32)
-    DWORD length = GetModuleFileNameA(NULL, path, (DWORD)max_len);
-    if (!length) {
-        return ERR_PROC_PARSE;
-    } else if (length == (DWORD)max_len) {
-        return ERR_BUFFER_OVERFLOW;
-    }
-    return BOINC_SUCCESS;
-#else
-    const char* links[] = { "/proc/self/exe", "/proc/curproc/exe", "/proc/self/path/a.out", "/proc/curproc/file" };
-    for (unsigned int i = 0; i < sizeof(links) / sizeof(links[0]); ++i) {
-        ssize_t ret = readlink(links[i], path, max_len - 1);
-        if (ret < 0) {
-            if (errno != ENOENT) {
-#ifdef _USING_FCGI_
-                FCGI::perror("readlink");
-#else
-                perror("readlink");
-#endif
-            }
-            continue;
-        } else if ((size_t)ret == max_len - 1) {
-            return ERR_BUFFER_OVERFLOW;
-        }
+    int ret = readlink("/proc/self/exe", path, max_len - 1);
+    if ( ret >= 0) {
         path[ret] = '\0'; // readlink does not null terminate
-        return BOINC_SUCCESS;
-    }
-    return ERR_NOT_IMPLEMENTED;
+        return 0;
+    } else {
+#ifdef _USING_FCGI_
+        FCGI::perror("readlink");
+#else
+        perror("readlink");
 #endif
+        return ERR_PROC_PARSE;
+    }
 }
+#else
+int get_real_executable_path(char* , size_t ) {
+    return ERR_NOT_IMPLEMENTED;
+}
+#endif
