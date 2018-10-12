@@ -217,8 +217,11 @@ bool wu_is_infeasible_custom(
         log_messages.printf(MSG_NORMAL,
             "[version] [setiathome] workunit is infeasible on this GPU\n"
         );
+    }
+    if (infeasible) {
         return infeasible;
     }
+#endif
     // WU restriction
     if (wu_restricted_plan_class) {
         if (plan_class_specs.classes.size() > 0) {
