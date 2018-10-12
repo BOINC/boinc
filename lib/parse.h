@@ -70,7 +70,7 @@ struct XML_PARSER {
             if (--len <= 0) {
                 return XML_PARSE_OVERFLOW;
             }
-            *buf++ = c;
+            *buf++ = (char)c;
         }
     }
 
@@ -144,7 +144,7 @@ struct XML_PARSER {
                 if (retval == XML_PARSE_OVERFLOW) return retval;
                 if (retval == XML_PARSE_COMMENT) continue;
             } else {
-                buf[0] = c;
+                buf[0] = (char)c;
                 retval = copy_until_tag(buf+1, len-1);
                 if (retval != XML_PARSE_DATA) return retval;
             }

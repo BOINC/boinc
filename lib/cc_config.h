@@ -146,9 +146,6 @@ struct CC_CONFIG {
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
-    std::string client_download_url;
-    std::string client_new_version_text;
-    std::string client_version_check_url;
     COPROCS config_coprocs;
     bool disallow_attach;
     bool dont_check_file_sizes;
@@ -177,7 +174,6 @@ struct CC_CONFIG {
     int max_stdout_file_size;
     int max_tasks_reported;
     int ncpus;
-    std::string network_test_url;
     bool no_alt_platform;
     bool no_gpus;
     bool no_info_fetch;

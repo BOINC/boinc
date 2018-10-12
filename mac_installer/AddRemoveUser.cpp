@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2009 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,10 +34,13 @@
 #include "mac_util.h"
 #include "filesys.h"
 #include "util.h"
+#include "mac_branding.h"
 
 void printUsage(long brandID);
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *pw);
+Boolean SetLoginItemLaunchAgentShellScript(long brandID, Boolean deleteLogInItem, passwd *pw);
+Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogInItem, passwd *pw);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, int type);
 pid_t FindProcessPID(char* name, pid_t thePID);
@@ -49,13 +52,6 @@ static void SleepSeconds(double seconds);
 long GetBrandID(void);
 static int parse_posic_spawn_command_line(char* p, char** argv);
 int callPosixSpawn(const char *cmd);
-
-
-#define NUMBRANDS 5
-static char *appName[NUMBRANDS];
-static char *appPath[NUMBRANDS];
-static char *brandName[NUMBRANDS];
-static char *saverName[NUMBRANDS];
 
 
 int main(int argc, char *argv[])
@@ -79,31 +75,6 @@ int main(int argc, char *argv[])
     char                s[1024], buf[1024];
     OSStatus            err;
     
-    appName[0] = "BOINCManager";
-    appPath[0] = "/Applications/BOINCManager.app";
-    brandName[0] = "BOINC";
-    saverName[0] = "BOINCSaver";
-
-    appName[1] = "GridRepublic Desktop";
-    appPath[1] = "/Applications/GridRepublic Desktop.app";
-    brandName[1] = "GridRepublic";
-    saverName[1] = "GridRepublic";
-
-    appName[2] = "Progress Thru Processors Desktop";
-    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    brandName[2] = "Progress Thru Processors";
-    saverName[2] = "Progress Thru Processors";
-
-    appName[3] = "Charity Engine Desktop";
-    appPath[3] = "/Applications/Charity Engine Desktop.app";
-    brandName[3] = "Charity Engine";
-    saverName[3] = "Charity Engine";
-
-    appName[4] = "World Community Grid";
-    appPath[4] = "/Applications/World Community Grid.app";
-    brandName[4] = "World Community Grid";
-    saverName[4] = "World Community Grid";
-
     brandID = GetBrandID();
 
 #ifndef _DEBUG
@@ -131,6 +102,11 @@ int main(int argc, char *argv[])
     }
 
     printf("\n");
+
+    if (!check_branding_arrays(s, sizeof(s))) {
+        printf("Branding array has too few entries: %s\n", s);
+        return -1;
+    }
 
     loginName[0] = '\0';
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
@@ -536,9 +512,9 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
 {
     struct stat             sbuf;
     char                    s[2048];
-    
+
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    // previously (such as by Ininstaller or by installing a differently branded BOINC.)
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -546,6 +522,18 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         mkdir(s, 0755);
         chown(s, pw->pw_uid, pw->pw_gid);
     }
+    
+    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install", appName[brandID]);
+    if (stat(s, &sbuf) != 0) {
+        return SetLoginItemLaunchAgentShellScript(brandID, deleteLogInItem, pw);
+    } else {
+        return SetLoginItemLaunchAgentFinishInstallApp(brandID, deleteLogInItem, pw);    
+    }
+}
+
+
+Boolean SetLoginItemLaunchAgentShellScript(long brandID, Boolean deleteLogInItem, passwd *pw) {
+    char                    s[2048];
 
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
     FILE* f = fopen(s, "w");
@@ -569,7 +557,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[brandID]);
+        fprintf(f, "killall -u %d -9 \"%s\";", pw->pw_uid, appName[brandID]);
     } else {
         fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
         fprintf(f, "open -jg \"%s\";", appPath[brandID]);
@@ -586,6 +574,51 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
     chown(s, pw->pw_uid, pw->pw_gid);
 
     return true;
+}
+
+
+Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogInItem, passwd *pw){
+    char                    s[2048];
+    
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+    FILE* f = fopen(s, "w");
+    if (!f) return false;
+    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+    fprintf(f, "<plist version=\"1.0\">\n");
+    fprintf(f, "<dict>\n");
+    fprintf(f, "\t<key>Label</key>\n");
+    fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
+    fprintf(f, "\t<key>ProgramArguments</key>\n");
+    fprintf(f, "\t<array>\n");
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
+    if (deleteLogInItem) {
+        // If this user was previously authorized to run the Manager, there 
+        // may still be a Login Item for this user, and the Login Item may
+        // launch the Manager before the LaunchAgent deletes the Login Item.
+        // To guard against this, we have the LaunchAgent kill the Manager
+        // (for this user only) if it is running.
+        //
+        fprintf(f, "\t\t<string>-d</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    } else  {
+        fprintf(f, "\t\t<string>-a</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    }
+    fprintf(f, "</string>\n");
+    fprintf(f, "\t</array>\n");
+    fprintf(f, "\t<key>RunAtLoad</key>\n");
+    fprintf(f, "\t<true/>\n");
+    fprintf(f, "</dict>\n");
+    fprintf(f, "</plist>\n");
+    fclose(f);
+
+    chmod(s, 0644);
+    chown(s, pw->pw_uid, pw->pw_gid);
+
+    return true;
+
+
 }
 
 
@@ -805,7 +838,9 @@ long GetBrandID()
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
 }
 

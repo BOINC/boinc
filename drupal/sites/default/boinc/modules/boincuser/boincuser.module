@@ -53,7 +53,7 @@ function boincuser_menu() {
     'title' => 'Edit',
     'description' => 'Edit a user profile',
     'page callback' => 'boincuser_edit_profile',
-    'access callback' => 'user_is_logged_in',
+    'access arguments' => array('edit own profile content'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
@@ -208,6 +208,13 @@ function boincuser_menu() {
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
+  $items['recover_email.php'] = array(
+    'title' => t('Recover previous email'),
+    'description' => t('redirect'),
+    'page callback' => '_boincuser_redirect_recover_email',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -252,21 +259,31 @@ function boincuser_init() {
         $path = drupal_get_path_alias($_GET['q']);
 
         // Any paths that should NOT be redirected go here.
-        // @todo - replace this static array with one that allows
-        // admins to specify custom paths (patterns) to ignore.
-        $paths_to_ignore = array(
+        // The site will not function correctly if these are not exempt!
+        $paths0 = array(
           'user/termsofuse',
           'logout',
-          'privacy',
-          'moderation',
           'account/info/edit',
           'user/' . $user->uid . '/edit',
           'user/' . $user->uid . '/recoveremail/*',
+          'recover_email.php',
         );
         if (module_exists('boincuser_delete')) {
-          $paths_to_ignore[] = 'user/' . $user->uid . '/delete';
-          $paths_to_ignore[] = 'user/' . $user->uid . '/deleteconfirm/*';
+          $paths0[] = 'user/' . $user->uid . '/delete';
+          $paths0[] = 'user/' . $user->uid . '/deleteconfirm/*';
+          $paths0[] = 'user/' . $user->uid . '/odeleteconfirm/*';
         }
+
+        // Paths added by the admin
+        $paths1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_pathstoignore', "moderation\ncontent/moderation\nprivacy"));
+        $paths2 = array();
+        if (is_array($paths1)) {
+          $paths2 = array_map('strtolower', $paths1);
+        }
+
+        // paths to ignore
+        $paths_to_ignore = array_unique( array_merge($paths0, $paths2) );
+
         if (!_boincuser_ignore_paths($path, $paths_to_ignore)) {
           drupal_goto('user/termsofuse');
         }
@@ -404,6 +421,9 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       // Create a BOINC account unless importing from BOINC.
       if (!$imported) {
 
+        // set email address lower-case
+        $lower_email_addr = strtolower($edit['mail']);
+
         if ($edit['boincuser_name']) {
           $myname = $edit['boincuser_name'];
         }
@@ -415,10 +435,21 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         }
 
         $user_params = array(
-          'email_addr' => $edit['mail'],
+          'email_addr' => $lower_email_addr,
           'name' => $myname,
-          'passwd_hash' => password_hash( md5($edit['pass'].$edit['mail']) , PASSWORD_DEFAULT ),
         );
+
+        // If the 'pass' variable is already a hash, then don't hash it again.
+        if ($edit['boinchash_flag']) {
+          $user_params['passwd_hash'] = $edit['pass'];
+        }
+        else {
+          // The passwd_hash here is only the md5() hash. This is
+          // because BOINC make_user(), called later, will run
+          // password_hash() on this md5 hash.
+          $user_params['passwd_hash'] = md5($edit['pass'].$lower_email_addr);
+        }
+
         $boinc_user = boincuser_register_make_user($user_params);
         if (!$boinc_user) {
           // Account exists with this email addr
@@ -452,6 +483,11 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 
         // Don't save custom fields to the Drupal user object
         $edit['boincuser_name'] = null;
+        $edit['boinchash_flag'] = null;
+        // Set email address to lower case in Drupal users table
+        if ($account) {
+          user_save($account, array('mail' => $lower_email_addr));
+        }
       }
       break;
       
@@ -466,19 +502,21 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
           $changing_pass = ($edit['pass']) ? true : false;
           if ($changing_email OR $changing_pass) {
+            // set email address to lower-case
+            $lower_email_addr = strtolower($edit['mail']);
+
             // Set password hash appropriately
             $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
-            $passwd_hash = password_hash( md5($passwd.$edit['mail']), PASSWORD_DEFAULT );
-            $email_addr = $edit['mail'];
-
+            $passwd_hash = password_hash( md5($passwd.$lower_email_addr), PASSWORD_DEFAULT );
+            // Algorithm for changing email and/or password
             if ($changing_email) {
               // locally store current email to set as previous email
               $prev_email = $account->mail;
               $mytime = (user_access('administer users')) ? $boinc_user->email_addr_change_time : time();
-              $querypart = "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}', previous_email_addr = '{$prev_email}', email_addr_change_time = $mytime";
+              $querypart = "email_addr='{$lower_email_addr}', passwd_hash='{$passwd_hash}', previous_email_addr = '{$prev_email}', email_addr_change_time = $mytime";
             }
             else {
-              $querypart = "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'";
+              $querypart = "email_addr='{$lower_email_addr}', passwd_hash='{$passwd_hash}'";
             }
 
             // Update user account information
@@ -487,9 +525,23 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             if ($changing_email) {
               // reload account
               $account = user_load($account->uid);
-              _boincuser_send_emailchange($account, $email_addr, $prev_email);
+              _boincuser_send_emailchange($account, $lower_email_addr, $prev_email, user_access('administer users'));
             }
+
+            // Change email to edit to lower-case version, this sets
+            // email in Drupal database to the lower-case email
+            // address.
+            $edit['mail'] = strtolower($lower_email_addr);
           }
+
+          // Change boinc username
+          if ($edit['boincuser_name'] and ($edit['boincuser_name'] != $boinc_user->name)) {
+            $boincuser_name = $edit['boincuser_name'];
+            $result = $boinc_user->update(
+                "name='{$boincuser_name}'"
+            );
+          }
+
           break;
         case 'user_profile':
           if ($edit['boincuser_name'] != $boinc_user->name) {
@@ -922,12 +974,25 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Adjust form elements already present
-    $form['account']['name']['#title'] = 'Drupal Username';
+    $form['account']['name']['#title'] = bts('Drupal Username', array(), NULL, 'boinc:drupal-username');
     $form['account']['name']['#size'] = 40;
     $form['account']['name']['#attributes']['autocomplete'] = 'off';
-    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publically that the user can change in Community Preferences.';
+    $form['account']['name']['#description'] .= '<p>This is the drupal (internal) username. The title above shows the BOINC username, which is the display name used publicly that the user can change in Community Preferences.';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
+
+    if (user_access('administer users')) {
+      // Add BOINC username (aka displayname)
+      $form['account']['boincuser_name'] = array(
+        '#type' => 'textfield',
+        '#title' => bts('BOINC Username', array(), NULL, 'boinc:user-or-team-name'),
+        '#default_value' => $account->boincuser_name,
+        '#maxlength' => USERNAME_MAX_LENGTH,
+        '#required' => TRUE,
+        '#description' => bts('This is the BOINC (external) username. This is the same setting as found in Account -> Preferences -> Community.', array(), NULL, 'boinc:username-change'),
+        '#size' => 40,
+      );
+    }
 
     // If email address was changed less than 7 days (7 * 86400 s)
     // ago, it cannot be changed again.
@@ -1022,6 +1087,8 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     
     // Rearrange form elements
+    $form['account']['name']['#weight'] = -2;
+    $form['account']['boincuser_name']['#weight'] = -1;
     $form['account']['mailhelp']['#weight'] = 4;
     $form['account']['mail']['#weight'] = 5;
     $form['account']['pass']['#weight'] = 15;
@@ -1061,7 +1128,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#value' => 'user_account'
       )
     ));
-
     break;
     
   case 'profile_node_form':
@@ -1069,7 +1135,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Use the display name as the title, not the username
     $account = user_load($form['uid']['#value']);
     drupal_set_title($account->boincuser_name);
-    
+
+    // Set form['title'], but hide it
+    $form['title']['#default_value'] = $account->boincuser_name;
+    $form['title']['#access'] = FALSE;
+
     $form['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
@@ -1117,7 +1187,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
     
-    unset($form['title']);
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
     
@@ -1411,6 +1480,16 @@ function boincuser_view_profile($account = null) {
     global $user;
     $account = $user;
   }
+
+  $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
+  $verified_contributor = array_search('verified contributor', user_roles(true));
+  if (!isset($account->roles[$verified_contributor])) {
+    drupal_set_message(bts(
+        'You may only create or modify your user profile after earning @count credits.',
+        array('@count' => $min_credit_to_post), NULL, 'boinc:view-profile'
+    ), 'warning', FALSE);
+  }
+
   // For now, just call the user module profile view function
   user_build_content($account);
   return theme('user_profile', $account);
@@ -1658,12 +1737,13 @@ function boincuser_create_account() {
 
     $newUser = array(
       'name' => $unique_name,
-      'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
+      'pass' => $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
       'mail' => $params['email_addr'],
       'status' => 1,
       'init' => $params['email_addr'],
       'roles' => array($unrestricted_role => ''),
       'boincuser_name' => $params['user_name'],
+      'boinchash_flag' => TRUE,
     );
 
     // Create the drupal user. If the drupal user cannot be created,

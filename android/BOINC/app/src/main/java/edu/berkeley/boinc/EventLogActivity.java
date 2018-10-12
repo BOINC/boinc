@@ -31,7 +31,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar.Tab;
 import android.text.ClipboardManager;
 import android.util.Log;
@@ -42,7 +42,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class EventLogActivity extends ActionBarActivity {
+public class EventLogActivity extends AppCompatActivity {
 	
 	private IMonitor monitor;
 	private Boolean mIsBound = false;

@@ -84,9 +84,10 @@ if [ ${share_paths} = "yes" ]; then
     if [ "${style}" == "Development" ]; then
         libSearchPathDbg="./build/Development  ${cache_dir}/lib/debug"
     fi
-    source BuildMacBOINC.sh ${config} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | $beautifier; retval=${PIPESTATUS[0]}
-    if [ $retval -ne 0 ]; then cd ..; exit 1; fi
-
+    source BuildMacBOINC.sh ${config} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
+    if [ $retval -ne 0 ]; then
+        curl --upload-file ./xcodebuild_all.log https://transfer.sh/xcodebuild_all.log
+        cd ..; exit 1; fi
     return 0
 fi
 
@@ -107,58 +108,122 @@ libSearchPathDbg=""
 if [ "${style}" == "Development" ]; then
     libSearchPathDbg="${cache_dir}/lib/debug"
 fi
-source BuildMacBOINC.sh ${config} -noclean -target mgr_boinc -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then cd ..; exit 1; fi
+target="mgr_boinc"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
 ## Target gfx2libboinc also build dependent target jpeg
-source BuildMacBOINC.sh ${config} -noclean -target gfx2libboinc -setting HEADER_SEARCH_PATHS "../samples/jpeglib" | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="gfx2libboinc"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../samples/jpeglib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target libboinc | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="libboinc"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target api_libboinc | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="api_libboinc"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target PostInstall | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="PostInstall"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target switcher | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="switcher"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target gfx_switcher | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="gfx_switcher"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target Install_BOINC | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="Install_BOINC"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-# screensaver disabled because Travis can't build the 32bit FTGL library currently
+# screensaver disabled because Travis can't build some library correctly, see https://github.com/BOINC/boinc/issues/2662
 #libSearchPath="./build/Deployment"
 #if [ "${style}" == "Development" ]; then
 #    libSearchPath="./build/Development"
 #fi
-#source BuildMacBOINC.sh ${config} -noclean -target ss_app -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | $beautifier; retval=${PIPESTATUS[0]}
-#if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+#target="ss_app"
+#source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+#if [ ${retval} -ne 0 ]; then
+#    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+#    cd ..; exit 1;
+#fi
 
-source BuildMacBOINC.sh ${config} -noclean -target ScreenSaver -setting GCC_ENABLE_OBJC_GC "unsupported" | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="ScreenSaver"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting GCC_ENABLE_OBJC_GC "unsupported" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target boinc_opencl | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="boinc_opencl"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target setprojectgrp | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="setprojectgrp"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target cmd_boinc | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="cmd_boinc"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target Uninstaller | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="Uninstaller"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target SetUpSecurity | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="SetUpSecurity"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
-source BuildMacBOINC.sh ${config} -noclean -target AddRemoveUser | $beautifier; retval=${PIPESTATUS[0]}
-if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+target="AddRemoveUser"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
 
 cd ..

@@ -64,7 +64,7 @@ UINT CACreateBOINCGroups::OnExecution()
 {
     NET_API_STATUS   nasReturnValue;
     DWORD            dwParameterError;
-    UINT             uiReturnValue = -1;
+    UINT             uiReturnValue;
     BOOL             bBOINCAdminsCreated = FALSE;
     BOOL             bBOINCUsersCreated = FALSE;
     BOOL             bBOINCProjectsCreated = FALSE;

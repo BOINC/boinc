@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * BOINC user quote - Custom BOINC quote module
+ */
+
+/**
+ * Description
+ *
+ * This module does one simple thing: it alters the comment form to
+ * use the BOINC user's display name when being quoted. Otherwise the
+ * 'quote' module will display the Drupal username, which is not
+ * desired.
+ *
+ * This module is weighted to +1 to make sure the hook 'fires' after
+ * the quote module's hook(s).
+ */
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_form_alter()
+ */
+
+function boincuser_quote_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+  // Comment form
+  case 'comment_form':
+    // If there is a quote as part of the comment body, replace the
+    // first instance of quote=author with quote=boincusername. This
+    // is done with regexp.
+    // Modify for quotes only
+    if ((isset($_POST['quote']) || isset($_GET['quote']) && $_GET['quote'])) {
+      // If default_value is already set, then modify it
+      if (isset($form['comment_filter']['comment']['#default_value'])) {
+        $nid = arg(2);
+        $cid = arg(3);
+
+        $replace = FALSE;
+        if ($cid) {
+          $comment = db_fetch_object(db_query('SELECT c.*, u.uid, u.name AS registered_name FROM {comments} c INNER JOIN {users} u ON c.uid = u.uid WHERE c.cid = %d AND c.status = 0', $cid));
+          if ($comment->uid) {
+            $account = user_load($comment->uid);
+            $boincusername = (!empty($account)) ? $account->boincuser_name : variable_get('anonymous', 'Anonymous');
+            $replace = TRUE;
+          }
+        }
+        elseif ($nid && _quote_variable_get('node_link_display')) {
+          $node = node_load(array('nid' => $nid));
+          if (in_array($node->type, _quote_variable_get('node_types'))) {
+            $account = user_load($node->uid);
+            $boincusername = (!empty($account)) ? $account->boincuser_name : variable_get('anonymous', 'Anonymous');
+            $replace = TRUE;
+          }
+        }
+
+        // Replace the quoted author name (drupal name) with BOINC username.
+        if ($replace) {
+          $form['comment_filter']['comment']['#default_value'] = preg_replace("/\[quote=(.*?)\]/", "[quote=${boincusername}]", $form['comment_filter']['comment']['#default_value'], 1);
+        }
+      }
+    }
+    break;
+  }
+}

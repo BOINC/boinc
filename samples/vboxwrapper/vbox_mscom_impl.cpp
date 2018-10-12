@@ -306,7 +306,6 @@ int VBOX_VM::create_vm() {
     CComPtr<IStorageController> pFloppyController;
     CComPtr<IBandwidthControl> pBandwidthControl;
     CComPtr<IVRDEServer> pVRDEServer;
-    ULONG lOHCICtrls = 0;
     bool disable_acceleration = false;
     string virtual_machine_slot_directory;
     string default_interface;
@@ -459,6 +458,7 @@ int VBOX_VM::create_vm() {
         pUSBContoller->put_Enabled(FALSE);
     }
 #else
+    ULONG lOHCICtrls = 0;
     rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
     if (SUCCEEDED(rc) && lOHCICtrls) {
         pMachine->RemoveUSBController(CComBSTR("OHCI"));

@@ -1124,12 +1124,29 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
     if(!ValidateInput()) {
         return;
     }
+    if (!m_bUsingLocalPrefs) {
+        if(!this->ConfirmSetLocal()) {
+            return;
+        }
+    }
     if(SavePreferencesSettings()) {
         pDoc->rpc.set_global_prefs_override_struct(prefs,mask);
         pDoc->rpc.read_global_prefs_override();
     }
 
     ev.Skip();
+}
+
+bool CDlgAdvPreferences::ConfirmSetLocal() {
+    wxString strMessage     = wxEmptyString;
+    strMessage.Printf(
+            _("Changing to use the local preferences defined on this page. This will override your web-based preferences, even if you subsequently make changes there. Do you want to proceed?")
+    );
+    int res = wxGetApp().SafeMessageBox(
+        strMessage,
+        _("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
+
+    return res==wxYES;
 }
 
 // handles Help button clicked

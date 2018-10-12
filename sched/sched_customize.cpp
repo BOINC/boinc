@@ -95,6 +95,11 @@ using std::string;
 #define OPENCL_NVIDIA_MIN_RAM CUDA_MIN_RAM
 #endif
 
+PLAN_CLASS_SPECS plan_class_specs;
+
+/* is there a plan class spec that restricts the worunit (or batch) */
+bool wu_restricted_plan_class;
+
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(
@@ -212,9 +217,16 @@ bool wu_is_infeasible_custom(
         log_messages.printf(MSG_NORMAL,
             "[version] [setiathome] workunit is infeasible on this GPU\n"
         );
+        return infeasible;
     }
-    return infeasible;
-#endif
+    // WU restriction
+    if (wu_restricted_plan_class) {
+        if (plan_class_specs.classes.size() > 0) {
+            if (plan_class_specs.wu_is_infeasible(bav.avp->plan_class, &wu)) {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -992,12 +1004,10 @@ static inline bool app_plan_vbox(
     return true;
 }
 
-PLAN_CLASS_SPECS plan_class_specs;
-
 // app planning function.
 // See http://boinc.berkeley.edu/trac/wiki/AppPlan
 //
-bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu) {
     char buf[256];
     static bool check_plan_class_spec = true;
     static bool have_plan_class_spec = false;
@@ -1040,7 +1050,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return false;
     }
     if (have_plan_class_spec) {
-        return plan_class_specs.check(sreq, plan_class, hu);
+        return plan_class_specs.check(sreq, plan_class, hu, wu);
     }
 
     if (!strcmp(plan_class, "mt")) {

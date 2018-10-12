@@ -36,6 +36,7 @@
 #include "mac_util.h"
 #include "translate.h"
 #include "file_names.h"
+#include "mac_branding.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -86,6 +87,11 @@ int main(int argc, char *argv[])
     FILE                    *restartNeededFile;
     FILE                    *f;
     long                    oldBrandID;
+
+    if (!check_branding_arrays(temp, sizeof(temp))) {
+        ShowMessage((char *)_("Branding array has too few entries: %s"), temp);
+        return -1;
+    }
 
     if (Initialize() != noErr) {
         return 0;
@@ -573,7 +579,9 @@ static long GetOldBrandID()
         fscanf(f, "BrandId=%ld\n", &oldBrandId);
         fclose(f);
     }
-    
+    if ((oldBrandId < 0) || (oldBrandId > (NUMBRANDS-1))) {
+        oldBrandId = 0;
+    }
     return oldBrandId;
 }
 

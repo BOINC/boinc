@@ -81,8 +81,11 @@ alter table msg_to_host
         -- for scheduler
 
 alter table host
-    add index host_user (userid),
+    add index host_userid_cpid (userid, host_cpid),
         -- html_user/host_user.php
+        -- sched/handle_request.cpp for user with many hosts
+    add index host_domain_name (domain_name),
+        -- sched/handle_request.cpp for user with many hosts
     add index host_avg (expavg_credit desc),
         -- db_dump.C
     add index host_tot (total_credit desc);

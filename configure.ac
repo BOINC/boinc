@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.11.0)
+AC_INIT(BOINC, 7.13.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -991,11 +991,6 @@ fi
 dnl Check for /proc/self/stat (Linux)
 if test -e "/proc/self/stat"; then
     AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
-fi
-
-dnl Check for /proc/self/exe (Linux)
-if test -e "/proc/self/exe"; then
-    AC_DEFINE(HAVE__PROC_SELF_EXE, 1, [Define to 1 if /proc/self/exe exists])
 fi
 
 dnl Check for /proc/meminfo (Linux)

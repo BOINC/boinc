@@ -190,6 +190,7 @@ public:
 
     wxString      GetApplicationName();
     wxString      GetApplicationShortName();
+    wxString      GetApplicationHelpName();
     wxIconBundle* GetApplicationIcon();
     wxIconBundle* GetApplicationDisconnectedIcon();
     wxIconBundle* GetApplicationSnoozeIcon();
@@ -205,6 +206,7 @@ private:
     bool          m_bIsBranded;
     wxString      m_strApplicationName;
     wxString      m_strApplicationShortName;
+    wxString      m_strApplicationHelpName;
     CSkinIcon     m_iconApplicationIcon;
     CSkinIcon     m_iconApplicationIcon32;
     CSkinIcon     m_iconApplicationDisconnectedIcon;

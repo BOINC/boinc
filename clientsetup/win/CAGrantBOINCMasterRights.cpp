@@ -65,7 +65,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
     PSID        pSid;
     tstring     strBOINCMasterAccountUsername;
     tstring     strOSVersion;
-    UINT        uiReturnValue = -1;
+    UINT        uiReturnValue;
 
 
     uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );

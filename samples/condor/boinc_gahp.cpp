@@ -35,8 +35,9 @@
 #include "parse.h"
 #include "remote_submit.h"
 #include "svn_version.h"
+#include "version.h"
 
-#define BOINC_GAHP_VERSION "1.0.1"
+#define BOINC_GAHP_VERSION "1.0.2"
 
 using std::map;
 using std::pair;
@@ -513,7 +514,7 @@ void handle_fetch_output(COMMAND& c) {
             sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
             s = string(buf) + escape_str(error_msg);
         } else {
-            sprintf(buf, "cd %s; unzip %s_output.zip", req.dir, req.job_name);
+            sprintf(buf, "cd %s; unzip -o %s_output.zip >/dev/null", req.dir, req.job_name);
             retval = system(buf);
             if (retval) {
                 s = string("unzip\\ failed");
@@ -723,7 +724,7 @@ int COMMAND::parse_command() {
 }
 
 void print_version(bool startup) {
-    BPRINTF("%s$GahpVersion: %s %s BOINC\\ GAHP\\ GIT:%x $\n", startup ? "" : "S ", BOINC_GAHP_VERSION, __DATE__, GIT_REVISION);
+    BPRINTF("%s$GahpVersion: %s %s BOINC\\ %s\\ GAHP $\n", startup ? "" : "S ", BOINC_GAHP_VERSION, __DATE__, BOINC_VERSION_STRING);
 }
 
 int n_results() {

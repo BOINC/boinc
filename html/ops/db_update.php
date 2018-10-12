@@ -1162,6 +1162,13 @@ function update_5_9_2018() {
     ");
 }
 
+function update_8_23_2018() {
+    $retval = do_query("alter table host add index host_userid_cpid (userid, host_cpid)");
+    $retval = $retval && do_query("alter table host drop index host_user");
+    return $retval && do_query("alter table host add index host_domain_name (domain_name)");
+}
+
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1219,7 +1226,8 @@ $db_updates = array (
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
     array(27025, "update_4_19_2018"),
-    array(27026, "update_5_9_2018")
+    array(27026, "update_5_9_2018"),
+    array(27027, "update_8_23_2018")
 );
 
 ?>

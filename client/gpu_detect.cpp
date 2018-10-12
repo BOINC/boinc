@@ -58,6 +58,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define chdir _chdir
@@ -66,6 +67,8 @@
 #include "config.h"
 #include <setjmp.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #endif
 
 #include "coproc.h"
@@ -595,6 +598,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 #else
     int prog;
 #endif
+    char quoted_client_path[MAXPATHLEN];
     char quoted_data_dir[MAXPATHLEN+2];
     char data_dir[MAXPATHLEN];
     int retval = 0;
@@ -612,25 +616,38 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         }
     }
     
+    // use full path to exe if possible, otherwise keep using argv[0]
+    char execpath[MAXPATHLEN];
+    if (!get_real_executable_path(execpath, sizeof(execpath))) {
+        client_path = execpath;
+    }
+
     boinc_getcwd(data_dir);
 
 #ifdef _WIN32
+    strlcpy(quoted_client_path, "\"", sizeof(quoted_client_path));
+    strlcat(quoted_client_path, client_path, sizeof(quoted_client_path));
+    strlcat(quoted_client_path, "\"", sizeof(quoted_client_path));
+
     strlcpy(quoted_data_dir, "\"", sizeof(quoted_data_dir));
     strlcat(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
     strlcat(quoted_data_dir, "\"", sizeof(quoted_data_dir));
 #else
+    strlcpy(quoted_client_path, client_path, sizeof(quoted_client_path));
     strlcpy(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
 #endif
 
     if (log_flags.coproc_debug) {
         msg_printf(0, MSG_INFO,
             "[coproc] launching child process at %s",
-            client_path
+            quoted_client_path
         );
-        msg_printf(0, MSG_INFO,
-            "[coproc] relative to directory %s",
-            client_dir
-        );
+        if (!is_path_absolute(client_path)) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] relative to directory %s",
+                client_dir
+            );
+        }
         msg_printf(0, MSG_INFO,
             "[coproc] with data directory %s",
             quoted_data_dir
@@ -639,15 +656,13 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             
     int argc = 4;
     char* const argv[5] = {
-         const_cast<char *>(CLIENT_EXEC_FILENAME), 
+         const_cast<char *>(quoted_client_path),
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
          const_cast<char *>(quoted_data_dir),
          NULL
     }; 
 
-    chdir(client_dir);
-    
     retval = run_program(
         client_dir,
         client_path,
@@ -657,8 +672,6 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         prog
     );
 
-    chdir(data_dir);
-    
     if (retval) {
         if (log_flags.coproc_debug) {
             msg_printf(0, MSG_INFO,
@@ -671,9 +684,25 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 
     retval = get_exit_status(prog);
     if (retval) {
+        char buf[200];
+#ifdef _WIN32
+        char buf2[200];
+        windows_format_error_string(retval, buf2, sizeof(buf2));
+        snprintf(buf, sizeof(buf), "process exited with status 0x%x: %s", retval, buf2);
+#else
+        if (WIFEXITED(retval)) {
+            int code = WEXITSTATUS(retval);
+            snprintf(buf, sizeof(buf), "process exited with status %d: %s", code, strerror(code));
+        } else if (WIFSIGNALED(retval)) {
+            int sig = WTERMSIG(retval);
+            snprintf(buf, sizeof(buf), "process was terminated by signal %d", sig);
+        } else {
+            snprintf(buf, sizeof(buf), "unknown status %d", retval);
+        }
+#endif
         msg_printf(0, MSG_INFO,
-            "GPU detection failed. error code %d",
-            retval
+            "GPU detection failed: %s",
+            buf
         );
     }
 
