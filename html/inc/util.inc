@@ -1117,6 +1117,10 @@ function text_end() {
     echo "</div>\n";
 }
 
+function cert_filename() {
+    return defined("CERT_FILENAME")?CERT_FILENAME:"cert1.php";
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

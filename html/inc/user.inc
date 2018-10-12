@@ -184,7 +184,7 @@ function show_user_stats_private($user) {
         }
         $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
         row2(tra("Cross-project statistics"), $x);
-        $x = '<a href="cert1.php">'.tra("Account").'</a>';
+        $x = sprintf('<a href="%s">%s</a>', cert_filename(), tra("Account"));
         if ($user->teamid) {
             $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
         }
