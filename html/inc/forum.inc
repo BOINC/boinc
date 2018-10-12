@@ -564,7 +564,7 @@ function show_post(
     $is_posted_by_special = false;
     for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
         if ($user->prefs && $user->prefs->privilege($keys[$i])) {
-            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
+            $fstatus.="<nobr>".$special_user_bitfield[$keys[$i]]."<nobr><br>";
             $is_posted_by_special = true;
         }
     }
