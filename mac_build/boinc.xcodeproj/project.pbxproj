@@ -1188,7 +1188,6 @@
 		DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BOINCGUIApp.mm; path = ../clientgui/mac/BOINCGUIApp.mm; sourceTree = "<group>"; };
 		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgPreferences.h; path = ../clientgui/sg_DlgPreferences.h; sourceTree = SOURCE_ROOT; };
-		DDCEB90F2170AFFC00A502BB /* mac_spawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_spawn.h; path = ../lib/mac/mac_spawn.h; sourceTree = "<group>"; };
 		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
 		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
 		DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskPanel.cpp; path = ../clientgui/sg_TaskPanel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1812,7 +1811,6 @@
 			children = (
 				DDA6BD030BD4551F008F7921 /* dyld_gdb.h */,
 				DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */,
-				DDCEB90F2170AFFC00A502BB /* mac_spawn.h */,
 				DDBAA9B61DF190EB004C48FD /* mac_util.h */,
 				DDBAA9B41DF1902B004C48FD /* mac_util.mm */,
 				DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */,
@@ -4108,7 +4106,6 @@
 					"../../curl-7.58.0/include",
 					"../../openssl-1.1.0g/include",
 					"../lib/**",
-					../lib/mac,
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
@@ -4276,7 +4273,6 @@
 					"../../curl-7.58.0/include",
 					"../../openssl-1.1.0g/include",
 					"../lib/**",
-					../lib/mac,
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
