@@ -3883,9 +3883,9 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
+					"../lib/**",
 					"../../curl-7.58.0/include",
 					"../../openssl-1.1.0g/include",
-					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
@@ -4050,9 +4050,9 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
+					"../lib/**",
 					"../../curl-7.58.0/include",
 					"../../openssl-1.1.0g/include",
-					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
