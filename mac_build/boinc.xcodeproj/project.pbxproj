@@ -3598,6 +3598,7 @@
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../lib/**";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3656,6 +3657,7 @@
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../lib/**";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
