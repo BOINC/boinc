@@ -265,15 +265,26 @@ bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
 
     if (strMachine.empty()) {
         return true;
-    } else if (wxT("localhost") == strMachine.Lower()) {
-        return true;
-    } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
-        return true;
-    } else if (strHostName == strMachine.Lower()) {
-        return true;
-    } else if (strFullHostName == strMachine.Lower()) {
+    }
+
+    const wxString& strMachineLower = strMachine.Lower();
+
+    if (wxT("localhost") == strMachineLower) {
         return true;
     }
+    if (wxT("localhost.localdomain") == strMachineLower) {
+        return true;
+    }
+    if (strHostName == strMachineLower) {
+        return true;
+    }
+    if (strFullHostName == strMachineLower) {
+        return true;
+    }
+    if (wxT("127.0.0.1") == strMachineLower) {
+        return true;
+    }
+
     return false;
 }
 
