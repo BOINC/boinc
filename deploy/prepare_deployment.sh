@@ -62,19 +62,19 @@ prepare_client() {
 }
 
 prepare_apps() {
-  mkdir -p "${TARGET_DIR}"
-  cp_if_exists samples/condor/boinc_gahp "${TARGET_DIR}"
-  cp_if_exists samples/example_app/uc2 "${TARGET_DIR}"
-  cp_if_exists samples/example_app/ucn "${TARGET_DIR}"
-  cp_if_exists samples/example_app/uc2_graphics "${TARGET_DIR}"
-  cp_if_exists samples/example_app/slide_show "${TARGET_DIR}"
-  cp_if_exists samples/multi_thread/multi_thread "${TARGET_DIR}"
-  cp_if_exists samples/sleeper/sleeper "${TARGET_DIR}"
-  cp_if_exists samples/vboxmonitor/vboxmonitor "${TARGET_DIR}"
-  cp_if_exists samples/vboxwrapper/vboxwrapper "${TARGET_DIR}"
-  cp_if_exists samples/worker/worker "${TARGET_DIR}"
-  cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
-  prepare_7z_archive
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists samples/condor/boinc_gahp "${TARGET_DIR}"
+    cp_if_exists samples/example_app/uc2 "${TARGET_DIR}"
+    cp_if_exists samples/example_app/ucn "${TARGET_DIR}"
+    cp_if_exists samples/example_app/uc2_graphics "${TARGET_DIR}"
+    cp_if_exists samples/example_app/slide_show "${TARGET_DIR}"
+    cp_if_exists samples/multi_thread/multi_thread "${TARGET_DIR}"
+    cp_if_exists samples/sleeper/sleeper "${TARGET_DIR}"
+    cp_if_exists samples/vboxmonitor/vboxmonitor "${TARGET_DIR}"
+    cp_if_exists samples/vboxwrapper/vboxwrapper "${TARGET_DIR}"
+    cp_if_exists samples/worker/worker "${TARGET_DIR}"
+    cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
+    prepare_7z_archive
 }
 
 prepare_manager() {
@@ -84,23 +84,23 @@ prepare_manager() {
 }
 
 prepare_apps_mingw() {
-  mkdir -p "${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
 }
 
 prepare_osx() {
-  mkdir -p "${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
 }
 
 prepare_android() {
-  mkdir -p "${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
 }
 
 ROOTDIR=$(pwd)
 if [[ $# -eq 0 || $# -gt 2 ]]; then
-  echo "Usage: $0 BOINC_TYPE [TARGET_DIR]"
-  echo "BOINC_TYPE : [client | apps | manager | apps-mingw | manager-osx | manager-android]"
-  echo "TARGET_DIR : relative path where binaries should be copied to (default: deploy/BOINC_TYPE/)"
-  exit 1
+    echo "Usage: $0 BOINC_TYPE [TARGET_DIR]"
+    echo "BOINC_TYPE : [client | apps | manager | apps-mingw | manager-osx | manager-android]"
+    echo "TARGET_DIR : relative path where binaries should be copied to (default: deploy/BOINC_TYPE/)"
+    exit 1
 fi
 
 TYPE="$1"
@@ -108,25 +108,25 @@ TARGET_DIR="${2:-deploy/$TYPE/}"
 
 case $TYPE in
     client)
-    prepare_client
+        prepare_client
     ;;
     apps)
-    prepare_apps
+        prepare_apps
     ;;
     manager)
-    prepare_manager
+        prepare_manager
     ;;
     apps-mingw)
-    prepare_apps_mingw
+        prepare_apps_mingw
     ;;
     manager-osx)
-    prepare_osx
+        prepare_osx
     ;;
     manager-android)
-    prepare_android
+        prepare_android
     ;;
     *)
-    echo "unrecognized BOINC_TYPE $key"
-    exit 1
+        echo "unrecognized BOINC_TYPE $key"
+        exit 1
     ;;
 esac
