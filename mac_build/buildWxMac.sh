@@ -37,7 +37,7 @@
 # Build only 64-bit library 1/25/18
 # Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
 # Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
-# Update for compatibility with Xcode 10 10/2/18
+# Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
 #
 ## This script requires OS 10.6 or later
 ##

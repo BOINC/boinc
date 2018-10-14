@@ -32,7 +32,7 @@
 # Updated 3/13/16 to add -target and -setting optional arguments
 # Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
 # Updated 10/19/17 Special handling of screensaver build is no longer needed
-# Updated 10/2/18 for Xcode 10
+# Updated 10/14/18 for Xcode 10 (use this script only with BOINC 7.15 or later)
 #
 ## This script requires OS 10.8 or later
 #
@@ -46,10 +46,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version.
@@ -58,9 +58,9 @@
 ## -noclean     don't do a "clean" of each target before building.
 ##              default is to clean all first.
 ##
-## -libc++      build using libc++ instead of libstdc++ (requires OS 10.7)
+## -libstdc++   build using libstdc++ instead of libc++
 ##
-## -c++11       build using c++11 language dialect instead of default (requires libc++)
+## -c++11       build using c++11 language dialect instead of default (incompatible with libstdc++)
 ##
 ##  The following arguments determine which targets to build
 ##
@@ -97,7 +97,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     -noclean ) doclean="" ; shift 1 ;;
     -dev ) style="Development" ; shift 1 ;;
-    -libc++ ) uselibcplusplus="CLANG_CXX_LIBRARY=libc++ MACOSX_DEPLOYMENT_TARGET=10.7" ; shift 1 ;;
+    -libstdc++ ) uselibcplusplus="CLANG_CXX_LIBRARY=libstdc++" ; shift 1 ;;
     -c++11 ) cplusplus11dialect="CLANG_CXX_LANGUAGE_STANDARD=c++11" ; shift 1 ;;
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
