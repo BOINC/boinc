@@ -34,9 +34,9 @@ fi
 
 ROOTDIR=$(pwd)
 if [[ $# != 1 ]]; then
-  echo "Usage: $0 SOURCE_DIR"
-  echo "SOURCE_DIR : relative path where binaries are, last component is used as BOINC_TYPE"
-  exit 1
+    echo "Usage: $0 SOURCE_DIR"
+    echo "SOURCE_DIR : relative path where binaries are, last component is used as BOINC_TYPE"
+    exit 1
 fi
 
 SOURCE_DIR="$1"
@@ -47,8 +47,8 @@ fi
 
 # for PR's this is set if the PR comes from within the same repository
 if [ "${BINTRAY_API_KEY}" == "" ] ; then
-  echo "BINTRAY_API_KEY is missing; doing nothing"
-  exit 0
+    echo "BINTRAY_API_KEY is missing; doing nothing"
+    exit 0
 fi
 
 CI_RUN="${TRAVIS:-false}"
@@ -74,18 +74,19 @@ VERSION_DESC="Custom build created on ${BUILD_DATE}"
 if [[ $CI_RUN == "true" ]]; then
     case $TRAVIS_EVENT_TYPE in
         pull_request)
-        PKG_NAME="pull-requests"
-        GIT_REV=${TRAVIS_PULL_REQUEST_SHA:0:8}
-        VERSION="PR${TRAVIS_PULL_REQUEST}_${BUILD_DATE}_${GIT_REV}"
-        VERSION_DESC="CI build created from PR #${TRAVIS_PULL_REQUEST} on ${BUILD_DATE}"
+            PKG_NAME="pull-requests"
+            GIT_REV=${TRAVIS_PULL_REQUEST_SHA:0:8}
+            VERSION="PR${TRAVIS_PULL_REQUEST}_${BUILD_DATE}_${GIT_REV}"
+            VERSION_DESC="CI build created from PR #${TRAVIS_PULL_REQUEST} on ${BUILD_DATE}"
         ;;
         cron)
-        PKG_NAME="weekly"
-        VERSION="weekly_${BUILD_DATE}_${GIT_REV}"
-        VERSION_DESC="Weekly CI build created on ${BUILD_DATE}"
+            PKG_NAME="weekly"
+            VERSION="weekly_${BUILD_DATE}_${GIT_REV}"
+            VERSION_DESC="Weekly CI build created on ${BUILD_DATE}"
         ;;
         *)
-        echo "event $TRAVIS_EVENT_TYPE not supported for deployment"
+            echo "event $TRAVIS_EVENT_TYPE not supported for deployment"
+            exit 0;
         ;;
     esac
 fi
@@ -121,7 +122,7 @@ if [ "$TRAVIS_BUILD_ID" ] ; then
     BUILD_LOG="https://travis-ci.org/BOINC/boinc/builds/${TRAVIS_BUILD_ID}"
     #BUILD_LOG="https://api.travis-ci.org/jobs/${TRAVIS_JOB_ID}/log.txt?deansi=true"
     data='{
-  "bintray": {
+    "bintray": {
     "syntax": "markdown",
     "content": "'${BUILD_LOG}'"
   }
