@@ -86,6 +86,7 @@ if [[ $CI_RUN == "true" ]]; then
         ;;
         *)
         echo "event $TRAVIS_EVENT_TYPE not supported for deployment"
+        exit 0;
         ;;
     esac
 fi
