@@ -4,6 +4,11 @@ for /f "tokens=2-4 delims=/ "  %%a in ("%date%") do (set MM=%%a& set DD=%%b& set
 set build_date=%YYYY%-%MM%-%DD%
 set git_rev=%APPVEYOR_REPO_COMMIT:~0,8%
 
+rem Default values because %bintray_deploy% is currently unused
+set pkg_name=master
+set git_rev=%APPVEYOR_REPO_COMMIT:~0,8%
+set pkg_version=master_%build_date%_%git_rev%
+
 if defined APPVEYOR_PULL_REQUEST_NUMBER (
     set pkg_name=pull-requests
     set git_rev=%APPVEYOR_PULL_REQUEST_HEAD_COMMIT:~0,8%
