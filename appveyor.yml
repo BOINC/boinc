@@ -11,6 +11,14 @@ platform:
 pull_requests:
   do_not_increment_build_number: true
 
+notifications:
+  - provider: Email
+    to:
+      - boinc_cvs@ssl.berkeley.edu
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
+
 branches:
   only:
   - master
@@ -64,5 +72,27 @@ before_build:
 
 build_script:
   - devenv %solution_name% /Build "%configuration%|%platform%"
+
+after_build:
+  - call deploy\prepare_deployment.bat
+
+artifacts:
+  - path: deploy\win-apps\*.7z
+    name: win-apps
+  - path: deploy\win-client\*.7z
+    name: win-client
+  - path: deploy\win-manager\*.7z
+    name: win-manager
+
+deploy:
+  - provider: BinTray
+    username: ChristianBeer
+    api_key:
+      secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
+    subject: boinc
+    repo: boinc-ci
+    package: $(pkg_name)
+    version: $(pkg_version)
+    publish: true
 
 test: off
