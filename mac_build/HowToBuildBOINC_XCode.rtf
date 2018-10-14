@@ -75,16 +75,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 
 \f0\b0\fs24 \cf0 Apple provides the tools necessary to build BOINC on any Mac running OS 10.8.x or later.\
 You get these tools, including the GCC or Apple LLVM compiler and system library header files, by installing the Xcode Tools package. \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-
-\b \cf0 Building BOINC now requires Xcode Tools version 6.0 through 9.4.1. 
-\b0  BOINC 7.14.x and earlier can 
-\b not
-\b0  be built using Xcode 10 or later\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 \
-\pard\pardeftab720\sa260\partightenfactor0
-\cf0 You can download Xcode from Apple's App Store (it is large: over 4 GB).  If you are a member of Apple's Mac Developer Program, you can also download it from Apple's web site: {\field{\*\fldinst{HYPERLINK "http://developer.apple.com"}}{\fldrslt 
+You can download Xcode from Apple's App Store (it is large: over 4 GB).  If you are a member of Apple's Mac Developer Program, you can also download it from Apple's web site: {\field{\*\fldinst{HYPERLINK "http://developer.apple.com"}}{\fldrslt 
 \f1\fs26 http://developer.apple.com}}\cf2 .\cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 Source files are now archived using git.  For details, see:\
@@ -97,6 +88,27 @@ You get these tools, including the GCC or Apple LLVM compiler and system library
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \b0\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 Building BOINC now requires Xcode Tools version 6.0 through 9.4.1. 
+\b0  BOINC 7.14.x and earlier can 
+\b not
+\b0  be built using Xcode 10 or later. If you have installed Xcode 10 or later and also Xcode 9.4.1 or earlier, you can build BOINC 7.14.x by setting Xcode to use the earlier version of Xcode Tools and building using the 
+\f1\fs26 BuildMacBOINC.sh
+\f0\fs24  script (described below.) \
+\
+To set the version of Xcode Tools:\
+ * Launch Xcode.\
+ * Under the 
+\f1\fs26 Xcode
+\f0\fs24  menu, select 
+\f1\fs26 Preferences...\
+
+\f0\fs24  * Select the 
+\f1\fs26 Locations
+\f0\fs24  tab\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 \
 Note: building BOINC Manager 7.3.0 and later requires the OS 10.8 SDK or later.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
