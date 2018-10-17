@@ -26,6 +26,7 @@
 //    I'll get to this someday.
 
 #include "config.h"
+#include <zlib.h>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -209,32 +210,172 @@ int DUMP_SPEC::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
+//
+// File streams
+//
+class OutputStream {
+public:
+    virtual ~OutputStream() {}
+    virtual bool is_open() const = 0;
+    virtual bool open(const char* filename) = 0;
+    virtual bool close() = 0;
+    virtual void write(const char* fmt, va_list args) = 0;
+};
+
+class UncompressedFile : public OutputStream
+{
+private:
+    FILE* f;
+
+public:
+    UncompressedFile()
+        : f(0) {}
+
+    bool is_open() const{
+        return f != 0;
+    }
+
+    bool open(const char* filename) {
+        f = fopen(filename, "w");
+        return f != 0;
+    }
+
+    bool close() {
+        if(!is_open())
+            return false;
+
+        fclose(f);
+        f = 0;
+        return true;
+    }
+
+    void write(const char* fmt, va_list args) {
+        if(!is_open())
+            return;
+
+        vfprintf(f, fmt, args);
+    }
+};
+
+class ZipFile : public OutputStream
+{
+private:
+    UncompressedFile f;
+    char current_path[MAXPATHLEN];
+
+public:
+    bool is_open() const {
+        return f.is_open();
+    }
+
+    bool open(const char* filename) {
+        if(!f.open(filename))
+            return false;
+
+        safe_strcpy(current_path, filename);
+        return true;
+    }
+
+    bool close() {
+        if(!f.close())
+            return false;
+
+        // Do zip
+        char buf[256];
+        sprintf(buf, "zip -q %s", current_path);
+        int retval = system(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "%s failed: %s\n", buf, boincerror(retval)
+            );
+            exit(retval);
+        }
+
+        return true;
+    }
+
+    void write(const char* fmt, va_list args) {
+        f.write(fmt, args);
+    }
+};
+
+class GzipFile : public OutputStream
+{
+private:
+    gzFile gz;
+
+public:
+    GzipFile()
+        : gz(0) {}
+
+    bool is_open() const {
+        return gz != 0;
+    }
+
+    bool open(const char* filename) {
+        char buf[256];
+        sprintf(buf, "%s.gz", filename);
+        gz = gzopen(buf, "wb");
+        return gz != 0;
+    }
+
+    bool close() {
+        if(!is_open())
+            return false;
+
+        gzclose(gz);
+        gz = 0;
+        return true;
+    }
+
+    void write(const char* fmt, va_list args) {
+        gzvprintf(gz, fmt, args);
+    }
+};
+
 // class that automatically compresses on close
 //
 class ZFILE {
 protected:
     string tag;     // enclosing XML tag
-    char current_path[MAXPATHLEN];
-    int compression;
-public:
-    FILE* f;
-    ZFILE(string tag_, int comp): tag(tag_), compression(comp), f(0) {}
-    ~ZFILE() { close(); }
+    OutputStream* stream;
+public:    
+    ZFILE(string tag_, int comp): tag(tag_) {
+        switch(comp) {
+        case COMPRESSION_NONE:
+            stream = new UncompressedFile;
+            break;
+        case COMPRESSION_ZIP:
+            stream = new ZipFile;
+            break;
+        case COMPRESSION_GZIP:
+            stream = new GzipFile;
+            break;
+        }
+    }
+
+    ~ZFILE() {
+        close();
+        delete stream;
+    }
+
+    bool is_open() const {
+        return stream->is_open();
+    }
 
     void open(const char* filename) {
         close();
 
-        f = fopen(filename, "w");
-        if (!f) {
+        if (!stream->open(filename)) {
             log_messages.printf(MSG_CRITICAL,
                 "Couldn't open %s for output\n", filename
             );
             exit(ERR_FOPEN);
         }
-        fprintf(f,
+
+        write(
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
-        );
-        safe_strcpy(current_path, filename);
+        );        
     }
 
     void open_num(const char* filename, int filenum) {
@@ -244,35 +385,15 @@ public:
     }
 
     void close() {
-        char buf[256];
-        int retval;
-        if (f) {
-            fprintf(f, "</%s>\n", tag.c_str());
-            fclose(f);
-            switch(compression) {
-            case COMPRESSION_ZIP:
-                sprintf(buf, "zip -q %s", current_path);
-                retval = system(buf);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "%s failed: %s\n", buf, boincerror(retval)
-                    );
-                    exit(retval);
-                }
-                break;
-            case COMPRESSION_GZIP:
-                sprintf(buf, "gzip -fq %s", current_path);
-                retval = system(buf);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "%s failed: %s\n", buf, boincerror(retval)
-                    );
-                    exit(retval);
-                }
-                break;
-            }
-            f = 0;
-        }
+        write("</%s>\n", tag.c_str());
+        stream->close();
+    }
+
+    void write(const char* fmt, ...) {
+        va_list args;
+        va_start(args, fmt);
+        stream->write(fmt, args);
+        va_end(args);
     }
 };
 
@@ -296,14 +417,14 @@ public:
 
 void NUMBERED_ZFILE::set_id(int id) {
     int filenum = id/nids_per_file;
-    if (!f || (filenum != last_filenum)) {
+    if (!is_open() || (filenum != last_filenum)) {
         open_num(filename_base, filenum);
         last_filenum = filenum;
     }
 }
 
-void write_host_deleted(HOST_DELETED& host_deleted, FILE* f) {
-    fprintf(f,
+void write_host_deleted(HOST_DELETED& host_deleted, ZFILE* f) {
+    f->write(
         "<host>\n"
         "    <id>%lu</id>\n"
         "    <host_cpid>%s</host_cpid>\n"
@@ -313,7 +434,7 @@ void write_host_deleted(HOST_DELETED& host_deleted, FILE* f) {
     );
 }
 
-void write_host(HOST& host, FILE* f, bool detail) {
+void write_host(HOST& host, ZFILE* f, bool detail) {
     int retval;
     char p_vendor[2048], p_model[2048], os_name[2048], os_version[2048];
 
@@ -321,7 +442,7 @@ void write_host(HOST& host, FILE* f, bool detail) {
     xml_escape(host.p_model, p_model, sizeof(p_model));
     xml_escape(host.os_name, os_name, sizeof(os_name));
     xml_escape(host.os_version, os_version, sizeof(os_version));
-    fprintf(f,
+    f->write(
         "<host>\n"
         "    <id>%lu</id>\n",
         host.id
@@ -336,14 +457,14 @@ void write_host(HOST& host, FILE* f, bool detail) {
             );
         } else {
             if (user.show_hosts) {
-                fprintf(f,
+                f->write(
                     "    <userid>%lu</userid>\n",
                     host.userid
                 );
             }
         }
     }
-    fprintf(f,
+    f->write(
         "    <total_credit>%f</total_credit>\n"
         "    <expavg_credit>%f</expavg_credit>\n"
         "    <expavg_time>%f</expavg_time>\n"
@@ -368,25 +489,25 @@ void write_host(HOST& host, FILE* f, bool detail) {
     parse_serialnum(host.serialnum, boinc, vbox, coprocs);
     if (strlen(boinc)) {
         xml_escape(boinc, buf, sizeof(buf));
-        fprintf(f,
+        f->write(
             "    <boinc_version>%s</boinc_version>\n", buf
         );
     }
     if (strlen(vbox)) {
         xml_escape(vbox, buf, sizeof(buf));
-        fprintf(f,
+        f->write(
             "    <vbox_version>%s</vbox_version>\n", buf
         );
     }
     if (strlen(coprocs)) {
         xml_escape(coprocs, buf, sizeof(buf));
-        fprintf(f,
+        f->write(
             "    <coprocs>%s</coprocs>\n", buf
         );
     }
 
     if (detail) {
-        fprintf(f,
+        f->write(
             "  <create_time>%d</create_time>\n"
             "  <rpc_time>%d</rpc_time>\n"
             "  <timezone>%d</timezone>\n"
@@ -423,13 +544,13 @@ void write_host(HOST& host, FILE* f, bool detail) {
             host.host_cpid
         );
     }
-    fprintf(f,
+    f->write(
         "</host>\n"
     );
 }
 
-void write_user_deleted(USER_DELETED& user_deleted, FILE* f) {
-    fprintf(f,
+void write_user_deleted(USER_DELETED& user_deleted, ZFILE* f) {
+    f->write(
         "<user>\n"
         "    <id>%lu</id>\n"
         "    <cpid>%s</cpid>\n"
@@ -439,7 +560,7 @@ void write_user_deleted(USER_DELETED& user_deleted, FILE* f) {
     );
 }
 
-void write_user(USER& user, FILE* f, bool /*detail*/) {
+void write_user(USER& user, ZFILE* f, bool /*detail*/) {
     char buf[1024];
     char cpid[MD5_LEN];
 
@@ -451,7 +572,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     safe_strcat(buf, user.email_addr);
     md5_block((unsigned char*)buf, strlen(buf), cpid);
 
-    fprintf(f,
+    f->write(
         "<user>\n"
         " <id>%lu</id>\n"
         " <name>%s</name>\n"
@@ -471,19 +592,19 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
         cpid
     );
     if (strlen(user.url)) {
-        fprintf(f,
+        f->write(
             " <url>%s</url>\n",
             url
         );
     }
     if (user.teamid) {
-        fprintf(f,
+        f->write(
             " <teamid>%lu</teamid>\n",
             user.teamid
         );
     }
     if (user.has_profile) {
-        fprintf(f,
+        f->write(
             " <has_profile/>\n"
         );
     }
@@ -504,7 +625,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
         }
     }
 #endif
-    fprintf(f,
+    f->write(
         "</user>\n"
     );
 }
@@ -513,10 +634,10 @@ void write_badge_user(char* output_dir) {
     DB_BADGE_USER bu;
     char path[MAXPATHLEN];
     ZFILE zf("badge_users", COMPRESSION_GZIP);
-    sprintf(path, "%s/badge_user", output_dir);
+    sprintf(path, "%s/badge_user.gz", output_dir);
     zf.open(path);
     while (!bu.enumerate("")) {
-        fprintf(zf.f,
+        zf.write(
             " <badge_user>\n"
             "    <user_id>%lu</user_id>\n"
             "    <badge_id>%lu</badge_id>\n"
@@ -534,10 +655,10 @@ void write_badge_team(char* output_dir) {
     DB_BADGE_TEAM bt;
     char path[MAXPATHLEN];
     ZFILE zf("badge_teams", COMPRESSION_GZIP);
-    sprintf(path, "%s/badge_team", output_dir);
+    sprintf(path, "%s/badge_team.gz", output_dir);
     zf.open(path);
     while (!bt.enumerate("")) {
-        fprintf(zf.f,
+        zf.write(
             " <badge_team>\n"
             "    <team_id>%lu</team_id>\n"
             "    <badge_id>%lu</badge_id>\n"
@@ -551,7 +672,7 @@ void write_badge_team(char* output_dir) {
     zf.close();
 }
 
-void write_team(TEAM& team, FILE* f, bool detail) {
+void write_team(TEAM& team, ZFILE* f, bool detail) {
     DB_USER user;
     char buf[256];
     char name[2048];
@@ -561,7 +682,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 
     xml_escape(team.name, name, sizeof(name));
 
-    fprintf(f,
+    f->write(
         "<team>\n"
         " <id>%lu</id>\n"
         " <type>%d</type>\n"
@@ -585,26 +706,26 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     if (!retval) {
         char fname[2048];
         xml_escape(user.name, fname, sizeof(fname));
-        fprintf(f,
+        f->write(
             "  <founder_name>%s</founder_name>\n",
             fname
         );
     }
 
-    fprintf(f,
+    f->write(
         " <create_time>%d</create_time>\n",
         team.create_time
     );
     if (strlen(team.url)) {
         xml_escape(team.url, url, sizeof(url));
-        fprintf(f,
+        f->write(
             " <url>%s</url>\n",
             url
         );
     }
     if (strlen(team.name_html)) {
         xml_escape(team.name_html, name_html, sizeof(name_html));
-        fprintf(f,
+        f->write(
             "<name_html>%s</name_html>\n",
             name_html
         );
@@ -612,13 +733,13 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 
     if (strlen(team.description)) {
         xml_escape(team.description, description, sizeof(description));
-        fprintf(f,
+        f->write(
             "<description>%s</description>\n",
             description
         );
     }
 
-    fprintf(f,
+    f->write(
         " <country>%s</country>\n",
         team.country
     );
@@ -636,14 +757,14 @@ void write_team(TEAM& team, FILE* f, bool detail) {
             exit(retval);
         }
     }
-    fprintf(f,
+    f->write(
         "</team>\n"
     );
 }
 
-int print_app(FILE* f, APP& app) {
-    fprintf(f, "        <application>\n");
-    fprintf(f, "            <name>%s</name>\n", app.user_friendly_name);
+int print_app(ZFILE* f, APP& app) {
+    f->write( "        <application>\n");
+    f->write( "            <name>%s</name>\n", app.user_friendly_name);
 
 #if 0
     DB_RESULT result;
@@ -654,42 +775,42 @@ int print_app(FILE* f, APP& app) {
     sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_UNSENT);
     retval = result.count(n, buf);
     if (!retval) {
-        fprintf(f, "            <results_unsent>%d</results_unsent>\n", n);
+        f->write( "            <results_unsent>%d</results_unsent>\n", n);
     }
 
     sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_IN_PROGRESS);
     retval = result.count(n, buf);
     if (!retval) {
-        fprintf(f, "            <results_in_progress>%d</results_in_progress>\n", n);
+        f->write( "            <results_in_progress>%d</results_in_progress>\n", n);
     }
 
     sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_OVER);
     retval = result.count(n, buf);
     if (!retval) {
-        fprintf(f, "            <results_over>%d</results_over>\n", n);
+        f->write( "            <results_over>%d</results_over>\n", n);
     }
 #endif
 
-    fprintf(f, "        </application>\n");
+    f->write( "        </application>\n");
     return 0;
 }
 
-int print_apps(FILE* f) {
+int print_apps(ZFILE* f) {
     DB_APP app;
-    fprintf(f, "    <applications>\n");
+    f->write( "    <applications>\n");
     while (!app.enumerate()) {
         print_app(f, app);
     }
-    fprintf(f, "    </applications>\n");
+    f->write( "    </applications>\n");
     return 0;
 }
 
-void print_badges(FILE* f) {
+void print_badges(ZFILE* f) {
     DB_BADGE badge;
-    fprintf(f, "    <badges>\n");
+    f->write( "    <badges>\n");
     while (!badge.enumerate()) {
         have_badges = true;
-        fprintf(f,
+        f->write(
             "       <badge>\n"
             "           <id>%lu</id>\n"
             "           <name>%s</name>\n"
@@ -702,7 +823,7 @@ void print_badges(FILE* f) {
             badge.image_url
         );
     }
-    fprintf(f, "    </badges>\n");
+    f->write( "    </badges>\n");
 }
 
 int tables_file(char* dir) {
@@ -711,21 +832,21 @@ int tables_file(char* dir) {
     ZFILE zf("tables", false);
     sprintf(buf, "%s/tables.xml", dir);
     zf.open(buf);
-    fprintf(zf.f,
+    zf.write(
         "    <update_time>%d</update_time>\n",
         (int)time(0)
     );
     if (config.credit_by_app) {
-        fprintf(zf.f, "    <credit_by_app/>\n");
+        zf.write("    <credit_by_app/>\n");
     }
-    if (nusers) fprintf(zf.f, "    <nusers_total>%d</nusers_total>\n", nusers);
-    if (nteams) fprintf(zf.f, "    <nteams_total>%d</nteams_total>\n", nteams);
-    if (nhosts) fprintf(zf.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
-    if (nusers_deleted) fprintf(zf.f, "    <nusers_deleted_total>%d</nusers_deleted_total>\n", nusers_deleted);
-    if (nhosts_deleted) fprintf(zf.f, "    <nhosts_deleted_total>%d</nhosts_deleted_total>\n", nhosts_deleted);
-    if (total_credit) fprintf(zf.f, "    <total_credit>%lf</total_credit>\n", total_credit);
-    print_apps(zf.f);
-    print_badges(zf.f);
+    if (nusers) zf.write("    <nusers_total>%d</nusers_total>\n", nusers);
+    if (nteams) zf.write("    <nteams_total>%d</nteams_total>\n", nteams);
+    if (nhosts) zf.write("    <nhosts_total>%d</nhosts_total>\n", nhosts);
+    if (nusers_deleted) zf.write("    <nusers_deleted_total>%d</nusers_deleted_total>\n", nusers_deleted);
+    if (nhosts_deleted) zf.write("    <nhosts_deleted_total>%d</nhosts_deleted_total>\n", nhosts_deleted);
+    if (total_credit) zf.write("    <total_credit>%lf</total_credit>\n", total_credit);
+    print_apps(&zf);
+    print_badges(&zf);
     zf.close();
     return 0;
 }
@@ -783,9 +904,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                     out.nzfile->set_id(n++);
                 }
                 if (out.zfile) {
-                    write_user(user, out.zfile->f, out.detail);
+                    write_user(user, out.zfile, out.detail);
                 } else {
-                    write_user(user, out.nzfile->f, out.detail);
+                    write_user(user, out.nzfile, out.detail);
                 }
             }
         }
@@ -808,9 +929,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                     out.nzfile->set_id(n++);
                 }
                 if (out.zfile) {
-                    write_user_deleted(user_deleted, out.zfile->f);
+                    write_user_deleted(user_deleted, out.zfile);
                 } else {
-                    write_user_deleted(user_deleted, out.nzfile->f);
+                    write_user_deleted(user_deleted, out.nzfile);
                 }
             }
         }
@@ -835,9 +956,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                     out.nzfile->set_id(n++);
                 }
                 if (out.zfile) {
-                    write_host(host, out.zfile->f, out.detail);
+                    write_host(host, out.zfile, out.detail);
                 } else {
-                    write_host(host, out.nzfile->f, out.detail);
+                    write_host(host, out.nzfile, out.detail);
                 }
             }
         }
@@ -860,9 +981,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                     out.nzfile->set_id(n++);
                 }
                 if (out.zfile) {
-                    write_host_deleted(host_deleted, out.zfile->f);
+                    write_host_deleted(host_deleted, out.zfile);
                 } else {
-                    write_host_deleted(host_deleted, out.nzfile->f);
+                    write_host_deleted(host_deleted, out.nzfile);
                 }
             }
         }
@@ -885,9 +1006,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
                     out.nzfile->set_id(n++);
                 }
                 if (out.zfile) {
-                    write_team(team, out.zfile->f, out.detail);
+                    write_team(team, out.zfile, out.detail);
                 } else {
-                    write_team(team, out.nzfile->f, out.detail);
+                    write_team(team, out.nzfile, out.detail);
                 }
             }
         }
