@@ -218,7 +218,7 @@ public:
     virtual ~OutputStream() {}
     virtual bool is_open() const = 0;
     virtual bool open(const char* filename) = 0;
-    virtual bool close() = 0;
+    virtual void close() = 0;
     virtual void write(const void* buf, int size) = 0;
 };
 
@@ -240,10 +240,9 @@ public:
         return f != 0;
     }
 
-    bool close() {
+    void close() {
         fclose(f);
         f = 0;
-        return true;
     }
 
     void write(const void* buf, int size) {
@@ -270,9 +269,8 @@ public:
         return true;
     }
 
-    bool close() {
-        if(!f.close())
-            return false;
+    void close() {
+        f.close();
 
         // Do zip
         char buf[256];
@@ -284,8 +282,6 @@ public:
             );
             exit(retval);
         }
-
-        return true;
     }
 
     void write(const void* buf, int size) {
@@ -313,10 +309,9 @@ public:
         return gz != 0;
     }
 
-    bool close() {
+    void close() {
         gzclose(gz);
         gz = 0;
-        return true;
     }
 
     void write(const void* buf, int size) {
