@@ -329,7 +329,20 @@ public:
     }
 
     void write(const char* fmt, va_list args) {
-        gzvprintf(gz, fmt, args);
+        if(!is_open())
+            return;
+
+        char* ptr;
+        int retval = vasprintf(&ptr, fmt, args);
+        if(retval < 0) {
+            log_messages.printf(MSG_CRITICAL,
+                "Error allocating gzip memory buffer\n"
+            );
+            exit(ERR_MALLOC);
+        }
+
+        gzwrite(gz, ptr, retval);
+        free(ptr);
     }
 };
 
