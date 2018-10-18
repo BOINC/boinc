@@ -313,8 +313,8 @@ public:
     }
 
     bool open(const char* filename) {
-        char buf[256];
-        sprintf(buf, "%s.gz", filename);
+        char buf[MAXPATHLEN];
+        snprintf(buf, sizeof(buf), "%s.gz", filename);
         gz = gzopen(buf, "wb");
         return gz != 0;
     }
