@@ -219,7 +219,7 @@ public:
     virtual bool is_open() const = 0;
     virtual bool open(const char* filename) = 0;
     virtual bool close() = 0;
-    virtual void write(const char* fmt, va_list args) = 0;
+    virtual void write(const void* buf, int size) = 0;
 };
 
 class UncompressedFile : public OutputStream
@@ -241,19 +241,13 @@ public:
     }
 
     bool close() {
-        if(!is_open())
-            return false;
-
         fclose(f);
         f = 0;
         return true;
     }
 
-    void write(const char* fmt, va_list args) {
-        if(!is_open())
-            return;
-
-        vfprintf(f, fmt, args);
+    void write(const void* buf, int size) {
+        fwrite(buf, size, 1, f);
     }
 };
 
@@ -294,8 +288,8 @@ public:
         return true;
     }
 
-    void write(const char* fmt, va_list args) {
-        f.write(fmt, args);
+    void write(const void* buf, int size) {
+        f.write(buf, size);
     }
 };
 
@@ -320,29 +314,13 @@ public:
     }
 
     bool close() {
-        if(!is_open())
-            return false;
-
         gzclose(gz);
         gz = 0;
         return true;
     }
 
-    void write(const char* fmt, va_list args) {
-        if(!is_open())
-            return;
-
-        char* ptr;
-        int retval = vasprintf(&ptr, fmt, args);
-        if(retval < 0) {
-            log_messages.printf(MSG_CRITICAL,
-                "Error allocating gzip memory buffer\n"
-            );
-            exit(ERR_MALLOC);
-        }
-
-        gzwrite(gz, ptr, retval);
-        free(ptr);
+    void write(const void* buf, int size) {
+        gzwrite(gz, buf, size);
     }
 };
 
@@ -398,15 +376,32 @@ public:
     }
 
     void close() {
+        if(!is_open())
+            return;
+
         write("</%s>\n", tag.c_str());
         stream->close();
     }
 
     void write(const char* fmt, ...) {
+        if(!is_open())
+            return;
+
         va_list args;
         va_start(args, fmt);
-        stream->write(fmt, args);
+        char* ptr;
+        int size = vasprintf(&ptr, fmt, args);
         va_end(args);
+
+        if(size < 0) {
+            log_messages.printf(MSG_CRITICAL,
+                "Error allocating memory buffer\n"
+            );
+            exit(ERR_MALLOC);
+        }
+
+        stream->write(ptr, size);
+        free(ptr);
     }
 };
 
