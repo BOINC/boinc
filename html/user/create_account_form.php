@@ -66,6 +66,7 @@ if ($teamid) {
 
 form_start("create_account_action.php","post");
 create_account_form($teamid, $next_url);
+global $recaptcha_public_key;
 if ($recaptcha_public_key) {
     form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
 }
