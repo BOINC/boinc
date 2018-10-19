@@ -195,7 +195,7 @@ function sample_navbar(
         array(tra("Preferences"), $url_prefix."edit_forum_preferences_form.php"),
         array(tra("User search"), $url_prefix."user_search.php"),
         array(tra("User of the day"), $url_prefix."uotd.php"),
-        array(tra("Certificate"), $url_prefix."cert1.php", "", "_blank"),
+        array(tra("Certificate"), $url_prefix.cert_filename(), "", "_blank"),
     ));
     navbar_menu(tra("Site"), array(
         array(tra("Site search"), $url_prefix."site_search.php"),
