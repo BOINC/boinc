@@ -213,22 +213,22 @@ int DUMP_SPEC::parse(FILE* in) {
 //
 // File streams
 //
-class OutputStream {
+class OUTPUT_STREAM {
 public:
-    virtual ~OutputStream() {}
+    virtual ~OUTPUT_STREAM() {}
     virtual bool is_open() const = 0;
     virtual bool open(const char* filename) = 0;
     virtual void close() = 0;
     virtual void write(const void* buf, int size) = 0;
 };
 
-class UncompressedFile : public OutputStream
+class UNCOMPRESSED_FILE : public OUTPUT_STREAM
 {
 private:
     FILE* f;
 
 public:
-    UncompressedFile()
+    UNCOMPRESSED_FILE()
         : f(0) {}
 
     bool is_open() const{
@@ -250,10 +250,10 @@ public:
     }
 };
 
-class ZipFile : public OutputStream
+class ZIP_FILE : public OUTPUT_STREAM
 {
 private:
-    UncompressedFile f;
+    UNCOMPRESSED_FILE f;
     char current_path[MAXPATHLEN];
 
 public:
@@ -289,13 +289,13 @@ public:
     }
 };
 
-class GzipFile : public OutputStream
+class GZIP_FILE : public OUTPUT_STREAM
 {
 private:
     gzFile gz;
 
 public:
-    GzipFile()
+    GZIP_FILE()
         : gz(0) {}
 
     bool is_open() const {
@@ -324,18 +324,18 @@ public:
 class ZFILE {
 protected:
     string tag;     // enclosing XML tag
-    OutputStream* stream;
+    OUTPUT_STREAM* stream;
 public:    
     ZFILE(string tag_, int comp): tag(tag_) {
         switch(comp) {
         case COMPRESSION_NONE:
-            stream = new UncompressedFile;
+            stream = new UNCOMPRESSED_FILE;
             break;
         case COMPRESSION_ZIP:
-            stream = new ZipFile;
+            stream = new ZIP_FILE;
             break;
         case COMPRESSION_GZIP:
-            stream = new GzipFile;
+            stream = new GZIP_FILE;
             break;
         }
     }
