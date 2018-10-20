@@ -328,14 +328,15 @@ protected:
 public:    
     ZFILE(string tag_, int comp): tag(tag_) {
         switch(comp) {
-        case COMPRESSION_NONE:
-            stream = new UNCOMPRESSED_FILE;
-            break;
         case COMPRESSION_ZIP:
             stream = new ZIP_FILE;
             break;
         case COMPRESSION_GZIP:
             stream = new GZIP_FILE;
+            break;
+        case COMPRESSION_NONE:
+        default:
+            stream = new UNCOMPRESSED_FILE;
             break;
         }
     }
