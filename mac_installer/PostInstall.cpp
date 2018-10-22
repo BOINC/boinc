@@ -196,7 +196,9 @@ int main(int argc, char *argv[])
     pid_t                   installerPID = 0, coreClientPID = 0;
     OSStatus                err;
     FILE                    *f;
-    char                    s[MAXPATHLEN];
+    char                    s[2048];
+    char                    path[MAXPATHLEN];
+    
 #ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
@@ -269,11 +271,11 @@ int main(int argc, char *argv[])
 
     LoadPreferredLanguages();
 
-    if (compareOSVersionTo(10, 6) < 0) {
+    if (compareOSVersionTo(10, 7) < 0) {
         BringAppToFront();
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
-        ShowMessage(false, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
+        ShowMessage(false, "Sorry, this version of %s requires system 10.7 or higher.", brandName[brandID]);
 
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
@@ -475,6 +477,28 @@ int main(int argc, char *argv[])
             CFRelease(urlref);
             REPORT_ERROR(err);
         }
+    }
+
+    if (compareOSVersionTo(10, 13) >= 0) {
+        getPathToThisApp(path, sizeof(path));
+        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(s)-1);
+        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Install\"", path, appName[brandID]);
+        err = callPosixSpawn(s);
+        REPORT_ERROR(err);
+        if (err) {
+            printf("Command %s returned error %d\n", s, err);
+            fflush(stdout);
+        }
+
+        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
+        chmod(s, 0755);
+#ifdef SANDBOX
+        group *bmgrp = getgrnam(boinc_master_group_name);
+        passwd *bmpw = getpwnam(boinc_master_user_name);
+        if (bmgrp && bmpw) {
+            chown(s, bmpw->pw_uid, bmgrp->gr_gid);
+        }
+#endif
     }
 
     err = UpdateAllVisibleUsers(brandID, oldBrandID);
@@ -1087,9 +1111,8 @@ cleanupSystemEvents:
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw)
 {
     struct stat             sbuf;
-    int                     i;
     char                    s[2048];
-    
+
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
 
@@ -1108,28 +1131,25 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     fprintf(f, "<plist version=\"1.0\">\n");
     fprintf(f, "<dict>\n");
     fprintf(f, "\t<key>Label</key>\n");
-    fprintf(f, "\t<string>edu.berkeley.test</string>\n");
+    fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>sh</string>\n");
-    fprintf(f, "\t\t<string>-c</string>\n");
-    fprintf(f, "\t\t<string>");
-    for (i=0; i<NUMBRANDS; i++) {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[i]);
-    }
-    if (deleteLogInItem) {
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
+    if (deleteLogInItem || (brandID != oldBrandID)) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
         // launch the Manager before the LaunchAgent deletes the Login Item.
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "killall -u %d -9 \"%s\";", pw->pw_uid, appName[oldBrandID]);
-    } else {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
-        fprintf(f, "open -jg \"%s\";", appPath[brandID]);
+        fprintf(f, "\t\t<string>-d</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[oldBrandID]);
     }
-    fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
+    if (!deleteLogInItem) {
+        fprintf(f, "\t\t<string>-a</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    }
+    fprintf(f, "</string>\n");
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
@@ -1257,7 +1277,8 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
                 printf("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL\n");
                 goto registerOurApp;
             }
-            n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+        n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+        printf("LSCopyApplicationURLsForBundleIdentifier returned %ld results\n", n);
     } else {
         n = 500;    // Prevent infinite loop
     }
@@ -1773,10 +1794,14 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+
+            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+            FixLaunchServicesDataBase(pw->pw_uid, brandID);
         } else {
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
+            // SetLoginItemLaunchAgent will run helper app which will call FixLaunchServicesDataBase()
             SetLoginItemLaunchAgent(brandID, oldBrandID, deleteLoginItem, pw);
         }
         if (isBMGroupMember) {
@@ -1789,9 +1814,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             }
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
 
-            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
-            FixLaunchServicesDataBase(pw->pw_uid, brandID);
-       
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);

@@ -26,9 +26,9 @@ addons:
 
 env:
   global:
-    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-    #   via the "travis encrypt" command using the project repo's public key
+    # secret API keys for Coverity and bintray
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
+    - secure: dYJhIQi9mB00HsyjNEbyyeh7ChHxbg9o6dkBvub/4dRwJKN+KAReU7yHshUTpHI+Nn4TdCjpwHcDMDOklRTSeUFz79jGEmCVqvnz0DynZFroryX3rdAnc/kW4QkupgLZk4JKCN0JRPOM/j9RS2zLxkqrDc7gibF7BNgIhu1jUXk=
   matrix:
     - BOINC_TYPE=libs
     - BOINC_TYPE=server
@@ -59,11 +59,17 @@ matrix:
     - language: android
       env: BOINC_TYPE=client-android-x86_64
     - language: android
+      android:
+        components:
+            - build-tools-28.0.2
+            - android-26
+            - extra-google-m2repository
+            - extra-android-m2repository    
       env: BOINC_TYPE=manager-android
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
-   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install -y freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 realpath ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install -y freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 realpath p7zip-full ) fi
    - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( sudo apt-get install ansible/trusty-backports; sudo service mysql stop; ) fi
 
 before_script:
@@ -84,6 +90,9 @@ script:
 - if [[ "${BOINC_TYPE}" == "client-android-arm64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm64 ) fi
 - if [[ "${BOINC_TYPE}" == "client-android-x86" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86 ) fi
 - if [[ "${BOINC_TYPE}" == "client-android-x86_64" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch x86_64 ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( /bin/true ) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android/BOINC && ./gradlew assemble ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
+
+after_success:
+- ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/

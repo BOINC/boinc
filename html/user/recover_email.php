@@ -29,8 +29,6 @@ require_once("../inc/password_compat/password.inc");
 
 check_get_args(array("id", "token"));
 
-redirect_to_secure_url("recover_email.php");
-
 $user = get_logged_in_user(false);
 //Log out to clear all auth tokens
 if ($user) {

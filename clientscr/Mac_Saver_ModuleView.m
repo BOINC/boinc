@@ -43,7 +43,7 @@
 // [7] In the Edit Scheme dialog Arguments tab, add "-debug" and "-window" to 
 //     "Arguments passed on launch"
 //
-// [8] In the Finder, open the directory "/Library/Screen Avers" and remove "BOINCSaver.saver"
+// [8] In the Finder, open the directory "/Library/Screen Savers" and remove "BOINCSaver.saver"
 //
 // [9] In Xcode's Project navigator, under "Products", control-click on "BOINCSaver.saver" and 
 //     select " Show in Finder"; make sure your are looking at the Development subdirectory.
@@ -157,6 +157,7 @@ static bool UseSharedOffscreenBuffer(void);
 static double lastGetSSMsgTime;
 static pthread_t mainThreadID;
 static int CGWindowListTries;
+static bool mojave;
 
 
 #define TEXTBOXMINWIDTH 400.0
@@ -168,7 +169,7 @@ static int CGWindowListTries;
 #define MAXDELTA 16
 
 // On OS 10.13+, assume graphics app is not compatible if no MachO connection after 5 seconds
-#define MAXWAITFORCONNECTION 5.0
+#define MAXWAITFORCONNECTION 8.0
 #define MAX_CGWINDOWLIST_TRIES 3
 
 int signof(float x) {
@@ -198,6 +199,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     self = [ super initWithFrame:frame isPreview:isPreview ];
+    mojave = (compareOSVersionTo(10, 14) >= 0);
     return self;
 }
 
@@ -212,6 +214,9 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gEventHandle = NXOpenEventStatus();
     
     mainThreadID = pthread_self();
+
+    // Under OS 10.14 Mojave, [super drawRect:] is slow but not needed if we do this:
+    [[self window] setBackgroundColor:[NSColor blackColor]];
 
     initBOINCSaver();
 
@@ -341,6 +346,20 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 - (void)stopAnimation {
     [ super stopAnimation ];
 
+    if ([ self isPreview ]) return;
+#if ! DEBUG_UNDER_XCODE
+    NSRect windowFrame = [ [ self window ] frame ];
+    if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
+        return;         // We draw only to main screen
+    }
+#endif
+    if (imageView) {
+        useCGWindowList = false;
+        // removeFromSuperview must be called from main thread
+        [imageView removeFromSuperview];   // Releases imageView
+        imageView = nil;
+    }
+
     if ( ! [ self isPreview ] ) {
         closeBOINCSaver();
     }
@@ -360,15 +379,18 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
 - (void)drawRect:(NSRect)rect {
-    [ super drawRect:rect ];
-
 //  optionally draw here
+    if (mojave) {
+        [self doPeriodicTasks];
+    } else {
+        [ super drawRect:rect ];
+    }
 }
 
 // If there are multiple displays, this may get called 
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
-- (void)animateOneFrame {
+- (void)doPeriodicTasks {
     int newFrequency = 0;
     int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
@@ -407,15 +429,15 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
     // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-           double idleTime =  CGEventSourceSecondsSinceLastEventType
-                    (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-        if (idleTime < 1.5) {
-            [ NSApp terminate:nil ];
+        if (! mojave) {
+               double idleTime =  CGEventSourceSecondsSinceLastEventType
+                        (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+            if (idleTime < 1.5) {
+                [ NSApp terminate:nil ];
+            }
         }
     }
-#endif  // NOT DEBUG_UNDER_XCODE
-    
-#if ! DEBUG_UNDER_XCODE
+
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
@@ -472,8 +494,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         if (childApp) {
              if (![ childApp activateWithOptions:NSApplicationActivateIgnoringOtherApps ]) {
                 launchedGfxApp("", 0, -1);  // Graphics app is no longer running
-             }
-             if (useCGWindowList) {
+             } else if (useCGWindowList) {
                 // As a safety precaution, prevent terminating gfx app while copying its window
                 pthread_mutex_lock(&saver_mutex);
 
@@ -529,7 +550,9 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         // and IOSurfaceBuffer support, so try to use CGWindowListCreateImage 
         // method. If that fails MAX_CGWINDOWLIST_TRIES times then assume 
         // the graphics app is not compatible with OS 10.13+ and kill it.
-        if (gfxAppStartTime) {
+        //
+        // taskSlot<0 if no worker app is running, so launching default graphics
+        if (gfxAppStartTime && (taskSlot >= 0)) { 
             if ((getDTime() - gfxAppStartTime)> MAXWAITFORCONNECTION) {
                 if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
                     // After displaying message for 5 seconds, incompatibleGfxApp
@@ -746,6 +769,25 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         if (mySharedGraphicsController) {
             [mySharedGraphicsController testConnection];
         }
+    }
+}
+
+
+- (void)animateOneFrame {
+#if ! DEBUG_UNDER_XCODE
+    if ( ! [ self isPreview ] ) {    
+        NSRect windowFrame = [ [ self window ] frame ];
+        if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
+            return;         // We draw only to main screen
+        }
+    }
+#endif
+    //  Drawing in animateOneFrame doesn't seem to work under OS 10.14 Mojave
+    // but drawing in drawRect: seems slow under erarlier versions of OS X
+    if (mojave) {
+        [self display];
+    } else {
+        [self doPeriodicTasks];
     }
 }
 

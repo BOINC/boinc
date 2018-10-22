@@ -22,7 +22,7 @@
 
 $cli_only = true;
 require_once("../inc/util_ops.inc");
-require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");

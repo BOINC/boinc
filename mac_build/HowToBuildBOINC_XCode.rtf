@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
 \f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;\red186\green0\blue0;\red14\green14\blue255;\red245\green245\blue245;
@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 4/27/18\
+Last updated 10/12/18\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
-This document applies to BOINC version 7.9.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.15.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
@@ -39,6 +39,21 @@ Contents of this document:\
 \'95 Debugging into wxWidgets.\
 \'95 Installing and setting up Xcode.\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+
+\b \cf0 Note:
+\b0  
+\f1\fs26 setupForBoinc.sh
+\f0\fs24  (described late in this document) runs 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  to build the wxWidgets library used by BOINC Manager. If you built the wxWidgets library with an earlier version of  
+\f1\fs26 buildWxMac.sh
+\f0\fs24 , then you must rebuild it with the 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  included in the newer source tree. Otherwise, the BOINC Manager build will fail with linker (
+\f1\fs26 ld
+\f0\fs24 ) errors.\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
 \b\fs28 \cf0 Important requirements for building BOINC software for the Mac
@@ -46,7 +61,7 @@ Contents of this document:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.9.0, BOINC is built entirely for 64-bit Intel.  The BOINC libraries also include a 32-bit build so that they can be linked with 32-bit project applications on systems that support 32-bit applications.\
+\cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.15.0, BOINC is built entirely for 64-bit Intel, including the BOINC libraries.\
 You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running OS 10.8.x or later and cross-compile for the various platforms. The remainder of this document describes that process.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
@@ -247,14 +262,27 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f1 -clean
 \f0 .\
 
-\b Note 3: 
+\b Note 3:
+\b0  
+\f1\fs26 setupForBoinc.sh
+\f0\fs24  runs 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  to build the wxWidgets library used by BOINC Manager. If you built the wxWidgets library with an earlier version of  
+\f1\fs26 buildWxMac.sh
+\f0\fs24 , then you must rebuild it with the 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  included in the newer source tree. Otherwise, the BOINC Manager build will fail with linker (
+\f1\fs26 ld
+\f0\fs24 ) errors.\
+
+\b Note 4: 
 \b0 The \{path\} must not contain any space characters.\
 \pard\pardeftab720\partightenfactor0
 
 \b \cf0 Hint: 
 \b0 You don't need to type the path to a file or folder into Terminal; just drag the file or folder icon from a Finder window onto the Terminal window.\
 
-\b Note 4:
+\b Note 5:
 \b0  To be compatible with OS 10.6 and OS 10.7, the screensaver must be built with Garbage Collection (GC) supported (and without Automatic Reference Counting) , but Xcode versions later than 5.0.2 do not allow building with GC. To allow building with newer versions of Xcode while keeping backward compatibility to OS 10.6, the GIT repository includes the screensaver executable built with GC, while the Xcode project builds the screensaver with ARC (for newer versions of OS X.) The 
 \f1\fs26 release_boinc.sh
 \f0\fs24  script (described later in this document) adds both the GC and ARC builds of the screensaver to the installer; the installer code selects the correct screensaver for the target version of OS X at install time.\
@@ -334,15 +362,13 @@ The options for BuildMacBOINC.sh are:\
 \f1\fs26 BOINC_dev/boinc/mac_build/build/Deployment/
 \f0\fs24  or 
 \f1\fs26 BOINC_dev/boinc/mac_build/build/Development/
-\f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location; you would normally need to determine this location using Xcode's Organizer window.  \
+\f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location. To determine this location, control-click on 
+\i Products
+\i0  in Xcode's Project Navigator and select "Show in Finder."  \
 \
 
 \b Note 4: 
-\b0 By default, BOINC is built using libstdc++ for compatibility with older versions of OS X, unless 
-\f1\fs26 BuildMacBOINC.sh
-\f0\fs24  is called with the -libc argument. Newer versions of Xcode build using libc++ by default. Project applications built for libc++ with newer versions of Xcode will not link properly with BOINC libraries built for libstdc++. However, libc++ is not available before OS 10.7, so project applications will fail to run under earlier versions of OS X unless built for libstdc++. To build project applications that will run on older versions of OS X, pass the following option to the LLVM compiler: 
-\f1 -stdlib=libstdc++
-\f0  and avoid using any c++11 specific constructs in your code.  If you are building your application using Xcode, you can select the C++ Standard Library in the build settings under "Apple LLVM - Language - C++" or by setting the "OS X Deployment Target" earlier than OS 10.7.\
+\b0 As of version 7.15.0, BOINC is always built using libc++. Project applications built for libstdc ++ with newer versions of Xcode will not link properly with BOINC libraries built for libc++. \
 \
 
 \b Hint:
@@ -371,7 +397,7 @@ The BOINC Xcode project has built-in scripts which create a text file with the p
 \f1\fs26 release_boinc.sh
 \f0\fs24  script, but you can also use them to access the built products directly as follows; open the file with TextEdit and copy the path, then enter command-shift-G in the Finder and paste the path into the Finder's  dialog.\
 \
-The standard release of BOINC version 7.9.0 and later builds only for Macintosh computers with 64-bit Intel processors.  The executables are built only for the x86_64 architecture.  The BOINC libraries are built as universal binaries containing builds for two architectures: i386 and x86_64.\
+The standard release of BOINC version 7.15.0 and later builds only for Macintosh computers with 64-bit Intel processors.  The executables and libraries are built only for the x86_64 architecture.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 

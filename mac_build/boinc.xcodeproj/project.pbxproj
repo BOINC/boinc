@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -20,10 +20,11 @@
 				DDF9EC0D144EB338005D6144 /* PBXTargetDependency */,
 				DDBD681107FA830E0082C20D /* PBXTargetDependency */,
 				DDB874670C850DB600E0DE1F /* PBXTargetDependency */,
-				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
 				DD791FF10819063C00BE2906 /* PBXTargetDependency */,
+				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
 				DD58247D0B198BDD003B6A2F /* PBXTargetDependency */,
 				DD6178CE1488F09E0042482E /* PBXTargetDependency */,
+				DD3EAAB1216A26C700BC673C /* PBXTargetDependency */,
 				DD127877081F44E5007B5DE1 /* PBXTargetDependency */,
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
 				DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */,
@@ -54,6 +55,7 @@
 		DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */; };
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */; };
+		DD19D2C0216E0211004A5E0D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
@@ -89,7 +91,6 @@
 		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
-		DD3E14DD0A774397007E0084 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD3E14DF0A774397007E0084 /* AccountInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */; };
 		DD3E14E10A774397007E0084 /* AccountManagerInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41C08F3343F00C1DF66 /* AccountManagerInfoPage.cpp */; };
 		DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41E08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp */; };
@@ -148,6 +149,10 @@
 		DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD3E15330A774397007E0084 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD3EAAAD216A262100BC673C /* mac_branding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD93854320F609C7008EDE5A /* mac_branding.cpp */; };
+		DD3EAAAF216A268600BC673C /* finish_install.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3EAAAE216A268500BC673C /* finish_install.cpp */; };
+		DD3EAAB7216A2A7900BC673C /* boinc_finish_install in Resources */ = {isa = PBXBuildFile; fileRef = DD3EAAA6216A25AD00BC673C /* boinc_finish_install */; };
+		DD3EAABA216A2A9B00BC673C /* boinc_finish_install in Resources */ = {isa = PBXBuildFile; fileRef = DD3EAAA6216A25AD00BC673C /* boinc_finish_install */; };
 		DD407A4D07D2FB6500163EF5 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD407A4F07D2FB7100163EF5 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B6307C5ACEB0043025C /* base64.cpp */; };
 		DD407A5307D2FB7C00163EF5 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
@@ -375,6 +380,7 @@
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB00FA120E110E000C8ABEF /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DDB00FA220E111F100C8ABEF /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDB0805E2163019F00520B63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DDB295C9185B0DBD00B9F842 /* MacNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDB295C8185B0DBD00B9F842 /* MacNotification.mm */; };
 		DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
@@ -582,6 +588,27 @@
 			remoteGlobalIDString = DDD74D8607CF482E0065AC9D;
 			remoteInfo = BOINC_Client;
 		};
+		DD3EAAB0216A26C700BC673C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3EAAA5216A25AD00BC673C;
+			remoteInfo = boinc_finish_install;
+		};
+		DD3EAAB5216A2A6700BC673C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3EAAA5216A25AD00BC673C;
+			remoteInfo = boinc_finish_install;
+		};
+		DD3EAAB8216A2A8A00BC673C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3EAAA5216A25AD00BC673C;
+			remoteInfo = boinc_finish_install;
+		};
 		DD45C4A00A53E73500E923D1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -755,6 +782,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD3EAAA4216A25AD00BC673C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -856,6 +892,8 @@
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3EAAA6216A25AD00BC673C /* boinc_finish_install */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_finish_install; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3EAAAE216A268500BC673C /* finish_install.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finish_install.cpp; path = ../mac_installer/finish_install.cpp; sourceTree = "<group>"; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mem_usage.cpp; sourceTree = "<group>"; };
 		DD407AB807D2FC7D00163EF5 /* mem_usage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mem_usage.h; path = ../lib/mem_usage.h; sourceTree = SOURCE_ROOT; };
@@ -1089,6 +1127,7 @@
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
 		DDA45502140F85DD00D97676 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str_replace.h; sourceTree = "<group>"; };
+		DDA4EDBC2171FF860005E6B5 /* mac_spawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_spawn.h; path = ../lib/mac/mac_spawn.h; sourceTree = "<group>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
 		DDA6BD050BD4551F008F7921 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
@@ -1219,7 +1258,7 @@
 		F5159564029EB02001F5651B /* md5_file.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = md5_file.cpp; sourceTree = "<group>"; };
 		F5159565029EB02001F5651B /* md5_file.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5_file.h; path = ../lib/md5_file.h; sourceTree = SOURCE_ROOT; };
 		F519F98E02C44A7501BDB3CA /* scheduler_op.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scheduler_op.h; path = ../client/scheduler_op.h; sourceTree = SOURCE_ROOT; };
-		F51BDF4A03086C46012012A7 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		F51BDF4A03086C46012012A7 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		F51CCF1E02EFD37D018DB99A /* pers_file_xfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = pers_file_xfer.h; path = ../client/pers_file_xfer.h; sourceTree = SOURCE_ROOT; };
 		F51CCF1F02EFD37D018DB99A /* pers_file_xfer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = pers_file_xfer.cpp; sourceTree = "<group>"; };
 		F51DA64D02DB97FF010E292A /* crypt.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = crypt.cpp; sourceTree = "<group>"; };
@@ -1292,6 +1331,14 @@
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
 				DD7811631851AC8D0050CF7B /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3EAAA3216A25AD00BC673C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD19D2C0216E0211004A5E0D /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1445,6 +1492,7 @@
 				DDD337021062235D00867C7D /* AddRemoveUser */,
 				DD81C79A144D8DA9000BE61A /* libjpeg.a */,
 				DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */,
+				DD3EAAA6216A25AD00BC673C /* boinc_finish_install */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1463,6 +1511,7 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
+				DD3EAAA7216A25AE00BC673C /* boinc_finish_install */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1513,6 +1562,7 @@
 			isa = PBXGroup;
 			children = (
 				DD1AFEE70A51301C00EE5B82 /* Installer.cpp */,
+				DD3EAAAE216A268500BC673C /* finish_install.cpp */,
 				DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */,
 				DDF9350F176B0D0C00A2793C /* translate.cpp */,
 				DDF93510176B0D0C00A2793C /* translate.h */,
@@ -1525,6 +1575,13 @@
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
+		};
+		DD3EAAA7216A25AE00BC673C /* boinc_finish_install */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = boinc_finish_install;
+			sourceTree = "<group>";
 		};
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
@@ -1755,6 +1812,7 @@
 			children = (
 				DDA6BD030BD4551F008F7921 /* dyld_gdb.h */,
 				DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */,
+				DDA4EDBC2171FF860005E6B5 /* mac_spawn.h */,
 				DDBAA9B61DF190EB004C48FD /* mac_util.h */,
 				DDBAA9B41DF1902B004C48FD /* mac_util.mm */,
 				DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */,
@@ -2069,6 +2127,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD3EAAB6216A2A6700BC673C /* PBXTargetDependency */,
 				DDAD19DF09090914004E7DD0 /* PBXTargetDependency */,
 			);
 			name = PostInstall;
@@ -2121,7 +2180,6 @@
 				DD3E15300A774397007E0084 /* Frameworks */,
 				DD3E15350A774397007E0084 /* CopyFiles */,
 				DD73550C0D91105F0006A9D1 /* ShellScript */,
-				DD3E15380A774397007E0084 /* ShellScript */,
 				DD3E15390A774397007E0084 /* ShellScript */,
 				DDEE5E8E0D9112AF0056A99E /* ShellScript */,
 			);
@@ -2135,6 +2193,23 @@
 			productName = mgr_boinc;
 			productReference = DD3E15420A774397007E0084 /* BOINCManager.app */;
 			productType = "com.apple.product-type.application";
+		};
+		DD3EAAA5216A25AD00BC673C /* boinc_finish_install */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD3EAAAC216A25AE00BC673C /* Build configuration list for PBXNativeTarget "boinc_finish_install" */;
+			buildPhases = (
+				DD3EAAA2216A25AD00BC673C /* Sources */,
+				DD3EAAA3216A25AD00BC673C /* Frameworks */,
+				DD3EAAA4216A25AD00BC673C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = boinc_finish_install;
+			productName = boinc_finish_install;
+			productReference = DD3EAAA6216A25AD00BC673C /* boinc_finish_install */;
+			productType = "com.apple.product-type.tool";
 		};
 		DD407A4907D2FB1200163EF5 /* libboinc */ = {
 			isa = PBXNativeTarget;
@@ -2166,6 +2241,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD3EAAB9216A2A8A00BC673C /* PBXTargetDependency */,
 			);
 			name = Uninstaller;
 			productName = Uninstaller;
@@ -2405,6 +2481,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0620;
+				TargetAttributes = {
+					DD3EAAA5216A25AD00BC673C = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
 			};
 			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
@@ -2434,6 +2515,7 @@
 				DD7748970A356C880025D05E /* SetUpSecurity */,
 				DDD0953E0A3EDD2500C95BA4 /* switcher */,
 				DD1AFEA40A512D8700EE5B82 /* Install_BOINC */,
+				DD3EAAA5216A25AD00BC673C /* boinc_finish_install */,
 				DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */,
 				DD3E14D30A774397007E0084 /* mgr_boinc */,
 				DD4688400C165F3C0089F500 /* Uninstaller */,
@@ -2449,6 +2531,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD3EAAB7216A2A7900BC673C /* boinc_finish_install in Resources */,
 				DD00F554176C081500850424 /* MacInstaller.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2466,8 +2549,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD3E14DB0A774397007E0084 /* boinc in Resources */,
+				DDB0805E2163019F00520B63 /* InfoPlist.strings in Resources */,
 				DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */,
-				DD3E14DD0A774397007E0084 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2475,6 +2558,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD3EAABA216A2A9B00BC673C /* boinc_finish_install in Resources */,
 				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
 				DD74B686177074AF005CF7DC /* PutInTrash.icns in Resources */,
 			);
@@ -2562,21 +2646,6 @@
 			shellPath = /bin/sh;
 			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
 		};
-		DD3E15380A774397007E0084 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Info.plist",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Info.plist\"";
-		};
 		DD3E15390A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2660,7 +2729,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2675,7 +2744,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2690,7 +2759,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\nfi\n";
 		};
 		DD81C827144D90FC000BE61A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2774,7 +2843,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n\ttouch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\nfi\n";
 		};
 		DDF9EC07144EB255005D6144 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2948,6 +3017,15 @@
 				DD76BF9817CB465E0075936D /* opencl_boinc.cpp in Sources */,
 				DDD50AFA18C49D2300EC244E /* BOINCGUIApp.mm in Sources */,
 				DDD8846418E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3EAAA2216A25AD00BC673C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3EAAAF216A268600BC673C /* finish_install.cpp in Sources */,
+				DD3EAAAD216A262100BC673C /* mac_branding.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3413,6 +3491,21 @@
 			target = DDD74D8607CF482E0065AC9D /* BOINC_Client */;
 			targetProxy = DD3E14D70A774397007E0084 /* PBXContainerItemProxy */;
 		};
+		DD3EAAB1216A26C700BC673C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD3EAAA5216A25AD00BC673C /* boinc_finish_install */;
+			targetProxy = DD3EAAB0216A26C700BC673C /* PBXContainerItemProxy */;
+		};
+		DD3EAAB6216A2A6700BC673C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD3EAAA5216A25AD00BC673C /* boinc_finish_install */;
+			targetProxy = DD3EAAB5216A2A6700BC673C /* PBXContainerItemProxy */;
+		};
+		DD3EAAB9216A2A8A00BC673C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD3EAAA5216A25AD00BC673C /* boinc_finish_install */;
+			targetProxy = DD3EAAB8216A2A8A00BC673C /* PBXContainerItemProxy */;
+		};
 		DD45C4A10A53E73500E923D1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */;
@@ -3545,7 +3638,6 @@
 		DD1AFEB60A512D8700EE5B82 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3558,7 +3650,6 @@
 		DD1AFEB90A512D8700EE5B82 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3584,6 +3675,7 @@
 					"../../wxWidgets-3.1.0/include",
 					"../../wxWidgets-3.1.0/build/osx/setup/cocoa/include",
 					../clientgui,
+					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -3599,7 +3691,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1070",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -3615,6 +3707,7 @@
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../lib/**";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3639,6 +3732,7 @@
 					"../../wxWidgets-3.1.0/include",
 					"../../wxWidgets-3.1.0/build/osx/setup/cocoa/include",
 					../clientgui,
+					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -3656,7 +3750,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1070",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -3672,12 +3766,126 @@
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../lib/**";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
 				);
+			};
+			name = Deployment;
+		};
+		DD3EAAAA216A25AE00BC673C /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Development;
+		};
+		DD3EAAAB216A25AE00BC673C /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
@@ -3732,7 +3940,6 @@
 		DD81C79C144D8DA9000BE61A /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = jpeg;
 				WARNING_CFLAGS = (
@@ -3748,7 +3955,6 @@
 		DD81C79D144D8DA9000BE61A /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = jpeg;
 				WARNING_CFLAGS = (
@@ -3769,6 +3975,7 @@
 					../samples/jpeglib/,
 					"../../freetype-2.9/include",
 					"../../ftgl-2.1.3~rc5/src",
+					"../lib/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3796,6 +4003,7 @@
 					../samples/jpeglib/,
 					"../../freetype-2.9/include",
 					"../../ftgl-2.1.3~rc5/src",
+					"../lib/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3818,8 +4026,6 @@
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				HEADER_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3849,7 +4055,6 @@
 		DD9843DB09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				"OTHER_CFLAGS[arch=ppc]" = (
@@ -3882,7 +4087,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3905,6 +4109,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../curl-7.58.0/include",
 					"../../openssl-1.1.0g/include",
+					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
@@ -3930,14 +4135,13 @@
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.58.0/include ../../openssl-1.1.0g/include";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.58.0/include ../../openssl-1.1.0g/include ../lib/**";
 			};
 			name = Deployment;
 		};
 		DD9843E109920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -3984,6 +4188,8 @@
 		DD9843E509920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -3993,10 +4199,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.6;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.7;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.7;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4021,8 +4228,6 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -4031,7 +4236,6 @@
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
@@ -4050,7 +4254,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4073,6 +4276,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../curl-7.58.0/include",
 					"../../openssl-1.1.0g/include",
+					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
@@ -4097,14 +4301,13 @@
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.58.0/include ../../openssl-1.1.0g/include";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.58.0/include ../../openssl-1.1.0g/include ../lib/**";
 			};
 			name = Development;
 		};
 		DD9E2372091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4153,6 +4356,8 @@
 		DD9E2382091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -4161,10 +4366,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.6;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.7;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.7;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4189,7 +4395,6 @@
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4198,7 +4403,6 @@
 		DDB874010C850BC800E0DE1F /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-D_THREAD_SAFE",
@@ -4253,7 +4457,6 @@
 		DDF9EC04144EB14B005D6144 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -4262,7 +4465,6 @@
 		DDF9EC05144EB14B005D6144 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -4329,6 +4531,15 @@
 			buildConfigurations = (
 				DD3E153E0A774397007E0084 /* Development */,
 				DD3E15410A774397007E0084 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		DD3EAAAC216A25AE00BC673C /* Build configuration list for PBXNativeTarget "boinc_finish_install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD3EAAAA216A25AE00BC673C /* Development */,
+				DD3EAAAB216A25AE00BC673C /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

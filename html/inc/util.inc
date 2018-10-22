@@ -1010,14 +1010,20 @@ function do_download($path,$name="") {
     readfile($path);
 }
 
-function redirect_to_secure_url($url) {
+// if have SSL but not using it, redirect
+//
+function redirect_to_secure_url() {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
+        && empty($_SERVER['HTTPS'])
     ) {
-        Header("Location: ".SECURE_URL_BASE."/$url");
+        Header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit;
     }
+}
+
+if (php_sapi_name() != "cli") {
+    redirect_to_secure_url();
 }
 
 function badges_string($is_user, $item, $height) {
@@ -1120,6 +1126,10 @@ function text_end() {
 // Utility function to check the terms of use.
 function check_termsofuse() {
     return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
+
+function cert_filename() {
+    return defined("CERT_FILENAME")?CERT_FILENAME:"cert1.php";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
