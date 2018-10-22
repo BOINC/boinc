@@ -44,7 +44,7 @@ function add_consenttype() {
     }
 
     BoincConsentType::insert(
-        "(shortname, description, project_specific) VALUES ('$shortname', '$description', 1)"
+        "(shortname, description, enabled, project_specific, privacypref) VALUES ('$shortname', '$description', 0, 1, 0)"
     );
 
     echo "<h2>Consent Type added.</h2>";
