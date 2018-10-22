@@ -746,6 +746,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     char lookupclause[256];
     char joinclause[512];
     char path[MAXPATHLEN];
+    long ncount;
 
     sprintf(path, "%s/%s", output_dir, filename);
 
@@ -777,6 +778,11 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     
     switch(table) {
     case TABLE_USER:
+	// Count number of users, this needs to be independent of
+	// CONSENT_TO_STATISTICS_EXPORT.
+	retval = user.count(ncount, clause);
+	if (!retval) nusers = ncount;
+
         // lookup consent_type
         sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
         retval = consent_type.lookup(lookupclause);
@@ -808,7 +814,6 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
 
             if (!strncmp("deleted", user.authenticator, 7)) continue;
-            nusers++;
             total_credit += user.total_credit;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
@@ -855,6 +860,11 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     case TABLE_HOST:
+	// Count number of hosts, this needs to be independent of
+	// CONSENT_TO_STATISTICS_EXPORT.
+	retval = host.count(ncount, clause);
+	if (!retval) nhosts = ncount;
+
         // lookup consent_type
         sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
         retval = consent_type.lookup(lookupclause);
@@ -887,7 +897,6 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
             if (!host.userid) continue;
             if (!strncmp("deleted", host.domain_name, 8)) continue;
-            nhosts++;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
