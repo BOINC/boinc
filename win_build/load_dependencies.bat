@@ -11,6 +11,7 @@ if exist %revision_lst_path% (
 
   for /f %%i in ('git ls-remote %dependencies_git_path% HEAD') do (
     set last_revision=%%i
+    set last_revision=%last_revision%_%platform%_%configuration%
     if "%last_revision%" == "%saved_revision%" (
        echo Dependencies are up-to-date
        goto :EOF
@@ -65,6 +66,6 @@ if "%configuration%" == "Debug" (
   rd /s /q %dependencies_path%\zlib\mswin\%platform%\Debug
 )
 
-echo | set /p dummy="%last_revision%" > %revision_lst_path%
+echo | set /p dummy="%last_revision%_%platform%_%configuration%" > %revision_lst_path%
 
 goto :EOF
