@@ -8,10 +8,12 @@ set configuration=%4
 if exist %revision_lst_path% (
   set /p temp_saved_revision=<%dependencies_path%\revision.lst
   set saved_revision=%temp_saved_revision%
+  echo %saved_revision%
 
   for /f %%i in ('git ls-remote %dependencies_git_path% HEAD') do (
     set last_revision=%%i
     set last_revision=%last_revision%_%platform%_%configuration%
+    echo %last_revision%
     if "%last_revision%" == "%saved_revision%" (
        echo Dependencies are up-to-date
        goto :EOF
