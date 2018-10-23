@@ -24,33 +24,33 @@ if defined APPVEYOR_SCHEDULED_BUILD (
 )
 
 if not exist "deploy\win-apps" mkdir deploy\win-apps
-copy "win_build\Build\x64\Debug\htmlgfx*.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\wrapper*.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\vboxwrapper*.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\boincsim.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\slide_show.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\example_app_multi_thread.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\example_app_graphics.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\example_app.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\worker.exe" "deploy\win-apps\"
-copy "win_build\Build\x64\Debug\sleeper.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\htmlgfx*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\wrapper*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\vboxwrapper*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\boincsim.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\slide_show.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\example_app_multi_thread.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\example_app_graphics.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\example_app.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\worker.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\sleeper.exe" "deploy\win-apps\"
 cd deploy\win-apps
 7z a win-apps_%pkg_version%.7z *.exe
 cd ..\..
 
 if not exist "deploy\win-client" mkdir deploy\win-client
-copy "win_build\Build\x64\Debug\boinc.exe" "deploy\win-client\"
-copy "win_build\Build\x64\Debug\boincsvcctrl.exe" "deploy\win-client\"
-copy "win_build\Build\x64\Debug\boinccmd.exe" "deploy\win-client\"
-copy "win_build\Build\x64\Debug\boincscr.exe" "deploy\win-client\"
-copy "win_build\Build\x64\Debug\boinc.scr" "deploy\win-client\"
+copy "win_build\Build\%platform%\%configuration%\boinc.exe" "deploy\win-client\"
+copy "win_build\Build\%platform%\%configuration%\boincsvcctrl.exe" "deploy\win-client\"
+copy "win_build\Build\%platform%\%configuration%\boinccmd.exe" "deploy\win-client\"
+copy "win_build\Build\%platform%\%configuration%\boincscr.exe" "deploy\win-client\"
+copy "win_build\Build\%platform%\%configuration%\boinc.scr" "deploy\win-client\"
 cd deploy\win-client
 7z a win-client_%pkg_version%.7z *.exe *.scr
 cd ..\..
 
 if not exist "deploy\win-manager" mkdir deploy\win-manager
-copy "win_build\Build\x64\Debug\boinctray.exe" "deploy\win-manager\"
-copy "win_build\Build\x64\Debug\boincmgr.exe" "deploy\win-manager\"
+copy "win_build\Build\%platform%\%configuration%\boinctray.exe" "deploy\win-manager\"
+copy "win_build\Build\%platform%\%configuration%\boincmgr.exe" "deploy\win-manager\"
 cd deploy\win-manager
 7z a win-manager_%pkg_version%.7z *.exe
 cd ..\..
