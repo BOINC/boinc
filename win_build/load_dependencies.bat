@@ -5,6 +5,8 @@ set revision_lst_path=%dependencies_path%\revision.lst
 set platform=%3
 set configuration=%4
 
+set APPVEYOR_CACHE_SKIP_RESTORE=true
+
 if exist %revision_lst_path% (
   set /p temp_saved_revision=<%dependencies_path%\revision.lst
   set saved_revision=%temp_saved_revision%
