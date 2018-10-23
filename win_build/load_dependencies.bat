@@ -47,24 +47,6 @@ if "%platform%" == "Win32" (
   rd /s /q %dependencies_path%\zlib\mswin\Win32
 )
   
-if "%configuration%" == "Debug" (
-  rd /s /q %dependencies_path%\curl\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\freetype\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\ftgl\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\openssl\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\sqlite3\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\wxwidgets\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\zlib\mswin\%platform%\Release
-) else (
-  rd /s /q %dependencies_path%\curl\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\freetype\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\ftgl\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\openssl\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\sqlite3\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\wxwidgets\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\zlib\mswin\%platform%\Debug
-)
-
 echo | set /p dummy="%last_revision%" > %revision_lst_path%
 
 goto :EOF

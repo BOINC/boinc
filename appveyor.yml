@@ -53,8 +53,8 @@ skip_commits:
     - xcompile/
 
 configuration:
-  - Debug
-#  - Release
+#  - Debug
+  - Release
 
 environment:
   matrix:
