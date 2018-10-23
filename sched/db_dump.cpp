@@ -745,8 +745,10 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     char clause[512];
     char lookupclause[256];
     char joinclause[512];
+    char deletedclause[256];
     char path[MAXPATHLEN];
     long ncount;
+    double sumtotalcredit;
 
     sprintf(path, "%s/%s", output_dir, filename);
 
@@ -780,8 +782,16 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     case TABLE_USER:
 	// Count number of users, this needs to be independent of
 	// CONSENT_TO_STATISTICS_EXPORT.
-	retval = user.count(ncount, clause);
+
+        // SQL clause to ignore deleted users.
+        safe_strcpy(deletedclause, clause);
+	safe_strcat(deletedclause, " AND NOT authenticator LIKE 'deleted%'");
+
+	retval = user.count(ncount, deletedclause);
 	if (!retval) nusers = ncount;
+
+	retval = user.sum(sumtotalcredit, "total_credit", deletedclause);
+	if (!retval) total_credit = sumtotalcredit;
 
         // lookup consent_type
         sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
@@ -814,7 +824,6 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
 
             if (!strncmp("deleted", user.authenticator, 7)) continue;
-            total_credit += user.total_credit;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -862,7 +871,12 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     case TABLE_HOST:
 	// Count number of hosts, this needs to be independent of
 	// CONSENT_TO_STATISTICS_EXPORT.
-	retval = host.count(ncount, clause);
+
+        // SQL clause to ignore deleted hosts.
+        safe_strcpy(deletedclause, clause);
+	safe_strcat(deletedclause, " AND NOT domain_name = 'deleted' AND userid != 0");
+
+	retval = host.count(ncount, deletedclause);
 	if (!retval) nhosts = ncount;
 
         // lookup consent_type
