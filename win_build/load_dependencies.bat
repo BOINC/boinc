@@ -1,4 +1,4 @@
-@echo off
+echo off
 set dependencies_git_path=%1
 set dependencies_path=%2
 set revision_lst_path=%dependencies_path%\revision.lst
