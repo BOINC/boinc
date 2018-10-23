@@ -651,7 +651,7 @@ int CMainDocument::ResetState() {
 
 
 int CMainDocument::Connect(const wxString& szComputer, int iPort, const wxString& szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
-    if (IsComputerNameLocal(szComputer)) {
+    if (wxGetApp().GetNeedRunDaemon() && IsComputerNameLocal(szComputer)) {
         // Restart client if not already running
         m_pClientManager->AutoRestart();
     }
