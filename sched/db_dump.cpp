@@ -744,8 +744,11 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     DB_CONSENT_TYPE consent_type;
     char clause[512];
     char lookupclause[256];
+    char userclause[256];
+    char hostclause[256];
+    char teamclause[256];
     char joinclause[512];
-    char deletedclause[256];
+    char orderclause[256];
     char path[MAXPATHLEN];
     long ncount;
     double sumtotalcredit;
@@ -763,39 +766,48 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             out.zfile->open(path);
         }
     }
+
+    // Generate the SQL necessary for retrieving data
+    // host, user, and team where clauses
+    safe_strcpy(userclause, "WHERE total_credit > 0 AND authenticator NOT LIKE 'deleted%'");
+    safe_strcpy(hostclause, "WHERE total_credit > 0 AND domain_name != 'deleted' AND host.userid != 0");
+    safe_strcpy(teamclause, "WHERE total_credit > 0");
+
+    // set order clause based on sort type
     switch(sort) {
     case SORT_NONE:
-        strcpy(clause, "where total_credit > 0");
+        safe_strcpy(orderclause, "");
         break;
     case SORT_ID:
-        strcpy(clause, "where total_credit > 0 order by id");
+        safe_strcpy(orderclause, "ORDER BY id");
         break;
     case SORT_TOTAL_CREDIT:
-        strcpy(clause, "where total_credit > 0 order by total_credit desc");
+        safe_strcpy(orderclause, "ORDER BY total_credit DESC");
         break;
     case SORT_EXPAVG_CREDIT:
-        strcpy(clause, "where total_credit > 0 order by expavg_credit desc");
+        safe_strcpy(orderclause, "ORDER BY expavg_credit DESC");
         break;
     }
-    
+
     switch(table) {
     case TABLE_USER:
 	// Count number of users, this needs to be independent of
 	// CONSENT_TO_STATISTICS_EXPORT.
 
         // SQL clause to ignore deleted users.
-        safe_strcpy(deletedclause, clause);
-	safe_strcat(deletedclause, " AND NOT authenticator LIKE 'deleted%'");
+        safe_strcpy(clause, userclause);
+	safe_strcat(clause, " ");
+	safe_strcat(clause, orderclause);
 
-	retval = user.count(ncount, deletedclause);
+	retval = user.count(ncount, clause);
 	if (!retval) nusers = ncount;
 
-	retval = user.sum(sumtotalcredit, "total_credit", deletedclause);
+	retval = user.sum(sumtotalcredit, "total_credit", clause);
 	if (!retval) total_credit = sumtotalcredit;
 
-        // lookup consent_type
-        sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
-        retval = consent_type.lookup(lookupclause);
+	// lookup consent_type
+	sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
+	retval = consent_type.lookup(lookupclause);
 	// If retval is 0: lookup is successful, and consent_type
 	// enabled flag is true, then edit the SQL clause to use the
 	// JOIN statements to extract only the users who have
@@ -873,15 +885,16 @@ int ENUMERATION::make_it_happen(char* output_dir) {
 	// CONSENT_TO_STATISTICS_EXPORT.
 
         // SQL clause to ignore deleted hosts.
-        safe_strcpy(deletedclause, clause);
-	safe_strcat(deletedclause, " AND NOT domain_name = 'deleted' AND userid != 0");
+        safe_strcpy(clause, hostclause);
+	safe_strcat(clause, " ");
+	safe_strcat(clause, orderclause);
 
-	retval = host.count(ncount, deletedclause);
+	retval = host.count(ncount, clause);
 	if (!retval) nhosts = ncount;
 
-        // lookup consent_type
-        sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
-        retval = consent_type.lookup(lookupclause);
+	// lookup consent_type
+	sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
+	retval = consent_type.lookup(lookupclause);
 	// If retval is 0: lookup is successful, and consent_type
 	// enabled flag is true, then edit the SQL clause to use the
 	// JOIN statements to extract only the users who have
@@ -956,6 +969,11 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     case TABLE_TEAM:
+        // SQL clause for teams.
+        safe_strcpy(clause, teamclause);
+	safe_strcat(clause, " ");
+	safe_strcat(clause, orderclause);
+
         n = 0;
         while(1) {
             retval = team.enumerate(clause);
