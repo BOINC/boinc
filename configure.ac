@@ -369,7 +369,7 @@ SAH_OPTION_BITNESS
 dnl Determine the BOINC platform given the target arch-platform-os.
 BOINC_PLATFORM
 
-if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
+if test "${enable_client_release}" = yes -a "${enable_client}" != yes; then
    AC_MSG_WARN([--enable-client-release ignored.
 --------------------------------------------------
 The switch --enable-client-release is only useful for building the client and will be ignored
@@ -1179,7 +1179,7 @@ if test "${ac_cv_func_res_init}" != "yes" ; then
 fi
 LIBS=$svlibs
 
-if (test "$enable_xss" = yes) && (test "$have_Xss" = yes); then
+if test "$enable_xss" = yes -a "$have_Xss" = yes; then
     SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
         AC_DEFINE([HAVE_XSS],[1],[Define to 1 if you have xss library])
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
@@ -1194,7 +1194,7 @@ SAH_CHECK_LIB([resolv],[res_query],[
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
-if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
+if test "${disable_static_linkage}" != yes -a "${enable_client_release}" = yes; then
 
    echo "----------"
    echo "NOTE: Building portable client binaries"
@@ -1210,7 +1210,7 @@ fi
 
 fi
 
-AM_CONDITIONAL([ENABLE_CLIENT_RELEASE],[ ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ) ])
+AM_CONDITIONAL([ENABLE_CLIENT_RELEASE],[ test "${disable_static_linkage}" != yes -a "${enable_client_release}" = yes ])
 AM_CONDITIONAL([BUILD_STATIC_LIBS],[test "x${enable_static}" != xno])
 
 AC_SUBST(CLIENTLIBS)
