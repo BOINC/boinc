@@ -439,20 +439,19 @@ dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
 fi
 dnl ---------- SSL (m4/check_ssl.m4)
-if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
-then
-    CHECK_SSL
-fi
+AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
+  [CHECK_SSL])
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 dnl curl is needed for client
 
-if [[ "x${enable_client}" = "xyes" ]]
-then
-LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
+AS_IF([test "x${enable_client}" = "xyes"],
+  [
+    LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
-if test "${haveCurl}" != yes; then
-   AC_MSG_ERROR([
+    AS_IF([test "${haveCurl}" != "yes"],
+      [
+        AC_MSG_ERROR([
 ================================================================================
 ERROR: could not find (recent enough) development-libs for libcurl.
 
@@ -463,22 +462,25 @@ ERROR: could not find (recent enough) development-libs for libcurl.
   You can download libcurl from: http://curl.haxx.se/
 
 ================================================================================
-   ])
-else
-   ## add libcurl et al. to the list of statically linked libs
-   STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
-   CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
-   CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
+        ])
+      ],
+      [
+        ## add libcurl et al. to the list of statically linked libs
+        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
+        CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
+        CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
 
-   if test "${enable_debug}" = yes; then
-      echo "LIBCURL = ${LIBCURL}"
-      echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
-      echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
-      echo "LDFLAGS = ${LDFLAGS}"
-   fi
-   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
-fi
-fi
+        AS_IF([test "${enable_debug}" = "yes"],
+          [
+            echo "LIBCURL = ${LIBCURL}"
+            echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
+            echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
+            echo "LDFLAGS = ${LDFLAGS}"
+          ])
+
+        BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+      ])
+  ])
 
 if test "x${found_ssl}" = "xyes"; then
    BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
@@ -617,10 +619,10 @@ fi
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes -a "$have_jpeg" = 1])
 
 dnl check for X screen saver lib (X-based idle detection on Linux)
-if test "$enable_xss" == yes; then
+if test "$enable_xss" = yes; then
     AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
     AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-    if test "$have_Xss" == no; then
+    if test "$have_Xss" = no; then
         AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
     fi
 fi
@@ -1177,7 +1179,7 @@ if test "${ac_cv_func_res_init}" != "yes" ; then
 fi
 LIBS=$svlibs
 
-if (test "$enable_xss" == yes) && (test "$have_Xss" == yes); then
+if (test "$enable_xss" = yes) && (test "$have_Xss" = yes); then
     SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
         AC_DEFINE([HAVE_XSS],[1],[Define to 1 if you have xss library])
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
