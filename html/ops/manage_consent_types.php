@@ -20,17 +20,6 @@
 
 require_once('../inc/util_ops.inc');
 
-// This function deletes a row from consent_type table.
-function mct_delete() {
-    $ctid = post_int("consent_type_id");
-    $consent_type = BoincConsentType::lookup("id = $ctid");
-    if ($consent_type) {
-        $myname = $consent_type->shortname;
-        $consent_type->delete_aux("id = $ctid");
-        echo "<h2>Consent Type ${myname} deleted.</h2>";
-    }
-}
-
 // This function adds a row to consent_type table.
 function add_consenttype() {
     $shortname = BoincDb::escape_string(post_str('add_name'));
@@ -167,9 +156,6 @@ admin_page_head("Manage consent types");
 
 if (post_str("add_consenttype", true)) {
     add_consenttype();
-}
-else if (post_str("delete", true)) {
-    mct_delete();
 }
 else if (post_str("toggleenabled", true)) {
     mct_toggle_field("enabled");
