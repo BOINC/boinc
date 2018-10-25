@@ -1458,7 +1458,7 @@ void CC_STATUS::clear() {
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
-int RPC_CLIENT::exchange_versions(VERSION_INFO& server) {
+int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -1469,10 +1469,12 @@ int RPC_CLIENT::exchange_versions(VERSION_INFO& server) {
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
         "   <release>%d</release>\n"
+        "   <name>%s</name>\n"
         "</exchange_versions>\n",
         BOINC_MAJOR_VERSION,
         BOINC_MINOR_VERSION,
-        BOINC_RELEASE
+        BOINC_RELEASE,
+        client_name.c_str()
     );
 
     retval = rpc.do_rpc(buf);

@@ -105,6 +105,19 @@ int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
 // client passes its version, but ignore it for now
 //
 static void handle_exchange_versions(GUI_RPC_CONN& grc) {
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.parse_int("major", grc.client_api.major)) continue;
+        if (grc.xp.parse_int("minor", grc.client_api.minor)) continue;
+        if (grc.xp.parse_int("release", grc.client_api.release)) continue;
+        if (grc.xp.parse_string("name", grc.client_name)) continue;
+    }
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(NULL, MSG_INFO, "[gui_rpc] RPC client: %s; API %d.%d.%d",
+            grc.client_name.size() ? grc.client_name.c_str() : "unknown",
+            grc.client_api.major, grc.client_api.minor, grc.client_api.release
+        );
+    }
+
     grc.mfout.printf(
         "<server_version>\n"
         "   <major>%d</major>\n"

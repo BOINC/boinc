@@ -692,7 +692,7 @@ struct RPC_CLIENT {
     int init_unix_domain();
     void close();
     int authorize(const char* passwd);
-    int exchange_versions(VERSION_INFO&);
+    int exchange_versions(std::string client_name, VERSION_INFO& server);
     int get_state(CC_STATE&);
     int get_results(RESULTS&, bool active_only = false);
     int get_old_results(std::vector<OLD_RESULT>&);
