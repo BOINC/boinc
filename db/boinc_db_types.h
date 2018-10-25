@@ -849,4 +849,14 @@ struct CREDIT_TEAM {
     void clear();
 };
 
+struct CONSENT_TYPE {
+    DB_ID_TYPE id;
+    char shortname[256];
+    char description[256];
+    int enabled;
+    int project_specific;
+    int privacypref;
+    void clear();
+};
+
 #endif

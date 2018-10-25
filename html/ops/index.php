@@ -106,6 +106,7 @@ echo "
     <ul>
         <li><a href=\"manage_apps.php\">Manage applications</a></li>
         <li><a href=\"manage_app_versions.php\">Manage application versions</a></li>
+        <li><a href=\"manage_consent_types.php\">Manage consent types</a></li>
         <li> Manage jobs
         <ul>
             <li><a href=\"cancel_wu_form.php\">Cancel jobs by ID</a>

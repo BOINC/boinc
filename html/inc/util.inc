@@ -1123,6 +1123,11 @@ function text_end() {
     echo "</div>\n";
 }
 
+// Utility function to check the terms of use.
+function check_termsofuse() {
+    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
+
 function cert_filename() {
     return defined("CERT_FILENAME")?CERT_FILENAME:"cert1.php";
 }

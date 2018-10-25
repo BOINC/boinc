@@ -112,6 +112,7 @@ void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
 void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_USER::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_TEAM::clear() {memset(this, 0, sizeof(*this));}
+void CONSENT_TYPE::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -193,6 +194,8 @@ DB_CREDIT_USER::DB_CREDIT_USER(DB_CONN* dc) :
     DB_BASE("credit_user", dc?dc:&boinc_db){}
 DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
     DB_BASE("credit_team", dc?dc:&boinc_db){}
+DB_CONSENT_TYPE::DB_CONSENT_TYPE(DB_CONN* dc) :
+    DB_BASE("consent_type", dc?dc:&boinc_db){}
 
 DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
 DB_ID_TYPE DB_APP::get_id() {return id;}
@@ -212,6 +215,7 @@ DB_ID_TYPE DB_FILE::get_id() {return id;}
 DB_ID_TYPE DB_FILESET::get_id() {return id;}
 DB_ID_TYPE DB_SCHED_TRIGGER::get_id() {return id;}
 DB_ID_TYPE DB_VDA_FILE::get_id() {return id;}
+DB_ID_TYPE DB_CONSENT_TYPE::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -2864,5 +2868,34 @@ void DB_CREDIT_TEAM::db_parse(MYSQL_ROW &r) {
     expavg_time = atof(r[i++]);
     credit_type = atoi(r[i++]);
 }
+
+void DB_CONSENT_TYPE::db_print(char *buf) {
+    sprintf(buf,
+	"id=%lu, "
+	"shortname='%s', "
+	"description='%s', "
+	"enabled=%d, "
+	"project_specific=%d, "
+	"privacypref=%d, ",
+	id,
+	shortname,
+	description,
+	enabled,
+	project_specific,
+	privacypref
+    );
+}
+
+void DB_CONSENT_TYPE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    strcpy2(shortname, r[i++]);
+    strcpy2(description, r[i++]);
+    enabled = atoi(r[i++]);
+    project_specific = atoi(r[i++]);
+    privacypref = atoi(r[i++]);
+}
+
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

@@ -71,6 +71,8 @@ using std::vector;
 #define TABLE_USER_DELETED  3
 #define TABLE_HOST_DELETED  4
 
+#define CONSENT_TO_STATISTICS_EXPORT "STATSEXPORT"
+
 // must match the above
 const char* table_name[NUM_TABLES] = {"user", "team", "host", "user_deleted", "host_deleted"};
 const char* tag_name[NUM_TABLES] = {"users", "teams", "hosts", "users_deleted", "hosts_deleted"};
@@ -738,8 +740,18 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     DB_TEAM team;
     DB_HOST host;
     DB_HOST_DELETED host_deleted;
-    char clause[256];
+    DB_RESULT result;
+    DB_CONSENT_TYPE consent_type;
+    char clause[512];
+    char lookupclause[256];
+    char userclause[256];
+    char hostclause[256];
+    char teamclause[256];
+    char joinclause[512];
+    char orderclause[256];
     char path[MAXPATHLEN];
+    long ncount;
+    double sumtotalcredit;
 
     sprintf(path, "%s/%s", output_dir, filename);
 
@@ -754,29 +766,76 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             out.zfile->open(path);
         }
     }
+
+    // Generate the SQL necessary for retrieving data
+    // host, user, and team where clauses
+    safe_strcpy(userclause, "WHERE total_credit > 0 AND authenticator NOT LIKE 'deleted%'");
+    safe_strcpy(hostclause, "WHERE total_credit > 0 AND domain_name != 'deleted' AND host.userid != 0");
+    safe_strcpy(teamclause, "WHERE total_credit > 0");
+
+    // set order clause based on sort type
     switch(sort) {
     case SORT_NONE:
-        strcpy(clause, "where total_credit > 0");
+        safe_strcpy(orderclause, "");
         break;
     case SORT_ID:
-        strcpy(clause, "where total_credit > 0 order by id");
+        safe_strcpy(orderclause, "ORDER BY id");
         break;
     case SORT_TOTAL_CREDIT:
-        strcpy(clause, "where total_credit > 0 order by total_credit desc");
+        safe_strcpy(orderclause, "ORDER BY total_credit DESC");
         break;
     case SORT_EXPAVG_CREDIT:
-        strcpy(clause, "where total_credit > 0 order by expavg_credit desc");
+        safe_strcpy(orderclause, "ORDER BY expavg_credit DESC");
         break;
     }
+
     switch(table) {
     case TABLE_USER:
+	// Count number of users, this needs to be independent of
+	// CONSENT_TO_STATISTICS_EXPORT.
+
+        // SQL clause to ignore deleted users.
+        safe_strcpy(clause, userclause);
+	safe_strcat(clause, " ");
+	safe_strcat(clause, orderclause);
+
+	retval = user.count(ncount, clause);
+	if (!retval) nusers = ncount;
+
+	retval = user.sum(sumtotalcredit, "total_credit", clause);
+	if (!retval) total_credit = sumtotalcredit;
+
+	// lookup consent_type
+	sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
+	retval = consent_type.lookup(lookupclause);
+	// If retval is 0: lookup is successful, and consent_type
+	// enabled flag is true, then edit the SQL clause to use the
+	// JOIN statements to extract only the users who have
+	// consented to statistics exports.
+	if ( (!retval) && (consent_type.enabled) ) {
+	    // This INNER JOIN clause does the following. It joins the
+	    // user table with the latest_consent View table, see
+	    // schema.sql for this view's definition. The
+	    // latest_consent represents the latest consent status for
+	    // all users and consent_types. Effectively returning users
+	    // who have consented to statistics exports.
+	    sprintf(joinclause, "INNER JOIN (\
+            SELECT userid\
+              FROM latest_consent\
+             WHERE consent_type_id=%ld\
+               AND consent_flag=1) AS lc\
+            ON user.id = lc.userid", consent_type.id);
+	    safe_strcat(joinclause, " ");
+	    safe_strcat(joinclause, clause);
+	    safe_strcpy(clause, joinclause);
+	}
+
         n = 0;
         while (1) {
             retval = user.enumerate(clause, true);
             if (retval) break;
+
             if (!strncmp("deleted", user.authenticator, 7)) continue;
-            nusers++;
-            total_credit += user.total_credit;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -822,13 +881,49 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     case TABLE_HOST:
+	// Count number of hosts, this needs to be independent of
+	// CONSENT_TO_STATISTICS_EXPORT.
+
+        // SQL clause to ignore deleted hosts.
+        safe_strcpy(clause, hostclause);
+	safe_strcat(clause, " ");
+	safe_strcat(clause, orderclause);
+
+	retval = host.count(ncount, clause);
+	if (!retval) nhosts = ncount;
+
+	// lookup consent_type
+	sprintf(lookupclause, "where shortname = '%s'", CONSENT_TO_STATISTICS_EXPORT);
+	retval = consent_type.lookup(lookupclause);
+	// If retval is 0: lookup is successful, and consent_type
+	// enabled flag is true, then edit the SQL clause to use the
+	// JOIN statements to extract only the users who have
+	// consented to statistics exports.
+	if ( (!retval) && (consent_type.enabled) ) {
+	    // This INNER JOIN clause does the following. It joins the
+	    // host table with the latest_consent View table, see
+	    // schema.sql for this view's definition. The
+	    // latest_consent represents the latest consent status for
+	    // all users and consent_types. Effectively returning
+	    // hosts of users who have consented to statistics
+	    // exports.
+	    sprintf(joinclause, "INNER JOIN (\
+            SELECT userid\
+              FROM latest_consent\
+             WHERE consent_type_id=%ld\
+               AND consent_flag=1) AS lc\
+            ON host.userid = lc.userid", consent_type.id);
+	    safe_strcat(joinclause, " ");
+	    safe_strcat(joinclause, clause);
+	    safe_strcpy(clause, joinclause);
+	}
+
         n = 0;
         while(1) {
             retval = host.enumerate(clause);
             if (retval) break;
             if (!host.userid) continue;
             if (!strncmp("deleted", host.domain_name, 8)) continue;
-            nhosts++;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -874,6 +969,11 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     case TABLE_TEAM:
+        // SQL clause for teams.
+        safe_strcpy(clause, teamclause);
+	safe_strcat(clause, " ");
+	safe_strcat(clause, orderclause);
+
         n = 0;
         while(1) {
             retval = team.enumerate(clause);
