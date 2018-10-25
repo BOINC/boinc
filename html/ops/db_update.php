@@ -1200,7 +1200,8 @@ function update_9_12_2018() {
     do_query("alter table consent
        add foreign key(consent_type_id)
        references consent_type(id)
-       on update cascade;
+       on update cascade
+       on delete restrict;
     ");
 
     do_query("insert into consent_type

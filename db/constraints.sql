@@ -193,7 +193,9 @@ alter table consent
 alter table consent
     add foreign key(consent_type_id)
     references consent_type(id)
-    on update cascade;
+    on update cascade
+    on delete restrict;
+      -- explicit delete restrict on this foreign key
 
 alter table consent_type
     add index consent_name(shortname);
