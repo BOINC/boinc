@@ -76,7 +76,7 @@ function mct_show_form() {
     $_consenttypes = BoincConsentType::enum(null, "ORDER BY project_specific ASC");
 
     if (!in_rops()) {
-        echo "<b>ProjectSpecific=0 consent types are defined by BOINC. You may add and remove project-specific consent types using this form.</b>";
+        echo "<strong>HELP: ProjectSpecific=0 consent types are defined by BOINC. You may add and remove project-specific consent types using this form.</strong>";
     }
     start_table("");
     table_header(
@@ -127,14 +127,6 @@ function mct_show_form() {
             echo "  <td>$ct->privacypref</td>";
         }
 
-        // Delete (if project_specific)
-        if (!in_rops() and ($ct->project_specific)) {
-            echo "<td><input class=\"btn btn-default\" name=delete type=submit value=Delete>";
-        }
-        else {
-            echo "<td>&nbsp;</td>";
-        }
-
         echo "</form></tr>";
     }
     end_table();
@@ -150,6 +142,7 @@ function mct_show_form() {
         <p><strong>HELP: To add a consent type, provide a name and description. Then you may toggle the Enabled and PrivacyPrefs settings in the table above.</strong></p>
         <p>For Name, please stick to this convention: an ALLCAPS short name, without any spaces. Example: FORUM</p>
         <p>For Description: if your consent type will be part of the privacy preferences, it is best to use a full sentence with a question mark at the end. Example: Do you want SPAM, bacon, sausage, and SPAM?</p>
+        <p><em>Why can't I delete consent types?</em> Consent types cannot be deleted once created. This is to preserve and audit trail that may be legally necessary. You may disable a consent type if it is no longer needed.</p>
         <form action=manage_consent_types.php method=POST>
     ";
 
