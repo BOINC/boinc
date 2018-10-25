@@ -830,7 +830,11 @@ void handle_create_account(GUI_RPC_CONN& grc) {
     ACCOUNT_IN ai;
 
     ai.parse(grc.xp);
-    grc.create_account_op.do_rpc(ai);
+    if (ai.consented_to_terms && !grc.client_name.size()) {
+        grc.mfout.printf("<error>&lt;name&gt; must be set in &lt;exchange_versions&gt; before using &lt;consented_to_terms/&gt;</error>\n");
+        return;
+    }
+    grc.create_account_op.do_rpc(ai, grc.client_name);
     grc.mfout.printf("<success/>\n");
 }
 

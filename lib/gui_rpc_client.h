@@ -582,6 +582,7 @@ struct ACCOUNT_IN {
     std::string server_cookie;
     bool ldap_auth;
     bool server_assigned_cookie;
+    bool consented_to_terms;
 
     ACCOUNT_IN();
 

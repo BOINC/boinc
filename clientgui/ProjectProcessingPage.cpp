@@ -421,6 +421,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
                 if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue() && !pWA->GetProjectSetupCookie().size()) {
 					creating_account = true;
+                    ai->consented_to_terms = pWA->GetConsentedToTerms();
 
                     // Wait until we are done processing the request.
                     dtStartExecutionTime = wxDateTime::Now();
