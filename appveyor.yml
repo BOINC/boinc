@@ -53,8 +53,8 @@ skip_commits:
     - xcompile/
 
 configuration:
-  - Debug
-#  - Release
+#  - Debug
+  - Release
 
 environment:
   matrix:
@@ -64,7 +64,7 @@ environment:
       depends_path: C:\projects\boinc_depends_win_vs2013
 
 cache:
-  - C:\projects\boinc_depends_win_vs2013
+  - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
 
 before_build:
   - call win_build\load_dependencies.bat %depends_git_path% %depends_path% %platform% %configuration%
