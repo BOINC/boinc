@@ -353,14 +353,14 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
             content = '''<?php
 global $git_commit;
 global $server_version;
-$git_commit = {commit}
-$server_version = {version}
+$git_commit = "{commit}";
+$server_version = "{version}";
 
-\?>
 '''.format(commit=commit, version=version)
             f = open(os.path.join(dest_dir, 'release.inc'), 'w')
             f.write(content)
             f.close()
+            os.chmod(os.path.join(dest_dir, 'release.inc'), 0o644)
         except Exception, e:    
             print 'Not running from git source, no version or commit detected.'
 
