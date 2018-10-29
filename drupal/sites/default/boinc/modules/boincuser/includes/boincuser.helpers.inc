@@ -326,17 +326,9 @@ function create_proper_drupalname($requested_name) {
  *
  */
 function boincuser_check_termsofuse($user) {
-  // @todo - the condition for the terms of use needs to be saved in the
-  // project's user table, which does not exist, but may be added
-  // upstream. If/when that occurs, check it here.
-  $qres = db_query('SELECT bu.privacy_consent_dt FROM {boincuser} AS bu WHERE uid=%d', $user->uid);
-  $consent_dt = db_result($qres);
-  // Check datetime of consent, it should not be zero.
-  if ($consent_dt > 1 ) {
-    return true;
-  }
-
-  return false;
+  require_boinc('consent');
+  $boinc_user = boincuser_load($user->uid, TRUE);
+  return check_user_consent($boinc_user, CONSENT_TYPE_ENROLL);
 }
 
 /**
@@ -347,12 +339,27 @@ function boincuser_check_termsofuse($user) {
  *
  */
 function boincuser_consentto_termsofuse($user) {
-  $uid = $user->uid;
+  require_boinc('consent');
+  $boinc_user = boincuser_load($user->uid, TRUE);
 
-  // @todo - Modify BOINC project database to record consent.
-  $sql = 'UPDATE {boincuser} set privacy_consent_dt = %d WHERE uid=%d';
-  $qrc = db_query($sql, time(), $uid);
-  return $qrc;
+  list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+  if ($checkct) {
+    $rc1 = consent_to_a_policy($boinc_user, $ctid, 1, 0, 'Webform', time());
+    if (!$rc1) {
+      drupal_set_message(
+        bts("ERROR: Database error when attempting to INSERT into table consent with ID=@id. Please contact site administrators.",
+        array('@id' => $boinc_user->id),
+        'NULL', 'boinc:consent-termsofuse'),
+      'error');
+    }
+    return $rc1;
+  }
+  else {
+    drupal_set_message(
+      bts('ERROR: Consent type for enrollment not found. Please contact site administrators.', array(), 'NULL', 'boinc:consent-termsofuse'),
+    'error');
+  }
+  return FALSE;
 }
 
 /**
