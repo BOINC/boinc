@@ -891,7 +891,6 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (xp.parse_bool("dont_throttle", dont_throttle)) continue;
         if (xp.parse_bool("is_wrapper", is_wrapper)) continue;
         if (xp.parse_bool("needs_network", needs_network)) continue;
         if (log_flags.unparsed_xml) {
