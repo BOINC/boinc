@@ -62,7 +62,6 @@ using std::vector;
 
 static CURLM* g_curlMulti = NULL;
 static char g_user_agent_string[256] = {""};
-static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
 static unsigned int g_trace_count = 0;
 static bool got_expectation_failed = false;
     // Whether we've got a 417 HTTP error.
@@ -604,7 +603,6 @@ int HTTP_OP::libcurl_exec(
 
     // set the content type in the header
     //
-    pcurlList = curl_slist_append(pcurlList, g_content_type);
 
     if (strlen(gstate.language)) {
         snprintf(buf, sizeof(buf), "Accept-Language: %s", gstate.language);
@@ -694,7 +692,6 @@ int HTTP_OP::libcurl_exec(
         curl_formadd(&pcurlFormStart, &pcurlFormEnd,
            CURLFORM_FILECONTENT, infile,
            CURLFORM_CONTENTSLENGTH, content_length,
-           CURLFORM_CONTENTTYPE, g_content_type,
            CURLFORM_END
         );
         curl_formadd(&post, &last,
