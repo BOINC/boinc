@@ -89,9 +89,37 @@ void get_descendants(int pid, vector<int>& pids) {
 // Suspend or resume the threads in a set of processes,
 // but don't suspend 'calling_thread'.
 //
+// Called from:
+//  API (processes = self)
+//      This handles a) throttling; b) suspend/resume by user
+//  wrapper (via suspend_or_resume_process()); process = child
+//  wrapper, MP case (via suspend_or_resume_decendants());
+//      processes = descendants
+//
 // The only way to do this on Windows is to enumerate
 // all the threads in the entire system,
-// and find those belonging to one of the process (ugh!!)
+// and identify those belonging to one of the processes (ugh!!)
+//
+// In the suspend case, this creates a potential synch problem:
+// - CPU throttling sends suspend message
+// - we enumerate threads
+// - one of those threads creates a new thread T
+// - we suspend the enumerated threads
+//
+// In this case, T will run, which is undesirable but not an error.
+// But suppose that
+// - the app uses a mutex,
+// - at the start of the above sequence some thread holds the mutex
+// - T immediately tries to acquire the mutex (and is suspended).
+// Then when the client sends a resume message,
+// T resumes and there are two threads in the mutex section. Error!
+//
+// There are a couple of solutions to this.
+// 1) enumerate all the threads twice.
+// 2) have suspend() make a record of the threads it suspends,
+//    and have resume() resume only these threads.
+//
+// 1) doubles the overhead, so I'm going with 2) for now.
 //
 
 int suspend_or_resume_threads(
@@ -101,6 +129,7 @@ int suspend_or_resume_threads(
     THREADENTRY32 te = {0}; 
     int retval = 0;
     DWORD n;
+    static vector<DWORD> suspended_threads;
 
 #ifdef DEBUG
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
@@ -124,6 +153,10 @@ int suspend_or_resume_threads(
         return -1;
     }
 
+    if (!resume) {
+        suspended_threads.clear();
+    }
+
     do { 
         if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
 #ifdef DEBUG
@@ -131,17 +164,30 @@ int suspend_or_resume_threads(
 #endif
             continue;
         }
-        //fprintf(stderr, "thread %d PID %d %s\n", te.th32ThreadID, te.th32OwnerProcessID, precision_time_to_string(dtime()));
+#if 0
+        fprintf(stderr, "thread %d PID %d %s\n",
+            te.th32ThreadID, te.th32OwnerProcessID,
+            precision_time_to_string(dtime())
+        );
+#endif
         if (te.th32ThreadID == calling_thread_id) continue;
         if (!in_vector(te.th32OwnerProcessID, pids)) continue;
         thread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
         if (resume) {
-            n = ResumeThread(thread);
+            // check whether we suspended this thread earlier
+            //
+            if (std::find(
+                suspended_threads.begin(), suspended_threads.end(),
+                te.th32ThreadID
+            ) != suspended_threads.end()) {
+                n = ResumeThread(thread);
 #ifdef DEBUG
-            fprintf(stderr, "ResumeThread returns %d\n", n);
+                fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
+            }
         } else {
             n = SuspendThread(thread);
+            suspended_threads.push_back(te.th32ThreadID);
 #ifdef DEBUG
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
