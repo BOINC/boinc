@@ -62,15 +62,21 @@ def file_size(path):
     f.seek(0,2)
     return f.tell()
 
-def query_yesno(str):
+def query_yesno(question):
     '''Query user; default Yes'''
-    print(str+"[Y/n] ")
-    return not input().strip().lower().startswith('n')
+    valid = ('yes', 'y', '')
+    choice = input(question + "[Y/n] ").lower()
+    if choice in valid:
+        return True
+    return False
 
-def query_noyes(str):
+def query_noyes(question):
     '''Query user; default No'''
-    print(str+"[y/N] ")
-    return input().strip().lower().startswith('y')
+    valid = ('yes', 'y')
+    choice = input(question + "[y/N] ").lower()
+    if choice in valid:
+        return True
+    return False
 
 def get_output_file_path(filename):
     """ Return the filename's path in the upload directory

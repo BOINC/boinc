@@ -167,11 +167,11 @@ def _url_to_filename(url):
 def account_file_name(url):
     return 'account_' + _url_to_filename(url) + '.xml'
 
-def srcdir(*dirs):
-    return os.path.join(options.srcdir, dirs)
-
-def builddir(*dirs):
-    return os.path.join(boinc_path_config.TOP_BUILD_DIR, dirs)
+def srcdir(location):
+    return os.path.join(options.srcdir, location)
+    
+def builddir(location):
+    return os.path.join(boinc_path_config.TOP_BUILD_DIR, location)
 
 def run_tool(cmd):
     verbose_shell_call(builddir('tools', cmd))
@@ -243,44 +243,42 @@ def build_command_line(cmd, **kwargs):
     return cmd
 
 def create_project_dirs(dest_dir):
-    def dir(*d):
-        return os.path.join(dest_dir, d)
     def mkdir2(d):
         try:
             os.makedirs(d)
         except OSError as e:
             if not os.path.isdir(d):
                 raise SystemExit(e)
-    map(lambda d: mkdir2(dir(d)),
-        [   '',
-            'cgi-bin',
-            'bin',
-            'py',
-            'py/Boinc',
-            'templates',
-            'upload',
-            'download',
-            'apps',
-            'html',
-            'html/cache',
-            'html/inc',
-            'html/inc/ReCaptcha',
-            'html/inc/ReCaptcha/RequestMethod',
-            'html/languages',
-            'html/languages/compiled',
-            'html/languages/translations',
-            'html/languages/project_specific_translations',
-            'html/ops',
-            'html/ops/ffmail',
-            'html/ops/mass_email',
-            'html/ops/remind_email',
-            'html/project',
-            'html/stats',
-            'html/user',
-            'html/user/img',
-            'html/user_profile',
-            'html/user_profile/images'
-        ])
+    directories = ('',
+                   'cgi-bin',
+                   'bin',
+                   'py',
+                   'py/Boinc',
+                   'templates',
+                   'upload',
+                   'download',
+                   'apps',
+                   'html',
+                   'html/cache',
+                   'html/inc',
+                   'html/inc/ReCaptcha',
+                   'html/inc/ReCaptcha/RequestMethod',
+                   'html/languages',
+                   'html/languages/compiled',
+                   'html/languages/translations',
+                   'html/languages/project_specific_translations',
+                   'html/ops',
+                   'html/ops/ffmail',
+                   'html/ops/mass_email',
+                   'html/ops/remind_email',
+                   'html/project',
+                   'html/stats',
+                   'html/user',
+                   'html/user/img',
+                   'html/user_profile',
+                   'html/user_profile/images'
+    )
+    [ mkdir2(os.path.join(dest_dir, x)) for x in directories ]
 
     # For all directories that apache will put files in,
     # make them group-writeable and setGID.
@@ -302,46 +300,48 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
     """Copy files from source dir to project dir.
         Used by the upgrade script, so don't copy sample files to real name."""
 
-    def dir(*dirs):
-        return os.path.join(dest_dir, dirs)
+    def dest(*dirs):
+        location = dest_dir
+        for d in dirs:
+            location = os.path.join(location, d )
+        return location
 
     create_project_dirs(dest_dir);
 
     # copy html/ops files in all cases.
     # The critical one is db_update.php,
     # which is needed even for a server_only upgrade
-
-    install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
+    install_glob(srcdir('html/ops/*.php'), dest('html/ops/'))
 
     if install_web_files:
-        install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
-        install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
-        install_glob(srcdir('html/inc/ReCaptcha/*.php'), dir('html/inc/ReCaptcha/'))
-        install_glob(srcdir('html/inc/ReCaptcha/RequestMethod/*.php'), dir('html/inc/ReCaptcha/RequestMethod'))
-        install_glob(srcdir('html/inc/*.dat'), dir('html/inc/'))
-        install_glob(srcdir('html/ops/*.css'), dir('html/ops/'))
-        install_glob(srcdir('html/ops/ffmail/sample*'), dir('html/ops/ffmail/'))
-        install_glob(srcdir('html/ops/mass_email/sample*'), dir('html/ops/mass_email/'))
-        install_glob(srcdir('html/ops/remind_email/sample*'), dir('html/ops/remind_email/'))
-        install_glob(srcdir('html/user/*.php'), dir('html/user/'))
-        install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
-        install_glob(srcdir('html/user/*.css'), dir('html/user/'))
-        install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
-        install_glob(srcdir('html/user/*.js'), dir('html/user/'))
-        install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
-        install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
-        install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))
-        if not os.path.exists(dir('html/user/motd.php')):
-            shutil.copy(srcdir('html/user/sample_motd.php'), dir('html/user/motd.php'))
-        os.system("rm -f "+dir('html/languages/translations/*'))
-        install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
+        install_glob(srcdir('html/inc/*.inc'), dest('html/inc/'))
+        install_glob(srcdir('html/inc/*.php'), dest('html/inc/'))
+        install_glob(srcdir('html/inc/ReCaptcha/*.php'), dest('html/inc/ReCaptcha/'))
+        install_glob(srcdir('html/inc/ReCaptcha/RequestMethod/*.php'), dest('html/inc/ReCaptcha/RequestMethod'))
+        install_glob(srcdir('html/inc/*.dat'), dest('html/inc/'))
+        install_glob(srcdir('html/ops/*.css'), dest('html/ops/'))
+        install_glob(srcdir('html/ops/ffmail/sample*'), dest('html/ops/ffmail/'))
+        install_glob(srcdir('html/ops/mass_email/sample*'), dest('html/ops/mass_email/'))
+        install_glob(srcdir('html/ops/remind_email/sample*'), dest('html/ops/remind_email/'))
+        install_glob(srcdir('html/user/*.php'), dest('html/user/'))
+        install_glob(srcdir('html/user/*.inc'), dest('html/user/'))
+        install_glob(srcdir('html/user/*.css'), dest('html/user/'))
+        install_glob(srcdir('html/user/*.txt'), dest('html/user/'))
+        install_glob(srcdir('html/user/*.js'), dest('html/user/'))
+        install_glob(srcdir('html/user/*.png'), dest('html/user/img'))
+        install_glob(srcdir('html/user/*.gif'), dest('html/user/img'))
+        install_glob(srcdir('html/user/img/*.*'), dest('html/user/img'))
+        if not os.path.exists(dest('html/user/motd.php')):
+            shutil.copy(srcdir('html/user/sample_motd.php'), dest('html/user/motd.php'))
+        os.system("rm -f "+dest('html/languages/translations/*'))
+        install_glob(srcdir('html/languages/translations/*.po'), dest('html/languages/translations/'))
 
     # copy Python stuff
-    map(lambda s: install(srcdir('sched',s), dir('bin',s)),
+    map(lambda s: install(srcdir('sched',s), dest('bin',s)),
         [ 'start' ])
-    force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
-    force_symlink(dir('bin', 'start'), dir('bin', 'status'))
-    map(lambda s: install(srcdir('py/Boinc',s), dir('py/Boinc',s)),
+    force_symlink(dest('bin', 'start'), dest('bin', 'stop'))
+    force_symlink(dest('bin', 'start'), dest('bin', 'status'))
+    map(lambda s: install(srcdir('py/Boinc',s), dest('py/Boinc',s)),
         [
             '__init__.py',
             'add_util.py',
@@ -362,7 +362,7 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
 import sys, os
 sys.path.insert(0, os.path.join('%s', 'py'))
 ''' % dest_dir,
-    open(dir('bin', 'boinc_path_config.py'), 'w')
+    open(dest('bin', 'boinc_path_config.py'), 'w')
     )
 
     if not install_server_files:
@@ -371,18 +371,18 @@ sys.path.insert(0, os.path.join('%s', 'py'))
     # copy backend (C++) programs;
     # rename current web daemons in case they're in use
 
-    if os.path.isfile(dir('cgi-bin', 'cgi')):
-        os.rename(dir('cgi-bin', 'cgi'), dir('cgi-bin', 'cgi.old'))
-    if os.path.isfile(dir('cgi-bin', 'fcgi')):
-        os.rename(dir('cgi-bin', 'fcgi'), dir('cgi-bin', 'fcgi.old'))
-        map(lambda s: install(builddir('sched',s), dir('cgi-bin',s)),
+    if os.path.isfile(dest('cgi-bin', 'cgi')):
+        os.rename(dest('cgi-bin', 'cgi'), dest('cgi-bin', 'cgi.old'))
+    if os.path.isfile(dest('cgi-bin', 'fcgi')):
+        os.rename(dest('cgi-bin', 'fcgi'), dest('cgi-bin', 'fcgi.old'))
+        map(lambda s: install(builddir('sched',s), dest('cgi-bin',s)),
             [ 'fcgi'])
-    if os.path.isfile(dir('cgi-bin', 'file_upload_handler')):
-        os.rename(dir('cgi-bin', 'file_upload_handler'), dir('cgi-bin', 'file_upload_handler.old'))
+    if os.path.isfile(dest('cgi-bin', 'file_upload_handler')):
+        os.rename(dest('cgi-bin', 'file_upload_handler'), dest('cgi-bin', 'file_upload_handler.old'))
 
-    map(lambda s: install(builddir('sched',s), dir('cgi-bin',s)),
+    map(lambda s: install(builddest('sched',s), dest('cgi-bin',s)),
         [ 'cgi', 'file_upload_handler'])
-    map(lambda s: install(builddir('sched',s), dir('bin',s)),
+    map(lambda s: install(builddir('sched',s), dest('bin',s)),
         [
             'adjust_user_priority',
             'antique_file_deleter',
@@ -417,9 +417,9 @@ sys.path.insert(0, os.path.join('%s', 'py'))
             'update_stats',
             'wu_check'
         ])
-    map(lambda s: install(builddir('vda',s), dir('bin',s)),
+    map(lambda s: install(builddir('vda',s), dest('bin',s)),
         [ 'vda', 'vdad' ])
-    map(lambda s: install(srcdir('tools',s), dir('bin',s)),
+    map(lambda s: install(srcdir('tools',s), dest('bin',s)),
         [
             'appmgr',
             'boinc_submit',
@@ -441,9 +441,9 @@ sys.path.insert(0, os.path.join('%s', 'py'))
             'watch_tcp',
             'xadd'
         ])
-    map(lambda s: install(srcdir('lib',s), dir('bin',s)),
+    map(lambda s: install(srcdir('lib',s), dest('bin',s)),
         [ 'crypt_prog' ])
-    map(lambda s: install(srcdir('sched',s), dir('',s)),
+    map(lambda s: install(srcdir('sched',s), dest('',s)),
         [ 'db_dump_spec.xml' ])
 
 
@@ -469,7 +469,7 @@ class Project:
 
         self.project_dir   = project_dir or os.path.join(options.projects_dir, self.short_name)
 
-        self.config = configxml.ConfigFile(self.dir('config.xml')).init_empty()
+        self.config = configxml.ConfigFile(self.dest('config.xml')).init_empty()
         config = self.config.config
 
         # this is where default project config is defined
@@ -510,18 +510,21 @@ class Project:
             config.min_sendwork_interval = 6
         self.scheduler_url = os.path.join(cgi_url     , 'cgi')
 
-    def dir(self, *dirs):
-        return os.path.join(self.project_dir, dirs)
-
-    def keydir(self, *dirs):
-        return os.path.join(self.config.config.key_dir, dirs)
+    def dest(self, *dirs):
+        location = self.project_dir
+        for x in dirs:
+            location = os.path.join(location, x)
+        return location
+        
+    def keydir(self, location):
+            return os.path.join(self.config.config.key_dir, location)
 
     def logdir(self):
         return os.path.join(self.project_dir, "log_"+self.config.config.host)
 
     def create_keys(self):
-        if not os.path.exists(self.keydir()):
-            os.mkdir(self.keydir())
+        if not os.path.exists(self.config.config.key_dir):
+            os.mkdir(self.config.config.key_dir)
         _gen_key(self.keydir('upload'))
         _gen_key(self.keydir('code_sign'))
 
@@ -538,8 +541,8 @@ class Project:
 
     # create new project.  Called only from make_project
     def install_project(self):
-        if os.path.exists(self.dir()):
-            raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dir())
+        if os.path.exists(self.dest()):
+            raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dest())
 
         verbose_echo(1, "Creating directories");
 
@@ -556,30 +559,30 @@ class Project:
         # Create the project log directory
         self.create_logdir()
 
-        install_boinc_files(self.dir(), True, not self.web_only)
+        install_boinc_files(self.dest(), True, not self.web_only)
 
         # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),
-            self.dir('html/user/index.php'))
+            self.dest('html/user/index.php'))
         install(srcdir('html/user/sample_bootstrap.min.css'),
-            self.dir('html/user/bootstrap.min.css'))
+            self.dest('html/user/bootstrap.min.css'))
         install(srcdir('html/user/sample_bootstrap.min.js'),
-            self.dir('html/user/bootstrap.min.js'))
+            self.dest('html/user/bootstrap.min.js'))
         install(srcdir('html/user/sample_jquery.min.js'),
-            self.dir('html/user/jquery.min.js'))
+            self.dest('html/user/jquery.min.js'))
         install(srcdir('html/project.sample/project.inc'),
-            self.dir('html/project/project.inc'))
+            self.dest('html/project/project.inc'))
         install(srcdir('html/project.sample/project_specific_prefs.inc'),
-            self.dir('html/project/project_specific_prefs.inc'))
+            self.dest('html/project/project_specific_prefs.inc'))
         install(srcdir('html/project.sample/cache_parameters.inc'),
-            self.dir('html/project/cache_parameters.inc'))
-        install(srcdir('tools/project.xml'), self.dir('project.xml'))
-        install(srcdir('tools/gui_urls.xml'), self.dir('gui_urls.xml'))
+            self.dest('html/project/cache_parameters.inc'))
+        install(srcdir('tools/project.xml'), self.dest('project.xml'))
+        install(srcdir('tools/gui_urls.xml'), self.dest('gui_urls.xml'))
         if not self.production:
-            install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
-            install(srcdir('test/uc_wu_nodelete'), self.dir('templates/uc_wu'))
+            install(srcdir('test/uc_result'), self.dest('templates/uc_result'))
+            install(srcdir('test/uc_wu_nodelete'), self.dest('templates/uc_wu'))
 
-        f = open(self.dir('html/user', 'schedulers.txt'), 'w')
+        f = open(self.dest('html/user', 'schedulers.txt'), 'w')
         print("<!-- <scheduler>" + self.scheduler_url.strip() + "</scheduler> -->", f)
         print("<link rel=\"boinc_scheduler\" href=\"" + self.scheduler_url.strip()+ "\">", f)
         f.close()
@@ -601,15 +604,15 @@ class Project:
         # create symbolic links to the CGI and HTML directories
         verbose_echo(1, "Linking CGI programs")
         if options.__dict__.get('cgi_dir'):
-            force_symlink(self.dir('cgi-bin'), os.path.join(options.cgi_dir, self.short_name))
+            force_symlink(self.dest('cgi-bin'), os.path.join(options.cgi_dir, self.short_name))
         if options.__dict__.get('html_dir'):
-            force_symlink(self.dir('html/user'), os.path.join(options.html_dir, self.short_name))
-            force_symlink(self.dir('html/ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
+            force_symlink(self.dest('html/user'), os.path.join(options.html_dir, self.short_name))
+            force_symlink(self.dest('html/ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
 
     def http_password(self, user, password):
         'Adds http password protection to the html/ops directory'
-        passwd_file = self.dir('html/ops', '.htpassword')
-        f = open(self.dir('html/ops', '.htaccess'), 'w')
+        passwd_file = self.dest('html/ops', '.htpassword')
+        f = open(self.dest('html/ops', '.htaccess'), 'w')
         print("AuthName '%s Administration'" % self.long_name, f)
         print("AuthType Basic", f)
         print("AuthUserFile %s" % passwd_file, f)
@@ -619,7 +622,7 @@ class Project:
 
     def _run_sched_prog(self, prog, args='', logfile=None):
         verbose_shell_call("cd %s && ./%s %s >> %s.log 2>&1" %
-                           (self.dir('bin'), prog, args, (logfile or prog)))
+                           (self.dest('bin'), prog, args, (logfile or prog)))
 
     def start_servers(self):
         self.started = True
@@ -670,8 +673,8 @@ class Project:
             [ 'stripchart.cgi', 'stripchart', 'stripchart.cnf',
               'looper', 'db_looper', 'datafiles', 'get_load', 'dir_size' ])
         macro_substitute('BOINC_DB_NAME', self.db_name, srcdir('stripchart/samples/db_count'),
-                         self.dir('bin/db_count'))
-        make_executable(self.dir('bin/db_count'))
+                         self.dest('bin/db_count'))
+        make_executable(self.dest('bin/db_count'))
 
         self._run_sched_prog('looper'    , 'get_load 1'                            , 'get_load')
         self._run_sched_prog('db_looper' , '"result" 1'                            , 'count_results')
