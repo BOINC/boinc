@@ -47,7 +47,7 @@
 ## updated 6/4/17 by Charlie Fenton for compatibility with Xcode versions > 5.0.2
 ## updated 10/19/17 by Charlie Fenton for different path to boinc_logo_black.jpg
 ## updated 11/11/17 by Charlie Fenton make all user-writable to help auto-attach
-## updated 10/30/18 by Charlie Fenton to code sign for Apple "notarization"
+## updated 11/6/18 by Charlie Fenton to code sign for Apple "notarization"
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -116,14 +116,23 @@
 ## - Use the command line tools in Xcode 10 or later
 ## - Provide valid application & installer code signing identities as above
 ## - In Terminal":
-##  $ xcrun altool --notarize-app -t osx -f {path to ...macOSX_x86_64.zip}
+##  $ xcrun altool --notarize-app -t osx -f {path to ...macOSX_x86_64.zip} --primary-bundle-id edu.berkeley.boinc.Installer -u {userID} -p {password}
+## - After a few minutes, check whether the notarize-app request succeeded:
+##  $ xcrun altool --notarization-info {UUID from last step} -u {userID} -p {password}
+## - If the notarize-app request succeeded, attach tickets to top level applications:
 ##  $ xcrun stapler staple {path to "...macOSX_x86_64/BOINC Installer.app"}
 ##  $ xcrun stapler staple {path to "...macOSX_x86_64/extras/Uninstall BOINC.app"}
 ## - delete or rename the original ...macOSX_x86_64.zip}
 ## - Run this ditto command again to create a new ...macOSX_x86_64.zip containing 
 ##   the updated (notarized) BOINC Installer.app and Uninstall BOINC.app:
 ##  $ ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_$arch boinc_$1.$2.$3_macOSX_$arch.zip
-##
+## - Note: if you are running stapler under OS 10.13 and get an error 68, the local CRL
+##   cache may have become corrupted. You can resolve this by either running stapler
+##   under MacOS 10.14 Mojave or by running this command under OS 10.13:
+##     $ sudo killall -9 trustd; sudo rm /Library/Keychains/crls/valid.sqlite3 
+## - for more information:
+##  $ xcrun altool --help
+##  $ man stapler
 
 if [ $# -lt 3 ]; then
 echo "Usage:"
@@ -359,13 +368,13 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     # Code Sign the BOINC Manager if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app"
 
-    # Code Sign boinc_finish_install app emebdded in the PostInstall app if we have a signing identity
+    # Code Sign boinc_finish_install app embedded in the PostInstall app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/boinc_finish_install"
 
     # Code Sign the PostInstall app embedded in the BOINC installer app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app"
 
-    # Code Sign boinc_finish_install app emebdded in BOINC uninstaller app if we have a signing identity
+    # Code Sign boinc_finish_install app embedded in BOINC uninstaller app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/boinc_finish_install"
 
     # Code Sign the BOINC uninstaller app if we have a signing identity
