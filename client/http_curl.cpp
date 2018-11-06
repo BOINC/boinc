@@ -600,10 +600,6 @@ int HTTP_OP::libcurl_exec(
     //
     setup_proxy_session(no_proxy_for_url(url));
 
-
-    // set the content type in the header
-    //
-
     if (strlen(gstate.language)) {
         snprintf(buf, sizeof(buf), "Accept-Language: %s", gstate.language);
         pcurlList = curl_slist_append(pcurlList, buf);
