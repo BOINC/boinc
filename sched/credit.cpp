@@ -660,12 +660,13 @@ int get_pfc(
     double tmp_scale = (avp && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
 
     if (raw_pfc*tmp_scale > wu.rsc_fpops_bound) {
-        // This sanity check should be unnecessary becuase we have a maximum
-        // credit grant limit.  With anonymous GPU apps the sanity check often fails
-        // because anonymous GPU scales are often of order 0.01.  That prevents
-        // PFC averages from being updated.  So I've removed the return
-        // statement.
-        //char query[256], clause[256];
+        // This sanity check should be unnecessary because we have a maximum
+        // credit grant limit.
+        // With anonymous GPU apps the sanity check often fails
+        // because anonymous GPU scales are often of order 0.01.
+        // That prevents PFC averages from being updated.
+        // So I've removed the return statement.
+        //
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,

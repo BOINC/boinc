@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -945,6 +945,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     bool use_config_file = false;
     bool bad_arg = false;
     bool url_found=false, name_found=false, password_found = false;
+    ACCT_MGR_INFO ami;
 
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_string("url", url)) {
@@ -970,10 +971,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
                 "Not using account manager"
             );
         } else {
-            url = gstate.acct_mgr_info.master_url;
-            name = gstate.acct_mgr_info.login_name;
-            password_hash = gstate.acct_mgr_info.password_hash;
-            authenticator = gstate.acct_mgr_info.authenticator;
+            ami = gstate.acct_mgr_info;
         }
     } else {
         bad_arg = !url_found || !name_found || !password_found;
@@ -986,7 +984,11 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
                 // Remove 'hash:'
                 password_hash = password.substr(5);
             }
-        }
+            safe_strcpy(ami.master_url, url.c_str());
+            safe_strcpy(ami.login_name, name.c_str());
+            safe_strcpy(ami.password_hash, password_hash.c_str());
+            safe_strcpy(ami.authenticator, authenticator.c_str());
+       }
     }
 
     if (bad_arg) {
@@ -997,11 +999,6 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     ){
         grc.mfout.printf("<error>attached to a different AM - detach first</error>\n");
     } else {
-        ACCT_MGR_INFO ami;
-        safe_strcpy(ami.master_url, url.c_str());
-        safe_strcpy(ami.login_name, name.c_str());
-        safe_strcpy(ami.password_hash, password_hash.c_str());
-        safe_strcpy(ami.authenticator, authenticator.c_str());
         gstate.acct_mgr_op.do_rpc(ami, true);
         grc.mfout.printf("<success/>\n");
     }
@@ -1033,7 +1030,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        cc_config.client_download_url.c_str()
+        nvc_config.client_download_url.c_str()
     );
 }
 

@@ -1,33 +1,47 @@
-/*  If you add/change anything, update
-    boinc_db.cpp,h
-    and if needed:
-    py/Boinc/
-        database.py
-    html/
-        inc/
-            host.inc (host)
-            db_ops.inc
-        ops/
-            db_update.php
-        user/
-            create_account_action.php (user)
-            team_create_action.php (team)
-    sched/
-        db_dump.cpp (host, user, team)
-        db_purge.cpp (workunit, result)
-*/
-/* Fields are documented in boinc_db.h */
-/* Do not replace this with an automatically generated schema */
-
-/* type is specified as InnoDB for most tables.
-   Supposedly this gives better performance.
-   The others (post, thread, profile) are myISAM
-   because it supports fulltext index
+/*
+    If you add/change tables:
+    - if used by C++ code, update
+        db/
+            boinc_db.cpp,h
+            boinc_db_types.h
+        sched/
+            db_dump.cpp (host, user, team)
+            db_purge.cpp (workunit, result)
+    - if used by Python scripts (make_project, update_versions), update
+        py/Boinc/database.py
+    - if used by PHP code, update as needed
+        html/
+            inc/
+                host.inc (host)
+                db_ops.inc
+            ops/
+                db_update.php
+            user/
+                create_account_action.php (user)
+                team_create_action.php (team)
 */
 
-/* fields ending with id (but not _id) are treated specially
-   by the Python code (db_base.py)
-*/
+-- Most fields are documented in boinc_db_types.h
+
+-- All fields should be not null
+-- Fields should generally have a default
+-- (newer MySQL versions don't have automatic defaults)
+
+-- add new fields to the end of the table
+-- (makes it easier to update C++ code)
+
+-- Engine is specified as InnoDB for most tables;
+-- supposedly this gives better performance.
+-- Some (post, thread, profile) are myISAM because it supports fulltext index
+
+-- Going forward, use double for unix times (no 32-bit problem)
+
+-- Put index definitions in constraints.sql, not here
+
+-- fields ending with id (but not _id) are treated specially
+-- by the Python code (db_base.py)
+
+-- Put initial content of any table in content.sql, and not in this file.
 
 create table platform (
     id                      integer         not null auto_increment,
@@ -99,10 +113,13 @@ create table user (
     show_hosts              smallint        not null,
     posts                   smallint        not null,
         -- reused: salt for weak auth
+
+    -- the following 4 not used by BOINC
     seti_id                 integer         not null,
     seti_nresults           integer         not null,
     seti_last_result_time   integer     not null,
     seti_total_cpu          double          not null,
+
     signature               varchar(254),
         -- deprecated
     has_profile             smallint        not null,
@@ -112,6 +129,8 @@ create table user (
     donated                 smallint        not null,
     login_token             char(32)        not null default '',
     login_token_time        double          not null default 0,
+    previous_email_addr     varchar(254)    not null default '',
+    email_addr_change_time  double          not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -127,10 +146,11 @@ create table team (
     description             text,
     nusers                  integer         not null,   /* temp */
     country                 varchar(254),
-    total_credit            double          not null,   /* temp */
-    expavg_credit           double          not null,   /* temp */
+    total_credit            double          not null default 0.0,   /* temp */
+    expavg_credit           double          not null default 0.0,   /* temp */
     expavg_time             double          not null,
-    seti_id                 integer         not null,
+    seti_id                 integer         not null default 0,
+        -- repurposed to store master ID of BOINC-wide teams
     ping_user               integer         not null default 0,
     ping_time               integer unsigned not null default 0,
     joinable                tinyint         not null default 1,
@@ -607,8 +627,7 @@ create table private_messages (
     opened                  tinyint         not null default 0,
     subject                 varchar(255)    not null,
     content                 text            not null,
-    primary key(id),
-    key userid (userid)
+    primary key(id)
 ) engine=MyISAM;
 
 create table credited_job (
@@ -762,3 +781,63 @@ create table credit_team (
     credit_type             integer         not null,
     primary key (teamid, appid, credit_type)
 ) engine=InnoDB;
+
+create table token (
+    token                   varchar(255)    not null,
+    userid                  integer         not null,
+    type                    char            not null,
+    create_time             integer         not null,
+    expire_time             integer,
+    primary key (token)
+) engine=InnoDB;
+
+create table user_deleted (
+    userid                  integer         not null,
+    public_cross_project_id varchar(254)    not null,
+    create_time             double          not null,
+    primary key (userid)
+) engine=InnoDB;
+
+create table host_deleted (
+    hostid                  integer         not null,
+    public_cross_project_id varchar(254)    not null,
+    create_time             double          not null,
+    primary key (hostid)
+) engine=InnoDB;
+
+create table consent (
+    id                      integer         not null auto_increment,
+    userid                  integer         not null,
+    consent_type_id         integer         not null,
+    consent_time            integer         not null,
+    consent_flag            tinyint         not null,
+    consent_not_required    tinyint         not null,
+    source                  varchar(255)    not null,
+    primary key (id)
+) engine=InnoDB;
+
+-- @todo - change 'protect' to 'project_specific'
+create table consent_type (
+    id                      integer         not null auto_increment,
+    shortname               varchar(255)    not null,
+    description             varchar(255)    not null,
+    enabled                 integer         not null,
+    project_specific        integer         not null,
+    privacypref             integer         not null,
+    primary key (id)
+) engine=InnoDB;
+
+-- SQL View representing the latest consent state of users for all
+-- consent_types. Used in sched/db_dump and Web site preferences to
+-- determine if a user has consented to a particular consent type.
+create view latest_consent as
+SELECT userid,
+       consent_type_id,
+       consent_flag
+  FROM consent
+ WHERE NOT EXISTS
+       (SELECT *
+          FROM consent AS filter
+         WHERE consent.userid = filter.userid
+           AND consent.consent_type_id = filter.consent_type_id
+           AND filter.consent_time > consent.consent_time);

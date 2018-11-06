@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 // a C++ interface to BOINC GUI RPC
 
@@ -76,6 +76,7 @@ struct DAILY_STATS {
 struct PROJECT_LIST_ENTRY {
     std::string name;
     std::string url;
+    std::string web_url;
     std::string general_area;
     std::string specific_area;
     std::string description;
@@ -554,6 +555,7 @@ struct PROJECT_CONFIG {
     bool web_stopped;           // DB-driven web functions disabled
     int min_client_version;
 	std::string error_msg;
+    bool terms_of_use_is_html;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
         // before allowing attachment to continue.

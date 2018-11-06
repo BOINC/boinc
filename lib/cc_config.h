@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -146,15 +146,13 @@ struct CC_CONFIG {
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
-    std::string client_download_url;
-    std::string client_new_version_text;
-    std::string client_version_check_url;
     COPROCS config_coprocs;
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
     bool dont_suspend_nci;
     bool dont_use_vbox;
+    bool dont_use_wsl;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
@@ -176,7 +174,6 @@ struct CC_CONFIG {
     int max_stdout_file_size;
     int max_tasks_reported;
     int ncpus;
-    std::string network_test_url;
     bool no_alt_platform;
     bool no_gpus;
     bool no_info_fetch;

@@ -1000,3 +1000,16 @@ table.user-projects {
 .panel-secondary #search-form #edit-keys {
   width: 100%;
 }
+
+
+/* User registration */
+#register-termsofuse {
+  white-space: pre-line;
+  overflow: auto;
+  width: 80%;
+  max-height: 300px;
+}
+
+#register-title2 {
+  clear: both;
+}

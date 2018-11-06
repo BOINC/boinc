@@ -225,7 +225,7 @@
   <string name="projects_confirm_reset_message">Haluatko varmasti nollata</string>
   <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Nollaa</string>
-  <string name="projects_confirm_remove_acctmgr_title">Poista tilihallitsija</string>
+  <string name="projects_confirm_remove_acctmgr_title">Poista tilihallitsija käytöstä</string>
   <string name="projects_confirm_remove_acctmgr_message">Haluatko lopettaa käyttämästä</string>
   <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Poista käytöstä</string>
@@ -326,10 +326,13 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versio</string>
   <string name="about_name_long">Berkeleyn avoin infrastruktuuri verkkolaskentaan</string>
-  <string name="about_copyright">\u00A9 2003–2017 Kalifornian yliopisto, Berkeley.</string>
   <string name="about_copyright_reserved">Kaikki oikeudet pidätetään.</string>
   <string name="about_credits">Kiitokset Max Planck Instituutin painovoimafysiikan osastolle sekä IBM- ja HTC-yrityksille heidän tuestaan.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Uusi ilmoitus kohteesta %1$s</item>
+    <item quantity="other">%2$,d uusia ilmoituksia</item>
+  </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Laskentasovellus havaittu</string>
   <string name="nonexcl_dialog_text">Toinen laskentasovellus on käynnissä tässä laitteessa. Kerrallaan voi olla vain yksi versio käynnissä.</string>

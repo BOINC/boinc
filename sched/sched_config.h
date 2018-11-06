@@ -73,6 +73,8 @@ struct SCHED_CONFIG {
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     bool cache_md5_info;
     int fuh_debug_level;
+    int fuh_set_completed_permission;
+    int fuh_set_initial_permission;
     int reliable_priority_on_over;
         // additional results generated after at least one result
         // is over will have their priority boosted by this amount    

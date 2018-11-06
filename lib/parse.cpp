@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -371,6 +371,13 @@ void xml_escape(const char* in, char* out, int len) {
                 p += strlen(buf);
                 break;
             }
+        } else if (x == ']') {
+            // two stage check, strncmp() is slow
+            if (!strncmp(in, "]]>", 3)) {
+                strcpy(p, "]]&gt;");
+                p += 6;
+                in += 3;
+            }
         } else {
             *p++ = x;
         }
@@ -411,6 +418,12 @@ void xml_unescape(char* buf) {
             in += 6;
         } else if (!strncmp(in, "&amp;", 5)) {
             *out++ = '&';
+            in += 5;
+        } else if (!strncmp(in, "&#xD;", 5) || !strncmp(in, "&#xd;", 5)) {
+            *out++ = '\r';
+            in += 5;
+        } else if (!strncmp(in, "&#xA;", 5) || !strncmp(in, "&#xa;", 5)) {
+            *out++ = '\n';
             in += 5;
         } else if (!strncmp(in, "&#", 2)) {
             in += 2;

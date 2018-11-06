@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// functions to query various entities, and display them,
+// in admin web pages
 // TODO: most of this code shouldn't exist; use the standard code instead
 
 error_reporting(E_ALL);
@@ -408,8 +410,7 @@ function stderr_error_string($stderr_out){
     }
 }
 
-function show_result_summary() {
-
+function admin_show_result_summary() {
     $ntotal =0;     // TODO: how to count $result?
     $nvalid = 0;    // for SUCCESS results
     $ninvalid = 0;
@@ -737,7 +738,7 @@ function table_title($table) {
     }
 }
 
-function show_platform($platform) {
+function admin_show_platform($platform) {
     start_table();
     row("ID", $platform->id);
     row("Created", time_str($platform->create_time));
@@ -747,7 +748,7 @@ function show_platform($platform) {
     end_table();
 }
 
-function show_app($app) {
+function admin_show_app($app) {
     start_table();
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
@@ -760,7 +761,7 @@ function show_app($app) {
     end_table();
 }
 
-function show_app_version($app_version) {
+function admin_show_app_version($app_version) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
@@ -788,7 +789,7 @@ function app_version_short_header() {
     ";
 }
 
-function show_app_version_short($app_version) {
+function admin_show_app_version_short($app_version) {
     $x = app_name_by_id($app_version->appid);
     $y = platform_name_by_id($app_version->platformid);
     echo "
@@ -816,7 +817,7 @@ function host_short_header() {
     ";
 }
 
-function show_host_short($host) {
+function admin_show_host_short($host) {
     echo "
         <tr>
         <td><a href=\"db_action.php?table=host&id=$host->id\">$host->id</a></td>
@@ -868,7 +869,7 @@ function hav_app_version_string($avid) {
     ";
 }
 
-function show_host_app_versions($hostid) {
+function admin_show_host_app_versions($hostid) {
     start_table();
     table_header("app version", "PFC", "Elapsed", "Turnaround");
     $havs = BoincHostAppVersion::enum("host_id=$hostid");
@@ -883,7 +884,7 @@ function show_host_app_versions($hostid) {
     end_table();
 }
 
-function show_host($host) {
+function admin_show_host($host) {
     start_table();
 
     row("ID", $host->id);
@@ -939,12 +940,12 @@ function show_host($host) {
     row("# of results today", $host->nresults_today);
     row("Results", "<a href=\"db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time\">click here</a>");
     end_table();
-    show_host_app_versions($host->id);
+    admin_show_host_app_versions($host->id);
 }
 
-function show_workunit($wu) {
+function admin_show_workunit($wu) {
     $_GET = array('workunitid' => $wu->id);
-    show_result_summary();
+    admin_show_result_summary();
 
     start_table();
     row("Created", time_str($wu->create_time));
@@ -1003,7 +1004,7 @@ function workunit_short_header() {
     ";
 }
 
-function show_workunit_short($wu) {
+function admin_show_workunit_short($wu) {
     if ($wu->canonical_resultid) {
         $cr = sprintf('<a href="db_action.php?table=result&id=%d">%d</a>',
             $wu->canonical_resultid,
@@ -1074,7 +1075,7 @@ function credit_str($c) {
     }
 }
 
-function show_result_ops($result) {
+function admin_show_result($result) {
     $wu_name = wu_name_by_id($result->workunitid);
 
     start_table();
@@ -1154,7 +1155,7 @@ function result_short_header() {
     ";
 }
 
-function show_result_short($result) {
+function admin_show_result_short($result) {
     $ss = result_server_state_string($result)." [$result->server_state]";
     $oc = result_outcome_string($result)." [$result->outcome]";
     $vs = validate_state_str($result)." [$result->validate_state]";
@@ -1207,7 +1208,7 @@ function show_result_short($result) {
     ";
 }
 
-function show_user($user) {
+function admin_show_user($user) {
     start_table();
     row("ID", $user->id);
     row("Created", time_str($user->create_time));
@@ -1232,7 +1233,7 @@ function show_user($user) {
     end_table();
 }
 
-function show_user_summary($maxuser) {
+function admin_show_user_summary($maxuser) {
     $top_country = array();
     $top_language = array();
     $db = BoincDb::get(true);
@@ -1312,7 +1313,7 @@ function team_type_string($s) {
     }
 }
 
-function show_team($team) {
+function admin_show_team($team) {
     start_table();
     row("ID", $team->id);
     row("Team Founder", "<a href=\"db_action.php?table=user&id=$team->userid\">" . user_name_by_id($team->userid) . "</a>");

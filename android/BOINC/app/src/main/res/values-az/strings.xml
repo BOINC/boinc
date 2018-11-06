@@ -200,7 +200,7 @@
   <string name="projects_add">Layihə əlavə et</string>
   <string name="projects_icon">Layihə ikonu</string>
   <string name="projects_credits">Kredit:</string>
-  <string name="projects_credits_host_and_user">% 1 $, d (bu cihazda)% 2 $, d (ümumi)</string>
+  <string name="projects_credits_host_and_user">%1$,d (bu cihazda) %2$,d (ümumi)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">İstifadəçi tərəfindən dayandırılıb</string>
   <string name="projects_status_dontrequestmorework">Yeni vəzifələr endirilməyəcək</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versiya</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2017 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Bütün hüquqlar qorunur.</string>
   <string name="about_credits">Dəstək üçün Max Planck Qravitasiya Fizika İnstitutu, IBM və HTC şirkətlərinəsayəsində təşəkkürlər.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

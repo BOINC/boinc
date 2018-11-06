@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #ifndef BOINC_PROJECTINFOPAGE_H
 #define BOINC_PROJECTINFOPAGE_H
@@ -89,6 +89,8 @@ public:
 
     void EllipseStringIfNeeded(wxString& s, wxWindow *win);
 
+    void RefreshPage();
+
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
@@ -108,10 +110,12 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxArmCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;

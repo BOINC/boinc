@@ -344,6 +344,7 @@ struct SCHEDULER_REQUEST {
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
     USER_KEYWORDS user_keywords;
+    int user_id;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};

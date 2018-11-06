@@ -119,8 +119,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;_WCG;wxUSE_GUI=1;wxDEBUG_LEVEL=0</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1;wxDEBUG_LEVEL=0;_WCG</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -158,9 +158,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;_WCG;wxUSE_GUI=1;wxDEBUG_LEVEL=0</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -201,7 +204,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;_WCG;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -242,9 +245,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;_WCG;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -319,6 +325,7 @@
     <ClCompile Include="..\lib\filesys.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
     <ClCompile Include="..\lib\idlemon_win.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
     <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
@@ -337,6 +344,7 @@
     <ClCompile Include="..\lib\url.cpp" />
     <ClCompile Include="..\lib\util.cpp" />
     <ClCompile Include="..\lib\win_util.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
     <ClCompile Include="..\clientgui\AccountInfoPage.cpp" />
     <ClCompile Include="..\clientgui\AccountManagerInfoPage.cpp" />
     <ClCompile Include="..\clientgui\AccountManagerProcessingPage.cpp" />
@@ -427,6 +435,7 @@
     <ClInclude Include="..\lib\filesys.h" />
     <ClInclude Include="..\lib\hostinfo.h" />
     <ClInclude Include="..\lib\idlemon.h" />
+    <ClInclude Include="..\lib\keyword.h" />
     <ClInclude Include="..\lib\md5.h" />
     <ClInclude Include="..\lib\md5_file.h" />
     <ClInclude Include="..\lib\mfile.h" />

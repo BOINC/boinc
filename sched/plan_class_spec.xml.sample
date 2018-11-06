@@ -84,7 +84,7 @@
         <gpu_peak_flops_scale>  .2          </gpu_peak_flops_scale>
     </plan_class>
     <plan_class>
-        <name>                  opencl_ati_101        </name>
+        <name>                  opencl_amd_101        </name>
         <gpu_type>              amd         </gpu_type>
         <opencl/>
         <min_core_client_version>70000      </min_core_client_version>

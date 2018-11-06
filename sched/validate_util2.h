@@ -30,6 +30,9 @@
 extern int init_result(RESULT&, void*&);
 extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);
 extern int cleanup_result(RESULT const&, void*);
+
+// old/internal interface:
+//
 extern double compute_granted_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern int check_set(
     std::vector<RESULT>& results, WORKUNIT& wu,

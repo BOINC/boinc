@@ -29,6 +29,7 @@ require_once("../inc/submit_util.inc");
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
+ini_set("memory_limit", "4G");
 
 function get_wu($name) {
     $name = BoincDb::escape_string($name);
@@ -201,7 +202,7 @@ function stage_files(&$jobs) {
 // submit a list of jobs with a single create_work command.
 //
 function submit_jobs(
-    $jobs, $template, $app, $batch_id, $priority, $app_version_num,
+    $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,
     $input_template_filename,        // batch-level; can also specify per job
     $output_template_filename
 ) {
@@ -253,6 +254,21 @@ function submit_jobs(
     }
     if ($app_version_num) {
         $cmd .= " --app_version_num $app_version_num";
+    }
+    if ($job_params->rsc_disk_bound) {
+        $cmd .= " --rsc_disk_bound $job_params->rsc_disk_bound";
+    }
+    if ($job_params->rsc_fpops_est) {
+        $cmd .= " --rsc_fpops_est $job_params->rsc_fpops_est";
+    }
+    if ($job_params->rsc_fpops_bound) {
+        $cmd .= " --rsc_fpops_bound $job_params->rsc_fpops_bound";
+    }
+    if ($job_params->rsc_memory_bound) {
+        $cmd .= " --rsc_memory_bound $job_params->rsc_memory_bound";
+    }
+    if ($job_params->delay_bound) {
+        $cmd .= " --delay_bound $job_params->delay_bound";
     }
     $cmd .= " --stdin >$errfile 2>&1";
     $h = popen($cmd, "w");
@@ -367,7 +383,7 @@ function xml_get_jobs($r) {
     return $jobs;
 }
 
-// $r is a simplexml object for the request message
+// $r is a simplexml object encoding the request message
 //
 function submit_batch($r) {
     xml_start_tag("submit_batch");
@@ -382,6 +398,10 @@ function submit_batch($r) {
     $njobs = count($jobs);
     $now = time();
     $app_version_num = (int)($r->batch->app_version_num);
+
+    // batch may or may not already exist.
+    // If it does, make sure it's owned by this user
+    //
     $batch_id = (int)($r->batch->batch_id);
     if ($batch_id) {
         $batch = BoincBatch::lookup_id($batch_id);
@@ -407,6 +427,8 @@ function submit_batch($r) {
             $total_flops += $job->rsc_fpops_est;
         } else if ($job->input_template && $job->input_template->workunit->rsc_fpops_est) {
             $total_flops += (double) $job->input_template->workunit->rsc_fpops_est;
+        } else if ($r->batch->job_params->rsc_fpops_est) {
+            $total_flops += (double) $r->batch->job_params->rsc_fpops_est;
         } else {
             $x = (double) $template->workunit->rsc_fpops_est;
             if ($x) {
@@ -439,20 +461,20 @@ function submit_batch($r) {
         $batch = BoincBatch::lookup_id($batch_id);
     }
     
-    if ($r->batch->input_template_filename) {
-        $input_template_filename = $r->batch->input_template_filename;
-    } else {
-        $input_template_filename = null;
-    }
+    $job_params = new StdClass;
+    $job_params->rsc_disk_bound = (double) $r->batch->job_params->rsc_disk_bound;
+    $job_params->rsc_fpops_est = (double) $r->batch->job_params->rsc_fpops_est;
+    $job_params->rsc_fpops_bound = (double) $r->batch->job_params->rsc_fpops_bound;
+    $job_params->rsc_memory_bound = (double) $r->batch->job_params->rsc_memory_bound;
+    $job_params->delay_bound = (double) $r->batch->job_params->delay_bound;
+        // could add quorum-related stuff
 
-    if ($r->batch->output_template_filename) {
-        $output_template_filename = $r->batch->output_template_filename;
-    } else {
-        $output_template_filename = null;
-    }
+    $input_template_filename = (string) $r->batch->input_template_filename;
+    $output_template_filename = (string) $r->batch->output_template_filename;
+        // possibly empty
     
     submit_jobs(
-        $jobs, $template, $app, $batch_id, $let, $app_version_num,
+        $jobs, $job_params, $app, $batch_id, $let, $app_version_num,
         $input_template_filename,
         $output_template_filename
     );
@@ -963,13 +985,13 @@ if ($request_log) {
 
 xml_header();
 if (0) {
-    $r = file_get_contents("submit_req.xml");
+    $req = file_get_contents("submit_req.xml");
 } else {
-    $r = $_POST['request'];
+    $req = $_POST['request'];
 }
-$r = simplexml_load_string($r);
+$r = simplexml_load_string($req);
 if (!$r) {
-    xml_error(-1, "can't parse request message");
+    xml_error(-1, "can't parse request message: $req");
 }
 
 switch ($r->getName()) {

@@ -27,8 +27,6 @@ check_get_args(array("next_url", "teamid"));
 
 $next_url = sanitize_local_url(get_str('next_url', true));
 
-redirect_to_secure_url("create_account_form.php?next_url=$next_url");
-
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
     error_page("This project has disabled account creation");
@@ -68,6 +66,7 @@ if ($teamid) {
 
 form_start("create_account_action.php","post");
 create_account_form($teamid, $next_url);
+global $recaptcha_public_key;
 if ($recaptcha_public_key) {
     form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
 }

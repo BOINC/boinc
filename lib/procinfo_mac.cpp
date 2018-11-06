@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,17 +31,11 @@
 #endif
 
 #include "error_numbers.h"
-
 #include "procinfo.h"
 
+#include "mac_branding.h"
+
 using std::vector;
-
-// Possible values of iBrandId:
-#define BOINC_BRAND_ID 0
-#define GRIDREPUBLIC_BRAND_ID 1
-#define PROGRESSTHRUPROCESSORS_BRAND_ID 2
-#define CHARITYENGINE_BRAND_ID 3
-
 
 // build table of all processes in system
 //
@@ -53,16 +47,14 @@ int procinfo_setup(PROC_MAP& pm) {
     char* lf;
     static long iBrandID = -1;
     
-    if (iBrandID < 0) {
-        iBrandID = BOINC_BRAND_ID;
-
-        // For GridRepublic or ProgressThruProcessors, the Mac 
-        // installer put a branding file in our data directory
-        FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
-        if (f) {
-            fscanf(f, "BrandId=%ld\n", &iBrandID);
-            fclose(f);
-        }
+    // For branded installs, the Mac installer put a branding file in our data directory
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandID);
+        fclose(f);
+    }
+    if ((iBrandID < 0) || (iBrandID > (NUMBRANDS-1))) {
+        iBrandID = 0;
     }
 
 #if SHOW_TIMING
@@ -148,23 +140,10 @@ int procinfo_setup(PROC_MAP& pm) {
         // incorrect results for the % CPU used.
         p.is_low_priority = false;
 
-        switch (iBrandID) {
-        case GRIDREPUBLIC_BRAND_ID:
-            if (!strcasestr(p.command, "GridRepublic")) {
-                p.is_boinc_app = true;
-            }
-            break;
-        case PROGRESSTHRUPROCESSORS_BRAND_ID:
-            if (!strcasestr(p.command, "Progress Thru Processors")) {
-                p.is_boinc_app = true;
-            }
-            break;
-        case CHARITYENGINE_BRAND_ID:
-            if (!strcasestr(p.command, "Charity Engine")) {
-                p.is_boinc_app = true;
-            }
-            break;
+        if (!strcasestr(p.command, brandName[iBrandID])) {
+            p.is_boinc_app = true;
         }
+
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
     }
     

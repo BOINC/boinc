@@ -343,6 +343,7 @@
     <ClCompile Include="..\lib\url.cpp" />
     <ClCompile Include="..\lib\util.cpp" />
     <ClCompile Include="..\lib\win_util.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
     <ClCompile Include="..\clientgui\AccountInfoPage.cpp" />
     <ClCompile Include="..\clientgui\AccountManagerInfoPage.cpp" />
     <ClCompile Include="..\clientgui\AccountManagerProcessingPage.cpp" />

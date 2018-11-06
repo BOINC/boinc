@@ -448,7 +448,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         decrement_request(rp);
     }
 
-    njobs += new_results.size();
+    njobs += (int)new_results.size();
     msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
     sprintf(buf, "got %lu tasks<br>", new_results.size());
     html_msg += buf;

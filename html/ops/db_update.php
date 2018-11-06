@@ -35,8 +35,10 @@ function do_query($query) {
     $result = _mysql_query($query);
     if (!$result) {
         echo "Failed:\n"._mysql_error()."\n";
+        return false;
     } else {
         echo "Success.\n";
+        return true;
     }
 }
 
@@ -1075,6 +1077,159 @@ function update_3_8_2018() {
     ");
 }
 
+function update_4_5_2018() {
+    do_query("create table token (
+        token                   varchar(255)    not null,
+        userid                  integer         not null,
+        type                    char            not null,
+        create_time             integer         not null,
+        expire_time             integer,
+        primary key (token),
+        index token_userid (userid)
+        ) engine=InnoDB
+    ");
+}
+
+function update_4_6_2018() {
+    do_query("alter table team
+        modify column total_credit double not null default 0.0,
+        modify column expavg_credit double not null default 0.0,
+        modify column seti_id integer not null default 0
+    ");
+}
+
+function update_4_18_2018() {
+    do_query("alter table token
+        modify column create_time integer not null
+    ");
+}
+
+function update_4_19_2018() {
+    do_query("alter table user
+	add column previous_email_addr varchar(254) not null default '',
+	add column email_addr_change_time double not null default 0
+    ");
+    do_query("alter table user add index user_email_time (email_addr_change_time)");
+}
+
+function update_5_9_2018() {
+    $retval = do_query("create table user_deleted (
+            userid                  integer         not null,
+            public_cross_project_id varchar(254)    not null,
+            create_time             double          not null,
+            primary key (userid)
+        ) engine=InnoDB;
+    ");
+    
+    $retval = $retval && do_query("create table host_deleted (
+            hostid                  integer         not null,
+            public_cross_project_id varchar(254)    not null,
+            create_time             double          not null,
+            primary key (hostid)
+        ) engine=InnoDB;
+    ");
+    
+    $retval = $retval && do_query("alter table user_deleted
+        add index user_deleted_create(create_time)
+    ");
+    
+    $retval = $retval && do_query("alter table host_deleted
+        add index host_deleted_create(create_time)
+    ");
+    
+    $retval = $retval && do_query("alter table team_delta
+        add index team_delta_userid (userid)
+    ");
+    
+    $retval = $retval && do_query("alter table donation_paypal
+        add index donation_paypal_userid(userid)
+    ");
+    
+    $retval = $retval && do_query("alter table banishment_vote
+        add index banishment_vote_userid(userid)
+    ");
+    
+    $retval = $retval && do_query("alter table post_ratings
+        add index post_ratings_user(user)
+    ");
+    
+    $retval = $retval && do_query("alter table msg_from_host
+        add index message_hostid(hostid)
+    ");
+    
+    return $retval && do_query("alter table sent_email
+        add index sent_email_userid(userid)
+    ");
+}
+
+function update_8_23_2018() {
+    $retval = do_query("alter table host add index host_userid_cpid (userid, host_cpid)");
+    $retval = $retval && do_query("alter table host drop index host_user");
+    return $retval && do_query("alter table host add index host_domain_name (domain_name)");
+}
+
+
+function update_9_12_2018() {
+    do_query("create table consent (
+        id                      integer         not null auto_increment,
+        userid                  integer         not null,
+        consent_type_id         integer         not null,
+        consent_time            integer         not null,
+        consent_flag            tinyint         not null,
+        consent_not_required    tinyint         not null,
+        source                  varchar(255)    not null,
+        primary key (id),
+        index userid_ctid(userid, consent_type_id),
+        index consent_timestamp(consent_time),
+        index flag_ctid(consent_flag, consent_type_id)
+        ) engine=InnoDB;
+    ");
+
+    do_query("create table consent_type (
+        id                      integer         not null auto_increment,
+        shortname               varchar(255)    not null,
+        description             varchar(255)    not null,
+        enabled                 integer         not null,
+        project_specific        integer         not null,
+        privacypref             integer         not null,
+        primary key (id),
+        index consent_name (shortname)
+        ) engine=InnoDB;
+    ");
+
+    do_query("alter table consent
+       add foreign key(consent_type_id)
+       references consent_type(id)
+       on update cascade
+       on delete restrict;
+    ");
+
+    do_query("insert into consent_type
+        (shortname, description, enabled, project_specific, privacypref) values
+        ('ENROLL', 'General terms-of-use for this BOINC project.', 0, 0, 0);
+    ");
+    do_query("insert into consent_type
+        (shortname, description, enabled, project_specific, privacypref) values
+        ('STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 0, 1);
+    ");
+
+    // SQL View representing the latest consent state of users for all
+    // consent_types. Used in sched/db_dump and Web site preferences to
+    // determine if a user has consented to a particular consent type.
+    do_query("create view latest_consent as
+SELECT userid,
+       consent_type_id,
+       consent_flag
+  FROM consent
+ WHERE NOT EXISTS
+       (SELECT *
+          FROM consent AS filter
+         WHERE consent.userid = filter.userid
+           AND consent.consent_type_id = filter.consent_type_id
+           AND filter.consent_time > consent.consent_time);
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1127,7 +1282,14 @@ $db_updates = array (
     array(27018, "update_7_21_2017"),
     array(27019, "update_8_9_2017"),
     array(27020, "update_10_25_2017"),
-    array(27020, "update_3_8_2018"),
+    array(27021, "update_3_8_2018"),
+    array(27022, "update_4_5_2018"),
+    array(27023, "update_4_6_2018"),
+    array(27024, "update_4_18_2018"),
+    array(27025, "update_4_19_2018"),
+    array(27026, "update_5_9_2018"),
+    array(27027, "update_8_23_2018"),
+    array(27028, "update_9_12_2018")
 );
 
 ?>

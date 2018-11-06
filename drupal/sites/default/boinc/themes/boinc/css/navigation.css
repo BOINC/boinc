@@ -86,9 +86,23 @@ ul#secondary-menu,
 }
 #footer-links li a:before {
   content: " / ";
+  font-family: 'Font Awesome 5 Free';
 }
 #footer-links li.first a:before {
   content: none;
+}
+
+#footer-links li a[href*='//']:before {
+  /* slash then Link */
+  content: ' / \f0c1';
+  font-family: 'Font Awesome 5 Free';
+  padding-right: .1em;
+}
+#footer-links li.first a[href*='//']:before {
+  /* Link */
+  content: '\f0c1';
+  font-family: 'Font Awesome 5 Free';
+  padding-right: .1em;
 }
 
 /*
