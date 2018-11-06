@@ -336,7 +336,7 @@ httpd_conf_template_filename = os.path.join(
     project_shortname+'.httpd.conf'
     )
 
-print ('''
+content ='''
     ## Settings for BOINC project %(project_longname)s
 
     Alias /%(project_shortname)s/download %(proot)s/download
@@ -396,30 +396,32 @@ print ('''
         Allow from all
     </Directory>
 
-''' %locals(),
-    open(httpd_conf_template_filename,'w')
-    )
+''' % locals()
+f = open(httpd_conf_template_filename,'w')
+f.write(content)
+f.close()
 
 htaccess_filename = options.project_root+'/html/ops/.htaccess'
 htpasswd_filename = options.project_root+'/html/ops/.htpasswd'
 
-print('''
+content = '''
 AuthName "%(project_shortname)s"
 AuthType Basic
 AuthUserFile %(htpasswd_filename)s
 require valid-user
-'''%locals(),
-    open(htaccess_filename, 'w')
-    )
+'''%locals()
+f = open(htaccess_filename, 'w')
+f.write(content)
+f.close()
 
 cronjob_filename = os.path.join(
     options.project_root,
     project_shortname+'.cronjob'
     )
-print('''0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
-'''%locals(),
-    open(cronjob_filename,'w')
-    )
+
+f = open(cronjob_filename,'w')
+f.write('0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron\n' %locals())
+f.close()
 
 readme_filename = os.path.join(
     options.project_root,
@@ -457,7 +459,7 @@ See the online documentation at http://boinc.berkeley.edu/
 html_user_url = options.html_user_url
 html_ops_url = options.html_ops_url
 
-print('''Steps to complete installation:
+content = '''Steps to complete installation:
 
 -  Change Apache configuration (as root):
 
@@ -503,9 +505,10 @@ The project's URLs are:
 Home page (and master URL): %(html_user_url)s
 Administrative page:        %(html_ops_url)s
 %(compute_msg)s
-'''%locals(),
-    open(readme_filename,'w')
-    )
+'''%locals()
+f = open(readme_filename,'w')
+f.write(content)
+f.close()
 
 print('''
 Done creating project.  Please view
