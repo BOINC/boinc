@@ -184,7 +184,6 @@ RemovePrincipalFromACL (
     ACCESS_DENIED_ACE       *accessDeniedAce = NULL;
     SYSTEM_AUDIT_ACE        *systemAuditAce = NULL;
     PSID                    principalSID = NULL;
-    DWORD                   returnValue = 0;
     ACE_HEADER              *aceHeader = NULL;
 
     if (!GetAccountSid(NULL, Principal, &principalSID))

@@ -1,0 +1,363 @@
+<?php
+/**
+ * @file
+ * FileField: Defines a CCK file field type.
+ *
+ * Uses content.module to store the fid and field specific metadata,
+ * and Drupal's {files} table to store the actual file data.
+ */
+
+require_once dirname(__FILE__) . '/field_file.inc';
+
+/**
+ * Implementation of hook_install().
+ */
+function filefield_install() {
+  drupal_load('module', 'content');
+  content_notify('install', 'filefield');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function filefield_uninstall() {
+  drupal_load('module', 'content');
+  content_notify('uninstall', 'filefield');
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function filefield_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'filefield');
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function filefield_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'filefield');
+}
+
+/**
+ * Implementation of hook_requirements().
+ *
+ * Display information about getting upload progress bars working.
+ */
+function filefield_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+
+  // Report Drupal version
+  if ($phase == 'runtime') {
+    drupal_load('module', 'filefield');
+    $implementation = filefield_progress_implementation();
+    $apache = strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== FALSE;
+    $fastcgi = strpos($_SERVER['SERVER_SOFTWARE'], 'mod_fastcgi') !== FALSE || strpos($_SERVER["SERVER_SOFTWARE"], 'mod_fcgi') !== FALSE;
+    $php_52 = version_compare(phpversion(), '5.2.0', '>');
+    $description = NULL;
+    if (!$apache || !$php_52) {
+      $value = $t('Not enabled');
+      $description = $t('Your server is not capable of displaying file upload progress. File upload progress requires PHP 5.2 and an Apache server.');
+      $severity = REQUIREMENT_INFO;
+    }
+    elseif ($fastcgi) {
+      $value = $t('Not enabled');
+      $description = $t('Your server is not capable of displaying file upload progress. File upload progress requires PHP be run with mod_php and not as FastCGI.');
+      $severity = REQUIREMENT_INFO;
+    }
+    elseif (!$implementation && extension_loaded('apc')) {
+      $value = $t('Not enabled');
+      $description = $t('Your server is capable of displaying file upload progress through APC, but it is not enabled. Add <code>apc.rfc1867 = 1</code> to your php.ini configuration. Alternatively, it is recommended to use <a href="http://pecl.php.net/package/uploadprogress">PECL uploadprogress</a>, which supports more than one simultaneous upload.');
+      $severity = REQUIREMENT_INFO;
+    }
+    elseif (!$implementation) {
+      $value = $t('Not enabled');
+      $description = t('Your server is capable of displaying file upload progress, but does not have the required libraries. It is recommended to install the <a href="http://pecl.php.net/package/uploadprogress">PECL uploadprogress library</a> (preferred) or to install <a href="http://us2.php.net/apc">APC</a>.');
+      $severity = REQUIREMENT_INFO;
+    }
+    elseif ($implementation == 'apc') {
+      $value = $t('Enabled (<a href="http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867">APC RFC1867</a>)');
+      $description = t('Your server is capable of displaying file upload progress using APC RFC1867. Note that only one upload at a time is supported. It is recommended to use the <a href="http://pecl.php.net/package/uploadprogress">PECL uploadprogress library</a> if possible.');
+      $severity = REQUIREMENT_OK;
+    }
+    elseif ($implementation == 'uploadprogress') {
+      $value = $t('Enabled (<a href="http://pecl.php.net/package/uploadprogress">PECL uploadprogress</a>)');
+      $severity = REQUIREMENT_OK;
+    }
+    $requirements['filefield_progress'] = array(
+      'title' => $t('Upload progress'),
+      'value' => $value,
+      'severity' => $severity,
+      'description' => $description,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_update_last_removed().
+ */
+function filefield_update_last_removed() {
+  return 3;
+}
+
+/**
+ * Upgrade FileField to Drupal 6.
+ */
+function filefield_update_6001() {
+  if ($abort = content_check_update('filefield')) {
+    return $abort;
+  }
+
+  $ret = array();
+  module_load_include('inc', 'content', 'includes/content.admin');
+
+  // Rename the field type from file to filefield. adhere to module namespace.
+  $ret[] = update_sql("UPDATE {content_node_field} SET type = 'filefield', module = 'filefield', active = 1 WHERE type = 'file'");
+  // Rename default widget to filefield_widget. adhere to module namespace.
+  $ret[] = update_sql("UPDATE {content_node_field_instance} SET widget_type = 'filefield_widget', widget_module = 'filefield', widget_active = 1 WHERE widget_type = 'file'");
+
+  // Update list default value and force list settings.
+  $result = db_query("SELECT * FROM {content_node_field} WHERE type = 'filefield'");
+  while ($field = db_fetch_object($result)) {
+    $updated = FALSE;
+    $field_settings = unserialize($field->global_settings);
+    if (!isset($field_settings['list_default']) || !is_numeric($field_settings['list_default'])) {
+      $field_settings['list_default'] = 1;
+      $updated = TRUE;
+    }
+
+    // Set behavior to match old force_list behavior.
+    if (!empty($field_settings['force_list'])) {
+      $field_settings['list_default'] = 1;
+      $field_settings['force_list_default'] = 1;
+      $updated = TRUE;
+    }
+    if ($updated) {
+      db_query("UPDATE {content_node_field} SET global_settings = '%s' WHERE field_name = '%s'", serialize($field_settings), $field->field_name);
+    }
+  }
+
+  // Re-enable all the FileFields on the site.
+  content_associate_fields('filefield');
+
+  // Build a list of fields that need data updating.
+  $fields = array();
+  foreach (content_types_install() as $type_name => $type_fields) {
+    foreach ($type_fields as $field) {
+      if ($field['type'] == 'filefield') {
+        // We only process a given field once.
+        $fields[$field['field_name']] = $field;
+      }
+    }
+  }
+
+  // Update database storage (add data column, remove description, set NOT NULL).
+  foreach ($fields as $field) {
+    $new_field = $field;
+
+    // Setup the previous definition.
+    $field['columns']['description'] = array('type' => 'varchar');
+    $field['columns']['fid']['not null'] = TRUE;
+    $field['columns']['list']['not null'] = TRUE;
+    unset($field['columns']['data']);
+
+    // Setup the new definition.
+    $new_field['columns']['data'] = array('type' => 'text', 'serialize' => TRUE);
+    $new_field['columns']['fid']['not null'] = FALSE;
+    $new_field['columns']['list']['size'] = 'tiny';
+    $new_field['columns']['list']['not null'] = FALSE;
+    unset($new_field['columns']['description']);
+
+    content_alter_db($field, $new_field);
+  }
+
+  // Build a batch that migrates the data in each filefield
+  $batch = array(
+    'title' => t('Migrating filefield values'),
+    'operations' => array(),
+    'file' => drupal_get_path('module', 'filefield') .'/filefield.install',
+  );
+  foreach ($fields as $field_name => $field) {
+    if ($field['type'] == 'filefield') {
+      $batch['operations'][] = array('_filefield_update_6001_move_operation', array($field));
+      $batch['operations'][] = array('_filefield_update_6001_drop_operation', array($field));
+    }
+  }
+  batch_set($batch);
+
+
+  // Clear caches.
+  cache_clear_all('*', content_cache_tablename(), TRUE);
+  cache_clear_all('*', 'cache', TRUE);
+  return $ret;
+}
+
+/**
+ * Migrate field settings from 'force_list_default' and 'show_description'.
+ */
+function filefield_update_6100() {
+  $ret = array();
+
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $fields = content_fields();
+  foreach ($fields as $field) {
+    if ($field['type'] == 'filefield') {
+      if (isset($field['force_list_default'])) {
+        $field['list_field'] = !$field['force_list_default'];
+      }
+      if (isset($field['show_description'])) {
+        $field['description_field'] = $field['show_description'];
+      }
+      _content_field_write($field);
+      $ret[] = array('success' => TRUE, 'query' => t('The file field %field has been updated with new settings.', array('%field' => $field['field_name'])));
+    }
+  }
+
+  cache_clear_all('*', content_cache_tablename(), TRUE);
+  cache_clear_all('*', 'cache', TRUE);
+
+  return $ret;
+}
+
+/**
+ * Set fid to NULL where files have been deleted.
+ *
+ * This is a double-cleanup from Drupal 5 versions, where fid used to be 0 for
+ * empty rows or sometimes referred to a nonexistent FID altogether.
+ */
+function filefield_update_6101() {
+  $ret = array();
+
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $fields = content_fields();
+
+  foreach ($fields as $field) {
+    if ($field['type'] == 'filefield') {
+      $db_info = content_database_info($field);
+      if (isset($db_info['columns']['fid'])) {
+        $table = $db_info['table'];
+        $fid_column = $db_info['columns']['fid']['column'];
+        $list_column = $db_info['columns']['list']['column'];
+        $ret[] = update_sql("UPDATE {" . $table . "} SET $fid_column = NULL, $list_column = NULL WHERE $fid_column NOT IN (SELECT fid FROM {files})");
+      }
+    }
+  }
+
+  return $ret;
+}
+
+/**
+ * Fix corrupted serialized data in the "data" column.
+ */
+function filefield_update_6102(&$sandbox) {
+  // Update removed. This turned out to be a bug in CCK core, so it is being
+  // fixed directly in CCK rather than in FileField.
+  // See http://drupal.org/node/407446.
+  return array();
+}
+
+/**
+ * Convert "Extensible File" to a normal "File" widget.
+ */
+function filefield_update_6103() {
+  $ret = array();
+
+  $ret[] = update_sql("UPDATE {". content_instance_tablename() ."} SET widget_type = 'filefield_widget' WHERE widget_type = 'filefield_combo'");
+
+  cache_clear_all('*', content_cache_tablename(), TRUE);
+  cache_clear_all('*', 'cache', TRUE);
+
+  return $ret;
+}
+
+/**
+ * Delete the filefield_token module entry in the system table.
+ */
+function filefield_update_6104() {
+  $ret = array();
+
+  $ret[] = update_sql("DELETE FROM {system} WHERE type = 'module' AND name = 'filefield_token'");
+
+  return $ret;
+}
+
+/**
+ * Move the list and descriptions column into the serialized data column.
+ */
+function _filefield_update_6001_move_operation($field, &$context) {
+  // Setup the first through
+  if (!isset($context['sandbox']['processed_files'])) {
+    $db_info = content_database_info($field);
+    $context['sandbox']['db_info'] = $db_info;
+    $context['sandbox']['table'] = $db_info['table'];
+    $context['sandbox']['col_data'] = $db_info['columns']['data']['column'];
+    $context['sandbox']['col_desc'] = $db_info['columns']['description']['column'];
+    $context['sandbox']['max'] = db_result(db_query("SELECT COUNT(*) FROM {". $db_info['table'] ."}"));
+    $context['sandbox']['current_node'] = 0;
+    $context['sandbox']['current_delta'] = 0;
+    $context['sandbox']['processed_files'] = array();
+  }
+
+  // Work our way through the field values 50 rows at a time.
+  $limit = 50;
+  $result = NULL;
+  if ($field['multiple']) {
+    $result = db_query_range("SELECT * FROM {{$context['sandbox']['table']}} WHERE (vid = %d AND delta > %d) OR vid > %d ORDER BY vid ASC, delta ASC", $context['sandbox']['current_node'], $context['sandbox']['current_delta'], $context['sandbox']['current_node'], 0, $limit);
+  }
+  else {
+    $result = db_query_range("SELECT * FROM {{$context['sandbox']['table']}} WHERE vid >= %d ORDER BY vid ASC", $context['sandbox']['current_node'], 0, $limit);
+  }
+  while ($row = db_fetch_array($result)) {
+    // Do not process the same file twice. This may happen when a node's files
+    // are split across two separate batch update HTTP requests.
+    $delta = isset($row['delta']) ? $row['delta'] : 0;
+    if (isset($context['sandbox']['processed_files'][$row['vid'] . '_' . $delta])) {
+      continue;
+    }
+
+    // Try to unserialize the data column.
+    if (!empty($row[$context['sandbox']['col_data']])) {
+      $data = unserialize($row[$context['sandbox']['col_data']]);
+    }
+    if (empty($data)) {
+      $data = array();
+    }
+
+    // Copy move the values from the columns into the array...
+    $data['description'] = $row[$context['sandbox']['col_desc']];
+
+    // ...serialize it and store it back to the db.
+    db_query("UPDATE {{$context['sandbox']['table']}} SET {$context['sandbox']['col_data']} = '%s' WHERE vid = %d", serialize($data), $row['vid']);
+
+    // Update our progress information.
+    $context['sandbox']['processed_files'][$row['vid'] . '_' . $delta] = TRUE;
+    $context['sandbox']['current_node'] = $row['vid'];
+    $context['sandbox']['current_delta'] = $delta;
+  }
+
+  // Inform the batch engine that we are not finished,
+  // and provide an estimation of the completion level we reached.
+  $processed_count = count($context['sandbox']['processed_files']);
+  if ($processed_count != $context['sandbox']['max']) {
+    $context['finished'] = $processed_count / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Drop the list and description columns.
+ */
+function _filefield_update_6001_drop_operation($field, &$context) {
+  $ret = array();
+  $db_info = content_database_info($field);
+  // TODO: Now that the data has been migrated we can drop the columns.
+  db_drop_field($ret, $db_info['table'], $db_info['columns']['description']['column']);
+  $context['finished'] = 1;
+}

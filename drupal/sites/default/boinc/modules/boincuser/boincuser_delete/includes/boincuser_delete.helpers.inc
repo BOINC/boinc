@@ -6,120 +6,147 @@
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
- * _boincuser_delete_disableuser
- *
- * This is the function that actually takes a uid and blocks the
- * user. It also deletes any associated user profile.
+ * Helper functions
  */
-function _boincuser_delete_disableuser($uid) {
-  $update = array();
-  // Set status to 1: block/disable the account
-  $account = user_load($uid);
-  $update['status'] = 0;
-  user_save($account, $update);
+function _boincuser_delete_goto_admindelete($form, &$form_state) {
+  drupal_goto('/admin/boinc/user_delete/' . $form['#uid']);
+}
 
-  // delete the user profile: code is a copy from content_profile.module
-  // Retrieve all profile nodes (in any language) for this user by issueing an SQL query.
-  if ($types = content_profile_get_types()) {
-    $condition = array_fill(0, count($types), "type = '%s'");
-    $arguments = array_merge(array_keys($types), array($account->uid));
-
-    $result = db_query("SELECT * FROM {node} WHERE (". implode(' OR ', $condition) .") AND uid = %d", $arguments);
-    while ($node = db_fetch_object($result)) {
-      _content_profile_node_delete($node);
-    }
-  }
-
-  // Reset the delete status and grace period for the user.
-  $qrc = db_query("UPDATE {boincuser} SET delete_status=0, grace_period=0 WHERE uid=%d", $uid);
-
-  watchdog(
-    'boincuser',
-    'Blocked user account @uid, @email',
-    array('@uid' => $uid, '@email' => $account->mail),
-    WATCHDOG_NOTICE
-  );
+function _boincuser_delete_cancel($form, &$form_state) {
+  drupal_goto('/user/' . $form['#uid'] . '/edit');
 }
 
 /**
- * _boincuser_delete_deleteuser
- *
- * This is the function that actually takes a uid and deletes the
- * user.
+ * Validation user password function.
  */
-function _boincuser_delete_deleteuser($uid) {
-  // Delete the user account.
-  user_delete(array(), $uid);
+function _boincuser_delete_validatepasswd($boinc_user, $current_pass) {
+  if (!$current_pass) {
+    return form_set_error('current_pass', bts('Authentication is required when requesting account deletion.', array(), NULL, 'boinc:delete-user-account'));
+  }
+
+  $given_hash = md5($current_pass . $boinc_user->email_addr);
+
+  if ( (!password_verify($given_hash, $boinc_user->passwd_hash)) and ($given_hash != $boinc_user->passwd_hash) ) {
+    return form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.', array(), NULL, 'boinc:delete-user-account'));
+  }
+
+  return true;
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Custom delete functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Delete the user function.
+ */
+function _boincuser_delete_deleteuser($account, $action=NULL) {
+  require_boinc('user_util');
+  require_boinc('delete_account');
+
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+
+  // watchdog message
+  watchdog('boincuser_delete', 'Deleting account drupal UID: %uid, BOINC id: %boincuser_id., BOINC displayname: %displayname',
+  array(
+    '%uid' =>  $account->uid,
+    '%boincuser_id' => $account->boincuser_id,
+    '%displayname' => $account->boincuser_name,
+  ), WATCHDOG_NOTICE);
+
+  // delete the account - This will delete the boinc user from the
+  // boinc project database, and then delete the Drupal user using the
+  // hook_user() functions.
+
+  switch ($action) {
+    case 'soft_obfuscate':
+      obfuscate_account($boinc_user);
+      _boincuser_delete_comment_reassign($account);
+      _boincuser_delete_node_reassign($account);
+      _boincuser_delete_privatemsg_delete($account);
+      _boincuser_delete_friends($account);
+      // delete the user's profile
+      $profile = content_profile_load('profile', $account->uid);
+      node_delete($profile->nid);
+      // Drupal account -
+      //  * 'block'/disable the account
+      //  * set name, mail, pass, and init to deleted
+      //  * erase signature
+      $myarray = array(
+        'status'    => 0,
+        'name'      => 'deleted_' . time() . '_' . random_string(),
+        'mail'      => 'deleted_' . time() . '_' . random_string(),
+        'pass'      => 'deleted_' . time() . '_' . random_string(),
+        'signature' => '',
+        'init'      => 'deleted_' . time() . '_' . random_string(),
+      );
+      user_save($account, $myarray);
+      break;
+    case 'hard_wipe':
+      wipe_account($boinc_user);
+      user_delete(array(), $account->uid);
+      break;
+    default:
+      watchdog('boincuser_delete', 'Delete action is %action, which is not \'soft_obfuscate\' or \'hard_wipe\'.', array(
+        '%action' => $action,
+      ), WATCHDOG_ERROR);
+  }
 }
 
 /**
- * _boincuser_delete_notify
+ * Assigns nodes to anonymous user.
  *
- * This function notifies the user that the account is to be disabled
- * or deleted soon.
+ * Copied from node.module, node_user()
  */
-function _boincuser_delete_notify($userinfo) {
-  $uid = $userinfo['uid'];
-  $delete_status = $userinfo['ds'];
+function _boincuser_delete_node_reassign($account) {
+  db_query('UPDATE {node} SET uid = 0 WHERE uid = %d', $account->uid);
+  db_query('UPDATE {node_revisions} SET uid = 0 WHERE uid = %d', $account->uid);
+}
 
-  global $base_url;
-  global $base_path;
-  $account = user_load($uid);
-  $mysubject = '';
-  $mymessage = '';
-  $site_name = variable_get('site_name', 'Drupal-BOINC');
-  $site_url = $base_url . $base_path . "user/login?destination=home";
+/**
+ * Assigns comments to anonymous user.
+ *
+ * Copied from comment.module, comment_user()
+ */
+function _boincuser_delete_comment_reassign($account) {
+  // bug in comment module, remove user name from comments.
+  db_query("UPDATE {comments} SET comments.name='' WHERE uid =%d", $account->uid);
 
-  switch ($delete_status) {
-    case 1: //disable
-      $mysubject = "Notification of ${site_name} account to be disabled in 24 hours.";
-      $mymessage = ''
-        . "{$account->boincuser_name},\n"
-        . "\n"
-        . "We have received a request to disable your user account at "
-        . "${site_name}. If you do nothing, this account will be disabled in 24 hours. "
-        . "If you wish to cancel your request, please login to your account "
-        . "on the ${site_name} Web site (${site_url})."
-        . ""
-        . "If you did not initiate this request, please login to the "
-        . "${site_name} Web site (${site_url}) to cancel and then contact "
-        . "the administrators.\n"
-        . "\n"
-        . "Thanks, \n"
-        . "\n"
-        . "{$site_name} support team";
-    break;
-    case 2: //delete
-      $mysubject = "Notification of ${site_name} account to be DELETED in 24 hours.";
-      $mymessage = ''
-        . "{$account->boincuser_name},\n"
-        . "\n"
-        . "We have received a request to DELETE your user account at "
-        . "${site_name}. If you do nothing, this account will be DELETED in 24 hours. "
-        . "If you wish to cancel your request, please login to your account "
-        . "on the ${site_name} Web site (${site_url})."
-        . ""
-        . "If you did not initiate this request, please login to the "
-        . "${site_name} Web site (${site_url}) to cancel and then contact "
-        . "the administrators.\n"
-        . "\n"
-        . "Thanks, \n"
-        . "\n"
-        . "{$site_name} support team";
-    break;
+  db_query('UPDATE {comments} SET uid = 0 WHERE uid = %d', $account->uid);
+  db_query('UPDATE {node_comment_statistics} SET last_comment_uid = 0 WHERE last_comment_uid = %d', $account->uid);
+}
+
+/**
+ * Deletes private messages
+ *
+ * Copied from privatemsg module, case 'delete' in privatemsg_user().
+ */
+function _boincuser_delete_privatemsg_delete($account) {
+  // Load all mids of the messages the user wrote.
+  $result = db_query("SELECT mid FROM {pm_message} WHERE author = %d", $account->uid);
+  $mids = array();
+  while ($row = db_fetch_array($result)) {
+    $mids[] = $row['mid'];
   }
 
-  module_load_include('inc', 'rules', 'modules/system.rules');
-  $account = user_load(array('uid' => $uid));
-  $settings = array(
-    'from' => '',
-    'subject' => $mysubject,
-    'message' => $mymessage,
-  );
-  rules_action_mail_to_user($account, $settings);
+  // Delete messages the user wrote.
+  db_query('DELETE FROM {pm_message} WHERE author = %d', $account->uid);
 
-  // Update database to flag that we've notified the user of his/her
-  // impending disable or delete action.
-  // Reset the delete status and grace period for the user.
-  $qrc = db_query("UPDATE {boincuser} SET delete_notified=1 WHERE uid=%d", $uid);
+  if (!empty($mids)) {
+    // Delete recipient entries in {pm_index} of the messages the user wrote.
+    db_query('DELETE FROM {pm_index} WHERE mid IN (' . db_placeholders($mids) . ')', $mids);
+  }
+
+  // Delete recipient entries of that user.
+  db_query('DELETE FROM {pm_index} WHERE uid = %d', $account->uid);
+}
+
+/**
+ * Deletes the friend connections for this user
+ *
+ * Copied from flag_friend, flag_friend_user()
+ */
+function _boincuser_delete_friends($account) {
+  // remove any friend relationships if an account is removed
+    db_query("DELETE FROM {flag_friend} WHERE uid = %d OR friend_uid = %d", $account->uid, $account->uid);
 }

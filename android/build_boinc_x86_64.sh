@@ -1,4 +1,5 @@
-#/bin/sh
+#!/bin/sh
+set -e
 
 #
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
@@ -19,28 +20,28 @@ export TCINCLUDES="$ANDROIDTC/x86_64-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib64/libstdc++.a"
 
-export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
-export CC=x86_64-linux-android-gcc
-export CXX=x86_64-linux-android-g++
+export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
+export CC=x86_64-linux-android-clang
+export CXX=x86_64-linux-android-clang++
 export LD=x86_64-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
-export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21"
+export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie -latomic -static-libstdc++"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
+export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
 # Prepare android toolchain and environment
 ./build_androidtc_x86_64.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
-cd $BOINC
-if [ -n "$MAKECLEAN" ]; then
+cd "$BOINC"
+if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=x86_64-linux --with-boinc-platform="x86_64-android-linux-gnu" --with-boinc-alt-platform="x86-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=x86_64-linux --with-boinc-platform="x86_64-android-linux-gnu" --with-boinc-alt-platform="x86-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi

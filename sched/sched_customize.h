@@ -88,8 +88,9 @@ struct GPU_REQUIREMENTS {
 extern GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 extern bool wu_is_infeasible_custom(WORKUNIT&, APP&, BEST_APP_VERSION&);
-extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
+extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&, const WORKUNIT* wu);
 extern void handle_file_xfer_results();
+extern bool wu_restricted_plan_class;
 
 // Suppose we have a computation that uses two devices alternately.
 // The devices have speeds s1 and s2.

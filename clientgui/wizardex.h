@@ -60,6 +60,8 @@ public:
     virtual wxWizardPageEx *GetPrev() const = 0;
     virtual wxWizardPageEx *GetNext() const = 0;
 
+    virtual void RefreshPage();
+
 #if wxUSE_VALIDATORS
     /// Override the base functions to allow a validator to be assigned to this page.
     bool TransferDataToWindow()
@@ -217,6 +219,8 @@ private:
 
     void OnWizEvent(wxWizardExEvent& event);
 
+    void OnShowEvent(wxShowEvent& event);
+
     void AddBitmapRow(wxBoxSizer *mainColumn);
     void AddStaticLine(wxBoxSizer *mainColumn);
     void AddBackNextPair(wxBoxSizer *buttonRow);
@@ -230,6 +234,8 @@ private:
 
     // wizard state
     wxWizardPageEx *m_page;       // the current page or NULL
+
+    bool m_pageRefreshed;
 
     // wizard controls
 protected:

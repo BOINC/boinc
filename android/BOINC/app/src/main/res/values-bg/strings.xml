@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия</string>
   <string name="about_name_long">Бъркли Отворена Инфраструктура за Споделени Изчисления</string>
-  <string name="about_copyright">\u00A9 2003–2017 Калифорнийски университет, Бъркли.</string>
   <string name="about_copyright_reserved">Всички Права Запазени.</string>
   <string name="about_credits">Благодарности към Института Макс Планк за Гравитационна Физика, IBM Corporation и HTC Corporation за подкрепата.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

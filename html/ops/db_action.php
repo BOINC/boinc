@@ -178,43 +178,43 @@ if ($result) {
         if ($detail == "low") {
             switch ($table) {
             case "result":
-                show_result_short($res);
+                admin_show_result_short($res);
                 break;
             case "host":
-                show_host_short($res);
+                admin_show_host_short($res);
                 break;
             case "app_version":
-                show_app_version_short($res);
+                admin_show_app_version_short($res);
                 break;
             case "workunit":
-                show_workunit_short($res);
+                admin_show_workunit_short($res);
                 break;
             }
         } else {
             switch ($table) {
             case "platform":
-                show_platform($res);
+                admin_show_platform($res);
                 break;
             case "app":
-                show_app($res);
+                admin_show_app($res);
                 break;
             case "app_version":
-                show_app_version($res);
+                admin_show_app_version($res);
                 break;
             case "host":
-                show_host($res);
+                admin_show_host($res);
                 break;
             case "workunit":
-                show_workunit($res);
+                admin_show_workunit($res);
                 break;
             case "result":
-                show_result_ops($res);
+                admin_show_result($res);
                 break;
             case "team":
-                show_team($res);
+                admin_show_team($res);
                 break;
             case "user":
-                show_user($res);
+                admin_show_user($res);
                 break;
             }
         }

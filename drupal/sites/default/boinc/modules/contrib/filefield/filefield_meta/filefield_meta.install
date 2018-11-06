@@ -1,0 +1,173 @@
+<?php
+/**
+ * @file
+ * FileField Meta: Add Video Support to File Field.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function filefield_meta_install() {
+  drupal_install_schema('filefield_meta');
+}
+
+function filefield_meta_uninstall() {
+  drupal_uninstall_schema('filefield_meta');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function filefield_meta_schema() {
+  $schema = array();
+  // The primary field/index.
+  $schema['filefield_meta'] = array(
+    'description' => 'The table for meta data about filefield files.',
+    'fields' => array(
+      'fid' => array(
+        'description' => 'The file id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'width' => array(
+        'description' => 'Width of a video or image file in pixels.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ),
+      'height' => array(
+        'description' => 'Height of a video or image file in pixels.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ),
+      'duration' => array(
+        'description' => 'The duration of audio or video files, in seconds.',
+        'type' => 'float',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ),
+      'audio_format' => array(
+        'description' => 'The audio format.',
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'audio_sample_rate' => array(
+        'description' => 'The sample rate of the audio.',
+        'type' => 'int',
+        'size' => 'medium',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'audio_channel_mode' => array(
+        'description' => 'The number of channels in the audio, by name (stereo or mono).',
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'audio_bitrate' => array(
+        'description' => 'The audio bitrate.',
+        'type' => 'float',
+        'size' => 'medium',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'audio_bitrate_mode' => array(
+        'description' => 'The kind of audio bitrate, such as VBR. Usually empty.',
+        'type' => 'varchar',
+        'length' => 4,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'tags' => array(
+        'description' => 'ID3 tags such as artist, album, and genre.',
+        'type' => 'text',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('fid'),
+  );
+
+  return $schema;
+}
+
+function filefield_meta_update_1() {
+  $ret = array();
+  db_add_field($ret, 'filefield_meta', 'audio_format', array(
+    'description' => 'The audio format.',
+    'type' => 'varchar',
+    'length' => 10,
+    'not null' => TRUE,
+    'default' => '',
+  ));
+  db_add_field($ret, 'filefield_meta', 'audio_sample_rate', array(
+    'description' => 'The sample rate of the audio.',
+    'type' => 'int',
+    'size' => 'medium',
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_add_field($ret, 'filefield_meta', 'audio_channel_mode', array(
+    'description' => 'The number of channels in the audio, by name.',
+    'type' => 'varchar',
+    'length' => 10,
+    'not null' => TRUE,
+    'default' => '',
+  ));
+  db_add_field($ret, 'filefield_meta', 'audio_bitrate', array(
+    'description' => 'The audio bitrate.',
+    'type' => 'float',
+    'size' => 'medium',
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_add_field($ret, 'filefield_meta', 'audio_bitrate_mode', array(
+    'description' => 'The kind of audio bitrate.',
+    'type' => 'varchar',
+    'length' => 4,
+    'not null' => TRUE,
+    'default' => '',
+  ));
+  return $ret;
+}
+
+/**
+ * Add the tags column.
+ */
+function filefield_meta_update_6100(&$context) {
+  $ret = array();
+
+  // Set up our update and add the tags column.
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['total'] = db_result(db_query("SELECT COUNT(*) FROM {files} f INNER JOIN {filefield_meta} fm ON f.fid = fm.fid WHERE fm.audio_format <> ''"));
+    $context['sandbox']['current_fid'] = 0;
+    if (!db_column_exists('filefield_meta', 'tags')) {
+      db_add_field($ret, 'filefield_meta', 'tags', array('type' => 'text'));
+    }
+    // We are done if there are none to update.
+    if ($context['sandbox']['total'] == 0) {
+      return $ret;
+    }
+  }
+
+  // Select and process 200 files at a time.
+  $limit = 200;
+  $result = db_query_range("SELECT f.* FROM {files} f INNER JOIN {filefield_meta} fm ON f.fid = fm.fid WHERE f.fid > %d AND fm.audio_format <> '' ORDER BY f.fid ASC", $context['sandbox']['current_fid'], 0, $limit);
+
+  // Loop through each file and read in its ID3 tags if applicable.
+  while ($file = db_fetch_object($result)) {
+    filefield_meta_file_update($file);
+    $context['sandbox']['current_fid'] = $file->fid;
+    $context['sandbox']['progress']++;
+  }
+
+  // Update our progress indicator.
+  $ret['#finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
+
+  return $ret;
+}

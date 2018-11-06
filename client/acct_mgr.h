@@ -45,6 +45,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
     //
     char login_name[256];   // unique name (could be email addr)
     char user_name[256];    // non-unique name
+    char team_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
     char authenticator[256];
@@ -61,7 +62,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
     bool no_project_notices;
         // if set, don't show notices from projects
 
-    // TODO: get rid of the following
+    // TODO: get rid of the following here and in the manager
     bool cookie_required;
         // use of cookies are required during initial signup
         // NOTE: This bool gets dropped after the client has
@@ -72,9 +73,21 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // what login name and password they have been assigned
 
     bool password_error;
-    bool send_rec;
-        // send REC in AM RPCs
+    bool dynamic;
+        // This AM dynamically decides what projects to assign.
+        // - send EC in AM RPCs
+        // - send starvation info if idle resources
     USER_KEYWORDS user_keywords;
+        // user's yes/no keywords.
+        // These are conveyed to projects in scheduler requests
+
+    // vars related to starvation prevention,
+    // where we issue a "starved RPC" if a resource has been idle
+    // for more than 10 min
+
+    double first_starved;           // start of starvation interval
+    double starved_rpc_backoff;     // interval between starved RPCs
+    double starved_rpc_min_time;    // earliest time to do a starved RPC
 
     inline bool using_am() {
         if (!strlen(master_url)) return false;

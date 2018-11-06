@@ -17,20 +17,37 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// This page implements the old model where the user downloads BOINC
+// from the BOINC web site,
+// and creates an account using the Manager.
+//
+// Link to here (e.g. from front-page Join button
+// if you're not a vetted project.
+// If you are, link to signup.php instead
+//
+// This page routes people to the right place depending on whether
+// they already have BOINC installed on this device.
+
 require_once("../inc/util.inc");
+
+// "old" (misnomer) means BOINC is already installed on this device
 
 function show_choose($is_old) {
     panel(null,
         function() use($is_old) {
+            echo tra("Is BOINC installed on this device?");
+            $y = tra("Yes");
+            $n = tra("No");
             if ($is_old) {
-                echo ' <a href="join.php">'.tra('I\'m new').'</a> &nbsp; |&nbsp; '.tra('I\'m a BOINC user').'
-                ';
+                echo sprintf(
+                    ' <b>%s</b> &nbsp; |&nbsp; <a href="join.php">%s</a>',
+                    $y, $n
+                );
             } else {
-                echo tra('I\'m new')
-                    .' &nbsp; |&nbsp;  <a href="join.php?old=1">'
-                    .tra('I\'m a BOINC user')
-                    .'</a>
-                ';
+                echo sprintf(
+                    ' <a href="join.php?old=1">%s</a> &nbsp; |&nbsp; <b>%s</b>',
+                    $y, $n
+                );
             }
         }
     );
@@ -45,14 +62,14 @@ function show_new() {
                 <li> '
                 .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
                 .'<li> <p>'
-                .tra('Download the BOINC desktop software.')
+                .tra('Download and install BOINC.')
                     .'</p><p>
                     <a href="http://boinc.berkeley.edu/download.php" class="btn btn-success">'.tra('Download').'</a>
                     </p><p>'
                     .tra('For Android devices, download BOINC from the Google Play Store or Amazon App Store.')
                     .'</p>
                 <li> '
-                .tra('Run the installer.').'
+                .tra('Run BOINC.').'
                 <li> '.tra("Choose %1 from the list, or enter %2", "<strong>".PROJECT."</strong>", "<strong>$master_url</strong>").'
                 </ol>
             ';
@@ -67,20 +84,12 @@ function show_old() {
             echo '
                 <ul>
                 <li> '
-                .tra('Install BOINC on this device if not already present.')
-                .'<p>
-                <li> '
-                .tra('Select Tools / Add Project. Choose %1 from the list, or enter %2', "<strong>".PROJECT."</strong>", "<strong>$master_url</strong>")
-                .' <p>
-                <li> '
-                .tra('If you\'re running a command-line version of BOINC on this computer, %1 create an account %2, then use %3 boinccmd --project_attach %4 to add the project.',
-                    '<a href="create_account_form.php">',
-                    '</a>',
-                    '<strong><a href="http://boinc.berkeley.edu/wiki/Boinccmd_tool">',
-                    '</a></strong>'
-                )
-                .'
-                </ul>
+                .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
+                .'<p><li> '
+                .tra('In the BOINC Manager, select Tools / Add Project.')
+                .'<p><li> '
+                .tra('Choose %1 from the list, or enter %2', "<strong>".PROJECT."</strong>", "<strong>$master_url</strong>")
+                .'</ul>
             ';
         }
     );

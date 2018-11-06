@@ -36,6 +36,7 @@ require_once("../inc/bootstrap.inc");
 
 $config = get_config();
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
+$project_id = parse_config($config, "<project_id>");
     
 $stopped = web_stopped();
 $user = get_logged_in_user(false);
@@ -58,43 +59,77 @@ function top() {
 }
 
 function left(){
-    global $user, $no_web_account_creation, $master_url;
+    global $user, $no_web_account_creation, $master_url, $project_id;
     panel(
-        tra("What is %1?", PROJECT),
+        $user?tra("Welcome, %1", $user->name):tra("What is %1?", PROJECT),
         function() use($user) {
-            global $no_web_account_creation, $master_url;
-            if (NO_COMPUTING) {
-                echo "
-                    XXX is a research project that uses volunteers
-                    to do research in XXX.
-                ";
+            global $no_web_account_creation, $master_url, $project_id;
+            if ($user) {
+                $dt = time() - $user->create_time;
+                if ($dt < 86400) {
+                    echo tra("Thanks for joining %1", PROJECT);
+                } else if ($user->total_credit == 0) {
+                    echo tra("Your computer hasn't completed any tasks yet.  If you need help, %1go here%2.",
+                            "<a href=https://boinc.berkeley.edu/help.php>",
+                            "</a>"
+                    );
+                } else {
+                    $x = format_credit($user->expavg_credit);
+                    echo tra("You've contributed about %1 credits per day to %2 recently.", $x, PROJECT);
+                    if ($user->expavg_credit > 1) {
+                        echo " ";
+                        echo tra("Thanks!");
+                    } else {
+                        echo "<p><p>";
+                        echo tra("Please make sure BOINC is installed and enabled on your computer.");
+                    }
+                }
+                echo "<p><p>";
+                echo sprintf('<center><a href=home.php class="btn btn-success">%s</a></center>
+                    ',
+                    tra('Continue to your home page')
+                );
+                echo "<p><p>";
+                echo sprintf('%s
+                    <ul>
+                    <li> %s
+                    <li> %s
+                    <li> %s
+                    ',
+                    tra("Want to help more?"),
+                    tra("If BOINC is not installed on this computer, %1download it%2.",
+                        "<a href=download.php>", "</a>"
+                    ),
+                    tra("Install BOINC on your other computers, tablets, and phones."),
+                    tra("Tell your friends about BOINC, and show them how to join %1.", PROJECT)
+                );
+                if (function_exists('project_help_more')) {
+                    project_help_more();
+                }
+                echo "</ul>\n";
             } else {
-                echo "
-                    <p>
-                    XXX is a research project, based at <a href=#>YYY</a>,
-                    that uses Internet-connected
-                    computers to do research in XXX.
-                    You can contribute to our research
-                    by running a free program on your computer.
-                    </p>
-                ";
-            }
-            echo "
-                <ul>
-                <li> <a href=#>Our research</a>
-                <li> <a href=#>Our team</a>
-                </ul>
-            ";
-            echo "</ul>";
-            if (!$user) {
+                echo "<p>";
+                $pd = "../project/project_description.php";
+                if (file_exists($pd)) {
+                    include($pd);
+                } else {
+                    echo "No project description yet. Create a file html/project/project_description.php
+                        that prints a short description of your project.
+                    ";
+                }
+                echo "</p>\n";
                 if (NO_COMPUTING) {
                     echo "
                         <a href=\"create_account_form.php\">Create an account</a>
                     ";
                 } else {
-                    echo '<center><a href="join.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
+                    // use auto-attach if possible
+                    //
+                    echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
                     ';
-
+                    echo "<p><p>".tra("Already joined? %1Log in%2.",
+                        "<a href=login_form.php>", "</a>"
+                    );
                 }
             }
         }
@@ -103,7 +138,7 @@ function left(){
     if (!$stopped) {
         $profile = get_current_uotd();
         if ($profile) {
-            panel('User of the Day',
+            panel(tra('User of the Day'),
                 function() use ($profile) {
                     show_uotd($profile);
                 }

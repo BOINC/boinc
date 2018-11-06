@@ -137,6 +137,22 @@ $privacy_pref_descs = array (
     ),
 );
 
+// Privacy preferences located in consent_type table. Loop over the
+// table and extract those consent types with enabled=1 and
+// privacypref=1.
+$privacy_consent_descs = array();
+$_consenttypes = BoincConsentType::enum("enabled=1 AND privacypref=1", "ORDER BY project_specific ASC");
+foreach ($_consenttypes as $ct) {
+    $privacy_consent_descs[] = new PREF_CONSENT(
+        tra($ct->description),
+        tra($ct->description),
+        "consent_".urlencode($ct->shortname),
+        $ct->id,
+        $ct->shortname,
+        0
+    );
+}
+
 global $text;
 global $parse_result;
 global $top_parse_result;
@@ -254,6 +270,19 @@ function prefs_show_privacy($user, $columns) {
     }
 }
 
+function prefs_show_consent($user, $columns) {
+    global $privacy_consent_descs;
+    if ($columns) {
+        foreach ($privacy_consent_descs as $p) {
+            $p->consent_show_cols($user);
+        }
+    } else {
+        foreach ($privacy_consent_descs as $p) {
+            $p->consent_show($user);
+        }
+    }
+}
+
 function prefs_show_project_specific($prefs, $columns=false) {
     if ($columns) {
         $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
@@ -287,6 +316,7 @@ function print_prefs_display_project($user, $columns=false) {
         }
         prefs_show_project($project_prefs, false);
         prefs_show_privacy($user, false);
+        prefs_show_consent($user, false);
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
         $tokens = url_tokens($user->authenticator);
@@ -308,6 +338,13 @@ function prefs_form_privacy($user) {
     global $privacy_pref_descs;
     foreach ($privacy_pref_descs as $p) {
         $p->show_form_row($user, false);
+    }
+}
+
+function prefs_form_consent($user) {
+    global $privacy_consent_descs;
+    foreach ($privacy_consent_descs as $p) {
+        $p->consent_show_form_row($user, false);
     }
 }
 
@@ -336,6 +373,15 @@ function prefs_privacy_parse_form(&$user) {
     global $privacy_pref_descs;
     $error = false;
     foreach ($privacy_pref_descs as $p) {
+        $p->parse_form($user, $error);
+    }
+    return $error;
+}
+
+function prefs_consent_parse_update(&$user) {
+    global $privacy_consent_descs;
+    $error = false;
+    foreach ($privacy_consent_descs as $p) {
         $p->parse_form($user, $error);
     }
     return $error;

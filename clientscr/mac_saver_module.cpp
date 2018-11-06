@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -52,12 +52,16 @@ extern "C" {
 #include "diagnostics.h"
 #include "str_replace.h"
 #include "mac_util.h"
+#include "mac_branding.h"
 
 //#include <drivers/event_status_driver.h>
 
 // Flags for testing & debugging
 #define CREATE_LOG 0
 #define USE_SPECIAL_LOG_FILE 1
+#define FOR_TESTING_ONLY 0  // Set to 1 to simulate dualGPU MacBook Pro on other Macs
+// Set to 1 to simulate 30 seconds on AC, 30 on battery, 30 AC, 30 battery, etc.
+#define SIMULATE_AC_BATTERY_SWITCHING 0
 
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
@@ -87,13 +91,16 @@ extern CFStringRef gPathToBundleResources;
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
 
-static bool IsDualGPUMacbook = false;
+static long brandId = 0;
+bool IsDualGPUMacbook = false;
 static io_connect_t GPUSelectConnect = IO_OBJECT_NULL;
 static bool OKToRunOnBatteries = false;
 static bool RunningOnBattery = true;
 static time_t ScreenSaverStartTime = 0;
 static bool ScreenIsBlanked = false;
 static int retryCount = 0;
+static pthread_mutexattr_t saver_mutex_attr;
+pthread_mutex_t saver_mutex;
 
 const char *  CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -130,6 +137,10 @@ void initBOINCSaver() {
 
 
 int startBOINCSaver() {
+#if FOR_TESTING_ONLY
+    // Simulate dual GPU MacBook Pro on other Macs
+    IsDualGPUMacbook = true;
+#endif
     if (gspScreensaver) {
         return gspScreensaver->Create();
     }
@@ -224,7 +235,7 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
             gspScreensaver->markAsIncompatible(appPath);
             launchedGfxApp("", 0, -1);
             msgstartTime = 0.0;
-            gspScreensaver->terminate_screensaver(pid, NULL);
+            gspScreensaver->terminate_v6_screensaver(pid);
         }
     }
 }
@@ -301,7 +312,6 @@ CScreensaver::CScreensaver() {
     m_CurrentBannerMessage = 0;
     m_bQuitDataManagementProc = false;
     m_bDataManagementProcStopped = false;
-    m_BrandText = "BOINC";
     
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
@@ -317,6 +327,14 @@ CScreensaver::CScreensaver() {
     m_fGFXDefaultPeriod = periods.GFXDefaultPeriod;
     m_fGFXSciencePeriod = periods.GFXSciencePeriod;
     m_fGFXChangePeriod = periods.GFXChangePeriod;
+
+    // MUTEX may help prevent crashes when terminating an older gfx app which
+    // we were displaying using CGWindowListCreateImage under OS X >= 10.13
+    pthread_mutexattr_settype(&saver_mutex_attr, PTHREAD_MUTEX_ERRORCHECK);
+    pthread_mutex_init(&saver_mutex, &saver_mutex_attr);
+
+    brandId = GetBrandID();
+    m_BrandText = brandName[brandId];
 }
 
 
@@ -395,26 +413,9 @@ OSStatus CScreensaver::initBOINCApp() {
     pid_t myPid;
     int status;
     OSStatus err;
-    long brandId = 0;
 
     saverState = SaverState_CantLaunchCoreClient;
     
-    brandId = GetBrandID();
-    switch(brandId) {
-    case 1:
-        m_BrandText = "GridRepublic Desktop";
-         break;
-    case 2:
-        m_BrandText = "Progress Thru Processors Desktop";
-         break;
-    case 3:
-        m_BrandText = "Charity Engine Desktop";
-         break;
-    default:
-        m_BrandText = "BOINC";
-        break;
-    }
-
     m_CoreClientPID = FindProcessPID("boinc", 0);
     if (m_CoreClientPID) {
         m_wasAlreadyRunning = true;
@@ -430,13 +431,8 @@ OSStatus CScreensaver::initBOINCApp() {
 
     // Find boinc client within BOINCManager.app
     // First, try default path
-    strcpy(boincPath, "/Applications/");
-    if (brandId) {
-        strcat(boincPath, m_BrandText);
-    } else {
-        strcat(boincPath, "BOINCManager");
-    }
-    strcat(boincPath, ".app/Contents/Resources/boinc");
+    strcpy(boincPath, appPath[brandId]);
+    strcat(boincPath, "/Contents/Resources/boinc");
 
     // If not at default path, search for it by creator code and bundle identifier
     if (!boinc_file_exists(boincPath)) {
@@ -494,7 +490,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         return NOTEXTLOGOFREQUENCY;
     }
     
-    CheckDualGPUStatus();
+    CheckDualGPUPowerSource();
     
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
@@ -570,7 +566,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             setSSMessageText(0);   // No text message
             ScreenIsBlanked = true;
             if (IsDualGPUMacbook && (GPUSelectConnect != IO_OBJECT_NULL)) {
-                IOServiceClose(GPUSelectConnect);
+                IOServiceClose(GPUSelectConnect);   // Remove our hold on discrete GPU
                 GPUSelectConnect = IO_OBJECT_NULL;
             }
             break;
@@ -769,8 +765,14 @@ bool CScreensaver::CreateDataManagementThread() {
     // applications trigger a switch to the power-hungry 
     // discrete GPU. To extend battery life, don't run
     // them when on battery power.
-    if (IsDualGPUMacbook && RunningOnBattery && !OKToRunOnBatteries) return true;
+    if (IsDualGPUMacbook) {
+        if (RunningOnBattery && !OKToRunOnBatteries) return true;
+        if (GPUSelectConnect == IO_OBJECT_NULL) return true;
+    }
     
+    m_bQuitDataManagementProc = false;
+    m_bDataManagementProcStopped = false;
+
     if (m_hDataManagementThread == NULL) {
         retval = pthread_create(&m_hDataManagementThread, NULL, DataManagementProcStub, 0);
         if (retval) {
@@ -784,11 +786,15 @@ bool CScreensaver::CreateDataManagementThread() {
 
 
 bool CScreensaver::DestroyDataManagementThread() {
-    m_bQuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
     if (!m_hDataManagementThread) return true;
+    m_bQuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
     
-    for (int i=0; i<10; i++) {  // Wait up to 1 second for DataManagementProc thread to exit
-        if (m_bDataManagementProcStopped) return true;
+    int maxWait = IsDualGPUMacbook ? 50 : 10;
+    for (int i=0; i<maxWait; i++) {  // Wait up to 1 second or 5 seconds for DataManagementProc thread to exit
+        if (m_bDataManagementProcStopped) {
+            m_hDataManagementThread = NULL;
+            return true;
+        }
         boinc_sleep(0.1);
     }
 
@@ -797,7 +803,7 @@ bool CScreensaver::DestroyDataManagementThread() {
     }
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
     if (m_hGraphicsApplication) {
-        terminate_screensaver(m_hGraphicsApplication, NULL);
+        terminate_v6_screensaver(m_hGraphicsApplication);
         m_hGraphicsApplication = 0;
     }
 
@@ -805,7 +811,6 @@ bool CScreensaver::DestroyDataManagementThread() {
 }
 
 
-//
 bool CScreensaver::SetError(bool bErrorMode, unsigned int hrError) {
     // bErrorMode is TRUE if we should display moving logo (no graphics app is running)
     // bErrorMode is FALSE if a graphics app was launched and has not exit
@@ -875,7 +880,9 @@ int CScreensaver::GetBrandID()
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-        
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
 }
 
@@ -948,6 +955,12 @@ int CScreensaver::KillScreenSaver() {
 
 
 bool CScreensaver::Host_is_running_on_batteries() {
+#if SIMULATE_AC_BATTERY_SWITCHING
+    // Simulate 30 seconds on AC, 30 on battery, 30 AC, 30 battery, etc.
+    time_t elapsed = ScreenSaverStartTime - time(0);
+    bool isOnBattery = (elapsed / 30) & 1;
+    return isOnBattery;
+#else   // NOT SIMULATE_AC_BATTERY_SWITCHING
     CFDictionaryRef pSource = NULL;
     CFStringRef psState;
     int i;
@@ -968,6 +981,7 @@ bool CScreensaver::Host_is_running_on_batteries() {
     CFRelease(list);
         
     return retval;
+#endif  // NOT SIMULATE_AC_BATTERY_SWITCHING
 }
 
 
@@ -995,15 +1009,23 @@ void CScreensaver::SetDiscreteGPU(bool setDiscrete) {
     kern_return_t kernResult = 0;
     io_service_t service = IO_OBJECT_NULL;
 
+#if FOR_TESTING_ONLY
+    if (GPUSelectConnect == IO_OBJECT_NULL) {
+        GPUSelectConnect = setDiscrete;
+        CreateDataManagementThread();
+    }
+#else   // NOT FOR_TESTING_ONLY
     if (GPUSelectConnect == IO_OBJECT_NULL) {
         service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleGraphicsControl"));
         if (service != IO_OBJECT_NULL) {
             kernResult = IOServiceOpen(service, mach_task_self(), setDiscrete ? 1 : 0, &GPUSelectConnect);
             if (kernResult == KERN_SUCCESS) {
                 IsDualGPUMacbook = true;
+                CreateDataManagementThread();
             }
         }
     }
+#endif  // NOT FOR_TESTING_ONLY
 }
 
 
@@ -1013,13 +1035,13 @@ void CScreensaver::SetDiscreteGPU(bool setDiscrete) {
 //
 // Apple's Screensaver Engine will detect the GPU change and
 // call stopAnimation, then initWithFrame and startAnimation.
-void CScreensaver::CheckDualGPUStatus() {
+void CScreensaver::CheckDualGPUPowerSource() {
     static double lastBatteryCheckTime = 0;
     double currentTime;
     bool nowOnBattery;
     
     if (!IsDualGPUMacbook) return;
-    if (OKToRunOnBatteries) return;
+    if (OKToRunOnBatteries && (GPUSelectConnect != IO_OBJECT_NULL)) return;
     
     currentTime = dtime();
     if (currentTime < lastBatteryCheckTime + BATTERY_CHECK_INTERVAL) return;
@@ -1031,12 +1053,12 @@ void CScreensaver::CheckDualGPUStatus() {
     RunningOnBattery = nowOnBattery;
     if (nowOnBattery) {
         if (GPUSelectConnect != IO_OBJECT_NULL) {
+            // If an OpenGL screensaver app is running, we must shut it down
+            // to release its claim on the discrete GPU to save battery power.
+            DestroyDataManagementThread();
             IOServiceClose(GPUSelectConnect);
             GPUSelectConnect = IO_OBJECT_NULL;
         }
-        // If an OpenGL screensaver app is running, we must shut it down
-        // to release its claim on the discrete GPU to save battery power.
-        DestroyDataManagementThread();
     } else {
         SetDiscreteGPU(true);
     }

@@ -70,7 +70,7 @@ if ($content && $title && (!$preview)){
         if ($thread) {
             header('Location: forum_thread.php?id=' . $thread->id);
         } else {
-            error_page("Can't create thread");
+            error_page("Can't create thread.  $forum_error");
         }
     }
 }
@@ -96,7 +96,8 @@ echo "<p></p>";
 
 if ($preview == tra("Preview")) {
     panel(tra('Preview'),
-        function() use($content) {
+        function() use($content, $title) {
+            echo "<span class=lead>$title</span><p>\n";
             echo output_transform($content, null);
         }
     );

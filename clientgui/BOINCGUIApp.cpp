@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -139,6 +139,19 @@ bool CBOINCGUIApp::OnInit() {
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif
 
+#ifdef __WXMAC__
+    // Don't open main window if we were started automatically at login
+    // We are launched hidden if started from our login item (except if
+    // we had windows open at logout, the system "restores" them.)
+    m_bGUIVisible = IsApplicationVisible();
+
+    if (getTimeSinceBoot() < 30.) {
+        // If the system was just started, we usually get a "Connection
+        // failed" error if we try to connect too soon, so delay a bit.
+        sleep(10);
+    }
+#endif
+
 
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {
@@ -153,6 +166,12 @@ bool CBOINCGUIApp::OnInit() {
     // Setup application and company information
     SetAppName(wxT("BOINC Manager"));
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
+
+#ifdef __WXMAC__
+    char displayName[MAXPATHLEN];
+    getDisplayNameForThisApp(displayName, sizeof(displayName));
+    SetAppDisplayName(wxString(displayName)); // {ass the display name to wxWidgets
+#endif
 
 
     // Initialize the configuration storage module
@@ -273,7 +292,6 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
     m_pSkinManager->ReloadSkin(strDesiredSkinName);
 
-
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
     //
@@ -298,6 +316,14 @@ bool CBOINCGUIApp::OnInit() {
 
     if (iErrorCode) {
 
+#if (defined(__WXMAC__) && (!defined (_DEBUG)))
+        if (!IsApplicationVisible()) {  // If we were (probably) launched from a Login Item
+            wxString launchAgentPath = wxFileName::GetHomeDir() + "/Library/LaunchAgents/edu.berkeley.boinc.plist";
+            if (wxFileName::FileExists(launchAgentPath)) {  // If PostInstall app set up a LaunchAgent for this user
+                boinc_sleep(30.);   // Allow time for LaunchAgent to terminate us before complaining
+            }
+        }
+#endif
         ShowApplication(true);
 
         if (iErrorCode == -1099) {
@@ -426,19 +452,6 @@ bool CBOINCGUIApp::OnInit() {
     // Startup the System Idle Detection code
     IdleTrackerAttach();
     
-#ifdef __WXMAC__
-    // Don't open main window if we were started automatically at login
-    // We are launched hidden if started from our login item (except if
-    // we had windows open at logout, the system "restores" them.)
-    m_bGUIVisible = IsApplicationVisible();
-
-    if (getTimeSinceBoot() < 30.) {
-        // If the system was just started, we usually get a "Connection
-        // failed" error if we try to connect too soon, so delay a bit.
-        sleep(10);
-    }
-#endif
-
     // Show the UI
     SetActiveGUI(m_iGUISelected, m_bGUIVisible);
 

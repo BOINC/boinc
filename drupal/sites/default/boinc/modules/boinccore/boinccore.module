@@ -390,6 +390,9 @@ function boinccore_cron() {
     boinccore_rules_action_mail_to_moderators($settings);
     variable_set('boinccore_last_content_moderation_reminder', time());
   }
+
+  // Delete expired tokens in BOINC DB
+  _boinccore_delete_expired_tokens();
 }
 
 /**
@@ -507,6 +510,33 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant name field
     unset($form['_author']);
+
+    // If user is role='community member' only, then user may not post
+    // any comments in non-forum node-types, team_forums are also not
+    // allowed.. This allows users who have site-wide comment
+    // permission to comment on forums in special
+    // circumstances. Additionally, any comments require a captcha.
+    //
+    $node = node_load($form['nid']['#value']);
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if ($node->type == 'forum') {
+        if (module_exists('captcha')) {
+          $form['comment_captcha'] = array(
+            '#type' => 'captcha',
+            '#weight' => 1000,
+          );
+        }
+      }
+      else {
+        $form = NULL;
+        $form['from'] = array(
+          '#type'  => 'item',
+          '#value' => 'You do not have permission to post comments in this forum.',
+        );
+      }
+    }
     
     break;
     
@@ -542,6 +572,18 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
+
+    // Add captcha for role='community member'
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if (module_exists('captcha')) {
+        $form['comment_captcha'] = array(
+          '#type' => 'captcha',
+          '#weight' => 1000,
+        );
+      }
+    }
 
     break;
   case 'boinccore_delete_confirm':
@@ -788,6 +830,12 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   default:
   }
   node_save($node);
+  // If hiding a forum topic (node) and not an administrator, go to
+  // the forum page. Otherwise the user will reach an access-denied
+  // page.
+  if (($action=="hide") and (!user_access('administer forums'))) {
+    drupal_goto("community/forum/{$node->tid}");
+  }
   drupal_goto("node/{$nid}");
 }
 
@@ -1990,4 +2038,19 @@ function boinccore_moderation_overview_panel() {
   }
   $output .= '</ul>';
   return $output;
+}
+
+
+/**
+ * Utility function to delete expired tokens in the BOINC database,
+ * token table.
+ *
+ */
+function  _boinccore_delete_expired_tokens() {
+  require_boinc('boinc_db');
+
+  $num_deleted = BoincToken::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boinccore', "Deleted ${num_deleted} tokens from table token", WATCHDOG_NOTICE);
+  }
 }

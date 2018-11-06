@@ -20,12 +20,15 @@
 // - forms for create / login
 // - function to make login token
 
+include_once("../inc/consent.inc");
+
 // If have recent token, return it.
 // Else make login token, store in user record, return token
 //
 function make_login_token($user) {
     $now = time();
     if ($now - $user->login_token_time < 86400) {
+        $user->update("login_token_time=$now");
         return $user->login_token;
     }
     $token = substr(random_string(), 0, 8);
@@ -113,6 +116,23 @@ function create_account_form($teamid, $next_url) {
             "postal_code"
         );
     }
+
+    // Add terms of use to Web form. User must agree by checking the checkbox.
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+    if ($checkct and check_termsofuse()) {
+        $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
+        if ($terms_of_use) {
+            panel(tra('Terms of Use'), function() use($terms_of_use) {
+                echo nl2br($terms_of_use);
+            }
+            );
+            $myitems = array(
+                array("agree_to_terms_of_use", "", false),
+            );
+            form_checkboxes(tra("Do you agree to the terms of use above?"), $myitems, 'tabindex="0"');
+        }
+    }
+
 }
 
 function login_form($next_url) {
@@ -123,19 +143,43 @@ function login_form($next_url) {
     } else {
         $x = tra("Email address:");
     }
-    form_input_text($x, "email_addr");
+    form_input_text($x, "email_addr", '', 'text', $attrs='autofocus tabindex="1"');
     form_input_text(
         tra("Password:").'<br><small><a href="get_passwd.php">' . tra("forgot password?") . "</a></small>",
         "passwd",
         "",
         "password",
-        'id="passwd"',
+        'id="passwd" tabindex="2"',
         passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
-        array(array("stay_logged_in", "", true))
+        array(array("stay_logged_in", "", true)), 
+        'tabindex="3"'
     );
-    form_submit("Log in");
+    form_submit("Log in", 'tabindex="4"');
+    form_end();
+}
+
+function user_agreetermsofuse_form($next_url) {
+    form_start(secure_url_base()."/user_agreetermsofuse_action.php", "post");
+    form_input_hidden("next_url", $next_url);
+
+    $terms_of_use = trim(file_get_contents(TERMSOFUSE_FILE));
+    if ($terms_of_use) {
+        panel(tra('Terms of Use'), function() use($terms_of_use) {
+            echo nl2br($terms_of_use);
+        }
+        );
+        $myitems = array(
+            array("agree_to_terms_of_use", "", false),
+        );
+        form_checkboxes(tra("Do you agree to the terms of use above?"), $myitems, 'tabindex="0"');
+    }
+    else {
+        // error - no terms of use for user to agree to!
+    }
+
+    form_submit(tra("I agree"));
     form_end();
 }
 

@@ -1,0 +1,40 @@
+
+Upgrading from previous versions of FileField does not differ from the
+recommended approach for other modules.
+
+Upgrading from Drupal 5
+-----------------------
+
+1) Your Drupal 5 installation must be running at least FileField 2.3 before
+   migrating to Drupal 6. If your version of FileField is older than this,
+   install the latest version of FileField for Drupal 5 on your Drupal 5 site
+   and run update.php. This gets the database in a format that the Drupal 6
+   upgrade expects.
+
+2) After ensure FileField 2.3 or higher is on your Drupal 5 site, upgrade your
+   site normally to Drupal 6. Download the latest version of FileField for
+   Drupal 6 and place it in your sites/all/modules directory.
+
+3) Run update.php on your Drupal 6 site to upgrade FileField to the latest
+   database schema.
+
+
+Upgrading from any previous Drupal 6 version
+--------------------------------------------
+
+1) Download the latest version of FileField and the filefield directory in
+   sites/all/modules.
+
+2) Visit update.php on your site and run the update.
+
+
+Running update.php
+------------------
+Never, never, ever expand the "Select versions" fieldset and manually change
+the update number. Drupal knows which version you are currently running and
+automatically selects the appropriate version. If you change this number, you
+risk running an update twice (if you select a lower number) or you'll skip
+updates entirely (if you select a higher number). The ability to change the
+update number was intended for developers. Due to the confusion caused by this
+fieldset, it has been removed entirely in Drupal 7 to prevent such accidental
+self-inflicted damage to user sites.

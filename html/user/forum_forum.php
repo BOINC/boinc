@@ -138,14 +138,18 @@ function show_forum($forum, $start, $sort_style, $user) {
     );
     echo $page_nav;
     start_table('table-striped');
-    row_heading_array(array(
-        "",
-        tra("Threads"),
-        tra("Posts"),
-        tra("Author"),
-        tra("Views"),
-        "<nobr>".tra("Last post")."</nobr>"
-    ));
+    row_heading_array(
+        array(
+            "",
+            tra("Threads"),
+            tra("Posts"),
+            tra("Author"),
+            tra("Views"),
+            "<nobr>".tra("Last post")."</nobr>"
+        ),
+        array("", "width=35%", "", "", "", "")
+
+    );
 
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
 

@@ -20,7 +20,7 @@ def buildVersionCode() {
 
 // Derive version name from release tag and add commit SHA1
 def buildVersionName() {
-    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.].*)/
+    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.]?.*)/
     def version = ': DEVELOPMENT'
 
     def head = versionDetails()
@@ -47,13 +47,13 @@ def buildVersionName() {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 26
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         applicationId "edu.berkeley.boinc"
-        minSdkVersion 16
-        targetSdkVersion 23
+        minSdkVersion 19
+        targetSdkVersion 26
         versionCode buildVersionCode()
         versionName buildVersionName()
     }
@@ -71,5 +71,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.+'
+    implementation 'com.android.support:appcompat-v7:26.0.2'
 }

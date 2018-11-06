@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2018 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -36,6 +36,8 @@
 # Update for wxCocoa 3.1.0 10/25/17
 # Build only 64-bit library 1/25/18
 # Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
+# Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
+# Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
 #
 ## This script requires OS 10.6 or later
 ##
@@ -133,7 +135,7 @@ else
     echo "build/osx/setup/cocoa/include/wx/setup.h already patched"
 fi
 
-# Patch src/osx/window_osx.cpp window_osx_patched.cpp > window_osx_cpp_diff
+# Patch src/osx/window_osx.cpp
 if [ ! -f src/osx/window_osx.cpp.orig ]; then
     cat >> /tmp/window_osx_cpp_diff << ENDOFFILE
 --- window_osx.cpp    2016-02-28 13:33:37.000000000 -0800
@@ -153,6 +155,54 @@ ENDOFFILE
     rm -f /tmp/window_osx_cpp_diff
 else
     echo "src/osx/window_osx.cpp already patched"
+fi
+
+# Patch src/osx/carbon/utilscocoa.mm
+if [ ! -f src/osx/carbon/utilscocoa.mm.orig ]; then
+    cat >> /tmp/utilscocoa_mm_diff << ENDOFFILE
+--- utilscocoa.mm    2016-02-28 13:33:37.000000000 -0800
++++ utilscocoa-patched.mm    2018-06-03 01:31:43.000000000 -0700
+@@ -476,7 +476,10 @@
+ 
+ double wxOSXGetMainScreenContentScaleFactor()
+ {
+-    return [[NSScreen mainScreen] backingScaleFactor];
++    if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)])
++        return [[NSScreen mainScreen] backingScaleFactor];
++    else
++        return 1.0;
+ }
+ 
+ CGImageRef wxOSXCreateCGImageFromNSImage( WX_NSImage nsimage, double *scaleptr )
+ENDOFFILE
+    patch -bfi /tmp/utilscocoa_mm_diff src/osx/carbon/utilscocoa.mm
+    rm -f /tmp/utilscocoa_mm_diff
+else
+    echo "src/osx/carbon/utilscocoa.mm already patched"
+fi
+
+# Patch src/osx/cocoa/window.mm
+if [ ! -f src/osx/cocoa/window.mm.orig ]; then
+    cat >> /tmp/window_mm_diff << ENDOFFILE
+--- window.mm    2016-02-28 13:33:37.000000000 -0800
++++ window-patched.mm    2018-06-08 01:28:01.000000000 -0700
+@@ -1869,7 +1869,10 @@
+ double wxWidgetCocoaImpl::GetContentScaleFactor() const
+ {
+     NSWindow* tlw = [m_osxView window];
+-    return [tlw backingScaleFactor];
++    if ([tlw respondsToSelector:@selector(backingScaleFactor)])
++        return [tlw backingScaleFactor];
++    else
++        return 1.0;
+ }
+ 
+ // ----------------------------------------------------------------------------
+ENDOFFILE
+    patch -bfi /tmp/window_mm_diff src/osx/cocoa/window.mm
+    rm -f /tmp/window_mm_diff
+else
+    echo "src/osx/cocoa/window.mm already patched"
 fi
 
 
@@ -200,7 +250,7 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" 
     if [ $? -eq 0 ]; then
         alreadyBuilt=1
         lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch i386
-        if [ $? -ne 0 ]; then
+        if [ $? -eq 0 ]; then
             # already built for both 32 and 64 bit, rebuild for only 64 bit
             alreadyBuilt=0
             doclean="clean"
@@ -220,7 +270,7 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy library and headers to $lprefix
@@ -243,14 +293,14 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" 
     if [ $? -eq 0 ]; then
         alreadyBuilt=1
         lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch i386
-        if [ $? -ne 0 ]; then
+        if [ $? -eq 0 ]; then
             # already built for both 32 and 64 bit, rebuild for only 64 bit
             alreadyBuilt=0
-            doclean="clean"
+            doclean="clean" ## Not acutally used; see comment below
         fi
     else
         # already built but not for correct architectures
-        doclean="clean"
+        doclean="clean" ## Not acutally used; see comment below
     fi
 fi
 
@@ -263,7 +313,13 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    ##
+    ## We don't use $doclean here because:
+    ## * As of Xcode 10, "clean" would delete both the Release and Debug builds, and
+    ## * If there is a previous build of wrong architecture, both Xcode 10 and 
+    ## earlier versions of Xcode correctly overwrite it with x86_64-only build.
+    ##
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="x86_64" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX

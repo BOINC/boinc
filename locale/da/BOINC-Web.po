@@ -4,17 +4,18 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Christoffer <netravnen+transifex@gmail.com>, 2015
+# Christoffer Hansen <netravnen@gmail.com>, 2015
 # heirl00m <davidhoestbo@gmail.com>, 2017
 # Gabriel Siegel <gsiegel@gabsoft.dk>, 2017
+# Mikkel Kirkgaard Nielsen <memb_transifex@mikini.dk>, 2018
 # Thomas Pryds <thomas@pryds.eu>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2017-11-09 20:21+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-06-24 18:49+0000\n"
+"Last-Translator: Mikkel Kirkgaard Nielsen <memb_transifex@mikini.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/boinc/boinc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,13 +178,13 @@ msgstr "Til Android-enheder kan du hente BOINC app'en i Google Play butikken og 
 msgid ""
 "You can choose to support %1 projects %2 such as %3, %4, and %5, among many "
 "others."
-msgstr ""
+msgstr "Du kan vælge at bidrage til %1-projekter %2 såsom %3, %4 og %5, blandt mange andre."
 
 #: doc/index.php:109
 msgid ""
 "If you run several projects, try an %1 account manager %2 such as %3 "
 "GridRepublic %4 or %5 BAM! %6. "
-msgstr ""
+msgstr "Hvis du kører flere projekter, så prøv en %1-kontohåndtering %2 såsom %3 GridRepublic %4 eller %5 BAM! %6. "
 
 #: doc/index.php:116
 msgid "Learn more:"
@@ -245,17 +246,17 @@ msgstr "\"High-throughput\" beregning med BOINC"
 msgid ""
 "%1 Scientists %2: use BOINC to create a %3 volunteer computing project %4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr ""
+msgstr "%1 forskere %2: bruger BOINC til at skabe et %3 frivilligt computing-projekt %4, som giver adgang til kraften fra tusindvis af CPU'er og GPU'er."
 
 #: doc/index.php:154
 msgid ""
 "%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
 "Center %4."
-msgstr ""
+msgstr "%1 universiteter %2: bruger BOINC til at skabe %3 virtuelle campus-supercomputingcentre %4."
 
 #: doc/index.php:159
 msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
-msgstr ""
+msgstr "%1 virksomheder %2: bruger BOINC til %3 desktop gridcomputing %4."
 
 #: doc/index.php:164
 msgid "Documentation"
@@ -352,7 +353,7 @@ msgstr "via email"
 msgid ""
 "\n"
 "by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page."
-msgstr ""
+msgstr "\nvia tale, ved brug af %1 Skype %2, et gratis Internet-baseret telefonisystem. Hvis du ikke allerede har Skype, kan du %3 downloade og installere den nu %4. Når du er færdig, så vend tilbage til denne side."
 
 #: doc/help.php:25
 msgid "using Skype chat"
@@ -390,7 +391,7 @@ msgstr "BOINC hjælpere er ulønnede frivillige. Deres råd er ikke godkendt af 
 #: doc/help_funcs.php:139
 msgid ""
 "%1 Never %2 give email address or password information to BOINC helpers."
-msgstr ""
+msgstr "%1 Giv aldrig %2 email-adresse eller kodeord til BOINC-hjælpere."
 
 #: doc/projects.php:151
 msgid "Unknown"
@@ -400,7 +401,7 @@ msgstr "Ukendt"
 msgid ""
 "We recommend that you also install %1 VirtualBox %2, so your computer can "
 "work on science projects that require it."
-msgstr ""
+msgstr "Vi anbefaler at du også installerer %1 VirtualBox %2, så din computer kan deltage i forskningsprojekter som kræver det."
 
 #: doc/download_util.inc:90
 msgid "Learn more about VirtualBox."
@@ -436,7 +437,7 @@ msgstr "Distribueret føling"
 
 #: doc/projects.inc:22
 msgid "University of Southern California"
-msgstr ""
+msgstr "University of Southern California"
 
 #: doc/projects.inc:23
 msgid "Seismology"
@@ -687,7 +688,7 @@ msgstr "Hjælp studerende med at foretage atom-niveau simuleringer"
 msgid ""
 "University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
 "Gravitational Physics - Hanover (Germany)"
-msgstr ""
+msgstr "University of Wisconsin - Milwaukee (USA), Max Planck Institute for Gravitational Physics - Hanover (Germany)"
 
 #: doc/projects.inc:374
 msgid ""
@@ -695,7 +696,7 @@ msgid ""
 "astrophysical signals from spinning neutron stars (often called pulsars) "
 "using data from the LIGO gravitational-wave detectors, the Arecibo radio "
 "telescope, and the Fermi gamma-ray satellite."
-msgstr ""
+msgstr "Einstein@Home bruger din computers hviletid til at søge efter svage astrofysiske signaler fra roterende neutronstjerner (ofte kaldet pulsarer) ved brug af data fra LIGO-gravitationsbølgedetektorer, Arecibo radioteleskopet og Fermi gammastråle-satelliten."
 
 #: doc/projects.inc:377
 msgid "Help detect pulsars and gravitational waves"
