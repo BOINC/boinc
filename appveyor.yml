@@ -75,6 +75,7 @@ build_script:
 
 after_build:
   - call deploy\prepare_deployment.bat
+  - call deploy\deploy_to_bintray.bat
 
 artifacts:
   - path: deploy\win-apps\*.7z

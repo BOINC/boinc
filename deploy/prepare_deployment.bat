@@ -8,17 +8,20 @@ rem Default values because %bintray_deploy% is currently unused
 set pkg_name=master
 set git_rev=%APPVEYOR_REPO_COMMIT:~0,8%
 set pkg_version=master_%build_date%_%git_rev%
+set pkg_version_desc=Custom build created on %build_date%
 
 if defined APPVEYOR_PULL_REQUEST_NUMBER (
     set pkg_name=pull-requests
     set git_rev=%APPVEYOR_PULL_REQUEST_HEAD_COMMIT:~0,8%
     set pkg_version=PR%APPVEYOR_PULL_REQUEST_NUMBER%_%build_date%_%git_rev%
+    set pkg_version_desc=CI build created from PR #%APPVEYOR_PULL_REQUEST_NUMBER% on %build_date%
     set bintray_deploy=True
 )
 if defined APPVEYOR_SCHEDULED_BUILD (
     if "%APPVEYOR_SCHEDULED_BUILD%" == "True" (
         set pkg_name=weekly
         set pkg_version=weekly_%build_date%_%git_rev%
+        set pkg_version_desc=Weekly CI build created on %build_date%
         set bintray_deploy=True
     )
 )
