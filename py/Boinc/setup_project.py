@@ -356,6 +356,7 @@ global $server_version;
 $git_commit = "{commit}";
 $server_version = "{version}";
 
+?>
 '''.format(commit=commit, version=version)
             f = open(os.path.join(dest_dir, 'release.inc'), 'w')
             f.write(content)
