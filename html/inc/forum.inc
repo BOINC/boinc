@@ -696,7 +696,7 @@ function show_post(
 
         // show message in a panel
         //
-        echo '<div class="panel panel-default" style="word-break: break-all;">
+        echo '<div class="panel panel-default" style="word-break: break-word;">
             <div class="panel-body">'
             .$posttext
             .'</div></div>
