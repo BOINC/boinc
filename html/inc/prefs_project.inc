@@ -78,8 +78,8 @@ if ($app_types->cpu) {
 }
 if ($app_types->ati) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use ATI GPU"),
-        "Request ATI GPU tasks from this project.",
+        tra("Use AMD GPU"),
+        "Request AMD GPU tasks from this project.",
         "no_ati",
         false,
         true

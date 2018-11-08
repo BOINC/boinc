@@ -75,7 +75,7 @@ function app_version_string($result) {
     case ANON_PLATFORM_NVIDIA:
         return anon_platform_string($result, tra("NVIDIA GPU"));
     case ANON_PLATFORM_ATI:
-        return anon_platform_string($result, tra("ATI GPU"));
+        return anon_platform_string($result, tra("AMD GPU"));
     case ANON_PLATFORM_INTEL:
         return anon_platform_string($result, tra("Intel GPU"));
     }
