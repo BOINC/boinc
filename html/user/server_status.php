@@ -30,6 +30,8 @@ require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/boinc_db.inc");
+if(file_exists('../../release.inc'))
+    include '../../release.inc';
 
 if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
@@ -183,6 +185,13 @@ function show_status_html($x) {
         ";
     }
     end_table();
+    
+    global $server_version;
+    global $git_commit;
+    if ( isset($server_version) && isset($git_commit) ) {
+        echo "Server version: $server_version (<a href=https://github.com/BOINC/boinc/commit/$git_commit>$git_commit)</a>)<br>";
+    }
+
     if ($j->db_revision) {
         echo tra("Database schema version: "), $j->db_revision;
     }
