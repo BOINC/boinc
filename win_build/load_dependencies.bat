@@ -1,8 +1,11 @@
 REM @echo off
-set dependencies_path=%3
+
+echo Start build
+
+set dependencies_path=%1
 set revision_lst_path=%dependencies_path%\revision.lst
-set platform=%1
-set configuration=%2
+set platform=%2
+set configuration=%3
 
 powershell -Command "(New-Object Net.WebClient).DownloadFile('https://s3-us-west-2.amazonaws.com/boinc-win-dependencies/latest/revision.lst', '%TEMP%\revision.lst')"
 set /p last_revision=<%TEMP%\revision.lst
