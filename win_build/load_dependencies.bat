@@ -5,7 +5,7 @@ set platform=%2
 set configuration=%3
 
 powershell -Command "(New-Object Net.WebClient).DownloadFile('https://s3-us-west-2.amazonaws.com/boinc-win-dependencies/latest/revision.lst', '%TEMP%\revision.lst')"
-set /p last_revision=<%dependencies_path%\revision.lst
+set /p last_revision=<%TEMP%\revision.lst
 
 if exist %revision_lst_path% (
   set /p temp_saved_revision=<%dependencies_path%\revision.lst
