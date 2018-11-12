@@ -16,8 +16,8 @@ if exist %revision_lst_path% (
     goto :EOF
   )
 
-if exist %dependencies_path% (
-  rd /s /q %dependencies_path%
+if exist %dependencies_path%\boinc_depends_win_vs2013 (
+  rd /s /q %dependencies_path%\boinc_depends_win_vs2013
 )
 
 powershell -Command "(New-Object Net.WebClient).DownloadFile('https://s3-us-west-2.amazonaws.com/boinc-win-dependencies/latest/boinc_depends_win_vs2013_%platform%_%configuration%.zip', '%TEMP%\boinc_dependencies.zip')"
