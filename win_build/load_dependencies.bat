@@ -1,4 +1,4 @@
-@echo off
+REM @echo off
 set dependencies_path=%1
 set revision_lst_path=%dependencies_path%\revision.lst
 set platform=%2
