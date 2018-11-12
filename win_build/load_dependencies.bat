@@ -9,8 +9,13 @@ set configuration=%3
 
 where powershell
 
+echo Start download
+
 powershell -Command "(New-Object Net.WebClient).DownloadFile('https://s3-us-west-2.amazonaws.com/boinc-win-dependencies/latest/revision.lst', '%TEMP%\revision.lst')"
 set /p last_revision=<%TEMP%\revision.lst
+
+echo Revision got
+echo %last_revision%
 
 if exist %revision_lst_path% (
   set /p temp_saved_revision=<%dependencies_path%\revision.lst
@@ -20,6 +25,7 @@ if exist %revision_lst_path% (
     echo Dependencies are up-to-date
     goto :EOF
   )
+)
 
 if exist %dependencies_path% (
   rd /s /q %dependencies_path%
