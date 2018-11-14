@@ -376,7 +376,9 @@ void xml_escape(const char* in, char* out, int len) {
             if (!strncmp(in, "]]>", 3)) {
                 strcpy(p, "]]&gt;");
                 p += 6;
-                in += 3;
+                in += 2;  // +1 from for loop
+            } else {
+                *p++ = x;
             }
         } else {
             *p++ = x;
