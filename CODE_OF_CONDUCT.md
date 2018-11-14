@@ -1,31 +1,76 @@
-•  Be welcoming
+# Contributor Covenant Code of Conduct
 
-Aim to welcome and support people of all backgrounds and identities, of any race, ethnicity, culture, national origin, color, immigration status, social and economic class, educational level, sex, sexual orientation, gender identity and expression, age, size, family status, political belief, religion, and mental and physical ability.
+## Our Pledge
 
-•  Be respectful and friendly
+In the interest of fostering an open and welcoming environment, we as
+contributors and maintainers pledge to making participation in our project and
+our community a harassment-free experience for everyone, regardless of age, body
+size, disability, ethnicity, sex characteristics, gender identity and expression,
+level of experience, education, socio-economic status, nationality, personal
+appearance, race, religion, or sexual identity and orientation.
 
-Respect each other and each other's point of view. Different people have different perspectives on issues. Frustration cannot turn into a personal attack. It is important to remember that a community where people feel uncomfortable or threatened is not a productive one. Also remember that with a world-wide community, English may not be the native language of everyone and since all communication happens via text, it's impossible to read what mood the other is in.
+## Our Standards
 
-•  Be collaborative
+Examples of behavior that contributes to creating a positive environment
+include:
 
-BOINC is a complex whole made of many parts. Cooperation between teams, that each have their own goal and vision is essential. For the whole to be more than the sum of its parts, each part must make an effort to understand the whole.
+* Using welcoming and inclusive language
+* Being respectful of differing viewpoints and experiences
+* Gracefully accepting constructive criticism
+* Focusing on what is best for the community
+* Showing empathy towards other community members
 
-•  Ask for help when unsure
+Examples of unacceptable behavior by participants include:
 
-Nobody is expected to be perfect in this community. Asking questions early avoids many problems later, so questions are encouraged. Those who answer should be responsive and helpful.
+* The use of sexualized language or imagery and unwelcome sexual attention or
+ advances
+* Trolling, insulting/derogatory comments, and personal or political attacks
+* Public or private harassment
+* Publishing others' private information, such as a physical or electronic
+ address, without explicit permission
+* Other conduct which could reasonably be considered inappropriate in a
+ professional setting
 
-•  Be patient
+## Our Responsibilities
 
-Not everyone has the same level of expertise in language or coding, so be patient if an explanation needs to be given.
+Project maintainers are responsible for clarifying the standards of acceptable
+behavior and are expected to take appropriate and fair corrective action in
+response to any instances of unacceptable behavior.
 
-•  Value decisiveness, clarity and consensus
+Project maintainers have the right and responsibility to remove, edit, or
+reject comments, commits, code, wiki edits, issues, and other contributions
+that are not aligned to this Code of Conduct, or to ban temporarily or
+permanently any contributor for other behaviors that they deem inappropriate,
+threatening, offensive, or harmful.
 
-Social and technical disagreements should not be left to fester, leaving others uncertain of the agreed direction. The strength of the BOINC community comes from its diversity, people from a wide range of backgrounds. Being unable to understand why someone holds a viewpoint doesn't mean that that viewpoint is wrong.
+## Scope
 
-•  Resolve issues
+This Code of Conduct applies both within project spaces and in public spaces
+when an individual is representing the project or its community. Examples of
+representing a project or community include using an official project e-mail
+address, posting via an official social media account, or acting as an appointed
+representative at an online or offline event. Representation of a project may be
+further defined and clarified by project maintainers.
 
-Don't forget that it is human to err and that blaming each other isn't productive. Instead, focus on helping to resolve issues and learning from mistakes. Participants in the project should try to resolve disagreements constructively. When it is impossible to reach an agreement, follow the [process outlined in the Governance document](https://github.com/BOINC/boinc-policy/blob/master/Governance.md#5-decision-processes) to come to a solution.
+## Enforcement
 
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported by contacting the project team at https://groups.google.com/forum/#!forum/boinc_admin. All
+complaints will be reviewed and investigated and will result in a response that
+is deemed necessary and appropriate to the circumstances. The project team is
+obligated to maintain confidentiality with regard to the reporter of an incident.
+Further details of specific enforcement policies may be posted separately.
 
-We also adhere to the Github community guidelines, please see https://help.github.com/articles/github-community-guidelines/  
+Project maintainers who do not follow or enforce the Code of Conduct in good
+faith may face temporary or permanent repercussions as determined by other
+members of the project's leadership.
 
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
+available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
+
+[homepage]: https://www.contributor-covenant.org
+
+For answers to common questions about this code of conduct, see
+https://www.contributor-covenant.org/faq
