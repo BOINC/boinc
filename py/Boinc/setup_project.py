@@ -514,7 +514,7 @@ class Project:
         config.max_wus_to_send = 50
         config.daily_result_quota = 500
         config.disable_account_creation = 0
-        config.disable_account_creation_rpc = 1
+        config.disable_account_creation_rpc = 0
         config.disable_web_account_creation = 0
         config.enable_login_mustagree_termsofuse = 0
         config.enable_privacy_by_default = 0
