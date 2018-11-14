@@ -70,6 +70,7 @@ function parse_team($f) {
         else if (strstr($s, '<type>')) $t->type = parse_element($s, '<type>');
         else if (strstr($s, '<name_html>')) $t->name_html = parse_element($s, '<name_html>');
         else if (strstr($s, '<description>')) {
+            $t->description = '';
             while ($s = fgets($f)) {
                 if (strstr($s, '</description>')) break;
                 $t->description .= $s;
