@@ -51,9 +51,13 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void GetPathToThisProcess(char* outbuf, size_t maxLen);
 #endif
 
+#ifdef _WIN32
+#define REAL_BOINC_MASTER_NAME "NT SERVICE\\BOINC"
+#define REAL_BOINC_PROJECT_NAME "boinc_project"
+#else
 #define REAL_BOINC_MASTER_NAME "boinc_master"
 #define REAL_BOINC_PROJECT_NAME "boinc_project"
-
+#endif
 
 static char         boinc_master_user_name[64];
 static char         boinc_master_group_name[64];

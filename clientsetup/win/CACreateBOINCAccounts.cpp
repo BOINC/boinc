@@ -106,7 +106,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
     // Only create a new account or change the password on an existing account
     //   if the user hasn't explicitly defined an account
-    if (strBOINCMasterAccountUsername.empty() && strBOINCMasterAccountPassword.empty()) bCreateBOINCMasterAccount = true;
+    if (strBOINCMasterAccountUsername.empty() && strBOINCMasterAccountPassword.empty()) strBOINCMasterAccountUsername = _T("NT SERVICE\\BOINC");
     if (strBOINCMasterAccountUsername == _T("boinc_master")) bCreateBOINCMasterAccount = true;
     if (strProductType == tstring(_T("2")) && (strBOINCMasterAccountUsername == (tstring(_T("boinc_master_")) + strComputerName))) bCreateBOINCMasterAccount = true;
 

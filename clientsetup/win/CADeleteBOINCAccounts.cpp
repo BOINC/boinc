@@ -75,21 +75,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
 
-    if (IsUpgrading())
-    {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Upgrade detected, no need to delete accounts")
-        );
-        return ERROR_SUCCESS;
-    }
-
-
-    // Delete 'boinc_master' account
+    // Delete 'boinc_master' account, when updating from previous version
     //
     nasReturnValue = NetUserDel(
         NULL,
@@ -113,7 +99,22 @@ UINT CADeleteBOINCAccounts::OnExecution()
             nasReturnValue,
             _T("Failed to delete the 'boinc_master' account.")
         );
-        return ERROR_INSTALL_FAILURE;
+        // Don't return the error, as otherwise uninstalling is not possible.
+        // So just softfail here instead (write to log).
+    }
+
+
+    if (IsUpgrading())
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Upgrade detected, no need to delete accounts")
+        );
+        return ERROR_SUCCESS;
     }
 
 
@@ -141,7 +142,8 @@ UINT CADeleteBOINCAccounts::OnExecution()
             nasReturnValue,
             _T("Failed to delete the 'boinc_project' account.")
         );
-        return ERROR_INSTALL_FAILURE;
+        // Don't return the error, as otherwise uninstalling is not possible.
+        // So just softfail here instead (write to log).
     }
 
     return ERROR_SUCCESS;

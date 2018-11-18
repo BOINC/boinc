@@ -129,7 +129,7 @@ UINT CACreateBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
-    // Create a SID for the 'boinc_master' user account.
+    // Create a SID for the 'NT SERVICE\BOINC' user account.
     if (_T("1") == strEnableProtectedApplicationExecution) {
 
         if(!GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pBOINCMasterSID))
@@ -140,7 +140,7 @@ UINT CACreateBOINCGroups::OnExecution()
                 NULL,
                 NULL,
                 GetLastError(),
-                _T("GetAccountSid Error for 'boinc_master' user account")
+                _T("GetAccountSid Error for 'NT SERVICE\\BOINC' user account")
             );
             return ERROR_INSTALL_FAILURE;
         }
@@ -158,7 +158,7 @@ UINT CACreateBOINCGroups::OnExecution()
                 NULL,
                 NULL,
                 GetLastError(),
-                _T("GetAccountSid Error for 'boinc_master' user account")
+                _T("GetAccountSid Error for 'boinc_project' user account")
             );
             return ERROR_INSTALL_FAILURE;
         }
@@ -232,37 +232,7 @@ UINT CACreateBOINCGroups::OnExecution()
             NULL,
             NULL,
             nasReturnValue,
-            _T("Failed to add user to the 'boinc_admins' group (Administrator).")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    lgrmiAdmins.lgrmi0_sid = pInstallingUserSID;
-
-    nasReturnValue = NetLocalGroupAddMembers(
-        NULL,
-        _T("boinc_admins"),
-        0,
-        (LPBYTE)&lgrmiAdmins,
-        1
-    );
-
-    if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("NetLocalGroupAddMembers retval")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("Failed to add user to the 'boinc_admins' group (Installing User).")
+            _T("Failed to add the local administrators group to the 'boinc_admins' group.")
         );
         return ERROR_INSTALL_FAILURE;
     }
@@ -294,7 +264,7 @@ UINT CACreateBOINCGroups::OnExecution()
                 NULL,
                 NULL,
                 nasReturnValue,
-                _T("Failed to add user to the 'boinc_admins' group (BOINC Master).")
+                _T("Failed to add user to the 'boinc_admins' group (NT SERVICE\\BOINC).")
             );
             return ERROR_INSTALL_FAILURE;
         }
@@ -380,8 +350,7 @@ UINT CACreateBOINCGroups::OnExecution()
     }
 
     // If the user has enabled protected application execution then we need to add the 'boinc_project'
-    //   account to the local group and the 'Users' local group.  As an aside 'boinc_master' is also added
-    //   to the 'Users' group.
+    //   account to the local group.
     if (_T("1") == strEnableProtectedApplicationExecution) {
 
         LOCALGROUP_MEMBERS_INFO_0    lgrmiMembers;
@@ -412,64 +381,6 @@ UINT CACreateBOINCGroups::OnExecution()
                 NULL,
                 nasReturnValue,
                 _T("Failed to add user to the 'boinc_projects' group (boinc_project).")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        nasReturnValue = NetLocalGroupAddMembers(
-            NULL,
-            strUsersGroupName.c_str(),
-            0,
-            (LPBYTE)&lgrmiMembers,
-            1
-        );
-
-        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                nasReturnValue,
-                _T("NetLocalGroupAddMembers retval")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                nasReturnValue,
-                _T("Failed to add user to the 'Users' group (boinc_project).")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        lgrmiMembers.lgrmi0_sid = pBOINCMasterSID;
-
-        nasReturnValue = NetLocalGroupAddMembers(
-            NULL,
-            strUsersGroupName.c_str(),
-            0,
-            (LPBYTE)&lgrmiMembers,
-            1
-        );
-
-        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                nasReturnValue,
-                _T("NetLocalGroupAddMembers retval")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                nasReturnValue,
-                _T("Failed to add user to the 'Users' group (boinc_master).")
             );
             return ERROR_INSTALL_FAILURE;
         }

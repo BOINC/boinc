@@ -74,6 +74,10 @@ UINT CAGrantBOINCMasterRights::OnExecution()
     uiReturnValue = GetProperty( _T("VersionNT"), strOSVersion );
     if ( uiReturnValue ) return uiReturnValue;
 
+    // Don't update privileges, if we're using the default service account
+    if(strBOINCMasterAccountUsername.c_str() == _T("NT SERVICE\\BOINC")) {
+        return ERROR_SUCCESS;
+    }
 
     //
     // Obtain the SID of the user/group.
