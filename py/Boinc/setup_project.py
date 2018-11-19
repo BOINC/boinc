@@ -518,6 +518,7 @@ class Project:
         config.disable_web_account_creation = 0
         config.enable_login_mustagree_termsofuse = 0
         config.enable_privacy_by_default = 0
+        config.hide_server_status_version = 0
         config.show_results = 1
         config.cache_md5_info = 1
         config.sched_debug_level = 3

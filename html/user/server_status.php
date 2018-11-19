@@ -185,15 +185,18 @@ function show_status_html($x) {
         ";
     }
     end_table();
-    
-    global $server_version;
-    global $git_commit;
-    if ( isset($server_version) && isset($git_commit) ) {
-        echo "Server version: $server_version (<a href=https://github.com/BOINC/boinc/commit/$git_commit>$git_commit</a>)<br>";
-    }
 
-    if ($j->db_revision) {
-        echo tra("Database schema version: "), $j->db_revision;
+    $config = get_config();
+    if (!parse_bool($config, "hide_server_status_version")) {
+        global $server_version;
+        global $git_commit;
+        if ( isset($server_version) && isset($git_commit) ) {
+            echo "Server version: $server_version (<a href=https://github.com/BOINC/boinc/commit/$git_commit>$git_commit</a>)<br>";
+        }
+
+        if ($j->db_revision) {
+            echo tra("Database schema version: "), $j->db_revision;
+        }
     }
     echo "<p>Task data as of ".time_str($j->cached_time);
     page_tail();
