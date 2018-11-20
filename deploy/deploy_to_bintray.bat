@@ -10,7 +10,7 @@ if %bintray_deploy% == False (
 
 set API=https://api.bintray.com
 if not defined BINTRAY_USER (
-    set BINTRAY_USER=ChristianBeer    
+    set BINTRAY_USER=ChristianBeer
 )
 rem BINTRAY_API_KEY="$BINTRAY_API_KEY" # env
 if not defined BINTRAY_REPO (
