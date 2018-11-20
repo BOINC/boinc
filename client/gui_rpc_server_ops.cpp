@@ -831,6 +831,7 @@ void handle_create_account(GUI_RPC_CONN& grc) {
 
     ai.parse(grc.xp);
     if (ai.consented_to_terms && !grc.client_name.size()) {
+        grc.create_account_op.error_num = ERR_INVALID_STATE;
         grc.mfout.printf("<error>&lt;name&gt; must be set in &lt;exchange_versions&gt; before using &lt;consented_to_terms/&gt;</error>\n");
         return;
     }
