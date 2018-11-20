@@ -59,7 +59,7 @@ if not defined pkg_version_desc (
     set pkg_version_desc=Custom build created on %build_date%
 )
 
-echo Creating version %pkg_version%
+echo Creating version %pkg_version%...
 set data={"name": "%pkg_version%", "desc": "%pkg_version_desc%"}
 %CURL% -H Content-Type:application/json -X POST -d "%data%" "%API%/packages/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/%pkg_name%/versions"
 
