@@ -436,7 +436,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         !CHECK_CLOSINGINPROGRESS()
                     ) {
                         if (ERR_RETRY == ao->error_num) {
-                            pDoc->rpc.create_account(*ai);
+                            retval = pDoc->rpc.create_account(*ai);
+                            if (retval) break;
                         }
 
                         dtCurrentExecutionTime = wxDateTime::Now();
