@@ -30,7 +30,7 @@ rem Mandatory for packages in free Bintray repos
 if not defined VCS_URL (
     set VCS_URL=https://github.com/BOINC/boinc.git
 ) 
-set CURL=curl -u%BINTRAY_USER%:%BINTRAY_API_KEY% -H Accept:application/json -w
+set CURL=curl -u%BINTRAY_USER%:%BINTRAY_API_KEY% -H Accept:application/json -w \n
 rem use this for local debugging
 rem set CURL=echo
 
