@@ -345,25 +345,27 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
         except OSError:
             pass
         try:
-            s = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
-            commit = s.stdout.read()[:7]
-            s = subprocess.Popen(["git", "describe", "--match", "server_release/*", "--tags", "--exact", "HEAD"],
+            s = subprocess.Popen(["git", "config", "--get", "remote.origin.url"],
                                  stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
-            version = s.stdout.read().split("/")[-1].strip()
+            git_url = s.stdout.read().replace('.git','/tree/').strip()
+            s = subprocess.Popen(["git", "describe", "--match", "server_release/*"],
+                                 stdout=subprocess.PIPE, stderr=open(os.devnull, 'w'))
+            version = s.stdout.read().strip()
+            git_url += version
+            version = version.split("/")[-1]
             content = '''<?php
-global $git_commit;
 global $server_version;
-$git_commit = "{commit}";
+global $git_url;
 $server_version = "{version}";
-
+$git_url = "{git_url}";
 ?>
-'''.format(commit=commit, version=version)
+'''.format(git_url=git_url, version=version)
             f = open(os.path.join(dest_dir, 'release.inc'), 'w')
             f.write(content)
             f.close()
             os.chmod(os.path.join(dest_dir, 'release.inc'), 0o644)
         except Exception, e:    
-            print 'Not running from git source, no version or commit detected.'
+            print 'Not running from git source, no version detected.'
 
 
     # copy Python stuff

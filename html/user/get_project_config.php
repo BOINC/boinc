@@ -66,10 +66,6 @@ echo "<project_config>
     <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
 
-if ( isset($git_commit) ) {
-    echo "<git_commit>$git_commit</git_commit>\n";
-}
-
 if ( isset($server_version) ) {
     echo "<server_version>$server_version</server_version>\n";
 }

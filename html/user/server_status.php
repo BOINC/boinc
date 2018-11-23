@@ -187,9 +187,9 @@ function show_status_html($x) {
     end_table();
     
     global $server_version;
-    global $git_commit;
-    if ( isset($server_version) && isset($git_commit) ) {
-        echo "Server version: $server_version (<a href=https://github.com/BOINC/boinc/commit/$git_commit>$git_commit</a>)<br>";
+    global $git_url;
+    if ( isset($server_version) && isset($git_url) ) {
+        echo "Server version: $server_version (<a href=\"$git_url\"</a>)<br>";
     }
 
     if ($j->db_revision) {
