@@ -11,8 +11,8 @@ set pkg_version=master_%build_date%_%git_rev%
 
 echo Default values:
 echo pkg_name: %pkg_name%
-echo git_rev: %pkg_name%
-echo pkg_version: %pkg_name%
+echo git_rev: %git_rev%
+echo pkg_version: %pkg_version%
 echo bintray_deploy: %bintray_deploy%
 
 echo APPVEYOR_PULL_REQUEST_NUMBER: %APPVEYOR_PULL_REQUEST_NUMBER%
@@ -27,24 +27,33 @@ if defined APPVEYOR_PULL_REQUEST_NUMBER (
     echo Pull request path chosen
     set pkg_name=pull-requests
     set git_rev=%APPVEYOR_PULL_REQUEST_HEAD_COMMIT:~0,8%
-    set pkg_version=PR%APPVEYOR_PULL_REQUEST_NUMBER%_%build_date%_%git_rev%
+    set pkg_version=PR%APPVEYOR_PULL_REQUEST_NUMBER%_%build_date%_!git_rev!
     set bintray_deploy=True
-    echo pkg_name: %pkg_name%
-    echo git_rev: %pkg_name%
-    echo pkg_version: %pkg_name%
-    echo bintray_deploy: %bintray_deploy%
+    echo pkg_name: !pkg_name!
+    echo git_rev: !git_rev!
+    echo pkg_version: !pkg_version!
+    echo bintray_deploy: !bintray_deploy!
 )
 
 if defined APPVEYOR_SCHEDULED_BUILD (
     if "%APPVEYOR_SCHEDULED_BUILD%" == "True" (
         echo Scheduled build path chosen
         set pkg_name=weekly
-        set pkg_version=weekly_%build_date%_%git_rev%
+        set pkg_version=weekly_%build_date%_!git_rev!
         set bintray_deploy=True
-        echo pkg_name: %pkg_name%
-        echo git_rev: %pkg_name%
-        echo pkg_version: %pkg_name%
-        echo bintray_deploy: %bintray_deploy%
+        echo pkg_name: !pkg_name!
+        echo git_rev: !git_rev!
+        echo pkg_version: !pkg_version!
+        echo bintray_deploy: !bintray_deploy!
     )
 )
 echo finished echo variables
+echo pkg_name: !pkg_name!
+echo git_rev: !git_rev!
+echo pkg_version: !pkg_version! 
+echo bintray_deploy: !bintray_deploy!
+echo another with percent
+echo pkg_name: %pkg_name%
+echo git_rev: %git_rev%
+echo pkg_version: %pkg_version%
+echo bintray_deploy: %bintray_deploy%
