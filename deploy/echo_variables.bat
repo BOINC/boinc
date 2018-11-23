@@ -1,3 +1,4 @@
+setlocal EnableDelayedExpansion
 rem @echo off
 for /f "tokens=2-4 delims=/ "  %%a in ("%date%") do (set MM=%%a& set DD=%%b& set YYYY=%%c)
 set build_date=%YYYY%-%MM%-%DD%
