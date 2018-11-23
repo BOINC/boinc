@@ -353,17 +353,19 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
             version = s.stdout.read().strip()
             git_url += version
             version = version.split("/")[-1]
-            content = '''<?php
+
+            if version:
+                content = '''<?php
 global $server_version;
 global $git_url;
 $server_version = "{version}";
 $git_url = "{git_url}";
 ?>
 '''.format(git_url=git_url, version=version)
-            f = open(os.path.join(dest_dir, 'release.inc'), 'w')
-            f.write(content)
-            f.close()
-            os.chmod(os.path.join(dest_dir, 'release.inc'), 0o644)
+                f = open(os.path.join(dest_dir, 'release.inc'), 'w')
+                f.write(content)
+                f.close()
+                os.chmod(os.path.join(dest_dir, 'release.inc'), 0o644)
         except Exception, e:    
             print 'Not running from git source, no version detected.'
 
