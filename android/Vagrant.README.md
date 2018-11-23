@@ -6,6 +6,7 @@ Provide a turn-key VM for Android development
 
 * [Vagrant](https://www.vagrantup.com/downloads.html)
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) for USB 3.0 support.
 * Host:
   * 4 CPU cores (2 used by VM)
   * ~18 GB disk space
@@ -15,7 +16,7 @@ Provide a turn-key VM for Android development
 ## HOWTO
 
 1. On your host: open a terminal
-   1. `cd <BOINC_REPO>/android`
+   1. Clone the [BOINC repo](https://github.com/BOINC/boinc) and `cd <BOINC_REPO>/android` or just dowload the [Vagrantfile from GitHub](https://github.com/BOINC/boinc/blob/master/android/Vagrantfile)
    1. `vagrant up`
    1. Wait until the final reboot finished
    1. **From this point on you don't need Vagrant anymore**
