@@ -48,7 +48,7 @@ def buildVersionName() {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "28.0.2"
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "edu.berkeley.boinc"
