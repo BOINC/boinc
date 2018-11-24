@@ -1119,12 +1119,12 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
     if ($app_types->ati) {
       $form['resource']['no_ati'] = array(
-        '#title' => bts('Use ATI GPU', array(), NULL, 'boinc:account-preferences-project'),
+        '#title' => bts('Use AMD GPU', array(), NULL, 'boinc:account-preferences-project'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $default['no_ati'] ? 0 : 1,
-        '#description' => bts('Request ATI GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
+        '#description' => bts('Request AMD GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
       );
     }
     if ($app_types->intel_gpu) {
