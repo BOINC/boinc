@@ -840,7 +840,7 @@ function resource_name($x) {
     switch ($x) {
     case 2: return "CPU";
     case 3: return "NVIDIA";
-    case 4: return "ATI";
+    case 4: return "AMD";
     }
     return "Unknown resource: $x";
 }
