@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
       hv.cpus = 2
 
       # Customize the amount of memory on the VM:
-      hv.memory = "2048"
+      hv.memory = "4096"
       
       # Enable virtualization extensions for the virtual CPUs. 
       hv.enable_virtualization_extensions = true
