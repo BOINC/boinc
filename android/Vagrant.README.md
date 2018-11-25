@@ -19,7 +19,7 @@ Provide a turn-key VM for Android development
 * Host:
   * 4 CPU cores (2 used by VM)
   * ~18 GB disk space
-  * 4 GB RAM (2 used by VM)
+  * 8 GB RAM (4 used by VM)
 * Download volume (once): ~3.5 GB
 
 ### HOWTO
@@ -47,5 +47,5 @@ Provide a turn-key VM for Android development
 ### Known limitations
 
 * The Android Virtual Device Manager might not work properly as it needs virtualization
-  which isn't possible within a virtual machine (at least not using VirtualBox).
+  which isn't possible within a virtual machine (at least not using VirtualBox). Although Hyper-V can run Android Virtual Device Manager.
 * On Windows it seems the VirtualBox manage GPU acceleration a little better on Ubuntu 18.04, than Hyper-V, despite the fact that Windows added [Enhanced Session Mode to Ubuntu 18.04](https://blogs.technet.microsoft.com/virtualization/2018/02/28/sneak-peek-taking-a-spin-with-enhanced-linux-vms/).
