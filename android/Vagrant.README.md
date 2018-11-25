@@ -30,7 +30,7 @@ Provide a turn-key VM for Android development
    1. Wait until the final reboot finished
    1. **From this point on you don't need Vagrant anymore**
       1. Don't run `vagrant up` again!
-      1. Just use VirtualBox to stop/start your new shiny VM
+      1. Just use VirtualBox/Hyper-V to stop/start your new shiny VM
 1. In the VM:
    1. Log in with `vagrant/vagrant`
    1. Open a terminal
@@ -43,6 +43,13 @@ Provide a turn-key VM for Android development
    1. Ignore potential Gradle Plugin warning: *Don't remind me again*
 1. Hook up your Android device via USB (and remember to attach it to VirtualBox)
 1. Happy hacking :-)
+
+#### Android Virtual Device Manager
+Hyper-V can run Android Virtual Device Manager, but you have to install KVM and add vagrant user to KVM Group.
+1. Open a terminal
+   1. `apt install qemu-kvm`
+   1. `adduser vagrant kvm`
+1. Reboot the VM.
 
 ### Known limitations
 
