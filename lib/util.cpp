@@ -489,7 +489,7 @@ int run_program(
     }
 
     if (nsecs) {
-        boinc_sleep(3);
+        boinc_sleep(nsecs);
         if (waitpid(pid, 0, WNOHANG) == pid) {
             return -1;
         }
