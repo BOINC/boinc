@@ -19,8 +19,8 @@ set -e
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-export OPENSSL_VERSION=1.0.2p
-export CURL_VERSION=7.61.0
+export OPENSSL_VERSION=1.0.2q
+export CURL_VERSION=7.62.0
 export NDK_VERSION=17c
 
 export ANDROID_HOME=$HOME/Android/Sdk
