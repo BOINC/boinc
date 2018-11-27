@@ -137,7 +137,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell" do |s|
-      s.name = "Clone BOINC repository and configuring toolchain..."
+      s.name = "Cloning BOINC repository and configuring toolchain..."
       s.privileged  = false
       s.inline  = <<-SHELL
           export OPENSSL_VERSION=1.0.2q
