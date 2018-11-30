@@ -8,7 +8,7 @@
 // see inc/translation.inc and
 // https://boinc.berkeley.edu/trac/wiki/TranslateProject for details
 
-require_once("../inc/util.inc");
+require_once("../inc/util_basic.inc");
 
 //-------------- Project name and owner
 
