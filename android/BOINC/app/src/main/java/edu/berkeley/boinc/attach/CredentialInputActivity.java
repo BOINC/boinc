@@ -52,11 +52,11 @@ public class CredentialInputActivity extends Activity{
         if(Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputActivity onCreate"); 
         doBindService();
         setContentView(R.layout.attach_project_credential_input_layout);  
-        emailET = (EditText) findViewById(R.id.email_input);
-        nameET = (EditText) findViewById(R.id.name_input);
-        pwdET = (EditText) findViewById(R.id.pwd_input);
+        emailET = findViewById(R.id.email_input);
+        nameET = findViewById(R.id.name_input);
+        pwdET = findViewById(R.id.pwd_input);
         
-        CheckBox showPwdCb = (CheckBox) findViewById(R.id.show_pwd_cb);
+        CheckBox showPwdCb = findViewById(R.id.show_pwd_cb);
         showPwdCb.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

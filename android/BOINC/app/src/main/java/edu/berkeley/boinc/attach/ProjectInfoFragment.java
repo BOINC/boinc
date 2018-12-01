@@ -80,12 +80,12 @@ public class ProjectInfoFragment extends DialogFragment{
         ((TextView) v.findViewById(R.id.project_home)).setText(getResources().getString(R.string.attachproject_login_header_home) + " " + info.home);
         
         // find view elements for later use in image download
-        logoWrapper = (LinearLayout) v.findViewById(R.id.project_logo_wrapper);
-        logoPb = (ProgressBar) v.findViewById(R.id.project_logo_loading_pb);
-        logoIv = (ImageView) v.findViewById(R.id.project_logo);
+        logoWrapper = v.findViewById(R.id.project_logo_wrapper);
+        logoPb = v.findViewById(R.id.project_logo_loading_pb);
+        logoIv = v.findViewById(R.id.project_logo);
         
         // setup return button
-        Button continueB = (Button) v.findViewById(R.id.continue_button);
+        Button continueB = v.findViewById(R.id.continue_button);
         continueB.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

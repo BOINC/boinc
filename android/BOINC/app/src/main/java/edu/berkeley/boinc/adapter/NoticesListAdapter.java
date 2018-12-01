@@ -58,7 +58,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice>{
 		LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = vi.inflate(R.layout.notices_layout_listitem, null);
 		
-		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
+		ImageView ivIcon = v.findViewById(R.id.projectIcon);
 		Bitmap icon = getIcon(position);
 		// if available set icon, if not boinc logo
 		if(icon == null) { 
@@ -67,16 +67,16 @@ public class NoticesListAdapter extends ArrayAdapter<Notice>{
 			ivIcon.setImageBitmap(icon);
 		}
 		
-		TextView tvProjectName = (TextView) v.findViewById(R.id.projectName);
+		TextView tvProjectName = v.findViewById(R.id.projectName);
 		tvProjectName.setText(listItem.project_name);
 		
-		TextView tvNoticeTitle = (TextView) v.findViewById(R.id.noticeTitle);
+		TextView tvNoticeTitle = v.findViewById(R.id.noticeTitle);
 		tvNoticeTitle.setText(listItem.title);
 		
-		TextView tvNoticeContent = (TextView) v.findViewById(R.id.noticeContent);
+		TextView tvNoticeContent = v.findViewById(R.id.noticeContent);
 		tvNoticeContent.setText(Html.fromHtml(listItem.description));
 		
-		TextView tvNoticeTime = (TextView) v.findViewById(R.id.noticeTime);
+		TextView tvNoticeTime = v.findViewById(R.id.noticeTime);
 		tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date((long)listItem.create_time * 1000)));
 		
 		v.setOnClickListener(new OnClickListener() {

@@ -41,7 +41,7 @@ public class EventLogGuiFragment extends Fragment {
 
     	View layout = inflater.inflate(R.layout.eventlog_gui_layout, container, false);
 
-		a.guiLogList = (ListView) layout.findViewById(R.id.guiLogList);
+		a.guiLogList = layout.findViewById(R.id.guiLogList);
 		a.guiLogListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.eventlog_gui_listitem_layout, a.guiLogData);
 		a.guiLogList.setAdapter(a.guiLogListAdapter);
 		

@@ -66,7 +66,7 @@ public class TasksFragment extends Fragment {
     	if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment onCreateView");
         // Inflate the layout for this fragment
     	View layout = inflater.inflate(R.layout.tasks_layout, container, false);
-		lv = (ListView) layout.findViewById(R.id.tasksList);
+		lv = layout.findViewById(R.id.tasksList);
 	    listAdapter = new TasksListAdapter(getActivity(),R.id.tasksList,data);
         lv.setAdapter(listAdapter);
         lv.setOnItemClickListener(itemClickListener);
@@ -202,9 +202,9 @@ public class TasksFragment extends Fragment {
 						final Dialog dialog = new Dialog(getActivity());
 						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						dialog.setContentView(R.layout.dialog_confirm);
-						Button confirm = (Button) dialog.findViewById(R.id.confirm);
-						TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
-						TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+						Button confirm = dialog.findViewById(R.id.confirm);
+						TextView tvTitle = dialog.findViewById(R.id.title);
+						TextView tvMessage = dialog.findViewById(R.id.message);
 						
 						tvTitle.setText(R.string.confirm_abort_task_title);
 						tvMessage.setText(getString(R.string.confirm_abort_task_message) + " "
@@ -218,7 +218,7 @@ public class TasksFragment extends Fragment {
 								dialog.dismiss();
 							}
 						});
-						Button cancel = (Button) dialog.findViewById(R.id.cancel);
+						Button cancel = dialog.findViewById(R.id.cancel);
 						cancel.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {

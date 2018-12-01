@@ -84,17 +84,17 @@ public class NavDrawerListAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(Logging.VERBOSE) Log.d(Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems.get(position).title + navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem + navDrawerItems.get(position).isProjectItem);
-		if (convertView == null || !((String)convertView.getTag()).equals(navDrawerItems.get(position).title)) {
+		if (convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
 			int layoutId = R.layout.navlist_listitem;
 			if(navDrawerItems.get(position).isSubItem()) layoutId = R.layout.navlist_listitem_subitem;
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(layoutId, null);
         }
         
-		RelativeLayout wrapper = (RelativeLayout) convertView.findViewById(R.id.listitem);
-        ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
-        TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
+		RelativeLayout wrapper = convertView.findViewById(R.id.listitem);
+        ImageView imgIcon = convertView.findViewById(R.id.icon);
+        TextView txtTitle = convertView.findViewById(R.id.title);
+        TextView txtCount = convertView.findViewById(R.id.counter);
          
         if(navDrawerItems.get(position).isProjectItem) {
         	Bitmap icon = navDrawerItems.get(position).getProjectIcon();

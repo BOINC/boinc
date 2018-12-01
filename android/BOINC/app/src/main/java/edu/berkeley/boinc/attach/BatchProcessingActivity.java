@@ -254,9 +254,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 
 		@Override
 		protected void onPostExecute(Void result) {
-			((LinearLayout) findViewById(R.id.attach_status_ongoing_wrapper)).setVisibility(View.GONE);
-			((Button) findViewById(R.id.continue_button)).setVisibility(View.VISIBLE);
-			((Button) findViewById(R.id.share_button)).setVisibility(View.VISIBLE);
+			(findViewById(R.id.attach_status_ongoing_wrapper)).setVisibility(View.GONE);
+			(findViewById(R.id.continue_button)).setVisibility(View.VISIBLE);
+			(findViewById(R.id.share_button)).setVisibility(View.VISIBLE);
 			super.onPostExecute(result);
 		}
 	}

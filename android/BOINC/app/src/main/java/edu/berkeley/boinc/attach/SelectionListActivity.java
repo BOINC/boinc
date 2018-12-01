@@ -66,7 +66,7 @@ public class SelectionListActivity extends FragmentActivity{
 		
 		// setup layout
         setContentView(R.layout.attach_project_list_layout);  
-		lv = (ListView) findViewById(R.id.listview);
+		lv = findViewById(R.id.listview);
     }
     
 	@Override

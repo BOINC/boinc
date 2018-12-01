@@ -214,7 +214,7 @@ public class ProjectDetailsFragment extends Fragment {
 				dialog.dismiss();
 			}
 		});
-		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+		Button cancel = dialog.findViewById(R.id.cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -236,12 +236,12 @@ public class ProjectDetailsFragment extends Fragment {
 		
 		updateChangingItems(v);
 		
-		slideshowWrapper = (HorizontalScrollView) v.findViewById(R.id.slideshow_wrapper);
-		slideshowHook = (LinearLayout) v.findViewById(R.id.slideshow_hook);
-		slideshowLoading = (ProgressBar) v.findViewById(R.id.slideshow_loading);
+		slideshowWrapper = v.findViewById(R.id.slideshow_wrapper);
+		slideshowHook = v.findViewById(R.id.slideshow_hook);
+		slideshowLoading = v.findViewById(R.id.slideshow_loading);
 		
 		// set website
-		TextView website = (TextView) v.findViewById(R.id.project_url);
+		TextView website = v.findViewById(R.id.project_url);
     	SpannableString content = new SpannableString(project.master_url);
     	content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 		website.setText(content);
@@ -254,37 +254,37 @@ public class ProjectDetailsFragment extends Fragment {
 		
 		// set general area
 		if(projectInfo != null && projectInfo.generalArea != null) {
-			TextView generalArea = (TextView) v.findViewById(R.id.general_area);
+			TextView generalArea = v.findViewById(R.id.general_area);
 			generalArea.setText(projectInfo.generalArea);
 		} else {
-			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.general_area_wrapper);
+			LinearLayout wrapper = v.findViewById(R.id.general_area_wrapper);
 			wrapper.setVisibility(View.GONE);
 		}
 		
 		// set specific area
 		if(projectInfo != null && projectInfo.specificArea != null) {
-			TextView specificArea = (TextView) v.findViewById(R.id.specific_area);
+			TextView specificArea = v.findViewById(R.id.specific_area);
 			specificArea.setText(projectInfo.specificArea);
 		} else {
-			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.specific_area_wrapper);
+			LinearLayout wrapper = v.findViewById(R.id.specific_area_wrapper);
 			wrapper.setVisibility(View.GONE);
 		}
 		
 		// set description
 		if(projectInfo != null && projectInfo.description != null) {
-			TextView description = (TextView) v.findViewById(R.id.description);
+			TextView description = v.findViewById(R.id.description);
 			description.setText(projectInfo.description);
 		} else {
-			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.description_wrapper);
+			LinearLayout wrapper = v.findViewById(R.id.description_wrapper);
 			wrapper.setVisibility(View.GONE);
 		}
 		
 		// set home
 		if(projectInfo != null && projectInfo.home != null) {
-			TextView home = (TextView) v.findViewById(R.id.based_at);
+			TextView home = v.findViewById(R.id.based_at);
 			home.setText(projectInfo.home);
 		} else {
-			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.based_at_wrapper);
+			LinearLayout wrapper = v.findViewById(R.id.based_at_wrapper);
 			wrapper.setVisibility(View.GONE);
 		}
 		
@@ -308,10 +308,10 @@ public class ProjectDetailsFragment extends Fragment {
 		try{
 			// status
 			String newStatus = BOINCActivity.monitor.getProjectStatus(project.master_url);
-			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+			LinearLayout wrapper = v.findViewById(R.id.status_wrapper);
 			if(!newStatus.isEmpty()) {
 				wrapper.setVisibility(View.VISIBLE);
-				TextView statusT = (TextView) v.findViewById(R.id.status_text);
+				TextView statusT = v.findViewById(R.id.status_text);
 				statusT.setText(newStatus);
 			} else {
 				wrapper.setVisibility(View.GONE);
