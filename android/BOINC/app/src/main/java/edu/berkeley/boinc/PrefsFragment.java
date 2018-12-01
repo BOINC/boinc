@@ -195,6 +195,9 @@ public class PrefsFragment extends Fragment {
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
+		// other
+		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_other,true));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_other_store_at_least_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_min_days));
 		// debug
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_debug,true));
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_client_log_flags_header,R.string.prefs_category_debug));
@@ -464,6 +467,9 @@ public class PrefsFragment extends Fragment {
 			break;
 		case R.string.prefs_memory_max_idle_header:
 			clientPrefs.ram_max_used_idle_frac = value;
+			break;
+		case R.string.prefs_other_store_at_least_x_days_of_work_header:
+			clientPrefs.work_buf_min_days = value;
 			break;
 		default:
 			if(Logging.DEBUG) Log.d(Logging.TAG,"onClick (dialog submit button), couldnt match ID");
