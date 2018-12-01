@@ -245,7 +245,7 @@ public class PrefsFragment extends Fragment {
 				valueWrapper.ID == R.string.prefs_disk_max_pct_header || 
 				valueWrapper.ID == R.string.prefs_cpu_time_max_header ||
 				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header || 
-				valueWrapper.ID == R.string.prefs_memory_max_idle_header ) {
+				valueWrapper.ID == R.string.prefs_memory_max_idle_header) {
 			Double seekBarDefault = valueWrapper.status / 10;
 			slider.setProgress(seekBarDefault.intValue());
 			final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
@@ -388,7 +388,7 @@ public class PrefsFragment extends Fragment {
          			item.ID == R.string.prefs_disk_max_pct_header || 
          			item.ID == R.string.prefs_cpu_time_max_header ||
          			item.ID == R.string.prefs_cpu_other_load_suspension_header || 
-         			item.ID == R.string.prefs_memory_max_idle_header ) {
+         			item.ID == R.string.prefs_memory_max_idle_header) {
          		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
          		   double value = slider.getProgress()*10;
          		   writeClientValuePreference(item.ID, value);
@@ -410,7 +410,8 @@ public class PrefsFragment extends Fragment {
          	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
          			   item.ID == R.string.battery_temperature_max_header ||
          			   item.ID == R.string.prefs_disk_min_free_gb_header ||
-         			   item.ID == R.string.prefs_disk_access_interval_header) {
+         			   item.ID == R.string.prefs_disk_access_interval_header ||
+					   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header) {
          		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
@@ -641,6 +642,11 @@ public class PrefsFragment extends Fragment {
 			case R.string.prefs_memory_max_idle_header:
 				setupSliderDialog(item, dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				break;
+			case R.string.prefs_other_store_at_least_x_days_of_work_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
 				break;
 			case R.string.prefs_client_log_flags_header:
 				try {
