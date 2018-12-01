@@ -109,7 +109,6 @@ public class ProjectDetailsFragment extends Fragment {
 		return layout;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttach(Activity activity) {
 		// first time fragment can get a valid context (before this, getActivity() will return null!)
