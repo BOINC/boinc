@@ -83,6 +83,10 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			description = ctx.getString(R.string.prefs_memory_max_idle_description);
 			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
 			break;
+		case R.string.prefs_other_store_at_least_x_days_of_work_header:
+			description = ctx.getString(R.string.prefs_other_store_at_least_x_days_of_work_description);
+			this.unit = PrefsListItemWrapperValue.Unit.NONE;
+			break;
 		case R.string.prefs_gui_log_level_header:
 			description = ctx.getString(R.string.prefs_gui_log_level_description);
 			this.unit = PrefsListItemWrapperValue.Unit.NONE;
