@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +55,7 @@ public class AcctMgrFragment extends DialogFragment{
 	private boolean asIsBound = false;
 
 	private Spinner urlSpinner;
+	private EditText urlInput;
 	private EditText nameInput;
 	private EditText pwdInput;
 	private TextView warning;
@@ -70,16 +72,29 @@ public class AcctMgrFragment extends DialogFragment{
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
         
-        urlSpinner = (Spinner) v.findViewById(R.id.url_spinner);
+        urlSpinner = v.findViewById(R.id.url_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
-        
-        nameInput = (EditText) v.findViewById(R.id.name_input);
-        pwdInput = (EditText) v.findViewById(R.id.pwd_input);
-        warning = (TextView) v.findViewById(R.id.warning);
-        ongoingWrapper = (LinearLayout) v.findViewById(R.id.ongoing_wrapper);
-        continueB = (Button) v.findViewById(R.id.continue_button);
+
+        urlInput = v.findViewById(R.id.url_input);
+        nameInput = v.findViewById(R.id.name_input);
+        pwdInput = v.findViewById(R.id.pwd_input);
+        warning = v.findViewById(R.id.warning);
+        ongoingWrapper = v.findViewById(R.id.ongoing_wrapper);
+        continueB = v.findViewById(R.id.continue_button);
+
+        // change url text field on url spinner change
+        urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                urlInput.setText(urlSpinner.getSelectedItem().toString());
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+
         continueB.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -88,7 +103,7 @@ public class AcctMgrFragment extends DialogFragment{
 		        if(asIsBound) {
 		        	
 		    		// get user input
-		    		String url = urlSpinner.getSelectedItem().toString();
+		    		String url = urlInput.getText().toString();
 		    		String name = nameInput.getText().toString();
 		    		String pwd = pwdInput.getText().toString();
 		    		
