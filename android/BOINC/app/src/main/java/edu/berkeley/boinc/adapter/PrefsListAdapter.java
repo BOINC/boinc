@@ -59,31 +59,31 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
     	
     	if(listItem.isCategory) { // item is category
     		v = vi.inflate(R.layout.prefs_layout_listitem_category, null);
-    		TextView header = (TextView) v.findViewById(R.id.category_header);
+    		TextView header = v.findViewById(R.id.category_header);
     		header.setText(listItem.ID);
     	} else { // item is element
 	    	if(listItem instanceof PrefsListItemWrapperBool) {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
-	    		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
+	    		CheckBox cb = v.findViewById(R.id.checkbox);
 	        	cb.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
 	    		BoolOnClick listener = frag.new BoolOnClick(listItem.ID, cb);
-	        	RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.checkbox_wrapper);
+	        	RelativeLayout wrapper = v.findViewById(R.id.checkbox_wrapper);
 	        	wrapper.setClickable(true);
 	        	wrapper.setOnClickListener(listener);
-	    		TextView header = (TextView) v.findViewById(R.id.checkbox_text);
+	    		TextView header = v.findViewById(R.id.checkbox_text);
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
 	    	} else if(listItem instanceof PrefsListItemWrapperValue) {
 	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-	    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.wrapper);
+	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
 	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
-	    		TextView header = (TextView) v.findViewById(R.id.header);
+	    		TextView header = v.findViewById(R.id.header);
 	    		header.setText(item.header);
-	    		TextView description = (TextView) v.findViewById(R.id.description);
+	    		TextView description = v.findViewById(R.id.description);
 	    		description.setText(item.description);
 	    		
 	    		// set status value or hide if 0
-    			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+    			LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
 	    		if (item.status > 0) {
 	    			statusWrapper.setVisibility(View.VISIBLE);
 	    			final String value;
@@ -113,19 +113,19 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		} else statusWrapper.setVisibility(View.GONE);
 	    	} else {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-	    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.wrapper);
+	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
 	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
-	    		TextView header = (TextView) v.findViewById(R.id.header);
+	    		TextView header = v.findViewById(R.id.header);
 	    		header.setText(listItem.header);
 	    		if(listItem.ID == R.string.prefs_client_log_flags_header) {
-		    		TextView description = (TextView) v.findViewById(R.id.description);
+		    		TextView description = v.findViewById(R.id.description);
 		    		description.setVisibility(View.GONE);
-	    			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+	    			LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
 	    			statusWrapper.setVisibility(View.GONE);
 	    		} else if(listItem.ID == R.string.prefs_power_source_header) {
-		    		TextView description = (TextView) v.findViewById(R.id.description);
+		    		TextView description = v.findViewById(R.id.description);
 		    		description.setText(listItem.description);
-	    			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+	    			LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
 	    			statusWrapper.setVisibility(View.GONE);
 	    		}
 	    	}

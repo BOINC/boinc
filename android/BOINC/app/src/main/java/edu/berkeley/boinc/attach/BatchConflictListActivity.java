@@ -59,12 +59,12 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
         doBindService();
 		// setup layout
         setContentView(R.layout.attach_project_batch_conflicts_layout);  
-		lv = (ListView) findViewById(R.id.listview);
+		lv = findViewById(R.id.listview);
 		// adapt text
 		Intent intent = getIntent();
 		Boolean conflicts = intent.getBooleanExtra("conflicts", false);
 		manualUrl = intent.getStringExtra("manualUrl");
-		TextView title = (TextView) findViewById(R.id.desc);
+		TextView title = findViewById(R.id.desc);
 		if(conflicts) title.setText(R.string.attachproject_conflicts_desc);
 		else title.setText(R.string.attachproject_credential_input_desc);
     }

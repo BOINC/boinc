@@ -68,9 +68,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 		// setup layout
         setContentView(R.layout.attach_project_batch_processing_layout); 
         
-        hintTv = (TextView)findViewById(R.id.hint_header_text);
-        hintIvRight = (ImageView)findViewById(R.id.hint_header_image_right);
-        hintIvLeft = (ImageView)findViewById(R.id.hint_header_image_left);
+        hintTv = findViewById(R.id.hint_header_text);
+        hintIvRight = findViewById(R.id.hint_header_image_right);
+        hintIvLeft = findViewById(R.id.hint_header_image_left);
         
         // create hint fragments
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_CONTRIBUTION));
@@ -78,7 +78,7 @@ public class BatchProcessingActivity extends FragmentActivity{
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_PLATFORMS));
         
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.hint_container);
+        mPager = findViewById(R.id.hint_container);
         mPagerAdapter = new HintPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -254,9 +254,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 
 		@Override
 		protected void onPostExecute(Void result) {
-			((LinearLayout) findViewById(R.id.attach_status_ongoing_wrapper)).setVisibility(View.GONE);
-			((Button) findViewById(R.id.continue_button)).setVisibility(View.VISIBLE);
-			((Button) findViewById(R.id.share_button)).setVisibility(View.VISIBLE);
+			findViewById(R.id.attach_status_ongoing_wrapper).setVisibility(View.GONE);
+			findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
+			findViewById(R.id.share_button).setVisibility(View.VISIBLE);
 			super.onPostExecute(result);
 		}
 	}

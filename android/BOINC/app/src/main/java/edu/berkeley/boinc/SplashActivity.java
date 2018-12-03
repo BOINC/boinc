@@ -120,7 +120,7 @@ public class SplashActivity extends Activity {
         doBindService();
         
         // set long click listener to go to eventlog
-        ImageView imageView = (ImageView) findViewById(R.id.logo);
+        ImageView imageView = findViewById(R.id.logo);
         imageView.setOnLongClickListener(new OnLongClickListener() {
 
             @Override

@@ -58,13 +58,13 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
         
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.attach_project_batch_conflicts_listitem, null);
-		TextView name = (TextView) v.findViewById(R.id.name);
+		TextView name = v.findViewById(R.id.name);
 		name.setText(listItem.name);
-		TextView status = (TextView) v.findViewById(R.id.status);
-		ImageView resolveIv = (ImageView) v.findViewById(R.id.resolve_button_image);
-		ImageView statusImage = (ImageView) v.findViewById(R.id.status_image);
-		ProgressBar statusPb = (ProgressBar) v.findViewById(R.id.status_pb);
-		RelativeLayout itemWrapper = (RelativeLayout) v.findViewById(R.id.resolve_item_wrapper);
+		TextView status = v.findViewById(R.id.status);
+		ImageView resolveIv = v.findViewById(R.id.resolve_button_image);
+		ImageView statusImage = v.findViewById(R.id.status_image);
+		ProgressBar statusPb = v.findViewById(R.id.status_pb);
+		RelativeLayout itemWrapper = v.findViewById(R.id.resolve_item_wrapper);
 		if(listItem.result == ProjectAttachWrapper.RESULT_SUCCESS) {
 			// success
 			status.setVisibility(View.GONE);

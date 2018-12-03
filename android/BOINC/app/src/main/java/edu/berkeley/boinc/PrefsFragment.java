@@ -80,7 +80,7 @@ public class PrefsFragment extends Fragment {
     	if(Logging.VERBOSE) Log.d(Logging.TAG,"ProjectsFragment onCreateView");
         // Inflate the layout for this fragment
     	View layout = inflater.inflate(R.layout.prefs_layout, container, false);
-		lv = (ListView) layout.findViewById(R.id.listview);
+		lv = layout.findViewById(R.id.listview);
         listAdapter = new PrefsListAdapter(getActivity(),this,R.id.listview,data);
         lv.setAdapter(listAdapter);
 		return layout;
@@ -239,8 +239,8 @@ public class PrefsFragment extends Fragment {
 	private void setupSliderDialog(PrefsListItemWrapper item, final Dialog dialog) {
 		final PrefsListItemWrapperValue valueWrapper = (PrefsListItemWrapperValue) item;
 		dialog.setContentView(R.layout.prefs_layout_dialog_pct);
-		TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-		SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+		TextView sliderProgress = dialog.findViewById(R.id.seekbar_status);
+		SeekBar slider = dialog.findViewById(R.id.seekbar);
 		
 		if(valueWrapper.ID == R.string.battery_charge_min_pct_header || 
 				valueWrapper.ID == R.string.prefs_disk_max_pct_header ||
@@ -253,7 +253,7 @@ public class PrefsFragment extends Fragment {
 			slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 				public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
 					final String progressString = NumberFormat.getPercentInstance().format(progress / 10.0);
-					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+					TextView sliderProgress = dialog.findViewById(R.id.seekbar_status);
 					sliderProgress.setText(progressString);
 		        }
 				@Override
@@ -279,7 +279,7 @@ public class PrefsFragment extends Fragment {
 			slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 				public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
 					final String progressString = NumberFormat.getIntegerInstance().format(progress <= 0 ? 1 : progress + 1); // do not allow 0 cpus
-					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+					TextView sliderProgress = dialog.findViewById(R.id.seekbar_status);
 					sliderProgress.setText(progressString);
 				}
 				@Override
@@ -295,7 +295,7 @@ public class PrefsFragment extends Fragment {
 			slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 				public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
 					String progressString = NumberFormat.getIntegerInstance().format(progress);
-					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+					TextView sliderProgress = dialog.findViewById(R.id.seekbar_status);
 					sliderProgress.setText(progressString);
 				}
 				@Override
@@ -316,11 +316,11 @@ public class PrefsFragment extends Fragment {
 			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
 			String[] array = getResources().getStringArray(R.array.prefs_client_log_flags);
 			for(String option: array) options.add(new SelectionDialogOption(option));
-			ListView lv = (ListView) dialog.findViewById(R.id.selection);
+			ListView lv = dialog.findViewById(R.id.selection);
 			new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 
 			// setup confirm button action
-			Button confirm = (Button) dialog.findViewById(R.id.confirm);
+			Button confirm = dialog.findViewById(R.id.confirm);
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -337,11 +337,11 @@ public class PrefsFragment extends Fragment {
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_usb, BOINCActivity.monitor.getPowerSourceUsb()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_wireless, BOINCActivity.monitor.getPowerSourceWireless()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_battery, clientPrefs.run_on_batteries, true));
-			ListView lv = (ListView) dialog.findViewById(R.id.selection);
+			ListView lv = dialog.findViewById(R.id.selection);
 			new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 
 			// setup confirm button action
-			Button confirm = (Button) dialog.findViewById(R.id.confirm);
+			Button confirm = dialog.findViewById(R.id.confirm);
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -370,7 +370,7 @@ public class PrefsFragment extends Fragment {
 		}
 		
 		// generic cancel button
-		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+		Button cancel = dialog.findViewById(R.id.cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -381,7 +381,7 @@ public class PrefsFragment extends Fragment {
 		
 	private void setupDialogButtons(final PrefsListItemWrapper item, final Dialog dialog) {
 		// confirm
-		Button confirm = (Button) dialog.findViewById(R.id.confirm);
+		Button confirm = dialog.findViewById(R.id.confirm);
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -389,17 +389,17 @@ public class PrefsFragment extends Fragment {
          			item.ID == R.string.prefs_disk_max_pct_header || 
          			item.ID == R.string.prefs_cpu_time_max_header ||
          			item.ID == R.string.prefs_cpu_other_load_suspension_header || 
-         			item.ID == R.string.prefs_memory_max_idle_header) {
-         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+         			item.ID == R.string.prefs_memory_max_idle_header ) {
+         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
          		   double value = slider.getProgress()*10;
          		   writeClientValuePreference(item.ID, value);
          	   } else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
-         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
          		   int sbProgress = slider.getProgress();
          		   double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
          		   writeClientValuePreference(item.ID, value);
          	   } else if(item.ID == R.string.prefs_gui_log_level_header) {
-         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
          		   int sbProgress = slider.getProgress();
          		   try {
          			   // monitor and UI in two different processes. set static variable in both
@@ -414,7 +414,7 @@ public class PrefsFragment extends Fragment {
          			   item.ID == R.string.prefs_disk_access_interval_header ||
          			   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
 					   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
-         		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
+         		   EditText edit = dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
          		   if(valueTmp == null) return;
@@ -425,7 +425,7 @@ public class PrefsFragment extends Fragment {
 			}
 		});
 		// cancel
-		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+		Button cancel = dialog.findViewById(R.id.cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

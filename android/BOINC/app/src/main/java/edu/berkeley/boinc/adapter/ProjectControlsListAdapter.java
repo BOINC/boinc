@@ -66,7 +66,7 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
 	    
 	    View vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_controls_listitem_layout, null);
 	    
-        TextView tvText = (TextView)vi.findViewById(R.id.text);
+        TextView tvText = vi.findViewById(R.id.text);
 	    String text = "";
 	    
     	switch (data.operation) {
