@@ -91,12 +91,12 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			v.setTag(listItem.id);
 		}
 		
-		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
-		TextView header = (TextView) v.findViewById(R.id.taskHeader);
-		TextView status = (TextView) v.findViewById(R.id.taskStatus);
-		TextView time = (TextView) v.findViewById(R.id.taskTime);
-		TextView statusPercentage = (TextView) v.findViewById(R.id.taskStatusPercentage);
-		ImageView expandButton = (ImageView) v.findViewById(R.id.expandCollapse);
+		ProgressBar pb = v.findViewById(R.id.progressBar);
+		TextView header = v.findViewById(R.id.taskHeader);
+		TextView status = v.findViewById(R.id.taskStatus);
+		TextView time = v.findViewById(R.id.taskTime);
+		TextView statusPercentage = v.findViewById(R.id.taskStatusPercentage);
+		ImageView expandButton = v.findViewById(R.id.expandCollapse);
 		
 		// --- set up view elements that are independent of "active" and "expanded" state
 		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
@@ -155,8 +155,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			pb.setVisibility(View.GONE);
 		
 		// expansion
-		RelativeLayout rightColumnExpandWrapper = (RelativeLayout) v.findViewById(R.id.rightColumnExpandWrapper);
-		LinearLayout centerColumnExpandWrapper = (LinearLayout) v.findViewById(R.id.centerColumnExpandWrapper);
+		RelativeLayout rightColumnExpandWrapper = v.findViewById(R.id.rightColumnExpandWrapper);
+		LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
 		if(!listItem.expanded) {
 			// view is collapsed
 			expandButton.setImageResource(R.drawable.collapse);
@@ -185,8 +185,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			}
 			
 			// buttons
-			ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
-			ImageView abortButton = (ImageView) v.findViewById(R.id.abortTask);
+			ImageView suspendResume = v.findViewById(R.id.suspendResumeTask);
+			ImageView abortButton = v.findViewById(R.id.abortTask);
 			if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
 				rightColumnExpandWrapper.setVisibility(View.INVISIBLE);
 			} else {
@@ -197,7 +197,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 					abortButton.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
 					abortButton.setVisibility(View.VISIBLE);
 					
-					((ProgressBar)v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
+					(v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
 
 					// checking what suspendResume button should be shown
 					if(listItem.result.suspended_via_gui) { // show play
@@ -217,7 +217,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 					// waiting for a new state
 					suspendResume.setVisibility(View.INVISIBLE);
 					abortButton.setVisibility(View.INVISIBLE);
-					((ProgressBar)v.findViewById(R.id.request_progressBar)).setVisibility(View.VISIBLE);
+					(v.findViewById(R.id.request_progressBar)).setVisibility(View.VISIBLE);
 				}
 			}
 		}

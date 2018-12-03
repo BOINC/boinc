@@ -46,7 +46,7 @@ public class NoticesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	if(Logging.VERBOSE) Log.d(Logging.TAG,"NoticesFragment onCreateView");
     	View layout = inflater.inflate(R.layout.notices_layout, container, false);
-		noticesList = (ListView) layout.findViewById(R.id.noticesList);
+		noticesList = layout.findViewById(R.id.noticesList);
 		updateNotices();
 		noticesListAdapter = new NoticesListAdapter(getActivity(), R.id.noticesList, data);
 		noticesList.setAdapter(noticesListAdapter);

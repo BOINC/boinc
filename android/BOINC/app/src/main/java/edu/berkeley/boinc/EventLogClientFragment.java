@@ -48,7 +48,7 @@ public class EventLogClientFragment extends Fragment {
 		
     	View layout = inflater.inflate(R.layout.eventlog_client_layout, container, false);
 
-    	a.clientLogList = (ListView) layout.findViewById(R.id.clientLogList);
+    	a.clientLogList = layout.findViewById(R.id.clientLogList);
     	a.clientLogListAdapter = new ClientLogListAdapter(getActivity(), a.clientLogList, R.id.clientLogList, a.clientLogData);
     	a.clientLogList.setOnScrollListener(new EndlessScrollListener(5));
 		

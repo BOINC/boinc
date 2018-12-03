@@ -99,12 +99,12 @@ public class StatusFragment extends Fragment{
 					currentNetworkSuspendReason != networkSuspendReason) {
 				
 				// set layout and retrieve elements
-				LinearLayout statusWrapper = (LinearLayout) getView().findViewById(R.id.status_wrapper);
-				LinearLayout centerWrapper = (LinearLayout) getView().findViewById(R.id.center_wrapper);
-				LinearLayout restartingWrapper = (LinearLayout) getView().findViewById(R.id.restarting_wrapper);
-				TextView statusHeader = (TextView) getView().findViewById(R.id.status_header);
-				ImageView statusImage = (ImageView) getView().findViewById(R.id.status_image);
-				TextView statusDescriptor = (TextView) getView().findViewById(R.id.status_long);
+				LinearLayout statusWrapper = getView().findViewById(R.id.status_wrapper);
+				LinearLayout centerWrapper = getView().findViewById(R.id.center_wrapper);
+				LinearLayout restartingWrapper = getView().findViewById(R.id.restarting_wrapper);
+				TextView statusHeader = getView().findViewById(R.id.status_header);
+				ImageView statusImage = getView().findViewById(R.id.status_image);
+				TextView statusDescriptor = getView().findViewById(R.id.status_long);
 				
 				restartingWrapper.setVisibility(View.GONE);
 				
@@ -222,12 +222,12 @@ public class StatusFragment extends Fragment{
 			
 			if(setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
 				// set layout and retrieve elements
-				LinearLayout statusWrapper = (LinearLayout) getView().findViewById(R.id.status_wrapper);
-				LinearLayout centerWrapper = (LinearLayout) getView().findViewById(R.id.center_wrapper);
-				LinearLayout restartingWrapper = (LinearLayout) getView().findViewById(R.id.restarting_wrapper);
-				TextView statusHeader = (TextView) getView().findViewById(R.id.status_header);
-				ImageView statusImage = (ImageView) getView().findViewById(R.id.status_image);
-				TextView statusDescriptor = (TextView) getView().findViewById(R.id.status_long);
+				LinearLayout statusWrapper = getView().findViewById(R.id.status_wrapper);
+				LinearLayout centerWrapper = getView().findViewById(R.id.center_wrapper);
+				LinearLayout restartingWrapper = getView().findViewById(R.id.restarting_wrapper);
+				TextView statusHeader = getView().findViewById(R.id.status_header);
+				ImageView statusImage = getView().findViewById(R.id.status_image);
+				TextView statusDescriptor = getView().findViewById(R.id.status_long);
 
 				statusWrapper.setVisibility(View.VISIBLE);
 				restartingWrapper.setVisibility(View.GONE);
