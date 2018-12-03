@@ -413,7 +413,7 @@ public class PrefsFragment extends Fragment {
          			   item.ID == R.string.prefs_disk_min_free_gb_header ||
          			   item.ID == R.string.prefs_disk_access_interval_header ||
          			   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
-					   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
+         			   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
          		   EditText edit = dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
