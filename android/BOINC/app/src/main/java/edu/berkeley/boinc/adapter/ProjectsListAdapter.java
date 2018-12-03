@@ -133,21 +133,21 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 			// element is account manager
 			
 			// populate name
-	        TextView tvName = (TextView)vi.findViewById(R.id.name);
+	        TextView tvName = vi.findViewById(R.id.name);
 	        tvName.setText(data.acctMgrInfo.acct_mgr_name);
 	        
 	        // populate url
-	        TextView tvUrl = (TextView)vi.findViewById(R.id.url);
+	        TextView tvUrl = vi.findViewById(R.id.url);
 	        tvUrl.setText(data.acctMgrInfo.acct_mgr_url);
 			
 		} else {
 			// element is project
 			
 			// set data of standard elements
-	        TextView tvName = (TextView)vi.findViewById(R.id.project_name);
+	        TextView tvName = vi.findViewById(R.id.project_name);
 	        tvName.setText(getName(position));
 	        
-	        TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
+	        TextView tvUser = vi.findViewById(R.id.project_user);
 	        String userText = getUser(position);
 	        if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
 	        else {
@@ -157,14 +157,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	        
 		    String statusText = "";
 		    try{statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);}catch(Exception e){}
-	        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
+	        TextView tvStatus = vi.findViewById(R.id.project_status);
 		    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
 		    else {
 		    	tvStatus.setVisibility(View.VISIBLE);
 		    	tvStatus.setText(statusText);
 		    }
 		    
-		    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
+		    ImageView ivIcon = vi.findViewById(R.id.project_icon);
 		    String finalIconId = (String)ivIcon.getTag();
 		    if(finalIconId == null || !finalIconId.equals(data.id)) {
 			    Bitmap icon = getIcon(position);
@@ -182,7 +182,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 		    
 		    // transfers
 		    Integer numberTransfers = data.projectTransfers.size();
-		    TextView tvTransfers = (TextView)vi.findViewById(R.id.project_transfers);
+		    TextView tvTransfers = vi.findViewById(R.id.project_transfers);
 		    String transfersString = "";
 		    if (numberTransfers > 0) { // ongoing transfers
 		    	// summarize information for compact representation
@@ -241,7 +241,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	    	
 	    	// server notice
 	    	Notice notice = data.getLastServerNotice();
-	        TextView tvNotice = (TextView)vi.findViewById(R.id.project_notice);
+	        TextView tvNotice = vi.findViewById(R.id.project_notice);
 	    	if(notice == null) {
 	    		tvNotice.setVisibility(View.GONE);
 	    	} else {
@@ -251,7 +251,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	    	}
 	    	
 	    	// icon background
-    		RelativeLayout iconBackground = (RelativeLayout)vi.findViewById(R.id.icon_background);
+    		RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
 	    	if(data.project.attached_via_acct_mgr) {
 	    		iconBackground.setBackgroundDrawable(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
 	    	} else {

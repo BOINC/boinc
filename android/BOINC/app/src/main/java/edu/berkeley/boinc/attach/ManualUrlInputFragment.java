@@ -46,9 +46,9 @@ public class ManualUrlInputFragment extends DialogFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.attach_project_manual_url_input_dialog, container, false);
         
-        urlInputET = (EditText) v.findViewById(R.id.url_input);
+        urlInputET = v.findViewById(R.id.url_input);
         
-        Button continueButton = (Button) v.findViewById(R.id.continue_button);
+        Button continueButton = v.findViewById(R.id.continue_button);
         continueButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -70,16 +70,16 @@ public class AcctMgrFragment extends DialogFragment{
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
         
-        urlSpinner = (Spinner) v.findViewById(R.id.url_spinner);
+        urlSpinner = v.findViewById(R.id.url_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
         
-        nameInput = (EditText) v.findViewById(R.id.name_input);
-        pwdInput = (EditText) v.findViewById(R.id.pwd_input);
-        warning = (TextView) v.findViewById(R.id.warning);
-        ongoingWrapper = (LinearLayout) v.findViewById(R.id.ongoing_wrapper);
-        continueB = (Button) v.findViewById(R.id.continue_button);
+        nameInput = v.findViewById(R.id.name_input);
+        pwdInput = v.findViewById(R.id.pwd_input);
+        warning = v.findViewById(R.id.warning);
+        ongoingWrapper = v.findViewById(R.id.ongoing_wrapper);
+        continueB = v.findViewById(R.id.continue_button);
         continueB.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

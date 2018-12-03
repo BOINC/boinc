@@ -113,8 +113,8 @@ public class BOINCActivity extends AppCompatActivity {
 
         // setup navigation bar
         mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+		mDrawerList = findViewById(R.id.list_slidermenu);
 		mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -279,8 +279,8 @@ public class BOINCActivity extends AppCompatActivity {
 				final Dialog dialog = new Dialog(this);
 				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				dialog.setContentView(R.layout.dialog_about);
-				Button returnB = (Button) dialog.findViewById(R.id.returnB);
-				TextView tvVersion = (TextView)dialog.findViewById(R.id.version);
+				Button returnB = dialog.findViewById(R.id.returnB);
+				TextView tvVersion = dialog.findViewById(R.id.version);
 				try {
 					tvVersion.setText(getString(R.string.about_version) + " "
 							+ getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
