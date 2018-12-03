@@ -108,9 +108,9 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    				case GIGABYTES:
 	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status.doubleValue() * 0x40000000));
 	    					break;
-						case DAYS:
-							value = DecimalFormat.getNumberInstance().format(item.status);
-							break;
+	    				case DECIMAL:
+	    					value = DecimalFormat.getNumberInstance().format(item.status);
+	    					break;
 	    				default:
 	    					value = NumberFormat.getInstance().format(item.status);
 	    			}
