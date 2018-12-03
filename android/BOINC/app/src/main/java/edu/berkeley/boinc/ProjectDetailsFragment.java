@@ -190,9 +190,9 @@ public class ProjectDetailsFragment extends Fragment {
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_confirm);
-		Button confirm = (Button) dialog.findViewById(R.id.confirm);
-		TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
-		TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+		Button confirm = dialog.findViewById(R.id.confirm);
+		TextView tvTitle = dialog.findViewById(R.id.title);
+		TextView tvMessage = dialog.findViewById(R.id.message);
 		
 		// operation dependend texts
 		if (operation == RpcClient.PROJECT_DETACH) {
