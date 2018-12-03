@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -109,13 +110,17 @@ public class ProjectDetailsFragment extends Fragment {
 		return layout;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttach(Activity activity) {
 		// first time fragment can get a valid context (before this, getActivity() will return null!)
-		Display display = activity.getWindowManager().getDefaultDisplay(); 
-		width = display.getWidth();
-		height = display.getHeight();
+		Display display = activity.getWindowManager().getDefaultDisplay();
+
+		Point size = new Point();
+		display.getSize(size);
+
+		width = size.x;
+		height = size.y;
+
 		super.onAttach(activity);
 	}
 
