@@ -190,7 +190,7 @@ function show_status_html($x) {
     if ( isset($server_version) ) {
        $url = "https://github.com/BOINC/boinc/tree/server_release/";
        $url .= explode(".", $server_version)[0] . "." . explode(".", $server_version)[1] . "/" . "$server_version";
-       echo "Server version: <a href=\"" . $url . "\">$server_version</a> <br>";
+       echo "Upstream server release: <a href=\"" . $url . "\">$server_version</a> <br>";
     }
 
     if ($j->db_revision) {
