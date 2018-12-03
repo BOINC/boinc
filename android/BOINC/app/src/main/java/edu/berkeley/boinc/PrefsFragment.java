@@ -195,6 +195,10 @@ public class PrefsFragment extends Fragment {
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
+		// other
+		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_other,true));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_other_store_at_least_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_min_days));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_additional_days));
 		// debug
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_debug,true));
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_client_log_flags_header,R.string.prefs_category_debug));
@@ -239,10 +243,10 @@ public class PrefsFragment extends Fragment {
 		SeekBar slider = dialog.findViewById(R.id.seekbar);
 		
 		if(valueWrapper.ID == R.string.battery_charge_min_pct_header || 
-				valueWrapper.ID == R.string.prefs_disk_max_pct_header || 
+				valueWrapper.ID == R.string.prefs_disk_max_pct_header ||
 				valueWrapper.ID == R.string.prefs_cpu_time_max_header ||
-				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header || 
-				valueWrapper.ID == R.string.prefs_memory_max_idle_header ) {
+				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header ||
+				valueWrapper.ID == R.string.prefs_memory_max_idle_header) {
 			Double seekBarDefault = valueWrapper.status / 10;
 			slider.setProgress(seekBarDefault.intValue());
 			final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
@@ -407,7 +411,9 @@ public class PrefsFragment extends Fragment {
          	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
          			   item.ID == R.string.battery_temperature_max_header ||
          			   item.ID == R.string.prefs_disk_min_free_gb_header ||
-         			   item.ID == R.string.prefs_disk_access_interval_header) {
+         			   item.ID == R.string.prefs_disk_access_interval_header ||
+         			   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
+         			   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
          		   EditText edit = dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
@@ -464,6 +470,12 @@ public class PrefsFragment extends Fragment {
 			break;
 		case R.string.prefs_memory_max_idle_header:
 			clientPrefs.ram_max_used_idle_frac = value;
+			break;
+		case R.string.prefs_other_store_at_least_x_days_of_work_header:
+			clientPrefs.work_buf_min_days = value;
+			break;
+		case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
+			clientPrefs.work_buf_additional_days = value;
 			break;
 		default:
 			if(Logging.DEBUG) Log.d(Logging.TAG,"onClick (dialog submit button), couldnt match ID");
@@ -635,6 +647,16 @@ public class PrefsFragment extends Fragment {
 			case R.string.prefs_memory_max_idle_header:
 				setupSliderDialog(item, dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				break;
+			case R.string.prefs_other_store_at_least_x_days_of_work_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
+			case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
 				break;
 			case R.string.prefs_client_log_flags_header:
 				try {

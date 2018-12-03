@@ -32,6 +32,8 @@ import android.widget.TextView;
 import edu.berkeley.boinc.PrefsFragment;
 import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
 import edu.berkeley.boinc.R;
+
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -105,6 +107,9 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    					break;
 	    				case GIGABYTES:
 	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status.doubleValue() * 0x40000000));
+	    					break;
+	    				case DECIMAL:
+	    					value = DecimalFormat.getNumberInstance().format(item.status);
 	    					break;
 	    				default:
 	    					value = NumberFormat.getInstance().format(item.status);
