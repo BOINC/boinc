@@ -27,7 +27,7 @@ else
 fi
 
 if [ "x$GIT_LOG" != "x" ]; then
-    echo "#define SVN_VERSION \"$GIT_LOG [$URL] ($HOST:$PWD [$BRANCH])\"" >> $TMPFILE
+    echo "#define SVN_VERSION \"$GIT_LOG [$URL] ($HOST:$PWD [$BRANCH]) [Server-Release: $SERVER_VERSION]\"" >> $TMPFILE
     echo "$GIT_LOG" | sed 's/^\(........\).*/#define GIT_REVISION 0x\1/' >> $TMPFILE
     echo "#define GIT_DATE $DATE" >> $TMPFILE
     test "x$URL" = "x" ||
