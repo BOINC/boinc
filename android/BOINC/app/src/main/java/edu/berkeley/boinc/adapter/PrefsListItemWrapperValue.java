@@ -30,7 +30,8 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		SECONDS,
 		CELSIUS,
 		MEGABYTES,
-		GIGABYTES
+		GIGABYTES,
+		DAYS
 	}
 	PrefsListItemWrapperValue.Unit unit;
 	public Double status;
@@ -85,11 +86,12 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			break;
 		case R.string.prefs_other_store_at_least_x_days_of_work_header:
 			description = ctx.getString(R.string.prefs_other_store_at_least_x_days_of_work_description);
-			this.unit = PrefsListItemWrapperValue.Unit.NONE;
+			this.unit = PrefsListItemWrapperValue.Unit.DAYS;
 			break;
 		case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
 			description = ctx.getString(R.string.prefs_other_store_up_to_an_additional_x_days_of_work_description);
-			this.unit = PrefsListItemWrapperValue.Unit.NONE;
+			this.unit = PrefsListItemWrapperValue.Unit.DAYS;
+			break;
 		case R.string.prefs_gui_log_level_header:
 			description = ctx.getString(R.string.prefs_gui_log_level_description);
 			this.unit = PrefsListItemWrapperValue.Unit.NONE;
