@@ -8,6 +8,7 @@ ProtectHome=true
 Type=simple
 Nice=10
 User=boinc
+SupplementaryGroups=video
 WorkingDirectory=/var/lib/boinc
 ExecStart=@exec_prefix@/bin/boinc
 ExecStop=@exec_prefix@/bin/boinccmd --quit
