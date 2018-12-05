@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
-import android.view.WindowManager;
 
 /**
  * An API 11+ implementation of {@link SystemUiHider}. Uses APIs available in
@@ -99,32 +98,12 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
 		public void onSystemUiVisibilityChange(int vis) {
 			// Test against mTestFlags to see if the system UI is visible.
 			if ((vis & mTestFlags) != 0) {
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-					// Pre-Jelly Bean, we must manually hide the action bar
-					// and use the old window flags API.
-					mActivity.getActionBar().hide();
-					mActivity.getWindow().setFlags(
-							WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
-				}
-
-				// Trigger the registered listener and cache the visibility
-				// state.
+				// Trigger the registered listener and cache the visibility state.
 				mOnVisibilityChangeListener.onVisibilityChange(false);
 				mVisible = false;
-
 			} else {
 				mAnchorView.setSystemUiVisibility(mShowFlags);
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-					// Pre-Jelly Bean, we must manually show the action bar
-					// and use the old window flags API.
-					mActivity.getActionBar().show();
-					mActivity.getWindow().setFlags(0,
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
-				}
-
-				// Trigger the registered listener and cache the visibility
-				// state.
+				// Trigger the registered listener and cache the visibility state.
 				mOnVisibilityChangeListener.onVisibilityChange(true);
 				mVisible = true;
 			}
