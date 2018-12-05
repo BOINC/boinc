@@ -146,16 +146,24 @@ function _bbcode_filter_process(&$body, $format = -1) {
     $body = preg_replace('#(<[/]*([uo]l|li).*>.*)<br />#i', '$1', $body);
   } // end processing for [list] and [*]
 
+  // Implement [notag]
+  $body = preg_replace_callback('#\[notag(?::\w+)?\](.*?)\[/notag(?::\w+)?\]#si',
+      function ($matches) { return _bbcode_notag_tag($matches[1]); }, $body);
+
+  // PHP code blocks (syntax highlighted)
+  $body = preg_replace_callback('#\[php(?::\w+)?\](?:[\r\n])*(.*?)\[/php(?::\w+)?\]#si',
+      function ($matches) { return _bbcode_php_tag($matches[1]); }, $body);
+
+  // Headings and indexes - articles will almost always need them
+  $body = preg_replace_callback('#\[h([1-6])(?::\w+)?\](.*?)\[/h[1-6](?::\w+)?\]#si',
+      function ($matches) { return _bbcode_generate_heading($matches[1], $matches[2]); }, $body);
+  $body = preg_replace_callback('#\[index\s*/?\]#si',
+      function ($matches) { return _bbcode_generate_index($body); }, $body);
+  $body = preg_replace_callback('#\[index style=(ol|ul)\]#si',
+      function ($matches) { return _bbcode_generate_index($bosy, $matches[1]); }, $body);
+
   // Define BBCode tags
   $preg = array(
-    // Implement [notag]
-    '#\[notag(?::\w+)?\](.*?)\[/notag(?::\w+)?\]#sie'        => '_bbcode_notag_tag(\'\\1\')',
-
-    // Headings and indexes - articles will almost always need them
-    '#\[h([1-6])(?::\w+)?\](.*?)\[/h[1-6](?::\w+)?\]#sie'    => '_bbcode_generate_heading(\\1, \'\\2\')',
-    '#\[index\s*/?\]#sie'                                    => '_bbcode_generate_index($body)',
-    '#\[index style=(ol|ul)\]#sie'                           => '_bbcode_generate_index($body, \'\\1\')',
-
     // Font, text and alignment
     '#\[align=(\w+)(?::\w+)?\](.*?)\[/align(?::\w+)?\]#si'   => '<span style="text-align:\\1">\\2</span>',
     '#\[float=(left|right)(?::\w+)?\](.*?)\[/float(?::\w+)?\]#si' => '<span style="float:\\1">\\2</span>',
@@ -196,9 +204,6 @@ function _bbcode_filter_process(&$body, $format = -1) {
     '#\[quote(?::\w+)?\]#i'                                    => '<div class="bb-quote">'.$quote_text.'<blockquote class="bb-quote-body">',
     '#\[quote=(?:&quot;|"|\')?(.*?)["\']?(?:&quot;|"|\')?\]#i' => '<div class="bb-quote"><b>'.$quote_user.'</b><blockquote class="bb-quote-body">',
     '#\[/quote(?::\w+)?\]#si'                                  => '</blockquote></div>',
-
-    // PHP code blocks (syntax highlighted)
-    '#\[php(?::\w+)?\](?:[\r\n])*(.*?)\[/php(?::\w+)?\]#sie' => '_bbcode_php_tag(\'\\1\')',
 
     // Links to popular sites
     '#\[google(?::\w+)?\]([\w\s-]+?)\[/google(?::\w+)?\]#si'       => '<a href="http://www.google.com/search?q=\\1">\\1</a>',
