@@ -89,14 +89,14 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         	text = activity.getResources().getString(R.string.projects_control_reset);
     		break;
     	case RpcClient.PROJECT_DETACH:
-        	tvText.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
+        	tvText.setBackground(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
         	text = activity.getResources().getString(R.string.projects_control_remove);
     		break;
     	case RpcClient.MGR_SYNC:
         	text = activity.getResources().getString(R.string.projects_control_sync_acctmgr);
     		break;
     	case RpcClient.MGR_DETACH:
-        	tvText.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
+        	tvText.setBackground(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
         	text = activity.getResources().getString(R.string.projects_control_remove_acctmgr);
     		break;
     	case RpcClient.TRANSFER_RETRY:
