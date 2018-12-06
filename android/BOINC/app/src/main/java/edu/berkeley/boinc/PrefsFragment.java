@@ -361,7 +361,7 @@ public class PrefsFragment extends Fragment {
 								clientPrefs.run_on_batteries = option.selected;
 								new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
 								break;
-							};
+							}
 						}
 						dialog.dismiss();
 					} catch(RemoteException e) {}

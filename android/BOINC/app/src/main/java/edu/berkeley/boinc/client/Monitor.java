@@ -399,7 +399,7 @@ public class Monitor extends Service {
 						if(transfers == null) nullValues += "transfers,";
 						if(state.host_info == null) nullValues += "state.host_info,";
 						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
-					} catch (NullPointerException e) {};
+					} catch (NullPointerException e) {}
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				

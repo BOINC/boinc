@@ -44,8 +44,8 @@ public class TimePreferences  implements Parcelable{
 		public String endHourString() {
 			return hourToString(end_hour);
 		}
-	};
-	
+	}
+
 	public TimeSpan[] week_prefs  = new TimeSpan[7];
 	
 	public String startHourString() {
