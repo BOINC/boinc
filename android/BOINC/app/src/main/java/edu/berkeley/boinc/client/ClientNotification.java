@@ -155,7 +155,7 @@ public class ClientNotification {
 		String statusTitle = status.getCurrentStatusTitle();
 		
 		// build notification
-		NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
+		NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
 		nb.setContentTitle(statusTitle)
         	.setSmallIcon(getIcon(computingStatus))
         	.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))
