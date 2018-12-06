@@ -87,7 +87,7 @@ function _bbcode_filter_process(&$body, $format = -1) {
     $arr = array(
       'tag'         => 'size',
       'pattern'     => '#\[\x07=([\d]+)(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#esi',
-      'replacement' => '"<span style=\"font-size:". _bbcode_round_size_val(\'$1\') ."px\">". str_replace(\'\"\', \'"\', \'$2\') ."</span>"',
+      'replacement' => '"<span style=\"font-size:". _bbcode_size_val(\'$1\') ."\">". str_replace(\'\"\', \'"\', \'$2\') ."</span>"',
       'text'        => $body);
     $body = _bbcode_replace_nest_tag($arr);
   } // end processing for [size]
@@ -182,7 +182,7 @@ function _bbcode_filter_process(&$body, $format = -1) {
     '#\[url(?::\w+)?\]www\.([\w:;&,%+~!=@\/\.\-\#\?]+?)\[/url(?::\w+)?\]#si' => '<a href="http://www.\\1" class="bb-url">\\1</a>',
     '#\[url(?::\w+)?\]([\w:;&,%+~!=@\/\.\-\#\?]+?)\[/url(?::\w+)?\]#si'   => '<a href="\\1" class="bb-url">\\1</a>',
     '#\[url=www\.([\w:;&,%+~!=@\/\.\-\#\?]+?)\](.*?)\[/url(?::\w+)?\]#si' => '<a href="http://www.\\1" class="bb-url">\\2</a>',
-    '#\[url=([\w:;&,%+~!=@\/\.\-\#\?]+?)\](.*?)\[/url(?::\w+)?\]#si'      => '<a href="\\1" class="bb-url">\\2</a>',
+    '#\[url="?\'?([\w:;&,%+~!=@\/\.\-\#\?]+?)"?\'?\](.*?)\[/url(?::\w+)?\]#si' => '<a href="\\1" class="bb-url">\\2</a>',
 
     // Anchor tags for linking within documents
     '#\[anchor=(\w+)(?::\w+)?\](.*?)\[/anchor(?::\w+)?\]#si' => '<a name="\\1">\\2</a>',
@@ -208,7 +208,8 @@ function _bbcode_filter_process(&$body, $format = -1) {
     // Links to popular sites
     '#\[google(?::\w+)?\]([\w\s-]+?)\[/google(?::\w+)?\]#si'       => '<a href="http://www.google.com/search?q=\\1">\\1</a>',
     '#\[wikipedia(?::\w+)?\]([\w\s-]+?)\[/wikipedia(?::\w+)?\]#si' => '<a href="http://www.wikipedia.org/wiki/\\1">\\1</a>',
-    '#\[youtube\]([0-9a-zA-Z_\-]+)\[/youtube\]#si'                 => '<object width="425" height="366"><param name="movie" value="http://www.youtube.com/v/\\1"></param><embed src="http://www.youtube.com/v/\\1" type="application/x-shockwave-flash" width="425" height="366"></embed></object>',
+    '#\[youtube\]([0-9a-zA-Z_\-]+)\[/youtube\]#si' => '<iframe width="425" height="366" src="//www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>',
+     // Table tags
 
     // Table tags
     '#\[table\](.+?)\[/table\]#si'                           => '<table class="bb-table">\\1</table>', 
@@ -353,13 +354,13 @@ function _bbcode_php_tag($text = NULL) {
   return '<pre>'. highlight_string( str_replace('<br />', '', stripslashes($text)), true) .'</pre>';
 }
 
-function _bbcode_round_size_val($size) {
-  if ($size < 6)
-      return 6;
-  elseif ($size > 48)
-      return 48;
-  else
-     return $size;
+function _bbcode_size_val($size) {
+   if ($size < 6)
+      return '6px';
+  elseif ($size <= 48)
+      return $size . 'px';
+   else
+     return $size . '%';
 }
 
 function _bbcode_replace_nest_tag($arr = NULL) {
