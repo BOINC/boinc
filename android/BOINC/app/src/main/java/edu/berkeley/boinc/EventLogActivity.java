@@ -25,7 +25,10 @@ import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
+
+import android.content.ClipData;
 import android.content.ComponentName;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -33,7 +36,6 @@ import android.os.IBinder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar.Tab;
-import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -185,8 +187,9 @@ public class EventLogActivity extends AppCompatActivity {
 	
 	private void onCopy() {
 		try {
-			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
-			clipboard.setText(getLogDataAsString());
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clipData = ClipData.newPlainText("log", getLogDataAsString());
+			clipboard.setPrimaryClip(clipData);
 			Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
 		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onCopy failed");}
 	}
