@@ -99,7 +99,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		ImageView expandButton = v.findViewById(R.id.expandCollapse);
 		
 		// --- set up view elements that are independent of "active" and "expanded" state
-		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
+		ImageView ivIcon = v.findViewById(R.id.projectIcon);
 		String finalIconId = (String)ivIcon.getTag();
 	    if(finalIconId == null || !finalIconId.equals(listItem.id)) {
 			Bitmap icon = getIcon(position);
