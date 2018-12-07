@@ -158,7 +158,7 @@ public class ProjectsFragment extends Fragment {
 		for(int x = 0; x < data.size(); x++) {
 			if(data.get(x).isMgr) {
 				mgrIndex = x;
-				continue;
+				break;
 			}
 		}
 		if(mgrIndex < 0) { // no manager present until now
@@ -185,7 +185,7 @@ public class ProjectsFragment extends Fragment {
 			for(int x = 0; x < data.size(); x++) {
 				if(rpcResult.master_url.equals(data.get(x).id)) {
 					index = x;
-					continue;
+					break;
 				}
 			}
 			if(index == null) { // result is new, add
@@ -207,7 +207,7 @@ public class ProjectsFragment extends Fragment {
 			for(Project rpcResult: latestRpcProjectsList) {
 				if(listItem.id.equals(rpcResult.master_url)) {
 					found = true;
-					continue;
+					break;
 				}
 			}
 			if(!found) iData.remove();
@@ -225,7 +225,6 @@ public class ProjectsFragment extends Fragment {
 						project.addServerNotice(serverNotice);
 						noticeFound = true;
 						mappedServerNotices++;
-						continue;
 					}
 				}
 				if(!noticeFound) project.addServerNotice(null);

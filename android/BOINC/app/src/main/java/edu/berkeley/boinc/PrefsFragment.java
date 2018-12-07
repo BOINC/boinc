@@ -219,7 +219,6 @@ public class PrefsFragment extends Fragment {
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperBool) item).setStatus(newValue);
-				continue;
 			}
 		}
 	}
@@ -231,7 +230,6 @@ public class PrefsFragment extends Fragment {
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperValue) item).status = newValue;
-				continue;
 			}
 		}
 	}
