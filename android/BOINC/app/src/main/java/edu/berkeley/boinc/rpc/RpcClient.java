@@ -181,7 +181,7 @@ public class RpcClient {
 			return false;
 		}
 		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
 			mSocket = null;
 			return false;
 		}
@@ -525,12 +525,12 @@ public class RpcClient {
 			}
 			sendRequest(request);
 			ArrayList<Notice> notices = NoticesParser.parse(receiveReply());
-			if(notices == null) notices = new ArrayList<Notice>(); // do not return null
+			if(notices == null) notices = new ArrayList<>(); // do not return null
 			return notices;
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
-			return new ArrayList<Notice>();
+			return new ArrayList<>();
 		}
 	}
 

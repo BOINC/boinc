@@ -27,7 +27,7 @@ import android.util.Xml;
 
 public class ProjectInfoParser extends BaseParser {
 
-	private ArrayList<ProjectInfo> mProjectInfos = new ArrayList<ProjectInfo>();
+	private ArrayList<ProjectInfo> mProjectInfos = new ArrayList<>();
 	private ProjectInfo mProjectInfo = null;
 	private ArrayList<String> mPlatforms;
 	Boolean withinPlatforms = false;
@@ -55,7 +55,7 @@ public class ProjectInfoParser extends BaseParser {
 		if (localName.equalsIgnoreCase("project")) {
 			mProjectInfo = new ProjectInfo();
 		} else if (localName.equalsIgnoreCase("platforms")) {
-			mPlatforms = new ArrayList<String>(); //initialize new list (flushing old elements)
+			mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
 			withinPlatforms = true;
 		}
 		else {

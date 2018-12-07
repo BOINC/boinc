@@ -67,7 +67,7 @@ public class ProjectConfigReplyParser extends BaseParser {
 			mProjectConfig = new ProjectConfig();
 		} else if (localName.equalsIgnoreCase("platforms")) {
 			withinPlatforms = true;
-			mPlatforms = new ArrayList<PlatformInfo>(); //initialize new list (flushing old elements)
+			mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
 		}
 		else {
 			// Another element, hopefully primitive and not constructor

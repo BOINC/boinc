@@ -29,7 +29,7 @@ import android.util.Xml;
 
 public class AppVersionsParser extends DefaultHandler {
 
-	private ArrayList<AppVersion> mAppVersions = new ArrayList<AppVersion>();
+	private ArrayList<AppVersion> mAppVersions = new ArrayList<>();
 	private AppVersion mAppVersion = null;
 	private StringBuilder mCurrentElement = new StringBuilder();
 

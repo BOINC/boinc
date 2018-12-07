@@ -51,7 +51,7 @@ public class BatchProcessingActivity extends FragmentActivity{
     private static final int NUM_HINTS = 3; // number of available hint screens
     private ViewPager mPager; // pager widget, handles animation and horizontal swiping gestures
     private PagerAdapter mPagerAdapter; // provides content to pager
-	private ArrayList<HintFragment> hints = new ArrayList<HintFragment>(); // hint fragments
+	private ArrayList<HintFragment> hints = new ArrayList<>(); // hint fragments
 	
 	//header
 	private TextView hintTv;

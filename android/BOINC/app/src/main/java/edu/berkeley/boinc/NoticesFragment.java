@@ -40,7 +40,7 @@ public class NoticesFragment extends Fragment {
 
 	private ListView noticesList;
 	private NoticesListAdapter noticesListAdapter;
-	private ArrayList<Notice> data = new ArrayList<Notice>();
+	private ArrayList<Notice> data = new ArrayList<>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

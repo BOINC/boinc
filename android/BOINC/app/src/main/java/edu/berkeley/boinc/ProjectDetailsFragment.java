@@ -61,7 +61,7 @@ public class ProjectDetailsFragment extends Fragment {
 	private String url;
 	private ProjectInfo projectInfo; // might be null for projects added via manual URL attach
 	private Project project;
-    private ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>();
+    private ArrayList<ImageWrapper> slideshowImages = new ArrayList<>();
     
     private LayoutInflater li;
     private View root;

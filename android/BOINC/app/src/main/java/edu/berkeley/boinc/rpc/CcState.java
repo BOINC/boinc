@@ -24,11 +24,11 @@ import java.util.ArrayList;
 public class CcState{
 	public VersionInfo version_info;
 	public HostInfo host_info;
-	public ArrayList<Project> projects = new ArrayList<Project>();
-	public ArrayList<App> apps = new ArrayList<App>();
-	public ArrayList<AppVersion> app_versions = new ArrayList<AppVersion>();
-	public ArrayList<Workunit> workunits = new ArrayList<Workunit>();
-	public ArrayList<Result> results = new ArrayList<Result>();
+	public ArrayList<Project> projects = new ArrayList<>();
+	public ArrayList<App> apps = new ArrayList<>();
+	public ArrayList<AppVersion> app_versions = new ArrayList<>();
+	public ArrayList<Workunit> workunits = new ArrayList<>();
+	public ArrayList<Result> results = new ArrayList<>();
 	public boolean have_ati;
 	public boolean have_cuda;
 	

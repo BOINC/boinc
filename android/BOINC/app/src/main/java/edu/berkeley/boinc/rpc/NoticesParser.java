@@ -30,7 +30,7 @@ import android.util.Xml;
 public class NoticesParser extends BaseParser {
 	
 	private Notice mNotice = null;
-	private ArrayList<Notice> mNotices = new ArrayList<Notice>();
+	private ArrayList<Notice> mNotices = new ArrayList<>();
 
 	public final ArrayList<Notice> getNotices() {
 		return mNotices;
@@ -44,7 +44,7 @@ public class NoticesParser extends BaseParser {
 		}
 		catch (SAXException e) {
 			Log.d("NoticesParser","SAXException " + e.getMessage() + e.getException());
-			return new ArrayList<Notice>();
+			return new ArrayList<>();
 		}
 	}
 

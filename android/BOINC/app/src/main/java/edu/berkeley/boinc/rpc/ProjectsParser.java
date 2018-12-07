@@ -28,7 +28,7 @@ import android.util.Xml;
 
 public class ProjectsParser extends BaseParser {
 
-	private ArrayList<Project> mProjects = new ArrayList<Project>();
+	private ArrayList<Project> mProjects = new ArrayList<>();
 	private Project mProject = null;
 	private GuiUrl mGuiUrl = null;
 

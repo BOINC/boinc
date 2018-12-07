@@ -100,8 +100,8 @@ public class ClientStatus {
 	private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
 	
 	// notices
-	private ArrayList<Notice> rssNotices = new ArrayList<Notice>();
-	private ArrayList<Notice> serverNotices = new ArrayList<Notice>();
+	private ArrayList<Notice> rssNotices = new ArrayList<>();
+	private ArrayList<Notice> serverNotices = new ArrayList<>();
 	private int mostRecentNoticeSeqNo = 0; 
 	
 	public ClientStatus(Context ctx) {
@@ -324,7 +324,7 @@ public class ClientStatus {
 	// images: 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
 	// not aware of application!
 	public synchronized ArrayList<ImageWrapper> getSlideshowForProject(String masterUrl) {
-		ArrayList<ImageWrapper> images = new ArrayList<ImageWrapper>();
+		ArrayList<ImageWrapper> images = new ArrayList<>();
 		for(Project project: projects) {
 			if(!project.master_url.equals(masterUrl)) continue;
 			// get file paths of soft link files
@@ -336,7 +336,7 @@ public class ClientStatus {
 			});
 			if(foundFiles == null) continue; // prevent NPE
 			
-			ArrayList<String> allImagePaths = new ArrayList<String>();
+			ArrayList<String> allImagePaths = new ArrayList<>();
 			for (File file: foundFiles) {
 				String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
 				//check whether path is not empty, and avoid duplicates (slideshow images can 
@@ -407,7 +407,7 @@ public class ClientStatus {
 	}
 	
 	public ArrayList<Result> getExecutingTasks() {
-		ArrayList<Result> activeTasks = new ArrayList<Result>();
+		ArrayList<Result> activeTasks = new ArrayList<>();
 		for(Result tmp: results) {
 			if(tmp.active_task && tmp.active_task_state == BOINCDefs.PROCESS_EXECUTING)
 				activeTasks.add(tmp);
@@ -662,15 +662,13 @@ public class ClientStatus {
 		// reading text of symbolic link
 		String softLinkContent = "";
 		try {
-			FileInputStream stream = new FileInputStream(softLink);
-			try {
+			try (FileInputStream stream = new FileInputStream(softLink)) {
 				FileChannel fc = stream.getChannel();
-			    MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-			    /* Instead of using default, pass in a decoder. */
-			    softLinkContent =  Charset.defaultCharset().decode(bb).toString();
-			} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG,"IOException in parseIconFileName()",e);}
-			finally {
-				stream.close();
+				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+				/* Instead of using default, pass in a decoder. */
+				softLinkContent = Charset.defaultCharset().decode(bb).toString();
+			} catch (IOException e) {
+				if (Logging.WARNING) Log.w(Logging.TAG, "IOException in parseIconFileName()", e);
 			}
 		} catch (Exception e) {
 			// probably FileNotFoundException

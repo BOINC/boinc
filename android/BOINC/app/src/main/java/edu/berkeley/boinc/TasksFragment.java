@@ -50,7 +50,7 @@ public class TasksFragment extends Fragment {
 
 	private ListView lv;
 	private TasksListAdapter listAdapter;
-	private ArrayList<TaskData> data = new ArrayList<TaskData>();
+	private ArrayList<TaskData> data = new ArrayList<>();
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override

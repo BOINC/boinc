@@ -47,8 +47,8 @@ import java.util.Collections;
 public class SelectionListActivity extends FragmentActivity{
 
 	private ListView lv;
-	ArrayList<ProjectListEntry> entries = new ArrayList<ProjectListEntry>();
-	ArrayList<ProjectInfo> selected = new ArrayList<ProjectInfo>();
+	ArrayList<ProjectListEntry> entries = new ArrayList<>();
+	ArrayList<ProjectInfo> selected = new ArrayList<>();
 	
 	// services
 	private IMonitor monitor = null;

@@ -41,7 +41,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
 
 	//private final String TAG = "NavDrawerListAdapter";
 	private Context context;
-	private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<NavDrawerItem>();
+	private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<>();
 	
 	public int selectedMenuId = 0;
 	

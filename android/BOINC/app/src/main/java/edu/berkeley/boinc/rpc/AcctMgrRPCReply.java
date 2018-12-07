@@ -23,5 +23,5 @@ import java.util.ArrayList;
 
 public class AcctMgrRPCReply {
 	public int error_num = 0;
-	public ArrayList<String> messages = new ArrayList<String>();
+	public ArrayList<String> messages = new ArrayList<>();
 }
