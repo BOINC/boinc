@@ -239,8 +239,8 @@ public class BOINCActivity extends AppCompatActivity {
 	
 	/**
 	 * React to selection of nav bar item
-	 * @param item
-	 * @param init
+	 * @param item Nav bar item
+	 * @param init Initialize
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments

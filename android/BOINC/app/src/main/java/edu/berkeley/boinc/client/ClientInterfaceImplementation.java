@@ -302,8 +302,8 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * Adds account manager to BOINC client.
 	 * There can only be a single acccount manager be active at a time.
 	 * @param url URL of account manager
-	 * @param userName
-	 * @param pwd
+	 * @param userName user name of user
+	 * @param pwd password
 	 * @return status of attachment
 	 */
 	
