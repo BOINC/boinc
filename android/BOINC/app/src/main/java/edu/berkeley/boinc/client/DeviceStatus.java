@@ -242,7 +242,7 @@ public class DeviceStatus {
 		case BatteryManager.BATTERY_PLUGGED_AC:
 			enabled = appPrefs.getPowerSourceAc();
 			break;
-		case 4: // constant BATTERY_PLUGGED_WIRELESS, only defined in API Level 17
+		case BatteryManager.BATTERY_PLUGGED_WIRELESS:
 			enabled = appPrefs.getPowerSourceWireless();
 			break;
 		case BatteryManager.BATTERY_PLUGGED_USB:
