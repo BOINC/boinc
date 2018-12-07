@@ -240,7 +240,6 @@ public class BOINCActivity extends AppCompatActivity {
 	/**
 	 * React to selection of nav bar item
 	 * @param item
-	 * @param position
 	 * @param init
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {

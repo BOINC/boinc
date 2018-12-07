@@ -201,10 +201,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	/**
 	 * Looks up account credentials for given user data.
 	 * Contains authentication key for project attachment.
-	 * @param url URL of project, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
-	 * @param id user ID, can be either name or eMail, see usesName
-	 * @param pwd password
-	 * @param usesName if true, id represents a user name, if not, the user's email address
+	 * @param credentials account credentials
 	 * @return account credentials
 	 */
 	
@@ -268,11 +265,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	
 	/**
 	 * Creates account for given user information and returns account credentials if successful.
-	 * @param url master URL of project
-	 * @param email email address of user
-	 * @param userName user name of user
-	 * @param pwd password
-	 * @param teamName name of team, account shall get associated to
+	 * @param information account credentials
 	 * @return account credentials (see status inside, to check success)
 	 */
 	

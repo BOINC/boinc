@@ -275,7 +275,7 @@ public class SelectionListActivity extends FragmentActivity{
          * {@link Collator#getInstance() collation},<br>else {@code 1}
          * @see SelectionListActivity.ProjectListEntry#info
          * @see ProjectInfo#name
-         * @see Comparable#compareTo(T)
+         * @see Comparable
          */
         public final int compareTo(final SelectionListActivity.ProjectListEntry p) {
             return (SelectionListActivity.ProjectListEntry.collator == null ?

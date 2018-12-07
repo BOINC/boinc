@@ -1304,7 +1304,6 @@ public class RpcClient {
 	 * Triggers operation on task in BOINC core client
 	 * @param operation operation to be triggered
 	 * @param projectUrl master URL of project
-	 * @param fileName name of the file
 	 * @return true for success, false for failure
 	 */
 	public boolean resultOp(int operation, String projectUrl, String resultName) {
