@@ -129,14 +129,14 @@ public class NoticeNotification {
         final int notices;
         final String projectName;
 
-		nb = new NotificationCompat.Builder(this.context, "main-channel");
+        nb = new NotificationCompat.Builder(this.context, "main-channel");
         nb.setContentTitle(this.context.getResources().getQuantityString(
-			R.plurals.notice_notification,
-			notices = this.currentlyNotifiedNotices.size(),
-			projectName = this.currentlyNotifiedNotices.get(0).project_name,
-			notices)).
-				setSmallIcon(R.drawable.mailw).
-				setContentIntent(this.contentIntent);
+                R.plurals.notice_notification,
+                notices = this.currentlyNotifiedNotices.size(),
+                projectName = this.currentlyNotifiedNotices.get(0).project_name,
+                notices)).
+                        setSmallIcon(R.drawable.mailw).
+                        setContentIntent(this.contentIntent);
         if (notices == 1) {
             // single notice view
             nb.setContentText(this.currentlyNotifiedNotices.get(0).title).
