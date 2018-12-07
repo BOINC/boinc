@@ -858,7 +858,7 @@ public class RpcClient {
 	 * @param url project url
 	 * @param authenticator account key
 	 * @param name project name
-	 * @return
+	 * @return success
 	 */
 	public synchronized boolean projectAttach(String url, String authenticator, String name) {
 		try {
@@ -904,9 +904,9 @@ public class RpcClient {
 	 * performs acct_mgr_rpc towards client
 	 * attaches account manager to client
 	 * requires polling of status
-	 * @param url
-	 * @param name
-	 * @param passwd
+	 * @param url URL of project
+	 * @param name user name
+	 * @param passwd password
 	 * @return success
 	 */
 	public synchronized boolean acctMgrRPC(String url, String name, String passwd) {
@@ -1295,7 +1295,6 @@ public class RpcClient {
 	 * Triggers operation on task in BOINC core client
 	 * @param operation operation to be triggered
 	 * @param projectUrl master URL of project
-	 * @param fileName name of the file
 	 * @return true for success, false for failure
 	 */
 	public boolean resultOp(int operation, String projectUrl, String resultName) {

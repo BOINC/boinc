@@ -231,7 +231,7 @@ public class DeviceStatus {
 	 * Client is not aware of power source preference, adapt value of on_ac_power, according
 	 * to the conformance of the actual charger type with the manager based preference.
 	 * This policy might be subject to change.
-	 * @param chargerType
+	 * @param chargerType BatteryManager class
 	 * @return true, if change since last run
 	 */
 	private Boolean setAttributesForChargerType(int chargerType) {

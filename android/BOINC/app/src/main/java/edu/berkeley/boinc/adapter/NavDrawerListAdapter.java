@@ -142,7 +142,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
 	
 	/**
 	 * Compares list of projects to items represented in nav bar.
-	 * @param projects
+	 * @param projects Project list
 	 * @return Returns number of project items in nav bar after adding
 	 */
 	public Integer compareAndAddProjects(ArrayList<Project> projects){

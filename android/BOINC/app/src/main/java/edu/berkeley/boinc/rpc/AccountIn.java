@@ -41,7 +41,16 @@ public class AccountIn implements Parcelable{
 	public AccountIn() {
 		super();
 	}
-	
+
+	/**
+	 * Account credentials
+	 * @param url URL of project, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
+	 * @param email email address of user
+	 * @param userName user name
+	 * @param usesName if true, id represents a user name, if not, the user's email address
+	 * @param password password
+	 * @param teamName name of team, account shall get associated to
+	 */
 	public AccountIn(String url, String email, String userName, Boolean usesName, String password, String teamName) {
 		this.url = url;
 		this.email_addr = email;
