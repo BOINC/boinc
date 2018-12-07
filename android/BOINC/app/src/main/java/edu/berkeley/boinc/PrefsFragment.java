@@ -728,12 +728,12 @@ public class PrefsFragment extends Fragment {
 		
 		public SelectionDialogOption(int ID, Boolean selected) {
 			this(getResources().getString(ID), selected);
-			this.ID = Integer.valueOf(ID);
+			this.ID = ID;
 		}
 		
 		public SelectionDialogOption(int ID, Boolean selected, Boolean highlighted) {
 			this(getResources().getString(ID), selected, highlighted);
-			this.ID = Integer.valueOf(ID);
+			this.ID = ID;
 		}
 	}
 }
