@@ -61,7 +61,7 @@ public class BOINCUtils {
 	
 	@SuppressLint("DefaultLocale")
 	public static String formatSize(double fBytesSent, double fFileSize) {
-		String buf = new String();
+		String buf = "";
 	    double xTera = 1099511627776.0;
 	    double xGiga = 1073741824.0;
 	    double xMega = 1048576.0;
