@@ -398,8 +398,7 @@ public class RpcClient {
 		mRequest.append("</release>\n</exchange_versions>\n");
 		try {
 			sendRequest(mRequest.toString());
-			VersionInfo versionInfo = VersionInfoParser.parse(receiveReply());
-			return versionInfo;
+			return VersionInfoParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in exchangeVersions()", e);
@@ -416,8 +415,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_cc_status/>\n");
-			CcStatus ccStatus = CcStatusParser.parse(receiveReply());
-			return ccStatus;
+			return CcStatusParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getCcStatus()", e);
@@ -434,8 +432,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_file_transfers/>\n");
-			ArrayList<Transfer> transfers = TransfersParser.parse(receiveReply());
-			return transfers;
+			return TransfersParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getFileTransfers()", e);
@@ -452,8 +449,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_host_info/>\n");
-			HostInfo hostInfo = HostInfoParser.parse(receiveReply());
-			return hostInfo;
+			return HostInfoParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getHostInfo()", e);
@@ -500,8 +496,7 @@ public class RpcClient {
 					"</get_messages>\n";
 			}
 			sendRequest(request);
-			ArrayList<Message> messages = MessagesParser.parse(receiveReply());
-			return messages;
+			return MessagesParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
@@ -548,8 +543,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_project_status/>\n");
-			ArrayList<Project> projects = ProjectsParser.parse(receiveReply());
-			return projects;
+			return ProjectsParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getProjectStatus()", e);
@@ -570,8 +564,7 @@ public class RpcClient {
 			"</get_results>\n";
 		try {
 			sendRequest(request);
-			ArrayList<Result> results = ResultsParser.parse(receiveReply());
-			return results;
+			return ResultsParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getActiveResults()", e);
@@ -588,8 +581,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_results/>\n");
-			ArrayList<Result> results = ResultsParser.parse(receiveReply());
-			return results;
+			return ResultsParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getResults()", e);
@@ -606,8 +598,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_state/>\n");
-			CcState result = CcStateParser.parse(receiveReply());
-			return result;
+			return CcStateParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getState()", e);

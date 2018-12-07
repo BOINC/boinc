@@ -371,8 +371,7 @@ public class ClientStatus {
 						return null;
 					}
 					//if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
-					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
-					return icon;
+					return BitmapFactory.decodeFile(iconAbsPath);
 				}
 			}
 		} catch (Exception e) {
@@ -397,8 +396,7 @@ public class ClientStatus {
 						return null;
 					}
 					//if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
-					Bitmap icon = BitmapFactory.decodeFile(iconAbsPath);
-					return icon;
+					return BitmapFactory.decodeFile(iconAbsPath);
 				}
 			}
 		} catch (Exception e) {
