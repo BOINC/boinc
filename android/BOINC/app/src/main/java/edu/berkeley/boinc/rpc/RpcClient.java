@@ -914,7 +914,7 @@ public class RpcClient {
 	 * attaches account manager to client
 	 * requires polling of status
 	 * @param url URL of project
-	 * @param name user name of user
+	 * @param name user name
 	 * @param passwd password
 	 * @return success
 	 */

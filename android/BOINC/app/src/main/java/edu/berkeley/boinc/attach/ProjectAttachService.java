@@ -120,7 +120,7 @@ public class ProjectAttachService extends Service {
      * Set / update prior to calling attach or register
      * Saves email and user persistently to pre-populate fields
      * @param email email address of user
-     * @param user user name of user
+     * @param user user name
      * @param pwd password
      */
     public void setCredentials(String email, String user, String pwd) {
@@ -226,7 +226,7 @@ public class ProjectAttachService extends Service {
     /**
      * Checks user input, e.g. length of input. Shows an error toast if problem detected
      * @param email email address of user
-     * @param user user name of user
+     * @param user user name
      * @param pwd password
      * @return true if input verified
      */
