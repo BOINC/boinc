@@ -664,15 +664,13 @@ public class ClientStatus {
 		// reading text of symbolic link
 		String softLinkContent = "";
 		try {
-			FileInputStream stream = new FileInputStream(softLink);
-			try {
+			try (FileInputStream stream = new FileInputStream(softLink)) {
 				FileChannel fc = stream.getChannel();
-			    MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-			    /* Instead of using default, pass in a decoder. */
-			    softLinkContent =  Charset.defaultCharset().decode(bb).toString();
-			} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG,"IOException in parseIconFileName()",e);}
-			finally {
-				stream.close();
+				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+				/* Instead of using default, pass in a decoder. */
+				softLinkContent = Charset.defaultCharset().decode(bb).toString();
+			} catch (IOException e) {
+				if (Logging.WARNING) Log.w(Logging.TAG, "IOException in parseIconFileName()", e);
 			}
 		} catch (Exception e) {
 			// probably FileNotFoundException
