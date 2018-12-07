@@ -174,6 +174,5 @@ public class SplashActivity extends Activity {
     	notExclusiveDialogIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.BoincNotExclusiveDialog");
 	    startActivity(notExclusiveDialogIntent);
 		finish();
-		return;
 	}
 }
