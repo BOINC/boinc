@@ -181,7 +181,7 @@ public class RpcClient {
 			return false;
 		}
 		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
 			mSocket = null;
 			return false;
 		}
