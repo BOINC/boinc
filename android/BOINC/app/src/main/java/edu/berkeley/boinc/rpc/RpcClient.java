@@ -319,7 +319,7 @@ public class RpcClient {
 	 */
 	protected void sendRequest(String request) throws IOException {
 		if (Logging.RPC_PERFORMANCE) if(Logging.DEBUG) Log.d(Logging.TAG, "mRequest.capacity() = " + mRequest.capacity());
-		if (Logging.RPC_DATA) if(Logging.DEBUG) Log.d(Logging.TAG, "Sending request: \n" + request.toString());
+		if (Logging.RPC_DATA) if(Logging.DEBUG) Log.d(Logging.TAG, "Sending request: \n" + request);
 		if (mOutput == null)
 			return;
 		mOutput.write("<boinc_gui_rpc_request>\n");
