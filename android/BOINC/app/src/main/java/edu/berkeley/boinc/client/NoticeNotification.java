@@ -26,7 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
@@ -129,14 +129,14 @@ public class NoticeNotification {
         final int notices;
         final String projectName;
 
-        nb = (android.support.v7.app.NotificationCompat.Builder)(new NotificationCompat.Builder(this.context).
-            setContentTitle(this.context.getResources().getQuantityString(
+        nb = new NotificationCompat.Builder(this.context, "main-channel");
+        nb.setContentTitle(this.context.getResources().getQuantityString(
                 R.plurals.notice_notification,
                 notices = this.currentlyNotifiedNotices.size(),
                 projectName = this.currentlyNotifiedNotices.get(0).project_name,
                 notices)).
-            setSmallIcon(R.drawable.mailw).
-            setContentIntent(this.contentIntent));
+                        setSmallIcon(R.drawable.mailw).
+                        setContentIntent(this.contentIntent);
         if (notices == 1) {
             // single notice view
             nb.setContentText(this.currentlyNotifiedNotices.get(0).title).
