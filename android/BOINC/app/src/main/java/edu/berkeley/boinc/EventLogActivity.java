@@ -215,7 +215,7 @@ public class EventLogActivity extends AppCompatActivity {
 		StringBuffer text = new StringBuffer();
 		int type = getActiveLog();
 		if(type == CLIENT_LOG_TAB_ACTIVE) {
-			text.append(getString(R.string.eventlog_client_header) + "\n\n");
+			text.append(getString(R.string.eventlog_client_header)).append("\n\n");
 		    for (int index = 0; index < clientLogList.getCount(); index++) {
 				text.append(clientLogListAdapter.getDate(index));
 				text.append("|");
@@ -225,7 +225,7 @@ public class EventLogActivity extends AppCompatActivity {
 				text.append("\n");
 			}
 		} else if(type == GUI_LOG_TAB_ACTIVE) {
-			text.append(getString(R.string.eventlog_gui_header) + "\n\n");
+			text.append(getString(R.string.eventlog_gui_header)).append("\n\n");
 		    for (String line: guiLogData) {
 				text.append(line);
 				text.append("\n");

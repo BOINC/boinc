@@ -520,7 +520,7 @@ public class PrefsFragment extends Fragment {
 	private String formatOptionsToCcConfig(ArrayList<String> options) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("<cc_config>\n <log_flags>\n");
-	    for(String option: options) builder.append("  <" + option + "/>\n");
+	    for(String option: options) builder.append("  <").append(option).append("/>\n");
 	    builder.append(" </log_flags>\n <options>\n </options>\n</cc_config>");
 		return builder.toString();
 	}
