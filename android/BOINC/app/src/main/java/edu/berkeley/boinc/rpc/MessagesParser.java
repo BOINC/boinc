@@ -58,7 +58,7 @@ public class MessagesParser {
 			while (pos < end) {
 				/* skip spaces */
 				while (pos < end) {
-					if (!Character.isSpace(xml.charAt(pos)))
+					if (!Character.isWhitespace(xml.charAt(pos)))
 						break;
 					pos++;
 				}
