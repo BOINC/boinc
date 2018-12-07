@@ -95,7 +95,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * @return GUI RPC authentication code
 	 */
 	public String readAuthToken(String authFilePath) {
-    	StringBuffer fileData = new StringBuffer(100);
+    	StringBuilder fileData = new StringBuilder(100);
     	char[] buf = new char[1024];
     	int read = 0;
     	try{

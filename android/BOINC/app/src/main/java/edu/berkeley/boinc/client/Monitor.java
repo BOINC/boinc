@@ -795,7 +795,7 @@ public class Monitor extends Service {
     private Integer getPidForProcessName(String processName) {
     	int count;
     	char[] buf = new char[1024];
-    	StringBuffer sb = new StringBuffer();
+    	StringBuilder sb = new StringBuilder();
     	
     	//run ps and read output
     	try {

@@ -212,7 +212,7 @@ public class EventLogActivity extends AppCompatActivity {
 	// clientLog = true: client log
 	// clientlog = false: gui log
 	private String getLogDataAsString() {
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		int type = getActiveLog();
 		if(type == CLIENT_LOG_TAB_ACTIVE) {
 			text.append(getString(R.string.eventlog_client_header) + "\n\n");
