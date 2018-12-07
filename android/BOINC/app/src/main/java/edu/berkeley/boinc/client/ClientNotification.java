@@ -107,13 +107,13 @@ public class ClientNotification {
 		if(Logging.VERBOSE) Log.d(Logging.TAG, "ClientNotification: notification needs update? "+ (clientNotification.mOldComputingStatus == -1) 
 				+ activeTasksChanged
 				+ !notificationShown
-				+ (updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus)
+				+ (updatedStatus.computingStatus != clientNotification.mOldComputingStatus)
 				+ (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 					&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason));
 		if (clientNotification.mOldComputingStatus == -1 
 				|| activeTasksChanged
 				|| !notificationShown
-				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus
+				|| updatedStatus.computingStatus != clientNotification.mOldComputingStatus
 				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 					&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			
