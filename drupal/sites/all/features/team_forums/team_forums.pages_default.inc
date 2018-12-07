@@ -617,7 +617,7 @@ return FALSE;',
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['team_forums'] = $page;
+  $pages[''] = $page;
 
  return $pages;
 
