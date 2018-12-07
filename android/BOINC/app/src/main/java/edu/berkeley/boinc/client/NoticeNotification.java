@@ -44,7 +44,7 @@ public class NoticeNotification {
 	private Integer notificationId;
 	private PendingIntent contentIntent;
 	
-	private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<Notice>();
+	private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<>();
 	private Boolean isNotificationShown = false;
 
 	//private Boolean debug = true;

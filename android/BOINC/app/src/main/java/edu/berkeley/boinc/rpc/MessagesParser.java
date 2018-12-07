@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class MessagesParser {
 
-	private ArrayList<Message> mMessages = new ArrayList<Message>();
+	private ArrayList<Message> mMessages = new ArrayList<>();
 	//private Message mMessage = null;
 
 

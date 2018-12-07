@@ -56,7 +56,7 @@ public class PrefsFragment extends Fragment {
 	private ListView lv;
 	private PrefsListAdapter listAdapter;
 	
-	private ArrayList<PrefsListItemWrapper> data = new ArrayList<PrefsListItemWrapper>(); //Adapter for list data
+	private ArrayList<PrefsListItemWrapper> data = new ArrayList<>(); //Adapter for list data
 	private GlobalPreferences clientPrefs = null; //preferences of the client, read on every onResume via RPC
 	//private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
 	private HostInfo hostinfo = null;
@@ -313,7 +313,7 @@ public class PrefsFragment extends Fragment {
 		dialog.setContentView(R.layout.prefs_layout_dialog_selection);
 		
 		if(item.ID == R.string.prefs_client_log_flags_header) {
-			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
+			final ArrayList<SelectionDialogOption> options = new ArrayList<>();
 			String[] array = getResources().getStringArray(R.array.prefs_client_log_flags);
 			for(String option: array) options.add(new SelectionDialogOption(option));
 			ListView lv = dialog.findViewById(R.id.selection);
@@ -324,7 +324,7 @@ public class PrefsFragment extends Fragment {
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ArrayList<String> selectedOptions = new ArrayList<String>();
+					ArrayList<String> selectedOptions = new ArrayList<>();
 					for(SelectionDialogOption option: options) if(option.selected) selectedOptions.add(option.name);
 					if(Logging.DEBUG) Log.d(Logging.TAG, selectedOptions.size() + " log flags selected");
 					new SetCcConfigAsync().execute(formatOptionsToCcConfig(selectedOptions)); 
@@ -332,7 +332,7 @@ public class PrefsFragment extends Fragment {
 				}
 			});
 		}else if(item.ID == R.string.prefs_power_source_header) {
-			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
+			final ArrayList<SelectionDialogOption> options = new ArrayList<>();
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_ac, BOINCActivity.monitor.getPowerSourceAc()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_usb, BOINCActivity.monitor.getPowerSourceUsb()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_wireless, BOINCActivity.monitor.getPowerSourceWireless()));

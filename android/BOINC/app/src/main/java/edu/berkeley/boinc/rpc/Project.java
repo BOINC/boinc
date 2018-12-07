@@ -35,7 +35,7 @@ public class Project implements Parcelable{
 	public String  team_name = "";
 	public String  venue = "";
 	public int     hostid = 0;
-	public ArrayList<GuiUrl> gui_urls = new ArrayList<GuiUrl>();
+	public ArrayList<GuiUrl> gui_urls = new ArrayList<>();
 	public double  user_total_credit = 0.0;
 	public double  user_expavg_credit = 0.0;
 

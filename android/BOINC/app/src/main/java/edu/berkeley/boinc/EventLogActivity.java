@@ -50,14 +50,14 @@ public class EventLogActivity extends AppCompatActivity {
 	public EventLogClientFragment clientFrag;
 	public ListView clientLogList;
 	public ClientLogListAdapter clientLogListAdapter;
-	public ArrayList<Message> clientLogData = new ArrayList<Message>();
+	public ArrayList<Message> clientLogData = new ArrayList<>();
 
 	public EventLogGuiFragment guiFrag;
 	public ListView guiLogList;
 	public ArrayAdapter<String> guiLogListAdapter;
-	public ArrayList<String> guiLogData = new ArrayList<String>();
+	public ArrayList<String> guiLogData = new ArrayList<>();
 	
-	private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<EventLogActivityTabListener<?>>();
+	private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<>();
 	
 	final static int GUI_LOG_TAB_ACTIVE =1;
 	final static int CLIENT_LOG_TAB_ACTIVE =2;
@@ -73,14 +73,14 @@ public class EventLogActivity extends AppCompatActivity {
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
-        EventLogActivityTabListener<EventLogClientFragment> clientListener = new EventLogActivityTabListener<EventLogClientFragment>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
+        EventLogActivityTabListener<EventLogClientFragment> clientListener = new EventLogActivityTabListener<>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
         listener.add(clientListener);
         Tab tab = actionBar.newTab()
                 .setText(R.string.eventlog_client_header)
                 .setTabListener(clientListener);
         actionBar.addTab(tab);
         
-        EventLogActivityTabListener<EventLogGuiFragment> guiListener = new EventLogActivityTabListener<EventLogGuiFragment>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
+        EventLogActivityTabListener<EventLogGuiFragment> guiListener = new EventLogActivityTabListener<>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
         listener.add(guiListener);
         tab = actionBar.newTab()
                 .setText(R.string.eventlog_gui_header)

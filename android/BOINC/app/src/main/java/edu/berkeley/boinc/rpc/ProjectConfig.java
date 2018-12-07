@@ -41,7 +41,7 @@ public class ProjectConfig implements Parcelable{
 	public Boolean accountManager = false;
 	public Integer minClientVersion = 0;
 	public String rpcPrefix = "";
-	public ArrayList<PlatformInfo> platforms = new ArrayList<PlatformInfo>();
+	public ArrayList<PlatformInfo> platforms = new ArrayList<>();
 	public String termsOfUse;
 	
 	/**

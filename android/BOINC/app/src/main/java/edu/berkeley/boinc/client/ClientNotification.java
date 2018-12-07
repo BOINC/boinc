@@ -28,7 +28,7 @@ public class ClientNotification {
 	
 	private int mOldComputingStatus = -1;
 	private int mOldSuspendReason = -1;
-	private ArrayList<Result> mOldActiveTasks = new ArrayList<Result>();
+	private ArrayList<Result> mOldActiveTasks = new ArrayList<>();
 	private boolean notificationShown = false;
 	// debug foreground state by running
 	// adb shell: dumpsys activity services edu.berkeley.boinc

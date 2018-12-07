@@ -106,7 +106,7 @@ public class ProjectAttachService extends Service {
 
 	private PersistentStorage store;
 	
-    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<ProjectAttachWrapper>();
+    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
     
     public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
     
@@ -137,7 +137,7 @@ public class ProjectAttachService extends Service {
      * @return array of values, index 0: email address, index 1: user name
      */
     public ArrayList<String> getUserDefaultValues() {
-    	ArrayList<String> values = new ArrayList<String>();
+    	ArrayList<String> values = new ArrayList<>();
     	values.add(store.getLastEmailAddress());
     	values.add(store.getLastUserName());
     	return values;

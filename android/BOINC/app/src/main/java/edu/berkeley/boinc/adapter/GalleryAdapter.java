@@ -35,7 +35,7 @@ public class GalleryAdapter extends BaseAdapter{
 	int mGalleryItemBackground;
     private Context ctx;
 
-    private ArrayList<ImageWrapper> images = new ArrayList<ImageWrapper>();
+    private ArrayList<ImageWrapper> images = new ArrayList<>();
 
     public GalleryAdapter(Context ctx, ArrayList<ImageWrapper> images) {
         this.ctx = ctx;

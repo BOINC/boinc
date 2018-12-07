@@ -423,7 +423,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 		// less than desired number of messsages available, adapt lower bound
 		if(lowerBound < 0) lowerBound = 0;
 		ArrayList<Message> msgs= getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
-		if(msgs == null) msgs = new ArrayList<Message>(); // getMessages might return null in case of parsing or IO error
+		if(msgs == null) msgs = new ArrayList<>(); // getMessages might return null in case of parsing or IO error
 		
 		if(seqNo > 0) {
 			// remove messages that are >= seqNo
@@ -454,7 +454,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 		ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
 		ArrayList<Project> attachedProjects = getState().projects; // currently attached projects
 		
-		ArrayList<ProjectInfo> attachableProjects = new ArrayList<ProjectInfo>(); // array to be filled and returned
+		ArrayList<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
 		
 		if(allProjectsList == null || attachedProjects == null) return null;
 		

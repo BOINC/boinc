@@ -134,7 +134,7 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
+				return new ArrayList<>();
 			} 
 		}
 
@@ -170,7 +170,7 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
+				return new ArrayList<>();
 			} 
 		}
 

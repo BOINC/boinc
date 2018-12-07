@@ -27,7 +27,7 @@ import android.util.Xml;
 
 public class WorkunitsParser extends BaseParser {
 
-	private ArrayList<Workunit> mWorkunits = new ArrayList<Workunit>();
+	private ArrayList<Workunit> mWorkunits = new ArrayList<>();
 	private Workunit mWorkunit = null;
 
 

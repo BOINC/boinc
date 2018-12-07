@@ -27,7 +27,7 @@ import android.util.Xml;
 
 public class ResultsParser extends BaseParser {
 
-	private ArrayList<Result> mResults = new ArrayList<Result>();
+	private ArrayList<Result> mResults = new ArrayList<>();
 	private Result mResult = null;
 	private boolean mInActiveTask = false;
 

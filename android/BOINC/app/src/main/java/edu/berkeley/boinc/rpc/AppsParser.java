@@ -28,7 +28,7 @@ import android.util.Xml;
 
 public class AppsParser extends BaseParser {
 
-	private ArrayList<App> mApps = new ArrayList<App>();
+	private ArrayList<App> mApps = new ArrayList<>();
 	private App mApp = null;
 
 

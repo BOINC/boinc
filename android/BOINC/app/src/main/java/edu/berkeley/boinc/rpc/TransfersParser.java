@@ -28,7 +28,7 @@ import android.util.Xml;
 
 public class TransfersParser extends BaseParser {
 
-	private ArrayList<Transfer> mTransfers = new ArrayList<Transfer>();
+	private ArrayList<Transfer> mTransfers = new ArrayList<>();
 	private Transfer mTransfer = null;
 
 
