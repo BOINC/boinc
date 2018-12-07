@@ -109,16 +109,16 @@ public class SelectionListActivity extends FragmentActivity{
 		if(!checkProjectChecked()) return;
 		if(!checkDeviceOnline()) return;
 		
-		String selectedProjectsDebug = "";
+		StringBuilder selectedProjectsDebug = new StringBuilder();
 		// get selected projects
 		selected.clear();
 		for(ProjectListEntry tmp: entries) {
 			if(tmp.checked) {
 				selected.add(tmp.info);
-				selectedProjectsDebug += tmp.info.name + ",";
+				selectedProjectsDebug.append(tmp.info.name).append(",");
 			}
 		}
-		if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug.toString());
 		
 		attachService.setSelectedProjects(selected); // returns immediately
 		
