@@ -135,7 +135,7 @@ function work_and_host_stats_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['page_stats'] = $page;
+  $pages[''] = $page;
 
  return $pages;
 
