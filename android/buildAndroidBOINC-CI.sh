@@ -119,14 +119,14 @@ OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
 if [ ! -e "${NDK_FLAGFILE}" ]; then
     rm -rf "${PREFIX}/${arch}"
     rm -f "${CURL_FLAGFILE}" "${OPENSSL_FLAGFILE}"
-    wget --progress=dot -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+    wget --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
     unzip -qq /tmp/ndk.zip -d $HOME
     touch "${NDK_FLAGFILE}"
 fi
 export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
-    wget --progress=dot -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+    wget --no-verbose -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
     tar xzf /tmp/openssl.tgz --directory=$BUILD_DIR
     export COMPILEOPENSSL="yes"
     touch "${OPENSSL_FLAGFILE}"
@@ -134,7 +134,7 @@ fi
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
-    wget --progress=dot -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
+    wget --no-verbose -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
     tar xzf /tmp/curl.tgz --directory=$BUILD_DIR
     export COMPILECURL="yes"
     touch "${CURL_FLAGFILE}"
