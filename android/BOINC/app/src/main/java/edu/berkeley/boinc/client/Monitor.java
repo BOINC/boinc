@@ -829,8 +829,8 @@ public class Monitor extends Service {
 		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
     	
 		Integer pid = null;
-		Boolean found = false;
     	for(int y = 1; y < processLinesAr.length; y++) {
+            Boolean found = false;
     	    String [] comps = processLinesAr[y].split("[\\s]+");
     	    for(String arg: comps) {
     	    	if(arg.equals(processName)) {
