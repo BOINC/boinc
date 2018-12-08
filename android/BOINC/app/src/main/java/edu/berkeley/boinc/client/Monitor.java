@@ -830,7 +830,7 @@ public class Monitor extends Service {
     	
 		Integer pid = null;
     	for(int y = 1; y < processLinesAr.length; y++) {
-            Boolean found = false;
+    	    Boolean found = false;
     	    String [] comps = processLinesAr[y].split("[\\s]+");
     	    for(String arg: comps) {
     	    	if(arg.equals(processName)) {
