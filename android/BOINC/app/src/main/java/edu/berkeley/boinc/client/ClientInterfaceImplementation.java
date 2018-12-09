@@ -172,7 +172,7 @@ public class ClientInterfaceImplementation extends RpcClient{
     			try {Thread.sleep(minRetryInterval);} catch (Exception e) {}
     			reply = projectAttachPoll();
     		}
-			return reply != null && reply.error_num == BOINCErrors.ERR_OK;
+    		if(reply != null && reply.error_num == BOINCErrors.ERR_OK) return true;
     	} else if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttach failed.");
     	return false;
     }
