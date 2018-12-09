@@ -295,14 +295,10 @@ public class RpcClient {
 			// We just get the status via socket and do not parse reply
 			sendRequest("<get_cc_status/>\n");
 			String result = receiveReply();
-			if (result.length() == 0) {
-				// End of stream reached and no data were received in reply
-				// We assume that socket is closed on the other side,
-				// most probably client shut down
-				return false;
-			}
-			return true;
-		}
+            // If end of stream reached and no data were received in reply
+            // we assume that socket is closed on the other side, most probably client shut down
+            return result.length() != 0;
+        }
 		catch (IOException e) {
 			return false;
 		}

@@ -118,12 +118,9 @@ public class DeviceStatus {
 		
 		if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
 			newUserActive = true;
-		} else if(screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode()) {
-			newUserActive = true;
-		} else {
-			newUserActive = false;
-		}
-		
+		} else
+			newUserActive = screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode();
+
 		if(status.user_active != newUserActive) {
 			change = true;
 			status.user_active = newUserActive;
