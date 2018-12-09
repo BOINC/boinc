@@ -103,10 +103,7 @@ public class Project implements Parcelable{
 		}
 
 		//Test if user_name matches
-		if(!this.user_name.equalsIgnoreCase(proj.user_name)) {
-			return false;
-		}
-		return true;
+		return this.user_name.equalsIgnoreCase(proj.user_name);
 	}
 
 	@Override
