@@ -250,11 +250,11 @@ public class ProjectsFragment extends Fragment {
 	// data wrapper for list view
 	public class ProjectsListData {
 		// can be either project or account manager
-		public Project project = null;
+		public Project project;
 		public Notice lastServerNotice = null;
-		public AcctMgrInfo acctMgrInfo = null;
-		public ArrayList<Transfer> projectTransfers = null;
-		public String id = ""; // == url
+		public AcctMgrInfo acctMgrInfo;
+		public ArrayList<Transfer> projectTransfers;
+		public String id; // == url
 		public boolean isMgr;
 		public ProjectsListData listEntry = this;
 

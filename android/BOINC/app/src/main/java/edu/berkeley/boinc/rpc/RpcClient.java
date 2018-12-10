@@ -91,7 +91,7 @@ public class RpcClient {
 	 */
 
 	private class Auth1Parser extends DefaultHandler {
-		private StringBuilder mResult = null;
+		private StringBuilder mResult;
 		private String mCurrentElement = null;
 		private boolean mNonceParsed = false;
 
@@ -118,7 +118,7 @@ public class RpcClient {
 	}
 
 	private class Auth2Parser extends DefaultHandler {
-		private StringBuilder mResult = null;
+		private StringBuilder mResult;
 		private boolean mParsed = false;
 
 		public Auth2Parser(StringBuilder result) {

@@ -86,7 +86,7 @@ public class EventLogGuiFragment extends Fragment {
 			// devices with SDK > 13 will automatically "session filter"
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-			String line = "";
+			String line;
 			int x = 0;
 			while ((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
 				if(x > 1) a.guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)

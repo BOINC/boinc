@@ -113,7 +113,7 @@ public class DeviceStatus {
 	 */
 	private Boolean determineUserActive() throws Exception {
 		Boolean change = false;
-		Boolean newUserActive = status.user_active;
+		Boolean newUserActive;
 		int telStatus = telManager.getCallState();
 		
 		if(telStatus != TelephonyManager.CALL_STATE_IDLE) {

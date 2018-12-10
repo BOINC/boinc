@@ -285,7 +285,7 @@ public class Monitor extends Service {
 	 * @return ID of BOINC platform name string in resources
 	 */
 	public int getBoincPlatform() {
-		int platformId = 0;
+		int platformId;
 		String arch = System.getProperty("os.arch");    
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
@@ -605,9 +605,7 @@ public class Monitor extends Service {
      * @return Boolean success
      */
 	private Boolean connectClient() {
-		Boolean success = false;
-		
-        success = clientInterface.open(clientSocketAddress);
+		Boolean success = clientInterface.open(clientSocketAddress);
         if(!success) {
         	if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
         	return success;
@@ -666,7 +664,7 @@ public class Monitor extends Service {
 		
 		// If file is executable, cpu architecture has to be evaluated
 		// and assets directory select accordingly
-		String source = "";
+		String source;
 		if(executable) source = getAssestsDirForCpuArchitecture() + file;
 		else source = file;
 		
@@ -762,7 +760,7 @@ public class Monitor extends Service {
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 
-			InputStream fs = null;
+			InputStream fs;
 			if(inAssets) fs = getApplicationContext().getAssets().open(getAssestsDirForCpuArchitecture() + fileName); 
 			else fs = new FileInputStream(new File(fileName)); 
 			

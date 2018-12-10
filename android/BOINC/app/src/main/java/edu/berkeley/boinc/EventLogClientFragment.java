@@ -90,7 +90,7 @@ public class EventLogClientFragment extends Fragment {
 	// onScrollListener for list view, implementing "endless scrolling"
 	public final class EndlessScrollListener implements OnScrollListener {
 
-        private int visibleThreshold = 5;
+        private int visibleThreshold;
         private int previousTotal = 0;
         private boolean loading = true;
 

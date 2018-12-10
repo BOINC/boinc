@@ -49,7 +49,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	
-        View v = convertView;
+        View v;
         
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
