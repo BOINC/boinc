@@ -87,7 +87,7 @@ public class EventLogClientFragment extends Fragment {
 			}
 		} catch (Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadRecentMsgs error: ",e);
-        } //IndexOutOfBoundException
+		} //IndexOutOfBoundException
 		a.clientLogListAdapter.notifyDataSetChanged();
 	}
 	

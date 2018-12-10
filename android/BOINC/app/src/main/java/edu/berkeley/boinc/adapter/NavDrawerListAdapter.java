@@ -112,8 +112,8 @@ public class NavDrawerListAdapter extends BaseAdapter{
         	case R.string.tab_tasks:
         		try {counter = BOINCActivity.monitor.getTasks().size();}
         		catch(Exception e) {
-                    if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getView error: ",e);
-                }
+        			if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getView error: ",e);
+        		}
         		break;
         	case R.string.tab_notices: 
         		try {counter = BOINCActivity.monitor.getRssNotices().size();}

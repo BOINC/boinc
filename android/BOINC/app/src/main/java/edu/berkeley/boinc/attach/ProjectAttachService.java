@@ -562,7 +562,7 @@ public class ProjectAttachService extends Service {
     		if (mIsBound) {
                 try {return monitor.attachProject(config.masterUrl, config.name, authenticator);}
                 catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attach error: ",e);}
-            }
+    		}
 			return false;
     	}
     	
@@ -612,7 +612,7 @@ public class ProjectAttachService extends Service {
 				if (mIsBound) {
                     try {config = monitor.getProjectConfigPolling(url);}
                     catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.getProjectConfig error: ",e);}
-                }
+				}
 				if(config == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.getProjectConfig failed: config null, mIsBound: " + mIsBound + " for " + url + ". retry...");

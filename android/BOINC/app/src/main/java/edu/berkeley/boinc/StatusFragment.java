@@ -291,8 +291,8 @@ public class StatusFragment extends Fragment{
 				try {
 					BOINCActivity.monitor.forceRefresh();
 				} catch (RemoteException e) {
-                    if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.onPostExecute error: ",e);
-                }
+					if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.onPostExecute error: ",e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"StatusFragment: setting run mode failed");
 		}
 	}

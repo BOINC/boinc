@@ -346,8 +346,8 @@ public class BOINCActivity extends AppCompatActivity {
 				//setAppTitle();
 			} 
     	} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.determineStatus error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.determineStatus error: ",e);
+    	}
     }
 
     public final boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {

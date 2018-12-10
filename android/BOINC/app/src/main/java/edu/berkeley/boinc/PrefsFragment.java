@@ -589,7 +589,7 @@ public class PrefsFragment extends Fragment {
 				}
 			} catch(RemoteException e) {
 				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
-            }
+			}
 		}
 		
 	}
