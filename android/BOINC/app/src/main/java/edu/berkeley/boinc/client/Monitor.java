@@ -678,13 +678,21 @@ public class Monitor extends Service {
     		// Check path and create it
     		File installDir = new File(boincWorkingDir);
     		if(!installDir.exists()) {
-    			installDir.mkdir();
-    			installDir.setWritable(true); 
+                if (!installDir.mkdir()) {
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): mkdir() was not successful.");
+                }
+
+                if (!installDir.setWritable(true)) {
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.setWritable(): mkdir() was not successful.");
+                }
     		}
-    		
+
     		if(target.exists()) {
-    			if(override) target.delete();
-    			else {
+    			if(override) {
+                    if (!target.delete()) {
+                        if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): delete() was not successful.");
+                    }
+                } else {
     				if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
     				return true;
     			}
@@ -703,14 +711,11 @@ public class Monitor extends Service {
     		success = true; //copy succeeded without exception
     		
     		// Set executable, if requested
-    		Boolean isExecutable = false;
     		if(executable) {
-    			target.setExecutable(executable);
-    			isExecutable = target.canExecute();
-    			success = isExecutable; // return false, if not executable
+                success = target.setExecutable(executable); // return false, if not executable
     		}
 
-    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
+   		    if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + success);
     		
     	} catch (IOException e) {  
     		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
