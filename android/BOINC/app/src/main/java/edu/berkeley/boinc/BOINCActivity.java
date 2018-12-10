@@ -345,7 +345,9 @@ public class BOINCActivity extends AppCompatActivity {
 					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>)monitor.getProjects());
 				//setAppTitle();
 			} 
-    	} catch (Exception e) {}
+    	} catch (Exception e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.determineStatus error: ",e);
+        }
     }
 
     public final boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
@@ -460,7 +462,9 @@ public class BOINCActivity extends AppCompatActivity {
 			if(success)
 				try {
 					monitor.forceRefresh();
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+                    if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onPostExecute error: ",e);
+                }
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}

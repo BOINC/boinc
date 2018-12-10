@@ -19,7 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class MessagesParser {
 
@@ -130,6 +134,7 @@ public class MessagesParser {
 				} 
 			}
 		} catch (NumberFormatException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"MessagesParser.parseMessages error: ",e);
 		}
 	}
 }

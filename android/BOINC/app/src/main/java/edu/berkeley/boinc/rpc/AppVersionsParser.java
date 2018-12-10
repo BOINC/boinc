@@ -24,7 +24,11 @@ import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 
 public class AppVersionsParser extends DefaultHandler {
@@ -107,6 +111,7 @@ public class AppVersionsParser extends DefaultHandler {
 			}
 		}
 		catch (NumberFormatException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"AppVersionsParser.endElement error: ",e);
 		}
 		mCurrentElement.setLength(0); // to be clean for next one
 	}

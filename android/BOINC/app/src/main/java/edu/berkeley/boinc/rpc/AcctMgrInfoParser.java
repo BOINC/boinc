@@ -82,7 +82,9 @@ public class AcctMgrInfoParser extends BaseParser{
 						mAcctMgrInfo.cookie_failure_url = mCurrentElement.toString();
 				}
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"AcctMgrInfoParser.endElement error: ",e);
+        }
 		mElementStarted = false;
 	}
 }

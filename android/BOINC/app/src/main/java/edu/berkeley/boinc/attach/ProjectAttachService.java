@@ -289,7 +289,9 @@ public class ProjectAttachService extends Service {
 		while(retry && attemptCounter < maxAttempts) {
 			try {
 				reply = monitor.addAcctMgrErrorNum(url, name, pwd);
-			} catch (RemoteException e1) {}
+			} catch (RemoteException e) {
+                if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
+			}
 
 			if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: " + reply);
 			switch(reply) {
@@ -308,13 +310,16 @@ public class ProjectAttachService extends Service {
 				retry = false;
 				break;
 			}
-			if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception e) {}
+			if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception ignored) {}
 		}
 		
 		if(reply !=BOINCErrors.ERR_OK ) return reply;
 		
 		AcctMgrInfo info = null;
-		try {info = monitor.getAcctMgrInfo();} catch (RemoteException e1) {}
+		try {info = monitor.getAcctMgrInfo();}
+		catch (RemoteException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
+        }
 		if(info == null) return -1;
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
@@ -472,7 +477,10 @@ public class ProjectAttachService extends Service {
 			// retry a defined number of times, if non deterministic failure occurs.
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
-				if (mIsBound) try {credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));} catch (RemoteException e) {}
+				if (mIsBound) {
+                    try {credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));}
+                    catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.register error: ",e);}
+                }
 				if(credentials == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.register register: auth null, retry...");
@@ -516,7 +524,10 @@ public class ProjectAttachService extends Service {
 			// retry a defined number of times, if non deterministic failure occurs.
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
-				if (mIsBound) try {credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd));} catch (RemoteException e) {}
+				if (mIsBound) {
+                    try { credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd)); }
+                    catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.login error: ",e);}
+                }
 				if(credentials == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.login failed: auth null, retry...");
@@ -541,14 +552,17 @@ public class ProjectAttachService extends Service {
 					}
 				}
 				
-				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception e) {}
+				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception ignored) {}
 			}
     		
 			return credentials;
     	}
     	
     	private boolean attach(String authenticator) {
-    		if (mIsBound) try {return monitor.attachProject(config.masterUrl, config.name, authenticator);} catch (RemoteException e) {}
+    		if (mIsBound) {
+                try {return monitor.attachProject(config.masterUrl, config.name, authenticator);}
+                catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attach error: ",e);}
+            }
 			return false;
     	}
     	
@@ -595,7 +609,10 @@ public class ProjectAttachService extends Service {
 			// retry a defined number of times, if non deterministic failure occurs.
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
-				if (mIsBound) try {config = monitor.getProjectConfigPolling(url);} catch (RemoteException e) {}
+				if (mIsBound) {
+                    try {config = monitor.getProjectConfigPolling(url);}
+                    catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.getProjectConfig error: ",e);}
+                }
 				if(config == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.getProjectConfig failed: config null, mIsBound: " + mIsBound + " for " + url + ". retry...");
@@ -621,7 +638,7 @@ public class ProjectAttachService extends Service {
 					}
 				}
 				
-				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception e) {}
+				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception ignored) {}
 			}
 			return config;
 		}

@@ -145,7 +145,9 @@ public class IndividualCredentialInputFragment extends DialogFragment{
 		super.onAttach(activity);
 		try {
             mListener = (IndividualCredentialInputFragmentListener) activity;
-        } catch (ClassCastException e) {} //The activity doesn't implement the interface, throw exception
+        } catch (ClassCastException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"IndividualCredentialInputFragment.onAttach The activity doesn't implement the interface. Error: ",e);
+		}
 	}
 
 	@Override

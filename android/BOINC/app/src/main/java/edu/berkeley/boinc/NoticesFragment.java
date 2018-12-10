@@ -61,7 +61,9 @@ public class NoticesFragment extends Fragment {
 		// clear notice notification
 		try {
 			BOINCActivity.monitor.cancelNoticeNotification();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"NoticesFragment.onResume error: ",e);
+		}
 		super.onResume();
 	}
 	
@@ -100,6 +102,8 @@ public class NoticesFragment extends Fragment {
 					return ((Double) (rhs.create_time - lhs.create_time)).intValue();
 				}
 			});
-		} catch(Exception e){}
+		} catch(Exception e){
+            if(Logging.ERROR) Log.e(Logging.TAG,"NoticesFragment.updateNotices error: ",e);
+        }
 	}
 }

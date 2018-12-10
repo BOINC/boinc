@@ -25,6 +25,8 @@ import org.xml.sax.SAXException;
 import android.util.Log;
 import android.util.Xml;
 
+import edu.berkeley.boinc.utils.Logging;
+
 public class CcStatusParser extends BaseParser {
 
 	private CcStatus mCcStatus;
@@ -141,6 +143,7 @@ public class CcStatusParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"CcStatusParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

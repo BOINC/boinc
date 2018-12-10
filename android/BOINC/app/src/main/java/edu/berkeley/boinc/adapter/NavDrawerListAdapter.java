@@ -110,10 +110,16 @@ public class NavDrawerListAdapter extends BaseAdapter{
     		Integer counter = 0;
         	switch(navDrawerItems.get(position).id) {
         	case R.string.tab_tasks:
-        		try {counter = BOINCActivity.monitor.getTasks().size();}catch(Exception e) {}
+        		try {counter = BOINCActivity.monitor.getTasks().size();}
+        		catch(Exception e) {
+                    if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getView error: ",e);
+                }
         		break;
         	case R.string.tab_notices: 
-        		try {counter = BOINCActivity.monitor.getRssNotices().size();}catch(Exception e) {}
+        		try {counter = BOINCActivity.monitor.getRssNotices().size();}
+        		catch(Exception e) {
+        		    if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getView error: ",e);
+        		}
         		break;
         	}
         	txtCount.setText(NumberFormat.getIntegerInstance().format(counter));
@@ -136,7 +142,9 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		Bitmap bm = null;
 		try {
 			bm = BOINCActivity.monitor.getProjectIcon(masterUrl);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getProjectIconForMasterUrl error: ",e);
+        }
 		return bm;
 	}
 	

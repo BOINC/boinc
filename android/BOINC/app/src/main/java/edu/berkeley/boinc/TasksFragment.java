@@ -280,7 +280,9 @@ public class TasksFragment extends Fragment {
 			if(success)
 				try {
 					BOINCActivity.monitor.forceRefresh();
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+                    if(Logging.ERROR) Log.e(Logging.TAG,"TasksFragment.onPostExecute error: ",e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync failed.");
 		}
 	}

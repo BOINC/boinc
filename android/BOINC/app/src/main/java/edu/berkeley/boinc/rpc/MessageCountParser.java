@@ -22,7 +22,11 @@ package edu.berkeley.boinc.rpc;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class MessageCountParser extends DefaultHandler {
 	private boolean mParsed = false;
@@ -92,6 +96,7 @@ public class MessageCountParser extends DefaultHandler {
 			}
 		}
 		catch (NumberFormatException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"MessageCountParser.endElement error: ",e);
 		}
 		mCurrentElement.setLength(0);
 	}

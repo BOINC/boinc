@@ -23,7 +23,11 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 
 public class TransfersParser extends BaseParser {
@@ -150,6 +154,7 @@ public class TransfersParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG,"TransfersParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

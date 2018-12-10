@@ -228,7 +228,7 @@ public class BatchProcessingActivity extends FragmentActivity{
 			// wait until service is ready
 			while(!attachService.projectConfigRetrievalFinished) {
 		    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval has not finished yet, wait...");
-		    	try{Thread.sleep(1000);} catch(Exception e){}
+		    	try{Thread.sleep(1000);} catch(Exception ignored){}
 			}
 	    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval finished, continue with attach.");
 			// attach projects, one at a time
