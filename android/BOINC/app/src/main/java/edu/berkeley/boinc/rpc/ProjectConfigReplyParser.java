@@ -167,7 +167,7 @@ public class ProjectConfigReplyParser extends BaseParser {
 			mElementStarted = false;
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"ProjectConfigReplyParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectConfigReplyParser.endElement error: ",e);
 		}
 	}
 }

@@ -83,8 +83,8 @@ public class AcctMgrInfoParser extends BaseParser{
 				}
 			}
 		} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"AcctMgrInfoParser.endElement error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"AcctMgrInfoParser.endElement error: ",e);
+		}
 		mElementStarted = false;
 	}
 }

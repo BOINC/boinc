@@ -70,7 +70,7 @@ public class EventLogClientFragment extends Fragment {
 				a.clientLogData.add(tmpA.get(x));
 			}
 		} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadPastMsgs error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadPastMsgs error: ",e);
 		} //IndexOutOfBoundException
 		
 		a.clientLogListAdapter.notifyDataSetChanged();
@@ -86,7 +86,7 @@ public class EventLogClientFragment extends Fragment {
 				y++;
 			}
 		} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadRecentMsgs error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadRecentMsgs error: ",e);
         } //IndexOutOfBoundException
 		a.clientLogListAdapter.notifyDataSetChanged();
 	}

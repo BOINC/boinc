@@ -96,7 +96,7 @@ public class MessageCountParser extends DefaultHandler {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"MessageCountParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"MessageCountParser.endElement error: ",e);
 		}
 		mCurrentElement.setLength(0);
 	}

@@ -162,8 +162,8 @@ public class Monitor extends Service {
     		// remove screen on/off receiver
     		unregisterReceiver(screenOnOffReceiver);
     	} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
-        }
+    		if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+    	}
         
     	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
@@ -175,8 +175,8 @@ public class Monitor extends Service {
 			clientStatus.setWakeLock(false);
 			clientStatus.setWifiLock(false);
 		} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+		}
     }
 
     @Override
@@ -281,8 +281,8 @@ public class Monitor extends Service {
     	try{
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
     	} catch (Exception e){
-            if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.forceRefresh error: ",e);
-        } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+    		if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.forceRefresh error: ",e);
+    	} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 	
 	/**
@@ -407,8 +407,8 @@ public class Monitor extends Service {
 						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
 					} catch (NullPointerException ignored) {}
 					finally {
-                        if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
-                    }
+						if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
+					}
 				}
 				
 				// update notices notification
@@ -942,8 +942,8 @@ public class Monitor extends Service {
 			try {
 				mBinder.setRunMode(params[0]);
 			} catch (RemoteException e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync error: ",e);
-            }
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync error: ",e);
+			}
 			return null;
 		}
 	}
@@ -1014,8 +1014,8 @@ public class Monitor extends Service {
 			try {
 				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
 			} catch (Exception e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.isStationaryDeviceSuspected error: ",e);
-            }
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.isStationaryDeviceSuspected error: ",e);
+			}
 			return false;
 		}
 		
@@ -1051,8 +1051,8 @@ public class Monitor extends Service {
 			try {
 				return getDeviceStatus().getStatus().battery_charge_pct;
 			} catch (Exception e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.getBatteryChargeStatus error: ",e);
-            }
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.getBatteryChargeStatus error: ",e);
+			}
 			return 0;
 		}
 		

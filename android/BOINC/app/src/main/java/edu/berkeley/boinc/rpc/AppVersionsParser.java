@@ -111,7 +111,7 @@ public class AppVersionsParser extends DefaultHandler {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"AppVersionsParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"AppVersionsParser.endElement error: ",e);
 		}
 		mCurrentElement.setLength(0); // to be clean for next one
 	}

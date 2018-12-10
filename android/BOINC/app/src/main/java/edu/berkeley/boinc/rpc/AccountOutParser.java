@@ -82,7 +82,7 @@ public class AccountOutParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"AccountOutParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"AccountOutParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

@@ -143,7 +143,7 @@ public class CcStatusParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"CcStatusParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"CcStatusParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

@@ -247,8 +247,8 @@ public class StatusFragment extends Fragment{
 			computingStatus = -1;
 		}
 		} catch(Exception e){
-            if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.loadLayout error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.loadLayout error: ",e);
+		}
 	}
 	
 	private OnClickListener runModeOnClickListener = new OnClickListener(){

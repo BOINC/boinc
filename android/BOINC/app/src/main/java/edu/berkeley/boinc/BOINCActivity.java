@@ -463,8 +463,8 @@ public class BOINCActivity extends AppCompatActivity {
 				try {
 					monitor.forceRefresh();
 				} catch (RemoteException e) {
-                    if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onPostExecute error: ",e);
-                }
+					if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onPostExecute error: ",e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}

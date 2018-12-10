@@ -195,8 +195,8 @@ public class ClientInterfaceImplementation extends RpcClient{
 				}
 			}
 		} catch(Exception e){
-            if(Logging.ERROR) Log.e(Logging.TAG,"ClientInterfaceImplementation.checkProjectAttached error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"ClientInterfaceImplementation.checkProjectAttached error: ",e);
+		}
 		return match;
 	}
 	

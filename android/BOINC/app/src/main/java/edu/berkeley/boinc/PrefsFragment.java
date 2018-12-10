@@ -70,8 +70,8 @@ public class PrefsFragment extends Fragment {
 			try {
 				if(!layoutSuccessful) populateLayout();
 			} catch (RemoteException e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BroadcastReceiver error: ",e);
-            }
+				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BroadcastReceiver error: ",e);
+			}
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
@@ -100,8 +100,8 @@ public class PrefsFragment extends Fragment {
 		try {
 			populateLayout();
 		} catch (RemoteException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onResume error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onResume error: ",e);
+		}
 		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
 		super.onResume();
 	}
@@ -369,8 +369,8 @@ public class PrefsFragment extends Fragment {
 						}
 						dialog.dismiss();
 					} catch(RemoteException e) {
-                        if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog error: ",e);
-                    }
+						if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog error: ",e);
+					}
 				}
 			});
 		}
@@ -412,8 +412,8 @@ public class PrefsFragment extends Fragment {
           			  Logging.setLogLevel(sbProgress);
          			  BOINCActivity.monitor.setLogLevel(sbProgress);
          		   } catch (RemoteException e) {
-                       if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupDialogButtons error: ",e);
-                   }
+         			  if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupDialogButtons error: ",e);
+         		   }
          		   updateValuePref(item.ID, (double) sbProgress);
          		   updateLayout();
          	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
@@ -588,7 +588,7 @@ public class PrefsFragment extends Fragment {
 					break;
 				}
 			} catch(RemoteException e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
             }
 		}
 		
@@ -618,8 +618,8 @@ public class PrefsFragment extends Fragment {
 				try {
 					setupSelectionListDialog(item, dialog);
 				} catch (RemoteException e) {
-                    if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
-                }
+					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
+				}
 				break;
 			case R.string.battery_charge_min_pct_header:
 				setupSliderDialog(item, dialog);
@@ -674,8 +674,8 @@ public class PrefsFragment extends Fragment {
 				try {
 					setupSelectionListDialog(item, dialog);
 				} catch (RemoteException e) {
-                    if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
-                }
+					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
+				}
 				break;
 			case R.string.prefs_gui_log_level_header:
 				setupSliderDialog(item, dialog);

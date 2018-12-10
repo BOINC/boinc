@@ -94,7 +94,7 @@ public class VersionInfoParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"VersionInfoParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"VersionInfoParser.endElement error: ",e);
 		}
 		mElementStarted = false; // to be clean for next one
 	}

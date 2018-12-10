@@ -377,7 +377,7 @@ public class RpcClient {
 				}
 			}
 			catch (IOException e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"RpcClient.receiveReply error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"RpcClient.receiveReply error: ",e);
 			}
 		}
 		return mResult.toString();

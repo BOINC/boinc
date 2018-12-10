@@ -116,7 +116,7 @@ public class WorkunitsParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"WorkunitsParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"WorkunitsParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

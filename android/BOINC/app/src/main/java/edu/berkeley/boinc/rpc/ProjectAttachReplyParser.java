@@ -78,7 +78,7 @@ public class ProjectAttachReplyParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachReplyParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachReplyParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

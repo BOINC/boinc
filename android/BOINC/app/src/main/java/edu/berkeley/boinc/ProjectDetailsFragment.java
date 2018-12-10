@@ -323,8 +323,8 @@ public class ProjectDetailsFragment extends Fragment {
 			}
 			
 		}catch(Exception e){
-            if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment.updateChangingItems error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment.updateChangingItems error: ",e);
+		}
 	}
 	
 	// executes project operations in new thread
@@ -346,8 +346,8 @@ public class ProjectDetailsFragment extends Fragment {
 				try {
 					BOINCActivity.monitor.forceRefresh();
 				} catch (RemoteException e) {
-                    if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment.onPostExecute error: ",e);
-                }
+					if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment.onPostExecute error: ",e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync failed.");
 		}
 	}

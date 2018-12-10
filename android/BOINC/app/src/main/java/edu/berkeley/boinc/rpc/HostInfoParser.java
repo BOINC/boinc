@@ -150,7 +150,7 @@ public class HostInfoParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"HostInfoParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"HostInfoParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

@@ -143,8 +143,8 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		try {
 			bm = BOINCActivity.monitor.getProjectIcon(masterUrl);
 		} catch (Exception e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getProjectIconForMasterUrl error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"NavDrawerListAdapter.getProjectIconForMasterUrl error: ",e);
+		}
 		return bm;
 	}
 	

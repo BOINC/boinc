@@ -290,7 +290,7 @@ public class ProjectAttachService extends Service {
 			try {
 				reply = monitor.addAcctMgrErrorNum(url, name, pwd);
 			} catch (RemoteException e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
 			}
 
 			if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: " + reply);
@@ -318,8 +318,8 @@ public class ProjectAttachService extends Service {
 		AcctMgrInfo info = null;
 		try {info = monitor.getAcctMgrInfo();}
 		catch (RemoteException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
-        }
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
+		}
 		if(info == null) return -1;
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
@@ -478,9 +478,9 @@ public class ProjectAttachService extends Service {
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
 				if (mIsBound) {
-                    try {credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));}
-                    catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.register error: ",e);}
-                }
+					try {credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));}
+					catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.register error: ",e);}
+				}
 				if(credentials == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.register register: auth null, retry...");
@@ -525,9 +525,9 @@ public class ProjectAttachService extends Service {
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
 				if (mIsBound) {
-                    try { credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd)); }
-                    catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.login error: ",e);}
-                }
+					try { credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd)); }
+					catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.login error: ",e);}
+				}
 				if(credentials == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.login failed: auth null, retry...");

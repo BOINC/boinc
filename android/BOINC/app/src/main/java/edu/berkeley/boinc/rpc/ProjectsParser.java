@@ -263,7 +263,7 @@ public class ProjectsParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"ProjectsParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectsParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

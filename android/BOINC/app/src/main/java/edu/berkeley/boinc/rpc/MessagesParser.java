@@ -134,7 +134,7 @@ public class MessagesParser {
 				} 
 			}
 		} catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"MessagesParser.parseMessages error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"MessagesParser.parseMessages error: ",e);
 		}
 	}
 }

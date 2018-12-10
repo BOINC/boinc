@@ -49,7 +49,7 @@ public class BoincMutex {
 			socket.bind(new LocalSocketAddress(boincMutex));
 			acquired = true;
 		} catch (IOException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"BoincMutex.acquire error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"BoincMutex.acquire error: ",e);
 		}
 		return socket.isBound();
 	}
@@ -63,8 +63,8 @@ public class BoincMutex {
 				socket.close();
 				acquired = false;
 			} catch (IOException e) {
-                if(Logging.ERROR) Log.e(Logging.TAG,"BoincMutex.release error: ",e);
-            }
+				if(Logging.ERROR) Log.e(Logging.TAG,"BoincMutex.release error: ",e);
+			}
 		}
 	}
 	

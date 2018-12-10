@@ -177,7 +177,7 @@ public class GlobalPreferencesParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
-            if(Logging.ERROR) Log.e(Logging.TAG,"GlobalPreferencesParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"GlobalPreferencesParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}
