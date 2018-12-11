@@ -79,10 +79,4 @@
     	    <item>cpu_sched_debug</item>
     	    <item>work_fetch_debug</item>
     	</string-array>
-    <!-- account manager -->	
-    	<string-array name="acct_mgr_url_list" translatable="false">
-        	<item>http://bam.boincstats.com/</item>
-        	<item>http://gridrepublic.org/</item>
-        	<item>http://www.extremadurathome.org/extremadurathome/</item>
-    	</string-array>
 </resources>
