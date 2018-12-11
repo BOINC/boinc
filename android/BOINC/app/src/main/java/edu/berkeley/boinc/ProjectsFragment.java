@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -56,7 +56,7 @@ public class ProjectsFragment extends Fragment {
 
 	private ListView lv;
 	private ProjectsListAdapter listAdapter;
-	private ArrayList<ProjectsListData> data = new ArrayList<ProjectsListData>();
+	private ArrayList<ProjectsListData> data = new ArrayList<>();
 
 	// controls popup dialog
 	Dialog dialogControls;
@@ -236,7 +236,7 @@ public class ProjectsFragment extends Fragment {
 	
 	// takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
 	private ArrayList<Transfer> mapTransfersToProject(String id, ArrayList<Transfer> allTransfers) {
-		ArrayList<Transfer> projectTransfers = new ArrayList<Transfer>();
+		ArrayList<Transfer> projectTransfers = new ArrayList<>();
 		for(Transfer trans: allTransfers) {
 			if(trans.project_url.equals(id)) {
 				// project id matches url in transfer, add to list
@@ -303,7 +303,7 @@ public class ProjectsFragment extends Fragment {
 				// - client status, e.g. either suspend or resume
 				// - show advanced preference
 				// - project attached via account manager (e.g. hide Remove)
-				ArrayList<ProjectControl> controls = new ArrayList<ProjectControl>();
+				ArrayList<ProjectControl> controls = new ArrayList<>();
 				if(isMgr) {
 					((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title_acctmgr);
 

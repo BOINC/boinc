@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class MessagesParser {
 
-	private ArrayList<Message> mMessages = new ArrayList<Message>();
+	private ArrayList<Message> mMessages = new ArrayList<>();
 	//private Message mMessage = null;
 
 
@@ -58,7 +58,7 @@ public class MessagesParser {
 			while (pos < end) {
 				/* skip spaces */
 				while (pos < end) {
-					if (!Character.isSpace(xml.charAt(pos)))
+					if (!Character.isWhitespace(xml.charAt(pos)))
 						break;
 					pos++;
 				}

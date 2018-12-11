@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
@@ -33,7 +33,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 
 public class EventLogClientFragment extends Fragment {
@@ -134,7 +133,7 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
+				return new ArrayList<>();
 			} 
 		}
 
@@ -170,7 +169,7 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
+				return new ArrayList<>();
 			} 
 		}
 

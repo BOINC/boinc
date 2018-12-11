@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.attach;
 
 import java.util.ArrayList;
@@ -106,7 +106,7 @@ public class ProjectAttachService extends Service {
 
 	private PersistentStorage store;
 	
-    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<ProjectAttachWrapper>();
+    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
     
     public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
     
@@ -119,9 +119,9 @@ public class ProjectAttachService extends Service {
      * Set credentials to be used in account RPCs.
      * Set / update prior to calling attach or register
      * Saves email and user persistently to pre-populate fields
-     * @param email
-     * @param user
-     * @param pwd
+     * @param email email address of user
+     * @param user user name
+     * @param pwd password
      */
     public void setCredentials(String email, String user, String pwd) {
     	this.email = email;
@@ -137,7 +137,7 @@ public class ProjectAttachService extends Service {
      * @return array of values, index 0: email address, index 1: user name
      */
     public ArrayList<String> getUserDefaultValues() {
-    	ArrayList<String> values = new ArrayList<String>();
+    	ArrayList<String> values = new ArrayList<>();
     	values.add(store.getLastEmailAddress());
     	values.add(store.getLastUserName());
     	return values;
@@ -177,7 +177,7 @@ public class ProjectAttachService extends Service {
      * sets single selected project with URL inserted manually, not chosen from list.
      * Starts configuration download in new thread and returns immediately.
      * Check projectConfigRetrievalFinished to see whether job finished.
-     * @param url
+     * @param url URL of project
      * @return success
      */
     public boolean setManuallySelectedProject(String url) {
@@ -225,9 +225,9 @@ public class ProjectAttachService extends Service {
     
     /**
      * Checks user input, e.g. length of input. Shows an error toast if problem detected
-     * @param email
-     * @param user
-     * @param pwd
+     * @param email email address of user
+     * @param user user name
+     * @param pwd password
      * @return true if input verified
      */
 	public Boolean verifyInput(String email, String user, String pwd) {

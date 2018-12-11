@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
@@ -32,6 +32,8 @@ import android.widget.TextView;
 import edu.berkeley.boinc.PrefsFragment;
 import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
 import edu.berkeley.boinc.R;
+
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -101,10 +103,13 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    					value = NumberFormat.getInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_celsius);
 	    					break;
 	    				case MEGABYTES:
-	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status.doubleValue() * 0x100000));
+	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status * 0x100000));
 	    					break;
 	    				case GIGABYTES:
-	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status.doubleValue() * 0x40000000));
+	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status * 0x40000000));
+	    					break;
+	    				case DECIMAL:
+	    					value = DecimalFormat.getNumberInstance().format(item.status);
 	    					break;
 	    				default:
 	    					value = NumberFormat.getInstance().format(item.status);

@@ -72,6 +72,8 @@ function intercept_login($user, $perm, $in_next_url = "") {
     $config = get_config();
     if ( parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
         // sent user to terms-of-use Web form after login
+        $mytoken = create_token($user->id, TOKEN_TYPE_LOGIN_INTERCEPT, TOKEN_DURATION_TWO_HOURS);
+        send_cookie('logintoken', $mytoken, false);
         send_cookie('tempuserid', $user->id, false);
         send_cookie('tempperm', $perm, false);
         $save_url = $in_next_url;

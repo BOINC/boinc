@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -28,7 +28,7 @@ import android.util.Xml;
 
 public class TransfersParser extends BaseParser {
 
-	private ArrayList<Transfer> mTransfers = new ArrayList<Transfer>();
+	private ArrayList<Transfer> mTransfers = new ArrayList<>();
 	private Transfer mTransfer = null;
 
 

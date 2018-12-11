@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.rpc.DeviceStatusData;
@@ -231,7 +231,7 @@ public class DeviceStatus {
 	 * Client is not aware of power source preference, adapt value of on_ac_power, according
 	 * to the conformance of the actual charger type with the manager based preference.
 	 * This policy might be subject to change.
-	 * @param chargerType
+	 * @param chargerType BatteryManager class
 	 * @return true, if change since last run
 	 */
 	private Boolean setAttributesForChargerType(int chargerType) {
@@ -242,7 +242,7 @@ public class DeviceStatus {
 		case BatteryManager.BATTERY_PLUGGED_AC:
 			enabled = appPrefs.getPowerSourceAc();
 			break;
-		case 4: // constant BATTERY_PLUGGED_WIRELESS, only defined in API Level 17
+		case BatteryManager.BATTERY_PLUGGED_WIRELESS:
 			enabled = appPrefs.getPowerSourceWireless();
 			break;
 		case BatteryManager.BATTERY_PLUGGED_USB:

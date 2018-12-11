@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -41,7 +41,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
 
 	//private final String TAG = "NavDrawerListAdapter";
 	private Context context;
-	private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<NavDrawerItem>();
+	private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<>();
 	
 	public int selectedMenuId = 0;
 	
@@ -142,7 +142,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
 	
 	/**
 	 * Compares list of projects to items represented in nav bar.
-	 * @param projects
+	 * @param projects Project list
 	 * @return Returns number of project items in nav bar after adding
 	 */
 	public Integer compareAndAddProjects(ArrayList<Project> projects){

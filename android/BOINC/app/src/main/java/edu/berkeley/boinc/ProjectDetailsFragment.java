@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -61,7 +61,7 @@ public class ProjectDetailsFragment extends Fragment {
 	private String url;
 	private ProjectInfo projectInfo; // might be null for projects added via manual URL attach
 	private Project project;
-    private ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>();
+    private ArrayList<ImageWrapper> slideshowImages = new ArrayList<>();
     
     private LayoutInflater li;
     private View root;

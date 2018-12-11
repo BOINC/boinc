@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import android.app.Dialog;
@@ -56,7 +56,7 @@ public class PrefsFragment extends Fragment {
 	private ListView lv;
 	private PrefsListAdapter listAdapter;
 	
-	private ArrayList<PrefsListItemWrapper> data = new ArrayList<PrefsListItemWrapper>(); //Adapter for list data
+	private ArrayList<PrefsListItemWrapper> data = new ArrayList<>(); //Adapter for list data
 	private GlobalPreferences clientPrefs = null; //preferences of the client, read on every onResume via RPC
 	//private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
 	private HostInfo hostinfo = null;
@@ -195,6 +195,10 @@ public class PrefsFragment extends Fragment {
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
+		// other
+		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_other,true));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_other_store_at_least_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_min_days));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_additional_days));
 		// debug
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_debug,true));
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_client_log_flags_header,R.string.prefs_category_debug));
@@ -239,10 +243,10 @@ public class PrefsFragment extends Fragment {
 		SeekBar slider = dialog.findViewById(R.id.seekbar);
 		
 		if(valueWrapper.ID == R.string.battery_charge_min_pct_header || 
-				valueWrapper.ID == R.string.prefs_disk_max_pct_header || 
+				valueWrapper.ID == R.string.prefs_disk_max_pct_header ||
 				valueWrapper.ID == R.string.prefs_cpu_time_max_header ||
-				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header || 
-				valueWrapper.ID == R.string.prefs_memory_max_idle_header ) {
+				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header ||
+				valueWrapper.ID == R.string.prefs_memory_max_idle_header) {
 			Double seekBarDefault = valueWrapper.status / 10;
 			slider.setProgress(seekBarDefault.intValue());
 			final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
@@ -309,7 +313,7 @@ public class PrefsFragment extends Fragment {
 		dialog.setContentView(R.layout.prefs_layout_dialog_selection);
 		
 		if(item.ID == R.string.prefs_client_log_flags_header) {
-			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
+			final ArrayList<SelectionDialogOption> options = new ArrayList<>();
 			String[] array = getResources().getStringArray(R.array.prefs_client_log_flags);
 			for(String option: array) options.add(new SelectionDialogOption(option));
 			ListView lv = dialog.findViewById(R.id.selection);
@@ -320,7 +324,7 @@ public class PrefsFragment extends Fragment {
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ArrayList<String> selectedOptions = new ArrayList<String>();
+					ArrayList<String> selectedOptions = new ArrayList<>();
 					for(SelectionDialogOption option: options) if(option.selected) selectedOptions.add(option.name);
 					if(Logging.DEBUG) Log.d(Logging.TAG, selectedOptions.size() + " log flags selected");
 					new SetCcConfigAsync().execute(formatOptionsToCcConfig(selectedOptions)); 
@@ -328,7 +332,7 @@ public class PrefsFragment extends Fragment {
 				}
 			});
 		}else if(item.ID == R.string.prefs_power_source_header) {
-			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
+			final ArrayList<SelectionDialogOption> options = new ArrayList<>();
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_ac, BOINCActivity.monitor.getPowerSourceAc()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_usb, BOINCActivity.monitor.getPowerSourceUsb()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_wireless, BOINCActivity.monitor.getPowerSourceWireless()));
@@ -357,7 +361,7 @@ public class PrefsFragment extends Fragment {
 								clientPrefs.run_on_batteries = option.selected;
 								new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
 								break;
-							};
+							}
 						}
 						dialog.dismiss();
 					} catch(RemoteException e) {}
@@ -407,7 +411,9 @@ public class PrefsFragment extends Fragment {
          	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
          			   item.ID == R.string.battery_temperature_max_header ||
          			   item.ID == R.string.prefs_disk_min_free_gb_header ||
-         			   item.ID == R.string.prefs_disk_access_interval_header) {
+         			   item.ID == R.string.prefs_disk_access_interval_header ||
+         			   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
+         			   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
          		   EditText edit = dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
@@ -465,6 +471,12 @@ public class PrefsFragment extends Fragment {
 		case R.string.prefs_memory_max_idle_header:
 			clientPrefs.ram_max_used_idle_frac = value;
 			break;
+		case R.string.prefs_other_store_at_least_x_days_of_work_header:
+			clientPrefs.work_buf_min_days = value;
+			break;
+		case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
+			clientPrefs.work_buf_additional_days = value;
+			break;
 		default:
 			if(Logging.DEBUG) Log.d(Logging.TAG,"onClick (dialog submit button), couldnt match ID");
 			Toast toast = Toast.makeText(getActivity(), "ooops! something went wrong...", Toast.LENGTH_SHORT);
@@ -508,7 +520,7 @@ public class PrefsFragment extends Fragment {
 	private String formatOptionsToCcConfig(ArrayList<String> options) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("<cc_config>\n <log_flags>\n");
-	    for(String option: options) builder.append("  <" + option + "/>\n");
+	    for(String option: options) builder.append("  <").append(option).append("/>\n");
 	    builder.append(" </log_flags>\n <options>\n </options>\n</cc_config>");
 		return builder.toString();
 	}
@@ -636,6 +648,16 @@ public class PrefsFragment extends Fragment {
 				setupSliderDialog(item, dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				break;
+			case R.string.prefs_other_store_at_least_x_days_of_work_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
+			case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
 			case R.string.prefs_client_log_flags_header:
 				try {
 					setupSelectionListDialog(item, dialog);
@@ -706,12 +728,12 @@ public class PrefsFragment extends Fragment {
 		
 		public SelectionDialogOption(int ID, Boolean selected) {
 			this(getResources().getString(ID), selected);
-			this.ID = Integer.valueOf(ID);
+			this.ID = ID;
 		}
 		
 		public SelectionDialogOption(int ID, Boolean selected, Boolean highlighted) {
 			this(getResources().getString(ID), selected, highlighted);
-			this.ID = Integer.valueOf(ID);
+			this.ID = ID;
 		}
 	}
 }

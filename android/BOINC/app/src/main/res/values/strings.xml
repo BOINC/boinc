@@ -178,6 +178,7 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Storage</string>
     <string name="prefs_category_memory">Memory</string>
+    <string name="prefs_category_other">Other</string>
     <string name="prefs_category_debug">Debug</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
@@ -213,6 +214,10 @@
     <string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
     <string name="prefs_memory_max_idle_header">RAM limit</string>
     <string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
+    <string name="prefs_other_store_at_least_x_days_of_work_header">Work unit buffer</string>
+    <string name="prefs_other_store_at_least_x_days_of_work_description">Store at least X days of work</string>
+    <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Additional work unit buffer</string>
+    <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Store up to an additional X days of work</string>
     <string name="prefs_client_log_flags_header">BOINC Client log flags</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>

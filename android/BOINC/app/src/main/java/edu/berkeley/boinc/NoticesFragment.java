@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -40,7 +40,7 @@ public class NoticesFragment extends Fragment {
 
 	private ListView noticesList;
 	private NoticesListAdapter noticesListAdapter;
-	private ArrayList<Notice> data = new ArrayList<Notice>();
+	private ArrayList<Notice> data = new ArrayList<>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

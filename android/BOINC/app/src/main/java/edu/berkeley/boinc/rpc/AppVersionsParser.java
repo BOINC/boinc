@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -29,7 +29,7 @@ import android.util.Xml;
 
 public class AppVersionsParser extends DefaultHandler {
 
-	private ArrayList<AppVersion> mAppVersions = new ArrayList<AppVersion>();
+	private ArrayList<AppVersion> mAppVersions = new ArrayList<>();
 	private AppVersion mAppVersion = null;
 	private StringBuilder mCurrentElement = new StringBuilder();
 

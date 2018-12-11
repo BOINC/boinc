@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.attach;
 
@@ -47,8 +47,8 @@ import java.util.Collections;
 public class SelectionListActivity extends FragmentActivity{
 
 	private ListView lv;
-	ArrayList<ProjectListEntry> entries = new ArrayList<ProjectListEntry>();
-	ArrayList<ProjectInfo> selected = new ArrayList<ProjectInfo>();
+	ArrayList<ProjectListEntry> entries = new ArrayList<>();
+	ArrayList<ProjectInfo> selected = new ArrayList<>();
 	
 	// services
 	private IMonitor monitor = null;
@@ -109,16 +109,16 @@ public class SelectionListActivity extends FragmentActivity{
 		if(!checkProjectChecked()) return;
 		if(!checkDeviceOnline()) return;
 		
-		String selectedProjectsDebug = "";
+		StringBuilder selectedProjectsDebug = new StringBuilder();
 		// get selected projects
 		selected.clear();
 		for(ProjectListEntry tmp: entries) {
 			if(tmp.checked) {
 				selected.add(tmp.info);
-				selectedProjectsDebug += tmp.info.name + ",";
+				selectedProjectsDebug.append(tmp.info.name).append(",");
 			}
 		}
-		if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug.toString());
 		
 		attachService.setSelectedProjects(selected); // returns immediately
 		
@@ -275,7 +275,7 @@ public class SelectionListActivity extends FragmentActivity{
          * {@link Collator#getInstance() collation},<br>else {@code 1}
          * @see SelectionListActivity.ProjectListEntry#info
          * @see ProjectInfo#name
-         * @see Comparable#compareTo(T)
+         * @see Comparable
          */
         public final int compareTo(final SelectionListActivity.ProjectListEntry p) {
             return (SelectionListActivity.ProjectListEntry.collator == null ?

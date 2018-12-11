@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -181,7 +181,7 @@ public class RpcClient {
 			return false;
 		}
 		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
 			mSocket = null;
 			return false;
 		}
@@ -319,7 +319,7 @@ public class RpcClient {
 	 */
 	protected void sendRequest(String request) throws IOException {
 		if (Logging.RPC_PERFORMANCE) if(Logging.DEBUG) Log.d(Logging.TAG, "mRequest.capacity() = " + mRequest.capacity());
-		if (Logging.RPC_DATA) if(Logging.DEBUG) Log.d(Logging.TAG, "Sending request: \n" + request.toString());
+		if (Logging.RPC_DATA) if(Logging.DEBUG) Log.d(Logging.TAG, "Sending request: \n" + request);
 		if (mOutput == null)
 			return;
 		mOutput.write("<boinc_gui_rpc_request>\n");
@@ -398,8 +398,7 @@ public class RpcClient {
 		mRequest.append("</release>\n</exchange_versions>\n");
 		try {
 			sendRequest(mRequest.toString());
-			VersionInfo versionInfo = VersionInfoParser.parse(receiveReply());
-			return versionInfo;
+			return VersionInfoParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in exchangeVersions()", e);
@@ -416,8 +415,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_cc_status/>\n");
-			CcStatus ccStatus = CcStatusParser.parse(receiveReply());
-			return ccStatus;
+			return CcStatusParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getCcStatus()", e);
@@ -434,8 +432,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_file_transfers/>\n");
-			ArrayList<Transfer> transfers = TransfersParser.parse(receiveReply());
-			return transfers;
+			return TransfersParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getFileTransfers()", e);
@@ -452,8 +449,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_host_info/>\n");
-			HostInfo hostInfo = HostInfoParser.parse(receiveReply());
-			return hostInfo;
+			return HostInfoParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getHostInfo()", e);
@@ -500,8 +496,7 @@ public class RpcClient {
 					"</get_messages>\n";
 			}
 			sendRequest(request);
-			ArrayList<Message> messages = MessagesParser.parse(receiveReply());
-			return messages;
+			return MessagesParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
@@ -530,12 +525,12 @@ public class RpcClient {
 			}
 			sendRequest(request);
 			ArrayList<Notice> notices = NoticesParser.parse(receiveReply());
-			if(notices == null) notices = new ArrayList<Notice>(); // do not return null
+			if(notices == null) notices = new ArrayList<>(); // do not return null
 			return notices;
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
-			return new ArrayList<Notice>();
+			return new ArrayList<>();
 		}
 	}
 
@@ -548,8 +543,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_project_status/>\n");
-			ArrayList<Project> projects = ProjectsParser.parse(receiveReply());
-			return projects;
+			return ProjectsParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getProjectStatus()", e);
@@ -570,8 +564,7 @@ public class RpcClient {
 			"</get_results>\n";
 		try {
 			sendRequest(request);
-			ArrayList<Result> results = ResultsParser.parse(receiveReply());
-			return results;
+			return ResultsParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getActiveResults()", e);
@@ -588,8 +581,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_results/>\n");
-			ArrayList<Result> results = ResultsParser.parse(receiveReply());
-			return results;
+			return ResultsParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getResults()", e);
@@ -606,8 +598,7 @@ public class RpcClient {
 		mLastErrorMessage = null;
 		try {
 			sendRequest("<get_state/>\n");
-			CcState result = CcStateParser.parse(receiveReply());
-			return result;
+			return CcStateParser.parse(receiveReply());
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getState()", e);
@@ -867,7 +858,7 @@ public class RpcClient {
 	 * @param url project url
 	 * @param authenticator account key
 	 * @param name project name
-	 * @return
+	 * @return success
 	 */
 	public synchronized boolean projectAttach(String url, String authenticator, String name) {
 		try {
@@ -913,9 +904,9 @@ public class RpcClient {
 	 * performs acct_mgr_rpc towards client
 	 * attaches account manager to client
 	 * requires polling of status
-	 * @param url
-	 * @param name
-	 * @param passwd
+	 * @param url URL of project
+	 * @param name user name
+	 * @param passwd password
 	 * @return success
 	 */
 	public synchronized boolean acctMgrRPC(String url, String name, String passwd) {
@@ -1316,7 +1307,6 @@ public class RpcClient {
 	 * Triggers operation on task in BOINC core client
 	 * @param operation operation to be triggered
 	 * @param projectUrl master URL of project
-	 * @param fileName name of the file
 	 * @return true for success, false for failure
 	 */
 	public boolean resultOp(int operation, String projectUrl, String resultName) {

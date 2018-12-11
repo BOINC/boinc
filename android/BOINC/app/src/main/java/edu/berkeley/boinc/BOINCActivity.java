@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import android.app.Dialog;
@@ -239,9 +239,8 @@ public class BOINCActivity extends AppCompatActivity {
 	
 	/**
 	 * React to selection of nav bar item
-	 * @param item
-	 * @param position
-	 * @param init
+	 * @param item Nav bar item
+	 * @param init Initialize
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments

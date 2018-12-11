@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -27,7 +27,7 @@ import android.util.Xml;
 
 public class ResultsParser extends BaseParser {
 
-	private ArrayList<Result> mResults = new ArrayList<Result>();
+	private ArrayList<Result> mResults = new ArrayList<>();
 	private Result mResult = null;
 	private boolean mInActiveTask = false;
 

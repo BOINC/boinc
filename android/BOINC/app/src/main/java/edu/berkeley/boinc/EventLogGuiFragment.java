@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -29,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 public class EventLogGuiFragment extends Fragment {
 	
@@ -42,7 +41,7 @@ public class EventLogGuiFragment extends Fragment {
     	View layout = inflater.inflate(R.layout.eventlog_gui_layout, container, false);
 
 		a.guiLogList = layout.findViewById(R.id.guiLogList);
-		a.guiLogListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.eventlog_gui_listitem_layout, a.guiLogData);
+		a.guiLogListAdapter = new ArrayAdapter<>(getActivity(), R.layout.eventlog_gui_listitem_layout, a.guiLogData);
 		a.guiLogList.setAdapter(a.guiLogListAdapter);
 		
 		// read messages

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.attach;
 
@@ -40,9 +40,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BatchProcessingActivity extends FragmentActivity{
@@ -53,7 +51,7 @@ public class BatchProcessingActivity extends FragmentActivity{
     private static final int NUM_HINTS = 3; // number of available hint screens
     private ViewPager mPager; // pager widget, handles animation and horizontal swiping gestures
     private PagerAdapter mPagerAdapter; // provides content to pager
-	private ArrayList<HintFragment> hints = new ArrayList<HintFragment>(); // hint fragments
+	private ArrayList<HintFragment> hints = new ArrayList<>(); // hint fragments
 	
 	//header
 	private TextView hintTv;

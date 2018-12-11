@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import android.content.Context;
@@ -30,7 +30,8 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		SECONDS,
 		CELSIUS,
 		MEGABYTES,
-		GIGABYTES
+		GIGABYTES,
+		DECIMAL
 	}
 	PrefsListItemWrapperValue.Unit unit;
 	public Double status;
@@ -82,6 +83,14 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		case R.string.prefs_memory_max_idle_header:
 			description = ctx.getString(R.string.prefs_memory_max_idle_description);
 			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
+			break;
+		case R.string.prefs_other_store_at_least_x_days_of_work_header:
+			description = ctx.getString(R.string.prefs_other_store_at_least_x_days_of_work_description);
+			this.unit = PrefsListItemWrapperValue.Unit.DECIMAL;
+			break;
+		case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
+			description = ctx.getString(R.string.prefs_other_store_up_to_an_additional_x_days_of_work_description);
+			this.unit = PrefsListItemWrapperValue.Unit.DECIMAL;
 			break;
 		case R.string.prefs_gui_log_level_header:
 			description = ctx.getString(R.string.prefs_gui_log_level_description);

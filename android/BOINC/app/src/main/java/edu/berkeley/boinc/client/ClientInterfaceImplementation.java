@@ -96,7 +96,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * @return GUI RPC authentication code
 	 */
 	public String readAuthToken(String authFilePath) {
-    	StringBuffer fileData = new StringBuffer(100);
+    	StringBuilder fileData = new StringBuilder(100);
     	char[] buf = new char[1024];
     	int read = 0;
     	try{
@@ -202,10 +202,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	/**
 	 * Looks up account credentials for given user data.
 	 * Contains authentication key for project attachment.
-	 * @param url URL of project, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
-	 * @param id user ID, can be either name or eMail, see usesName
-	 * @param pwd password
-	 * @param usesName if true, id represents a user name, if not, the user's email address
+	 * @param credentials account credentials
 	 * @return account credentials
 	 */
 	
@@ -269,11 +266,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	
 	/**
 	 * Creates account for given user information and returns account credentials if successful.
-	 * @param url master URL of project
-	 * @param email email address of user
-	 * @param userName user name of user
-	 * @param pwd password
-	 * @param teamName name of team, account shall get associated to
+	 * @param information account credentials
 	 * @return account credentials (see status inside, to check success)
 	 */
 	
@@ -310,8 +303,8 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * Adds account manager to BOINC client.
 	 * There can only be a single acccount manager be active at a time.
 	 * @param url URL of account manager
-	 * @param userName
-	 * @param pwd
+	 * @param userName user name
+	 * @param pwd password
 	 * @return status of attachment
 	 */
 	
@@ -424,7 +417,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 		// less than desired number of messsages available, adapt lower bound
 		if(lowerBound < 0) lowerBound = 0;
 		ArrayList<Message> msgs= getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
-		if(msgs == null) msgs = new ArrayList<Message>(); // getMessages might return null in case of parsing or IO error
+		if(msgs == null) msgs = new ArrayList<>(); // getMessages might return null in case of parsing or IO error
 		
 		if(seqNo > 0) {
 			// remove messages that are >= seqNo
@@ -455,7 +448,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 		ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
 		ArrayList<Project> attachedProjects = getState().projects; // currently attached projects
 		
-		ArrayList<ProjectInfo> attachableProjects = new ArrayList<ProjectInfo>(); // array to be filled and returned
+		ArrayList<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
 		
 		if(allProjectsList == null || attachedProjects == null) return null;
 		
