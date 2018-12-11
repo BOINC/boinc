@@ -1035,9 +1035,21 @@ public class RpcClient {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getAllProjectsList()", e);
 			return null;
 		}
-		
 	}
-	
+
+	public synchronized ArrayList<AccountManagerInfo> getAccountManagersList() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<get_all_projects_list/>");
+
+			sendRequest(mRequest.toString());
+			return AccountManagerInfoParser.parse(receiveReply());
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in getAccountManagersList()", e);
+			return null;
+		}
+	}
+
 	public synchronized GlobalPreferences getGlobalPrefsWorkingStruct() {
 		try {
 			mRequest.setLength(0);

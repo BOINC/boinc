@@ -21,6 +21,9 @@ package edu.berkeley.boinc.attach;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.AccountManagerInfo;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
+import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
 import android.app.Service;
@@ -33,6 +36,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +52,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import static edu.berkeley.boinc.BOINCActivity.monitor;
 
 public class AcctMgrFragment extends DialogFragment{
 	
@@ -71,9 +79,22 @@ public class AcctMgrFragment extends DialogFragment{
         if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment onCreateView"); 
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
-        
+
+		ArrayList<AccountManagerInfo> data = null;
+		ArrayList<String> filteredData =  new ArrayList<>();
+		try {
+			data = (ArrayList<AccountManagerInfo>)monitor.getAccountManagers();
+		} catch (RemoteException e) {
+			if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
+		}
+
+		for (int i = data.size() - 1; i >= 0; i--) {
+			filteredData.add(data.get(i).url);
+		}
+
         urlSpinner = v.findViewById(R.id.url_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter =new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, filteredData);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
 
