@@ -100,7 +100,10 @@ if (!$user) {
 }
 
 $name = BoincDb::escape_string($name);
-if ($country && !is_valid_country($country)) {
+if (NO_USER_COUNTRY) {
+    $country = "";
+}
+if (!is_valid_country($country)) {
     xml_error(-1, "invalid country");
 }
 $country = BoincDb::escape_string($country);
@@ -118,6 +121,9 @@ if (stripos($project_prefs, "<project_specific>") === false) {
     $project_prefs = str_ireplace("<project_preferences>", "<project_preferences>\n".$orig_project_specific, $project_prefs);
 }
 
+if (NO_USER_URL) {
+    $url = "";
+}
 $url = BoincDb::escape_string($url);
 $send_email = BoincDb::escape_string($send_email);
 $show_hosts = BoincDb::escape_string($show_hosts);

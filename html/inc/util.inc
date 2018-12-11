@@ -101,6 +101,12 @@ if (!defined('USER_HOME')) {
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
+if (!defined('NO_USER_COUNTRY')) {
+    define('NO_USER_COUNTRY', 0);
+}
+if (!defined('NO_USER_URL')) {
+    define('NO_USER_URL', 0);
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
