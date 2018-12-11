@@ -36,7 +36,7 @@
 		android:textStyle="bold" />
 
 	<Spinner
-		android:id="@+id/url_spinner"
+		android:id="@+id/accountManager_spinner"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="10dp" />

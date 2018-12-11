@@ -52,6 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static edu.berkeley.boinc.BOINCActivity.monitor;
 
@@ -60,7 +61,7 @@ public class AcctMgrFragment extends DialogFragment{
 	private ProjectAttachService attachService = null;
 	private boolean asIsBound = false;
 
-	private Spinner urlSpinner;
+	private Spinner accountManagerSpinner;
 	private EditText urlInput;
 	private EditText nameInput;
 	private EditText pwdInput;
@@ -85,15 +86,15 @@ public class AcctMgrFragment extends DialogFragment{
             if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
         }
 
-		ArrayList<AccountManagerSpinner> adapterData = new ArrayList<>();
+		List<AccountManagerSpinner> adapterData = new ArrayList<>();
 		for (AccountManager accountManager : accountManagers) {
 			adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
 		}
 
-		urlSpinner = v.findViewById(R.id.url_spinner);
+		accountManagerSpinner = v.findViewById(R.id.accountManager_spinner);
 		ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        urlSpinner.setAdapter(adapter);
+        accountManagerSpinner.setAdapter(adapter);
 
         urlInput = v.findViewById(R.id.url_input);
         nameInput = v.findViewById(R.id.name_input);
@@ -103,9 +104,9 @@ public class AcctMgrFragment extends DialogFragment{
         continueB = v.findViewById(R.id.continue_button);
 
         // change url text field on url spinner change
-        urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        accountManagerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) urlSpinner.getSelectedItem();
+				AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) AcctMgrFragment.this.accountManagerSpinner.getSelectedItem();
 				urlInput.setText(accountManagerSpinner.url);
             }
 
