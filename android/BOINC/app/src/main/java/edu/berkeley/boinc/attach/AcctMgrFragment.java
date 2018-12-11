@@ -54,6 +54,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static edu.berkeley.boinc.BOINCActivity.monitor;
 
@@ -80,21 +81,20 @@ public class AcctMgrFragment extends DialogFragment{
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
 
-		ArrayList<AccountManagerInfo> data = null;
-		ArrayList<String> filteredData =  new ArrayList<>();
-		try {
-			data = (ArrayList<AccountManagerInfo>)monitor.getAccountManagers();
-		} catch (RemoteException e) {
-			if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
-		}
+        ArrayList<AccountManagerInfo> accountManagers = null;
+        try {
+            accountManagers = (ArrayList<AccountManagerInfo>)monitor.getAccountManagers();
+        } catch (RemoteException e) {
+            if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
+        }
 
-		for (int i = data.size() - 1; i >= 0; i--) {
-			filteredData.add(data.get(i).url);
-		}
+        ArrayList<String> adapterData =  new ArrayList<>();
+        for (int i = accountManagers.size() - 1; i >= 0; i--) {
+            adapterData.add(accountManagers.get(i).url);
+        }
 
         urlSpinner = v.findViewById(R.id.url_spinner);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapter =new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, filteredData);
+        ArrayAdapter<String> adapter =new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, adapterData);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
 
