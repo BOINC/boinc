@@ -22,10 +22,11 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-public class AccountManagerInfo implements Parcelable{
+/**
+ * Holds information about the attachable account managers.
+ * The source of the account managers is all_projects_list.xml.
+ */
+public class AccountManager implements Parcelable{
 	public String name = "";
 	public String url = "";
 	public String description;
@@ -34,7 +35,7 @@ public class AccountManagerInfo implements Parcelable{
 	@Override
 	public String toString() {
 		String platformString = "";
-		return "AccountManagerInfo: " + name + " ; " + url + " ; " + " ; " + " ; " + description + " ; " + " ; " + platformString + " ; " + imageUrl;
+		return "AccountManager: " + name + " ; " + url + " ; " + " ; " + " ; " + description + " ; " + " ; " + platformString + " ; " + imageUrl;
 	}
 
 	@Override
@@ -51,21 +52,21 @@ public class AccountManagerInfo implements Parcelable{
 		dest.writeString(imageUrl);
 	}
 
-	public AccountManagerInfo() {}
+	public AccountManager() {}
 
-	private AccountManagerInfo(Parcel in) {
+	private AccountManager(Parcel in) {
 		name = in.readString();
 		url = in.readString();
 		description = in.readString();
 		imageUrl = in.readString();
 	}
 
-	public static final Creator<AccountManagerInfo> CREATOR = new Creator<AccountManagerInfo>() {
-		public AccountManagerInfo createFromParcel(Parcel in) {
-		    return new AccountManagerInfo(in);
+	public static final Creator<AccountManager> CREATOR = new Creator<AccountManager>() {
+		public AccountManager createFromParcel(Parcel in) {
+		    return new AccountManager(in);
 		}
-		public AccountManagerInfo[] newArray(int size) {
-		    return new AccountManagerInfo[size];
+		public AccountManager[] newArray(int size) {
+		    return new AccountManager[size];
 		}
 	};
 }

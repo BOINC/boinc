@@ -22,6 +22,9 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Holds information about the currently used account manager.
+ */
 public class AcctMgrInfo implements Parcelable {
 	public String acct_mgr_name;
 	public String acct_mgr_url;

@@ -18,4 +18,4 @@
  ******************************************************************************/
 package edu.berkeley.boinc.rpc;
 
-parcelable AccountManagerInfo;
+parcelable AccountManager;

@@ -20,7 +20,7 @@ package edu.berkeley.boinc.client;
 
 import java.util.List;
 import edu.berkeley.boinc.rpc.AccountOut;
-import edu.berkeley.boinc.rpc.AccountManagerInfo;
+import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -58,7 +58,7 @@ boolean transferOperation(in List<Transfer> list, in int op);  // implement: cal
 List<Notice> getServerNotices();        // implement: call clientInterface.getServerNotices()
 boolean runBenchmarks();
 List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProjects();
-List<AccountManagerInfo> getAccountManagers();  // clientInterface.getAccountManagers();
+List<AccountManager> getAccountManagers();  // clientInterface.getAccountManagers();
 ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
 
 /////// general //////////////////////////////////////////

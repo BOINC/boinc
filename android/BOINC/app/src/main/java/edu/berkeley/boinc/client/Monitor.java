@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.client;
 
+import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.utils.*;
 
 import java.io.File;
@@ -49,7 +50,6 @@ import android.util.Log;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.mutex.BoincMutex;
 import edu.berkeley.boinc.rpc.AccountIn;
-import edu.berkeley.boinc.rpc.AccountManagerInfo;
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.CcState;
@@ -57,7 +57,6 @@ import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.rpc.ImageWrapper;
-import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectConfig;
@@ -1090,7 +1089,7 @@ public class Monitor extends Service {
 		}
 
         @Override
-        public List<AccountManagerInfo> getAccountManagers() throws RemoteException {
+        public List<AccountManager> getAccountManagers() throws RemoteException {
             return clientInterface.getAccountManagers();
         }
 

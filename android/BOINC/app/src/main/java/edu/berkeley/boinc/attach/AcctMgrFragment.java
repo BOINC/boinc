@@ -21,9 +21,7 @@ package edu.berkeley.boinc.attach;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.AccountManagerInfo;
-import edu.berkeley.boinc.rpc.AcctMgrInfo;
-import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
 import android.app.Service;
@@ -54,7 +52,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static edu.berkeley.boinc.BOINCActivity.monitor;
 
@@ -81,9 +78,9 @@ public class AcctMgrFragment extends DialogFragment{
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
 
-        ArrayList<AccountManagerInfo> accountManagers = null;
+        ArrayList<AccountManager> accountManagers = null;
         try {
-            accountManagers = (ArrayList<AccountManagerInfo>)monitor.getAccountManagers();
+            accountManagers = (ArrayList<AccountManager>)monitor.getAccountManagers();
         } catch (RemoteException e) {
             if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
         }

@@ -29,18 +29,18 @@ import java.util.ArrayList;
 
 import edu.berkeley.boinc.utils.Logging;
 
-public class AccountManagerInfoParser extends BaseParser{
+public class AccountManagerParser extends BaseParser{
 
-	private ArrayList<AccountManagerInfo> mAcctMgrInfos = new ArrayList<>();
-	private AccountManagerInfo mAcctMgrInfo = null;
+	private ArrayList<AccountManager> mAcctMgrInfos = new ArrayList<>();
+	private AccountManager mAcctMgrInfo = null;
 
-	public ArrayList<AccountManagerInfo> getAccountManagerInfo() {
+	public ArrayList<AccountManager> getAccountManagerInfo() {
 		return mAcctMgrInfos;
 	}
 
-	public static ArrayList<AccountManagerInfo> parse(String rpcResult) {
+	public static ArrayList<AccountManager> parse(String rpcResult) {
 		try {
-			AccountManagerInfoParser parser = new AccountManagerInfoParser();
+			AccountManagerParser parser = new AccountManagerParser();
 			Xml.parse(rpcResult, parser);
 			return parser.getAccountManagerInfo();
 		} catch (SAXException e) {
@@ -52,7 +52,7 @@ public class AccountManagerInfoParser extends BaseParser{
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		if (localName.equalsIgnoreCase("account_manager")) {
-			mAcctMgrInfo = new AccountManagerInfo();
+			mAcctMgrInfo = new AccountManager();
 		} else {
 			mElementStarted = true;
 			mCurrentElement.setLength(0);
@@ -91,7 +91,7 @@ public class AccountManagerInfoParser extends BaseParser{
 				}
 			}
 		} catch (Exception e) {
-			if(Logging.ERROR) Log.e(Logging.TAG,"AccountManagerInfoParser.endElement error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"AccountManagerParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

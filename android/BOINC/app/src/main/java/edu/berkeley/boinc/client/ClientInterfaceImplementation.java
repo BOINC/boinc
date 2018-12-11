@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import android.util.Log;
 import edu.berkeley.boinc.rpc.AccountIn;
-import edu.berkeley.boinc.rpc.AccountManagerInfo;
+import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
@@ -483,11 +483,11 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * Returns list of account managers from all_projects_list.xml
 	 * @return list of account managers
 	 */
-	public ArrayList<AccountManagerInfo> getAccountManagers() {
-		ArrayList<AccountManagerInfo> accountManagersList = getAccountManagersList(); // from all_proejcts_list.xml
+	public ArrayList<AccountManager> getAccountManagers() {
+		ArrayList<AccountManager> accountManagers = getAccountManagersList(); // from all_proejcts_list.xml
 
-		if(Logging.DEBUG) Log.d(Logging.TAG, "getAccountManagers: number of account managers found: " + accountManagersList.size());
-		return accountManagersList;
+		if(Logging.DEBUG) Log.d(Logging.TAG, "getAccountManagers: number of account managers found: " + accountManagers.size());
+		return accountManagers;
 	}
 
 	public ProjectInfo getProjectInfo(String url) {
