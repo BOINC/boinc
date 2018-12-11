@@ -676,6 +676,35 @@ public class RpcClient {
 	}
 
 	/**
+	 * Reports the device name as host info to the client
+	 * @deviceName The name you want to set as device name.
+	 * @return true for success, false for failure
+	 */
+	public synchronized boolean setDomainName(String deviceName){
+		mLastErrorMessage = null;
+		mRequest.setLength(0);
+		mRequest.append("<set_host_info>\n");
+		mRequest.append("  <host_info>\n");
+		mRequest.append("    <domain_name>");
+		mRequest.append(deviceName);
+		mRequest.append("    </domain_name>\n");
+		mRequest.append("  </host_info>\n");
+		mRequest.append("</set_host_info>\n");
+		try {
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		}
+		catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+			return false;
+		}
+	}
+
+	/**
 	 * Tells the BOINC core client that a network connection is available,
 	 * and that it should do as much network activity as it can.
 	 * @return true for success, false for failure

@@ -43,8 +43,10 @@ import android.widget.Toast;
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
+import edu.berkeley.boinc.adapter.PrefsListItemWrapperText;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
+import edu.berkeley.boinc.client.ClientInterfaceImplementation;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.utils.Logging;
@@ -168,6 +170,7 @@ public class PrefsFragment extends Fragment {
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_suspended_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotificationDuringSuspend()));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_advanced_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowAdvanced()));
 		if(!stationaryDeviceMode) data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_suspend_when_screen_on,R.string.prefs_category_general,BOINCActivity.monitor.getSuspendWhenScreenOn()));
+		data.add(new PrefsListItemWrapperText(getActivity(),R.string.prefs_general_device_name_header,R.string.prefs_category_general,BOINCActivity.monitor.getHostInfo().domain_name));
 		// network
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
@@ -385,6 +388,7 @@ public class PrefsFragment extends Fragment {
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// Sliders
          	   if(item.ID == R.string.battery_charge_min_pct_header || 
          			item.ID == R.string.prefs_disk_max_pct_header || 
          			item.ID == R.string.prefs_cpu_time_max_header ||
@@ -408,7 +412,9 @@ public class PrefsFragment extends Fragment {
          		   } catch (RemoteException e) {}
          		   updateValuePref(item.ID, (double) sbProgress);
          		   updateLayout();
-         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
+         	   }
+         	   // Numbers
+         	   else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
          			   item.ID == R.string.battery_temperature_max_header ||
          			   item.ID == R.string.prefs_disk_min_free_gb_header ||
          			   item.ID == R.string.prefs_disk_access_interval_header ||
@@ -421,6 +427,13 @@ public class PrefsFragment extends Fragment {
          		   double value = valueTmp;
          		   writeClientValuePreference(item.ID, value);
          	   }
+         	   // Texts
+         	   else if(item.ID == R.string.prefs_general_device_name_header) {
+				   EditText edit = dialog.findViewById(R.id.Input);
+				   ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+				   clientInterface.setDomainName(edit.getText().toString());
+				   clientInterface.close();
+			   }
          	   dialog.dismiss();
 			}
 		});
@@ -599,6 +612,11 @@ public class PrefsFragment extends Fragment {
 			
 			// setup dialog layout
 			switch(item.ID) {
+			case R.string.prefs_general_device_name_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog_text);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
 			case R.string.prefs_network_daily_xfer_limit_mb_header:
 				dialog.setContentView(R.layout.prefs_layout_dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
@@ -676,7 +694,7 @@ public class PrefsFragment extends Fragment {
 			dialog.show();
 		}
 	}
-	
+
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
 		@Override
 		protected Boolean doInBackground(GlobalPreferences... params) {
