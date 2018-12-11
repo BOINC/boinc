@@ -85,13 +85,13 @@ public class AcctMgrFragment extends DialogFragment{
             if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
         }
 
-        ArrayList<String> adapterData =  new ArrayList<>();
-        for (int i = accountManagers.size() - 1; i >= 0; i--) {
-            adapterData.add(accountManagers.get(i).url);
-        }
+		ArrayList<AccountManagerSpinner> adapterData = new ArrayList<>();
+		for (AccountManager accountManager : accountManagers) {
+			adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
+		}
 
-        urlSpinner = v.findViewById(R.id.url_spinner);
-        ArrayAdapter<String> adapter =new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, adapterData);
+		urlSpinner = v.findViewById(R.id.url_spinner);
+		ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
 
@@ -105,7 +105,8 @@ public class AcctMgrFragment extends DialogFragment{
         // change url text field on url spinner change
         urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                urlInput.setText(urlSpinner.getSelectedItem().toString());
+				AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) urlSpinner.getSelectedItem();
+				urlInput.setText(accountManagerSpinner.url);
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
