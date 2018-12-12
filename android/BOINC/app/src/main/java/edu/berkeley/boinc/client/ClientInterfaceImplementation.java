@@ -487,9 +487,9 @@ public class ClientInterfaceImplementation extends RpcClient{
 		return null;
 	}
 
-	@Override
 	public boolean setDomainName(String deviceName) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "OOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		return true;
+		boolean success = setDomainNameRpc(deviceName);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "setDomainName: success " + success);
+		return success;
 	}
 }

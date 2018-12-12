@@ -973,10 +973,10 @@ public class Monitor extends Service {
 			return clientInterface.setCcConfig(config);
 		}
 
-/*		@Override
+		@Override
 		public boolean setDomainName(String deviceName) throws RemoteException {
 			return clientInterface.setDomainName(deviceName);
-		}*/
+		}
 
 		@Override
 		public boolean resultOp(int op, String url, String name)

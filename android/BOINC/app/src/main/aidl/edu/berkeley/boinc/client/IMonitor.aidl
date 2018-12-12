@@ -58,7 +58,7 @@ List<Notice> getServerNotices();        // implement: call clientInterface.getSe
 boolean runBenchmarks();
 List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProjects();
 ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
-//boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
+boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
 
 /////// general //////////////////////////////////////////
 boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();

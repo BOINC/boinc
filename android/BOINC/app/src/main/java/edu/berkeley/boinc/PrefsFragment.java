@@ -431,15 +431,19 @@ public class PrefsFragment extends Fragment {
          	   else if(item.ID == R.string.prefs_general_device_name_header) {
 				   EditText edit = dialog.findViewById(R.id.Input);
 				   //ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+				   //clientInterface.setDomainName(edit.getText().toString());
 				   boolean success = false;
-/*
+				   String domainNameBefore = "";
+				   String domainNameAfter = "";
 				   try {
+					   domainNameBefore = BOINCActivity.monitor.getHostInfo().domain_name;
 					   success = BOINCActivity.monitor.setDomainName(edit.getText().toString());
+					   domainNameAfter = BOINCActivity.monitor.getHostInfo().domain_name;
 				   } catch (RemoteException e) {
 					   if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
 				   }
-*/
-				   if(Logging.DEBUG) Log.d(Logging.TAG, "######################" + success);
+
+				   if(Logging.DEBUG) Log.d(Logging.TAG, "###################### " + success + " - " + edit.getText().toString() + " - " + domainNameBefore + " - " + domainNameAfter);
 
 			   }
          	   dialog.dismiss();
