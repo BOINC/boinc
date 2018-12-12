@@ -54,8 +54,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.berkeley.boinc.BOINCActivity.monitor;
-
 public class AcctMgrFragment extends DialogFragment{
 	
 	private ProjectAttachService attachService = null;
@@ -81,7 +79,7 @@ public class AcctMgrFragment extends DialogFragment{
 
         ArrayList<AccountManager> accountManagers = null;
         try {
-            accountManagers = (ArrayList<AccountManager>)monitor.getAccountManagers();
+            accountManagers = (ArrayList<AccountManager>)BOINCActivity.monitor.getAccountManagers();
         } catch (RemoteException e) {
             if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
         }
