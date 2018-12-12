@@ -486,4 +486,10 @@ public class ClientInterfaceImplementation extends RpcClient{
 		if(Logging.ERROR) Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
 		return null;
 	}
+
+	@Override
+	public boolean setDomainName(String deviceName) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "OOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		return true;
+	}
 }

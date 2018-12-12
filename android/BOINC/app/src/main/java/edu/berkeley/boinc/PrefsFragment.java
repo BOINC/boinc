@@ -430,9 +430,17 @@ public class PrefsFragment extends Fragment {
          	   // Texts
          	   else if(item.ID == R.string.prefs_general_device_name_header) {
 				   EditText edit = dialog.findViewById(R.id.Input);
-				   ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
-				   clientInterface.setDomainName(edit.getText().toString());
-				   clientInterface.close();
+				   //ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+				   boolean success = false;
+/*
+				   try {
+					   success = BOINCActivity.monitor.setDomainName(edit.getText().toString());
+				   } catch (RemoteException e) {
+					   if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
+				   }
+*/
+				   if(Logging.DEBUG) Log.d(Logging.TAG, "######################" + success);
+
 			   }
          	   dialog.dismiss();
 			}
