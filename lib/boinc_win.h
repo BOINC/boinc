@@ -146,6 +146,10 @@
 #define SECURITY_WIN32
 #endif
 
+/* MINGW needs windows.h before winhttp.h */
+#ifdef __MINGW32__
+#include <windows.h>
+#endif
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
