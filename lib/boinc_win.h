@@ -146,11 +146,6 @@
 #define SECURITY_WIN32
 #endif
 
-/* MINGW needs windows.h before winhttp.h */
-#ifdef __MINGW32__
-#include <windows.h>
-#endif
-
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
 /* If we're not running under CYGWIN use windows networking */
@@ -161,9 +156,6 @@
 #include <winsock2.h>
 #elif defined(HAVE_WINSOCK_H)
 #include <winsock.h>
-#endif
-#ifdef HAVE_WINHTTP_H
-#include <winhttp.h>
 #endif
 
 #ifndef HAVE_SOCKLEN_T
@@ -195,6 +187,9 @@ typedef size_t socklen_t;
 #include <share.h>
 #include <shlobj.h>
 #include <userenv.h>
+#ifdef HAVE_WINHTTP_H
+#include <winhttp.h>
+#endif
 #include <aclapi.h>
 #include <psapi.h>
 #include <iphlpapi.h>
