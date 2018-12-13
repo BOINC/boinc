@@ -858,7 +858,7 @@ public class Monitor extends Service {
 			}
 		}
     	// if not happen in ps output, not running?!
-		if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+    	if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
     	return pid;
