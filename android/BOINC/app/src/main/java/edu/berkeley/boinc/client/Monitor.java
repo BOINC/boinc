@@ -827,38 +827,40 @@ public class Monitor extends Service {
     		}
     	}
 
+		if (PidIndex == -1)
+			return null;
+
+		if (Logging.DEBUG)
+			Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
+
 		Integer pid = null;
-		if (PidIndex != -1) {
-			if (Logging.DEBUG)
-				Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
-
-			for (int y = 1; y < processLinesAr.length; y++) {
-				Boolean found = false;
-				String[] comps = processLinesAr[y].split("[\\s]+");
-				for (String arg : comps) {
-					if (arg.equals(processName)) {
-						if (Logging.DEBUG)
-							Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " found in line: " + y);
-						found = true;
-						break;
-					}
+		for (int y = 1; y < processLinesAr.length; y++) {
+			Boolean found = false;
+			String[] comps = processLinesAr[y].split("[\\s]+");
+			for (String arg : comps) {
+				if (arg.equals(processName)) {
+					if (Logging.DEBUG)
+						Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " found in line: " + y);
+					found = true;
+					break;
 				}
-				if (found) {
-					try {
-						pid = Integer.parseInt(comps[PidIndex]);
-						if (Logging.ERROR)
-							Log.d(Logging.TAG, "getPidForProcessName(): pid: " + pid);
-					} catch (NumberFormatException e) {
-						if (Logging.ERROR)
-							Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
+			}
+			if (found) {
+				try {
+					pid = Integer.parseInt(comps[PidIndex]);
+					if (Logging.ERROR)
+						Log.d(Logging.TAG, "getPidForProcessName(): pid: " + pid);
+				} catch (NumberFormatException e) {
+					if (Logging.ERROR)
+						Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
 
-						break;
-					}
+					break;
 				}
 			}
 		}
-    	// if not happen in ps output, not running?!
-    	if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+		// if not happen in ps output, not running?!
+    	if(pid == null)
+    		if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
     	return pid;
