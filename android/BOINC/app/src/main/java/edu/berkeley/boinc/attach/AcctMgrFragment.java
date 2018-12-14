@@ -21,6 +21,8 @@ package edu.berkeley.boinc.attach;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
@@ -79,7 +81,7 @@ public class AcctMgrFragment extends DialogFragment{
 
         ArrayList<AccountManager> accountManagers = null;
         try {
-            accountManagers = (ArrayList<AccountManager>)BOINCActivity.monitor.getAccountManagers();
+            accountManagers = (ArrayList<AccountManager>)monitor.getAccountManagers();
         } catch (RemoteException e) {
             if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
         }
@@ -161,6 +163,7 @@ public class AcctMgrFragment extends DialogFragment{
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		doBindService();
 		  Dialog dialog = super.onCreateDialog(savedInstanceState);
 
 		  // request a window without the title
@@ -219,10 +222,34 @@ public class AcctMgrFragment extends DialogFragment{
 	    	asIsBound = false;
 	    }
 	};
-	
-	private void doBindService() {
+
+    //#####################################
+    // monitor service binding
+    private IMonitor monitor = null;
+    private boolean mIsBound2 = false;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // This is called when the connection with the service has been established, getService returns
+            // the Monitor object that is needed to call functions.
+            monitor = IMonitor.Stub.asInterface(service);
+            mIsBound2 = true;
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            // This should not happen
+            monitor = null;
+            mIsBound2 = false;
+        }
+    };
+
+    private void doBindService() {
 		// bind to attach service
 		getActivity().bindService(new Intent(getActivity(), ProjectAttachService.class), mASConnection, Service.BIND_AUTO_CREATE);
+
+		//#####################################
+        // Establish a connection with the service, onServiceConnected gets called when
+        getActivity().bindService(new Intent(getActivity(), Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
 	}
 
 	private void doUnbindService() {
@@ -231,6 +258,13 @@ public class AcctMgrFragment extends DialogFragment{
 	    	getActivity().unbindService(mASConnection);
 	        asIsBound = false;
 	    }
+
+        //#####################################
+        if (mIsBound2) {
+            // Detach existing connection.
+            getActivity().unbindService(mConnection);
+            mIsBound2 = false;
+        }
 	}
 
 	private String mapErrorNumToString(int code) {
