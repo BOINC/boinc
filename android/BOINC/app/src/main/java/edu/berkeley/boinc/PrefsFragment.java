@@ -70,7 +70,7 @@ public class PrefsFragment extends Fragment {
 			try {
 				if(!layoutSuccessful) populateLayout();
 			} catch (RemoteException e) {
-				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BroadcastReceiver error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BroadcastReceiver: onReceive() error: ", e);
 			}
 		}
 	};
@@ -369,7 +369,7 @@ public class PrefsFragment extends Fragment {
 						}
 						dialog.dismiss();
 					} catch(RemoteException e) {
-						if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog error: ",e);
+						if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
 					}
 				}
 			});
@@ -412,7 +412,7 @@ public class PrefsFragment extends Fragment {
           			  Logging.setLogLevel(sbProgress);
          			  BOINCActivity.monitor.setLogLevel(sbProgress);
          		   } catch (RemoteException e) {
-         			  if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupDialogButtons error: ",e);
+         			  if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
          		   }
          		   updateValuePref(item.ID, (double) sbProgress);
          		   updateLayout();
@@ -588,7 +588,7 @@ public class PrefsFragment extends Fragment {
 					break;
 				}
 			} catch(RemoteException e) {
-				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BoolOnClick: onClick() error: ", e);
 			}
 		}
 		

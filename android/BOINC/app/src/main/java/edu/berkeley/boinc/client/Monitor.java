@@ -942,7 +942,7 @@ public class Monitor extends Service {
 			try {
 				mBinder.setRunMode(params[0]);
 			} catch (RemoteException e) {
-				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync: doInBackground() error: ", e);
 			}
 			return null;
 		}
@@ -1014,7 +1014,7 @@ public class Monitor extends Service {
 			try {
 				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
 			} catch (Exception e) {
-				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.isStationaryDeviceSuspected error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ", e);
 			}
 			return false;
 		}
@@ -1051,7 +1051,7 @@ public class Monitor extends Service {
 			try {
 				return getDeviceStatus().getStatus().battery_charge_pct;
 			} catch (Exception e) {
-				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.getBatteryChargeStatus error: ",e);
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e);
 			}
 			return 0;
 		}

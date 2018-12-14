@@ -333,7 +333,7 @@ public class BOINCActivity extends AppCompatActivity {
     
     // tests whether status is available and whether it changed since the last event.
 	private void determineStatus() {
-    	try {
+		try {
 			if(mIsBound) { 
 				Integer newComputingStatus = monitor.getComputingStatus();
 				if(newComputingStatus != clientComputingStatus) {
@@ -345,10 +345,10 @@ public class BOINCActivity extends AppCompatActivity {
 					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>)monitor.getProjects());
 				//setAppTitle();
 			} 
-    	} catch (Exception e) {
+		} catch (Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.determineStatus error: ",e);
-    	}
-    }
+		}
+	}
 
     public final boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {

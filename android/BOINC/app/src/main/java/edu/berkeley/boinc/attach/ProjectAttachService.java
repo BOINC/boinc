@@ -310,7 +310,11 @@ public class ProjectAttachService extends Service {
 				retry = false;
 				break;
 			}
-			if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception ignored) {}
+			if(retry){
+				try {
+					Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
+				} catch(Exception ignored) {}
+			}
 		}
 		
 		if(reply !=BOINCErrors.ERR_OK ) return reply;
