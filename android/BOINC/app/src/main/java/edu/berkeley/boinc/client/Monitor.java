@@ -605,19 +605,19 @@ public class Monitor extends Service {
      * @return Boolean success
      */
 	private Boolean connectClient() {
-		Boolean success = clientInterface.open(clientSocketAddress);
+        Boolean success = clientInterface.open(clientSocketAddress);
         if(!success) {
-        	if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
-        	return success;
+            if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
+            return success;
         }
         
         //authorize
         success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
         if(!success) {
-        	if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
+            if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
         }
         return success;
-	}
+    }
 	
 	/**
 	 * Installs required files from APK's asset directory to the applications' internal storage.

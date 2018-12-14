@@ -334,9 +334,9 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 */
 	public Boolean synchronizeAcctMgr(String url) {
 
-	// 1st get_project_config for account manager url
-		Boolean success = getProjectConfig(url);
-		ProjectConfig reply;
+    	// 1st get_project_config for account manager url
+    	Boolean success = getProjectConfig(url);
+    	ProjectConfig reply;
     	if(success) {
     		Boolean loop = true;
     		while(loop) {
@@ -360,8 +360,8 @@ public class ClientInterfaceImplementation extends RpcClient{
     		}
     	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.getProjectConfig returned false.");}
 		
-    // 2nd acct_mgr_rpc with <use_config_file/>
-        AcctMgrRPCReply reply2;
+    	// 2nd acct_mgr_rpc with <use_config_file/>
+    	AcctMgrRPCReply reply2;
     	success = acctMgrRPC(); //asynchronous call to synchronize account manager
     	if(success) {
     		Boolean loop = true;
