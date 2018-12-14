@@ -61,39 +61,41 @@ public class BOINCUtils {
 	
 	@SuppressLint("DefaultLocale")
 	public static String formatSize(double fBytesSent, double fFileSize) {
-	    String buf;
 	    double xTera = 1099511627776.0;
 	    double xGiga = 1073741824.0;
 	    double xMega = 1048576.0;
 	    double xKilo = 1024.0;
 
 	    if (fFileSize != 0) {
-	        if        (fFileSize >= xTera) {
-	            buf = String.format("%.2f/%.2f TB", fBytesSent/xTera, fFileSize/xTera);
-	        } else if (fFileSize >= xGiga) {
-	        	buf = String.format("%.2f/%.2f GB", fBytesSent/xGiga, fFileSize/xGiga);
-	        } else if (fFileSize >= xMega) {
-	        	buf = String.format("%.2f/%.2f MB", fBytesSent/xMega, fFileSize/xMega);
-	        } else if (fFileSize >= xKilo) {
-	        	buf = String.format("%.2f/%.2f KB", fBytesSent/xKilo, fFileSize/xKilo);
-	        } else {
-	        	buf = String.format("%.0f/%.0f bytes", fBytesSent, fFileSize);
+	        if (fFileSize >= xTera) {
+	            return String.format("%.2f/%.2f TB", fBytesSent/xTera, fFileSize/xTera);
 	        }
-	    } else {
-	        if        (fBytesSent >= xTera) {
-	        	buf = String.format("%.2f TB", fBytesSent/xTera);
-	        } else if (fBytesSent >= xGiga) {
-	        	buf = String.format("%.2f GB", fBytesSent/xGiga);
-	        } else if (fBytesSent >= xMega) {
-	        	buf = String.format("%.2f MB", fBytesSent/xMega);
-	        } else if (fBytesSent >= xKilo) {
-	        	buf = String.format("%.2f KB", fBytesSent/xKilo);
-	        } else {
-	        	buf = String.format("%.0f bytes", fBytesSent);
+	        if (fFileSize >= xGiga) {
+	        	return String.format("%.2f/%.2f GB", fBytesSent/xGiga, fFileSize/xGiga);
 	        }
-	    }
+	        if (fFileSize >= xMega) {
+				return String.format("%.2f/%.2f MB", fBytesSent/xMega, fFileSize/xMega);
+	        }
+	        if (fFileSize >= xKilo) {
+				return String.format("%.2f/%.2f KB", fBytesSent/xKilo, fFileSize/xKilo);
+	        }
+	        return String.format("%.0f/%.0f bytes", fBytesSent, fFileSize);
 
-	    return buf;
+	    } else {
+	        if (fBytesSent >= xTera) {
+				return String.format("%.2f TB", fBytesSent/xTera);
+	        }
+	        if (fBytesSent >= xGiga) {
+				return String.format("%.2f GB", fBytesSent/xGiga);
+	        }
+	        if (fBytesSent >= xMega) {
+				return String.format("%.2f MB", fBytesSent/xMega);
+	        }
+	        if (fBytesSent >= xKilo) {
+				return String.format("%.2f KB", fBytesSent/xKilo);
+	        }
+	        return String.format("%.0f bytes", fBytesSent);
+	    }
 	}
     
 }
