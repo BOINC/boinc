@@ -19,12 +19,16 @@
 package edu.berkeley.boinc;
 
 import android.app.Dialog;
+import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,7 +50,12 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperText;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
+import edu.berkeley.boinc.attach.ProjectAttachService;
+import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientInterfaceImplementation;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Boinc;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.utils.Logging;
@@ -64,7 +73,11 @@ public class PrefsFragment extends Fragment {
 	private HostInfo hostinfo = null;
 	
 	private boolean layoutSuccessful = false;
-	
+
+	// services
+	private IMonitor monitor = null;
+	private boolean mIsBound = false;
+
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
@@ -91,12 +104,14 @@ public class PrefsFragment extends Fragment {
 	// fragment lifecycle: 1.
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		doBindService();
 		super.onCreate(savedInstanceState);
 	}
 
 	// fragment lifecycle: 3.
 	@Override
 	public void onResume() {
+		doBindService();
 		try {
 			populateLayout();
 		} catch (RemoteException e) {}
@@ -106,8 +121,39 @@ public class PrefsFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
+		doUnbindService();
 		getActivity().unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
+	}
+
+	private ServiceConnection mMonitorConnection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			// This is called when the connection with the service has been established, getService returns
+			// the Monitor object that is needed to call functions.
+			monitor = IMonitor.Stub.asInterface(service);
+			mIsBound = true;
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			// This should not happen
+			monitor = null;
+			mIsBound = false;
+		}
+	};
+
+	private void doBindService() {
+		// start service to allow setForeground later on...
+		getActivity().startService(new Intent(getActivity(), Monitor.class));
+		// Establish a connection with the service, onServiceConnected gets called when
+		getActivity().bindService(new Intent(getActivity(), Monitor.class), mMonitorConnection, Service.BIND_AUTO_CREATE);
+	}
+
+	private void doUnbindService() {
+		if (mIsBound) {
+			// Detach existing connection.
+			getActivity().unbindService(mMonitorConnection);
+			mIsBound = false;
+		}
 	}
 
 	private Boolean getPrefs() {
@@ -431,14 +477,16 @@ public class PrefsFragment extends Fragment {
          	   else if(item.ID == R.string.prefs_general_device_name_header) {
 				   EditText edit = dialog.findViewById(R.id.Input);
 				   //ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
-				   //clientInterface.setDomainName(edit.getText().toString());
+				   //clientInterface.setDomainName(edit.getText().toString())
 				   boolean success = false;
+				   doBindService();
+
 				   String domainNameBefore = "";
 				   String domainNameAfter = "";
 				   try {
-					   domainNameBefore = BOINCActivity.monitor.getHostInfo().domain_name;
-					   success = BOINCActivity.monitor.setDomainName(edit.getText().toString());
-					   domainNameAfter = BOINCActivity.monitor.getHostInfo().domain_name;
+					   domainNameBefore = monitor.getHostInfo().domain_name;
+					   success = monitor.setDomainName(edit.getText().toString());
+					   domainNameAfter = monitor.getHostInfo().domain_name;
 				   } catch (RemoteException e) {
 					   if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
 				   }
