@@ -76,7 +76,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		TextView header = v.findViewById(R.id.checkbox_text);
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
 	    	}
-	    	// Numeber based items
+	    	// Number based items
 	    	else if(listItem instanceof PrefsListItemWrapperValue) {
 	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
@@ -122,19 +122,19 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    	}
 	    	// Text based items
 	    	else if(listItem instanceof PrefsListItemWrapperText) {
-				PrefsListItemWrapperText item = (PrefsListItemWrapperText) listItem;
-				v = vi.inflate(R.layout.prefs_layout_listitem, null);
-				RelativeLayout wrapper = v.findViewById(R.id.wrapper);
-				wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
-				TextView header = v.findViewById(R.id.header);
-				header.setText(item.header);
-				TextView description = v.findViewById(R.id.description);
-				description.setText(item.description);
+	    		PrefsListItemWrapperText item = (PrefsListItemWrapperText) listItem;
+	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
+	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
+	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
+	    		TextView header = v.findViewById(R.id.header);
+	    		header.setText(item.header);
+	    		TextView description = v.findViewById(R.id.description);
+	    		description.setText(item.description);
 
-				LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
-				statusWrapper.setVisibility(View.VISIBLE);
-				final String value = item.status;
-				((TextView)v.findViewById(R.id.status)).setText(value);
+	    		LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
+	    		statusWrapper.setVisibility(View.VISIBLE);
+	    		final String value = item.status;
+	    		((TextView)v.findViewById(R.id.status)).setText(value);
 			}
 			// Lists
 			else {
