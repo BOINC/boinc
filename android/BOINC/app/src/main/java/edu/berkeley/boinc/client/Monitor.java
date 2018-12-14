@@ -660,70 +660,70 @@ public class Monitor extends Service {
      * @return Boolean success
      */
 	private Boolean installFile(String file, Boolean override, Boolean executable) {
-    	Boolean success = false;
-    	byte[] b = new byte [1024];
-		int count; 
+        Boolean success = false;
+        byte[] b = new byte [1024];
+        int count;
 		
-		// If file is executable, cpu architecture has to be evaluated
-		// and assets directory select accordingly
-		String source = "";
-		if(executable) source = getAssestsDirForCpuArchitecture() + file;
-		else source = file;
+        // If file is executable, cpu architecture has to be evaluated
+        // and assets directory select accordingly
+        String source = "";
+        if(executable) source = getAssestsDirForCpuArchitecture() + file;
+        else source = file;
 		
-		try {
-			if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
+        try {
+            if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
 			
-    		File target = new File(boincWorkingDir + file);
+            File target = new File(boincWorkingDir + file);
     		
-    		// Check path and create it
-    		File installDir = new File(boincWorkingDir);
-    		if(!installDir.exists()) {
+            // Check path and create it
+            File installDir = new File(boincWorkingDir);
+            if(!installDir.exists()) {
                 if (!installDir.mkdir()) {
                     if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): mkdir() was not successful.");
                 }
 
                 if (!installDir.setWritable(true)) {
-                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.setWritable(): mkdir() was not successful.");
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): setWritable() was not successful.");
                 }
-    		}
+            }
 
-    		if(target.exists()) {
-    			if(override) {
+            if(target.exists()) {
+                if(override) {
                     if (!target.delete()) {
                         if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): delete() was not successful.");
                     }
                 } else {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
-    				return true;
-    			}
-    		}
+                    if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
+                    return true;
+                }
+            }
     		
-    		// Copy file from the asset manager to clientPath
-    		InputStream asset = getApplicationContext().getAssets().open(source); 
-    		OutputStream targetData = new FileOutputStream(target); 
-    		while((count = asset.read(b)) != -1){ 
-    			targetData.write(b, 0, count);
-    		}
-    		asset.close(); 
-    		targetData.flush(); 
-    		targetData.close();
+            // Copy file from the asset manager to clientPath
+            InputStream asset = getApplicationContext().getAssets().open(source);
+            OutputStream targetData = new FileOutputStream(target);
+            while((count = asset.read(b)) != -1){
+                targetData.write(b, 0, count);
+            }
+            asset.close();
+            targetData.flush();
+            targetData.close();
 
-    		success = true; //copy succeeded without exception
+            success = true; //copy succeeded without exception
     		
-    		// Set executable, if requested
-    		if(executable) {
+            // Set executable, if requested
+            if(executable) {
                 success = target.setExecutable(executable); // return false, if not executable
-    		}
+            }
 
-   		    if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + success);
+            if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + success);
     		
-    	} catch (IOException e) {  
-    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
-    	}
+        } catch (IOException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
+            if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
+        }
 		
-		return success;
-	}
+        return success;
+    }
 	
 	/**
 	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86 or MIPS)
