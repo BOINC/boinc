@@ -666,7 +666,7 @@ public class Monitor extends Service {
 		
         // If file is executable, cpu architecture has to be evaluated
         // and assets directory select accordingly
-        String source = "";
+        String source;
         if(executable) source = getAssestsDirForCpuArchitecture() + file;
         else source = file;
 		
@@ -705,7 +705,6 @@ public class Monitor extends Service {
                 targetData.write(b, 0, count);
             }
             asset.close();
-            targetData.flush();
             targetData.close();
 
             success = true; //copy succeeded without exception
