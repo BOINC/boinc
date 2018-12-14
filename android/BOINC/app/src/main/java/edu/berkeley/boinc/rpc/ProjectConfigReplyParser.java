@@ -111,10 +111,10 @@ public class ProjectConfigReplyParser extends BaseParser {
 						mProjectConfig.usesName = true;
 					}
 					else if (localName.equalsIgnoreCase("web_stopped")) {
-                        mProjectConfig.webStopped = Integer.parseInt(mCurrentElement.toString()) != 0;
+						mProjectConfig.webStopped = (Integer.parseInt(mCurrentElement.toString()) != 0);
 					}
 					else if (localName.equalsIgnoreCase("sched_stopped")) {
-                        mProjectConfig.schedulerStopped = Integer.parseInt(mCurrentElement.toString()) != 0;
+						mProjectConfig.schedulerStopped = (Integer.parseInt(mCurrentElement.toString()) != 0);
 					}
 					else if (localName.equalsIgnoreCase("client_account_creation_disabled")) {
 						mProjectConfig.clientAccountCreationDisabled = true;

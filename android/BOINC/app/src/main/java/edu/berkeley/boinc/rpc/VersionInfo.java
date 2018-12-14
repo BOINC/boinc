@@ -32,7 +32,7 @@ public class VersionInfo {
 		else if (major < vi.major) return false;
 		else if (minor > vi.minor) return true;
 		else if (minor < vi.minor) return false;
-		else return release > vi.release;
+		else return (release > vi.release);
 	}
 
 }

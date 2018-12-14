@@ -362,7 +362,7 @@ public class ProjectDetailsFragment extends Fragment {
 			}
 			// load slideshow images
             // slideshowImages = status.getSlideshowForProject(project.master_url);
-            return slideshowImages != null && slideshowImages.size() != 0;
+            return (slideshowImages != null && slideshowImages.size() != 0);
         }
 		
 		@Override
