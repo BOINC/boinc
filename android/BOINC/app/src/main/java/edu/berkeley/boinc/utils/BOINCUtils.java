@@ -71,28 +71,28 @@ public class BOINCUtils {
 	            return String.format("%.2f/%.2f TB", fBytesSent/xTera, fFileSize/xTera);
 	        }
 	        if (fFileSize >= xGiga) {
-	        	return String.format("%.2f/%.2f GB", fBytesSent/xGiga, fFileSize/xGiga);
+	            return String.format("%.2f/%.2f GB", fBytesSent/xGiga, fFileSize/xGiga);
 	        }
 	        if (fFileSize >= xMega) {
-				return String.format("%.2f/%.2f MB", fBytesSent/xMega, fFileSize/xMega);
+	            return String.format("%.2f/%.2f MB", fBytesSent/xMega, fFileSize/xMega);
 	        }
 	        if (fFileSize >= xKilo) {
-				return String.format("%.2f/%.2f KB", fBytesSent/xKilo, fFileSize/xKilo);
+	            return String.format("%.2f/%.2f KB", fBytesSent/xKilo, fFileSize/xKilo);
 	        }
 	        return String.format("%.0f/%.0f bytes", fBytesSent, fFileSize);
 
 	    } else {
 	        if (fBytesSent >= xTera) {
-				return String.format("%.2f TB", fBytesSent/xTera);
+	            return String.format("%.2f TB", fBytesSent/xTera);
 	        }
 	        if (fBytesSent >= xGiga) {
-				return String.format("%.2f GB", fBytesSent/xGiga);
+	            return String.format("%.2f GB", fBytesSent/xGiga);
 	        }
 	        if (fBytesSent >= xMega) {
-				return String.format("%.2f MB", fBytesSent/xMega);
+	            return String.format("%.2f MB", fBytesSent/xMega);
 	        }
 	        if (fBytesSent >= xKilo) {
-				return String.format("%.2f KB", fBytesSent/xKilo);
+	            return String.format("%.2f KB", fBytesSent/xKilo);
 	        }
 	        return String.format("%.0f bytes", fBytesSent);
 	    }
