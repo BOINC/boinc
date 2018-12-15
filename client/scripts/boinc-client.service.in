@@ -14,6 +14,7 @@ ExecStop=@exec_prefix@/bin/boinccmd --quit
 ExecReload=@exec_prefix@/bin/boinccmd --read_cc_config
 ExecStopPost=/bin/rm -f lockfile
 IOSchedulingClass=idle
+CPUSchedulingPolicy=idle
 
 [Install]
 WantedBy=multi-user.target
