@@ -158,7 +158,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 		    String statusText = "";
 		    try{
 		    	statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);
-	        }
+		    }
 	        catch(Exception e){
 		    	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectsListAdapter.getView error: ",e);
 	        }
