@@ -102,7 +102,7 @@ function create_account_form($teamid, $next_url) {
         ),
         "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd")
     );
-    if (!NO_USER_COUNTRY) {
+    if (USER_COUNTRY) {
         form_select(
             sprintf('<span title="%s">%s</span>',
                 tra("Select the country you want to represent, if any."),

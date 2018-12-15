@@ -113,10 +113,10 @@ function show_user_xml($user, $show_hosts) {
             show_host_xml($host);
         }
     }
-    if (!NO_USER_COUNTRY) {
+    if (USER_COUNTRY) {
         echo "     <country>$user->country</country>\n";
     }
-    if (!NO_USER_URL) {
+    if (USER_URL) {
         $url = normalize_user_url($user->url);
         echo "    <url>".htmlspecialchars($url)."</url>\n";
     }
@@ -138,10 +138,10 @@ function show_team_member($user, $creditonly = false) {
     <expavg_time>$user->expavg_time</expavg_time>
     <has_profile>$user->has_profile</has_profile>
 ";
-        if (!NO_USER_COUNTRY) {
+        if (USER_COUNTRY) {
             echo "     <country>$user->country</country>\n";
         }
-        if (!NO_USER_URL) {
+        if (USER_URL) {
             $url = normalize_user_url($user->url);
             echo "    <url>".htmlspecialchars($url)."</url>\n";
         }

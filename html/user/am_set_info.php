@@ -100,7 +100,7 @@ if (!$user) {
 }
 
 $name = BoincDb::escape_string($name);
-if (NO_USER_COUNTRY) {
+if (!USER_COUNTRY) {
     $country = "";
 }
 if (!is_valid_country($country)) {
@@ -121,7 +121,7 @@ if (stripos($project_prefs, "<project_specific>") === false) {
     $project_prefs = str_ireplace("<project_preferences>", "<project_preferences>\n".$orig_project_specific, $project_prefs);
 }
 
-if (NO_USER_URL) {
+if (!USER_URL) {
     $url = "";
 }
 $url = BoincDb::escape_string($url);

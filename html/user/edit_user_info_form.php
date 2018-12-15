@@ -35,7 +35,7 @@ form_input_text(
     $user->name
 );
 
-if (!NO_USER_URL) {
+if (USER_URL) {
     form_input_text(
         tra("URL %1 of your personal web page; optional%2", "<br><p class=\"small\">", "</p>"),
         'url',
@@ -43,7 +43,7 @@ if (!NO_USER_URL) {
     );
 }
 
-if (!NO_USER_COUNTRY) {
+if (USER_COUNTRY) {
     form_select(
         tra("Country"),
         'country',

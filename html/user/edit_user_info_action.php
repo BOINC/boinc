@@ -38,12 +38,12 @@ $name = BoincDb::escape_string($name);
 $url = "";
 $country = "";
 $postal_code = "";
-if (!NO_USER_URL) {
+if (USER_URL) {
     $url = post_str("url", true);
     $url = sanitize_tags($url);
     $url = BoincDb::escape_string($url);
 }
-if (!NO_USER_COUNTRY) {
+if (USER_COUNTRY) {
     $country = post_str("country");
     if (!is_valid_country($country)) {
         error_page("bad country");

@@ -628,7 +628,7 @@ function show_post(
         // - put the .png's in html/user/flags/
         // - put define("COUNTRY_FLAGS", 1); in your html/project/project.inc
         //
-        if (!NO_USER_COUNTRY && defined("COUNTRY_FLAGS")) {
+        if (USER_COUNTRY && defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
                 $code = $country_to_iso3166_2[$user->country];
                 echo "<img class=flag alt=\"$user->country\" title=\"$user->country\" src=flags/$code.png>\n";

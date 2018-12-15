@@ -243,13 +243,13 @@ function show_user_info_private($user) {
         }
         row2(tra("Email address"), $email_text);
     }
-    if (!NO_USER_URL) {
+    if (USER_URL) {
         if (strlen($user->url)) {
             $u = normalize_user_url($user->url);
             row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }
     }
-    if (!NO_USER_COUNTRY) {
+    if (USER_COUNTRY) {
         row2(tra("Country"), $user->country);
     }
     if (POSTAL_CODE) {
@@ -437,10 +437,10 @@ function show_user_summary_public($user) {
     global $g_logged_in_user;
     row2(tra("User ID"), $user->id);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    if (!NO_USER_COUNTRY) {
+    if (USER_COUNTRY) {
         row2(tra("Country"), $user->country);
     }
-    if (!NO_USER_URL) {
+    if (USER_URL) {
         // don't show URL if user has no recent credit (spam suppression)
         //
         if (strlen($user->url)) {

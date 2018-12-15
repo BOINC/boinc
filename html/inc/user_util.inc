@@ -260,7 +260,7 @@ function validate_post_make_user() {
     $passwd_hash = md5($passwd.$new_email_addr);
 
     $country = "";
-    if (!NO_USER_COUNTRY) {
+    if (USER_COUNTRY) {
         $country = post_str("country", true);
         if ($country && !is_valid_country($country)) {
             error_page("bad country");
