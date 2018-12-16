@@ -36,7 +36,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,7 +56,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AcctMgrFragment extends DialogFragment{
-	
+
+	////////////////////////////////////////
+	public static IMonitor monitor = null;
+	private boolean mIsBound2 = false;
+
 	private ProjectAttachService attachService = null;
 	private boolean asIsBound = false;
 
@@ -81,9 +84,9 @@ public class AcctMgrFragment extends DialogFragment{
 
         ArrayList<AccountManager> accountManagers = null;
         try {
-            accountManagers = (ArrayList<AccountManager>)monitor.getAccountManagers();
-        } catch (RemoteException e) {
-            if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
+            accountManagers = (ArrayList<AccountManager>)BOINCActivity.monitor.getAccountManagers();
+        } catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
         }
 
 		List<AccountManagerSpinner> adapterData = new ArrayList<>();
@@ -164,11 +167,12 @@ public class AcctMgrFragment extends DialogFragment{
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		doBindService();
-		  Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-		  // request a window without the title
-		  dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		  return dialog;
+		Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+		// request a window without the title
+		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		return dialog;
 	}
 	
 	public void setReturnToMainActivity() {
@@ -225,8 +229,6 @@ public class AcctMgrFragment extends DialogFragment{
 
     //#####################################
     // monitor service binding
-    private IMonitor monitor = null;
-    private boolean mIsBound2 = false;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -248,8 +250,14 @@ public class AcctMgrFragment extends DialogFragment{
 		getActivity().bindService(new Intent(getActivity(), ProjectAttachService.class), mASConnection, Service.BIND_AUTO_CREATE);
 
 		//#####################################
+		// start service to allow setForeground later on...
+		getActivity().startService(new Intent(getActivity(), Monitor.class));
         // Establish a connection with the service, onServiceConnected gets called when
-        getActivity().bindService(new Intent(getActivity(), Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
+		getActivity().bindService(new Intent(getActivity(), Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
+
+
+		// start BOINCActivity
+		//startActivity(new Intent(getActivity(), BOINCActivity.class));
 	}
 
 	private void doUnbindService() {
