@@ -122,7 +122,7 @@ public class TasksFragment extends Fragment {
 			for(int x = 0; x < data.size(); x++) {
 				if(rpcResult.name.equals(data.get(x).id)) {
 					index = x;
-					continue;
+					break;
 				}
 			}
 			if(index == null) { // result is new, add
@@ -142,7 +142,7 @@ public class TasksFragment extends Fragment {
 			for(Result rpcResult: newData) {
 				if(listItem.id.equals(rpcResult.name)) {
 					found = true;
-					continue;
+					break;
 				}
 			}
 			if(!found) iData.remove();
