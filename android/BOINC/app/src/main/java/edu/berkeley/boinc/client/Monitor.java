@@ -852,7 +852,7 @@ public class Monitor extends Service {
     			} catch (NumberFormatException e) {
     				if (Logging.ERROR) Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
     			}
-    			break;// Break out of inner for (processLinesAr) loop
+    			break;// Break out of outer for (processLinesAr) loop
     		}
     	}
     	// if not happen in ps output, not running?!
