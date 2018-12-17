@@ -6,7 +6,7 @@ After=network-online.target
 [Service]
 ProtectHome=true
 Type=simple
-Nice=10
+Nice=19
 User=boinc
 WorkingDirectory=/var/lib/boinc
 ExecStart=@exec_prefix@/bin/boinc
