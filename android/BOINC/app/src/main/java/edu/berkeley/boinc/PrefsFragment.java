@@ -74,10 +74,6 @@ public class PrefsFragment extends Fragment {
 	
 	private boolean layoutSuccessful = false;
 
-	// services
-	private IMonitor monitor = null;
-	private boolean mIsBound = false;
-
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
@@ -104,14 +100,12 @@ public class PrefsFragment extends Fragment {
 	// fragment lifecycle: 1.
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		doBindService();
 		super.onCreate(savedInstanceState);
 	}
 
 	// fragment lifecycle: 3.
 	@Override
 	public void onResume() {
-		doBindService();
 		try {
 			populateLayout();
 		} catch (RemoteException e) {}
@@ -121,39 +115,8 @@ public class PrefsFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
-		doUnbindService();
 		getActivity().unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
-	}
-
-	private ServiceConnection mMonitorConnection = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			// This is called when the connection with the service has been established, getService returns
-			// the Monitor object that is needed to call functions.
-			monitor = IMonitor.Stub.asInterface(service);
-			mIsBound = true;
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-			// This should not happen
-			monitor = null;
-			mIsBound = false;
-		}
-	};
-
-	private void doBindService() {
-		// start service to allow setForeground later on...
-		getActivity().startService(new Intent(getActivity(), Monitor.class));
-		// Establish a connection with the service, onServiceConnected gets called when
-		getActivity().bindService(new Intent(getActivity(), Monitor.class), mMonitorConnection, Service.BIND_AUTO_CREATE);
-	}
-
-	private void doUnbindService() {
-		if (mIsBound) {
-			// Detach existing connection.
-			getActivity().unbindService(mMonitorConnection);
-			mIsBound = false;
-		}
 	}
 
 	private Boolean getPrefs() {
@@ -476,23 +439,13 @@ public class PrefsFragment extends Fragment {
          	   // Texts
          	   else if(item.ID == R.string.prefs_general_device_name_header) {
 				   EditText edit = dialog.findViewById(R.id.Input);
-				   //ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
-				   //clientInterface.setDomainName(edit.getText().toString())
-				   boolean success = false;
-				   doBindService();
-
-				   String domainNameBefore = "";
-				   String domainNameAfter = "";
 				   try {
-					   domainNameBefore = monitor.getHostInfo().domain_name;
-					   success = monitor.setDomainName(edit.getText().toString());
-					   domainNameAfter = monitor.getHostInfo().domain_name;
-				   } catch (RemoteException e) {
-					   if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
+					   if (!BOINCActivity.monitor.setDomainName(edit.getText().toString())) {
+						   if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
+					   }
+				   } catch (Exception e) {
+					   if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
 				   }
-
-				   if(Logging.DEBUG) Log.d(Logging.TAG, "###################### " + success + " - " + edit.getText().toString() + " - " + domainNameBefore + " - " + domainNameAfter);
-
 			   }
          	   dialog.dismiss();
 			}
