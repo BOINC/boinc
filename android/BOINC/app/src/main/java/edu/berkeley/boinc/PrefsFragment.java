@@ -398,56 +398,56 @@ public class PrefsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// Sliders
-         	   if(item.ID == R.string.battery_charge_min_pct_header || 
-         			item.ID == R.string.prefs_disk_max_pct_header || 
-         			item.ID == R.string.prefs_cpu_time_max_header ||
-         			item.ID == R.string.prefs_cpu_other_load_suspension_header || 
-         			item.ID == R.string.prefs_memory_max_idle_header ) {
-         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
-         		   double value = slider.getProgress()*10;
-         		   writeClientValuePreference(item.ID, value);
-         	   } else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
-         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
-         		   int sbProgress = slider.getProgress();
-         		   double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
-         		   writeClientValuePreference(item.ID, value);
-         	   } else if(item.ID == R.string.prefs_gui_log_level_header) {
-         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
-         		   int sbProgress = slider.getProgress();
-         		   try {
-         			   // monitor and UI in two different processes. set static variable in both
-          			  Logging.setLogLevel(sbProgress);
-         			  BOINCActivity.monitor.setLogLevel(sbProgress);
-         		   } catch (RemoteException e) {}
-         		   updateValuePref(item.ID, (double) sbProgress);
-         		   updateLayout();
-         	   }
-         	   // Numbers
-         	   else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
-         			   item.ID == R.string.battery_temperature_max_header ||
-         			   item.ID == R.string.prefs_disk_min_free_gb_header ||
-         			   item.ID == R.string.prefs_disk_access_interval_header ||
-         			   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
-         			   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
-         		   EditText edit = dialog.findViewById(R.id.Input);
-         		   String input = edit.getText().toString();
-         		   Double valueTmp = parseInputValueToDouble(input);
-         		   if(valueTmp == null) return;
-         		   double value = valueTmp;
-         		   writeClientValuePreference(item.ID, value);
-         	   }
-         	   // Texts
-         	   else if(item.ID == R.string.prefs_general_device_name_header) {
-				   EditText edit = dialog.findViewById(R.id.Input);
-				   try {
-					   if (!BOINCActivity.monitor.setDomainName(edit.getText().toString())) {
-						   if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
-					   }
-				   } catch (Exception e) {
-					   if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
-				   }
-			   }
-         	   dialog.dismiss();
+				if(item.ID == R.string.battery_charge_min_pct_header ||
+					item.ID == R.string.prefs_disk_max_pct_header ||
+					item.ID == R.string.prefs_cpu_time_max_header ||
+					item.ID == R.string.prefs_cpu_other_load_suspension_header ||
+					item.ID == R.string.prefs_memory_max_idle_header ) {
+					SeekBar slider = dialog.findViewById(R.id.seekbar);
+					double value = slider.getProgress()*10;
+					writeClientValuePreference(item.ID, value);
+				} else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
+					SeekBar slider = dialog.findViewById(R.id.seekbar);
+					int sbProgress = slider.getProgress();
+					double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
+					writeClientValuePreference(item.ID, value);
+				} else if(item.ID == R.string.prefs_gui_log_level_header) {
+					SeekBar slider = dialog.findViewById(R.id.seekbar);
+					int sbProgress = slider.getProgress();
+					try {
+						// monitor and UI in two different processes. set static variable in both
+						Logging.setLogLevel(sbProgress);
+						BOINCActivity.monitor.setLogLevel(sbProgress);
+					} catch (RemoteException e) {}
+					updateValuePref(item.ID, (double) sbProgress);
+					updateLayout();
+				}
+				// Numbers
+				else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
+						item.ID == R.string.battery_temperature_max_header ||
+						item.ID == R.string.prefs_disk_min_free_gb_header ||
+						item.ID == R.string.prefs_disk_access_interval_header ||
+						item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
+						item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
+					EditText edit = dialog.findViewById(R.id.Input);
+					String input = edit.getText().toString();
+					Double valueTmp = parseInputValueToDouble(input);
+					if(valueTmp == null) return;
+					double value = valueTmp;
+					writeClientValuePreference(item.ID, value);
+				}
+				// Texts
+				else if(item.ID == R.string.prefs_general_device_name_header) {
+					EditText edit = dialog.findViewById(R.id.Input);
+					try {
+						if (!BOINCActivity.monitor.setDomainName(edit.getText().toString())) {
+							if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
+						}
+					} catch (Exception e) {
+						if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
+					}
+				}
+				dialog.dismiss();
 			}
 		});
 		// cancel
