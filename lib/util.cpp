@@ -484,6 +484,7 @@ int run_program(
         FCGI::perror("execvp");
 #else
         perror("execvp");
+        fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
 #endif
         exit(errno);
     }
