@@ -120,7 +120,7 @@ int RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
     // if project has zero resource share,
     // only fetch work if a device is idle
     //
-    if (p->resource_share == 0 && rwf.nidle_now == 0) {
+    if (p->resource_share == 0 && rwf.saturated_time > WF_EST_FETCH_TIME) {
         return DONT_FETCH_ZERO_SHARE;
     }
 
