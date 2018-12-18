@@ -35,17 +35,21 @@ form_input_text(
     $user->name
 );
 
-form_input_text(
-    tra("URL %1 of your personal web page; optional%2", "<br><p class=\"small\">", "</p>"),
-    'url',
-    $user->url
-);
+if (USER_URL) {
+    form_input_text(
+        tra("URL %1 of your personal web page; optional%2", "<br><p class=\"small\">", "</p>"),
+        'url',
+        $user->url
+    );
+}
 
-form_select(
-    tra("Country"),
-    'country',
-    country_select_options($user->country)
-);
+if (USER_COUNTRY) {
+    form_select(
+        tra("Country"),
+        'country',
+        country_select_options($user->country)
+    );
+}
 
 if (POSTAL_CODE) {
     form_input_text(

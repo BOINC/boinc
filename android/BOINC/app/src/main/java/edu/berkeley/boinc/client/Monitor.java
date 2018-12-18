@@ -792,83 +792,93 @@ public class Monitor extends Service {
 	 * @param processName name of process, according to output of "ps"
 	 * @return process id, according to output of "ps"
 	 */
-	private Integer getPidForProcessName(String processName) {
-		int count;
-		char[] buf = new char[1024];
-		StringBuilder sb = new StringBuilder();
+    private Integer getPidForProcessName(String processName) {
+    	int count;
+    	char[] buf = new char[1024];
+    	StringBuilder sb = new StringBuilder();
+    	
+    	//run ps and read output
+    	try {
+	    	Process p = Runtime.getRuntime().exec("ps");
+	    	p.waitFor();
+	    	InputStreamReader isr = new InputStreamReader(p.getInputStream());
+	    	while((count = isr.read(buf)) != -1)
+	    	{
+	    	    sb.append(buf, 0, count);
+	    	}
+    	} catch (Exception e) {
+    		if(Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
+    		return null;
+    	}
 
-		//run ps and read output
-		try {
-			Process p = Runtime.getRuntime().exec("ps");
-			p.waitFor();
-			InputStreamReader isr = new InputStreamReader(p.getInputStream());
-			while((count = isr.read(buf)) != -1)
-			{
-				sb.append(buf, 0, count);
-			}
-		} catch (Exception e) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
-			return null;
-		}
+    	String [] processLinesAr = sb.toString().split("\n");
+    	if (processLinesAr.length < 2) {
+    		if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): ps output has less than 2 lines, failure!");
+    		return null;
+    	}
+    	
+    	// figure out what index PID has
+    	String [] headers = processLinesAr[0].split("[\\s]+");
+    	Integer PidIndex = -1;
+    	for (int x = 0; x < headers.length; x++) {
+    		if(headers[x].equals("PID")) {
+    			PidIndex = x;
+    			break;
+    		}
+    	}
 
-		String [] processLinesAr = sb.toString().split("\n");
-		if (processLinesAr.length < 2) {
-			if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): ps output has less than 2 lines, failure!");
-			return null;
-		}
+    	if (PidIndex == -1) {
+    		return null;
+    	}
 
-		// figure out what index PID has
-		String [] headers = processLinesAr[0].split("[\\s]+");
-		Integer PidIndex = 1;
-		for (int x = 0; x < headers.length; x++) {
-			if(headers[x].equals("PID")) {
-				PidIndex = x;
-				continue;
-			}
-		}
-		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
+    	if (Logging.DEBUG)
+    		Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
 
-		Integer pid = null;
-		for(int y = 1; y < processLinesAr.length; y++) {
-			Boolean found = false;
-			String [] comps = processLinesAr[y].split("[\\s]+");
-			for(String arg: comps) {
-				if(arg.equals(processName)) {
-					if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " found in line: " + y);
-					found = true;
-				}
-			}
-			if(found) {
-				try{
-					pid = Integer.parseInt(comps[PidIndex]);
-					if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid);
-				}catch (NumberFormatException e) {if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);}
-				continue;
-			}
-		}
-		// if not happen in ps output, not running?!
-		if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
-
-		// Find required pid
-		return pid;
-	}
-
-	/**
-	 * Exits a process by sending it Linux SIGQUIT and SIGKILL signals
-	 * @param processName name of process to be killed, according to output of "ps"
-	 */
-	private void quitProcessOsLevel(String processName) {
-		Integer clientPid = getPidForProcessName(processName);
-
-		// client PID could not be read, client already ended / not yet started?
-		if (clientPid == null) {
-			if(Logging.ERROR) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
-			return;
-		}
-
-		if(Logging.DEBUG) Log.d(Logging.TAG, "quitProcessOsLevel for " + processName + ", pid: " + clientPid);
-
-		// Do not just kill the client on the first attempt.  That leaves dangling
+    	Integer pid = null;
+    	for (int y = 1; y < processLinesAr.length; y++) {
+    		Boolean found = false;
+    		String[] comps = processLinesAr[y].split("[\\s]+");
+    		for (String arg : comps) {
+    			if (arg.equals(processName)) {
+    				if (Logging.DEBUG) Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " found in line: " + y);
+    				found = true;
+    				break; // Break out of inner foreach (comps) loop
+    			}
+    		}
+    		if (found) {
+    			try {
+    				pid = Integer.parseInt(comps[PidIndex]);
+    				if (Logging.ERROR) Log.d(Logging.TAG, "getPidForProcessName(): pid: " + pid);
+    			} catch (NumberFormatException e) {
+    				if (Logging.ERROR) Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
+    			}
+    			break;// Break out of outer for (processLinesAr) loop
+    		}
+    	}
+    	// if not happen in ps output, not running?!
+    	if(pid == null)
+    		if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+    	
+    	// Find required pid
+    	return pid;
+    }
+    
+    /**
+     * Exits a process by sending it Linux SIGQUIT and SIGKILL signals
+     * @param processName name of process to be killed, according to output of "ps"
+     */
+    private void quitProcessOsLevel(String processName) {
+    	Integer clientPid = getPidForProcessName(processName);
+    	
+    	// client PID could not be read, client already ended / not yet started?
+    	if (clientPid == null) {
+    		if(Logging.ERROR) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
+    		return;
+    	}
+    	
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "quitProcessOsLevel for " + processName + ", pid: " + clientPid);
+    	
+    	// Do not just kill the client on the first attempt.  That leaves dangling 
 		// science applications running which causes repeated spawning of applications.
 		// Neither the UI or client are happy and each are trying to recover from the
 		// situation.  Instead send SIGQUIT and give the client time to clean up.
