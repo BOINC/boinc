@@ -297,7 +297,7 @@ public class RpcClient {
 			String result = receiveReply();
             // If end of stream reached and no data were received in reply
             // we assume that socket is closed on the other side, most probably client shut down
-            return result.length() != 0;
+            return (result.length() != 0);
         }
 		catch (IOException e) {
 			return false;
