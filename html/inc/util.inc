@@ -34,7 +34,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config (do it here for efficiency)
+// parse some stuff from config.xml (do it here for efficiency)
 //
 $config = get_config();
 global $master_url;
@@ -42,8 +42,16 @@ $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
-// don't allow /... at the end of URL
+// the following default to on
+//
+$x = parse_config($config, "<user_country>");
+define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
+$x = parse_config($config, "<user_url>");
+define('USER_URL', ($x===null)?1:(int)$x);
+
+// don't allow /... at the end of URL
+//
 if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }

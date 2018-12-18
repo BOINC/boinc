@@ -187,6 +187,7 @@ function validate_post_make_user() {
     }
 
     // Check if consent to terms of use has been given.
+    //
     $myconsent = FALSE;
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($checkct and check_termsofuse()) {
@@ -258,12 +259,12 @@ function validate_post_make_user() {
 
     $passwd_hash = md5($passwd.$new_email_addr);
 
-    $country = post_str("country", true);
-    if (!$country) {
-        $country = "None";
-    }
-    if (!is_valid_country($country)) {
-        error_page("bad country");
+    $country = "";
+    if (USER_COUNTRY) {
+        $country = post_str("country", true);
+        if ($country && !is_valid_country($country)) {
+            error_page("bad country");
+        }
     }
 
     if (POSTAL_CODE) {

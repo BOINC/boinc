@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -122,7 +122,7 @@ public class TasksFragment extends Fragment {
 			for(int x = 0; x < data.size(); x++) {
 				if(rpcResult.name.equals(data.get(x).id)) {
 					index = x;
-					continue;
+					break;
 				}
 			}
 			if(index == null) { // result is new, add
@@ -142,7 +142,7 @@ public class TasksFragment extends Fragment {
 			for(Result rpcResult: newData) {
 				if(listItem.id.equals(rpcResult.name)) {
 					found = true;
-					continue;
+					break;
 				}
 			}
 			if(!found) iData.remove();

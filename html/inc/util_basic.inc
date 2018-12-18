@@ -95,7 +95,6 @@ function get_config() {
 // If it's a single-tag element, and it's present, just return the tag
 //
 function parse_element($xml, $tag) {
-    $element = null;
     $closetag = "</" . substr($tag,1);
     $x = strstr($xml, $tag);
     if ($x) {
@@ -104,9 +103,10 @@ function parse_element($xml, $tag) {
         $n = strpos($y, $closetag);
         if ($n) {
             $element = substr($y, 0, $n);
+            return trim($element);
         }
     }
-    return trim($element);
+    return null;
 }
 
 function parse_next_element($xml, $tag, &$cursor) {

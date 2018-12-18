@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import android.app.Dialog;
@@ -463,7 +463,7 @@ public class BOINCActivity extends AppCompatActivity {
 				try {
 					monitor.forceRefresh();
 				} catch (RemoteException e) {
-					if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onPostExecute error: ",e);
+					if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onKeyDown.onPostExecute() error: ", e);
 				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}

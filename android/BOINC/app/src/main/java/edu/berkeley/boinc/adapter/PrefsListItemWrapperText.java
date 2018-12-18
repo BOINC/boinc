@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -16,27 +16,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.utils;
 
-public class Logging {
-	static public String TAG = "BOINC_GUI";
-	
-	static public int LOGLEVEL = -1;
-	static public Boolean ERROR = LOGLEVEL > 0;
-	static public Boolean WARNING = LOGLEVEL > 1;
-	static public Boolean INFO = LOGLEVEL > 2;
-	static public Boolean DEBUG = LOGLEVEL > 3;
-	static public Boolean VERBOSE = LOGLEVEL > 4;
+package edu.berkeley.boinc.adapter;
 
-	static public Boolean RPC_PERFORMANCE = false;
-	static public Boolean RPC_DATA = false; 
-	
-	static public void setLogLevel(Integer logLevel) {
-		LOGLEVEL = logLevel;
-		ERROR = LOGLEVEL > 0;
-		WARNING = LOGLEVEL > 1;
-		INFO = LOGLEVEL > 2;
-		DEBUG = LOGLEVEL > 3;
-		VERBOSE = LOGLEVEL > 4;
+import android.content.Context;
+import android.util.Log;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
+
+public class PrefsListItemWrapperText extends PrefsListItemWrapper {
+	public String status;
+
+	public PrefsListItemWrapperText(Context ctx, Integer ID, Integer categoryID, String status) {
+		super(ctx, ID, categoryID);
+		this.status = status;
+		mapStrings(ID);
+	}
+
+	private void mapStrings(Integer id) {
+		switch (id) {
+		case R.string.prefs_general_device_name_header:
+			description = "";
+			break;
+		default:
+			if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperText map failed!");
+		}
 	}
 }

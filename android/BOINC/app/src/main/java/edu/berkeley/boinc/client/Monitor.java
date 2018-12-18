@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
@@ -827,35 +827,45 @@ public class Monitor extends Service {
     	
     	// figure out what index PID has
     	String [] headers = processLinesAr[0].split("[\\s]+");
-    	Integer PidIndex = 1;
+    	Integer PidIndex = -1;
     	for (int x = 0; x < headers.length; x++) {
     		if(headers[x].equals("PID")) {
     			PidIndex = x;
-    			continue;
+    			break;
     		}
     	}
-		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
-    	
-		Integer pid = null;
-    	for(int y = 1; y < processLinesAr.length; y++) {
+
+    	if (PidIndex == -1) {
+    		return null;
+    	}
+
+    	if (Logging.DEBUG)
+    		Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
+
+    	Integer pid = null;
+    	for (int y = 1; y < processLinesAr.length; y++) {
     		Boolean found = false;
-    	    String [] comps = processLinesAr[y].split("[\\s]+");
-    	    for(String arg: comps) {
-    	    	if(arg.equals(processName)) {
-    	    		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " found in line: " + y);
-    	    		found = true;
-    	    	}
-    	    }
-    	    if(found) {
-	    	    try{
-	    	    	pid = Integer.parseInt(comps[PidIndex]);
-	        	    if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
-	    	    }catch (NumberFormatException e) {if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);}
-	    	    continue;
-    	    }
+    		String[] comps = processLinesAr[y].split("[\\s]+");
+    		for (String arg : comps) {
+    			if (arg.equals(processName)) {
+    				if (Logging.DEBUG) Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " found in line: " + y);
+    				found = true;
+    				break; // Break out of inner foreach (comps) loop
+    			}
+    		}
+    		if (found) {
+    			try {
+    				pid = Integer.parseInt(comps[PidIndex]);
+    				if (Logging.ERROR) Log.d(Logging.TAG, "getPidForProcessName(): pid: " + pid);
+    			} catch (NumberFormatException e) {
+    				if (Logging.ERROR) Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
+    			}
+    			break;// Break out of outer for (processLinesAr) loop
+    		}
     	}
     	// if not happen in ps output, not running?!
-		if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+    	if(pid == null)
+    		if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
     	return pid;
@@ -982,7 +992,12 @@ public class Monitor extends Service {
 		public boolean setCcConfig(String config) throws RemoteException {
 			return clientInterface.setCcConfig(config);
 		}
-		
+
+		@Override
+		public boolean setDomainName(String deviceName) throws RemoteException {
+			return clientInterface.setDomainName(deviceName);
+		}
+
 		@Override
 		public boolean resultOp(int op, String url, String name)
 				throws RemoteException {
@@ -1131,7 +1146,7 @@ public class Monitor extends Service {
 		public HostInfo getHostInfo() throws RemoteException {
 			return clientStatus.getHostInfo();
 		}
-		
+
 		@Override
 		public GlobalPreferences getPrefs() throws RemoteException {
 			return clientStatus.getPrefs();
