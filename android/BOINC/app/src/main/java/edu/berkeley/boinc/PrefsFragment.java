@@ -43,6 +43,7 @@ import android.widget.Toast;
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
+import edu.berkeley.boinc.adapter.PrefsListItemWrapperText;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
@@ -62,7 +63,7 @@ public class PrefsFragment extends Fragment {
 	private HostInfo hostinfo = null;
 	
 	private boolean layoutSuccessful = false;
-	
+
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
@@ -172,6 +173,7 @@ public class PrefsFragment extends Fragment {
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_suspended_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotificationDuringSuspend()));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_advanced_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowAdvanced()));
 		if(!stationaryDeviceMode) data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_suspend_when_screen_on,R.string.prefs_category_general,BOINCActivity.monitor.getSuspendWhenScreenOn()));
+		data.add(new PrefsListItemWrapperText(getActivity(),R.string.prefs_general_device_name_header,R.string.prefs_category_general,BOINCActivity.monitor.getHostInfo().domain_name));
 		// network
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
@@ -234,6 +236,17 @@ public class PrefsFragment extends Fragment {
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperValue) item).status = newValue;
+			}
+		}
+	}
+
+	// Updates list item of text preference
+	private void updateTextPreference(int ID, String newValue) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "updateTextPreference for ID: " + ID + " value: " + newValue);
+		for (PrefsListItemWrapper item: data) {
+			if(item.ID == ID){
+				((PrefsListItemWrapperText) item).status = newValue;
+				break;
 			}
 		}
 	}
@@ -389,45 +402,61 @@ public class PrefsFragment extends Fragment {
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-         	   if(item.ID == R.string.battery_charge_min_pct_header || 
-         			item.ID == R.string.prefs_disk_max_pct_header || 
-         			item.ID == R.string.prefs_cpu_time_max_header ||
-         			item.ID == R.string.prefs_cpu_other_load_suspension_header || 
-         			item.ID == R.string.prefs_memory_max_idle_header ) {
-         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
-         		   double value = slider.getProgress()*10;
-         		   writeClientValuePreference(item.ID, value);
-         	   } else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
-         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
-         		   int sbProgress = slider.getProgress();
-         		   double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
-         		   writeClientValuePreference(item.ID, value);
-         	   } else if(item.ID == R.string.prefs_gui_log_level_header) {
-         		   SeekBar slider = dialog.findViewById(R.id.seekbar);
-         		   int sbProgress = slider.getProgress();
-         		   try {
-         			   // monitor and UI in two different processes. set static variable in both
-          			  Logging.setLogLevel(sbProgress);
-         			  BOINCActivity.monitor.setLogLevel(sbProgress);
-         		   } catch (RemoteException e) {
+				// Sliders
+				if(item.ID == R.string.battery_charge_min_pct_header ||
+					item.ID == R.string.prefs_disk_max_pct_header ||
+					item.ID == R.string.prefs_cpu_time_max_header ||
+					item.ID == R.string.prefs_cpu_other_load_suspension_header ||
+					item.ID == R.string.prefs_memory_max_idle_header ) {
+					SeekBar slider = dialog.findViewById(R.id.seekbar);
+					double value = slider.getProgress()*10;
+					writeClientValuePreference(item.ID, value);
+				} else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
+					SeekBar slider = dialog.findViewById(R.id.seekbar);
+					int sbProgress = slider.getProgress();
+					double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
+					writeClientValuePreference(item.ID, value);
+				} else if(item.ID == R.string.prefs_gui_log_level_header) {
+					SeekBar slider = dialog.findViewById(R.id.seekbar);
+					int sbProgress = slider.getProgress();
+					try {
+						// monitor and UI in two different processes. set static variable in both
+						Logging.setLogLevel(sbProgress);
+						BOINCActivity.monitor.setLogLevel(sbProgress);
+					} catch (RemoteException e) {
          			  if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
          		   }
-         		   updateValuePref(item.ID, (double) sbProgress);
-         		   updateLayout();
-         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
-         			   item.ID == R.string.battery_temperature_max_header ||
-         			   item.ID == R.string.prefs_disk_min_free_gb_header ||
-         			   item.ID == R.string.prefs_disk_access_interval_header ||
-         			   item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
-         			   item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
-         		   EditText edit = dialog.findViewById(R.id.Input);
-         		   String input = edit.getText().toString();
-         		   Double valueTmp = parseInputValueToDouble(input);
-         		   if(valueTmp == null) return;
-         		   double value = valueTmp;
-         		   writeClientValuePreference(item.ID, value);
-         	   }
-         	   dialog.dismiss();
+					updateValuePref(item.ID, (double) sbProgress);
+					updateLayout();
+				}
+				// Numbers
+				else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
+						item.ID == R.string.battery_temperature_max_header ||
+						item.ID == R.string.prefs_disk_min_free_gb_header ||
+						item.ID == R.string.prefs_disk_access_interval_header ||
+						item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
+						item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
+					EditText edit = dialog.findViewById(R.id.Input);
+					String input = edit.getText().toString();
+					Double valueTmp = parseInputValueToDouble(input);
+					if(valueTmp == null) return;
+					double value = valueTmp;
+					writeClientValuePreference(item.ID, value);
+				}
+				// Texts
+				else if(item.ID == R.string.prefs_general_device_name_header) {
+					EditText input = dialog.findViewById(R.id.Input);
+					try {
+						if (!BOINCActivity.monitor.setDomainName(input.getText().toString())) {
+							if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
+						}
+					} catch (Exception e) {
+						if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
+					}
+
+					updateTextPreference(item.ID, input.getText().toString());
+				}
+				dialog.dismiss();
 			}
 		});
 		// cancel
@@ -494,7 +523,7 @@ public class PrefsFragment extends Fragment {
 		// preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
-	
+
 	private double numberCpuCoresToPct(double ncpus) {
 		double pct = (ncpus / (double)hostinfo.p_ncpus) * 100;
 		if(Logging.DEBUG) Log.d(Logging.TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
@@ -607,6 +636,11 @@ public class PrefsFragment extends Fragment {
 			
 			// setup dialog layout
 			switch(item.ID) {
+			case R.string.prefs_general_device_name_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog_text);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
 			case R.string.prefs_network_daily_xfer_limit_mb_header:
 				dialog.setContentView(R.layout.prefs_layout_dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
@@ -688,7 +722,7 @@ public class PrefsFragment extends Fragment {
 			dialog.show();
 		}
 	}
-	
+
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
 		@Override
 		protected Boolean doInBackground(GlobalPreferences... params) {

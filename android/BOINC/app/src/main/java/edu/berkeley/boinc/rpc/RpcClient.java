@@ -638,8 +638,8 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.reportDeviceStatus() error: ", e);
 			return false;
 		}
 	}
@@ -670,8 +670,37 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setHostInfo() error: ", e);
+			return false;
+		}
+	}
+
+	/**
+	 * Reports the device name as host info to the client
+	 * @deviceName The name you want to set as device name.
+	 * @return true for success, false for failure
+	 */
+	public synchronized boolean setDomainNameRpc(String deviceName){
+		mLastErrorMessage = null;
+		mRequest.setLength(0);
+		mRequest.append("<set_host_info>\n");
+		mRequest.append("  <host_info>\n");
+		mRequest.append("    <domain_name>");
+		mRequest.append(deviceName);
+		mRequest.append("    </domain_name>\n");
+		mRequest.append("  </host_info>\n");
+		mRequest.append("</set_host_info>\n");
+		try {
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		}
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setDomainNameRpc() error: ", e);
 			return false;
 		}
 	}
