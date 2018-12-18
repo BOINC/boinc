@@ -41,8 +41,7 @@ public class CcState{
 	}
 	
 	public Project lookup_project(String testUrl) {
-		int i = 0;
-		for(i = 0; i < projects.size(); i++) {
+		for(int i = 0; i < projects.size(); i++) {
 			if(projects.get(i).master_url.equalsIgnoreCase(testUrl)) {
 				return projects.get(i);
 			}

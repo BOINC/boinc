@@ -530,7 +530,7 @@ public class PrefsFragment extends Fragment {
 
 	public Double parseInputValueToDouble(String input) {
 		// parse value
-		Double value = 0.0;
+		Double value;
 		try {
 			input=input.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
 			value = Double.parseDouble(input);

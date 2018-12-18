@@ -54,7 +54,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	
-        View v = convertView;
+        View v;
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
     	PrefsListItemWrapper listItem = entries.get(position);
