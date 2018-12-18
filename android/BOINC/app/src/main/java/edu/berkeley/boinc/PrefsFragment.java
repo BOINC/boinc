@@ -216,22 +216,24 @@ public class PrefsFragment extends Fragment {
 
 	// updates list item of boolean preference
 	// requires updateLayout to be called afterwards
-	private void updateBoolPref(int ID, Boolean newValue) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "updateBoolPref for ID: " + ID + " value: " + newValue);
+	private void updateBoolPreference(int ID, Boolean newValue) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperBool) item).setStatus(newValue);
+				break; // The preferences updated one by one.
 			}
 		}
 	}
 	
 	// updates list item of value preference
 	// requires updateLayout to be called afterwards
-	private void updateValuePref(int ID, Double newValue) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "updateValuePref for ID: " + ID + " value: " + newValue);
+	private void updateNumberPreference(int ID, Double newValue) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperValue) item).status = newValue;
+				break; // The preferences updated one by one.
 			}
 		}
 	}
@@ -242,7 +244,7 @@ public class PrefsFragment extends Fragment {
 		for (PrefsListItemWrapper item: data) {
 			if(item.ID == ID){
 				((PrefsListItemWrapperText) item).status = newValue;
-				break;
+				break; // The preferences updated one by one.
 			}
 		}
 	}
@@ -404,12 +406,12 @@ public class PrefsFragment extends Fragment {
 					item.ID == R.string.prefs_memory_max_idle_header ) {
 					SeekBar slider = dialog.findViewById(R.id.seekbar);
 					double value = slider.getProgress()*10;
-					writeClientValuePreference(item.ID, value);
+					writeClientNumberPreference(item.ID, value);
 				} else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
 					SeekBar slider = dialog.findViewById(R.id.seekbar);
 					int sbProgress = slider.getProgress();
 					double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
-					writeClientValuePreference(item.ID, value);
+					writeClientNumberPreference(item.ID, value);
 				} else if(item.ID == R.string.prefs_gui_log_level_header) {
 					SeekBar slider = dialog.findViewById(R.id.seekbar);
 					int sbProgress = slider.getProgress();
@@ -418,7 +420,7 @@ public class PrefsFragment extends Fragment {
 						Logging.setLogLevel(sbProgress);
 						BOINCActivity.monitor.setLogLevel(sbProgress);
 					} catch (RemoteException e) {}
-					updateValuePref(item.ID, (double) sbProgress);
+					updateNumberPreference(item.ID, (double) sbProgress);
 					updateLayout();
 				}
 				// Numbers
@@ -433,7 +435,7 @@ public class PrefsFragment extends Fragment {
 					Double valueTmp = parseInputValueToDouble(input);
 					if(valueTmp == null) return;
 					double value = valueTmp;
-					writeClientValuePreference(item.ID, value);
+					writeClientNumberPreference(item.ID, value);
 				}
 				// Texts
 				else if(item.ID == R.string.prefs_general_device_name_header) {
@@ -461,7 +463,7 @@ public class PrefsFragment extends Fragment {
 		});
 	}
 	
-	private void writeClientValuePreference(int id, double value) {
+	private void writeClientNumberPreference(int id, double value) {
 		// update preferences
 		switch (id) {
 		case R.string.prefs_disk_max_pct_header:
@@ -511,7 +513,7 @@ public class PrefsFragment extends Fragment {
 			return;
 		}
 		// update list item
-		updateValuePref(id, value);
+		updateNumberPreference(id, value);
 		// preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
@@ -572,17 +574,17 @@ public class PrefsFragment extends Fragment {
 				switch (ID) {
 				case R.string.prefs_autostart_header: //app pref
 					BOINCActivity.monitor.setAutostart(isSet);
-					updateBoolPref(ID, isSet);
+					updateBoolPreference(ID, isSet);
 					updateLayout();
 					break;
 				case R.string.prefs_show_notification_notices_header: //app pref
 					BOINCActivity.monitor.setShowNotificationForNotices(isSet);
-					updateBoolPref(ID, isSet);
+					updateBoolPreference(ID, isSet);
 					updateLayout();
 					break;
 				case R.string.prefs_show_notification_suspended_header: //app pref
 					BOINCActivity.monitor.setShowNotificationDuringSuspend(isSet);
-					updateBoolPref(ID, isSet);
+					updateBoolPreference(ID, isSet);
 					updateLayout();
 					break;
 				case R.string.prefs_show_advanced_header: //app pref
@@ -592,12 +594,12 @@ public class PrefsFragment extends Fragment {
 					break;
 				case R.string.prefs_suspend_when_screen_on: //app pref
 					BOINCActivity.monitor.setSuspendWhenScreenOn(isSet);
-					updateBoolPref(ID, isSet);
+					updateBoolPreference(ID, isSet);
 					updateLayout();
 					break;
 				case R.string.prefs_network_wifi_only_header: //client pref
 					clientPrefs.network_wifi_only = isSet;
-					updateBoolPref(ID, isSet);
+					updateBoolPreference(ID, isSet);
 					new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
 					break;
 				case R.string.prefs_stationary_device_mode_header: //app pref
@@ -632,7 +634,7 @@ public class PrefsFragment extends Fragment {
 				setupDialogButtons(item, dialog);
 				break;
 			case R.string.prefs_network_daily_xfer_limit_mb_header:
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+				dialog.setContentView(R.layout.prefs_layout_dialog_number);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
@@ -646,7 +648,7 @@ public class PrefsFragment extends Fragment {
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				break;
 			case R.string.battery_temperature_max_header:
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+				dialog.setContentView(R.layout.prefs_layout_dialog_number);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
@@ -667,12 +669,12 @@ public class PrefsFragment extends Fragment {
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				break;
 			case R.string.prefs_disk_min_free_gb_header:
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+				dialog.setContentView(R.layout.prefs_layout_dialog_number);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
 			case R.string.prefs_disk_access_interval_header:
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+				dialog.setContentView(R.layout.prefs_layout_dialog_number);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
@@ -681,12 +683,12 @@ public class PrefsFragment extends Fragment {
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				break;
 			case R.string.prefs_other_store_at_least_x_days_of_work_header:
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+				dialog.setContentView(R.layout.prefs_layout_dialog_number);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
 			case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+				dialog.setContentView(R.layout.prefs_layout_dialog_number);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
