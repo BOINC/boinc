@@ -112,24 +112,21 @@ public class DeviceStatus {
 	 * @throws Exception if error occurs
 	 */
 	private Boolean determineUserActive() throws Exception {
-		Boolean change = false;
-		Boolean newUserActive;
+		Boolean newUserActive = status.user_active;
 		int telStatus = telManager.getCallState();
 		
 		if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
 			newUserActive = true;
-		} else if(screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode()) {
-			newUserActive = true;
 		} else {
-			newUserActive = false;
+			newUserActive = (screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode());
 		}
 		
 		if(status.user_active != newUserActive) {
-			change = true;
 			status.user_active = newUserActive;
+			return true;
 		}
 		
-		return change;
+		return false;
 	}
 	
 	/**
