@@ -237,6 +237,17 @@ public class PrefsFragment extends Fragment {
 			}
 		}
 	}
+
+	// Updates list item of text preference
+	private void updateTextPreference(int ID, String newValue) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "updateTextPreference for ID: " + ID + " value: " + newValue);
+		for (PrefsListItemWrapper item: data) {
+			if(item.ID == ID){
+				((PrefsListItemWrapperText) item).status = newValue;
+				break;
+			}
+		}
+	}
 	
 	private void setupSliderDialog(PrefsListItemWrapper item, final Dialog dialog) {
 		final PrefsListItemWrapperValue valueWrapper = (PrefsListItemWrapperValue) item;
@@ -428,14 +439,16 @@ public class PrefsFragment extends Fragment {
 				}
 				// Texts
 				else if(item.ID == R.string.prefs_general_device_name_header) {
-					EditText edit = dialog.findViewById(R.id.Input);
+					EditText input = dialog.findViewById(R.id.Input);
 					try {
-						if (!BOINCActivity.monitor.setDomainName(edit.getText().toString())) {
+						if (!BOINCActivity.monitor.setDomainName(input.getText().toString())) {
 							if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
 						}
 					} catch (Exception e) {
 						if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
 					}
+
+					updateTextPreference(item.ID, input.getText().toString());
 				}
 				dialog.dismiss();
 			}
@@ -504,7 +517,7 @@ public class PrefsFragment extends Fragment {
 		// preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
-	
+
 	private double numberCpuCoresToPct(double ncpus) {
 		double pct = (ncpus / (double)hostinfo.p_ncpus) * 100;
 		if(Logging.DEBUG) Log.d(Logging.TAG,"numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
