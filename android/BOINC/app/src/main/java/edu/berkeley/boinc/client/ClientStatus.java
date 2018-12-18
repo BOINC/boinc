@@ -490,8 +490,7 @@ public class ClientStatus {
 					statusString = ctx.getString(R.string.suspend_battery_overheating);
 					break;
 				case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-					Boolean suspendDueToScreenOn = false;
-					suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+					Boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
 					if(suspendDueToScreenOn) statusString = ctx.getString(R.string.suspend_screen_on);
 					else statusString = ctx.getString(R.string.suspend_useractive);
 					break;

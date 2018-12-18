@@ -54,7 +54,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	
-        View v = convertView;
+        View v;
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
     	PrefsListItemWrapper listItem = entries.get(position);
@@ -64,6 +64,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
     		TextView header = v.findViewById(R.id.category_header);
     		header.setText(listItem.ID);
     	} else { // item is element
+    		// CheckBoxes
 	    	if(listItem instanceof PrefsListItemWrapperBool) {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
 	    		CheckBox cb = v.findViewById(R.id.checkbox);
@@ -74,7 +75,9 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	        	wrapper.setOnClickListener(listener);
 	    		TextView header = v.findViewById(R.id.checkbox_text);
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
-	    	} else if(listItem instanceof PrefsListItemWrapperValue) {
+	    	}
+	    	// Number based items
+	    	else if(listItem instanceof PrefsListItemWrapperValue) {
 	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
@@ -116,7 +119,25 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    			}
 		    		((TextView)v.findViewById(R.id.status)).setText(value);
 	    		} else statusWrapper.setVisibility(View.GONE);
-	    	} else {
+	    	}
+	    	// Text based items
+	    	else if(listItem instanceof PrefsListItemWrapperText) {
+	    		PrefsListItemWrapperText item = (PrefsListItemWrapperText) listItem;
+	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
+	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
+	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
+	    		TextView header = v.findViewById(R.id.header);
+	    		header.setText(item.header);
+	    		TextView description = v.findViewById(R.id.description);
+	    		description.setText(item.description);
+
+	    		LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
+	    		statusWrapper.setVisibility(View.VISIBLE);
+	    		final String value = item.status;
+	    		((TextView)v.findViewById(R.id.status)).setText(value);
+			}
+			// Lists
+			else {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
 	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));

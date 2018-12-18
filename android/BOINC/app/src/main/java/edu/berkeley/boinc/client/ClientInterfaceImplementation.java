@@ -69,7 +69,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	public Boolean setGlobalPreferences(GlobalPreferences prefs) {
 
 		// try to get current client status from monitor
-		ClientStatus status = null;
+		ClientStatus status;
 		try{
 			status  = Monitor.getClientStatus();
 		} catch (Exception e){
@@ -98,7 +98,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	public String readAuthToken(String authFilePath) {
     	StringBuilder fileData = new StringBuilder(100);
     	char[] buf = new char[1024];
-    	int read = 0;
+    	int read;
     	try{
     		File authFile = new File(authFilePath);
     		BufferedReader br = new BufferedReader(new FileReader(authFile));
@@ -173,7 +173,7 @@ public class ClientInterfaceImplementation extends RpcClient{
     			try {Thread.sleep(minRetryInterval);} catch (Exception e) {}
     			reply = projectAttachPoll();
     		}
-    		if(reply != null && reply.error_num == BOINCErrors.ERR_OK) return true;
+            return (reply != null && reply.error_num == BOINCErrors.ERR_OK);
     	} else if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttach failed.");
     	return false;
     }
@@ -333,10 +333,9 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 */
 	public Boolean synchronizeAcctMgr(String url) {
 
-	// 1st get_project_config for account manager url
-		Boolean success = false;
-		ProjectConfig reply = null;
-		success = getProjectConfig(url);
+    	// 1st get_project_config for account manager url
+    	Boolean success = getProjectConfig(url);
+    	ProjectConfig reply;
     	if(success) {
     		Boolean loop = true;
     		while(loop) {
@@ -360,9 +359,8 @@ public class ClientInterfaceImplementation extends RpcClient{
     		}
     	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.getProjectConfig returned false.");}
 		
-    // 2nd acct_mgr_rpc with <use_config_file/>
-		success = false;
-		AcctMgrRPCReply reply2 = null;
+    	// 2nd acct_mgr_rpc with <use_config_file/>
+    	AcctMgrRPCReply reply2;
     	success = acctMgrRPC(); //asynchronous call to synchronize account manager
     	if(success) {
     		Boolean loop = true;
@@ -408,7 +406,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	// if seqNo <= 0 initial data retrieval
 	public ArrayList<Message> getEventLogMessages(int seqNo, int number) {
 		// determine oldest message seqNo for data retrieval
-		int lowerBound = 0;
+		int lowerBound;
 		if(seqNo > 0) lowerBound = seqNo - number - 2;
 		else lowerBound = getMessageCount() - number - 1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
 		
@@ -495,5 +493,11 @@ public class ClientInterfaceImplementation extends RpcClient{
 		}
 		if(Logging.ERROR) Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
 		return null;
+	}
+
+	public boolean setDomainName(String deviceName) {
+		boolean success = setDomainNameRpc(deviceName);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "setDomainName: success " + success);
+		return success;
 	}
 }

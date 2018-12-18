@@ -60,6 +60,7 @@ boolean runBenchmarks();
 List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProjects();
 List<AccountManager> getAccountManagers();  // clientInterface.getAccountManagers();
 ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
+boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
 
 /////// general //////////////////////////////////////////
 boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();

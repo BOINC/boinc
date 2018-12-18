@@ -322,9 +322,9 @@ public class ProjectAttachService extends Service {
 	}
     
     public class ProjectAttachWrapper {
-    	public String url = ""; // URL, manually inserted, or from projectInfo
+    	public String url; // URL, manually inserted, or from projectInfo
     	public ProjectInfo info; // chosen from list
-    	public String name = ""; // name of project in debug messages, do not use otherwise!
+    	public String name; // name of project in debug messages, do not use otherwise!
     	public ProjectConfig config; // has to be downloaded, available if RESULT_READY
     	public int result = RESULT_UNINITIALIZED;
 
@@ -443,8 +443,7 @@ public class ProjectAttachService extends Service {
     		}
     		
     		// attach project;
-    		boolean statusAttach = false;
-    		statusAttach = attach(statusCredentials.authenticator);
+    		boolean statusAttach = attach(statusCredentials.authenticator);
     		if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: attach returned: " + statusAttach + ". for: " + config.name);
     		
     		if(!statusAttach) {

@@ -285,7 +285,7 @@ public class Monitor extends Service {
 	 * @return ID of BOINC platform name string in resources
 	 */
 	public int getBoincPlatform() {
-		int platformId = 0;
+		int platformId;
 		String arch = System.getProperty("os.arch");
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
@@ -605,22 +605,20 @@ public class Monitor extends Service {
 	 * @return Boolean success
 	 */
 	private Boolean connectClient() {
-		Boolean success = false;
-
-		success = clientInterface.open(clientSocketAddress);
-		if(!success) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
-			return success;
-		}
-
-		//authorize
-		success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
-		if(!success) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
-		}
-		return success;
-	}
-
+        Boolean success = clientInterface.open(clientSocketAddress);
+        if(!success) {
+            if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
+            return success;
+        }
+        
+        //authorize
+        success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
+        if(!success) {
+            if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
+        }
+        return success;
+    }
+	
 	/**
 	 * Installs required files from APK's asset directory to the applications' internal storage.
 	 * File attributes override and executable are defined here
@@ -660,66 +658,70 @@ public class Monitor extends Service {
 	 * @return Boolean success
 	 */
 	private Boolean installFile(String file, Boolean override, Boolean executable) {
-		Boolean success = false;
-		byte[] b = new byte [1024];
-		int count;
+        Boolean success = false;
+        byte[] b = new byte [1024];
+        int count;
+		
+        // If file is executable, cpu architecture has to be evaluated
+        // and assets directory select accordingly
+        String source;
+        if(executable) source = getAssestsDirForCpuArchitecture() + file;
+        else source = file;
+		
+        try {
+            if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
+			
+            File target = new File(boincWorkingDir + file);
+    		
+            // Check path and create it
+            File installDir = new File(boincWorkingDir);
+            if(!installDir.exists()) {
+                if (!installDir.mkdir()) {
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): mkdir() was not successful.");
+                }
 
-		// If file is executable, cpu architecture has to be evaluated
-		// and assets directory select accordingly
-		String source = "";
-		if(executable) source = getAssestsDirForCpuArchitecture() + file;
-		else source = file;
+                if (!installDir.setWritable(true)) {
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): setWritable() was not successful.");
+                }
+            }
 
-		try {
-			if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
+            if(target.exists()) {
+                if(override) {
+                    if (!target.delete()) {
+                        if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): delete() was not successful.");
+                    }
+                } else {
+                    if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
+                    return true;
+                }
+            }
+    		
+            // Copy file from the asset manager to clientPath
+            InputStream asset = getApplicationContext().getAssets().open(source);
+            OutputStream targetData = new FileOutputStream(target);
+            while((count = asset.read(b)) != -1){
+                targetData.write(b, 0, count);
+            }
+            asset.close();
+            targetData.close();
 
-			File target = new File(boincWorkingDir + file);
+            success = true; //copy succeeded without exception
+    		
+            // Set executable, if requested
+            if(executable) {
+                success = target.setExecutable(executable); // return false, if not executable
+            }
 
-			// Check path and create it
-			File installDir = new File(boincWorkingDir);
-			if(!installDir.exists()) {
-				installDir.mkdir();
-				installDir.setWritable(true);
-			}
-
-			if(target.exists()) {
-				if(override) target.delete();
-				else {
-					if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
-					return true;
-				}
-			}
-
-			// Copy file from the asset manager to clientPath
-			InputStream asset = getApplicationContext().getAssets().open(source);
-			OutputStream targetData = new FileOutputStream(target);
-			while((count = asset.read(b)) != -1){
-				targetData.write(b, 0, count);
-			}
-			asset.close();
-			targetData.flush();
-			targetData.close();
-
-			success = true; //copy succeeded without exception
-
-			// Set executable, if requested
-			Boolean isExecutable = false;
-			if(executable) {
-				target.setExecutable(executable);
-				isExecutable = target.canExecute();
-				success = isExecutable; // return false, if not executable
-			}
-
-			if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
-
-		} catch (IOException e) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-			if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
-		}
-
-		return success;
-	}
-
+            if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + success);
+    		
+        } catch (IOException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
+            if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
+        }
+		
+        return success;
+    }
+	
 	/**
 	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86 or MIPS)
 	 * @return name of assets directory for given platform, not an absolute path.
@@ -762,14 +764,14 @@ public class Monitor extends Service {
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 
-			InputStream fs = null;
-			if(inAssets) fs = getApplicationContext().getAssets().open(getAssestsDirForCpuArchitecture() + fileName);
-			else fs = new FileInputStream(new File(fileName));
-
-			while((count = fs.read(b)) != -1){
-				md5.update(b, 0, count);
-			}
-			fs.close();
+			InputStream fs;
+			if(inAssets) fs = getApplicationContext().getAssets().open(getAssestsDirForCpuArchitecture() + fileName); 
+			else fs = new FileInputStream(new File(fileName)); 
+			
+    		while((count = fs.read(b)) != -1){ 
+    			md5.update(b, 0, count);
+    		}
+    		fs.close();
 
 			byte[] md5hash = md5.digest();
 			StringBuilder sb = new StringBuilder();
@@ -984,6 +986,11 @@ public class Monitor extends Service {
 		}
 
 		@Override
+		public boolean setDomainName(String deviceName) throws RemoteException {
+			return clientInterface.setDomainName(deviceName);
+		}
+
+		@Override
 		public boolean resultOp(int op, String url, String name)
 				throws RemoteException {
 			return clientInterface.resultOp(op, url, name);
@@ -1098,10 +1105,10 @@ public class Monitor extends Service {
 			return clientInterface.getAttachableProjects(getString(getBoincPlatform()), getBoincAltPlatform());
 		}
 
-        @Override
-        public List<AccountManager> getAccountManagers() throws RemoteException {
-            return clientInterface.getAccountManagers();
-        }
+		@Override
+		public List<AccountManager> getAccountManagers() throws RemoteException {
+			return clientInterface.getAccountManagers();
+		}
 
 		@Override
 		public boolean getAcctMgrInfoPresent() throws RemoteException {

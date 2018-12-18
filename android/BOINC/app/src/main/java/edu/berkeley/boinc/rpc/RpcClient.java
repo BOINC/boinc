@@ -91,7 +91,7 @@ public class RpcClient {
 	 */
 
 	private class Auth1Parser extends DefaultHandler {
-		private StringBuilder mResult = null;
+		private StringBuilder mResult;
 		private String mCurrentElement = null;
 		private boolean mNonceParsed = false;
 
@@ -118,7 +118,7 @@ public class RpcClient {
 	}
 
 	private class Auth2Parser extends DefaultHandler {
-		private StringBuilder mResult = null;
+		private StringBuilder mResult;
 		private boolean mParsed = false;
 
 		public Auth2Parser(StringBuilder result) {
@@ -280,7 +280,7 @@ public class RpcClient {
 	 * @return true if connected to BOINC core client, false if not connected
 	 */
 	public final boolean isConnected() {
-		return (mSocket != null) ? mSocket.isConnected() : false;
+		return (mSocket != null && mSocket.isConnected());
 	}
 
 	/**
@@ -295,14 +295,10 @@ public class RpcClient {
 			// We just get the status via socket and do not parse reply
 			sendRequest("<get_cc_status/>\n");
 			String result = receiveReply();
-			if (result.length() == 0) {
-				// End of stream reached and no data were received in reply
-				// We assume that socket is closed on the other side,
-				// most probably client shut down
-				return false;
-			}
-			return true;
-		}
+            // If end of stream reached and no data were received in reply
+            // we assume that socket is closed on the other side, most probably client shut down
+            return (result.length() != 0);
+        }
 		catch (IOException e) {
 			return false;
 		}
@@ -637,8 +633,8 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.reportDeviceStatus() error: ", e);
 			return false;
 		}
 	}
@@ -669,8 +665,37 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setHostInfo() error: ", e);
+			return false;
+		}
+	}
+
+	/**
+	 * Reports the device name as host info to the client
+	 * @deviceName The name you want to set as device name.
+	 * @return true for success, false for failure
+	 */
+	public synchronized boolean setDomainNameRpc(String deviceName){
+		mLastErrorMessage = null;
+		mRequest.setLength(0);
+		mRequest.append("<set_host_info>\n");
+		mRequest.append("  <host_info>\n");
+		mRequest.append("    <domain_name>");
+		mRequest.append(deviceName);
+		mRequest.append("    </domain_name>\n");
+		mRequest.append("  </host_info>\n");
+		mRequest.append("</set_host_info>\n");
+		try {
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		}
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setDomainNameRpc() error: ", e);
 			return false;
 		}
 	}

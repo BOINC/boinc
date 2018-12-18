@@ -361,10 +361,9 @@ public class ProjectDetailsFragment extends Fragment {
 				return false;
 			}
 			// load slideshow images
-//			slideshowImages = status.getSlideshowForProject(project.master_url);
-			if(slideshowImages == null || slideshowImages.size() == 0) return false;
-			return true;
-		}
+            // slideshowImages = status.getSlideshowForProject(project.master_url);
+            return (slideshowImages != null && slideshowImages.size() != 0);
+        }
 		
 		@Override
 		protected void onPostExecute(Boolean success) {

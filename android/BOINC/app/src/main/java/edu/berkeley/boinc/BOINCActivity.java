@@ -157,7 +157,7 @@ public class BOINCActivity extends AppCompatActivity {
 		if(targetFragId < 0 && savedInstanceState != null)
 			targetFragId = savedInstanceState.getInt("navBarSelectionId");
 		
-		NavDrawerItem item = null;
+		NavDrawerItem item;
 		if(targetFragId < 0) {
 			// if non of the above, go to default
 			item = mDrawerListAdapter.getItem(0);

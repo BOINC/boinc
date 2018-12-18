@@ -91,7 +91,7 @@ public class TasksFragment extends Fragment {
 	private void loadData() {
 		// try to get current client status from monitor
 		//ClientStatus status;
-		ArrayList<Result> tmpA = null;
+		ArrayList<Result> tmpA;
 		try{
 			//status  = Monitor.getClientStatus();
 			tmpA = (ArrayList<Result>) BOINCActivity.monitor.getTasks();
@@ -150,12 +150,12 @@ public class TasksFragment extends Fragment {
 	}
 
 	public class TaskData {
-		public Result result = null;
-		public boolean expanded = false;
-		public String id = "";
+		public Result result;
+		public boolean expanded;
+		public String id;
 		public int nextState = -1;
 		public int loopCounter = 0;
-		public int transistionTimeout = 10; // amount of refresh, until transition times out
+		public int transistionTimeout; // amount of refresh, until transition times out
 
 		public TaskData(Result data) {
 			this.result = data;
