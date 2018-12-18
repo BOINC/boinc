@@ -42,7 +42,7 @@ public class PrefsListItemWrapper {
 		case R.string.prefs_power_source_header:
 			description = ctx.getString(R.string.prefs_power_source_description);
 		}
-		// further description mapping see PrefsListItemWrapperValue class
+		// further description mapping see PrefsListItemWrapperNumber class
 	}
 	
 	// Constructor for categories
