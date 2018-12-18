@@ -184,20 +184,18 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 */
 	
 	public Boolean checkProjectAttached(String url) {
-		Boolean match = false;
 		try{
 			ArrayList<Project> attachedProjects = getProjectStatus();
 			for (Project project: attachedProjects) {
 				if(Logging.DEBUG) Log.d(Logging.TAG, project.master_url + " vs " + url);
 				if(project.master_url.equals(url)) {
-					match = true;
-					continue;
+					return true;
 				}
 			}
 		} catch(Exception e){
-			if(Logging.ERROR) Log.e(Logging.TAG,"ClientInterfaceImplementation.checkProjectAttached error: ",e);
+			if(Logging.ERROR) Log.e(Logging.TAG,"ClientInterfaceImplementation.checkProjectAttached() error: ", e);
 		}
-		return match;
+		return false;
 	}
 	
 	/**

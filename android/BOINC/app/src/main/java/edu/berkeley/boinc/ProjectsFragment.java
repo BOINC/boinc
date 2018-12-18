@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -158,46 +158,46 @@ public class ProjectsFragment extends Fragment {
 		for(int x = 0; x < data.size(); x++) {
 			if(data.get(x).isMgr) {
 				mgrIndex = x;
-				continue;
+				//break; // This function has to be revised. Are we searching the firs or the last account manager? Are there more or only one possible?
 			}
 		}
 		if(mgrIndex < 0) { // no manager present until now
-			if(Logging.VERBOSE) Log.d(Logging.TAG,"no manager found in layout list. new entry available: " + acctMgrInfo.present);
+			if(Logging.VERBOSE) Log.d(Logging.TAG,"No manager found in layout list. New entry available: " + acctMgrInfo.present);
 			if(acctMgrInfo.present) {
 				// add new manager entry, at top of the list
 				data.add(new ProjectsListData(null,acctMgrInfo,null));
-				if(Logging.DEBUG) Log.d(Logging.TAG,"new acct mgr found: " + acctMgrInfo.acct_mgr_name);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"New acct mgr found: " + acctMgrInfo.acct_mgr_name);
 			}
 		} else { // manager found in existing list
-			if(Logging.VERBOSE) Log.d(Logging.TAG,"manager found in layout list at index: " + mgrIndex);
+			if(Logging.VERBOSE) Log.d(Logging.TAG,"Manager found in layout list at index: " + mgrIndex);
 			if(!acctMgrInfo.present) {
 				// manager got detached, remove from list
 				data.remove(mgrIndex);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"acct mgr removed from list.");
+				if(Logging.DEBUG) Log.d(Logging.TAG,"Acct mgr removed from list.");
 			}
 		}
 		
 	// ATTACHED PROJECTS	
-		//loop through all received Result items to add new results
+		//loop through all received Result items to add new projects
 		for(Project rpcResult: latestRpcProjectsList) {
-			//check whether this Result is new
+			//check whether this project is new
 			Integer index = null;
 			for(int x = 0; x < data.size(); x++) {
 				if(rpcResult.master_url.equals(data.get(x).id)) {
 					index = x;
-					continue;
+					//break; // Need more further investigation.
 				}
 			}
-			if(index == null) { // result is new, add
-				if(Logging.DEBUG) Log.d(Logging.TAG,"new result found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
+			if(index == null) { // Project is new, add
+				if(Logging.DEBUG) Log.d(Logging.TAG,"New project found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
 				if(rpcResult.attached_via_acct_mgr) data.add(new ProjectsListData(rpcResult,null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // append to end of list (after manager)
 				else data.add(0, new ProjectsListData(rpcResult,null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // put at top of list (before manager)
-			} else { // result was present before, update its data
+			} else { // Project was present before, update its data
 				data.get(index).updateProjectData(rpcResult,null,mapTransfersToProject(rpcResult.master_url, ongoingTransfers));
 			}
 		}
 		
-		//loop through the list adapter to find removed (ready/aborted) Results
+		//loop through the list adapter to find removed (ready/aborted) projects
 		// use iterator to safely remove while iterating
 		Iterator<ProjectsListData> iData = data.iterator();
 		while(iData.hasNext()) {
@@ -207,7 +207,7 @@ public class ProjectsFragment extends Fragment {
 			for(Project rpcResult: latestRpcProjectsList) {
 				if(listItem.id.equals(rpcResult.master_url)) {
 					found = true;
-					continue;
+					break;
 				}
 			}
 			if(!found) iData.remove();
@@ -225,7 +225,6 @@ public class ProjectsFragment extends Fragment {
 						project.addServerNotice(serverNotice);
 						noticeFound = true;
 						mappedServerNotices++;
-						continue;
 					}
 				}
 				if(!noticeFound) project.addServerNotice(null);

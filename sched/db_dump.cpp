@@ -582,7 +582,6 @@ void write_user(USER& user, ZFILE* f, bool /*detail*/) {
         "<user>\n"
         " <id>%lu</id>\n"
         " <name>%s</name>\n"
-        " <country>%s</country>\n"
         " <create_time>%d</create_time>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n"
@@ -597,7 +596,13 @@ void write_user(USER& user, ZFILE* f, bool /*detail*/) {
         user.expavg_time,
         cpid
     );
-    if (strlen(user.url)) {
+    if (config.user_country && strlen(user.country)) {
+        f->write(
+            " <country>%s</country>\n",
+            user.country
+        );
+    }
+    if (config.user_url && strlen(user.url)) {
         f->write(
             " <url>%s</url>\n",
             url

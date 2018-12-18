@@ -57,9 +57,6 @@ public class ClientNotification {
 	}
 
 	/**
-	 * Updates notification with client's current status
-	 */
-	/**
 	 * Updates notification with client's current status. Notifies if not present. Checking notification related preferences.
 	 * @param updatedStatus client status data
 	 * @param service reference to service, sets to foreground if active
