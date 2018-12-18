@@ -173,7 +173,7 @@ public class PrefsFragment extends Fragment {
 		// network
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb, PrefsListItemWrapper.DialogButtonType.NUMBER));
     	// power
 		data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_power,true));
 		if(stationaryDeviceSuspected) { // API indicates that there is no battery, offer opt-in preference for stationary device mode
@@ -181,30 +181,30 @@ public class PrefsFragment extends Fragment {
 		}
 		if(!stationaryDeviceMode) { // client would compute regardless of battery preferences, so only show if that is not the case
 			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_power_source_header,R.string.prefs_category_power));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
-			if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature));
+			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct, PrefsListItemWrapper.DialogButtonType.SLIDER));
+			if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature, PrefsListItemWrapper.DialogButtonType.NUMBER));
 		}
 		// cpu
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_cpu,true));
-		if(advanced && hostinfo.p_ncpus > 1) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct)));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage));
+		if(advanced && hostinfo.p_ncpus > 1) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct), PrefsListItemWrapper.DialogButtonType.SLIDER));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit, PrefsListItemWrapper.DialogButtonType.SLIDER));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage, PrefsListItemWrapper.DialogButtonType.SLIDER));
 		// storage
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_storage,true));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_access_interval_header,R.string.prefs_category_storage,clientPrefs.disk_interval));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct, PrefsListItemWrapper.DialogButtonType.SLIDER));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_access_interval_header,R.string.prefs_category_storage,clientPrefs.disk_interval, PrefsListItemWrapper.DialogButtonType.NUMBER));
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac, PrefsListItemWrapper.DialogButtonType.SLIDER));
 		// other
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_other,true));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_other_store_at_least_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_min_days));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_additional_days));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_other_store_at_least_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_min_days, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_additional_days, PrefsListItemWrapper.DialogButtonType.NUMBER));
 		// debug
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_debug,true));
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_client_log_flags_header,R.string.prefs_category_debug));
-		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_gui_log_level_header,R.string.prefs_category_debug,(double)BOINCActivity.monitor.getLogLevel()));
+		if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_gui_log_level_header,R.string.prefs_category_debug,(double)BOINCActivity.monitor.getLogLevel(), PrefsListItemWrapper.DialogButtonType.SLIDER));
 		
 		updateLayout();
 		layoutSuccessful = true;
@@ -399,37 +399,31 @@ public class PrefsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// Sliders
-				if(item.ID == R.string.battery_charge_min_pct_header ||
-					item.ID == R.string.prefs_disk_max_pct_header ||
-					item.ID == R.string.prefs_cpu_time_max_header ||
-					item.ID == R.string.prefs_cpu_other_load_suspension_header ||
-					item.ID == R.string.prefs_memory_max_idle_header ) {
+				if(item.dialogButtonType == PrefsListItemWrapper.DialogButtonType.SLIDER) {
 					SeekBar slider = dialog.findViewById(R.id.seekbar);
-					double value = slider.getProgress()*10;
-					writeClientNumberPreference(item.ID, value);
-				} else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
-					SeekBar slider = dialog.findViewById(R.id.seekbar);
-					int sbProgress = slider.getProgress();
-					double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
-					writeClientNumberPreference(item.ID, value);
-				} else if(item.ID == R.string.prefs_gui_log_level_header) {
-					SeekBar slider = dialog.findViewById(R.id.seekbar);
-					int sbProgress = slider.getProgress();
-					try {
-						// monitor and UI in two different processes. set static variable in both
-						Logging.setLogLevel(sbProgress);
-						BOINCActivity.monitor.setLogLevel(sbProgress);
-					} catch (RemoteException e) {}
-					updateNumberPreference(item.ID, (double) sbProgress);
-					updateLayout();
+					int sliderProgress = slider.getProgress();
+					double value;
+
+					// Calculate value based on Slider Progress
+					if(item.ID == R.string.prefs_cpu_number_cpus_header) {
+						value = numberCpuCoresToPct(sliderProgress <= 0 ? 1 : sliderProgress + 1);
+						writeClientNumberPreference(item.ID, value);
+					} else if(item.ID == R.string.prefs_gui_log_level_header) {
+						try {
+							// monitor and UI in two different processes. set static variable in both
+							Logging.setLogLevel(sliderProgress);
+							BOINCActivity.monitor.setLogLevel(sliderProgress);
+						} catch (RemoteException e) {}
+						updateNumberPreference(item.ID, (double) sliderProgress);
+						updateLayout();
+					}
+					else {
+						value = sliderProgress * 10;
+						writeClientNumberPreference(item.ID, value);
+					}
 				}
 				// Numbers
-				else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
-						item.ID == R.string.battery_temperature_max_header ||
-						item.ID == R.string.prefs_disk_min_free_gb_header ||
-						item.ID == R.string.prefs_disk_access_interval_header ||
-						item.ID == R.string.prefs_other_store_at_least_x_days_of_work_header ||
-						item.ID == R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header) {
+				else if(item.dialogButtonType == PrefsListItemWrapper.DialogButtonType.NUMBER) {
 					EditText edit = dialog.findViewById(R.id.Input);
 					String input = edit.getText().toString();
 					Double valueTmp = parseInputValueToDouble(input);
@@ -438,14 +432,17 @@ public class PrefsFragment extends Fragment {
 					writeClientNumberPreference(item.ID, value);
 				}
 				// Texts
-				else if(item.ID == R.string.prefs_general_device_name_header) {
+				else if(item.dialogButtonType == PrefsListItemWrapper.DialogButtonType.TEXT) {
 					EditText input = dialog.findViewById(R.id.Input);
-					try {
-						if (!BOINCActivity.monitor.setDomainName(input.getText().toString())) {
-							if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
+
+					if (item.ID == R.string.prefs_general_device_name_header) {
+						try {
+							if (!BOINCActivity.monitor.setDomainName(input.getText().toString())) {
+								if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick.setDomainName(): false");
+							}
+						} catch (Exception e) {
+							if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
 						}
-					} catch (Exception e) {
-						if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.setupDialogButtons.onClick(): error: " + e);
 					}
 
 					updateTextPreference(item.ID, input.getText().toString());

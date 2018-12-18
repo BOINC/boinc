@@ -36,9 +36,10 @@ public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
 	PrefsListItemWrapperNumber.Unit unit;
 	public Double status;
 
-	public PrefsListItemWrapperNumber(Context ctx, Integer ID, Integer categoryID, Double status) {
+	public PrefsListItemWrapperNumber(Context ctx, Integer ID, Integer categoryID, Double status, DialogButtonType dialogButtonType) {
 		super(ctx, ID, categoryID);
 		this.status = status;
+		this.dialogButtonType = dialogButtonType;
 		mapStrings(ID);
 	}
 	

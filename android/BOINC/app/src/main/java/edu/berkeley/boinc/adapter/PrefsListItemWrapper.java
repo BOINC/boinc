@@ -22,7 +22,13 @@ import edu.berkeley.boinc.R;
 import android.content.Context;
 
 public class PrefsListItemWrapper {
-	
+    public enum DialogButtonType {
+        SLIDER,
+        NUMBER,
+        TEXT
+    }
+    public PrefsListItemWrapperNumber.DialogButtonType dialogButtonType;
+
 	public Context ctx;
 	public Integer ID;
 	public Integer categoryID;
