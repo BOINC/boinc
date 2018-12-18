@@ -184,18 +184,16 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 */
 	
 	public Boolean checkProjectAttached(String url) {
-		Boolean match = false;
 		try{
 			ArrayList<Project> attachedProjects = getProjectStatus();
 			for (Project project: attachedProjects) {
 				if(Logging.DEBUG) Log.d(Logging.TAG, project.master_url + " vs " + url);
 				if(project.master_url.equals(url)) {
-					match = true;
-					continue;
+					return true;
 				}
 			}
 		} catch(Exception e){}
-		return match;
+		return false;
 	}
 	
 	/**
@@ -483,5 +481,11 @@ public class ClientInterfaceImplementation extends RpcClient{
 		}
 		if(Logging.ERROR) Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
 		return null;
+	}
+
+	public boolean setDomainName(String deviceName) {
+		boolean success = setDomainNameRpc(deviceName);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "setDomainName: success " + success);
+		return success;
 	}
 }

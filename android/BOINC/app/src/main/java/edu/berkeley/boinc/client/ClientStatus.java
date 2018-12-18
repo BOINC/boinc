@@ -588,7 +588,7 @@ public class ClientStatus {
 					for(Result task: results) {
 						if(task.active_task) { // this result has corresponding "active task" in RPC XML
 							activeTask = true;
-							continue; // amount of active tasks does not matter.
+							break; // amount of active tasks does not matter.
 						}
 					}
 				}

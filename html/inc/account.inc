@@ -102,14 +102,16 @@ function create_account_form($teamid, $next_url) {
         ),
         "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd")
     );
-    form_select(
-        sprintf('<span title="%s">%s</span>',
-            tra("Select the country you want to represent, if any."),
-            tra("Country")
-        ),
-        "country",
-        country_select_options()
-    );
+    if (USER_COUNTRY) {
+        form_select(
+            sprintf('<span title="%s">%s</span>',
+                tra("Select the country you want to represent, if any."),
+                tra("Country")
+            ),
+            "country",
+            country_select_options()
+        );
+    }
     if (POSTAL_CODE) {
         form_input_text(
             tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",

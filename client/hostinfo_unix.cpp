@@ -1450,7 +1450,6 @@ int HOST_INFO::get_os_info() {
 
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
-    char buf2[256];
     char dist_name[256], dist_version[256];
     string os_version_extra("");
     safe_strcpy(dist_name, "");

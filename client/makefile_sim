@@ -1,5 +1,5 @@
 # makefile for client simulator
-# DO MAKE CLEAN IN CLIENT/ and LIB/ FIRST
+# Do "make_clean" in client/, lib/, and sched/ first
 
 CXXFLAGS = -g -DSIM -Wall \
     -I ../lib \
