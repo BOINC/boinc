@@ -982,7 +982,12 @@ public class Monitor extends Service {
 		public boolean setCcConfig(String config) throws RemoteException {
 			return clientInterface.setCcConfig(config);
 		}
-		
+
+		@Override
+		public boolean setDomainName(String deviceName) throws RemoteException {
+			return clientInterface.setDomainName(deviceName);
+		}
+
 		@Override
 		public boolean resultOp(int op, String url, String name)
 				throws RemoteException {
@@ -1127,7 +1132,7 @@ public class Monitor extends Service {
 		public HostInfo getHostInfo() throws RemoteException {
 			return clientStatus.getHostInfo();
 		}
-		
+
 		@Override
 		public GlobalPreferences getPrefs() throws RemoteException {
 			return clientStatus.getPrefs();
