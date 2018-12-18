@@ -457,7 +457,8 @@ public class PrefsFragment extends Fragment {
 				dialog.dismiss();
 			}
 		});
-		// cancel
+
+		// Cancel
 		Button cancel = dialog.findViewById(R.id.cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 			@Override
@@ -492,8 +493,7 @@ public class PrefsFragment extends Fragment {
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			clientPrefs.max_ncpus_pct = value;
-			//convert value back to number for layout update
-			value = pctCpuCoresToNumber(value);
+			value = pctCpuCoresToNumber(value); // Convert value back to number for layout update
 			break;
 		case R.string.prefs_cpu_time_max_header:
 			clientPrefs.cpu_usage_limit = value;
