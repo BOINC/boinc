@@ -637,8 +637,8 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.reportDeviceStatus() error: ", e);
 			return false;
 		}
 	}
@@ -669,8 +669,8 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setHostInfo() error: ", e);
 			return false;
 		}
 	}
@@ -698,8 +698,8 @@ public class RpcClient {
 			mLastErrorMessage = parser.getErrorMessage();
 			return parser.result();
 		}
-		catch (IOException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setDomainNameRpc() error: ", e);
 			return false;
 		}
 	}
