@@ -346,7 +346,7 @@ public class ProjectDetailsFragment extends Fragment {
 				try {
 					BOINCActivity.monitor.forceRefresh();
 				} catch (RemoteException e) {
-					if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment.onPostExecute error: ",e);
+					if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment.ProjectOperationAsync.onPostExecute() error: ", e);
 				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync failed.");
 		}

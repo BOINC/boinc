@@ -137,7 +137,9 @@ public class StatusFragment extends Fragment{
 					case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
 						Boolean suspendDueToScreenOn = false;
 						try{ suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();}
-						catch(RemoteException e){if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.loadLayout error: ",e);}
+						catch(RemoteException e){
+							if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.loadLayout error: ",e);
+						}
 						if(suspendDueToScreenOn){
 							statusImage.setImageResource(R.drawable.screen48b);
 							statusHeader.setVisibility(View.GONE);
@@ -291,7 +293,7 @@ public class StatusFragment extends Fragment{
 				try {
 					BOINCActivity.monitor.forceRefresh();
 				} catch (RemoteException e) {
-					if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.onPostExecute error: ",e);
+					if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.WriteClientRunModeAsync.onPostExecute() error: ", e);
 				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"StatusFragment: setting run mode failed");
 		}

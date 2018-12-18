@@ -103,7 +103,7 @@ public class SplashActivity extends Activity {
 						break;
 					}
 				} catch(Exception e) {
-					if(Logging.ERROR) Log.e(Logging.TAG,"SplashActivity.BroadcastReceiver error: ",e);
+					if(Logging.ERROR) Log.e(Logging.TAG,"SplashActivity.BroadcastReceiver.onReceive() error: ", e);
 				}
 			}
 		}

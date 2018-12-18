@@ -618,7 +618,7 @@ public class PrefsFragment extends Fragment {
 				try {
 					setupSelectionListDialog(item, dialog);
 				} catch (RemoteException e) {
-					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
+					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.ValueOnClick.onClick() error: ", e);
 				}
 				break;
 			case R.string.battery_charge_min_pct_header:
@@ -674,7 +674,7 @@ public class PrefsFragment extends Fragment {
 				try {
 					setupSelectionListDialog(item, dialog);
 				} catch (RemoteException e) {
-					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onClick error: ",e);
+					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.ValueOnClick.onClick() error: ", e);
 				}
 				break;
 			case R.string.prefs_gui_log_level_header:

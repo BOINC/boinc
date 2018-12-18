@@ -320,7 +320,9 @@ public class ProjectAttachService extends Service {
 		if(reply !=BOINCErrors.ERR_OK ) return reply;
 		
 		AcctMgrInfo info = null;
-		try {info = monitor.getAcctMgrInfo();}
+		try {
+			info = monitor.getAcctMgrInfo();
+		}
 		catch (RemoteException e) {
 			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
 		}
@@ -482,8 +484,12 @@ public class ProjectAttachService extends Service {
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
 				if (mIsBound) {
-					try {credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));}
-					catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.register error: ",e);}
+					try {
+						credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));
+					}
+					catch (RemoteException e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.register error: ",e);
+					}
 				}
 				if(credentials == null) {
 					// call failed
@@ -529,8 +535,12 @@ public class ProjectAttachService extends Service {
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
 				if (mIsBound) {
-					try { credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd)); }
-					catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.login error: ",e);}
+					try {
+						credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd));
+					}
+					catch (RemoteException e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.login error: ",e);
+					}
 				}
 				if(credentials == null) {
 					// call failed
@@ -556,7 +566,11 @@ public class ProjectAttachService extends Service {
 					}
 				}
 				
-				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception ignored) {}
+				if(retry) {
+					try{
+						Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
+					} catch(Exception ignored) {}
+				}
 			}
     		
 			return credentials;
@@ -564,8 +578,11 @@ public class ProjectAttachService extends Service {
     	
     	private boolean attach(String authenticator) {
     		if (mIsBound) {
-                try {return monitor.attachProject(config.masterUrl, config.name, authenticator);}
-                catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attach error: ",e);}
+                try {
+                	return monitor.attachProject(config.masterUrl, config.name, authenticator);
+                } catch (RemoteException e) {
+                	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attach error: ",e);
+                }
     		}
 			return false;
     	}
@@ -614,8 +631,11 @@ public class ProjectAttachService extends Service {
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
 				if (mIsBound) {
-                    try {config = monitor.getProjectConfigPolling(url);}
-                    catch (RemoteException e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.getProjectConfig error: ",e);}
+                    try {
+                    	config = monitor.getProjectConfigPolling(url);
+                    } catch (RemoteException e) {
+                    	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.getProjectConfig error: ",e);
+                    }
 				}
 				if(config == null) {
 					// call failed
@@ -642,7 +662,11 @@ public class ProjectAttachService extends Service {
 					}
 				}
 				
-				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception ignored) {}
+				if(retry) {
+					try{
+						Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
+					} catch(Exception ignored) {}
+				}
 			}
 			return config;
 		}
