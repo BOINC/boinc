@@ -58,8 +58,7 @@ public class PrefsFragment extends Fragment {
 	private PrefsListAdapter listAdapter;
 	
 	private ArrayList<PrefsListItemWrapper> data = new ArrayList<>(); //Adapter for list data
-	private GlobalPreferences clientPrefs = null; //preferences of the client, read on every onResume via RPC
-	//private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
+	private GlobalPreferences clientPrefs = null; // Android specific preferences of the client, read on every onResume via RPC
 	private HostInfo hostinfo = null;
 	
 	private boolean layoutSuccessful = false;
@@ -79,7 +78,8 @@ public class PrefsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	if(Logging.VERBOSE) Log.d(Logging.TAG,"ProjectsFragment onCreateView");
-        // Inflate the layout for this fragment
+
+    	// Inflate the layout for this fragment
     	View layout = inflater.inflate(R.layout.prefs_layout, container, false);
 		lv = layout.findViewById(R.id.listview);
         listAdapter = new PrefsListAdapter(getActivity(),this,R.id.listview,data);
@@ -110,38 +110,33 @@ public class PrefsFragment extends Fragment {
 	}
 
 	private Boolean getPrefs() {
-		// try to get current client status from monitor
-		//ClientStatus status;
+		// Try to get current client status from monitor
 		try{
-			//status  = Monitor.getClientStatus();
-			clientPrefs = BOINCActivity.monitor.getPrefs();
+			clientPrefs = BOINCActivity.monitor.getPrefs(); // Read preferences from client via rpc
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"PrefsActivity: Could not load data, clientStatus not initialized.");
 			e.printStackTrace();
 			return false;
 		}
-		//clientPrefs = status.getPrefs(); //read prefs from client via rpc
+
 		if(clientPrefs == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "readPrefs: null, return false");
 			return false;
 		}
-		//if(Logging.DEBUG) Log.d(Logging.TAG, "readPrefs done");
+
 		return true;
 	}
 	
 	private Boolean getHostInfo() {
-		// try to get current client status from monitor
-		//ClientStatus status;
-		
+		// Try to get current client status from monitor
 		try{
-			//status  = Monitor.getClientStatus();
-			hostinfo = BOINCActivity.monitor.getHostInfo();
+			hostinfo = BOINCActivity.monitor.getHostInfo(); // Get the hostinfo from client via rpc
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"PrefsActivity: Could not load data, clientStatus not initialized.");
 			e.printStackTrace();
 			return false;
 		}
-		//hostinfo = status.getHostInfo(); //Get the hostinfo from client via rpc
+
 		if(hostinfo == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "getHostInfo: null, return false");
 			return false;
@@ -179,7 +174,7 @@ public class PrefsFragment extends Fragment {
 		if(stationaryDeviceSuspected) { // API indicates that there is no battery, offer opt-in preference for stationary device mode
 			data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_stationary_device_mode_header,R.string.prefs_category_power,BOINCActivity.monitor.getStationaryDeviceMode()));
 		}
-		if(!stationaryDeviceMode) { // client would compute regardless of battery preferences, so only show if that is not the case
+		if(!stationaryDeviceMode) { // Client would compute regardless of battery preferences, so only show if that is not the case
 			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_power_source_header,R.string.prefs_category_power));
 			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct, PrefsListItemWrapper.DialogButtonType.SLIDER));
 			if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature, PrefsListItemWrapper.DialogButtonType.NUMBER));
@@ -214,8 +209,8 @@ public class PrefsFragment extends Fragment {
 		listAdapter.notifyDataSetChanged();
 	}
 
-	// updates list item of boolean preference
-	// requires updateLayout to be called afterwards
+	// Updates list item of boolean preference
+	// Requires updateLayout to be called afterwards
 	private void updateBoolPreference(int ID, Boolean newValue) {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
@@ -226,8 +221,8 @@ public class PrefsFragment extends Fragment {
 		}
 	}
 	
-	// updates list item of value preference
-	// requires updateLayout to be called afterwards
+	// Updates list item of number preference
+	// Requires updateLayout to be called afterwards
 	private void updateNumberPreference(int ID, Double newValue) {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + " value: " + newValue);
 		for (PrefsListItemWrapper item: data) {
@@ -332,7 +327,7 @@ public class PrefsFragment extends Fragment {
 			ListView lv = dialog.findViewById(R.id.selection);
 			new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 
-			// setup confirm button action
+			// Setup confirm button action
 			Button confirm = dialog.findViewById(R.id.confirm);
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
@@ -344,7 +339,7 @@ public class PrefsFragment extends Fragment {
 					dialog.dismiss();
 				}
 			});
-		}else if(item.ID == R.string.prefs_power_source_header) {
+		} else if(item.ID == R.string.prefs_power_source_header) {
 			final ArrayList<SelectionDialogOption> options = new ArrayList<>();
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_ac, BOINCActivity.monitor.getPowerSourceAc()));
 			options.add(new SelectionDialogOption(R.string.prefs_power_source_usb, BOINCActivity.monitor.getPowerSourceUsb()));
@@ -353,7 +348,7 @@ public class PrefsFragment extends Fragment {
 			ListView lv = dialog.findViewById(R.id.selection);
 			new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 
-			// setup confirm button action
+			// Setup confirm button action
 			Button confirm = dialog.findViewById(R.id.confirm);
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
@@ -382,7 +377,7 @@ public class PrefsFragment extends Fragment {
 			});
 		}
 		
-		// generic cancel button
+		// Generic cancel button
 		Button cancel = dialog.findViewById(R.id.cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 			@Override
@@ -393,7 +388,7 @@ public class PrefsFragment extends Fragment {
 	}
 		
 	private void setupDialogButtons(final PrefsListItemWrapper item, final Dialog dialog) {
-		// confirm
+		// Confirm
 		Button confirm = dialog.findViewById(R.id.confirm);
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
@@ -410,7 +405,7 @@ public class PrefsFragment extends Fragment {
 						writeClientNumberPreference(item.ID, value);
 					} else if(item.ID == R.string.prefs_gui_log_level_header) {
 						try {
-							// monitor and UI in two different processes. set static variable in both
+							// Monitor and UI in two different processes. set static variable in both
 							Logging.setLogLevel(sliderProgress);
 							BOINCActivity.monitor.setLogLevel(sliderProgress);
 						} catch (RemoteException e) {}
@@ -461,7 +456,7 @@ public class PrefsFragment extends Fragment {
 	}
 	
 	private void writeClientNumberPreference(int id, double value) {
-		// update preferences
+		// Update preferences
 		switch (id) {
 		case R.string.prefs_disk_max_pct_header:
 			clientPrefs.disk_max_used_pct = value;
@@ -509,9 +504,9 @@ public class PrefsFragment extends Fragment {
 			toast.show();
 			return;
 		}
-		// update list item
+		// Update list item
 		updateNumberPreference(id, value);
-		// preferences adapted, write preferences to client
+		// Preferences adapted, write preferences to client
 		new WriteClientPrefsAsync().execute(clientPrefs);
 	}
 
@@ -528,10 +523,10 @@ public class PrefsFragment extends Fragment {
 	}
 
 	public Double parseInputValueToDouble(String input) {
-		// parse value
+		// Parse value
 		Double value;
 		try {
-			input=input.replaceAll(",","."); //replace e.g. European decimal seperator "," by "."
+			input=input.replaceAll(",","."); //Replace e.g. European decimal seperator "," by "."
 			value = Double.parseDouble(input);
 			if(Logging.DEBUG) Log.d(Logging.TAG,"parseInputValueToDouble: " + value);
 			return value;
