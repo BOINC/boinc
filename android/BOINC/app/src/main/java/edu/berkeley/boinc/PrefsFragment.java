@@ -157,6 +157,7 @@ public class PrefsFragment extends Fragment {
 		Boolean stationaryDeviceMode = BOINCActivity.monitor.getStationaryDeviceMode();
 		Boolean stationaryDeviceSuspected = BOINCActivity.monitor.isStationaryDeviceSuspected();
 
+		// The order is important, the GUI will be displayed in the same order as the data is added.
 		// General
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_general,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_autostart_header,R.string.prefs_category_general,BOINCActivity.monitor.getAutostart()));
@@ -169,6 +170,9 @@ public class PrefsFragment extends Fragment {
 		// Network
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
+		if(advanced) {
+			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		}
 
 		// Power
 		data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_power,true));
@@ -178,39 +182,45 @@ public class PrefsFragment extends Fragment {
 		if(!stationaryDeviceMode) { // Client would compute regardless of battery preferences, so only show if that is not the case
 			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_power_source_header,R.string.prefs_category_power));
 			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct, PrefsListItemWrapper.DialogButtonType.SLIDER));
-			if(advanced) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature, PrefsListItemWrapper.DialogButtonType.NUMBER));
+			if(advanced) {
+				data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature, PrefsListItemWrapper.DialogButtonType.NUMBER));
+			}
 		}
 
-		// Advanced options
+		// CPU
 		if (advanced) {
-			// Network
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb, PrefsListItemWrapper.DialogButtonType.NUMBER));
-
-			// CPU
 			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_cpu,true));
 			if(hostinfo.p_ncpus > 1) data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct), PrefsListItemWrapper.DialogButtonType.SLIDER));
 			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_time_max_header,R.string.prefs_category_cpu,clientPrefs.cpu_usage_limit, PrefsListItemWrapper.DialogButtonType.SLIDER));
 			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_cpu_other_load_suspension_header,R.string.prefs_category_cpu,clientPrefs.suspend_cpu_usage, PrefsListItemWrapper.DialogButtonType.SLIDER));
+		}
 
-			// Storage
-			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_storage,true));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct, PrefsListItemWrapper.DialogButtonType.SLIDER));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb, PrefsListItemWrapper.DialogButtonType.NUMBER));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_disk_access_interval_header,R.string.prefs_category_storage,clientPrefs.disk_interval, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		// Storage
+		if (advanced) {
+			data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_storage, true));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_max_pct_header, R.string.prefs_category_storage, clientPrefs.disk_max_used_pct, PrefsListItemWrapper.DialogButtonType.SLIDER));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_min_free_gb_header, R.string.prefs_category_storage, clientPrefs.disk_min_free_gb, PrefsListItemWrapper.DialogButtonType.NUMBER));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_access_interval_header, R.string.prefs_category_storage, clientPrefs.disk_interval, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		}
 
-			// Memory
-			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac, PrefsListItemWrapper.DialogButtonType.SLIDER));
+		// Memory
+		if (advanced) {
+			data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_memory, true));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_memory_max_idle_header, R.string.prefs_category_memory, clientPrefs.ram_max_used_idle_frac, PrefsListItemWrapper.DialogButtonType.SLIDER));
+		}
 
-			// Other
-			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_other,true));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_other_store_at_least_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_min_days, PrefsListItemWrapper.DialogButtonType.NUMBER));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,R.string.prefs_category_other,clientPrefs.work_buf_additional_days, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		// Other
+		if (advanced) {
+			data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_other, true));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_other_store_at_least_x_days_of_work_header, R.string.prefs_category_other, clientPrefs.work_buf_min_days, PrefsListItemWrapper.DialogButtonType.NUMBER));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header, R.string.prefs_category_other, clientPrefs.work_buf_additional_days, PrefsListItemWrapper.DialogButtonType.NUMBER));
+		}
 
-			// Debug
-			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_debug,true));
-			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_client_log_flags_header,R.string.prefs_category_debug));
-			data.add(new PrefsListItemWrapperNumber(getActivity(),R.string.prefs_gui_log_level_header,R.string.prefs_category_debug,(double)BOINCActivity.monitor.getLogLevel(), PrefsListItemWrapper.DialogButtonType.SLIDER));
+		// Debug
+		if (advanced) {
+			data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_debug, true));
+			data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_client_log_flags_header, R.string.prefs_category_debug));
+			data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_gui_log_level_header, R.string.prefs_category_debug, (double) BOINCActivity.monitor.getLogLevel(), PrefsListItemWrapper.DialogButtonType.SLIDER));
 		}
 
 		updateLayout();
