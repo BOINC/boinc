@@ -136,7 +136,9 @@ public class StatusFragment extends Fragment{
 						break;
 					case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
 						Boolean suspendDueToScreenOn = false;
-						try{ suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();}
+						try{ 
+							suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();
+						}
 						catch(RemoteException e){
 							if(Logging.ERROR) Log.e(Logging.TAG,"StatusFragment.loadLayout error: ",e);
 						}
