@@ -372,7 +372,8 @@ public class RpcClient {
 					if(Logging.DEBUG) Log.d(Logging.TAG, String.format("%4d: %s", ln, dl));
 				}
 			}
-			catch (IOException ioe) {
+			catch (IOException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"RpcClient.receiveReply error: ",e);
 			}
 		}
 		return mResult.toString();

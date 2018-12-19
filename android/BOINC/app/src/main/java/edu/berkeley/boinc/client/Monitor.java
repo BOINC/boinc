@@ -157,13 +157,15 @@ public class Monitor extends Service {
 		// there might be still other AsyncTasks executing RPCs
 		// close sockets in a synchronized way
 		clientInterface.close();
-
+		
 		try {
-			// remove screen on/off receiver
-			unregisterReceiver(screenOnOffReceiver);
-		} catch (Exception ex) {}
-
-		updateBroadcastEnabled = false; // prevent broadcast from currently running update task
+		  // remove screen on/off receiver
+		  unregisterReceiver(screenOnOffReceiver);
+		} catch (Exception e) {
+		  if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+		}
+        
+    updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
 
 		mutex.release(); // release BOINC mutex
@@ -172,10 +174,12 @@ public class Monitor extends Service {
 		try {
 			clientStatus.setWakeLock(false);
 			clientStatus.setWifiLock(false);
-		} catch (Exception ex) {}
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+		}
 	}
 
-	@Override
+  @Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		//this gets called after startService(intent) (either by BootReceiver or SplashActivity, depending on the user's autostart configuration)
 		if(Logging.ERROR) Log.d(Logging.TAG, "Monitor onStartCommand()");
@@ -267,18 +271,20 @@ public class Monitor extends Service {
 	public boolean boincMutexAcquired() {
 		return mutex.acquired;
 	}
-
-	/**
-	 * Force refresh of client status data model, will fire Broadcast upon success.
-	 */
-	public void forceRefresh() {
-		if(!mutex.acquired) return; // do not try to update if client is not running
-		if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
-		try{
-			updateTimer.schedule(new StatusUpdateTimerTask(), 0);
-		} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
-	}
-
+	
+    /**
+     * Force refresh of client status data model, will fire Broadcast upon success.
+     */
+    public void forceRefresh() {
+    	if(!mutex.acquired) return; // do not try to update if client is not running
+    	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
+    	try{
+    		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
+    	} catch (Exception e){
+    		if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.forceRefresh error: ",e);
+    	} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+    }
+	
 	/**
 	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
 	 * Defaults to ARM
@@ -392,14 +398,17 @@ public class Monitor extends Service {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
 				} else {
 					String nullValues = "";
-					try{
-						if(state == null) nullValues += "state,";
-						if(state.results == null) nullValues += "state.results,";
-						if(state.projects == null) nullValues += "state.projects,";
-						if(transfers == null) nullValues += "transfers,";
-						if(state.host_info == null) nullValues += "state.host_info,";
-						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
-					} catch (NullPointerException e) {}
+
+					if(state == null) {
+						nullValues += "state ";
+					} else {
+						if(state.results == null) nullValues += "state.results ";
+						if(state.projects == null) nullValues += "state.projects ";
+						if(state.host_info == null) nullValues += "state.host_info ";
+					}
+					if(transfers == null) nullValues += "transfers ";
+					if(acctMgrInfo == null) nullValues += "acctMgrInfo ";
+
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 
@@ -491,17 +500,17 @@ public class Monitor extends Service {
 			if (getPidForProcessName(clientProcessName) != null) {
 				if(connectClient()) {
 					clientInterface.quit();
-					Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-					Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
-					for(int x = 0; x < attempts; x++) {
-						try {
-							Thread.sleep(sleepPeriod);
-						} catch (Exception e) {}
-						if(getPidForProcessName(clientProcessName) == null) { //client is now closed
-							if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
-							x = attempts;
-						}
-					}
+		    		Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+		    		Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+		    		for(int x = 0; x < attempts; x++) {
+		    			try {
+		    				Thread.sleep(sleepPeriod);
+		    			} catch (Exception ignored) {}
+		    			if(getPidForProcessName(clientProcessName) == null) { //client is now closed
+		        			if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+		    				x = attempts;
+		    			}
+		    		}
 				}
 			}
 
@@ -541,7 +550,7 @@ public class Monitor extends Service {
 
 			try {
 				Thread.sleep(retryRate);
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
 		}
 
 		Boolean init = false;
@@ -893,25 +902,25 @@ public class Monitor extends Service {
 		for(int x = 0; x < attempts; x++) {
 			try {
 				Thread.sleep(sleepPeriod);
-			} catch (Exception e) {}
-			if(getPidForProcessName(processName) == null) { //client is now closed
-				if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
-				x = attempts;
-			}
-		}
-
-		clientPid = getPidForProcessName(processName);
-		if(clientPid != null) {
-			// Process is still alive, send SIGKILL
-			if(Logging.ERROR) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
-			android.os.Process.killProcess(clientPid);
-		}
-
-		clientPid = getPidForProcessName(processName);
-		if(clientPid != null) {
-			if(Logging.ERROR) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
-		}
-	}
+			} catch (Exception ignored) {}
+    		if(getPidForProcessName(processName) == null) { //client is now closed
+        		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
+    			x = attempts;
+    		}
+    	}
+    	
+    	clientPid = getPidForProcessName(processName);
+    	if(clientPid != null) {
+    		// Process is still alive, send SIGKILL
+    		if(Logging.ERROR) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		android.os.Process.killProcess(clientPid);
+    	}
+    	
+    	clientPid = getPidForProcessName(processName);
+    	if(clientPid != null) {
+    		if(Logging.ERROR) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
+    	}
+    }
 // --end-- BOINC client installation and run-time management
 
 // broadcast receiver
@@ -945,7 +954,9 @@ public class Monitor extends Service {
 		protected Void doInBackground(Integer... params) {
 			try {
 				mBinder.setRunMode(params[0]);
-			} catch (RemoteException e) {}
+			} catch (RemoteException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync: doInBackground() error: ", e);
+			}
 			return null;
 		}
 	}
@@ -1020,7 +1031,9 @@ public class Monitor extends Service {
 		public boolean isStationaryDeviceSuspected() throws RemoteException {
 			try {
 				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ", e);
+			}
 			return false;
 		}
 
@@ -1055,7 +1068,9 @@ public class Monitor extends Service {
 		public int getBatteryChargeStatus() throws RemoteException{
 			try {
 				return getDeviceStatus().getStatus().battery_charge_pct;
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e);
+			}
 			return 0;
 		}
 

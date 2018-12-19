@@ -21,6 +21,9 @@ package edu.berkeley.boinc.mutex;
 import java.io.IOException;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.util.Log;
+
+import edu.berkeley.boinc.utils.Logging;
 
 /**
  * Mediates usage of device for volunteer computing. Acquire this lock before executing computations.
@@ -45,7 +48,9 @@ public class BoincMutex {
 		try {
 			socket.bind(new LocalSocketAddress(boincMutex));
 			acquired = true;
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"BoincMutex.acquire error: ",e);
+		}
 		return socket.isBound();
 	}
 	
@@ -57,7 +62,9 @@ public class BoincMutex {
 			try {
 				socket.close();
 				acquired = false;
-			} catch (IOException e) {}
+			} catch (IOException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"BoincMutex.release error: ",e);
+			}
 		}
 	}
 	

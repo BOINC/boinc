@@ -70,7 +70,9 @@ public class PrefsFragment extends Fragment {
 			if(Logging.VERBOSE) Log.d(Logging.TAG, "PrefsFragment ClientStatusChange - onReceive()"); 
 			try {
 				if(!layoutSuccessful) populateLayout();
-			} catch (RemoteException e) {}
+			} catch (RemoteException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BroadcastReceiver: onReceive() error: ", e);
+			}
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
@@ -98,7 +100,9 @@ public class PrefsFragment extends Fragment {
 	public void onResume() {
 		try {
 			populateLayout();
-		} catch (RemoteException e) {}
+		} catch (RemoteException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.onResume error: ",e);
+		}
 		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
 		super.onResume();
 	}
@@ -375,7 +379,9 @@ public class PrefsFragment extends Fragment {
 							}
 						}
 						dialog.dismiss();
-					} catch(RemoteException e) {}
+					} catch(RemoteException e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
+					}
 				}
 			});
 		}
@@ -417,7 +423,9 @@ public class PrefsFragment extends Fragment {
 						// monitor and UI in two different processes. set static variable in both
 						Logging.setLogLevel(sbProgress);
 						BOINCActivity.monitor.setLogLevel(sbProgress);
-					} catch (RemoteException e) {}
+					} catch (RemoteException e) {
+         			  if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
+         		   }
 					updateValuePref(item.ID, (double) sbProgress);
 					updateLayout();
 				}
@@ -606,7 +614,9 @@ public class PrefsFragment extends Fragment {
 					populateLayout();
 					break;
 				}
-			} catch(RemoteException e) {}
+			} catch(RemoteException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.BoolOnClick: onClick() error: ", e);
+			}
 		}
 		
 	}
@@ -639,7 +649,9 @@ public class PrefsFragment extends Fragment {
 			case R.string.prefs_power_source_header:
 				try {
 					setupSelectionListDialog(item, dialog);
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.ValueOnClick.onClick() error: ", e);
+				}
 				break;
 			case R.string.battery_charge_min_pct_header:
 				setupSliderDialog(item, dialog);
@@ -693,7 +705,9 @@ public class PrefsFragment extends Fragment {
 			case R.string.prefs_client_log_flags_header:
 				try {
 					setupSelectionListDialog(item, dialog);
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.ValueOnClick.onClick() error: ", e);
+				}
 				break;
 			case R.string.prefs_gui_log_level_header:
 				setupSliderDialog(item, dialog);
