@@ -398,17 +398,18 @@ public class Monitor extends Service {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
 				} else {
 					String nullValues = "";
-					try{
-						if(state == null) nullValues += "state,";
-						if(state.results == null) nullValues += "state.results,";
-						if(state.projects == null) nullValues += "state.projects,";
-						if(transfers == null) nullValues += "transfers,";
-						if(state.host_info == null) nullValues += "state.host_info,";
-						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
-					} catch (NullPointerException ignored) {}
-					finally {
-						if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
+
+					if(state == null) {
+						nullValues += "state ";
+					} else {
+						if(state.results == null) nullValues += "state.results ";
+						if(state.projects == null) nullValues += "state.projects ";
+						if(state.host_info == null) nullValues += "state.host_info ";
 					}
+					if(transfers == null) nullValues += "transfers ";
+					if(acctMgrInfo == null) nullValues += "acctMgrInfo ";
+
+					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				
 				// update notices notification
