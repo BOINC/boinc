@@ -281,7 +281,7 @@ public class Monitor extends Service {
     	try{
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
     	} catch (Exception e){
-    		if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.forceRefresh error: ",e);
+    		if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.forceRefresh error: ",e);
     	} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 	
