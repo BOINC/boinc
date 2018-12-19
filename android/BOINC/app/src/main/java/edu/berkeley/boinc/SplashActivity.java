@@ -102,7 +102,9 @@ public class SplashActivity extends Activity {
 						// do not show log here. error is just a notification of timeout, which is followed by an intermediate (and indefinate) retry
 						break;
 					}
-				} catch(Exception e) {}
+				} catch(Exception e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"SplashActivity.BroadcastReceiver.onReceive() error: ", e);
+				}
 			}
 		}
 	};

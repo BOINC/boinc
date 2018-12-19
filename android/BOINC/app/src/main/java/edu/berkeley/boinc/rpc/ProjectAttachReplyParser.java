@@ -20,7 +20,11 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectAttachReplyParser extends BaseParser {
 
@@ -74,6 +78,7 @@ public class ProjectAttachReplyParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachReplyParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

@@ -484,7 +484,9 @@ public class ClientStatus {
 						statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
 						+ "% (" + ctx.getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
 						+ ctx.getString(R.string.suspend_battery_charging_long2);
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"ClientStatus.getCurrentStatusDescription error: ",e);
+					}
 					break;
 				case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
 					statusString = ctx.getString(R.string.suspend_battery_overheating);
