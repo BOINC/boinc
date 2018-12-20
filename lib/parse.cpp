@@ -371,6 +371,15 @@ void xml_escape(const char* in, char* out, int len) {
                 p += strlen(buf);
                 break;
             }
+        } else if (x == ']') {
+            // two stage check, strncmp() is slow
+            if (!strncmp(in, "]]>", 3)) {
+                strcpy(p, "]]&gt;");
+                p += 6;
+                in += 2;  // +1 from for loop
+            } else {
+                *p++ = x;
+            }
         } else {
             *p++ = x;
         }

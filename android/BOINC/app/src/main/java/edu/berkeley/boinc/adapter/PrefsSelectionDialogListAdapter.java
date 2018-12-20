@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
@@ -73,12 +73,12 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
 		if(v == null) {
 	        LayoutInflater li = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     		v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
-    		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
+    		CheckBox cb = v.findViewById(R.id.checkbox);
     		cb.setChecked(listItem.selected);
     		cb.setClickable(false);
-    		TextView text = (TextView) v.findViewById(R.id.checkbox_text);
+    		TextView text = v.findViewById(R.id.checkbox_text);
     		text.setText(listItem.name);
-    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.checkbox_wrapper);
+    		RelativeLayout wrapper = v.findViewById(R.id.checkbox_wrapper);
     		wrapper.setClickable(true);
     		wrapper.setOnClickListener(this);
     		wrapper.setTag(position);
@@ -96,7 +96,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
 		Log.d(Logging.TAG,"PrefsSelectionDialogListAdapter onClick");
 		RelativeLayout wrapper = (RelativeLayout) v;
 		Integer position = (Integer) v.getTag();
-		CheckBox cb = (CheckBox) wrapper.findViewById(R.id.checkbox);
+		CheckBox cb = wrapper.findViewById(R.id.checkbox);
 		Boolean previousState = cb.isChecked();
 		cb.setChecked(!previousState);
 		entries.get(position).selected = cb.isChecked();

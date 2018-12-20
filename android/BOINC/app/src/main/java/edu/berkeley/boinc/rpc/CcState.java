@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -24,11 +24,11 @@ import java.util.ArrayList;
 public class CcState{
 	public VersionInfo version_info;
 	public HostInfo host_info;
-	public ArrayList<Project> projects = new ArrayList<Project>();
-	public ArrayList<App> apps = new ArrayList<App>();
-	public ArrayList<AppVersion> app_versions = new ArrayList<AppVersion>();
-	public ArrayList<Workunit> workunits = new ArrayList<Workunit>();
-	public ArrayList<Result> results = new ArrayList<Result>();
+	public ArrayList<Project> projects = new ArrayList<>();
+	public ArrayList<App> apps = new ArrayList<>();
+	public ArrayList<AppVersion> app_versions = new ArrayList<>();
+	public ArrayList<Workunit> workunits = new ArrayList<>();
+	public ArrayList<Result> results = new ArrayList<>();
 	public boolean have_ati;
 	public boolean have_cuda;
 	
@@ -41,8 +41,7 @@ public class CcState{
 	}
 	
 	public Project lookup_project(String testUrl) {
-		int i = 0;
-		for(i = 0; i < projects.size(); i++) {
+		for(int i = 0; i < projects.size(); i++) {
 			if(projects.get(i).master_url.equalsIgnoreCase(testUrl)) {
 				return projects.get(i);
 			}

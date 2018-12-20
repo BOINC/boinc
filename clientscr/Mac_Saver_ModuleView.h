@@ -43,6 +43,7 @@
 - (IBAction)closeSheetCancel:(id) sender;
 
 - (bool) setUpToUseCGWindowList;
+- (void) doPeriodicTasks;
 
 @end
 

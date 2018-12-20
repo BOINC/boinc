@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -40,13 +40,13 @@ public class NoticesFragment extends Fragment {
 
 	private ListView noticesList;
 	private NoticesListAdapter noticesListAdapter;
-	private ArrayList<Notice> data = new ArrayList<Notice>();
+	private ArrayList<Notice> data = new ArrayList<>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	if(Logging.VERBOSE) Log.d(Logging.TAG,"NoticesFragment onCreateView");
     	View layout = inflater.inflate(R.layout.notices_layout, container, false);
-		noticesList = (ListView) layout.findViewById(R.id.noticesList);
+		noticesList = layout.findViewById(R.id.noticesList);
 		updateNotices();
 		noticesListAdapter = new NoticesListAdapter(getActivity(), R.id.noticesList, data);
 		noticesList.setAdapter(noticesListAdapter);
@@ -61,7 +61,9 @@ public class NoticesFragment extends Fragment {
 		// clear notice notification
 		try {
 			BOINCActivity.monitor.cancelNoticeNotification();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"NoticesFragment.onResume error: ",e);
+		}
 		super.onResume();
 	}
 	
@@ -100,6 +102,8 @@ public class NoticesFragment extends Fragment {
 					return ((Double) (rhs.create_time - lhs.create_time)).intValue();
 				}
 			});
-		} catch(Exception e){}
+		} catch(Exception e){
+			if(Logging.ERROR) Log.e(Logging.TAG,"NoticesFragment.updateNotices error: ",e);
+		}
 	}
 }

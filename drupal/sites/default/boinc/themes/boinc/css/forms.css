@@ -430,6 +430,14 @@ span.password-confirm {
   margin-bottom: 1em;
 }
 
+#delete-instructions {
+  line-height: 24px;
+  margin-right: 40px;
+}
+
+#delete-password-field #edit-current-pass-wrapper.form-item {
+  padding-top: 10px;
+}
 
 /*
  * Drupal admin tables

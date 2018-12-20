@@ -22,10 +22,11 @@
 
 $cli_only = true;
 require_once("../inc/util_ops.inc");
-require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
+require_once("../inc/consent.inc");
 
 if (defined('INVITE_CODES')) {
     echo "Account creation is protected by invitation codes, so not importing teams";
@@ -69,6 +70,7 @@ function parse_team($f) {
         else if (strstr($s, '<type>')) $t->type = parse_element($s, '<type>');
         else if (strstr($s, '<name_html>')) $t->name_html = parse_element($s, '<name_html>');
         else if (strstr($s, '<description>')) {
+            $t->description = '';
             while ($s = fgets($f)) {
                 if (strstr($s, '</description>')) break;
                 $t->description .= $s;
@@ -134,17 +136,30 @@ function insert_case($t, $user) {
         echo "   making team $t->name\n";
         return;
     }
+    $make_user = FALSE;
     if (!$user) {
-        echo "   making user $t->user_email\n";
-        $user = make_user($t->user_email, $t->user_name, random_string());
-        if (!$user) {
-            echo "   Can't make user $t->user_email\n";
-            return;
+        list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+        if ($checkct) {
+            echo "   cannot make user when an consent to terms of use is required\n";
+        }
+        else {
+            echo "   making user $t->user_email\n";
+            $user = make_user($t->user_email, $t->user_name, random_string());
+            if (!$user) {
+                echo "   Can't make user $t->user_email\n";
+                return;
+            }
+            $make_user = TRUE;
         }
     }
     echo "   making team $t->name\n";
+    // if user was not created, set the userid of a team to be zero
+    $myid = 0;
+    if ($make_user) {
+        $myid = $user->id;
+    }
     $team = make_team(
-        $user->id, $t->name, $t->url, $t->type, $t->name_html,
+        $myid, $t->name, $t->url, $t->type, $t->name_html,
         $t->description, $t->country
     );
     if (!$team) {
@@ -154,15 +169,17 @@ function insert_case($t, $user) {
         exit;
     }
     $team->update("seti_id=$t->id");
-    $user->update("teamid=$team->id");
+    if ($user) {
+        $user->update("teamid=$team->id");
 
-    send_email($user, "Team created on ".PROJECT,
-"An instance of the BOINC-wide team '$t->name'
+        send_email($user, "Team created on ".PROJECT,
+        "An instance of the BOINC-wide team '$t->name'
 has been created on the project:
 name: ".PROJECT."
 URL: $master_url
 "
-    );
+        );
+    }
 }
 
 // There are several cases for a given record:

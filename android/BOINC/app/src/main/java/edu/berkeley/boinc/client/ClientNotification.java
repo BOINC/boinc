@@ -28,7 +28,7 @@ public class ClientNotification {
 	
 	private int mOldComputingStatus = -1;
 	private int mOldSuspendReason = -1;
-	private ArrayList<Result> mOldActiveTasks = new ArrayList<Result>();
+	private ArrayList<Result> mOldActiveTasks = new ArrayList<>();
 	private boolean notificationShown = false;
 	// debug foreground state by running
 	// adb shell: dumpsys activity services edu.berkeley.boinc
@@ -56,9 +56,6 @@ public class ClientNotification {
 		contentIntent = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 	}
 
-	/**
-	 * Updates notification with client's current status
-	 */
 	/**
 	 * Updates notification with client's current status. Notifies if not present. Checking notification related preferences.
 	 * @param updatedStatus client status data
@@ -107,13 +104,13 @@ public class ClientNotification {
 		if(Logging.VERBOSE) Log.d(Logging.TAG, "ClientNotification: notification needs update? "+ (clientNotification.mOldComputingStatus == -1) 
 				+ activeTasksChanged
 				+ !notificationShown
-				+ (updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus)
+				+ (updatedStatus.computingStatus != clientNotification.mOldComputingStatus)
 				+ (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 					&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason));
 		if (clientNotification.mOldComputingStatus == -1 
 				|| activeTasksChanged
 				|| !notificationShown
-				|| updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus
+				|| updatedStatus.computingStatus != clientNotification.mOldComputingStatus
 				|| (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
 					&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			
@@ -155,7 +152,7 @@ public class ClientNotification {
 		String statusTitle = status.getCurrentStatusTitle();
 		
 		// build notification
-		NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
+		NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
 		nb.setContentTitle(statusTitle)
         	.setSmallIcon(getIcon(computingStatus))
         	.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))

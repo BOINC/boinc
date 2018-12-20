@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -30,7 +30,7 @@ import android.util.Xml;
 public class NoticesParser extends BaseParser {
 	
 	private Notice mNotice = null;
-	private ArrayList<Notice> mNotices = new ArrayList<Notice>();
+	private ArrayList<Notice> mNotices = new ArrayList<>();
 
 	public final ArrayList<Notice> getNotices() {
 		return mNotices;
@@ -44,7 +44,7 @@ public class NoticesParser extends BaseParser {
 		}
 		catch (SAXException e) {
 			Log.d("NoticesParser","SAXException " + e.getMessage() + e.getException());
-			return new ArrayList<Notice>();
+			return new ArrayList<>();
 		}
 	}
 

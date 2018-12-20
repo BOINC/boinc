@@ -91,6 +91,7 @@ extern CFStringRef gPathToBundleResources;
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
 
+static long brandId = 0;
 bool IsDualGPUMacbook = false;
 static io_connect_t GPUSelectConnect = IO_OBJECT_NULL;
 static bool OKToRunOnBatteries = false;
@@ -331,6 +332,9 @@ CScreensaver::CScreensaver() {
     // we were displaying using CGWindowListCreateImage under OS X >= 10.13
     pthread_mutexattr_settype(&saver_mutex_attr, PTHREAD_MUTEX_ERRORCHECK);
     pthread_mutex_init(&saver_mutex, &saver_mutex_attr);
+
+    brandId = GetBrandID();
+    m_BrandText = brandName[brandId];
 }
 
 
@@ -409,13 +413,9 @@ OSStatus CScreensaver::initBOINCApp() {
     pid_t myPid;
     int status;
     OSStatus err;
-    long brandId = 0;
 
     saverState = SaverState_CantLaunchCoreClient;
     
-    brandId = GetBrandID();
-    m_BrandText = brandName[brandId];
-
     m_CoreClientPID = FindProcessPID("boinc", 0);
     if (m_CoreClientPID) {
         m_wasAlreadyRunning = true;

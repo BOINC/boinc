@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
@@ -33,7 +33,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 
 public class EventLogClientFragment extends Fragment {
@@ -48,7 +47,7 @@ public class EventLogClientFragment extends Fragment {
 		
     	View layout = inflater.inflate(R.layout.eventlog_client_layout, container, false);
 
-    	a.clientLogList = (ListView) layout.findViewById(R.id.clientLogList);
+    	a.clientLogList = layout.findViewById(R.id.clientLogList);
     	a.clientLogListAdapter = new ClientLogListAdapter(getActivity(), a.clientLogList, R.id.clientLogList, a.clientLogData);
     	a.clientLogList.setOnScrollListener(new EndlessScrollListener(5));
 		
@@ -70,7 +69,9 @@ public class EventLogClientFragment extends Fragment {
 			for(int x = tmpA.size()-1; x >= 0; x--) {
 				a.clientLogData.add(tmpA.get(x));
 			}
-		} catch (Exception e) {} //IndexOutOfBoundException
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadPastMsgs error: ",e);
+		} //IndexOutOfBoundException
 		
 		a.clientLogListAdapter.notifyDataSetChanged();
 	}
@@ -84,14 +85,16 @@ public class EventLogClientFragment extends Fragment {
 				a.clientLogData.add(y, tmpA.get(x));
 				y++;
 			}
-		} catch (Exception e) {} //IndexOutOfBoundException
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadRecentMsgs error: ",e);
+		} //IndexOutOfBoundException
 		a.clientLogListAdapter.notifyDataSetChanged();
 	}
 	
 	// onScrollListener for list view, implementing "endless scrolling"
 	public final class EndlessScrollListener implements OnScrollListener {
 
-        private int visibleThreshold = 5;
+        private int visibleThreshold;
         private int previousTotal = 0;
         private boolean loading = true;
 
@@ -134,7 +137,7 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
+				return new ArrayList<>();
 			} 
 		}
 
@@ -170,7 +173,7 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
+				return new ArrayList<>();
 			} 
 		}
 

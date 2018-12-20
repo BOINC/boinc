@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.attach;
 
@@ -40,9 +40,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BatchProcessingActivity extends FragmentActivity{
@@ -53,7 +51,7 @@ public class BatchProcessingActivity extends FragmentActivity{
     private static final int NUM_HINTS = 3; // number of available hint screens
     private ViewPager mPager; // pager widget, handles animation and horizontal swiping gestures
     private PagerAdapter mPagerAdapter; // provides content to pager
-	private ArrayList<HintFragment> hints = new ArrayList<HintFragment>(); // hint fragments
+	private ArrayList<HintFragment> hints = new ArrayList<>(); // hint fragments
 	
 	//header
 	private TextView hintTv;
@@ -68,9 +66,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 		// setup layout
         setContentView(R.layout.attach_project_batch_processing_layout); 
         
-        hintTv = (TextView)findViewById(R.id.hint_header_text);
-        hintIvRight = (ImageView)findViewById(R.id.hint_header_image_right);
-        hintIvLeft = (ImageView)findViewById(R.id.hint_header_image_left);
+        hintTv = findViewById(R.id.hint_header_text);
+        hintIvRight = findViewById(R.id.hint_header_image_right);
+        hintIvLeft = findViewById(R.id.hint_header_image_left);
         
         // create hint fragments
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_CONTRIBUTION));
@@ -78,7 +76,7 @@ public class BatchProcessingActivity extends FragmentActivity{
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_PLATFORMS));
         
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.hint_container);
+        mPager = findViewById(R.id.hint_container);
         mPagerAdapter = new HintPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -230,7 +228,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 			// wait until service is ready
 			while(!attachService.projectConfigRetrievalFinished) {
 		    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval has not finished yet, wait...");
-		    	try{Thread.sleep(1000);} catch(Exception e){}
+				try{
+					Thread.sleep(1000);
+				} catch(Exception ignored){}
 			}
 	    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval finished, continue with attach.");
 			// attach projects, one at a time
@@ -254,9 +254,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 
 		@Override
 		protected void onPostExecute(Void result) {
-			((LinearLayout) findViewById(R.id.attach_status_ongoing_wrapper)).setVisibility(View.GONE);
-			((Button) findViewById(R.id.continue_button)).setVisibility(View.VISIBLE);
-			((Button) findViewById(R.id.share_button)).setVisibility(View.VISIBLE);
+			findViewById(R.id.attach_status_ongoing_wrapper).setVisibility(View.GONE);
+			findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
+			findViewById(R.id.share_button).setVisibility(View.VISIBLE);
 			super.onPostExecute(result);
 		}
 	}

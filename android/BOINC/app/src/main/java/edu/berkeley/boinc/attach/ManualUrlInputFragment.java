@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.attach;
 
@@ -46,9 +46,9 @@ public class ManualUrlInputFragment extends DialogFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.attach_project_manual_url_input_dialog, container, false);
         
-        urlInputET = (EditText) v.findViewById(R.id.url_input);
+        urlInputET = v.findViewById(R.id.url_input);
         
-        Button continueButton = (Button) v.findViewById(R.id.continue_button);
+        Button continueButton = v.findViewById(R.id.continue_button);
         continueButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

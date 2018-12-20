@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
@@ -98,9 +98,9 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
 	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_client_listitem_layout, null);
 
 	        viewEventLog = new ViewEventLog();
-	        viewEventLog.tvMessage = (TextView)vi.findViewById(R.id.msgs_message);
-	        viewEventLog.tvDate = (TextView)vi.findViewById(R.id.msgs_date);
-	        viewEventLog.tvProjectName = (TextView)vi.findViewById(R.id.msgs_project);
+	        viewEventLog.tvMessage = vi.findViewById(R.id.msgs_message);
+	        viewEventLog.tvDate = vi.findViewById(R.id.msgs_date);
+	        viewEventLog.tvProjectName = vi.findViewById(R.id.msgs_project);
 	    
 	        vi.setTag(viewEventLog);
 	        

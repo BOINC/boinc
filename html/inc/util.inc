@@ -34,7 +34,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config (do it here for efficiency)
+// parse some stuff from config.xml (do it here for efficiency)
 //
 $config = get_config();
 global $master_url;
@@ -42,8 +42,16 @@ $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
-// don't allow /... at the end of URL
+// the following default to on
+//
+$x = parse_config($config, "<user_country>");
+define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
+$x = parse_config($config, "<user_url>");
+define('USER_URL', ($x===null)?1:(int)$x);
+
+// don't allow /... at the end of URL
+//
 if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
@@ -1010,14 +1018,20 @@ function do_download($path,$name="") {
     readfile($path);
 }
 
-function redirect_to_secure_url($url) {
+// if have SSL but not using it, redirect
+//
+function redirect_to_secure_url() {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
+        && empty($_SERVER['HTTPS'])
     ) {
-        Header("Location: ".SECURE_URL_BASE."/$url");
+        Header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit;
     }
+}
+
+if (php_sapi_name() != "cli") {
+    redirect_to_secure_url();
 }
 
 function badges_string($is_user, $item, $height) {
@@ -1115,6 +1129,15 @@ function text_start($width=640) {
 }
 function text_end() {
     echo "</div>\n";
+}
+
+// Utility function to check the terms of use.
+function check_termsofuse() {
+    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
+
+function cert_filename() {
+    return defined("CERT_FILENAME")?CERT_FILENAME:"cert1.php";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import android.app.Dialog;
@@ -113,8 +113,8 @@ public class BOINCActivity extends AppCompatActivity {
 
         // setup navigation bar
         mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+		mDrawerList = findViewById(R.id.list_slidermenu);
 		mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -157,7 +157,7 @@ public class BOINCActivity extends AppCompatActivity {
 		if(targetFragId < 0 && savedInstanceState != null)
 			targetFragId = savedInstanceState.getInt("navBarSelectionId");
 		
-		NavDrawerItem item = null;
+		NavDrawerItem item;
 		if(targetFragId < 0) {
 			// if non of the above, go to default
 			item = mDrawerListAdapter.getItem(0);
@@ -239,9 +239,8 @@ public class BOINCActivity extends AppCompatActivity {
 	
 	/**
 	 * React to selection of nav bar item
-	 * @param item
-	 * @param position
-	 * @param init
+	 * @param item Nav bar item
+	 * @param init Initialize
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments
@@ -279,8 +278,8 @@ public class BOINCActivity extends AppCompatActivity {
 				final Dialog dialog = new Dialog(this);
 				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				dialog.setContentView(R.layout.dialog_about);
-				Button returnB = (Button) dialog.findViewById(R.id.returnB);
-				TextView tvVersion = (TextView)dialog.findViewById(R.id.version);
+				Button returnB = dialog.findViewById(R.id.returnB);
+				TextView tvVersion = dialog.findViewById(R.id.version);
 				try {
 					tvVersion.setText(getString(R.string.about_version) + " "
 							+ getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
@@ -334,7 +333,7 @@ public class BOINCActivity extends AppCompatActivity {
     
     // tests whether status is available and whether it changed since the last event.
 	private void determineStatus() {
-    	try {
+		try {
 			if(mIsBound) { 
 				Integer newComputingStatus = monitor.getComputingStatus();
 				if(newComputingStatus != clientComputingStatus) {
@@ -346,8 +345,10 @@ public class BOINCActivity extends AppCompatActivity {
 					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>)monitor.getProjects());
 				//setAppTitle();
 			} 
-    	} catch (Exception e) {}
-    }
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.determineStatus error: ",e);
+		}
+	}
 
     public final boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -461,7 +462,9 @@ public class BOINCActivity extends AppCompatActivity {
 			if(success)
 				try {
 					monitor.forceRefresh();
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onKeyDown.onPostExecute() error: ", e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}

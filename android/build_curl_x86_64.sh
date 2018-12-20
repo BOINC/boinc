@@ -7,7 +7,7 @@ set -e
 
 # Script to compile Libcurl for Android
 
-COMPILECURL="yes"
+COMPILECURL="${COMPILECURL:-yes}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -32,7 +32,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_x86_64.sh
 
-if [ -n "$COMPILECURL" ]; then
+if [ "$COMPILECURL" = "yes" ]; then
 echo "==================building curl from $CURL================================="
 cd "$CURL"
 if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then

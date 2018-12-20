@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2016 University of California
@@ -15,7 +15,7 @@
   
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-*******************************************************************************/
+**/
 package edu.berkeley.boinc.client;
 
 import android.annotation.SuppressLint;
@@ -26,7 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
@@ -44,7 +44,7 @@ public class NoticeNotification {
 	private Integer notificationId;
 	private PendingIntent contentIntent;
 	
-	private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<Notice>();
+	private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<>();
 	private Boolean isNotificationShown = false;
 
 	//private Boolean debug = true;
@@ -129,14 +129,14 @@ public class NoticeNotification {
         final int notices;
         final String projectName;
 
-        nb = (android.support.v7.app.NotificationCompat.Builder)(new NotificationCompat.Builder(this.context).
-            setContentTitle(this.context.getResources().getQuantityString(
+        nb = new NotificationCompat.Builder(this.context, "main-channel");
+        nb.setContentTitle(this.context.getResources().getQuantityString(
                 R.plurals.notice_notification,
                 notices = this.currentlyNotifiedNotices.size(),
                 projectName = this.currentlyNotifiedNotices.get(0).project_name,
                 notices)).
-            setSmallIcon(R.drawable.mailw).
-            setContentIntent(this.contentIntent));
+                        setSmallIcon(R.drawable.mailw).
+                        setContentIntent(this.contentIntent);
         if (notices == 1) {
             // single notice view
             nb.setContentText(this.currentlyNotifiedNotices.get(0).title).

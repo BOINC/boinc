@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -32,8 +32,7 @@ public class VersionInfo {
 		else if (major < vi.major) return false;
 		else if (minor > vi.minor) return true;
 		else if (minor < vi.minor) return false;
-		else if (release > vi.release) return true;
-		else return false;
+		else return (release > vi.release);
 	}
 
 }

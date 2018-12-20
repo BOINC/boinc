@@ -33,6 +33,11 @@
 
 #include "DlgAdvPreferencesBase.h"
 
+#include "res/usage.xpm"
+#include "res/xfer.xpm"
+#include "res/proj.xpm"
+#include "res/clock.xpm"
+
 #define STATICBOXBORDERSIZE 8
 #define STATICBOXVERTICALSPACER 10
 #define DAYOFWEEKBORDERSIZE 10
@@ -45,7 +50,9 @@
 CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxString title, wxPoint pos, wxSize size, int style ) :
     wxDialog( parent, id, title, pos, size, style )
 {
+    int iImageIndex = 0;
     wxString strCaption = title;
+    
     if (strCaption.IsEmpty()) {
         CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
         wxASSERT(pSkinAdvanced);
@@ -59,7 +66,6 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetTitle(strCaption);
 
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
-
 
     m_bUsingLocalPrefs = doesLocalPrefsFileExist();
     if (web_prefs_url->IsEmpty()) {
@@ -134,19 +140,27 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_Notebook = new wxNotebook( m_panelControls, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxNB_FLAT|wxNB_TOP );
     m_Notebook->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
+    wxImageList* pImageList = new wxImageList(ADJUSTFORXDPI(16), ADJUSTFORYDPI(16), true, 0);
+    wxASSERT(pImageList != NULL);
+    m_Notebook->SetImageList(pImageList);
+
     // Note: we must set the third AddPage argument ("select") to
     // true for each page or ToolTips won't initialize properly.
     m_panelProcessor = createProcessorTab(m_Notebook);
-    m_Notebook->AddPage( m_panelProcessor, _("Computing"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(proj_xpm));
+    m_Notebook->AddPage( m_panelProcessor, _("Computing"), true, iImageIndex );
 
     m_panelNetwork = createNetworkTab(m_Notebook);
-    m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(xfer_xpm));
+    m_Notebook->AddPage( m_panelNetwork, _("Network"), true, iImageIndex );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and memory"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(usage_xpm));
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and memory"), true, iImageIndex );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDailySchedules, _("Daily schedules"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(clock_xpm));
+    m_Notebook->AddPage( m_panelDailySchedules, _("Daily schedules"), true, iImageIndex );
 
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
@@ -181,7 +195,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_panelButtons->SetSizer( buttonSizer );
     m_panelButtons->Layout();
     buttonSizer->Fit( m_panelButtons );
-    dialogSizer->Add( m_panelButtons, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
+    dialogSizer->Add( m_panelButtons, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
 
     dialogSizer->Fit( this );
     this->SetSizer( dialogSizer );

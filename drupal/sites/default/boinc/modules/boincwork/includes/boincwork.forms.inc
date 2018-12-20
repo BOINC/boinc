@@ -1119,12 +1119,12 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
     if ($app_types->ati) {
       $form['resource']['no_ati'] = array(
-        '#title' => bts('Use ATI GPU', array(), NULL, 'boinc:account-preferences-project'),
+        '#title' => bts('Use AMD GPU', array(), NULL, 'boinc:account-preferences-project'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $default['no_ati'] ? 0 : 1,
-        '#description' => bts('Request ATI GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
+        '#description' => bts('Request AMD GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
       );
     }
     if ($app_types->intel_gpu) {
@@ -1614,6 +1614,34 @@ function communityprefs_form(&$form_state) {
 }
 
 /**
+  * Handle validation submission of community preferences form.
+  */
+function communityprefs_form_validate($form, &$form_state) {
+  // require_boinc();
+  global $user;
+  $account = user_load($user->uid);
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+  $edit = $form_state['values'];
+
+  if ($edit['boincuser_name'] != $boinc_user->name) {
+    $blacklist1 = preg_split('/\r\n|\r|\n/', variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"));
+    $blacklist2 = array();
+    if (is_array($blacklist1)) {
+      $blacklist2 = array_map('strtolower', $blacklist1);
+    }
+    if (in_array(strtolower($edit['boincuser_name']), $blacklist2)) {
+      form_set_error('boincuser_name',
+        bts('You may not use username @blname, as that name is not allowed. Please choose another name.',
+            array('@blname' => $edit['boincuser_name']),
+            NULL, 'boinc:account-preferences-community'));
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
   * Handle post-validation submission of community preferences form.
   */
 function communityprefs_form_submit($form, &$form_state) {
@@ -1680,7 +1708,7 @@ function communityprefs_form_submit($form, &$form_state) {
  * The structure of the privacy preferences form
  */
 function boincwork_privacyprefs_form(&$form_state) {
-  require_boinc(array('user', 'prefs', 'util'));
+  require_boinc(array('user', 'prefs', 'util', 'consent'));
   
   global $user;
   $account = user_load($user->uid);
@@ -1690,6 +1718,8 @@ function boincwork_privacyprefs_form(&$form_state) {
   $prefs = boincwork_load_prefs('project');
   
   //if (!$prefs AND !$initialize_if_empty) return null;
+
+  $privacy_consent_types = boincwork_load_privacyconsenttypes();
   
   // Define form defaults
   $default = array(
@@ -1727,6 +1757,22 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['privacy']['show_hosts']
   );
+
+  // Loop over privacy consent types and create form question for each
+  // option that deals with privacy.
+  foreach ($privacy_consent_types as $ct) {
+
+    $currstate = (check_user_consent($boincuser, $ct['shortname'])) ? 1 : 0 ;
+    // Set name to 'privacyconsent_SHORTNAME', which can be parsed
+    // later in the submit function.
+    $form['privacy']['privacyconsent_'.$ct['shortname']] = array(
+      '#title' => bts($ct['description'], array(), NULL, 'boinc:account-preferences-privacy'),
+      '#type' => 'radios',
+      '#options' => $form['boolean_options']['#value'],
+      '#attributes' => array('class' => 'fancy'),
+      '#default_value' => $currstate,
+    );
+  }
 
   // Ignore and block users
   if (module_exists('ignore_user')) {
@@ -1873,18 +1919,33 @@ function boincwork_privacyprefs_form_validate($form, &$form_state) {
   * Handle post-validation submission of privacy preferences form.
   */
 function boincwork_privacyprefs_form_submit($form, &$form_state) {
-  require_boinc(array('user', 'prefs'));
-  
+  require_boinc(array('user', 'prefs', 'consent'));
+
   global $user;
   $account = user_load($user->uid);
-  
+
   // Load BOINC account
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
   
   // Privacy preferences
   $boincuser->send_email = ($form_state['values']['send_email']) ? true : false;
   $boincuser->show_hosts = ($form_state['values']['show_hosts']) ? true : false;
-  
+
+  // Privacy consent options, extract the 'privacyconsent_SHORTNAME'
+  // from values array, and loop over them; each is checked with
+  // check_consent_type(). Also check the current state of the option
+  // in the database. If the form value is a new state, then set it.
+  $result = preg_grep("/^privacyconsent/", array_keys($form_state['values']));
+  $privacyconsent_prefs = array_intersect_key($form_state['values'], array_flip($result));
+  foreach ($privacyconsent_prefs as $name => $newstate) {
+    $subname = explode('_', $name)[1];
+    $currstate = (check_user_consent($boincuser, $subname)) ? 1 : 0 ;
+    list($checkct, $ctid) = check_consent_type($subname);
+    if ($checkct && ($currstate != $newstate)) {
+      consent_to_a_policy($boincuser, $ctid, $newstate, 0, 'Webform', time());
+    }
+  }
+
   //project_prefs_update($boincuser, $main_prefs);
   
   db_set_active('boinc_rw');

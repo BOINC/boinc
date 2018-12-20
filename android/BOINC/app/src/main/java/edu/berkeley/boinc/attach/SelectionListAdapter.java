@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.attach;
 
 import java.util.ArrayList;
@@ -49,18 +49,18 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	
-        View v = convertView;
+        View v;
         
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
         final ProjectListEntry listItem = entries.get(position);
 		
         v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
-		TextView name = (TextView) v.findViewById(R.id.name);
-		TextView description = (TextView) v.findViewById(R.id.description);
-		TextView summary = (TextView) v.findViewById(R.id.summary);
-		CheckBox cb = (CheckBox) v.findViewById(R.id.cb);
-		LinearLayout textWrapper = (LinearLayout) v.findViewById(R.id.text_wrapper);
+		TextView name = v.findViewById(R.id.name);
+		TextView description = v.findViewById(R.id.description);
+		TextView summary = v.findViewById(R.id.summary);
+		CheckBox cb = v.findViewById(R.id.cb);
+		LinearLayout textWrapper = v.findViewById(R.id.text_wrapper);
         
         if(listItem.am) {
         	// element is account manager
@@ -68,7 +68,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
     		description.setText(activity.getString(R.string.attachproject_acctmgr_list_desc));
     		cb.setVisibility(View.GONE);
     		summary.setVisibility(View.GONE);
-    		ImageView button = (ImageView) v.findViewById(R.id.am_button_image);
+    		ImageView button = v.findViewById(R.id.am_button_image);
     		button.setVisibility(View.VISIBLE);
     		OnClickListener listener = new OnClickListener() {
     			@Override

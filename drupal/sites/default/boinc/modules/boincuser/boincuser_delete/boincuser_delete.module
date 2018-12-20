@@ -136,20 +136,25 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
       }
 
       // Configure radio options
+      $common_acts = bts("All your posts and comments will be attributed to the Anonymous User. Your user profile will be deleted. Your host information will be deleted. And you will be removed from any team you are a member of.", array(), NULL, 'boinc:delete-user-account');
+
       $deleteoptions = array(
-        'boincuser_delete_softdelete' => bts('<b>Soft delete</b> the account. Afterwards your account will be disabled, and all posts/comments will be attributed to the Anonymous User. However, your user profile will be deleted, your host information will be deleted, and you will be removed from any team you are a member of.', array(), NULL, 'boinc:delete-user-account'),
-        'boincuser_delete_delete' => bts('<b>Delete</b> the account. Afterwards your account will be deleted, and all posts/comments will be attributed to the Anonymous User. Your user profile will be deleted, and your host information will be deleted.', array(), NULL, 'boinc:delete-user-account'),
+        'boincuser_delete_softdelete' => bts('<b>Soft delete</b> your account. Your account will be disabled. ', array(), NULL, 'boinc:delete-user-account'),
+        'boincuser_delete_delete' => bts('<b>Delete</b> your account. ', array(), NULL, 'boinc:delete-user-account'),
       );
 
       $dtypes = variable_get('boincuser_delete_type', 'user_decides');
-      // unset the other option if dtype is set. i.e., if dtype is set
-      // to soft delete, unset the hard delete option.
+      // Unset the other option if dtype is set. i.e., if dtype is set
+      // to soft delete, unset the hard delete option.  Likewise, add
+      // the 'common_acts' sentences to the option that remains.
       switch ($dtypes) {
         case 'soft_obfuscate':
           unset($deleteoptions['boincuser_delete_delete']);
+          $deleteoptions['boincuser_delete_softdelete'] .= $common_acts;
           break;
         case 'hard_wipe':
           unset($deleteoptions['boincuser_delete_softdelete']);
+          $deleteoptions['boincuser_delete_delete'] .= $common_acts;
           break;
       }
 
@@ -163,9 +168,16 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
         '#weight' => 1,
       );
 
-      $form['main']['help'] = array(
+      $form['main']['fs1'] = array(
+        '#type' => 'fieldset',
+        '#title' => bts('Instructions', array(), NULL, 'boinc:delete-user-account'),
+        '#weight' => 10,
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );
+      $form['main']['fs1']['help'] = array(
         '#value' => bts(
-          "<p><b>Instructions:</b> In order to delete your account, you must provide your password below. You will then be sent an email to the email address on record, with a one-time token that expires in 24-hours. Clicking on this link will bring you to a second form where you must enter your password again. After doing so your account will be deleted.</p>" .
+          "<p>In order to delete your account, you must provide your password below. You will then be sent an email to the email address on record, with a one-time token that expires in 24-hours. Clicking on this link will bring you to a second form where you must enter your password again. After doing so your account will be deleted.</p>" .
           "<p>If necessary, you may !link first before deleting your account. But you must wait <b>seven (7) days</b> after an email address change before you may delete your account.</p>",
           array(
             '!link' => l(bts('change your email address', array(), NULL, 'boinc:delete-user-account'), '/account/info/edit'),
@@ -174,6 +186,15 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
         '#prefix' => "<div id='delete-instructions'>",
         '#suffix' => "</div>",
       );
+
+      if ($dtypes == 'user_decides') {
+        $form['main']['common'] = array(
+          '#value'  => bts('All choices: ', array(), NULL, 'boinc:delete-user-account') . $common_acts . '<p>' . bts('Disabled means some of your personal data, such as your username and email address, are kept on our systems. Choose \'delete your account\' if you want all personal data to be removed.', array(), NULL, 'boinc:delete-user-account'),
+          '#prefix' => "<div id='delete-instructions'>",
+          '#suffix' => "</div>",
+          '#weight' => 20,
+        );
+      }
 
       $form['main']['user_delete_action'] = array(
         '#type' => 'radios',
@@ -184,23 +205,25 @@ function boincuser_delete_form_alter(&$form, $form_state, $form_id) {
         $form['main']['user_delete_action']['#disabled'] = TRUE;
       }
 
-      $form['separator_bottom'] = array(
-        '#value' => '<div class="separator buttons"></div>',
-        '#weight' => 999,
-      );
-
       // Password field
       if (!$disable_delete) {
         $form['main']['current_pass'] = array(
           '#type' => 'password',
-          '#title' => bts('Enter your password before clicking Submit', array(), NULL, 'boinc:delete-user-account'),
+          '#title' => bts('Enter your password to delete your account', array(), NULL, 'boinc:delete-user-account'),
           '#size' => 17,
           '#attributes' => array(
             'autocomplete' => 'off',
           ),
+          '#prefix' => "<div id='delete-password-field'>",
+          '#suffix' => "</div>",
           '#weight' => 25,
         );
       }
+
+      $form['separator_bottom'] = array(
+        '#value' => '<div class="separator buttons"></div>',
+        '#weight' => 999,
+      );
 
       // Configure the action buttons
       $uid = $form['_account']['#value']->uid;
@@ -388,22 +411,33 @@ function boincuser_delete_finalconfirmation(&$form_state, $token) {
   $form['_action'] = array('#type' => 'value', '#value' => 'hard_wipe');
 
   // Instructions
-  $form['main']['instructions1'] = array(
+  $form['main']['fs1'] = array(
+    '#type' => 'fieldset',
+    '#title' => bts('Instructions', array(), NULL, 'boinc:delete-user-account'),
+    '#weight' => 10,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['main']['fs1']['instructions1'] = array(
     '#value' => '<p>'.
     bts('You are one-step away from deleting your account. Enter your password in the textbox below and click submit. This action is irreversable: once you delete your account, there is no way un-delete.', array(), NULL, 'boinc:delete-user-account').
     '</p>',
+    '#prefix' => "<div id='delete-instructions'>",
+    '#suffix' => "</div>",
   );
 
-  $form['main']['instructions2'] = array(
+  $form['main']['fs1']['instructions2'] = array(
     '#value' => '<p>'.
     bts('If you wish to cancel, click cancel and you will be taken to your account dashboard.', array(), NULL, 'boinc:delete-user-account').
     '</p>',
+    '#prefix' => "<div id='delete-instructions'>",
+    '#suffix' => "</div>",
   );
 
   // Password field
   $form['main']['current_pass'] = array(
     '#type' => 'password',
-    '#title' => bts('Enter your password before clicking Submit', array(), NULL, 'boinc:delete-user-account'),
+    '#title' => bts('Enter your password to delete your account', array(), NULL, 'boinc:delete-user-account'),
     '#size' => 17,
     '#attributes' => array(
       'autocomplete' => 'off',
@@ -467,22 +501,33 @@ function boincuser_delete_softdelconfirmation(&$form_state, $token) {
   $form['_action'] = array('#type' => 'value', '#value' => 'soft_obfuscate');
 
   // Instructions
-  $form['main']['instructions1'] = array(
+  $form['main']['fs1'] = array(
+    '#type' => 'fieldset',
+    '#title' => bts('Instructions', array(), NULL, 'boinc:delete-user-account'),
+    '#weight' => 10,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['main']['fs1']['instructions1'] = array(
     '#value' => '<p>'.
     bts('You are one-step away from deleting your account. Enter your password in the textbox below and click submit. This action is irreversable: once you delete your account, there is no way un-delete.', array(), NULL, 'boinc:delete-user-account').
     '</p>',
+    '#prefix' => "<div id='delete-instructions'>",
+    '#suffix' => "</div>",
   );
 
-  $form['main']['instructions2'] = array(
+  $form['main']['fs1']['instructions2'] = array(
     '#value' => '<p>'.
     bts('If you wish to cancel, click cancel and you will be taken to your account dashboard.', array(), NULL, 'boinc:delete-user-account').
     '</p>',
+    '#prefix' => "<div id='delete-instructions'>",
+    '#suffix' => "</div>",
   );
 
   // Password field
   $form['main']['current_pass'] = array(
     '#type' => 'password',
-    '#title' => bts('Enter your password before clicking Submit', array(), NULL, 'boinc:delete-user-account'),
+    '#title' => bts('Enter your password to delete your account', array(), NULL, 'boinc:delete-user-account'),
     '#size' => 17,
     '#attributes' => array(
       'autocomplete' => 'off',
