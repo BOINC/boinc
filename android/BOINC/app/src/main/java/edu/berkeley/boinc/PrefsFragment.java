@@ -79,13 +79,13 @@ public class PrefsFragment extends Fragment {
 	// fragment lifecycle: 2.
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	if(Logging.VERBOSE) Log.d(Logging.TAG,"ProjectsFragment onCreateView");
+    		if(Logging.VERBOSE) Log.d(Logging.TAG,"ProjectsFragment onCreateView");
 
-        // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.prefs_layout, container, false);
-    	lv = layout.findViewById(R.id.listview);
-        listAdapter = new PrefsListAdapter(getActivity(),this,R.id.listview,data);
-        lv.setAdapter(listAdapter);
+        	// Inflate the layout for this fragment
+        	View layout = inflater.inflate(R.layout.prefs_layout, container, false);
+    		lv = layout.findViewById(R.id.listview);
+        	listAdapter = new PrefsListAdapter(getActivity(),this,R.id.listview,data);
+        	lv.setAdapter(listAdapter);
 		return layout;
 	}
 
