@@ -161,7 +161,9 @@ public class Monitor extends Service {
     	try {
     		// remove screen on/off receiver
     		unregisterReceiver(screenOnOffReceiver);
-    	} catch (Exception ex) {}
+    	} catch (Exception e) {
+    		if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+    	}
         
     	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
@@ -172,7 +174,9 @@ public class Monitor extends Service {
 		try {
 			clientStatus.setWakeLock(false);
 			clientStatus.setWifiLock(false);
-		} catch (Exception ex) {}
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+		}
     }
 
     @Override
@@ -276,7 +280,9 @@ public class Monitor extends Service {
     	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
     	try{
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
-    	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+    	} catch (Exception e){
+    		if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.forceRefresh error: ",e);
+    	} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 	
 	/**
@@ -392,14 +398,17 @@ public class Monitor extends Service {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
 				} else {
 					String nullValues = "";
-					try{
-						if(state == null) nullValues += "state,";
-						if(state.results == null) nullValues += "state.results,";
-						if(state.projects == null) nullValues += "state.projects,";
-						if(transfers == null) nullValues += "transfers,";
-						if(state.host_info == null) nullValues += "state.host_info,";
-						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
-					} catch (NullPointerException e) {}
+
+					if(state == null) {
+						nullValues += "state ";
+					} else {
+						if(state.results == null) nullValues += "state.results ";
+						if(state.projects == null) nullValues += "state.projects ";
+						if(state.host_info == null) nullValues += "state.host_info ";
+					}
+					if(transfers == null) nullValues += "transfers ";
+					if(acctMgrInfo == null) nullValues += "acctMgrInfo ";
+
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				
@@ -496,7 +505,7 @@ public class Monitor extends Service {
 		    		for(int x = 0; x < attempts; x++) {
 		    			try {
 		    				Thread.sleep(sleepPeriod);
-		    			} catch (Exception e) {}
+		    			} catch (Exception ignored) {}
 		    			if(getPidForProcessName(clientProcessName) == null) { //client is now closed
 		        			if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
 		    				x = attempts;
@@ -541,7 +550,7 @@ public class Monitor extends Service {
 
 			try {
 				Thread.sleep(retryRate);
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
 		}
 		
 		Boolean init = false;
@@ -893,7 +902,7 @@ public class Monitor extends Service {
     	for(int x = 0; x < attempts; x++) {
 			try {
 				Thread.sleep(sleepPeriod);
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
     		if(getPidForProcessName(processName) == null) { //client is now closed
         		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
     			x = attempts;
@@ -945,7 +954,9 @@ public class Monitor extends Service {
 		protected Void doInBackground(Integer... params) {
 			try {
 				mBinder.setRunMode(params[0]);
-			} catch (RemoteException e) {}
+			} catch (RemoteException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync: doInBackground() error: ", e);
+			}
 			return null;
 		}
 	}
@@ -1020,7 +1031,9 @@ public class Monitor extends Service {
 		public boolean isStationaryDeviceSuspected() throws RemoteException {
 			try {
 				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ", e);
+			}
 			return false;
 		}
 		
@@ -1055,7 +1068,9 @@ public class Monitor extends Service {
 		public int getBatteryChargeStatus() throws RemoteException{
 			try {
 				return getDeviceStatus().getStatus().battery_charge_pct;
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e);
+			}
 			return 0;
 		}
 		

@@ -23,7 +23,11 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class ResultsParser extends BaseParser {
 
@@ -212,6 +216,7 @@ public class ResultsParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"ResultsParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}
