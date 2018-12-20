@@ -641,7 +641,7 @@ public class RpcClient {
 	
 	/**
 	 * Reports the Android model as host info to the client
-	 * @productName Devie model
+	 * @productName Device model
 	 * @param osVersion OS Version
 	 * @return true for success, false for failure
 	 */
