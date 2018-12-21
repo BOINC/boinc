@@ -437,7 +437,7 @@ public class PrefsFragment extends Fragment {
 							Logging.setLogLevel(sliderProgress);
 							BOINCActivity.monitor.setLogLevel(sliderProgress);
 						} catch (RemoteException e) {
-         			  if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
+							if(Logging.ERROR) Log.e(Logging.TAG,"PrefsFragment.setupSelectionListDialog.setOnClickListener: OnClick() error: ", e);
 						}
 						updateNumberPreference(item.ID, (double) sliderProgress);
 						updateLayout();
