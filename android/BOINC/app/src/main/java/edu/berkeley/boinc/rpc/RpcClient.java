@@ -642,19 +642,21 @@ public class RpcClient {
 	
 	/**
 	 * Reports the Android model as host info to the client
+	 * @productName Device model
+	 * @param osVersion OS Version
 	 * @return true for success, false for failure
 	 */
-	public synchronized boolean setHostInfo(String hostInfo, String version){
+	public synchronized boolean setHostInfo(String productName, String osVersion){
 		mLastErrorMessage = null;
 		mRequest.setLength(0);
 		mRequest.append("<set_host_info>\n");
 		mRequest.append("  <host_info>\n");
 		mRequest.append("    <product_name>");
-		mRequest.append(hostInfo);
+		mRequest.append(productName);
 		mRequest.append("    </product_name>\n");
 		mRequest.append("    <os_name>Android</os_name>");
 		mRequest.append("    <os_version>");
-		mRequest.append(version);
+		mRequest.append(osVersion);
 		mRequest.append("    </os_version>\n");
 		mRequest.append("  </host_info>\n");
 		mRequest.append("</set_host_info>\n");

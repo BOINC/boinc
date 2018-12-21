@@ -77,8 +77,8 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
 	    	}
 	    	// Number based items
-	    	else if(listItem instanceof PrefsListItemWrapperValue) {
-	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
+	    	else if(listItem instanceof PrefsListItemWrapperNumber) {
+	    		PrefsListItemWrapperNumber item = (PrefsListItemWrapperNumber) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		RelativeLayout wrapper = v.findViewById(R.id.wrapper);
 	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));

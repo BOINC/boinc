@@ -31,6 +31,7 @@ public class PrefsListItemWrapperText extends PrefsListItemWrapper {
 	public PrefsListItemWrapperText(Context ctx, Integer ID, Integer categoryID, String status) {
 		super(ctx, ID, categoryID);
 		this.status = status;
+		this.dialogButtonType = DialogButtonType.TEXT;
 		mapStrings(ID);
 	}
 

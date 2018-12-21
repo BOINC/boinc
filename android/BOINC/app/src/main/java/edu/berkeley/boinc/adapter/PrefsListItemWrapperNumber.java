@@ -23,7 +23,7 @@ import android.util.Log;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
 
-public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
+public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
 	enum Unit {
 		NONE,
 		PERCENT,
@@ -33,12 +33,13 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		GIGABYTES,
 		DECIMAL
 	}
-	PrefsListItemWrapperValue.Unit unit;
+	PrefsListItemWrapperNumber.Unit unit;
 	public Double status;
 
-	public PrefsListItemWrapperValue(Context ctx, Integer ID, Integer categoryID, Double status) {
+	public PrefsListItemWrapperNumber(Context ctx, Integer ID, Integer categoryID, Double status, DialogButtonType dialogButtonType) {
 		super(ctx, ID, categoryID);
 		this.status = status;
+		this.dialogButtonType = dialogButtonType;
 		mapStrings(ID);
 	}
 	
@@ -46,58 +47,58 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		switch (id) {
 		case R.string.battery_charge_min_pct_header:
 			description = ctx.getString(R.string.battery_charge_min_pct_description);
-			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
+			this.unit = PrefsListItemWrapperNumber.Unit.PERCENT;
 			break;
 		case R.string.battery_temperature_max_header:
 			description = ctx.getString(R.string.battery_temperature_max_description);
-			this.unit = PrefsListItemWrapperValue.Unit.CELSIUS;
+			this.unit = PrefsListItemWrapperNumber.Unit.CELSIUS;
 			break;
 		case R.string.prefs_disk_max_pct_header:
 			description = ctx.getString(R.string.prefs_disk_max_pct_description);
-			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
+			this.unit = PrefsListItemWrapperNumber.Unit.PERCENT;
 			break;
 		case R.string.prefs_disk_min_free_gb_header:
 			description = ctx.getString(R.string.prefs_disk_min_free_gb_description);
-			this.unit = PrefsListItemWrapperValue.Unit.GIGABYTES;
+			this.unit = PrefsListItemWrapperNumber.Unit.GIGABYTES;
 			break;
 		case R.string.prefs_disk_access_interval_header:
 			description = ctx.getString(R.string.prefs_disk_access_interval_description);
-			this.unit = PrefsListItemWrapperValue.Unit.SECONDS;
+			this.unit = PrefsListItemWrapperNumber.Unit.SECONDS;
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			description = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_description);
-			this.unit = PrefsListItemWrapperValue.Unit.MEGABYTES;
+			this.unit = PrefsListItemWrapperNumber.Unit.MEGABYTES;
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			description = ctx.getString(R.string.prefs_cpu_number_cpus_description);
-			this.unit = PrefsListItemWrapperValue.Unit.NONE;
+			this.unit = PrefsListItemWrapperNumber.Unit.NONE;
 			break;
 		case R.string.prefs_cpu_other_load_suspension_header:
 			description = ctx.getString(R.string.prefs_cpu_other_load_suspension_description);
-			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
+			this.unit = PrefsListItemWrapperNumber.Unit.PERCENT;
 			break;
 		case R.string.prefs_cpu_time_max_header:
 			description = ctx.getString(R.string.prefs_cpu_time_max_description);
-			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
+			this.unit = PrefsListItemWrapperNumber.Unit.PERCENT;
 			break;
 		case R.string.prefs_memory_max_idle_header:
 			description = ctx.getString(R.string.prefs_memory_max_idle_description);
-			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
+			this.unit = PrefsListItemWrapperNumber.Unit.PERCENT;
 			break;
 		case R.string.prefs_other_store_at_least_x_days_of_work_header:
 			description = ctx.getString(R.string.prefs_other_store_at_least_x_days_of_work_description);
-			this.unit = PrefsListItemWrapperValue.Unit.DECIMAL;
+			this.unit = PrefsListItemWrapperNumber.Unit.DECIMAL;
 			break;
 		case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
 			description = ctx.getString(R.string.prefs_other_store_up_to_an_additional_x_days_of_work_description);
-			this.unit = PrefsListItemWrapperValue.Unit.DECIMAL;
+			this.unit = PrefsListItemWrapperNumber.Unit.DECIMAL;
 			break;
 		case R.string.prefs_gui_log_level_header:
 			description = ctx.getString(R.string.prefs_gui_log_level_description);
-			this.unit = PrefsListItemWrapperValue.Unit.NONE;
+			this.unit = PrefsListItemWrapperNumber.Unit.NONE;
 			break;
 		default:
-			if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperValue map failed!");
+			if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperNumber map failed!");
 		}
 	}
 }
