@@ -101,10 +101,10 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
 
 void max_concurrent_init() {
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        gstate.apps[i]->n_concurrent = 0;
+        gstate.apps[i]->app_n_concurrent = 0;
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        gstate.projects[i]->n_concurrent = 0;
+        gstate.projects[i]->proj_n_concurrent = 0;
     }
 }
 
@@ -133,13 +133,15 @@ static void print_msgs(vector<string> msgs, PROJECT* p) {
 // check for app_config.xml files, and parse them.
 // Called at startup and on read_cc_config() RPC
 //
-void check_app_config() {
+void check_app_config(const char* prefix) {
     char path[MAXPATHLEN];
     FILE* f;
 
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
+        snprintf(path, sizeof(path), "%s%s/%s",
+            prefix, p->project_dir(), APP_CONFIG_FILE_NAME
+        );
         f = boinc_fopen(path, "r");
         if (!f) {
             clear_app_config(p);

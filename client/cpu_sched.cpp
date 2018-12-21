@@ -100,9 +100,6 @@ struct PROC_RESOURCES {
         ncpus_used_mt = 0;
         pr_coprocs.clone(coprocs, false);
         pr_coprocs.clear_usage();
-        if (have_max_concurrent) {
-            max_concurrent_init();
-        }
     }
 
     // should we stop scanning jobs?
@@ -127,7 +124,6 @@ struct PROC_RESOURCES {
     // (i.e add it to the runnable list; not actually run it)
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
-        if (max_concurrent_exceeded(rp)) return false;
         if (atp) {
             // don't schedule if something's pending
             //
@@ -182,8 +178,11 @@ struct PROC_RESOURCES {
         if (atp && atp->too_large) {
             may_not_run = true;
         }
-        if (rt && rsc_work_fetch[rt].has_exclusions) {
-            may_not_run = true;
+        if (rt) {
+            PROJECT* p = rp->project;
+            if (p->rsc_pwf[rt].ncoprocs_excluded > 0) {
+                may_not_run = true;
+            }
         }
 
         if (!may_not_run) {
@@ -213,7 +212,6 @@ struct PROC_RESOURCES {
         }
 
         adjust_rec_sched(rp);
-        max_concurrent_inc(rp);
     }
 
     bool sufficient_coprocs(RESULT& r) {
@@ -1115,7 +1113,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     bool action = false;
 
-    if (have_max_concurrent) max_concurrent_init();
+    if (have_max_concurrent) {
+        max_concurrent_init();
+    }
 
 #ifndef SIM
     // check whether GPUs are usable
@@ -1211,7 +1211,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     for (i=0; i<run_list.size(); i++) {
         RESULT* rp = run_list[i];
 
-        if (max_concurrent_exceeded(rp)) {
+        if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[cpu_sched_debug] skipping %s; max concurrent limit %d reached",
@@ -1319,7 +1319,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= wss;
-        max_concurrent_inc(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+        }
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {

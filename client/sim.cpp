@@ -76,7 +76,7 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* infile_prefix = "./";
+const char* infile_prefix = "../../";
 const char* outfile_prefix = "./";
 
 #define TIMELINE_FNAME "timeline.html"
@@ -1430,6 +1430,7 @@ void do_client_simulation() {
         }
     }
 
+    check_app_config(infile_prefix);
     cc_config.show();
     log_flags.show();
 
