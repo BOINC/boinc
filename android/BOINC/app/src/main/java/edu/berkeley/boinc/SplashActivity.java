@@ -24,6 +24,7 @@ import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.Logging;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -31,6 +32,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -114,7 +118,15 @@ public class SplashActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-		
+
+		// Use BOINC logo in Recent Apps Switcher
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
+			String label = (String) activity.getTitle();
+			Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.boinc);
+
+			activity.setTaskDescription(new ActivityManager.TaskDescription(label, icon));
+		}
+
 		//initialize logging with highest verbosity, read actual value when monitor connected.
 		Logging.setLogLevel(5);
 
