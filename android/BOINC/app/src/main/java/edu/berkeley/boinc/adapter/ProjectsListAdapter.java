@@ -77,9 +77,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	public String getUser(int position) {
 		String user = entries.get(position).project.user_name;
 		String team = entries.get(position).project.team_name;
-		String userString = user;
-		if(!team.isEmpty()) user = user + " (" + team + ")";
-		return userString;
+
+		if(!team.isEmpty()) {
+			return (user + " (" + team + ")");
+		}
+
+		return user;
 	}
 	
 	public Boolean getIsAcctMgr(int position) {
