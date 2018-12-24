@@ -38,7 +38,7 @@ if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
 cd "$BOINC"
 if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-make distclean
+make distclean $MAKE_SILENT_MODE
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
@@ -47,7 +47,7 @@ sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > cl
 mv client/Makefile.out client/Makefile
 fi
 make $MAKE_SILENT_MODE
-make stage
+make stage $MAKE_SILENT_MODE
 
 echo "Stripping Binaries"
 cd stage/usr/local/bin

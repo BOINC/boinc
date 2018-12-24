@@ -37,7 +37,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
 echo "================building openssl from $OPENSSL============================="
 cd "$OPENSSL"
 if [ -n "$MAKECLEAN" ]; then
-make clean
+make clean $MAKE_SILENT_MODE
 fi
 if [ -n "$CONFIGURE" ]; then
 ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
@@ -47,6 +47,6 @@ s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
 mv Makefile.out Makefile
 fi
 make $MAKE_SILENT_MODE
-make install_sw
+make install_sw $MAKE_SILENT_MODE
 echo "========================openssl DONE=================================="
 fi
