@@ -46,7 +46,7 @@ isPathCanonical() {
 
 doclean=""
 cache_dir=""
-arch=""
+arch="all"
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
@@ -169,6 +169,25 @@ case "$arch" in
         ./build_androidtc_x86_64.sh
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
+        ./build_boinc_x86_64.sh
+        exit 0
+    ;;
+    "all")
+        ./build_androidtc_arm.sh
+        ./build_androidtc_arm64.sh
+        ./build_androidtc_x86.sh
+        ./build_androidtc_x86_64.sh
+        ./build_openssl_arm.sh
+        ./build_openssl_arm64.sh
+        ./build_openssl_x86.sh
+        ./build_openssl_x86_64.sh
+        ./build_curl_arm.sh
+        ./build_curl_arm64.sh
+        ./build_curl_x86.sh
+        ./build_curl_x86_64.sh
+        ./build_boinc_arm.sh
+        ./build_boinc_arm64.sh
+        ./build_boinc_x86.sh
         ./build_boinc_x86_64.sh
         exit 0
     ;;
