@@ -38,7 +38,7 @@ if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
 cd "$BOINC"
 if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-make distclean $MAKE_SILENT_MODE
+make distclean 1>/dev/null 2>&1
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup

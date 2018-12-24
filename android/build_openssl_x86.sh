@@ -37,7 +37,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
 echo "================building openssl from $OPENSSL============================="
 cd "$OPENSSL"
 if [ -n "$MAKECLEAN" ]; then
-make clean $MAKE_SILENT_MODE
+make clean 1>/dev/null 2>&1
 fi
 if [ -n "$CONFIGURE" ]; then
 ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
