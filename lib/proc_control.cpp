@@ -100,28 +100,6 @@ void get_descendants(int pid, vector<int>& pids) {
 // all the threads in the entire system,
 // and identify those belonging to one of the processes (ugh!!)
 //
-// In the suspend case, this creates a potential synch problem:
-// - CPU throttling sends suspend message
-// - we enumerate threads
-// - one of those threads creates a new thread T
-// - we suspend the enumerated threads
-//
-// In this case, T will run, which is undesirable but not an error.
-// But suppose that
-// - the app uses a mutex,
-// - at the start of the above sequence some thread holds the mutex
-// - T immediately tries to acquire the mutex (and is suspended).
-// Then when the client sends a resume message,
-// T resumes and there are two threads in the mutex section. Error!
-//
-// There are a couple of solutions to this.
-// 1) enumerate all the threads twice.
-// 2) have suspend() make a record of the threads it suspends,
-//    and have resume() resume only these threads.
-//
-// 1) doubles the overhead, so I'm going with 2) for now.
-//
-
 int suspend_or_resume_threads(
     vector<int>pids, DWORD calling_thread_id, bool resume, bool check_exempt
 ) { 
