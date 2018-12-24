@@ -40,7 +40,7 @@ if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
 make distclean 1>/dev/null 2>&1
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>/dev/null
 fi
 make 1>/dev/null
 make install 1>/dev/null 2>&1

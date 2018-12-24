@@ -40,7 +40,7 @@ if [ -n "$MAKECLEAN" ]; then
 make clean 1>/dev/null 2>&1
 fi
 if [ -n "$CONFIGURE" ]; then
-./Configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+./Configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>/dev/null
 #override flags in Makefile
 sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
