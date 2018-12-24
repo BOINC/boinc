@@ -7,7 +7,7 @@ set -e
 
 # Script to compile BOINC for Android
 
-MAKE_SILENT_MODE="${MAKE_SILENT_MODE:---silent}"
+SILENT_MODE="${MAKE_SILENT_MODE:-no}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -34,11 +34,18 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 # Prepare android toolchain and environment
 ./build_androidtc_x86_64.sh
 
+SILENT=""
+FULLSILENT=""
+if ["$SILENT_MODE" = "yes"]; then
+SILENT="1>/dev/null"
+FULLSILENT="$SILENT 2>&1"
+fi
+
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
 cd "$BOINC"
 if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-make distclean 1>/dev/null 2>&1
+make distclean $FULLSILENT
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
@@ -46,8 +53,8 @@ if [ -n "$CONFIGURE" ]; then
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
-make $MAKE_SILENT_MODE
-make stage $MAKE_SILENT_MODE
+make $SILENT
+make stage $SILENT
 
 echo "Stripping Binaries"
 cd stage/usr/local/bin

@@ -113,7 +113,7 @@ fi
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
-export MAKE_SILENT_MODE="--silent"
+export SILENT_MODE="yes"
 CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}_done"
 OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
 

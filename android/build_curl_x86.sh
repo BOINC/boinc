@@ -8,7 +8,7 @@ set -e
 # Script to compile Libcurl for Android
 
 COMPILECURL="${COMPILECURL:-yes}"
-MAKE_SILENT_MODE="${MAKE_SILENT_MODE:---silent}"
+SILENT_MODE="${MAKE_SILENT_MODE:-no}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -33,16 +33,23 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_x86.sh
 
+SILENT=""
+FULLSILENT=""
+if ["$SILENT_MODE" = "yes"]; then
+SILENT="1>/dev/null"
+FULLSILENT="$SILENT 2>&1"
+fi
+
 if [ "$COMPILECURL" = "yes" ]; then
 echo "==================building curl from $CURL================================="
 cd "$CURL"
 if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-make distclean 1>/dev/null 2>&1
+make distclean $FULLSILENT
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>/dev/null
+./configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom $SILENT
 fi
-make 1>/dev/null
-make install 1>/dev/null 2>&1
+make $SILENT
+make install $FULLSILENT
 echo "========================curl done================================="
 fi
