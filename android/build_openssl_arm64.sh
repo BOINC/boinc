@@ -8,6 +8,7 @@ set -e
 # Script to compile OpenSSL for Android
 
 COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
+MAKE_SILENT_MODE="${MAKE_SILENT_MODE:---silent}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -45,7 +46,7 @@ sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
 mv Makefile.out Makefile
 fi
-make
+make $MAKE_SILENT_MODE
 make install_sw
 echo "========================openssl DONE=================================="
 fi

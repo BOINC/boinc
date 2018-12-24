@@ -113,6 +113,7 @@ fi
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
+export MAKE_SILENT_MODE="--silent"
 CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}_done"
 OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
 
@@ -173,22 +174,7 @@ case "$arch" in
         exit 0
     ;;
     "all")
-        ./build_androidtc_arm.sh
-        ./build_androidtc_arm64.sh
-        ./build_androidtc_x86.sh
-        ./build_androidtc_x86_64.sh
-        ./build_openssl_arm.sh
-        ./build_openssl_arm64.sh
-        ./build_openssl_x86.sh
-        ./build_openssl_x86_64.sh
-        ./build_curl_arm.sh
-        ./build_curl_arm64.sh
-        ./build_curl_x86.sh
-        ./build_curl_x86_64.sh
-        ./build_boinc_arm.sh
-        ./build_boinc_arm64.sh
-        ./build_boinc_x86.sh
-        ./build_boinc_x86_64.sh
+        ./build_all.sh
         exit 0
     ;;
 esac

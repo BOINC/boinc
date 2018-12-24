@@ -8,6 +8,7 @@ set -e
 # Script to compile Libcurl for Android
 
 COMPILECURL="${COMPILECURL:-yes}"
+MAKE_SILENT_MODE="${MAKE_SILENT_MODE:---silent}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -41,7 +42,7 @@ fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
 fi
-make
+make $MAKE_SILENT_MODE
 make install
 echo "========================curl done================================="
 fi

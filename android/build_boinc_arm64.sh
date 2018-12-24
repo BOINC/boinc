@@ -7,6 +7,7 @@ set -e
 
 # Script to compile BOINC for Android
 
+MAKE_SILENT_MODE="${MAKE_SILENT_MODE:---silent}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -45,7 +46,7 @@ if [ -n "$CONFIGURE" ]; then
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
-make
+make $MAKE_SILENT_MODE
 make stage
 
 echo "Stripping Binaries"
