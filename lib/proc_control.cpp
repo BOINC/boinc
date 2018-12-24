@@ -162,6 +162,8 @@ int suspend_or_resume_threads(
 #ifdef DEBUG
                 fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
+            } else {
+                n = 0;
             }
         } else {
             n = SuspendThread(thread);
