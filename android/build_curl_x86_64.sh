@@ -8,7 +8,7 @@ set -e
 # Script to compile Libcurl for Android
 
 COMPILECURL="${COMPILECURL:-yes}"
-SILENT_MODE="${MAKE_SILENT_MODE:-no}"
+SILENT_MODE="${SILENT_MODE:-no}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -35,7 +35,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 SILENT=""
 FULLSILENT=""
-if ["$SILENT_MODE" = "yes"]; then
+if [ "$SILENT_MODE" = "yes" ]; then
 SILENT="1>/dev/null"
 FULLSILENT="$SILENT 2>&1"
 fi
