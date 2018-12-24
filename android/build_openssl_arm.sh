@@ -46,7 +46,7 @@ sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
 mv Makefile.out Makefile
 fi
-make $MAKE_SILENT_MODE
-make install_sw $MAKE_SILENT_MODE
+make 1>/dev/null
+make install_sw 1>/dev/null 2>&1
 echo "========================openssl DONE=================================="
 fi

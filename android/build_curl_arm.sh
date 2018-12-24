@@ -42,7 +42,7 @@ fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib
 fi
-make $MAKE_SILENT_MODE
-make install $MAKE_SILENT_MODE
+make 1>/dev/null
+make install 1>/dev/null 2>&1
 echo "========================curl done================================="
 fi
