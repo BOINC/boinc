@@ -642,7 +642,7 @@ public class RpcClient {
 	
 	/**
 	 * Reports the Android model as host info to the client
-	 * @productName Device model
+	 * @param productName Device model
 	 * @param osVersion OS Version
 	 * @return true for success, false for failure
 	 */
@@ -676,7 +676,7 @@ public class RpcClient {
 
 	/**
 	 * Reports the device name as host info to the client
-	 * @deviceName The name you want to set as device name.
+	 * @param deviceName The name you want to set as device name.
 	 * @return true for success, false for failure
 	 */
 	public synchronized boolean setDomainNameRpc(String deviceName){
