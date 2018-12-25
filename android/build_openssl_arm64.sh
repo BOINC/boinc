@@ -38,7 +38,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     cd "$OPENSSL"
     if [ -n "$MAKECLEAN" ]; then
         if [ "$SILENT_MODE" = "yes" ]; then
-            make clean &>/dev/null
+            make clean 1>/dev/null 2>&1
         else
             make clean
         fi
@@ -56,7 +56,7 @@ s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
     fi
     if [ "$SILENT_MODE" = "yes" ]; then
         make 1>/dev/null
-        make install_sw &>/dev/null
+        make install_sw 1>/dev/null
     else
         make
         make install_sw

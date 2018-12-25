@@ -38,7 +38,7 @@ if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
         if [ "$SILENT_MODE" = "yes" ]; then
-            make distclean &>/dev/null
+            make distclean 1>/dev/null 2>&1
         else
             make distclean
         fi
@@ -52,7 +52,7 @@ if [ "$COMPILECURL" = "yes" ]; then
     fi
     if [ "$SILENT_MODE" = "yes" ]; then
         make 1>/dev/null
-        make install &>/dev/null
+        make install 1>/dev/null
     else
         make
         make install
