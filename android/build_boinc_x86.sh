@@ -34,42 +34,43 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 # Prepare android toolchain and environment
 ./build_androidtc_x86.sh
 
-if [ "$SILENT_MODE" = "yes" ]; then
-    SILENT_MAKE="make --silent"
-    FULLSILENT_MAKE="make &>/dev/null"
-else
-    SILENT_MAKE="make"
-    FULLSILENT_MAKE="make"
-fi
-
 if [ -n "$COMPILEBOINC" ]; then
-echo "==================building BOINC from $BOINC=========================="
-cd "$BOINC"
-if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-$FULLSILENT_MAKE distclean
-fi
-if [ -n "$CONFIGURE" ]; then
-./_autosetup
-./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
-sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
-mv client/Makefile.out client/Makefile
-fi
-$SILENT_MAKE
-$SILENT_MAKE stage
+    echo "==================building BOINC from $BOINC=========================="
+    cd "$BOINC"
+    if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            make distclean &>/dev/null
+        else
+            make distclean
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        ./_autosetup
+        ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
+        sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
+        mv client/Makefile.out client/Makefile
+    fi
+    if [ "$SILENT_MODE" = "yes" ]; then
+        make --silent
+        make stage --silent
+    else
+        make
+        make stage
+    fi
 
-echo "Stripping Binaries"
-cd stage/usr/local/bin
-i686-linux-android-strip *
-cd ../../../../
+    echo "Stripping Binaries"
+    cd stage/usr/local/bin
+    i686-linux-android-strip *
+    cd ../../../../
 
-echo "Copy Assets"
-cd android
-mkdir -p "BOINC/app/src/main/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/x86/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/x86/boinccmd"
-cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
-cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
+    echo "Copy Assets"
+    cd android
+    mkdir -p "BOINC/app/src/main/assets"
+    cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/x86/boinc"
+    cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/x86/boinccmd"
+    cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
+    cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-echo "=============================BOINC done============================="
+    echo "=============================BOINC done============================="
 
 fi

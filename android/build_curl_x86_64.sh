@@ -33,26 +33,29 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_x86_64.sh
 
-if [ "$SILENT_MODE" = "yes" ]; then
-    SILENT_MAKE="make 1>/dev/null"
-    FULLSILENT_MAKE="make &>/dev/null"
-    SILENT_CONFIGURE="./configure 1>/dev/null"
-else
-    SILENT_MAKE="make"
-    FULLSILENT_MAKE="make"
-    SILENT_CONFIGURE="./configure"
-fi
-
 if [ "$COMPILECURL" = "yes" ]; then
-echo "==================building curl from $CURL================================="
-cd "$CURL"
-if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-$FULLSILENT_MAKE distclean
-fi
-if [ -n "$CONFIGURE" ]; then
-$SILENT_CONFIGURE --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
-fi
-$SILENT_MAKE
-$FULLSILENT_MAKE install
-echo "========================curl done================================="
+    echo "==================building curl from $CURL================================="
+    cd "$CURL"
+    if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            make distclean &>/dev/null
+        else
+            make distclean
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            ./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>/dev/null
+        else
+            ./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+        fi
+    fi
+    if [ "$SILENT_MODE" = "yes" ]; then
+        make 1>/dev/null
+        make install &>/dev/null
+    else
+        make
+        make install
+    fi
+    echo "========================curl done================================="
 fi

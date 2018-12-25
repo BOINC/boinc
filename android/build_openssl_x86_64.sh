@@ -33,30 +33,33 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_x86_64.sh
 
-if [ "$SILENT_MODE" = "yes" ]; then
-    SILENT_MAKE="make 1>/dev/null"
-    FULLSILENT_MAKE="make &>/dev/null"
-    SILENT_CONFIGURE="./configure 1>/dev/null"
-else
-    SILENT_MAKE="make"
-    FULLSILENT_MAKE="make"
-    SILENT_CONFIGURE="./configure"
-fi
-
 if [ "$COMPILEOPENSSL" = "yes" ]; then
-echo "================building openssl from $OPENSSL============================="
-cd "$OPENSSL"
-if [ -n "$MAKECLEAN" ]; then
-$FULLSILENT_MAKE clean
-fi
-if [ -n "$CONFIGURE" ]; then
-$SILENT_CONFIGURE linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
-#override flags in Makefile
-sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
-s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
-mv Makefile.out Makefile
-fi
-$SILENT_MAKE
-$FULLSILENT_MAKE install_sw
-echo "========================openssl DONE=================================="
+    echo "================building openssl from $OPENSSL============================="
+    cd "$OPENSSL"
+    if [ -n "$MAKECLEAN" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            make clean &>/dev/null
+        else
+            make clean
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            ./configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>/dev/null
+        else
+            ./configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+        fi
+        #override flags in Makefile
+        sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
+        s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
+        mv Makefile.out Makefile
+    fi
+    if [ "$SILENT_MODE" = "yes" ]; then
+        make 1>/dev/null
+        make install_sw &>/dev/null
+    else
+        make
+        make install_sw
+    fi
+    echo "========================openssl DONE=================================="
 fi
