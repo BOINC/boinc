@@ -33,23 +33,33 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_x86.sh
 
-SILENT=""
-FULLSILENT=""
+run_command() {
+    if [ "$2" = "silent" ]; then
+        $1 1>/dev/null
+    elif [ "$2" = "fullsilent" ]; then
+        $1 &>/dev/null
+    else
+        $1
+    fi
+}
+
+SILENT="verbose"
+FULLSILENT="verbose"
 if [ "$SILENT_MODE" = "yes" ]; then
-SILENT="1>/dev/null"
-FULLSILENT="$SILENT 2>&1"
+SILENT="silent"
+FULLSILENT="fullsilent"
 fi
 
 if [ "$COMPILECURL" = "yes" ]; then
 echo "==================building curl from $CURL================================="
 cd "$CURL"
 if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-make distclean $FULLSILENT
+run_command 'make distclean' $FULLSILENT
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom $SILENT
+run_command './configure --host=i686-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom' $SILENT
 fi
-make $SILENT
-make install $FULLSILENT
+run_command 'make' $SILENT
+run_command 'make install' $FULLSILENT
 echo "========================curl done================================="
 fi
