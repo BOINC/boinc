@@ -336,7 +336,7 @@ public class BOINCActivity extends AppCompatActivity {
 		try {
 			if(mIsBound) { 
 				Integer newComputingStatus = monitor.getComputingStatus();
-				if(newComputingStatus != clientComputingStatus) {
+				if(!newComputingStatus.equals(clientComputingStatus)) {
 					// computing status has changed, update and invalidate to force adaption of action items
 					clientComputingStatus = newComputingStatus;
 					supportInvalidateOptionsMenu();
