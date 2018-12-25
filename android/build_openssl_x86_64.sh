@@ -45,13 +45,13 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         if [ "$SILENT_MODE" = "yes" ]; then
-            ./configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>/dev/null
+            ./Configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>/dev/null
         else
-            ./configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+            ./Configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
         fi
         #override flags in Makefile
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
-        s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
+            s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
     if [ "$SILENT_MODE" = "yes" ]; then
