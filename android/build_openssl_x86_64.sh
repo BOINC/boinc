@@ -34,7 +34,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_x86_64.sh
 
 if [ "$COMPILEOPENSSL" = "yes" ]; then
-    echo "================building openssl from $OPENSSL============================="
+    echo "===== building openssl for x86-64 from $OPENSSL ====="
     cd "$OPENSSL"
     if [ -n "$MAKECLEAN" ]; then
         if [ "$SILENT_MODE" = "yes" ]; then
@@ -61,5 +61,5 @@ s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         make
         make install_sw
     fi
-    echo "========================openssl DONE=================================="
+    echo "===== openssl for x86-64 build done ====="
 fi

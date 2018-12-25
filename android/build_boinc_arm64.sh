@@ -35,7 +35,7 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_arm64.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-    echo "==================building BOINC from $BOINC=========================="
+    echo "===== building BOINC for arm64 from $BOINC ====="
     cd "$BOINC"
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         if [ "$SILENT_MODE" = "yes" ]; then
@@ -71,6 +71,6 @@ if [ -n "$COMPILEBOINC" ]; then
     cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-    echo "=============================BOINC done============================="
+    echo "===== BOINC for arm64 build done ====="
 
 fi
