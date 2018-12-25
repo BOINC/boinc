@@ -33,33 +33,26 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
 
-run_command() {
-    if [ "$2" = "silent" ]; then
-        $1 1>/dev/null
-    elif [ "$2" = "fullsilent" ]; then
-        $1 &>/dev/null
-    else
-        $1
-    fi
-}
-
-SILENT="verbose"
-FULLSILENT="verbose"
 if [ "$SILENT_MODE" = "yes" ]; then
-SILENT="silent"
-FULLSILENT="fullsilent"
+    SILENT_MAKE="make 1>/dev/null"
+    FULLSILENT_MAKE="make &>/dev/null"
+    SILENT_CONFIGURE="./configure 1>/dev/null"
+else
+    SILENT_MAKE="make"
+    FULLSILENT_MAKE="make"
+    SILENT_CONFIGURE="./configure"
 fi
 
 if [ "$COMPILECURL" = "yes" ]; then
 echo "==================building curl from $CURL================================="
 cd "$CURL"
 if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-run_command 'make distclean' $FULLSILENT
+$FULLSILENT_MAKE distclean
 fi
 if [ -n "$CONFIGURE" ]; then
-run_command './configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib' $SILENT
+$SILENT_CONFIGURE --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib
 fi
-run_command 'make' $SILENT
-run_command 'make install' $FULLSILENT
+$SILENT_MAKE
+$FULLSILENT_MAKE install
 echo "========================curl done================================="
 fi

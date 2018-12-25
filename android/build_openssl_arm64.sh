@@ -33,37 +33,30 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_arm64.sh
 
-run_command() {
-    if [ "$2" = "silent" ]; then
-        $1 1>/dev/null
-    elif [ "$2" = "fullsilent" ]; then
-        $1 &>/dev/null
-    else
-        $1
-    fi
-}
-
-SILENT="verbose"
-FULLSILENT="verbose"
 if [ "$SILENT_MODE" = "yes" ]; then
-SILENT="silent"
-FULLSILENT="fullsilent"
+    SILENT_MAKE="make 1>/dev/null"
+    FULLSILENT_MAKE="make &>/dev/null"
+    SILENT_CONFIGURE="./configure 1>/dev/null"
+else
+    SILENT_MAKE="make"
+    FULLSILENT_MAKE="make"
+    SILENT_CONFIGURE="./configure"
 fi
 
 if [ "$COMPILEOPENSSL" = "yes" ]; then
 echo "================building openssl from $OPENSSL============================="
 cd "$OPENSSL"
 if [ -n "$MAKECLEAN" ]; then
-run_command 'make clean' $FULLSILENT
+$FULLSILENT_MAKE clean
 fi
 if [ -n "$CONFIGURE" ]; then
-run_command './Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"' $SILENT
+$SILENT_CONFIGURE linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
 #override flags in Makefile
 sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
 mv Makefile.out Makefile
 fi
-run_command 'make' $SILENT
-run_command 'make install_sw' $FULLSILENT
+$SILENT_MAKE
+$FULLSILENT_MAKE install_sw
 echo "========================openssl DONE=================================="
 fi

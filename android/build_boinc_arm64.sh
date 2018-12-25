@@ -34,28 +34,19 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 # Prepare android toolchain and environment
 ./build_androidtc_arm64.sh
 
-run_command() {
-    if [ "$2" = "silent" ]; then
-        $1 --silent
-    elif [ "$2" = "fullsilent" ]; then
-        $1 &>/dev/null
-    else
-        $1
-    fi
-}
-
-SILENT="verbose"
-FULLSILENT="verbose"
 if [ "$SILENT_MODE" = "yes" ]; then
-SILENT="silent"
-FULLSILENT="fullsilent"
+    SILENT_MAKE="make --silent"
+    FULLSILENT_MAKE="make &>/dev/null"
+else
+    SILENT_MAKE="make"
+    FULLSILENT_MAKE="make"
 fi
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
 cd "$BOINC"
 if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-run_command 'make distclean' $FULLSILENT
+$FULLSILENT_MAKE distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
@@ -63,8 +54,8 @@ if [ -n "$CONFIGURE" ]; then
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
-run_command 'make' $SILENT
-run_command 'make stage' $SILENT
+$SILENT_MAKE
+$SILENT_MAKE stage
 
 echo "Stripping Binaries"
 cd stage/usr/local/bin
