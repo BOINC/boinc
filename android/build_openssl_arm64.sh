@@ -51,7 +51,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
         fi
         #override flags in Makefile
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
-            s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
+s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
     if [ "$SILENT_MODE" = "yes" ]; then
