@@ -209,7 +209,8 @@
 		        android:clickable="true"
 		        android:contentDescription="@drawable/resumetask"
 		        android:src="@drawable/resumetask"
-		        android:layout_marginTop="5dp" />
+		        android:layout_marginTop="5dp"
+                android:focusable="true" />
 		    
 		    <ImageView
 		        android:id="@+id/abortTask"
@@ -219,7 +220,8 @@
 		        android:contentDescription="@drawable/aborttask"
 		        android:src="@drawable/aborttask"
 		        android:layout_marginTop="5dp"
-		        android:layout_below="@+id/suspendResumeTask"  />
+		        android:layout_below="@+id/suspendResumeTask"
+                android:focusable="true" />
 		    
 		    <ProgressBar
 		        android:id="@+id/request_progressBar"

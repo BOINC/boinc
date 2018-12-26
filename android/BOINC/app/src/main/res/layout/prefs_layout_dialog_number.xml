@@ -68,7 +68,8 @@
 			android:textColor="@color/white_smoke"
 			android:textAppearance="?android:attr/textAppearanceMedium" 
 			android:text="@string/confirm_cancel"
-			android:layout_weight="0.5"/> 
+			android:layout_weight="0.5"
+            android:focusable="true" />
     	
         <Button
 			android:id="@+id/confirm"
@@ -81,7 +82,8 @@
 			android:textColor="@color/white_smoke"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:text="@string/prefs_submit_button"
-			android:layout_weight="0.5" /> 
+			android:layout_weight="0.5"
+            android:focusable="true" />
         
     </LinearLayout>  
 </LinearLayout>

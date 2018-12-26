@@ -51,5 +51,6 @@
 		android:textAppearance="?android:attr/textAppearanceMedium" 
 		android:text="@string/confirm_cancel"
 		android:layout_gravity="center_horizontal"
-		android:layout_weight="0.5"/> 
+		android:layout_weight="0.5"
+        android:focusable="true" />
 </LinearLayout>

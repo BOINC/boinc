@@ -114,5 +114,6 @@
 		android:textColor="@color/white_smoke"
 		android:textAppearance="?android:attr/textAppearanceMedium" 
 		android:text="@string/about_button"
-		android:layout_gravity="center_horizontal"/> 
+		android:layout_gravity="center_horizontal"
+        android:focusable="true" />
 </LinearLayout>
