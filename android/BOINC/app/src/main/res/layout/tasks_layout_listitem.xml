@@ -207,21 +207,21 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:clickable="true"
+		        android:focusable="true"
 		        android:contentDescription="@drawable/resumetask"
 		        android:src="@drawable/resumetask"
-		        android:layout_marginTop="5dp"
-                android:focusable="true" />
+		        android:layout_marginTop="5dp" />
 		    
 		    <ImageView
 		        android:id="@+id/abortTask"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:clickable="true"
+				android:focusable="true"
 		        android:contentDescription="@drawable/aborttask"
 		        android:src="@drawable/aborttask"
 		        android:layout_marginTop="5dp"
-		        android:layout_below="@+id/suspendResumeTask"
-                android:focusable="true" />
+		        android:layout_below="@+id/suspendResumeTask" />
 		    
 		    <ProgressBar
 		        android:id="@+id/request_progressBar"
