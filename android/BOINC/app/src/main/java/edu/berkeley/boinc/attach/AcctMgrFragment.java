@@ -80,6 +80,7 @@ public class AcctMgrFragment extends DialogFragment{
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
 
+        // Get the account managers list.
 		ArrayList<AccountManager> accountManagers = null;
 		try {
 			accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
@@ -87,6 +88,7 @@ public class AcctMgrFragment extends DialogFragment{
 			if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
 		}
 
+		// Filter AccountManager data to AccountManagerSpinner data.
 		List<AccountManagerSpinner> adapterData = new ArrayList<>();
 		for (AccountManager accountManager : accountManagers) {
 			adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
@@ -104,7 +106,7 @@ public class AcctMgrFragment extends DialogFragment{
         ongoingWrapper = v.findViewById(R.id.ongoing_wrapper);
         continueB = v.findViewById(R.id.continue_button);
 
-        // change url text field on url spinner change
+        // Change urlInput text field on accountManagerSpinner spinner change
         accountManagerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 				AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) AcctMgrFragment.this.accountManagerSpinner.getSelectedItem();
