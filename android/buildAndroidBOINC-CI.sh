@@ -114,8 +114,8 @@ export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
 export SILENT_MODE="yes"
-CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}_done"
-OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
+CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
+OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
 
 if [ ! -e "${NDK_FLAGFILE}" ]; then
     rm -rf "${PREFIX}/${arch}"
@@ -171,10 +171,6 @@ case "$arch" in
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
         ./build_boinc_x86_64.sh
-        exit 0
-    ;;
-    "all")
-        ./build_all.sh
         exit 0
     ;;
 esac
