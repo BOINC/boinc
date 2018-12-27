@@ -8,6 +8,7 @@ set -e
 # Script to compile Libcurl for Android
 
 COMPILECURL="${COMPILECURL:-yes}"
+SILENT_MODE="${SILENT_MODE:-no}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -33,15 +34,28 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_arm.sh
 
 if [ "$COMPILECURL" = "yes" ]; then
-echo "==================building curl from $CURL================================="
-cd "$CURL"
-if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-make distclean
-fi
-if [ -n "$CONFIGURE" ]; then
-./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib
-fi
-make
-make install
-echo "========================curl done================================="
+    echo "===== building curl for arm from $CURL ====="
+    cd "$CURL"
+    if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            make distclean 1>/dev/null 2>&1
+        else
+            make distclean
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            ./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>/dev/null
+        else
+            ./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib
+        fi
+    fi
+    if [ "$SILENT_MODE" = "yes" ]; then
+        make 1>/dev/null
+        make install 1>/dev/null
+    else
+        make
+        make install
+    fi
+    echo "===== curl for arm build done ====="
 fi

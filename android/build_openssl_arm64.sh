@@ -8,6 +8,7 @@ set -e
 # Script to compile OpenSSL for Android
 
 COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
+SILENT_MODE="${SILENT_MODE:-no}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -33,19 +34,32 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_arm64.sh
 
 if [ "$COMPILEOPENSSL" = "yes" ]; then
-echo "================building openssl from $OPENSSL============================="
-cd "$OPENSSL"
-if [ -n "$MAKECLEAN" ]; then
-make clean
-fi
-if [ -n "$CONFIGURE" ]; then
-./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
-#override flags in Makefile
-sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
+    echo "===== building openssl for arm64 from $OPENSSL ====="
+    cd "$OPENSSL"
+    if [ -n "$MAKECLEAN" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            make clean 1>/dev/null 2>&1
+        else
+            make clean
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>/dev/null
+        else
+            ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+        fi
+        #override flags in Makefile
+        sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
-mv Makefile.out Makefile
-fi
-make
-make install_sw
-echo "========================openssl DONE=================================="
+        mv Makefile.out Makefile
+    fi
+    if [ "$SILENT_MODE" = "yes" ]; then
+        make 1>/dev/null
+        make install_sw 1>/dev/null
+    else
+        make
+        make install_sw
+    fi
+    echo "===== openssl for arm64 build done ====="
 fi
