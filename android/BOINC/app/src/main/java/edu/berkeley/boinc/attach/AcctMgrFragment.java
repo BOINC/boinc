@@ -82,10 +82,19 @@ public class AcctMgrFragment extends DialogFragment{
 
         // Get the account managers list.
 		ArrayList<AccountManager> accountManagers = null;
-		try {
-			accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
-		} catch (Exception e) {
-			if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
+		if (mIsBound){
+			try {
+				accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
+			} catch (Exception e) {
+				if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
+			}
+		}
+		else {
+			accountManagers = new ArrayList<>();
+			AccountManager am = new AccountManager();
+			am.name = "";
+			am.url = "";
+			accountManagers.add(am);
 		}
 
 		// Filter AccountManager data to AccountManagerSpinner data.
