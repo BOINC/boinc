@@ -7,7 +7,7 @@ set -e
 
 # Script to compile BOINC for Android
 
-MAKE_SILENT_MODE="${MAKE_SILENT_MODE:---silent}"
+SILENT_MODE="${SILENT_MODE:-no}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -35,33 +35,42 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_arm64.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-echo "==================building BOINC from $BOINC=========================="
-cd "$BOINC"
-if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-make distclean 1>/dev/null 2>&1
-fi
-if [ -n "$CONFIGURE" ]; then
-./_autosetup
-./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --with-boinc-alt-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
-sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
-mv client/Makefile.out client/Makefile
-fi
-make $MAKE_SILENT_MODE
-make stage $MAKE_SILENT_MODE
+    echo "===== building BOINC for arm64 from $BOINC ====="
+    cd "$BOINC"
+    if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
+        if [ "$SILENT_MODE" = "yes" ]; then
+            make distclean &>/dev/null
+        else
+            make distclean
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        ./_autosetup
+        ./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --with-boinc-alt-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
+        sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
+        mv client/Makefile.out client/Makefile
+    fi
+    if [ "$SILENT_MODE" = "yes" ]; then
+        make --silent
+        make stage --silent
+    else
+        make
+        make stage
+    fi
 
-echo "Stripping Binaries"
-cd stage/usr/local/bin
-aarch64-linux-android-strip *
-cd ../../../../
+    echo "Stripping Binaries"
+    cd stage/usr/local/bin
+    aarch64-linux-android-strip *
+    cd ../../../../
 
-echo "Copy Assets"
-cd android
-mkdir -p "BOINC/app/src/main/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/arm64-v8a/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/arm64-v8a/boinccmd"
-cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
-cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
+    echo "Copy Assets"
+    cd android
+    mkdir -p "BOINC/app/src/main/assets"
+    cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/arm64-v8a/boinc"
+    cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/arm64-v8a/boinccmd"
+    cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
+    cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-echo "=============================BOINC done============================="
+    echo "===== BOINC for arm64 build done ====="
 
 fi

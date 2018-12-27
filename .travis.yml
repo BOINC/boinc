@@ -79,7 +79,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
 - if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch all && cd BOINC && ./gradlew assemble && cd app/build/outputs/apk && ls -l) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm && ./buildAndroidBOINC-CI.sh --arch arm64 && ./buildAndroidBOINC-CI.sh --arch x86 && ./buildAndroidBOINC-CI.sh --arch x86_64 && cd BOINC && ./gradlew assemble -w && cd ../../ ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
 

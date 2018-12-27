@@ -46,7 +46,7 @@ isPathCanonical() {
 
 doclean=""
 cache_dir=""
-arch="all"
+arch=""
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
@@ -113,11 +113,13 @@ fi
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
-export MAKE_SILENT_MODE="--silent"
-CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}_done"
-OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}_done"
+export SILENT_MODE="yes"
+CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
+OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
 
 if [ ! -e "${NDK_FLAGFILE}" ]; then
+    rm -f /tmp/ndk.zip
+    rm -rf "$HOME/android-ndk-r${NDK_VERSION}"
     rm -rf "${PREFIX}/${arch}"
     rm -f "${CURL_FLAGFILE}" "${OPENSSL_FLAGFILE}"
     wget --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
@@ -127,6 +129,8 @@ fi
 export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
+    rm -f /tmp/openssl.tgz
+    rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
     wget --no-verbose -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
     tar xzf /tmp/openssl.tgz --directory=$BUILD_DIR
     export COMPILEOPENSSL="yes"
@@ -135,6 +139,8 @@ fi
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
+    rm -f /tmp/curl.tgz
+    rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
     wget --no-verbose -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
     tar xzf /tmp/curl.tgz --directory=$BUILD_DIR
     export COMPILECURL="yes"
@@ -171,10 +177,6 @@ case "$arch" in
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
         ./build_boinc_x86_64.sh
-        exit 0
-    ;;
-    "all")
-        ./build_all.sh
         exit 0
     ;;
 esac
