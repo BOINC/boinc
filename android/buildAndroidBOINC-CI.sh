@@ -46,7 +46,7 @@ isPathCanonical() {
 
 doclean=""
 cache_dir=""
-arch="all"
+arch=""
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
