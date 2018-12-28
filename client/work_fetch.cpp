@@ -328,7 +328,7 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
     }
 }
 
-void PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
+void PROJECT_WORK_FETCH::rr_init(PROJECT*) {
     n_runnable_jobs = 0;
 }
 
