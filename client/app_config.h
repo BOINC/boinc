@@ -26,4 +26,6 @@ extern void max_concurrent_init();
 
 extern void check_app_config(const char* prefix="");
 
+extern void show_app_config();
+
 #endif

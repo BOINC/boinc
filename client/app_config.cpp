@@ -161,3 +161,23 @@ void check_app_config(const char* prefix) {
         fclose(f);
     }
 }
+
+void show_app_config() {
+    if (!have_max_concurrent) return;
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->app_configs.project_max_concurrent) {
+            msg_printf(p, MSG_INFO,
+                "Max %d concurrent jobs", p->app_configs.project_max_concurrent
+            );
+        }
+    }
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->max_concurrent) {
+            msg_printf(app->project, MSG_INFO,
+                "%s: Max %d concurrent jobs", app->name, app->max_concurrent
+            );
+        }
+    }
+}

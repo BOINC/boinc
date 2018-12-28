@@ -1095,8 +1095,10 @@ void simulate() {
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         fprintf(summary_file,
-            "   %s time left %s deadline %s\n",
+            "   %s %s (%s)\n      time left %s deadline %s\n",
+            rp->project->project_name,
             rp->name,
+            rsc_name_long(rp->avp->gpu_usage.rsc_type),
             timediff_format(rp->sim_flops_left/rp->avp->flops).c_str(),
             timediff_format(rp->report_deadline - START_TIME).c_str()
         );
@@ -1431,6 +1433,7 @@ void do_client_simulation() {
     }
 
     check_app_config(infile_prefix);
+    show_app_config();
     cc_config.show();
     log_flags.show();
 

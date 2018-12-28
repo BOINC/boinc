@@ -879,7 +879,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // do round-robin simulation to find what results miss deadline
     //
-    rr_simulation();
+    rr_simulation("CPU sched");
     if (log_flags.rr_simulation) {
         print_deadline_misses();
     }
@@ -928,6 +928,14 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         add_coproc_jobs(run_list, j, proc_rsc);
     }
 
+    // enforce max concurrent specs for CPU jobs,
+    // to avoid having jobs in the run list that we can't actually run.
+    // Don't do this for GPU jobs; GPU exclusions screw things up
+    //
+    if (have_max_concurrent) {
+        max_concurrent_init();
+    }
+
     // then add CPU jobs.
     // Note: the jobs that actually get run are not necessarily
     // an initial segment of this list;
@@ -943,12 +951,18 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         rp = earliest_deadline_result(RSC_TYPE_CPU);
         if (!rp) break;
         rp->already_selected = true;
+        if (have_max_concurrent && max_concurrent_exceeded(rp)) {
+            continue;
+        }
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
         proc_rsc.schedule(rp, atp, true);
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+        }
     }
 #ifdef SIM
     }
@@ -956,16 +970,26 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // Next, choose CPU jobs from highest priority projects
     //
-    while (!proc_rsc.stop_scan_cpu()) {
+    while (1) {
+        if (proc_rsc.stop_scan_cpu()) {
+            break;
+        }
         assign_results_to_projects();
         rp = highest_prio_project_best_result();
-        if (!rp) break;
+        if (!rp) {
+            break;
+        }
+        if (have_max_concurrent && max_concurrent_exceeded(rp)) {
+            continue;
+        }
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
         proc_rsc.schedule(rp, atp, false);
         run_list.push_back(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+        }
     }
-
 }
 
 static inline bool in_run_list(vector<RESULT*>& run_list, ACTIVE_TASK* atp) {

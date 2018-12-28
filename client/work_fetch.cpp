@@ -39,7 +39,7 @@
 
 #include "work_fetch.h"
 
-#if 0
+#if 1
 #define WF_DEBUG(x) x
 #else
 #define WF_DEBUG(X)
@@ -104,24 +104,24 @@ void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
 // check for backoff must go last, so that if that's the reason
 // we know that there are no other reasons (for piggyback)
 //
-int RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
+RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
     PROJECT *p, int rsc_type
 ) {
     RSC_WORK_FETCH& rwf = rsc_work_fetch[rsc_type];
     // see whether work fetch for this resource is banned
     // by prefs, config, project, or acct mgr
     //
-    if (p->no_rsc_pref[rsc_type]) return DONT_FETCH_PREFS;
-    if (p->no_rsc_config[rsc_type]) return DONT_FETCH_CONFIG;
-    if (p->no_rsc_apps[rsc_type]) return DONT_FETCH_NO_APPS;
-    if (p->no_rsc_ams[rsc_type]) return DONT_FETCH_AMS;
-    if (p->rsc_pwf[rsc_type].has_deferred_job) return DONT_FETCH_DEFER_SCHED;
+    if (p->no_rsc_pref[rsc_type]) return RSC_REASON_PREFS;
+    if (p->no_rsc_config[rsc_type]) return RSC_REASON_CONFIG;
+    if (p->no_rsc_apps[rsc_type]) return RSC_REASON_NO_APPS;
+    if (p->no_rsc_ams[rsc_type]) return RSC_REASON_AMS;
+    if (p->rsc_pwf[rsc_type].has_deferred_job) return RSC_REASON_DEFER_SCHED;
 
     // if project has zero resource share,
     // only fetch work if a device is idle
     //
     if (p->resource_share == 0 && rwf.nidle_now == 0) {
-        return DONT_FETCH_ZERO_SHARE;
+        return RSC_REASON_ZERO_SHARE;
     }
 
     // if project has excluded GPUs of this type,
@@ -144,20 +144,21 @@ int RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
         if (n_runnable_jobs >= n_not_excluded
             && queue_est > (gstate.work_buf_min() * n_not_excluded)/rwf.ninstances
         ) {
-            return DONT_FETCH_BUFFER_FULL;
+            printf("%s: setting reason to BUFFER_FULL\n", p->project_name);
+            return RSC_REASON_BUFFER_FULL;
         }
     }
 
     if (anonymous_platform_no_apps) {
-        return DONT_FETCH_NO_APPS;
+        return RSC_REASON_NO_APPS;
     }
 
     // this must go last
     //
     if (backoff_time > gstate.now) {
-        return DONT_FETCH_BACKED_OFF;
+        return RSC_REASON_BACKED_OFF;
     }
-    return 0;
+    return RSC_REASON_NONE;
 }
 
 ///////////////  RSC_WORK_FETCH  ///////////////
@@ -276,7 +277,7 @@ void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
             n++;
         }
     }
-    WF_DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", sim_excluded_instances, pwf.non_excluded_instances, n));
+    WF_DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", (int)sim_excluded_instances, (int)pwf.non_excluded_instances, n));
     req_instances = n;
     if (p->resource_share == 0 || cc_config.fetch_minimal_work) {
         req_secs = 1;
@@ -312,7 +313,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         msg_printf(p, MSG_INFO,
             "[work_fetch] share %.3f %s %s",
             rpwf.fetchable_share,
-            rsc_project_reason_string(rpwf.rsc_project_reason),
+            rsc_reason_string(rpwf.rsc_project_reason),
             buf
         );
     }
@@ -325,22 +326,6 @@ void RSC_WORK_FETCH::clear_request() {
 
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
-int PROJECT_WORK_FETCH::compute_project_reason(PROJECT* p) {
-    if (p->non_cpu_intensive) return CANT_FETCH_WORK_NON_CPU_INTENSIVE;
-    if (p->suspended_via_gui) return CANT_FETCH_WORK_SUSPENDED_VIA_GUI;
-    if (p->master_url_fetch_pending) return CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING;
-    if (p->dont_request_more_work) return CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK;
-    if (p->some_download_stalled()) return CANT_FETCH_WORK_DOWNLOAD_STALLED;
-    if (p->some_result_suspended()) return CANT_FETCH_WORK_RESULT_SUSPENDED;
-    if (p->too_many_uploading_results) return CANT_FETCH_WORK_TOO_MANY_UPLOADS;
-
-    // this goes last, so that if this is the reason we know
-    // that there are no other reasons
-    //
-    if (p->min_rpc_time > gstate.now) return CANT_FETCH_WORK_MIN_RPC_TIME;
-    return 0;
-}
-
 void PROJECT_WORK_FETCH::reset(PROJECT* p) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         p->rsc_pwf[i].reset();
@@ -348,7 +333,6 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
 }
 
 void PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
-    project_reason = compute_project_reason(p);
     n_runnable_jobs = 0;
 }
 
@@ -412,6 +396,7 @@ void WORK_FETCH::rr_init() {
         }
     }
 }
+
 // copy request fields from RSC_WORK_FETCH to COPROCS
 //
 void WORK_FETCH::copy_requests() {
@@ -477,11 +462,11 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         return;
     }
 
-    setup();
+    setup();    // does RR simulation
 
     switch (p->pwf.project_reason) {
     case 0:
-    case CANT_FETCH_WORK_MIN_RPC_TIME:
+    case PROJECT_REASON_MIN_RPC_TIME:
         break;
     default:
         return;
@@ -505,16 +490,16 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));)
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
         if (i && !gpus_usable) {
-            rwf.dont_fetch_reason = DONT_FETCH_GPUS_NOT_USABLE;
+            rwf.dont_fetch_reason = RSC_REASON_GPUS_NOT_USABLE;
             continue;
         }
         RSC_PROJECT_WORK_FETCH& rpwf = rwf.project_state(p);
         switch (rpwf.rsc_project_reason) {
         case 0:
-        case DONT_FETCH_BACKED_OFF:
+        case RSC_REASON_BACKED_OFF:
             break;
         default:
-            WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s: %s", rsc_name_long(i), rsc_project_reason_string(rpwf.rsc_project_reason));)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s: %s", rsc_name_long(i), rsc_reason_string(rpwf.rsc_project_reason));)
             continue;
         }
         bool buffer_low = (rwf.saturated_time < gstate.work_buf_total());
@@ -524,7 +509,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
         if (!need_work) {
             WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: don't need %s", rsc_name_long(i));)
-            rwf.dont_fetch_reason = DONT_FETCH_BUFFER_FULL;
+            rwf.dont_fetch_reason = RSC_REASON_BUFFER_FULL;
             continue;
         }
         if (check_higher_priority_projects) {
@@ -544,11 +529,13 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 }
             }
             if (p != p2) {
-                rwf.dont_fetch_reason = DONT_FETCH_NOT_HIGHEST_PRIO;
+                rwf.dont_fetch_reason = RSC_REASON_NOT_HIGHEST_PRIO;
                 continue;
             }
         }
-        WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: requesting %s", rsc_name_long(i));)
+        if (log_flags.rr_simulation) {
+            msg_printf(p, MSG_INFO, "[rr_sim] piggyback: requesting %s", rsc_name_long(i));
+        }
         if (buffer_low) {
             rwf.set_request(p);
         } else {
@@ -556,7 +543,10 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
     }
     if (!requested_work()) {
-        p->pwf.project_reason = CANT_FETCH_WORK_DONT_NEED;
+        if (log_flags.rr_simulation) {
+            msg_printf(p, MSG_INFO, "[rr_sim] piggyback: don't need work");
+        }
+        p->pwf.project_reason = PROJECT_REASON_DONT_NEED;
     }
 }
 
@@ -593,23 +583,60 @@ bool RSC_WORK_FETCH::uses_starved_excluded_instances(PROJECT* p) {
     return true;
 }
 
-// setup for choose_project() and piggyback()
+// check for various reasons to not fetch work from a project.
+// Called after doing RR simulation,
+// so p->pwf.n_runnable_jobs and p->pwf.at_max_concurrent_limit are set.
+//
+static PROJECT_REASON compute_project_reason(PROJECT* p) {
+    if (p->non_cpu_intensive) return PROJECT_REASON_NON_CPU_INTENSIVE;
+    if (p->suspended_via_gui) return PROJECT_REASON_SUSPENDED_VIA_GUI;
+    if (p->master_url_fetch_pending) return PROJECT_REASON_MASTER_URL_FETCH_PENDING;
+    if (p->dont_request_more_work) return PROJECT_REASON_DONT_REQUEST_MORE_WORK;
+    if (p->some_download_stalled()) return PROJECT_REASON_DOWNLOAD_STALLED;
+    if (p->some_result_suspended()) return PROJECT_REASON_RESULT_SUSPENDED;
+    if (p->too_many_uploading_results) return PROJECT_REASON_TOO_MANY_UPLOADS;
+    if (p->pwf.at_max_concurrent_limit) return PROJECT_REASON_MAX_CONCURRENT;
+    if (p->pwf.n_runnable_jobs > WF_MAX_RUNNABLE_JOBS) {
+        // don't request work from projects w/ > 1000 runnable jobs
+        //
+        return PROJECT_REASON_TOO_MANY_RUNNABLE;
+    }
+
+    // this goes last, so that if this is the reason we know
+    // that there are no other reasons
+    //
+    if (p->min_rpc_time > gstate.now) return PROJECT_REASON_MIN_RPC_TIME;
+    return PROJECT_REASON_NONE;
+}
+
+// setup for choose_project() and piggyback():
+// - do RR simulation
+// - set request fields for each resource
+// - compute "projects_sorted": priority-sorted list of projects
 //
 void WORK_FETCH::setup() {
     gstate.compute_nuploading_results();
 
-    rr_simulation();
+    if (gstate.now == 59520) {
+        int x = 0;
+    }
 
-    // Compute rsc_project_reason.
-    // Must do this after rr_simulation() because the logic for
-    // zero-resource-share projects uses #idle instances
+    rr_simulation("work fetch");
+
+    // Compute reasons to not fetch work from projects
+    // and from project/resource pairs.
+    // Must do this after rr_simulation() and compute_nuploading_results()
     //
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
+        p->pwf.project_reason = compute_project_reason(p);
         for (int j=0; j<coprocs.n_rsc; j++) {
             RSC_PROJECT_WORK_FETCH& rpwf = p->rsc_pwf[j];
             rpwf.rsc_project_reason = rpwf.compute_rsc_project_reason(p, j);
         }
+    }
+    for (int j=0; j<coprocs.n_rsc; j++) {
+        rsc_work_fetch[j].dont_fetch_reason = RSC_REASON_NONE;
     }
 
     compute_shares();
@@ -627,16 +654,6 @@ void WORK_FETCH::setup() {
         RESULT* rp = gstate.results[i];
         PROJECT* p = rp->project;
         p->sched_priority -= rp->estimated_flops_remaining()/max_queued_flops;
-    }
-
-    // don't request work from projects w/ > 1000 runnable jobs
-    //
-    int job_limit = 1000;
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p->pwf.n_runnable_jobs > job_limit && !p->pwf.project_reason) {
-            p->pwf.project_reason = CANT_FETCH_WORK_TOO_MANY_RUNNABLE;
-        }
     }
 
     projects_sorted = gstate.projects;
@@ -658,6 +675,7 @@ void WORK_FETCH::setup() {
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p;
 
+    msg_printf(0, MSG_INFO, "choose_project(): %f", gstate.now);
     p = non_cpu_intensive_project_needing_work();
     if (p) return p;
 
@@ -672,9 +690,10 @@ PROJECT* WORK_FETCH::choose_project() {
     bool found = false;
     for (unsigned int j=0; j<projects_sorted.size(); j++) {
         p = projects_sorted[j];
-        WF_DEBUG(msg_printf(p, MSG_INFO, "scanning");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "choose_project: scanning");)
         if (p->pwf.project_reason) {
-            WF_DEBUG(msg_printf(p, MSG_INFO, "skip: cfwr %d", p->pwf.project_reason);)
+            char buf[256];
+            WF_DEBUG(msg_printf(p, MSG_INFO, "skip: %s", project_reason_string(p, buf, 256));)
             continue;
         }
 
@@ -696,7 +715,7 @@ PROJECT* WORK_FETCH::choose_project() {
                 }
                 WF_DEBUG(msg_printf(p, MSG_INFO, "can fetch %s", rsc_name_long(i));)
             } else {
-                WF_DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s: %s", rsc_name_long(i), rsc_project_reason_string(rpwf.rsc_project_reason));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s: %s", rsc_name_long(i), rsc_reason_string(rpwf.rsc_project_reason));)
                 continue;
             }
             if (rwf.saturated_time < gstate.work_buf_min()) {
@@ -742,15 +761,15 @@ PROJECT* WORK_FETCH::choose_project() {
                         continue;
                     }
                     RSC_PROJECT_WORK_FETCH& rpwf = rwf.project_state(p);
-                    int reason = rpwf.rsc_project_reason;
+                    RSC_REASON reason = rpwf.rsc_project_reason;
                     switch (reason) {
                     case 0:
-                    case DONT_FETCH_BACKED_OFF:
+                    case RSC_REASON_BACKED_OFF:
                         // request even if backed off - no reason not to.
                         //
                         break;
                     default:
-                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch: %s", rsc_name_long(i), rsc_project_reason_string(reason));)
+                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch: %s", rsc_name_long(i), rsc_reason_string(reason));)
                         continue;
                     }
                 }
@@ -1109,19 +1128,19 @@ void CLIENT_STATE::generate_new_host_cpid() {
     }
 }
 
-const char* rsc_project_reason_string(int reason) {
+const char* rsc_reason_string(RSC_REASON reason) {
     switch (reason) {
     case 0: return "";
-    case DONT_FETCH_GPUS_NOT_USABLE: return "GPUs not usable";
-    case DONT_FETCH_PREFS: return "blocked by project preferences";
-    case DONT_FETCH_CONFIG: return "client configuration";
-    case DONT_FETCH_NO_APPS: return "no applications";
-    case DONT_FETCH_AMS: return "account manager prefs";
-    case DONT_FETCH_ZERO_SHARE: return "zero resource share";
-    case DONT_FETCH_BUFFER_FULL: return "job cache full";
-    case DONT_FETCH_NOT_HIGHEST_PRIO: return "not highest priority project";
-    case DONT_FETCH_BACKED_OFF: return "project is backed off";
-    case DONT_FETCH_DEFER_SCHED: return "a job is deferred";
+    case RSC_REASON_GPUS_NOT_USABLE: return "GPUs not usable";
+    case RSC_REASON_PREFS: return "blocked by project preferences";
+    case RSC_REASON_CONFIG: return "client configuration";
+    case RSC_REASON_NO_APPS: return "no applications";
+    case RSC_REASON_AMS: return "account manager prefs";
+    case RSC_REASON_ZERO_SHARE: return "zero resource share";
+    case RSC_REASON_BUFFER_FULL: return "job cache full";
+    case RSC_REASON_NOT_HIGHEST_PRIO: return "not highest priority project";
+    case RSC_REASON_BACKED_OFF: return "project is backed off";
+    case RSC_REASON_DEFER_SCHED: return "a job is deferred";
     }
     return "unknown project reason";
 }
@@ -1129,31 +1148,31 @@ const char* rsc_project_reason_string(int reason) {
 const char* project_reason_string(PROJECT* p, char* buf, int len) {
     switch (p->pwf.project_reason) {
     case 0: return "";
-    case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
+    case PROJECT_REASON_NON_CPU_INTENSIVE:
         return "non CPU intensive";
-    case CANT_FETCH_WORK_SUSPENDED_VIA_GUI:
+    case PROJECT_REASON_SUSPENDED_VIA_GUI:
         return "suspended via Manager";
-    case CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING:
+    case PROJECT_REASON_MASTER_URL_FETCH_PENDING:
         return "master URL fetch pending";
-    case CANT_FETCH_WORK_MIN_RPC_TIME:
+    case PROJECT_REASON_MIN_RPC_TIME:
         return "scheduler RPC backoff";
-    case CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK:
+    case PROJECT_REASON_DONT_REQUEST_MORE_WORK:
         return "\"no new tasks\" requested via Manager";
-    case CANT_FETCH_WORK_DOWNLOAD_STALLED:
+    case PROJECT_REASON_DOWNLOAD_STALLED:
         return "some download is stalled";
-    case CANT_FETCH_WORK_RESULT_SUSPENDED:
+    case PROJECT_REASON_RESULT_SUSPENDED:
         return "some task is suspended via Manager";
-    case CANT_FETCH_WORK_TOO_MANY_UPLOADS:
+    case PROJECT_REASON_TOO_MANY_UPLOADS:
         return "too many uploads in progress";
-    case CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY:
+    case PROJECT_REASON_NOT_HIGHEST_PRIORITY:
         return "project is not highest priority";
-    case CANT_FETCH_WORK_TOO_MANY_RUNNABLE:
+    case PROJECT_REASON_TOO_MANY_RUNNABLE:
         return "too many runnable tasks";
-    case CANT_FETCH_WORK_DONT_NEED:
+    case PROJECT_REASON_DONT_NEED:
         if (coprocs.n_rsc == 1) {
             snprintf(buf, len,
                 "don't need (%s)",
-                rsc_project_reason_string(rsc_work_fetch[0].dont_fetch_reason)
+                rsc_reason_string(rsc_work_fetch[0].dont_fetch_reason)
             );
         } else {
             string x;
@@ -1163,7 +1182,7 @@ const char* project_reason_string(PROJECT* p, char* buf, int len) {
                 snprintf(buf2, sizeof(buf2),
                     "%s: %s",
                     rsc_name_long(i),
-                    rsc_project_reason_string(rsc_work_fetch[i].dont_fetch_reason)
+                    rsc_reason_string(rsc_work_fetch[i].dont_fetch_reason)
                 );
                 x += buf2;
                 if (i < coprocs.n_rsc-1) {
@@ -1174,6 +1193,8 @@ const char* project_reason_string(PROJECT* p, char* buf, int len) {
             strlcpy(buf, x.c_str(), len);
         }
         return buf;
+    case PROJECT_REASON_MAX_CONCURRENT:
+        return "at max_concurrent limit";
     }
     return "unknown reason";
 }

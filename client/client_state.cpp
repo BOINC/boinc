@@ -634,6 +634,7 @@ int CLIENT_STATE::init() {
     // check for app_config.xml files in project dirs
     //
     check_app_config();
+    show_app_config();
 
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects

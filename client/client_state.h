@@ -60,19 +60,6 @@ using std::vector;
 #include "../sched/edf_sim.h"
 #endif
 
-#define WORK_FETCH_DONT_NEED 0
-    // project: suspended, deferred, or no new work (can't ask for more work)
-    // overall: not work_fetch_ok (from CPU policy)
-#define WORK_FETCH_OK        1
-    // project: has more than min queue * share, not suspended/def/nonewwork
-    // overall: at least min queue, work fetch OK
-#define WORK_FETCH_NEED      2
-    // project: less than min queue * resource share of DL/runnable results
-    // overall: less than min queue
-#define WORK_FETCH_NEED_IMMEDIATELY 3
-    // project: no downloading or runnable results
-    // overall: at least one idle CPU
-
 // encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //
@@ -596,6 +583,11 @@ extern THREAD throttle_thread;
 #define RESULT_REPORT_IF_AT_LEAST_N 64
     // If a project has at least this many ready-to-report tasks, report them.
 
+#define WF_MAX_RUNNABLE_JOBS    1000
+    // don't fetch work from a project if it has this many runnable jobs.
+    // This is a failsafe mechanism to prevent infinite fetching
+
+
 //////// CPU SCHEDULING
 
 #define CPU_SCHED_PERIOD    60
@@ -659,6 +651,6 @@ extern THREAD throttle_thread;
 #endif
 
 #define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
-#define NO_WORK_MSG _("Your current settings do not allow tasks from this project.")
+#define NO_WORK_MSG _("Your settings do not allow fetching tasks for")
 
 #endif
