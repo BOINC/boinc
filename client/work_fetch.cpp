@@ -115,7 +115,7 @@ RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
     // only fetch work if a device is idle
     //
     if (p->resource_share == 0 && rwf.saturated_time > WF_EST_FETCH_TIME) {
-        return DONT_FETCH_ZERO_SHARE;
+        return RSC_REASON_ZERO_SHARE;
     }
 
     // if project has excluded GPUs of this type,

@@ -62,6 +62,12 @@ using std::vector;
 #include "../sched/edf_sim.h"
 #endif
 
+#define WF_EST_FETCH_TIME 180
+    // Figure that fetching work (possibly requesting from several projects)
+    // could take as long as this.
+    // So start work fetch this long before an instance becomes idle,
+    // in order to avoid idleness.
+
 // encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //
@@ -588,7 +594,6 @@ extern THREAD throttle_thread;
 #define WF_MAX_RUNNABLE_JOBS    1000
     // don't fetch work from a project if it has this many runnable jobs.
     // This is a failsafe mechanism to prevent infinite fetching
-
 
 //////// CPU SCHEDULING
 
