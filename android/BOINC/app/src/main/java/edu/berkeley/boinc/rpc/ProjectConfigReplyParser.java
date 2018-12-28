@@ -22,7 +22,11 @@ package edu.berkeley.boinc.rpc;
 import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectConfigReplyParser extends BaseParser {
 
@@ -111,12 +115,10 @@ public class ProjectConfigReplyParser extends BaseParser {
 						mProjectConfig.usesName = true;
 					}
 					else if (localName.equalsIgnoreCase("web_stopped")) {
-						mProjectConfig.webStopped = false; //default in case parsing fails
-						if(Integer.parseInt(mCurrentElement.toString()) != 0) mProjectConfig.webStopped = true;
+						mProjectConfig.webStopped = (Integer.parseInt(mCurrentElement.toString()) != 0);
 					}
 					else if (localName.equalsIgnoreCase("sched_stopped")) {
-						mProjectConfig.schedulerStopped = false; //default in case parsing fails
-						if(Integer.parseInt(mCurrentElement.toString()) != 0) mProjectConfig.schedulerStopped = true;
+						mProjectConfig.schedulerStopped = (Integer.parseInt(mCurrentElement.toString()) != 0);
 					}
 					else if (localName.equalsIgnoreCase("client_account_creation_disabled")) {
 						mProjectConfig.clientAccountCreationDisabled = true;
@@ -163,6 +165,7 @@ public class ProjectConfigReplyParser extends BaseParser {
 			mElementStarted = false;
 		}
 		catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectConfigReplyParser.endElement error: ",e);
 		}
 	}
 }

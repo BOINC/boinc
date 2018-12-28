@@ -21,7 +21,11 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 
 public class HostInfoParser extends BaseParser {
@@ -146,6 +150,7 @@ public class HostInfoParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"HostInfoParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

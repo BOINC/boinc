@@ -77,9 +77,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	public String getUser(int position) {
 		String user = entries.get(position).project.user_name;
 		String team = entries.get(position).project.team_name;
-		String userString = user;
-		if(!team.isEmpty()) user = user + " (" + team + ")";
-		return userString;
+
+		if(!team.isEmpty()) {
+			return (user + " (" + team + ")");
+		}
+
+		return user;
 	}
 	
 	public Boolean getIsAcctMgr(int position) {
@@ -156,7 +159,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	        }
 	        
 		    String statusText = "";
-		    try{statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);}catch(Exception e){}
+		    try{
+		    	statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);
+		    }
+	        catch(Exception e){
+		    	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectsListAdapter.getView error: ",e);
+	        }
 	        TextView tvStatus = vi.findViewById(R.id.project_status);
 		    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
 		    else {

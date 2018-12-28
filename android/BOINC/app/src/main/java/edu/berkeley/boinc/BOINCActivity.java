@@ -157,7 +157,7 @@ public class BOINCActivity extends AppCompatActivity {
 		if(targetFragId < 0 && savedInstanceState != null)
 			targetFragId = savedInstanceState.getInt("navBarSelectionId");
 		
-		NavDrawerItem item = null;
+		NavDrawerItem item;
 		if(targetFragId < 0) {
 			// if non of the above, go to default
 			item = mDrawerListAdapter.getItem(0);
@@ -333,10 +333,10 @@ public class BOINCActivity extends AppCompatActivity {
     
     // tests whether status is available and whether it changed since the last event.
 	private void determineStatus() {
-    	try {
+		try {
 			if(mIsBound) { 
 				Integer newComputingStatus = monitor.getComputingStatus();
-				if(newComputingStatus != clientComputingStatus) {
+				if(!newComputingStatus.equals(clientComputingStatus)) {
 					// computing status has changed, update and invalidate to force adaption of action items
 					clientComputingStatus = newComputingStatus;
 					supportInvalidateOptionsMenu();
@@ -345,8 +345,10 @@ public class BOINCActivity extends AppCompatActivity {
 					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>)monitor.getProjects());
 				//setAppTitle();
 			} 
-    	} catch (Exception e) {}
-    }
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.determineStatus error: ",e);
+		}
+	}
 
     public final boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -460,7 +462,9 @@ public class BOINCActivity extends AppCompatActivity {
 			if(success)
 				try {
 					monitor.forceRefresh();
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"BOINCActivity.onKeyDown.onPostExecute() error: ", e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}

@@ -22,7 +22,13 @@ import edu.berkeley.boinc.R;
 import android.content.Context;
 
 public class PrefsListItemWrapper {
-	
+    public enum DialogButtonType {
+        SLIDER,
+        NUMBER,
+        TEXT
+    }
+    public PrefsListItemWrapperNumber.DialogButtonType dialogButtonType;
+
 	public Context ctx;
 	public Integer ID;
 	public Integer categoryID;
@@ -42,7 +48,7 @@ public class PrefsListItemWrapper {
 		case R.string.prefs_power_source_header:
 			description = ctx.getString(R.string.prefs_power_source_description);
 		}
-		// further description mapping see PrefsListItemWrapperValue class
+		// further description mapping see PrefsListItemWrapperNumber class
 	}
 	
 	// Constructor for categories

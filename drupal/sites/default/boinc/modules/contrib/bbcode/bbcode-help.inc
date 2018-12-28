@@ -90,6 +90,68 @@ tag, please use SHIFT-ENTER.
  </tr>
 </table>
 
+<h3>Creating Headings</h3>
+
+<p>
+  Headings are an important part of articles.
+</p>
+
+<p>
+  You can use tags [h1] to [h6] to format headings corresponding to HTML\'s &lt;h1&gt; to &lt;h6&gt;
+</p>
+
+Examples:
+<table width=\"98%\">
+  <tr>
+    <td>
+      [h1]Level 1 Heading[/h1]
+    </td>
+    <td>
+      <h1>Level 1 Heading</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      [h2]Level 2 Heading[/h2]
+    </td>
+    <td>
+      <h2>Level 2 Heading</h2>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      [h3]Level 3 Heading[/h3]
+    </td>
+    <td>
+      <h3>Level 3 Heading</h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      [h4]Level 4 Heading[/h4]
+    </td>
+    <td>
+      <h4>Level 4 Heading</h4>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      [h5]Level 5 Heading[/h5]
+    </td>
+    <td>
+      <h5>Level 5 Heading</h5>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      [h6]Level 6 Heading[/h6]
+    </td>
+    <td>
+      <h6>Level 6 Heading</h6>
+    </td>
+  </tr>
+</table>
+
 <h3>Creating links</h3>
 
 <p>
@@ -141,6 +203,19 @@ tag, please use SHIFT-ENTER.
  </tr>
 </table>
 
+<h4>Anchors</h4>
+
+<p>
+  Many times, you want to refer to a particular part of text from some another part.
+  Using anchors this is possible.
+</p>
+
+<p>
+  To use anchors, use [anchor=<strong>name</strong>]TEXT[/anchor]
+  To refer this at another place, use [url=#<strong>name</strong>]My old referenece[/url]
+  The name <strong><em>must</em></strong> be same at both places.
+</p>
+
 <h3>Displaying images</h3>
 
 <p>
@@ -170,7 +245,53 @@ tag, please use SHIFT-ENTER.
  [url=http://example.com][img]http://example.com/screenshot.png[/img][/url]</code>.
 </p>
 
-<h3>Ordered and unordered lists</h3>
+<h3>Google and Wikipedia</h3>
+
+<p>
+  To refer to Google and Wikipedia use this: <br/>
+  [google]The search query[/google], this will output search query <em>as a link</em> <strong>http://www.google.com/search?q=The+search+query</strong><br/>
+  [wikipedia]Wiki Page[/wikipedia], this will output <em>a link</em> as <strong>http://www.wikipedia.org/wiki/Wiki Page</strong><br/>
+</p>
+
+<h3>Abbreviations and Acronyms</h3>
+
+<p>
+  Using the [abbr] and [acronym] tags, you can create abbreviations and acronyms. <br/>
+  [abbr=<strong>full expansion</strong>]shortname as displayed[/abbr] <br/>
+  [acronym=<strong>full expansion</strong>]shortname as displayed[/acronym] <br/>
+</p>
+
+<h3>Tables</h3>
+
+<p>
+  Some formatting using tables can be done as below:
+</p>
+
+<table width=\"98%\">
+  <tr>
+    <td>
+      The table code for rows, columns and heads must be enclosed between [table] and [/table]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Rows can be specified using [row], [r] or [tr]. Just enclose the text between the tag.<br/>
+      You can also specify the row\'s background color using the color property of the tag i.e. [row color=#FFFFFF]. It should be in hexadecimal form, the default format for HTML colors.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Columns can be specified by enclosing the text between [col], [c] or [td]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Column headings (th tag) can be specified by enclosing the head text between [header], [head] or [h].
+    </td>
+  </tr>
+</table>
+
+<h3>Ordered and unordered lists and indentation</h3>
 
 <p>
  The simplest list type is the unordered list, which means that there is
@@ -187,6 +308,11 @@ tag, please use SHIFT-ENTER.
  \"a\", \"A\", \"c\", \"d\" and \"s\" which all correspond to the display 
  of the first list element.
 </p>
+
+<p>
+ To indent some text, you need to follow this syntax - [indent]TEXT[/indent].
+ You can use nested indentation to show various indentation levels.
+ [indent]TEXT1<br>[indent]TEXT2[/indent]<br>[/indent]
 
 <table width=\"98%\">
  <tr>
@@ -246,6 +372,18 @@ I love
    </ol>
   </td>
  </tr>
+ <tr>
+ <td>
+ <pre>
+ I love
+ [indent]computing
+ [indent]and I am a geek[/indent]
+ [/indent]
+ </pre>
+ </td>
+   <td>I love<div style=\"padding-left: 20px;\">computing<div style=\"padding-left:20px;\">and I am a geek</div></div>
+   </td>
+  </tr>
 </table>
 
 <h3>Fixed-width text and block formatting</h3>
@@ -255,6 +393,11 @@ I love
  formatted part or to add a block of (usually program) code. If there is
  any newline present between the opening and closing tags, then a block
  will be displayed.
+</p>
+
+<p>
+ Similarly, the <strong>[php]</strong> tag can be used to post PHP code.
+ PHP code will automatically be syntax highlighted for easier readability.
 </p>
 
 <table width=\"98%\">

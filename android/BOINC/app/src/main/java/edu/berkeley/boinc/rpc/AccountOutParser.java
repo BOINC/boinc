@@ -20,7 +20,11 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class AccountOutParser extends BaseParser {
 
@@ -78,6 +82,7 @@ public class AccountOutParser extends BaseParser {
 				}
 			}
 		} catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"AccountOutParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

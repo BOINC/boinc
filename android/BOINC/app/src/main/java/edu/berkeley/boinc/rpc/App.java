@@ -30,11 +30,8 @@ public class App implements Parcelable{
 	
 	public boolean compare(App myapp) {
 		//Check if name is the same
-		if(!this.name.equalsIgnoreCase(myapp.name)) {
-			return false;
-		}
-		return true;
-	}
+        return this.name.equalsIgnoreCase(myapp.name);
+    }
 
 	public final String getName() {
 		return user_friendly_name.equals("") ? name : user_friendly_name;

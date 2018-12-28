@@ -21,7 +21,11 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class VersionInfoParser extends BaseParser {
 	private VersionInfo mVersionInfo = null;
@@ -90,6 +94,7 @@ public class VersionInfoParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"VersionInfoParser.endElement error: ",e);
 		}
 		mElementStarted = false; // to be clean for next one
 	}

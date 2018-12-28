@@ -69,7 +69,9 @@ public class EventLogClientFragment extends Fragment {
 			for(int x = tmpA.size()-1; x >= 0; x--) {
 				a.clientLogData.add(tmpA.get(x));
 			}
-		} catch (Exception e) {} //IndexOutOfBoundException
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadPastMsgs error: ",e);
+		} //IndexOutOfBoundException
 		
 		a.clientLogListAdapter.notifyDataSetChanged();
 	}
@@ -83,14 +85,16 @@ public class EventLogClientFragment extends Fragment {
 				a.clientLogData.add(y, tmpA.get(x));
 				y++;
 			}
-		} catch (Exception e) {} //IndexOutOfBoundException
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"EventLogClientFragment.loadRecentMsgs error: ",e);
+		} //IndexOutOfBoundException
 		a.clientLogListAdapter.notifyDataSetChanged();
 	}
 	
 	// onScrollListener for list view, implementing "endless scrolling"
 	public final class EndlessScrollListener implements OnScrollListener {
 
-        private int visibleThreshold = 5;
+        private int visibleThreshold;
         private int previousTotal = 0;
         private boolean loading = true;
 

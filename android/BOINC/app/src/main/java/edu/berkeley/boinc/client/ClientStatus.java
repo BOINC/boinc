@@ -113,8 +113,10 @@ public class ClientStatus {
 		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.TAG);
 		wakeLock.setReferenceCounted(false); // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
 		
-		// set up Wifi wake lock
-		WifiManager wm = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+		// Set up Wifi wake lock
+		// On versions prior to Android N (24), initializing the WifiManager via Context#getSystemService can cause a memory leak if the context is not the application context.
+		// You should consider using context.getApplicationContext().getSystemService() rather then context.getSystemService()
+		WifiManager wm = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL , "MyWifiLock");
 		wifiLock.setReferenceCounted(false);
 	}
@@ -484,14 +486,15 @@ public class ClientStatus {
 						statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
 						+ "% (" + ctx.getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
 						+ ctx.getString(R.string.suspend_battery_charging_long2);
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"ClientStatus.getCurrentStatusDescription error: ",e);
+					}
 					break;
 				case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
 					statusString = ctx.getString(R.string.suspend_battery_overheating);
 					break;
 				case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-					Boolean suspendDueToScreenOn = false;
-					suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+					Boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
 					if(suspendDueToScreenOn) statusString = ctx.getString(R.string.suspend_screen_on);
 					else statusString = ctx.getString(R.string.suspend_useractive);
 					break;
@@ -589,7 +592,7 @@ public class ClientStatus {
 					for(Result task: results) {
 						if(task.active_task) { // this result has corresponding "active task" in RPC XML
 							activeTask = true;
-							continue; // amount of active tasks does not matter.
+							break; // amount of active tasks does not matter.
 						}
 					}
 				}

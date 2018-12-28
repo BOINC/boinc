@@ -21,6 +21,8 @@
 #define NEW_CPU_THROTTLE
 // do CPU throttling using a separate thread.
 // This makes it possible to throttle faster than the client's 1-sec poll period
+// NOTE: we can't actually do this because the runtime system's
+// poll period is currently 1 sec.
 
 #ifndef _WIN32
 #include <string>
@@ -313,7 +315,7 @@ struct CLIENT_STATE {
         // another task that needs a shared-mem seg
     inline double work_buf_min() {
         double x = global_prefs.work_buf_min_days * 86400;
-        if (x < 180) x = 180;
+        if (x < WF_EST_FETCH_TIME) x = WF_EST_FETCH_TIME;
         return x;
     }
     inline double work_buf_additional() {

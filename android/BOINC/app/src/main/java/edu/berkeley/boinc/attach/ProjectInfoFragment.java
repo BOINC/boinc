@@ -120,7 +120,7 @@ public class ProjectInfoFragment extends DialogFragment{
 			}
 			
 	        if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync for url: " + url); 
-	        Bitmap logo = null;
+	        Bitmap logo;
 	        
 	        try{
 	        	InputStream in = new URL(url).openStream();
