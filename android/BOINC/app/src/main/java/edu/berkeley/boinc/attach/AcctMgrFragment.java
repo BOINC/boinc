@@ -175,8 +175,6 @@ public class AcctMgrFragment extends DialogFragment{
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		doBindService();
-
 		Dialog dialog = super.onCreateDialog(savedInstanceState);
 
 		// request a window without the title
