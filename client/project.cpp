@@ -977,7 +977,13 @@ void PROJECT::show_no_work_notice() {
     bool some_banned = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i] || no_rsc_ams[i];
+        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i];
+        if (!gstate.acct_mgr_info.dynamic) {
+            // dynamic account managers manage rsc usage themselves, not user
+            //
+            banned_by_user = banned_by_user || no_rsc_ams[i];
+            // note to self: ||= doesn't exist
+        }
         if (!banned_by_user) {
             continue;
         }
@@ -998,7 +1004,7 @@ void PROJECT::show_no_work_notice() {
             x += _("remove GPU exclusions in your cc_config.xml file");
             first = false;
         }
-        if (no_rsc_ams[i]) {
+        if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
             if (!first) x += ", or ";
             x += _("change your settings at your account manager web site");
         }
