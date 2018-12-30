@@ -211,7 +211,7 @@ public class ProjectsFragment extends Fragment {
         // use iterator to safely remove while iterating
         Iterator<ProjectsListData> iData = data.iterator();
         while (iData.hasNext()) {
-            Boolean found = false;
+            boolean found = false;
             ProjectsListData listItem = iData.next();
             if (listItem.isMgr) continue;
             for (Project rpcResult : latestRpcProjectsList) {

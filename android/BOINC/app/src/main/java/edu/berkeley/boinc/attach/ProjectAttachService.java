@@ -245,7 +245,7 @@ public class ProjectAttachService extends Service {
      * @param pwd   password
      * @return true if input verified
      */
-    public Boolean verifyInput(String email, String user, String pwd) {
+    public boolean verifyInput(String email, String user, String pwd) {
         int stringResource = 0;
 
         // check input
@@ -294,7 +294,7 @@ public class ProjectAttachService extends Service {
         int reply = -1;
         int maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
         int attemptCounter = 0;
-        Boolean retry = true;
+        boolean retry = true;
         if (Logging.DEBUG) Log.d(Logging.TAG, "account manager with: " + url + name + maxAttempts);
         // retry a defined number of times, if non deterministic failure occurs.
         // makes login more robust on bad network connections

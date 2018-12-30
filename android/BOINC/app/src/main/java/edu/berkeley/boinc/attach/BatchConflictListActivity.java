@@ -65,7 +65,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
         lv = findViewById(R.id.listview);
         // adapt text
         Intent intent = getIntent();
-        Boolean conflicts = intent.getBooleanExtra("conflicts", false);
+        boolean conflicts = intent.getBooleanExtra("conflicts", false);
         manualUrl = intent.getStringExtra("manualUrl");
         TextView title = findViewById(R.id.desc);
         if (conflicts) title.setText(R.string.attachproject_conflicts_desc);
@@ -160,7 +160,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     }
 
     @Override
-    public void onFinish(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd) {
+    public void onFinish(ProjectAttachWrapper project, boolean login, String email, String name, String pwd) {
         if (Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListActivity onFinish of dialog");
 
         if (asIsBound && !attachService.verifyInput(email, name, pwd)) return;
@@ -180,12 +180,12 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     private class AttachProjectAsyncTask extends AsyncTask<Void, String, Void> {
 
         ProjectAttachWrapper project;
-        Boolean login;
+        boolean login;
         String email;
         String name;
         String pwd;
 
-        public AttachProjectAsyncTask(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd) {
+        public AttachProjectAsyncTask(ProjectAttachWrapper project, boolean login, String email, String name, String pwd) {
             this.project = project;
             this.login = login;
             this.email = email;

@@ -54,7 +54,7 @@ import android.widget.ImageView;
  */
 public class SplashActivity extends Activity {
 
-    private Boolean mIsBound = false;
+    private boolean mIsBound = false;
     private Activity activity = this;
     private static IMonitor monitor = null;
 

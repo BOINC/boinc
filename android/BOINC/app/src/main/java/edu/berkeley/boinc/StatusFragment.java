@@ -81,7 +81,7 @@ public class StatusFragment extends Fragment {
         return inflater.inflate(R.layout.status_layout, container, false);
     }
 
-    private void loadLayout(Boolean forceUpdate) {
+    private void loadLayout(boolean forceUpdate) {
         //load layout, if if ClientStatus can be accessed.
         //if this is not the case, the broadcast receiver will call "loadLayout" again
         try {
@@ -137,7 +137,7 @@ public class StatusFragment extends Fragment {
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-                                    Boolean suspendDueToScreenOn = false;
+                                    boolean suspendDueToScreenOn = false;
                                     try {
                                         suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();
                                     } catch (RemoteException e) {
@@ -275,13 +275,13 @@ public class StatusFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Integer... params) {
             // setting provided mode for both, CPU computation and network.
-            Boolean runMode;
+            boolean runMode;
             try {
                 runMode = BOINCActivity.monitor.setRunMode(params[0]);
             } catch (RemoteException e) {
                 runMode = false;
             }
-            Boolean networkMode;
+            boolean networkMode;
             try {
                 networkMode = BOINCActivity.monitor.setNetworkMode(params[0]);
             } catch (RemoteException e) {

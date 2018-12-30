@@ -404,7 +404,7 @@ public class Monitor extends Service {
      *
      * @param forceCompleteUpdate forces update of entire status information, regardless of screen status
      */
-    private void readClientStatus(Boolean forceCompleteUpdate) {
+    private void readClientStatus(boolean forceCompleteUpdate) {
         try {
             CcStatus status; // read independently of screen status
 
@@ -459,7 +459,7 @@ public class Monitor extends Service {
             // wake locks and foreground enabled when Client is not suspended, therefore also during
             // idle.
             // treat cpu throttling as if it was computing.
-            Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
+            boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
             if (Logging.VERBOSE)
                 Log.d(Logging.TAG, "readClientStatus(): computation enabled: " + computing);
             Monitor.getClientStatus().setWifiLock(computing);
@@ -484,7 +484,7 @@ public class Monitor extends Service {
         try {
             // set devices status
             if (deviceStatus != null) { // make sure deviceStatus is initialized
-                Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)); // transmit device status via rpc
+                boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)); // transmit device status via rpc
                 if (reportStatusSuccess) screenOffStatusOmitCounter = 0;
                 else if (Logging.DEBUG)
                     Log.d(Logging.TAG, "reporting device status returned false.");
@@ -504,9 +504,9 @@ public class Monitor extends Service {
      * executes client process
      * triggers initial reads (e.g. preferences, project list etc)
      *
-     * @return Boolean whether connection established successfully
+     * @return boolean whether connection established successfully
      */
-    private Boolean clientSetup() {
+    private boolean clientSetup() {
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup()");
 
         // try to get current client status from monitor
@@ -582,7 +582,7 @@ public class Monitor extends Service {
         //
         int retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
         int retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
-        Boolean connected = false;
+        boolean connected = false;
         int counter = 0;
         while (!connected && (counter < retryAttempts)) {
             if (Logging.DEBUG) Log.d(Logging.TAG, "Attempting BOINC client connection...");
@@ -595,7 +595,7 @@ public class Monitor extends Service {
             }
         }
 
-        Boolean init = false;
+        boolean init = false;
         if (connected) { // connection established
             try {
                 // read preferences for GUI to be able to display data
@@ -636,10 +636,10 @@ public class Monitor extends Service {
      * Executes BOINC client.
      * Using Java Runtime exec method
      *
-     * @return Boolean success
+     * @return boolean success
      */
-    private Boolean runClient() {
-        Boolean success = false;
+    private boolean runClient() {
+        boolean success = false;
         try {
             String[] cmd = new String[3];
 
@@ -662,10 +662,10 @@ public class Monitor extends Service {
     /**
      * Establishes connection to client and handles initial authentication
      *
-     * @return Boolean success
+     * @return boolean success
      */
-    private Boolean connectClient() {
-        Boolean success = clientInterface.open(clientSocketAddress);
+    private boolean connectClient() {
+        boolean success = clientInterface.open(clientSocketAddress);
         if (!success) {
             if (Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
             return success;
@@ -683,9 +683,9 @@ public class Monitor extends Service {
      * Installs required files from APK's asset directory to the applications' internal storage.
      * File attributes override and executable are defined here
      *
-     * @return Boolean success
+     * @return boolean success
      */
-    private Boolean installClient() {
+    private boolean installClient() {
 
         if (!installFile(fileNameClient, true, true)) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClient);
@@ -717,10 +717,10 @@ public class Monitor extends Service {
      * @param file       name of file as it appears in assets directory
      * @param override   define override, if already present in internal storage
      * @param executable set executable flag of file in internal storage
-     * @return Boolean success
+     * @return boolean success
      */
-    private Boolean installFile(String file, Boolean override, Boolean executable) {
-        Boolean success = false;
+    private boolean installFile(String file, boolean override, boolean executable) {
+        boolean success = false;
         byte[] b = new byte[1024];
         int count;
 
@@ -826,7 +826,7 @@ public class Monitor extends Service {
      * @param inAssets if true, fileName is file name in assets directory, if not, absolute path
      * @return md5 hash of file
      */
-    private String computeMd5(String fileName, Boolean inAssets) {
+    private String computeMd5(String fileName, boolean inAssets) {
         byte[] b = new byte[1024];
         int count;
 
@@ -909,7 +909,7 @@ public class Monitor extends Service {
 
         int pid = -1;
         for (int y = 1; y < processLinesAr.length; y++) {
-            Boolean found = false;
+            boolean found = false;
             String[] comps = processLinesAr[y].split("[\\s]+");
             for (String arg : comps) {
                 if (arg.equals(processName)) {

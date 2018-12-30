@@ -1414,7 +1414,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized Boolean readCcConfig() {
+    public synchronized boolean readCcConfig() {
         try {
             mRequest.setLength(0);
             mRequest.append("<read_cc_config/>");
@@ -1431,7 +1431,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized Boolean runBenchmarks() {
+    public synchronized boolean runBenchmarks() {
         try {
             mRequest.setLength(0);
             mRequest.append("<run_benchmarks/>");

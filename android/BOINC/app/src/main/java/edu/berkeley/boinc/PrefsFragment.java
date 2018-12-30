@@ -117,7 +117,7 @@ public class PrefsFragment extends Fragment {
         super.onPause();
     }
 
-    private Boolean getPrefs() {
+    private boolean getPrefs() {
         // Try to get current client status from monitor
         try {
             clientPrefs = BOINCActivity.monitor.getPrefs(); // Read preferences from client via rpc
@@ -136,7 +136,7 @@ public class PrefsFragment extends Fragment {
         return true;
     }
 
-    private Boolean getHostInfo() {
+    private boolean getHostInfo() {
         // Try to get current client status from monitor
         try {
             hostinfo = BOINCActivity.monitor.getHostInfo(); // Get the hostinfo from client via rpc
@@ -164,9 +164,9 @@ public class PrefsFragment extends Fragment {
 
         data.clear();
 
-        Boolean advanced = BOINCActivity.monitor.getShowAdvanced();
-        Boolean stationaryDeviceMode = BOINCActivity.monitor.getStationaryDeviceMode();
-        Boolean stationaryDeviceSuspected = BOINCActivity.monitor.isStationaryDeviceSuspected();
+        boolean advanced = BOINCActivity.monitor.getShowAdvanced();
+        boolean stationaryDeviceMode = BOINCActivity.monitor.getStationaryDeviceMode();
+        boolean stationaryDeviceSuspected = BOINCActivity.monitor.isStationaryDeviceSuspected();
 
         // The order is important, the GUI will be displayed in the same order as the data is added.
         // General
@@ -246,7 +246,7 @@ public class PrefsFragment extends Fragment {
 
     // Updates list item of boolean preference
     // Requires updateLayout to be called afterwards
-    private void updateBoolPreference(int ID, Boolean newValue) {
+    private void updateBoolPreference(int ID, boolean newValue) {
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + " value: " + newValue);
         for (PrefsListItemWrapper item : data) {
@@ -624,9 +624,9 @@ public class PrefsFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (Logging.DEBUG) Log.d(Logging.TAG, "onCbClick");
-            Boolean previousState = cb.isChecked();
+            boolean previousState = cb.isChecked();
             cb.setChecked(!previousState);
-            Boolean isSet = cb.isChecked();
+            boolean isSet = cb.isChecked();
             try {
                 switch (ID) {
                     case R.string.prefs_autostart_header: //app pref
@@ -810,29 +810,29 @@ public class PrefsFragment extends Fragment {
     public class SelectionDialogOption {
         public String name;
         public int ID;
-        public Boolean selected = false;
-        public Boolean highlighted = false;
+        public boolean selected = false;
+        public boolean highlighted = false;
 
         public SelectionDialogOption(String name) {
             this.name = name;
         }
 
-        public SelectionDialogOption(String name, Boolean selected) {
+        public SelectionDialogOption(String name, boolean selected) {
             this(name);
             this.selected = selected;
         }
 
-        public SelectionDialogOption(String name, Boolean selected, Boolean highlighted) {
+        public SelectionDialogOption(String name, boolean selected, boolean highlighted) {
             this(name, selected);
             this.highlighted = highlighted;
         }
 
-        public SelectionDialogOption(int ID, Boolean selected) {
+        public SelectionDialogOption(int ID, boolean selected) {
             this(getResources().getString(ID), selected);
             this.ID = ID;
         }
 
-        public SelectionDialogOption(int ID, Boolean selected, Boolean highlighted) {
+        public SelectionDialogOption(int ID, boolean selected, boolean highlighted) {
             this(getResources().getString(ID), selected, highlighted);
             this.ID = ID;
         }

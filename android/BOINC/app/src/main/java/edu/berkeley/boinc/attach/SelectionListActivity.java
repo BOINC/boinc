@@ -80,7 +80,7 @@ public class SelectionListActivity extends FragmentActivity {
 
     // check whether user has checked at least a single project
     // shows toast otherwise
-    private Boolean checkProjectChecked() {
+    private boolean checkProjectChecked() {
         for (ProjectListEntry tmp : entries) {
             if (tmp.checked) return true;
         }
@@ -95,10 +95,10 @@ public class SelectionListActivity extends FragmentActivity {
     // as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
     // note: available internet does not guarantee connection to project server
     // is possible!
-    private Boolean checkDeviceOnline() {
+    private boolean checkDeviceOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
         if (!online) {
             Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();

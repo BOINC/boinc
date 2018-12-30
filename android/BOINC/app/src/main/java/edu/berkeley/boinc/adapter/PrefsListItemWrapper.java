@@ -34,7 +34,7 @@ public class PrefsListItemWrapper {
     public Context ctx;
     public int ID;
     public int categoryID;
-    public Boolean isCategory;
+    public boolean isCategory;
     public String header;
     public String description = "";
 
@@ -54,7 +54,7 @@ public class PrefsListItemWrapper {
     }
 
     // Constructor for categories
-    public PrefsListItemWrapper(Context ctx, int ID, Boolean isCategory) {
+    public PrefsListItemWrapper(Context ctx, int ID, boolean isCategory) {
         this.ctx = ctx;
         this.ID = ID;
         this.isCategory = isCategory;

@@ -25,7 +25,7 @@ public class AccountIn implements Parcelable {
     public String url; // either master_url or web_rpc_url_base (HTTPS), if present
     public String email_addr;
     public String user_name;
-    public Boolean uses_name;
+    public boolean uses_name;
     public String passwd;
     public String team_name;
 
@@ -53,7 +53,7 @@ public class AccountIn implements Parcelable {
      * @param password password
      * @param teamName name of team, account shall get associated to
      */
-    public AccountIn(String url, String email, String userName, Boolean usesName, String password, String teamName) {
+    public AccountIn(String url, String email, String userName, boolean usesName, String password, String teamName) {
         this.url = url;
         this.email_addr = email;
         this.user_name = userName;

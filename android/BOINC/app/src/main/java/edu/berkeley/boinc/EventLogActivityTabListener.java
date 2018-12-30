@@ -30,7 +30,7 @@ public class EventLogActivityTabListener<T extends Fragment> implements ActionBa
     private final FragmentActivity mActivity;
     private final String mTag;
     public final Class<T> mClass;
-    public Boolean currentlySelected = false;
+    public boolean currentlySelected = false;
 
     /**
      * Constructor used each time a new tab is created.

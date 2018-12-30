@@ -22,14 +22,14 @@ public class Logging {
     static public String TAG = "BOINC_GUI";
 
     static public int LOGLEVEL = -1;
-    static public Boolean ERROR = LOGLEVEL > 0;
-    static public Boolean WARNING = LOGLEVEL > 1;
-    static public Boolean INFO = LOGLEVEL > 2;
-    static public Boolean DEBUG = LOGLEVEL > 3;
-    static public Boolean VERBOSE = LOGLEVEL > 4;
+    static public boolean ERROR = LOGLEVEL > 0;
+    static public boolean WARNING = LOGLEVEL > 1;
+    static public boolean INFO = LOGLEVEL > 2;
+    static public boolean DEBUG = LOGLEVEL > 3;
+    static public boolean VERBOSE = LOGLEVEL > 4;
 
-    static public Boolean RPC_PERFORMANCE = false;
-    static public Boolean RPC_DATA = false;
+    static public boolean RPC_PERFORMANCE = false;
+    static public boolean RPC_DATA = false;
 
     static public void setLogLevel(int logLevel) {
         LOGLEVEL = logLevel;

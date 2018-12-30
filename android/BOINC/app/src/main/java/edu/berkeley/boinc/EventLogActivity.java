@@ -49,7 +49,7 @@ import android.widget.Toast;
 public class EventLogActivity extends AppCompatActivity {
 
     private IMonitor monitor;
-    private Boolean mIsBound = false;
+    private boolean mIsBound = false;
 
     public EventLogClientFragment clientFrag;
     public ListView clientLogList;

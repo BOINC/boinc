@@ -82,10 +82,10 @@ public class ManualUrlInputFragment extends DialogFragment {
     // as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
     // note: available internet does not imply connection to project server
     // is possible!
-    private Boolean checkDeviceOnline() {
+    private boolean checkDeviceOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
         if (!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();

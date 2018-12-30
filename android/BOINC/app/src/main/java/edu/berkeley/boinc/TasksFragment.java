@@ -141,7 +141,7 @@ public class TasksFragment extends Fragment {
         // use iterator to safely remove while iterating
         Iterator<TaskData> iData = data.iterator();
         while (iData.hasNext()) {
-            Boolean found = false;
+            boolean found = false;
             TaskData listItem = iData.next();
             for (Result rpcResult : newData) {
                 if (listItem.id.equals(rpcResult.name)) {

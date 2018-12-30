@@ -87,7 +87,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         return user;
     }
 
-    public Boolean getIsAcctMgr(int position) {
+    public boolean getIsAcctMgr(int position) {
         return entries.get(position).isMgr;
     }
 

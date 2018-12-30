@@ -68,7 +68,7 @@ public class BOINCActivity extends AppCompatActivity {
     public static IMonitor monitor;
     private int clientComputingStatus = -1;
     private int numberProjectsInNavList = 0;
-    static Boolean mIsBound = false;
+    static boolean mIsBound = false;
 
     // app title (changes with nav bar selection)
     private CharSequence mTitle;
@@ -259,7 +259,7 @@ public class BOINCActivity extends AppCompatActivity {
             Log.d(Logging.TAG, "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() + " is project? " + item.isProjectItem());
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Boolean fragmentChanges = false;
+        boolean fragmentChanges = false;
         if (init) {
             // if init, setup status fragment
             ft.replace(R.id.status_container, new StatusFragment());
@@ -453,13 +453,13 @@ public class BOINCActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Integer... params) {
             // setting provided mode for both, CPU computation and network.
-            Boolean runMode;
+            boolean runMode;
             try {
                 runMode = monitor.setRunMode(params[0]);
             } catch (RemoteException e) {
                 runMode = false;
             }
-            Boolean networkMode;
+            boolean networkMode;
             try {
                 networkMode = monitor.setNetworkMode(params[0]);
             } catch (RemoteException e) {
