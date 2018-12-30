@@ -26,7 +26,7 @@ public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
 
     private Boolean status;
 
-    public PrefsListItemWrapperBool(Context ctx, Integer ID, Integer categoryID, Boolean status) {
+    public PrefsListItemWrapperBool(Context ctx, int ID, int categoryID, Boolean status) {
         super(ctx, ID, categoryID);
         this.status = status;
     }

@@ -43,7 +43,7 @@ public class NoticeNotification {
     private Context context;
     private PersistentStorage store;
     private NotificationManager nm;
-    private Integer notificationId;
+    private int notificationId;
     private PendingIntent contentIntent;
 
     private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<>();

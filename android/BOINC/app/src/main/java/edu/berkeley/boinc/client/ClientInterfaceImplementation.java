@@ -32,7 +32,7 @@ import edu.berkeley.boinc.utils.Logging;
 public class ClientInterfaceImplementation extends RpcClient {
 
     // interval between polling retries in ms
-    private final Integer minRetryInterval = 1000;
+    private final int minRetryInterval = 1000;
 
     /**
      * Reads authentication key from specified file path and authenticates GUI for advanced RPCs with the client
@@ -51,7 +51,7 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @param mode see class BOINCDefs
      * @return success
      */
-    public Boolean setRunMode(Integer mode) {
+    public Boolean setRunMode(int mode) {
         return setRunMode(mode, 0);
     }
 
@@ -61,7 +61,7 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @param mode see class BOINCDefs
      * @return success
      */
-    public Boolean setNetworkMode(Integer mode) {
+    public Boolean setNetworkMode(int mode) {
         return setNetworkMode(mode, 0);
     }
 

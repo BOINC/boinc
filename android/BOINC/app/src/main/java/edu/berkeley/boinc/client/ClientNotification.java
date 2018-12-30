@@ -23,7 +23,7 @@ public class ClientNotification {
 
     private Context context;
     private NotificationManager nm;
-    private Integer notificationId;
+    private int notificationId;
     private PendingIntent contentIntent;
     private Notification n;
 
@@ -152,7 +152,7 @@ public class ClientNotification {
     @SuppressLint("InlinedApi")
     private Notification buildNotification(ClientStatus status, Boolean active, ArrayList<Result> activeTasks) {
         // get current client computingstatus
-        Integer computingStatus = status.computingStatus;
+        int computingStatus = status.computingStatus;
         // get status strings from ClientStatus
         String statusDesc = status.getCurrentStatusDescription();
         String statusTitle = status.getCurrentStatusTitle();

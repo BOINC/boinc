@@ -609,10 +609,10 @@ public class PrefsFragment extends Fragment {
 
     public class BoolOnClick implements OnClickListener {
 
-        private Integer ID;
+        private int ID;
         private CheckBox cb;
 
-        public BoolOnClick(Integer ID, CheckBox cb) {
+        public BoolOnClick(int ID, CheckBox cb) {
             this.ID = ID;
             this.cb = cb;
         }
@@ -805,7 +805,7 @@ public class PrefsFragment extends Fragment {
 
     public class SelectionDialogOption {
         public String name;
-        public Integer ID = null;
+        public int ID;
         public Boolean selected = false;
         public Boolean highlighted = false;
 

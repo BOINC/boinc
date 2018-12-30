@@ -32,14 +32,14 @@ public class PrefsListItemWrapper {
     public PrefsListItemWrapperNumber.DialogButtonType dialogButtonType;
 
     public Context ctx;
-    public Integer ID;
-    public Integer categoryID;
+    public int ID;
+    public int categoryID;
     public Boolean isCategory;
     public String header;
     public String description = "";
 
     // Constructor for elements
-    public PrefsListItemWrapper(Context ctx, Integer ID, Integer categoryID) {
+    public PrefsListItemWrapper(Context ctx, int ID, int categoryID) {
         this.ctx = ctx;
         this.ID = ID;
         this.header = ctx.getString(ID);
@@ -54,7 +54,7 @@ public class PrefsListItemWrapper {
     }
 
     // Constructor for categories
-    public PrefsListItemWrapper(Context ctx, Integer ID, Boolean isCategory) {
+    public PrefsListItemWrapper(Context ctx, int ID, Boolean isCategory) {
         this.ctx = ctx;
         this.ID = ID;
         this.isCategory = isCategory;

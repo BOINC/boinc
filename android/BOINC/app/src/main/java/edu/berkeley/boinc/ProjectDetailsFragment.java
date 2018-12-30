@@ -347,7 +347,7 @@ public class ProjectDetailsFragment extends Fragment {
         protected Boolean doInBackground(Object... params) {
             if (Logging.DEBUG) Log.d(Logging.TAG, "ProjectOperationAsync doInBackground");
             try {
-                Integer operation = (Integer) params[0];
+                int operation = (int) params[0];
                 return BOINCActivity.monitor.projectOp(operation, project.master_url);
             } catch (Exception e) {
                 if (Logging.WARNING)

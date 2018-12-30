@@ -245,7 +245,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private String determineStatusText(TaskData tmp) {
 
         //read status
-        Integer status = tmp.determineState();
+        int status = tmp.determineState();
         //if(Logging.DEBUG) Log.d(Logging.TAG,"determineStatusText for status: " + status);
 
         // custom state

@@ -91,14 +91,14 @@ public class Monitor extends Service {
     private String fileNameGuiAuthentication;
     private String fileNameAllProjectsList;
     private String boincWorkingDir;
-    private Integer clientStatusInterval;
-    private Integer deviceStatusIntervalScreenOff;
+    private int clientStatusInterval;
+    private int deviceStatusIntervalScreenOff;
     private String clientSocketAddress;
 
     private Timer updateTimer = new Timer(true); // schedules frequent client status update
     private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
     private boolean updateBroadcastEnabled = false;
-    private Integer screenOffStatusOmitCounter = 0;
+    private int screenOffStatusOmitCounter = 0;
 
     // screen on/off updated by screenOnOffBroadcastReceiver
     private boolean screenOn = false;
@@ -536,17 +536,17 @@ public class Monitor extends Service {
                 Log.d(Logging.TAG, "Hashes of installed client does not match binary in assets - re-install.");
 
             // try graceful shutdown using RPC (faster)
-            if (getPidForProcessName(clientProcessName) != null) {
+            if (getPidForProcessName(clientProcessName) != -1) {
                 if (connectClient()) {
                     clientInterface.quit();
-                    Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-                    Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+                    int attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+                    int sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
                     for (int x = 0; x < attempts; x++) {
                         try {
                             Thread.sleep(sleepPeriod);
                         } catch (Exception ignored) {
                         }
-                        if (getPidForProcessName(clientProcessName) == null) { //client is now closed
+                        if (getPidForProcessName(clientProcessName) == -1) { //client is now closed
                             if (Logging.DEBUG)
                                 Log.d(Logging.TAG, "quitClient: gracefull RPC shutdown successful after " + x + " seconds");
                             x = attempts;
@@ -556,7 +556,7 @@ public class Monitor extends Service {
             }
 
             // quit with OS signals
-            if (getPidForProcessName(clientProcessName) != null) {
+            if (getPidForProcessName(clientProcessName) != -1) {
                 quitProcessOsLevel(clientProcessName);
             }
 
@@ -569,8 +569,8 @@ public class Monitor extends Service {
 
         // Start the BOINC client if we need to.
         //
-        Integer clientPid = getPidForProcessName(clientProcessName);
-        if (clientPid == null) {
+        int clientPid = getPidForProcessName(clientProcessName);
+        if (clientPid == -1) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client");
             if (!runClient()) {
                 if (Logging.ERROR) Log.d(Logging.TAG, "BOINC client failed to start");
@@ -580,10 +580,10 @@ public class Monitor extends Service {
 
         // Try to connect to executed Client in loop
         //
-        Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
-        Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
+        int retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
+        int retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
         Boolean connected = false;
-        Integer counter = 0;
+        int counter = 0;
         while (!connected && (counter < retryAttempts)) {
             if (Logging.DEBUG) Log.d(Logging.TAG, "Attempting BOINC client connection...");
             connected = connectClient();
@@ -863,9 +863,9 @@ public class Monitor extends Service {
      * Determines ProcessID corresponding to given process name
      *
      * @param processName name of process, according to output of "ps"
-     * @return process id, according to output of "ps"
+     * @return process id, according to output of "ps", or return -1 on failure
      */
-    private Integer getPidForProcessName(String processName) {
+    private int getPidForProcessName(String processName) {
         int count;
         char[] buf = new char[1024];
         StringBuilder sb = new StringBuilder();
@@ -880,19 +880,19 @@ public class Monitor extends Service {
             }
         } catch (Exception e) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
-            return null;
+            return -1;
         }
 
         String[] processLinesAr = sb.toString().split("\n");
         if (processLinesAr.length < 2) {
             if (Logging.ERROR)
                 Log.e(Logging.TAG, "getPidForProcessName(): ps output has less than 2 lines, failure!");
-            return null;
+            return -1;
         }
 
         // figure out what index PID has
         String[] headers = processLinesAr[0].split("[\\s]+");
-        Integer PidIndex = -1;
+        int PidIndex = -1;
         for (int x = 0; x < headers.length; x++) {
             if (headers[x].equals("PID")) {
                 PidIndex = x;
@@ -901,13 +901,13 @@ public class Monitor extends Service {
         }
 
         if (PidIndex == -1) {
-            return null;
+            return -1;
         }
 
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
 
-        Integer pid = null;
+        int pid = -1;
         for (int y = 1; y < processLinesAr.length; y++) {
             Boolean found = false;
             String[] comps = processLinesAr[y].split("[\\s]+");
@@ -931,7 +931,7 @@ public class Monitor extends Service {
             }
         }
         // if not happen in ps output, not running?!
-        if (pid == null)
+        if (pid == -1)
             if (Logging.ERROR)
                 Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " not found in ps output!");
 
@@ -945,10 +945,10 @@ public class Monitor extends Service {
      * @param processName name of process to be killed, according to output of "ps"
      */
     private void quitProcessOsLevel(String processName) {
-        Integer clientPid = getPidForProcessName(processName);
+        int clientPid = getPidForProcessName(processName);
 
         // client PID could not be read, client already ended / not yet started?
-        if (clientPid == null) {
+        if (clientPid == -1) {
             if (Logging.ERROR)
                 Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
             return;
@@ -965,14 +965,14 @@ public class Monitor extends Service {
         android.os.Process.sendSignal(clientPid, android.os.Process.SIGNAL_QUIT);
 
         // Wait for the client to shutdown gracefully
-        Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_attempts);
-        Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_rate_ms);
+        int attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_attempts);
+        int sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_rate_ms);
         for (int x = 0; x < attempts; x++) {
             try {
                 Thread.sleep(sleepPeriod);
             } catch (Exception ignored) {
             }
-            if (getPidForProcessName(processName) == null) { //client is now closed
+            if (getPidForProcessName(processName) == -1) { //client is now closed
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
                 x = attempts;
@@ -980,14 +980,14 @@ public class Monitor extends Service {
         }
 
         clientPid = getPidForProcessName(processName);
-        if (clientPid != null) {
+        if (clientPid != -1) {
             // Process is still alive, send SIGKILL
             if (Logging.ERROR) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
             android.os.Process.killProcess(clientPid);
         }
 
         clientPid = getPidForProcessName(processName);
-        if (clientPid != null) {
+        if (clientPid != -1) {
             if (Logging.ERROR) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
         }
     }

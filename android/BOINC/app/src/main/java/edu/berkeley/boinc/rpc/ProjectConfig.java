@@ -27,19 +27,19 @@ import android.os.Parcelable;
 // according to http://boinc.berkeley.edu/trac/wiki/WebRpc
 
 public class ProjectConfig implements Parcelable {
-    public Integer error_num = 0; // if results are not present yet. (polling)
+    public int error_num = 0; // if results are not present yet. (polling)
     public String name = "";
     public String masterUrl = "";
     public String webRpcUrlBase = "";
     public String localRevision = ""; // e.g. 4.3.2 can't be parse as int or float.
-    public Integer minPwdLength = 0;
+    public int minPwdLength = 0;
     public Boolean usesName = false;
     public Boolean webStopped = false;
     public Boolean schedulerStopped = false;
     public Boolean accountCreationDisabled = false;
     public Boolean clientAccountCreationDisabled = false;
     public Boolean accountManager = false;
-    public Integer minClientVersion = 0;
+    public int minClientVersion = 0;
     public String rpcPrefix = "";
     public ArrayList<PlatformInfo> platforms = new ArrayList<>();
     public String termsOfUse;

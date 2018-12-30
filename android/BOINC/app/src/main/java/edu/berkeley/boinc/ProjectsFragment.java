@@ -188,14 +188,14 @@ public class ProjectsFragment extends Fragment {
         //loop through all received Result items to add new projects
         for (Project rpcResult : latestRpcProjectsList) {
             //check whether this project is new
-            Integer index = null;
+            int index = -1;
             for (int x = 0; x < data.size(); x++) {
                 if (rpcResult.master_url.equals(data.get(x).id)) {
                     index = x;
                     //break; // Need more further investigation.
                 }
             }
-            if (index == null) { // Project is new, add
+            if (index == -1) { // Project is new, add
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "New project found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
                 if (rpcResult.attached_via_acct_mgr)
@@ -369,12 +369,12 @@ public class ProjectsFragment extends Fragment {
 
     public class ProjectControl {
         public ProjectsListData data;
-        public Integer operation;
+        public int operation;
 
         // operation that do not imply an RPC are defined here
         public static final int VISIT_WEBSITE = 100;
 
-        public ProjectControl(ProjectsListData data, Integer operation) {
+        public ProjectControl(ProjectsListData data, int operation) {
             this.operation = operation;
             this.data = data;
         }
@@ -450,7 +450,7 @@ public class ProjectsFragment extends Fragment {
             if (Logging.DEBUG) Log.d(Logging.TAG, "ProjectOperationAsync doInBackground");
             try {
                 ProjectsListData data = (ProjectsListData) params[0];
-                Integer operation = (Integer) params[1];
+                int operation = (int) params[1];
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "ProjectOperationAsync isMgr: " + data.isMgr + "url: " + data.id + " operation: " + operation);
 

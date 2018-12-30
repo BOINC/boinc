@@ -28,14 +28,14 @@ import edu.berkeley.boinc.utils.Logging;
 public class PrefsListItemWrapperText extends PrefsListItemWrapper {
     public String status;
 
-    public PrefsListItemWrapperText(Context ctx, Integer ID, Integer categoryID, String status) {
+    public PrefsListItemWrapperText(Context ctx, int ID, int categoryID, String status) {
         super(ctx, ID, categoryID);
         this.status = status;
         this.dialogButtonType = DialogButtonType.TEXT;
         mapStrings(ID);
     }
 
-    private void mapStrings(Integer id) {
+    private void mapStrings(int id) {
         switch (id) {
             case R.string.prefs_general_device_name_header:
                 description = "";

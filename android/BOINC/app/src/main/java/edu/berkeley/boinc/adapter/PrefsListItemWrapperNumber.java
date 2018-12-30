@@ -38,14 +38,14 @@ public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
     PrefsListItemWrapperNumber.Unit unit;
     public Double status;
 
-    public PrefsListItemWrapperNumber(Context ctx, Integer ID, Integer categoryID, Double status, DialogButtonType dialogButtonType) {
+    public PrefsListItemWrapperNumber(Context ctx, int ID, int categoryID, Double status, DialogButtonType dialogButtonType) {
         super(ctx, ID, categoryID);
         this.status = status;
         this.dialogButtonType = dialogButtonType;
         mapStrings(ID);
     }
 
-    private void mapStrings(Integer id) {
+    private void mapStrings(int id) {
         switch (id) {
             case R.string.battery_charge_min_pct_header:
                 description = ctx.getString(R.string.battery_charge_min_pct_description);

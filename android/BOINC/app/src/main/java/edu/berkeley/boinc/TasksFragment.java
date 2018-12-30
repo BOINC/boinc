@@ -122,14 +122,14 @@ public class TasksFragment extends Fragment {
         //loop through all received Result items to add new results
         for (Result rpcResult : newData) {
             //check whether this Result is new
-            Integer index = null;
+            int index = -1;
             for (int x = 0; x < data.size(); x++) {
                 if (rpcResult.name.equals(data.get(x).id)) {
                     index = x;
                     break;
                 }
             }
-            if (index == null) { // result is new, add
+            if (index == -1) { // result is new, add
                 if (Logging.DEBUG) Log.d(Logging.TAG, "new result found, id: " + rpcResult.name);
                 data.add(new TaskData(rpcResult));
             } else { // result was present before, update its data
@@ -170,7 +170,7 @@ public class TasksFragment extends Fragment {
 
         public void updateResultData(Result data) {
             this.result = data;
-            Integer currentState = determineState();
+            int currentState = determineState();
             if (nextState == -1) return;
             if (currentState == nextState) {
                 if (Logging.DEBUG) Log.d(Logging.TAG, "nextState met! " + nextState);
@@ -194,15 +194,15 @@ public class TasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    final Integer operation = (Integer) v.getTag();
+                    final int operation = (int) v.getTag();
                     switch (operation) {
                         case RpcClient.RESULT_SUSPEND:
                             nextState = BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
-                            new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                            new ResultOperationAsync().execute(result.project_url, result.name, Integer.toString(operation));
                             break;
                         case RpcClient.RESULT_RESUME:
                             nextState = BOINCDefs.PROCESS_EXECUTING;
-                            new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                            new ResultOperationAsync().execute(result.project_url, result.name, Integer.toString(operation));
                             break;
                         case RpcClient.RESULT_ABORT:
                             final Dialog dialog = new Dialog(getActivity());
@@ -220,7 +220,7 @@ public class TasksFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     nextState = BOINCDefs.RESULT_ABORTED;
-                                    new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                                    new ResultOperationAsync().execute(result.project_url, result.name, Integer.toString(operation));
                                     dialog.dismiss();
                                 }
                             });
@@ -276,7 +276,7 @@ public class TasksFragment extends Fragment {
             try {
                 String url = params[0];
                 String name = params[1];
-                Integer operation = Integer.parseInt(params[2]);
+                int operation = Integer.parseInt(params[2]);
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "url: " + url + " Name: " + name + " operation: " + operation);
 

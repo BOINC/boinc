@@ -34,7 +34,7 @@ public class AppPreferences {
     private Boolean showNotificationForNotices;
     private Boolean showNotificationDuringSuspend;
     private Boolean showAdvanced;
-    private Integer logLevel;
+    private int logLevel;
     private Boolean powerSourceAc;
     private Boolean powerSourceUsb;
     private Boolean powerSourceWireless;
@@ -106,7 +106,7 @@ public class AppPreferences {
         return this.showAdvanced;
     }
 
-    public void setLogLevel(Integer logLevel) {
+    public void setLogLevel(int logLevel) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("logLevel", logLevel);
         editor.commit();
@@ -114,7 +114,7 @@ public class AppPreferences {
         Logging.setLogLevel(logLevel);
     }
 
-    public Integer getLogLevel() {
+    public int getLogLevel() {
         return this.logLevel;
     }
 

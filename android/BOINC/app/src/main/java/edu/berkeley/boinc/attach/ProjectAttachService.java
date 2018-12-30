@@ -292,8 +292,8 @@ public class ProjectAttachService extends Service {
     public int attachAcctMgr(String url, String name, String pwd) {
 
         int reply = -1;
-        Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
-        Integer attemptCounter = 0;
+        int maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
+        int attemptCounter = 0;
         Boolean retry = true;
         if (Logging.DEBUG) Log.d(Logging.TAG, "account manager with: " + url + name + maxAttempts);
         // retry a defined number of times, if non deterministic failure occurs.
@@ -502,8 +502,8 @@ public class ProjectAttachService extends Service {
         public AccountOut register() {
             AccountOut credentials = null;
             boolean retry = true;
-            Integer attemptCounter = 0;
-            Integer maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
+            int attemptCounter = 0;
+            int maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
             // retry a defined number of times, if non deterministic failure occurs.
             // makes login more robust on bad network connections
             while (retry && attemptCounter < maxAttempts) {
@@ -556,8 +556,8 @@ public class ProjectAttachService extends Service {
         public AccountOut login() {
             AccountOut credentials = null;
             boolean retry = true;
-            Integer attemptCounter = 0;
-            Integer maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
+            int attemptCounter = 0;
+            int maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
             // retry a defined number of times, if non deterministic failure occurs.
             // makes login more robust on bad network connections
             while (retry && attemptCounter < maxAttempts) {
@@ -624,7 +624,7 @@ public class ProjectAttachService extends Service {
 
     private class GetProjectConfigsAsync extends AsyncTask<Void, Void, Void> {
 
-        Integer maxAttempts = getResources().getInteger(R.integer.attach_get_project_config_retries);
+        int maxAttempts = getResources().getInteger(R.integer.attach_get_project_config_retries);
 
         @Override
         protected void onPreExecute() {
@@ -661,7 +661,7 @@ public class ProjectAttachService extends Service {
         private ProjectConfig getProjectConfig(String url) {
             ProjectConfig config = null;
             boolean retry = true;
-            Integer attemptCounter = 0;
+            int attemptCounter = 0;
             // retry a defined number of times, if non deterministic failure occurs.
             // makes login more robust on bad network connections
             while (retry && attemptCounter < maxAttempts) {

@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -32,14 +31,13 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import edu.berkeley.boinc.PrefsFragment.SelectionDialogOption;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
 
 public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialogOption> implements OnClickListener {
 
-    private ArrayList<SelectionDialogOption> entries;
+	private ArrayList<SelectionDialogOption> entries;
     private Activity activity;
 
     public PrefsSelectionDialogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<SelectionDialogOption> entries) {
@@ -51,56 +49,56 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
-    @Override
-    public int getCount() {
-        return entries.size();
-    }
+	@Override
+	public int getCount() {
+		return entries.size();
+	}
 
-    @Override
-    public SelectionDialogOption getItem(int position) {
-        return entries.get(position);
-    }
+	@Override
+	public SelectionDialogOption getItem(int position) {
+		return entries.get(position);
+	}
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
-        SelectionDialogOption listItem = entries.get(position);
+		View v = convertView;
+		SelectionDialogOption listItem = entries.get(position);
 
-        if (v == null) {
-            LayoutInflater li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
-            CheckBox cb = v.findViewById(R.id.checkbox);
-            cb.setChecked(listItem.selected);
-            cb.setClickable(false);
-            TextView text = v.findViewById(R.id.checkbox_text);
-            text.setText(listItem.name);
-            RelativeLayout wrapper = v.findViewById(R.id.checkbox_wrapper);
-            wrapper.setClickable(true);
-            wrapper.setOnClickListener(this);
-            wrapper.setTag(position);
-            if (getItem(position).highlighted) {
-                v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
-                //v.setBackgroundDrawable(activity.getResources().getDrawable());
-                //cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
-            }
-        }
-        return v;
-    }
+		if(v == null) {
+	        LayoutInflater li = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    		v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
+    		CheckBox cb = v.findViewById(R.id.checkbox);
+    		cb.setChecked(listItem.selected);
+    		cb.setClickable(false);
+    		TextView text = v.findViewById(R.id.checkbox_text);
+    		text.setText(listItem.name);
+    		RelativeLayout wrapper = v.findViewById(R.id.checkbox_wrapper);
+    		wrapper.setClickable(true);
+    		wrapper.setOnClickListener(this);
+    		wrapper.setTag(position);
+    		if(getItem(position).highlighted) {
+    			v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
+    			//v.setBackgroundDrawable(activity.getResources().getDrawable());
+    			//cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
+    		}
+		}
+	    return v;
+	}
 
-    @Override
-    public void onClick(View v) {
-        Log.d(Logging.TAG, "PrefsSelectionDialogListAdapter onClick");
-        RelativeLayout wrapper = (RelativeLayout) v;
-        Integer position = (Integer) v.getTag();
-        CheckBox cb = wrapper.findViewById(R.id.checkbox);
-        Boolean previousState = cb.isChecked();
-        cb.setChecked(!previousState);
-        entries.get(position).selected = cb.isChecked();
-    }
+	@Override
+	public void onClick(View v) {
+		Log.d(Logging.TAG,"PrefsSelectionDialogListAdapter onClick");
+		RelativeLayout wrapper = (RelativeLayout) v;
+		int position = (int) v.getTag();
+		CheckBox cb = wrapper.findViewById(R.id.checkbox);
+		Boolean previousState = cb.isChecked();
+		cb.setChecked(!previousState);
+		entries.get(position).selected = cb.isChecked();
+	}
 }

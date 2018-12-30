@@ -39,7 +39,7 @@ import android.widget.AbsListView.OnScrollListener;
 public class EventLogClientFragment extends Fragment {
 
     // message retrieval
-    private Integer pastMsgsLoadingRange = 50; // amount messages loaded when end of list is reached
+    private int pastMsgsLoadingRange = 50; // amount messages loaded when end of list is reached
     private EventLogActivity a;
 
     @Override
@@ -125,7 +125,7 @@ public class EventLogClientFragment extends Fragment {
 
     private final class RetrieveRecentClientMsgs extends AsyncTask<Void, Void, ArrayList<edu.berkeley.boinc.rpc.Message>> {
 
-        private Integer mostRecentSeqNo = 0;
+        private int mostRecentSeqNo = 0;
 
         @Override
         protected void onPreExecute() {

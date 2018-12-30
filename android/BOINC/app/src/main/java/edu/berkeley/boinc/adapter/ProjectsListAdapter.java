@@ -193,14 +193,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // transfers
-            Integer numberTransfers = data.projectTransfers.size();
+            int numberTransfers = data.projectTransfers.size();
             TextView tvTransfers = vi.findViewById(R.id.project_transfers);
             String transfersString = "";
             if (numberTransfers > 0) { // ongoing transfers
                 // summarize information for compact representation
-                Integer numberTransfersUpload = 0;
+                int numberTransfersUpload = 0;
                 Boolean uploadsPresent = false;
-                Integer numberTransfersDownload = 0;
+                int numberTransfersDownload = 0;
                 Boolean downloadsPresent = false;
                 Boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;

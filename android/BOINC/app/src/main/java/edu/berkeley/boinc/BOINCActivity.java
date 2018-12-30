@@ -66,8 +66,8 @@ import java.util.ArrayList;
 public class BOINCActivity extends AppCompatActivity {
 
     public static IMonitor monitor;
-    private Integer clientComputingStatus = -1;
-    private Integer numberProjectsInNavList = 0;
+    private int clientComputingStatus = -1;
+    private int numberProjectsInNavList = 0;
     static Boolean mIsBound = false;
 
     // app title (changes with nav bar selection)
@@ -346,8 +346,8 @@ public class BOINCActivity extends AppCompatActivity {
     private void determineStatus() {
         try {
             if (mIsBound) {
-                Integer newComputingStatus = monitor.getComputingStatus();
-                if (!newComputingStatus.equals(clientComputingStatus)) {
+                int newComputingStatus = monitor.getComputingStatus();
+                if (newComputingStatus != clientComputingStatus) {
                     // computing status has changed, update and invalidate to force adaption of action items
                     clientComputingStatus = newComputingStatus;
                     supportInvalidateOptionsMenu();

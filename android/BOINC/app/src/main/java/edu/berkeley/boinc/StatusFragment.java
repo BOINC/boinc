@@ -43,10 +43,10 @@ import android.widget.TextView;
 public class StatusFragment extends Fragment {
 
     // keep computingStatus and suspend reason to only adapt layout when changes occur
-    private Integer computingStatus = -1;
-    private Integer computingSuspendReason = -1;
-    private Integer networkSuspendReason = -1;
-    private Integer setupStatus = -1;
+    private int computingStatus = -1;
+    private int computingSuspendReason = -1;
+    private int networkSuspendReason = -1;
+    private int setupStatus = -1;
 
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override

@@ -78,7 +78,7 @@ public class ClientStatus {
     private AcctMgrInfo acctMgrInfo;
 
     // setup status
-    public Integer setupStatus = 0;
+    public int setupStatus = 0;
     public static final int SETUP_STATUS_LAUNCHING = 0; // 0 = client is in setup routine (default)
     public static final int SETUP_STATUS_AVAILABLE = 1; // 1 = client is launched and available for RPC (connected and authorized)
     public static final int SETUP_STATUS_ERROR = 2; // 2 = client is in a permanent error state
@@ -86,20 +86,20 @@ public class ClientStatus {
     private Boolean setupStatusParseError = false;
 
     // computing status
-    public Integer computingStatus = 2;
+    public int computingStatus = 2;
     public static final int COMPUTING_STATUS_NEVER = 0;
     public static final int COMPUTING_STATUS_SUSPENDED = 1;
     public static final int COMPUTING_STATUS_IDLE = 2;
     public static final int COMPUTING_STATUS_COMPUTING = 3;
-    public Integer computingSuspendReason = 0; //reason why computing got suspended, only if COMPUTING_STATUS_SUSPENDED
+    public int computingSuspendReason = 0; //reason why computing got suspended, only if COMPUTING_STATUS_SUSPENDED
     private Boolean computingParseError = false; //indicates that status could not be parsed and is therefore invalid
 
     // network status
-    public Integer networkStatus = 2;
+    public int networkStatus = 2;
     public static final int NETWORK_STATUS_NEVER = 0;
     public static final int NETWORK_STATUS_SUSPENDED = 1;
     public static final int NETWORK_STATUS_AVAILABLE = 2;
-    public Integer networkSuspendReason = 0; //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
+    public int networkSuspendReason = 0; //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
     private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
 
     // notices
@@ -203,7 +203,7 @@ public class ClientStatus {
      * either during setup or closing of client.
      * this function does not effect the state of the client!
      */
-    public synchronized void setSetupStatus(Integer newStatus, Boolean fireStatusChangeEvent) {
+    public synchronized void setSetupStatus(int newStatus, Boolean fireStatusChangeEvent) {
         setupStatus = newStatus;
         if (fireStatusChangeEvent) fire();
     }
@@ -495,7 +495,7 @@ public class ClientStatus {
                             statusString = ctx.getString(R.string.suspend_battery_charging);
                             try {
                                 Double minCharge = prefs.battery_charge_min_pct;
-                                Integer currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
+                                int currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
                                 statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
                                         + "% (" + ctx.getString(R.string.suspend_battery_charging_current) + " " + currentCharge + "%) "
                                         + ctx.getString(R.string.suspend_battery_charging_long2);

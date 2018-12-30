@@ -31,7 +31,7 @@ public class Logging {
     static public Boolean RPC_PERFORMANCE = false;
     static public Boolean RPC_DATA = false;
 
-    static public void setLogLevel(Integer logLevel) {
+    static public void setLogLevel(int logLevel) {
         LOGLEVEL = logLevel;
         ERROR = LOGLEVEL > 0;
         WARNING = LOGLEVEL > 1;

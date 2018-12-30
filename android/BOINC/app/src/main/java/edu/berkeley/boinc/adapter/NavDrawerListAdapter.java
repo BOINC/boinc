@@ -110,7 +110,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         // displaying count
         // check whether it set visible or not
         if (navDrawerItems.get(position).getCounterVisibility()) {
-            Integer counter = 0;
+            int counter = 0;
             switch (navDrawerItems.get(position).id) {
                 case R.string.tab_tasks:
                     try {
@@ -163,7 +163,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
      * @param projects Project list
      * @return Returns number of project items in nav bar after adding
      */
-    public Integer compareAndAddProjects(ArrayList<Project> projects) {
+    public int compareAndAddProjects(ArrayList<Project> projects) {
         // delete all old projects from nav items
         Iterator<NavDrawerItem> it = navDrawerItems.iterator();
         while (it.hasNext()) {
@@ -171,7 +171,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
             if (item.isProjectItem) it.remove();
         }
 
-        Integer numberAdded = 0;
+        int numberAdded = 0;
 
         for (Project project : projects) {
             NavDrawerItem newProjectItem = new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
