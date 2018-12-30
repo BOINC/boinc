@@ -259,7 +259,7 @@ public class PrefsFragment extends Fragment {
 
     // Updates list item of number preference
     // Requires updateLayout to be called afterwards
-    private void updateNumberPreference(int ID, Double newValue) {
+    private void updateNumberPreference(int ID, double newValue) {
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + " value: " + newValue);
         for (PrefsListItemWrapper item : data) {
@@ -293,8 +293,8 @@ public class PrefsFragment extends Fragment {
                 prefsListItemWrapperNumber.ID == R.string.prefs_cpu_time_max_header ||
                 prefsListItemWrapperNumber.ID == R.string.prefs_cpu_other_load_suspension_header ||
                 prefsListItemWrapperNumber.ID == R.string.prefs_memory_max_idle_header) {
-            Double seekBarDefault = prefsListItemWrapperNumber.status / 10;
-            slider.setProgress(seekBarDefault.intValue());
+            double seekBarDefault = prefsListItemWrapperNumber.status / 10;
+            slider.setProgress((int) seekBarDefault);
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
             slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
@@ -311,7 +311,7 @@ public class PrefsFragment extends Fragment {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                 }
             });
-            onSeekBarChangeListener.onProgressChanged(slider, seekBarDefault.intValue(), false);
+            onSeekBarChangeListener.onProgressChanged(slider, (int) seekBarDefault, false);
         } else if (prefsListItemWrapperNumber.ID == R.string.prefs_cpu_number_cpus_header) {
             if (!getHostInfo()) {
                 if (Logging.WARNING) Log.w(Logging.TAG, "onItemClick missing hostInfo");
@@ -319,7 +319,7 @@ public class PrefsFragment extends Fragment {
             }
             slider.setMax(hostinfo.p_ncpus <= 1 ? 0 : hostinfo.p_ncpus - 1);
             final int statusValue;
-            slider.setProgress((statusValue = prefsListItemWrapperNumber.status.intValue()) <= 0 ?
+            slider.setProgress((statusValue = (int) prefsListItemWrapperNumber.status) <= 0 ?
                     0 :
                     statusValue - 1 > slider.getMax() ?
                             slider.getMax() :
@@ -344,7 +344,7 @@ public class PrefsFragment extends Fragment {
             onSeekBarChangeListener.onProgressChanged(slider, statusValue - 1, false);
         } else if (prefsListItemWrapperNumber.ID == R.string.prefs_gui_log_level_header) {
             slider.setMax(5);
-            slider.setProgress(prefsListItemWrapperNumber.status.intValue());
+            slider.setProgress((int) prefsListItemWrapperNumber.status);
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
             slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
@@ -361,7 +361,7 @@ public class PrefsFragment extends Fragment {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                 }
             });
-            onSeekBarChangeListener.onProgressChanged(slider, prefsListItemWrapperNumber.status.intValue(), false);
+            onSeekBarChangeListener.onProgressChanged(slider, (int) prefsListItemWrapperNumber.status, false);
         }
 
         setupDialogButtons(item, dialog);
@@ -583,9 +583,13 @@ public class PrefsFragment extends Fragment {
         return ncpus;
     }
 
+    /**
+     * @param input Integer in String data type.
+     * @return Return the value in Double data type, on error return null
+     */
     public Double parseInputValueToDouble(String input) {
         // Parse value
-        Double value;
+        double value;
         try {
             input = input.replaceAll(",", "."); //Replace e.g. European decimal seperator "," by "."
             value = Double.parseDouble(input);
