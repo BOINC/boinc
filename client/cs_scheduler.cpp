@@ -763,10 +763,11 @@ int CLIENT_STATE::handle_scheduler_reply(
         active_tasks.request_reread_prefs(project);
     }
 
-    // show notice if we can't possibly get work from this project.
-    // This must come after parsing project prefs
+    // notices here serve no purpose.
+    // The only thing that may have changed is project prefs,
+    // and there's no reason to tell the user what they just did.
     //
-    project->show_no_work_notice();
+    //project->show_no_work_notice();
 
     // if the scheduler reply includes a code-signing key,
     // accept it if we don't already have one from the project.
