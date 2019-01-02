@@ -726,8 +726,6 @@ int CLIENT_STATE::init() {
 
     check_if_need_benchmarks();
 
-    log_show_projects();
-
     read_global_prefs();
 
     // do CPU scheduler and work fetch
@@ -759,6 +757,8 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+
+    log_show_projects();    // this must follow acct_mgr_info.init()
 
     // set up for handling GUI RPCs
     //
