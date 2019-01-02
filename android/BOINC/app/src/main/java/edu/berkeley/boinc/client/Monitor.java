@@ -286,7 +286,7 @@ public class Monitor extends Service {
     }
 	
 	/**
-	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86).
 	 * Defaults to ARM
 	 * @return ID of BOINC platform name string in resources
 	 */
@@ -296,10 +296,8 @@ public class Monitor extends Service {
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
 		else if (normalizedArch.contains("ARM64")) platformId = R.string.boinc_platform_name_arm64;
-		else if (normalizedArch.contains("MIPS64")) platformId = R.string.boinc_platform_name_mips64;
-	    else if (normalizedArch.contains("X86_64")) platformId= R.string.boinc_platform_name_x86_64;
+		else if (normalizedArch.contains("X86_64")) platformId= R.string.boinc_platform_name_x86_64;
 		else if (normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
-		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
 	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
 	    else {
 	    	if(Logging.ERROR) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
@@ -311,7 +309,7 @@ public class Monitor extends Service {
 	}
 	
 	/**
-	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86).
 	 * @return  BOINC platform name string in resources
 	 */
 	public String getBoincAltPlatform() {
@@ -320,7 +318,6 @@ public class Monitor extends Service {
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformName = getString(R.string.boinc_platform_name_arm);
 		else if (normalizedArch.contains("ARM64")) platformName = getString(R.string.boinc_platform_name_arm);
-		else if (normalizedArch.contains("MIPS64")) platformName = getString(R.string.boinc_platform_name_mips);
 	    else if (normalizedArch.contains("X86_64")) platformName = getString(R.string.boinc_platform_name_x86);
 	    
 	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC Alt platform: " + platformName + " for os.arch: " + arch);
@@ -732,7 +729,7 @@ public class Monitor extends Service {
     }
 	
 	/**
-	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86 or MIPS)
+	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86)
 	 * @return name of assets directory for given platform, not an absolute path.
 	 */
 	private String getAssestsDirForCpuArchitecture() {
@@ -749,12 +746,6 @@ public class Monitor extends Service {
 			break;
 		case R.string.boinc_platform_name_x86_64:
 			archAssetsDirectory = getString(R.string.assets_dir_x86_64);
-			break;
-		case R.string.boinc_platform_name_mips:
-			archAssetsDirectory = getString(R.string.assets_dir_mips);
-			break;
-		case R.string.boinc_platform_name_mips64:
-			archAssetsDirectory = getString(R.string.assets_dir_mips64);
 			break;
 		}
 	    return archAssetsDirectory;
