@@ -8,7 +8,7 @@ set -e
 # Script to compile Libcurl for Android
 
 COMPILECURL="${COMPILECURL:-yes}"
-SILENT_MODE="${SILENT_MODE:-no}"
+STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -37,25 +37,12 @@ if [ "$COMPILECURL" = "yes" ]; then
     echo "===== building curl for arm64 from $CURL ====="
     cd "$CURL"
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-        if [ "$SILENT_MODE" = "yes" ]; then
-            make distclean 1>/dev/null 2>&1
-        else
-            make distclean
-        fi
+        make distclean 1>$STDOUT_TARGET 2>&1
     fi
     if [ -n "$CONFIGURE" ]; then
-        if [ "$SILENT_MODE" = "yes" ]; then
-            ./configure --host=aarch64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>/dev/null
-        else
-            ./configure --host=aarch64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
-        fi
+        ./configure --host=aarch64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET
     fi
-    if [ "$SILENT_MODE" = "yes" ]; then
-        make 1>/dev/null
-        make install 1>/dev/null
-    else
-        make
-        make install
-    fi
+    make 1>$STDOUT_TARGET
+    make install 1>$STDOUT_TARGET
     echo "===== curl for arm64 build done ====="
 fi

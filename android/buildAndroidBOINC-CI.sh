@@ -47,6 +47,7 @@ isPathCanonical() {
 doclean=""
 cache_dir=""
 arch=""
+silent=""
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
@@ -64,6 +65,9 @@ while [ $# -gt 0 ]; do
         --arch)
         arch="$2"
         shift
+        ;;
+        --silent)
+        silent="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -110,10 +114,13 @@ if [ "${doclean}" = "yes" ]; then
     mkdir -p "${BUILD_DIR}"
 fi
 
+if [ "${silent}" = "yes" ]; then
+    export STDOUT_TARGET="/dev/null"
+fi
+
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
-export SILENT_MODE="yes"
 CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
 OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
 

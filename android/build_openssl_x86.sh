@@ -8,7 +8,7 @@ set -e
 # Script to compile OpenSSL for Android
 
 COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
-SILENT_MODE="${SILENT_MODE:-no}"
+STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -37,29 +37,16 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     echo "===== building openssl for x86 from $OPENSSL ====="
     cd "$OPENSSL"
     if [ -n "$MAKECLEAN" ]; then
-        if [ "$SILENT_MODE" = "yes" ]; then
-            make clean 1>/dev/null 2>&1
-        else
-            make clean
-        fi
+        make clean 1>$STDOUT_TARGET 2>&1
     fi
     if [ -n "$CONFIGURE" ]; then
-        if [ "$SILENT_MODE" = "yes" ]; then
-            ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>/dev/null
-        else
-            ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
-        fi
+        ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>$STDOUT_TARGET
         #override flags in Makefile
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    if [ "$SILENT_MODE" = "yes" ]; then
-        make 1>/dev/null
-        make install_sw 1>/dev/null
-    else
-        make
-        make install_sw
-    fi
+    make 1>$STDOUT_TARGET
+    make install_sw 1>$STDOUT_TARGET
     echo "===== openssl for x86 build done ====="
 fi

@@ -7,7 +7,7 @@ set -e
 
 # Script to compile BOINC for Android
 
-SILENT_MODE="${SILENT_MODE:-no}"
+STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -38,11 +38,7 @@ if [ -n "$COMPILEBOINC" ]; then
     echo "===== building BOINC for arm from $BOINC ====="
     cd "$BOINC"
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-        if [ "$SILENT_MODE" = "yes" ]; then
-            make distclean &>/dev/null
-        else
-            make distclean
-        fi
+        make distclean 1>$STDOUT_TARGET 2>&1
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
@@ -50,13 +46,8 @@ if [ -n "$COMPILEBOINC" ]; then
         sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
         mv client/Makefile.out client/Makefile
     fi
-    if [ "$SILENT_MODE" = "yes" ]; then
-        make --silent
-        make stage --silent
-    else
-        make
-        make stage
-    fi
+    make --silent
+    make stage --silent
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin
