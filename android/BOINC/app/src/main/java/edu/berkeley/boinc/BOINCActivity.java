@@ -274,7 +274,7 @@ public class BOINCActivity extends AppCompatActivity {
 	    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/wiki/BOINC_Help")));
 	    		break;
 	    	case R.string.menu_bug_report:
-	    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/BOINC/boinc/issues")));
+	    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/forum_forum.php?id=24")));
 	    		break;
 	    	case R.string.menu_about:
 				final Dialog dialog = new Dialog(this);
