@@ -718,7 +718,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         if (show_error_msgs) {
             fprintf(stderr, "Skin Manager: Origanization report bug url was not defined. Using defaults.\n");
         }
-        m_strOrganizationReportBugUrl = wxT("https://github.com/BOINC/boinc/issues");
+        m_strOrganizationReportBugUrl = wxT("https://boinc.berkeley.edu/trac/wiki/ReportBugs");
         wxASSERT(!m_strOrganizationReportBugUrl.IsEmpty());
     }
     return true;
