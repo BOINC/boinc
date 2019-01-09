@@ -257,8 +257,8 @@ function page_head(
         <html lang="en">
         <head>
     ';
-    if (defined('HEAD_EXTRA')) {
-        echo HEAD_EXTRA;
+    if (defined('GLOBAL_HEAD_EXTRA')) {
+        echo GLOBAL_HEAD_EXTRA;
     }
     echo '
         <meta name="viewport" content="width=device-width, initial-scale=1">
