@@ -8,6 +8,7 @@ set -e
 # Script to compile Libcurl for Android
 
 COMPILECURL="${COMPILECURL:-yes}"
+STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
@@ -33,15 +34,15 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_x86_64.sh
 
 if [ "$COMPILECURL" = "yes" ]; then
-echo "==================building curl from $CURL================================="
-cd "$CURL"
-if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-make distclean
-fi
-if [ -n "$CONFIGURE" ]; then
-./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
-fi
-make
-make install
-echo "========================curl done================================="
+    echo "===== building curl for x86-64 from $CURL ====="
+    cd "$CURL"
+    if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
+        make distclean 1>$STDOUT_TARGET 2>&1
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        ./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET
+    fi
+    make 1>$STDOUT_TARGET
+    make install 1>$STDOUT_TARGET
+    echo "===== curl for x86-64 build done ====="
 fi
