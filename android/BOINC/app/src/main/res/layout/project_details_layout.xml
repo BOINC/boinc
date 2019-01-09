@@ -156,7 +156,8 @@
 		        android:layout_height="wrap_content"
 		        android:textAppearance="?android:attr/textAppearanceSmall"
 		        android:clickable="true"
-		        android:textColor="@color/dark_blue"/>
+		        android:focusable="true"
+		        android:textColor="@color/dark_blue" />
 	    </LinearLayout>
 	    
         <HorizontalScrollView 

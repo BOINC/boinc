@@ -45,11 +45,12 @@
 		android:layout_height="0dip"
 		android:padding="5dp"
 		android:clickable="true"
+		android:focusable="true"
 		android:layout_margin="5dp"
 		android:background="@drawable/shape_button_blue"
 		android:textColor="@color/white_smoke"
 		android:textAppearance="?android:attr/textAppearanceMedium" 
 		android:text="@string/confirm_cancel"
 		android:layout_gravity="center_horizontal"
-		android:layout_weight="0.5"/> 
+		android:layout_weight="0.5" />
 </LinearLayout>

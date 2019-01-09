@@ -71,12 +71,13 @@
 			android:layout_height="wrap_content"
 			android:padding="5dp"
 			android:clickable="true"
+			android:focusable="true"
 			android:layout_margin="5dp"
 			android:background="@drawable/shape_button_blue"
 			android:textColor="@color/white_smoke"
 			android:textAppearance="?android:attr/textAppearanceMedium" 
 			android:text="@string/confirm_cancel"
-			android:layout_weight="0.5"/> 
+			android:layout_weight="0.5" />
     	
         <Button
 			android:id="@+id/confirm"
@@ -84,12 +85,13 @@
 			android:layout_height="wrap_content"
 			android:padding="5dp"
 			android:clickable="true"
+			android:focusable="true"
 			android:layout_margin="5dp"
 			android:background="@drawable/shape_button_red"
 			android:textColor="@color/white_smoke"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:text="@string/prefs_submit_button"
-			android:layout_weight="0.5" /> 
+			android:layout_weight="0.5" />
         
     </LinearLayout>  
 </LinearLayout>
