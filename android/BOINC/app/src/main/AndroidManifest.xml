@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2016 University of California
@@ -39,12 +38,20 @@
     <!-- Features required for Android TV, consoles, and set-top boxes like Nexus Player, OUYA,
          Razer Forge TV, Nvidia SHIELD, etc -->
     <!-- Effectively a hint for the Google Play store only and at the Leanback UI Library -->
-    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
     <!-- Implies some sort of D-pad, game controller, joystick, remote control, etc -->
-    <uses-feature android:name="android.hardware.gamepad" android:required="false" />
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.gamepad"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
     <!-- Effectively a hint for the Google Play store only -->
-    <uses-feature android:name="android.hardware.type.television" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.type.television"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -62,6 +69,7 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <category android:name="tv.ouya.intent.category.APP" />
@@ -72,14 +80,14 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:exported="true" />
-        <activity android:name="edu.berkeley.boinc.attach.AcctMgrFragment" >
+        <activity android:name="edu.berkeley.boinc.attach.AcctMgrFragment">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.berkeley.boinc.BOINCActivity" />
         </activity>
         <activity
             android:name="edu.berkeley.boinc.attach.SelectionListActivity"
-            android:theme="@style/Theme.Styled.NoActionBar"/>
+            android:theme="@style/Theme.Styled.NoActionBar" />
         <activity
             android:name="edu.berkeley.boinc.attach.CredentialInputActivity"
             android:theme="@style/Theme.Styled.NoActionBar"
@@ -96,7 +104,9 @@
                 android:value="edu.berkeley.boinc.BOINCActivity" />
         </activity>
 
-        <service android:name="edu.berkeley.boinc.client.Monitor" android:process=":remote" />
+        <service
+            android:name="edu.berkeley.boinc.client.Monitor"
+            android:process=":remote" />
         <service android:name="edu.berkeley.boinc.attach.ProjectAttachService" />
 
         <receiver android:name="edu.berkeley.boinc.receiver.BootReceiver">
@@ -105,16 +115,21 @@
             </intent-filter>
         </receiver>
         <receiver android:name="edu.berkeley.boinc.receiver.PowerConnectedReceiver">
-	        <intent-filter>
-	            <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-	        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+            </intent-filter>
         </receiver>
         <receiver android:name="edu.berkeley.boinc.receiver.PackageReplacedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
-                <data android:path="edu.berkeley.boinc" android:scheme="package" />
+                <data
+                    android:path="edu.berkeley.boinc"
+                    android:scheme="package" />
             </intent-filter>
         </receiver>
-        <activity android:name=".BoincNotExclusiveDialog" android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name=".BoincNotExclusiveDialog"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 </manifest>
