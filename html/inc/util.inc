@@ -556,10 +556,14 @@ function valid_tokens($auth) {
     $tnow = get_str('tnow', true);
     $ttok = get_str('ttok', true);
     if (!$tnow) {
-        $tnow = $_POST['tnow'];
+      if (isset($_POST['tnow'])) {
+          $tnow = $_POST['tnow'];
+      }
     }
     if (!$ttok) {
-        $ttok = $_POST['ttok'];
+      if (isset($_POST['ttok'])) {
+          $ttok = $_POST['ttok'];
+      }
     }
     if (!$tnow) return false;
     if (!$ttok) return false;
