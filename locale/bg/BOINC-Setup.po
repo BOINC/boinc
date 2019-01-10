@@ -1,17 +1,18 @@
 # BOINC setup localization template
-# Copyright (C) 2016 University of California
+# Copyright (C) 2018 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Petko Stoyanov <masteraip@gmail.com>, 2017
 # Vesselin Stoilov <vesselin91@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
-"PO-Revision-Date: 2017-02-06 14:03+0000\n"
-"Last-Translator: Vesselin Stoilov <vesselin91@gmail.com>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
+"Last-Translator: Petko Stoyanov <masteraip@gmail.com>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/boinc/boinc/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +21,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:135
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+msgid "Could not get user login name"
+msgstr "Потребителското име за вход не може да се получи"
+
+#: mac_installer/Installer.cpp:199
 #, c-format
 msgid "Sorry, this version of %s requires system 10.6 or higher."
 msgstr "Съжаляваме, тази версия на %s изисква система 10.6 или по-нова."
 
-#: mac_installer/PostInstall.cpp:127 mac_installer/PostInstall.cpp:1094
-#: mac_installer/uninstall.cpp:1616
+#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
+#: mac_installer/uninstall.cpp:1512
 msgid "Yes"
 msgstr "Да"
 
-#: mac_installer/PostInstall.cpp:128 mac_installer/PostInstall.cpp:1095
-#: mac_installer/uninstall.cpp:1617
+#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
+#: mac_installer/uninstall.cpp:1513
 msgid "No"
 msgstr "Не"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:130
+#: mac_installer/PostInstall.cpp:142
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Да работи ли BOINC дори когато няма логнат потребител?"
 
-#: mac_installer/PostInstall.cpp:1375
+#: mac_installer/PostInstall.cpp:1501
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -48,55 +53,50 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "На потребители, които имат разрешение да администрират този компютър, автоматично ще им бъде позволено да стартират и да управляват %s.\n\nИскате ли също потребители без администраторски права да могат да стартират и управляват %s на този Mac?"
 
-#: mac_installer/PostInstall.cpp:1403
+#: mac_installer/PostInstall.cpp:1529
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "Искате ли да зададете %s като скрийн-сейвър за всички %s потребители на този Mac?"
+msgstr "Искате ли да зададете %s като скрийнсейвър за всички %s потребители на този Mac?"
 
-#: mac_installer/uninstall.cpp:80
+#: mac_installer/uninstall.cpp:84
 msgid "OK"
 msgstr "OK"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:134
+#: mac_installer/uninstall.cpp:144
 msgid "Permission error after relaunch"
-msgstr "Грешка при разрешенията след рестартиране"
+msgstr "Грешка в разрешенията след рестарт на програмата"
 
-#: mac_installer/uninstall.cpp:139
+#: mac_installer/uninstall.cpp:149
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Премахването може да отнеме няколко минути.\nМоля имайте търпение."
 
-#: mac_installer/uninstall.cpp:156
+#: mac_installer/uninstall.cpp:164
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Сигурни ли сте, че напълно искате да премахнете %s от вашия компютър?\n\nТова ще премахне изпълнимите файлове, но няма да закача файловете с данни на %s."
+msgstr "Сигурни ли сте, че искате да премахнете напълно %s от вашия компютър?\n\nТова ще премахне изпълнимите файлове, но няма да промени файловете с данни на %s."
 
-#: mac_installer/uninstall.cpp:163
+#: mac_installer/uninstall.cpp:179
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "Отказано: %s остана недокоснат."
+msgstr "Отказано: %s е без промяна."
 
-#: mac_installer/uninstall.cpp:174
-#, c-format
-msgid "An error occurred: error code %d"
-msgstr "Възникна грешка: код за грешка %d"
-
-#: mac_installer/uninstall.cpp:230
+#: mac_installer/uninstall.cpp:243
 msgid "name  of user"
 msgstr "име  на потребител"
 
-#: mac_installer/uninstall.cpp:272
+#: mac_installer/uninstall.cpp:296
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "Искате ли също така да премахнете и VirtualBox от компютъра Ви? (VirtualBox беше инсталиран заедно с BOINC.)"
+msgstr "Искате ли също така да премахнете и VirtualBox? (VirtualBox беше инсталиран заедно с BOINC.)"
 
-#: mac_installer/uninstall.cpp:312
+#: mac_installer/uninstall.cpp:334
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -106,19 +106,12 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr "Премахването завърши.\n\n Може да поискате да премахнете следните оставащи елементи с помощта на Търсачката: \nпапката \"%s\"\n\nза всеки потребител, файла\n\"%s\"."
+msgstr "Премахването завърши.\n\nМоже да искате да премахнете и следните останали елементи чрез ръчно търсене и изтриване: \nдиректория \"%s\"\n\nи за всеки потребител, файл\n\"%s\"."
 
-#: mac_installer/uninstall.cpp:871
-#, c-format
-msgid ""
-"Enter your administrator password to completely remove %s from you computer.\n"
-"\n"
-msgstr "Въведете своята администраторска парола за да премахнете напълно %s от вашия компютър.\n\n"
-
-#: mac_installer/uninstall.cpp:1614
+#: mac_installer/uninstall.cpp:1510
 msgid "Cancel"
-msgstr "Отказ"
+msgstr "Откажи"
 
-#: mac_installer/uninstall.cpp:1615
+#: mac_installer/uninstall.cpp:1511
 msgid "Continue..."
-msgstr "Продължение..."
+msgstr "Продължи..."

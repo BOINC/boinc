@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
@@ -161,7 +161,9 @@ public class Monitor extends Service {
     	try {
     		// remove screen on/off receiver
     		unregisterReceiver(screenOnOffReceiver);
-    	} catch (Exception ex) {}
+    	} catch (Exception e) {
+    		if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+    	}
         
     	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
@@ -172,7 +174,9 @@ public class Monitor extends Service {
 		try {
 			clientStatus.setWakeLock(false);
 			clientStatus.setWifiLock(false);
-		} catch (Exception ex) {}
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.onDestroy error: ",e);
+		}
     }
 
     @Override
@@ -276,24 +280,24 @@ public class Monitor extends Service {
     	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
     	try{
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
-    	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+    	} catch (Exception e){
+    		if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.forceRefresh error: ",e);
+    	} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 	
 	/**
-	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86).
 	 * Defaults to ARM
 	 * @return ID of BOINC platform name string in resources
 	 */
 	public int getBoincPlatform() {
-		int platformId = 0;
+		int platformId;
 		String arch = System.getProperty("os.arch");    
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
 		else if (normalizedArch.contains("ARM64")) platformId = R.string.boinc_platform_name_arm64;
-		else if (normalizedArch.contains("MIPS64")) platformId = R.string.boinc_platform_name_mips64;
-	    else if (normalizedArch.contains("X86_64")) platformId= R.string.boinc_platform_name_x86_64;
+		else if (normalizedArch.contains("X86_64")) platformId= R.string.boinc_platform_name_x86_64;
 		else if (normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
-		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
 	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
 	    else {
 	    	if(Logging.ERROR) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
@@ -305,7 +309,7 @@ public class Monitor extends Service {
 	}
 	
 	/**
-	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86).
 	 * @return  BOINC platform name string in resources
 	 */
 	public String getBoincAltPlatform() {
@@ -314,7 +318,6 @@ public class Monitor extends Service {
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformName = getString(R.string.boinc_platform_name_arm);
 		else if (normalizedArch.contains("ARM64")) platformName = getString(R.string.boinc_platform_name_arm);
-		else if (normalizedArch.contains("MIPS64")) platformName = getString(R.string.boinc_platform_name_mips);
 	    else if (normalizedArch.contains("X86_64")) platformName = getString(R.string.boinc_platform_name_x86);
 	    
 	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC Alt platform: " + platformName + " for os.arch: " + arch);
@@ -392,14 +395,17 @@ public class Monitor extends Service {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
 				} else {
 					String nullValues = "";
-					try{
-						if(state == null) nullValues += "state,";
-						if(state.results == null) nullValues += "state.results,";
-						if(state.projects == null) nullValues += "state.projects,";
-						if(transfers == null) nullValues += "transfers,";
-						if(state.host_info == null) nullValues += "state.host_info,";
-						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
-					} catch (NullPointerException e) {};
+
+					if(state == null) {
+						nullValues += "state ";
+					} else {
+						if(state.results == null) nullValues += "state.results ";
+						if(state.projects == null) nullValues += "state.projects ";
+						if(state.host_info == null) nullValues += "state.host_info ";
+					}
+					if(transfers == null) nullValues += "transfers ";
+					if(acctMgrInfo == null) nullValues += "acctMgrInfo ";
+
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				
@@ -496,7 +502,7 @@ public class Monitor extends Service {
 		    		for(int x = 0; x < attempts; x++) {
 		    			try {
 		    				Thread.sleep(sleepPeriod);
-		    			} catch (Exception e) {}
+		    			} catch (Exception ignored) {}
 		    			if(getPidForProcessName(clientProcessName) == null) { //client is now closed
 		        			if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
 		    				x = attempts;
@@ -541,7 +547,7 @@ public class Monitor extends Service {
 
 			try {
 				Thread.sleep(retryRate);
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
 		}
 		
 		Boolean init = false;
@@ -605,21 +611,19 @@ public class Monitor extends Service {
      * @return Boolean success
      */
 	private Boolean connectClient() {
-		Boolean success = false;
-		
-        success = clientInterface.open(clientSocketAddress);
+        Boolean success = clientInterface.open(clientSocketAddress);
         if(!success) {
-        	if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
-        	return success;
+            if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
+            return success;
         }
         
         //authorize
         success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
         if(!success) {
-        	if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
+            if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
         }
         return success;
-	}
+    }
 	
 	/**
 	 * Installs required files from APK's asset directory to the applications' internal storage.
@@ -660,68 +664,72 @@ public class Monitor extends Service {
      * @return Boolean success
      */
 	private Boolean installFile(String file, Boolean override, Boolean executable) {
-    	Boolean success = false;
-    	byte[] b = new byte [1024];
-		int count; 
+        Boolean success = false;
+        byte[] b = new byte [1024];
+        int count;
 		
-		// If file is executable, cpu architecture has to be evaluated
-		// and assets directory select accordingly
-		String source = "";
-		if(executable) source = getAssestsDirForCpuArchitecture() + file;
-		else source = file;
+        // If file is executable, cpu architecture has to be evaluated
+        // and assets directory select accordingly
+        String source;
+        if(executable) source = getAssestsDirForCpuArchitecture() + file;
+        else source = file;
 		
-		try {
-			if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
+        try {
+            if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
 			
-    		File target = new File(boincWorkingDir + file);
+            File target = new File(boincWorkingDir + file);
     		
-    		// Check path and create it
-    		File installDir = new File(boincWorkingDir);
-    		if(!installDir.exists()) {
-    			installDir.mkdir();
-    			installDir.setWritable(true); 
-    		}
-    		
-    		if(target.exists()) {
-    			if(override) target.delete();
-    			else {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
-    				return true;
-    			}
-    		}
-    		
-    		// Copy file from the asset manager to clientPath
-    		InputStream asset = getApplicationContext().getAssets().open(source); 
-    		OutputStream targetData = new FileOutputStream(target); 
-    		while((count = asset.read(b)) != -1){ 
-    			targetData.write(b, 0, count);
-    		}
-    		asset.close(); 
-    		targetData.flush(); 
-    		targetData.close();
+            // Check path and create it
+            File installDir = new File(boincWorkingDir);
+            if(!installDir.exists()) {
+                if (!installDir.mkdir()) {
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): mkdir() was not successful.");
+                }
 
-    		success = true; //copy succeeded without exception
-    		
-    		// Set executable, if requested
-    		Boolean isExecutable = false;
-    		if(executable) {
-    			target.setExecutable(executable);
-    			isExecutable = target.canExecute();
-    			success = isExecutable; // return false, if not executable
-    		}
+                if (!installDir.setWritable(true)) {
+                    if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): setWritable() was not successful.");
+                }
+            }
 
-    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
+            if(target.exists()) {
+                if(override) {
+                    if (!target.delete()) {
+                        if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.installFile(): delete() was not successful.");
+                    }
+                } else {
+                    if(Logging.DEBUG) Log.d(Logging.TAG,"skipped file, exists and ovverride is false");
+                    return true;
+                }
+            }
     		
-    	} catch (IOException e) {  
-    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
-    	}
+            // Copy file from the asset manager to clientPath
+            InputStream asset = getApplicationContext().getAssets().open(source);
+            OutputStream targetData = new FileOutputStream(target);
+            while((count = asset.read(b)) != -1){
+                targetData.write(b, 0, count);
+            }
+            asset.close();
+            targetData.close();
+
+            success = true; //copy succeeded without exception
+    		
+            // Set executable, if requested
+            if(executable) {
+                success = target.setExecutable(executable); // return false, if not executable
+            }
+
+            if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + success);
+    		
+        } catch (IOException e) {
+            if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
+            if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
+        }
 		
-		return success;
-	}
+        return success;
+    }
 	
 	/**
-	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86 or MIPS)
+	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86)
 	 * @return name of assets directory for given platform, not an absolute path.
 	 */
 	private String getAssestsDirForCpuArchitecture() {
@@ -738,12 +746,6 @@ public class Monitor extends Service {
 			break;
 		case R.string.boinc_platform_name_x86_64:
 			archAssetsDirectory = getString(R.string.assets_dir_x86_64);
-			break;
-		case R.string.boinc_platform_name_mips:
-			archAssetsDirectory = getString(R.string.assets_dir_mips);
-			break;
-		case R.string.boinc_platform_name_mips64:
-			archAssetsDirectory = getString(R.string.assets_dir_mips64);
 			break;
 		}
 	    return archAssetsDirectory;
@@ -762,7 +764,7 @@ public class Monitor extends Service {
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 
-			InputStream fs = null;
+			InputStream fs;
 			if(inAssets) fs = getApplicationContext().getAssets().open(getAssestsDirForCpuArchitecture() + fileName); 
 			else fs = new FileInputStream(new File(fileName)); 
 			
@@ -773,8 +775,8 @@ public class Monitor extends Service {
 
 			byte[] md5hash = md5.digest();
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < md5hash.length; ++i) {
-				sb.append(String.format("%02x", md5hash[i]));
+			for (byte singleMd5hash : md5hash) {
+				sb.append(String.format("%02x", singleMd5hash));
 			}
     		
     		return sb.toString();
@@ -795,7 +797,7 @@ public class Monitor extends Service {
     private Integer getPidForProcessName(String processName) {
     	int count;
     	char[] buf = new char[1024];
-    	StringBuffer sb = new StringBuffer();
+    	StringBuilder sb = new StringBuilder();
     	
     	//run ps and read output
     	try {
@@ -819,35 +821,45 @@ public class Monitor extends Service {
     	
     	// figure out what index PID has
     	String [] headers = processLinesAr[0].split("[\\s]+");
-    	Integer PidIndex = 1;
+    	Integer PidIndex = -1;
     	for (int x = 0; x < headers.length; x++) {
     		if(headers[x].equals("PID")) {
     			PidIndex = x;
-    			continue;
+    			break;
     		}
     	}
-		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
-    	
-		Integer pid = null;
-    	for(int y = 1; y < processLinesAr.length; y++) {
+
+    	if (PidIndex == -1) {
+    		return null;
+    	}
+
+    	if (Logging.DEBUG)
+    		Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
+
+    	Integer pid = null;
+    	for (int y = 1; y < processLinesAr.length; y++) {
     		Boolean found = false;
-    	    String [] comps = processLinesAr[y].split("[\\s]+");
-    	    for(String arg: comps) {
-    	    	if(arg.equals(processName)) {
-    	    		if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " found in line: " + y);
-    	    		found = true;
-    	    	}
-    	    }
-    	    if(found) {
-	    	    try{
-	    	    	pid = Integer.parseInt(comps[PidIndex]);
-	        	    if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
-	    	    }catch (NumberFormatException e) {if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);}
-	    	    continue;
-    	    }
+    		String[] comps = processLinesAr[y].split("[\\s]+");
+    		for (String arg : comps) {
+    			if (arg.equals(processName)) {
+    				if (Logging.DEBUG) Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " found in line: " + y);
+    				found = true;
+    				break; // Break out of inner foreach (comps) loop
+    			}
+    		}
+    		if (found) {
+    			try {
+    				pid = Integer.parseInt(comps[PidIndex]);
+    				if (Logging.ERROR) Log.d(Logging.TAG, "getPidForProcessName(): pid: " + pid);
+    			} catch (NumberFormatException e) {
+    				if (Logging.ERROR) Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
+    			}
+    			break;// Break out of outer for (processLinesAr) loop
+    		}
     	}
     	// if not happen in ps output, not running?!
-		if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+    	if(pid == null)
+    		if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
     	return pid;
@@ -881,7 +893,7 @@ public class Monitor extends Service {
     	for(int x = 0; x < attempts; x++) {
 			try {
 				Thread.sleep(sleepPeriod);
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
     		if(getPidForProcessName(processName) == null) { //client is now closed
         		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull SIGQUIT shutdown successful after " + x + " seconds");
     			x = attempts;
@@ -933,7 +945,9 @@ public class Monitor extends Service {
 		protected Void doInBackground(Integer... params) {
 			try {
 				mBinder.setRunMode(params[0]);
-			} catch (RemoteException e) {}
+			} catch (RemoteException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.SetClientRunModeAsync: doInBackground() error: ", e);
+			}
 			return null;
 		}
 	}
@@ -972,7 +986,12 @@ public class Monitor extends Service {
 		public boolean setCcConfig(String config) throws RemoteException {
 			return clientInterface.setCcConfig(config);
 		}
-		
+
+		@Override
+		public boolean setDomainName(String deviceName) throws RemoteException {
+			return clientInterface.setDomainName(deviceName);
+		}
+
 		@Override
 		public boolean resultOp(int op, String url, String name)
 				throws RemoteException {
@@ -1003,7 +1022,9 @@ public class Monitor extends Service {
 		public boolean isStationaryDeviceSuspected() throws RemoteException {
 			try {
 				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ", e);
+			}
 			return false;
 		}
 		
@@ -1038,7 +1059,9 @@ public class Monitor extends Service {
 		public int getBatteryChargeStatus() throws RemoteException{
 			try {
 				return getDeviceStatus().getStatus().battery_charge_pct;
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e);
+			}
 			return 0;
 		}
 		
@@ -1117,7 +1140,7 @@ public class Monitor extends Service {
 		public HostInfo getHostInfo() throws RemoteException {
 			return clientStatus.getHostInfo();
 		}
-		
+
 		@Override
 		public GlobalPreferences getPrefs() throws RemoteException {
 			return clientStatus.getPrefs();

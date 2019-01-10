@@ -345,26 +345,6 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function Begin"));
 
-#ifdef __WXMAC__
-    CFStringRef frontWindowTitle, eventLogTitle;
-    CDlgEventLog* eventLog = wxGetApp().GetEventLog();
-    if (eventLog) {
-        WindowRef win = FrontNonFloatingWindow();
-        if (win) {
-            CopyWindowTitleAsCFString(win, &frontWindowTitle);
-            eventLogTitle = CFStringCreateWithCString(NULL, eventLog->GetTitle().char_str(), kCFStringEncodingUTF8);
-            CFComparisonResult res = CFStringCompare(eventLogTitle, frontWindowTitle, 0);
-            CFRelease(eventLogTitle);
-            CFRelease(frontWindowTitle);
-            if (res == kCFCompareEqualTo) {
-                wxCloseEvent eventClose;
-                eventLog->OnClose(eventClose);
-                return;
-            }
-        }
-    }
-#endif
-
 	Close();
 
 	wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function End"));
@@ -576,6 +556,10 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
                 return;
             }
         }
+    } else {
+        // Don't ask whether to reconnect to remote client
+        pDoc->Reconnect();
+        return;
     }
 
     // %s is the application name

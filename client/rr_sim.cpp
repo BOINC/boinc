@@ -558,3 +558,51 @@ void rr_simulation() {
     RR_SIM rr_sim;
     rr_sim.simulate();
 }
+
+// Compute the number of idle instances of each resource
+// Put results in global state (rsc_work_fetch)
+//
+void get_nidle() {
+    int nidle_rsc = coprocs.n_rsc;
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        rsc_work_fetch[i].nidle_now = coprocs.coprocs[i].count;
+    }
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (!rp->nearly_runnable()) continue;
+        if (rp->some_download_stalled()) continue;
+        APP_VERSION* avp = rp->avp;
+        if (rsc_work_fetch[0].nidle_now) {
+            rsc_work_fetch[0].nidle_now -= avp->avg_ncpus;
+            if (rsc_work_fetch[0].nidle_now <= 0) {
+                nidle_rsc--;
+                rsc_work_fetch[0].nidle_now = 0;
+            }
+        }
+        int j = avp->gpu_usage.rsc_type;
+        if (!j) {
+            continue;
+        }
+        if (rsc_work_fetch[j].nidle_now) {
+            rsc_work_fetch[j].nidle_now -= avp->gpu_usage.usage;
+            if (rsc_work_fetch[j].nidle_now <= 0) {
+                nidle_rsc--;
+                rsc_work_fetch[j].nidle_now = 0;
+            }
+        }
+        if (nidle_rsc == 0) {
+            // no idle resources - no need to look further
+            //
+            break;
+        }
+    }
+}
+
+bool any_resource_idle() {
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        if (rsc_work_fetch[i].nidle_now > 0) {
+            return true;
+        }
+    }
+    return false;
+}

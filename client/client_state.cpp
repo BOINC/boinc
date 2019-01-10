@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -89,7 +89,8 @@ CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
     get_project_list_op(&gui_http),
-    acct_mgr_op(&gui_http)
+    acct_mgr_op(&gui_http),
+    lookup_login_token_op(&gui_http)
 {
     http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
@@ -174,9 +175,12 @@ CLIENT_STATE::CLIENT_STATE()
     must_check_work_fetch = true;
     retry_shmem_time = 0;
     no_gui_rpc = false;
+    autologin_in_progress = false;
+    autologin_fetching_project_list = false;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
+    client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     detach_console = false;
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
@@ -248,6 +252,26 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
         tz<0?"":"+", tz
     );
+
+#ifdef _WIN64
+    if (host_info.wsl_available) {
+        msg_printf(NULL, MSG_INFO, "WSL detected:");
+        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
+            const WSL& wsl = host_info.wsls.wsls[i];
+            if (wsl.is_default) {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            } else {
+                msg_printf(NULL, MSG_INFO,
+                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                );
+            }
+        }
+    } else {
+        msg_printf(NULL, MSG_INFO, "No WSL found.");
+    }
+#endif
 
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
@@ -435,7 +459,7 @@ int CLIENT_STATE::init() {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        get_primary_platform(),
+        HOSTTYPE,
 #ifdef _DEBUG
         " (DEBUG)"
 #else
@@ -617,6 +641,8 @@ int CLIENT_STATE::init() {
     cc_config.show();
 
     // inform the user if there's a newer version of client
+    // NOTE: this must be called AFTER
+    // read_vc_config_file()
     //
     newer_version_startup_check();
 
@@ -665,7 +691,7 @@ int CLIENT_STATE::init() {
     retval = write_state_file();
     if (retval) {
         msg_printf_notice(NULL, false,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=statefile",
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=statefile",
             _("Couldn't write state file; check directory permissions")
         );
         cant_write_state_file = true;
@@ -729,6 +755,7 @@ int CLIENT_STATE::init() {
 
     // check for initialization files
     //
+    process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
 
@@ -784,13 +811,12 @@ int CLIENT_STATE::init() {
     //
     proxy_info_startup();
 
-    if (gstate.projects.size() == 0) {
-        msg_printf(NULL, MSG_INFO,
-            "This computer is not attached to any projects"
-        );
-        msg_printf(NULL, MSG_INFO,
-            "Visit http://boinc.berkeley.edu for instructions"
-        );
+    if (!autologin_in_progress) {
+        if (gstate.projects.size() == 0) {
+            msg_printf(NULL, MSG_INFO,
+                "This computer is not attached to any projects"
+            );
+        }
     }
 
     // get list of BOINC projects occasionally,
@@ -840,7 +866,9 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         gui_rpc_fds.zero();
         http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
-        gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
+        if (!autologin_in_progress) {
+            gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
+        }
 
         bool have_async = have_async_file_op();
 
@@ -852,11 +880,16 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
 #ifdef NEW_CPU_THROTTLE
         client_mutex.unlock();
 #endif
-        n = select(
-            all_fds.max_fd+1,
-            &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
-            &tv
-        );
+        if (all_fds.max_fd == -1) {
+            boinc_sleep(time_remaining);
+            n = 0;
+        } else {
+            n = select(
+                all_fds.max_fd+1,
+                &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
+                &tv
+            );
+        }
         //printf("select in %d out %d\n", all_fds.max_fd, n);
 #ifdef NEW_CPU_THROTTLE
         client_mutex.lock();
@@ -1444,28 +1477,24 @@ bool CLIENT_STATE::garbage_collect() {
     // because detach_project() calls garbage_collect_always(),
     // and we need to avoid infinite recursion
     //
-    if (acct_mgr_info.using_am()) {
-        // If we're using an AM,
-        // start an AM RPC rather than detaching the projects;
-        // the RPC completion handler will detach them.
-        // This way the AM will be informed of their work done.
-        //
+    while (1) {
+        bool found = false;
         for (unsigned i=0; i<projects.size(); i++) {
             PROJECT* p = projects[i];
             if (p->detach_when_done && !nresults_for_project(p)) {
-                acct_mgr_info.next_rpc_time = 0;
-                acct_mgr_info.poll();
-                break;
+                // If we're using an AM,
+                // wait until the next successful RPC to detach project,
+                // so the AM will be informed of its work done.
+                //
+                if (!p->attached_via_acct_mgr) {
+                    msg_printf(p, MSG_INFO, "Detaching - no more tasks");
+                    detach_project(p);
+                    action = true;
+                    found = true;
+                }
             }
         }
-    } else {
-        for (unsigned i=0; i<projects.size(); i++) {
-            PROJECT* p = projects[i];
-            if (p->detach_when_done && !nresults_for_project(p)) {
-                detach_project(p);
-                action = true;
-            }
-        }
+        if (!found) break;
     }
 #endif
     return action;

@@ -1257,6 +1257,7 @@ void process_request(char* code_sign_key) {
     if (g_reply->user.id == 0) {
         log_messages.printf(MSG_CRITICAL, "No user ID!\n");
     }
+    g_request->user_id = g_reply->user.id;
     initial_host = g_reply->host;
     g_reply->host.rpc_seqno = g_request->rpc_seqno;
 

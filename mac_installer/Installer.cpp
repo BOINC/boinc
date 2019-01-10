@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,8 @@
 #include "str_replace.h"
 #include "mac_util.h"
 #include "translate.h"
+#include "file_names.h"
+#include "mac_branding.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -47,6 +49,7 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
+static long GetOldBrandID(void);
 static void ShowMessage(const char *format, ...);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
@@ -76,12 +79,19 @@ int main(int argc, char *argv[])
 {
     char                    pkgPath[MAXPATHLEN];
     char                    postInstallAppPath[MAXPATHLEN];
-    char                    temp[MAXPATHLEN];
+    char                    temp[MAXPATHLEN], temp2[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
     OSStatus                err = noErr;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
+    FILE                    *f;
+    long                    oldBrandID;
+
+    if (!check_branding_arrays(temp, sizeof(temp))) {
+        ShowMessage((char *)_("Branding array has too few entries: %s"), temp);
+        return -1;
+    }
 
     if (Initialize() != noErr) {
         return 0;
@@ -115,17 +125,56 @@ int main(int argc, char *argv[])
     strlcpy(postInstallAppPath, pkgPath, sizeof(postInstallAppPath));
     strlcat(postInstallAppPath, "PostInstall.app", sizeof(postInstallAppPath));
 
-   // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     p = strrchr(temp, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
-    if (p == NULL)
+    if (p == NULL) {
         p = temp - 1;
+    } else {
+        *p = '\0';
+    }
+    
+    // Delete any old project auto-attach key file from our temp directory
+    snprintf(temp2, sizeof(temp2), "rm -dfR \"/tmp/%s/%s\"", tempDirName, ACCOUNT_DATA_FILENAME);
+    err = callPosixSpawn(temp2);
+    REPORT_ERROR(err);
+
+    // Write a file containing the project auto-attach key into our temp
+    // directory because the BOINC Data directory may not yet exist.
+    // PostInstall.app will copy it into the BOINC Data directory laer
+    snprintf(temp2, sizeof(temp2), "%s/%s", temp, ACCOUNT_DATA_FILENAME);
+    if (boinc_file_exists(temp2)) {
+        // If the project server put account_data.txt file in the same
+        // parent directory as this installer, copy it into our temp directory
+        snprintf(temp2, sizeof(temp2), "cp \"%s/%s\" \"/tmp/%s/%s\"", temp, ACCOUNT_DATA_FILENAME, tempDirName, ACCOUNT_DATA_FILENAME);
+        err = callPosixSpawn(temp2);
+        REPORT_ERROR(err);
+    } else {
+        // Create an account_data.txt file containing our 
+        // installer's filename and put it in our temp directory
+        snprintf(temp2, sizeof(temp2), "/tmp/%s/%s", tempDirName, ACCOUNT_DATA_FILENAME);
+        f = fopen(temp2, "w");
+        fputs(p+1, f);
+        fclose(f);
+    }
+
+    // Write a temp file to tell our PostInstall.app the previous branding, if any
+    oldBrandID = GetOldBrandID();
+    snprintf(temp, sizeof(temp), "/tmp/%s/OldBranding", tempDirName);
+    f = fopen(temp, "w");
+    if (!f) {
+        REPORT_ERROR(true);
+    } else {
+        fprintf(f, "BrandId=%ld\n", oldBrandID);
+        fclose(f);
+    }
+
+    // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     strlcpy(brand, p+1, sizeof(brand));
     strlcat(pkgPath, p+1, sizeof(pkgPath));
     p = strrchr(pkgPath, ' ');         // Strip off last space character and everything following
     if (p)
         *p = '\0'; 
 
-    p = strstr(brand, " Installer.app");  // Strip off trailing " Installer.app"
+    p = strrchr(brand, ' ');         // Strip off last space character and everything following
     if (p)
         *p = '\0'; 
     
@@ -161,13 +210,13 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (compareOSVersionTo(10, 6) < 0) {
+    if (compareOSVersionTo(10, 7) < 0) {
         LoadPreferredLanguages();
         BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.7 or higher."), brand);
 
         snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
         err = callPosixSpawn(temp);
@@ -516,6 +565,24 @@ static void LoadPreferredLanguages(){
         }
     }
     fclose(f);
+}
+
+
+static long GetOldBrandID()
+{
+    long oldBrandId;
+
+    oldBrandId = 0;   // Default value
+    
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &oldBrandId);
+        fclose(f);
+    }
+    if ((oldBrandId < 0) || (oldBrandId > (NUMBRANDS-1))) {
+        oldBrandId = 0;
+    }
+    return oldBrandId;
 }
 
 

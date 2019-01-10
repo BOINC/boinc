@@ -102,7 +102,7 @@ function boincimport_perm() {
  */
 function boincimport_reset() {
   global $db_url;
-  $boinc_db_url = (is_array($db_url)) ? (isset($db_url['boinc']) ? $db_url['boinc'] : $db_url['default']) : $db_url;
+  $boinc_db_url = (is_array($db_url)) ? (isset($db_url['boinc_rw']) ? $db_url['boinc_rw'] : $db_url['default']) : $db_url;
   variable_set('boincimport_db_url', $boinc_db_url);
   variable_set('boincimport_ready', 0);
   return '<p>'. t('The BOINC database URL has been reset. You may now <a href="@configlink">go back to the configuration page</a>.',
@@ -147,10 +147,10 @@ function _boincimport_db_connect($test= 0) {
     } else {
       $db_url2['default'] = $db_url;
     }
-    $db_url2['boinc'] = variable_get('boincimport_db_url', $db_url);
+    $db_url2['boinc_rw'] = variable_get('boincimport_db_url', $db_url);
     $GLOBALS['db_url'] =& $db_url2;
     if ($test) {
-      if (!db_connect($db_url2['boinc'])) {
+      if (!db_connect($db_url2['boinc_rw'])) {
         return 0;
       }
     }
@@ -469,7 +469,7 @@ function boincimport_users() {
   $import_lurkers = variable_get('boincimport_import_lurkers', 1);
 
   // Determine which users need to be processed
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   if ($import_lurkers) {
     // Import all users, even those who have no community participation; other
     // users will be imported when they first try to log into the drupal site
@@ -739,7 +739,7 @@ function boincimport_teams() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the list of teams to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boinc_teams = db_query('
     SELECT id, name, description, userid, create_time
     FROM %steam',
@@ -908,7 +908,7 @@ function boincimport_friends() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get stuff to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $friendships = db_query('
     SELECT
       f1.user_src,
@@ -1086,7 +1086,7 @@ function boincimport_preferences() {
   // to the Drupal ignore users module
   
   // Find users who are involved in quarrels
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $quarrelers = db_query("
     SELECT userid, ignorelist
     FROM %sforum_preferences
@@ -1268,7 +1268,7 @@ function boincimport_private_msgs() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get stuff to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boinc_private_msgs = db_query('
     SELECT id, subject, content, userid, senderid, date, opened
     FROM %sprivate_messages',
@@ -1464,7 +1464,7 @@ function boincimport_forum_categories() {
   }
   
   // Get both categories and forums from BOINC
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boinc_forum_categories = db_query('
     SELECT id, name
     FROM %scategory
@@ -1643,7 +1643,7 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   }
   else {
     // If this container is empty, put it into the hidden container
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $forums_contained = db_result(db_query('
       SELECT count(*) FROM %sforum
       WHERE parent_type = 0
@@ -1930,7 +1930,7 @@ function boincimport_forum_topics() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the count of non-team topics to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $topic_count = db_result(db_query('
     SELECT COUNT(DISTINCT t.id)
     FROM %sthread t
@@ -2003,7 +2003,7 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
   $news_forum_id = variable_get('boincimport_news_forum_id', 0);
   
   // Get the topic to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $topics = db_query('
     SELECT DISTINCT t.id, t.title, t.owner, t.forum, t.locked, t.hidden,
         t.sticky, t.timestamp, t.create_time
@@ -2021,7 +2021,7 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
     
     $error_detail = '';
     
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
 
     // Get the content of the post that started the topic
     $post = db_fetch_object(db_query('
@@ -2233,7 +2233,7 @@ function boincimport_forum_posts() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the BOINC threads and get a count of posts to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $topic_count = db_result(db_query("
     SELECT COUNT(DISTINCT t.id) FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
@@ -2314,7 +2314,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   $input_format = variable_get('boincimport_input_format', 0);
   
  // Get the topics with posts to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boinc_topic_ids = db_query('
     SELECT DISTINCT t.id FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
@@ -2328,7 +2328,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   
   while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
     // Get the posts in this topic
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $boinc_posts = db_query('
       SELECT id, user, thread, timestamp, content, parent_post, hidden
       FROM %spost WHERE thread = %d ORDER BY id ASC', $pre, $boinc_topic->id);
@@ -2564,7 +2564,7 @@ function boincimport_team_forums() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get team forums from BOINC database
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boincteam_forums = db_query('
     SELECT id, title, description, category, timestamp, post_min_interval,
       post_min_total_credit, post_min_expavg_credit
@@ -2761,7 +2761,7 @@ function boincimport_team_forum_topics() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get all team topics to import from BOINC
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boincteam_topics = db_query('
     SELECT DISTINCT t.id, t.title, t.owner, t.forum, t.locked, t.hidden,
       t.sticky, t.timestamp, t.create_time
@@ -2867,7 +2867,7 @@ function boincimport_team_topics_op($topic, &$context) {
   }
   else {
     // Get the content of the post that started the topic
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $query = db_query('
       SELECT id, content
       FROM %spost
@@ -3033,7 +3033,7 @@ function boincimport_team_forum_posts() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the BOINC threads and get a count of team posts to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $team_topic_ids = db_query('
     SELECT DISTINCT t.id FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
@@ -3089,7 +3089,7 @@ function boincimport_team_forum_posts() {
   // Create batches to process
   while ($boincteam_topic = db_fetch_object($team_topic_ids)) {
     
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $boincteam_posts = db_query('
       SELECT id, user, thread, timestamp, content, parent_post, hidden
       FROM %spost
@@ -3312,7 +3312,7 @@ function boincimport_subscriptions() {
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get users with subscriptions to import
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $users_with_subscriptions = db_query('
     SELECT DISTINCT userid
     FROM %ssubscriptions

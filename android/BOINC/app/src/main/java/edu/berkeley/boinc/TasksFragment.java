@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -50,7 +50,7 @@ public class TasksFragment extends Fragment {
 
 	private ListView lv;
 	private TasksListAdapter listAdapter;
-	private ArrayList<TaskData> data = new ArrayList<TaskData>();
+	private ArrayList<TaskData> data = new ArrayList<>();
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
@@ -66,7 +66,7 @@ public class TasksFragment extends Fragment {
     	if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment onCreateView");
         // Inflate the layout for this fragment
     	View layout = inflater.inflate(R.layout.tasks_layout, container, false);
-		lv = (ListView) layout.findViewById(R.id.tasksList);
+		lv = layout.findViewById(R.id.tasksList);
 	    listAdapter = new TasksListAdapter(getActivity(),R.id.tasksList,data);
         lv.setAdapter(listAdapter);
         lv.setOnItemClickListener(itemClickListener);
@@ -91,7 +91,7 @@ public class TasksFragment extends Fragment {
 	private void loadData() {
 		// try to get current client status from monitor
 		//ClientStatus status;
-		ArrayList<Result> tmpA = null;
+		ArrayList<Result> tmpA;
 		try{
 			//status  = Monitor.getClientStatus();
 			tmpA = (ArrayList<Result>) BOINCActivity.monitor.getTasks();
@@ -122,7 +122,7 @@ public class TasksFragment extends Fragment {
 			for(int x = 0; x < data.size(); x++) {
 				if(rpcResult.name.equals(data.get(x).id)) {
 					index = x;
-					continue;
+					break;
 				}
 			}
 			if(index == null) { // result is new, add
@@ -142,7 +142,7 @@ public class TasksFragment extends Fragment {
 			for(Result rpcResult: newData) {
 				if(listItem.id.equals(rpcResult.name)) {
 					found = true;
-					continue;
+					break;
 				}
 			}
 			if(!found) iData.remove();
@@ -150,12 +150,12 @@ public class TasksFragment extends Fragment {
 	}
 
 	public class TaskData {
-		public Result result = null;
-		public boolean expanded = false;
-		public String id = "";
+		public Result result;
+		public boolean expanded;
+		public String id;
 		public int nextState = -1;
 		public int loopCounter = 0;
-		public int transistionTimeout = 10; // amount of refresh, until transition times out
+		public int transistionTimeout; // amount of refresh, until transition times out
 
 		public TaskData(Result data) {
 			this.result = data;
@@ -202,9 +202,9 @@ public class TasksFragment extends Fragment {
 						final Dialog dialog = new Dialog(getActivity());
 						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						dialog.setContentView(R.layout.dialog_confirm);
-						Button confirm = (Button) dialog.findViewById(R.id.confirm);
-						TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
-						TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+						Button confirm = dialog.findViewById(R.id.confirm);
+						TextView tvTitle = dialog.findViewById(R.id.title);
+						TextView tvMessage = dialog.findViewById(R.id.message);
 						
 						tvTitle.setText(R.string.confirm_abort_task_title);
 						tvMessage.setText(getString(R.string.confirm_abort_task_message) + " "
@@ -218,7 +218,7 @@ public class TasksFragment extends Fragment {
 								dialog.dismiss();
 							}
 						});
-						Button cancel = (Button) dialog.findViewById(R.id.cancel);
+						Button cancel = dialog.findViewById(R.id.cancel);
 						cancel.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
@@ -280,7 +280,9 @@ public class TasksFragment extends Fragment {
 			if(success)
 				try {
 					BOINCActivity.monitor.forceRefresh();
-				} catch (RemoteException e) {}
+				} catch (RemoteException e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"TasksFragment.ResultOperationAsync.onPostExecute() error: ", e);
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync failed.");
 		}
 	}

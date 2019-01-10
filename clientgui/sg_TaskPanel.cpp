@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -215,11 +215,6 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     m_bGotAllProjectsList = false;
     m_bHasBeenDrawn = false;
 
-#ifdef __WXMAC__
-    // Tell accessibility aids to ignore this panel (but not its contents)
-    HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-#endif    
-
     m_ChangeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
     m_ChangeSlideTimer->Start(10000);
 }
@@ -324,14 +319,11 @@ numSlides = 0;
         Enable( false );
 
 #endif  // HIDEDEFAULTSLIDE
-        // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
         
-        if (selData->dotColor == runningIcon) {    // Advance only if running
-            if (changeSlide) {
-                if (++newSlide >= numSlides) {
-                    newSlide = 0;
-                }
+        if (changeSlide) {
+            if (++newSlide >= numSlides) {
+                newSlide = 0;
             }
         }
         if (newSlide < 0) {

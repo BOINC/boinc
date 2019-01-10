@@ -8,7 +8,7 @@
   <string name="generic_button_finish">完成</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">请选择您希望参加的科学项目：</string>
+  <string name="attachproject_list_desc">请选择您想贡献的科学项目：</string>
   <string name="attachproject_list_header">选择一个项目</string>
   <string name="attachproject_list_manual_button">通过URL添加项目</string>
   <string name="attachproject_list_manual_dialog_title">输入项目网址：</string>
@@ -17,7 +17,7 @@
   <string name="attachproject_list_acctmgr_button">添加项目管理器</string>
   <string name="attachproject_list_no_internet">无法连接到互联网</string>
   <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">输入帐户信息</string>
+  <string name="attachproject_credential_input_sing_desc">输入账户信息</string>
   <string name="attachproject_credential_input_desc">请输入所选项目的账户信息</string>
   <string name="attachproject_credential_input_show_pwd">显示密码</string>
   <string name="attachproject_individual_credential_input">分别添加项目</string>
@@ -46,8 +46,8 @@
   <!--project login-->
   <string name="attachproject_login_loading">与项目服务器通信中...</string>
   <string name="attachproject_login_image_description">项目标识</string>
-  <string name="attachproject_login_header_general_area">大致地区：</string>
-  <string name="attachproject_login_header_specific_area">具体地区：</string>
+  <string name="attachproject_login_header_general_area">大致研究内容：</string>
+  <string name="attachproject_login_header_specific_area">具体研究内容：</string>
   <string name="attachproject_login_header_description">描述：</string>
   <string name="attachproject_login_header_home">主页：</string>
   <string name="attachproject_login_header_url">网站：</string>
@@ -159,7 +159,7 @@
   <string name="prefs_show_advanced_header">显示高级配置</string>
   <string name="prefs_suspend_when_screen_on">当屏幕亮时暂停计算</string>
   <string name="prefs_stationary_device_mode_header">交流电模式</string>
-  <string name="prefs_stationary_device_mode_description">忽略电源设置。仅当设备没有电池时选择该选项。</string>
+  <string name="prefs_stationary_device_mode_description">允许计算忽略电源设置。仅当设备没有电池时选择该选项。</string>
   <string name="prefs_power_source_header">计算时的电力来源</string>
   <string name="prefs_power_source_description">选择允许BOINC使用的电力来源。</string>
   <string name="prefs_power_source_ac">插座电源</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">伯克利开放式网络计算平台 ( BOINC )</string>
-  <string name="about_copyright">\u00A9 2003–2016 加州大学伯克利分校。</string>
   <string name="about_copyright_reserved">所有权利保留。</string>
   <string name="about_credits">感谢马克斯普朗克引力物理学研究所、IBM 公司以及 HTC 公司的大力协助。</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

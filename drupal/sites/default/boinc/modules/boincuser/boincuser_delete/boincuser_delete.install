@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * BOINC User delete - Installation routines
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function boincuser_delete_install() {
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      db_query("UPDATE {system} SET weight=-1 WHERE name='boincuser_delete'");
+      break;
+    case 'pgsql':
+      db_query("UPDATE {system} SET weight=-1 WHERE name='boincuser_delete'");
+      break;
+  }
+}

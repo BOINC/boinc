@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -56,7 +56,7 @@ public class ProjectsFragment extends Fragment {
 
 	private ListView lv;
 	private ProjectsListAdapter listAdapter;
-	private ArrayList<ProjectsListData> data = new ArrayList<ProjectsListData>();
+	private ArrayList<ProjectsListData> data = new ArrayList<>();
 
 	// controls popup dialog
 	Dialog dialogControls;
@@ -84,7 +84,7 @@ public class ProjectsFragment extends Fragment {
     	if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectsFragment onCreateView");
         // Inflate the layout for this fragment
     	View layout = inflater.inflate(R.layout.projects_layout, container, false);
-		lv = (ListView) layout.findViewById(R.id.projectsList);
+		lv = layout.findViewById(R.id.projectsList);
         listAdapter = new ProjectsListAdapter(getActivity(), lv, R.id.projectsList, data);
 		return layout;
 	}
@@ -158,46 +158,46 @@ public class ProjectsFragment extends Fragment {
 		for(int x = 0; x < data.size(); x++) {
 			if(data.get(x).isMgr) {
 				mgrIndex = x;
-				continue;
+				//break; // This function has to be revised. Are we searching the firs or the last account manager? Are there more or only one possible?
 			}
 		}
 		if(mgrIndex < 0) { // no manager present until now
-			if(Logging.VERBOSE) Log.d(Logging.TAG,"no manager found in layout list. new entry available: " + acctMgrInfo.present);
+			if(Logging.VERBOSE) Log.d(Logging.TAG,"No manager found in layout list. New entry available: " + acctMgrInfo.present);
 			if(acctMgrInfo.present) {
 				// add new manager entry, at top of the list
 				data.add(new ProjectsListData(null,acctMgrInfo,null));
-				if(Logging.DEBUG) Log.d(Logging.TAG,"new acct mgr found: " + acctMgrInfo.acct_mgr_name);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"New acct mgr found: " + acctMgrInfo.acct_mgr_name);
 			}
 		} else { // manager found in existing list
-			if(Logging.VERBOSE) Log.d(Logging.TAG,"manager found in layout list at index: " + mgrIndex);
+			if(Logging.VERBOSE) Log.d(Logging.TAG,"Manager found in layout list at index: " + mgrIndex);
 			if(!acctMgrInfo.present) {
 				// manager got detached, remove from list
 				data.remove(mgrIndex);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"acct mgr removed from list.");
+				if(Logging.DEBUG) Log.d(Logging.TAG,"Acct mgr removed from list.");
 			}
 		}
 		
 	// ATTACHED PROJECTS	
-		//loop through all received Result items to add new results
+		//loop through all received Result items to add new projects
 		for(Project rpcResult: latestRpcProjectsList) {
-			//check whether this Result is new
+			//check whether this project is new
 			Integer index = null;
 			for(int x = 0; x < data.size(); x++) {
 				if(rpcResult.master_url.equals(data.get(x).id)) {
 					index = x;
-					continue;
+					//break; // Need more further investigation.
 				}
 			}
-			if(index == null) { // result is new, add
-				if(Logging.DEBUG) Log.d(Logging.TAG,"new result found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
+			if(index == null) { // Project is new, add
+				if(Logging.DEBUG) Log.d(Logging.TAG,"New project found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
 				if(rpcResult.attached_via_acct_mgr) data.add(new ProjectsListData(rpcResult,null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // append to end of list (after manager)
 				else data.add(0, new ProjectsListData(rpcResult,null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // put at top of list (before manager)
-			} else { // result was present before, update its data
+			} else { // Project was present before, update its data
 				data.get(index).updateProjectData(rpcResult,null,mapTransfersToProject(rpcResult.master_url, ongoingTransfers));
 			}
 		}
 		
-		//loop through the list adapter to find removed (ready/aborted) Results
+		//loop through the list adapter to find removed (ready/aborted) projects
 		// use iterator to safely remove while iterating
 		Iterator<ProjectsListData> iData = data.iterator();
 		while(iData.hasNext()) {
@@ -207,7 +207,7 @@ public class ProjectsFragment extends Fragment {
 			for(Project rpcResult: latestRpcProjectsList) {
 				if(listItem.id.equals(rpcResult.master_url)) {
 					found = true;
-					continue;
+					break;
 				}
 			}
 			if(!found) iData.remove();
@@ -225,7 +225,6 @@ public class ProjectsFragment extends Fragment {
 						project.addServerNotice(serverNotice);
 						noticeFound = true;
 						mappedServerNotices++;
-						continue;
 					}
 				}
 				if(!noticeFound) project.addServerNotice(null);
@@ -236,7 +235,7 @@ public class ProjectsFragment extends Fragment {
 	
 	// takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
 	private ArrayList<Transfer> mapTransfersToProject(String id, ArrayList<Transfer> allTransfers) {
-		ArrayList<Transfer> projectTransfers = new ArrayList<Transfer>();
+		ArrayList<Transfer> projectTransfers = new ArrayList<>();
 		for(Transfer trans: allTransfers) {
 			if(trans.project_url.equals(id)) {
 				// project id matches url in transfer, add to list
@@ -250,11 +249,11 @@ public class ProjectsFragment extends Fragment {
 	// data wrapper for list view
 	public class ProjectsListData {
 		// can be either project or account manager
-		public Project project = null;
+		public Project project;
 		public Notice lastServerNotice = null;
-		public AcctMgrInfo acctMgrInfo = null;
-		public ArrayList<Transfer> projectTransfers = null;
-		public String id = ""; // == url
+		public AcctMgrInfo acctMgrInfo;
+		public ArrayList<Transfer> projectTransfers;
+		public String id; // == url
 		public boolean isMgr;
 		public ProjectsListData listEntry = this;
 
@@ -296,14 +295,14 @@ public class ProjectsFragment extends Fragment {
 				// layout
 				dialogControls.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				dialogControls.setContentView(R.layout.dialog_list);
-				ListView list = (ListView)dialogControls.findViewById(R.id.options);
+				ListView list = dialogControls.findViewById(R.id.options);
 				
 				// add control items depending on:
 				// - type, account manager vs. project
 				// - client status, e.g. either suspend or resume
 				// - show advanced preference
 				// - project attached via account manager (e.g. hide Remove)
-				ArrayList<ProjectControl> controls = new ArrayList<ProjectControl>();
+				ArrayList<ProjectControl> controls = new ArrayList<>();
 				if(isMgr) {
 					((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title_acctmgr);
 
@@ -335,7 +334,7 @@ public class ProjectsFragment extends Fragment {
 				if(Logging.DEBUG) Log.d(Logging.TAG,"dialog list adapter entries: " + controls.size());
 				
 				// buttons
-				Button cancelButton = (Button) dialogControls.findViewById(R.id.cancel);
+				Button cancelButton = dialogControls.findViewById(R.id.cancel);
 				cancelButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -374,9 +373,9 @@ public class ProjectsFragment extends Fragment {
 					final Dialog dialog = new Dialog(getActivity());
 					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 					dialog.setContentView(R.layout.dialog_confirm);
-					Button confirm = (Button) dialog.findViewById(R.id.confirm);
-					TextView tvTitle = (TextView)dialog.findViewById(R.id.title);
-					TextView tvMessage = (TextView)dialog.findViewById(R.id.message);
+					Button confirm = dialog.findViewById(R.id.confirm);
+					TextView tvTitle = dialog.findViewById(R.id.title);
+					TextView tvMessage = dialog.findViewById(R.id.message);
 					
 					// operation dependend texts
 					if (operation == RpcClient.PROJECT_DETACH) {
@@ -404,7 +403,7 @@ public class ProjectsFragment extends Fragment {
 							dialogControls.dismiss();
 						}
 					});
-					Button cancel = (Button) dialog.findViewById(R.id.cancel);
+					Button cancel = dialog.findViewById(R.id.cancel);
 					cancel.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {

@@ -9,7 +9,7 @@
   <!--attach project-->
   <!--selection list-->
   <string name="attachproject_list_desc">Selecciona los proyectos científicos a los que quieres contribuir:</string>
-  <string name="attachproject_list_header">Elegir un proyecto</string>
+  <string name="attachproject_list_header">Elige un proyecto</string>
   <string name="attachproject_list_manual_button">Añadir un proyecto por URL</string>
   <string name="attachproject_list_manual_dialog_title">URL del proyecto:</string>
   <string name="attachproject_list_manual_dialog_button">Añadir proyecto</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versión</string>
   <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
-  <string name="about_copyright">\u00A9 2003–2016 Universidad de California, Berkeley.</string>
   <string name="about_copyright_reserved">Todos los derechos reservados.</string>
   <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC Corporation por su apoyo.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

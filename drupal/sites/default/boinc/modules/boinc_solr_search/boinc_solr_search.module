@@ -1,0 +1,78 @@
+<?php
+// $id$
+
+/**
+ * @file
+ * Module contains boinc-related customizations for apache solr
+ * search.
+ */
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into drupal
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_block()
+ *
+ * Functions are forward compatible with Drupal 7 hooks.
+ */
+function boinc_solr_search_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      return boinc_solr_search_block_info();
+      break;
+    case 'view':
+      return boinc_solr_search_block_view($delta);
+      break;
+    case 'configure':
+    case 'save':
+    default:
+  }
+}
+
+/**
+ * Implementation of hook_block_info()
+ * 
+ * This is a Drupal 7 hook, which will allow this module to be
+ * (somewhat) forward compatible.
+ */
+function boinc_solr_search_block_info() {
+  $blocks = array();
+  $blocks['boinc_solr_search_0'] = array(
+    'info' => t('BOINC Search Help'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implementation of hook_block_view()
+ *
+ * This is a Drupal 7 hook, which will allow this module to be
+ * (somewhat) forward compatible.
+ */
+function boinc_solr_search_block_view($delta = 0) {
+  $block = array();
+  switch($delta) {
+    case 'boinc_solr_search_0':
+      $items = array(
+          bts('By default a search matches ANY search term. Results with more than one term will be presented higher in the search results.', array(), NULL, 'boinc:search-help-sidebar-block'),
+          bts('You may use \'AND\' to have the search engine return results with ALL search terms.', array(), NULL, 'boinc:search-help-sidebar-block'),
+          bts('For example, searching for \'boinc AND client\' will only contain results with words boinc and client.', array(), NULL, 'boinc:search-help-sidebar-block')
+      );
+
+      drupal_add_js('misc/collapse.js');
+      // For Drupal 7 the format of the array changes, see https://api.drupal.org/api/drupal/includes%21form.inc/function/theme_fieldset/7.x for details.
+      $collapsible_item = array(
+        '#title' => bts('Search Help', array(), NULL, 'boinc:search-help-sidebar-block'),
+        '#description' => theme_item_list($items),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#attributes' => array(
+          'class' => 'search-help-block',
+        ),
+      );
+      $block['content'] = theme('fieldset', $collapsible_item);
+      break;
+  }
+  return $block;
+}

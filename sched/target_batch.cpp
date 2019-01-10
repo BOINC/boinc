@@ -179,7 +179,7 @@ LIMIT %d",
         int num_assigned=0;
         while ((row = mysql_fetch_row(rp))){
             workunit.db_parse(row);
-            printf ("Assigning WU %d to user \n", workunit.id, DEDICATED_USER_ID);
+            printf ("Assigning WU %d to user %ld\n", workunit.id, DEDICATED_USER_ID);
         
             restrict_wu_to_user (workunit, DEDICATED_USER_ID);
 

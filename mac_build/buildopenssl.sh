@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel openssl-1.1.0 libraries
+# Script to build Macintosh 64-bit Intel openssl libraries
 # libcrypto.a and libssl.a for use in building BOINC.
 #
 # by Charlie Fenton 6/25/12
@@ -32,6 +32,7 @@
 # Updated 12/11/15 for openssl-1.0.2e
 # Updated 3/2/16 for openssl-1.0.2g
 # Updated 9/10/16 for openssl-1.1.0
+# Updated 1/25/18 for bulding openssl 1.1.0g (updated comemnts only)
 #
 ## This script requires OS 10.6 or later
 #
@@ -39,8 +40,9 @@
 ## and clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the openssl-1.1.0 directory.
-##     cd [path]/openssl-1.1.0/
+## Where x.xx.xy is the openssl version number:
+## In Terminal, CD to the openssl-x.xx.xy directory.
+##     cd [path]/openssl-x.xx.xy/
 ## then run this script:
 ##     source [path]/buildopenssl.sh [ -clean ] [--prefix PATH]
 ##

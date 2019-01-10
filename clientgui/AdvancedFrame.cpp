@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,8 @@
 #ifdef __APPLE__
 #include "mac/MacGUI.pch"
 #include "mac_util.h"
+
+#include "mac_branding.h"
 #endif
 
 #include "stdwx.h"
@@ -197,6 +199,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
+    EVT_MENU(ID_REPORT_BUG, CAdvancedFrame::OnReportBug)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
@@ -659,11 +662,11 @@ bool CAdvancedFrame::CreateMenu() {
 
     strMenuName.Printf(
         _("&%s help"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
@@ -699,6 +702,13 @@ bool CAdvancedFrame::CreateMenu() {
         ID_CHECK_VERSION,
         strMenuName,
         strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    menuHelp->Append(
+        ID_REPORT_BUG,
+        _("Report Issue"),
+        _("Report bug or enhancement request")
     );
     menuHelp->AppendSeparator();
 
@@ -785,11 +795,6 @@ bool CAdvancedFrame::CreateNotebook() {
 
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIObjectSetAccessibilityIgnored((HIObjectRef)pPanel->GetHandle(), true);
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
     return true;
@@ -1674,6 +1679,14 @@ void CAdvancedFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCheckVersion - Function End"));
 }
 
+void CAdvancedFrame::OnReportBug(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReportBug - Function Begin"));
+
+    wxLaunchDefaultBrowser(wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationReportBugUrl());
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReportBug - Function End"));
+}
+
 void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));
 
@@ -1731,7 +1744,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
 }
-
 
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
@@ -1845,7 +1857,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 fscanf(f, "BrandId=%ld\n", &iBrandID);
                 fclose(f);
             }
-            if ((iBrandID > 0) && (iBrandID < 4))
+            if ((iBrandID > 0) && (iBrandID < NUMBRANDS))
 #endif
             {
                 // If successful, hide the main window if we showed it

@@ -1,0 +1,19 @@
+#include <mach/mach_types.defs>
+
+subsystem MGSServer 29000;
+userprefix      _MGC;         /* Routine prefixes for user access. */
+serverprefix    _MGS;         /* Routine prefixes for internal server access. */
+
+/* Client -> Server */
+routine CheckinClient(
+		server_port	: mach_port_t;
+	in	client_port	: mach_port_t;
+	out	client_index	: int32_t
+);
+
+/* Master -> Slave */
+routine DisplayFrame(
+		server_port	: mach_port_t;
+		frame_index	: int32_t;
+		iosurface_port    : mach_port_t
+);

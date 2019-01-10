@@ -30,13 +30,6 @@ function fetch_url($url) {
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
 
-        // the following 2 lines are needed for https URLs to work on my system.
-        // In general they should not be on.
-        //
-        if (0) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        }
         $x = curl_exec($ch);
         curl_close($ch);
         //echo "curl return: $x\n";
@@ -51,7 +44,9 @@ function lookup_account(
 ) {
     $url = $project_url."/lookup_account.php?email_addr=".urlencode($email_addr)."&passwd_hash=$passwd_hash";
     $reply = fetch_url($url);
-    if (!$reply) return array(null, -1, "HTTP error");
+    if (!$reply) {
+        return array(null, -1, "HTTP error to $url");
+    }
     $r = @simplexml_load_string($reply);
     if (!$r) {
         return array(null, -1, "Can't parse reply XML:\n$reply");
@@ -74,12 +69,23 @@ function create_account(
 ) {
     $url = $project_url."/create_account.php?email_addr=".urlencode($email_addr)."&passwd_hash=$passwd_hash&user_name=".urlencode($user_name);
 
-    //echo "url: $url\n";
     $reply = fetch_url($url);
-    if (!$reply) return array(null, -1, "HTTP error");
-    //echo "reply: $reply\n";
+    if (!$reply) return array(null, -1, "HTTP error to $url");
+
     $r = @simplexml_load_string($reply);
     if (!$r) {
+        // old server code returns PHP warnings, which break XML.
+        // do ad-hoc parsing instead
+        //
+        $auth = parse_element($reply, "<authenticator>");
+        if ($auth) {
+            return array($auth, 0, null);
+        }
+        $error_num = parse_element($reply, "<error_num>");
+        $error_msg = parse_element($reply, "<error_msg>");
+        if ($error_num) {
+            return array(null, $error_num, $error_msg);
+        }
         return array(null, -1, "Can't parse reply XML:\n$reply");
     }
     $auth = (string)$r->authenticator;

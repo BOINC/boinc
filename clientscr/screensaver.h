@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -57,6 +57,7 @@ enum SS_PHASE {
 #define SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP                   0x82000014
 #define SCRAPPERR_DEFAULTGFXAPPCANTCONNECT                  0x82000015
 #define SCRAPPERR_DEFAULTGFXAPPCRASHED                      0x82000016
+#define SCRAPPERR_GFXAPPINCOMPATIBLE                        0x82000017
 
 
 #endif

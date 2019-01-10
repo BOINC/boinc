@@ -1,0 +1,10 @@
+name = BOINC Solr Search
+description = BOINC Customizations for Solr Search
+core = 6.x
+dependencies[] = apachesolr
+dependencies[] = apachesolr_search
+dependencies[] = boinccore
+package = BOINC
+
+version = 6.x-0.1
+timestamp = 1507924492

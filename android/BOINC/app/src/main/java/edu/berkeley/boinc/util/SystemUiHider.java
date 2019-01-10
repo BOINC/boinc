@@ -1,7 +1,6 @@
 package edu.berkeley.boinc.util;
 
 import android.app.Activity;
-import android.os.Build;
 import android.view.View;
 
 /**
@@ -94,13 +93,10 @@ public abstract class SystemUiHider {
 	 *            {@link #FLAG_HIDE_NAVIGATION}, and
 	 *            {@link #FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES}.
 	 */
-	public static SystemUiHider getInstance(Activity activity, View anchorView,
-			int flags) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			return new SystemUiHiderHoneycomb(activity, anchorView, flags);
-		} else {
-			return new SystemUiHiderBase(activity, anchorView, flags);
-		}
+	public static SystemUiHider getInstance(Activity activity, View anchorView, int flags) {
+		// We target minimum API 19, therefore no need to check
+		// whether to return SystemUiHiderBase(<API 11) or SystemUiHiderHoneycomb(>=API 11)
+		return new SystemUiHiderHoneycomb(activity, anchorView, flags);
 	}
 
 	protected SystemUiHider(Activity activity, View anchorView, int flags) {

@@ -19,6 +19,7 @@ elif [ -d .git ]; then
     fi
     URL=`git config --get remote.$remote.url`
     DATE=`git log -n1 --pretty="format:%ct"`
+    SERVER_VERSION=`git describe --abbrev=0 --match server_release/*` 
 elif [ -d .svn ]; then
     CMD="svn info"
 else
@@ -26,7 +27,7 @@ else
 fi
 
 if [ "x$GIT_LOG" != "x" ]; then
-    echo "#define SVN_VERSION \"$GIT_LOG [$URL] ($HOST:$PWD [$BRANCH])\"" >> $TMPFILE
+    echo "#define SVN_VERSION \"$GIT_LOG [$URL] ($HOST:$PWD [$BRANCH]) [Server-Release: $SERVER_VERSION]\"" >> $TMPFILE
     echo "$GIT_LOG" | sed 's/^\(........\).*/#define GIT_REVISION 0x\1/' >> $TMPFILE
     echo "#define GIT_DATE $DATE" >> $TMPFILE
     test "x$URL" = "x" ||
@@ -60,4 +61,17 @@ if cmp "$HEADER" "$TMPFILE" >/dev/null 2>&1; then
 	rm -f "$TMPFILE"
 else
 	mv "$TMPFILE" "$HEADER"
+fi
+
+if [ ! -z ${SERVER_VERSION} ]; then
+    SERVER_VERSION=`echo ${SERVER_VERSION} | sed 's#.*/##'`
+    cat << EOF > html/inc/release.inc
+<?php
+
+global \$server_version ;
+\$server_version = "${SERVER_VERSION}";
+
+?>
+EOF
+
 fi

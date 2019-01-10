@@ -35,6 +35,8 @@ import edu.berkeley.boinc.rpc.ImageWrapper;
 
 interface IMonitor {
 /////// client interface //////////////////////////////////////////
+// Data flow: IMonitor -> Monitor -> ClientInterfaceImplementation -> RpcClient
+// Eg.: IMonitor.setDomainName() -> Monitor.setDomainName() -> ClientInterfaceImplementation.setDomainName() -> RpcClient.setDomainNameRpc()
 boolean attachProject(in String url, in String projectName, in String authenticator); // implement: call clientInterface.attachProject(url, projectName, authenticator);
 boolean checkProjectAttached(in String url);       // implement: call clientInterface.checkProjectAttached(url);
 AccountOut lookupCredentials(in AccountIn credentials);  // implement: call clientInterface.lookupCredentials(credentials);
@@ -58,6 +60,7 @@ List<Notice> getServerNotices();        // implement: call clientInterface.getSe
 boolean runBenchmarks();
 List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProjects();
 ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
+boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
 
 /////// general //////////////////////////////////////////
 boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();

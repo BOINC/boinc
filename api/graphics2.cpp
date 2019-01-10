@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,6 +31,9 @@
 #include "shmem.h"
 #include "boinc_api.h"
 #include "graphics2.h"
+#ifdef __APPLE__
+#include "x_opengl.h"
+#endif
 
 double boinc_max_fps = 30.;
 double boinc_max_gfx_cpu_frac = 0.2;
@@ -84,7 +87,18 @@ bool throttled_app_render(int x, int y, double t) {
         if (boinc_max_gfx_cpu_frac) {
             boinc_calling_thread_cpu_time(t0);
         }
-        app_graphics_render(x, y, t);
+        
+       app_graphics_render(x, y, t);
+
+#ifdef __APPLE__
+        if (UseSharedOffscreenBuffer()) {
+            MacPassOffscreenBufferToScreenSaver();
+
+//app_graphics_render(x, y, t); // For testing only
+        }
+
+#endif
+
         if (boinc_max_gfx_cpu_frac) {
             boinc_calling_thread_cpu_time(t1);
             total_render_time += t1 - t0;

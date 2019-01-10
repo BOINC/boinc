@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.attach.SelectionListActivity;
@@ -24,6 +24,7 @@ import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.Logging;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -31,6 +32,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -102,7 +106,9 @@ public class SplashActivity extends Activity {
 						// do not show log here. error is just a notification of timeout, which is followed by an intermediate (and indefinate) retry
 						break;
 					}
-				} catch(Exception e) {}
+				} catch(Exception e) {
+					if(Logging.ERROR) Log.e(Logging.TAG,"SplashActivity.BroadcastReceiver.onReceive() error: ", e);
+				}
 			}
 		}
 	};
@@ -112,7 +118,15 @@ public class SplashActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-		
+
+		// Use BOINC logo in Recent Apps Switcher
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
+			String label = (String) activity.getTitle();
+			Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.boinc);
+
+			activity.setTaskDescription(new ActivityManager.TaskDescription(label, icon));
+		}
+
 		//initialize logging with highest verbosity, read actual value when monitor connected.
 		Logging.setLogLevel(5);
 
@@ -120,7 +134,7 @@ public class SplashActivity extends Activity {
         doBindService();
         
         // set long click listener to go to eventlog
-        ImageView imageView = (ImageView) findViewById(R.id.logo);
+        ImageView imageView = findViewById(R.id.logo);
         imageView.setOnLongClickListener(new OnLongClickListener() {
 
             @Override
@@ -174,6 +188,5 @@ public class SplashActivity extends Activity {
     	notExclusiveDialogIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.BoincNotExclusiveDialog");
 	    startActivity(notExclusiveDialogIntent);
 		finish();
-		return;
 	}
 }

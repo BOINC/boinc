@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -23,12 +23,16 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 
 public class ProjectsParser extends BaseParser {
 
-	private ArrayList<Project> mProjects = new ArrayList<Project>();
+	private ArrayList<Project> mProjects = new ArrayList<>();
 	private Project mProject = null;
 	private GuiUrl mGuiUrl = null;
 
@@ -259,6 +263,7 @@ public class ProjectsParser extends BaseParser {
 			}
 		}
 		catch (NumberFormatException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectsParser.endElement error: ",e);
 		}
 		mElementStarted = false;
 	}

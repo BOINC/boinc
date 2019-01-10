@@ -877,8 +877,10 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
         // Skip putting author in the recipients list for now.
         continue;
       }
-      $to[] = $recipient->name;
-      $to_themed[$recipient->uid] = theme('username', $recipient);
+      $myuser = user_load(array('uid' => $recipient->uid));
+      $myname = preg_replace("/ /", "\xc2\xa0", $myuser->boincuser_name);
+      $to[] = $myname . "_" . $myuser->boincuser_id;
+      $to_themed[$recipient->uid] = $myname;
     }
     else {
       // Recipient list contains blocked users.
@@ -888,12 +890,14 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
 
   if (empty($to) && $usercount >= 1 && !$blocked) {
     // Assume the user sent message to own account as if the usercount is one or less, then the user sent a message but not to self.
-    $to[] = $user->name;
-    $to_themed[$user->uid] = theme('username', $user);
+    $myuser = user_load(array('uid' => $user->uid));
+    $myname = preg_replace("/ /", "\xc2\xa0", $myuser->boincuser_name);
+    $to[] = $myname . "_" . $myuser->boincuser_id;
+    $to_themed[$user->uid] = $myname;
   }
-
   if (!empty($to)) {
     $recipients_string = implode(', ', $to);
+    $recipients_string .= ', ';
   }
   if (isset($form_state['values'])) {
     if (isset($form_state['values']['recipient'])) {
@@ -909,7 +913,6 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
   elseif (!$thread_id) {
     drupal_set_title(t('Write new message'));
   }
-
   $form = array();
   if (isset($form_state['privatemsg_preview'])) {
     $form['message_header'] = array(
@@ -932,7 +935,7 @@ function privatemsg_new(&$form_state, $recipients = array(), $subject = '', $thr
     $form['privatemsg']['recipient'] = array(
       '#type'               => 'textfield',
       '#title'              => t('To'),
-      '#description'        => t('Separate multiple names with commas.'),
+      '#description'        => t('Separate multiple names with a comma followed by one space. The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.'),
       '#default_value'      => $recipients_string,
       '#required'           => TRUE,
       '#weight'             => -10,
@@ -1043,7 +1046,6 @@ function pm_send_validate($form, &$form_state) {
       unset($message['recipients'][$message['author']->uid]);
     }
   }
-
   $validated = _privatemsg_validate_message($message, TRUE);
   foreach ($validated['messages'] as $type => $text) {
     drupal_set_message($text, $type);
@@ -1086,7 +1088,7 @@ function _privatemsg_load_thread_participants($thread_id) {
  */
 function _privatemsg_parse_userstring($input) {
   if (is_string($input)) {
-    $input = explode(',', $input);
+    $input = explode(', ', $input);
   }
 
   // Start working through the input array.
@@ -1117,7 +1119,6 @@ function _privatemsg_parse_userstring($input) {
       $invalid[$string] = $string;
     }
   }
-
   return array($recipients, $invalid);
 }
 
@@ -1354,18 +1355,26 @@ function privatemsg_sql_unread_count(&$fragments, $account) {
  *   Array of names not to be used as suggestions.
  */
 function privatemsg_sql_autocomplete(&$fragments, $search, $names) {
-  $fragments['primary_table'] = '{users} u';
-  $fragments['select'][] = 'u.name';
+  // Select users from BOINC user table by name and id. The id is
+  // unique.
+  $fragments['primary_table'] = '{user} u';
+  $fragments['select'][] = 'u.name,u.id';
   // Escape the % to get it through the placeholder replacement.
   $fragments['where'][] = "u.name LIKE '%s'";
   $fragments['query_args']['where'][] = $search .'%%';
   if (!empty($names)) {
-    // If there are already names selected, exclude them from the suggestions.
-    $fragments['where'][] = "u.name NOT IN (". db_placeholders($names, 'text') .")";
-    $fragments['query_args']['where'] += $names;
+    // If there are already names selected, exclude them from the
+    // suggestions. Extract the BOINC ids from the names array, and
+    // use to remove query results.
+    $ids = array();
+    foreach ($names as $name) {
+      $boincid = substr($name, strrpos($name, '_') + 1);
+      $ids[$boincid] = $boincid;
+    }
+    $fragments['where'][] = "u.id NOT IN (". db_placeholders($ids, 'int') .")";
+    $fragments['query_args']['where'] += $ids;
   }
   // Only load active users and sort them by name.
-  $fragments['where'][] = 'u.status <> 0';
   $fragments['order_by'][] = 'u.name ASC';
 }
 
@@ -1410,7 +1419,7 @@ function privatemsg_sql_deleted(&$fragments, $days) {
 function privatemsg_user_name_autocomplete($string) {
   $names = array();
   // 1: Parse $string and build list of valid user names.
-  $fragments = explode(',', $string);
+  $fragments = explode(', ', $string);
   foreach ($fragments as $index => $name) {
     if ($name = trim($name)) {
       $names[$name] = $name;
@@ -1422,11 +1431,14 @@ function privatemsg_user_name_autocomplete($string) {
   $matches = array();
   if (!empty($fragment)) {
     $query = _privatemsg_assemble_query('autocomplete', $fragment, $names);
+    db_set_active('boinc_rw');
     $result = db_query_range($query['query'], $fragment, 0, 10);
-    $prefix = count($names) ? implode(", ", $names) .", " : '';
+    db_set_active('default');
+    $prefix = count($names) ? implode(', ', $names) . ', ' : '';
     // 3: Build proper suggestions and print.
     while ($user = db_fetch_object($result)) {
-      $matches[$prefix . $user->name .", "] = $user->name;
+      $myname = preg_replace("/ /", "\xc2\xa0", $user->name);
+      $matches[$prefix . $myname . "_" . $user->id . ', '] = htmlentities($myname) . ' (' . $user->id . ')';
     }
   }
   // convert to object to prevent drupal bug, see http://drupal.org/node/175361

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2017 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,17 +21,17 @@
 require_once('../inc/util_ops.inc');
 
 function show_form() {
-    start_table();
+    start_table('table-striped');
     table_header(
         "ID",
         "name",
         "title",
         "image URL",
-        "type<br><p class=\"text-muted\">0=user<br>1=team<br>optional</p>",
-        "description<br><p class=\"text-muted\">optional</p>",
-        "level<br><p class=\"text-muted\">optional</p>",
-        "tags<br><p class=\"text-muted\">optional</p>",
-        "SQL rule<br><p class=\"text-muted\">optional</p>",
+        "type<br><small>0=user<br>1=team<br>optional</small>",
+        "description<br><small>optional</small>",
+        "level<br><small>optional</small>",
+        "tags<br><small>optional</small>",
+        "SQL rule<br><small>optional</small>",
         "", ""
     );
 
@@ -44,7 +44,7 @@ function show_form() {
         echo "<input type=hidden name=id value=$badge->id>";
         $nu = BoincBadgeUser::count("badge_id=$badge->id");
         $nt = BoincBadgeTeam::count("badge_id=$badge->id");
-        $x = "<br><p class=\"text-muted\">Assigned to $nu users<br>Assigned to $nt teams</p>";
+        $x = "<br><small>Assigned to $nu users<br>Assigned to $nt teams</small>";
         echo "<td><input name=\"name\" value=\"$badge->name\">$x</td>\n";
         echo "<td><input name=\"title\" value=\"$badge->title\"></td>\n";
         $x = "";

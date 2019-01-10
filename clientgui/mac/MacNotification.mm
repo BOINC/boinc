@@ -111,3 +111,45 @@ bool CTaskBarIcon::QueueBalloon(
     
     return false;
 }
+
+
+
+// wxTopLevel::RequestUserAttention() doesn't have an API to cancel 
+// after a timeout, so we must call Notification Manager directly on Mac
+void CTaskBarIcon::MacRequestUserAttention() {
+    m_pNotificationRequest = [NSApp requestUserAttention:NSInformationalRequest];
+}
+
+void CTaskBarIcon::MacCancelUserAttentionRequest() {
+    if (m_pNotificationRequest) {
+        [NSApp cancelUserAttentionRequest:m_pNotificationRequest];
+        m_pNotificationRequest = 0;
+    }
+}
+
+
+int CTaskBarIcon::SetDockBadge(wxBitmap* bmp) {
+    // Reset to standard Dock tile (no badge)
+    [NSApp setApplicationIconImage:nil];
+    
+    if (bmp == NULL) {
+        return 0;
+    }
+
+    NSImage *appIcon = [NSApp applicationIconImage];
+    NSImage *buf = [appIcon copy];
+    NSImage *badge = bmp->GetNSImage();
+
+    [buf lockFocus];
+    [badge drawAtPoint:NSMakePoint(0, 0)
+            fromRect:NSZeroRect
+            operation:NSCompositeSourceOver
+            fraction:1.0f
+    ];
+
+    [buf unlockFocus];
+    [NSApp setApplicationIconImage:buf];
+    [buf release];
+
+    return 0;
+}

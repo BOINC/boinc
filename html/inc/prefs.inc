@@ -588,6 +588,7 @@ function print_prefs_form(
         prefs_form_project($prefs, $error);
         if (!$venue) {
             prefs_form_privacy($user);
+            prefs_form_consent($user);
             venue_form($user);
         }
         prefs_form_project_specific($prefs->project_specific, $project_error);

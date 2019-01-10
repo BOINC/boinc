@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">プロジェクトを追加</string>
   <string name="projects_icon">プロジェクトのアイコン</string>
   <string name="projects_credits">功績値: </string>
-  <string name="projects_credits_host_and_user">%1$,d (このデバイスで) %2$,d (合計)</string>
+  <string name="projects_credits_host_and_user">%1$,d (このデバイス上) %2$,d (合計)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">参加者の指示により一時停止中</string>
   <string name="projects_status_dontrequestmorework">新しいタスクを取得しない</string>
@@ -334,11 +334,13 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">© 2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">The Max Planck Institute for Gravitational Physics, IBM Corporation, HTC Corporation と彼らの支援に感謝いたします。</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="other">%2$,d 新しいお知らせ</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">ボランティア・コンピューティング・アプリを検出しました</string>
   <string name="nonexcl_dialog_text">このデバイスで別のボランティア・コンピューティング・アプリが動作しています。一度にひとつのバージョンのみ動作可能です。</string>
   <string name="nonexcl_dialog_exit">終了</string>
@@ -348,6 +350,6 @@
   <string name="social_invite_content_title">私はスマートフォンで科学研究を行っています!</string>
   <string name="social_invite_content_body">私は自分の %1$s を科学のための計算に使っています。あなたも出来ますよ!ここからアプリをダウンロードしてください: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details？id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.co.jp/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

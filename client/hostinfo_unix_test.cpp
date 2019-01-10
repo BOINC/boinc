@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <string>
+#include <vector>
+#include <sstream>
 
 using std::string;
 
@@ -44,8 +46,20 @@ using std::string;
 #define true 1
 #define bool int
 #define strlcpy strncpy
+#define strlcat strncat
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
+#define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 #define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
+
+enum LINUX_OS_INFO_PARSER {
+    lsbrelease,
+    osrelease,
+    redhatrelease
+};
+
+const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
+const char file_osrelease[] = "/etc/os-release";
+const char file_redhatrelease[] = "/etc/redhat-release";
 
 // remove whitespace from start and end of a string
 //
@@ -69,7 +83,7 @@ void strip_whitespace(string& str) {
 void strip_whitespace(char *str) {
     string s = str;
     strip_whitespace(s);
-    strcpy(str, s.c_str());
+    safe_strcpy(str, s.c_str());
 }
 
 // remove whitespace and quotes from start and end of a string
@@ -104,7 +118,7 @@ void strip_quotes(string& str) {
 void strip_quotes(char *str) {
     string s = str;
     strip_quotes(s);
-    strcpy(str, s.c_str());
+    safe_strcpy(str, s.c_str());
 }
 
 void unescape_os_release(char* buf) {
@@ -135,6 +149,206 @@ void unescape_os_release(char* buf) {
     *out = 0;
 }
 
+int get_libc_version(string& version, string& extra_info) {
+    char buf[1024] = "";
+    string strbuf;
+    FILE* f = popen("PATH=/usr/bin:/bin:/usr/local/bin ldd --version 2>&1", "r");
+    if (f) {
+        char* retval = fgets(buf, sizeof(buf), f);
+        strbuf = (string)buf;
+        while (fgets(buf, sizeof(buf), f)) {
+            // consume output to allow command to exit gracefully
+        }
+        int status = pclose(f);
+        if (!retval || status == -1 || !WIFEXITED(status) || WEXITSTATUS(status)) {
+            return 1;
+        }
+        strip_whitespace(strbuf);
+        string::size_type parens1 = strbuf.find('(');
+        string::size_type parens2 = strbuf.rfind(')');
+        string::size_type blank = strbuf.rfind(' ');
+
+        if (blank != string::npos) {
+            // extract version number
+            version = strbuf.substr(blank+1);
+        } else {
+            return 1;
+        }
+        if (parens1 != string::npos && parens2 != string::npos && parens1 < parens2) {
+            // extract extra information without parenthesis
+            extra_info = strbuf.substr(parens1+1, parens2-parens1-1);
+        }
+    } else {
+        return 1;
+    }
+    return 0;
+}
+
+std::vector<string> split(std::string s, char delim) {
+    std::vector<string> result;
+    std::stringstream ss(s);
+    std::string item;
+    while (getline(ss, item, delim)) {
+        result.push_back(item);
+    }
+    return result;
+}
+
+bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
+    char* os_name, const int os_name_size, char* os_version, const int os_version_size) {
+    if (lines.empty()) {
+        return false;
+    }
+
+    bool found_something = false;
+    char buf[256], buf2[256];
+    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    //string os_version_extra("");
+    safe_strcpy(dist_pretty, "");
+    safe_strcpy(dist_name, "");
+    safe_strcpy(dist_version, "");
+    safe_strcpy(dist_codename, "");
+
+    switch (parser) {
+    case lsbrelease: {
+        for (unsigned int i = 0; i < lines.size(); ++i) {
+            safe_strcpy(buf, lines[i].c_str());
+            strip_whitespace(buf);
+            if (strstr(buf, "Description:")) {
+                found_something = true;
+                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
+                strip_whitespace(dist_pretty);
+            }
+            if (strstr(buf, "Distributor ID:")) {
+                found_something = true;
+                safe_strcpy(dist_name, strchr(buf, ':') + 1);
+                strip_whitespace(dist_name);
+            }
+            if (strstr(buf, "Release:")) {
+                found_something = true;
+                safe_strcpy(dist_version, strchr(buf, ':') + 1);
+                strip_whitespace(dist_version);
+            }
+            if (strstr(buf, "Codename:")) {
+                found_something = true;
+                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
+                strip_whitespace(dist_codename);
+            }
+        }
+        break;
+    }
+    case osrelease: {
+        for (unsigned int i = 0; i < lines.size(); ++i) {
+            safe_strcpy(buf, lines[i].c_str());
+            strip_whitespace(buf);
+            // check if substr is at the beginning of the line
+            if (strstr(buf, "PRETTY_NAME=") == buf) {
+                found_something = true;
+                safe_strcpy(buf2, strchr(buf, '=') + 1);
+                strip_quotes(buf2);
+                unescape_os_release(buf2);
+                safe_strcpy(dist_pretty, buf2);
+                continue;
+            }
+            if (strstr(buf, "NAME=") == buf) {
+                found_something = true;
+                safe_strcpy(buf2, strchr(buf, '=') + 1);
+                strip_quotes(buf2);
+                unescape_os_release(buf2);
+                safe_strcpy(dist_name, buf2);
+                continue;
+            }
+            if (strstr(buf, "VERSION=") == buf) {
+                found_something = true;
+                safe_strcpy(buf2, strchr(buf, '=') + 1);
+                strip_quotes(buf2);
+                unescape_os_release(buf2);
+                safe_strcpy(dist_version, buf2);
+                continue;
+            }
+            // could also be "UBUNTU_CODENAME="
+            if (strstr(buf, "CODENAME=")) {
+                found_something = true;
+                safe_strcpy(buf2, strchr(buf, '=') + 1);
+                strip_quotes(buf2);
+                unescape_os_release(buf2);
+                safe_strcpy(dist_codename, buf2);
+                continue;
+            }
+        }
+        break;
+    }
+    case redhatrelease: {
+        safe_strcpy(buf, lines.front().c_str());
+        found_something = true;
+        strip_whitespace(buf);
+        safe_strcpy(dist_pretty, buf);
+        break;
+    }
+    default: {
+        return false;
+    }
+    }
+
+    if (found_something) {
+        safe_strcpy(buf2, "");
+        if (strlen(dist_pretty)) {
+            safe_strcat(buf2, dist_pretty);
+        }
+        else {
+            if (strlen(dist_name)) {
+                safe_strcat(buf2, dist_name);
+                safe_strcat(buf2, " ");
+            }
+            if (strlen(dist_version)) {
+                safe_strcat(buf2, dist_version);
+                safe_strcat(buf2, " ");
+            }
+            if (strlen(dist_codename)) {
+                safe_strcat(buf2, dist_codename);
+                safe_strcat(buf2, " ");
+            }
+            strip_whitespace(buf2);
+        }
+        strlcpy(os_version, buf2, os_version_size);
+        if (strlen(dist_name)) {
+            strlcpy(os_name, dist_name, os_name_size);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
+    char* os_name, const int os_name_size, char* os_version, const int os_version_size) {
+
+    if (!file) {
+        return false;
+    }
+
+    char buf[256];
+    std::vector<std::string> lines;
+
+    while (fgets(buf, 256, file)) {
+        lines.push_back(buf);
+    }
+
+    return parse_linux_os_info(lines, parser, os_name, os_name_size, os_version, os_version_size);
+}
+
+bool parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
+    char* os_name, const int os_name_size, char* os_version, const int os_version_size) {
+    if (line.empty()) {
+        return false;
+    }
+
+    const char delim = '\n';
+
+    return parse_linux_os_info(split(line, delim), parser, os_name, os_name_size, os_version, os_version_size);
+}
+
 int main(void) {
     char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
@@ -150,6 +364,7 @@ int main(void) {
 #endif
     char  p_vendor[256], p_model[256], product_name[256];
     char  os_name[256], os_version[256];
+    string os_version_extra("");
     char buf2[256];
     int m_cache=-1;
 
@@ -157,34 +372,34 @@ int main(void) {
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return (EXIT_FAILURE);
 
-    strcpy(p_model, "");
+    safe_strcpy(p_model, "");
 
 #ifdef __mips__
-    strcpy(p_model, "MIPS ");
+    safe_strcpy(p_model, "MIPS ");
     model_hack = true;
 #elif __alpha__
-    strcpy(p_vendor, "HP (DEC) ");
+    safe_strcpy(p_vendor, "HP (DEC) ");
     vendor_hack = true;
 #elif __hppa__
-    strcpy(p_vendor, "HP ");
+    safe_strcpy(p_vendor, "HP ");
     vendor_hack = true;
 #elif __ia64__
-    strcpy(p_model, "IA-64 ");
+    safe_strcpy(p_model, "IA-64 ");
     model_hack = true;
 #elif defined(__arm__) || defined(__aarch64__)
-    strcpy(p_vendor, "ARM ");
+    safe_strcpy(p_vendor, "ARM ");
     vendor_hack = vendor_found = true;
 #endif
 
-    strcpy(features, "");
-    strcpy(product_name, "");
+    safe_strcpy(features, "");
+    safe_strcpy(product_name, "");
     while (fgets(buf, 256, f)) {
         strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
             strstr(buf, "vendor     : ")
-#elif __hppa__        
+#elif __hppa__
             strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
             strstr(buf, "machine\t\t: ")
@@ -202,7 +417,7 @@ int main(void) {
             } else if (!vendor_found) {
                 vendor_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_vendor) - strlen(p_vendor) - 1);
-                strcat(p_vendor, buf2);
+                safe_strcat(p_vendor, buf2);
             }
         }
 
@@ -216,9 +431,9 @@ int main(void) {
             strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
             if (strlen(product_name)) {
-                strcat(product_name, " ");
+                safe_strcat(product_name, " ");
             }
-            strcat(product_name, buf2);
+            safe_strcat(product_name, buf2);
         }
 #endif
         if (
@@ -241,7 +456,7 @@ int main(void) {
                 char *coma = NULL;
                 if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
                     *coma = '\0';    /* strip the unwanted line */
-                    strcpy(features, "altivec");
+                    safe_strcpy(features, "altivec");
                     features_found = true;
                 }
 #endif
@@ -261,7 +476,7 @@ int main(void) {
                 model_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
                 strip_whitespace(buf2);
-                strcat(p_model, buf2);
+                safe_strcat(p_model, buf2);
             }
         }
 
@@ -353,51 +568,51 @@ int main(void) {
     strlcpy(model_buf, p_model, sizeof(model_buf));
 #if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (family>=0) {
             sprintf(buf, "Family %d ", family);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (model>=0) {
             sprintf(buf, "Model %d ", model);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (stepping>=0) {
             sprintf(buf, "Stepping %d", stepping);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #else
     if (model_info_found) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (strlen(implementer)>0) {
             sprintf(buf, "Impl %s ", implementer);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(architecture)>0) {
             sprintf(buf, "Arch %s ", architecture);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(variant)>0) {
             sprintf(buf, "Variant %s ", variant);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(cpu_part)>0) {
             sprintf(buf, "Part %s ", cpu_part);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(revision)>0) {
             sprintf(buf, "Rev %s", revision);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #endif
     if (strlen(features)) {
-        strcat(model_buf, "[");
-        strcat(model_buf, features);
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "[");
+        safe_strcat(model_buf, features);
+        safe_strcat(model_buf, "]");
     }
 
 
@@ -407,8 +622,8 @@ int main(void) {
     fclose(f);
 
     // detect OS name as in HOST_INFO::get_os_info()
-    strcpy(os_name, "");
-    strcpy(os_version, "");
+    safe_strcpy(os_name, "");
+    safe_strcpy(os_version, "");
 
 #if HAVE_SYS_UTSNAME_H
     struct utsname u;
@@ -449,124 +664,64 @@ int main(void) {
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
     char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
-    strcpy(dist_pretty, "");
-    strcpy(dist_name, "");
-    strcpy(dist_version, "");
-    strcpy(dist_codename, "");
+    safe_strcpy(dist_pretty, "");
+    safe_strcpy(dist_name, "");
+    safe_strcpy(dist_version, "");
+    safe_strcpy(dist_codename, "");
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
-    f = popen("/usr/bin/lsb_release -a 2>&1", "r");
+    f = popen(command_lsbrelease, "r");
     if (f) {
-        while (fgets(buf, 256, f)) {
-            strip_whitespace(buf);
-            if ( strstr(buf, "Description:") ) {
-                found_something = true;
-                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
-                strip_whitespace(dist_pretty);
-            }
-            if ( strstr(buf, "Distributor ID:") ) {
-                found_something = true;
-                safe_strcpy(dist_name, strchr(buf, ':') + 1);
-                strip_whitespace(dist_name);
-            }
-            if ( strstr(buf, "Release:") ) {
-                found_something = true;
-                safe_strcpy(dist_version, strchr(buf, ':') + 1);
-                strip_whitespace(dist_version);
-            }
-            if ( strstr(buf, "Codename:") ) {
-                found_something = true;
-                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
-                strip_whitespace(dist_codename);
-            }
-        }
+        found_something = parse_linux_os_info(f, lsbrelease, dist_name, sizeof(dist_name),
+            dist_version, sizeof(dist_version));
         pclose(f);
     }
     if (!found_something) {
         // see: https://www.freedesktop.org/software/systemd/man/os-release.html
-        f = fopen("/etc/os-release", "r");
+        f = fopen(file_osrelease, "r");
         if (f) {
-            while (fgets(buf, 256, f)) {
-                strip_whitespace(buf);
-                // check if substr is at the beginning of the line
-                if ( strstr(buf, "PRETTY_NAME=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_pretty, buf2);
-                    continue;
-                }
-                if ( strstr(buf, "NAME=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_name, buf2);
-                    continue;
-                }
-                if ( strstr(buf, "VERSION=") == buf ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_version, buf2);
-                    continue;
-                }
-                // could also be "UBUNTU_CODENAME="
-                if ( strstr(buf, "CODENAME=") ) {
-                    found_something = true;
-                    safe_strcpy(buf2, strchr(buf, '=') + 1);
-                    strip_quotes(buf2);
-                    unescape_os_release(buf2);
-                    safe_strcpy(dist_codename, buf2);
-                    continue;
-                }
-            }
+            found_something = parse_linux_os_info(f, osrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version));
             fclose(f);
         }
     }
 
     if (!found_something) {
         // last ditch effort for older redhat releases
-        f = fopen("/etc/redhat-release", "r");
+        f = fopen(file_redhatrelease, "r");
         if (f) {
-            fgets(buf, 256, f);
-            found_something = true;
-            strip_whitespace(buf);
-            safe_strcpy(dist_pretty, buf);
+            found_something = parse_linux_os_info(f, redhatrelease, dist_name, sizeof(dist_name),
+                dist_version, sizeof(dist_version));
             fclose(f);
         }
     }
 
     if (found_something) {
-        strcpy(buf2, "");
-        if (strlen(dist_pretty)) {
-            strcat(buf2, dist_pretty);
-        } else {
-            if (strlen(dist_name)) {
-                strcat(buf2, dist_name);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_version)) {
-                strcat(buf2, dist_version);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_codename)) {
-                strcat(buf2, dist_codename);
-                strcat(buf2, " ");
-            }
-            strip_whitespace(buf2);
-        }
-        strcat(buf2, " [");
-        strcat(buf2, os_version);
-        strcat(buf2, "]");
-        safe_strcpy(os_version, buf2);
+        os_version_extra = (string)os_version;
+        safe_strcpy(os_version, dist_version);
         if (strlen(dist_name)) {
-            strcat(os_name, " ");
-            strcat(os_name, dist_name);
+            safe_strcat(os_name, " ");
+            safe_strcat(os_name, dist_name);
         }
+    }
+
+    string libc_version(""), libc_extra_info("");
+    if (!get_libc_version(libc_version, libc_extra_info)) {
+        // add info to os_version_extra
+        if (!os_version_extra.empty()) {
+            os_version_extra += "|";
+        }
+        os_version_extra += "libc " + libc_version;
+        if (!libc_extra_info.empty()) {
+            os_version_extra += " (" + libc_extra_info + ")";
+        }
+    }
+
+    if (!os_version_extra.empty()) {
+        safe_strcat(os_version, " [");
+        safe_strcat(os_version, os_version_extra.c_str());
+        safe_strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",

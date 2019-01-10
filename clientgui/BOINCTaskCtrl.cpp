@@ -48,11 +48,6 @@ CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, 
     SetVirtualSize( TASKPANEWIDTH, 1000 );
     EnableScrolling(false, true);
     SetScrollRate( 0, 10 );
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-#endif
 }
 
 

@@ -44,24 +44,29 @@ function boincuser_login_validate($form, &$form_state) {
  */
 function boincuser_login_authenticate($form_values) {
   global $boincuser_authenticated;
-  $email_addr = strtolower($form_values['email']);
+  $lower_email_addr = strtolower($form_values['email']);
   $passwd = $form_values['pass'];
-  $passwd_hash = md5($passwd.$email_addr);
+  $passwd_hash = md5($passwd.$lower_email_addr);
   
   // Include BOINC user library
   require_boinc('boinc_db');
-  
+  require_boinc('user_util');
+
   // Get the BOINC user and check credentials
-  $boinc_user = BoincUser::lookup_email_addr($email_addr);
+  $boinc_user = BoincUser::lookup_email_addr($lower_email_addr);
   if (!$boinc_user) return false;
-  if ($passwd_hash != $boinc_user->passwd_hash) return false;
-  
+
+  if (!check_passwd_hash($boinc_user, $passwd_hash)) {
+    return false;
+  }
+
   // BOINC authentication successful; log in and synchronize accounts
   boincuser_login_register($boinc_user);
   // Write session, update timestamp, run user 'login' hook.
   user_authenticate_finalize($form_values);
   // Use a global variable to save the fact that we did authentication.
   $boincuser_authenticated = true;
+
   return true;
 }
 
@@ -92,12 +97,48 @@ function boincuser_login_register($boinc_user) {
 /**
  * New user registration validation handler.
  */
-function boincuser_register_validate($form_values) {            
+function boincuser_register_validate($form, &$form_state) {
   // Include BOINC database objects library
   require_boinc('boinc_db');
+
+  // Check terms of use agreement
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  if (!empty($termsofuse)) {
+    if (!$form_state['values']['agreeTOU']) {
+      form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
+      return false;
+    }
+  }
+
+  // Lower-case the email address
+  $lower_email_addr = strtolower($form_state['values']['mail']);
+  $tmp_user = BoincUser::lookup_prev_email_addr($lower_email_addr);
+  if ($tmp_user) {
+    // User already exists
+    form_set_error('mail', bts('An account already exists for @email. Contact the administrators for @project for additional help.',
+      array(
+        '@email' => $lower_email_addr,
+        '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user',
+      )
+    , NULL, 'boinc:register-new-user'));
+  }
+
   // Check for an existing BOINC user
-  $boinc_user = BoincUser::lookup_email_addr($form_values['mail']);
-  if ($boinc_user) return false;
+  // This is somewhat redundent as Drupal will also check if the email
+  // is a duplicate. However, in the case where there is no Drupal
+  // account, but a BOINC account exists with this email, the check
+  // will fail.
+  $boinc_user = BoincUser::lookup_email_addr($lower_email_addr);
+  if ($boinc_user) {
+    // User already exists
+    form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $lower_email_addr, '@project' => PROJECT), NULL, 'boinc:add-new-user'));
+    return false;
+  }
+
+  // Check Drupal name is not a duplicate, and create a proper drupal
+  // name from the boinc username.
+  $form_state['values']['name'] = create_proper_drupalname($form_state['values']['boincuser_name']);
+
   return true;
 }
 
@@ -106,7 +147,7 @@ function boincuser_register_validate($form_values) {
  */
 function boincuser_register_make_user($params) {    
   // Include BOINC user library
-  require_boinc('user');
+  require_boinc('user_util');
   // Create the BOINC user
   $boinc_user = make_user($params['email_addr'], $params['name'], $params['passwd_hash'], $params['country'], $params['postal_code']);
   return $boinc_user;
@@ -308,7 +349,7 @@ function boincuser_pull_subscriptions($account = NULL) {
   }
   
   // Get any subscriptions for this user
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $subscriptions = db_query('
     SELECT threadid FROM {subscriptions}
     WHERE userid = %d', $account->boincuser_id);
@@ -346,9 +387,29 @@ function boincuser_account_validate($edit, $account) {
   $changing_pass = ($edit['pass']) ? true : false;
   if ($changing_email) {
     // E-mail address is set to change; check for an existing BOINC user
-    $boinc_user_already_exists = BoincUser::lookup_email_addr($edit['mail']);
+    // Check previous email addresses as well, this user's current
+    // email cannot be the same as another user's previous email
+    // address.
+
+    // set email address lower-case
+    $edit['mail'] = strtolower($edit['mail']);
+
+    $boinc_user_already_exists = ( BoincUser::lookup_email_addr($edit['mail']) || BoincUser::lookup_prev_email_addr($edit['mail']) );
     if ($boinc_user_already_exists) {
       form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail']), NULL, 'boinc:add-new-user'));
+    }
+
+    // Check email has not been changed in last X days (default X=7).
+    $duration = 86400 * 7;
+    if ( (($boinc_user->email_addr_change_time + $duration) > time()) and (!(user_access('administer users'))) ) {
+      form_set_error('email_addr_change_time',
+        bts('Your email address was changed within the past seven (7) days. You must wait until !futuredate to change your email again. If you need to reverse this change, please look for an email sent to !prev_email_addr.',
+        array(
+          '!futuredate' => date('F j, Y \a\t H:i T', $boinc_user->email_addr_change_time + $duration),
+          '!prev_email_addr' => $boinc_user->previous_email_addr,
+        ),
+        NULL, 'boinc:account-credentials-change')
+      );
     }
   }
 
@@ -361,13 +422,14 @@ function boincuser_account_validate($edit, $account) {
       unset($_SESSION['reset_pass']);
     }
     else {
-      $given_hash = md5($edit['current_pass'] . $account->mail);
+      $given_hash = md5($edit['current_pass'] . strtolower($account->mail));
       if (!$edit['current_pass']) {
         form_set_error('current_pass', bts('Authentication is required when changing E-mail address or setting new password.', array(), NULL, 'boinc:account-credentials-change'));
       }
-      elseif ($given_hash != $boinc_user->passwd_hash) {
+      elseif ( (!password_verify($given_hash, $boinc_user->passwd_hash)) and ($given_hash != $boinc_user->passwd_hash) ) {
         form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.', array(), NULL, 'boinc:account-credentials-change'));
       }
+
     }
   }
 
@@ -396,11 +458,14 @@ function boincuser_request_pass_validate($form, &$form_state) {
   if (!$edit['name']) form_set_error('name', bts('Please enter your email address', array(), NULL, 'boinc:forgot-password'));
   elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name']), NULL, 'boinc:forgot-password'));
   else {
+    // set email addrress to lower case
+    $lower_email_addr = strtolower($edit['name']);
+
     // First look for an existing Drupal account
-    if ($account = user_load_by_mail($edit['name'])) return;
+    if ($account = user_load_by_mail($lower_email_addr)) return;
     // Otherwise, check the BOINC db for this email address
     require_boinc('boinc_db');
-    $boinc_user = BoincUser::lookup_email_addr($edit['name']);
+    $boinc_user = BoincUser::lookup_email_addr($lower_email_addr);
     if ($boinc_user) {
       // If the user is in BOINC but not Drupal, bring them over...
       boincuser_register_make_drupal_user($boinc_user);
@@ -615,4 +680,213 @@ function boincuser_fix_unfriend_form_submit($form, &$form_state) {
   if ($form_state['values']['action'] == 'unfriend') {
     $form_state['values']['action'] = 'unflag';
   }
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * The terms of use form
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+function boincuser_termsofuse_form() {
+  global $user;
+
+  // If user has already signed terms of use, and got to this form in error, send them to site home.
+  if (boincuser_check_termsofuse($user)) {
+    drupal_goto();
+  }
+
+  drupal_set_message( bts('WARNING: You have not agreed to our terms of use. Please agree to the terms of use before continuing.', array(), NULL, 'boinc:termsofuse-form'), 'warning' );
+
+  $form = array();
+
+  // Terms of use section
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  $form['title1'] = array(
+    '#weight' => -12,
+    '#value' => '<h2>' . bts( variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'project:termsofuse-form' ) . '</h2>',
+    '#prefix' => '<div id="register-title1">',
+    '#suffix' => '</div>',
+  );
+
+  $form['termsofuse'] = array(
+    '#weight' => -10,
+    '#value' => bts($termsofuse, array(), NULL, 'project:termsofuse-form'),
+    '#prefix' => '<div id="register-termsofuse">',
+    '#suffix' => '</div>',
+  );
+
+  $form['agreeTOU'] = array(
+    '#type' => 'checkbox',
+    '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:termsofuse-form'),
+    '#weight' => -8,
+    '#prefix' => '<div id="register-checkbox">',
+    '#suffix' => '</div>',
+  );
+
+  $form['spacer'] = array(
+    '#prefix' => '<div id="register-title2">',
+    '#value'  => '&nbsp;',
+    '#suffix' => '</div>',
+  );
+
+  // Form Control
+  $form['submit'] = array(
+    '#prefix' => '<p><p><p><li class="first tab">',
+    '#type' => 'submit',
+    '#value' => bts('Yes', array(), NULL, 'boinc:form-submit'),
+    '#suffix' => '</li>',
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('NO - LOGOUT', array(), NULL, 'boinc:form-cancel'), '/logout') . '</li>',
+  );
+  if (module_exists('boincuser_delete')) {
+    $deletelink = '/user/' . $user->uid . '/delete';
+    $form['deleteaccount'] = array(
+      '#value' => '<li class="tab">' . l(bts('NO - DELETE ACCOUNT', array(), NULL, 'boinc:form-delete-user'), $deletelink) . '</li>',
+    );
+  }
+
+  // Set form redirect
+  $form['#redirect'] = $_REQUEST['destination'];
+
+  // Add the current user's data into the form
+  $form['#account'] = $user;
+
+  return $form;
+}
+
+function boincuser_termsofuse_form_validate($form, &$form_state) {
+  // Check TOU agreement
+  if (!$form_state['values']['agreeTOU']) {
+    form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', array(), NULL, 'boinc:termsofuse-form'));
+  }
+}
+
+function boincuser_termsofuse_form_submit($form, &$form_state) {
+  $user = $form['#account'];
+  if (!boincuser_consentto_termsofuse($user)) {
+    form_set_error('termsofuse', bts('There was an error in agreeing to the terms of use. Please contact the site administrators.', array(), NULL, 'boinc:termsofuse-form'));
+  }
+
+  // Delete session messages
+  if ($_SESSION['messages']['warning']) {
+    unset($_SESSION['messages']['warning']);
+  }
+}
+
+/**
+ * Revert email to previous email address. The user must supply a
+ * token given via e-mail. The token is active for 7 days, and is
+ * removed after used.
+ */
+function boincuser_revertemail(&$form_state, $token) {
+  require_boinc('token');
+  require_boinc('util');
+
+  global $user;
+  $form = array();
+
+  // drupal JS for dynamic password validation
+  _user_password_dynamic_validation();
+
+  // check BOINC user exists
+  $account = user_load(array('uid' => $user->uid));
+  $uid = $user->uid;
+  $boincid = $account->boincuser_id;
+  // check $token is valid
+  if (!is_valid_token($boincid, $token, 'E')) {
+    drupal_set_message(bts('ERROR: You have supplied an incorrect (most likely expired) token. Please obtain a new token by !link your email address.',
+    array(
+      '!link' => l(bts('changing', array(), NULL, 'boinc:revert-email-change'), "/account/info/edit"),
+    ),
+    NULL, 'boinc:revert-email-change'), 'error');
+    drupal_goto();
+  }
+
+  // Attach account and token to this form.
+  $form['_account'] = array('#type' => 'value', '#value' => $account);
+  $form['_token'] = array('#type' => 'value', '#value' => $token);
+
+  // Instructions
+  $form['main']['instructions1'] = array(
+    '#value' => '<p>'.
+    bts('In order to change your email back to your previous email address, <strong>!prev_email</strong>, you must also change your password.',
+      array(
+        '!prev_email' => $account->boincuser_previous_email_addr,
+      ),
+      NULL, 'boinc:revert-email-change').
+    '</p>',
+  );
+
+  $form['main']['pass'] = array(
+    '#type' => 'password_confirm',
+    '#description' => 'Enter a new password in both fields',
+    '#size' => 17,
+  );
+
+  // Wrap action buttons for styling consistency
+  $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+  );
+  $form['buttons']['submit']['#type'] = 'submit';
+  $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+  $form['buttons']['submit']['#value'] = bts('Submit', array(), NULL, 'boinc:form-submit');
+  $form['buttons']['submit']['#suffix'] = '</li>';
+  $form['buttons']['submit']['#weight'] = 1002;
+  $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), 'user/info/edit') . '</li>',
+      '#weight' => 1005,
+  );
+  $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+  );
+
+  return $form;
+}
+
+/**
+ * Validation handler for revertemail form
+ */
+function boincuser_revertemail_validate($form, &$form_state) {
+  // Load account and boincuser
+  $account = $form_state['values']['_account'];
+  $boinc_user = BoincUser::lookup_id_nocache($account->boincuser_id);
+
+  if (BoincUser::lookup_email_addr($boinc_user->previous_email_addr)) {
+    form_set_error('mail', bts('An account already exists for @email. Please contact admins for @project. Previous email address cannot be used because another account is using it as their email address.',
+      array(
+        '@email' => $boinc_user->previous_email_addr,
+        '@project' => variable_get('site_name', 'Drupal-BOINC'),
+      ),
+    NULL, 'boinc:add-new-user'));
+  }
+
+}
+
+/**
+ * Submit handler for revertemail form
+ */
+function boincuser_revertemail_submit($form, &$form_state) {
+  require_boinc('password_compat/password');
+
+  // Load account and boincuser
+  $account = $form_state['values']['_account'];
+  $boinc_user = BoincUser::lookup_id_nocache($account->boincuser_id);
+
+  $pem = strtolower($boinc_user->previous_email_addr);
+
+  // Set new password based on previous email address and entered
+  // password.
+  $new_passwd_hash = password_hash( md5($form_state['values']['pass'].$pem), PASSWORD_DEFAULT);
+
+  $boinc_user->update("email_addr='${pem}', previous_email_addr='', email_addr_change_time=0, passwd_hash='${new_passwd_hash}'");
+
+  // Set email in drupal database to previous email
+  user_save($account, array('mail' => $pem));
+
+  // delete the token
+  $result = delete_token($account->boincuser_id, $form_state['values']['_token'], 'E');
+
+  drupal_goto('account');
 }

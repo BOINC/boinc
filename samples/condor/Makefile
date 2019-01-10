@@ -1,10 +1,14 @@
 all: boinc_gahp
 
 clean:
-	rm boinc_gahp
+	rm -f boinc_gahp
 
-boinc_gahp: boinc_gahp.cpp ../../lib/remote_submit.h ../../lib/remote_submit.cpp ../../svn_version.h
-	g++ -g -O0 -I../../lib -I../.. \
+distclean: clean
+
+distclean-recursive: clean
+
+boinc_gahp: boinc_gahp.cpp ../../lib/remote_submit.h ../../lib/remote_submit.cpp ../../svn_version.h ../../version.h
+	g++ -g -O2 -I../../lib -I../.. \
 	-o boinc_gahp boinc_gahp.cpp ../../lib/remote_submit.cpp \
 	-L../../lib -lboinc -lpthread -lcurl
 

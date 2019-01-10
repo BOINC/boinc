@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.attach;
 
@@ -80,12 +80,12 @@ public class ProjectInfoFragment extends DialogFragment{
         ((TextView) v.findViewById(R.id.project_home)).setText(getResources().getString(R.string.attachproject_login_header_home) + " " + info.home);
         
         // find view elements for later use in image download
-        logoWrapper = (LinearLayout) v.findViewById(R.id.project_logo_wrapper);
-        logoPb = (ProgressBar) v.findViewById(R.id.project_logo_loading_pb);
-        logoIv = (ImageView) v.findViewById(R.id.project_logo);
+        logoWrapper = v.findViewById(R.id.project_logo_wrapper);
+        logoPb = v.findViewById(R.id.project_logo_loading_pb);
+        logoIv = v.findViewById(R.id.project_logo);
         
         // setup return button
-        Button continueB = (Button) v.findViewById(R.id.continue_button);
+        Button continueB = v.findViewById(R.id.continue_button);
         continueB.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -120,7 +120,7 @@ public class ProjectInfoFragment extends DialogFragment{
 			}
 			
 	        if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync for url: " + url); 
-	        Bitmap logo = null;
+	        Bitmap logo;
 	        
 	        try{
 	        	InputStream in = new URL(url).openStream();

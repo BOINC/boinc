@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -212,13 +212,6 @@ void CAccountInfoPage::CreateControls()
     m_pAccountForgotPasswordCtrl = new wxHyperlinkCtrl;
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
     itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-#ifdef __WXMAC__
-    //Accessibility
-    HIViewRef buttonView = (HIViewRef)m_pAccountCreateCtrl->GetHandle();
-    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(buttonView);
-    HIObjectSetAccessibilityIgnored(theObject, true);
-#endif
     ////@end CAccountInfoPage content construction
 
 }
@@ -299,6 +292,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
+    pWA->EnableNextButton();
 
     // We are entering this page, so reterieve the previously used email
     // address and/or username.

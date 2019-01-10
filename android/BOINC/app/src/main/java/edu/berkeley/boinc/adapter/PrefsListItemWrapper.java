@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,14 +15,20 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import edu.berkeley.boinc.R;
 import android.content.Context;
 
 public class PrefsListItemWrapper {
-	
+    public enum DialogButtonType {
+        SLIDER,
+        NUMBER,
+        TEXT
+    }
+    public PrefsListItemWrapperNumber.DialogButtonType dialogButtonType;
+
 	public Context ctx;
 	public Integer ID;
 	public Integer categoryID;
@@ -42,7 +48,7 @@ public class PrefsListItemWrapper {
 		case R.string.prefs_power_source_header:
 			description = ctx.getString(R.string.prefs_power_source_description);
 		}
-		// further description mapping see PrefsListItemWrapperValue class
+		// further description mapping see PrefsListItemWrapperNumber class
 	}
 	
 	// Constructor for categories

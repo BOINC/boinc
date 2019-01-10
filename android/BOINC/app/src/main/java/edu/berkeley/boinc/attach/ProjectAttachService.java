@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.attach;
 
 import java.util.ArrayList;
@@ -106,7 +106,7 @@ public class ProjectAttachService extends Service {
 
 	private PersistentStorage store;
 	
-    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<ProjectAttachWrapper>();
+    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
     
     public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
     
@@ -119,9 +119,9 @@ public class ProjectAttachService extends Service {
      * Set credentials to be used in account RPCs.
      * Set / update prior to calling attach or register
      * Saves email and user persistently to pre-populate fields
-     * @param email
-     * @param user
-     * @param pwd
+     * @param email email address of user
+     * @param user user name
+     * @param pwd password
      */
     public void setCredentials(String email, String user, String pwd) {
     	this.email = email;
@@ -137,7 +137,7 @@ public class ProjectAttachService extends Service {
      * @return array of values, index 0: email address, index 1: user name
      */
     public ArrayList<String> getUserDefaultValues() {
-    	ArrayList<String> values = new ArrayList<String>();
+    	ArrayList<String> values = new ArrayList<>();
     	values.add(store.getLastEmailAddress());
     	values.add(store.getLastUserName());
     	return values;
@@ -177,7 +177,7 @@ public class ProjectAttachService extends Service {
      * sets single selected project with URL inserted manually, not chosen from list.
      * Starts configuration download in new thread and returns immediately.
      * Check projectConfigRetrievalFinished to see whether job finished.
-     * @param url
+     * @param url URL of project
      * @return success
      */
     public boolean setManuallySelectedProject(String url) {
@@ -225,9 +225,9 @@ public class ProjectAttachService extends Service {
     
     /**
      * Checks user input, e.g. length of input. Shows an error toast if problem detected
-     * @param email
-     * @param user
-     * @param pwd
+     * @param email email address of user
+     * @param user user name
+     * @param pwd password
      * @return true if input verified
      */
 	public Boolean verifyInput(String email, String user, String pwd) {
@@ -289,7 +289,9 @@ public class ProjectAttachService extends Service {
 		while(retry && attemptCounter < maxAttempts) {
 			try {
 				reply = monitor.addAcctMgrErrorNum(url, name, pwd);
-			} catch (RemoteException e1) {}
+			} catch (RemoteException e) {
+				if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
+			}
 
 			if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: " + reply);
 			switch(reply) {
@@ -308,13 +310,22 @@ public class ProjectAttachService extends Service {
 				retry = false;
 				break;
 			}
-			if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception e) {}
+			if(retry){
+				try {
+					Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
+				} catch(Exception ignored) {}
+			}
 		}
 		
 		if(reply !=BOINCErrors.ERR_OK ) return reply;
 		
 		AcctMgrInfo info = null;
-		try {info = monitor.getAcctMgrInfo();} catch (RemoteException e1) {}
+		try {
+			info = monitor.getAcctMgrInfo();
+		}
+		catch (RemoteException e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attachAcctMgr error: ",e);
+		}
 		if(info == null) return -1;
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
@@ -322,9 +333,9 @@ public class ProjectAttachService extends Service {
 	}
     
     public class ProjectAttachWrapper {
-    	public String url = ""; // URL, manually inserted, or from projectInfo
+    	public String url; // URL, manually inserted, or from projectInfo
     	public ProjectInfo info; // chosen from list
-    	public String name = ""; // name of project in debug messages, do not use otherwise!
+    	public String name; // name of project in debug messages, do not use otherwise!
     	public ProjectConfig config; // has to be downloaded, available if RESULT_READY
     	public int result = RESULT_UNINITIALIZED;
 
@@ -443,8 +454,7 @@ public class ProjectAttachService extends Service {
     		}
     		
     		// attach project;
-    		boolean statusAttach = false;
-    		statusAttach = attach(statusCredentials.authenticator);
+    		boolean statusAttach = attach(statusCredentials.authenticator);
     		if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: attach returned: " + statusAttach + ". for: " + config.name);
     		
     		if(!statusAttach) {
@@ -472,7 +482,14 @@ public class ProjectAttachService extends Service {
 			// retry a defined number of times, if non deterministic failure occurs.
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
-				if (mIsBound) try {credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));} catch (RemoteException e) {}
+				if (mIsBound) {
+					try {
+						credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));
+					}
+					catch (RemoteException e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.register error: ",e);
+					}
+				}
 				if(credentials == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.register register: auth null, retry...");
@@ -516,7 +533,14 @@ public class ProjectAttachService extends Service {
 			// retry a defined number of times, if non deterministic failure occurs.
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
-				if (mIsBound) try {credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd));} catch (RemoteException e) {}
+				if (mIsBound) {
+					try {
+						credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd));
+					}
+					catch (RemoteException e) {
+						if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.login error: ",e);
+					}
+				}
 				if(credentials == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.login failed: auth null, retry...");
@@ -541,14 +565,24 @@ public class ProjectAttachService extends Service {
 					}
 				}
 				
-				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception e) {}
+				if(retry) {
+					try{
+						Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
+					} catch(Exception ignored) {}
+				}
 			}
     		
 			return credentials;
     	}
     	
     	private boolean attach(String authenticator) {
-    		if (mIsBound) try {return monitor.attachProject(config.masterUrl, config.name, authenticator);} catch (RemoteException e) {}
+    		if (mIsBound) {
+                try {
+                	return monitor.attachProject(config.masterUrl, config.name, authenticator);
+                } catch (RemoteException e) {
+                	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.attach error: ",e);
+                }
+    		}
 			return false;
     	}
     	
@@ -595,7 +629,13 @@ public class ProjectAttachService extends Service {
 			// retry a defined number of times, if non deterministic failure occurs.
 			// makes login more robust on bad network connections
 			while(retry && attemptCounter < maxAttempts) {
-				if (mIsBound) try {config = monitor.getProjectConfigPolling(url);} catch (RemoteException e) {}
+				if (mIsBound) {
+                    try {
+                    	config = monitor.getProjectConfigPolling(url);
+                    } catch (RemoteException e) {
+                    	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.getProjectConfig error: ",e);
+                    }
+				}
 				if(config == null) {
 					// call failed
 					if(Logging.WARNING) Log.w(Logging.TAG, "ProjectAttachWrapper.getProjectConfig failed: config null, mIsBound: " + mIsBound + " for " + url + ". retry...");
@@ -621,7 +661,11 @@ public class ProjectAttachService extends Service {
 					}
 				}
 				
-				if(retry) try{Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));} catch(Exception e) {}
+				if(retry) {
+					try{
+						Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
+					} catch(Exception ignored) {}
+				}
 			}
 			return config;
 		}

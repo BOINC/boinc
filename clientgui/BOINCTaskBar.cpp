@@ -87,9 +87,24 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* ico
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
 {
-    m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+#ifdef __WXMAC__
+    m_iconType = iconType;
+    m_pNotificationRequest = NULL;
+    if (iconType == wxTBI_DOCK) {
+        // This code expects the wxTBI_CUSTOM_STATUSITEM CTaskBarIcon 
+        // to be constructed before the wxTBI_DOCK CTaskBarIcon.
+        //
+        // Ensure that m_pTaskBarIcon and m_pMacDockIcon use same copy of each icon.
+        m_iconTaskBarNormal = wxGetApp().GetTaskBarIcon()->m_iconTaskBarNormal;
+        m_iconTaskBarDisconnected = wxGetApp().GetTaskBarIcon()->m_iconTaskBarDisconnected;
+        m_iconTaskBarSnooze = wxGetApp().GetTaskBarIcon()->m_iconTaskBarSnooze;
+    } else 
+#endif
+    {
+        m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+        m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+        m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    }
     m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
@@ -98,10 +113,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* ico
 
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
     m_iLastNotificationUnreadMessageCount = 0;
-#ifdef __WXMAC__
-    m_iconType = iconType;
-    m_pNotificationRequest = NULL;
-#endif
 }
 
 
@@ -348,6 +359,13 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
     m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
     m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+
+#ifdef __WXMAC__
+    // Ensure that m_pTaskBarIcon and m_pMacDockIcon use same copy of each icon.
+    wxGetApp().GetMacDockIcon()->m_iconTaskBarNormal = m_iconTaskBarNormal;
+    wxGetApp().GetMacDockIcon()->m_iconTaskBarDisconnected = m_iconTaskBarDisconnected;
+    wxGetApp().GetMacDockIcon()->m_iconTaskBarSnooze = m_iconTaskBarSnooze;
+#endif
 }
 
 
@@ -395,7 +413,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     wxIcon macIcon;
     bool result;
-    OSStatus err = noErr ;
+    int err = noErr;
     int w, h, x, y;
 
     if (m_iconType != wxTBI_DOCK) {
@@ -408,14 +426,14 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     
     m_iconCurrentIcon = icon;
     
-    RestoreApplicationDockTileImage();      // Remove any previous badge
-
     if (m_iconTaskBarDisconnected.IsSameAs(icon))
         macIcon = macdisconnectbadge;
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
         macIcon = macsnoozebadge;
-    else
+    else {
+        err = SetDockBadge(NULL);
         return true;
+    }
     
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
@@ -444,40 +462,12 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
         }
     }
 
-    CGImageRef pImage = (CGImageRef) bmp.CreateCGImage(); 
-    
     // Actually set the dock image    
-    err = OverlayApplicationDockTileImage(pImage);
+    err = SetDockBadge(&bmp);
     
     wxASSERT(err == 0);
-    
-    // Free the CGImage
-    if (pImage != NULL)
-        CGImageRelease(pImage);
 
     return true;
-}
-
-
-// wxTopLevel::RequestUserAttention() doesn't have an API to cancel 
-// after a timeout, so we must call Notification Manager directly on Mac
-void CTaskBarIcon::MacRequestUserAttention()
-{
-    m_pNotificationRequest = (NMRecPtr)malloc(sizeof(NMRec));
-    bzero(m_pNotificationRequest, sizeof(NMRec));
-    m_pNotificationRequest->qType = nmType ;
-    m_pNotificationRequest->nmMark = 1;
-
-    NMInstall(m_pNotificationRequest);
-}
-
-void CTaskBarIcon::MacCancelUserAttentionRequest()
-{
-    if (m_pNotificationRequest) {
-        NMRemove(m_pNotificationRequest);
-        free(m_pNotificationRequest);
-        m_pNotificationRequest = NULL;
-    }
 }
 
 #endif  // ! __WXMAC__

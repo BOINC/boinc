@@ -260,10 +260,10 @@ script_validator_SOURCES = $(VALIDATOR_SOURCES) \
 script_validator_LDADD = $(SERVERLIBS)
 
 db_dump_SOURCES = db_dump.cpp
-db_dump_LDADD = $(SERVERLIBS)
+db_dump_LDADD = $(SERVERLIBS) -lz
 
 db_purge_SOURCES = db_purge.cpp
-db_purge_LDADD = $(SERVERLIBS)
+db_purge_LDADD = $(SERVERLIBS) -lz
 
 trickle_credit_SOURCES = trickle_credit.cpp trickle_handler.cpp
 trickle_credit_LDADD = $(SERVERLIBS)

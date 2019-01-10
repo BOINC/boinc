@@ -37,6 +37,7 @@ if (@constant('TEAM_CREATE_NEED_CREDIT')) {
     }
 }
 
+global $recaptcha_private_key;
 if ($recaptcha_private_key) {
     if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
         error_page(

@@ -72,19 +72,19 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</EmbedManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</EmbedManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</EmbedManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</EmbedManifest>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -111,7 +111,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../coprocs/NVIDIA/include;../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -140,7 +140,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;libcurld_imp.lib;zlib1d.lib;ssleay32.lib;libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -151,6 +151,7 @@
       <OptimizeReferences>
       </OptimizeReferences>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -165,7 +166,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../coprocs/NVIDIA/include;../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -194,7 +195,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;libcurld_imp.lib;zlib1d.lib;ssleay32.lib;libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -205,6 +206,7 @@
       <OptimizeReferences>
       </OptimizeReferences>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -220,7 +222,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../coprocs/NVIDIA/include;../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -248,7 +250,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;MSVCRT.LIB;MSVCPRT.LIB;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;MSVCRT.LIB;MSVCPRT.LIB;oldnames.lib;libcurld_imp.lib;zlib1d.lib;ssleay32.lib;libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -260,6 +262,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SetChecksum>true</SetChecksum>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -275,7 +278,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../coprocs/NVIDIA/include;../win_build;../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -304,7 +307,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;MSVCRT.LIB;MSVCPRT.LIB;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;MSVCRT.LIB;MSVCPRT.LIB;oldnames.lib;libcurld_imp.lib;zlib1d.lib;ssleay32.lib;libeay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -316,10 +319,42 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SetChecksum>true</SetChecksum>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\client\acct_mgr.cpp" />
+    <ClCompile Include="..\client\acct_setup.cpp" />
     <ClCompile Include="..\client\app.cpp" />
+    <ClCompile Include="..\client\app_config.cpp" />
+    <ClCompile Include="..\client\client_state.cpp" />
+    <ClCompile Include="..\client\client_types.cpp" />
+    <ClCompile Include="..\client\coproc_sched.cpp" />
+    <ClCompile Include="..\client\cs_account.cpp" />
+    <ClCompile Include="..\client\cs_files.cpp" />
+    <ClCompile Include="..\client\cs_notice.cpp" />
+    <ClCompile Include="..\client\cs_platforms.cpp" />
+    <ClCompile Include="..\client\cs_prefs.cpp" />
+    <ClCompile Include="..\client\cs_proxy.cpp" />
+    <ClCompile Include="..\client\cs_statefile.cpp" />
+    <ClCompile Include="..\client\cs_trickle.cpp" />
+    <ClCompile Include="..\client\current_version.cpp" />
+    <ClCompile Include="..\client\file_names.cpp" />
+    <ClCompile Include="..\client\file_xfer.cpp" />
+    <ClCompile Include="..\client\gpu_amd.cpp" />
+    <ClCompile Include="..\client\gpu_detect.cpp" />
+    <ClCompile Include="..\client\gpu_intel.cpp" />
+    <ClCompile Include="..\client\gpu_nvidia.cpp" />
+    <ClCompile Include="..\client\gpu_opencl.cpp" />
+    <ClCompile Include="..\client\gui_http.cpp" />
+    <ClCompile Include="..\client\http_curl.cpp" />
+    <ClCompile Include="..\client\net_stats.cpp" />
+    <ClCompile Include="..\client\pers_file_xfer.cpp" />
+    <ClCompile Include="..\client\project.cpp" />
+    <ClCompile Include="..\client\project_list.cpp" />
+    <ClCompile Include="..\client\result.cpp" />
+    <ClCompile Include="..\client\sandbox.cpp" />
+    <ClCompile Include="..\client\scheduler_op.cpp" />
     <ClCompile Include="..\lib\boinc_win.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -327,10 +362,28 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\client\client_msgs.cpp" />
-    <ClCompile Include="..\lib\coproc.cpp" />
+    <ClCompile Include="..\lib\cc_config.cpp" />
     <ClCompile Include="..\client\cpu_sched.cpp" />
     <ClCompile Include="..\client\cs_apps.cpp" />
     <ClCompile Include="..\client\cs_scheduler.cpp" />
+    <ClCompile Include="..\lib\cert_sig.cpp" />
+    <ClCompile Include="..\lib\coproc.cpp" />
+    <ClCompile Include="..\lib\crypt.cpp" />
+    <ClCompile Include="..\lib\filesys.cpp" />
+    <ClCompile Include="..\lib\hostinfo.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
+    <ClCompile Include="..\lib\md5.cpp" />
+    <ClCompile Include="..\lib\md5_file.cpp" />
+    <ClCompile Include="..\lib\msg_log.cpp" />
+    <ClCompile Include="..\lib\network.cpp" />
+    <ClCompile Include="..\lib\notice.cpp" />
+    <ClCompile Include="..\lib\opencl_boinc.cpp" />
+    <ClCompile Include="..\lib\project_init.cpp" />
+    <ClCompile Include="..\lib\proxy_info.cpp" />
+    <ClCompile Include="..\lib\shmem.cpp" />
+    <ClCompile Include="..\lib\url.cpp" />
+    <ClCompile Include="..\lib\util.cpp" />
+    <ClCompile Include="..\lib\win_util.cpp" />
     <ClCompile Include="..\sched\edf_sim.cpp" />
     <ClCompile Include="..\client\log_flags.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
@@ -343,6 +396,7 @@
     <ClCompile Include="..\lib\str_util.cpp" />
     <ClCompile Include="..\client\time_stats.cpp" />
     <ClCompile Include="..\client\work_fetch.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\client\app.h" />

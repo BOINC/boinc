@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@
 #define NEW_CPU_THROTTLE
 // do CPU throttling using a separate thread.
 // This makes it possible to throttle faster than the client's 1-sec poll period
+// NOTE: we can't actually do this because the runtime system's
+// poll period is currently 1 sec.
 
 #ifndef _WIN32
 #include <string>
@@ -52,6 +54,7 @@ using std::vector;
 #include "net_stats.h"
 #include "pers_file_xfer.h"
 #include "prefs.h"
+#include "project_list.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
 
@@ -59,18 +62,129 @@ using std::vector;
 #include "../sched/edf_sim.h"
 #endif
 
-#define WORK_FETCH_DONT_NEED 0
-    // project: suspended, deferred, or no new work (can't ask for more work)
-    // overall: not work_fetch_ok (from CPU policy)
-#define WORK_FETCH_OK        1
-    // project: has more than min queue * share, not suspended/def/nonewwork
-    // overall: at least min queue, work fetch OK
-#define WORK_FETCH_NEED      2
-    // project: less than min queue * resource share of DL/runnable results
-    // overall: less than min queue
-#define WORK_FETCH_NEED_IMMEDIATELY 3
-    // project: no downloading or runnable results
-    // overall: at least one idle CPU
+//////// TIME-RELATED CONSTANTS ////////////
+
+#define POLL_INTERVAL   1.0
+    // the client will handle I/O (including GUI RPCs)
+    // for up to POLL_INTERVAL seconds before calling poll_slow_events()
+    // to call the polling functions
+
+#define GARBAGE_COLLECT_PERIOD  10
+    // how often to garbage collect
+
+#define TASK_POLL_PERIOD    1.0
+
+#define UPDATE_RESULTS_PERIOD   1.0
+
+#define HANDLE_FINISHED_APPS_PERIOD 1.0
+
+#define BENCHMARK_POLL_PERIOD   1.0
+
+#define PERS_FILE_XFER_START_PERIOD  1.0
+#define PERS_FILE_XFER_POLL_PERIOD  1.0
+
+#define SCHEDULER_RPC_POLL_PERIOD   5.0
+
+#define FILE_XFER_POLL_PERIOD   1.0
+
+#define GUI_HTTP_POLL_PERIOD    1.0
+
+#define MEMORY_USAGE_PERIOD     10
+    // computer memory usage and check for exclusive apps this often
+
+//////// WORK FETCH
+
+#define WORK_FETCH_PERIOD   60
+    // see if we need to fetch work at least this often
+#define WF_MIN_BACKOFF_INTERVAL    600
+#define WF_MAX_BACKOFF_INTERVAL    86400
+    // if we ask a project for work for a resource and don't get it,
+    // we do exponential backoff.
+    // This constant is an upper bound for this.
+    // E.g., if we need GPU work, we'll end up asking once a day,
+    // so if the project develops a GPU app,
+    // we'll find out about it within a day.
+
+#define WF_UPLOAD_DEFER_INTERVAL   300
+    // if a project is uploading,
+    // and the last upload started within this interval,
+    // don't fetch work from it.
+    // This allows the work fetch to be merged with the reporting of the
+    // jobs that are currently uploading.
+
+#define RESULT_REPORT_IF_AT_LEAST_N 64
+    // If a project has at least this many ready-to-report tasks, report them.
+
+#define WF_EST_FETCH_TIME 180
+    // Figure that fetching work (possibly requesting from several projects)
+    // could take as long as this.
+    // So start work fetch this long before an instance becomes idle,
+    // in order to avoid idleness.
+
+//////// CPU SCHEDULING
+
+#define CPU_SCHED_PERIOD    60
+    // do CPU schedule at least this often
+
+#define REC_ADJUST_PERIOD CPU_SCHED_PERIOD
+    // REC is adjusted at least this often,
+    // since adjust_rec() is called from enforce_schedule()
+
+#define DEADLINE_CUSHION    0
+    // try to finish jobs this much in advance of their deadline
+
+/////// JOB CONTROL
+
+#define ABORT_TIMEOUT   60
+    // if we send app <abort> request, wait this long before killing it.
+    // This gives it time to download symbol files (which can be several MB)
+    // and write stack trace to stderr
+
+#define QUIT_TIMEOUT    60
+    // Same, for <quit>.
+    // Should be large enough that apps can finalize
+    // (e.g. write checkpoint file) in that time.
+    // In Nov 2015 we increased it from 15 to 60
+    // because CERN's VBox apps take a long time to save state.
+
+#define MAX_STARTUP_TIME    10
+    // if app startup takes longer than this, quit loop
+
+//////// NETWORK
+
+#define CONNECT_ERROR_PERIOD    600.0
+
+#define ALLOW_NETWORK_IF_RECENT_RPC_PERIOD  300
+    // if there has been a GUI RPC within this period
+    // that requires network access (e.g. attach to project)
+    // allow it even if setting is "no access"
+
+//////// MISC
+
+#define EXCLUSIVE_APP_WAIT   5
+    // if "exclusive app" feature used,
+    // wait this long after app exits before restarting jobs
+
+#define DAILY_XFER_HISTORY_PERIOD   60
+
+#define ACCT_MGR_MIN_BACKOFF    600
+#define ACCT_MGR_MAX_BACKOFF    86400
+    // min/max account manager RPC backoff
+
+#define ANDROID_KEEPALIVE_TIMEOUT   30
+    // Android: if don't get a report_device_status() RPC from the GUI
+    // in this interval, exit.
+    // We rely on the GUI to report battery status.
+
+#ifndef ANDROID
+#define USE_NET_PREFS
+    // use preferences obtained over the network
+    // (i.e. through scheduler replies)
+    // Don't do this on Android
+#endif
+
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+#define NO_WORK_MSG _("Your current settings do not allow tasks from this project.")
 
 // encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
@@ -100,6 +214,7 @@ struct CLIENT_STATE {
     GET_CURRENT_VERSION_OP get_current_version_op;
     GET_PROJECT_LIST_OP get_project_list_op;
     ACCT_MGR_OP acct_mgr_op;
+    LOOKUP_LOGIN_TOKEN_OP lookup_login_token_op;
 
     CLIENT_TIME_STATS time_stats;
     GLOBAL_PREFS global_prefs;
@@ -243,7 +358,14 @@ struct CLIENT_STATE {
     double new_version_check_time;
     double all_projects_list_check_time;
         // the time we last successfully fetched the project list
+    bool autologin_in_progress;
+    bool autologin_fetching_project_list;
+    PROJECT_LIST project_list;
+    void process_autologin(bool first);
+
+// --------------- current_version.cpp:
     string newer_version;
+    string client_version_check_url;
 
 // --------------- client_state.cpp:
     CLIENT_STATE();
@@ -317,7 +439,7 @@ struct CLIENT_STATE {
         // another task that needs a shared-mem seg
     inline double work_buf_min() {
         double x = global_prefs.work_buf_min_days * 86400;
-        if (x < 180) x = 180;
+        if (x < WF_EST_FETCH_TIME) x = WF_EST_FETCH_TIME;
         return x;
     }
     inline double work_buf_additional() {
@@ -399,7 +521,7 @@ struct CLIENT_STATE {
     const char* get_primary_platform();
     void add_platform(const char*);
     void detect_platforms();
-    void write_platforms(PROJECT*, MIOFILE&);
+    void write_platforms(PROJECT*, FILE*);
     bool is_supported_platform(const char*);
 
 // --------------- cs_prefs.cpp:
@@ -531,125 +653,5 @@ extern double calculate_exponential_backoff(
 extern THREAD_LOCK client_mutex;
 extern THREAD throttle_thread;
 #endif
-
-//////// TIME-RELATED CONSTANTS ////////////
-
-//////// CLIENT INTERNAL
-
-#define POLL_INTERVAL   1.0
-    // the client will handle I/O (including GUI RPCs)
-    // for up to POLL_INTERVAL seconds before calling poll_slow_events()
-    // to call the polling functions
-
-#define GARBAGE_COLLECT_PERIOD  10
-    // how often to garbage collect
-
-#define TASK_POLL_PERIOD    1.0
-
-#define UPDATE_RESULTS_PERIOD   1.0
-
-#define HANDLE_FINISHED_APPS_PERIOD 1.0
-
-#define BENCHMARK_POLL_PERIOD   1.0
-
-#define PERS_FILE_XFER_START_PERIOD  1.0
-#define PERS_FILE_XFER_POLL_PERIOD  1.0
-
-#define SCHEDULER_RPC_POLL_PERIOD   5.0
-
-#define FILE_XFER_POLL_PERIOD   1.0
-
-#define GUI_HTTP_POLL_PERIOD    1.0
-
-#define MEMORY_USAGE_PERIOD     10
-    // computer memory usage and check for exclusive apps this often
-
-//////// WORK FETCH
-
-#define WORK_FETCH_PERIOD   60
-    // see if we need to fetch work at least this often
-#define WF_MIN_BACKOFF_INTERVAL    600
-#define WF_MAX_BACKOFF_INTERVAL    86400
-    // if we ask a project for work for a resource and don't get it,
-    // we do exponential backoff.
-    // This constant is an upper bound for this.
-    // E.g., if we need GPU work, we'll end up asking once a day,
-    // so if the project develops a GPU app,
-    // we'll find out about it within a day.
-
-#define WF_UPLOAD_DEFER_INTERVAL   300
-    // if a project is uploading,
-    // and the last upload started within this interval,
-    // don't fetch work from it.
-    // This allows the work fetch to be merged with the reporting of the
-    // jobs that are currently uploading.
-
-#define RESULT_REPORT_IF_AT_LEAST_N 64
-    // If a project has at least this many ready-to-report tasks, report them.
-
-//////// CPU SCHEDULING
-
-#define CPU_SCHED_PERIOD    60
-    // do CPU schedule at least this often
-
-#define REC_ADJUST_PERIOD CPU_SCHED_PERIOD
-    // REC is adjusted at least this often,
-    // since adjust_rec() is called from enforce_schedule()
-
-#define DEADLINE_CUSHION    0
-    // try to finish jobs this much in advance of their deadline
-
-/////// JOB CONTROL
-
-#define ABORT_TIMEOUT   60
-    // if we send app <abort> request, wait this long before killing it.
-    // This gives it time to download symbol files (which can be several MB)
-    // and write stack trace to stderr
-
-#define QUIT_TIMEOUT    60
-    // Same, for <quit>.
-    // Should be large enough that apps can finalize
-    // (e.g. write checkpoint file) in that time.
-    // In Nov 2015 we increased it from 15 to 60
-    // because CERN's VBox apps take a long time to save state.
-
-#define MAX_STARTUP_TIME    10
-    // if app startup takes longer than this, quit loop
-
-//////// NETWORK
-
-#define CONNECT_ERROR_PERIOD    600.0
-
-#define ALLOW_NETWORK_IF_RECENT_RPC_PERIOD  300
-    // if there has been a GUI RPC within this period
-    // that requires network access (e.g. attach to project)
-    // allow it even if setting is "no access"
-
-//////// MISC
-
-#define EXCLUSIVE_APP_WAIT   5
-    // if "exclusive app" feature used,
-    // wait this long after app exits before restarting jobs
-
-#define DAILY_XFER_HISTORY_PERIOD   60
-
-#define ACCT_MGR_MIN_BACKOFF    600
-#define ACCT_MGR_MAX_BACKOFF    86400
-    // min/max account manager RPC backoff
-
-#define ANDROID_KEEPALIVE_TIMEOUT   30
-    // Android: if don't get a report_device_status() RPC from the GUI
-    // in this interval, exit.
-    // We rely on the GUI to report battery status.
-
-#ifndef ANDROID
-#define USE_NET_PREFS
-    // use preferences obtained over the network
-    // (i.e. through scheduler replies)
-    // Don't do this on Android
-#endif
-
-#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
-#define NO_WORK_MSG _("Your current settings do not allow tasks from this project.")
 
 #endif

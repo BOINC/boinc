@@ -104,10 +104,13 @@ function boinccore_admin_default_content(&$form_state) {
   $form['page'] = array(
     '#type' => 'select',
     '#title' => t('Generate default content for'),
+    '#description' => t('Generate some standard pages for a Drupal-BOINC Web site. You may generate all pages or specific pages. If a page already exists, it will <b>not</b> be overwritten. Pages will be generated with the path \'/page\', e.g., \'/help\'. Note the absense of \'content/\'.<p>The pages generated here will have very limited content. Most will have content such as \'Add a link to your FAQ here.\', and it is the admin or editors responsibility to add the necessary content.'),
     '#options' => array(
-      0 => t('all standard pages'),
+      0 => t('All standard pages'),
 //      'about' => t('About page'),
       'help' => t('Help page'),
+      'rules' => t('Rules and Policies page'),
+      'moderation' => t('Moderation information page'),
     ),
   );
   $form['submit'] = array(
@@ -168,11 +171,14 @@ function boinccore_admin_default_content_generate($pages = array()) {
     $pages = array(
       'help',
 //      'about',
+      'rules',
+      'moderation',
     );
   }
   elseif (!is_array($pages)) {
     $pages = array($pages);
   }
+
   $pages_generated = array();
   if (in_array('about', $pages)) {
     // Create the default About page, if it doesn't exist
@@ -223,7 +229,80 @@ function boinccore_admin_default_content_generate($pages = array()) {
       $pages_generated[] = 'help';
     }
   }
-  // Refresh the cache with these changes
-  menu_cache_clear_all();
+  if (in_array('rules', $pages)) {
+    // Create the default Rules page, if it doesn't exist
+    if (!drupal_lookup_path('source', 'rules-and-policies')) {
+      // Create node
+      $node = array(
+        'type' => 'page',
+        'title' => t('Rules and Policies'),
+        'uid' => 1,
+        'status' => 1,  // published
+        'promote' => 0, // not promoted to front page
+        'path' => 'rules-and-policies',
+        'pathauto_perform_alias' => FALSE,
+        'created' => time(),
+        'changed' => time(),
+        'comment' => 0, // disable comments
+        'moderate' => 0,
+        'body' => preg_replace('/>\s+</', '><',
+          '<p>Use this page to list your sites rules and policies.</p>'),
+        'sticky' => 0,
+        'format' => 4,
+        //'teaser' => $teaser,
+      );
+      $node = (object) $node; // node_save requires an object
+      node_save($node);
+
+      // Create menu item to node
+      $item = array(
+        'link_path' => drupal_get_normal_path('rules-and-policies'),
+        'link_title' => t('Rules and Policies'),
+        'menu_name' => 'menu-footer-links',
+        'weight' => 0,
+      );
+      menu_link_save($item);
+      $pages_generated[] = 'rules-and-policies';
+    }
+  }
+  if (in_array('moderation', $pages)) {
+    // Create the default Moderation page, if it doesn't exist
+    if (!drupal_lookup_path('source', 'moderation')) {
+      // Create node
+      $node = array(
+        'type' => 'page',
+        'title' => t('Moderation'),
+        'uid' => 1,
+        'status' => 1,  // published
+        'promote' => 0, // not promoted to front page
+        'path' => 'moderation',
+        'pathauto_perform_alias' => FALSE,
+        'created' => time(),
+        'changed' => time(),
+        'comment' => 0, // disable comments
+        'moderate' => 0,
+        'body' => preg_replace('/>\s+</', '><',
+          '<p>Use this page to describe your sites moderation policy.</p>'),
+        'sticky' => 0,
+        'format' => 4,
+        //'teaser' => $teaser,
+      );
+      $node = (object) $node; // node_save requires an object
+      node_save($node);
+
+      // Create menu item to node
+      $item = array(
+        'link_path' => drupal_get_normal_path('moderation'),
+        'link_title' => t('Moderation'),
+        'menu_name' => 'menu-footer-links',
+        'weight' => 0,
+      );
+      menu_link_save($item);
+      $pages_generated[] = 'moderation';
+    }
+  }
+
+  // Rebuild drupal menus
+  menu_rebuild();
   return $pages_generated;
 }

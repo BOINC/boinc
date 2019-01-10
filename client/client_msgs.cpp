@@ -125,7 +125,7 @@ void show_message(
     // print message to the console
     printf("%s", evt_message);
 
-#ifdef _MSC_VER
+#ifdef _WIN32
     // MSVCRT doesn't support line buffered streams
     fflush(stdout);
 #endif

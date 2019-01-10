@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -53,6 +53,8 @@
 #ifdef __WXMAC__
 #include "util.h"
 #include "mac_util.h"
+
+#include "mac_branding.h"
 #endif
 
 // Workaround for Linux refresh problem
@@ -84,7 +86,8 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
     EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
-	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
+    EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
+    EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
@@ -230,12 +233,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
 
     strMenuName.Printf(
-        _("&%s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        _("&%s help"), 
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationHelpName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
@@ -270,6 +273,13 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         ID_CHECK_VERSION,
         strMenuName,
         strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    menuHelp->Append(
+        ID_REPORT_BUG,
+        _("Report Issue"),
+        _("Report bug or enhancement request")
     );
     menuHelp->AppendSeparator();
 
@@ -634,6 +644,13 @@ void CSimpleFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function End"));
 }
 
+void CSimpleFrame::OnReportBug(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReportBug - Function Begin"));
+
+    wxLaunchDefaultBrowser(wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationReportBugUrl());
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReportBug - Function End"));
+}
 
 void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
@@ -817,7 +834,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 fscanf(f, "BrandId=%ld\n", &iBrandID);
                 fclose(f);
             }
-            if ((iBrandID > 0) && (iBrandID < 4))
+            if ((iBrandID > 0) && (iBrandID < NUMBRANDS))
 #endif
             {
                 // If successful, hide the main window if we showed it
@@ -984,9 +1001,6 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     SetBackgroundBitmap();   
 
 #ifdef __WXMAC__
-    // Tell accessibility aids to ignore this panel (but not its contents)
-    HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-    
     if (compareOSVersionTo(10, 7) >= 0) {
         m_iRedRingRadius = 4;
     } else {

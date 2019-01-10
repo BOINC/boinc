@@ -3,8 +3,8 @@ description = Allow private messages between users.
 package = Mail
 core = 6.x
 ; Information added by drupal.org packaging script on 2011-06-19
-version = "6.x-1.5-boinc-1-dev"
+version = "6.x-1.5-boinc-2-dev"
 core = "6.x"
 project = "privatemsg"
-datestamp = "1393530079"
+datestamp = "1503952804"
 

@@ -137,6 +137,61 @@ void CBOINCGUIApp::ShowApplication(bool bShow) {
 }
 
 
+///
+/// Gets the display name for this app
+void CBOINCGUIApp::getDisplayNameForThisApp(char* pathBuf, size_t bufSize) {
+    // Get the app's main bundle
+    NSBundle *main = [NSBundle mainBundle];
+    NSString *thePath = main.localizedInfoDictionary[(NSString *)kCFBundleNameKey];
+    if (thePath == nil) {
+        thePath = [NSProcessInfo processInfo].processName;
+    }
+    strlcpy(pathBuf, [thePath UTF8String], bufSize);
+}
+
+
+// NSTitledWindowMask is deprecated in OS 10.12 and is replaced by
+// NSWindowStyleMaskTitled, which is not defined before OS 10.12
+#ifndef NSWindowStyleMaskTitled
+#define NSWindowStyleMaskTitled NSTitledWindowMask
+#endif
+
+// Returns true if at least a 5 X 5 pixel area of the 
+// window's title bar is entirely on the displays
+// Note: Arguments are wxWidgets / Quickdraw-style coordinates
+// (y=0 at top) but NSScreen coordinates have y=0 at bottom
+Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
+    NSRect testFrameRect = NSMakeRect(100, 100, 200, 200);
+    NSRect testContentRect = [NSWindow contentRectForFrameRect:testFrameRect
+                                styleMask:NSWindowStyleMaskTitled];
+    CGFloat titleBarHeight = testFrameRect.size.height - testContentRect.size.height;
+    // Make sure at least a 5X5 piece of title bar is visible
+    NSRect titleRect = NSMakeRect(iLeft, iTop, iWidth, titleBarHeight);
+    titleRect = NSInsetRect(titleRect, 5, 5);
+
+    NSArray *allScreens = [NSScreen screens];
+    unsigned int i;
+    // The geometries of windows and display arangements are such
+    // that even if the title bar spans multiple windows, a 5X5
+    // section is on-screen only if at least one 5X5 section is
+    // entirely on one or more displays, so this test is sufficient.
+    unsigned int numDisplays = [ allScreens count ];
+    for (i=0; i<numDisplays; i++) {
+        NSScreen *aScreen = (NSScreen *)[ allScreens objectAtIndex:i ];
+        NSRect visibleRect = [aScreen visibleFrame];    // Usable area of screen
+        // Convert to wxWidgets coordinates (Y=0 at top of screen)
+        NSRect fullScreenRect = [aScreen frame];
+        visibleRect.origin.y = fullScreenRect.size.height - visibleRect.origin.y - visibleRect.size.height;
+
+        if (NSIntersectsRect(visibleRect, titleRect)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
 extern bool s_bSkipExitConfirmation;
 
 // Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down

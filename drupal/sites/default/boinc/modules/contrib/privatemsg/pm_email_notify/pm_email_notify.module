@@ -40,7 +40,7 @@ function pm_email_notify_admin_settings_form() {
 
   $form['pm_email']['pm_email_notify_desc'] = array(
     '#type' => 'item',
-    '#value' => t('Customize the email messages sent to users upon receipt of a new private message. <br />Available variables are: !author, !author_uid, !pm_subject, !pm_body, !thread, !site, !login_url, !uri, !uri_brief, !message (URL) and !settings (URL).'),
+    '#value' => t('Customize the email messages sent to users upon receipt of a new private message. <br />Available variables are: !author, !author_uid, !pm_subject, !pm_body, !thread, !site, !login_url, !uri, !uri_brief, !message (URL), !settings (URL), !boincuser_name, and !author_boincuser_name.'),
     '#weight' => 1,
   );
 
@@ -132,6 +132,8 @@ function _pm_email_notify_token($recipient, $message, $language) {
     '!user_uid' => $recipient->uid,
     '!message' => url('messages/view/' . $message['thread_id'], array('absolute' => TRUE, 'language' => $language)),
     '!settings' => url('user/' . $recipient->uid . '/edit', array('absolute' => TRUE, 'language' => $language)),
+    '!boincuser_name' => $recipient->boincuser_name,
+    '!author_boincuser_name' => user_load($message['author']->uid)->boincuser_name,
   );
 
   return $tokens;

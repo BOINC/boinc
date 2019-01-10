@@ -65,7 +65,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
     PSID        pSid;
     tstring     strBOINCProjectAccountUsername;
     tstring     strOSVersion;
-    UINT        uiReturnValue = -1;
+    UINT        uiReturnValue;
 
 
     uiReturnValue = GetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );

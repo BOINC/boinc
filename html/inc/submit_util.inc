@@ -47,6 +47,12 @@ function authenticate_user($r, $app) {
     return array($user, $user_submit);
 }
 
+function delete_remote_submit_user($user) {
+    BoincUserSubmit::delete_user($user->id);
+    BoincUserSubmitApp::delete_user($user->id);
+}
+
+
 // given its WUs, compute progress of a batch
 // (fraction done, est completion time etc.)
 // NOTE: this is inefficient because we need all the WUs.
@@ -123,7 +129,7 @@ function abort_batch($batch) {
     foreach ($wus as $wu) {
         abort_workunit($wu);
     }
-    $batch->update("state=".BATCH_STATE_ABORTED);
+    $batch->update("project_state=".BATCH_STATE_ABORTED);
     return 0;
 }
 
@@ -137,13 +143,13 @@ function retire_batch($batch) {
             "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
         );
     }
-    $batch->update("state=".BATCH_STATE_RETIRED);
+    $batch->update("project_state=".BATCH_STATE_RETIRED);
 }
 
 function expire_batch($batch) {
     abort_batch($batch);
     retire_batch($batch);
-    $batch->update("state=".BATCH_STATE_EXPIRED);
+    $batch->update("project_state=".BATCH_STATE_EXPIRED);
 }
 
 function batch_state_string($state) {

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
 	    
 	    View vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_controls_listitem_layout, null);
 	    
-        TextView tvText = (TextView)vi.findViewById(R.id.text);
+        TextView tvText = vi.findViewById(R.id.text);
 	    String text = "";
 	    
     	switch (data.operation) {
@@ -89,14 +89,14 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         	text = activity.getResources().getString(R.string.projects_control_reset);
     		break;
     	case RpcClient.PROJECT_DETACH:
-        	tvText.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
+        	tvText.setBackground(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
         	text = activity.getResources().getString(R.string.projects_control_remove);
     		break;
     	case RpcClient.MGR_SYNC:
         	text = activity.getResources().getString(R.string.projects_control_sync_acctmgr);
     		break;
     	case RpcClient.MGR_DETACH:
-        	tvText.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
+        	tvText.setBackground(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
         	text = activity.getResources().getString(R.string.projects_control_remove_acctmgr);
     		break;
     	case RpcClient.TRANSFER_RETRY:

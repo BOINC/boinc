@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--app global-->
   <string name="app_name">BOINC</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">Додати проект</string>
   <string name="projects_icon">Іконка проекту</string>
   <string name="projects_credits">Бали:</string>
-  <string name="projects_credits_host_and_user">%1$,d (на цьому пристрої) %2$,d (загалом)</string>
+  <string name="projects_credits_host_and_user">%1$,d (на цьому пристрої) %2$,d (всього)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Призупинено користувачем</string>
   <string name="projects_status_dontrequestmorework">Не приймати нові завдання</string>
@@ -334,11 +334,16 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-    <string name="about_copyright">© 2003-2016 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Нова примітка від %1$s</item>
+    <item quantity="few">%2$,d нових приміток</item>
+    <item quantity="many">%2$,d нових приміток</item>
+    <item quantity="other">%2$,d нових приміток</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
   <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої. Тільки один додаток може працювати одночасно.</string>
   <string name="nonexcl_dialog_exit">Вийти</string>
@@ -348,5 +353,6 @@
   <string name="social_invite_content_title">Я приймаю участь у наукових обчисленнях на моєму смартфоні!</string>
   <string name="social_invite_content_body">Я вікористовую %1$s для наукових обчислень. Ти також можешь прийняти участь! Завантажуй додаток звідси: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
@@ -25,15 +25,17 @@ import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
+
+import android.content.ClipData;
 import android.content.ComponentName;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar.Tab;
-import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +44,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class EventLogActivity extends ActionBarActivity {
+public class EventLogActivity extends AppCompatActivity {
 	
 	private IMonitor monitor;
 	private Boolean mIsBound = false;
@@ -50,14 +52,14 @@ public class EventLogActivity extends ActionBarActivity {
 	public EventLogClientFragment clientFrag;
 	public ListView clientLogList;
 	public ClientLogListAdapter clientLogListAdapter;
-	public ArrayList<Message> clientLogData = new ArrayList<Message>();
+	public ArrayList<Message> clientLogData = new ArrayList<>();
 
 	public EventLogGuiFragment guiFrag;
 	public ListView guiLogList;
 	public ArrayAdapter<String> guiLogListAdapter;
-	public ArrayList<String> guiLogData = new ArrayList<String>();
+	public ArrayList<String> guiLogData = new ArrayList<>();
 	
-	private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<EventLogActivityTabListener<?>>();
+	private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<>();
 	
 	final static int GUI_LOG_TAB_ACTIVE =1;
 	final static int CLIENT_LOG_TAB_ACTIVE =2;
@@ -73,14 +75,14 @@ public class EventLogActivity extends ActionBarActivity {
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
-        EventLogActivityTabListener<EventLogClientFragment> clientListener = new EventLogActivityTabListener<EventLogClientFragment>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
+        EventLogActivityTabListener<EventLogClientFragment> clientListener = new EventLogActivityTabListener<>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
         listener.add(clientListener);
         Tab tab = actionBar.newTab()
                 .setText(R.string.eventlog_client_header)
                 .setTabListener(clientListener);
         actionBar.addTab(tab);
         
-        EventLogActivityTabListener<EventLogGuiFragment> guiListener = new EventLogActivityTabListener<EventLogGuiFragment>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
+        EventLogActivityTabListener<EventLogGuiFragment> guiListener = new EventLogActivityTabListener<>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
         listener.add(guiListener);
         tab = actionBar.newTab()
                 .setText(R.string.eventlog_gui_header)
@@ -185,8 +187,9 @@ public class EventLogActivity extends ActionBarActivity {
 	
 	private void onCopy() {
 		try {
-			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
-			clipboard.setText(getLogDataAsString());
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clipData = ClipData.newPlainText("log", getLogDataAsString());
+			clipboard.setPrimaryClip(clipData);
 			Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
 		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onCopy failed");}
 	}
@@ -212,10 +215,10 @@ public class EventLogActivity extends ActionBarActivity {
 	// clientLog = true: client log
 	// clientlog = false: gui log
 	private String getLogDataAsString() {
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		int type = getActiveLog();
 		if(type == CLIENT_LOG_TAB_ACTIVE) {
-			text.append(getString(R.string.eventlog_client_header) + "\n\n");
+			text.append(getString(R.string.eventlog_client_header)).append("\n\n");
 		    for (int index = 0; index < clientLogList.getCount(); index++) {
 				text.append(clientLogListAdapter.getDate(index));
 				text.append("|");
@@ -225,7 +228,7 @@ public class EventLogActivity extends ActionBarActivity {
 				text.append("\n");
 			}
 		} else if(type == GUI_LOG_TAB_ACTIVE) {
-			text.append(getString(R.string.eventlog_gui_header) + "\n\n");
+			text.append(getString(R.string.eventlog_gui_header)).append("\n\n");
 		    for (String line: guiLogData) {
 				text.append(line);
 				text.append("\n");

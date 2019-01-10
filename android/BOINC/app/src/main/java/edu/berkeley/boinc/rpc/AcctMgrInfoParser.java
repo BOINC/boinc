@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
@@ -15,7 +15,7 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ */
 
 package edu.berkeley.boinc.rpc;
 
@@ -82,7 +82,9 @@ public class AcctMgrInfoParser extends BaseParser{
 						mAcctMgrInfo.cookie_failure_url = mCurrentElement.toString();
 				}
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG,"AcctMgrInfoParser.endElement error: ",e);
+		}
 		mElementStarted = false;
 	}
 }

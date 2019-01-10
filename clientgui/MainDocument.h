@@ -214,6 +214,7 @@ private:
     BOINC_Condition*            m_pRPC_Request_Condition;
     wxDateTime                  m_dtLasAsyncRPCDlgTime;
     wxDateTime                  m_dtLastFrameViewRefreshRPCTime;
+    bool                        m_bAutoAttaching;
 
     //
     // Projects Tab
@@ -418,6 +419,7 @@ extern void remove_eols(wxString& strMessage);
 extern void https_to_http(wxString& strMessage);
 extern void color_cycle(int i, int n, wxColour& color);
 extern wxString FormatTime(double secs);
+extern bool autoattach_in_progress();
 
 #ifdef __WXMSW__
 #define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())

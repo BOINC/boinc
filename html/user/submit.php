@@ -74,7 +74,7 @@ function show_in_progress($batches, $limit, $user, $app) {
                 "# jobs",
                 "Progress",
                 "Submitted",
-                "Logical end time<br><p class=\"text-muted\">Determines priority</p>"
+                "Logical end time<br><small>Determines priority</small>"
             );
         }
         $pct_done = (int)($batch->fraction_done*100);
@@ -333,7 +333,7 @@ function handle_query_batch($user) {
     }
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
-        echo "<br>";
+        echo "<p></p>";
         show_button(
             "submit.php?action=abort_batch_confirm&batch_id=$batch_id",
             "Abort batch"
@@ -341,7 +341,7 @@ function handle_query_batch($user) {
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
-        echo "<br>";
+        echo "<p></p>";
         show_button(
             "submit.php?action=retire_batch_confirm&batch_id=$batch_id",
             "Retire batch"
@@ -352,9 +352,9 @@ function handle_query_batch($user) {
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
-        "Job ID and name<br><p class=\"text-muted\">click for details or to get output files</p>",
+        "Job ID and name<br><small>click for details or to get output files</small>",
         "status",
-        "Canonical instance<br><p class=\"text-muted\">click to see result page on BOINC server</p>",
+        "Canonical instance<br><small>click to see result page on BOINC server</smallp>",
         "Download Results"
     );
     foreach($wus as $wu) {
@@ -406,7 +406,7 @@ function handle_query_job($user) {
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
     start_table();
-    table_header("Logical name<br><p class=\"text-muted\">(click to view)</p>",
+    table_header("Logical name<br><small>(click to view)</small>",
         "Size (bytes)", "MD5"
     );
     foreach ($x->workunit->file_ref as $fr) {
@@ -428,8 +428,8 @@ function handle_query_job($user) {
     echo "<h2>Instances</h2>\n";
     start_table();
     table_header(
-        "Instance ID<br><p class=\"text-muted\">click for result page</p>",
-        "State", "Output files<br><p class=\"text-muted\">click to view the file</p>"
+        "Instance ID<br><small>click for result page</small>",
+        "State", "Output files<br><small>click to view the file</small>"
     );
     $results = BoincResult::enum("workunitid=$wuid");
     $upload_dir = parse_config(get_config(), "<upload_dir>");

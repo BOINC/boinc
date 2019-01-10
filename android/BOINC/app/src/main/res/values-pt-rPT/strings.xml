@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">A carregar! Por favor, aguarde...</string>
+  <string name="generic_loading">Por favor, aguarde - a carregar...</string>
   <string name="generic_button_continue">Continuar</string>
   <string name="generic_button_finish">Terminar</string>
   <!--attach project-->
@@ -35,7 +35,7 @@
   <string name="attachproject_hints_header">Dica</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Como contribuir:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Ligar à Rede Sem Fios</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Ligar à Wi-Fi</string>
   <string name="attachproject_hint_contribtion_charger">2. Ligar Carregador</string>
   <string name="attachproject_hint_contribtion_screen">3. Desligar Ecrã</string>
   <string name="attachproject_hint_projectwebsite_header">Visitar os sites da Web do projeto para:</string>
@@ -60,14 +60,14 @@
   <string name="attachproject_login_header_id_email">E-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Palavra-passe:</string>
-  <string name="attachproject_login_category_creation">Novo a</string>
+  <string name="attachproject_login_category_creation">Novo para</string>
   <string name="attachproject_login_header_creation_enabled">Registar uma conta para participar:</string>
   <string name="attachproject_login_header_creation_client_disabled">Visite o site da Web do projeto para criar uma conta:</string>
   <string name="attachproject_login_header_creation_disabled">De momento, este projeto não está a aceitar novas contas.</string>
   <string name="attachproject_login_button_registration">Registar</string>
   <string name="attachproject_login_button_login">Iniciar sessão</string>
   <string name="attachproject_login_button_forgotpw">Esqueceu a Palavra-passe</string>
-  <string name="attachproject_login_error_toast">Tentativa de contacto com o projecto falhou!</string>
+  <string name="attachproject_login_error_toast">O contacto com o projeto falhou!</string>
   <string name="attachproject_login_attached">Anexado</string>
   <!--project registration-->
   <string name="attachproject_registration_header">Registo de conta para</string>
@@ -76,7 +76,7 @@
   <string name="attachproject_registration_header_username">Nome:</string>
   <string name="attachproject_registration_header_teamname">Equipa:</string>
   <string name="attachproject_registration_header_pwd">Palavra-passe:</string>
-  <string name="attachproject_registration_header_pwd_confirm">... Escreva novamente:</string>
+  <string name="attachproject_registration_header_pwd_confirm">... Reescrever:</string>
   <string name="attachproject_registration_button">Criar</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Use o gestor de conta do BOINC para adicionar ou gerir múltiplos projetos</string>
@@ -84,7 +84,7 @@
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Utilizador:</string>
   <string name="attachproject_acctmgr_header_pwd">Palavra-passe:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">... Escreva novamente:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Reescrever:</string>
   <string name="attachproject_acctmgr_button">Adicionar</string>
   <!--error strings-->
   <string name="attachproject_error_wrong_name">Utilizador não encontrado</string>
@@ -183,11 +183,11 @@
   <string name="prefs_show_notification_notices_header">Mostrar notificações para novas notícias</string>
   <string name="prefs_show_notification_suspended_header">Mostrar notificação quando suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
-  <string name="prefs_cpu_number_cpus_description">Limita o número de cores de CPU que o BOINC utiliza para computação.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pausar com o uso da CPU acima de</string>
-  <string name="prefs_cpu_other_load_suspension_description">Determina quando o BOINC pausa a computação, devido à utilização do CPU por outras aplicações.</string>
+  <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC utiliza para computação.</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pausar com a utilização da CPU acima de</string>
+  <string name="prefs_cpu_other_load_suspension_description">Determina quando o BOINC pausa a computação, devido à utilização da CPU por outras aplicações.</string>
   <string name="prefs_cpu_time_max_header">Limite da CPU</string>
-  <string name="prefs_cpu_time_max_description">Limita o tempo de CPU que o BOINC utiliza para computação.</string>
+  <string name="prefs_cpu_time_max_description">Limita o tempo da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_memory_max_idle_header">Limite da RAM</string>
   <string name="prefs_memory_max_idle_description">Limita a quantidade de RAM utilizada permitida às tarefas.</string>
   <string name="prefs_client_log_flags_header">Log das bandeiras do BOINC</string>
@@ -198,20 +198,20 @@
   <!--projects tab strings-->
   <string name="projects_loading">A ler os projetos...</string>
   <string name="projects_add">Adicionar projecto</string>
-  <string name="projects_icon">Ícone do projecto</string>
+  <string name="projects_icon">Ícone do Projeto</string>
   <string name="projects_credits">Créditos:</string>
   <string name="projects_credits_host_and_user">%1$,d (neste dispositivo) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspenso pelo utilizador</string>
   <string name="projects_status_dontrequestmorework">Não obter novas tarefas</string>
-  <string name="projects_status_ended">Projecto terminado - OK para remover</string>
+  <string name="projects_status_ended">Projeto terminado - Pode remover</string>
   <string name="projects_status_detachwhendone">Irá ser removido quando as tarefas terminarem</string>
   <string name="projects_status_schedrpcpending">Solicitação agendada pendente</string>
   <string name="projects_status_schedrpcinprogress">Solicitação agendada em progresso</string>
   <string name="projects_status_trickleuppending">Mensagem de aviso pendente</string>
   <string name="projects_status_backoff">Comunicação agendada em:</string>
   <!--project controls-->
-  <string name="projects_control_dialog_title">Comandos do projecto:</string>
+  <string name="projects_control_dialog_title">Comandos do projeto:</string>
   <string name="projects_control_visit_website">Visitar site da Web</string>
   <string name="projects_control_update">Atualizar</string>
   <string name="projects_control_remove">Remover</string>
@@ -228,7 +228,7 @@
   <string name="projects_confirm_detach_message">Tem a certeza que deseja remover</string>
   <string name="projects_confirm_detach_message2">do BOINC?</string>
   <string name="projects_confirm_detach_confirm">Remover</string>
-  <string name="projects_confirm_reset_title">Reiniciar o projeto</string>
+  <string name="projects_confirm_reset_title">Reiniciar projeto</string>
   <string name="projects_confirm_reset_message">Tem a certeza que deseja reiniciar</string>
   <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Reiniciar</string>
@@ -294,7 +294,7 @@
   <string name="suspend_tod">Fora da janela de tempo limite para a computação.</string>
   <string name="suspend_bm">O BOINC está a executar o teste de desempenho no seu dispositivo...</string>
   <string name="suspend_disksize">Sem espaço em disco.</string>
-  <string name="suspend_cputhrottle">Estrangulamento de CPU agendado.</string>
+  <string name="suspend_cputhrottle">Diminuição de velocidade da CPU agendada.</string>
   <string name="suspend_noinput">Sem actividade recente do utilizador.</string>
   <string name="suspend_delay">Atraso de inicialização.</string>
   <string name="suspend_exclusiveapp">Uma aplicação exclusiva está em execução.</string>
@@ -315,8 +315,8 @@
   <string name="rpcreason_resultsdue">Reportar tarefas concluídas</string>
   <string name="rpcreason_trickleup">Enviar mensagem de aviso</string>
   <string name="rpcreason_acctmgrreq">Solicitado pelo gestor de conta</string>
-  <string name="rpcreason_init">Inicialização do projecto</string>
-  <string name="rpcreason_projectreq">Solicitado pelo projecto</string>
+  <string name="rpcreason_init">Inicialização do projeto</string>
+  <string name="rpcreason_projectreq">Solicitado pelo projeto</string>
   <string name="rpcreason_unknown">Razão desconhecida</string>
   <!--menu-->
   <string name="menu_refresh">Atualizar</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
   <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
-  <string name="about_copyright">\u00A9 2003-2016 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC pelo seu suporte.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

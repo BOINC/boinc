@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Laddar! Vänligen vänta...</string>
+  <string name="generic_loading">Öppnar! Vänligen vänta...</string>
   <string name="generic_button_continue">Fortsätt</string>
   <string name="generic_button_finish">Avsluta</string>
   <!--attach project-->
@@ -46,8 +46,8 @@
   <!--project login-->
   <string name="attachproject_login_loading">Kontaktar projektets server...</string>
   <string name="attachproject_login_image_description">Projektlogotyp.</string>
-  <string name="attachproject_login_header_general_area">Allmän area:</string>
-  <string name="attachproject_login_header_specific_area">Specifik area:</string>
+  <string name="attachproject_login_header_general_area">Allmänt område:</string>
+  <string name="attachproject_login_header_specific_area">Specifikt område:</string>
   <string name="attachproject_login_header_description">Beskrivning:</string>
   <string name="attachproject_login_header_home">Hem:</string>
   <string name="attachproject_login_header_url">Webbplats:</string>
@@ -93,14 +93,14 @@
   <string name="attachproject_error_pwd_no_match">Lösenorden stämmer ej överens</string>
   <string name="attachproject_error_pwd_no_retype">Skriv in lösenord igen</string>
   <string name="attachproject_error_no_url">Ange URL</string>
-  <string name="attachproject_error_no_email">Vänligen ange eMail-adress</string>
+  <string name="attachproject_error_no_email">Vänligen ange e-postadress</string>
   <string name="attachproject_error_no_pwd">Ange ett lösenord</string>
   <string name="attachproject_error_no_name">Ange användarnamn</string>
   <string name="attachproject_error_unknown">misslyckades</string>
   <string name="attachproject_error_bad_username">Användarnamn felaktigt</string>
-  <string name="attachproject_error_email_in_use">ePost-adressen används redan</string>
-  <string name="attachproject_error_project_down">Projektet nedkopplat</string>
-  <string name="attachproject_error_email_bad_syntax">eMail-adress felaktig</string>
+  <string name="attachproject_error_email_in_use">e-postadressen används redan</string>
+  <string name="attachproject_error_project_down">Projektet frånkopplat</string>
+  <string name="attachproject_error_email_bad_syntax">e-postadress felaktig</string>
   <string name="attachproject_error_bad_pwd">Lösenord felaktigt</string>
   <string name="attachproject_error_creation_disabled">Registrering av konton är inaktiverat för det här projektet</string>
   <string name="attachproject_error_invalid_url">Ogiltig URL</string>
@@ -142,7 +142,7 @@
   <string name="status_launching">Startar...</string>
   <string name="status_noproject">Välj ett projekt att delta i.</string>
   <string name="status_closing">Stänger...</string>
-  <string name="status_benchmarking">Kalkylerar...</string>
+  <string name="status_benchmarking">Prestandamäter...</string>
   <string name="status_image_description">Projektbild</string>
   <!--preferences tab strings-->
   <string name="prefs_loading">Läser in inställningar...</string>
@@ -159,7 +159,7 @@
   <string name="prefs_show_advanced_header">Visa avancerade inställningar och kontroller...</string>
   <string name="prefs_suspend_when_screen_on">Pausa beräkning när skärmen är på</string>
   <string name="prefs_stationary_device_mode_header">Stationär enhets-läge</string>
-  <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett Energiinställningar. Bara aktiv om enheten inte har ett batteri.</string>
+  <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett energiinställningar. Bara aktiv om enheten inte har ett batteri.</string>
   <string name="prefs_power_source_header">Energikällor för beräkning</string>
   <string name="prefs_power_source_description">Välj energikälla som BOINC tillåts använda för beräkning.</string>
   <string name="prefs_power_source_ac">Eluttag</string>
@@ -171,7 +171,7 @@
   <string name="battery_temperature_max_header">Max. batteritemperatur</string>
   <string name="battery_temperature_max_description">BOINC pausar beräkningen när den definerade batteritemperaturen överstigs. Det är ej rekommenderat att ändra det här värdet.</string>
   <string name="prefs_disk_max_pct_header">Max. använt lagringsutrymme</string>
-  <string name="prefs_disk_max_pct_description">Hur många procent av din enhets lagringsutrymme är BOINC tillåtet att använda?</string>
+  <string name="prefs_disk_max_pct_description">Hur många procent av din enhets lagringsutrymme tillåts BOINC använda?</string>
   <string name="prefs_disk_min_free_gb_header">Minsta lediga lagringsutrymme</string>
   <string name="prefs_disk_min_free_gb_description">Hur många procent av din enhets lagringsutrymme skall förbli ledigt?</string>
   <string name="prefs_disk_access_interval_header">Tillgångsintervall</string>
@@ -180,8 +180,8 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Begränsar den dagliga använda datatraffiken för BOINC.</string>
   <string name="prefs_network_wifi_only_header">Överför uppgifter över WiFi endast</string>
   <string name="prefs_autostart_header">Autostart</string>
-  <string name="prefs_show_notification_notices_header">Visa notifikation för nya BOINC-notiser</string>
-  <string name="prefs_show_notification_suspended_header">Visa notifikation även i pausat läge</string>
+  <string name="prefs_show_notification_notices_header">Visa avisering för nya BOINC-meddelanden</string>
+  <string name="prefs_show_notification_suspended_header">Visa avisering även i pausat läge</string>
   <string name="prefs_cpu_number_cpus_header">Använda CPU-kärnor</string>
   <string name="prefs_cpu_number_cpus_description">Begränsar antalet CPU-kärnor BOINC använder för beräkning.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausa vid CPU-användning över</string>
@@ -189,9 +189,9 @@
   <string name="prefs_cpu_time_max_header">CPU-gräns</string>
   <string name="prefs_cpu_time_max_description">Begränsar tiden på CPU:n som BOINC använder för beräkning.</string>
   <string name="prefs_memory_max_idle_header">RAM-gräns</string>
-  <string name="prefs_memory_max_idle_description">Begränsar det belopp av RAM som uppgifter är tillåtna att ockupera.</string>
+  <string name="prefs_memory_max_idle_description">Begränsar det mängden RAM som uppgifter är tillåtna att allokera.</string>
   <string name="prefs_client_log_flags_header">BOINC-klientens loggningsflaggor</string>
-  <string name="prefs_gui_log_level_header">Användar-gränssnittets (GUI) loggningsnivå</string>
+  <string name="prefs_gui_log_level_header">Användargränssnittets (GUI) loggningsnivå</string>
   <string name="prefs_gui_log_level_description">Specificerar informationsnivån för användargränssnittets (GUI) loggningsmeddelanden.</string>
   <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sekunder</string>
@@ -242,13 +242,13 @@
   <string name="tasks_header_project_paused">(pausad)</string>
   <string name="tasks_header_deadline">Senaste rapporteringssdatum:</string>
   <string name="tasks_result_new">ny</string>
-  <string name="tasks_result_files_downloading">väntar på nedladdning</string>
-  <string name="tasks_result_files_downloaded">nedladdning färdig</string>
+  <string name="tasks_result_files_downloading">väntar på hämtning</string>
+  <string name="tasks_result_files_downloaded">hämtning färdig</string>
   <string name="tasks_result_compute_error">beräkningsfel</string>
-  <string name="tasks_result_files_uploading">laddar upp</string>
-  <string name="tasks_result_files_uploaded">uppladdning färdig</string>
+  <string name="tasks_result_files_uploading">skickar upp</string>
+  <string name="tasks_result_files_uploaded">överföring färdig</string>
   <string name="tasks_result_aborted">avbruten</string>
-  <string name="tasks_result_upload_failed">uppladdning misslyckades</string>
+  <string name="tasks_result_upload_failed">överföring misslyckades</string>
   <string name="tasks_active_uninitialized">redo</string>
   <string name="tasks_active_executing">kör</string>
   <string name="tasks_active_suspended">i vänteläge</string>
@@ -279,11 +279,11 @@
   <string name="confirm_abort_trans_message">Avbryt fil:</string>
   <string name="confirm_abort_trans_confirm">Avbryt</string>
   <!--notices tab strings-->
-  <string name="notices_loading">Läser noticer...</string>
+  <string name="notices_loading">Läser meddelanden...</string>
   <!--eventlog tab strings-->
-  <string name="eventlog_loading">Laddar loggningsmeddelanden</string>
-  <string name="eventlog_client_header">Klient-meddelanden</string>
-  <string name="eventlog_gui_header">Användar-gränssnitt (GUI) -meddelanden</string>
+  <string name="eventlog_loading">Öppnar loggningsmeddelanden</string>
+  <string name="eventlog_client_header">Klientmeddelanden</string>
+  <string name="eventlog_gui_header">Användargränssnitt (GUI) -meddelanden</string>
   <string name="eventlog_copy_toast">Logga kopierad clipboard.</string>
   <string name="eventlog_email_subject">Händelselogg för BOINC på Android:</string>
   <!--suspend reasons-->
@@ -292,14 +292,14 @@
   <string name="suspend_screen_on">Stäng av din skärm för att fortsätta beräkningar.</string>
   <string name="suspend_useractive">Användare är aktiv.</string>
   <string name="suspend_tod">Tidsgräns för beräkningsprocess överskriden.</string>
-  <string name="suspend_bm">BOINC kalkylerar din enhets prestanda...</string>
+  <string name="suspend_bm">BOINC beräknar din enhets prestanda...</string>
   <string name="suspend_disksize">Slut på diskutrymme.</string>
   <string name="suspend_cputhrottle">Schemalagt CPU-stopp.</string>
   <string name="suspend_noinput">Ingen senaste användar-aktivitet.</string>
   <string name="suspend_delay">Initieringsfördröjning.</string>
   <string name="suspend_exclusiveapp">En exklusiv app körs.</string>
   <string name="suspend_cpu">Din enhet är upptagen med andra appar.</string>
-  <string name="suspend_network_quota">BOINC nådde nätverksdata-gräns.</string>
+  <string name="suspend_network_quota">BOINC nådde gränsen nätverksdata.</string>
   <string name="suspend_os">Stoppades av Android.</string>
   <string name="suspend_wifi">Inte ansluten till trådlöst nätverk.</string>
   <string name="suspend_battery_charging">Väntar på att batteriet ska laddas upp.</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2016 Universitetet i Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
   <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, IBM Corporation och till HTC Corporation för deras stöd till oss.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -343,13 +342,13 @@
     <item quantity="other">%2$,d nytt meddelande</item>
   </plurals>
   <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">Volontär beräknings-app detekterad</string>
-  <string name="nonexcl_dialog_text">En annan volontär beräknings-app körs på denna enhet. Endast en version kan köras samtidigt.</string>
+  <string name="nonexcl_dialog_header">Volontär beräkningsapp detekterad</string>
+  <string name="nonexcl_dialog_text">En annan volontär beräkningsapp körs på denna enhet. Endast en version kan köras samtidigt.</string>
   <string name="nonexcl_dialog_exit">Avsluta</string>
   <!--social integration-->
   <string name="social_invite_button">Bjud in vänner</string>
   <string name="social_invite_intent_title">Hur vill du dela?</string>
-  <string name="social_invite_content_title">Jag hjälper till och forskar med min smartphone!</string>
+  <string name="social_invite_content_title">Jag hjälper till och forskar med min mobil!</string>
   <string name="social_invite_content_body">Jag använder my %1$s till att bidra med beräkningskraft för vetenskapen. Det kan du med! Ladda ned appen från: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>

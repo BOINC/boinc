@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -196,6 +196,9 @@ void CC_CONFIG::show() {
     if (dont_use_vbox) {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
     }
+    if (dont_use_wsl) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use the Windows Subsystem for Linux");
+    }
     for (i=0; i<alt_platforms.size(); i++) {
         msg_printf(NULL, MSG_INFO,
             "Config: alternate platform: %s", alt_platforms[i].c_str()
@@ -311,7 +314,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             msg_printf_notice(NULL, false,
-                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+                "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                 "%s: %s",
                 _("Unexpected text in cc_config.xml"),
                 xp.parsed_tag
@@ -326,17 +329,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {
             alt_platforms.push_back(s);
-            continue;
-        }
-        if (xp.parse_string("client_download_url", client_download_url)) {
-            downcase_string(client_download_url);
-            continue;
-        }
-        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
-            continue;
-        }
-        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
-            downcase_string(client_version_check_url);
             continue;
         }
         if (xp.match_tag("coproc")) {
@@ -362,6 +354,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("lower_client_priority", lower_client_priority)) continue;
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
+        if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -422,10 +415,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
-        if (xp.parse_string("network_test_url", network_test_url)) {
-            downcase_string(network_test_url);
-            continue;
-        }
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
@@ -464,8 +453,17 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
 
+        // The following 3 tags have been moved to nvc_config and
+        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // may have written their default values to CONFIG_FILE. 
+        // Silently skip them if present.
+        if (xp.parse_string("client_download_url", s)) continue;
+        if (xp.parse_string("client_new_version_text", s)) continue;
+        if (xp.parse_string("client_version_check_url", s)) continue;
+        if (xp.parse_string("network_test_url", s)) continue;
+
         msg_printf_notice(NULL, false,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s: <%s>",
             _("Unrecognized tag in cc_config.xml"),
             xp.parsed_tag
@@ -482,7 +480,7 @@ int CC_CONFIG::parse_client(FILE* f) {
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) {
         msg_printf_notice(NULL, false,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s",
             _("Missing start tag in cc_config.xml")
         );
@@ -491,7 +489,7 @@ int CC_CONFIG::parse_client(FILE* f) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             msg_printf_notice(NULL, false,
-                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+                "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                 "%s: %s",
                 _("Unexpected text in cc_config.xml"),
                 xp.parsed_tag
@@ -510,7 +508,7 @@ int CC_CONFIG::parse_client(FILE* f) {
             int retval = parse_options_client(xp);
             if (retval) {
                 msg_printf_notice(NULL, false,
-                    "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+                    "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                     "%s",
                     _("Error in cc_config.xml options")
                 );
@@ -520,7 +518,7 @@ int CC_CONFIG::parse_client(FILE* f) {
         if (xp.match_tag("options/")) continue;
         if (xp.match_tag("log_flags/")) continue;
         msg_printf_notice(NULL, false,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+            "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s: <%s>",
             _("Unrecognized tag in cc_config.xml"),
             xp.parsed_tag
@@ -528,7 +526,7 @@ int CC_CONFIG::parse_client(FILE* f) {
         xp.skip_unexpected(true, "CC_CONFIG.parse");
     }
     msg_printf_notice(NULL, false,
-        "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+        "https://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
         "%s",
         _("Missing end tag in cc_config.xml")
     );

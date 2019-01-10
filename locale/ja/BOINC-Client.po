@@ -1,163 +1,179 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# BOINC client localization template
+# Copyright (C) 2018 University of California
+# 
+# This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010
 # Masahiro Tagashira, 2015
+# victory <victory.deb@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-02-28 20:12+0000\n"
-"Last-Translator: Masahiro Tagashira\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
+"PO-Revision-Date: 2017-09-23 20:48+0000\n"
+"Last-Translator: victory <victory.deb@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: acct_mgr.cpp:450 acct_mgr.cpp:459
+#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
 msgid "Message from account manager"
 msgstr "アカウント・マネージャからのお知らせ"
 
-#: client_msgs.cpp:81
+#: client/client_msgs.cpp:82
 msgid "Message from server"
 msgstr "プロジェクト・サーバからのメッセージ"
 
-#: client_state.cpp:258
+#: client/client_state.cpp:315
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "あなたの設定したプレファレンス(好みの設定)を越えるメモリ量を必要とするタスクがあります。プレファレンスの内容を確認してください。"
 
-#: client_state.cpp:520
+#: client/client_state.cpp:672
 msgid "Couldn't write state file; check directory permissions"
 msgstr "状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめてください。"
 
-#: cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "環境変数 HTTP_PROXY でHTTPプロキシを指定する必要があります。"
 
-#: cs_scheduler.cpp:613
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr "このプロジェクトに対して誤ったURLを使っています。都合の良いときに、このプロジェクトを削除し、その後 %s を追加してください。"
+"This project is using an old URL.  When convenient, remove the project, then"
+" add %s"
+msgstr "このプロジェクトは古いURLを使っています。都合の良いときにプロジェクトを一旦削除し、改めて%sを追加してください"
 
-#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
+#: client/cs_statefile.cpp:850
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml の中に構文誤りがあります。"
 
-#: cs_statefile.cpp:868
+#: client/cs_statefile.cpp:894
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml の中で参照されている次のファイルが存在しません: "
 
-#: current_version.cpp:91
-msgid "A new version of BOINC is available."
-msgstr "新しいバージョンのBOINCが利用できます。"
+#: client/current_version.cpp:91
+msgid "A new version of BOINC is available"
+msgstr "BOINCの新しいバージョンが利用できるようになっています"
 
-#: current_version.cpp:94 current_version.cpp:102
+#: client/current_version.cpp:94 client/current_version.cpp:102
 msgid "Download"
 msgstr "ダウンロード"
 
-#: log_flags.cpp:269 log_flags.cpp:449
+#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+msgid ""
+"cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+msgstr ""
+
+#: client/log_flags.cpp:316 client/log_flags.cpp:496
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml の中に予期しないテキストがみつかりました"
 
-#: log_flags.cpp:423 log_flags.cpp:475
+#: client/log_flags.cpp:470 client/log_flags.cpp:525
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml の中に認識されないタグが見つかりました"
 
-#: log_flags.cpp:440
+#: client/log_flags.cpp:487
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml の中で開始タグが不足しています。"
 
-#: log_flags.cpp:465
+#: client/log_flags.cpp:515
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml オプション内のエラー"
 
-#: log_flags.cpp:483
+#: client/log_flags.cpp:533
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml の中で終了タグが不足しています。"
 
-#: ../sched/handle_request.cpp:307
+#: client/project.cpp:991
+msgid "To fix this, you can "
+msgstr ""
+
+#: client/project.cpp:994
+msgid "change Project Preferences on the project's web site"
+msgstr ""
+
+#: client/project.cpp:1000
+msgid "remove GPU exclusions in your cc_config.xml file"
+msgstr ""
+
+#: client/project.cpp:1007
+msgid "change your settings at your account manager web site"
+msgstr ""
+
+#: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "アカウント・キーが無効であるか存在していません。修復するには、このプロジェクトを一旦削除し、再び追加してください。"
 
-#: ../sched/handle_request.cpp:849
-msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "コード署名用のキーが有効ではありません。修復するには、このプロジェクトを一旦削除し、再び追加してください。"
-
-#: ../sched/handle_request.cpp:859
+#: sched/handle_request.cpp:951
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "このプロジェクトはセキュリティ・キーを変更しました。このプロジェクトから一旦削除し、再び追加してください。"
 
-#: ../sched/handle_request.cpp:943
+#: sched/handle_request.cpp:1022
 msgid "This project doesn't support operating system"
 msgstr "このプロジェクトは次に示すOSをサポートしていません: "
 
-#: ../sched/handle_request.cpp:969
+#: sched/handle_request.cpp:1048
 msgid "This project doesn't support CPU type"
 msgstr "このプロジェクトは次に示すCPUをサポートしていません: "
 
-#: ../sched/handle_request.cpp:993
+#: sched/handle_request.cpp:1072
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "あなたのマシンに入っているBOINCクライアントソフトウェアは古過ぎます。現在の版にインストールしなおしてください。"
 
-#: ../sched/handle_request.cpp:1259
+#: sched/handle_request.cpp:1347
 msgid "This project doesn't support computers of type"
 msgstr "このプロジェクトは次に示すプラットフォームをサポートしていません: "
 
-#: ../sched/sched_send.cpp:1092
+#: sched/sched_send.cpp:1115
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "あなたのコンピュータが持つGPUを使ってタスクを処理したければ、ドライバーを最新のものにアップグレードしてください。"
 
-#: ../sched/sched_send.cpp:1099
+#: sched/sched_send.cpp:1122
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "このプロジェクトのGPUアプリケーションの全てを使いたければ、ドライバーを最新のものにアップグレードしてください。"
 
-#: ../sched/sched_send.cpp:1118
+#: sched/sched_send.cpp:1141
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "あなたのマシンのNVIDIA GPUを使いたければ、より新しいバージョンのBOINCが必要です。最新バージョンのBOINCへアップグレードしてください。"
 
-#: ../sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1175
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "このプロジェクトの仕事を動作させるためには %s GPUが必要とされます"
 
-#: ../sched/sched_send.cpp:1262
+#: sched/sched_send.cpp:1291
 msgid "No tasks are available for the applications you have selected."
 msgstr "あなたが選択したアプリケーションで処理できるタスクがありません。"
 
-#: ../sched/sched_send.cpp:1288
+#: sched/sched_send.cpp:1317
 msgid "Your computer type is not supported by this project"
 msgstr "あなたのコンピュータのプラットフォームはこのプロジェクトではサポートされていません。"
 
-#: ../sched/sched_send.cpp:1294
+#: sched/sched_send.cpp:1323
 msgid "Newer BOINC version required; please install current version"
 msgstr "より新しいバージョンのBOINCが必要です。最新バージョンをインストールしてください。"
 
-#: ../sched/sched_send.cpp:1305
+#: sched/sched_send.cpp:1334
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "%s のタスクは処理できますが、あなたのプレファレンス(好みの設定)はそれらを受け入れないよう設定されています。"
 
-#: ../sched/sched_types.cpp:254
-msgid "Unknown app name in app_info.xml"
-msgstr "app_info.xml の中に不明なアプリケーション名があります"
-
-#: ../sched/sched_version.cpp:214
+#: sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "あなたの app_info.xml ファイルには次のアプリケーションの利用可能な版が記述されていません: "

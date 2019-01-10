@@ -59,6 +59,8 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
+using std::string;
+
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
 
@@ -133,54 +135,61 @@ int get_file_path(
 
 
 int wu_delete_files(WORKUNIT& wu) {
-    char* p;
-    char filename[256], path[MAXPATHLEN], buf[BLOB_SIZE];
+    char path[MAXPATHLEN];
     char path_gz[MAXPATHLEN], path_md5[MAXPATHLEN];
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 
     if (strstr(wu.name, "nodelete")) return 0;
 
-    safe_strcpy(buf, wu.xml_doc);
+    MIOFILE mf;
+    mf.init_buf_read(wu.xml_doc);
+    XML_PARSER xp(&mf);
 
-    p = strtok(buf, "\n");
-    strcpy(filename, "");
-
-    // TODO: use the XML parser.  Yuck!
-    //
-    while (p) {
-        if (parse_str(p, "<name>", filename, sizeof(filename))) {
-        } else if (match_tag(p, "<file_info>")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("file_info")) {
+            string filename;
             no_delete = false;
-            strcpy(filename, "");
-        } else if (match_tag(p, "<no_delete/>")) {
-            no_delete = true;
-        } else if (match_tag(p, "</file_info>")) {
+            while (!xp.get_tag()) {
+                if (xp.parse_string("name", filename)) {
+                    continue;
+                } else if (xp.parse_bool("no_delete", no_delete)) {
+                    continue;
+                } else if (xp.match_tag("/file_info")) {
+                    break;
+                }
+            }
+            if (!xp.match_tag("/file_info") || filename.empty()) {
+                log_messages.printf(MSG_CRITICAL, "bad WU XML: %s\n",
+                    wu.xml_doc
+                );
+            }
             if (!no_delete) {
                 retval = get_file_path(
-                    filename, download_dir, config.uldl_dir_fanout,
+                    filename.c_str(), download_dir, config.uldl_dir_fanout,
                     path
                 );
                 if (retval == ERR_OPENDIR) {
                     log_messages.printf(MSG_CRITICAL,
                         "[WU#%lu] missing dir for %s\n",
-                        wu.id, filename
+                        wu.id, filename.c_str()
                     );
                     mthd_retval = ERR_UNLINK;
                 } else if (retval) {
                     log_messages.printf(MSG_CRITICAL,
                         "[WU#%lu] get_file_path: %s: %s\n",
-                        wu.id, filename, boincerror(retval)
+                        wu.id, filename.c_str(), boincerror(retval)
                     );
                 } else {
                     log_messages.printf(MSG_NORMAL,
-                        "[WU#%lu] deleting %s\n", wu.id, filename
+                        "[WU#%lu] deleting %s\n", wu.id, filename.c_str()
                     );
                     retval = unlink(path);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
                             "[WU#%lu] unlink %s failed: %s\n",
-                            wu.id, filename, boincerror(retval)
+                            wu.id, filename.c_str(), boincerror(retval)
                         );
                         mthd_retval = ERR_UNLINK;
                     } else {
@@ -193,7 +202,7 @@ int wu_delete_files(WORKUNIT& wu) {
                     retval = unlink(path_gz);
                     if (!retval) {
                         log_messages.printf(MSG_NORMAL,
-                            "[WU#%lu] deleted %s.gz\n", wu.id, filename
+                            "[WU#%lu] deleted %s.gz\n", wu.id, filename.c_str()
                         );
                     }
 
@@ -202,20 +211,20 @@ int wu_delete_files(WORKUNIT& wu) {
                     if (config.cache_md5_info) {
                         sprintf(path_md5, "%s.md5", path);
                         log_messages.printf(MSG_NORMAL,
-                            "[WU#%lu] deleting %s.md5\n", wu.id, filename
+                            "[WU#%lu] deleting %s.md5\n",
+                            wu.id, filename.c_str()
                         );
                         retval = unlink(path_md5);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
                                 "[WU#%lu] unlink %s.md5 failed: %s\n",
-                                wu.id, filename, boincerror(retval)
+                                wu.id, filename.c_str(), boincerror(retval)
                             );
                         }
                     }
                 }
             }
         }
-        p = strtok(0, "\n");
     }
     log_messages.printf(MSG_DEBUG,
         "[WU#%lu] deleted %d file(s)\n", wu.id, count_deleted
@@ -224,24 +233,35 @@ int wu_delete_files(WORKUNIT& wu) {
 }
 
 int result_delete_files(RESULT& result) {
-    char* p;
-    char filename[MAXPATHLEN], pathname[MAXPATHLEN], buf[BLOB_SIZE];
+    char pathname[MAXPATHLEN];
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 
-    safe_strcpy(buf, result.xml_doc_in);
-    p = strtok(buf,"\n");
-    while (p) {
-        if (parse_str(p, "<name>", filename, sizeof(filename))) {
-        } else if (match_tag(p, "<file_info>")) {
+    MIOFILE mf;
+    mf.init_buf_read(result.xml_doc_in);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("file_info")) {
+            string filename;
             no_delete = false;
-            strcpy(filename, "");
-        } else if (match_tag(p, "<no_delete/>")) {
-            no_delete = true;
-        } else if (match_tag(p, "</file_info>")) {
+            while (!xp.get_tag()) {
+                if (xp.parse_string("name", filename)) {
+                    continue;
+                } else if (xp.parse_bool("no_delete", no_delete)) {
+                    continue;
+                } else if (xp.match_tag("/file_info")) {
+                    break;
+                }
+            }
+            if (!xp.match_tag("/file_info") || filename.empty()) {
+                log_messages.printf(MSG_CRITICAL, "bad result XML: %s\n",
+                    result.xml_doc_in
+                );
+            }
             if (!no_delete) {
                 retval = get_file_path(
-                    filename, config.upload_dir, config.uldl_dir_fanout,
+                    filename.c_str(), config.upload_dir, config.uldl_dir_fanout,
                     pathname
                 );
                 if (retval == ERR_OPENDIR) {
@@ -256,15 +276,15 @@ int result_delete_files(RESULT& result) {
                     // expected if the result outcome was failure, since in
                     // that case there may well be no output file produced.
                     //
-                    int debug_or_crit;
+                    int msg_mode;
                     if (RESULT_OUTCOME_SUCCESS == result.outcome) {
-                        debug_or_crit=MSG_CRITICAL;
+                        msg_mode = MSG_CRITICAL;
                     } else {
-                        debug_or_crit=MSG_DEBUG;
+                        msg_mode = MSG_DEBUG;
                     }
-                    log_messages.printf(debug_or_crit,
+                    log_messages.printf(msg_mode,
                         "[RESULT#%lu] outcome=%d client_state=%d No file %s to delete\n",
-                        result.id, result.outcome, result.client_state, filename
+                        result.id, result.outcome, result.client_state, filename.c_str()
                     );
                 } else {
                     retval = unlink(pathname);
@@ -284,7 +304,6 @@ int result_delete_files(RESULT& result) {
                 }
             }
         }
-        p = strtok(0, "\n");
     }
 
     log_messages.printf(MSG_DEBUG,

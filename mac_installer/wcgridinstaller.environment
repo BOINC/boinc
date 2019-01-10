@@ -1,0 +1,23 @@
+SHORTBRANDNAME="wcgrid"
+LONGBRANDNAME="World Community Grid"
+
+MANAGERAPPNAME="World Community Grid"
+MANAGERICON="wcgrid"
+
+SSAVERAPPNAME="World Community Grid"
+SSAVERPREVIEW="wcgrid.jpg"
+SSAVERTHUMBNAIL="wcgrid-thumbnail"
+SSAVERLOGO="wcg_ss_logo.jpg"
+SKINDIR="World Community Grid"
+
+UNINSTALLERAPPNAME="Uninstall World Community Grid"
+UNINSTALLERICON="wcgrid-MacUninstaller"
+
+INSTALLERAPPNAME="World Community Grid Installer"
+INSTALLERICON="wcgrid-MacInstaller"
+
+READMEFILE="wcgrid-ReadMe.rtf"
+LICENSEFILE="wcgrid-License.rtf"
+BRANDING_INFO="BrandId=4"
+
+NEWVERSIONCHECKDIR="WCG"

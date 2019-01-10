@@ -117,6 +117,11 @@ table.preferences.combined .tab {
   min-height: 16px;
 }
 
+table.ignore_user {
+  width: 66%;
+  margin-bottom: 2em;
+}
+
 .form-checkboxes .form-item,
 .form-radios .form-item /* Pack groups of checkboxes and radio buttons closer together */ {
   margin: 0;
@@ -195,6 +200,9 @@ form ul.tab-list {
 }
 .form-submit:hover {
   text-decoration: underline;
+}
+.form-submit.add_ignore_user {
+  margin-top: 1em;
 }
 
 .container-inline div,
@@ -422,6 +430,14 @@ span.password-confirm {
   margin-bottom: 1em;
 }
 
+#delete-instructions {
+  line-height: 24px;
+  margin-right: 40px;
+}
+
+#delete-password-field #edit-current-pass-wrapper.form-item {
+  padding-top: 10px;
+}
 
 /*
  * Drupal admin tables

@@ -335,7 +335,6 @@
   <string name="about_version">Verze</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
-  <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkeley</string>
   <string name="about_copyright_reserved">Všechna práva vyhrazena.
 Překlad do češtiny: petnek</string>
   <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC Corporation za jejich podporu.</string>
@@ -343,6 +342,7 @@ Překlad do češtiny: petnek</string>
   <plurals name="notice_notification">
     <item quantity="one">Nové upozornění od %1$s</item>
     <item quantity="few">Nové upozornění od %1$s</item>
+    <item quantity="many">%2$,d nových upozornění</item>
     <item quantity="other">%2$,d nových upozornění</item>
   </plurals>
   <!--multi BOINC compatibility-->

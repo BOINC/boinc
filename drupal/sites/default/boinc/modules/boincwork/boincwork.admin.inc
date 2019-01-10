@@ -49,49 +49,7 @@ function boincwork_admin_prefs_upload_form(&$form_state) {
     '#type' => 'textarea',
     '#title' => t('Project specific preferences XML'),
     '#default_value' => variable_get('boinc_project_specific_prefs_config', "<project_specific_preferences>\n\n</project_specific_preferences>"),
-    '#required' => TRUE,
-    '#rows' => 14,
-  );
-  $form['help'] = array(
-    '#title' => t('Help'),
-    '#type' => 'fieldset',
-    '#description' => '',
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-  $form['help']['text'] = array(
-    '#title' => t('Instructions'),
-    '#type' => 'item',
-    '#value' => '
-Copy and paste an XML file into the textfield above. The XML must have at least one of three containers: &lt;app_overrides&gt;,  &lt;group&gt;, and &lt;compound&gt;.</p>
-<p>The list of apps from the database and the list of apps, listed within &lt;app_overrides&gt;, from the project-specific XML (above) are merged together with the following algorithm.
-<ul>
-  <li> The algorithm uses applications in the database to determine
-    what applications are listed in the Web form. If an application
-    is present in the project-specific XML but not in the database,
-    it is ignored. The field \'id\' is used to match the
-    applications between the two.
-  <li> If an application is in the database, the other attributes are
-    obtained from the project-specific XML. The list of
-    applications in this XML are overrides. Of importance, the name
-    in the XML configuration will override the name found in the
-    database.
-  <li> The attributes for an application are obtained from the
-    project-specific XML. However, if they are not present, the
-    defaults are:
-  <ul>
-    <li> selected: true
-    <li> enabled: true
-    <li> weight: 100
-  </ul>
-</ul></p>
-
-<p>The list of applications is sorted for display. The sort comparison
-function _dbapps_compare() is used. It sorts first by weight:
-smaller numbers float up, larger numbers sink down; then
-alphabetically by name using strnatcmp(); and finally by app
-id. Weight defaults to 100, and must be a positive integer.</p>
-',
+    '#required' => TRUE
   );
   $form['submit'] = array(
     '#type' => 'submit',

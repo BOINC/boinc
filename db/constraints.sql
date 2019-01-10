@@ -15,8 +15,9 @@ alter table user
     add index user_name(name),
     add index user_tot (total_credit desc),
         -- db_dump.C
-    add index user_avg (expavg_credit desc);
+    add index user_avg (expavg_credit desc),
         -- db_dump.C
+    add index user_email_time (email_addr_change_time);
 
 alter table team
     add unique(name),
@@ -70,16 +71,21 @@ alter table result
         -- scheduler (avoid sending mult results of same WU to one user)
 
 alter table msg_from_host
-    add index message_handled (handled);
+    add index message_handled (handled),
         -- for message handler
+    add index message_hostid(hostid);
+        -- for delete account
 
 alter table msg_to_host
     add index msg_to_host(hostid, handled);
         -- for scheduler
 
 alter table host
-    add index host_user (userid),
+    add index host_userid_cpid (userid, host_cpid),
         -- html_user/host_user.php
+        -- sched/handle_request.cpp for user with many hosts
+    add index host_domain_name (domain_name),
+        -- sched/handle_request.cpp for user with many hosts
     add index host_avg (expavg_credit desc),
         -- db_dump.C
     add index host_tot (total_credit desc);
@@ -113,7 +119,9 @@ alter table credited_job
     add unique credited_job_user_wu (userid, workunitid);
 
 alter table team_delta
-    add index team_delta_teamid (teamid, timestamp);
+    add index team_delta_teamid (teamid, timestamp),
+    add index team_delta_userid (userid);
+        -- for delete account
 
 alter table team_admin
     add unique (teamid, userid);
@@ -146,3 +154,48 @@ alter table credit_user
 alter table credit_team
     add index ct_total(appid, total),
     add index ct_avg(appid, expavg);
+    
+alter table token
+    add index token_userid(userid);
+
+alter table user_deleted
+    add index user_deleted_create(create_time);
+        -- for delete account
+    
+alter table host_deleted
+    add index host_deleted_create(create_time);
+        -- for delete account
+    
+alter table donation_paypal
+        -- for delete account
+    add index donation_paypal_userid(userid);
+    
+alter table banishment_vote
+    add index banishment_vote_userid(userid);    
+        -- for delete account
+    
+alter table post_ratings
+    add index post_ratings_user(user);
+        -- for delete account
+
+alter table sent_email
+    add index sent_email_userid(userid);
+        -- for delete account
+
+alter table private_messages
+    add index userid(userid);
+
+alter table consent
+    add index userid_ctid_timestamp(userid, consent_type_id, consent_time),
+    add index consent_timestamp(consent_time),
+    add index flag_ctid(consent_flag, consent_type_id);
+
+alter table consent
+    add foreign key(consent_type_id)
+    references consent_type(id)
+    on update cascade
+    on delete restrict;
+      -- explicit delete restrict on this foreign key
+
+alter table consent_type
+    add index consent_name(shortname);

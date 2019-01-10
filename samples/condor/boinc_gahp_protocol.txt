@@ -1,0 +1,916 @@
+
+
+
+                           GRID ASCII HELPER PROTOCOL
+                                   for BOINC
+
+                                  FIRST DRAFT
+
+
+
+1.    INTRODUCTION
+
+    The object of the Grid ASCII Helper Protocol (GAHP) is to allow the
+    use of the client library or package of a grid or cloud service via
+    a simple ASCII-based protocol. A process which implements GAHP is
+    referred to as a GAHP server. GAHP is designed to handle both
+    synchronous (blocking) and asynchronous (non-blocking) calls.
+
+    This GAHP specification focuses on the Berkeley Open Infrastructure
+    for Networked Computing (BOINC) framework. The objective is to
+    provide computing resources from a BOINC-based volunteer computing project
+    to an HTCondor-based submit system.
+
+1.1   WHY GAHP?
+
+    Although most grid and cloud services provide client libraries or
+    modules in various languages that can be incorporated directly into
+    applications that wish to use those services, there are several
+    distinct advantages to using an independent GAHP server process
+    instead. For instance, parts of the native API may provide only
+    synchronous/blocking calls. Users who require a
+    non-blocking/asynchronous interface must make use of multiple
+    threads. Even if the native module is thread-safe, thread safety
+    requires that _all_ modules linked into the process be both
+    re-entrant and in agreement upon a threading model.
+    This may be a significant barrier when trying to integrate the
+    service client module into legacy non-thread-safe code, or when
+    attempting to link with commercial libraries which either have no
+    support for threads or define their own threading model. But because
+    the GAHP server runs as a separate process, it can be easily
+    implemented as a multi-threaded server, and still present an
+    asynchronous non-blocking protocol. Worse yet, there may not be a
+    client module available in the language of the application wishing
+    to use the service. With a GAHP server, language choice is
+    immaterial.
+
+    GAHP facilitates the construction of multi-tier systems.  A first
+    tier client can easily send ASCII commands via a socket (perhaps
+    securely via an SSH or SSL tunnel) to a second tier running a GAHP
+    server, allowing grid or cloud services to be consolidated at the
+    second or third tier with minimal effort.
+
+    Furthermore, GAHP, like many other simple ASCII-based protocols,
+    supports the concept of component-based development independent of
+    the software language used with minimal complexity. When a grid
+    service has client modules available in multiple languages, those
+    interfaces can look very different from each other. By using GAHP, a
+    body of software could be written once with one interface and then
+    subsequently utilize a GAHP server written in C, Java, or Perl --
+    and said GAHP server could be running locally or as a daemon on a
+    remote host.
+
+1.2   AVAILABLE BOINC-GAHP SERVERS
+
+    The BOINC project has developed a BOINC-GAHP server, written in C, using
+    pthreads and the BOINC remote submission libraries (which use libcurl).
+    Most Unix platforms are supported.
+
+    The source code is available at
+    https://github.com/BOINC/boinc/tree/master/samples/condor
+
+1.3   DIFFERENCES BETWEEN HTCONDOR AND BOINC
+
+    There are some basic differences between the BOINC and HTCondor computing
+    frameworks especially in respect to the data model and applicaton concept.
+
+    In BOINC, files have both logical and physical names. Physical names are
+    unique within a project, and the file associated with a given physical name
+    is immutable. Files may be used by many jobs.
+    In Condor, a file is associated with a job, and has a single name.
+    BOINC is designed for apps for which the number and names of output files
+    is fixed at the time of job submission.
+    Condor doesn't have this restriction.
+
+    In Condor, a job is associated with a single executable, and can run only
+    on hosts of the appropriate platform (and possibly other attributes, as
+    specified by the job's ClassAd). In BOINC, there may be many app versions
+    for a single application (e.g. versions for different platforms,
+    GPU types, etc.). A job is associated with an application, not an
+    app version.
+
+2.0   GAHP SERVER IMPLEMENTATION
+
+    GAHP itself, as a protocol, is independent of the underlying transport
+    protocol and requires only a reliable ordered bi-directional data
+    stream channel.
+
+    A GAHP server, however, is assumed to read and respond to GAHP commands
+    solely via stdin and stdout.  Should stdin to a GAHP server be closed,
+    the GAHP server should immediately shutdown in a manner similar to the
+    receipt of a QUIT command.  Therefore, a GAHP server can be easily
+    invoked and managed via SSHD, inted, or rshd.  Software can spawn a
+    local GAHP server via an interface such as POSIX.2 popen().
+
+    Under no circumstances should a GAHP server block when issued any
+    command. All commands require a response nearly instantaneously.
+    Therefore, most GAHP servers will be implemented as a multi-threaded
+    process. Use of child processes or avoidance of blocking calls
+    within the GAHP server are also options.
+
+3.0   BOINC-GAHP COMMANDS
+
+    The following commands must be implemented by all GAHP servers:
+
+        COMMANDS
+        QUIT
+        RESULTS
+        VERSION
+
+    The following commands may be implemented by any GAHP server:
+
+        ASYNC_MODE_ON
+        ASYNC_MODE_OFF
+        RESPONSE_PREFIX
+
+    The following commands are specific to BOINC and must be implemented
+    by a BOINC-GAHP server:
+
+        BOINC_ABORT_JOBS
+        BOINC_FETCH_OUTPUT
+        BOINC_PING
+        BOINC_QUERY_BATCHES
+        BOINC_RETIRE_BATCH
+        BOINC_SELECT_PROJECT (*)
+        BOINC_SET_LEASE
+        BOINC_SUBMIT
+
+    All the BOINC specific commands are asynchronous except the ones marked
+    with (*).
+
+3.1   CONVENTIONS AND TERMS USED IN SECTION 3.2
+
+    Below are definitions for the terms used in the sections to follow:
+
+    <CRLF>
+
+        The characters carriage return and line feed (in that
+        order), _or_ solely the line feed character.
+
+    <SP>
+
+        The space character.
+
+    line
+
+        A sequence of ASCII characters ending with a <CRLF>.
+
+    Request Line
+
+        A request for action on the part of the GAHP server.
+
+    Return Line
+
+        A line immediately returned by the GAHP server upon
+        receiving a Request Line.
+
+    Result Line
+
+        A line sent by the GAHP server in response to a RESULTS
+        request, which communicates the results of a previous
+        asynchronous command Request.
+
+    S: and R:
+
+        In the Example sections for the commands below, the prefix
+        "S: " is used to signify what the client sends to the GAHP
+        server.   The prefix "R: " is used to signify what the
+        client receives from the GAHP server.  Note that the "S: "
+        or "R: " should not actually be sent or received.
+
+3.2   GAHP COMMAND STRUCTURE
+
+     GAHP commands consist of three parts:
+
+        * Request Line
+        * Return Line
+        * Result Line
+
+     Each of these "Lines" consists of a variable length character
+     string ending with the character sequence <CRLF>.
+
+     A Request Line is a request from the client for action on the part of
+     the GAHP server.  Each Request Line consists of a command code
+     followed by argument field(s).  Command codes are a string of
+     alphabetic characters.  Upper and lower case alphabetic characters
+     are to be treated identically with respect to command codes.  Thus,
+     any of the following may represent the BOINC_SUBMIT command:
+
+        BOINC_SUBMIT
+        boinc_submit
+        BoInC_sUbMiT
+
+    In contrast, the argument fields of a Request Line are _case
+    sensitive_.
+
+    The Return Line is always generated by the server as an immediate
+    response to a Request Line.  The first character of a Return Line will
+    contain one of the following characters:
+        S - for Success
+        F - for Failure
+        E - for a syntax or parse Error
+    Any Request Line which contains an unrecognized or unsupported command,
+    or a command with an insufficient number of arguments, will generate an
+    "E" response.
+
+    The Result Line is used to support commands that would otherwise
+    block. Any GAHP command which may require the implementation to block
+    on network communication require a "request id" as part of the Request
+    Line. For such commands, the Result Line just communicates if the
+    request has been successfully parsed and queued for service by the
+    GAHP server. At this point, the GAHP server would typically dispatch
+    a new thread to actually service the request. Once the request has
+    completed, the dispatched thread should create a Result Line and
+    enqueue it until the client issues a RESULT command.
+
+3.3   TRANSPARENCY
+
+    Arguments on a particular Line (be it Request, Return, or Result) are
+    typically separated by a <SP>.  In the event that a string argument
+    needs to contain a <SP> within the string itself, it may be escaped by
+    placing a backslash ("\") in front of the <SP> character.  Thus, the
+    character sequence "\ " (no quotes) must not be treated as a
+    separator between arguments, but instead as a space character within a
+    string argument. If a string argument contains a backslash
+    character, it must be escaped by preceding it with another backslash
+    character.
+
+3.4   SEQUENCE OF EVENTS
+
+    Upon startup, the GAHP server should output to stdout a banner string
+    which is identical to the output from the VERSION command without the
+    beginning "S " sequence (see example below).  Next, the GAHP server
+    should wait for a complete Request Line from the client (e.g. stdin).
+    The server is to take no action until a Request Line sequence is
+    received.
+
+    There are no sequencing restrictions on the ordering of Requests in
+    the GAHP API, even though some sequences may be semantically
+    invalid for the underlying service. For example, attempting to
+    delete a new instance before creating it. The server shall not
+    produce an "E" or "F" Return Line in the event of such sequences,
+    but may produce a Result Line reflecting an error from the
+    underlying service.
+
+        R: $GahpVersion: 1.0 Mar 14 2017 BOINC\ GAHP $
+        S: COMMANDS
+        R: S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SET_LEASE BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION
+        S: VERSION
+        R: S $GahpVersion: 1.0 Mar 14 2017 BOINC\ GAHP $
+        S: RESULTS
+        R: S 0
+        S: QUIT
+        R: S
+
+3.5   COMMAND SYNTAX
+
+    This section contains the syntax for the Request, Return, and Result
+    line for each command. The commands common to all GAHPs are defined
+    first, followed by commands specific to the BOINC-GAHP procotol.
+
+3.5.1 COMMON GAHP COMMANDS
+
+    These commands are common to all GAHP types.
+
+    -----------------------------------------------
+
+
+    COMMANDS
+
+    List all the commands from this protocol specification which are
+    implemented by this GAHP server.
+
+    + Request Line:
+
+        COMMANDS <CRLF>
+
+    + Return Line:
+
+        S <SP> <command 1> <SP> <command 2> <SP> ... <command X> <CRLF>
+
+
+    + Result Line:
+
+        None.
+
+    -----------------------------------------------
+
+    VERSION
+
+    Return the version string for this BOINC-GAHP.  The version string follows
+    a specified format (see below).  Ideally, the entire version
+    string, including the starting and ending dollar sign ($)
+    delimiters, should be a literal string in the text of the BOINC-GAHP
+    server executable.  This way, the Unix/RCS "ident" command can
+    produce the version string.
+
+    The version returned should correspond to the version of the
+    protocol supported.
+
+    + Request Line:
+
+        VERSION <CRLF>
+
+    + Return Line:
+
+        S <SP> $GahpVersion: <SP> <major>.<minor> <SP>
+            <build-month> <SP> <build-day-of-month> <SP>
+            <build-year> <SP> <general-descrip> <SP>$ <CRLF>
+
+        * major.minor = for this version of the
+            protocol, use version x.y.z (see header of this document).
+
+        * build-month = string with the month abbreviation when
+            the BOINC-GAHP server was built or released.  Permitted
+            values are: "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", and "Dec".
+
+        * build-day-of-month = day of the month when the BOINC-GAHP
+            server was built or released; an integer between 1 and 31
+            inclusive.
+
+        * build-year = four digit integer specifying the year in
+            which the BOINC-GAHP server was built or released.
+
+        * general-descrip = a string identifying a particular GAHP
+            server implementation.
+
+    + Result Line:
+
+        None.
+
+    + Example:
+
+        S: VERSION
+        R: S $GahpVersion: 1.0.0 Mar 14 2017 BOINC\ GAHP $
+
+    -----------------------------------------------
+
+    ASYNC_MODE_ON
+
+    Enable Asynchronous notification when the GAHP server has results
+    pending for a client. This is most useful for clients that do not
+    want to periodically poll the GAHP server with a RESULTS command.
+    When asynchronous notification mode is active, the GAHP server will
+    print out an 'R' (without the quotes) on column one when the
+    'RESULTS' command would return one or more lines. The 'R' is printed
+    only once between successive 'RESULTS' commands. The 'R' is
+    also guaranteed to only appear in between atomic return lines; the
+    'R" will not interrupt another command's output.
+
+    If there are already pending results when the asynchronous results
+    available mode is activated, no indication of the presence of those
+    results will be given. A GAHP server is permitted to only consider
+    changes to it's result queue for additions after the ASYNC_MODE_ON
+    command has successfully completed. GAHP clients should issue a
+    'RESULTS' command immediately after enabling asynchronous
+    notification, to ensure that any results that may have been added to
+    the queue during the processing of the ASYNC_MODE_ON command are
+    accounted for.
+
+    + Request Line:
+
+        ASYNC_MODE_ON <CRLF>
+
+    + Return Line:
+
+        S <CRLF>
+
+        Immediately afterwards, the client should be prepared to
+        handle an R <CRLF> appearing in the output of the GAHP
+        server.
+
+    + Result Line:
+
+        None.
+
+    + Example:
+
+        S: ASYNC_MODE_ON
+        R: S
+        S: BOINC_SELECT_PROJECT https://example.com/project-name/ xxxxxxxxxxxx
+        R: S
+        S: BOINC_PING 0001
+        R: S
+        S: BOINC_PING 0002
+        R: S
+        R: R
+        S: RESULTS
+        R: S 2
+        R: 0001 NULL
+        R: 0002 NULL
+
+    Note that you are NOT guaranteed that the 'R' will not appear
+    between the dispatching of a command and the return line(s) of that
+    command; the GAHP server only guarantees that the 'R' will not
+    interrupt an in-progress return. The following is also a legal
+    example:
+        S: ASYNC_MODE_ON
+        R: S
+        S: BOINC_SELECT_PROJECT https://example.com/project-name/ xxxxxxxxxxxx
+        R: S
+        S: BOINC_PING 0001
+        R: S
+        S: BOINC_PING 0002
+        R: R
+        R: S
+        S: RESULTS
+        R: S 2
+        R: 0001 NULL
+        R: 0002 NULL
+
+        (Note the reversal of the R and the S after BOINC_PING 0002)
+
+    -----------------------------------------------
+
+    ASYNC_MODE_OFF
+
+    Disable asynchronous results-available notification. In this mode,
+    the only way to discover available results is to poll with the
+    RESULTS command. This mode is the default. Asynchronous mode can be
+    enabled with the ASYNC_MODE_ON command.
+
+    + Request Line:
+
+        ASYNC_MODE_OFF <CRLF>
+
+    + Return Line:
+
+        S <CRLF>
+
+    + Results Line:
+
+        None
+
+    + Example:
+
+        S: ASYNC_MODE_OFF
+        R: S
+
+    -----------------------------------------------
+
+    RESPONSE_PREFIX
+
+    Specify the prefix that the GAHP server uses to prepend every
+    subsequent line of output with. This may simplify parsing the output of
+    the GAHP server by the client program, especially in cases where
+    the responses of more than one GAHP server are "collated" together.
+
+    This affects the output of both return lines and result lines for all
+    subsequent commands (NOT including the current one).
+
+    + Request Line:
+
+        RESPONSE_PREFIX <SP> <prefix> <CRLF>
+
+        <prefix> = an arbitrary string of characters which you want to prefix
+        every subsequent line printed by the GAHP server with.
+
+    + Return Line:
+
+        S <CRLF>
+
+    + Result Line:
+
+        None.
+
+    + Example:
+
+        S: RESPONSE_PREFIX BOINC-GAHP:
+        R: S
+        S: RESULTS
+        R: BOINC-GAHP:S 0
+        S: RESPONSE_PREFIX NEW_PREFIX_
+        R: BOINC-GAHP:S
+        S: RESULTS
+        R: NEW_PREFIX_S 0
+
+    -----------------------------------------------
+
+    QUIT
+
+    Free any/all system resources (close all sockets, etc) and terminate
+    as quickly as possible.
+
+    + Request Line:
+
+        QUIT <CRLF>
+
+    + Return Line:
+
+        S <CRLF>
+
+        Immediately afterwards, the command pipe should be closed
+        and the BOINC-GAHP server should terminate.
+
+    + Result Line:
+
+        None.
+
+    -----------------------------------------------
+
+    RESULTS
+
+    Display all of the Result Lines which have been queued since the
+    last RESULTS command was issued.  Upon success, the first return
+    line specifies the number of subsequent Result Lines which will be
+    displayed.  Then each result line appears (one per line) -- each
+    starts with the request ID which corresponds to the request ID
+    supplied when the corresponding command was submitted.  The exact
+    format of the Result Line varies based upon which corresponding
+    Request command was issued.
+
+    IMPORTANT: Result Lines must be displayed in the _exact order_ in
+    which they were queued!!!  In other words, the Result Lines
+    displayed must be sorted in the order by which they were placed into
+    the BOINC-GAHP's result line queue, from earliest to most recent.
+
+    + Request Line:
+
+        RESULTS <CRLF>
+
+    + Return Line(s):
+
+        S <SP> <num-of-subsequent-result-lines> <CRLF>
+        <reqid> <SP> ... <CRLF>
+        <reqid> <SP> ... <CRLF>
+        ...
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+    + Result Line:
+
+        None.
+
+    + Example:
+
+        S: RESULTS
+        R: S 1
+        R: 100 NULL
+
+    -----------------------------------------------
+
+    3.5.2 GAHP COMMANDS SPECIFIC TO BOINC
+
+    The following commands are specific to the BOINC-GAHP.
+
+    -----------------------------------------------
+
+    BOINC_SELECT_PROJECT
+
+    Select a project to be used for subsequent commands. This is a synchronous
+    command even when in asynchronous mode!
+
+    + Request Line:
+
+        BOINC_SELECT_PROJECT <SP> <project_url> <SP> <authenticator> <CRLF>
+
+        * project_url = the url of the project to which all requests
+            will be sent
+
+        * authenticator = the authenticator of the account on the
+            selected project
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            selection of the project, or an "E" if this command
+            was malformed.
+
+    + Result Line:
+
+        None.
+
+    -----------------------------------------------
+
+    BOINC_PING
+
+    Ping the selected project in order to determine if it is reachable
+    and is responding to queries.
+
+    + Request Line:
+
+        BOINC_PING <SP> <reqid> <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            submission of the request (meaning that the request is
+            now pending), or an "E" for error on the
+            parse of the request or its arguments (e.g. an
+            unrecognized or unsupported command, or for missing or
+            malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+        * err_msg = NULL if successful or an error message
+
+    -----------------------------------------------
+
+    BOINC_SUBMIT
+
+    Submit a new job batch.
+
+    + Request Line:
+
+        BOINC_SUBMIT <SP> <reqid> <SP> <batch_name> <SP> <app_name>
+            <SP> <#jobs> <SP> <job_name> <#args> <arg1> <arg2> ...
+            <SP> <#input_files> <src_path> <dst_filename>
+            ... <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+        * batch_name = the name of the batch to be submitted
+          (must be unique over all submissions)
+
+        * app_name = the name of the application to execute the jobs
+
+        * #jobs = the number of jobs in the batch
+
+        * job_name = the name of each job (must be unique over all submissions)
+
+        * #args = the number of arguments for each job
+
+        * arg<x> = argument to pass to the job
+
+        * #input_files = number of input files for each job
+
+        * src_path = the source path including the filename of the input file
+
+        * dst_filename = the filename of the input file (must be the same as
+            in <src_path>); This must agree with the app's template file on
+            the BOINC server
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            submission of the request (meaning that the request is
+            now pending), or an "E" for error on the
+            parse of the request or its arguments (e.g. an
+            unrecognized or unsupported command, or for missing or
+            malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+        * err_msg = NULL if successful or an error message
+
+    -----------------------------------------------
+
+    BOINC_QUERY_BATCHES
+
+    Query the status of the jobs of one or more batches.
+
+    + Request Line:
+
+        BOINC_QUERY_BATCHES <SP> <reqid> <SP> <min_mod_time> <SP>
+            <#batches> <SP> <batch_name1> ... <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+        * min_mod_time = only jobs whose DB record (status) has changed
+            since this time (given as seconds since the Epoch) are reported,
+            min_mod_time = 0 returns all jobs
+
+        * #batches = number of batches to be queried
+
+        * batch_name<x> = the name of each batch
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            submission of the request (meaning that the request is
+            now pending), or an "E" for error on the
+            parse of the request or its arguments (e.g. an
+            unrecognized or unsupported command, or for missing or
+            malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+        * err_msg = an error message
+
+        OR
+
+        <reqid> <SP> NULL <SP> <server_time> <SP> <batch_size1> <SP> <job_name1>
+            <SP> <status1> <SP> ... <SP> <batch_size2> <SP> ... <CRLF>
+
+        * server_time = current time on server (can be used in next call)
+
+        * batch_size<x> = number of jobs for batch X in this status report
+            (corresponds to requested batch_name<x>) NOT total number of
+            jobs in this batch
+
+        * job_name<x> = name of the job
+
+        * status<x> = status of each job (one of IN_PROGRESS, DONE, or ERROR)
+
+    -----------------------------------------------
+
+    BOINC_FETCH_OUTPUT
+
+    Retrieve the outputs of a completed job, including some or all of its
+    output files. BOINC may replicate jobs to ensure that results are valid.
+    One replica, the "canonical instance", is designated as the authoritative
+    result. If the status is DONE, then the output files of the canonical
+    instance, and its stderr output, are fetched. <exit_status> will be zero
+    in this case.
+
+    If the job failed, an instance for which some information is available
+    (e.g., exit_status and stderr output) should be searched and returned.
+    If there is no such instance, an error message is returned. A job can
+    fail for various reasons: e.g. all the instances crash, or there is no
+    consensus among the instances, or no instances could be dispatched.
+
+    + Request Line:
+
+        BOINC_FETCH_OUTPUT <SP> <reqid> <SP> <job_name> <SP> <dir> <SP>
+            <stderr_filename> <SP> <mode> <SP> <#file-specs> <SP>
+            <src_name> <SP> <dst> <SP>
+            ... <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+        * job_name = the job whose output is being fetched
+
+        * dir = directory on the local machine where output files are placed
+            by default when dst is a relative path
+
+        * stderr_filename = the name of the file where the error log should be
+            written to
+
+        * mode = ALL or SOME.
+            If mode = ALL all the jobs output files are fetched. File specs
+            are then applied to rename or move them.
+            If mode = SOME only those output files described by the file specs
+            are fetched.
+
+        * #file-specs = number of file specs
+
+        * src_name = filename written by the job
+
+        * dst = specifies where the <src name> file should be placed on
+            the local machine. It can either be an absolute or a relative path
+            (whereby <dir> is prepended). Any directories within <dst> must
+            already exist.
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            submission of the request (meaning that the request is
+            now pending), or an "E" for error on the
+            parse of the request or its arguments (e.g. an
+            unrecognized or unsupported command, or for missing or
+            malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+        * err_msg = an error message
+
+        OR
+
+        <reqid> <SP> NULL <SP> <exit_status> <SP> <elapsed_time> <CPU_time> <CRLF>
+
+        * exit_status = integer representing the exit status of this job
+            0 usually means successful, nonzero a failure
+
+        * elapsed_time = wall clock time in seconds of this job on a BOINC host
+
+        * CPU_time = cpu time in seconds of this job on a BOINC host
+
+    -----------------------------------------------
+
+    BOINC_ABORT_JOBS
+
+    Abort jobs
+
+    + Request Line:
+
+        BOINC_ABORT_JOBS <SP> <reqid> <SP> <job_name> ... <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+        * job_name = the name of the job being aborted
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+             submission of the request (meaning that the request is
+             now pending), or an "E" for error on the
+             parse of the request or its arguments (e.g. an
+             unrecognized or unsupported command, or for missing or
+             malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+        * err_msg = NULL if successful or an error message
+
+    -----------------------------------------------
+
+    BOINC_RETIRE_BATCH
+
+    Retire a batch. The batch's files and database records can be deleted
+    on the BOINC server.
+
+    + Request Line:
+
+        BOINC_RETIRE_BATCH <SP> <reqid> <SP> <batch_name> <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+        * batch_name = the name of the batch being retired
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            submission of the request (meaning that the request is
+            now pending), or an "E" for error on the
+            parse of the request or its arguments (e.g. an
+            unrecognized or unsupported command, or for missing or
+            malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+        * err_msg = NULL if successful or an error message
+
+    ----------------------------------------------
+
+    BOINC_SET_LEASE
+
+    Set the "lease" time for a batch. After this time its files and database
+    records can be deleted on the BOINC server.
+
+    + Request Line:
+
+        BOINC_SET_LEASE <SP> <reqid> <SP> <batch_name> <new_lease_time> <CRLF>
+
+        * reqid = non-zero integer Request ID
+
+        * batch_name = the name of the batch whose lease is being updated
+
+        * new_lease_time = time (given as seconds since the Epoch) after which
+            the batch's files and database records can be deleted
+
+    + Return Line:
+
+        <result> <CRLF>
+
+        * result = the character "S" (no quotes) for successful
+            submission of the request (meaning that the request is
+             now pending), or an "E" for error on the
+             parse of the request or its arguments (e.g. an
+             unrecognized or unsupported command, or for missing or
+             malformed arguments).
+
+    + Result Line:
+
+        <reqid> <SP> <err_msg> <CRLF>
+
+        * reqid = integer Request ID, set to the value specified in
+            the corresponding Request Line.
+
+        * err_msg = NULL if successful or an error message

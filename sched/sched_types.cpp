@@ -1193,10 +1193,8 @@ int APP_VERSION::write(FILE* fout) {
     }
     fprintf(fout,
         "    <avg_ncpus>%f</avg_ncpus>\n"
-        "    <max_ncpus>%f</max_ncpus>\n"
         "    <flops>%f</flops>\n",
         bavp->host_usage.avg_ncpus,
-        bavp->host_usage.max_ncpus,
         bavp->host_usage.projected_flops
     );
     if (strlen(bavp->host_usage.cmdline)) {
@@ -1402,6 +1400,11 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.match_tag("opencl_cpu_prop")) {
             int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
             if (!retval) num_opencl_cpu_platforms++;
+            continue;
+        }
+        if (xp.parse_bool("wsl_available", wsl_available)) continue;
+        if (xp.match_tag("wsl")) {
+            wsls.parse(xp);
             continue;
         }
 

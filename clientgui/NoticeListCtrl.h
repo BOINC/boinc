@@ -42,11 +42,14 @@ public:
 
     int     GetItemCount();
     void    SetItemCount(int newCount);
-    
-////@begin CNoticeListCtrl event handler declarations
 
+////@begin CNoticeListCtrl event handler declarations
+#if wxUSE_WEBVIEW
     void OnLinkClicked( wxWebViewEvent& event );
     void OnWebViewError( wxWebViewEvent& event );
+#else
+    void OnLinkClicked( wxHtmlLinkEvent & event );
+#endif
 
 ////@end CNoticeListCtrl event handler declarations
 
@@ -56,7 +59,11 @@ public:
     bool        m_bDisplayFetchingNotices;
     bool        m_bDisplayEmptyNotice;
 private:
+#if wxUSE_WEBVIEW
     wxWebView*  m_browser;
+#else
+    wxHtmlWindow* m_browser;
+#endif
     bool        m_bNeedsReloading;
     int         m_itemCount;
     wxString    m_noticesBody;

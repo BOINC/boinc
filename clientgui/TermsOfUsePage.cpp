@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -54,6 +54,7 @@ BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
     EVT_WIZARDEX_CANCEL( -1, CTermsOfUsePage::OnCancel )
     EVT_RADIOBUTTON( ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
     EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
+    EVT_HTML_LINK_CLICKED(ID_TERMSOFUSECTRL, CTermsOfUsePage::OnLinkClicked)
 ////@end CTermsOfUsePage event table entries
  
 END_EVENT_TABLE()
@@ -103,6 +104,8 @@ bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
  
 void CTermsOfUsePage::CreateControls()
 {    
+#define TERMSOFUSEWIDTH ADJUSTFORXDPI(580)
+#define TERMSOFUSEHEIGHT ADJUSTFORYDPI(250)
 ////@begin CTermsOfUsePage content construction
     CTermsOfUsePage* itemWizardPage96 = this;
 
@@ -120,8 +123,8 @@ void CTermsOfUsePage::CreateControls()
     m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_pTermsOfUseCtrl = new wxTextCtrl;
-    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxEmptyString, wxDefaultPosition, wxSize(300, 125), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH );
+    m_pTermsOfUseCtrl = new wxHtmlWindow;
+    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxDefaultPosition, wxSize(TERMSOFUSEWIDTH, TERMSOFUSEHEIGHT), wxHW_SCROLLBAR_AUTO, wxEmptyString);
     itemBoxSizer97->Add(m_pTermsOfUseCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAgreeCtrl = new wxRadioButton;
@@ -136,7 +139,19 @@ void CTermsOfUsePage::CreateControls()
 
 ////@end CTermsOfUsePage content construction
 }
-  
+
+
+void CTermsOfUsePage::OnLinkClicked( wxHtmlLinkEvent& event ) {
+    wxString url = event.GetLinkInfo().GetHref();
+    if (url.StartsWith(wxT("http://")) || url.StartsWith(wxT("https://"))) {
+        // wxHtmlLinkEvent doesn't have Veto(), but only loads the page if you
+          // call Skip().
+            wxLaunchDefaultBrowser(url);
+    } else {
+        event.Skip();
+    }
+ }
+
 /*!
  * Gets the previous page.
  */
@@ -222,10 +237,15 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Please read the following terms of use:")
     );
 
-    m_pTermsOfUseCtrl->SetValue(
-        wxString(pc.terms_of_use.c_str(), wxConvUTF8)
-    );
-    m_pTermsOfUseCtrl->SetSelection(0,0);
+    wxString terms_of_use(pc.terms_of_use.c_str(), wxConvUTF8);
+    // We need to replace all line endings in text TOU
+    // to make it looks properly in HTML Window
+    if (!pc.terms_of_use_is_html) {
+        terms_of_use.Replace("\r\n", "<br>");
+        terms_of_use.Replace("\r", "<br>");
+        terms_of_use.Replace("\n", "<br>");
+    }
+    m_pTermsOfUseCtrl->SetPage(terms_of_use);
 
     m_pAgreeCtrl->SetLabel(
         _("I agree to the terms of use.")

@@ -63,7 +63,6 @@ CARevokeBOINCAdminsRights::~CARevokeBOINCAdminsRights()
 UINT CARevokeBOINCAdminsRights::OnExecution()
 {
     PSID        pSid;
-    UINT        uiReturnValue = -1;
 
     //
     // Obtain the SID of the user/group.

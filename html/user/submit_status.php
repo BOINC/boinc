@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // web interfaces for viewing and controlling batches
+// DEPRECATED: replaced by submit.php
 
 ini_set('display_errors', 'stdout');
 error_reporting(E_ALL);

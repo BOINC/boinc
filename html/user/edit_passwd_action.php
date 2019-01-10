@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
+require_once("../inc/password_compat/password.inc");
 
 check_get_args(array());
 
@@ -26,11 +27,6 @@ $user = get_logged_in_user();
 $email_addr = strtolower(post_str("email_addr", true));
 
 $passwd = post_str("passwd");
-$passwd2 = post_str("passwd2");
-
-if ($passwd != $passwd2) {
-    error_page(tra("New passwords are different"));
-}
 
 $config = get_config();
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
@@ -45,7 +41,8 @@ if (strlen($passwd) < $min_passwd_length) {
 }
 
 $passwd_hash = md5($passwd.$user->email_addr);
-$result = $user->update("passwd_hash='$passwd_hash'");
+$database_passwd_hash = password_hash($passwd_hash, PASSWORD_DEFAULT);
+$result = $user->update(" passwd_hash='$database_passwd_hash' ");
 if (!$result) {
     error_page(tra("We can't update your password due to a database problem. Please try again later."));
 }

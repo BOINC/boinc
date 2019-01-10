@@ -8,7 +8,7 @@
   <string name="generic_button_finish">완료</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">여러분이 공헌할 과학 프로젝트 선택하세요:</string>
+  <string name="attachproject_list_desc">여러분이 공헌할 과학 프로젝트를 선택하세요:</string>
   <string name="attachproject_list_header">프로젝트를 선택:</string>
   <string name="attachproject_list_manual_button">URL로 프로젝트 추가</string>
   <string name="attachproject_list_manual_dialog_title">프로젝트 URL 입력:</string>
@@ -29,7 +29,7 @@
   <string name="attachproject_conflict_unknown_user">계정이 존재하지 않습니다</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 등록하려면 프로젝트 웹사이트에 방문하세요</string>
   <!--working-->
-  <string name="attachproject_working_attaching">추가하는중</string>
+  <string name="attachproject_working_attaching">추가하는 중</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">힌트</string>
@@ -334,7 +334,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">버전</string>
   <string name="about_name_long">네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체</string>
-  <string name="about_copyright">\u00A9 2003–2016 캘리포니아 댁학교 버클리 캠퍼스.</string>
   <string name="about_copyright_reserved">모든 권리 보유</string>
   <string name="about_credits">막스 플랑크 중력 물리학 연구소, IBM Corporation, HTC의 지원에 감사드립니다.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
