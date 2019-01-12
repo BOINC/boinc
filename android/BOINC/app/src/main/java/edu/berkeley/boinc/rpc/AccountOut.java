@@ -22,39 +22,41 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class AccountOut implements Parcelable {
-	public int error_num = 0;
-	public String error_msg = "";
-	public String authenticator = "";
-	
-	public static final Parcelable.Creator<AccountOut> CREATOR = new Parcelable.Creator<AccountOut>() {
-		public AccountOut createFromParcel(Parcel in) {
-		    return new AccountOut(in);
-		}
-		public AccountOut[] newArray(int size) {
-		    return null;
-		}
-	};
+    public int error_num = 0;
+    public String error_msg = "";
+    public String authenticator = "";
 
-	public AccountOut() {
-		super();
-	}
+    public static final Parcelable.Creator<AccountOut> CREATOR = new Parcelable.Creator<AccountOut>() {
+        public AccountOut createFromParcel(Parcel in) {
+            return new AccountOut(in);
+        }
 
-	private AccountOut(Parcel in) {
-	    readFromParcel(in);
-	}
+        public AccountOut[] newArray(int size) {
+            return null;
+        }
+    };
 
-	public int describeContents() {
-	    return 0;
-	}
+    public AccountOut() {
+        super();
+    }
 
-	public void writeToParcel(Parcel out, int flags) {
-	    out.writeInt(error_num);
-	    out.writeString(error_msg);
-	    out.writeString(authenticator);
-	}
-	public void readFromParcel(Parcel in) {
-		error_num = in.readInt();
-		error_msg = in.readString();
-		authenticator = in.readString();
-	}
+    private AccountOut(Parcel in) {
+        readFromParcel(in);
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(error_num);
+        out.writeString(error_msg);
+        out.writeString(authenticator);
+    }
+
+    public void readFromParcel(Parcel in) {
+        error_num = in.readInt();
+        error_msg = in.readString();
+        authenticator = in.readString();
+    }
 }

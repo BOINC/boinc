@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -21,170 +20,178 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    
+
     <LinearLayout
         android:id="@+id/wrapper"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="vertical">
-	    
-        <LinearLayout 
-		    android:id="@+id/status_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/status_wrapper"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:padding="10dp">
-		    <TextView
-		        android:id="@+id/header_status"
-		        android:layout_width="100dp"
-		        android:singleLine="true"
-		        android:layout_height="wrap_content"
-			    android:layout_marginRight="10dp"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-			    android:text="@string/tab_status"/>
-		    <TextView
-		        android:id="@+id/status_text"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall"/>
-	    </LinearLayout>
-        
-        <LinearLayout 
-	        android:id="@+id/general_area_wrapper"
+
+            <TextView
+                android:id="@+id/header_status"
+                android:layout_width="100dp"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/tab_status" />
+
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/general_area_wrapper"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:padding="10dp">
-		    <TextView
-		        android:id="@+id/header_general_area"
-		        android:layout_width="100dp"
-		        android:singleLine="true"
-		        android:layout_height="wrap_content"
-		        android:layout_marginRight="10dp"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:text="@string/attachproject_login_header_general_area" />
-		
-		    <TextView
-		        android:id="@+id/general_area"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall" />
-	    </LinearLayout>
-	    
-        <LinearLayout 
-	        android:id="@+id/specific_area_wrapper"
+
+            <TextView
+                android:id="@+id/header_general_area"
+                android:layout_width="100dp"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/attachproject_login_header_general_area" />
+
+            <TextView
+                android:id="@+id/general_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/specific_area_wrapper"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:padding="10dp">
-		    <TextView
-		        android:id="@+id/header_specific_area"
-		        android:layout_width="100dp"
-		        android:singleLine="true"
-		        android:layout_height="wrap_content"
-		        android:layout_marginRight="10dp"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:text="@string/attachproject_login_header_specific_area" />
-		
-		    <TextView
-		        android:id="@+id/specific_area"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall"/>
-	    </LinearLayout>
-	    
-        <LinearLayout 
-	        android:id="@+id/description_wrapper"
+
+            <TextView
+                android:id="@+id/header_specific_area"
+                android:layout_width="100dp"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/attachproject_login_header_specific_area" />
+
+            <TextView
+                android:id="@+id/specific_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/description_wrapper"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:padding="10dp">
-		    <TextView
-		        android:id="@+id/header_description"
-		        android:layout_width="100dp"
-		        android:singleLine="true"
-		        android:layout_height="wrap_content"
-		        android:layout_marginRight="10dp"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:text="@string/attachproject_login_header_description" />
-		
-		    <TextView
-		        android:id="@+id/description"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall"/>
-	    </LinearLayout>
-	    
-        <LinearLayout 
-	        android:id="@+id/based_at_wrapper"
+
+            <TextView
+                android:id="@+id/header_description"
+                android:layout_width="100dp"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/attachproject_login_header_description" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/based_at_wrapper"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:padding="10dp">
-		    <TextView
-		        android:id="@+id/header_based_at"
-		        android:layout_width="100dp"
-		        android:singleLine="true"
-		        android:layout_height="wrap_content"
-		        android:layout_marginRight="10dp"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:text="@string/attachproject_login_header_home" />
-		
-		    <TextView
-		        android:id="@+id/based_at"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall" />
-	    </LinearLayout>
-	    
-        <LinearLayout 
+
+            <TextView
+                android:id="@+id/header_based_at"
+                android:layout_width="100dp"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/attachproject_login_header_home" />
+
+            <TextView
+                android:id="@+id/based_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:padding="10dp">
-		    <TextView
-		        android:id="@+id/header_url"
-		        android:layout_width="100dp"
-		        android:singleLine="true"
-		        android:layout_height="wrap_content"
-			    android:layout_marginRight="10dp"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-			    android:text="@string/attachproject_login_header_url"/>
-		    <TextView
-		        android:id="@+id/project_url"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:clickable="true"
-		        android:focusable="true"
-		        android:textColor="@color/dark_blue" />
-	    </LinearLayout>
-	    
-        <HorizontalScrollView 
-		    android:id="@+id/slideshow_wrapper"
+
+            <TextView
+                android:id="@+id/header_url"
+                android:layout_width="100dp"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/attachproject_login_header_url" />
+
+            <TextView
+                android:id="@+id/project_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="@color/dark_blue" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/slideshow_wrapper"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:background="@drawable/shape_light_blue_background"
             android:layout_marginTop="20dp"
             android:padding="10dp">
-            
-            <LinearLayout 
-		    	android:id="@+id/slideshow_hook"
-            	android:layout_height="wrap_content"
-            	android:layout_width="wrap_content"
-            	android:orientation="horizontal">
-		    
-	            <ProgressBar
-			        android:id="@+id/slideshow_loading"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_gravity="center_horizontal"
-			        style="?android:attr/progressBarStyleLarge"
-			        android:background="@android:color/transparent"
-			        android:layout_margin="20dp" />
+
+            <LinearLayout
+                android:id="@+id/slideshow_hook"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/slideshow_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="20dp" />
             </LinearLayout>
         </HorizontalScrollView>
-	    
+
     </LinearLayout>
 
 </ScrollView>

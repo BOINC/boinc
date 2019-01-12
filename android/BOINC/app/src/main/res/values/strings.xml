@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2018 University of California
@@ -183,8 +182,8 @@
     <string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
     <string name="prefs_general_device_name_header">Device name</string>
-	<string name="prefs_stationary_device_mode_header">Stationary device mode</string>
-	<string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
+    <string name="prefs_stationary_device_mode_header">Stationary device mode</string>
+    <string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
     <string name="prefs_power_source_header">Power sources for computation</string>
     <string name="prefs_power_source_description">Selects power sources BOINC is allowed to use for computation.</string>
     <string name="prefs_power_source_ac">Wall socket</string>
@@ -388,7 +387,7 @@
     <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
     <string name="nonexcl_dialog_text">Another volunteer computing app is running on this device. Only one version can run at a time.</string>
     <string name="nonexcl_dialog_exit">Exit</string>
-    
+
     <!-- social integration -->
     <string name="social_invite_button">Invite friends</string>
     <string name="social_invite_intent_title">How do you want to share?</string>
