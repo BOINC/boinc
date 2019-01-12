@@ -2,17 +2,17 @@
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2013 University of California
- * 
+ *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
  * as published by the Free Software Foundation,
  * either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * BOINC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,23 +25,25 @@ import android.support.v7.app.*;
 import android.support.v7.app.ActionBar.Tab;
 
 public class EventLogActivityTabListener<T extends Fragment> implements ActionBar.TabListener {
-	
+
     public Fragment mFragment;
     private final FragmentActivity mActivity;
     private final String mTag;
     public final Class<T> mClass;
     public Boolean currentlySelected = false;
 
-    /** Constructor used each time a new tab is created.
-      * @param activity  The host Activity, used to instantiate the fragment
-      * @param tag  The identifier tag for the fragment
-      * @param clz  The fragment's Class, used to instantiate the fragment
-      */
+    /**
+     * Constructor used each time a new tab is created.
+     *
+     * @param activity The host Activity, used to instantiate the fragment
+     * @param tag      The identifier tag for the fragment
+     * @param clz      The fragment's Class, used to instantiate the fragment
+     */
     public EventLogActivityTabListener(FragmentActivity activity, String tag, Class<T> clz) {
         mActivity = activity;
         mTag = tag;
         mClass = clz;
-        
+
         // Check to see if we already have a fragment for this tab, probably
         // from a previously saved state.  If so, deactivate it, because our
         // initial state is that a tab isn't shown.
