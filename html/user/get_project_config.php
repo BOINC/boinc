@@ -40,7 +40,7 @@ function show_platforms() {
                 <platform_name>$platform->name</platform_name>
                 <user_friendly_name>$platform->user_friendly_name</user_friendly_name>";
             if ($platform->plan_class) $xmlFragment .= "
-                <plan_class>$platform->plan_class</plan_class>\n"; 
+                <plan_class>$platform->plan_class</plan_class>\n";
             $xmlFragment .= "
             </platform>";
         }
@@ -136,6 +136,13 @@ if (LDAP_HOST) {
 
 if (file_exists("../../project_keywords.xml")) {
     readfile("../../project_keywords.xml");
+}
+
+$keydir = parse_config($config, "<key_dir>");
+if (is_readable($keydir."/ownership_sign_public.pem")) {
+    echo "    <ownership_signature_public_key>";
+    echo base64_encode(file_get_contents($keydir."/ownership_sign_public.pem"));
+    echo "</ownership_signature_public_key>\n";
 }
 
 echo "</project_config>";

@@ -80,7 +80,7 @@ function get_other_projects($user) {
         if (count($remote) == 1) {
             $remote = array($remote);
         }
-        
+
         if (!$remote) {
             return $user;
         } else {
@@ -88,7 +88,7 @@ function get_other_projects($user) {
             set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
         }
     }
-    
+
     $user->projects = $remote;
     return $user;
 }
@@ -269,7 +269,7 @@ function show_user_info_private($user) {
         if (parse_bool($config, "enable_delete_account")) {
             $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
         }
-        
+
         row2(tra("Change"),
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
             &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
@@ -282,6 +282,10 @@ function show_user_info_private($user) {
         row2(
             tra("Account keys"),
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
+        );
+        row2(
+            tra("Account Ownership"),
+            "<a href=\"account_ownership_form.php?$url_tokens\">Generate ownership proof</a>"
         );
     }
 }
@@ -367,7 +371,7 @@ function show_community_private($user) {
             row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
         }
     }
-    
+
     row2(tra("Private messages"), pm_notification($user).pm_email_remind($user));
 
     $notifies = BoincNotify::enum("userid=$user->id");
@@ -402,7 +406,7 @@ function show_community_private($user) {
         } else {
             row2(tra("Team"), tra("None")." &middot; <a href=\"team_search.php\">".tra("find a team")."</a>");
         }
-        
+
         $teams_founded = BoincTeam::enum("userid=$user->id");
         foreach ($teams_founded as $team) {
             if ($team->id != $user->teamid) {
@@ -488,7 +492,7 @@ function community_links($clo, $logged_in_user){
     $team = $clo->team;
     $friends = $clo->friends;
     $tot = $clo->post_count;
-    
+
     if (!DISABLE_TEAMS) {
         if ($user->teamid && $team) {
             row2(tra("Team"), "<a href=\"".url_base()."team_display.php?teamid=$team->id\">$team->name</a>");
@@ -505,7 +509,7 @@ function community_links($clo, $logged_in_user){
         row2(tra("Contact"), "<a href=\"pm.php?action=new&userid=".$user->id."\">".tra("Send private message")."</a>");
         $friend = BoincFriend::lookup($logged_in_user->id, $user->id);
         if ($friend && $friend->reciprocated) {
-            row2(tra("This person is a friend"), 
+            row2(tra("This person is a friend"),
                 "<a href=\"friend.php?action=cancel_confirm&userid=$user->id\">".tra("Cancel friendship")."</a>"
             );
         } else if ($friend) {
@@ -514,7 +518,7 @@ function community_links($clo, $logged_in_user){
             row2(tra("Friends"),  "<a href=\"friend.php?action=add&userid=$user->id\">".tra("Add as friend")."</a>");
         }
     }
-    
+
     if ($friends) {
         $x = "";
         foreach($friends as $friend) {
