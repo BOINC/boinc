@@ -108,6 +108,7 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
         <rss version=\"2.0\">
         <channel>
         <title>".$description."</title>
+        <description>".$description."</description>
         <link>".secure_url_base()."</link>
         <copyright>".COPYRIGHT_HOLDER."</copyright>
         <lastBuildDate>".$create_date."</lastBuildDate>
