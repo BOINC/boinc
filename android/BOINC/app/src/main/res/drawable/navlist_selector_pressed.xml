@@ -19,7 +19,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--selector vor selected nav bar item, switch to navlist_selector for unselected item done in code!-->
-    <item android:drawable="@drawable/navlist_item_pressed_and_focussed_background" android:state_selected="true" />
-    <item android:drawable="@drawable/navlist_item_pressed_background" />
+    <item android:drawable="@drawable/navlist_item_pressed_and_focussed_background" android:state_selected="true"/>
+    <item android:drawable="@drawable/navlist_item_pressed_background"/>
 
 </selector>

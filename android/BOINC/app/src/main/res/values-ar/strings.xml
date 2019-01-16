@@ -27,7 +27,9 @@
     <string name="attachproject_conflict_not_unique">الحساب مسجل بكلمة مرور اَخرى</string>
     <string name="attachproject_conflict_bad_password">كلمة مرور خاطئة</string>
     <string name="attachproject_conflict_unknown_user">الحساب غير مسجل</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">الحساب غير مسجل ، قم بزيارة موقع المشروع للتسجيل</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">الحساب غير مسجل ، قم بزيارة موقع المشروع
+        للتسجيل
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">جاري رفق</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
     <string name="attachproject_hint_projectwebsite_science">التعرف على المزيد حول العلم</string>
     <string name="attachproject_hint_projectwebsite_stats">عرض إحصائيات المساهمة</string>
     <string name="attachproject_hint_projectwebsite_community">التواصل مع المتطوعين الآخرين</string>
-    <string name="attachproject_hint_platforms_header">BOINC متوفر ايضا لجهاز الكمبيوتر المنزلى أو المحمول، لمعرفة المزيد الرجاء زيارة موقعنا على الإنترنت  boinc.berkeley.edu</string>
+    <string name="attachproject_hint_platforms_header">BOINC متوفر ايضا لجهاز الكمبيوتر المنزلى أو المحمول، لمعرفة
+        المزيد الرجاء زيارة موقعنا على الإنترنت boinc.berkeley.edu
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">الاتصال بخادم المشروع</string>
     <string name="attachproject_login_image_description">رمز المشروع</string>
@@ -52,17 +56,21 @@
     <string name="attachproject_login_header_home">المنزل</string>
     <string name="attachproject_login_header_url">الموقع</string>
     <string name="attachproject_login_header_platform">الاندرويد</string>
-    <string name="attachproject_login_platform_supported">نوع الجهاز معتمد من قبل المشروع </string>
-    <string name="attachproject_login_platform_not_supported">نوع الجهاز غير معتمد من قبل المشروع </string>
+    <string name="attachproject_login_platform_supported">نوع الجهاز معتمد من قبل المشروع</string>
+    <string name="attachproject_login_platform_not_supported">نوع الجهاز غير معتمد من قبل المشروع</string>
     <string name="attachproject_login_category_terms_of_use">شروط الاستخدام</string>
-    <string name="attachproject_login_accept_terms_of_use">عند قيامك بإنشاء حساب على هذا المشروع، فإنت تقبل بشروط الاستخدام كما هو موضح أعلاه.</string>
+    <string name="attachproject_login_accept_terms_of_use">عند قيامك بإنشاء حساب على هذا المشروع، فإنت تقبل بشروط
+        الاستخدام كما هو موضح أعلاه.
+    </string>
     <string name="attachproject_login_category_login">تسجيل الدخول باستخدام حساب مسجل مسبقا</string>
     <string name="attachproject_login_header_id_email">البريد الإلكتروني</string>
     <string name="attachproject_login_header_id_name">الإسم</string>
     <string name="attachproject_login_header_pwd">كلمة المرور</string>
     <string name="attachproject_login_category_creation">جديد إلى</string>
     <string name="attachproject_login_header_creation_enabled">تسجيل حساب للمشاركة:</string>
-    <string name="attachproject_login_header_creation_client_disabled">قم بزيارة موقع المشروع على الإنترنت لإنشاء حساب:</string>
+    <string name="attachproject_login_header_creation_client_disabled">قم بزيارة موقع المشروع على الإنترنت لإنشاء
+        حساب:
+    </string>
     <string name="attachproject_login_header_creation_disabled">لا يقبل المشروع حاليا تسجيل حسابات جديدة.</string>
     <string name="attachproject_login_button_registration">تسجيل</string>
     <string name="attachproject_login_button_login">تسجيل الدخول</string>
@@ -88,7 +96,7 @@
     <string name="attachproject_acctmgr_button">أضف</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">لم يتم العثور على المستخدم</string>
-    <string name="attachproject_error_short_pwd">كلمة المرور قصيرة </string>
+    <string name="attachproject_error_short_pwd">كلمة المرور قصيرة</string>
     <string name="attachproject_error_no_internet">تعذر الإتصال</string>
     <string name="attachproject_error_pwd_no_match">كلمة المرور غير مطابقة</string>
     <string name="attachproject_error_pwd_no_retype">الرجاء كتابة كلمة المرور مرة أخرى</string>
@@ -140,14 +148,14 @@
     <string name="status_computing_disabled">معلق</string>
     <string name="status_computing_disabled_long">اضغط على تشغيل لاستئناف الشبكة والحساب.</string>
     <string name="status_launching">جارى البدء</string>
-    <string name="status_noproject">اختر مشروع للمساهمه به </string>
+    <string name="status_noproject">اختر مشروع للمساهمه به</string>
     <string name="status_closing">جارى الإغلاق</string>
     <string name="status_benchmarking">قياس...</string>
     <string name="status_image_description">صورة المشروع</string>
     <!--preferences tab strings-->
     <string name="prefs_loading">قراءة التفضيلات</string>
     <string name="prefs_submit_button">حفظ</string>
-    <string name="prefs_dialog_title">أدخل قيمة جديدة </string>
+    <string name="prefs_dialog_title">أدخل قيمة جديدة</string>
     <string name="prefs_dialog_title_selection">اختر</string>
     <string name="prefs_category_general">عام</string>
     <string name="prefs_category_network">شبكة الاتصال</string>
@@ -159,19 +167,28 @@
     <string name="prefs_show_advanced_header">إظهار التفضيلات المتقدمة والضوابط..</string>
     <string name="prefs_suspend_when_screen_on">إيقاف مؤقت للعمليات الحسابية عند تشغيل الشاشة</string>
     <string name="prefs_stationary_device_mode_header">وضع الجهاز الثابت</string>
-    <string name="prefs_stationary_device_mode_description">السماح بالحوسبة بغض النظر عن تفضيلات الطاقة، مكن فقط في حالة عدم وجود بطارية بالجهاز.</string>
+    <string name="prefs_stationary_device_mode_description">السماح بالحوسبة بغض النظر عن تفضيلات الطاقة، مكن فقط في حالة
+        عدم وجود بطارية بالجهاز.
+    </string>
     <string name="prefs_power_source_header">مصدر الطاقة للحساب.</string>
-    <string name="prefs_power_source_description">حدد مصادر الطاقة المسموح لBOINC إستخدامها للقيام بالعمليات الحسابية. </string>
+    <string name="prefs_power_source_description">حدد مصادر الطاقة المسموح لBOINC إستخدامها للقيام بالعمليات الحسابية.
+    </string>
     <string name="prefs_power_source_ac">مقبس الحائط</string>
     <string name="prefs_power_source_usb">اتصال USB</string>
     <string name="prefs_power_source_wireless">شاحن لاسلكي</string>
     <string name="prefs_power_source_battery">البطارية</string>
     <string name="battery_charge_min_pct_header">الحد الادنى لمستوي البطارية</string>
-    <string name="battery_charge_min_pct_description">يقوم BOINC بتعليق العمليات الحسابية حين انخفاض نسبة البطارية عن المستوى المقرر.</string>
+    <string name="battery_charge_min_pct_description">يقوم BOINC بتعليق العمليات الحسابية حين انخفاض نسبة البطارية عن
+        المستوى المقرر.
+    </string>
     <string name="battery_temperature_max_header">اقصى درجة حرارة للبطارية</string>
-    <string name="battery_temperature_max_description">يقوم BOINC بوقف العمليات الحسابية عند تخطي البطارية درجة الحرارة المقررة. لا ينصح بتغيير هذه القيمة.</string>
+    <string name="battery_temperature_max_description">يقوم BOINC بوقف العمليات الحسابية عند تخطي البطارية درجة الحرارة
+        المقررة. لا ينصح بتغيير هذه القيمة.
+    </string>
     <string name="prefs_disk_max_pct_header">الحد الاقصى للسعة التخزينية المستخدمة</string>
-    <string name="prefs_disk_max_pct_description">كم تكون النسبة المئوية من السعة التخزينية للجهاز المسموحة لBOINC استخدامها؟</string>
+    <string name="prefs_disk_max_pct_description">كم تكون النسبة المئوية من السعة التخزينية للجهاز المسموحة لBOINC
+        استخدامها؟
+    </string>
     <string name="prefs_disk_min_free_gb_header">الحد الأدنى للسعة التخزينية</string>
     <string name="prefs_disk_min_free_gb_description">ما حجم السعة التخزينية التى ستظل غير مستخدمة؟</string>
     <string name="prefs_disk_access_interval_header">فاصل الوصول</string>
@@ -183,9 +200,13 @@
     <string name="prefs_show_notification_notices_header">عرض الإخطار للإشعارات الجديدة</string>
     <string name="prefs_show_notification_suspended_header">عرض الإخطار عند التعليق</string>
     <string name="prefs_cpu_number_cpus_header">أنوية المعالج المستخدمة</string>
-    <string name="prefs_cpu_number_cpus_description">يقرر الحد الأقصى لعدد أنوية المعالج المستخدمة لعمليات BOINC الحسابية.</string>
+    <string name="prefs_cpu_number_cpus_description">يقرر الحد الأقصى لعدد أنوية المعالج المستخدمة لعمليات BOINC
+        الحسابية.
+    </string>
     <string name="prefs_cpu_other_load_suspension_header">إيقاف استخدام المعالج عند حد أقصاه</string>
-    <string name="prefs_cpu_other_load_suspension_description">يقرر الحد الأقصى الذى يتم عنده وقف عمليات BOINC لصالح التطبيقات الأخرى.</string>
+    <string name="prefs_cpu_other_load_suspension_description">يقرر الحد الأقصى الذى يتم عنده وقف عمليات BOINC لصالح
+        التطبيقات الأخرى.
+    </string>
     <string name="prefs_cpu_time_max_header">الحد الأقصى للمعالج</string>
     <string name="prefs_cpu_time_max_description">يقرر وقت المعالج المستغرق للقيام بعمليات BOINC الحسابية</string>
     <string name="prefs_memory_max_idle_header">الحد الأقصى للذاكرة</string>
@@ -204,7 +225,7 @@
     <string name="projects_status_suspendedviagui">علَّقه المستخدم</string>
     <string name="projects_status_dontrequestmorework">لن يجلب مهام جديدة</string>
     <string name="projects_status_ended">تم إنهاء المشورع - موافق لإزالة</string>
-    <string name="projects_status_detachwhendone">سيتم الإزالة حين إنهاء المهام </string>
+    <string name="projects_status_detachwhendone">سيتم الإزالة حين إنهاء المهام</string>
     <string name="projects_status_schedrpcpending">طَلبُ المُجَدوِِل في الطابور</string>
     <string name="projects_status_schedrpcinprogress">يجري طلبُ المُجَدوِِل</string>
     <string name="projects_status_trickleuppending">تراكم الرسائل المعلقة</string>
@@ -225,7 +246,7 @@
     <!--project confirm dialog-->
     <string name="projects_confirm_detach_title">إزالة المشروع؟</string>
     <string name="projects_confirm_detach_message">هل أنت متأكد من رغبتك في إزالة</string>
-    <string name="projects_confirm_detach_message2">من  BOINC؟</string>
+    <string name="projects_confirm_detach_message2">من BOINC؟</string>
     <string name="projects_confirm_detach_confirm">إزالة</string>
     <string name="projects_confirm_reset_title">صفِّر المشروع</string>
     <string name="projects_confirm_reset_message">هل أنت متأكد من رغبتك فى إعادة الضبط؟</string>
@@ -236,7 +257,7 @@
     <string name="projects_confirm_remove_acctmgr_message2">/؟</string>
     <string name="projects_confirm_remove_acctmgr_confirm">معطّل</string>
     <!--tasks tab strings-->
-    <string name="tasks_header_name"> اسم المهمة:</string>
+    <string name="tasks_header_name">اسم المهمة:</string>
     <string name="tasks_header_elapsed_time">الوقت المنقضي:</string>
     <string name="tasks_header_project_paused">(معلق)</string>
     <string name="tasks_header_deadline">الموعد النهائي:</string>
@@ -272,7 +293,7 @@
     <string name="trans_active">نشط</string>
     <string name="trans_pending">قيد الانتظار</string>
     <string name="trans_header_name">الملف</string>
-    <string name="trans_control_retry"> إعادة محاولة نقل البيانات </string>
+    <string name="trans_control_retry">إعادة محاولة نقل البيانات</string>
     <string name="confirm_abort_trans_title">إحباط النقل؟</string>
     <string name="confirm_abort_trans_message">إحباط الملف:</string>
     <string name="confirm_abort_trans_confirm">إحباط</string>
@@ -305,7 +326,7 @@
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">حاليا</string>
     <string name="suspend_battery_overheating">في انتظار انخفاض حرارة البطارية</string>
-    <string name="suspend_user_req">استئناف العمليات الحسابية </string>
+    <string name="suspend_user_req">استئناف العمليات الحسابية</string>
     <string name="suspend_network_user_req">يدويا.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">مطلوب من قبل المستخدم</string>
@@ -331,22 +352,33 @@
     <string name="about_title">عن</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">اصدار</string>
-    <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network
+        Computing
+    </string>
     <string name="about_copyright">جامعة بيركلي بكاليفورنيا
-\u00A9 2003–2018 </string>
+        \u00A9 2003–2018 
+    </string>
     <string name="about_copyright_reserved">جميع الحقوق محفوظة</string>
-    <string name="about_credits">كل الشكر والتقدير لكل من معهد ماكس بلانك لفيزياء الجاذبية، شركة أي بي أم وشركة إتش تي سي لدعمهم.</string>
+    <string name="about_credits">كل الشكر والتقدير لكل من معهد ماكس بلانك لفيزياء الجاذبية، شركة أي بي أم وشركة إتش تي
+        سي لدعمهم.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">تم الكشف على تطبيق الحوسبة التطوعى</string>
-    <string name="nonexcl_dialog_text">هناك اصدار اخر من التطبيق قيد العمل على الجهاز, الرجاء العلم انه يمكنك تشغيل نسخة واحدة فقط.</string>
+    <string name="nonexcl_dialog_text">هناك اصدار اخر من التطبيق قيد العمل على الجهاز, الرجاء العلم انه يمكنك تشغيل نسخة
+        واحدة فقط.
+    </string>
     <string name="nonexcl_dialog_exit">خروج</string>
     <!--social integration-->
     <string name="social_invite_button">إضافة صديق</string>
     <string name="social_invite_intent_title">كيف ترغب بالمشاركة؟</string>
     <string name="social_invite_content_title">أنا أقوم بالعلوم على هاتفي الذكي!</string>
-    <string name="social_invite_content_body">أنا أستخدم %1$sالخاص بي للقيام بعمليات حسابية لصالح العلم. تسطيع القيام بذلك أيضا قم بتحميل التطبيق من %2$s</string>
+    <string name="social_invite_content_body">أنا أستخدم %1$sالخاص بي للقيام بعمليات حسابية لصالح العلم. تسطيع القيام
+        بذلك أيضا قم بتحميل التطبيق من %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

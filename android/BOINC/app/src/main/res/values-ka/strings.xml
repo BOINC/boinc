@@ -27,7 +27,9 @@
     <string name="attachproject_conflict_not_unique">ანგარიში არსებობს განსხვავებული პაროლით</string>
     <string name="attachproject_conflict_bad_password">პაროლი არასწორია</string>
     <string name="attachproject_conflict_unknown_user">ანგარიში არ არსებობს</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">ანგარიში არ არსებობს, ეწვიეთ პროექტის ვებ-გვერდს დასარეგისტრირებლად</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">ანგარიში არ არსებობს, ეწვიეთ პროექტის
+        ვებ-გვერდს დასარეგისტრირებლად
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">მიმდინარეობს მიბმა</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
     <string name="attachproject_hint_projectwebsite_science">გაიგოთ მეტი მეცნიერებაზე</string>
     <string name="attachproject_hint_projectwebsite_stats">ნახოთ ღვაწლის შეტანის სტატისტიკა</string>
     <string name="attachproject_hint_projectwebsite_community">დაუკავშირდეთ სხვა მოხალისეებს</string>
-    <string name="attachproject_hint_platforms_header">BOINC ასევე არის მისაწვდომი თქვენი კომპიუტერისთვის ან ლეპტოპისთვის, ეწვიეთ boinc.berkeley.edu მეტის გასაგებად.</string>
+    <string name="attachproject_hint_platforms_header">BOINC ასევე არის მისაწვდომი თქვენი კომპიუტერისთვის ან
+        ლეპტოპისთვის, ეწვიეთ boinc.berkeley.edu მეტის გასაგებად.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">მიმდინარეობს დაკავშირება პროექტის სერვერთან...</string>
     <string name="attachproject_login_image_description">პროექტის ლოგოტიპი.</string>
@@ -55,14 +59,18 @@
     <string name="attachproject_login_platform_supported">ამ პროექტს აქვს მოწყობილობის ტიპის მხარდაჭერა</string>
     <string name="attachproject_login_platform_not_supported">ამ პროექტს არ აქვს მოწობილობის მხარდაჭერა</string>
     <string name="attachproject_login_category_terms_of_use">შემდეგის გამოყენების პირობები</string>
-    <string name="attachproject_login_accept_terms_of_use">ამ პროექტში ანგარიშის შექმნით, თქვენ ეთანხმებით გამოყენების პირობებს, როგორც ნაჩვენებია ზემოთ.</string>
+    <string name="attachproject_login_accept_terms_of_use">ამ პროექტში ანგარიშის შექმნით, თქვენ ეთანხმებით გამოყენების
+        პირობებს, როგორც ნაჩვენებია ზემოთ.
+    </string>
     <string name="attachproject_login_category_login">შესვლა არსებული ანგარიშით</string>
     <string name="attachproject_login_header_id_email">ელ.ფოსტა:</string>
     <string name="attachproject_login_header_id_name">სახელი:</string>
     <string name="attachproject_login_header_pwd">პაროლი:</string>
     <string name="attachproject_login_category_creation">ახალი</string>
     <string name="attachproject_login_header_creation_enabled">დაარეგისტრირეთ ანგარიში მონაწილეობის მისაღებად:</string>
-    <string name="attachproject_login_header_creation_client_disabled">ეწვიეთ პროექტის ვებ-გვერდს ანგარიშის შესაქმენალდ:</string>
+    <string name="attachproject_login_header_creation_client_disabled">ეწვიეთ პროექტის ვებ-გვერდს ანგარიშის
+        შესაქმენალდ:
+    </string>
     <string name="attachproject_login_header_creation_disabled">ეს პროექტი ამჟამად არ იღებს ახალ ანგარიშებს.</string>
     <string name="attachproject_login_button_registration">დარეგისტრირება</string>
     <string name="attachproject_login_button_login">შესვლა</string>
@@ -79,7 +87,9 @@
     <string name="attachproject_registration_header_pwd_confirm">... თავიდან:</string>
     <string name="attachproject_registration_button">შექმნა</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">გამოიყენეთ BOINC ანგარიშის მმართველი მრავალი პროექტის დასამატებლად და სამართველად</string>
+    <string name="attachproject_acctmgr_list_desc">გამოიყენეთ BOINC ანგარიშის მმართველი მრავალი პროექტის დასამატებლად და
+        სამართველად
+    </string>
     <string name="attachproject_acctmgr_header">ანგარიშის მმართველის დამატება</string>
     <string name="attachproject_acctmgr_header_url">URL-ი</string>
     <string name="attachproject_acctmgr_header_name">მომხმარებელი:</string>
@@ -138,7 +148,8 @@
     <string name="status_idle">გასაკეთებელი არაფერია</string>
     <string name="status_idle_long">დავალებების ლოდინში...</string>
     <string name="status_computing_disabled">შეჩერებულია</string>
-    <string name="status_computing_disabled_long">გთხოვთ, დააჭიროთ \"დაკვრას\" ქსელის და გამოთვლის გასაგრძელებლად.</string>
+    <string name="status_computing_disabled_long">გთხოვთ, დააჭიროთ \"დაკვრას\" ქსელის და გამოთვლის გასაგრძელებლად.
+    </string>
     <string name="status_launching">მიმდინარეობს დაწყება...</string>
     <string name="status_noproject">აირჩიეთ პროექტი მონაწილეობის მისაღებად.</string>
     <string name="status_closing">მიმდინარეობს დახურვა...</string>
@@ -159,37 +170,57 @@
     <string name="prefs_show_advanced_header">დამატებითი პარამეტრების და კონტროლების ჩვენება...</string>
     <string name="prefs_suspend_when_screen_on">გამოთვლის შეჩერება, როდესაც ეკრანი ჩართული</string>
     <string name="prefs_stationary_device_mode_header">მოწყობილობის სტაციონარული რეჟიმი</string>
-    <string name="prefs_stationary_device_mode_description">გამოთვლის ნებართვა ძაბვის პარამეტრების მიუხედავად. ჩართეთ მხოლოდ მაშინ, თუ მოწყობილობას არ აქვს ბატარეა.</string>
+    <string name="prefs_stationary_device_mode_description">გამოთვლის ნებართვა ძაბვის პარამეტრების მიუხედავად. ჩართეთ
+        მხოლოდ მაშინ, თუ მოწყობილობას არ აქვს ბატარეა.
+    </string>
     <string name="prefs_power_source_header">ძაბვის წყაროები გამოთვლისთვის</string>
-    <string name="prefs_power_source_description">აირჩიეთ ძაბვის წყაროები, რომლების გამოყენების უფლება აქვს BOINC-ს გამოთვლებისთვის.</string>
+    <string name="prefs_power_source_description">აირჩიეთ ძაბვის წყაროები, რომლების გამოყენების უფლება აქვს BOINC-ს
+        გამოთვლებისთვის.
+    </string>
     <string name="prefs_power_source_ac">შტეფსელი</string>
     <string name="prefs_power_source_usb">USB კავშირი</string>
     <string name="prefs_power_source_wireless">უსადენო დამტენი</string>
     <string name="prefs_power_source_battery">ბატარეა</string>
     <string name="battery_charge_min_pct_header">მინ. ბატარეის დონე</string>
-    <string name="battery_charge_min_pct_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის მუხტის დონის ქვემოთ.</string>
+    <string name="battery_charge_min_pct_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის მუხტის დონის
+        ქვემოთ.
+    </string>
     <string name="battery_temperature_max_header">მაქს. ბატარეის ტემპერატურა</string>
-    <string name="battery_temperature_max_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის ტემპერატურის ზემოთ. არ არის რეკომენდებული ამ მნიშვნელობის შეცვლა..</string>
+    <string name="battery_temperature_max_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის ტემპერატურის ზემოთ.
+        არ არის რეკომენდებული ამ მნიშვნელობის შეცვლა..
+    </string>
     <string name="prefs_disk_max_pct_header">მაქს. გამოყენებული მეხსიერების ადგილი</string>
-    <string name="prefs_disk_max_pct_description">თქვენი მოწყობილობის მეხსიერების ადგილის რამდენი პროცენტის გამოყენების უფლება აქვს BOINC-ს?</string>
+    <string name="prefs_disk_max_pct_description">თქვენი მოწყობილობის მეხსიერების ადგილის რამდენი პროცენტის გამოყენების
+        უფლება აქვს BOINC-ს?
+    </string>
     <string name="prefs_disk_min_free_gb_header">მინ. თავისუფალი მეხსიერება</string>
-    <string name="prefs_disk_min_free_gb_description">თქვენი მოწყობილობის მეხსიერების რამდენი ადგილი უნდა დარჩეს ცარელად?</string>
+    <string name="prefs_disk_min_free_gb_description">თქვენი მოწყობილობის მეხსიერების რამდენი ადგილი უნდა დარჩეს
+        ცარელად?
+    </string>
     <string name="prefs_disk_access_interval_header">წვდომის ინტერვალი</string>
     <string name="prefs_disk_access_interval_description">აყენებს დისკზე წვდომის ინტერვალს</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">დღიური გზავნის შეზღუდვა</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">ზღუდავს დღიურ მონაცემთა გზავნილებს, რომელიც გამოწვეულია BOINC-ის მიერ</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">ზღუდავს დღიურ მონაცემთა გზავნილებს, რომელიც გამოწვეულია
+        BOINC-ის მიერ
+    </string>
     <string name="prefs_network_wifi_only_header">დავალებების გაგზავნა მხოლოდ WiFi-თ</string>
     <string name="prefs_autostart_header">ავტოგაშვება</string>
     <string name="prefs_show_notification_notices_header">შეტყობინების ჩვენება ახალ შეტყობინებებზე</string>
     <string name="prefs_show_notification_suspended_header">შეტყობინებების ჩვენება, როდესაც შეჩერებულია</string>
     <string name="prefs_cpu_number_cpus_header">გამოყენებული ცპ-ს ბირთვები</string>
-    <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების რაოდენობას</string>
+    <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების
+        რაოდენობას
+    </string>
     <string name="prefs_cpu_other_load_suspension_header">შეჩერება, როდესაც ცპ-ს გამოყენება აღემატება</string>
-    <string name="prefs_cpu_other_load_suspension_description">წყვეთს, თუ როდის შეაჩეროს გამოთვლები BOINC-მა სხვა აპლიკაციების ცპ-ს გამოყენების მიხედვით</string>
+    <string name="prefs_cpu_other_load_suspension_description">წყვეთს, თუ როდის შეაჩეროს გამოთვლები BOINC-მა სხვა
+        აპლიკაციების ცპ-ს გამოყენების მიხედვით
+    </string>
     <string name="prefs_cpu_time_max_header">ცპ-ს შეზღუდვა</string>
     <string name="prefs_cpu_time_max_description">ზღუდავს ცპ-ს დროს, რომელსაც იყენებს BOINC-ი გამოთვლებისთვის</string>
     <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
-    <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების უფლება აქვს BOINC-ს</string>
+    <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების
+        უფლება აქვს BOINC-ს
+    </string>
     <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
     <string name="prefs_gui_log_level_header">გმი-ს ჟურნალის დონე</string>
     <string name="prefs_gui_log_level_description">აყენებს გმი-ს ჟურნალის შეტყობინებების ინფორმატიულობას</string>
@@ -335,7 +366,9 @@
     <string name="about_version">ვერსია</string>
     <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
     <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
-    <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
+    <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი
+        კორპორაციას მითი მხარდაჭერისთვის.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">%2$,d ახალი შეტყობინება</item>
@@ -343,14 +376,20 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">მოხალისეთა გამოთვლების აპლიკაცია იქნა აღმოჩენილი</string>
-    <string name="nonexcl_dialog_text">სხვა მოხალისეთა გამოთვლების აპლიკაცია არის გაშვებული ამ მოწყობილებაზე. მხოლოდ ერთი ვერსია შეიძლება იყოს გაშვებული ერთდროულად.</string>
+    <string name="nonexcl_dialog_text">სხვა მოხალისეთა გამოთვლების აპლიკაცია არის გაშვებული ამ მოწყობილებაზე. მხოლოდ
+        ერთი ვერსია შეიძლება იყოს გაშვებული ერთდროულად.
+    </string>
     <string name="nonexcl_dialog_exit">გამოსვლა</string>
     <!--social integration-->
     <string name="social_invite_button">მეგობრების მოწვევა</string>
     <string name="social_invite_intent_title">როგორ გსურთ გაზიარება?</string>
     <string name="social_invite_content_title">მე ვმუშაობ მეცნიერებაზე ჩემს სმარტფონზე!</string>
-    <string name="social_invite_content_body">მე ვიყენებ ჩემს %1$s მეცნიერების გამოთვლებისთვის. თქვენც ასევე შეგიძლიათ! გადმოიწერეთ აპლიკაცია აქედან: %2$s</string>
+    <string name="social_invite_content_body">მე ვიყენებ ჩემს %1$s მეცნიერების გამოთვლებისთვის. თქვენც ასევე შეგიძლიათ!
+        გადმოიწერეთ აპლიკაცია აქედან: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

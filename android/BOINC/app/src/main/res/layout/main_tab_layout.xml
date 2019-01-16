@@ -17,28 +17,28 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tabsLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:background="@android:color/transparent">
+              android:id="@+id/tabsLayout"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:orientation="horizontal"
+              android:background="@android:color/transparent">
 
     <ImageView
-        android:id="@+id/tabsIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_marginRight="5dp"
-        android:contentDescription="@string/tab_desc" />
+            android:id="@+id/tabsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="5dp"
+            android:contentDescription="@string/tab_desc"/>
 
     <TextView
-        android:id="@+id/tabsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:background="@android:color/transparent"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:singleLine="true" />
+            android:id="@+id/tabsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:singleLine="true"/>
 </LinearLayout>

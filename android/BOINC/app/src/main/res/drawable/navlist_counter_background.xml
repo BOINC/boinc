@@ -17,13 +17,13 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+       android:shape="rectangle">
 
     <solid android:color="@color/dark_blue"></solid>
 
     <padding
-        android:right="3dp"
-        android:left="3dp"></padding>
+            android:right="3dp"
+            android:left="3dp"></padding>
 
     <corners android:radius="2dp"></corners>
 

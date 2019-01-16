@@ -146,7 +146,8 @@
     <string name="battery_charge_min_pct_header">최소 배터리 량</string>
     <string name="battery_charge_min_pct_description">아래 지정된 배터리 충전량이 되면 BOINC는 연산을 일시 정지합니다.</string>
     <string name="battery_temperature_max_header">최고 배터리 온도</string>
-    <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.</string>
+    <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.
+    </string>
     <string name="prefs_disk_max_pct_header">최대 사용할 저장소 공간</string>
     <string name="prefs_disk_max_pct_description">저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?</string>
     <string name="prefs_disk_min_free_gb_header">최소로 남겨 둘 용량</string>
@@ -195,11 +196,11 @@
     <string name="projects_control_remove_acctmgr">비활성화</string>
     <!--project confirm dialog-->
     <string name="projects_confirm_detach_title">프로젝트를 제거할까요?</string>
-    <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명: </string>
+    <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명:</string>
     <string name="projects_confirm_detach_message2">를 제거하시겠습니까?</string>
     <string name="projects_confirm_detach_confirm">Pašalinti</string>
     <string name="projects_confirm_reset_title">Perkrauti projektą</string>
-    <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까: </string>
+    <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까:</string>
     <string name="projects_confirm_reset_confirm">재설정</string>
     <string name="projects_confirm_remove_acctmgr_title">계정 관리자 비활성화</string>
     <string name="projects_confirm_remove_acctmgr_message">정말로 다음 항목 사용을 중지합니까</string>

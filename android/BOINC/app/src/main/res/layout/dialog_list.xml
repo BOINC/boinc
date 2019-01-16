@@ -17,39 +17,39 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:minWidth="250dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:background="@drawable/shape_light_blue_background" />
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:minWidth="250dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/shape_light_blue_background"/>
 
     <ListView
-        android:id="@+id/options"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/CustomListView" />
+            android:id="@+id/options"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/CustomListView"/>
 
     <Button
-        android:id="@+id/cancel"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:padding="5dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_margin="5dp"
-        android:background="@drawable/shape_button_blue"
-        android:textColor="@color/white_smoke"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/confirm_cancel"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5" />
+            android:id="@+id/cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:padding="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_button_blue"
+            android:textColor="@color/white_smoke"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/confirm_cancel"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"/>
 </LinearLayout>

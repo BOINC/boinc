@@ -20,9 +20,9 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="@color/dark_blue_gradient"
-                android:centerColor="@color/dark_blue"
-                android:endColor="@color/dark_blue_gradient" />
+                    android:startColor="@color/dark_blue_gradient"
+                    android:centerColor="@color/dark_blue"
+                    android:endColor="@color/dark_blue_gradient"/>
         </shape>
     </item>
 </layer-list>

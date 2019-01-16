@@ -17,6 +17,6 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/light_grey" />
+       android:shape="rectangle">
+    <solid android:color="@color/light_grey"/>
 </shape>

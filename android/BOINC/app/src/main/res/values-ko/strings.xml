@@ -42,7 +42,9 @@
     <string name="attachproject_hint_projectwebsite_science">과학에 대해 더 알아보기</string>
     <string name="attachproject_hint_projectwebsite_stats">공헌 통계 보기</string>
     <string name="attachproject_hint_projectwebsite_community">다른 기여자들과 만나보기</string>
-    <string name="attachproject_hint_platforms_header">또한 BOINC는 데스크톱이나 랩탑으로도 이용할 수 있습니다. 더 알아보려면 boinc.berkeley.edu에 방문하세요.</string>
+    <string name="attachproject_hint_platforms_header">또한 BOINC는 데스크톱이나 랩탑으로도 이용할 수 있습니다. 더 알아보려면 boinc.berkeley.edu에
+        방문하세요.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">프로젝트 서버 연결 중…</string>
     <string name="attachproject_login_image_description">프로젝트 로고</string>
@@ -159,7 +161,8 @@
     <string name="prefs_show_advanced_header">고급 환경 설정과 제어판을 보여주기…</string>
     <string name="prefs_suspend_when_screen_on">화면이 켜지면 연산 중지</string>
     <string name="prefs_stationary_device_mode_header">고정 장치 모드</string>
-    <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용. 만약 장치에 배터리가 장착되지 않았을 때에만 활성화하세요.</string>
+    <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용. 만약 장치에 배터리가 장착되지 않았을 때에만 활성화하세요.
+    </string>
     <string name="prefs_power_source_header">연산용 전원 공급 장치</string>
     <string name="prefs_power_source_description">BOINC가 연산을 허용할 전원 공급 장치를 선택하세요.</string>
     <string name="prefs_power_source_ac">전기 콘센트</string>
@@ -169,7 +172,8 @@
     <string name="battery_charge_min_pct_header">최소 배터리 량</string>
     <string name="battery_charge_min_pct_description">아래 지정된 배터리 충전량이 되면 BOINC는 연산을 일시 정지합니다.</string>
     <string name="battery_temperature_max_header">최고 배터리 온도</string>
-    <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.</string>
+    <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.
+    </string>
     <string name="prefs_disk_max_pct_header">최대 사용할 저장소 공간</string>
     <string name="prefs_disk_max_pct_description">저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?</string>
     <string name="prefs_disk_min_free_gb_header">최소로 남겨 둘 용량</string>
@@ -225,11 +229,11 @@
     <string name="projects_control_remove_acctmgr">비활성</string>
     <!--project confirm dialog-->
     <string name="projects_confirm_detach_title">프로젝트를 제거할까요?</string>
-    <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명: </string>
+    <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명:</string>
     <string name="projects_confirm_detach_message2">를 제거하시겠습니까?</string>
     <string name="projects_confirm_detach_confirm">제거</string>
     <string name="projects_confirm_reset_title">프로젝트 재설정</string>
-    <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까: </string>
+    <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까:</string>
     <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">재설정</string>
     <string name="projects_confirm_remove_acctmgr_title">계정 관리자 비활성화</string>
@@ -350,6 +354,8 @@
     <string name="social_invite_content_title">내 스마트폰으로만 작업할래요!</string>
     <string name="social_invite_content_body">%1$s도 연산에 참여합니다. 여러분도 할 수 있습니다! 앱 다운로드: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

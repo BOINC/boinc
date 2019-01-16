@@ -17,11 +17,11 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/run_mode"
-        android:enabled="true"
-        android:visible="true"
-        android:title="@string/menu_run_mode_disable"
-        yourapp:showAsAction="ifRoom|withText"></item>
+            android:id="@+id/run_mode"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/menu_run_mode_disable"
+            yourapp:showAsAction="ifRoom|withText"></item>
 </menu>

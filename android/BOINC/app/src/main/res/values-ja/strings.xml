@@ -8,21 +8,21 @@
     <string name="generic_button_finish">完了</string>
     <!--attach project-->
     <!--selection list-->
-    <string name="attachproject_list_desc">あなたが貢献したい科学プロジェクトを選択してください: </string>
+    <string name="attachproject_list_desc">あなたが貢献したい科学プロジェクトを選択してください:</string>
     <string name="attachproject_list_header">プロジェクトを選択してください</string>
     <string name="attachproject_list_manual_button">URLによってプロジェクトを追加</string>
-    <string name="attachproject_list_manual_dialog_title">プロジェクトのURLを入力: </string>
+    <string name="attachproject_list_manual_dialog_title">プロジェクトのURLを入力:</string>
     <string name="attachproject_list_manual_dialog_button">プロジェクトを追加</string>
     <string name="attachproject_list_manual_no_url">プロジェクトのURLを入力してください</string>
     <string name="attachproject_list_acctmgr_button">アカウント・マネージャを追加</string>
     <string name="attachproject_list_no_internet">インターネット接続なし</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">アカウント情報を入力</string>
-    <string name="attachproject_credential_input_desc">選択したプロジェクトのアカウント情報を入力: </string>
+    <string name="attachproject_credential_input_desc">選択したプロジェクトのアカウント情報を入力:</string>
     <string name="attachproject_credential_input_show_pwd">パスワードを表示</string>
     <string name="attachproject_individual_credential_input">プロジェクトを個別に追加する</string>
     <!--conflicts-->
-    <string name="attachproject_conflicts_desc">科学プロジェクトを追加中に問題が発生しました: </string>
+    <string name="attachproject_conflicts_desc">科学プロジェクトを追加中に問題が発生しました:</string>
     <string name="attachproject_conflict_undefined">接続できませんでした</string>
     <string name="attachproject_conflict_not_unique">異なるパスワードを持つアカウントが存在します</string>
     <string name="attachproject_conflict_bad_password">パスワードが間違っています</string>
@@ -34,34 +34,36 @@
     <!--hints-->
     <string name="attachproject_hints_header">ヒント</string>
     <!--e.g. Hint 1/2-->
-    <string name="attachproject_hint_contribtion_header">貢献する方法: </string>
+    <string name="attachproject_hint_contribtion_header">貢献する方法:</string>
     <string name="attachproject_hint_contribtion_wifi">1. WiFiに接続します</string>
     <string name="attachproject_hint_contribtion_charger">2. 充電器につなぎます</string>
     <string name="attachproject_hint_contribtion_screen">3. 画面の電源を切ります</string>
-    <string name="attachproject_hint_projectwebsite_header">プロジェクトのウェブサイトを訪問 : </string>
+    <string name="attachproject_hint_projectwebsite_header">プロジェクトのウェブサイトを訪問 :</string>
     <string name="attachproject_hint_projectwebsite_science">この科学に関する詳細情報</string>
     <string name="attachproject_hint_projectwebsite_stats">貢献の統計を見る</string>
     <string name="attachproject_hint_projectwebsite_community">他の参加者と連絡を取る</string>
-    <string name="attachproject_hint_platforms_header">BOINCはあなたのコンピュータまたはノートパソコンでも利用可能です。詳しくは boinc.berkeley.edu を訪問してください。</string>
+    <string name="attachproject_hint_platforms_header">BOINCはあなたのコンピュータまたはノートパソコンでも利用可能です。詳しくは boinc.berkeley.edu
+        を訪問してください。
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">プロジェクトのサーバに問い合わせ中…</string>
     <string name="attachproject_login_image_description">プロジェクトのロゴ。</string>
-    <string name="attachproject_login_header_general_area">一般的領域: </string>
-    <string name="attachproject_login_header_specific_area">具体的領域: </string>
-    <string name="attachproject_login_header_description">説明: </string>
-    <string name="attachproject_login_header_home">ホーム: </string>
-    <string name="attachproject_login_header_url">ウェブサイト: </string>
-    <string name="attachproject_login_header_platform">Android: </string>
+    <string name="attachproject_login_header_general_area">一般的領域:</string>
+    <string name="attachproject_login_header_specific_area">具体的領域:</string>
+    <string name="attachproject_login_header_description">説明:</string>
+    <string name="attachproject_login_header_home">ホーム:</string>
+    <string name="attachproject_login_header_url">ウェブサイト:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
     <string name="attachproject_login_platform_supported">デバイスのタイプはこのプロジェクトでサポートされています</string>
     <string name="attachproject_login_platform_not_supported">デバイスはこのプロジェクトでサポートされていません</string>
     <string name="attachproject_login_category_terms_of_use">下記のもののための利用規約</string>
     <string name="attachproject_login_accept_terms_of_use">このプロジェクトのアカウントを作成することで、上記のような利用規約に同意します。</string>
     <string name="attachproject_login_category_login">既存のアカウントでサインイン</string>
-    <string name="attachproject_login_header_id_email">Eメール: </string>
-    <string name="attachproject_login_header_id_name">名前: </string>
-    <string name="attachproject_login_header_pwd">パスワード: </string>
+    <string name="attachproject_login_header_id_email">Eメール:</string>
+    <string name="attachproject_login_header_id_name">名前:</string>
+    <string name="attachproject_login_header_pwd">パスワード:</string>
     <string name="attachproject_login_category_creation">目新しい</string>
-    <string name="attachproject_login_header_creation_enabled">参加するためにアカウントを登録: </string>
+    <string name="attachproject_login_header_creation_enabled">参加するためにアカウントを登録:</string>
     <string name="attachproject_login_header_creation_client_disabled">アカウント作成のためプロジェクトのウェブサイトを訪問</string>
     <string name="attachproject_login_header_creation_disabled">現在このプロジェクトは新規アカウントの登録を受け付けていません。</string>
     <string name="attachproject_login_button_registration">登録</string>
@@ -71,20 +73,20 @@
     <string name="attachproject_login_attached">追加済み</string>
     <!--project registration-->
     <string name="attachproject_registration_header">下記へのアカウント登録</string>
-    <string name="attachproject_registration_header_url">プロジェクト: </string>
-    <string name="attachproject_registration_header_email">Eメール: </string>
-    <string name="attachproject_registration_header_username">名前: </string>
-    <string name="attachproject_registration_header_teamname">チーム: </string>
-    <string name="attachproject_registration_header_pwd">パスワード: </string>
-    <string name="attachproject_registration_header_pwd_confirm">…もう一度入力: </string>
+    <string name="attachproject_registration_header_url">プロジェクト:</string>
+    <string name="attachproject_registration_header_email">Eメール:</string>
+    <string name="attachproject_registration_header_username">名前:</string>
+    <string name="attachproject_registration_header_teamname">チーム:</string>
+    <string name="attachproject_registration_header_pwd">パスワード:</string>
+    <string name="attachproject_registration_header_pwd_confirm">…もう一度入力:</string>
     <string name="attachproject_registration_button">作成</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">複数のプロジェクトを追加・管理するために BOINC アカウント・マネージャを使用</string>
     <string name="attachproject_acctmgr_header">アカウント・マネージャを追加</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
-    <string name="attachproject_acctmgr_header_name">ユーザー名: </string>
-    <string name="attachproject_acctmgr_header_pwd">パスワード: </string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">…もう一度入力: </string>
+    <string name="attachproject_acctmgr_header_name">ユーザー名:</string>
+    <string name="attachproject_acctmgr_header_pwd">パスワード:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">…もう一度入力:</string>
     <string name="attachproject_acctmgr_button">追加</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">参加者が見つかりません</string>
@@ -147,8 +149,8 @@
     <!--preferences tab strings-->
     <string name="prefs_loading">プレファレンスを読み込み中…</string>
     <string name="prefs_submit_button">保存</string>
-    <string name="prefs_dialog_title">新しい値を入力: </string>
-    <string name="prefs_dialog_title_selection">選択 : </string>
+    <string name="prefs_dialog_title">新しい値を入力:</string>
+    <string name="prefs_dialog_title_selection">選択 :</string>
     <string name="prefs_category_general">一般</string>
     <string name="prefs_category_network">ネットワーク</string>
     <string name="prefs_category_power">電源</string>
@@ -159,7 +161,8 @@
     <string name="prefs_show_advanced_header">詳細なプレファレンスとコントロールを表示…</string>
     <string name="prefs_suspend_when_screen_on">画面の電源が入っている時は計算を一時停止</string>
     <string name="prefs_stationary_device_mode_header">固定デバイスモード</string>
-    <string name="prefs_stationary_device_mode_description">電源に関するプレファレンスに関係なく計算を許可します。端末にバッテリーが搭載されていない場合のみ有効です。</string>
+    <string name="prefs_stationary_device_mode_description">電源に関するプレファレンスに関係なく計算を許可します。端末にバッテリーが搭載されていない場合のみ有効です。
+    </string>
     <string name="prefs_power_source_header">計算のための電源供給源</string>
     <string name="prefs_power_source_description">BOINC が計算を許可される電源供給源を選択してください。</string>
     <string name="prefs_power_source_ac">コンセント</string>
@@ -199,7 +202,7 @@
     <string name="projects_loading">プロジェクトを読み込み中…</string>
     <string name="projects_add">プロジェクトを追加</string>
     <string name="projects_icon">プロジェクトのアイコン</string>
-    <string name="projects_credits">功績値: </string>
+    <string name="projects_credits">功績値:</string>
     <string name="projects_credits_host_and_user">%1$,d (このデバイス上) %2$,d (合計)</string>
     <!--project status strings-->
     <string name="projects_status_suspendedviagui">参加者の指示により一時停止中</string>
@@ -209,9 +212,9 @@
     <string name="projects_status_schedrpcpending">スケジューラへの要求を保留</string>
     <string name="projects_status_schedrpcinprogress">スケジューラへ要求中</string>
     <string name="projects_status_trickleuppending">トリクルアップメッセージの送信保留あり</string>
-    <string name="projects_status_backoff">通信は次の時間内に予定: </string>
+    <string name="projects_status_backoff">通信は次の時間内に予定:</string>
     <!--project controls-->
-    <string name="projects_control_dialog_title">プロジェクトに関する操作: </string>
+    <string name="projects_control_dialog_title">プロジェクトに関する操作:</string>
     <string name="projects_control_visit_website">ウェブサイトを訪問</string>
     <string name="projects_control_update">更新</string>
     <string name="projects_control_remove">削除</string>
@@ -220,7 +223,7 @@
     <string name="projects_control_nonewtasks">新規タスクを取得しない</string>
     <string name="projects_control_allownewtasks">新規タスクを許可</string>
     <string name="projects_control_reset">リセット</string>
-    <string name="projects_control_dialog_title_acctmgr">アカウント・マネージャのコマンド : </string>
+    <string name="projects_control_dialog_title_acctmgr">アカウント・マネージャのコマンド :</string>
     <string name="projects_control_sync_acctmgr">同期</string>
     <string name="projects_control_remove_acctmgr">無効</string>
     <!--project confirm dialog-->
@@ -237,10 +240,10 @@
     <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">無効</string>
     <!--tasks tab strings-->
-    <string name="tasks_header_name">タスク名: </string>
-    <string name="tasks_header_elapsed_time">経過時間: </string>
+    <string name="tasks_header_name">タスク名:</string>
+    <string name="tasks_header_elapsed_time">経過時間:</string>
     <string name="tasks_header_project_paused">(一時停止中)</string>
-    <string name="tasks_header_deadline">報告期限 : </string>
+    <string name="tasks_header_deadline">報告期限 :</string>
     <string name="tasks_result_new">新規</string>
     <string name="tasks_result_files_downloading">ダウンロード待機中</string>
     <string name="tasks_result_files_downloaded">ダウンロード完了</string>
@@ -259,7 +262,7 @@
     <string name="tasks_custom_ready_to_report">報告準備完了</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">タスクを中止しますか?</string>
-    <string name="confirm_abort_task_message">タスクを中止: </string>
+    <string name="confirm_abort_task_message">タスクを中止:</string>
     <string name="confirm_abort_task_confirm">中止</string>
     <string name="confirm_cancel">キャンセル</string>
     <string name="confirm_image_desc">確認ダイアログ</string>
@@ -272,11 +275,11 @@
     <string name="trans_suspended">一時停止中</string>
     <string name="trans_active">アクティブ</string>
     <string name="trans_pending">保留中</string>
-    <string name="trans_projectbackoff"> プロジェクトとの通信待機 </string>
-    <string name="trans_header_name">ファイル名: </string>
+    <string name="trans_projectbackoff">プロジェクトとの通信待機</string>
+    <string name="trans_header_name">ファイル名:</string>
     <string name="trans_control_retry">転送を再試行</string>
     <string name="confirm_abort_trans_title">転送を中止しますか?</string>
-    <string name="confirm_abort_trans_message">ファイルを中止: </string>
+    <string name="confirm_abort_trans_message">ファイルを中止:</string>
     <string name="confirm_abort_trans_confirm">中止</string>
     <!--notices tab strings-->
     <string name="notices_loading">お知らせを読み込み中…</string>
@@ -285,7 +288,7 @@
     <string name="eventlog_client_header">クライアントのメッセージ</string>
     <string name="eventlog_gui_header">GUIメッセージ</string>
     <string name="eventlog_copy_toast">ログをクリップボードにコピーしました。</string>
-    <string name="eventlog_email_subject">Android上のBOINCに関するイベント・ログ : </string>
+    <string name="eventlog_email_subject">Android上のBOINCに関するイベント・ログ :</string>
     <!--suspend reasons-->
     <string name="suspend_unknown">計算処理は一時停止中。</string>
     <string name="suspend_batteries">計算を続行するにはデバイスを充電器に接続してください。</string>
@@ -335,7 +338,9 @@
     <string name="about_version">バージョン</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
-    <string name="about_credits">The Max Planck Institute for Gravitational Physics, IBM Corporation, HTC Corporation と彼らの支援に感謝いたします。</string>
+    <string name="about_credits">The Max Planck Institute for Gravitational Physics, IBM Corporation, HTC Corporation
+        と彼らの支援に感謝いたします。
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="other">%2$,d 新しいお知らせ</item>
@@ -350,6 +355,8 @@
     <string name="social_invite_content_title">私はスマートフォンで科学研究を行っています!</string>
     <string name="social_invite_content_body">私は自分の %1$s を科学のための計算に使っています。あなたも出来ますよ!ここからアプリをダウンロードしてください: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.co.jp/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.co.jp/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

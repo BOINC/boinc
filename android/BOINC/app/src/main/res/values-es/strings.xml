@@ -18,7 +18,9 @@
     <string name="attachproject_list_no_internet">Sin conexión a Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Introduzca la información de la cuenta</string>
-    <string name="attachproject_credential_input_desc">Introduzca la información de la cuenta para los proyectos seleccionados</string>
+    <string name="attachproject_credential_input_desc">Introduzca la información de la cuenta para los proyectos
+        seleccionados
+    </string>
     <string name="attachproject_credential_input_show_pwd">Mostrar contraseña</string>
     <string name="attachproject_individual_credential_input">Adjuntar proyectos individualmente</string>
     <!--conflicts-->
@@ -27,7 +29,9 @@
     <string name="attachproject_conflict_not_unique">La cuenta existe con otra contraseña</string>
     <string name="attachproject_conflict_bad_password">Contraseña incorrecta</string>
     <string name="attachproject_conflict_unknown_user">La cuenta no existe</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">La cuenta no existe, visita la web del proyecto para registrarte</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">La cuenta no existe, visita la web del proyecto
+        para registrarte
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Adjuntando</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +46,9 @@
     <string name="attachproject_hint_projectwebsite_science">Aprende mas sobre ciencia</string>
     <string name="attachproject_hint_projectwebsite_stats">Ver las estadísticas de contribución</string>
     <string name="attachproject_hint_projectwebsite_community">Conecta con otros voluntarios</string>
-    <string name="attachproject_hint_platforms_header">BOINC también esta disponible para tu PC o portatil, visita boinc.berkeley.edu para saber más.</string>
+    <string name="attachproject_hint_platforms_header">BOINC también esta disponible para tu PC o portatil, visita
+        boinc.berkeley.edu para saber más.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Contactando con el servidor del proyecto...</string>
     <string name="attachproject_login_image_description">Logo de proyecto.</string>
@@ -53,17 +59,23 @@
     <string name="attachproject_login_header_url">Web:</string>
     <string name="attachproject_login_header_platform">Android:</string>
     <string name="attachproject_login_platform_supported">Tu dispositivo es soportado por este proyecto</string>
-    <string name="attachproject_login_platform_not_supported">Tu dispositivo no está soportado por este proyecto</string>
+    <string name="attachproject_login_platform_not_supported">Tu dispositivo no está soportado por este proyecto
+    </string>
     <string name="attachproject_login_category_terms_of_use">Terminos de uso de</string>
-    <string name="attachproject_login_accept_terms_of_use">Creando una cuenta en este proyecto, aceptas los términos mostrados arriba.</string>
+    <string name="attachproject_login_accept_terms_of_use">Creando una cuenta en este proyecto, aceptas los términos
+        mostrados arriba.
+    </string>
     <string name="attachproject_login_category_login">Inicia sesión con una cuenta existente</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Nombre:</string>
     <string name="attachproject_login_header_pwd">Contraseña:</string>
     <string name="attachproject_login_category_creation">Nuevo a</string>
     <string name="attachproject_login_header_creation_enabled">Registra una cuenta para participar:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Visita la web del proyecto para crar una cuenta:</string>
-    <string name="attachproject_login_header_creation_disabled">Este proyecto no acepta actualmente nuevas cuentas.</string>
+    <string name="attachproject_login_header_creation_client_disabled">Visita la web del proyecto para crar una
+        cuenta:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">Este proyecto no acepta actualmente nuevas cuentas.
+    </string>
     <string name="attachproject_login_button_registration">Registrarse:</string>
     <string name="attachproject_login_button_login">Iniciar sesión</string>
     <string name="attachproject_login_button_forgotpw">Olvidó su contraseña</string>
@@ -79,7 +91,9 @@
     <string name="attachproject_registration_header_pwd_confirm">... Reescribe:</string>
     <string name="attachproject_registration_button">Crear</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Usa el administrador de cuentas de BOINC para añadir y manejar múltiples proyectos</string>
+    <string name="attachproject_acctmgr_list_desc">Usa el administrador de cuentas de BOINC para añadir y manejar
+        múltiples proyectos
+    </string>
     <string name="attachproject_acctmgr_header">Añadir administrador de cuentas</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Usuario:</string>
@@ -102,7 +116,8 @@
     <string name="attachproject_error_project_down">El proyecto está offline</string>
     <string name="attachproject_error_email_bad_syntax">eMail rechazado</string>
     <string name="attachproject_error_bad_pwd">Contraseña rechazada</string>
-    <string name="attachproject_error_creation_disabled">La creación de cuentas está deshabilitada para este proyecto</string>
+    <string name="attachproject_error_creation_disabled">La creación de cuentas está deshabilitada para este proyecto
+    </string>
     <string name="attachproject_error_invalid_url">URL inválida</string>
     <!--working activity-->
     <string name="attachproject_working_back_button">Atrás</string>
@@ -159,7 +174,9 @@
     <string name="prefs_show_advanced_header">Mostrar opciones avanzadas...</string>
     <string name="prefs_suspend_when_screen_on">Pausar la computación cuando la pantalla esté encendida</string>
     <string name="prefs_stationary_device_mode_header">Modo de dispositivo estacionario</string>
-    <string name="prefs_stationary_device_mode_description">Permite el cómputo independientemente de las preferencias de Energía. Solo habilitar si el dispositivo no utiliza una batería.</string>
+    <string name="prefs_stationary_device_mode_description">Permite el cómputo independientemente de las preferencias de
+        Energía. Solo habilitar si el dispositivo no utiliza una batería.
+    </string>
     <string name="prefs_power_source_header">Fuentes para la computación</string>
     <string name="prefs_power_source_description">Selecciona las fuentes que BOINC usa para la computación.</string>
     <string name="prefs_power_source_ac">Enchufe</string>
@@ -167,9 +184,13 @@
     <string name="prefs_power_source_wireless">Cargador inalámbrico</string>
     <string name="prefs_power_source_battery">Batería</string>
     <string name="battery_charge_min_pct_header">Batería mínima</string>
-    <string name="battery_charge_min_pct_description">BOINC suspende la computación por debajo del nivel de batería escogido.</string>
+    <string name="battery_charge_min_pct_description">BOINC suspende la computación por debajo del nivel de batería
+        escogido.
+    </string>
     <string name="battery_temperature_max_header">Temperatura máx. de la batería</string>
-    <string name="battery_temperature_max_description">BOINC suspende la computación por encima de una temperatura de batería definida. No está recomendado cambiar este valor</string>
+    <string name="battery_temperature_max_description">BOINC suspende la computación por encima de una temperatura de
+        batería definida. No está recomendado cambiar este valor
+    </string>
     <string name="prefs_disk_max_pct_header">Espacio máximo usado</string>
     <string name="prefs_disk_max_pct_description">¿Cuánto de su almacenamiento del teléfono puede usar BOINC?</string>
     <string name="prefs_disk_min_free_gb_header">Almacenamiento libre min.</string>
@@ -185,14 +206,18 @@
     <string name="prefs_cpu_number_cpus_header">Núcleos CPU usados</string>
     <string name="prefs_cpu_number_cpus_description">Limita la cantidad de núcleos de CPU que BOINC usará.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pausar cuando el uso de CPU este por encima de</string>
-    <string name="prefs_cpu_other_load_suspension_description">Determina cuando BOINC es pausado por el uso de CPU por otras aplicaciones.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Determina cuando BOINC es pausado por el uso de CPU por
+        otras aplicaciones.
+    </string>
     <string name="prefs_cpu_time_max_header">Límite de CPU</string>
     <string name="prefs_cpu_time_max_description">Limita la CPU que BOINC usa para la computación.</string>
     <string name="prefs_memory_max_idle_header">Límite de RAM</string>
     <string name="prefs_memory_max_idle_description">Limita la cantidad de RAM que puede usar.</string>
     <string name="prefs_client_log_flags_header">Banderas de registro del cliente de BOINC</string>
     <string name="prefs_gui_log_level_header">Nivel de log de la GUI</string>
-    <string name="prefs_gui_log_level_description">Especifica el detalle de los mensajes de log de la interfaz gráfica.</string>
+    <string name="prefs_gui_log_level_description">Especifica el detalle de los mensajes de log de la interfaz
+        gráfica.
+    </string>
     <string name="prefs_unit_celsius">ºC</string>
     <string name="prefs_unit_seconds">seg</string>
     <!--projects tab strings-->
@@ -267,7 +292,7 @@
     <string name="trans_loading">Leyendo transferencias...</string>
     <string name="trans_upload">Enviar</string>
     <string name="trans_download">Descargar</string>
-    <string name="trans_retryin">reintentar en </string>
+    <string name="trans_retryin">reintentar en</string>
     <string name="trans_failed">falló</string>
     <string name="trans_suspended">suspendido</string>
     <string name="trans_active">activo</string>
@@ -307,7 +332,7 @@
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">actualmente</string>
     <string name="suspend_battery_overheating">Esperando a que la batería se enfríe</string>
-    <string name="suspend_user_req">Reanudando la computación... </string>
+    <string name="suspend_user_req">Reanudando la computación...</string>
     <string name="suspend_network_user_req">manualmente.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">Pedido por el usuario</string>
@@ -335,7 +360,9 @@
     <string name="about_version">Versión</string>
     <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
     <string name="about_copyright_reserved">Todos los derechos reservados.</string>
-    <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC Corporation por su apoyo.</string>
+    <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC
+        Corporation por su apoyo.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Nuevo aviso de %1$s</item>
@@ -343,14 +370,21 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Aplicación de computación voluntaria detectada</string>
-    <string name="nonexcl_dialog_text">Otra aplicación de otro voluntario está ejecutándose en este dispositivo. Sólo se puede ejecutar una versión a la vez.</string>
+    <string name="nonexcl_dialog_text">Otra aplicación de otro voluntario está ejecutándose en este dispositivo. Sólo se
+        puede ejecutar una versión a la vez.
+    </string>
     <string name="nonexcl_dialog_exit">Salir</string>
     <!--social integration-->
     <string name="social_invite_button">Invitar amigos</string>
     <string name="social_invite_intent_title">¿Cómo quieres compartirlo?</string>
     <string name="social_invite_content_title">¡Estoy haciendo ciencia con mi smartphone!</string>
-    <string name="social_invite_content_body">Estoy usando mi %1$s para hacer computación por la ciencia. ¡Tú también puedes! Descarga la app desde: %2$s</string>
+    <string name="social_invite_content_body">Estoy usando mi %1$s para hacer computación por la ciencia. ¡Tú también
+        puedes! Descarga la app desde: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">https://www.amazon.es/Space-Sciences-Laboratory-U-C-Berkeley/dp/B00DCCGLAG/ref=sr_1_1?ie=UTF8&amp;qid=1466961138&amp;sr=8-1</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">
+        https://www.amazon.es/Space-Sciences-Laboratory-U-C-Berkeley/dp/B00DCCGLAG/ref=sr_1_1?ie=UTF8&amp;qid=1466961138&amp;sr=8-1
+    </string>
 </resources>

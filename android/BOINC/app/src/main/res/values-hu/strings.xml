@@ -8,7 +8,9 @@
     <string name="generic_button_finish">Befejezés</string>
     <!--attach project-->
     <!--selection list-->
-    <string name="attachproject_list_desc">Válaszd ki azokat a tudományos projekteket, amelyekhez szeretnél hozzájárulni:</string>
+    <string name="attachproject_list_desc">Válaszd ki azokat a tudományos projekteket, amelyekhez szeretnél
+        hozzájárulni:
+    </string>
     <string name="attachproject_list_header">Válassz projektet</string>
     <string name="attachproject_list_manual_button">Projekt hozzáadása URL szerint</string>
     <string name="attachproject_list_manual_dialog_title">Add meg a projekt URL-jét:</string>
@@ -24,10 +26,12 @@
     <!--conflicts-->
     <string name="attachproject_conflicts_desc">Problémák voltak a tudományos projektek hozzáadásával:</string>
     <string name="attachproject_conflict_undefined">Nem sikerült csatlakozni</string>
-    <string name="attachproject_conflict_not_unique">A fiók létezik, eltérő jelszóval </string>
+    <string name="attachproject_conflict_not_unique">A fiók létezik, eltérő jelszóval</string>
     <string name="attachproject_conflict_bad_password">Helytelen jelszó</string>
     <string name="attachproject_conflict_unknown_user">A fiók nem létezik</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">A fiók nem létezik, nézd meg a projekt weboldalát a regisztráláshoz</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">A fiók nem létezik, nézd meg a projekt
+        weboldalát a regisztráláshoz
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Csatolás</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +46,9 @@
     <string name="attachproject_hint_projectwebsite_science">Tudj meg többet a tudományról</string>
     <string name="attachproject_hint_projectwebsite_stats">Közreműködők statisztikája</string>
     <string name="attachproject_hint_projectwebsite_community">Üzenet más önkénteseknek</string>
-    <string name="attachproject_hint_platforms_header">A BOINC asztali számítógépre és laptopra is elérhető, lásd itt: boinc.berkeley.edu</string>
+    <string name="attachproject_hint_platforms_header">A BOINC asztali számítógépre és laptopra is elérhető, lásd itt:
+        boinc.berkeley.edu
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Csatlakozás a projekt szerverhez...</string>
     <string name="attachproject_login_image_description">Projekt logó.</string>
@@ -55,15 +61,21 @@
     <string name="attachproject_login_platform_supported">Ez a projekt támogatja ezt az eszközt</string>
     <string name="attachproject_login_platform_not_supported">Ez a projekt nem támogatja ezt az eszközt</string>
     <string name="attachproject_login_category_terms_of_use">Felhasználási feltételek ehhez</string>
-    <string name="attachproject_login_accept_terms_of_use">Fiók létrehozásával elfogadod a projekt felhasználási feltételeit, ahogy az fentebb írva van.</string>
+    <string name="attachproject_login_accept_terms_of_use">Fiók létrehozásával elfogadod a projekt felhasználási
+        feltételeit, ahogy az fentebb írva van.
+    </string>
     <string name="attachproject_login_category_login">Bejelentkezés létező fiókkal</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Név:</string>
     <string name="attachproject_login_header_pwd">Jelszó:</string>
     <string name="attachproject_login_category_creation">Új:</string>
-    <string name="attachproject_login_header_creation_enabled">Hozz létre egy felhasználói fiókot a részvételhez:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Nézd meg a projekt weboldalát a regisztrációhoz:</string>
-    <string name="attachproject_login_header_creation_disabled">Ebben a projektben jelenleg nem készíthetők új fiókok.</string>
+    <string name="attachproject_login_header_creation_enabled">Hozz létre egy felhasználói fiókot a részvételhez:
+    </string>
+    <string name="attachproject_login_header_creation_client_disabled">Nézd meg a projekt weboldalát a
+        regisztrációhoz:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">Ebben a projektben jelenleg nem készíthetők új fiókok.
+    </string>
     <string name="attachproject_login_button_registration">Regisztráció</string>
     <string name="attachproject_login_button_login">Bejelentkezés</string>
     <string name="attachproject_login_button_forgotpw">Elfelejtett jelszó</string>
@@ -79,7 +91,9 @@
     <string name="attachproject_registration_header_pwd_confirm">... Írd be ismét:</string>
     <string name="attachproject_registration_button">Létrehoz</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Használd a BOINC fiókkezelőt új projekt hozzáadásához vagy a meglévő projektek kezeléséhez</string>
+    <string name="attachproject_acctmgr_list_desc">Használd a BOINC fiókkezelőt új projekt hozzáadásához vagy a meglévő
+        projektek kezeléséhez
+    </string>
     <string name="attachproject_acctmgr_header">Fiókkezelő hozzáadása</string>
     <string name="attachproject_acctmgr_header_url">Webcím</string>
     <string name="attachproject_acctmgr_header_name">Felhasználó:</string>
@@ -138,7 +152,8 @@
     <string name="status_idle">Nincs tennivaló</string>
     <string name="status_idle_long">Várakozás feladatokra...</string>
     <string name="status_computing_disabled">Felfüggesztve</string>
-    <string name="status_computing_disabled_long">A kommunikáció és a számítások folytatásához nyomd meg a lejátszást.</string>
+    <string name="status_computing_disabled_long">A kommunikáció és a számítások folytatásához nyomd meg a lejátszást.
+    </string>
     <string name="status_launching">Indulás...</string>
     <string name="status_noproject">Válassz egy projektet, amiben részt akarsz venni.</string>
     <string name="status_closing">Bezárás...</string>
@@ -159,33 +174,45 @@
     <string name="prefs_show_advanced_header">Haladó beállítások és vezérlőelemek mutatása...</string>
     <string name="prefs_suspend_when_screen_on">Számítás szüneteltetése, ha a képernyő be van kapcsolva</string>
     <string name="prefs_stationary_device_mode_header">Állandó készülék mód</string>
-    <string name="prefs_stationary_device_mode_description">Az energiabeállítástól függetlenül lehetővé teszi a számítást. Csak akkor engedélyezd, ha a készülék nem akkuról működik.</string>
+    <string name="prefs_stationary_device_mode_description">Az energiabeállítástól függetlenül lehetővé teszi a
+        számítást. Csak akkor engedélyezd, ha a készülék nem akkuról működik.
+    </string>
     <string name="prefs_power_source_header">A számításhoz használt energiaforrások</string>
-    <string name="prefs_power_source_description">Válaszd ki azokat az energiaforrásokat, amiknél a BOINC-ot engedélyezed.</string>
+    <string name="prefs_power_source_description">Válaszd ki azokat az energiaforrásokat, amiknél a BOINC-ot
+        engedélyezed.
+    </string>
     <string name="prefs_power_source_ac">Fali csatlakozó</string>
     <string name="prefs_power_source_usb">USB kapcsolat</string>
     <string name="prefs_power_source_wireless">Vezeték nélküli töltő</string>
     <string name="prefs_power_source_battery">Akku</string>
     <string name="battery_charge_min_pct_header">Min. töltöttségi szint</string>
-    <string name="battery_charge_min_pct_description">A BOINC kikapcsol, ha az akku töltöttsége egy bizonyos szint alá esik.</string>
+    <string name="battery_charge_min_pct_description">A BOINC kikapcsol, ha az akku töltöttsége egy bizonyos szint alá
+        esik.
+    </string>
     <string name="battery_temperature_max_header">Max. akkuhőmérséklet</string>
-    <string name="battery_temperature_max_description">A BOINC kikapcsol, ha az akku hőmérséklete egy bizonyos érték fölé emelkedik. Nem ajánlott megváltoztatni ezt az értéket.</string>
+    <string name="battery_temperature_max_description">A BOINC kikapcsol, ha az akku hőmérséklete egy bizonyos érték
+        fölé emelkedik. Nem ajánlott megváltoztatni ezt az értéket.
+    </string>
     <string name="prefs_disk_max_pct_header">Max. használható lemezterület</string>
-    <string name="prefs_disk_max_pct_description">Az eszköz tárolóhelyének hány százalékát használhatja a BOINC?</string>
+    <string name="prefs_disk_max_pct_description">Az eszköz tárolóhelyének hány százalékát használhatja a BOINC?
+    </string>
     <string name="prefs_disk_min_free_gb_header">Min. szabad terület</string>
     <string name="prefs_disk_min_free_gb_description">Az eszköz tárolóhelyének mennyi része maradjon szabadon?</string>
     <string name="prefs_disk_access_interval_header">Hozzáférési időköz</string>
     <string name="prefs_disk_access_interval_description">Javaslat a lemezhozzáférés gyakoriságához</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Napi átviteli limit</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">A BOINC által maximálisan használt napi adatforgalom.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">A BOINC által maximálisan használt napi adatforgalom.
+    </string>
     <string name="prefs_network_wifi_only_header">Feladatok továbbítása csak WiFin keresztül</string>
     <string name="prefs_autostart_header">Autóindítás</string>
     <string name="prefs_show_notification_notices_header">Új üzenetek megjelenítése</string>
     <string name="prefs_show_notification_suspended_header">Üzenetek megjelenítése, ha fel van függesztve</string>
     <string name="prefs_cpu_number_cpus_header">Használt CPU magok</string>
     <string name="prefs_cpu_number_cpus_description">CPU magok használatának korlátozása a BOINC számára.</string>
-    <string name="prefs_cpu_other_load_suspension_header">Felfüggesztés, ha  a CPU használat e fölötti</string>
-    <string name="prefs_cpu_other_load_suspension_description">Meghatározza, hogy a BOINC mikor hagyja félbe a számítást más alkalmazások CPU használata miatt.</string>
+    <string name="prefs_cpu_other_load_suspension_header">Felfüggesztés, ha a CPU használat e fölötti</string>
+    <string name="prefs_cpu_other_load_suspension_description">Meghatározza, hogy a BOINC mikor hagyja félbe a számítást
+        más alkalmazások CPU használata miatt.
+    </string>
     <string name="prefs_cpu_time_max_header">CPU korlátozás</string>
     <string name="prefs_cpu_time_max_description">CPU idő használatának korlátozása a BOINC számára.</string>
     <string name="prefs_memory_max_idle_header">Memória korlátozás</string>
@@ -285,7 +312,7 @@
     <string name="eventlog_client_header">Kliens üzenetek</string>
     <string name="eventlog_gui_header">GUI üzenetek</string>
     <string name="eventlog_copy_toast">A napló a vágólapra másolva.</string>
-    <string name="eventlog_email_subject">BOINC Android eseménynapló: </string>
+    <string name="eventlog_email_subject">BOINC Android eseménynapló:</string>
     <!--suspend reasons-->
     <string name="suspend_unknown">Számítás felfüggesztve.</string>
     <string name="suspend_batteries">Csatlakoztasd az eszközt a töltőre a számítás folytatásához.</string>
@@ -333,9 +360,13 @@
     <string name="about_title">Névjegy</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Verzió</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a Hálózati Számításért)</string>
+    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a
+        Hálózati Számításért)
+    </string>
     <string name="about_copyright_reserved">Minden jog fenntartva.</string>
-    <string name="about_credits">Köszönet a Max Planck Gravitációs Fizikai Intézetnek, az IBM Corporation-nek és a HTC Corporation-nek a támogatásért.</string>
+    <string name="about_credits">Köszönet a Max Planck Gravitációs Fizikai Intézetnek, az IBM Corporation-nek és a HTC
+        Corporation-nek a támogatásért.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Új figyelmeztetés: a(z) %1$ s</item>
@@ -343,14 +374,19 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Önkéntes számítási alkalmazás észlelve</string>
-    <string name="nonexcl_dialog_text">Már fut egy másik önkéntes számítási alkalmazás. Egy időben csak egy futhat.</string>
+    <string name="nonexcl_dialog_text">Már fut egy másik önkéntes számítási alkalmazás. Egy időben csak egy futhat.
+    </string>
     <string name="nonexcl_dialog_exit">Bezárás</string>
     <!--social integration-->
     <string name="social_invite_button">Barátok meghívása</string>
     <string name="social_invite_intent_title">Hogyan szeretnéd megosztani?</string>
     <string name="social_invite_content_title">Tudományos munkát végzek az okostelefonomon!</string>
-    <string name="social_invite_content_body">%1$s eszközömet egy tudományos számításra használom. Ezt te is megteheted, töltsd le és futtasd az alkalmazást innen:  %2$s</string>
+    <string name="social_invite_content_body">%1$s eszközömet egy tudományos számításra használom. Ezt te is megteheted,
+        töltsd le és futtasd az alkalmazást innen: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

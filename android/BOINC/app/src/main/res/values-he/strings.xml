@@ -27,7 +27,8 @@
     <string name="attachproject_conflict_not_unique">החשבון קיים עם סיסמה אחרת</string>
     <string name="attachproject_conflict_bad_password">סיסמה שגויה</string>
     <string name="attachproject_conflict_unknown_user">החשבון לא קיים</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">מצרף</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +43,9 @@
     <string name="attachproject_hint_projectwebsite_science">למד עוד אודות המדע</string>
     <string name="attachproject_hint_projectwebsite_stats">צפה בסטיסטיקות התרומה</string>
     <string name="attachproject_hint_projectwebsite_community">צור קשר עם מתנדבים אחרים</string>
-    <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב או המחשב הנייד, בקר ב-boinc.berkeley.edu כדי ללמוד עוד.</string>
+    <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב או המחשב הנייד, בקר ב-boinc.berkeley.edu
+        כדי ללמוד עוד.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">יוצר קשר עם שרת המיזם...</string>
     <string name="attachproject_login_image_description">לוגו המיזם.</string>
@@ -55,7 +58,9 @@
     <string name="attachproject_login_platform_supported">סוג ההתקן נתמך על ידי מיזם זה</string>
     <string name="attachproject_login_platform_not_supported">סוג ההתקן אינן נתמך על ידי מיזם זה</string>
     <string name="attachproject_login_category_terms_of_use">תנאי שימוש עבור</string>
-    <string name="attachproject_login_accept_terms_of_use">על ידי יצירת חשבון עם מיזם זה, אתה מקבל את תנאי השימוש כמתואר לעיל.</string>
+    <string name="attachproject_login_accept_terms_of_use">על ידי יצירת חשבון עם מיזם זה, אתה מקבל את תנאי השימוש כמתואר
+        לעיל.
+    </string>
     <string name="attachproject_login_category_login">היכנס באמצעות חשבון קיים</string>
     <string name="attachproject_login_header_id_email">דוא\"ל:</string>
     <string name="attachproject_login_header_id_name">שם:</string>
@@ -159,7 +164,9 @@
     <string name="prefs_show_advanced_header">הצג העדפות ובקרות מתקדמים...</string>
     <string name="prefs_suspend_when_screen_on">השהה חישוב כאשר המסך מופעל</string>
     <string name="prefs_stationary_device_mode_header">מצב ההתקן נייח</string>
-    <string name="prefs_stationary_device_mode_description">אפשר חישוב ללא תלות בההעדפות של כוח. אפשר רק אם אין סוללה להתקן.</string>
+    <string name="prefs_stationary_device_mode_description">אפשר חישוב ללא תלות בההעדפות של כוח. אפשר רק אם אין סוללה
+        להתקן.
+    </string>
     <string name="prefs_power_source_header">מקורות כוח עבור חישוב</string>
     <string name="prefs_power_source_description">בחר מקורות כוח של-BOINC מותר להשתמש עבור מחשוב.</string>
     <string name="prefs_power_source_ac">שקע קיר</string>
@@ -169,7 +176,9 @@
     <string name="battery_charge_min_pct_header">רמת הסוללה מינימלית</string>
     <string name="battery_charge_min_pct_description">BOINC משהה את החישוב ברמה של טעינת סוללה נמוכה מהמוגדר.</string>
     <string name="battery_temperature_max_header">טמפרטורת מקסימום של הסוללה</string>
-    <string name="battery_temperature_max_description">BOINC משהה את החישוב מעל טמפרטורת סוללה שהוגדרה. לא מומלץ לשנות ערך זה.</string>
+    <string name="battery_temperature_max_description">BOINC משהה את החישוב מעל טמפרטורת סוללה שהוגדרה. לא מומלץ לשנות
+        ערך זה.
+    </string>
     <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש</string>
     <string name="prefs_disk_max_pct_description">בכמה אחוזים משטח האחסון של מכשירך מותר ל-BOINC להשתמש?</string>
     <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי</string>
@@ -177,7 +186,8 @@
     <string name="prefs_disk_access_interval_header">מרווח זמן גישה</string>
     <string name="prefs_disk_access_interval_description">הצע מרווח זמן בין גישות דיסק</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">הגבלת תעבורה יומית</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">הגבל את תעבורת נתונים היומית הנגרמת על ידי BOINC.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">הגבל את תעבורת נתונים היומית הנגרמת על ידי BOINC.
+    </string>
     <string name="prefs_network_wifi_only_header">שלח משימות ב-WiFi בלבד</string>
     <string name="prefs_autostart_header">אתחול אוטומטי</string>
     <string name="prefs_show_notification_notices_header">הצג הודעה עבור הודעות חדשות</string>
@@ -185,7 +195,9 @@
     <string name="prefs_cpu_number_cpus_header">ליבות מעבד בשימוש</string>
     <string name="prefs_cpu_number_cpus_description">הגבל את מספר ליבות המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_cpu_other_load_suspension_header">השהה בעת שימוש במעבד מעל</string>
-    <string name="prefs_cpu_other_load_suspension_description">קבע מתי BOINC משהה את החישוב עקב שמוש במעבד של יישומים אחרים.</string>
+    <string name="prefs_cpu_other_load_suspension_description">קבע מתי BOINC משהה את החישוב עקב שמוש במעבד של יישומים
+        אחרים.
+    </string>
     <string name="prefs_cpu_time_max_header">הגבלת מעבד</string>
     <string name="prefs_cpu_time_max_description">הגבל את זמן המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_memory_max_idle_header">הגבלת זיכרון גישה אקראית</string>
@@ -274,7 +286,7 @@
     <string name="trans_pending">ממתין</string>
     <string name="trans_projectbackoff">המיזם נסוג</string>
     <string name="trans_header_name">קובץ:</string>
-    <string name="trans_control_retry"> נסה העברות שוב</string>
+    <string name="trans_control_retry">נסה העברות שוב</string>
     <string name="confirm_abort_trans_title">האם לבטל את ההעברה?</string>
     <string name="confirm_abort_trans_message">בטל את הקובץ:</string>
     <string name="confirm_abort_trans_confirm">בטל</string>
@@ -345,14 +357,19 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">זוהה יישוון מחשוב בהתנדבות</string>
-    <string name="nonexcl_dialog_text">יישומון מחשוב בהתנדבות נוסף פועל במכשיר זה. ניתן להפעיל גירסה אחת בלבד בכל פעם.</string>
+    <string name="nonexcl_dialog_text">יישומון מחשוב בהתנדבות נוסף פועל במכשיר זה. ניתן להפעיל גירסה אחת בלבד בכל פעם.
+    </string>
     <string name="nonexcl_dialog_exit">צא</string>
     <!--social integration-->
     <string name="social_invite_button">הזמן חברים</string>
     <string name="social_invite_intent_title">כיצד ברצונך לשתף?</string>
     <string name="social_invite_content_title">אני עושה מדע עם הטלפון החכם שלי!</string>
-    <string name="social_invite_content_body">אני משתמשב-%1$s שלי כדי לעשות מחשוב עבור המדע. גם אתה יכול! הורד את היישום מ- %2$s</string>
+    <string name="social_invite_content_body">אני משתמשב-%1$s שלי כדי לעשות מחשוב עבור המדע. גם אתה יכול! הורד את היישום
+        מ- %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

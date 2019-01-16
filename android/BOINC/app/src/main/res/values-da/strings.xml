@@ -27,7 +27,9 @@
     <string name="attachproject_conflict_not_unique">Konto eksisterer med en anden adgangskode</string>
     <string name="attachproject_conflict_bad_password">Adgangskode ukorrekt</string>
     <string name="attachproject_conflict_unknown_user">Konto eksisterer ikke</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto eksisterer ikke; besøg projektets webside for at registrere</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto eksisterer ikke; besøg projektets webside
+        for at registrere
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Forbinder</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
     <string name="attachproject_hint_projectwebsite_science">Lære mere om videnskaben</string>
     <string name="attachproject_hint_projectwebsite_stats">Se bidragsstatistik</string>
     <string name="attachproject_hint_projectwebsite_community">Tale med andre frivillige</string>
-    <string name="attachproject_hint_platforms_header">BOINC findes også til din bærbare eller stationære computer; besøg boinc.berkeley.edu for at finde ud af mere.</string>
+    <string name="attachproject_hint_platforms_header">BOINC findes også til din bærbare eller stationære computer;
+        besøg boinc.berkeley.edu for at finde ud af mere.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontakter projekt-server …</string>
     <string name="attachproject_login_image_description">Projektlogo.</string>
@@ -55,15 +59,20 @@
     <string name="attachproject_login_platform_supported">Enhedstypen understøttes af dette projekt</string>
     <string name="attachproject_login_platform_not_supported">Enheden understøttes ikke af dette projekt</string>
     <string name="attachproject_login_category_terms_of_use">Brugsvilkår for</string>
-    <string name="attachproject_login_accept_terms_of_use">Ved at oprette en konto hos dette projekt, accepterer du brugsvilkårene, som vises herover.</string>
+    <string name="attachproject_login_accept_terms_of_use">Ved at oprette en konto hos dette projekt, accepterer du
+        brugsvilkårene, som vises herover.
+    </string>
     <string name="attachproject_login_category_login">Log ind med eksisterende konto</string>
     <string name="attachproject_login_header_id_email">Email:</string>
     <string name="attachproject_login_header_id_name">Navn:</string>
     <string name="attachproject_login_header_pwd">Adgangskode:</string>
     <string name="attachproject_login_category_creation">Kender du ikke</string>
     <string name="attachproject_login_header_creation_enabled">Opret en konto for at deltage:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Besøg projektets webside for at oprette en konto:</string>
-    <string name="attachproject_login_header_creation_disabled">Dette projekt tager for tiden ikke imod nye konti.</string>
+    <string name="attachproject_login_header_creation_client_disabled">Besøg projektets webside for at oprette en
+        konto:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">Dette projekt tager for tiden ikke imod nye konti.
+    </string>
     <string name="attachproject_login_button_registration">Registrér</string>
     <string name="attachproject_login_button_login">Log ind</string>
     <string name="attachproject_login_button_forgotpw">Glemt adgangskode</string>
@@ -79,7 +88,9 @@
     <string name="attachproject_registration_header_pwd_confirm">… Tast igen:</string>
     <string name="attachproject_registration_button">Opret</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Brug BOINC kontohåndtering for at tilføje og vedligeholde adskillige projekter</string>
+    <string name="attachproject_acctmgr_list_desc">Brug BOINC kontohåndtering for at tilføje og vedligeholde adskillige
+        projekter
+    </string>
     <string name="attachproject_acctmgr_header">Tilføj kontohåndtering</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Bruger:</string>
@@ -159,7 +170,9 @@
     <string name="prefs_show_advanced_header">Vis avancerede indstillinger …</string>
     <string name="prefs_suspend_when_screen_on">Sæt beregning på pause, når skærmen er tændt</string>
     <string name="prefs_stationary_device_mode_header">Tilstand for stationære enheder</string>
-    <string name="prefs_stationary_device_mode_description">Tillader beregning uanset strømindstillinger. Kun tilgængelig, hvis enheden ikke har et batteri.</string>
+    <string name="prefs_stationary_device_mode_description">Tillader beregning uanset strømindstillinger. Kun
+        tilgængelig, hvis enheden ikke har et batteri.
+    </string>
     <string name="prefs_power_source_header">Strømkilder for beregning</string>
     <string name="prefs_power_source_description">Vælger strømkilder, som BOINC må beregne under.</string>
     <string name="prefs_power_source_ac">Oplader til stikkontakt</string>
@@ -169,23 +182,33 @@
     <string name="battery_charge_min_pct_header">Min. batteriniveau</string>
     <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriniveau.</string>
     <string name="battery_temperature_max_header">Maks. batteritemperatur</string>
-    <string name="battery_temperature_max_description">BOINC stopper beregninger over defineret batteritemperatur. Det anbefales ikke at ændre denne værdi.</string>
+    <string name="battery_temperature_max_description">BOINC stopper beregninger over defineret batteritemperatur. Det
+        anbefales ikke at ændre denne værdi.
+    </string>
     <string name="prefs_disk_max_pct_header">Maks. brugt lagringsplads</string>
-    <string name="prefs_disk_max_pct_description">Hvor mange procent af din enheds lagringsplads må BOINC bruge?</string>
+    <string name="prefs_disk_max_pct_description">Hvor mange procent af din enheds lagringsplads må BOINC bruge?
+    </string>
     <string name="prefs_disk_min_free_gb_header">Min. lagringsplads</string>
-    <string name="prefs_disk_min_free_gb_description">Hvor meget af din enheds lagringsplads skal forblive ubrugt?</string>
+    <string name="prefs_disk_min_free_gb_description">Hvor meget af din enheds lagringsplads skal forblive ubrugt?
+    </string>
     <string name="prefs_disk_access_interval_header">Interval for tilgang</string>
     <string name="prefs_disk_access_interval_description">Foreslår et interval mellem disktilgang</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daglig begrænsning på overførsler</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Begrænser den daglige datatraffik forårsaget af BOINC.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Begrænser den daglige datatraffik forårsaget af
+        BOINC.
+    </string>
     <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Vis notifikation for nye meddelelser</string>
     <string name="prefs_show_notification_suspended_header">Vis notifikation under suspendering</string>
     <string name="prefs_cpu_number_cpus_header">Brugte CPU-kerner</string>
-    <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til beregninger.</string>
+    <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til
+        beregninger.
+    </string>
     <string name="prefs_cpu_other_load_suspension_header">Pause ved CPU-belastning over</string>
-    <string name="prefs_cpu_other_load_suspension_description">Bestemmer hvornår BOINC sætter beregninger på pause på grund af andre app\'ers CPU-forbrug.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Bestemmer hvornår BOINC sætter beregninger på pause på
+        grund af andre app\'ers CPU-forbrug.
+    </string>
     <string name="prefs_cpu_time_max_header">CPU-begrænsning</string>
     <string name="prefs_cpu_time_max_description">Begrænser CPU-tiden, som BOINC bruger til beregninger.</string>
     <string name="prefs_memory_max_idle_header">RAM-begrænsning</string>
@@ -335,7 +358,9 @@
     <string name="about_version">Version</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Alle rettigheder forbeholdes.</string>
-    <string name="about_credits">Tak til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC Corporation for deres støtte.</string>
+    <string name="about_credits">Tak til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC
+        Corporation for deres støtte.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Ny besked fra %1$s</item>
@@ -343,14 +368,20 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">App til frivillig beregning detekteret</string>
-    <string name="nonexcl_dialog_text">En anden app til frivillig beregning kører på denne enhed. Kun én version kan køre ad gangen.</string>
+    <string name="nonexcl_dialog_text">En anden app til frivillig beregning kører på denne enhed. Kun én version kan
+        køre ad gangen.
+    </string>
     <string name="nonexcl_dialog_exit">Afslut</string>
     <!--social integration-->
     <string name="social_invite_button">Invitér venner</string>
     <string name="social_invite_intent_title">Hvordan vil du dele?</string>
     <string name="social_invite_content_title">Jeg bruger min smartphone til videnskab!</string>
-    <string name="social_invite_content_body">Jeg bruger min %1$s til at lave beregninger for videnskaben! Det kan du også! Download app\'en fra: %2$s</string>
+    <string name="social_invite_content_body">Jeg bruger min %1$s til at lave beregninger for videnskaben! Det kan du
+        også! Download app\'en fra: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>
