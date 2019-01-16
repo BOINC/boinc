@@ -27,7 +27,9 @@
     <string name="attachproject_conflict_not_unique">Račun obstaja z drugačnim geslom</string>
     <string name="attachproject_conflict_bad_password">Geslo nepravilno</string>
     <string name="attachproject_conflict_unknown_user">Račun ne obstaja</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Račun ne obstaja, za registracijo obiščite spletno stran projekta</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Račun ne obstaja, za registracijo obiščite
+        spletno stran projekta
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Prilagam</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
     <string name="attachproject_hint_projectwebsite_science">Izvedite več o znanosti</string>
     <string name="attachproject_hint_projectwebsite_stats">Pokaži statistike sodelovanja</string>
     <string name="attachproject_hint_projectwebsite_community">Kontaktirajte druge prostovoljce</string>
-    <string name="attachproject_hint_platforms_header">BOINS je na voljo tudi za vaš računalnik ali laptop, obiščite boinc.berkeley.edu, da izveste več.</string>
+    <string name="attachproject_hint_platforms_header">BOINS je na voljo tudi za vaš računalnik ali laptop, obiščite
+        boinc.berkeley.edu, da izveste več.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontaktiram strežnik projekta...</string>
     <string name="attachproject_login_image_description">Logo projekta.</string>
@@ -55,14 +59,18 @@
     <string name="attachproject_login_platform_supported">Ta projekt ne podpira vašega tipa naprave</string>
     <string name="attachproject_login_platform_not_supported">Ta projekt ne podpira vaše naprave</string>
     <string name="attachproject_login_category_terms_of_use">Pogoji uporabe za</string>
-    <string name="attachproject_login_accept_terms_of_use">Z ustvarjanjem računa s tem projektom, se strinjate z pogoji uporabe, ki so prikazani zgoraj.</string>
+    <string name="attachproject_login_accept_terms_of_use">Z ustvarjanjem računa s tem projektom, se strinjate z pogoji
+        uporabe, ki so prikazani zgoraj.
+    </string>
     <string name="attachproject_login_category_login">Prijavite se z že obstoječim računom</string>
     <string name="attachproject_login_header_id_email">E-pošta:</string>
     <string name="attachproject_login_header_id_name">Ime:</string>
     <string name="attachproject_login_header_pwd">Geslo:</string>
     <string name="attachproject_login_category_creation">Nov</string>
     <string name="attachproject_login_header_creation_enabled">Ustvarite račun za sodelovanje:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Obiščite spletno stran projekta, da ustvarite račun:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Obiščite spletno stran projekta, da ustvarite
+        račun:
+    </string>
     <string name="attachproject_login_header_creation_disabled">Ta projekt trenutno ne sprejema novih računov.</string>
     <string name="attachproject_login_button_registration">Registracija</string>
     <string name="attachproject_login_button_login">Prijava</string>
@@ -79,7 +87,9 @@
     <string name="attachproject_registration_header_pwd_confirm">... Vpišite ponovno:</string>
     <string name="attachproject_registration_button">Ustvari</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Uporabi BOINC upravitelja računov, da dodate in upravljate več projektov</string>
+    <string name="attachproject_acctmgr_list_desc">Uporabi BOINC upravitelja računov, da dodate in upravljate več
+        projektov
+    </string>
     <string name="attachproject_acctmgr_header">Dodaj upravitelja računov</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Uporabnik:</string>
@@ -138,7 +148,8 @@
     <string name="status_idle">Nič za storiti</string>
     <string name="status_idle_long">Čakam na naloge...</string>
     <string name="status_computing_disabled">Prekinjen</string>
-    <string name="status_computing_disabled_long">Pritisnite \"Play\", za nadaljevanje z izračunavanjem in omrežjem</string>
+    <string name="status_computing_disabled_long">Pritisnite \"Play\", za nadaljevanje z izračunavanjem in omrežjem
+    </string>
     <string name="status_launching">Se začenja...</string>
     <string name="status_noproject">Izberite tisti projekt, kateremu se želite pridružiti.</string>
     <string name="status_closing">Zapiram...</string>
@@ -159,33 +170,49 @@
     <string name="prefs_show_advanced_header">Prikaži napredne prednosti in kontrole…</string>
     <string name="prefs_suspend_when_screen_on">Pavziraj izračunavanje, ko je zaslon prižgan</string>
     <string name="prefs_stationary_device_mode_header">Način mirovanja naprave</string>
-    <string name="prefs_stationary_device_mode_description">Dovoljuje izračunavanje, kljub nastavitvam moči. Omogočite samo, če vaša naprava nima baterije.</string>
+    <string name="prefs_stationary_device_mode_description">Dovoljuje izračunavanje, kljub nastavitvam moči. Omogočite
+        samo, če vaša naprava nima baterije.
+    </string>
     <string name="prefs_power_source_header">Izvorna moč za izračunavanje</string>
     <string name="prefs_power_source_ac">Stenska vtičnica</string>
     <string name="prefs_power_source_usb">USB povezava</string>
     <string name="prefs_power_source_wireless">Brezžični napajalnik</string>
     <string name="prefs_power_source_battery">Baterija</string>
     <string name="battery_charge_min_pct_header">Min. stopnja baterije</string>
-    <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже указанного уровня.</string>
+    <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже
+        указанного уровня.
+    </string>
     <string name="battery_temperature_max_header">Max. temperatura baterije</string>
-    <string name="battery_temperature_max_description">BOINC izključi izračunavanje, če je temperatura baterije nad določeno vsoto. Spreminjanje vsote ni priporočeno!</string>
+    <string name="battery_temperature_max_description">BOINC izključi izračunavanje, če je temperatura baterije nad
+        določeno vsoto. Spreminjanje vsote ni priporočeno!
+    </string>
     <string name="prefs_disk_max_pct_header">Max. poraba hrambnega prostora</string>
-    <string name="prefs_disk_max_pct_description">Koliko procentov hrambnega prostora vaše naprave lahko BOINC uporabi?</string>
+    <string name="prefs_disk_max_pct_description">Koliko procentov hrambnega prostora vaše naprave lahko BOINC
+        uporabi?
+    </string>
     <string name="prefs_disk_min_free_gb_header">Min. prihranjena hramba</string>
-    <string name="prefs_disk_min_free_gb_description">Koliko procentov hrambnega prostora vaše naprave bi naj moralo ostati?</string>
+    <string name="prefs_disk_min_free_gb_description">Koliko procentov hrambnega prostora vaše naprave bi naj moralo
+        ostati?
+    </string>
     <string name="prefs_disk_access_interval_header">Dostopnostni razmik</string>
     <string name="prefs_disk_access_interval_description">Predlagaj razmik med dostopnostjo diskov</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevni prenašalski limit.</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный BOINC.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный
+        BOINC.
+    </string>
     <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Prikaži obvestila za nove objave</string>
     <string name="prefs_show_notification_suspended_header">Prikaži obvestilo, ko je prekinjeno</string>
     <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
-    <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
+    <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC
+        для расчётов.
+    </string>
     <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше</string>
     <string name="prefs_cpu_time_max_header">Предельное время процессора</string>
-    <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
+    <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для
+        расчётов.
+    </string>
     <string name="prefs_memory_max_idle_header">Ограничение ОЗУ</string>
     <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
     <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
@@ -263,7 +290,8 @@
     <string name="eventlog_email_subject">Журнал событий для BOINC на Android:</string>
     <!--suspend reasons-->
     <string name="suspend_unknown">Расчёты приостановлены.</string>
-    <string name="suspend_batteries">Подключите ваше устройство к зарядному устройству для продолжения расчётов.</string>
+    <string name="suspend_batteries">Подключите ваше устройство к зарядному устройству для продолжения расчётов.
+    </string>
     <string name="suspend_useractive">Пользователь работает.</string>
     <string name="suspend_tod">Закончилось выделенное время для расчётов.</string>
     <string name="suspend_bm">BOINC измеряет производительность вашего устройства…</string>

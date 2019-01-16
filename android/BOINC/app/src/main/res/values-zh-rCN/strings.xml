@@ -63,7 +63,7 @@
     <string name="attachproject_login_category_creation">第一次加入</string>
     <string name="attachproject_login_header_creation_enabled">注册帐号来参与志愿计算。</string>
     <string name="attachproject_login_header_creation_client_disabled">访问项目网站以创建新账户：</string>
-    <string name="attachproject_login_header_creation_disabled">该项目目前不支持新建帐户。 </string>
+    <string name="attachproject_login_header_creation_disabled">该项目目前不支持新建帐户。</string>
     <string name="attachproject_login_button_registration">注册</string>
     <string name="attachproject_login_button_login">登陆</string>
     <string name="attachproject_login_button_forgotpw">忘记密码</string>
@@ -267,7 +267,7 @@
     <string name="trans_loading">正在读取传输信息...</string>
     <string name="trans_upload">上传</string>
     <string name="trans_download">下载</string>
-    <string name="trans_retryin">稍后重试 </string>
+    <string name="trans_retryin">稍后重试</string>
     <string name="trans_failed">失败</string>
     <string name="trans_suspended">已暂停</string>
     <string name="trans_active">活动</string>
@@ -350,6 +350,8 @@
     <string name="social_invite_content_title">我在智能手机上探索科学的奥秘！</string>
     <string name="social_invite_content_body">我的%1$s正在为科学而计算。你也可以！APP下載：%2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

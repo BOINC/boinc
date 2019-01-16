@@ -43,10 +43,7 @@ public class AcctMgrInfo implements Parcelable {
         dest.writeString(acct_mgr_url);
         dest.writeString(cookie_failure_url);
 
-        dest.writeBooleanArray(new boolean[]{
-                have_credentials,
-                cookie_required,
-                present});
+        dest.writeBooleanArray(new boolean[]{have_credentials, cookie_required, present});
 
     }
 

@@ -47,19 +47,28 @@ public class AppPreferences {
         }
         //second parameter of reading function is the initial value after installation.
         autostart = prefs.getBoolean("autostart", ctx.getResources().getBoolean(R.bool.prefs_default_autostart));
-        showNotificationForNotices = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notification_notices));
-        showNotificationDuringSuspend = prefs.getBoolean("showNotificationDuringSuspend", ctx.getResources().getBoolean(R.bool.prefs_default_notification_suspended));
+        showNotificationForNotices =
+                prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notification_notices));
+        showNotificationDuringSuspend =
+                prefs.getBoolean("showNotificationDuringSuspend", ctx.getResources().getBoolean(R.bool.prefs_default_notification_suspended));
         showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
         logLevel = prefs.getInt("logLevel", ctx.getResources().getInteger(R.integer.prefs_default_loglevel));
         Logging.setLogLevel(logLevel);
         powerSourceAc = prefs.getBoolean("powerSourceAc", ctx.getResources().getBoolean(R.bool.prefs_power_source_ac));
-        powerSourceUsb = prefs.getBoolean("powerSourceUsb", ctx.getResources().getBoolean(R.bool.prefs_power_source_usb));
-        powerSourceWireless = prefs.getBoolean("powerSourceWireless", ctx.getResources().getBoolean(R.bool.prefs_power_source_wireless));
-        stationaryDeviceMode = prefs.getBoolean("stationaryDeviceMode", ctx.getResources().getBoolean(R.bool.prefs_stationary_device_mode));
-        suspendWhenScreenOn = prefs.getBoolean("suspendWhenScreenOn", ctx.getResources().getBoolean(R.bool.prefs_suspend_when_screen_on));
+        powerSourceUsb =
+                prefs.getBoolean("powerSourceUsb", ctx.getResources().getBoolean(R.bool.prefs_power_source_usb));
+        powerSourceWireless =
+                prefs.getBoolean("powerSourceWireless", ctx.getResources().getBoolean(R.bool.prefs_power_source_wireless));
+        stationaryDeviceMode =
+                prefs.getBoolean("stationaryDeviceMode", ctx.getResources().getBoolean(R.bool.prefs_stationary_device_mode));
+        suspendWhenScreenOn =
+                prefs.getBoolean("suspendWhenScreenOn", ctx.getResources().getBoolean(R.bool.prefs_suspend_when_screen_on));
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotificationForNotices + showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless);
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG,
+                    "appPrefs read successful." + autostart + showNotificationForNotices + showAdvanced + logLevel +
+                    powerSourceAc + powerSourceUsb + powerSourceWireless);
+        }
     }
 
     public void setAutostart(Boolean as) {

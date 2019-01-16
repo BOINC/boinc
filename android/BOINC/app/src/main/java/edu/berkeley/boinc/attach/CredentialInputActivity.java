@@ -51,7 +51,9 @@ public class CredentialInputActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputActivity onCreate");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "CredentialInputActivity onCreate");
+        }
         doBindService();
         setContentView(R.layout.attach_project_credential_input_layout);
         emailET = findViewById(R.id.email_input);
@@ -64,7 +66,8 @@ public class CredentialInputActivity extends Activity {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                } else {
+                }
+                else {
                     pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
@@ -80,34 +83,43 @@ public class CredentialInputActivity extends Activity {
 
     // triggered by continue button
     public void continueClicked(View v) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
+        }
 
 
         // set credentials in service
         if (asIsBound) {
             // verfiy input, return if failed.
-            if (!attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString()))
+            if (!attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) {
                 return;
+            }
             // set credentials
             attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
-        } else {
-            if (Logging.ERROR)
+        }
+        else {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "CredentialInputActivity.continueClicked: service not bound.");
+            }
             return;
         }
 
-        if (Logging.DEBUG)
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "CredentialInputActivity.continueClicked: starting BatchProcessingActivity...");
+        }
         startActivity(new Intent(this, BatchProcessingActivity.class));
     }
 
     // triggered by individual button
     public void individualClicked(View v) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputActivity.individualClicked.");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "CredentialInputActivity.individualClicked.");
+        }
 
         // set credentials in service, in case user typed before deciding btwn batch and individual attach
-        if (asIsBound)
+        if (asIsBound) {
             attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+        }
 
         //startActivity(new Intent(this, IndividualAttachActivity.class));
         Intent intent = new Intent(this, BatchConflictListActivity.class);

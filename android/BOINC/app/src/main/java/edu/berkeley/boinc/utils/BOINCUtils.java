@@ -83,7 +83,8 @@ public class BOINCUtils {
             }
             return String.format("%.0f/%.0f bytes", fBytesSent, fFileSize);
 
-        } else {
+        }
+        else {
             if (fBytesSent >= xTera) {
                 return String.format("%.2f TB", fBytesSent / xTera);
             }

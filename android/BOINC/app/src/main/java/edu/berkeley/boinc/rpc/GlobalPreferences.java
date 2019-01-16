@@ -92,15 +92,7 @@ public class GlobalPreferences implements Parcelable {
         dest.writeValue(cpu_times);
         dest.writeValue(net_times);
 
-        dest.writeBooleanArray(new boolean[]{
-                run_on_batteries,
-                run_if_user_active,
-                run_gpu_if_user_active,
-                leave_apps_in_memory,
-                dont_verify_images,
-                override_file_present,
-                network_wifi_only
-        });
+        dest.writeBooleanArray(new boolean[]{run_on_batteries, run_if_user_active, run_gpu_if_user_active, leave_apps_in_memory, dont_verify_images, override_file_present, network_wifi_only});
     }
 
     public GlobalPreferences() {

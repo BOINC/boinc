@@ -58,7 +58,9 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListActivity onCreate");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "BatchConflictListActivity onCreate");
+        }
         doBindService();
         // setup layout
         setContentView(R.layout.attach_project_batch_conflicts_layout);
@@ -68,13 +70,19 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
         Boolean conflicts = intent.getBooleanExtra("conflicts", false);
         manualUrl = intent.getStringExtra("manualUrl");
         TextView title = findViewById(R.id.desc);
-        if (conflicts) title.setText(R.string.attachproject_conflicts_desc);
-        else title.setText(R.string.attachproject_credential_input_desc);
+        if (conflicts) {
+            title.setText(R.string.attachproject_conflicts_desc);
+        }
+        else {
+            title.setText(R.string.attachproject_credential_input_desc);
+        }
     }
 
     @Override
     protected void onDestroy() {
-        if (Logging.VERBOSE) Log.v(Logging.TAG, "BatchConflictListActivity onDestroy");
+        if (Logging.VERBOSE) {
+            Log.v(Logging.TAG, "BatchConflictListActivity onDestroy");
+        }
         doUnbindService();
         super.onDestroy();
     }
@@ -96,9 +104,12 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Logging.VERBOSE)
+            if (Logging.VERBOSE) {
                 Log.d(Logging.TAG, "BatchConflictListActivity ClientStatusChange - onReceive()");
-            if (asIsBound) listAdapter.notifyDataSetChanged();
+            }
+            if (asIsBound) {
+                listAdapter.notifyDataSetChanged();
+            }
         }
     };
     private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
@@ -124,19 +135,22 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
 
             // set data, if manual url
             if (manualUrl != null && !manualUrl.isEmpty()) {
-                if (Logging.DEBUG)
+                if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "BatchConflictListActivity manual URL found: " + manualUrl);
+                }
                 attachService.setManuallySelectedProject(manualUrl);
                 manualUrl = "";
             }
 
             // retrieve data
             results = attachService.getSelectedProjects();
-            listAdapter = new BatchConflictListAdapter(BatchConflictListActivity.this, R.id.listview, results, getSupportFragmentManager());
+            listAdapter =
+                    new BatchConflictListAdapter(BatchConflictListActivity.this, R.id.listview, results, getSupportFragmentManager());
             lv.setAdapter(listAdapter);
 
-            if (Logging.DEBUG)
+            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "BatchConflictListActivity setup list with " + results.size() + " elements.");
+            }
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -161,9 +175,13 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
 
     @Override
     public void onFinish(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListActivity onFinish of dialog");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "BatchConflictListActivity onFinish of dialog");
+        }
 
-        if (asIsBound && !attachService.verifyInput(email, name, pwd)) return;
+        if (asIsBound && !attachService.verifyInput(email, name, pwd)) {
+            return;
+        }
 
         new AttachProjectAsyncTask(project, login, email, name, pwd).execute();
     }
@@ -195,14 +213,18 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
 
         @Override
         protected void onPreExecute() {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: " + project.config.name);
+            if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "AttachProjectAsyncTask: " + project.config.name);
+            }
             if (asIsBound) {
                 project.result = ProjectAttachWrapper.RESULT_ONGOING;
                 // adapt layout to changed state
                 listAdapter.notifyDataSetChanged();
-            } else {
-                if (Logging.ERROR)
+            }
+            else {
+                if (Logging.ERROR) {
                     Log.e(Logging.TAG, "AttachProjectAsyncTask: service not bound, cancel.");
+                }
                 cancel(false);
             }
 
@@ -223,8 +245,9 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
         @Override
         protected void onPostExecute(Void result) {
 
-            if (Logging.DEBUG)
+            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "AttachProjectAsyncTask.onPostExecute: finished, result: " + project.result);
+            }
 
             // adapt layout to changed state
             listAdapter.notifyDataSetChanged();

@@ -9,7 +9,8 @@
     <!--attach project-->
     <!--selection list-->
     <string name="attachproject_list_desc">
-Izaberi naučne projekte kojima želite da doprinesete :</string>
+        Izaberi naučne projekte kojima želite da doprinesete :
+    </string>
     <string name="attachproject_list_header">Izaberite projekat</string>
     <string name="attachproject_list_manual_button">Dodaj URL projekta</string>
     <string name="attachproject_list_manual_dialog_title">Unesite URL projekta:</string>
@@ -28,7 +29,9 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="attachproject_conflict_not_unique">Nalog postoji sa drugačijom lozinkom</string>
     <string name="attachproject_conflict_bad_password">Lozinka je netačna</string>
     <string name="attachproject_conflict_unknown_user">Nalog ne postoji</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Nalog ne postoji, posetite sajt projekta da se registrujete</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Nalog ne postoji, posetite sajt projekta da se
+        registrujete
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Kači se</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -43,7 +46,9 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="attachproject_hint_projectwebsite_science">Saznajte više o nauci</string>
     <string name="attachproject_hint_projectwebsite_stats">Pogledajte statistiku doprinošenja</string>
     <string name="attachproject_hint_projectwebsite_community">Budite u kontaktu sa drugim volonterima</string>
-    <string name="attachproject_hint_platforms_header">BOINC je takođe dostupan za računar ili laptop, posetite boinc.berkeley.edu da biste saznali više.</string>
+    <string name="attachproject_hint_platforms_header">BOINC je takođe dostupan za računar ili laptop, posetite
+        boinc.berkeley.edu da biste saznali više.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontaktira se server projekta...</string>
     <string name="attachproject_login_image_description">Logo projekta.</string>
@@ -56,7 +61,9 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="attachproject_login_platform_supported">Projekat podržava tip uređaja</string>
     <string name="attachproject_login_platform_not_supported">Uređaj ne podržava ovaj projekat</string>
     <string name="attachproject_login_category_terms_of_use">Uslovi korišćenja za</string>
-    <string name="attachproject_login_accept_terms_of_use">Stvaranjem nalog sa ovim projektom, prihvatate uslove korišćenja kao što je prikazano gore.</string>
+    <string name="attachproject_login_accept_terms_of_use">Stvaranjem nalog sa ovim projektom, prihvatate uslove
+        korišćenja kao što je prikazano gore.
+    </string>
     <string name="attachproject_login_category_login">Prijavite se sa postojećim nalogom</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Ime:</string>
@@ -80,7 +87,9 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="attachproject_registration_header_pwd_confirm">... Ukucajte ponovo:</string>
     <string name="attachproject_registration_button">Napravi</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Koristite BOINC upravnik naloga da dotate i održavate više projekata</string>
+    <string name="attachproject_acctmgr_list_desc">Koristite BOINC upravnik naloga da dotate i održavate više
+        projekata
+    </string>
     <string name="attachproject_acctmgr_header">Dodajte upravnika naloga</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Korisnik:</string>
@@ -160,7 +169,9 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="prefs_show_advanced_header">Prikaži napredno podešavanje i upravljanje</string>
     <string name="prefs_suspend_when_screen_on">Pauziraj rad dok je ekran uključen</string>
     <string name="prefs_stationary_device_mode_header">Režim nepokretnog uređaja</string>
-    <string name="prefs_stationary_device_mode_description">Dozvoli rad bez obzira na podešavanja struje. Dozvoli samo ako uređaj nema bateriju.</string>
+    <string name="prefs_stationary_device_mode_description">Dozvoli rad bez obzira na podešavanja struje. Dozvoli samo
+        ako uređaj nema bateriju.
+    </string>
     <string name="prefs_power_source_header">Izvori struje za rad</string>
     <string name="prefs_power_source_description">Bira izvore struje koje BOINC sme da koristi za rad.</string>
     <string name="prefs_power_source_ac">Utičnica</string>
@@ -170,27 +181,39 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="battery_charge_min_pct_header">Min. količina baterije</string>
     <string name="battery_charge_min_pct_description">BOINC obustavlja rad ispod označenog nivoa baterije.</string>
     <string name="battery_temperature_max_header">Maks. temperatura baterije</string>
-    <string name="battery_temperature_max_description">BOINC zaustavlja rad iznad označene temperature baterije. Nije preporučljivo menjati ovaj iznos.</string>
+    <string name="battery_temperature_max_description">BOINC zaustavlja rad iznad označene temperature baterije. Nije
+        preporučljivo menjati ovaj iznos.
+    </string>
     <string name="prefs_disk_max_pct_header">Maks. upotrebljeno mesto za skladištenje</string>
-    <string name="prefs_disk_max_pct_description">Koliki procenat skladišnog prostora na vašem uređaju BOINC sme da koristi?</string>
+    <string name="prefs_disk_max_pct_description">Koliki procenat skladišnog prostora na vašem uređaju BOINC sme da
+        koristi?
+    </string>
     <string name="prefs_disk_min_free_gb_header">Min. skladišni prostor</string>
-    <string name="prefs_disk_min_free_gb_description">Koliko skladišnog prostora na vašem uređaju more da ostane slobodno?</string>
+    <string name="prefs_disk_min_free_gb_description">Koliko skladišnog prostora na vašem uređaju more da ostane
+        slobodno?
+    </string>
     <string name="prefs_disk_access_interval_header">Učestalost pristupa</string>
     <string name="prefs_disk_access_interval_description">Predloži učestalost među pristupanjima disku</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevno ograničenje prenosa</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ograničava dnevni protok podataka koji BOINC izaziva.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Ograničava dnevni protok podataka koji BOINC izaziva.
+    </string>
     <string name="prefs_network_wifi_only_header">Prenos podataka samo preko WiFi</string>
     <string name="prefs_autostart_header">Automatsko pokretanje</string>
     <string name="prefs_show_notification_notices_header">Prikaži obaveštenja za nove izveštaje</string>
     <string name="prefs_show_notification_suspended_header">Prikaži obaveštenja tokom obustave</string>
     <string name="prefs_cpu_number_cpus_header">Iskorištena jezgra procesora</string>
-    <string name="prefs_cpu_number_cpus_description">Ograničava broj jezgara procesora koje BOINC koristi za rad.</string>
+    <string name="prefs_cpu_number_cpus_description">Ograničava broj jezgara procesora koje BOINC koristi za rad.
+    </string>
     <string name="prefs_cpu_other_load_suspension_header">Pauziraj kad je ovolika iskorištenost procesora</string>
-    <string name="prefs_cpu_other_load_suspension_description">Određuje kada se BOINC pauziraja zbog drugih programa koji koriste procesor.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Određuje kada se BOINC pauziraja zbog drugih programa
+        koji koriste procesor.
+    </string>
     <string name="prefs_cpu_time_max_header">Granica procesora</string>
     <string name="prefs_cpu_time_max_description">Ograničava vreme procesora koje BOINC koristi za rad.</string>
     <string name="prefs_memory_max_idle_header">RAM ograničenje</string>
-    <string name="prefs_memory_max_idle_description">Ograničava količinu RAM memorije koja je zadacima dozvoljena da koriste.</string>
+    <string name="prefs_memory_max_idle_description">Ograničava količinu RAM memorije koja je zadacima dozvoljena da
+        koriste.
+    </string>
     <string name="prefs_client_log_flags_header">BOINC Klijent log zastavice</string>
     <string name="prefs_gui_log_level_header">Nivo logovanja grafičkog interfejsa</string>
     <string name="prefs_gui_log_level_description">Određuje opširnost log poruka na grafičkom interfejsu</string>
@@ -280,10 +303,10 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="confirm_abort_trans_message">O fajlu:</string>
     <string name="confirm_abort_trans_confirm">Prekini</string>
     <!--notices tab strings-->
-    <string name="notices_loading">Čitanje objava </string>
+    <string name="notices_loading">Čitanje objava</string>
     <!--eventlog tab strings-->
     <string name="eventlog_loading">Učitavanje prijavnih poruka...</string>
-    <string name="eventlog_client_header">Poruke korisnika </string>
+    <string name="eventlog_client_header">Poruke korisnika</string>
     <string name="eventlog_gui_header">Poruke GUI-a</string>
     <string name="eventlog_copy_toast">Dnevnik kopiran na clipboard.</string>
     <string name="eventlog_email_subject">Dnevnik dogadjaja za BOINC na androidu:</string>
@@ -304,7 +327,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="suspend_os">Zaustavljeno od strane Android-a.</string>
     <string name="suspend_wifi">Niste povezani na WiFi.</string>
     <string name="suspend_battery_charging">Čekanje da se baterija napuni.</string>
-    <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne </string>
+    <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne</string>
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">trenutno</string>
     <string name="suspend_battery_overheating">Čekanje da se baterija ohladi</string>
@@ -314,7 +337,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="rpcreason_userreq">Zatraženo od strane korisnika</string>
     <string name="rpcreason_needwork">Prikupljanje poslova</string>
     <string name="rpcreason_resultsdue">Da prijavite završene zadatke.</string>
-    <string name="rpcreason_trickleup">Da bi poslao trickle-up poruku </string>
+    <string name="rpcreason_trickleup">Da bi poslao trickle-up poruku</string>
     <string name="rpcreason_acctmgrreq">Zatraženo od strane upravnika naloga</string>
     <string name="rpcreason_init">Inicijalizacija projekta</string>
     <string name="rpcreason_projectreq">Zatraženo od strane projekta</string>
@@ -322,7 +345,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <!--menu-->
     <string name="menu_refresh">Osveži</string>
     <string name="menu_emailto">Pošaljite nam imejl</string>
-    <string name="menu_copy">Kopiraj na Clipboard </string>
+    <string name="menu_copy">Kopiraj na Clipboard</string>
     <string name="menu_eventlog">Dnevnik dogadjaja</string>
     <string name="menu_exit">Izlaz BOINC</string>
     <string name="menu_run_mode_disable">Zaustavi</string>
@@ -334,20 +357,28 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="about_title">O</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Verzija</string>
-    <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija </string>
+    <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija</string>
     <string name="about_copyright_reserved">Sva prava zadržana.</string>
-    <string name="about_credits">Hvala Maks Plankovom Institutu za gravitacionu fiziku, IBM Korporaciji i HTC Korporaciji na njihovoj podršci.</string>
+    <string name="about_credits">Hvala Maks Plankovom Institutu za gravitacionu fiziku, IBM Korporaciji i HTC
+        Korporaciji na njihovoj podršci.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Otkrivena volonterska aplikacija za računanje</string>
-    <string name="nonexcl_dialog_text">Drugi volonter koristi jos jednu računsku aplikaciju na ovom uredjaju. Samo jedna verzija može da radi istovremeno.</string>
+    <string name="nonexcl_dialog_text">Drugi volonter koristi jos jednu računsku aplikaciju na ovom uredjaju. Samo jedna
+        verzija može da radi istovremeno.
+    </string>
     <string name="nonexcl_dialog_exit">Izlaz</string>
     <!--social integration-->
     <string name="social_invite_button">Pozovi prijatelje</string>
     <string name="social_invite_intent_title">Kako želite da podelite?</string>
     <string name="social_invite_content_title">Ja se bavim naukom na svom smartfonu!</string>
-    <string name="social_invite_content_body">Ja koristim moj %1$s da računa za nauku. Vi to takodje možeš! Preuzmite aplikaciju ovde: %2$s</string>
+    <string name="social_invite_content_body">Ja koristim moj %1$s da računa za nauku. Vi to takodje možeš! Preuzmite
+        aplikaciju ovde: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

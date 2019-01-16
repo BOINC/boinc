@@ -40,9 +40,11 @@ public class AcctMgrRPCReplyParser extends BaseParser {
             AcctMgrRPCReplyParser parser = new AcctMgrRPCReplyParser();
             Xml.parse(rpcResult.replace("<success/>", "<success>1</success>"), parser);
             return parser.getAccountMgrRPCReply();
-        } catch (SAXException e) {
-            if (Logging.WARNING)
+        }
+        catch (SAXException e) {
+            if (Logging.WARNING) {
                 Log.w(Logging.TAG, "AcctMgrRPCReplyParser: malformated XML" + e.getMessage());
+            }
             return null;
         }
     }
@@ -52,7 +54,8 @@ public class AcctMgrRPCReplyParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
             mAcctMgrRPCReply = new AcctMgrRPCReply();
-        } else {
+        }
+        else {
             mElementStarted = true;
             mCurrentElement.setLength(0);
         }
@@ -66,18 +69,22 @@ public class AcctMgrRPCReplyParser extends BaseParser {
                 // inside <acct_mgr_rpc_reply>
                 if (localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
                     // closing tag
-                } else {
+                }
+                else {
                     // decode inner tags
                     if (localName.equalsIgnoreCase("error_num")) {
                         mAcctMgrRPCReply.error_num = Integer.parseInt(mCurrentElement.toString());
-                    } else if (localName.equalsIgnoreCase("message")) {
+                    }
+                    else if (localName.equalsIgnoreCase("message")) {
                         mAcctMgrRPCReply.messages.add(mCurrentElement.toString());
                     }
                 }
             }
-        } catch (Exception e) {
-            if (Logging.WARNING)
+        }
+        catch (Exception e) {
+            if (Logging.WARNING) {
                 Log.d(Logging.TAG, "AcctMgrRPCReplyParser Exception: " + e.getMessage());
+            }
         }
         mElementStarted = false;
     }

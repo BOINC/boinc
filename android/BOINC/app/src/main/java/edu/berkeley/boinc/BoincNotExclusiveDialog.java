@@ -31,13 +31,10 @@ public class BoincNotExclusiveDialog extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.nonexcl_dialog_text))
-                .setCancelable(false)
-                .setTitle(getString(R.string.nonexcl_dialog_header))
-                .setNeutralButton(getString(R.string.nonexcl_dialog_exit), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                }).show();
+        builder.setMessage(getString(R.string.nonexcl_dialog_text)).setCancelable(false).setTitle(getString(R.string.nonexcl_dialog_header)).setNeutralButton(getString(R.string.nonexcl_dialog_exit), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+            }
+        }).show();
     }
 }

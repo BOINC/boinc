@@ -58,11 +58,7 @@ public class Transfer implements Serializable, Parcelable {
         dest.writeFloat(xfer_speed);
         dest.writeLong(project_backoff);
 
-        dest.writeBooleanArray(new boolean[]{
-                generated_locally,
-                xfer_active,
-                is_upload
-        });
+        dest.writeBooleanArray(new boolean[]{generated_locally, xfer_active, is_upload});
     }
 
     public Transfer() {

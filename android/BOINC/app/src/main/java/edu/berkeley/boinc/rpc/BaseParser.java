@@ -44,7 +44,8 @@ public class BaseParser extends DefaultHandler {
                         break;
                     }
                 }
-            } else {
+            }
+            else {
                 // Non-empty - add everything
                 mCurrentElement.append(ch, start, length);
             }

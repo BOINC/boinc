@@ -53,8 +53,12 @@ public class ProjectConfig implements Parcelable {
      * @return URL for accoutn look up and registration RPCs
      */
     public String getSecureUrlIfAvailable() {
-        if (webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) return webRpcUrlBase;
-        else return masterUrl;
+        if (webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) {
+            return webRpcUrlBase;
+        }
+        else {
+            return masterUrl;
+        }
     }
 
     @Override
@@ -77,13 +81,7 @@ public class ProjectConfig implements Parcelable {
         dest.writeList(platforms);
         dest.writeString(termsOfUse);
 
-        dest.writeBooleanArray(new boolean[]{
-                usesName,
-                webStopped,
-                schedulerStopped,
-                accountCreationDisabled,
-                clientAccountCreationDisabled,
-                accountManager});
+        dest.writeBooleanArray(new boolean[]{usesName, webStopped, schedulerStopped, accountCreationDisabled, clientAccountCreationDisabled, accountManager});
 
     }
 

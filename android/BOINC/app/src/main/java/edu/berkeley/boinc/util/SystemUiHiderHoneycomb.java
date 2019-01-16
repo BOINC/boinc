@@ -41,8 +41,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
      * Constructor not intended to be called by clients. Use
      * {@link SystemUiHider#getInstance} to obtain an instance.
      */
-    protected SystemUiHiderHoneycomb(Activity activity, View anchorView,
-                                     int flags) {
+    protected SystemUiHiderHoneycomb(Activity activity, View anchorView, int flags) {
         super(activity, anchorView, flags);
 
         mShowFlags = View.SYSTEM_UI_FLAG_VISIBLE;
@@ -55,15 +54,13 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
             // API 16 (Jelly Bean). It is safe to use them, as they are inlined
             // at compile-time and do nothing on pre-Jelly Bean devices.
             mShowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
         }
 
         if ((mFlags & FLAG_HIDE_NAVIGATION) != 0) {
             // If the client requested hiding navigation, add relevant flags.
             mShowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-            mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             mTestFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         }
     }
@@ -73,8 +70,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
      */
     @Override
     public void setup() {
-        mAnchorView
-                .setOnSystemUiVisibilityChangeListener(mSystemUiVisibilityChangeListener);
+        mAnchorView.setOnSystemUiVisibilityChangeListener(mSystemUiVisibilityChangeListener);
     }
 
     /**
@@ -101,20 +97,22 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
         return mVisible;
     }
 
-    private View.OnSystemUiVisibilityChangeListener mSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
-        @Override
-        public void onSystemUiVisibilityChange(int vis) {
-            // Test against mTestFlags to see if the system UI is visible.
-            if ((vis & mTestFlags) != 0) {
-                // Trigger the registered listener and cache the visibility state.
-                mOnVisibilityChangeListener.onVisibilityChange(false);
-                mVisible = false;
-            } else {
-                mAnchorView.setSystemUiVisibility(mShowFlags);
-                // Trigger the registered listener and cache the visibility state.
-                mOnVisibilityChangeListener.onVisibilityChange(true);
-                mVisible = true;
-            }
-        }
-    };
+    private View.OnSystemUiVisibilityChangeListener mSystemUiVisibilityChangeListener =
+            new View.OnSystemUiVisibilityChangeListener() {
+                @Override
+                public void onSystemUiVisibilityChange(int vis) {
+                    // Test against mTestFlags to see if the system UI is visible.
+                    if ((vis & mTestFlags) != 0) {
+                        // Trigger the registered listener and cache the visibility state.
+                        mOnVisibilityChangeListener.onVisibilityChange(false);
+                        mVisible = false;
+                    }
+                    else {
+                        mAnchorView.setSystemUiVisibility(mShowFlags);
+                        // Trigger the registered listener and cache the visibility state.
+                        mOnVisibilityChangeListener.onVisibilityChange(true);
+                        mVisible = true;
+                    }
+                }
+            };
 }

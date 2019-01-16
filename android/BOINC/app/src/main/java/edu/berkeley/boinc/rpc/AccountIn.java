@@ -76,8 +76,7 @@ public class AccountIn implements Parcelable {
         out.writeString(user_name);
         out.writeString(passwd);
         out.writeString(team_name);
-        out.writeBooleanArray(new boolean[]{
-                uses_name});
+        out.writeBooleanArray(new boolean[]{uses_name});
     }
 
     public void readFromParcel(Parcel in) {

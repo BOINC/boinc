@@ -77,18 +77,16 @@ public class EventLogActivity extends AppCompatActivity {
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        EventLogActivityTabListener<EventLogClientFragment> clientListener = new EventLogActivityTabListener<>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
+        EventLogActivityTabListener<EventLogClientFragment> clientListener =
+                new EventLogActivityTabListener<>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
         listener.add(clientListener);
-        Tab tab = actionBar.newTab()
-                .setText(R.string.eventlog_client_header)
-                .setTabListener(clientListener);
+        Tab tab = actionBar.newTab().setText(R.string.eventlog_client_header).setTabListener(clientListener);
         actionBar.addTab(tab);
 
-        EventLogActivityTabListener<EventLogGuiFragment> guiListener = new EventLogActivityTabListener<>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
+        EventLogActivityTabListener<EventLogGuiFragment> guiListener =
+                new EventLogActivityTabListener<>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
         listener.add(guiListener);
-        tab = actionBar.newTab()
-                .setText(R.string.eventlog_gui_header)
-                .setTabListener(guiListener);
+        tab = actionBar.newTab().setText(R.string.eventlog_gui_header).setTabListener(guiListener);
         actionBar.addTab(tab);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -108,7 +106,9 @@ public class EventLogActivity extends AppCompatActivity {
      */
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
-            if (Logging.VERBOSE) Log.d(Logging.TAG, "EventLogActivity onServiceConnected");
+            if (Logging.VERBOSE) {
+                Log.d(Logging.TAG, "EventLogActivity onServiceConnected");
+            }
             monitor = IMonitor.Stub.asInterface(service);
             mIsBound = true;
 
@@ -136,8 +136,11 @@ public class EventLogActivity extends AppCompatActivity {
     }
 
     public IMonitor getMonitorService() {
-        if (!mIsBound) if (Logging.WARNING)
-            Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in EventLogActivity");
+        if (!mIsBound) {
+            if (Logging.WARNING) {
+                Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in EventLogActivity");
+            }
+        }
         return monitor;
     }
 
@@ -168,8 +171,12 @@ public class EventLogActivity extends AppCompatActivity {
     private int getActiveLog() {
         for (EventLogActivityTabListener<?> tmp : listener) {
             if (tmp.currentlySelected) {
-                if (tmp.mClass == EventLogClientFragment.class) return CLIENT_LOG_TAB_ACTIVE;
-                else if (tmp.mClass == EventLogGuiFragment.class) return GUI_LOG_TAB_ACTIVE;
+                if (tmp.mClass == EventLogClientFragment.class) {
+                    return CLIENT_LOG_TAB_ACTIVE;
+                }
+                else if (tmp.mClass == EventLogGuiFragment.class) {
+                    return GUI_LOG_TAB_ACTIVE;
+                }
             }
         }
         return -1;
@@ -180,7 +187,8 @@ public class EventLogActivity extends AppCompatActivity {
             if (tmp.currentlySelected) {
                 if (tmp.mClass == EventLogClientFragment.class) {
                     ((EventLogClientFragment) tmp.mFragment).update();
-                } else if (tmp.mClass == EventLogGuiFragment.class) {
+                }
+                else if (tmp.mClass == EventLogGuiFragment.class) {
                     ((EventLogGuiFragment) tmp.mFragment).update();
                 }
                 break;
@@ -194,8 +202,11 @@ public class EventLogActivity extends AppCompatActivity {
             ClipData clipData = ClipData.newPlainText("log", getLogDataAsString());
             clipboard.setPrimaryClip(clipData);
             Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "onCopy failed");
+        }
+        catch (Exception e) {
+            if (Logging.WARNING) {
+                Log.w(Logging.TAG, "onCopy failed");
+            }
         }
     }
 
@@ -213,8 +224,11 @@ public class EventLogActivity extends AppCompatActivity {
 
             // Send it off to the Activity-Chooser
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-        } catch (Exception e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "onEmailTo failed");
+        }
+        catch (Exception e) {
+            if (Logging.WARNING) {
+                Log.w(Logging.TAG, "onEmailTo failed");
+            }
         }
     }
 
@@ -234,14 +248,17 @@ public class EventLogActivity extends AppCompatActivity {
                 text.append(clientLogListAdapter.getMessage(index));
                 text.append("\n");
             }
-        } else if (type == GUI_LOG_TAB_ACTIVE) {
+        }
+        else if (type == GUI_LOG_TAB_ACTIVE) {
             text.append(getString(R.string.eventlog_gui_header)).append("\n\n");
             for (String line : guiLogData) {
                 text.append(line);
                 text.append("\n");
             }
-        } else if (Logging.WARNING)
+        }
+        else if (Logging.WARNING) {
             Log.w(Logging.TAG, "EventLogActivity could not determine which log active.");
+        }
         return text.toString();
     }
 }

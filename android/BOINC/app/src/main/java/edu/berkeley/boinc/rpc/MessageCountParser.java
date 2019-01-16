@@ -47,7 +47,8 @@ public class MessageCountParser extends DefaultHandler {
             MessageCountParser parser = new MessageCountParser();
             Xml.parse(reply, parser);
             return parser.seqno();
-        } catch (SAXException e) {
+        }
+        catch (SAXException e) {
             return -1;
         }
 
@@ -87,14 +88,18 @@ public class MessageCountParser extends DefaultHandler {
             trimEnd();
             if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
                 mInReply = false;
-            } else if (mInReply && !mParsed) {
+            }
+            else if (mInReply && !mParsed) {
                 if (localName.equalsIgnoreCase("seqno")) {
                     mSeqno = Integer.parseInt(mCurrentElement.toString());
                     mParsed = true;
                 }
             }
-        } catch (NumberFormatException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "MessageCountParser.endElement error: ", e);
+        }
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
+                Log.e(Logging.TAG, "MessageCountParser.endElement error: ", e);
+            }
         }
         mCurrentElement.setLength(0);
     }

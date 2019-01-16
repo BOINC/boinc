@@ -67,12 +67,15 @@ public class AcctMgrFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment onCreateView");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "AcctMgrFragment onCreateView");
+        }
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
 
         urlSpinner = v.findViewById(R.id.url_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(getActivity(), R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
 
@@ -84,8 +87,12 @@ public class AcctMgrFragment extends DialogFragment {
         continueB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if (Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment continue clicked");
-                if (!checkDeviceOnline()) return;
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "AcctMgrFragment continue clicked");
+                }
+                if (!checkDeviceOnline()) {
+                    return;
+                }
                 if (asIsBound) {
 
                     // get user input
@@ -113,8 +120,10 @@ public class AcctMgrFragment extends DialogFragment {
                     asyncTask = new AttachProjectAsyncTask();
                     asyncTask.execute(params);
 
-                } else if (Logging.DEBUG)
+                }
+                else if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing...");
+                }
             }
         });
 
@@ -124,7 +133,9 @@ public class AcctMgrFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         doUnbindService();
-        if (asyncTask != null) asyncTask.cancel(true);
+        if (asyncTask != null) {
+            asyncTask.cancel(true);
+        }
         super.onDestroyView();
     }
 
@@ -147,9 +158,11 @@ public class AcctMgrFragment extends DialogFragment {
         // check input
         if (url.length() == 0) {
             stringResource = R.string.attachproject_error_no_url;
-        } else if (name.length() == 0) {
+        }
+        else if (name.length() == 0) {
             stringResource = R.string.attachproject_error_no_name;
-        } else if (pwd.length() == 0) {
+        }
+        else if (pwd.length() == 0) {
             stringResource = R.string.attachproject_error_no_pwd;
         }
 
@@ -161,13 +174,16 @@ public class AcctMgrFragment extends DialogFragment {
     // note: available internet does not imply connection to project server
     // is possible!
     private Boolean checkDeviceOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
         if (!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!");
+            if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!");
+            }
         }
         return online;
     }
@@ -201,7 +217,9 @@ public class AcctMgrFragment extends DialogFragment {
     }
 
     private String mapErrorNumToString(int code) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "mapErrorNumToString for error: " + code);
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "mapErrorNumToString for error: " + code);
+        }
         int stringResource;
         switch (code) {
             case BOINCErrors.ERR_DB_NOT_FOUND:
@@ -260,13 +278,15 @@ public class AcctMgrFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            if (Logging.DEBUG)
+            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, returned: " + result);
+            }
             if (result == BOINCErrors.ERR_OK) {
                 dismiss();
                 if (returnToMainActivity) {
-                    if (Logging.DEBUG)
+                    if (Logging.DEBUG) {
                         Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, start main activity");
+                    }
                     Intent intent = new Intent(getActivity(), BOINCActivity.class);
                     // add flags to return to main activity and clearing all others and clear the back stack
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -274,7 +294,8 @@ public class AcctMgrFragment extends DialogFragment {
                     intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
                     startActivity(intent);
                 }
-            } else {
+            }
+            else {
                 ongoingWrapper.setVisibility(View.GONE);
                 continueB.setVisibility(View.VISIBLE);
                 warning.setVisibility(View.VISIBLE);

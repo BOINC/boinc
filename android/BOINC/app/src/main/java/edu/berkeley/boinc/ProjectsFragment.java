@@ -84,7 +84,9 @@ public class ProjectsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsFragment onCreateView");
+        if (Logging.VERBOSE) {
+            Log.v(Logging.TAG, "ProjectsFragment onCreateView");
+        }
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.projects_layout, container, false);
         lv = layout.findViewById(R.id.projectsList);
@@ -94,7 +96,9 @@ public class ProjectsFragment extends Fragment {
 
     @Override
     public void onPause() {
-        if (Logging.VERBOSE) Log.d(Logging.TAG, "ProjectsFragment onPause()");
+        if (Logging.VERBOSE) {
+            Log.d(Logging.TAG, "ProjectsFragment onPause()");
+        }
 
         getActivity().unregisterReceiver(mClientStatusChangeRec);
         super.onPause();
@@ -102,7 +106,9 @@ public class ProjectsFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if (Logging.VERBOSE) Log.d(Logging.TAG, "ProjectsFragment onResume()");
+        if (Logging.VERBOSE) {
+            Log.d(Logging.TAG, "ProjectsFragment onResume()");
+        }
         super.onResume();
 
         populateLayout();
@@ -119,8 +125,9 @@ public class ProjectsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (Logging.VERBOSE)
+        if (Logging.VERBOSE) {
             Log.v(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()");
+        }
 
         switch (item.getItemId()) {
             case R.id.projects_add_url:
@@ -148,9 +155,12 @@ public class ProjectsFragment extends Fragment {
             // Force list adapter to refresh
             listAdapter.notifyDataSetChanged();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // data retrieval failed, set layout to loading...
-            if (Logging.ERROR) Log.d(Logging.TAG, "ProjectsActiviy data retrieval failed.");
+            if (Logging.ERROR) {
+                Log.d(Logging.TAG, "ProjectsActiviy data retrieval failed.");
+            }
         }
     }
 
@@ -166,21 +176,27 @@ public class ProjectsFragment extends Fragment {
             }
         }
         if (mgrIndex < 0) { // no manager present until now
-            if (Logging.VERBOSE)
+            if (Logging.VERBOSE) {
                 Log.d(Logging.TAG, "No manager found in layout list. New entry available: " + acctMgrInfo.present);
+            }
             if (acctMgrInfo.present) {
                 // add new manager entry, at top of the list
                 data.add(new ProjectsListData(null, acctMgrInfo, null));
-                if (Logging.DEBUG)
+                if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "New acct mgr found: " + acctMgrInfo.acct_mgr_name);
+                }
             }
-        } else { // manager found in existing list
-            if (Logging.VERBOSE)
+        }
+        else { // manager found in existing list
+            if (Logging.VERBOSE) {
                 Log.d(Logging.TAG, "Manager found in layout list at index: " + mgrIndex);
+            }
             if (!acctMgrInfo.present) {
                 // manager got detached, remove from list
                 data.remove(mgrIndex);
-                if (Logging.DEBUG) Log.d(Logging.TAG, "Acct mgr removed from list.");
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "Acct mgr removed from list.");
+                }
             }
         }
 
@@ -196,13 +212,18 @@ public class ProjectsFragment extends Fragment {
                 }
             }
             if (index == null) { // Project is new, add
-                if (Logging.DEBUG)
-                    Log.d(Logging.TAG, "New project found, id: " + rpcResult.master_url + ", managed: " + rpcResult.attached_via_acct_mgr);
-                if (rpcResult.attached_via_acct_mgr)
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "New project found, id: " + rpcResult.master_url + ", managed: " +
+                                       rpcResult.attached_via_acct_mgr);
+                }
+                if (rpcResult.attached_via_acct_mgr) {
                     data.add(new ProjectsListData(rpcResult, null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // append to end of list (after manager)
-                else
+                }
+                else {
                     data.add(0, new ProjectsListData(rpcResult, null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // put at top of list (before manager)
-            } else { // Project was present before, update its data
+                }
+            }
+            else { // Project was present before, update its data
                 data.get(index).updateProjectData(rpcResult, null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers));
             }
         }
@@ -213,14 +234,18 @@ public class ProjectsFragment extends Fragment {
         while (iData.hasNext()) {
             Boolean found = false;
             ProjectsListData listItem = iData.next();
-            if (listItem.isMgr) continue;
+            if (listItem.isMgr) {
+                continue;
+            }
             for (Project rpcResult : latestRpcProjectsList) {
                 if (listItem.id.equals(rpcResult.master_url)) {
                     found = true;
                     break;
                 }
             }
-            if (!found) iData.remove();
+            if (!found) {
+                iData.remove();
+            }
         }
 
         // SERVER NOTICES
@@ -228,7 +253,9 @@ public class ProjectsFragment extends Fragment {
         if (serverNotices != null) {
             int mappedServerNotices = 0;
             for (ProjectsListData project : data) {
-                if (project.isMgr) continue; // do not seek notices in manager entries (crashes)
+                if (project.isMgr) {
+                    continue; // do not seek notices in manager entries (crashes)
+                }
                 boolean noticeFound = false;
                 for (Notice serverNotice : serverNotices) {
                     if (project.project.project_name.equals(serverNotice.project_name)) {
@@ -237,10 +264,15 @@ public class ProjectsFragment extends Fragment {
                         mappedServerNotices++;
                     }
                 }
-                if (!noticeFound) project.addServerNotice(null);
+                if (!noticeFound) {
+                    project.addServerNotice(null);
+                }
             }
-            if (mappedServerNotices != serverNotices.size()) if (Logging.WARNING)
-                Log.w(Logging.TAG, "could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
+            if (mappedServerNotices != serverNotices.size()) {
+                if (Logging.WARNING) {
+                    Log.w(Logging.TAG, "could not match notice: " + mappedServerNotices + "/" + serverNotices.size());
+                }
+            }
         }
     }
 
@@ -253,8 +285,10 @@ public class ProjectsFragment extends Fragment {
                 projectTransfers.add(trans);
             }
         }
-        if (Logging.VERBOSE)
-            Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() + " transfers to project " + id);
+        if (Logging.VERBOSE) {
+            Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() +
+                               " transfers to project " + id);
+        }
         return projectTransfers;
     }
 
@@ -273,10 +307,13 @@ public class ProjectsFragment extends Fragment {
             this.project = data;
             this.acctMgrInfo = acctMgrInfo;
             this.projectTransfers = projectTransfers;
-            if (this.project == null && this.acctMgrInfo != null) isMgr = true;
+            if (this.project == null && this.acctMgrInfo != null) {
+                isMgr = true;
+            }
             if (isMgr) {
                 this.id = acctMgrInfo.acct_mgr_url;
-            } else {
+            }
+            else {
                 this.id = data.master_url;
             }
         }
@@ -284,7 +321,8 @@ public class ProjectsFragment extends Fragment {
         public void updateProjectData(Project data, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
             if (isMgr) {
                 this.acctMgrInfo = acctMgrInfo;
-            } else {
+            }
+            else {
                 this.project = data;
                 this.projectTransfers = projectTransfers;
             }
@@ -321,36 +359,47 @@ public class ProjectsFragment extends Fragment {
                     controls.add(new ProjectControl(listEntry, ProjectControl.VISIT_WEBSITE));
                     controls.add(new ProjectControl(listEntry, RpcClient.MGR_SYNC));
                     controls.add(new ProjectControl(listEntry, RpcClient.MGR_DETACH));
-                } else {
+                }
+                else {
                     ((TextView) dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title);
 
                     controls.add(new ProjectControl(listEntry, ProjectControl.VISIT_WEBSITE));
-                    if (projectTransfers != null && !projectTransfers.isEmpty())
+                    if (projectTransfers != null && !projectTransfers.isEmpty()) {
                         controls.add(new ProjectControl(listEntry, RpcClient.TRANSFER_RETRY));
+                    }
                     controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_UPDATE));
-                    if (project.suspended_via_gui)
+                    if (project.suspended_via_gui) {
                         controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESUME));
-                    else controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_SUSPEND));
+                    }
+                    else {
+                        controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_SUSPEND));
+                    }
                     boolean isShowAdvanced;
                     try {
                         isShowAdvanced = BOINCActivity.monitor.getShowAdvanced();
-                    } catch (RemoteException e) {
+                    }
+                    catch (RemoteException e) {
                         isShowAdvanced = false;
                     }
-                    if (isShowAdvanced && project.dont_request_more_work)
+                    if (isShowAdvanced && project.dont_request_more_work) {
                         controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_ANW));
-                    if (isShowAdvanced && !project.dont_request_more_work)
+                    }
+                    if (isShowAdvanced && !project.dont_request_more_work) {
                         controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_NNW));
-                    if (isShowAdvanced)
+                    }
+                    if (isShowAdvanced) {
                         controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESET));
-                    if (!project.attached_via_acct_mgr)
+                    }
+                    if (!project.attached_via_acct_mgr) {
                         controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_DETACH));
+                    }
                 }
 
                 // list adapter
                 list.setAdapter(new ProjectControlsListAdapter(getActivity(), list, R.layout.projects_controls_listitem_layout, controls));
-                if (Logging.DEBUG)
+                if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "dialog list adapter entries: " + controls.size());
+                }
 
                 // buttons
                 Button cancelButton = dialogControls.findViewById(R.id.cancel);
@@ -386,9 +435,8 @@ public class ProjectsFragment extends Fragment {
             public void onClick(View v) {
 
                 //check whether command requires confirmation
-                if (operation == RpcClient.PROJECT_DETACH
-                        || operation == RpcClient.PROJECT_RESET
-                        || operation == RpcClient.MGR_DETACH) {
+                if (operation == RpcClient.PROJECT_DETACH || operation == RpcClient.PROJECT_RESET ||
+                    operation == RpcClient.MGR_DETACH) {
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_confirm);
@@ -399,18 +447,23 @@ public class ProjectsFragment extends Fragment {
                     // operation dependend texts
                     if (operation == RpcClient.PROJECT_DETACH) {
                         tvTitle.setText(R.string.projects_confirm_detach_title);
-                        tvMessage.setText(getString(R.string.projects_confirm_detach_message) + " "
-                                + data.project.project_name + " " + getString(R.string.projects_confirm_detach_message2));
+                        tvMessage.setText(
+                                getString(R.string.projects_confirm_detach_message) + " " + data.project.project_name +
+                                " " + getString(R.string.projects_confirm_detach_message2));
                         confirm.setText(R.string.projects_confirm_detach_confirm);
-                    } else if (operation == RpcClient.PROJECT_RESET) {
+                    }
+                    else if (operation == RpcClient.PROJECT_RESET) {
                         tvTitle.setText(R.string.projects_confirm_reset_title);
-                        tvMessage.setText(getString(R.string.projects_confirm_reset_message) + " "
-                                + data.project.project_name + getString(R.string.projects_confirm_reset_message2));
+                        tvMessage.setText(
+                                getString(R.string.projects_confirm_reset_message) + " " + data.project.project_name +
+                                getString(R.string.projects_confirm_reset_message2));
                         confirm.setText(R.string.projects_confirm_reset_confirm);
-                    } else if (operation == RpcClient.MGR_DETACH) {
+                    }
+                    else if (operation == RpcClient.MGR_DETACH) {
                         tvTitle.setText(R.string.projects_confirm_remove_acctmgr_title);
-                        tvMessage.setText(getString(R.string.projects_confirm_remove_acctmgr_message) + " "
-                                + data.acctMgrInfo.acct_mgr_name + getString(R.string.projects_confirm_remove_acctmgr_message2));
+                        tvMessage.setText(getString(R.string.projects_confirm_remove_acctmgr_message) + " " +
+                                          data.acctMgrInfo.acct_mgr_name +
+                                          getString(R.string.projects_confirm_remove_acctmgr_message2));
                         confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm);
                     }
 
@@ -430,11 +483,14 @@ public class ProjectsFragment extends Fragment {
                         }
                     });
                     dialog.show();
-                } else if (operation == ProjectControl.VISIT_WEBSITE) { // command does not require confirmation and is not rpc based
+                }
+                else if (operation ==
+                         ProjectControl.VISIT_WEBSITE) { // command does not require confirmation and is not rpc based
                     dialogControls.dismiss();
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(data.id));
                     startActivity(i);
-                } else { // command does not required confirmation, but is rpc based
+                }
+                else { // command does not required confirmation, but is rpc based
                     new ProjectOperationAsync().execute(data, operation);
                     dialogControls.dismiss();
                 }
@@ -447,12 +503,17 @@ public class ProjectsFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Object... params) {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "ProjectOperationAsync doInBackground");
+            if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "ProjectOperationAsync doInBackground");
+            }
             try {
                 ProjectsListData data = (ProjectsListData) params[0];
                 Integer operation = (Integer) params[1];
-                if (Logging.DEBUG)
-                    Log.d(Logging.TAG, "ProjectOperationAsync isMgr: " + data.isMgr + "url: " + data.id + " operation: " + operation);
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG,
+                            "ProjectOperationAsync isMgr: " + data.isMgr + "url: " + data.id + " operation: " +
+                            operation);
+                }
 
                 switch (operation) {
                     // project operations
@@ -478,25 +539,32 @@ public class ProjectsFragment extends Fragment {
                         break;
 
                     default:
-                        if (Logging.ERROR)
+                        if (Logging.ERROR) {
                             Log.e(Logging.TAG, "ProjectOperationAsync could not match operation: " + operation);
+                        }
                 }
-            } catch (Exception e) {
-                if (Logging.WARNING)
+            }
+            catch (Exception e) {
+                if (Logging.WARNING) {
                     Log.w(Logging.TAG, "ProjectOperationAsync error in do in background", e);
+                }
             }
             return false;
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if (success)
+            if (success) {
                 try {
                     BOINCActivity.monitor.forceRefresh();
-                } catch (RemoteException e) {
+                }
+                catch (RemoteException e) {
                     e.printStackTrace();
                 }
-            else if (Logging.WARNING) Log.w(Logging.TAG, "ProjectOperationAsync failed.");
+            }
+            else if (Logging.WARNING) {
+                Log.w(Logging.TAG, "ProjectOperationAsync failed.");
+            }
         }
     }
 }

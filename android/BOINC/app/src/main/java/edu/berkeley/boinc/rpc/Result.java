@@ -125,19 +125,7 @@ public class Result implements Parcelable {
         dest.writeValue(app);
         dest.writeValue(wup);
 
-        dest.writeBooleanArray(new boolean[]{
-                ready_to_report,
-                got_server_ack,
-                suspended_via_gui,
-                project_suspended_via_gui,
-                coproc_missing,
-                gpu_mem_wait,
-                active_task,
-                supports_graphics,
-                too_large,
-                needs_shmem,
-                edf_scheduled
-        });
+        dest.writeBooleanArray(new boolean[]{ready_to_report, got_server_ack, suspended_via_gui, project_suspended_via_gui, coproc_missing, gpu_mem_wait, active_task, supports_graphics, too_large, needs_shmem, edf_scheduled});
     }
 
     public Result() {

@@ -41,7 +41,8 @@ public class NoticesParser extends BaseParser {
             NoticesParser parser = new NoticesParser();
             Xml.parse(rpcResult.replace("&", "&amp;"), parser);
             return parser.getNotices();
-        } catch (SAXException e) {
+        }
+        catch (SAXException e) {
             Log.d("NoticesParser", "SAXException " + e.getMessage() + e.getException());
             return new ArrayList<>();
         }
@@ -52,7 +53,8 @@ public class NoticesParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("notice")) {
             mNotice = new Notice();
-        } else {
+        }
+        else {
             // primitive
             mElementStarted = true;
             mCurrentElement.setLength(0);
@@ -72,32 +74,47 @@ public class NoticesParser extends BaseParser {
                         mNotices.add(mNotice);
                     }
                     mNotice = null;
-                } else {
+                }
+                else {
                     // decode inner tags
                     if (localName.equalsIgnoreCase("seqno")) {
                         mNotice.seqno = Integer.parseInt(mCurrentElement.toString());
-                    } else if (localName.equalsIgnoreCase("title")) {
+                    }
+                    else if (localName.equalsIgnoreCase("title")) {
                         mNotice.title = mCurrentElement.toString();
-                    } else if (localName.equalsIgnoreCase("description")) {
+                    }
+                    else if (localName.equalsIgnoreCase("description")) {
                         mNotice.description = mCurrentElement.toString();
-                    } else if (localName.equalsIgnoreCase("create_time")) {
+                    }
+                    else if (localName.equalsIgnoreCase("create_time")) {
                         mNotice.create_time = Double.parseDouble(mCurrentElement.toString());
-                    } else if (localName.equalsIgnoreCase("arrival_time")) {
+                    }
+                    else if (localName.equalsIgnoreCase("arrival_time")) {
                         mNotice.arrival_time = Double.parseDouble(mCurrentElement.toString());
-                    } else if (localName.equalsIgnoreCase("category")) {
+                    }
+                    else if (localName.equalsIgnoreCase("category")) {
                         mNotice.category = mCurrentElement.toString();
-                        if (mNotice.category.equals("server")) mNotice.isServerNotice = true;
-                        if (mNotice.category.equals("scheduler")) mNotice.isServerNotice = true;
-                        if (mNotice.category.equals("client")) mNotice.isClientNotice = true;
-                    } else if (localName.equalsIgnoreCase("link")) {
+                        if (mNotice.category.equals("server")) {
+                            mNotice.isServerNotice = true;
+                        }
+                        if (mNotice.category.equals("scheduler")) {
+                            mNotice.isServerNotice = true;
+                        }
+                        if (mNotice.category.equals("client")) {
+                            mNotice.isClientNotice = true;
+                        }
+                    }
+                    else if (localName.equalsIgnoreCase("link")) {
                         mNotice.link = mCurrentElement.toString();
-                    } else if (localName.equalsIgnoreCase("project_name")) {
+                    }
+                    else if (localName.equalsIgnoreCase("project_name")) {
                         mNotice.project_name = mCurrentElement.toString();
                     }
                 }
             }
             mElementStarted = false;
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             Log.d("NoticesParser", "NumberFormatException " + localName + " " + mCurrentElement.toString());
         }
     }

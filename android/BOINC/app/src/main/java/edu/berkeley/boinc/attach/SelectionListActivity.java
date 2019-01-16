@@ -62,7 +62,9 @@ public class SelectionListActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onCreate");
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "AttachProjectListActivity onCreate");
+        }
 
         doBindService();
 
@@ -73,7 +75,9 @@ public class SelectionListActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
-        if (Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
+        if (Logging.VERBOSE) {
+            Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
+        }
         doUnbindService();
         super.onDestroy();
     }
@@ -82,12 +86,15 @@ public class SelectionListActivity extends FragmentActivity {
     // shows toast otherwise
     private Boolean checkProjectChecked() {
         for (ProjectListEntry tmp : entries) {
-            if (tmp.checked) return true;
+            if (tmp.checked) {
+                return true;
+            }
         }
         Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_list_header, Toast.LENGTH_SHORT);
         toast.show();
-        if (Logging.DEBUG)
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "AttachProjectListActivity no project selected, stop!");
+        }
         return false;
     }
 
@@ -100,17 +107,24 @@ public class SelectionListActivity extends FragmentActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
         if (!online) {
-            Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
+            Toast toast =
+                    Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!");
+            if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!");
+            }
         }
         return online;
     }
 
     // triggered by continue button
     public void continueClicked(View v) {
-        if (!checkProjectChecked()) return;
-        if (!checkDeviceOnline()) return;
+        if (!checkProjectChecked()) {
+            return;
+        }
+        if (!checkDeviceOnline()) {
+            return;
+        }
 
         StringBuilder selectedProjectsDebug = new StringBuilder();
         // get selected projects
@@ -121,8 +135,9 @@ public class SelectionListActivity extends FragmentActivity {
                 selectedProjectsDebug.append(tmp.info.name).append(",");
             }
         }
-        if (Logging.DEBUG)
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug.toString());
+        }
 
         attachService.setSelectedProjects(selected); // returns immediately
 
@@ -194,28 +209,42 @@ public class SelectionListActivity extends FragmentActivity {
             while (retry) {
                 try {
                     data = (ArrayList<ProjectInfo>) monitor.getAttachableProjects();
-                } catch (RemoteException e) {
-                    if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
                 }
-                if (super.isCancelled()) return data; // Does not matter if data == null or not
+                catch (RemoteException e) {
+                    if (Log.isLoggable(Logging.TAG, Log.WARN)) {
+                        Log.w(Logging.TAG, e);
+                    }
+                }
+                if (super.isCancelled()) {
+                    return data; // Does not matter if data == null or not
+                }
                 if (data == null) {
-                    if (Logging.WARNING)
+                    if (Logging.WARNING) {
                         Log.w(Logging.TAG, "UpdateProjectListAsyncTask: failed to retrieve data, retry....");
+                    }
                     try {
                         Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        if (Log.isLoggable(Logging.TAG, Log.DEBUG))
-                            Log.d(Logging.TAG, e.getLocalizedMessage(), e);
                     }
-                } else retry = false;
+                    catch (InterruptedException e) {
+                        if (Log.isLoggable(Logging.TAG, Log.DEBUG)) {
+                            Log.d(Logging.TAG, e.getLocalizedMessage(), e);
+                        }
+                    }
+                }
+                else {
+                    retry = false;
+                }
             }
-            if (Logging.DEBUG)
+            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "monitor.getAttachableProjects returned with " + data.size() + " elements");
+            }
             // Clear current ProjectListEntries since we successfully have got new ProjectInfos
             SelectionListActivity.this.entries.clear();
             // Transform ProjectInfos into ProjectListEntries
             for (int i = data.size() - 1; i >= 0; i--) {
-                if (super.isCancelled()) return data;
+                if (super.isCancelled()) {
+                    return data;
+                }
                 SelectionListActivity.this.entries.add(new ProjectListEntry(data.get(i)));
             }
             // Set preferred Collator for ProjectListEntries before sorting
@@ -231,10 +260,13 @@ public class SelectionListActivity extends FragmentActivity {
         }
 
         protected final void onPostExecute(final ArrayList<ProjectInfo> result) {
-            if (result == null) return;
+            if (result == null) {
+                return;
+            }
 
             SelectionListActivity.this.entries.add(new ProjectListEntry()); // add account manager option to bottom of list
-            SelectionListAdapter listAdapter = new SelectionListAdapter(SelectionListActivity.this, R.id.listview, entries);
+            SelectionListAdapter listAdapter =
+                    new SelectionListAdapter(SelectionListActivity.this, R.id.listview, entries);
             lv.setAdapter(listAdapter);
         }
     }
@@ -285,9 +317,8 @@ public class SelectionListActivity extends FragmentActivity {
          * @see Comparable
          */
         public final int compareTo(final SelectionListActivity.ProjectListEntry p) {
-            return (SelectionListActivity.ProjectListEntry.collator == null ?
-                    SelectionListActivity.ProjectListEntry.getCollator() :
-                    SelectionListActivity.ProjectListEntry.collator).compare(this.info.name, p.info.name);
+            return (SelectionListActivity.ProjectListEntry.collator ==
+                    null ? SelectionListActivity.ProjectListEntry.getCollator() : SelectionListActivity.ProjectListEntry.collator).compare(this.info.name, p.info.name);
         }
 
         /**

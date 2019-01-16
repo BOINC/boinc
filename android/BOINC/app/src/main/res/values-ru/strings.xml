@@ -27,7 +27,9 @@
     <string name="attachproject_conflict_not_unique">Учётная запись существует с другим паролем</string>
     <string name="attachproject_conflict_bad_password">Пароль неверен</string>
     <string name="attachproject_conflict_unknown_user">Учётная запись не существует</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Учётная запись не существует, для регистрации посетите веб-сайт проекта</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Учётная запись не существует, для регистрации
+        посетите веб-сайт проекта
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Подключение</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
     <string name="attachproject_hint_projectwebsite_science">Узнать больше о науке</string>
     <string name="attachproject_hint_projectwebsite_stats">Посмотреть статистику участия</string>
     <string name="attachproject_hint_projectwebsite_community">Общаться с другими участниками</string>
-    <string name="attachproject_hint_platforms_header">BOINC также доступен для вашего компьютера или ноутбука, посетите boinc.berkeley.edu чтобы узнать больше.</string>
+    <string name="attachproject_hint_platforms_header">BOINC также доступен для вашего компьютера или ноутбука, посетите
+        boinc.berkeley.edu чтобы узнать больше.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Соединение с сервером проекта…</string>
     <string name="attachproject_login_image_description">Логотип проекта.</string>
@@ -53,17 +57,24 @@
     <string name="attachproject_login_header_url">Веб-сайт:</string>
     <string name="attachproject_login_header_platform">Android:</string>
     <string name="attachproject_login_platform_supported">Этот проект поддерживает Android-устройства</string>
-    <string name="attachproject_login_platform_not_supported">Этот проект не поддерживает устройства на базе Android</string>
+    <string name="attachproject_login_platform_not_supported">Этот проект не поддерживает устройства на базе Android
+    </string>
     <string name="attachproject_login_category_terms_of_use">Условия использования для</string>
-    <string name="attachproject_login_accept_terms_of_use">Создавая учётную запись в этом проекте, вы принимаете условия использования, которые показаны выше.</string>
+    <string name="attachproject_login_accept_terms_of_use">Создавая учётную запись в этом проекте, вы принимаете условия
+        использования, которые показаны выше.
+    </string>
     <string name="attachproject_login_category_login">Войти с существующей учётной записью</string>
     <string name="attachproject_login_header_id_email">Электронная почта:</string>
     <string name="attachproject_login_header_id_name">Имя:</string>
     <string name="attachproject_login_header_pwd">Пароль:</string>
     <string name="attachproject_login_category_creation">Впервые в</string>
     <string name="attachproject_login_header_creation_enabled">Зарегистрировать учётную запись для участия:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Посетить веб-сайт проекта для создания учётной записи:</string>
-    <string name="attachproject_login_header_creation_disabled">Этот проект в данный момент не позволяет создавать новые учётные записи.</string>
+    <string name="attachproject_login_header_creation_client_disabled">Посетить веб-сайт проекта для создания учётной
+        записи:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">Этот проект в данный момент не позволяет создавать новые
+        учётные записи.
+    </string>
     <string name="attachproject_login_button_registration">Зарегистрироваться</string>
     <string name="attachproject_login_button_login">Войти</string>
     <string name="attachproject_login_button_forgotpw">Восстановить пароль</string>
@@ -79,7 +90,9 @@
     <string name="attachproject_registration_header_pwd_confirm">… Повторите:</string>
     <string name="attachproject_registration_button">Создать</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Используйте менеджер проектов BOINC, чтобы добавить и управлять несколькими проектами</string>
+    <string name="attachproject_acctmgr_list_desc">Используйте менеджер проектов BOINC, чтобы добавить и управлять
+        несколькими проектами
+    </string>
     <string name="attachproject_acctmgr_header">Добавить менеджер проектов</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Пользователь:</string>
@@ -121,7 +134,9 @@
     <!--main activity-->
     <string name="main_noproject_warning">Нажмите здесь, чтобы выбрать проект.</string>
     <string name="main_error">Упс</string>
-    <string name="main_error_long">…этого не должно было произойти!\nНажмите на значок BOINC, чтобы попробовать ещё раз.</string>
+    <string name="main_error_long">…этого не должно было произойти!\nНажмите на значок BOINC, чтобы попробовать ещё
+        раз.
+    </string>
     <string name="main_title_icon_desc">Значок BOINC</string>
     <!--tab names-->
     <string name="tab_status">Статус</string>
@@ -138,7 +153,8 @@
     <string name="status_idle">Нечего делать</string>
     <string name="status_idle_long">Ожидание заданий…</string>
     <string name="status_computing_disabled">Приостановлено</string>
-    <string name="status_computing_disabled_long">Нажмите кнопку Play для возобновления расчётов и передачи данных.</string>
+    <string name="status_computing_disabled_long">Нажмите кнопку Play для возобновления расчётов и передачи данных.
+    </string>
     <string name="status_launching">Запуск…</string>
     <string name="status_noproject">Выбрать проект для участия.</string>
     <string name="status_closing">Закрытие…</string>
@@ -159,35 +175,55 @@
     <string name="prefs_show_advanced_header">Показать дополнительные настройки и элементы управления…</string>
     <string name="prefs_suspend_when_screen_on">Приостановить вычисления, когда экран включён</string>
     <string name="prefs_stationary_device_mode_header">Стационарный режим работы устройства</string>
-    <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания. Включать только в том случае, если устройство не оснащено аккумулятором.</string>
+    <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания.
+        Включать только в том случае, если устройство не оснащено аккумулятором.
+    </string>
     <string name="prefs_power_source_header">Источники питания для вычислений</string>
-    <string name="prefs_power_source_description">Выбор источников питания, которые BOINC может использовать для вычислений.</string>
+    <string name="prefs_power_source_description">Выбор источников питания, которые BOINC может использовать для
+        вычислений.
+    </string>
     <string name="prefs_power_source_ac">Розетки</string>
     <string name="prefs_power_source_usb">USB-подключение</string>
     <string name="prefs_power_source_wireless">Беспроводное зарядное устройство</string>
     <string name="prefs_power_source_battery">Аккумулятор</string>
     <string name="battery_charge_min_pct_header">Мин. уровень заряда батареи</string>
-    <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже указанного уровня.</string>
+    <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже
+        указанного уровня.
+    </string>
     <string name="battery_temperature_max_header">Макс. температура батареи</string>
-    <string name="battery_temperature_max_description">BOINC приостановит расчёты, когда температура батареи превысит указанный уровень. Не рекомендуется менять это значение.</string>
+    <string name="battery_temperature_max_description">BOINC приостановит расчёты, когда температура батареи превысит
+        указанный уровень. Не рекомендуется менять это значение.
+    </string>
     <string name="prefs_disk_max_pct_header">Макс. используемое пространство памяти</string>
-    <string name="prefs_disk_max_pct_description">Сколько процентов от общего объёма памяти вашего устройства BOINC может использовать?</string>
+    <string name="prefs_disk_max_pct_description">Сколько процентов от общего объёма памяти вашего устройства BOINC
+        может использовать?
+    </string>
     <string name="prefs_disk_min_free_gb_header">Мин. свободное пространство</string>
-    <string name="prefs_disk_min_free_gb_description">Какой объём памяти вашего устройства должен оставаться свободным?</string>
+    <string name="prefs_disk_min_free_gb_description">Какой объём памяти вашего устройства должен оставаться
+        свободным?
+    </string>
     <string name="prefs_disk_access_interval_header">Период доступа</string>
     <string name="prefs_disk_access_interval_description">Предлагает интервал между обращениями к диску</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Ежедневный предел передачи</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный BOINC.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный
+        BOINC.
+    </string>
     <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
     <string name="prefs_autostart_header">Автозапуск</string>
     <string name="prefs_show_notification_notices_header">Показывать уведомления о поступлении новых сообщений</string>
     <string name="prefs_show_notification_suspended_header">Показывать уведомление когда приостановлено</string>
     <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
-    <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
+    <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC
+        для расчётов.
+    </string>
     <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше</string>
-    <string name="prefs_cpu_other_load_suspension_description">Определяет, когда BOINC приостанавливает расчёты из-за использования процессора другими приложениями.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Определяет, когда BOINC приостанавливает расчёты из-за
+        использования процессора другими приложениями.
+    </string>
     <string name="prefs_cpu_time_max_header">Предельное время процессора</string>
-    <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
+    <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для
+        расчётов.
+    </string>
     <string name="prefs_memory_max_idle_header">Ограничение ОЗУ</string>
     <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
     <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
@@ -288,7 +324,8 @@
     <string name="eventlog_email_subject">Журнал событий для BOINC на Android:</string>
     <!--suspend reasons-->
     <string name="suspend_unknown">Расчёты приостановлены.</string>
-    <string name="suspend_batteries">Подключите ваше устройство к зарядному устройству для продолжения расчётов.</string>
+    <string name="suspend_batteries">Подключите ваше устройство к зарядному устройству для продолжения расчётов.
+    </string>
     <string name="suspend_screen_on">Выключить экран для продолжения вычислений.</string>
     <string name="suspend_useractive">Пользователь работает.</string>
     <string name="suspend_tod">Закончилось выделенное время для расчётов.</string>
@@ -333,9 +370,13 @@
     <string name="about_title">О</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Версия</string>
-    <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
+    <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура
+        для Распределенных Вычислений университета Беркли
+    </string>
     <string name="about_copyright_reserved">Все права защищены.</string>
-    <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>
+    <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и
+        Корпорации HTC.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Новое уведомление от %1$s</item>
@@ -345,14 +386,20 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Обнаружено приложение добровольных вычислений</string>
-    <string name="nonexcl_dialog_text">Ещё одно приложение добровольных вычислений работает на этом устройстве. Одновременно может работать только одна версия.</string>
+    <string name="nonexcl_dialog_text">Ещё одно приложение добровольных вычислений работает на этом устройстве.
+        Одновременно может работать только одна версия.
+    </string>
     <string name="nonexcl_dialog_exit">Выход</string>
     <!--social integration-->
     <string name="social_invite_button">Пригласить друзей</string>
     <string name="social_invite_intent_title">Как Вы хотите поделиться?</string>
     <string name="social_invite_content_title">Я участвую в научных исследованиях на моём смартфоне!</string>
-    <string name="social_invite_content_body">Я использую мой %1$s для выполнения научных расчётов. Ты тоже можешь принять участие! Скачай приложение здесь: %2$s</string>
+    <string name="social_invite_content_body">Я использую мой %1$s для выполнения научных расчётов. Ты тоже можешь
+        принять участие! Скачай приложение здесь: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

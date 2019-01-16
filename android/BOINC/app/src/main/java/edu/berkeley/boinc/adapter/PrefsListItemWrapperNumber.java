@@ -26,13 +26,7 @@ import edu.berkeley.boinc.utils.Logging;
 
 public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
     enum Unit {
-        NONE,
-        PERCENT,
-        SECONDS,
-        CELSIUS,
-        MEGABYTES,
-        GIGABYTES,
-        DECIMAL
+        NONE, PERCENT, SECONDS, CELSIUS, MEGABYTES, GIGABYTES, DECIMAL
     }
 
     PrefsListItemWrapperNumber.Unit unit;
@@ -100,7 +94,9 @@ public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
                 this.unit = PrefsListItemWrapperNumber.Unit.NONE;
                 break;
             default:
-                if (Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperNumber map failed!");
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "PrefsListItemWrapperNumber map failed!");
+                }
         }
     }
 }

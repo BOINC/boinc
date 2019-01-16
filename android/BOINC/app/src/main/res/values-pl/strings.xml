@@ -27,7 +27,9 @@
     <string name="attachproject_conflict_not_unique">Konto już istnieje</string>
     <string name="attachproject_conflict_bad_password">Nieprawidłowe hasło</string>
     <string name="attachproject_conflict_unknown_user">Konto nie istnieje</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto nie istnieje.\nWejdź na witrynę internetową projektu aby się zarejestrować.</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto nie istnieje.\nWejdź na witrynę
+        internetową projektu aby się zarejestrować.
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Załączanie</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
     <string name="attachproject_hint_projectwebsite_science">Dowiedzieć się więcej o zagadnieniu naukowym</string>
     <string name="attachproject_hint_projectwebsite_stats">Przeglądać statystyki przyczynienia</string>
     <string name="attachproject_hint_projectwebsite_community">Skontaktować się z innymi wolontariuszami</string>
-    <string name="attachproject_hint_platforms_header">BOINC jest zarówno dostępny na Twój komputer lub laptop.\nWejdź na boinc.berkeley.edu aby dowiedzieć się więcej.</string>
+    <string name="attachproject_hint_platforms_header">BOINC jest zarówno dostępny na Twój komputer lub laptop.\nWejdź
+        na boinc.berkeley.edu aby dowiedzieć się więcej.
+    </string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontaktowanie serwera projektu…</string>
     <string name="attachproject_login_image_description">Logo projektu</string>
@@ -55,14 +59,18 @@
     <string name="attachproject_login_platform_supported">Projekt obsługuje urządzenia tego typu.</string>
     <string name="attachproject_login_platform_not_supported">Projekt nie obsługuje urządzenia tego typu.</string>
     <string name="attachproject_login_category_terms_of_use">Warunki korzystania</string>
-    <string name="attachproject_login_accept_terms_of_use">Tworząc nowe konto w tym projekcie, akceptujesz powyższe warunki korzystania.</string>
+    <string name="attachproject_login_accept_terms_of_use">Tworząc nowe konto w tym projekcie, akceptujesz powyższe
+        warunki korzystania.
+    </string>
     <string name="attachproject_login_category_login">Logowanie kontem istniejącym</string>
     <string name="attachproject_login_header_id_email">E-mail:</string>
     <string name="attachproject_login_header_id_name">Nazwa:</string>
     <string name="attachproject_login_header_pwd">Hasło:</string>
     <string name="attachproject_login_category_creation">Nowe w</string>
     <string name="attachproject_login_header_creation_enabled">Zarejestruj się aby brać udział:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Wejdź na witrynę internetową projektu aby utworzyć konto:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Wejdź na witrynę internetową projektu aby
+        utworzyć konto:
+    </string>
     <string name="attachproject_login_header_creation_disabled">Aktualnie, projekt nie tworzy nowych kont.</string>
     <string name="attachproject_login_button_registration">Zarejestruj</string>
     <string name="attachproject_login_button_login">Zaloguj</string>
@@ -79,7 +87,9 @@
     <string name="attachproject_registration_header_pwd_confirm">Potwierdzenie hasła:</string>
     <string name="attachproject_registration_button">Utwórz</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Posługuj się zarządcą kont BOINC, aby dodawać projekty i nimi zarządzać</string>
+    <string name="attachproject_acctmgr_list_desc">Posługuj się zarządcą kont BOINC, aby dodawać projekty i nimi
+        zarządzać
+    </string>
     <string name="attachproject_acctmgr_header">Dodawanie zarządcy kont</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Użytkownik:</string>
@@ -159,7 +169,9 @@
     <string name="prefs_show_advanced_header">Pokaż zaawansowane preferencje i kontrolki…</string>
     <string name="prefs_suspend_when_screen_on">Wstrzymuj obliczenia gdy ekran jest włączony</string>
     <string name="prefs_stationary_device_mode_header">Tryb urządzenia stacjonarnego</string>
-    <string name="prefs_stationary_device_mode_description">Zezwala na wykonywanie obliczeń niezależnie od preferencji zasilania.\nWłączać wyłącznie jeśli urządzenie nie posiada akumulatora.</string>
+    <string name="prefs_stationary_device_mode_description">Zezwala na wykonywanie obliczeń niezależnie od preferencji
+        zasilania.\nWłączać wyłącznie jeśli urządzenie nie posiada akumulatora.
+    </string>
     <string name="prefs_power_source_header">Źródła zasilania podczas obliczeń</string>
     <string name="prefs_power_source_description">Ustala źródło zasilania, które BOINC może używać do obliczeń.</string>
     <string name="prefs_power_source_ac">Gniazdo elektryczne</string>
@@ -167,32 +179,51 @@
     <string name="prefs_power_source_wireless">Ładowarka bezprzewodowa</string>
     <string name="prefs_power_source_battery">Akumulator</string>
     <string name="battery_charge_min_pct_header">Minimalny poziom załadowania akumulatora</string>
-    <string name="battery_charge_min_pct_description">BOINC zawiesza wykonywanie obliczeń poniżej tego poziomu załadowania akumulatora.</string>
+    <string name="battery_charge_min_pct_description">BOINC zawiesza wykonywanie obliczeń poniżej tego poziomu
+        załadowania akumulatora.
+    </string>
     <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora</string>
-    <string name="battery_temperature_max_description">BOINC zawiesza wykonywanie obliczeń, jeśli temperatura akumulatora przekroczy tą temperaturę. Nie zaleca się zmian tej wartości.</string>
+    <string name="battery_temperature_max_description">BOINC zawiesza wykonywanie obliczeń, jeśli temperatura
+        akumulatora przekroczy tą temperaturę. Nie zaleca się zmian tej wartości.
+    </string>
     <string name="prefs_disk_max_pct_header">Maksymalny rozmiar pamięci stałej</string>
-    <string name="prefs_disk_max_pct_description">Określa procentowy rozmiar pamięci stałej urządzenia który BOINC może używać.</string>
+    <string name="prefs_disk_max_pct_description">Określa procentowy rozmiar pamięci stałej urządzenia który BOINC może
+        używać.
+    </string>
     <string name="prefs_disk_min_free_gb_header">Minimalny wolny rozmiar pamięci stałej</string>
     <string name="prefs_disk_min_free_gb_description">Określa rozmiar pamięci stałej, który ma pozostać wolny.</string>
     <string name="prefs_disk_access_interval_header">Częstotliwość sięgania</string>
     <string name="prefs_disk_access_interval_description">Określa jak często BOINC sięga do pamięci stałej.</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Ograniczenie dziennego przekazu</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ogranicza rozmiar danych przekazywanych dziennie przez BOINC.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Ogranicza rozmiar danych przekazywanych dziennie przez
+        BOINC.
+    </string>
     <string name="prefs_network_wifi_only_header">Przekazuj zadania wyłącznie siecią Wi-Fi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Pokazuj powiadomienia o nowych wiadomościach</string>
     <string name="prefs_show_notification_suspended_header">Pokazuj powiadomienia gdy urządzenie jest uśpione</string>
     <string name="prefs_cpu_number_cpus_header">Wykorzystanie rdzeni procesora głównego</string>
-    <string name="prefs_cpu_number_cpus_description">Ogranicza ilość rdzeni procesora głównego, które BOINC może używać do obliczeń.</string>
-    <string name="prefs_cpu_other_load_suspension_header">Wstrzymanie obliczeń gdy użytkowanie procesora głównego przewyższa</string>
-    <string name="prefs_cpu_other_load_suspension_description">Określa poziom użytkowania procesora głównego przez inne aplikacje powyżej którego BOINC wstrzymuje wykonywanie obliczeń.</string>
+    <string name="prefs_cpu_number_cpus_description">Ogranicza ilość rdzeni procesora głównego, które BOINC może używać
+        do obliczeń.
+    </string>
+    <string name="prefs_cpu_other_load_suspension_header">Wstrzymanie obliczeń gdy użytkowanie procesora głównego
+        przewyższa
+    </string>
+    <string name="prefs_cpu_other_load_suspension_description">Określa poziom użytkowania procesora głównego przez inne
+        aplikacje powyżej którego BOINC wstrzymuje wykonywanie obliczeń.
+    </string>
     <string name="prefs_cpu_time_max_header">Maksymalny czas procesora głównego</string>
-    <string name="prefs_cpu_time_max_description">Ogranicza czas procesora głównego, który BOINC może używać do obliczeń.</string>
+    <string name="prefs_cpu_time_max_description">Ogranicza czas procesora głównego, który BOINC może używać do
+        obliczeń.
+    </string>
     <string name="prefs_memory_max_idle_header">Maksymalny rozmiar pamięci roboczej</string>
-    <string name="prefs_memory_max_idle_description">Ogranicza rozmiar pamięci roboczej, który zadania mogą zajmować.</string>
+    <string name="prefs_memory_max_idle_description">Ogranicza rozmiar pamięci roboczej, który zadania mogą zajmować.
+    </string>
     <string name="prefs_client_log_flags_header">Ustawiania dziennika klienta BOINC</string>
     <string name="prefs_gui_log_level_header">Poziom dziennikowania w powłoce graficznej</string>
-    <string name="prefs_gui_log_level_description">Określa szczegółowość komunikatów diennikowania w powłoce graficznej.</string>
+    <string name="prefs_gui_log_level_description">Określa szczegółowość komunikatów diennikowania w powłoce
+        graficznej.
+    </string>
     <string name="prefs_unit_celsius">°C</string>
     <string name="prefs_unit_seconds">s</string>
     <!--projects tab strings-->
@@ -303,7 +334,8 @@
     <string name="suspend_os">Zatrzymany przez Androida.</string>
     <string name="suspend_wifi">Brak połączenia z siecią Wi-Fi.</string>
     <string name="suspend_battery_charging">Czekanie na załadowanie akumulatora…</string>
-    <string name="suspend_battery_charging_long">Obliczenia zostaną wznowione kiedy załadowanie akumulatora osiągnie</string>
+    <string name="suspend_battery_charging_long">Obliczenia zostaną wznowione kiedy załadowanie akumulatora osiągnie
+    </string>
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">obecnie</string>
     <string name="suspend_battery_overheating">Czekanie na ochłodzenie akumulatora…</string>
@@ -335,7 +367,9 @@
     <string name="about_version">Wersja</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Wszelkie prawa zastrzeżone.</string>
-    <string name="about_credits">Dziękujemy Instytutowi Fizyki Grawitacyjnej Max Plancka, korporacjom IBM i HTC za wsparcie.</string>
+    <string name="about_credits">Dziękujemy Instytutowi Fizyki Grawitacyjnej Max Plancka, korporacjom IBM i HTC za
+        wsparcie.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Nowa wiadomość od „%1$s”</item>
@@ -345,14 +379,20 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Wykryto aplikację obliczeń ochotniczych</string>
-    <string name="nonexcl_dialog_text">Inna aplikacja obliczeń ochotniczych już jest uruchomiona na tym urządzeniu. Wyłącznie jedna wersja może być uruchomiona.</string>
+    <string name="nonexcl_dialog_text">Inna aplikacja obliczeń ochotniczych już jest uruchomiona na tym urządzeniu.
+        Wyłącznie jedna wersja może być uruchomiona.
+    </string>
     <string name="nonexcl_dialog_exit">Wyjdź</string>
     <!--social integration-->
     <string name="social_invite_button">Zaproś przyjaciół</string>
     <string name="social_invite_intent_title">Sposób dzielenia</string>
     <string name="social_invite_content_title">Jestem naukowcem na moim smartfonie!</string>
-    <string name="social_invite_content_body">Wykorzystuję mój „%1$s“ do obliczeń naukowych. Ty też możesz to robić! Pobierz aplikację z: %2$s</string>
+    <string name="social_invite_content_body">Wykorzystuję mój „%1$s“ do obliczeń naukowych. Ty też możesz to robić!
+        Pobierz aplikację z: %2$s
+    </string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

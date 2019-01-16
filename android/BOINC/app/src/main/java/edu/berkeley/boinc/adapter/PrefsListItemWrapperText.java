@@ -41,7 +41,9 @@ public class PrefsListItemWrapperText extends PrefsListItemWrapper {
                 description = "";
                 break;
             default:
-                if (Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperText map failed!");
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "PrefsListItemWrapperText map failed!");
+                }
         }
     }
 }

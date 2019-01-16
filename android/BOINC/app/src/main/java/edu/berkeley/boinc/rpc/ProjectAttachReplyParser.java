@@ -39,7 +39,8 @@ public class ProjectAttachReplyParser extends BaseParser {
             ProjectAttachReplyParser parser = new ProjectAttachReplyParser();
             Xml.parse(rpcResult, parser);
             return parser.getProjectAttachReply();
-        } catch (SAXException e) {
+        }
+        catch (SAXException e) {
             return null;
         }
     }
@@ -49,7 +50,8 @@ public class ProjectAttachReplyParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("project_attach_reply")) {
             mPAR = new ProjectAttachReply();
-        } else {
+        }
+        else {
             // Another element, hopefully primitive and not constructor
             // (although unknown constructor does not hurt, because there will be primitive start anyway)
             mElementStarted = true;
@@ -65,18 +67,23 @@ public class ProjectAttachReplyParser extends BaseParser {
                 // we are inside <project_attach_reply>
                 if (localName.equalsIgnoreCase("project_attach_reply")) {
                     // Closing tag of <project_attach_reply> - nothing to do at the moment
-                } else {
+                }
+                else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
                     if (localName.equalsIgnoreCase("error_num")) {
                         mPAR.error_num = Integer.parseInt(mCurrentElement.toString());
-                    } else if (localName.equalsIgnoreCase("message")) {
+                    }
+                    else if (localName.equalsIgnoreCase("message")) {
                         mPAR.messages.add(mCurrentElement.toString());
                     }
                 }
             }
-        } catch (NumberFormatException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "ProjectAttachReplyParser.endElement error: ", e);
+        }
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
+                Log.e(Logging.TAG, "ProjectAttachReplyParser.endElement error: ", e);
+            }
         }
         mElementStarted = false;
     }

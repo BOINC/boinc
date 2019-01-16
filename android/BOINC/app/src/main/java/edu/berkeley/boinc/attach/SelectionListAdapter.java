@@ -75,8 +75,9 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
             OnClickListener listener = new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Logging.DEBUG)
+                    if (Logging.DEBUG) {
                         Log.d(Logging.TAG, "SelectionListAdapter: account manager clicked.");
+                    }
                     AcctMgrFragment dialog = new AcctMgrFragment();
                     dialog.setReturnToMainActivity(); // configure, so dialog returns to main activity when finished
                     dialog.show(activity.getSupportFragmentManager(), activity.getString(R.string.attachproject_acctmgr_header));
@@ -86,7 +87,8 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
             name.setOnClickListener(listener);
             description.setOnClickListener(listener);
             button.setOnClickListener(listener);
-        } else {
+        }
+        else {
             // element is project option
             name.setText(listItem.info.name);
             description.setText(listItem.info.generalArea);
@@ -101,8 +103,9 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
             textWrapper.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Logging.DEBUG)
+                    if (Logging.DEBUG) {
                         Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
+                    }
 
                     ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
                     dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
