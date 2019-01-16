@@ -373,6 +373,9 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         if (!strcmp(cp.type, "ATI")) {
             coprocs.ati.req_secs = rsc_work_fetch[i].req_secs;
         }
+        if (!strcmp(cp.type, "intel_gpu")) {
+            coprocs.intel_gpu.req_secs = rsc_work_fetch[i].req_secs;
+        }
     }
 
     if (!server_uses_workload) {

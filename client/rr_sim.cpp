@@ -243,7 +243,6 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
     // loop over resource types; do the GPUs first
     //
     for (int rt=coprocs.n_rsc-1; rt>=0; rt--) {
-        if (gpu_suspend_reason && rt) continue;
         vector<PROJECT*> project_heap;
 
         if (rt) rsc_work_fetch[rt].sim_nused = 0;
@@ -282,9 +281,13 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
             // (this is just a handy place to do this)
             //
             if (rp->rrsim_done) {
-                rsc_pwf.pending_iter = rsc_pwf.pending.erase(rsc_pwf.pending_iter);
+                rsc_pwf.pending_iter = rsc_pwf.pending.erase(
+                    rsc_pwf.pending_iter
+                );
             } else if (p->pwf.at_max_concurrent_limit) {
-                rsc_pwf.pending_iter = rsc_pwf.pending.erase(rsc_pwf.pending_iter);
+                rsc_pwf.pending_iter = rsc_pwf.pending.erase(
+                    rsc_pwf.pending_iter
+                );
             } else {
                 // add job to active list, and adjust project priority
                 //
@@ -295,7 +298,8 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                     rsc_string(rp, buf, sizeof(buf));
                     msg_printf(rp->project, MSG_INFO,
                         "[rr_sim_detail] %.2f: starting %s (%s) (%.2fG/%.2fG)",
-                        reltime, rp->name, buf, rp->rrsim_flops_left/1e9, rp->rrsim_flops/1e9
+                        reltime, rp->name, buf, rp->rrsim_flops_left/1e9,
+                        rp->rrsim_flops/1e9
                     );
                     rp->already_selected = true;
                 }

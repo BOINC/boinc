@@ -138,7 +138,9 @@ RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
         if (n_runnable_jobs >= n_not_excluded
             && queue_est > (gstate.work_buf_min() * n_not_excluded)/rwf.ninstances
         ) {
-            printf("%s: setting reason to BUFFER_FULL\n", p->project_name);
+            if (log_flags.work_fetch_debug) {
+                printf("%s: setting reason to BUFFER_FULL\n", p->project_name);
+            }
             return RSC_REASON_BUFFER_FULL;
         }
     }
