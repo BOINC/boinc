@@ -330,9 +330,8 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         Destroy();
     } else {
 #ifdef __WXGTK__
-        // Apparently aborting a close event just causes the main window to be displayed
-        // again.  Just minimize the window instead.
-        Iconize();
+        wxGetApp().FrameClosed();
+        Destroy();
 #else
         Hide();
 #endif
