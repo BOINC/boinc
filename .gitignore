@@ -96,7 +96,6 @@ py/Boinc/version.py
 py/setup.py
 stamp-h1
 test/version.inc
-html/inc/release.inc
 
 ## files created by make:
 *.o
