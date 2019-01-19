@@ -864,7 +864,7 @@ void show_resource(int rsc_type) {
         } else {
             safe_strcpy(buf, "");
         }
-        fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
+        fprintf(html_out, "<tr valign=top><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
             colors[p->index%NCOLORS],
             rp->edf_scheduled?"*":"",
@@ -914,11 +914,18 @@ void html_start() {
         "<h2>BOINC client emulator results</h2>\n"
     );
     show_project_colors();
+    fprintf(html_out, "</tr></table>\n");
     fprintf(html_out,
-        "<table border=0 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
+        "<table border=1 cellpadding=4>\n"
     );
+}
+
+void html_device_header() {
     fprintf(html_out,
-        "<th width=%d>CPU</th>", WIDTH2
+        "<tr>"
+        "   <td valign=top>%s</td>"
+        "   <th>CPU</th>",
+        sim_time_string(gstate.now)
     );
     for (int i=1; i<coprocs.n_rsc; i++) {
         int pt = coproc_type_name_to_num(coprocs.coprocs[i].type);
@@ -928,28 +935,45 @@ void html_start() {
         } else {
             name = coprocs.coprocs[i].type;
         }
-        fprintf(html_out, "<th width=%d>%s</th>\n", WIDTH2, name);
-
+        fprintf(html_out, "<th>%s</th>\n", name);
     }
-    fprintf(html_out, "</tr></table>\n");
+    fprintf(html_out,
+        "</tr>\n"
+    );
 }
 
+void html_write_message() {
+    fprintf(html_out,
+        "<tr>"
+        "    <td valign=top>%s</td>"
+        "    <td colspan=99 valign=top><font size=-2>%s</font></td>"
+        "</tr>\n",
+        sim_time_string(gstate.now),
+        html_msg.c_str()
+    );
+}
+
+// write the timeline row(s) for this time
+//
 void html_rec() {
     if (html_msg.size()) {
-        fprintf(html_out,
-            "<table border=0 cellpadding=4><tr><td width=%d valign=top>%s</td>",
-            WIDTH1, sim_time_string(gstate.now)
-        );
-        fprintf(html_out,
-            "<td width=%d valign=top><font size=-2>%s</font></td></tr></table>\n",
-            coprocs.n_rsc*WIDTH2,
-            html_msg.c_str()
-        );
+        html_write_message();
         html_msg = "";
     }
-    fprintf(html_out, "<table border=0 cellpadding=4><tr><td width=%d valign=top>%s</td>", WIDTH1, sim_time_string(gstate.now));
 
-    if (active) {
+    if (!active) {
+        fprintf(html_out,
+            "<tr>"
+            "    <td valign=top>%s</td>"
+            "    <td colspan=99 valign=top bgcolor=#aaaaaa>BOINC not running</td>"
+            "</tr>",
+            sim_time_string(gstate.now)
+        );
+    } else {
+        html_device_header();
+        fprintf(html_out,
+            "<tr><td> </td>\n"
+        );
         show_resource(0);
         if (gpu_active) {
             for (int i=1; i<coprocs.n_rsc; i++) {
@@ -957,20 +981,17 @@ void html_rec() {
             }
         } else {
             for (int i=1; i<coprocs.n_rsc; i++) {
-                fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
+                fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>GPUs disabled</td>");
             }
         }
-    } else {
-        fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
-        for (int i=1; i<coprocs.n_rsc; i++) {
-            fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
-        }
+        fprintf(html_out,
+            "</tr>\n"
+        );
     }
-
-    fprintf(html_out, "</tr></table>\n");
 }
 
 void html_end() {
+    fprintf(html_out, "</table>\n");
     fprintf(html_out, "<pre>\n");
     sim_results.compute_figures_of_merit();
     sim_results.print(html_out);
