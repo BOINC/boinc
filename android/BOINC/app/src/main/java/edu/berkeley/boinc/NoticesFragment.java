@@ -18,15 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import edu.berkeley.boinc.adapter.NoticesListAdapter;
-import edu.berkeley.boinc.rpc.Notice;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +29,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import edu.berkeley.boinc.adapter.NoticesListAdapter;
+import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.utils.Logging;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class NoticesFragment extends Fragment {
 
@@ -47,7 +45,7 @@ public class NoticesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.VERBOSE) {
+        if(Logging.VERBOSE) {
             Log.d(Logging.TAG, "NoticesFragment onCreateView");
         }
         View layout = inflater.inflate(R.layout.notices_layout, container, false);
@@ -60,7 +58,7 @@ public class NoticesFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "NoticesFragment onResume()");
         }
         getActivity().registerReceiver(mClientStatusChangeRec, ifcsc);
@@ -69,8 +67,8 @@ public class NoticesFragment extends Fragment {
         try {
             BOINCActivity.monitor.cancelNoticeNotification();
         }
-        catch (Exception e) {
-            if (Logging.ERROR) {
+        catch(Exception e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e);
             }
         }
@@ -80,7 +78,7 @@ public class NoticesFragment extends Fragment {
     @Override
     public void onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "NoticesFragment remove receiver");
         }
         getActivity().unregisterReceiver(mClientStatusChangeRec);
@@ -90,14 +88,14 @@ public class NoticesFragment extends Fragment {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Logging.VERBOSE) {
+            if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()");
             }
 
             // data retrieval
             updateNotices();
             noticesListAdapter.clear();
-            for (Notice tmp : data) { // addAll only in API 11
+            for(Notice tmp : data) { // addAll only in API 11
                 noticesListAdapter.add(tmp);
             }
             noticesListAdapter.notifyDataSetChanged();
@@ -117,8 +115,8 @@ public class NoticesFragment extends Fragment {
                 }
             });
         }
-        catch (Exception e) {
-            if (Logging.ERROR) {
+        catch(Exception e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e);
             }
         }

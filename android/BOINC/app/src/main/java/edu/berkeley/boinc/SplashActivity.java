@@ -18,21 +18,10 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.attach.SelectionListActivity;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.IMonitor;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -43,6 +32,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
+import edu.berkeley.boinc.attach.SelectionListActivity;
+import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.utils.Logging;
 
 /**
  * Activity shown at start. Forwards to BOINCActivity automatically, once Monitor has connected to Client and received first data via RPCs.
@@ -65,13 +59,13 @@ public class SplashActivity extends Activity {
             monitor = IMonitor.Stub.asInterface(service);
             try {
                 // check whether BOINC was able to acquire mutex
-                if (!monitor.boincMutexAcquired()) {
+                if(!monitor.boincMutexAcquired()) {
                     showNotExclusiveDialog();
                 }
                 // read log level from monitor preferences and adjust accordingly
                 Logging.setLogLevel(monitor.getLogLevel());
             }
-            catch (RemoteException e) {
+            catch(RemoteException e) {
                 Log.w(Logging.TAG, "initializing log level failed.");
             }
         }
@@ -88,12 +82,12 @@ public class SplashActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             //if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity ClientStatusChange - onReceive()");
 
-            if (mIsBound) {
+            if(mIsBound) {
                 try {
                     int setupStatus = SplashActivity.monitor.getSetupStatus();
-                    switch (setupStatus) {
+                    switch(setupStatus) {
                         case ClientStatus.SETUP_STATUS_AVAILABLE:
-                            if (Logging.DEBUG) {
+                            if(Logging.DEBUG) {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_AVAILABLE");
                             }
                             // forward to BOINCActivity
@@ -101,12 +95,12 @@ public class SplashActivity extends Activity {
                             startActivity(startMain);
                             break;
                         case ClientStatus.SETUP_STATUS_NOPROJECT:
-                            if (Logging.DEBUG) {
+                            if(Logging.DEBUG) {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT");
                             }
                             // run benchmarks to speed up project initialization
                             boolean benchmarks = monitor.runBenchmarks();
-                            if (Logging.DEBUG) {
+                            if(Logging.DEBUG) {
                                 Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
                             }
                             // forward to PROJECTATTACH
@@ -114,15 +108,15 @@ public class SplashActivity extends Activity {
                             startActivity(startAttach);
                             break;
                         case ClientStatus.SETUP_STATUS_ERROR:
-                            if (Logging.ERROR) {
+                            if(Logging.ERROR) {
                                 Log.e(Logging.TAG, "SplashActivity SETUP_STATUS_ERROR");
                             }
                             // do not show log here. error is just a notification of timeout, which is followed by an intermediate (and indefinate) retry
                             break;
                     }
                 }
-                catch (Exception e) {
-                    if (Logging.ERROR) {
+                catch(Exception e) {
+                    if(Logging.ERROR) {
                         Log.e(Logging.TAG, "SplashActivity.BroadcastReceiver.onReceive() error: ", e);
                     }
                 }
@@ -137,7 +131,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
         // Use BOINC logo in Recent Apps Switcher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
             String label = (String) activity.getTitle();
             Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.boinc);
 
@@ -165,7 +159,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "SplashActivity onResume()");
         }
         super.onResume();
@@ -174,7 +168,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onPause() { // gets called by system every time activity loses focus.
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "SplashActivity onPause()");
         }
         super.onPause();
@@ -183,7 +177,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "SplashActivity onDestroy()");
         }
         super.onDestroy();
@@ -198,7 +192,7 @@ public class SplashActivity extends Activity {
     }
 
     private void doUnbindService() {
-        if (mIsBound) {
+        if(mIsBound) {
             // Detach existing connection.
             unbindService(mConnection);
             mIsBound = false;
@@ -206,7 +200,7 @@ public class SplashActivity extends Activity {
     }
 
     private void showNotExclusiveDialog() {
-        if (Logging.ERROR) {
+        if(Logging.ERROR) {
             Log.e(Logging.TAG, "SplashActivity: another BOINC app found, show dialog.");
         }
         Intent notExclusiveDialogIntent = new Intent();

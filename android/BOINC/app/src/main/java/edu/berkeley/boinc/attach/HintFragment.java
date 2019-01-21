@@ -19,15 +19,14 @@
 
 package edu.berkeley.boinc.attach;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
 
 public class HintFragment extends Fragment {
 
@@ -44,11 +43,11 @@ public class HintFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "HintFragment onCreateView for hint type: " + type);
         }
         View v = null;
-        switch (type) {
+        switch(type) {
             case HINT_TYPE_CONTRIBUTION:
                 v = inflater.inflate(R.layout.attach_project_hint_contribution_layout, container, false);
                 break;

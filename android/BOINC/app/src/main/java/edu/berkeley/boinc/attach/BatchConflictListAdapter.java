@@ -18,12 +18,6 @@
  */
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
@@ -32,11 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
+import edu.berkeley.boinc.utils.Logging;
+
+import java.util.ArrayList;
 
 public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper> {
 
@@ -56,7 +51,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
 
         final ProjectAttachWrapper listItem = entries.get(position);
 
-        if (Logging.VERBOSE) {
+        if(Logging.VERBOSE) {
             Log.d(Logging.TAG, "BatchConflictListAdapter.getView for: " + listItem.name + " at position: " + position +
                                " with result: " + listItem.result);
         }
@@ -70,7 +65,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
         ImageView statusImage = v.findViewById(R.id.status_image);
         ProgressBar statusPb = v.findViewById(R.id.status_pb);
         RelativeLayout itemWrapper = v.findViewById(R.id.resolve_item_wrapper);
-        if (listItem.result == ProjectAttachWrapper.RESULT_SUCCESS) {
+        if(listItem.result == ProjectAttachWrapper.RESULT_SUCCESS) {
             // success
             status.setVisibility(View.GONE);
             resolveIv.setVisibility(View.GONE);
@@ -78,15 +73,15 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             statusImage.setVisibility(View.VISIBLE);
             statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.checkb));
         }
-        else if (listItem.result == ProjectAttachWrapper.RESULT_ONGOING ||
-                 listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED) {
+        else if(listItem.result == ProjectAttachWrapper.RESULT_ONGOING ||
+                listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED) {
             // ongoing
             status.setVisibility(View.GONE);
             resolveIv.setVisibility(View.GONE);
             statusImage.setVisibility(View.GONE);
             statusPb.setVisibility(View.VISIBLE);
         }
-        else if (listItem.result == ProjectAttachWrapper.RESULT_READY) {
+        else if(listItem.result == ProjectAttachWrapper.RESULT_READY) {
             // ready
             status.setVisibility(View.VISIBLE);
             status.setText(listItem.getResultDescription());
@@ -94,7 +89,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             itemWrapper.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Logging.DEBUG) {
+                    if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
                     }
                     IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
@@ -102,7 +97,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
                 }
             });
         }
-        else if (listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
+        else if(listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
             // download failed, can not continue from here.
             // if user wants to retry, need to go back to selection activity
             status.setVisibility(View.VISIBLE);
@@ -120,7 +115,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             itemWrapper.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Logging.DEBUG) {
+                    if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
                     }
                     IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);

@@ -18,12 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,6 +25,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class EventLogGuiFragment extends Fragment {
 
@@ -65,7 +65,7 @@ public class EventLogGuiFragment extends Fragment {
         a.guiLogData.clear();
         try {
             String logLevelFilter = Logging.TAG;
-            switch (Logging.LOGLEVEL) {
+            switch(Logging.LOGLEVEL) {
                 case 0:
                     return;
                 case 1:
@@ -92,19 +92,19 @@ public class EventLogGuiFragment extends Fragment {
 
             String line;
             int x = 0;
-            while ((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
-                if (x > 1) {
+            while((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
+                if(x > 1) {
                     a.guiLogData.add(0, line); // cut off first two lines, prepend to array (most current on top)
                 }
                 x++;
             }
-            if (Logging.VERBOSE) {
+            if(Logging.VERBOSE) {
                 Log.v(Logging.TAG, "readLogcat read " + a.guiLogData.size() + " lines.");
             }
             a.guiLogListAdapter.notifyDataSetChanged();
         }
-        catch (IOException e) {
-            if (Logging.WARNING) {
+        catch(IOException e) {
+            if(Logging.WARNING) {
                 Log.w(Logging.TAG, "readLogcat failed", e);
             }
         }

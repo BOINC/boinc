@@ -18,9 +18,8 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import edu.berkeley.boinc.R;
-
 import android.content.Context;
+import edu.berkeley.boinc.R;
 
 public class PrefsListItemWrapper {
     public enum DialogButtonType {
@@ -44,7 +43,7 @@ public class PrefsListItemWrapper {
         this.categoryID = categoryID;
         this.isCategory = false;
 
-        switch (ID) {
+        switch(ID) {
             case R.string.prefs_power_source_header:
                 description = ctx.getString(R.string.prefs_power_source_description);
         }

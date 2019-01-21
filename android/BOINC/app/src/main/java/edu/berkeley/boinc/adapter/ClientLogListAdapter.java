@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Message;
 
@@ -95,7 +94,7 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         ViewEventLog viewEventLog;
 
         // Only inflate a new view if the ListView does not already have a view assigned.
-        if (convertView == null) {
+        if(convertView == null) {
 
             vi =
                     ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_client_listitem_layout, null);
@@ -118,7 +117,7 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         viewEventLog.entryIndex = position;
         viewEventLog.tvMessage.setText(getMessage(position));
         viewEventLog.tvDate.setText(getDate(position));
-        if (getProject(position).isEmpty()) {
+        if(getProject(position).isEmpty()) {
             viewEventLog.tvProjectName.setVisibility(View.GONE);
         }
         else {

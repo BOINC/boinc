@@ -19,10 +19,9 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.util.Xml;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import android.util.Xml;
 
 public class SimpleReplyParser extends BaseParser {
     private boolean mParsed = false;
@@ -49,7 +48,7 @@ public class SimpleReplyParser extends BaseParser {
             Xml.parse(reply, parser);
             return parser;
         }
-        catch (SAXException e) {
+        catch(SAXException e) {
             return null;
         }
     }
@@ -57,7 +56,7 @@ public class SimpleReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
             mInReply = true;
         }
         else {
@@ -69,19 +68,19 @@ public class SimpleReplyParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
 
-        if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
             mInReply = false;
         }
-        else if (mInReply && !mParsed) {
-            if (localName.equalsIgnoreCase("success")) {
+        else if(mInReply && !mParsed) {
+            if(localName.equalsIgnoreCase("success")) {
                 mSuccess = true;
                 mParsed = true;
             }
-            else if (localName.equalsIgnoreCase("failure")) {
+            else if(localName.equalsIgnoreCase("failure")) {
                 mSuccess = false;
                 mParsed = true;
             }
-            else if (localName.equalsIgnoreCase("error")) {
+            else if(localName.equalsIgnoreCase("error")) {
                 trimEnd();
                 errorMessage = mCurrentElement.toString();
                 mSuccess = false;

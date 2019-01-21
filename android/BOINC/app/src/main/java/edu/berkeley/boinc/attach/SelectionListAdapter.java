@@ -18,12 +18,6 @@
  */
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -31,11 +25,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
+import edu.berkeley.boinc.utils.Logging;
+
+import java.util.ArrayList;
 
 public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
 
@@ -64,7 +59,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
         CheckBox cb = v.findViewById(R.id.cb);
         LinearLayout textWrapper = v.findViewById(R.id.text_wrapper);
 
-        if (listItem.am) {
+        if(listItem.am) {
             // element is account manager
             name.setText(activity.getString(R.string.attachproject_acctmgr_header));
             description.setText(activity.getString(R.string.attachproject_acctmgr_list_desc));
@@ -75,7 +70,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
             OnClickListener listener = new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Logging.DEBUG) {
+                    if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "SelectionListAdapter: account manager clicked.");
                     }
                     AcctMgrFragment dialog = new AcctMgrFragment();
@@ -103,7 +98,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
             textWrapper.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Logging.DEBUG) {
+                    if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
                     }
 

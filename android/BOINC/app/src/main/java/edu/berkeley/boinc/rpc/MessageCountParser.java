@@ -19,14 +19,12 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
+import android.util.Xml;
+import edu.berkeley.boinc.utils.Logging;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import android.util.Log;
-import android.util.Xml;
-
-import edu.berkeley.boinc.utils.Logging;
 
 public class MessageCountParser extends DefaultHandler {
     private boolean mParsed = false;
@@ -48,7 +46,7 @@ public class MessageCountParser extends DefaultHandler {
             Xml.parse(reply, parser);
             return parser.seqno();
         }
-        catch (SAXException e) {
+        catch(SAXException e) {
             return -1;
         }
 
@@ -57,7 +55,7 @@ public class MessageCountParser extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
             mInReply = true;
         }
     }
@@ -68,10 +66,10 @@ public class MessageCountParser extends DefaultHandler {
         // put it into StringBuilder
         int myStart = start;
         int myLength = length;
-        if (mCurrentElement.length() == 0) {
+        if(mCurrentElement.length() == 0) {
             // still empty - trim leading white-spaces
-            for (; myStart < length; ++myStart, --myLength) {
-                if (!Character.isWhitespace(ch[myStart])) {
+            for(; myStart < length; ++myStart, --myLength) {
+                if(!Character.isWhitespace(ch[myStart])) {
                     // First non-white-space character
                     break;
                 }
@@ -86,18 +84,18 @@ public class MessageCountParser extends DefaultHandler {
 
         try {
             trimEnd();
-            if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+            if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
                 mInReply = false;
             }
-            else if (mInReply && !mParsed) {
-                if (localName.equalsIgnoreCase("seqno")) {
+            else if(mInReply && !mParsed) {
+                if(localName.equalsIgnoreCase("seqno")) {
                     mSeqno = Integer.parseInt(mCurrentElement.toString());
                     mParsed = true;
                 }
             }
         }
-        catch (NumberFormatException e) {
-            if (Logging.ERROR) {
+        catch(NumberFormatException e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "MessageCountParser.endElement error: ", e);
             }
         }
@@ -108,8 +106,8 @@ public class MessageCountParser extends DefaultHandler {
         int length = mCurrentElement.length();
         int i;
         // Trim trailing spaces
-        for (i = length - 1; i >= 0; --i) {
-            if (!Character.isWhitespace(mCurrentElement.charAt(i))) {
+        for(i = length - 1; i >= 0; --i) {
+            if(!Character.isWhitespace(mCurrentElement.charAt(i))) {
                 // All trailing white-spaces are skipped, i is position of last character
                 break;
             }

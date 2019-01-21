@@ -19,12 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
-
+import android.util.Xml;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.util.Xml;
+import java.util.ArrayList;
 
 
 public class AppsParser extends BaseParser {
@@ -49,7 +48,7 @@ public class AppsParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getApps();
         }
-        catch (SAXException e) {
+        catch(SAXException e) {
             return null;
         }
     }
@@ -57,7 +56,7 @@ public class AppsParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("app")) {
+        if(localName.equalsIgnoreCase("app")) {
             mApp = new App();
         }
         else {
@@ -76,11 +75,11 @@ public class AppsParser extends BaseParser {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
-        if (mApp != null) {
+        if(mApp != null) {
             // We are inside <app>
-            if (localName.equalsIgnoreCase("app")) {
+            if(localName.equalsIgnoreCase("app")) {
                 // Closing tag of <app> - add to vector and be ready for next one
-                if (!mApp.name.equals("")) {
+                if(!mApp.name.equals("")) {
                     // name is a must
                     mApps.add(mApp);
                 }
@@ -89,13 +88,13 @@ public class AppsParser extends BaseParser {
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if (localName.equalsIgnoreCase("name")) {
+                if(localName.equalsIgnoreCase("name")) {
                     mApp.name = mCurrentElement.toString();
                 }
-                else if (localName.equalsIgnoreCase("user_friendly_name")) {
+                else if(localName.equalsIgnoreCase("user_friendly_name")) {
                     mApp.user_friendly_name = mCurrentElement.toString();
                 }
-                else if (localName.equalsIgnoreCase("non_cpu_intensive")) {
+                else if(localName.equalsIgnoreCase("non_cpu_intensive")) {
                     mApp.non_cpu_intensive = Integer.parseInt(mCurrentElement.toString());
                 }
             }

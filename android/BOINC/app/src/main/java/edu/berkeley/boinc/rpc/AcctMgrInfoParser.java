@@ -19,13 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.utils.Logging;
-
 import android.util.Log;
 import android.util.Xml;
+import edu.berkeley.boinc.utils.Logging;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 public class AcctMgrInfoParser extends BaseParser {
 
@@ -41,8 +39,8 @@ public class AcctMgrInfoParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getAccountMgrInfo();
         }
-        catch (SAXException e) {
-            if (Logging.WARNING) {
+        catch(SAXException e) {
+            if(Logging.WARNING) {
                 Log.w(Logging.TAG, "AcctMgrRPCReplyParser: malformated XML");
             }
             return null;
@@ -52,7 +50,7 @@ public class AcctMgrInfoParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("acct_mgr_info")) {
+        if(localName.equalsIgnoreCase("acct_mgr_info")) {
             mAcctMgrInfo = new AcctMgrInfo();
         }
         else {
@@ -65,37 +63,37 @@ public class AcctMgrInfoParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if (mAcctMgrInfo != null) {
+            if(mAcctMgrInfo != null) {
                 // inside <acct_mgr_info>
-                if (localName.equalsIgnoreCase("acct_mgr_info")) {
+                if(localName.equalsIgnoreCase("acct_mgr_info")) {
                     // closing tag
-                    if (!mAcctMgrInfo.acct_mgr_name.isEmpty() && !mAcctMgrInfo.acct_mgr_url.isEmpty() &&
-                        mAcctMgrInfo.have_credentials) {
+                    if(!mAcctMgrInfo.acct_mgr_name.isEmpty() && !mAcctMgrInfo.acct_mgr_url.isEmpty() &&
+                       mAcctMgrInfo.have_credentials) {
                         mAcctMgrInfo.present = true;
                     }
                 }
                 else {
                     // decode inner tags
-                    if (localName.equalsIgnoreCase("acct_mgr_name")) {
+                    if(localName.equalsIgnoreCase("acct_mgr_name")) {
                         mAcctMgrInfo.acct_mgr_name = mCurrentElement.toString();
                     }
-                    else if (localName.equalsIgnoreCase("acct_mgr_url")) {
+                    else if(localName.equalsIgnoreCase("acct_mgr_url")) {
                         mAcctMgrInfo.acct_mgr_url = mCurrentElement.toString();
                     }
-                    else if (localName.equalsIgnoreCase("have_credentials")) {
+                    else if(localName.equalsIgnoreCase("have_credentials")) {
                         mAcctMgrInfo.have_credentials = true;
                     }
-                    else if (localName.equalsIgnoreCase("cookie_required")) {
+                    else if(localName.equalsIgnoreCase("cookie_required")) {
                         mAcctMgrInfo.cookie_required = true;
                     }
-                    else if (localName.equalsIgnoreCase("cookie_failure_url")) {
+                    else if(localName.equalsIgnoreCase("cookie_failure_url")) {
                         mAcctMgrInfo.cookie_failure_url = mCurrentElement.toString();
                     }
                 }
             }
         }
-        catch (Exception e) {
-            if (Logging.ERROR) {
+        catch(Exception e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "AcctMgrInfoParser.endElement error: ", e);
             }
         }

@@ -1,25 +1,24 @@
 package edu.berkeley.boinc.utils;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import edu.berkeley.boinc.R;
+
+import java.io.IOException;
+import java.io.Reader;
 
 public class BOINCUtils {
 
     public static String readLineLimit(Reader reader, int limit) throws IOException {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < limit; i++) {
+        for(int i = 0; i < limit; i++) {
             int c = reader.read(); //Read in single character
-            if (c == -1) {
+            if(c == -1) {
                 return ((sb.length() > 0) ? sb.toString() : null);
             }
 
-            if (((char) c == '\n') || ((char) c == '\r')) { //Found end of line, break loop.
+            if(((char) c == '\n') || ((char) c == '\r')) { //Found end of line, break loop.
                 break;
             }
 
@@ -30,7 +29,7 @@ public class BOINCUtils {
     }
 
     public static String translateRPCReason(Context ctx, int reason) {
-        switch (reason) {
+        switch(reason) {
             case BOINCDefs.RPC_REASON_USER_REQ:
                 return ctx.getResources().getString(R.string.rpcreason_userreq);
             case BOINCDefs.RPC_REASON_NEED_WORK:
@@ -51,7 +50,7 @@ public class BOINCUtils {
     }
 
     public static String translateNetworkSuspendReason(Context ctx, int reason) {
-        switch (reason) {
+        switch(reason) {
             case BOINCDefs.SUSPEND_REASON_USER_REQ:
                 return ctx.getString(R.string.suspend_network_user_req);
             case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
@@ -68,33 +67,33 @@ public class BOINCUtils {
         double xMega = 1048576.0;
         double xKilo = 1024.0;
 
-        if (fFileSize != 0) {
-            if (fFileSize >= xTera) {
+        if(fFileSize != 0) {
+            if(fFileSize >= xTera) {
                 return String.format("%.2f/%.2f TB", fBytesSent / xTera, fFileSize / xTera);
             }
-            if (fFileSize >= xGiga) {
+            if(fFileSize >= xGiga) {
                 return String.format("%.2f/%.2f GB", fBytesSent / xGiga, fFileSize / xGiga);
             }
-            if (fFileSize >= xMega) {
+            if(fFileSize >= xMega) {
                 return String.format("%.2f/%.2f MB", fBytesSent / xMega, fFileSize / xMega);
             }
-            if (fFileSize >= xKilo) {
+            if(fFileSize >= xKilo) {
                 return String.format("%.2f/%.2f KB", fBytesSent / xKilo, fFileSize / xKilo);
             }
             return String.format("%.0f/%.0f bytes", fBytesSent, fFileSize);
 
         }
         else {
-            if (fBytesSent >= xTera) {
+            if(fBytesSent >= xTera) {
                 return String.format("%.2f TB", fBytesSent / xTera);
             }
-            if (fBytesSent >= xGiga) {
+            if(fBytesSent >= xGiga) {
                 return String.format("%.2f GB", fBytesSent / xGiga);
             }
-            if (fBytesSent >= xMega) {
+            if(fBytesSent >= xMega) {
                 return String.format("%.2f MB", fBytesSent / xMega);
             }
-            if (fBytesSent >= xKilo) {
+            if(fBytesSent >= xKilo) {
                 return String.format("%.2f KB", fBytesSent / xKilo);
             }
             return String.format("%.0f bytes", fBytesSent);

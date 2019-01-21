@@ -19,10 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-
 import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
@@ -41,13 +37,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.BOINCErrors;
+import edu.berkeley.boinc.utils.Logging;
 
 public class AcctMgrFragment extends DialogFragment {
 
@@ -67,7 +61,7 @@ public class AcctMgrFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "AcctMgrFragment onCreateView");
         }
         doBindService();
@@ -87,13 +81,13 @@ public class AcctMgrFragment extends DialogFragment {
         continueB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if (Logging.DEBUG) {
+                if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "AcctMgrFragment continue clicked");
                 }
-                if (!checkDeviceOnline()) {
+                if(!checkDeviceOnline()) {
                     return;
                 }
-                if (asIsBound) {
+                if(asIsBound) {
 
                     // get user input
                     String url = urlSpinner.getSelectedItem().toString();
@@ -102,7 +96,7 @@ public class AcctMgrFragment extends DialogFragment {
 
                     // verify input
                     int res;
-                    if ((res = verifyInput(url, name, pwd)) != 0) {
+                    if((res = verifyInput(url, name, pwd)) != 0) {
                         warning.setText(res);
                         warning.setVisibility(View.VISIBLE);
                         return;
@@ -121,7 +115,7 @@ public class AcctMgrFragment extends DialogFragment {
                     asyncTask.execute(params);
 
                 }
-                else if (Logging.DEBUG) {
+                else if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing...");
                 }
             }
@@ -133,7 +127,7 @@ public class AcctMgrFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         doUnbindService();
-        if (asyncTask != null) {
+        if(asyncTask != null) {
             asyncTask.cancel(true);
         }
         super.onDestroyView();
@@ -156,13 +150,13 @@ public class AcctMgrFragment extends DialogFragment {
         int stringResource = 0;
 
         // check input
-        if (url.length() == 0) {
+        if(url.length() == 0) {
             stringResource = R.string.attachproject_error_no_url;
         }
-        else if (name.length() == 0) {
+        else if(name.length() == 0) {
             stringResource = R.string.attachproject_error_no_name;
         }
-        else if (pwd.length() == 0) {
+        else if(pwd.length() == 0) {
             stringResource = R.string.attachproject_error_no_pwd;
         }
 
@@ -178,10 +172,10 @@ public class AcctMgrFragment extends DialogFragment {
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-        if (!online) {
+        if(!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            if (Logging.DEBUG) {
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!");
             }
         }
@@ -209,7 +203,7 @@ public class AcctMgrFragment extends DialogFragment {
     }
 
     private void doUnbindService() {
-        if (asIsBound) {
+        if(asIsBound) {
             // Detach existing connection.
             getActivity().unbindService(mASConnection);
             asIsBound = false;
@@ -217,11 +211,11 @@ public class AcctMgrFragment extends DialogFragment {
     }
 
     private String mapErrorNumToString(int code) {
-        if (Logging.DEBUG) {
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "mapErrorNumToString for error: " + code);
         }
         int stringResource;
-        switch (code) {
+        switch(code) {
             case BOINCErrors.ERR_DB_NOT_FOUND:
                 stringResource = R.string.attachproject_error_wrong_name;
                 break;
@@ -278,13 +272,13 @@ public class AcctMgrFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-            if (Logging.DEBUG) {
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, returned: " + result);
             }
-            if (result == BOINCErrors.ERR_OK) {
+            if(result == BOINCErrors.ERR_OK) {
                 dismiss();
-                if (returnToMainActivity) {
-                    if (Logging.DEBUG) {
+                if(returnToMainActivity) {
+                    if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, start main activity");
                     }
                     Intent intent = new Intent(getActivity(), BOINCActivity.class);

@@ -19,13 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-
 import android.util.Log;
 import android.util.Xml;
-
 import edu.berkeley.boinc.utils.Logging;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 public class VersionInfoParser extends BaseParser {
     private VersionInfo mVersionInfo = null;
@@ -46,7 +44,7 @@ public class VersionInfoParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getVersionInfo();
         }
-        catch (SAXException e) {
+        catch(SAXException e) {
             return null;
         }
     }
@@ -54,7 +52,7 @@ public class VersionInfoParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("server_version")) {
+        if(localName.equalsIgnoreCase("server_version")) {
             mVersionInfo = new VersionInfo();
         }
         else {
@@ -74,28 +72,28 @@ public class VersionInfoParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if (mVersionInfo != null) {
+            if(mVersionInfo != null) {
                 // we are inside <server_version>
-                if (localName.equalsIgnoreCase("server_version")) {
+                if(localName.equalsIgnoreCase("server_version")) {
                     // Closing tag of <server_version> - nothing to do at the moment
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if (localName.equalsIgnoreCase("major")) {
+                    if(localName.equalsIgnoreCase("major")) {
                         mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if (localName.equalsIgnoreCase("minor")) {
+                    else if(localName.equalsIgnoreCase("minor")) {
                         mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if (localName.equalsIgnoreCase("release")) {
+                    else if(localName.equalsIgnoreCase("release")) {
                         mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
                     }
                 }
             }
         }
-        catch (NumberFormatException e) {
-            if (Logging.ERROR) {
+        catch(NumberFormatException e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "VersionInfoParser.endElement error: ", e);
             }
         }

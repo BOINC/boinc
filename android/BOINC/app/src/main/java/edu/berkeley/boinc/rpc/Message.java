@@ -20,10 +20,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.io.Serializable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.io.Serializable;
 
 public class Message implements Serializable, Parcelable {
     private static final long serialVersionUID = 1L;

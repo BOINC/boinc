@@ -24,12 +24,7 @@ import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import edu.berkeley.boinc.PrefsFragment;
 import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
 import edu.berkeley.boinc.R;
@@ -60,14 +55,14 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
 
         PrefsListItemWrapper listItem = entries.get(position);
 
-        if (listItem.isCategory) { // item is category
+        if(listItem.isCategory) { // item is category
             v = vi.inflate(R.layout.prefs_layout_listitem_category, null);
             TextView header = v.findViewById(R.id.category_header);
             header.setText(listItem.ID);
         }
         else { // item is element
             // CheckBoxes
-            if (listItem instanceof PrefsListItemWrapperBool) {
+            if(listItem instanceof PrefsListItemWrapperBool) {
                 v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
                 CheckBox cb = v.findViewById(R.id.checkbox);
                 cb.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
@@ -79,7 +74,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 header.setText(((PrefsListItemWrapperBool) listItem).header);
             }
             // Number based items
-            else if (listItem instanceof PrefsListItemWrapperNumber) {
+            else if(listItem instanceof PrefsListItemWrapperNumber) {
                 PrefsListItemWrapperNumber item = (PrefsListItemWrapperNumber) listItem;
                 v = vi.inflate(R.layout.prefs_layout_listitem, null);
                 RelativeLayout wrapper = v.findViewById(R.id.wrapper);
@@ -91,10 +86,10 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
 
                 // set status value or hide if 0
                 LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
-                if (item.status > 0) {
+                if(item.status > 0) {
                     statusWrapper.setVisibility(View.VISIBLE);
                     final String value;
-                    switch (item.unit) {
+                    switch(item.unit) {
                         case NONE:
                             value = NumberFormat.getIntegerInstance().format(item.status);
                             break;
@@ -128,7 +123,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 }
             }
             // Text based items
-            else if (listItem instanceof PrefsListItemWrapperText) {
+            else if(listItem instanceof PrefsListItemWrapperText) {
                 PrefsListItemWrapperText item = (PrefsListItemWrapperText) listItem;
                 v = vi.inflate(R.layout.prefs_layout_listitem, null);
                 RelativeLayout wrapper = v.findViewById(R.id.wrapper);
@@ -150,13 +145,13 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
                 TextView header = v.findViewById(R.id.header);
                 header.setText(listItem.header);
-                if (listItem.ID == R.string.prefs_client_log_flags_header) {
+                if(listItem.ID == R.string.prefs_client_log_flags_header) {
                     TextView description = v.findViewById(R.id.description);
                     description.setVisibility(View.GONE);
                     LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
                     statusWrapper.setVisibility(View.GONE);
                 }
-                else if (listItem.ID == R.string.prefs_power_source_header) {
+                else if(listItem.ID == R.string.prefs_power_source_header) {
                     TextView description = v.findViewById(R.id.description);
                     description.setText(listItem.description);
                     LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
