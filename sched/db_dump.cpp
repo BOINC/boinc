@@ -589,7 +589,6 @@ void write_user(USER& user, ZFILE* f, bool /*detail*/) {
         " <cpid>%s</cpid>\n",
         user.id,
         name,
-        user.country,
         user.create_time,
         user.total_credit,
         user.expavg_credit,
