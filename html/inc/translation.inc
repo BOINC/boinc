@@ -119,8 +119,9 @@ function parse_po_file($file) {
     $current_token ="";
     $parsing_token = false;
     $parsing_text = false;
+    $size = sizeof($translation_file);
     $output = array();
-    for ($i=0; $i<sizeof($translation_file); $i++){
+    for ($i=0; $i<$size; $i++){
         $entry = trim($translation_file[$i]);
         //echo "line $i: $entry\n";
         if (substr($entry, 0, 1)=="#") {
@@ -160,7 +161,7 @@ function parse_po_file($file) {
 function get_po_line($line, $file) {
     $start = strpos($line, '"')+1;
     $stop = strrpos($line, '"');
-    $x =  substr($line, $start, $stop-$start);
+    $x = substr($line, $start, $stop-$start);
     $n = preg_match("/[^\\\\]\"/", $x);
     if ($n) {
         echo "ERROR - MISMATCHED QUOTES IN $file: $line\n";
@@ -212,6 +213,7 @@ function tr_specific($text, $language) {
 
 function language_log($message, $loglevel=0) {
     global $lang_log_level;
+    $msg = "";
     if ($loglevel==0) $msg = "[ Debug    ]";
     if ($loglevel==1) $msg = "[ Warning  ]";
     if ($loglevel==2) $msg = "[ CRITICAL ]";
@@ -255,7 +257,8 @@ $languages_in_use = array();
 
 // Loop over languages that the client requests
 //
-for ($i=0; $i<sizeof($client_languages); $i++) {
+$size = sizeof($client_languages);
+for ($i=0; $i<$size; $i++) {
     if ((strlen($client_languages[$i])>2)
         && (substr($client_languages[$i], 2, 1) == "_" || substr($client_languages[$i], 2, 1) == "-")
     ){
