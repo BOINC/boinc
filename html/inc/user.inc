@@ -69,7 +69,7 @@ function get_other_projects($user) {
                 $xml_object = @simplexml_load_string($rawxml);
             }
             curl_close($ch);
-            if (!xml_object) {
+            if (!$xml_object) {
                 return $user;
             }
         }
