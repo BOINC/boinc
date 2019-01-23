@@ -477,7 +477,7 @@ function boincimport_users() {
       SELECT id FROM {user}
       ORDER BY id ASC'
     );
-    $user_count = mysql_num_rows($boinc_accounts);
+    $user_count = mysqli_num_rows($boinc_accounts);
   }
   else {
     // Need to import any user who is currently ignored in order to keep them
@@ -508,7 +508,7 @@ function boincimport_users() {
       ) AS usersToImport",
       implode(',', $ignored_user_list)
     );
-    $user_count = mysql_num_rows($boinc_accounts);
+    $user_count = mysqli_num_rows($boinc_accounts);
   }
   db_set_active('default');
   
@@ -745,7 +745,7 @@ function boincimport_teams() {
     FROM %steam',
     $pre
   );
-  $team_count = mysql_num_rows($boinc_teams);
+  $team_count = mysqli_num_rows($boinc_teams);
   db_set_active('default');
 
   if (!$team_count) {
@@ -924,7 +924,7 @@ function boincimport_friends() {
     ORDER BY create_time',
     $pre, $pre
   );
-  $friendship_count = mysql_num_rows($friendships);
+  $friendship_count = mysqli_num_rows($friendships);
   db_set_active('default');
 
   if (!$friendship_count) {
@@ -1093,7 +1093,7 @@ function boincimport_preferences() {
     WHERE ignorelist <> ''",
     $pre
   );
-  $quarreler_count = mysql_num_rows($quarrelers);
+  $quarreler_count = mysqli_num_rows($quarrelers);
   db_set_active('default');
 
   if (!$quarreler_count) {
@@ -1274,7 +1274,7 @@ function boincimport_private_msgs() {
     FROM %sprivate_messages',
     $pre
   );
-  $private_msg_count = mysql_num_rows($boinc_private_msgs);
+  $private_msg_count = mysqli_num_rows($boinc_private_msgs);
   db_set_active('default');
 
   if (!$private_msg_count) {
@@ -1471,7 +1471,7 @@ function boincimport_forum_categories() {
     ORDER BY orderID',
     $pre
   );
-  $forum_category_count = mysql_num_rows($boinc_forum_categories);
+  $forum_category_count = mysqli_num_rows($boinc_forum_categories);
   $boinc_forums = db_query('
     SELECT id, category, title, description, orderID
     FROM %sforum
@@ -1479,7 +1479,7 @@ function boincimport_forum_categories() {
     ORDER BY category',
     $pre
   );
-  $forum_count = mysql_num_rows($boinc_forums);
+  $forum_count = mysqli_num_rows($boinc_forums);
   db_set_active('default');
 
   if (!$forum_category_count) {
@@ -2573,7 +2573,7 @@ function boincimport_team_forums() {
     ORDER BY id ASC',
     $pre
   );
-  $team_forum_count = mysql_num_rows($boincteam_forums);
+  $team_forum_count = mysqli_num_rows($boincteam_forums);
   db_set_active('default');
 
   if (!$team_forum_count) {
@@ -2772,7 +2772,7 @@ function boincimport_team_forum_topics() {
     ORDER BY id',
     $pre, $pre, $pre
   );
-  $boincteam_topic_count = mysql_num_rows($boincteam_topics);
+  $boincteam_topic_count = mysqli_num_rows($boincteam_topics);
   $total_team_topic_count = db_result(db_query('
     SELECT COUNT(*) FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
@@ -3319,7 +3319,7 @@ function boincimport_subscriptions() {
     ORDER BY userid ASC',
     $pre
   );
-  $user_count = mysql_num_rows($users_with_subscriptions);
+  $user_count = mysqli_num_rows($users_with_subscriptions);
   db_set_active('default');
 
   if (!$user_count) {
