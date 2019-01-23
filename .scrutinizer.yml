@@ -9,11 +9,12 @@ filter:
         - '*.tpl.php'
         - '*.min.js'
         - 'html/inc/htmLawed.php'
-        - 'drupal/sites/default/boinc/modules/contrib/htmlpurifier/*'
-        - 'drupal/sites/all/libraries/*'
         - 'drupal/sites/default/modules/boinc/*'
+        - 'drupal/sites/default/themes/boinc/*'
     dependency_paths:
-        - 'drupal/sites/default/boinc/modules/contrib/htmlpurifier/*'
+        - 'drupal/sites/all/libraries/*'
+        - 'drupal/sites/default/boinc/modules/contrib/*'
+        - 'drupal/sites/default/boinc/modules/boincstats/includes/pchart/*'
         - 'drupal/sites/all/libraries/phpmailer/*'
 checks:
     php:
