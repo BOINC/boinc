@@ -240,11 +240,6 @@ function boincimport_process_form() {
   // Causes problems with form api redirect
   //ini_set('display_errors', TRUE);
 
-  // Adjust how long you want the script to run...
-  if (!ini_get('safe_mode')) {
-    set_time_limit(variable_get('boincimport_time_limit', 0));
-  }
-  
   // Check for a lock on the import process
   if (variable_get('boincimport_process_locked', 0)) {
     drupal_set_message(t('The import process is locked. If you are sure that
