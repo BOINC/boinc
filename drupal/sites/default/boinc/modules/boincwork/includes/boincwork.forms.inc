@@ -669,7 +669,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $result = boincwork_save_prefs($prefs, 'general', $venue);
   
   if (!$result) {
-    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
   elseif (!drupal_get_messages('status', FALSE)) {
@@ -1363,7 +1363,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   }
   
   if (!$result) {
-    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
   elseif (!drupal_get_messages('status', FALSE)) {
