@@ -3992,7 +3992,7 @@ class BoincImportUrlTransformer {
   /**
    * Constructor
    */
-  function BoincImportUrlTransformer() {
+  function __construct() {
     global $base_url;
     global $base_path;
     $boinc_base_urls = variable_get('boincimport_base_url_boinc', '');
@@ -4011,6 +4011,11 @@ class BoincImportUrlTransformer {
       watchdog('boincimport', 'No valid BOINC base URLs found to transform!',
         array(), WATCHDOG_WARNING); 
     }
+  }
+
+  // old-style constructor for backwards compatibility
+  function BoincImportUrlTransformer() {
+    self::__construct();
   }
   
   /**
