@@ -78,7 +78,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( make distclean && ./3rdParty/buildLinuxDependencies.sh --disable-webview --cache_dir ${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && make ) fi
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
-- if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
+- if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q -clean && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
 - if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm --silent && ./buildAndroidBOINC-CI.sh --arch arm64 --silent && ./buildAndroidBOINC-CI.sh --arch x86 --silent && ./buildAndroidBOINC-CI.sh --arch x86_64 --silent && cd BOINC && ./gradlew assemble -w && cd ../../ ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
