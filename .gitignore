@@ -49,7 +49,13 @@
 /android/**/*.iml
 /android/**/.gradle
 /android/**/local.properties
-/android/**/.idea
+/android/**/.idea/caches
+/android/**/.idea/libraries
+/android/**/.idea/gradle.xml
+/android/**/.idea/modules.xml
+/android/**/.idea/tasks.xml
+/android/**/.idea/usage.statistics.xml
+/android/**/.idea/workspace.xml
 /android/**/build
 /android/**/captures
 /android/**/.externalNativeBuild
