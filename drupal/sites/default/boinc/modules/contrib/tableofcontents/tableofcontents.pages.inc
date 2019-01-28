@@ -340,7 +340,7 @@ function _tableofcontents_parse_option($opt) {
   case 'id':
   case 'title':
     // check_plain() on $opt[2] is applied later as required by the administrator
-    $_tableofcontents_toc->$opt[1] = $opt[2];
+    $_tableofcontents_toc->{$opt[1]} = $opt[2];
     break;
 
   // We may want to, at some point, look into supporting such things
@@ -395,7 +395,7 @@ function _tableofcontents_parse_option($opt) {
         array('@opt' => $opt[2])), 'error');
     }
     else {
-      $_tableofcontents_toc->$opt[1] = $opt[2];
+      $_tableofcontents_toc->{$opt[1]} = $opt[2];
     }
     break;
 
@@ -407,12 +407,12 @@ function _tableofcontents_parse_option($opt) {
     switch (drupal_strtolower($opt[2])) {
     case '0':
     case 'false':
-      $_tableofcontents_toc->$opt[1] = FALSE;
+      $_tableofcontents_toc->{$opt[1]} = FALSE;
       break;
 
     case '1':
     case 'true':
-      $_tableofcontents_toc->$opt[1] = TRUE;
+      $_tableofcontents_toc->{$opt[1]} = TRUE;
       break;
 
     default:
