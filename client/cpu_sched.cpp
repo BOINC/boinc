@@ -1238,8 +1238,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] skipping %s; max concurrent limit %d reached",
-                    rp->name, rp->app->max_concurrent
+                    "[cpu_sched_debug] skipping %s; max concurrent limit reached",
+                    rp->name
                 );
             }
             continue;
