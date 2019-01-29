@@ -728,6 +728,13 @@
 			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
 			remoteInfo = jpeg;
 		};
+		DDE382002200806D0077E85A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
 		DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -2241,6 +2248,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DDE382012200806D0077E85A /* PBXTargetDependency */,
 				DD3EAAB9216A2A8A00BC673C /* PBXTargetDependency */,
 			);
 			name = Uninstaller;
@@ -3574,6 +3582,11 @@
 			isa = PBXTargetDependency;
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
 			targetProxy = DDD4D96415A6FE0000612460 /* PBXContainerItemProxy */;
+		};
+		DDE382012200806D0077E85A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DDE382002200806D0077E85A /* PBXContainerItemProxy */;
 		};
 		DDF9EC0D144EB338005D6144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
