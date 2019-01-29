@@ -2724,7 +2724,7 @@
 				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager_i386",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager_x86_64",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2754,7 +2754,7 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2823,7 +2823,7 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
