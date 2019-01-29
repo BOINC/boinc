@@ -1518,7 +1518,6 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
-				DD3EAAA7216A25AE00BC673C /* boinc_finish_install */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1582,13 +1581,6 @@
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD3EAAA7216A25AE00BC673C /* boinc_finish_install */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = boinc_finish_install;
-			sourceTree = "<group>";
 		};
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
