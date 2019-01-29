@@ -40,7 +40,7 @@ if ($argc == 1) {
     $n = (int)$argv[2];
     $db->do_query("delete from msg_to_host where handled = $n");
 } else {
-    echo "usage\n";
+    echo "echo "usage: purge_trickles.php [msg_from_host | msg_to_host]\n";
 }
 
 ?>
