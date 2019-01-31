@@ -2724,11 +2724,11 @@
 				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager_x86_64",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app.dSYM\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2739,11 +2739,11 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n##    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n\n";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2754,11 +2754,10 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\nfi\n";
 		};
 		DD81C827144D90FC000BE61A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2823,11 +2822,11 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64",
+				"",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\nfi\n";
 		};
 		DDF9EC07144EB255005D6144 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3654,7 +3653,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
@@ -3711,7 +3709,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
@@ -3800,7 +3797,6 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3860,7 +3856,6 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -4093,7 +4088,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../curl-7.58.0/include",
@@ -4260,7 +4254,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../curl-7.58.0/include",
