@@ -18,12 +18,13 @@
  */
 package edu.berkeley.boinc.receiver;
 
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.utils.Logging;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.utils.Logging;
 
 public class PowerConnectedReceiver extends BroadcastReceiver {
 

@@ -19,10 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
+import java.util.ArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.ArrayList;
 
 // according to http://boinc.berkeley.edu/trac/wiki/WebRpc
 
@@ -53,7 +53,7 @@ public class ProjectConfig implements Parcelable {
      * @return URL for accoutn look up and registration RPCs
      */
     public String getSecureUrlIfAvailable() {
-        if(webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) {
+        if (webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) {
             return webRpcUrlBase;
         }
         else {

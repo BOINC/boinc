@@ -18,6 +18,8 @@
  */
 package edu.berkeley.boinc.adapter;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,11 +28,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
-
-import java.util.ArrayList;
 
 public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
     //private final String TAG = "ProjectControlsListAdapter";
@@ -71,7 +72,7 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         TextView tvText = vi.findViewById(R.id.text);
         String text = "";
 
-        switch(data.operation) {
+        switch (data.operation) {
             case RpcClient.PROJECT_UPDATE:
                 text = activity.getResources().getString(R.string.projects_control_update);
                 break;

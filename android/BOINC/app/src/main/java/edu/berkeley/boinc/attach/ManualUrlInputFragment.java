@@ -19,6 +19,9 @@
 
 package edu.berkeley.boinc.attach;
 
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.*;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,8 +38,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.Logging;
 
 public class ManualUrlInputFragment extends DialogFragment {
 
@@ -52,11 +53,11 @@ public class ManualUrlInputFragment extends DialogFragment {
         continueButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Logging.DEBUG) {
+                if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
                 }
 
-                if(!checkDeviceOnline()) {
+                if (!checkDeviceOnline()) {
                     return;
                 }
 
@@ -90,10 +91,10 @@ public class ManualUrlInputFragment extends DialogFragment {
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-        if(!online) {
+        if (!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            if(Logging.DEBUG) {
+            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!");
             }
         }

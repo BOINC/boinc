@@ -18,6 +18,10 @@
  */
 package edu.berkeley.boinc.adapter;
 
+import java.util.ArrayList;
+
+import edu.berkeley.boinc.rpc.ImageWrapper;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +29,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import edu.berkeley.boinc.rpc.ImageWrapper;
-
-import java.util.ArrayList;
 
 public class GalleryAdapter extends BaseAdapter {
 

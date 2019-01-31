@@ -20,10 +20,11 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import edu.berkeley.boinc.utils.Logging;
+import edu.berkeley.boinc.utils.*;
 
 import java.security.MessageDigest;
+
+import android.util.Log;
 
 /**
  * Wrapper class for MD5 hash operations for BOINC purpose.
@@ -45,13 +46,13 @@ public class Md5 {
             md5.update(text.getBytes("iso-8859-1"), 0, text.length());
             byte[] md5hash = md5.digest();
             StringBuilder sb = new StringBuilder();
-            for(byte singleMd5hash : md5hash) {
+            for (byte singleMd5hash : md5hash) {
                 sb.append(String.format("%02x", singleMd5hash));
             }
             return sb.toString();
         }
-        catch(Exception e) {
-            if(Logging.WARNING) {
+        catch (Exception e) {
+            if (Logging.WARNING) {
                 Log.w(Logging.TAG, "Error when calculating MD5 hash");
             }
             return "";

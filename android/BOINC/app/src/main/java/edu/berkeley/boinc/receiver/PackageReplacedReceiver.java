@@ -18,12 +18,14 @@
  */
 package edu.berkeley.boinc.receiver;
 
+import edu.berkeley.boinc.utils.*;
+
+import edu.berkeley.boinc.client.Monitor;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.utils.Logging;
 
 public class PackageReplacedReceiver extends BroadcastReceiver {
 
@@ -35,15 +37,15 @@ public class PackageReplacedReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals(Intent.ACTION_PACKAGE_REPLACED)) {
-            if(intent.getDataString().contains("edu.berkeley.boinc")) {
-                if(Logging.ERROR) {
+        if (intent.getAction().equals(Intent.ACTION_PACKAGE_REPLACED)) {
+            if (intent.getDataString().contains("edu.berkeley.boinc")) {
+                if (Logging.ERROR) {
                     Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...");
                 }
                 Intent startServiceIntent = new Intent(context, Monitor.class);
                 context.startService(startServiceIntent);
             }
-            else if(Logging.DEBUG) {
+            else if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "PackageReplacedReceiver: other package: " + intent.getDataString());
             }
         }

@@ -18,11 +18,13 @@
  */
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import android.util.Xml;
-import edu.berkeley.boinc.utils.Logging;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
+import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectAttachReplyParser extends BaseParser {
 
@@ -38,7 +40,7 @@ public class ProjectAttachReplyParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getProjectAttachReply();
         }
-        catch(SAXException e) {
+        catch (SAXException e) {
             return null;
         }
     }
@@ -46,7 +48,7 @@ public class ProjectAttachReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("project_attach_reply")) {
+        if (localName.equalsIgnoreCase("project_attach_reply")) {
             mPAR = new ProjectAttachReply();
         }
         else {
@@ -61,25 +63,25 @@ public class ProjectAttachReplyParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mPAR != null) {
+            if (mPAR != null) {
                 // we are inside <project_attach_reply>
-                if(localName.equalsIgnoreCase("project_attach_reply")) {
+                if (localName.equalsIgnoreCase("project_attach_reply")) {
                     // Closing tag of <project_attach_reply> - nothing to do at the moment
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase("error_num")) {
+                    if (localName.equalsIgnoreCase("error_num")) {
                         mPAR.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("message")) {
+                    else if (localName.equalsIgnoreCase("message")) {
                         mPAR.messages.add(mCurrentElement.toString());
                     }
                 }
             }
         }
-        catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachReplyParser.endElement error: ", e);
             }
         }

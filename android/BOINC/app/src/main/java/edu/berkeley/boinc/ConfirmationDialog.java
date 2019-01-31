@@ -3,8 +3,8 @@ package edu.berkeley.boinc;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.content.DialogInterface.OnClickListener;
 
 public class ConfirmationDialog extends android.support.v4.app.DialogFragment {
     private OnClickListener mConfirmClickListener = null;

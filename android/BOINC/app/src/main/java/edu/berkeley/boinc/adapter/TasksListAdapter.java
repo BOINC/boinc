@@ -26,7 +26,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksFragment.TaskData;
@@ -75,17 +81,17 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // - view is null, has not been here before
         // - view has different id
         Boolean setup = false;
-        if(v == null) {
+        if (v == null) {
             setup = true;
         }
         else {
             String viewId = (String) v.getTag();
-            if(!listItem.id.equals(viewId)) {
+            if (!listItem.id.equals(viewId)) {
                 setup = true;
             }
         }
 
-        if(setup) {
+        if (setup) {
             LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.tasks_layout_listitem, null);
             v.setTag(listItem.id);
@@ -101,10 +107,10 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // --- set up view elements that are independent of "active" and "expanded" state
         ImageView ivIcon = v.findViewById(R.id.projectIcon);
         String finalIconId = (String) ivIcon.getTag();
-        if(finalIconId == null || !finalIconId.equals(listItem.id)) {
+        if (finalIconId == null || !finalIconId.equals(listItem.id)) {
             Bitmap icon = getIcon(position);
             // if available set icon, if not boinc logo
-            if(icon == null) {
+            if (icon == null) {
                 ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
             }
             else {
@@ -118,9 +124,9 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
 
         // set project name
         String tempProjectName = listItem.result.project_url;
-        if(listItem.result.project != null) {
+        if (listItem.result.project != null) {
             tempProjectName = listItem.result.project.getName();
-            if(listItem.result.project_suspended_via_gui) {
+            if (listItem.result.project_suspended_via_gui) {
                 tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
             }
         }
@@ -129,13 +135,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // status text
         String statusT = determineStatusText(listItem);
         status.setText(statusT);
-        if(listItem.result.state == BOINCDefs.RESULT_ABORTED ||
-           listItem.result.state == BOINCDefs.RESULT_COMPUTE_ERROR ||
-           listItem.result.state == BOINCDefs.RESULT_FILES_DOWNLOADING ||
-           listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADED ||
-           listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADING ||
-           listItem.result.state == BOINCDefs.RESULT_READY_TO_REPORT ||
-           listItem.result.state == BOINCDefs.RESULT_UPLOAD_FAILED) {
+        if (listItem.result.state == BOINCDefs.RESULT_ABORTED ||
+            listItem.result.state == BOINCDefs.RESULT_COMPUTE_ERROR ||
+            listItem.result.state == BOINCDefs.RESULT_FILES_DOWNLOADING ||
+            listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADED ||
+            listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADING ||
+            listItem.result.state == BOINCDefs.RESULT_READY_TO_REPORT ||
+            listItem.result.state == BOINCDefs.RESULT_UPLOAD_FAILED) {
             statusPercentage.setVisibility(View.GONE);
         }
         else {
@@ -148,7 +154,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // result and process state are overlapping, e.g. PROCESS_EXECUTING and RESULT_FILES_DOWNLOADING
         // therefore check also whether task is active
         final boolean active = (listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING);
-        if(active || listItem.expanded) {
+        if (active || listItem.expanded) {
             pb.setVisibility(View.VISIBLE);
             pb.setIndeterminate(false);
             pb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
@@ -161,7 +167,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // expansion
         RelativeLayout rightColumnExpandWrapper = v.findViewById(R.id.rightColumnExpandWrapper);
         LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
-        if(!listItem.expanded) {
+        if (!listItem.expanded) {
             // view is collapsed
             expandButton.setImageResource(R.drawable.collapse);
             rightColumnExpandWrapper.setVisibility(View.GONE);
@@ -176,7 +182,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             // elapsed time
             final long elapsedTime;
             // show time depending whether task is active or not
-            if(listItem.result.active_task) {
+            if (listItem.result.active_task) {
                 elapsedTime = (long) listItem.result.elapsed_time; //is 0 when task finished
             }
             else {
@@ -189,18 +195,18 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             final String deadline = DateFormat.getDateTimeInstance().format(this.deadlineDate);
             ((TextView) v.findViewById(R.id.deadline)).setText(deadline);
             // set application friendly name
-            if(listItem.result.app != null) {
+            if (listItem.result.app != null) {
                 ((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.name);
             }
 
             // buttons
             ImageView suspendResume = v.findViewById(R.id.suspendResumeTask);
             ImageView abortButton = v.findViewById(R.id.abortTask);
-            if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
+            if (listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
                 rightColumnExpandWrapper.setVisibility(View.INVISIBLE);
             }
             else {
-                if(listItem.nextState == -1) { // not waiting for new state
+                if (listItem.nextState == -1) { // not waiting for new state
                     suspendResume.setOnClickListener(listItem.iconClickListener);
 
                     abortButton.setOnClickListener(listItem.iconClickListener);
@@ -210,13 +216,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                     (v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
 
                     // checking what suspendResume button should be shown
-                    if(listItem.result.suspended_via_gui) { // show play
+                    if (listItem.result.suspended_via_gui) { // show play
                         suspendResume.setVisibility(View.VISIBLE);
                         suspendResume.setImageResource(R.drawable.resumetask);
                         suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
 
                     }
-                    else if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
+                    else if (listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
                         suspendResume.setVisibility(View.VISIBLE);
                         suspendResume.setImageResource(R.drawable.pausetask);
                         suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
@@ -245,8 +251,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             //status  = Monitor.getClientStatus();
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).result.project_url);
         }
-        catch(Exception e) {
-            if(Logging.WARNING) {
+        catch (Exception e) {
+            if (Logging.WARNING) {
                 Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.");
             }
             return null;
@@ -261,19 +267,19 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         //if(Logging.DEBUG) Log.d(Logging.TAG,"determineStatusText for status: " + status);
 
         // custom state
-        if(status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) {
+        if (status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) {
             return activity.getString(R.string.tasks_custom_suspended_via_gui);
         }
-        if(status == BOINCDefs.RESULT_PROJECT_SUSPENDED) {
+        if (status == BOINCDefs.RESULT_PROJECT_SUSPENDED) {
             return activity.getString(R.string.tasks_custom_project_suspended_via_gui);
         }
-        if(status == BOINCDefs.RESULT_READY_TO_REPORT) {
+        if (status == BOINCDefs.RESULT_READY_TO_REPORT) {
             return activity.getString(R.string.tasks_custom_ready_to_report);
         }
 
         //active state
-        if(tmp.result.active_task) {
-            switch(status) {
+        if (tmp.result.active_task) {
+            switch (status) {
                 case BOINCDefs.PROCESS_UNINITIALIZED:
                     return activity.getString(R.string.tasks_active_uninitialized);
                 case BOINCDefs.PROCESS_EXECUTING:
@@ -285,7 +291,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                 case BOINCDefs.PROCESS_SUSPENDED:
                     return activity.getString(R.string.tasks_active_suspended);
                 default:
-                    if(Logging.WARNING) {
+                    if (Logging.WARNING) {
                         Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState());
                     }
                     return "";
@@ -293,7 +299,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
         else {
             // passive state
-            switch(status) {
+            switch (status) {
                 case BOINCDefs.RESULT_NEW:
                     return activity.getString(R.string.tasks_result_new);
                 case BOINCDefs.RESULT_FILES_DOWNLOADING:
@@ -311,7 +317,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                 case BOINCDefs.RESULT_UPLOAD_FAILED:
                     return activity.getString(R.string.tasks_result_upload_failed);
                 default:
-                    if(Logging.WARNING) {
+                    if (Logging.WARNING) {
                         Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState());
                     }
                     return "";

@@ -20,9 +20,10 @@
 package edu.berkeley.boinc.rpc;
 
 import android.util.Log;
-import edu.berkeley.boinc.utils.Logging;
 
 import java.util.ArrayList;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class MessagesParser {
 
@@ -45,7 +46,7 @@ public class MessagesParser {
         try {
             parser.parseMessages(rpcResult);
         }
-        catch(Exception ex) {
+        catch (Exception ex) {
             return null;
         }
         return parser.getMessages();
@@ -60,75 +61,75 @@ public class MessagesParser {
         Message message = null;
 
         try {
-            while(pos < end) {
+            while (pos < end) {
                 /* skip spaces */
-                while(pos < end) {
-                    if(!Character.isWhitespace(xml.charAt(pos))) {
+                while (pos < end) {
+                    if (!Character.isWhitespace(xml.charAt(pos))) {
                         break;
                     }
                     pos++;
                 }
-                if(!inMsgs) {
+                if (!inMsgs) {
                     newPos = xml.indexOf("<msgs>");
-                    if(newPos == -1) {
+                    if (newPos == -1) {
                         throw new RuntimeException("Cant parse messages");
                     }
                     pos = newPos + 6;
                     inMsgs = true;
                 }
-                else if(inMsgs && message == null && xml.startsWith("<msg>", pos)) {
+                else if (inMsgs && message == null && xml.startsWith("<msg>", pos)) {
                     pos += 5;
                     message = new Message();
                 }
-                else if(message != null && xml.startsWith("</msg>", pos)) {
+                else if (message != null && xml.startsWith("</msg>", pos)) {
                     mMessages.add(message);
                     message = null;
                     pos += 6;
                 }
-                else if(inMsgs && xml.startsWith("</msgs>", pos)) {
+                else if (inMsgs && xml.startsWith("</msgs>", pos)) {
                     break; // end
                 }
-                else if(message != null) {
-                    if(xml.startsWith("<project>", pos)) {
+                else if (message != null) {
+                    if (xml.startsWith("<project>", pos)) {
                         pos += 9;
                         newPos = xml.indexOf("</project>", pos);
-                        if(newPos == -1) {
+                        if (newPos == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         message.project = xml.substring(pos, newPos).trim();
                         pos = newPos + 10;
                     }
-                    else if(xml.startsWith("<seqno>", pos)) {
+                    else if (xml.startsWith("<seqno>", pos)) {
                         pos += 7;
                         newPos = xml.indexOf("</seqno>", pos);
-                        if(newPos == -1) {
+                        if (newPos == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         message.seqno = Integer.parseInt(xml.substring(pos, newPos).trim());
                         pos = newPos + 8;
                     }
-                    else if(xml.startsWith("<pri>", pos)) {
+                    else if (xml.startsWith("<pri>", pos)) {
                         pos += 5;
                         newPos = xml.indexOf("</pri>", pos);
-                        if(newPos == -1) {
+                        if (newPos == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         message.priority = Integer.parseInt(xml.substring(pos, newPos).trim());
                         pos = newPos + 6;
                     }
-                    else if(xml.startsWith("<time>", pos)) {
+                    else if (xml.startsWith("<time>", pos)) {
                         pos += 6;
                         newPos = xml.indexOf("</time>", pos);
-                        if(newPos == -1) {
+                        if (newPos == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         message.timestamp = (long) Double.parseDouble(xml.substring(pos, newPos).trim());
                         pos = newPos + 7;
                     }
-                    else if(xml.startsWith("<body>", pos)) {
+                    else if (xml.startsWith("<body>", pos)) {
                         pos += 6;
                         newPos = xml.indexOf("</body>", pos);
-                        if(newPos == -1) {
+                        if (newPos == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         message.body = xml.substring(pos, newPos).trim();
@@ -138,14 +139,14 @@ public class MessagesParser {
                         // skip unknown tag
                         pos++;
                         int endTagIndex = xml.indexOf(">", pos);
-                        if(endTagIndex == -1) {
+                        if (endTagIndex == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         String tag = xml.substring(pos, endTagIndex);
                         pos = endTagIndex + 1;
                         String endString = "</" + tag + ">";
                         newPos = xml.indexOf(endString, pos);
-                        if(newPos == -1) {
+                        if (newPos == -1) {
                             throw new RuntimeException("Cant parse messages");
                         }
                         pos = newPos + endString.length();
@@ -153,8 +154,8 @@ public class MessagesParser {
                 }
             }
         }
-        catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "MessagesParser.parseMessages error: ", e);
             }
         }

@@ -26,9 +26,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import edu.berkeley.boinc.BOINCActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
@@ -75,7 +80,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         String user = entries.get(position).project.user_name;
         String team = entries.get(position).project.team_name;
 
-        if(!team.isEmpty()) {
+        if (!team.isEmpty()) {
             return (user + " (" + team + ")");
         }
 
@@ -97,8 +102,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             //status  = Monitor.getClientStatus();
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
         }
-        catch(Exception e) {
-            if(Logging.WARNING) {
+        catch (Exception e) {
+            if (Logging.WARNING) {
                 Log.w(Logging.TAG, "ProjectsListAdapter: Could not load data, clientStatus not initialized.");
             }
             return null;
@@ -117,19 +122,19 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         // - view is null, has not been here before
         // - view has different id
         Boolean setup = false;
-        if(vi == null) {
+        if (vi == null) {
             setup = true;
         }
         else {
             String viewId = (String) vi.getTag();
-            if(!data.id.equals(viewId)) {
+            if (!data.id.equals(viewId)) {
                 setup = true;
             }
         }
 
-        if(setup) {
+        if (setup) {
             // first time getView is called for this element
-            if(isAcctMgr) {
+            if (isAcctMgr) {
                 vi =
                         ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem_acctmgr, null);
             }
@@ -142,7 +147,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             vi.setTag(data.id);
         }
 
-        if(isAcctMgr) {
+        if (isAcctMgr) {
             // element is account manager
 
             // populate name
@@ -163,7 +168,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             TextView tvUser = vi.findViewById(R.id.project_user);
             String userText = getUser(position);
-            if(userText.isEmpty()) {
+            if (userText.isEmpty()) {
                 tvUser.setVisibility(View.GONE);
             }
             else {
@@ -175,13 +180,13 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             try {
                 statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);
             }
-            catch(Exception e) {
-                if(Logging.ERROR) {
+            catch (Exception e) {
+                if (Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectsListAdapter.getView error: ", e);
                 }
             }
             TextView tvStatus = vi.findViewById(R.id.project_status);
-            if(statusText.isEmpty()) {
+            if (statusText.isEmpty()) {
                 tvStatus.setVisibility(View.GONE);
             }
             else {
@@ -191,10 +196,10 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             ImageView ivIcon = vi.findViewById(R.id.project_icon);
             String finalIconId = (String) ivIcon.getTag();
-            if(finalIconId == null || !finalIconId.equals(data.id)) {
+            if (finalIconId == null || !finalIconId.equals(data.id)) {
                 Bitmap icon = getIcon(position);
                 // if available set icon, if not boinc logo
-                if(icon == null) {
+                if (icon == null) {
                     // boinc logo
                     ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
                 }
@@ -210,7 +215,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             Integer numberTransfers = data.projectTransfers.size();
             TextView tvTransfers = vi.findViewById(R.id.project_transfers);
             String transfersString = "";
-            if(numberTransfers > 0) { // ongoing transfers
+            if (numberTransfers > 0) { // ongoing transfers
                 // summarize information for compact representation
                 Integer numberTransfersUpload = 0;
                 Boolean uploadsPresent = false;
@@ -218,8 +223,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 Boolean downloadsPresent = false;
                 Boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
-                for(Transfer trans : data.projectTransfers) {
-                    if(trans.is_upload) {
+                for (Transfer trans : data.projectTransfers) {
+                    if (trans.is_upload) {
                         numberTransfersUpload++;
                         uploadsPresent = true;
                     }
@@ -227,23 +232,23 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                         numberTransfersDownload++;
                         downloadsPresent = true;
                     }
-                    if(trans.xfer_active) {
+                    if (trans.xfer_active) {
                         transfersActive = true;
                     }
-                    else if(trans.next_request_time < nextRetryS || nextRetryS == 0) {
+                    else if (trans.next_request_time < nextRetryS || nextRetryS == 0) {
                         nextRetryS = trans.next_request_time;
                     }
                 }
 
                 String numberTransfersString = "("; // will never be empty
-                if(downloadsPresent) {
+                if (downloadsPresent) {
                     numberTransfersString +=
                             numberTransfersDownload + " " + activity.getResources().getString(R.string.trans_download);
                 }
-                if(downloadsPresent && uploadsPresent) {
+                if (downloadsPresent && uploadsPresent) {
                     numberTransfersString += " / ";
                 }
-                if(uploadsPresent) {
+                if (uploadsPresent) {
                     numberTransfersString +=
                             numberTransfersUpload + " " + activity.getResources().getString(R.string.trans_upload);
                 }
@@ -251,13 +256,13 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
                 String activityStatus = ""; // will never be empty
                 String activityExplanation = "";
-                if(!transfersActive) { // no transfers active, give reason
+                if (!transfersActive) { // no transfers active, give reason
                     activityStatus += activity.getResources().getString(R.string.trans_pending);
 
-                    if(nextRetryS > 0) { // next try at defined time
+                    if (nextRetryS > 0) { // next try at defined time
                         long retryAtMs = nextRetryS * 1000;
                         long retryInMs = retryAtMs - Calendar.getInstance().getTimeInMillis();
-                        if(retryInMs < 0) {
+                        if (retryInMs < 0) {
                         }// timestamp in the past, write nothing
                         else {
                             activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
@@ -290,7 +295,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             // server notice
             Notice notice = data.getLastServerNotice();
             TextView tvNotice = vi.findViewById(R.id.project_notice);
-            if(notice == null) {
+            if (notice == null) {
                 tvNotice.setVisibility(View.GONE);
             }
             else {
@@ -301,7 +306,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
-            if(data.project.attached_via_acct_mgr) {
+            if (data.project.attached_via_acct_mgr) {
                 iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
             }
             else {

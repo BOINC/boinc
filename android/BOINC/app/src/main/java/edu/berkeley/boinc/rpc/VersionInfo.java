@@ -28,16 +28,16 @@ public class VersionInfo {
     public boolean prerelease = false;
 
     public boolean greater_than(VersionInfo vi) {
-        if(major > vi.major) {
+        if (major > vi.major) {
             return true;
         }
-        else if(major < vi.major) {
+        else if (major < vi.major) {
             return false;
         }
-        else if(minor > vi.minor) {
+        else if (minor > vi.minor) {
             return true;
         }
-        else if(minor < vi.minor) {
+        else if (minor < vi.minor) {
             return false;
         }
         else {

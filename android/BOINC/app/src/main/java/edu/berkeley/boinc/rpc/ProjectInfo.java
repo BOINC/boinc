@@ -19,11 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 // needs to be serializable to be put into Activity start Intent
 public class ProjectInfo implements Serializable, Parcelable {
@@ -41,7 +41,7 @@ public class ProjectInfo implements Serializable, Parcelable {
     @Override
     public String toString() {
         StringBuilder platformString = new StringBuilder();
-        for(String platform : platforms) {
+        for (String platform : platforms) {
             platformString.append(platform).append("/");
         }
         return "ProjectInfo: " + name + " ; " + url + " ; " + generalArea + " ; " + specificArea + " ; " + description +

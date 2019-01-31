@@ -19,6 +19,13 @@
 
 package edu.berkeley.boinc.attach;
 
+import java.io.InputStream;
+import java.net.URL;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.*;
+
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,13 +38,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.*;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.ProjectInfo;
-import edu.berkeley.boinc.utils.Logging;
-
-import java.io.InputStream;
-import java.net.URL;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class ProjectInfoFragment extends DialogFragment {
 
@@ -56,22 +61,22 @@ public class ProjectInfoFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment onCreateView");
         }
         View v = inflater.inflate(R.layout.attach_project_info_layout, container, false);
 
         // get data
         info = this.getArguments().getParcelable("info");
-        if(info == null) {
-            if(Logging.ERROR) {
+        if (info == null) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectInfoFragment info is null, return.");
             }
             dismiss();
             return v;
         }
 
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment project: " + info.name);
         }
 
@@ -93,14 +98,14 @@ public class ProjectInfoFragment extends DialogFragment {
         continueB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(Logging.DEBUG) {
+                if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "ProjectInfoFragment continue clicked");
                 }
                 dismiss();
             }
         });
 
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl);
         }
         new DownloadLogoAsync().execute(info.imageUrl);
@@ -122,14 +127,14 @@ public class ProjectInfoFragment extends DialogFragment {
         @Override
         protected Bitmap doInBackground(String... params) {
             String url = params[0];
-            if(url == null || url.isEmpty()) {
-                if(Logging.ERROR) {
+            if (url == null || url.isEmpty()) {
+                if (Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync url is empty, return.");
                 }
                 return null;
             }
 
-            if(Logging.DEBUG) {
+            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync for url: " + url);
             }
             Bitmap logo;
@@ -140,8 +145,8 @@ public class ProjectInfoFragment extends DialogFragment {
                 // scale
                 logo = Bitmap.createScaledBitmap(logo, logo.getWidth() * 2, logo.getHeight() * 2, false);
             }
-            catch(Exception e) {
-                if(Logging.ERROR) {
+            catch (Exception e) {
+                if (Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync image download failed");
                 }
                 return null;
@@ -151,16 +156,16 @@ public class ProjectInfoFragment extends DialogFragment {
         }
 
         protected void onPostExecute(Bitmap logo) {
-            if(logo == null) {
+            if (logo == null) {
                 // failed.
-                if(Logging.ERROR) {
+                if (Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync failed.");
                 }
                 logoWrapper.setVisibility(View.GONE);
             }
             else {
                 // success.
-                if(Logging.DEBUG) {
+                if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync successful.");
                 }
                 logoPb.setVisibility(View.GONE);

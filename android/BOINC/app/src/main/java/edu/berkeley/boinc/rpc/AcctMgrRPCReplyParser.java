@@ -19,11 +19,13 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import android.util.Xml;
-import edu.berkeley.boinc.utils.Logging;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import edu.berkeley.boinc.utils.Logging;
+
+import android.util.Log;
+import android.util.Xml;
 
 public class AcctMgrRPCReplyParser extends BaseParser {
 
@@ -39,8 +41,8 @@ public class AcctMgrRPCReplyParser extends BaseParser {
             Xml.parse(rpcResult.replace("<success/>", "<success>1</success>"), parser);
             return parser.getAccountMgrRPCReply();
         }
-        catch(SAXException e) {
-            if(Logging.WARNING) {
+        catch (SAXException e) {
+            if (Logging.WARNING) {
                 Log.w(Logging.TAG, "AcctMgrRPCReplyParser: malformated XML" + e.getMessage());
             }
             return null;
@@ -50,7 +52,7 @@ public class AcctMgrRPCReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
+        if (localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
             mAcctMgrRPCReply = new AcctMgrRPCReply();
         }
         else {
@@ -63,24 +65,24 @@ public class AcctMgrRPCReplyParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mAcctMgrRPCReply != null) {
+            if (mAcctMgrRPCReply != null) {
                 // inside <acct_mgr_rpc_reply>
-                if(localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
+                if (localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
                     // closing tag
                 }
                 else {
                     // decode inner tags
-                    if(localName.equalsIgnoreCase("error_num")) {
+                    if (localName.equalsIgnoreCase("error_num")) {
                         mAcctMgrRPCReply.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("message")) {
+                    else if (localName.equalsIgnoreCase("message")) {
                         mAcctMgrRPCReply.messages.add(mCurrentElement.toString());
                     }
                 }
             }
         }
-        catch(Exception e) {
-            if(Logging.WARNING) {
+        catch (Exception e) {
+            if (Logging.WARNING) {
                 Log.d(Logging.TAG, "AcctMgrRPCReplyParser Exception: " + e.getMessage());
             }
         }

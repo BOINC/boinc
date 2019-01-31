@@ -19,13 +19,15 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import android.util.Xml;
-import edu.berkeley.boinc.utils.Logging;
+import java.util.ArrayList;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 
 public class TransfersParser extends BaseParser {
@@ -50,7 +52,7 @@ public class TransfersParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getTransfers();
         }
-        catch(SAXException e) {
+        catch (SAXException e) {
             return null;
         }
     }
@@ -58,16 +60,16 @@ public class TransfersParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("file_transfer")) {
+        if (localName.equalsIgnoreCase("file_transfer")) {
             mTransfer = new Transfer();
         }
-        else if(localName.equalsIgnoreCase("file_xfer")) {
+        else if (localName.equalsIgnoreCase("file_xfer")) {
             // Just constructor, flag should be set if it's present
-            if(mTransfer != null) {
+            if (mTransfer != null) {
                 mTransfer.xfer_active = true;
             }
         }
-        else if(localName.equalsIgnoreCase("persistent_file_xfer")) {
+        else if (localName.equalsIgnoreCase("persistent_file_xfer")) {
             // Just constructor, but nothing to do here
             // We just do not set mElementStarted flag here, so we will
             // avoid unnecessary work in BaseParser.characters()
@@ -89,11 +91,11 @@ public class TransfersParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mTransfer != null) {
+            if (mTransfer != null) {
                 // We are inside <file_transfer>
-                if(localName.equalsIgnoreCase("file_transfer")) {
+                if (localName.equalsIgnoreCase("file_transfer")) {
                     // Closing tag of <project> - add to vector and be ready for next one
-                    if(!mTransfer.project_url.equals("") && !mTransfer.name.equals("")) {
+                    if (!mTransfer.project_url.equals("") && !mTransfer.name.equals("")) {
                         // project_url is a must
                         mTransfers.add(mTransfer);
                     }
@@ -102,58 +104,58 @@ public class TransfersParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase("project_url")) {
+                    if (localName.equalsIgnoreCase("project_url")) {
                         mTransfer.project_url = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("name")) {
+                    else if (localName.equalsIgnoreCase("name")) {
                         mTransfer.name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("generated_locally")) {
+                    else if (localName.equalsIgnoreCase("generated_locally")) {
                         mTransfer.generated_locally = !mCurrentElement.toString().equals("0");
                     }
-                    else if(localName.equalsIgnoreCase("is_upload")) {
+                    else if (localName.equalsIgnoreCase("is_upload")) {
                         mTransfer.is_upload = !mCurrentElement.toString().equals("0");
                     }
-                    else if(localName.equalsIgnoreCase("nbytes")) {
+                    else if (localName.equalsIgnoreCase("nbytes")) {
                         mTransfer.nbytes = (long) Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("status")) {
+                    else if (localName.equalsIgnoreCase("status")) {
                         mTransfer.status = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("time_so_far")) {
+                    else if (localName.equalsIgnoreCase("time_so_far")) {
                         // inside <persistent_file_xfer>
                         mTransfer.time_so_far = (long) Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("next_request_time")) {
+                    else if (localName.equalsIgnoreCase("next_request_time")) {
                         // inside <persistent_file_xfer>
                         mTransfer.next_request_time = (long) Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("last_bytes_xferred")) {
+                    else if (localName.equalsIgnoreCase("last_bytes_xferred")) {
                         // inside <persistent_file_xfer>
                         // See also <bytes_xferred> below, both are setting the same parameters
-                        if(mTransfer.bytes_xferred == 0) {
+                        if (mTransfer.bytes_xferred == 0) {
                             // Not set yet
                             mTransfer.bytes_xferred = (long) Double.parseDouble(mCurrentElement.toString());
                         }
                     }
-                    else if(localName.equalsIgnoreCase("bytes_xferred")) {
+                    else if (localName.equalsIgnoreCase("bytes_xferred")) {
                         // Total bytes transferred, but this info is not available if networking
                         // is suspended. This info is present only inside <file_xfer> (active transfer)
                         // In such case we overwrite value set by <last_bytes_xferred>
                         mTransfer.bytes_xferred = (long) Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("xfer_speed")) {
+                    else if (localName.equalsIgnoreCase("xfer_speed")) {
                         // inside <file_xfer>
                         mTransfer.xfer_speed = Float.parseFloat(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("project_backoff")) {
+                    else if (localName.equalsIgnoreCase("project_backoff")) {
                         mTransfer.project_backoff = (long) Double.parseDouble(mCurrentElement.toString());
                     }
                 }
             }
         }
-        catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "TransfersParser.endElement error: ", e);
             }
         }

@@ -19,13 +19,15 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import android.util.Xml;
-import edu.berkeley.boinc.utils.Logging;
+import java.util.ArrayList;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectConfigReplyParser extends BaseParser {
 
@@ -58,7 +60,7 @@ public class ProjectConfigReplyParser extends BaseParser {
             Xml.parse(rpcResult.replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>", ""), parser);
             return parser.getProjectConfig();
         }
-        catch(SAXException e) {
+        catch (SAXException e) {
             return null;
         }
 
@@ -67,10 +69,10 @@ public class ProjectConfigReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("project_config")) {
+        if (localName.equalsIgnoreCase("project_config")) {
             mProjectConfig = new ProjectConfig();
         }
-        else if(localName.equalsIgnoreCase("platforms")) {
+        else if (localName.equalsIgnoreCase("platforms")) {
             withinPlatforms = true;
             mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
         }
@@ -86,88 +88,88 @@ public class ProjectConfigReplyParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mProjectConfig != null) {
-                if(localName.equalsIgnoreCase("platforms")) {// closing tag of platform names
+            if (mProjectConfig != null) {
+                if (localName.equalsIgnoreCase("platforms")) {// closing tag of platform names
                     mProjectConfig.platforms = mPlatforms;
                     withinPlatforms = false;
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase("name")) {
+                    if (localName.equalsIgnoreCase("name")) {
                         mProjectConfig.name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("master_url")) {
+                    else if (localName.equalsIgnoreCase("master_url")) {
                         mProjectConfig.masterUrl = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("web_rpc_url_base")) {
+                    else if (localName.equalsIgnoreCase("web_rpc_url_base")) {
                         mProjectConfig.webRpcUrlBase = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("local_revision")) {
+                    else if (localName.equalsIgnoreCase("local_revision")) {
                         mProjectConfig.localRevision = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("min_passwd_length")) {
+                    else if (localName.equalsIgnoreCase("min_passwd_length")) {
                         mProjectConfig.minPwdLength = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("user_name")) {
+                    else if (localName.equalsIgnoreCase("user_name")) {
                         mProjectConfig.usesName = true;
                     }
-                    else if(localName.equalsIgnoreCase("uses_username")) {
+                    else if (localName.equalsIgnoreCase("uses_username")) {
                         mProjectConfig.usesName = true;
                     }
-                    else if(localName.equalsIgnoreCase("web_stopped")) {
+                    else if (localName.equalsIgnoreCase("web_stopped")) {
                         mProjectConfig.webStopped = (Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase("sched_stopped")) {
+                    else if (localName.equalsIgnoreCase("sched_stopped")) {
                         mProjectConfig.schedulerStopped = (Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase("client_account_creation_disabled")) {
+                    else if (localName.equalsIgnoreCase("client_account_creation_disabled")) {
                         mProjectConfig.clientAccountCreationDisabled = true;
                     }
-                    else if(localName.equalsIgnoreCase("min_client_version")) {
+                    else if (localName.equalsIgnoreCase("min_client_version")) {
                         mProjectConfig.minClientVersion = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("rpc_prefix")) {
+                    else if (localName.equalsIgnoreCase("rpc_prefix")) {
                         mProjectConfig.rpcPrefix = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("platform_name") && withinPlatforms) {
+                    else if (localName.equalsIgnoreCase("platform_name") && withinPlatforms) {
                         platformName = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("user_friendly_name") && withinPlatforms) {
+                    else if (localName.equalsIgnoreCase("user_friendly_name") && withinPlatforms) {
                         platformFriendlyName = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("plan_class") && withinPlatforms) {
+                    else if (localName.equalsIgnoreCase("plan_class") && withinPlatforms) {
                         platformPlanClass = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("terms_of_use")) {
+                    else if (localName.equalsIgnoreCase("terms_of_use")) {
                         mProjectConfig.termsOfUse = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("platform") &&
-                            withinPlatforms) { // finish platform object and add to array
+                    else if (localName.equalsIgnoreCase("platform") &&
+                             withinPlatforms) { // finish platform object and add to array
                         mPlatforms.add(new PlatformInfo(platformName, platformFriendlyName, platformPlanClass));
                         platformFriendlyName = "";
                         platformName = "";
                         platformPlanClass = "";
                     }
-                    else if(localName.equalsIgnoreCase("platform") && withinPlatforms) { // finish platforms
+                    else if (localName.equalsIgnoreCase("platform") && withinPlatforms) { // finish platforms
                         withinPlatforms = false;
                         mProjectConfig.platforms = mPlatforms;
                     }
-                    else if(localName.equalsIgnoreCase("error_num")) { // reply is not present yet
+                    else if (localName.equalsIgnoreCase("error_num")) { // reply is not present yet
                         mProjectConfig.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("client_account_creation_disabled")) {
+                    else if (localName.equalsIgnoreCase("client_account_creation_disabled")) {
                         mProjectConfig.clientAccountCreationDisabled = true;
                     }
-                    else if(localName.equalsIgnoreCase("account_manager")) {
+                    else if (localName.equalsIgnoreCase("account_manager")) {
                         mProjectConfig.accountManager = true;
                     }
                 }
             }
             mElementStarted = false;
         }
-        catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectConfigReplyParser.endElement error: ", e);
             }
         }

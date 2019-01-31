@@ -18,6 +18,8 @@
  */
 package edu.berkeley.boinc.adapter;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -25,12 +27,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import edu.berkeley.boinc.PrefsFragment.SelectionDialogOption;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
-
-import java.util.ArrayList;
 
 public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialogOption> implements OnClickListener {
 
@@ -67,7 +72,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
         View v = convertView;
         SelectionDialogOption listItem = entries.get(position);
 
-        if(v == null) {
+        if (v == null) {
             LayoutInflater li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
             CheckBox cb = v.findViewById(R.id.checkbox);
@@ -79,7 +84,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
             wrapper.setClickable(true);
             wrapper.setOnClickListener(this);
             wrapper.setTag(position);
-            if(getItem(position).highlighted) {
+            if (getItem(position).highlighted) {
                 v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
                 //v.setBackgroundDrawable(activity.getResources().getDrawable());
                 //cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));

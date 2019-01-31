@@ -19,13 +19,15 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import android.util.Xml;
-import edu.berkeley.boinc.utils.Logging;
+import java.util.ArrayList;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class ResultsParser extends BaseParser {
 
@@ -49,7 +51,7 @@ public class ResultsParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getResults();
         }
-        catch(SAXException e) {
+        catch (SAXException e) {
             return null;
         }
 
@@ -58,10 +60,10 @@ public class ResultsParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("result")) {
+        if (localName.equalsIgnoreCase("result")) {
             mResult = new Result();
         }
-        else if(localName.equalsIgnoreCase("active_task")) {
+        else if (localName.equalsIgnoreCase("active_task")) {
             mInActiveTask = true;
         }
         else {
@@ -81,12 +83,12 @@ public class ResultsParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mResult != null) {
+            if (mResult != null) {
                 // We are inside <result>
-                if(localName.equalsIgnoreCase("result")) {
+                if (localName.equalsIgnoreCase("result")) {
                     // Closing tag of <result> - add to vector and be ready for
                     // next one
-                    if(!mResult.name.equals("")) {
+                    if (!mResult.name.equals("")) {
                         // name is a must
                         mResults.add(mResult);
                     }
@@ -95,127 +97,127 @@ public class ResultsParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(mInActiveTask) {
+                    if (mInActiveTask) {
                         // we are in <active_task>
-                        if(localName.equalsIgnoreCase("active_task")) {
+                        if (localName.equalsIgnoreCase("active_task")) {
                             // Closing of <active_task>
                             mResult.active_task = true;
                             mInActiveTask = false;
                         }
-                        else if(localName.equalsIgnoreCase("active_task_state")) {
+                        else if (localName.equalsIgnoreCase("active_task_state")) {
                             mResult.active_task_state = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("app_version_num")) {
+                        else if (localName.equalsIgnoreCase("app_version_num")) {
                             mResult.app_version_num = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("scheduler_state")) {
+                        else if (localName.equalsIgnoreCase("scheduler_state")) {
                             mResult.scheduler_state = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("checkpoint_cpu_time")) {
+                        else if (localName.equalsIgnoreCase("checkpoint_cpu_time")) {
                             mResult.checkpoint_cpu_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("current_cpu_time")) {
+                        else if (localName.equalsIgnoreCase("current_cpu_time")) {
                             mResult.current_cpu_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("fraction_done")) {
+                        else if (localName.equalsIgnoreCase("fraction_done")) {
                             mResult.fraction_done = Float.parseFloat(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("elapsed_time")) {
+                        else if (localName.equalsIgnoreCase("elapsed_time")) {
                             mResult.elapsed_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("swap_size")) {
+                        else if (localName.equalsIgnoreCase("swap_size")) {
                             mResult.swap_size = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("working_set_size_smoothed")) {
+                        else if (localName.equalsIgnoreCase("working_set_size_smoothed")) {
                             mResult.working_set_size_smoothed = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("estimated_cpu_time_remaining")) {
+                        else if (localName.equalsIgnoreCase("estimated_cpu_time_remaining")) {
                             mResult.estimated_cpu_time_remaining = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("supports_graphics")) {
+                        else if (localName.equalsIgnoreCase("supports_graphics")) {
                             mResult.supports_graphics = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("graphic_mode_acked")) {
+                        else if (localName.equalsIgnoreCase("graphic_mode_acked")) {
                             mResult.graphics_mode_acked = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("too_large")) {
+                        else if (localName.equalsIgnoreCase("too_large")) {
                             mResult.too_large = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("needs_shmem")) {
+                        else if (localName.equalsIgnoreCase("needs_shmem")) {
                             mResult.needs_shmem = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("edf_scheduled")) {
+                        else if (localName.equalsIgnoreCase("edf_scheduled")) {
                             mResult.edf_scheduled = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("pid")) {
+                        else if (localName.equalsIgnoreCase("pid")) {
                             mResult.pid = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("slot")) {
+                        else if (localName.equalsIgnoreCase("slot")) {
                             mResult.slot = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("graphics_exec_path")) {
+                        else if (localName.equalsIgnoreCase("graphics_exec_path")) {
                             mResult.graphics_exec_path = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("slot_path")) {
+                        else if (localName.equalsIgnoreCase("slot_path")) {
                             mResult.slot_path = mCurrentElement.toString();
                         }
                     }
                     else {
                         // Not in <active_task>
-                        if(localName.equalsIgnoreCase("name")) {
+                        if (localName.equalsIgnoreCase("name")) {
                             mResult.name = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("wu_name")) {
+                        else if (localName.equalsIgnoreCase("wu_name")) {
                             mResult.wu_name = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("project_url")) {
+                        else if (localName.equalsIgnoreCase("project_url")) {
                             mResult.project_url = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("version_num")) {
+                        else if (localName.equalsIgnoreCase("version_num")) {
                             mResult.version_num = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("ready_to_report")) {
+                        else if (localName.equalsIgnoreCase("ready_to_report")) {
                             mResult.ready_to_report = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("got_server_ack")) {
+                        else if (localName.equalsIgnoreCase("got_server_ack")) {
                             mResult.got_server_ack = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("final_cpu_time")) {
+                        else if (localName.equalsIgnoreCase("final_cpu_time")) {
                             mResult.final_cpu_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("final_elapsed_time")) {
+                        else if (localName.equalsIgnoreCase("final_elapsed_time")) {
                             mResult.final_elapsed_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("state")) {
+                        else if (localName.equalsIgnoreCase("state")) {
                             mResult.state = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("report_deadline")) {
+                        else if (localName.equalsIgnoreCase("report_deadline")) {
                             mResult.report_deadline = (long) Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("received_time")) {
+                        else if (localName.equalsIgnoreCase("received_time")) {
                             mResult.received_time = (long) Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("estimated_cpu_time_remaining")) {
+                        else if (localName.equalsIgnoreCase("estimated_cpu_time_remaining")) {
                             mResult.estimated_cpu_time_remaining = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("exit_status")) {
+                        else if (localName.equalsIgnoreCase("exit_status")) {
                             mResult.exit_status = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("suspended_via_gui")) {
+                        else if (localName.equalsIgnoreCase("suspended_via_gui")) {
                             mResult.suspended_via_gui = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("project_suspended_via_gui")) {
+                        else if (localName.equalsIgnoreCase("project_suspended_via_gui")) {
                             mResult.project_suspended_via_gui = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("resources")) {
+                        else if (localName.equalsIgnoreCase("resources")) {
                             mResult.resources = mCurrentElement.toString();
                         }
                     }
                 }
             }
         }
-        catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "ResultsParser.endElement error: ", e);
             }
         }

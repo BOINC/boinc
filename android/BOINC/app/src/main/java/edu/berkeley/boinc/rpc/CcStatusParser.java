@@ -19,11 +19,13 @@
 
 package edu.berkeley.boinc.rpc;
 
-import android.util.Log;
-import android.util.Xml;
-import edu.berkeley.boinc.utils.Logging;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
+import android.util.Xml;
+
+import edu.berkeley.boinc.utils.Logging;
 
 public class CcStatusParser extends BaseParser {
 
@@ -40,7 +42,7 @@ public class CcStatusParser extends BaseParser {
             Xml.parse(rpcResult, parser);
             return parser.getCcStatus();
         }
-        catch(SAXException e) {
+        catch (SAXException e) {
             e.printStackTrace();
             Log.v("Larry", e.getMessage());
             return null;
@@ -50,7 +52,7 @@ public class CcStatusParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("cc_status")) {
+        if (localName.equalsIgnoreCase("cc_status")) {
             mCcStatus = new CcStatus();
         }
         else {
@@ -70,67 +72,67 @@ public class CcStatusParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mCcStatus != null) {
+            if (mCcStatus != null) {
                 // We are inside <cc_status>
-                if(localName.equalsIgnoreCase("cc_status")) {
+                if (localName.equalsIgnoreCase("cc_status")) {
                     // Closing tag of <cc_status> - nothing to do at the moment
                 }
                 else {
                     trimEnd();
                     // Not the closing tag - we decode possible inner tags
-                    if(localName.equalsIgnoreCase("task_mode")) {
+                    if (localName.equalsIgnoreCase("task_mode")) {
                         mCcStatus.task_mode = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("task_mode_perm")) {
+                    else if (localName.equalsIgnoreCase("task_mode_perm")) {
                         mCcStatus.task_mode_perm = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("task_mode_delay")) {
+                    else if (localName.equalsIgnoreCase("task_mode_delay")) {
                         mCcStatus.task_mode_delay = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("task_suspend_reason")) {
+                    else if (localName.equalsIgnoreCase("task_suspend_reason")) {
                         mCcStatus.task_suspend_reason = Integer.parseInt(mCurrentElement.toString());
                     }
-                    if(localName.equalsIgnoreCase("network_mode")) {
+                    if (localName.equalsIgnoreCase("network_mode")) {
                         mCcStatus.network_mode = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("network_mode_perm")) {
+                    else if (localName.equalsIgnoreCase("network_mode_perm")) {
                         mCcStatus.network_mode_perm = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("network_mode_delay")) {
+                    else if (localName.equalsIgnoreCase("network_mode_delay")) {
                         mCcStatus.network_mode_delay = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("network_suspend_reason")) {
+                    else if (localName.equalsIgnoreCase("network_suspend_reason")) {
                         mCcStatus.network_suspend_reason = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("network_status")) {
+                    else if (localName.equalsIgnoreCase("network_status")) {
                         mCcStatus.network_status = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("ams_password_error")) {
-                        if(mCurrentElement.length() > 1) {
+                    else if (localName.equalsIgnoreCase("ams_password_error")) {
+                        if (mCurrentElement.length() > 1) {
                             mCcStatus.ams_password_error = (0 != Integer.parseInt(mCurrentElement.toString()));
                         }
                         else {
                             mCcStatus.ams_password_error = true;
                         }
                     }
-                    else if(localName.equalsIgnoreCase("manager_must_quit")) {
-                        if(mCurrentElement.length() > 1) {
+                    else if (localName.equalsIgnoreCase("manager_must_quit")) {
+                        if (mCurrentElement.length() > 1) {
                             mCcStatus.manager_must_quit = (0 != Integer.parseInt(mCurrentElement.toString()));
                         }
                         else {
                             mCcStatus.manager_must_quit = true;
                         }
                     }
-                    else if(localName.equalsIgnoreCase("disallow_attach")) {
-                        if(mCurrentElement.length() > 1) {
+                    else if (localName.equalsIgnoreCase("disallow_attach")) {
+                        if (mCurrentElement.length() > 1) {
                             mCcStatus.disallow_attach = (0 != Integer.parseInt(mCurrentElement.toString()));
                         }
                         else {
                             mCcStatus.disallow_attach = true;
                         }
                     }
-                    else if(localName.equalsIgnoreCase("simple_gui_only")) {
-                        if(mCurrentElement.length() > 1) {
+                    else if (localName.equalsIgnoreCase("simple_gui_only")) {
+                        if (mCurrentElement.length() > 1) {
                             mCcStatus.simple_gui_only = (0 != Integer.parseInt(mCurrentElement.toString()));
                         }
                         else {
@@ -140,8 +142,8 @@ public class CcStatusParser extends BaseParser {
                 }
             }
         }
-        catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+        catch (NumberFormatException e) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "CcStatusParser.endElement error: ", e);
             }
         }

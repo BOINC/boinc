@@ -18,11 +18,12 @@
  */
 package edu.berkeley.boinc.client;
 
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.*;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.Logging;
 
 public class AppPreferences {
 
@@ -41,7 +42,7 @@ public class AppPreferences {
     private Boolean suspendWhenScreenOn;
 
     public void readPrefs(Context ctx) {
-        if(prefs == null) {
+        if (prefs == null) {
             prefs = ctx.getSharedPreferences(PREFS, 0);
         }
         //second parameter of reading function is the initial value after installation.
@@ -63,7 +64,7 @@ public class AppPreferences {
         suspendWhenScreenOn =
                 prefs.getBoolean("suspendWhenScreenOn", ctx.getResources().getBoolean(R.bool.prefs_suspend_when_screen_on));
 
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG,
                     "appPrefs read successful." + autostart + showNotificationForNotices + showAdvanced + logLevel +
                     powerSourceAc + powerSourceUsb + powerSourceWireless);

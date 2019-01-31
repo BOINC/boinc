@@ -41,8 +41,8 @@ public class CcState {
     }
 
     public Project lookup_project(String testUrl) {
-        for(int i = 0; i < projects.size(); i++) {
-            if(projects.get(i).master_url.equalsIgnoreCase(testUrl)) {
+        for (int i = 0; i < projects.size(); i++) {
+            if (projects.get(i).master_url.equalsIgnoreCase(testUrl)) {
                 return projects.get(i);
             }
         }
@@ -50,11 +50,11 @@ public class CcState {
     }
 
     public App lookup_app(Project project, String appname) {
-        for(int i = 0; i < apps.size(); i++) {
-            if(!apps.get(i).project.compare(project)) {
+        for (int i = 0; i < apps.size(); i++) {
+            if (!apps.get(i).project.compare(project)) {
                 continue;
             }
-            if(apps.get(i).name.equalsIgnoreCase(appname)) {
+            if (apps.get(i).name.equalsIgnoreCase(appname)) {
                 return apps.get(i);
             }
         }
@@ -62,12 +62,12 @@ public class CcState {
     }
 
     public Workunit lookup_wu(Project project, String wu_name) {
-        for(int i = 0; i < workunits.size(); i++) {
-            if(!workunits.get(i).project.compare(project)) {
+        for (int i = 0; i < workunits.size(); i++) {
+            if (!workunits.get(i).project.compare(project)) {
                 //if(Logging.DEBUG) Log.d("Workunit", "Projects Do not compare");
                 continue;
             }
-            if(workunits.get(i).name.equalsIgnoreCase(wu_name)) {
+            if (workunits.get(i).name.equalsIgnoreCase(wu_name)) {
                 return workunits.get(i);
             }
         }
@@ -75,21 +75,21 @@ public class CcState {
     }
 
     public AppVersion lookup_app_version(Project project, App app, int version_num, String plan_class) {
-        for(int i = 0; i < app_versions.size(); i++) {
+        for (int i = 0; i < app_versions.size(); i++) {
             //Check if projects match...
-            if(!app_versions.get(i).project.compare(project)) {
+            if (!app_versions.get(i).project.compare(project)) {
                 continue;
             }
             //Check if app matches
-            if(!app_versions.get(i).app.compare(app)) {
+            if (!app_versions.get(i).app.compare(app)) {
                 continue;
             }
             //checks version_num
-            if(app_versions.get(i).version_num != version_num) {
+            if (app_versions.get(i).version_num != version_num) {
                 continue;
             }
             //Checks plan class
-            if(!app_versions.get(i).plan_class.equalsIgnoreCase(plan_class)) {
+            if (!app_versions.get(i).plan_class.equalsIgnoreCase(plan_class)) {
                 continue;
             }
             return app_versions.get(i);

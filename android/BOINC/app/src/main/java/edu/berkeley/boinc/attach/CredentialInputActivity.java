@@ -19,6 +19,11 @@
 
 package edu.berkeley.boinc.attach;
 
+import java.util.ArrayList;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.*;
+
 import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
@@ -33,10 +38,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.Logging;
-
-import java.util.ArrayList;
 
 public class CredentialInputActivity extends Activity {
 
@@ -50,7 +51,7 @@ public class CredentialInputActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "CredentialInputActivity onCreate");
         }
         doBindService();
@@ -63,7 +64,7 @@ public class CredentialInputActivity extends Activity {
         showPwdCb.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((CheckBox) v).isChecked()) {
+                if (((CheckBox) v).isChecked()) {
                     pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                 }
                 else {
@@ -82,28 +83,28 @@ public class CredentialInputActivity extends Activity {
 
     // triggered by continue button
     public void continueClicked(View v) {
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
         }
 
 
         // set credentials in service
-        if(asIsBound) {
+        if (asIsBound) {
             // verfiy input, return if failed.
-            if(!attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) {
+            if (!attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) {
                 return;
             }
             // set credentials
             attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
         }
         else {
-            if(Logging.ERROR) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "CredentialInputActivity.continueClicked: service not bound.");
             }
             return;
         }
 
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "CredentialInputActivity.continueClicked: starting BatchProcessingActivity...");
         }
         startActivity(new Intent(this, BatchProcessingActivity.class));
@@ -111,12 +112,12 @@ public class CredentialInputActivity extends Activity {
 
     // triggered by individual button
     public void individualClicked(View v) {
-        if(Logging.DEBUG) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "CredentialInputActivity.individualClicked.");
         }
 
         // set credentials in service, in case user typed before deciding btwn batch and individual attach
-        if(asIsBound) {
+        if (asIsBound) {
             attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
         }
 
@@ -151,7 +152,7 @@ public class CredentialInputActivity extends Activity {
     }
 
     private void doUnbindService() {
-        if(asIsBound) {
+        if (asIsBound) {
             // Detach existing connection.
             unbindService(mASConnection);
             asIsBound = false;
