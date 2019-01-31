@@ -101,9 +101,8 @@ public class BOINCActivity extends AppCompatActivity {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Logging.VERBOSE) {
+            if (Logging.VERBOSE)
                 Log.d(Logging.TAG, "BOINCActivity ClientStatusChange - onReceive()");
-            }
             determineStatus();
         }
     };
@@ -111,9 +110,7 @@ public class BOINCActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity onCreate()");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -134,7 +131,8 @@ public class BOINCActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, //nav menu toggle icon
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
@@ -160,25 +158,17 @@ public class BOINCActivity extends AppCompatActivity {
         int targetFragId = getIntent().getIntExtra("targetFragment", -1);
 
         // 2. if no explicit request, try to restore previous selection
-        if (targetFragId < 0 && savedInstanceState != null) {
+        if (targetFragId < 0 && savedInstanceState != null)
             targetFragId = savedInstanceState.getInt("navBarSelectionId");
-        }
 
         NavDrawerItem item;
         if (targetFragId < 0) {
             // if non of the above, go to default
             item = mDrawerListAdapter.getItem(0);
-        }
-        else {
-            item = mDrawerListAdapter.getItemForId(targetFragId);
-        }
+        } else item = mDrawerListAdapter.getItemForId(targetFragId);
 
-        if (item != null) {
-            dispatchNavBarOnClick(item, true);
-        }
-        else if (Logging.WARNING) {
-            Log.w(Logging.TAG, "onCreate: fragment selection returned null");
-        }
+        if (item != null) dispatchNavBarOnClick(item, true);
+        else if (Logging.WARNING) Log.w(Logging.TAG, "onCreate: fragment selection returned null");
 
         //bind monitor service
         doBindService();
@@ -192,34 +182,26 @@ public class BOINCActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity onDestroy()");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onDestroy()");
         doUnbindService();
         super.onDestroy();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity onNewIntent()");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onNewIntent()");
         // onNewIntent gets called if activity is brought to front via intent, but was still alive, so onCreate is not called again
         // getIntent always returns the intent activity was created of, so this method is the only hook to receive an updated intent
         // e.g. after (not initial) project attach
         super.onNewIntent(intent);
         // navigate to explicitly requested fragment (e.g. after project attach)
         int id = intent.getIntExtra("targetFragment", -1);
-        if (Logging.DEBUG) {
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: " + id);
-        }
         NavDrawerItem item = mDrawerListAdapter.getItemForId(id);
-        if (item != null) {
-            dispatchNavBarOnClick(item, false);
-        }
-        else if (Logging.WARNING) {
+        if (item != null) dispatchNavBarOnClick(item, false);
+        else if (Logging.WARNING)
             Log.w(Logging.TAG, "onNewIntent: requested target fragment is null, for id: " + id);
-        }
     }
 
     @Override
@@ -231,9 +213,7 @@ public class BOINCActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() { // gets called by system every time activity loses focus.
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "BOINCActivity onPause()");
-        }
+        if (Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onPause()");
         super.onPause();
         unregisterReceiver(mClientStatusChangeRec);
     }
@@ -259,9 +239,7 @@ public class BOINCActivity extends AppCompatActivity {
 	}*/
 
     public void startAttachProjectListActivity() {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity attempt to start ");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity attempt to start ");
         startActivity(new Intent(this, SelectionListActivity.class));
     }
 
@@ -274,16 +252,11 @@ public class BOINCActivity extends AppCompatActivity {
     private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
         // update the main content by replacing fragments
         if (item == null) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "dispatchNavBarOnClick returns, item null.");
-            }
+            if (Logging.WARNING) Log.w(Logging.TAG, "dispatchNavBarOnClick returns, item null.");
             return;
         }
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG,
-                    "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() +
-                    " is project? " + item.isProjectItem());
-        }
+        if (Logging.DEBUG)
+            Log.d(Logging.TAG, "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() + " is project? " + item.isProjectItem());
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Boolean fragmentChanges = false;
@@ -318,13 +291,10 @@ public class BOINCActivity extends AppCompatActivity {
                     Button returnB = dialog.findViewById(R.id.returnB);
                     TextView tvVersion = dialog.findViewById(R.id.version);
                     try {
-                        tvVersion.setText(getString(R.string.about_version) + " " +
-                                          getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-                    }
-                    catch (NameNotFoundException e) {
-                        if (Logging.WARNING) {
-                            Log.w(Logging.TAG, "version name not found.");
-                        }
+                        tvVersion.setText(getString(R.string.about_version) + " "
+                                + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                    } catch (NameNotFoundException e) {
+                        if (Logging.WARNING) Log.w(Logging.TAG, "version name not found.");
                     }
 
                     returnB.setOnClickListener(new OnClickListener() {
@@ -347,15 +317,12 @@ public class BOINCActivity extends AppCompatActivity {
                     break;
 
                 default:
-                    if (Logging.ERROR) {
-                        Log.d(Logging.TAG,
-                                "dispatchNavBarOnClick() could not find corresponding fragment for " + item.getTitle());
-                    }
+                    if (Logging.ERROR)
+                        Log.d(Logging.TAG, "dispatchNavBarOnClick() could not find corresponding fragment for " + item.getTitle());
                     break;
             }
 
-        }
-        else {
+        } else {
             // ProjectDetailsFragment. Data shown based on given master URL
             Bundle args = new Bundle();
             args.putString("url", item.getProjectMasterUrl());
@@ -374,9 +341,7 @@ public class BOINCActivity extends AppCompatActivity {
             mDrawerListAdapter.notifyDataSetChanged(); // force redraw
         }
 
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "displayFragmentForNavDrawer() " + item.getTitle());
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "displayFragmentForNavDrawer() " + item.getTitle());
     }
 
     // tests whether status is available and whether it changed since the last event.
@@ -389,17 +354,12 @@ public class BOINCActivity extends AppCompatActivity {
                     clientComputingStatus = newComputingStatus;
                     supportInvalidateOptionsMenu();
                 }
-                if (numberProjectsInNavList != monitor.getProjects().size()) {
-                    numberProjectsInNavList =
-                            mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>) monitor.getProjects());
-                }
+                if (numberProjectsInNavList != monitor.getProjects().size())
+                    numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>) monitor.getProjects());
                 //setAppTitle();
             }
-        }
-        catch (Exception e) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "BOINCActivity.determineStatus error: ", e);
-            }
+        } catch (Exception e) {
+            if (Logging.ERROR) Log.e(Logging.TAG, "BOINCActivity.determineStatus error: ", e);
         }
     }
 
@@ -407,8 +367,7 @@ public class BOINCActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
                 this.mDrawerLayout.closeDrawer(this.mDrawerList);
-            }
-            else {
+            } else {
                 this.mDrawerLayout.openDrawer(this.mDrawerList);
             }
             return true;
@@ -418,9 +377,7 @@ public class BOINCActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -429,9 +386,7 @@ public class BOINCActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity onPrepareOptionsMenu()");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onPrepareOptionsMenu()");
 
         // run mode, set title and icon based on status
         MenuItem runMode = menu.findItem(R.id.run_mode);
@@ -439,8 +394,7 @@ public class BOINCActivity extends AppCompatActivity {
             // display play button
             runMode.setTitle(R.string.menu_run_mode_enable);
             runMode.setIcon(R.drawable.playw);
-        }
-        else {
+        } else {
             // display stop button
             runMode.setTitle(R.string.menu_run_mode_disable);
             runMode.setIcon(R.drawable.pausew);
@@ -451,9 +405,7 @@ public class BOINCActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity onOptionsItemSelected()");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onOptionsItemSelected()");
 
         // toggle drawer
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -463,20 +415,12 @@ public class BOINCActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.run_mode:
                 if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_disable))) {
-                    if (Logging.DEBUG) {
-                        Log.d(Logging.TAG, "run mode: disable");
-                    }
+                    if (Logging.DEBUG) Log.d(Logging.TAG, "run mode: disable");
                     new WriteClientModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
-                }
-                else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
-                    if (Logging.DEBUG) {
-                        Log.d(Logging.TAG, "run mode: enable");
-                    }
+                } else if (item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
+                    if (Logging.DEBUG) Log.d(Logging.TAG, "run mode: enable");
                     new WriteClientModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
-                }
-                else if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "run mode: unrecognized command");
-                }
+                } else if (Logging.DEBUG) Log.d(Logging.TAG, "run mode: unrecognized command");
                 return true;
             case R.id.projects_add:
                 startActivity(new Intent(this, SelectionListActivity.class));
@@ -514,15 +458,13 @@ public class BOINCActivity extends AppCompatActivity {
             Boolean runMode;
             try {
                 runMode = monitor.setRunMode(params[0]);
-            }
-            catch (RemoteException e) {
+            } catch (RemoteException e) {
                 runMode = false;
             }
             Boolean networkMode;
             try {
                 networkMode = monitor.setNetworkMode(params[0]);
-            }
-            catch (RemoteException e) {
+            } catch (RemoteException e) {
                 networkMode = false;
             }
             return runMode && networkMode;
@@ -530,19 +472,14 @@ public class BOINCActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if (success) {
+            if (success)
                 try {
                     monitor.forceRefresh();
-                }
-                catch (RemoteException e) {
-                    if (Logging.ERROR) {
+                } catch (RemoteException e) {
+                    if (Logging.ERROR)
                         Log.e(Logging.TAG, "BOINCActivity.onKeyDown.onPostExecute() error: ", e);
-                    }
                 }
-            }
-            else if (Logging.WARNING) {
-                Log.w(Logging.TAG, "setting run and network mode failed");
-            }
+            else if (Logging.WARNING) Log.w(Logging.TAG, "setting run and network mode failed");
         }
     }
 }

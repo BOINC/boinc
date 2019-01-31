@@ -24,7 +24,9 @@ import android.content.Context;
 
 public class PrefsListItemWrapper {
     public enum DialogButtonType {
-        SLIDER, NUMBER, TEXT
+        SLIDER,
+        NUMBER,
+        TEXT
     }
 
     public PrefsListItemWrapperNumber.DialogButtonType dialogButtonType;

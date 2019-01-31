@@ -18,8 +18,7 @@
     <string name="attachproject_list_no_internet">Nu există conexiune la Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Introduceți informațiile contului</string>
-    <string name="attachproject_credential_input_desc">Introduceți informațiile contului pentru proiectele selectate:
-    </string>
+    <string name="attachproject_credential_input_desc">Introduceți informațiile contului pentru proiectele selectate:</string>
     <string name="attachproject_credential_input_show_pwd">Arată parola</string>
     <string name="attachproject_individual_credential_input">Atașează proiecte individual</string>
     <!--conflicts-->
@@ -28,9 +27,7 @@
     <string name="attachproject_conflict_not_unique">Contul există cu o altă parolă</string>
     <string name="attachproject_conflict_bad_password">Parolă incorectă</string>
     <string name="attachproject_conflict_unknown_user">Contul nu există</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului
-        pentru înregistrare
-    </string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului pentru înregistrare</string>
     <!--working-->
     <string name="attachproject_working_attaching">Se atașează</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -45,9 +42,7 @@
     <string name="attachproject_hint_projectwebsite_science">Învățați mai multe despre știință</string>
     <string name="attachproject_hint_projectwebsite_stats">Vizualizați statisticile contribuției</string>
     <string name="attachproject_hint_projectwebsite_community">Intrați în contact cu alți voluntari</string>
-    <string name="attachproject_hint_platforms_header">BOINC este disponibil și pentru calculatorul sau laptop-ul
-        dumneavoastră, vizitați boinc.berkeley.edu pentru a afla mai multe.
-    </string>
+    <string name="attachproject_hint_platforms_header">BOINC este disponibil și pentru calculatorul sau laptop-ul dumneavoastră, vizitați boinc.berkeley.edu pentru a afla mai multe.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Se contactează serverul proiectului…</string>
     <string name="attachproject_login_image_description">Logo proiect.</string>
@@ -60,20 +55,15 @@
     <string name="attachproject_login_platform_supported">Acest proiect suportă dispozitive Android</string>
     <string name="attachproject_login_platform_not_supported">Acest proiect nu suportă dispozitive Android</string>
     <string name="attachproject_login_category_terms_of_use">Condiţii de utilizare pentru</string>
-    <string name="attachproject_login_accept_terms_of_use">Prin crearea unui cont la acest proiect, acceptaţi condiţiile
-        de utilizare aşa cum sunt prezentate mai sus.
-    </string>
+    <string name="attachproject_login_accept_terms_of_use">Prin crearea unui cont la acest proiect, acceptaţi condiţiile de utilizare aşa cum sunt prezentate mai sus.</string>
     <string name="attachproject_login_category_login">Conectaţi-vă cu un cont existent</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Nume:</string>
     <string name="attachproject_login_header_pwd">Parolă:</string>
     <string name="attachproject_login_category_creation">Nou pentru</string>
     <string name="attachproject_login_header_creation_enabled">Înregistraţi un cont pentru a participa:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Vizitaţi website-ul proiectului pentru a crea un
-        cont:
-    </string>
-    <string name="attachproject_login_header_creation_disabled">Proiectul nu permite momentan crearea de noi conturi!
-    </string>
+    <string name="attachproject_login_header_creation_client_disabled">Vizitaţi website-ul proiectului pentru a crea un cont:</string>
+    <string name="attachproject_login_header_creation_disabled">Proiectul nu permite momentan crearea de noi conturi!</string>
     <string name="attachproject_login_button_registration">Înregistrează</string>
     <string name="attachproject_login_button_login">Autentificare</string>
     <string name="attachproject_login_button_forgotpw">Aţi Uitat Parola</string>
@@ -89,9 +79,7 @@
     <string name="attachproject_registration_header_pwd_confirm">... Reintroduceţi:</string>
     <string name="attachproject_registration_button">Creează</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Folosiți un manager de cont BOINC pentru a adăuga și gestiona
-        proiecte multiple
-    </string>
+    <string name="attachproject_acctmgr_list_desc">Folosiți un manager de cont BOINC pentru a adăuga și gestiona proiecte multiple</string>
     <string name="attachproject_acctmgr_header">Adaugă manager de cont</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Utilizator:</string>
@@ -133,8 +121,7 @@
     <!--main activity-->
     <string name="main_noproject_warning">Apăsați aici pentru a alege un proiect.</string>
     <string name="main_error">Whooops</string>
-    <string name="main_error_long">...asta nu ar trebui să se întâmple!\nApăsaţi pe icoană pentru a încerca din nou.
-    </string>
+    <string name="main_error_long">...asta nu ar trebui să se întâmple!\nApăsaţi pe icoană pentru a încerca din nou.</string>
     <string name="main_title_icon_desc">Icoană BOINC</string>
     <!--tab names-->
     <string name="tab_status">Stare</string>
@@ -151,8 +138,7 @@
     <string name="status_idle">Nimic de făcut</string>
     <string name="status_idle_long">Se aşteaptă task-uri…</string>
     <string name="status_computing_disabled">Suspendat</string>
-    <string name="status_computing_disabled_long">Apăsaţi play pentru a relua calculele şi comunicarea în reţea.
-    </string>
+    <string name="status_computing_disabled_long">Apăsaţi play pentru a relua calculele şi comunicarea în reţea.</string>
     <string name="status_launching">Se pornește…</string>
     <string name="status_noproject">Alegeţi un proiect în care să participaţi.</string>
     <string name="status_closing">Se închide…</string>
@@ -173,33 +159,21 @@
     <string name="prefs_show_advanced_header">Arată preferinţe şi control avansat…</string>
     <string name="prefs_suspend_when_screen_on">Opriți calculele când ecranul este aprins</string>
     <string name="prefs_stationary_device_mode_header">Mod echipament staționar</string>
-    <string name="prefs_stationary_device_mode_description">Permite calculele indiferent de preferințele de sursă de
-        alimentare. Activați doar dacă echipamentul nu are baterie.
-    </string>
+    <string name="prefs_stationary_device_mode_description">Permite calculele indiferent de preferințele de sursă de alimentare. Activați doar dacă echipamentul nu are baterie.</string>
     <string name="prefs_power_source_header">Surse de alimentare pentru calcule</string>
-    <string name="prefs_power_source_description">Selectează sursele de alimentare pe care BOINC le poate utiliza pentru
-        calcule.
-    </string>
+    <string name="prefs_power_source_description">Selectează sursele de alimentare pe care BOINC le poate utiliza pentru calcule.</string>
     <string name="prefs_power_source_ac">Priză</string>
     <string name="prefs_power_source_usb">Conexiune USB</string>
     <string name="prefs_power_source_wireless">Încărcător fără fir</string>
     <string name="prefs_power_source_battery">Baterie</string>
     <string name="battery_charge_min_pct_header">Nivel minim baterie</string>
-    <string name="battery_charge_min_pct_description">BOINC suspendă calculele când nivelul bateriei este sub cel
-        definit.
-    </string>
+    <string name="battery_charge_min_pct_description">BOINC suspendă calculele când nivelul bateriei este sub cel definit.</string>
     <string name="battery_temperature_max_header">Temperatură maximă baterie</string>
-    <string name="battery_temperature_max_description">BOINC suspendă calculele când temperatura bateriei depăşeşte
-        nivelul definit. Nu este recomandat să modificaţi această valoare.
-    </string>
+    <string name="battery_temperature_max_description">BOINC suspendă calculele când temperatura bateriei depăşeşte nivelul definit. Nu este recomandat să modificaţi această valoare.</string>
     <string name="prefs_disk_max_pct_header">Spaţiu de stocare maxim utilizat</string>
-    <string name="prefs_disk_max_pct_description">Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are
-        voie să fie utilizat de BOINC?
-    </string>
+    <string name="prefs_disk_max_pct_description">Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are voie să fie utilizat de BOINC?</string>
     <string name="prefs_disk_min_free_gb_header">Spaţiu stocare minim liber</string>
-    <string name="prefs_disk_min_free_gb_description">Cât din spaţiul de stocare al dispozitivului trebuie să rămână
-        liber?
-    </string>
+    <string name="prefs_disk_min_free_gb_description">Cât din spaţiul de stocare al dispozitivului trebuie să rămână liber?</string>
     <string name="prefs_disk_access_interval_header">Interval acces</string>
     <string name="prefs_disk_access_interval_description">Sugerează un interval între accesurile la disc</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Limită zilnică transfer</string>
@@ -209,19 +183,13 @@
     <string name="prefs_show_notification_notices_header">Arată notificare pentru noi atenționări</string>
     <string name="prefs_show_notification_suspended_header">Arată notificare când e suspendat</string>
     <string name="prefs_cpu_number_cpus_header">Nuclee CPU folosite</string>
-    <string name="prefs_cpu_number_cpus_description">Limitează numărul de nuclee CPU folosite de BOINC pentru calcule.
-    </string>
+    <string name="prefs_cpu_number_cpus_description">Limitează numărul de nuclee CPU folosite de BOINC pentru calcule.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pauză la utilizare CPU peste</string>
-    <string name="prefs_cpu_other_load_suspension_description">Determină când BOINC întrerupe calculele din cauza
-        utilizării CPU a altor aplicaţii.
-    </string>
+    <string name="prefs_cpu_other_load_suspension_description">Determină când BOINC întrerupe calculele din cauza utilizării CPU a altor aplicaţii.</string>
     <string name="prefs_cpu_time_max_header">limită CPU</string>
-    <string name="prefs_cpu_time_max_description">Limitează timpul CPU pe care îl foloseşte BOINC pentru calcule.
-    </string>
+    <string name="prefs_cpu_time_max_description">Limitează timpul CPU pe care îl foloseşte BOINC pentru calcule.</string>
     <string name="prefs_memory_max_idle_header">Limită RAM</string>
-    <string name="prefs_memory_max_idle_description">Limitează cantitatea de RAM pe care task-urile au voie să o
-        ocupe.
-    </string>
+    <string name="prefs_memory_max_idle_description">Limitează cantitatea de RAM pe care task-urile au voie să o ocupe.</string>
     <string name="prefs_client_log_flags_header">Flag-uri jurnal client BOINC</string>
     <string name="prefs_gui_log_level_header">Nivel jurnal GUI</string>
     <string name="prefs_gui_log_level_description">Specificaţi nivelul mesajelor jurnal GUI.</string>
@@ -320,9 +288,7 @@
     <string name="eventlog_email_subject">Jurnal Evenimente pentru BOINC pe Android:</string>
     <!--suspend reasons-->
     <string name="suspend_unknown">Calcule suspendate.</string>
-    <string name="suspend_batteries">Conectaţi dispozitivul dumneavoastră la un încărcător pentru a continua
-        calculele.
-    </string>
+    <string name="suspend_batteries">Conectaţi dispozitivul dumneavoastră la un încărcător pentru a continua calculele.</string>
     <string name="suspend_screen_on">Închideți ecranul pentru a continua calculele.</string>
     <string name="suspend_useractive">Utilizatorul este activ.</string>
     <string name="suspend_tod">În afara intervalului de timp pentru calcule.</string>
@@ -369,9 +335,7 @@
     <string name="about_version">Versiune</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Toate Drepturile Rezervate.</string>
-    <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC
-        Corporation pentru suportul lor.
-    </string>
+    <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC Corporation pentru suportul lor.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Notificare nouă de la %1$s</item>
@@ -380,20 +344,14 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Aplicație calcule voluntare detectată</string>
-    <string name="nonexcl_dialog_text">O altă aplicație de calcule voluntare rulează pe acest echipament. Doar o singură
-        versiune poate rula la un moment dat.
-    </string>
+    <string name="nonexcl_dialog_text">O altă aplicație de calcule voluntare rulează pe acest echipament. Doar o singură versiune poate rula la un moment dat.</string>
     <string name="nonexcl_dialog_exit">Ieșire</string>
     <!--social integration-->
     <string name="social_invite_button">Invitați prieteni</string>
     <string name="social_invite_intent_title">Cum doriți să partajați?</string>
     <string name="social_invite_content_title">Fac cercetări pe smartphone-ul meu!</string>
-    <string name="social_invite_content_body">Folosesc %1$s pentru a calcula pentru știință. Poți și tu! Descarcă
-        aplicația de la: %2$s
-    </string>
+    <string name="social_invite_content_body">Folosesc %1$s pentru a calcula pentru știință. Poți și tu! Descarcă aplicația de la: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

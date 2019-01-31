@@ -63,8 +63,7 @@ public class EventLogActivityTabListener<T extends Fragment> implements ActionBa
             // If not, instantiate and add it to the activity
             mFragment = Fragment.instantiate(mActivity, mClass.getName());
             ft.add(android.R.id.content, mFragment, mTag);
-        }
-        else {
+        } else {
             // If it exists, simply attach it in order to show it
             ft.attach(mFragment);
         }

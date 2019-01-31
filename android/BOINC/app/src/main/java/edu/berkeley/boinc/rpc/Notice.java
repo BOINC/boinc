@@ -59,7 +59,10 @@ public class Notice implements Parcelable {
         dest.writeString(link);
         dest.writeString(project_name);
 
-        dest.writeBooleanArray(new boolean[]{is_private, isServerNotice, isClientNotice});
+        dest.writeBooleanArray(new boolean[]{
+                is_private,
+                isServerNotice,
+                isClientNotice});
     }
 
     public Notice() {

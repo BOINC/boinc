@@ -50,11 +50,8 @@ public class Md5 {
                 sb.append(String.format("%02x", singleMd5hash));
             }
             return sb.toString();
-        }
-        catch (Exception e) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "Error when calculating MD5 hash");
-            }
+        } catch (Exception e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "Error when calculating MD5 hash");
             return "";
         }
     }

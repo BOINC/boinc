@@ -53,13 +53,9 @@ public class ManualUrlInputFragment extends DialogFragment {
         continueButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
-                }
+                if (Logging.DEBUG) Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
 
-                if (!checkDeviceOnline()) {
-                    return;
-                }
+                if (!checkDeviceOnline()) return;
 
                 //startActivity
                 Intent intent = new Intent(getActivity(), BatchConflictListActivity.class);
@@ -87,16 +83,13 @@ public class ManualUrlInputFragment extends DialogFragment {
     // note: available internet does not imply connection to project server
     // is possible!
     private Boolean checkDeviceOnline() {
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
         if (!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!");
-            }
+            if (Logging.DEBUG) Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!");
         }
         return online;
     }

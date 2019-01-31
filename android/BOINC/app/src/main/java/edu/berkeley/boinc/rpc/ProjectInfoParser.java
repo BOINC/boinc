@@ -45,8 +45,7 @@ public class ProjectInfoParser extends BaseParser {
             // report malformated XML to BOINC and remove String.replace here...
             Xml.parse(rpcResult.replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>", ""), parser);
             return parser.getProjectInfos();
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
     }
@@ -56,12 +55,10 @@ public class ProjectInfoParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("project")) {
             mProjectInfo = new ProjectInfo();
-        }
-        else if (localName.equalsIgnoreCase("platforms")) {
+        } else if (localName.equalsIgnoreCase("platforms")) {
             mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
             withinPlatforms = true;
-        }
-        else {
+        } else {
             // Another element, hopefully primitive and not constructor
             // (although unknown constructor does not hurt, because there will be primitive start anyway)
             mElementStarted = true;
@@ -85,39 +82,29 @@ public class ProjectInfoParser extends BaseParser {
                     mProjectInfos.add(mProjectInfo);
                 }
                 mProjectInfo = null;
-            }
-            else if (localName.equalsIgnoreCase("platforms")) { // closing tag of platform names
+            } else if (localName.equalsIgnoreCase("platforms")) { // closing tag of platform names
                 mProjectInfo.platforms = mPlatforms;
                 withinPlatforms = false;
-            }
-            else {
+            } else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
                 if (localName.equalsIgnoreCase("name") && !withinPlatforms) { //project name
                     mProjectInfo.name = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("url")) {
+                } else if (localName.equalsIgnoreCase("url")) {
                     mProjectInfo.url = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("general_area")) {
+                } else if (localName.equalsIgnoreCase("general_area")) {
                     mProjectInfo.generalArea = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("specific_area")) {
+                } else if (localName.equalsIgnoreCase("specific_area")) {
                     mProjectInfo.specificArea = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("description")) {
+                } else if (localName.equalsIgnoreCase("description")) {
                     mProjectInfo.description = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("home")) {
+                } else if (localName.equalsIgnoreCase("home")) {
                     mProjectInfo.home = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("name") && withinPlatforms) { //platform name
+                } else if (localName.equalsIgnoreCase("name") && withinPlatforms) { //platform name
                     mPlatforms.add(mCurrentElement.toString());
-                }
-                else if (localName.equalsIgnoreCase("image")) {
+                } else if (localName.equalsIgnoreCase("image")) {
                     mProjectInfo.imageUrl = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("summary")) {
+                } else if (localName.equalsIgnoreCase("summary")) {
                     mProjectInfo.summary = mCurrentElement.toString();
                 }
             }

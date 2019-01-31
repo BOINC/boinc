@@ -63,9 +63,7 @@ public class BatchProcessingActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity onCreate");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity onCreate");
 
         // setup layout
         setContentView(R.layout.attach_project_batch_processing_layout);
@@ -104,9 +102,7 @@ public class BatchProcessingActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "BatchProcessingActivity onDestroy");
-        }
+        if (Logging.VERBOSE) Log.v(Logging.TAG, "BatchProcessingActivity onDestroy");
         super.onDestroy();
         doUnbindService();
     }
@@ -117,8 +113,7 @@ public class BatchProcessingActivity extends FragmentActivity {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
-        }
-        else {
+        } else {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
@@ -127,20 +122,17 @@ public class BatchProcessingActivity extends FragmentActivity {
     // triggered by continue button
     public void continueClicked(View v) {
         boolean conflicts = attachService.unresolvedConflicts();
-        if (Logging.DEBUG) {
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? " + conflicts);
-        }
 
         if (conflicts) {
             // conflicts occured, bring up resolution screen
-            if (Logging.DEBUG) {
+            if (Logging.DEBUG)
                 Log.d(Logging.TAG, "AttachProjectAsyncTask: conflicts exists, open resolution activity...");
-            }
             Intent intent = new Intent(BatchProcessingActivity.this, BatchConflictListActivity.class);
             intent.putExtra("conflicts", true);
             startActivity(intent);
-        }
-        else {
+        } else {
             // everything successful, go back to projects screen and clear history
             Intent intent = new Intent(this, BOINCActivity.class);
             // add flags to return to main activity and clearing all others and clear the back stack
@@ -153,9 +145,7 @@ public class BatchProcessingActivity extends FragmentActivity {
 
     // triggered by share button
     public void shareClicked(View v) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.");
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -164,8 +154,7 @@ public class BatchProcessingActivity extends FragmentActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.social_invite_content_title));
         if (android.os.Build.MANUFACTURER.toUpperCase().equals("AMAZON")) {
             intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url_amazon)));
-        }
-        else {
+        } else {
             intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url_google)));
         }
         startActivity(Intent.createChooser(intent, getString(R.string.social_invite_intent_title)));
@@ -174,9 +163,8 @@ public class BatchProcessingActivity extends FragmentActivity {
     // adapts header text and icons when hint selection changes
     private void adaptHintHeader() {
         int position = mPager.getCurrentItem();
-        if (Logging.DEBUG) {
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "BatchProcessingActivity.adaptHintHeader position: " + position);
-        }
         String hintText = getString(R.string.attachproject_hints_header) + " " + (position + 1) + "/" + NUM_HINTS;
         hintTv.setText(hintText);
         int leftVisibility = View.VISIBLE;
@@ -184,8 +172,7 @@ public class BatchProcessingActivity extends FragmentActivity {
         if (position == 0) {
             // first element reached
             leftVisibility = View.GONE;
-        }
-        else if (position == NUM_HINTS - 1) {
+        } else if (position == NUM_HINTS - 1) {
             // last element reached
             rightVisibility = View.GONE;
         }
@@ -195,17 +182,13 @@ public class BatchProcessingActivity extends FragmentActivity {
 
     // previous image in hint header clicked
     public void previousHintClicked(View view) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.");
         mPager.setCurrentItem(mPager.getCurrentItem() - 1);
     }
 
     // previous image in hint header clicked
     public void nextHintClicked(View view) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.");
-        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.");
         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
     }
 
@@ -244,10 +227,8 @@ public class BatchProcessingActivity extends FragmentActivity {
 
         @Override
         protected void onPreExecute() {
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: " + attachService.getNumberSelectedProjects() +
-                                   " projects to attach....");
-            }
+            if (Logging.DEBUG)
+                Log.d(Logging.TAG, "AttachProjectAsyncTask: " + attachService.getNumberSelectedProjects() + " projects to attach....");
             ((TextView) findViewById(R.id.attach_status_text)).setText(getString(R.string.attachproject_login_loading)); // shown while project configs are loaded
             super.onPreExecute();
         }
@@ -256,45 +237,33 @@ public class BatchProcessingActivity extends FragmentActivity {
         protected Void doInBackground(Void... arg0) {
             // wait until service is ready
             while (!attachService.projectConfigRetrievalFinished) {
-                if (Logging.DEBUG) {
+                if (Logging.DEBUG)
                     Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval has not finished yet, wait...");
-                }
                 try {
                     Thread.sleep(1000);
-                }
-                catch (Exception ignored) {
+                } catch (Exception ignored) {
                 }
             }
-            if (Logging.DEBUG) {
+            if (Logging.DEBUG)
                 Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval finished, continue with attach.");
-            }
             // attach projects, one at a time
             ArrayList<ProjectAttachWrapper> selectedProjects = attachService.getSelectedProjects();
             for (ProjectAttachWrapper selectedProject : selectedProjects) {
-                if (selectedProject.result != ProjectAttachWrapper.RESULT_READY) {
+                if (selectedProject.result != ProjectAttachWrapper.RESULT_READY)
                     continue; // skip already tried projects in batch processing
-                }
                 publishProgress(selectedProject.info.name);
                 int conflict = selectedProject.lookupAndAttach(false);
-                if (conflict != ProjectAttachWrapper.RESULT_SUCCESS) {
-                    if (Logging.ERROR) {
-                        Log.e(Logging.TAG, "AttachProjectAsyncTask attach returned conflict: " + conflict);
-                    }
-                }
+                if (conflict != ProjectAttachWrapper.RESULT_SUCCESS) if (Logging.ERROR)
+                    Log.e(Logging.TAG, "AttachProjectAsyncTask attach returned conflict: " + conflict);
             }
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: finsihed.");
-            }
+            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: finsihed.");
             return null;
         }
 
         @Override
         protected void onProgressUpdate(String... values) {
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: trying: " + values[0]);
-            }
-            ((TextView) findViewById(R.id.attach_status_text)).setText(
-                    getString(R.string.attachproject_working_attaching) + " " + values[0]);
+            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAsyncTask: trying: " + values[0]);
+            ((TextView) findViewById(R.id.attach_status_text)).setText(getString(R.string.attachproject_working_attaching) + " " + values[0]);
             super.onProgressUpdate(values);
         }
 

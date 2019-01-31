@@ -48,8 +48,7 @@ public class SimpleReplyParser extends BaseParser {
             SimpleReplyParser parser = new SimpleReplyParser();
             Xml.parse(reply, parser);
             return parser;
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
     }
@@ -59,8 +58,7 @@ public class SimpleReplyParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
             mInReply = true;
-        }
-        else {
+        } else {
             mElementStarted = true;
         }
     }
@@ -71,17 +69,14 @@ public class SimpleReplyParser extends BaseParser {
 
         if (localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
             mInReply = false;
-        }
-        else if (mInReply && !mParsed) {
+        } else if (mInReply && !mParsed) {
             if (localName.equalsIgnoreCase("success")) {
                 mSuccess = true;
                 mParsed = true;
-            }
-            else if (localName.equalsIgnoreCase("failure")) {
+            } else if (localName.equalsIgnoreCase("failure")) {
                 mSuccess = false;
                 mParsed = true;
-            }
-            else if (localName.equalsIgnoreCase("error")) {
+            } else if (localName.equalsIgnoreCase("error")) {
                 trimEnd();
                 errorMessage = mCurrentElement.toString();
                 mSuccess = false;

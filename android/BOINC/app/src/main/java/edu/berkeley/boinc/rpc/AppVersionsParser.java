@@ -53,8 +53,7 @@ public class AppVersionsParser extends DefaultHandler {
             AppVersionsParser parser = new AppVersionsParser();
             Xml.parse(rpcResult, parser);
             return parser.getAppVersions();
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
     }
@@ -99,22 +98,17 @@ public class AppVersionsParser extends DefaultHandler {
                         mAppVersions.add(mAppVersion);
                     }
                     mAppVersion = null;
-                }
-                else {
+                } else {
                     // Not the closing tag - we decode possible inner tags
                     if (localName.equalsIgnoreCase("app_name")) {
                         mAppVersion.app_name = mCurrentElement.toString();
-                    }
-                    else if (localName.equalsIgnoreCase("version_num")) {
+                    } else if (localName.equalsIgnoreCase("version_num")) {
                         mAppVersion.version_num = Integer.parseInt(mCurrentElement.toString());
                     }
                 }
             }
-        }
-        catch (NumberFormatException e) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "AppVersionsParser.endElement error: ", e);
-            }
+        } catch (NumberFormatException e) {
+            if (Logging.ERROR) Log.e(Logging.TAG, "AppVersionsParser.endElement error: ", e);
         }
         mCurrentElement.setLength(0); // to be clean for next one
     }

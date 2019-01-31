@@ -64,8 +64,7 @@ public class CcStateParser extends BaseParser {
             CcStateParser parser = new CcStateParser();
             Xml.parse(rpcResult, parser);
             return parser.getCcState();
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
 
@@ -133,9 +132,11 @@ public class CcStateParser extends BaseParser {
             mResultsParser.startElement(uri, localName, qName, attributes);
         }
         if (localName.equalsIgnoreCase("core_client_major_version") ||
-            localName.equalsIgnoreCase("core_client_minor_version") ||
-            localName.equalsIgnoreCase("core_client_release") || localName.equalsIgnoreCase("have_ati") ||
-            localName.equalsIgnoreCase("have_cuda")) {
+                localName.equalsIgnoreCase("core_client_minor_version") ||
+                localName.equalsIgnoreCase("core_client_release") ||
+                localName.equalsIgnoreCase("have_ati") ||
+                localName.equalsIgnoreCase("have_cuda")
+                ) {
             // VersionInfo elements
             mElementStarted = true;
             mCurrentElement.setLength(0);
@@ -219,8 +220,7 @@ public class CcStateParser extends BaseParser {
                     // Closing tag of <app_version>
                     mInAppVersion = false;
                     if (mAppVersionsParser.getAppVersions().size() > 0) {
-                        myAppVersion =
-                                mAppVersionsParser.getAppVersions().get(mAppVersionsParser.getAppVersions().size() - 1);
+                        myAppVersion = mAppVersionsParser.getAppVersions().get(mAppVersionsParser.getAppVersions().size() - 1);
                         myAppVersion.project = myProject;
                         myAppVersion.app = mCcState.lookup_app(myProject, myAppVersion.app_name);
                         mCcState.app_versions.add(myAppVersion);
@@ -256,8 +256,7 @@ public class CcStateParser extends BaseParser {
                         myResult.wup = mCcState.lookup_wu(myProject, myResult.wu_name);
                         if (myResult.wup != null) {
                             myResult.app = myResult.wup.app;
-                            myResult.avp =
-                                    mCcState.lookup_app_version(myProject, myResult.app, myResult.version_num, myResult.plan_class);
+                            myResult.avp = mCcState.lookup_app_version(myProject, myResult.app, myResult.version_num, myResult.plan_class);
 
                         }
                         mCcState.results.add(myResult);
@@ -269,26 +268,19 @@ public class CcStateParser extends BaseParser {
                 // VersionInfo?
                 if (localName.equalsIgnoreCase("core_client_major_version")) {
                     mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
-                }
-                else if (localName.equalsIgnoreCase("core_client_minor_version")) {
+                } else if (localName.equalsIgnoreCase("core_client_minor_version")) {
                     mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
-                }
-                else if (localName.equalsIgnoreCase("core_client_release")) {
+                } else if (localName.equalsIgnoreCase("core_client_release")) {
                     mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
-                }
-                else if (localName.equalsIgnoreCase("have_ati")) {
+                } else if (localName.equalsIgnoreCase("have_ati")) {
                     mCcState.have_ati = !mCurrentElement.toString().equals("0");
-                }
-                else if (localName.equalsIgnoreCase("have_cuda")) {
+                } else if (localName.equalsIgnoreCase("have_cuda")) {
                     mCcState.have_cuda = !mCurrentElement.toString().equals("0");
                 }
                 mElementStarted = false;
             }
-        }
-        catch (NumberFormatException e) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "CcStateParser.endElement error: ", e);
-            }
+        } catch (NumberFormatException e) {
+            if (Logging.ERROR) Log.e(Logging.TAG, "CcStateParser.endElement error: ", e);
         }
     }
 }

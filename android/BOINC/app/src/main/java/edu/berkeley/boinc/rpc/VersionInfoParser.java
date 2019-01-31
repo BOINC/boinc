@@ -45,8 +45,7 @@ public class VersionInfoParser extends BaseParser {
             VersionInfoParser parser = new VersionInfoParser();
             Xml.parse(rpcResult, parser);
             return parser.getVersionInfo();
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
     }
@@ -56,8 +55,7 @@ public class VersionInfoParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("server_version")) {
             mVersionInfo = new VersionInfo();
-        }
-        else {
+        } else {
             // Another element, hopefully primitive and not constructor
             // (although unknown constructor does not hurt, because there will be primitive start anyway)
             mElementStarted = true;
@@ -78,26 +76,20 @@ public class VersionInfoParser extends BaseParser {
                 // we are inside <server_version>
                 if (localName.equalsIgnoreCase("server_version")) {
                     // Closing tag of <server_version> - nothing to do at the moment
-                }
-                else {
+                } else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
                     if (localName.equalsIgnoreCase("major")) {
                         mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
-                    }
-                    else if (localName.equalsIgnoreCase("minor")) {
+                    } else if (localName.equalsIgnoreCase("minor")) {
                         mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
-                    }
-                    else if (localName.equalsIgnoreCase("release")) {
+                    } else if (localName.equalsIgnoreCase("release")) {
                         mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
                     }
                 }
             }
-        }
-        catch (NumberFormatException e) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "VersionInfoParser.endElement error: ", e);
-            }
+        } catch (NumberFormatException e) {
+            if (Logging.ERROR) Log.e(Logging.TAG, "VersionInfoParser.endElement error: ", e);
         }
         mElementStarted = false; // to be clean for next one
     }

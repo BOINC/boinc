@@ -84,8 +84,7 @@ public class EventLogGuiFragment extends Fragment {
                     logLevelFilter += ":V";
                     break;
             }
-            Process process =
-                    Runtime.getRuntime().exec("logcat -d -t " + number + " -v time " + logLevelFilter + " *:S");
+            Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time " + logLevelFilter + " *:S");
             // filtering logcat output by application package is not possible on command line
             // devices with SDK > 13 will automatically "session filter"
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -93,20 +92,15 @@ public class EventLogGuiFragment extends Fragment {
             String line;
             int x = 0;
             while ((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
-                if (x > 1) {
+                if (x > 1)
                     a.guiLogData.add(0, line); // cut off first two lines, prepend to array (most current on top)
-                }
                 x++;
             }
-            if (Logging.VERBOSE) {
+            if (Logging.VERBOSE)
                 Log.v(Logging.TAG, "readLogcat read " + a.guiLogData.size() + " lines.");
-            }
             a.guiLogListAdapter.notifyDataSetChanged();
-        }
-        catch (IOException e) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "readLogcat failed", e);
-            }
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "readLogcat failed", e);
         }
     }
 }

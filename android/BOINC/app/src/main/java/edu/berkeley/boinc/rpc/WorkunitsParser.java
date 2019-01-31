@@ -50,8 +50,7 @@ public class WorkunitsParser extends BaseParser {
             WorkunitsParser parser = new WorkunitsParser();
             Xml.parse(rpcResult, parser);
             return parser.getWorkunits();
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
     }
@@ -61,8 +60,7 @@ public class WorkunitsParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("workunit")) {
             mWorkunit = new Workunit();
-        }
-        else {
+        } else {
             // Another element, hopefully primitive and not constructor
             // (although unknown constructor does not hurt, because there will be primitive start anyway)
             mElementStarted = true;
@@ -88,38 +86,28 @@ public class WorkunitsParser extends BaseParser {
                         mWorkunits.add(mWorkunit);
                     }
                     mWorkunit = null;
-                }
-                else {
+                } else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
                     if (localName.equalsIgnoreCase("name")) {
                         mWorkunit.name = mCurrentElement.toString();
-                    }
-                    else if (localName.equalsIgnoreCase("app_name")) {
+                    } else if (localName.equalsIgnoreCase("app_name")) {
                         mWorkunit.app_name = mCurrentElement.toString();
-                    }
-                    else if (localName.equalsIgnoreCase("version_num")) {
+                    } else if (localName.equalsIgnoreCase("version_num")) {
                         mWorkunit.version_num = Integer.parseInt(mCurrentElement.toString());
-                    }
-                    else if (localName.equalsIgnoreCase("rsc_fpops_est")) {
+                    } else if (localName.equalsIgnoreCase("rsc_fpops_est")) {
                         mWorkunit.rsc_fpops_est = Double.parseDouble(mCurrentElement.toString());
-                    }
-                    else if (localName.equalsIgnoreCase("rsc_fpops_bound")) {
+                    } else if (localName.equalsIgnoreCase("rsc_fpops_bound")) {
                         mWorkunit.rsc_fpops_bound = Double.parseDouble(mCurrentElement.toString());
-                    }
-                    else if (localName.equalsIgnoreCase("rsc_memory_bound")) {
+                    } else if (localName.equalsIgnoreCase("rsc_memory_bound")) {
                         mWorkunit.rsc_memory_bound = Double.parseDouble(mCurrentElement.toString());
-                    }
-                    else if (localName.equalsIgnoreCase("rsc_disk_bound")) {
+                    } else if (localName.equalsIgnoreCase("rsc_disk_bound")) {
                         mWorkunit.rsc_disk_bound = Double.parseDouble(mCurrentElement.toString());
                     }
                 }
             }
-        }
-        catch (NumberFormatException e) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "WorkunitsParser.endElement error: ", e);
-            }
+        } catch (NumberFormatException e) {
+            if (Logging.ERROR) Log.e(Logging.TAG, "WorkunitsParser.endElement error: ", e);
         }
         mElementStarted = false;
     }

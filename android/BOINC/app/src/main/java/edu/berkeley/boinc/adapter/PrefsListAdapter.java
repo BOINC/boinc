@@ -64,8 +64,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
             v = vi.inflate(R.layout.prefs_layout_listitem_category, null);
             TextView header = v.findViewById(R.id.category_header);
             header.setText(listItem.ID);
-        }
-        else { // item is element
+        } else { // item is element
             // CheckBoxes
             if (listItem instanceof PrefsListItemWrapperBool) {
                 v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
@@ -102,12 +101,10 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                             value = NumberFormat.getPercentInstance().format(item.status / 100.0);
                             break;
                         case SECONDS:
-                            value = NumberFormat.getIntegerInstance().format(item.status) +
-                                    this.activity.getString(R.string.prefs_unit_seconds);
+                            value = NumberFormat.getIntegerInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_seconds);
                             break;
                         case CELSIUS:
-                            value = NumberFormat.getInstance().format(item.status) +
-                                    this.activity.getString(R.string.prefs_unit_celsius);
+                            value = NumberFormat.getInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_celsius);
                             break;
                         case MEGABYTES:
                             value = Formatter.formatShortFileSize(this.activity, (long) (item.status * 0x100000));
@@ -122,10 +119,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                             value = NumberFormat.getInstance().format(item.status);
                     }
                     ((TextView) v.findViewById(R.id.status)).setText(value);
-                }
-                else {
-                    statusWrapper.setVisibility(View.GONE);
-                }
+                } else statusWrapper.setVisibility(View.GONE);
             }
             // Text based items
             else if (listItem instanceof PrefsListItemWrapperText) {
@@ -155,8 +149,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                     description.setVisibility(View.GONE);
                     LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
                     statusWrapper.setVisibility(View.GONE);
-                }
-                else if (listItem.ID == R.string.prefs_power_source_header) {
+                } else if (listItem.ID == R.string.prefs_power_source_header) {
                     TextView description = v.findViewById(R.id.description);
                     description.setText(listItem.description);
                     LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);

@@ -48,8 +48,7 @@ public class AppsParser extends BaseParser {
             AppsParser parser = new AppsParser();
             Xml.parse(rpcResult, parser);
             return parser.getApps();
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             return null;
         }
     }
@@ -59,8 +58,7 @@ public class AppsParser extends BaseParser {
         super.startElement(uri, localName, qName, attributes);
         if (localName.equalsIgnoreCase("app")) {
             mApp = new App();
-        }
-        else {
+        } else {
             // Another element, hopefully primitive and not constructor
             // (although unknown constructor does not hurt, because there will be primitive start anyway)
             mElementStarted = true;
@@ -85,17 +83,14 @@ public class AppsParser extends BaseParser {
                     mApps.add(mApp);
                 }
                 mApp = null;
-            }
-            else {
+            } else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
                 if (localName.equalsIgnoreCase("name")) {
                     mApp.name = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("user_friendly_name")) {
+                } else if (localName.equalsIgnoreCase("user_friendly_name")) {
                     mApp.user_friendly_name = mCurrentElement.toString();
-                }
-                else if (localName.equalsIgnoreCase("non_cpu_intensive")) {
+                } else if (localName.equalsIgnoreCase("non_cpu_intensive")) {
                     mApp.non_cpu_intensive = Integer.parseInt(mCurrentElement.toString());
                 }
             }

@@ -44,8 +44,7 @@ public class ProjectInfo implements Serializable, Parcelable {
         for (String platform : platforms) {
             platformString.append(platform).append("/");
         }
-        return "ProjectInfo: " + name + " ; " + url + " ; " + generalArea + " ; " + specificArea + " ; " + description +
-               " ; " + home + " ; " + platformString.toString() + " ; " + imageUrl;
+        return "ProjectInfo: " + name + " ; " + url + " ; " + generalArea + " ; " + specificArea + " ; " + description + " ; " + home + " ; " + platformString.toString() + " ; " + imageUrl;
     }
 
     @Override

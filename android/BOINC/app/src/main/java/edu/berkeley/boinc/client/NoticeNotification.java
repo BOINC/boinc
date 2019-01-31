@@ -114,9 +114,8 @@ public class NoticeNotification {
                 // multiple new notices might have same arrival time -> write back after adding all
                 currentlyNotifiedNotices.add(tmp);
                 newNotice = true;
-                if (tmp.arrival_time > mostRecentSeenArrivalTime) {
+                if (tmp.arrival_time > mostRecentSeenArrivalTime)
                     mostRecentSeenArrivalTime = tmp.arrival_time;
-                }
             }
         }
 
@@ -136,25 +135,34 @@ public class NoticeNotification {
         final String projectName;
 
         nb = new NotificationCompat.Builder(this.context, "main-channel");
-        nb.setContentTitle(this.context.getResources().getQuantityString(R.plurals.notice_notification,
+        nb.setContentTitle(this.context.getResources().getQuantityString(
+                R.plurals.notice_notification,
                 notices = this.currentlyNotifiedNotices.size(),
-                projectName = this.currentlyNotifiedNotices.get(0).project_name, notices)).
+                projectName = this.currentlyNotifiedNotices.get(0).project_name,
+                notices)).
                 setSmallIcon(R.drawable.mailw).
                 setContentIntent(this.contentIntent);
         if (notices == 1) {
             // single notice view
             nb.setContentText(this.currentlyNotifiedNotices.get(0).title).
-                    setLargeIcon(NoticeNotification.getLargeProjectIcon(this.context, projectName));
-        }
-        else {
+                    setLargeIcon(NoticeNotification.getLargeProjectIcon(
+                            this.context,
+                            projectName)
+                    );
+        } else {
             // multi notice view
-            nb.setNumber(notices).setLargeIcon(BitmapFactory.decodeResource(this.context.getResources(), R.drawable.ic_stat_notify_boinc_normal)).setSubText(this.context.getString(R.string.app_name));
+            nb.setNumber(notices)
+                    .setLargeIcon(BitmapFactory.decodeResource(
+                            this.context.getResources(),
+                            R.drawable.ic_stat_notify_boinc_normal))
+                    .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
             final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
             for (int i = 0; i < notices; i++) {
                 final Notice notice;
-                inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).project_name + ": " + notice.title);
+                inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).project_name +
+                        ": " + notice.title);
             }
             nb.setStyle(inboxStyle);
         }
@@ -164,16 +172,27 @@ public class NoticeNotification {
     private static final Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap;
         try {
-            return (projectIconBitmap = Monitor.getClientStatus().getProjectIconByName(projectName)) !=
-                   null ? Bitmap.createScaledBitmap(projectIconBitmap,
-                    projectIconBitmap.getWidth() << 1, projectIconBitmap.getHeight() <<
-                                                       1, false) : BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_notify_boinc_normal);
-        }
-        catch (Exception e) {
-            if (Log.isLoggable(Logging.TAG, Log.DEBUG)) {
-                Log.d(Logging.TAG, e.getLocalizedMessage(), e);
-            }
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_notify_boinc_normal);
+            return (projectIconBitmap = Monitor.getClientStatus().getProjectIconByName(projectName)) != null ?
+                    Bitmap.createScaledBitmap(
+                            projectIconBitmap,
+                            projectIconBitmap.getWidth() << 1,
+                            projectIconBitmap.getHeight() << 1,
+                            false
+                    ) :
+                    BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.ic_stat_notify_boinc_normal
+                    );
+        } catch (Exception e) {
+            if (Log.isLoggable(Logging.TAG, Log.DEBUG)) Log.d(
+                    Logging.TAG,
+                    e.getLocalizedMessage(),
+                    e
+            );
+            return BitmapFactory.decodeResource(
+                    context.getResources(),
+                    R.drawable.ic_stat_notify_boinc_normal
+            );
         }
     }
 }

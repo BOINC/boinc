@@ -68,14 +68,10 @@ public class ClientNotification {
     public void update(ClientStatus updatedStatus, Monitor service, Boolean active) {
 
         // nop if data is not present
-        if (service == null || updatedStatus == null) {
-            return;
-        }
+        if (service == null || updatedStatus == null) return;
 
         // stop service foreground, if not active anymore
-        if (!active && foreground) {
-            setForegroundState(service, false);
-        }
+        if (!active && foreground) setForegroundState(service, false);
 
         // if not active, check preference whether to show notification during suspension
         if (!active && !Monitor.getAppPrefs().getShowNotificationDuringSuspend()) {
@@ -92,9 +88,7 @@ public class ClientNotification {
         Boolean activeTasksChanged = false;
         if (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
             ArrayList<Result> activeTasks = updatedStatus.getExecutingTasks();
-            if (activeTasks.size() != mOldActiveTasks.size()) {
-                activeTasksChanged = true;
-            }
+            if (activeTasks.size() != mOldActiveTasks.size()) activeTasksChanged = true;
             else {
                 for (int x = 0; x < activeTasks.size(); x++) {
                     if (!activeTasks.get(x).name.equals(mOldActiveTasks.get(x).name)) {
@@ -104,32 +98,29 @@ public class ClientNotification {
                     }
                 }
             }
-            if (activeTasksChanged) {
-                mOldActiveTasks = activeTasks;
-            }
+            if (activeTasksChanged) mOldActiveTasks = activeTasks;
         }
 
         // update notification, only
         // if it hasn't been shown before, or
         // after change in status
-        if (Logging.VERBOSE) {
-            Log.d(Logging.TAG,
-                    "ClientNotification: notification needs update? " + (clientNotification.mOldComputingStatus == -1) +
-                    activeTasksChanged + !notificationShown +
-                    (updatedStatus.computingStatus != clientNotification.mOldComputingStatus) +
-                    (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED &&
-                     updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason));
-        }
-        if (clientNotification.mOldComputingStatus == -1 || activeTasksChanged || !notificationShown ||
-            updatedStatus.computingStatus != clientNotification.mOldComputingStatus ||
-            (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED &&
-             updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
+        if (Logging.VERBOSE)
+            Log.d(Logging.TAG, "ClientNotification: notification needs update? " + (clientNotification.mOldComputingStatus == -1)
+                    + activeTasksChanged
+                    + !notificationShown
+                    + (updatedStatus.computingStatus != clientNotification.mOldComputingStatus)
+                    + (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
+                    && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason));
+        if (clientNotification.mOldComputingStatus == -1
+                || activeTasksChanged
+                || !notificationShown
+                || updatedStatus.computingStatus != clientNotification.mOldComputingStatus
+                || (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
+                && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 
             // update, build and notify
             nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks));
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientNotification: update");
-            }
+            if (Logging.DEBUG) Log.d(Logging.TAG, "ClientNotification: update");
             notificationShown = true;
 
             // save status for comparison next time
@@ -139,27 +130,22 @@ public class ClientNotification {
 
         // start foreground service, if requested
         // notification instance exists now, but might be out-dated (if screen is off)
-        if (active && !foreground) {
-            setForegroundState(service, true);
-        }
+        if (active && !foreground) setForegroundState(service, true);
     }
 
     // Notification must be built, before setting service to foreground!
     private void setForegroundState(Monitor service, Boolean foregroundState) {
         if (foregroundState) {
             service.startForeground(notificationId, n);
-            if (Logging.DEBUG) {
+            if (Logging.DEBUG)
                 Log.d(Logging.TAG, "ClientNotification.setForeground() start service as foreground.");
-            }
             foreground = true;
-        }
-        else {
+        } else {
             foreground = false;
             service.stopForeground(true);
             notificationShown = false;
-            if (Logging.DEBUG) {
+            if (Logging.DEBUG)
                 Log.d(Logging.TAG, "ClientNotification.setForeground() stop service as foreground.");
-            }
         }
     }
 
@@ -173,14 +159,16 @@ public class ClientNotification {
 
         // build notification
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
-        nb.setContentTitle(statusTitle).setSmallIcon(getIcon(computingStatus)).setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus))).setContentIntent(contentIntent);
+        nb.setContentTitle(statusTitle)
+                .setSmallIcon(getIcon(computingStatus))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))
+                .setContentIntent(contentIntent);
 
         // adapt priority based on computing status
         // computing: IDLE and COMPUTING (see wakelock handling)
         if (active) {
             nb.setPriority(Notification.PRIORITY_HIGH);
-        }
-        else {
+        } else {
             nb.setPriority(Notification.PRIORITY_MIN);
         }
 
@@ -188,8 +176,7 @@ public class ClientNotification {
         if (computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // add resume button
             nb.addAction(R.drawable.playw, context.getString(R.string.menu_run_mode_enable), getActionIntent(2));
-        }
-        else {
+        } else {
             // add suspend button
             nb.addAction(R.drawable.pausew, context.getString(R.string.menu_run_mode_disable), getActionIntent(1));
         }
@@ -206,8 +193,7 @@ public class ClientNotification {
                 inboxStyle.addLine(task.project.getName() + ": " + task.app.getName());
             }
             nb.setStyle(inboxStyle);
-        }
-        else {
+        } else {
             nb.setContentText(statusDesc);
         }
 

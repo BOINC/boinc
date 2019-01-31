@@ -163,7 +163,20 @@ public class Project implements Parcelable {
         dest.writeDouble(project_files_downloaded_time);
         dest.writeDouble(last_rpc_time);
 
-        dest.writeBooleanArray(new boolean[]{master_url_fetch_pending, non_cpu_intensive, suspended_via_gui, dont_request_more_work, scheduler_rpc_in_progress, attached_via_acct_mgr, detach_when_done, ended, trickle_up_pending, no_cpu_pref, no_cuda_pref, no_ati_pref});
+        dest.writeBooleanArray(new boolean[]{
+                master_url_fetch_pending,
+                non_cpu_intensive,
+                suspended_via_gui,
+                dont_request_more_work,
+                scheduler_rpc_in_progress,
+                attached_via_acct_mgr,
+                detach_when_done,
+                ended,
+                trickle_up_pending,
+                no_cpu_pref,
+                no_cuda_pref,
+                no_ati_pref
+        });
     }
 
     public Project() {

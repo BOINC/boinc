@@ -27,9 +27,7 @@
     <string name="attachproject_conflict_not_unique">Konto existerar med annat lösenord</string>
     <string name="attachproject_conflict_bad_password">Felaktigt lösenord</string>
     <string name="attachproject_conflict_unknown_user">Kontot existerar ej</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Kontot existerar ej, besök projektets webbsida
-        för att registrera ett konto
-    </string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Kontot existerar ej, besök projektets webbsida för att registrera ett konto</string>
     <!--working-->
     <string name="attachproject_working_attaching">Bifogar</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -44,9 +42,7 @@
     <string name="attachproject_hint_projectwebsite_science">Lära dig mer om vetenskapen</string>
     <string name="attachproject_hint_projectwebsite_stats">Visa statistik över bidragande</string>
     <string name="attachproject_hint_projectwebsite_community">Komma i kontakt med andra voluntärer</string>
-    <string name="attachproject_hint_platforms_header">BOINC finns också tillgängligt till din dator eller bärbara
-        dator, besök boinc.berkeley.edu för att veta mer.
-    </string>
+    <string name="attachproject_hint_platforms_header">BOINC finns också tillgängligt till din dator eller bärbara dator, besök boinc.berkeley.edu för att veta mer.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontaktar projektets server...</string>
     <string name="attachproject_login_image_description">Projektlogotyp.</string>
@@ -59,21 +55,15 @@
     <string name="attachproject_login_platform_supported">Enhetstypen stöds ej av det här projektet</string>
     <string name="attachproject_login_platform_not_supported">Enheten stöds ej av det här projektet</string>
     <string name="attachproject_login_category_terms_of_use">Användningsvillkor för</string>
-    <string name="attachproject_login_accept_terms_of_use">Genom att skapa ett kono med detta projekt, accepterar du
-        licensavtalen som visas ovan.
-    </string>
+    <string name="attachproject_login_accept_terms_of_use">Genom att skapa ett kono med detta projekt, accepterar du licensavtalen som visas ovan.</string>
     <string name="attachproject_login_category_login">Logga in med befintligt konto</string>
     <string name="attachproject_login_header_id_email">E-postadress:</string>
     <string name="attachproject_login_header_id_name">Namn:</string>
     <string name="attachproject_login_header_pwd">Lösenord:</string>
     <string name="attachproject_login_category_creation">Ny för</string>
     <string name="attachproject_login_header_creation_enabled">Registrera ett konto för att delta:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Besök projektwebbplatsen för att skapa ett
-        konto:
-    </string>
-    <string name="attachproject_login_header_creation_disabled">Det här projektet accepterar för tillfället inte
-        nyregistrering av konton.
-    </string>
+    <string name="attachproject_login_header_creation_client_disabled">Besök projektwebbplatsen för att skapa ett konto:</string>
+    <string name="attachproject_login_header_creation_disabled">Det här projektet accepterar för tillfället inte nyregistrering av konton.</string>
     <string name="attachproject_login_button_registration">Registrera</string>
     <string name="attachproject_login_button_login">Logga in</string>
     <string name="attachproject_login_button_forgotpw">Glömt lösenord</string>
@@ -89,9 +79,7 @@
     <string name="attachproject_registration_header_pwd_confirm">... Skriv igen:</string>
     <string name="attachproject_registration_button">Skapa</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Använd BOINC kontohanterare för att lägga till och hantera flera
-        projekt
-    </string>
+    <string name="attachproject_acctmgr_list_desc">Använd BOINC kontohanterare för att lägga till och hantera flera projekt</string>
     <string name="attachproject_acctmgr_header">Lägg till kontohanterare</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Användare:</string>
@@ -114,8 +102,7 @@
     <string name="attachproject_error_project_down">Projektet frånkopplat</string>
     <string name="attachproject_error_email_bad_syntax">e-postadress felaktig</string>
     <string name="attachproject_error_bad_pwd">Lösenord felaktigt</string>
-    <string name="attachproject_error_creation_disabled">Registrering av konton är inaktiverat för det här projektet
-    </string>
+    <string name="attachproject_error_creation_disabled">Registrering av konton är inaktiverat för det här projektet</string>
     <string name="attachproject_error_invalid_url">Ogiltig URL</string>
     <!--working activity-->
     <string name="attachproject_working_back_button">Tillbaka</string>
@@ -150,9 +137,8 @@
     <string name="status_paused">Pausad</string>
     <string name="status_idle">Inget att göra</string>
     <string name="status_idle_long">Väntar på uppgifter...</string>
-    <string name="status_computing_disabled">Pausad</string>
-    <string name="status_computing_disabled_long">Klicka \"play\" för att återuppta nätverkstrafik och beräkning.
-    </string>
+    <string name="status_computing_disabled">Pausad </string>
+    <string name="status_computing_disabled_long">Klicka \"play\" för att återuppta nätverkstrafik och beräkning.</string>
     <string name="status_launching">Startar...</string>
     <string name="status_noproject">Välj ett projekt att delta i.</string>
     <string name="status_closing">Stänger...</string>
@@ -173,9 +159,7 @@
     <string name="prefs_show_advanced_header">Visa avancerade inställningar och kontroller...</string>
     <string name="prefs_suspend_when_screen_on">Pausa beräkning när skärmen är på</string>
     <string name="prefs_stationary_device_mode_header">Stationär enhets-läge</string>
-    <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett energiinställningar. Bara aktiv om
-        enheten inte har ett batteri.
-    </string>
+    <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett energiinställningar. Bara aktiv om enheten inte har ett batteri.</string>
     <string name="prefs_power_source_header">Energikällor för beräkning</string>
     <string name="prefs_power_source_description">Välj energikälla som BOINC tillåts använda för beräkning.</string>
     <string name="prefs_power_source_ac">Eluttag</string>
@@ -185,24 +169,15 @@
     <string name="battery_charge_min_pct_header">Minsta batterinivå</string>
     <string name="battery_charge_min_pct_description">BOINC pausar beräkning under definerad batterinivå.</string>
     <string name="battery_temperature_max_header">Max. batteritemperatur</string>
-    <string name="battery_temperature_max_description">BOINC pausar beräkningen när den definerade batteritemperaturen
-        överstigs. Det är ej rekommenderat att ändra det här värdet.
-    </string>
+    <string name="battery_temperature_max_description">BOINC pausar beräkningen när den definerade batteritemperaturen överstigs. Det är ej rekommenderat att ändra det här värdet.</string>
     <string name="prefs_disk_max_pct_header">Max. använt lagringsutrymme</string>
-    <string name="prefs_disk_max_pct_description">Hur många procent av din enhets lagringsutrymme tillåts BOINC
-        använda?
-    </string>
+    <string name="prefs_disk_max_pct_description">Hur många procent av din enhets lagringsutrymme tillåts BOINC använda?</string>
     <string name="prefs_disk_min_free_gb_header">Minsta lediga lagringsutrymme</string>
-    <string name="prefs_disk_min_free_gb_description">Hur många procent av din enhets lagringsutrymme skall förbli
-        ledigt?
-    </string>
+    <string name="prefs_disk_min_free_gb_description">Hur många procent av din enhets lagringsutrymme skall förbli ledigt?</string>
     <string name="prefs_disk_access_interval_header">Tillgångsintervall</string>
-    <string name="prefs_disk_access_interval_description">Föreslår en intervall mellan varje tillgång till disken
-    </string>
+    <string name="prefs_disk_access_interval_description">Föreslår en intervall mellan varje tillgång till disken</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daglig överföringsgräns</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Begränsar den dagliga använda datatraffiken för
-        BOINC.
-    </string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Begränsar den dagliga använda datatraffiken för BOINC.</string>
     <string name="prefs_network_wifi_only_header">Överför uppgifter över WiFi endast</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Visa avisering för nya BOINC-meddelanden</string>
@@ -210,19 +185,14 @@
     <string name="prefs_cpu_number_cpus_header">Använda CPU-kärnor</string>
     <string name="prefs_cpu_number_cpus_description">Begränsar antalet CPU-kärnor BOINC använder för beräkning.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pausa vid CPU-användning över</string>
-    <string name="prefs_cpu_other_load_suspension_description">Bestämmer när B.OINC pausar beräkningen för andra appars
-        CPU-användning.
-    </string>
+    <string name="prefs_cpu_other_load_suspension_description">Bestämmer när B.OINC pausar beräkningen för andra appars CPU-användning.</string>
     <string name="prefs_cpu_time_max_header">CPU-gräns</string>
     <string name="prefs_cpu_time_max_description">Begränsar tiden på CPU:n som BOINC använder för beräkning.</string>
     <string name="prefs_memory_max_idle_header">RAM-gräns</string>
-    <string name="prefs_memory_max_idle_description">Begränsar det mängden RAM som uppgifter är tillåtna att allokera.
-    </string>
+    <string name="prefs_memory_max_idle_description">Begränsar det mängden RAM som uppgifter är tillåtna att allokera.</string>
     <string name="prefs_client_log_flags_header">BOINC-klientens loggningsflaggor</string>
     <string name="prefs_gui_log_level_header">Användargränssnittets (GUI) loggningsnivå</string>
-    <string name="prefs_gui_log_level_description">Specificerar informationsnivån för användargränssnittets (GUI)
-        loggningsmeddelanden.
-    </string>
+    <string name="prefs_gui_log_level_description">Specificerar informationsnivån för användargränssnittets (GUI) loggningsmeddelanden.</string>
     <string name="prefs_unit_celsius">°C</string>
     <string name="prefs_unit_seconds">sekunder</string>
     <!--projects tab strings-->
@@ -365,9 +335,7 @@
     <string name="about_version">Version</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
-    <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, IBM Corporation och till HTC
-        Corporation för deras stöd till oss.
-    </string>
+    <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, IBM Corporation och till HTC Corporation för deras stöd till oss.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Nytt meddelande från %1$s</item>
@@ -375,20 +343,14 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Volontär beräkningsapp detekterad</string>
-    <string name="nonexcl_dialog_text">En annan volontär beräkningsapp körs på denna enhet. Endast en version kan köras
-        samtidigt.
-    </string>
+    <string name="nonexcl_dialog_text">En annan volontär beräkningsapp körs på denna enhet. Endast en version kan köras samtidigt.</string>
     <string name="nonexcl_dialog_exit">Avsluta</string>
     <!--social integration-->
     <string name="social_invite_button">Bjud in vänner</string>
     <string name="social_invite_intent_title">Hur vill du dela?</string>
     <string name="social_invite_content_title">Jag hjälper till och forskar med min mobil!</string>
-    <string name="social_invite_content_body">Jag använder my %1$s till att bidra med beräkningskraft för vetenskapen.
-        Det kan du med! Ladda ned appen från: %2$s
-    </string>
+    <string name="social_invite_content_body">Jag använder my %1$s till att bidra med beräkningskraft för vetenskapen. Det kan du med! Ladda ned appen från: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

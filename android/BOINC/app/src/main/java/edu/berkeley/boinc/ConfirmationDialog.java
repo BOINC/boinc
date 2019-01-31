@@ -25,12 +25,18 @@ public class ConfirmationDialog extends android.support.v4.app.DialogFragment {
         String message = getArguments().getString("message");
         String confirm = getArguments().getString("confirm");
 
-        return new AlertDialog.Builder(getActivity()).setIcon(android.R.drawable.ic_dialog_alert).setTitle(title).setMessage(message).setPositiveButton(confirm, mConfirmClickListener).setNegativeButton("Cancel", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismiss();
-            }
-        }).create();
+        return new AlertDialog.Builder(getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(confirm, mConfirmClickListener)
+                .setNegativeButton("Cancel", new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dismiss();
+                    }
+                })
+                .create();
     }
 
     public void setConfirmationClicklistener(OnClickListener cl) {
