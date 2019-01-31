@@ -261,6 +261,7 @@ function page_manager_page_theme(&$items, $task) {
  *   creating named arguments in the path.
  */
 function page_manager_page_execute($subtask_id) {
+  $func_args = func_get_args();
   $page = page_manager_page_load($subtask_id);
   $task = page_manager_get_task($page->task);
   $subtask = page_manager_get_task_subtask($task, $subtask_id);
@@ -268,7 +269,7 @@ function page_manager_page_execute($subtask_id) {
   // Turn the contexts into a properly keyed array.
   $contexts = array();
   $args = array();
-  foreach (func_get_args() as $count => $arg) {
+  foreach ($func_args as $count => $arg) {
     if (is_object($arg) && get_class($arg) == 'ctools_context') {
       $contexts[$arg->id] = $arg;
       $args[] = $arg->original_argument;
