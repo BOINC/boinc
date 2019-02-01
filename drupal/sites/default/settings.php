@@ -162,7 +162,6 @@ else {
  * settings are used there. Settings defined here should not be
  * duplicated there so as to avoid conflict issues.
  */
-ini_set('arg_separator.output',     '&amp;');
 ini_set('session.cache_expire',     200000);
 ini_set('session.cache_limiter',    'none');
 ini_set('session.cookie_lifetime',  2000000);
