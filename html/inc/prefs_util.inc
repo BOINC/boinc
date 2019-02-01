@@ -198,6 +198,9 @@ class PREF_CONSENT extends PREF {
         } else {
             echo "<td>---</td>";
         }
+        foreach ($venues as $v) {
+            echo "<td>--</td>";
+        }
         echo "</tr>\n";
     }
 
