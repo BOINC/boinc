@@ -53,8 +53,12 @@ public class ProjectConfig implements Parcelable {
      * @return URL for accoutn look up and registration RPCs
      */
     public String getSecureUrlIfAvailable() {
-        if (webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) return webRpcUrlBase;
-        else return masterUrl;
+        if(webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) {
+            return webRpcUrlBase;
+        }
+        else {
+            return masterUrl;
+        }
     }
 
     @Override

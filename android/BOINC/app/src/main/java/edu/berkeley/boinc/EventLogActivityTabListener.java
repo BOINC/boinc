@@ -48,7 +48,7 @@ public class EventLogActivityTabListener<T extends Fragment> implements ActionBa
         // from a previously saved state.  If so, deactivate it, because our
         // initial state is that a tab isn't shown.
         mFragment = mActivity.getSupportFragmentManager().findFragmentByTag(mTag);
-        if (mFragment != null && !mFragment.isDetached()) {
+        if(mFragment != null && !mFragment.isDetached()) {
             FragmentTransaction ftd = mActivity.getSupportFragmentManager().beginTransaction();
             ftd.detach(mFragment);
             ftd.commit();
@@ -59,11 +59,12 @@ public class EventLogActivityTabListener<T extends Fragment> implements ActionBa
 
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         // Check if the fragment is already initialized
-        if (mFragment == null) {
+        if(mFragment == null) {
             // If not, instantiate and add it to the activity
             mFragment = Fragment.instantiate(mActivity, mClass.getName());
             ft.add(android.R.id.content, mFragment, mTag);
-        } else {
+        }
+        else {
             // If it exists, simply attach it in order to show it
             ft.attach(mFragment);
         }
@@ -71,7 +72,7 @@ public class EventLogActivityTabListener<T extends Fragment> implements ActionBa
     }
 
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-        if (mFragment != null) {
+        if(mFragment != null) {
             // Detach the fragment, because another one is being attached
             ft.detach(mFragment);
         }

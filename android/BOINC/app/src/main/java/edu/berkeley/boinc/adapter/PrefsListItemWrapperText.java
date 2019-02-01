@@ -36,12 +36,14 @@ public class PrefsListItemWrapperText extends PrefsListItemWrapper {
     }
 
     private void mapStrings(Integer id) {
-        switch (id) {
+        switch(id) {
             case R.string.prefs_general_device_name_header:
                 description = "";
                 break;
             default:
-                if (Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperText map failed!");
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG, "PrefsListItemWrapperText map failed!");
+                }
         }
     }
 }

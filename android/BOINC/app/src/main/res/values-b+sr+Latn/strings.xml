@@ -9,7 +9,8 @@
     <!--attach project-->
     <!--selection list-->
     <string name="attachproject_list_desc">
-Izaberi naučne projekte kojima želite da doprinesete :</string>
+        Izaberi naučne projekte kojima želite da doprinesete :
+    </string>
     <string name="attachproject_list_header">Izaberite projekat</string>
     <string name="attachproject_list_manual_button">Dodaj URL projekta</string>
     <string name="attachproject_list_manual_dialog_title">Unesite URL projekta:</string>
@@ -280,10 +281,10 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="confirm_abort_trans_message">O fajlu:</string>
     <string name="confirm_abort_trans_confirm">Prekini</string>
     <!--notices tab strings-->
-    <string name="notices_loading">Čitanje objava </string>
+    <string name="notices_loading">Čitanje objava</string>
     <!--eventlog tab strings-->
     <string name="eventlog_loading">Učitavanje prijavnih poruka...</string>
-    <string name="eventlog_client_header">Poruke korisnika </string>
+    <string name="eventlog_client_header">Poruke korisnika</string>
     <string name="eventlog_gui_header">Poruke GUI-a</string>
     <string name="eventlog_copy_toast">Dnevnik kopiran na clipboard.</string>
     <string name="eventlog_email_subject">Dnevnik dogadjaja za BOINC na androidu:</string>
@@ -304,7 +305,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="suspend_os">Zaustavljeno od strane Android-a.</string>
     <string name="suspend_wifi">Niste povezani na WiFi.</string>
     <string name="suspend_battery_charging">Čekanje da se baterija napuni.</string>
-    <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne </string>
+    <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne</string>
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">trenutno</string>
     <string name="suspend_battery_overheating">Čekanje da se baterija ohladi</string>
@@ -314,7 +315,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="rpcreason_userreq">Zatraženo od strane korisnika</string>
     <string name="rpcreason_needwork">Prikupljanje poslova</string>
     <string name="rpcreason_resultsdue">Da prijavite završene zadatke.</string>
-    <string name="rpcreason_trickleup">Da bi poslao trickle-up poruku </string>
+    <string name="rpcreason_trickleup">Da bi poslao trickle-up poruku</string>
     <string name="rpcreason_acctmgrreq">Zatraženo od strane upravnika naloga</string>
     <string name="rpcreason_init">Inicijalizacija projekta</string>
     <string name="rpcreason_projectreq">Zatraženo od strane projekta</string>
@@ -322,7 +323,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <!--menu-->
     <string name="menu_refresh">Osveži</string>
     <string name="menu_emailto">Pošaljite nam imejl</string>
-    <string name="menu_copy">Kopiraj na Clipboard </string>
+    <string name="menu_copy">Kopiraj na Clipboard</string>
     <string name="menu_eventlog">Dnevnik dogadjaja</string>
     <string name="menu_exit">Izlaz BOINC</string>
     <string name="menu_run_mode_disable">Zaustavi</string>
@@ -334,7 +335,7 @@ Izaberi naučne projekte kojima želite da doprinesete :</string>
     <string name="about_title">O</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Verzija</string>
-    <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija </string>
+    <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija</string>
     <string name="about_copyright_reserved">Sva prava zadržana.</string>
     <string name="about_credits">Hvala Maks Plankovom Institutu za gravitacionu fiziku, IBM Korporaciji i HTC Korporaciji na njihovoj podršci.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

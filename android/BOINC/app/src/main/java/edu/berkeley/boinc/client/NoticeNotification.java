@@ -58,7 +58,7 @@ public class NoticeNotification {
      * @return noticeNotification static instance
      */
     public static NoticeNotification getInstance(Context ctx) {
-        if (noticeNotification == null) {
+        if(noticeNotification == null) {
             noticeNotification = new NoticeNotification(ctx);
         }
         return noticeNotification;
@@ -80,7 +80,7 @@ public class NoticeNotification {
      * called when user clicks notice
      */
     public void cancelNotification() {
-        if (isNotificationShown) {
+        if(isNotificationShown) {
             nm.cancel(notificationId);
             isNotificationShown = false;
             currentlyNotifiedNotices.clear();
@@ -92,8 +92,8 @@ public class NoticeNotification {
      */
     public void update(ArrayList<Notice> notices, Boolean isPreferenceEnabled) {
 
-        if (!isPreferenceEnabled) {
-            if (isNotificationShown) {
+        if(!isPreferenceEnabled) {
+            if(isNotificationShown) {
                 nm.cancel(notificationId);
                 isNotificationShown = false;
             }
@@ -109,17 +109,18 @@ public class NoticeNotification {
 			lastNotifiedArrivalTime = 0;
 			debug = false;
 		}*/
-        for (Notice tmp : notices) {
-            if (tmp.arrival_time > lastNotifiedArrivalTime) {
+        for(Notice tmp : notices) {
+            if(tmp.arrival_time > lastNotifiedArrivalTime) {
                 // multiple new notices might have same arrival time -> write back after adding all
                 currentlyNotifiedNotices.add(tmp);
                 newNotice = true;
-                if (tmp.arrival_time > mostRecentSeenArrivalTime)
+                if(tmp.arrival_time > mostRecentSeenArrivalTime) {
                     mostRecentSeenArrivalTime = tmp.arrival_time;
+                }
             }
         }
 
-        if (newNotice) {
+        if(newNotice) {
             // new notices came in
             store.setLastNotifiedNoticeArrivalTime(mostRecentSeenArrivalTime);
             nm.notify(notificationId, buildNotification());
@@ -140,29 +141,30 @@ public class NoticeNotification {
                 notices = this.currentlyNotifiedNotices.size(),
                 projectName = this.currentlyNotifiedNotices.get(0).project_name,
                 notices)).
-                setSmallIcon(R.drawable.mailw).
-                setContentIntent(this.contentIntent);
-        if (notices == 1) {
+                  setSmallIcon(R.drawable.mailw).
+                  setContentIntent(this.contentIntent);
+        if(notices == 1) {
             // single notice view
             nb.setContentText(this.currentlyNotifiedNotices.get(0).title).
                     setLargeIcon(NoticeNotification.getLargeProjectIcon(
                             this.context,
                             projectName)
                     );
-        } else {
+        }
+        else {
             // multi notice view
             nb.setNumber(notices)
-                    .setLargeIcon(BitmapFactory.decodeResource(
-                            this.context.getResources(),
-                            R.drawable.ic_stat_notify_boinc_normal))
-                    .setSubText(this.context.getString(R.string.app_name));
+              .setLargeIcon(BitmapFactory.decodeResource(
+                      this.context.getResources(),
+                      R.drawable.ic_stat_notify_boinc_normal))
+              .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
             final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            for (int i = 0; i < notices; i++) {
+            for(int i = 0; i < notices; i++) {
                 final Notice notice;
                 inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).project_name +
-                        ": " + notice.title);
+                                   ": " + notice.title);
             }
             nb.setStyle(inboxStyle);
         }
@@ -173,22 +175,25 @@ public class NoticeNotification {
         final Bitmap projectIconBitmap;
         try {
             return (projectIconBitmap = Monitor.getClientStatus().getProjectIconByName(projectName)) != null ?
-                    Bitmap.createScaledBitmap(
-                            projectIconBitmap,
-                            projectIconBitmap.getWidth() << 1,
-                            projectIconBitmap.getHeight() << 1,
-                            false
-                    ) :
-                    BitmapFactory.decodeResource(
-                            context.getResources(),
-                            R.drawable.ic_stat_notify_boinc_normal
-                    );
-        } catch (Exception e) {
-            if (Log.isLoggable(Logging.TAG, Log.DEBUG)) Log.d(
-                    Logging.TAG,
-                    e.getLocalizedMessage(),
-                    e
-            );
+                   Bitmap.createScaledBitmap(
+                           projectIconBitmap,
+                           projectIconBitmap.getWidth() << 1,
+                           projectIconBitmap.getHeight() << 1,
+                           false
+                   ) :
+                   BitmapFactory.decodeResource(
+                           context.getResources(),
+                           R.drawable.ic_stat_notify_boinc_normal
+                   );
+        }
+        catch(Exception e) {
+            if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
+                Log.d(
+                        Logging.TAG,
+                        e.getLocalizedMessage(),
+                        e
+                );
+            }
             return BitmapFactory.decodeResource(
                     context.getResources(),
                     R.drawable.ic_stat_notify_boinc_normal

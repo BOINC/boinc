@@ -51,8 +51,9 @@ public class StatusFragment extends Fragment {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Logging.VERBOSE)
+            if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()");
+            }
             loadLayout(false);
         }
     };
@@ -60,7 +61,9 @@ public class StatusFragment extends Fragment {
 
     public void onResume() {
         //register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-        if (Logging.VERBOSE) Log.v(Logging.TAG, "StatusFragment register receiver");
+        if(Logging.VERBOSE) {
+            Log.v(Logging.TAG, "StatusFragment register receiver");
+        }
         getActivity().registerReceiver(mClientStatusChangeRec, ifcsc);
 
         //loadLayout(true);
@@ -69,14 +72,18 @@ public class StatusFragment extends Fragment {
 
     public void onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        if (Logging.VERBOSE) Log.v(Logging.TAG, "StatusFragment remove receiver");
+        if(Logging.VERBOSE) {
+            Log.v(Logging.TAG, "StatusFragment remove receiver");
+        }
         getActivity().unregisterReceiver(mClientStatusChangeRec);
         super.onPause();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.VERBOSE) Log.v(Logging.TAG, "StatusFragment onCreateView");
+        if(Logging.VERBOSE) {
+            Log.v(Logging.TAG, "StatusFragment onCreateView");
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.status_layout, container, false);
     }
@@ -93,12 +100,12 @@ public class StatusFragment extends Fragment {
 
             // layout only if client RPC connection is established
             // otherwise BOINCActivity does not start Tabs
-            if (currentSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) {
+            if(currentSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) {
                 // return in cases nothing has changed
-                if (forceUpdate ||
-                        computingStatus != currentComputingStatus ||
-                        currentComputingSuspendReason != computingSuspendReason ||
-                        currentNetworkSuspendReason != networkSuspendReason) {
+                if(forceUpdate ||
+                   computingStatus != currentComputingStatus ||
+                   currentComputingSuspendReason != computingSuspendReason ||
+                   currentNetworkSuspendReason != networkSuspendReason) {
 
                     // set layout and retrieve elements
                     LinearLayout statusWrapper = getView().findViewById(R.id.status_wrapper);
@@ -111,7 +118,7 @@ public class StatusFragment extends Fragment {
                     restartingWrapper.setVisibility(View.GONE);
 
                     // adapt to specific computing status
-                    switch (currentComputingStatus) {
+                    switch(currentComputingStatus) {
                         case ClientStatus.COMPUTING_STATUS_NEVER:
                             statusWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
@@ -130,7 +137,7 @@ public class StatusFragment extends Fragment {
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusImage.setClickable(false);
                             centerWrapper.setVisibility(View.VISIBLE);
-                            switch (currentComputingSuspendReason) {
+                            switch(currentComputingSuspendReason) {
                                 case BOINCDefs.SUSPEND_REASON_BATTERIES:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
                                     statusImage.setImageResource(R.drawable.notconnectedb48);
@@ -140,11 +147,13 @@ public class StatusFragment extends Fragment {
                                     Boolean suspendDueToScreenOn = false;
                                     try {
                                         suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();
-                                    } catch (RemoteException e) {
-                                        if (Logging.ERROR)
-                                            Log.e(Logging.TAG, "StatusFragment.loadLayout error: ", e);
                                     }
-                                    if (suspendDueToScreenOn) {
+                                    catch(RemoteException e) {
+                                        if(Logging.ERROR) {
+                                            Log.e(Logging.TAG, "StatusFragment.loadLayout error: ", e);
+                                        }
+                                    }
+                                    if(suspendDueToScreenOn) {
                                         statusImage.setImageResource(R.drawable.screen48b);
                                         statusHeader.setVisibility(View.GONE);
                                     }
@@ -225,9 +234,10 @@ public class StatusFragment extends Fragment {
                     networkSuspendReason = currentNetworkSuspendReason;
                     setupStatus = -1; // invalidate to force update next time no project
                 }
-            } else if (currentSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
+            }
+            else if(currentSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
 
-                if (setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
+                if(setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
                     // set layout and retrieve elements
                     LinearLayout statusWrapper = getView().findViewById(R.id.status_wrapper);
                     LinearLayout centerWrapper = getView().findViewById(R.id.center_wrapper);
@@ -246,13 +256,17 @@ public class StatusFragment extends Fragment {
                     setupStatus = ClientStatus.SETUP_STATUS_NOPROJECT;
                     computingStatus = -1;
                 }
-            } else { // BOINC client is not available
+            }
+            else { // BOINC client is not available
                 //invalid computingStatus, forces layout on next event
                 setupStatus = -1;
                 computingStatus = -1;
             }
-        } catch (Exception e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "StatusFragment.loadLayout error: ", e);
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "StatusFragment.loadLayout error: ", e);
+            }
         }
     }
 
@@ -278,13 +292,15 @@ public class StatusFragment extends Fragment {
             Boolean runMode;
             try {
                 runMode = BOINCActivity.monitor.setRunMode(params[0]);
-            } catch (RemoteException e) {
+            }
+            catch(RemoteException e) {
                 runMode = false;
             }
             Boolean networkMode;
             try {
                 networkMode = BOINCActivity.monitor.setNetworkMode(params[0]);
-            } catch (RemoteException e) {
+            }
+            catch(RemoteException e) {
                 networkMode = false;
             }
             return runMode && networkMode;
@@ -292,14 +308,19 @@ public class StatusFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if (success)
+            if(success) {
                 try {
                     BOINCActivity.monitor.forceRefresh();
-                } catch (RemoteException e) {
-                    if (Logging.ERROR)
-                        Log.e(Logging.TAG, "StatusFragment.WriteClientRunModeAsync.onPostExecute() error: ", e);
                 }
-            else if (Logging.WARNING) Log.w(Logging.TAG, "StatusFragment: setting run mode failed");
+                catch(RemoteException e) {
+                    if(Logging.ERROR) {
+                        Log.e(Logging.TAG, "StatusFragment.WriteClientRunModeAsync.onPostExecute() error: ", e);
+                    }
+                }
+            }
+            else if(Logging.WARNING) {
+                Log.w(Logging.TAG, "StatusFragment: setting run mode failed");
+            }
         }
     }
 }

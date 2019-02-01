@@ -32,12 +32,12 @@ public class BoincNotExclusiveDialog extends Activity {
         super.onCreate(savedInstanceState);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.nonexcl_dialog_text))
-                .setCancelable(false)
-                .setTitle(getString(R.string.nonexcl_dialog_header))
-                .setNeutralButton(getString(R.string.nonexcl_dialog_exit), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                }).show();
+               .setCancelable(false)
+               .setTitle(getString(R.string.nonexcl_dialog_header))
+               .setNeutralButton(getString(R.string.nonexcl_dialog_exit), new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       finish();
+                   }
+               }).show();
     }
 }

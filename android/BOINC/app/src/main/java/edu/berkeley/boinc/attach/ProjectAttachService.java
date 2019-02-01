@@ -56,23 +56,29 @@ public class ProjectAttachService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "ProjectAttachService.onBind");
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ProjectAttachService.onBind");
+        }
         return mBinder;
     }
 
     @Override
     public void onCreate() {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "ProjectAttachService.onCreate");
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ProjectAttachService.onCreate");
+        }
         doBindService();
         store = new PersistentStorage(this);
     }
 
     @Override
     public void onDestroy() {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "ProjectAttachService.onDestroy");
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ProjectAttachService.onDestroy");
+        }
         doUnbindService();
     }
-// --END-- life-cycle   
+    // --END-- life-cycle
 
     // monitor service binding
     private IMonitor monitor = null;
@@ -99,13 +105,13 @@ public class ProjectAttachService extends Service {
     }
 
     private void doUnbindService() {
-        if (mIsBound) {
+        if(mIsBound) {
             // Detach existing connection.
             unbindService(mConnection);
             mIsBound = false;
         }
     }
-// --END-- monitor service binding
+    // --END-- monitor service binding
 
     private PersistentStorage store;
 
@@ -157,27 +163,32 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setSelectedProjects(ArrayList<ProjectInfo> selected) {
-        if (!projectConfigRetrievalFinished) {
-            if (Logging.ERROR)
+        if(!projectConfigRetrievalFinished) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: stop, async task already running.");
+            }
             return false;
         }
 
         selectedProjects.clear();
-        for (ProjectInfo tmp : selected) {
+        for(ProjectInfo tmp : selected) {
             selectedProjects.add(new ProjectAttachWrapper(tmp));
         }
 
-        if (mIsBound) {
+        if(mIsBound) {
             new GetProjectConfigsAsync().execute();
-        } else {
-            if (Logging.ERROR)
+        }
+        else {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound.");
+            }
             return false;
         }
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "ProjectAttachService.setSelectedProjects: number of selected projects: " + selectedProjects.size());
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG,
+                  "ProjectAttachService.setSelectedProjects: number of selected projects: " + selectedProjects.size());
+        }
         return true;
     }
 
@@ -190,9 +201,10 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setManuallySelectedProject(String url) {
-        if (!projectConfigRetrievalFinished) {
-            if (Logging.ERROR)
+        if(!projectConfigRetrievalFinished) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: stop, async task already running.");
+            }
             return false;
         }
 
@@ -200,16 +212,21 @@ public class ProjectAttachService extends Service {
         selectedProjects.add(new ProjectAttachWrapper(url));
 
         // get projectConfig
-        if (mIsBound) {
+        if(mIsBound) {
             new GetProjectConfigsAsync().execute();
-        } else {
-            if (Logging.ERROR)
+        }
+        else {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound.");
+            }
             return false;
         }
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: url of selected project: " + url + ", list size: " + selectedProjects.size());
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG,
+                  "ProjectAttachService.setManuallySelectedProject: url of selected project: " + url + ", list size: " +
+                  selectedProjects.size());
+        }
         return true;
 
     }
@@ -219,8 +236,10 @@ public class ProjectAttachService extends Service {
     }
 
     public ArrayList<ProjectAttachWrapper> getSelectedProjects() {
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "ProjectAttachService.getSelectedProjects: returning list of size: " + selectedProjects.size());
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG,
+                  "ProjectAttachService.getSelectedProjects: returning list of size: " + selectedProjects.size());
+        }
         return this.selectedProjects;
     }
 
@@ -230,9 +249,11 @@ public class ProjectAttachService extends Service {
      * @return project or null if no more untried projects
      */
     public ProjectAttachWrapper getNextSelectedProject() {
-        for (ProjectAttachWrapper tmp : selectedProjects) {
-            if (tmp.result == ProjectAttachWrapper.RESULT_READY || tmp.result == ProjectAttachWrapper.RESULT_UNINITIALIZED)
+        for(ProjectAttachWrapper tmp : selectedProjects) {
+            if(tmp.result == ProjectAttachWrapper.RESULT_READY ||
+               tmp.result == ProjectAttachWrapper.RESULT_UNINITIALIZED) {
                 return tmp;
+            }
         }
         return null;
     }
@@ -249,21 +270,27 @@ public class ProjectAttachService extends Service {
         int stringResource = 0;
 
         // check input
-        if (email.length() == 0) {
+        if(email.length() == 0) {
             stringResource = R.string.attachproject_error_no_email;
-        } else if (user.length() == 0) {
+        }
+        else if(user.length() == 0) {
             stringResource = R.string.attachproject_error_no_name;
-        } else if (pwd != null && pwd.length() == 0) {
+        }
+        else if(pwd != null && pwd.length() == 0) {
             stringResource = R.string.attachproject_error_no_pwd;
-        } else if (pwd != null && pwd.length() < 6) { // appropriate for min pwd length?!
+        }
+        else if(pwd != null && pwd.length() < 6) { // appropriate for min pwd length?!
             stringResource = R.string.attachproject_error_short_pwd;
         }
 
-        if (stringResource != 0) {
+        if(stringResource != 0) {
             Toast toast = Toast.makeText(getApplicationContext(), stringResource, Toast.LENGTH_LONG);
             toast.show();
             return false;
-        } else return true;
+        }
+        else {
+            return true;
+        }
     }
 
     /**
@@ -272,8 +299,8 @@ public class ProjectAttachService extends Service {
      * @return indicator whether conflicts exist
      */
     public boolean unresolvedConflicts() {
-        for (ProjectAttachWrapper project : selectedProjects) {
-            if (project.result != ProjectAttachWrapper.RESULT_SUCCESS) {
+        for(ProjectAttachWrapper project : selectedProjects) {
+            if(project.result != ProjectAttachWrapper.RESULT_SUCCESS) {
                 return true;
             }
         }
@@ -295,20 +322,25 @@ public class ProjectAttachService extends Service {
         Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
         Integer attemptCounter = 0;
         Boolean retry = true;
-        if (Logging.DEBUG) Log.d(Logging.TAG, "account manager with: " + url + name + maxAttempts);
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "account manager with: " + url + name + maxAttempts);
+        }
         // retry a defined number of times, if non deterministic failure occurs.
         // makes login more robust on bad network connections
-        while (retry && attemptCounter < maxAttempts) {
+        while(retry && attemptCounter < maxAttempts) {
             try {
                 reply = monitor.addAcctMgrErrorNum(url, name, pwd);
-            } catch (RemoteException e) {
-                if (Logging.ERROR)
+            }
+            catch(RemoteException e) {
+                if(Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectAttachService.attachAcctMgr error: ", e);
+                }
             }
 
-            if (Logging.DEBUG)
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: " + reply);
-            switch (reply) {
+            }
+            switch(reply) {
                 case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
                     attemptCounter++; // limit number of retries
                     break;
@@ -324,26 +356,37 @@ public class ProjectAttachService extends Service {
                     retry = false;
                     break;
             }
-            if (retry) {
+            if(retry) {
                 try {
                     Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
             }
         }
 
-        if (reply != BOINCErrors.ERR_OK) return reply;
+        if(reply != BOINCErrors.ERR_OK) {
+            return reply;
+        }
 
         AcctMgrInfo info = null;
         try {
             info = monitor.getAcctMgrInfo();
-        } catch (RemoteException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "ProjectAttachService.attachAcctMgr error: ", e);
         }
-        if (info == null) return -1;
+        catch(RemoteException e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "ProjectAttachService.attachAcctMgr error: ", e);
+            }
+        }
+        if(info == null) {
+            return -1;
+        }
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG,
+                  "ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name +
+                  info.have_credentials);
+        }
         return BOINCErrors.ERR_OK;
     }
 
@@ -360,10 +403,13 @@ public class ProjectAttachService extends Service {
         public static final int RESULT_SUCCESS = 3; // successful, -X otherwise
         public static final int RESULT_UNDEFINED = -1;
         public static final int RESULT_NAME_NOT_UNIQUE = -2; // registration failed, either password wrong or ID taken
-        public static final int RESULT_BAD_PASSWORD = -3; // login failed (creation disabled or login button pressed), password wrong
-        public static final int RESULT_UNKNOWN_USER = -4; // login failed (creation disabled or login button pressed), user does not exist
+        public static final int RESULT_BAD_PASSWORD = -3;
+                // login failed (creation disabled or login button pressed), password wrong
+        public static final int RESULT_UNKNOWN_USER = -4;
+                // login failed (creation disabled or login button pressed), user does not exist
         public static final int RESULT_REQUIRES_TOS_AGGREEMENT = -5;
-        public static final int RESULT_CONFIG_DOWNLOAD_FAILED = -6; // download of configuration failed, but required for attach (retry?)
+        public static final int RESULT_CONFIG_DOWNLOAD_FAILED = -6;
+                // download of configuration failed, but required for attach (retry?)
 
 
         public ProjectAttachWrapper(ProjectInfo info) {
@@ -378,7 +424,7 @@ public class ProjectAttachService extends Service {
         }
 
         public String getResultDescription() {
-            switch (result) {
+            switch(result) {
                 case RESULT_UNINITIALIZED:
                     return getString(R.string.attachproject_login_loading);
                 case RESULT_READY:
@@ -392,9 +438,10 @@ public class ProjectAttachService extends Service {
                 case RESULT_BAD_PASSWORD:
                     return getString(R.string.attachproject_conflict_bad_password);
                 case RESULT_UNKNOWN_USER:
-                    if (config.clientAccountCreationDisabled) {
+                    if(config.clientAccountCreationDisabled) {
                         return getString(R.string.attachproject_conflict_unknown_user_creation_disabled);
-                    } else {
+                    }
+                    else {
                         return getString(R.string.attachproject_conflict_unknown_user);
                     }
                 case RESULT_CONFIG_DOWNLOAD_FAILED:
@@ -420,14 +467,16 @@ public class ProjectAttachService extends Service {
          * @return returns status conflict
          */
         public int lookupAndAttach(boolean forceLookup) {
-            if (Logging.DEBUG)
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachWrapper.attach: attempting: " + name);
+            }
 
             // check if project config is loaded, return if not.
             // activity needs to check, wait and re-try
-            if (result == RESULT_UNINITIALIZED || !projectConfigRetrievalFinished || config == null) {
-                if (Logging.ERROR)
+            if(result == RESULT_UNINITIALIZED || !projectConfigRetrievalFinished || config == null) {
+                if(Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectAttachWrapper.attach: no projectConfig for: " + name);
+                }
                 result = RESULT_UNDEFINED;
                 return RESULT_UNDEFINED;
             }
@@ -437,28 +486,38 @@ public class ProjectAttachService extends Service {
             // get credentials
             AccountOut statusCredentials;
             // check if project allows registration
-            if (forceLookup || config.clientAccountCreationDisabled) {
+            if(forceLookup || config.clientAccountCreationDisabled) {
                 // registration disabled, e.g. WCG
-                if (Logging.DEBUG)
-                    Log.d(Logging.TAG, "AttachProjectAsyncTask: account creation disabled, try login. for: " + config.name);
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG,
+                          "AttachProjectAsyncTask: account creation disabled, try login. for: " + config.name);
+                }
                 statusCredentials = login();
-            } else {
+            }
+            else {
                 // registration enabled
                 statusCredentials = register();
             }
-            if (Logging.DEBUG)
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: retrieving credentials returned: " + statusCredentials.error_num + ":" + statusCredentials.error_msg + ". for: " + config.name);
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG,
+                      "AttachProjectAsyncTask: retrieving credentials returned: " + statusCredentials.error_num + ":" +
+                      statusCredentials.error_msg + ". for: " + config.name);
+            }
 
             // check success
-            if (statusCredentials == null) {
-                if (Logging.ERROR)
+            if(statusCredentials == null) {
+                if(Logging.ERROR) {
                     Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, is null, for: " + name);
+                }
                 result = RESULT_UNDEFINED;
                 return RESULT_UNDEFINED;
-            } else if (statusCredentials.error_num != BOINCErrors.ERR_OK) {
-                if (Logging.ERROR)
-                    Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " + statusCredentials.error_num);
-                switch (statusCredentials.error_num) {
+            }
+            else if(statusCredentials.error_num != BOINCErrors.ERR_OK) {
+                if(Logging.ERROR) {
+                    Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
+                                       statusCredentials.error_num);
+                }
+                switch(statusCredentials.error_num) {
                     case BOINCErrors.ERR_DB_NOT_UNIQUE:
                         result = RESULT_NAME_NOT_UNIQUE;
                         return RESULT_NAME_NOT_UNIQUE;
@@ -469,8 +528,10 @@ public class ProjectAttachService extends Service {
                         result = RESULT_UNKNOWN_USER;
                         return RESULT_UNKNOWN_USER;
                     default:
-                        if (Logging.WARNING)
-                            Log.w(Logging.TAG, "AttachProjectAsyncTask: unable to map error number, returned error: " + statusCredentials.error_num);
+                        if(Logging.WARNING) {
+                            Log.w(Logging.TAG, "AttachProjectAsyncTask: unable to map error number, returned error: " +
+                                               statusCredentials.error_num);
+                        }
                         result = RESULT_UNDEFINED;
                         return RESULT_UNDEFINED;
                 }
@@ -478,10 +539,12 @@ public class ProjectAttachService extends Service {
 
             // attach project;
             boolean statusAttach = attach(statusCredentials.authenticator);
-            if (Logging.DEBUG)
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: attach returned: " + statusAttach + ". for: " + config.name);
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG,
+                      "AttachProjectAsyncTask: attach returned: " + statusAttach + ". for: " + config.name);
+            }
 
-            if (!statusAttach) {
+            if(!statusAttach) {
                 result = RESULT_UNDEFINED;
                 return RESULT_UNDEFINED;
             }
@@ -506,24 +569,30 @@ public class ProjectAttachService extends Service {
             Integer maxAttempts = getResources().getInteger(R.integer.attach_creation_retries);
             // retry a defined number of times, if non deterministic failure occurs.
             // makes login more robust on bad network connections
-            while (retry && attemptCounter < maxAttempts) {
-                if (mIsBound) {
+            while(retry && attemptCounter < maxAttempts) {
+                if(mIsBound) {
                     try {
                         credentials = monitor.createAccountPolling(getAccountIn(email, user, pwd));
-                    } catch (RemoteException e) {
-                        if (Logging.ERROR)
+                    }
+                    catch(RemoteException e) {
+                        if(Logging.ERROR) {
                             Log.e(Logging.TAG, "ProjectAttachService.register error: ", e);
+                        }
                     }
                 }
-                if (credentials == null) {
+                if(credentials == null) {
                     // call failed
-                    if (Logging.WARNING)
+                    if(Logging.WARNING) {
                         Log.w(Logging.TAG, "ProjectAttachWrapper.register register: auth null, retry...");
+                    }
                     attemptCounter++; // limit number of retries
-                } else {
-                    if (Logging.DEBUG)
-                        Log.d(Logging.TAG, "ProjectAttachWrapper.register returned: " + config.error_num + " for " + name);
-                    switch (config.error_num) {
+                }
+                else {
+                    if(Logging.DEBUG) {
+                        Log.d(Logging.TAG,
+                              "ProjectAttachWrapper.register returned: " + config.error_num + " for " + name);
+                    }
+                    switch(config.error_num) {
                         case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
                             attemptCounter++; // limit number of retries
                             break;
@@ -560,24 +629,29 @@ public class ProjectAttachService extends Service {
             Integer maxAttempts = getResources().getInteger(R.integer.attach_login_retries);
             // retry a defined number of times, if non deterministic failure occurs.
             // makes login more robust on bad network connections
-            while (retry && attemptCounter < maxAttempts) {
-                if (mIsBound) {
+            while(retry && attemptCounter < maxAttempts) {
+                if(mIsBound) {
                     try {
                         credentials = monitor.lookupCredentials(getAccountIn(email, user, pwd));
-                    } catch (RemoteException e) {
-                        if (Logging.ERROR)
+                    }
+                    catch(RemoteException e) {
+                        if(Logging.ERROR) {
                             Log.e(Logging.TAG, "ProjectAttachService.login error: ", e);
+                        }
                     }
                 }
-                if (credentials == null) {
+                if(credentials == null) {
                     // call failed
-                    if (Logging.WARNING)
+                    if(Logging.WARNING) {
                         Log.w(Logging.TAG, "ProjectAttachWrapper.login failed: auth null, retry...");
+                    }
                     attemptCounter++; // limit number of retries
-                } else {
-                    if (Logging.DEBUG)
+                }
+                else {
+                    if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "ProjectAttachWrapper.login returned: " + config.error_num + " for " + name);
-                    switch (config.error_num) {
+                    }
+                    switch(config.error_num) {
                         case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
                             attemptCounter++; // limit number of retries
                             break;
@@ -595,10 +669,11 @@ public class ProjectAttachService extends Service {
                     }
                 }
 
-                if (retry) {
+                if(retry) {
                     try {
                         Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
-                    } catch (Exception ignored) {
+                    }
+                    catch(Exception ignored) {
                     }
                 }
             }
@@ -607,11 +682,14 @@ public class ProjectAttachService extends Service {
         }
 
         private boolean attach(String authenticator) {
-            if (mIsBound) {
+            if(mIsBound) {
                 try {
                     return monitor.attachProject(config.masterUrl, config.name, authenticator);
-                } catch (RemoteException e) {
-                    if (Logging.ERROR) Log.e(Logging.TAG, "ProjectAttachService.attach error: ", e);
+                }
+                catch(RemoteException e) {
+                    if(Logging.ERROR) {
+                        Log.e(Logging.TAG, "ProjectAttachService.attach error: ", e);
+                    }
                 }
             }
             return false;
@@ -634,27 +712,40 @@ public class ProjectAttachService extends Service {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (Logging.DEBUG)
-                Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: number of selected projects: " + selectedProjects.size());
-            for (ProjectAttachWrapper tmp : selectedProjects) {
-                if (Logging.DEBUG)
-                    Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: configuration download started for: " + tmp.name + " with URL: " + tmp.url);
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: number of selected projects: " +
+                                   selectedProjects.size());
+            }
+            for(ProjectAttachWrapper tmp : selectedProjects) {
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG,
+                          "ProjectAttachService.GetProjectConfigAsync: configuration download started for: " +
+                          tmp.name + " with URL: " + tmp.url);
+                }
                 ProjectConfig config = getProjectConfig(tmp.url);
-                if (config != null && config.error_num == BOINCErrors.ERR_OK) {
-                    if (Logging.DEBUG)
-                        Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: configuration download succeeded for: " + tmp.name);
+                if(config != null && config.error_num == BOINCErrors.ERR_OK) {
+                    if(Logging.DEBUG) {
+                        Log.d(Logging.TAG,
+                              "ProjectAttachService.GetProjectConfigAsync: configuration download succeeded for: " +
+                              tmp.name);
+                    }
                     tmp.config = config;
                     tmp.name = config.name;
                     tmp.result = ProjectAttachWrapper.RESULT_READY;
-                } else {
+                }
+                else {
                     // error occurred
-                    if (Logging.WARNING)
-                        Log.w(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: could not load configuration for: " + tmp.name);
+                    if(Logging.WARNING) {
+                        Log.w(Logging.TAG,
+                              "ProjectAttachService.GetProjectConfigAsync: could not load configuration for: " +
+                              tmp.name);
+                    }
                     tmp.result = ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED;
                 }
             }
-            if (Logging.DEBUG)
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: end.");
+            }
             return null;
         }
 
@@ -664,24 +755,32 @@ public class ProjectAttachService extends Service {
             Integer attemptCounter = 0;
             // retry a defined number of times, if non deterministic failure occurs.
             // makes login more robust on bad network connections
-            while (retry && attemptCounter < maxAttempts) {
-                if (mIsBound) {
+            while(retry && attemptCounter < maxAttempts) {
+                if(mIsBound) {
                     try {
                         config = monitor.getProjectConfigPolling(url);
-                    } catch (RemoteException e) {
-                        if (Logging.ERROR)
+                    }
+                    catch(RemoteException e) {
+                        if(Logging.ERROR) {
                             Log.e(Logging.TAG, "ProjectAttachService.getProjectConfig error: ", e);
+                        }
                     }
                 }
-                if (config == null) {
+                if(config == null) {
                     // call failed
-                    if (Logging.WARNING)
-                        Log.w(Logging.TAG, "ProjectAttachWrapper.getProjectConfig failed: config null, mIsBound: " + mIsBound + " for " + url + ". retry...");
+                    if(Logging.WARNING) {
+                        Log.w(Logging.TAG,
+                              "ProjectAttachWrapper.getProjectConfig failed: config null, mIsBound: " + mIsBound +
+                              " for " + url + ". retry...");
+                    }
                     attemptCounter++; // limit number of retries
-                } else {
-                    if (Logging.DEBUG)
-                        Log.d(Logging.TAG, "GetProjectConfigsAsync.getProjectConfig returned: " + config.error_num + " for " + url);
-                    switch (config.error_num) {
+                }
+                else {
+                    if(Logging.DEBUG) {
+                        Log.d(Logging.TAG,
+                              "GetProjectConfigsAsync.getProjectConfig returned: " + config.error_num + " for " + url);
+                    }
+                    switch(config.error_num) {
                         case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
                             attemptCounter++; // limit number of retries
                             break;
@@ -700,10 +799,11 @@ public class ProjectAttachService extends Service {
                     }
                 }
 
-                if (retry) {
+                if(retry) {
                     try {
                         Thread.sleep(getResources().getInteger(R.integer.attach_step_interval_ms));
-                    } catch (Exception ignored) {
+                    }
+                    catch(Exception ignored) {
                     }
                 }
             }

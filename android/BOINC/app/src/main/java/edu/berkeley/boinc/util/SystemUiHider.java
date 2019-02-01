@@ -127,9 +127,10 @@ public abstract class SystemUiHider {
      * Toggle the visibility of the system UI.
      */
     public void toggle() {
-        if (isVisible()) {
+        if(isVisible()) {
             hide();
-        } else {
+        }
+        else {
             show();
         }
     }
@@ -140,7 +141,7 @@ public abstract class SystemUiHider {
      */
     public void setOnVisibilityChangeListener(
             OnVisibilityChangeListener listener) {
-        if (listener == null) {
+        if(listener == null) {
             listener = sDummyListener;
         }
 

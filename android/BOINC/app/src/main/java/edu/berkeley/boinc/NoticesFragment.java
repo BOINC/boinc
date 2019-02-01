@@ -47,7 +47,9 @@ public class NoticesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.VERBOSE) Log.d(Logging.TAG, "NoticesFragment onCreateView");
+        if(Logging.VERBOSE) {
+            Log.d(Logging.TAG, "NoticesFragment onCreateView");
+        }
         View layout = inflater.inflate(R.layout.notices_layout, container, false);
         noticesList = layout.findViewById(R.id.noticesList);
         updateNotices();
@@ -58,14 +60,19 @@ public class NoticesFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "NoticesFragment onResume()");
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "NoticesFragment onResume()");
+        }
         getActivity().registerReceiver(mClientStatusChangeRec, ifcsc);
 
         // clear notice notification
         try {
             BOINCActivity.monitor.cancelNoticeNotification();
-        } catch (Exception e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e);
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e);
+            }
         }
         super.onResume();
     }
@@ -73,7 +80,9 @@ public class NoticesFragment extends Fragment {
     @Override
     public void onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        if (Logging.DEBUG) Log.d(Logging.TAG, "NoticesFragment remove receiver");
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "NoticesFragment remove receiver");
+        }
         getActivity().unregisterReceiver(mClientStatusChangeRec);
         super.onPause();
     }
@@ -81,13 +90,14 @@ public class NoticesFragment extends Fragment {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Logging.VERBOSE)
+            if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()");
+            }
 
             // data retrieval
             updateNotices();
             noticesListAdapter.clear();
-            for (Notice tmp : data) { // addAll only in API 11
+            for(Notice tmp : data) { // addAll only in API 11
                 noticesListAdapter.add(tmp);
             }
             noticesListAdapter.notifyDataSetChanged();
@@ -106,8 +116,11 @@ public class NoticesFragment extends Fragment {
                     return ((Double) (rhs.create_time - lhs.create_time)).intValue();
                 }
             });
-        } catch (Exception e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e);
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e);
+            }
         }
     }
 }

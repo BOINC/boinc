@@ -92,8 +92,9 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Logging.DEBUG)
+                if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "IndividualCredentialInputFragment: login clicked");
+                }
                 mListener.onFinish(project, true, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
                 dismiss();
             }
@@ -103,14 +104,18 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Logging.DEBUG)
-                    Log.d(Logging.TAG, "IndividualCredentialInputFragment: register clicked, client account creation disabled: " + project.config.clientAccountCreationDisabled);
-                if (project.config.clientAccountCreationDisabled) {
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG,
+                          "IndividualCredentialInputFragment: register clicked, client account creation disabled: " +
+                          project.config.clientAccountCreationDisabled);
+                }
+                if(project.config.clientAccountCreationDisabled) {
                     // cannot register in client, open website
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(project.config.masterUrl));
                     startActivity(i);
-                } else {
+                }
+                else {
                     mListener.onFinish(project, false, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
                     dismiss();
                 }
@@ -121,8 +126,9 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         forgotPwdButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Logging.DEBUG)
+                if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "IndividualCredentialInputFragment: forgot pwd clicked");
+                }
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(forgotPwdLink));
                 startActivity(i);
@@ -133,9 +139,10 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         showPwdCb.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox) v).isChecked()) {
+                if(((CheckBox) v).isChecked()) {
                     pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                } else {
+                }
+                else {
                     pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
@@ -150,9 +157,11 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         super.onAttach(activity);
         try {
             mListener = (IndividualCredentialInputFragmentListener) activity;
-        } catch (ClassCastException e) {
-            if (Logging.ERROR)
+        }
+        catch(ClassCastException e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "IndividualCredentialInputFragment.onAttach The activity doesn't implement the interface. Error: ", e);
+            }
         }
     }
 

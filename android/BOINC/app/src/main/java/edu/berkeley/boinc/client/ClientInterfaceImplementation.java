@@ -77,19 +77,21 @@ public class ClientInterfaceImplementation extends RpcClient {
         ClientStatus status;
         try {
             status = Monitor.getClientStatus();
-        } catch (Exception e) {
-            if (Logging.WARNING)
+        }
+        catch(Exception e) {
+            if(Logging.WARNING) {
                 Log.w(Logging.TAG, "Monitor.setGlobalPreferences: Could not load data, clientStatus not initialized.");
+            }
             return false;
         }
 
         Boolean retval1 = setGlobalPrefsOverrideStruct(prefs); //set new override settings
         Boolean retval2 = readGlobalPrefsOverride(); //trigger reload of override settings
-        if (!retval1 || !retval2) {
+        if(!retval1 || !retval2) {
             return false;
         }
         GlobalPreferences workingPrefs = getGlobalPrefsWorkingStruct();
-        if (workingPrefs != null) {
+        if(workingPrefs != null) {
             status.setPrefs(workingPrefs);
             return true;
         }
@@ -109,21 +111,28 @@ public class ClientInterfaceImplementation extends RpcClient {
         try {
             File authFile = new File(authFilePath);
             BufferedReader br = new BufferedReader(new FileReader(authFile));
-            while ((read = br.read(buf)) != -1) {
+            while((read = br.read(buf)) != -1) {
                 String readData = String.valueOf(buf, 0, read);
                 fileData.append(readData);
                 buf = new char[1024];
             }
             br.close();
-        } catch (FileNotFoundException fnfe) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "auth file not found", fnfe);
-        } catch (IOException ioe) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "ioexception", ioe);
+        }
+        catch(FileNotFoundException fnfe) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "auth file not found", fnfe);
+            }
+        }
+        catch(IOException ioe) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "ioexception", ioe);
+            }
         }
 
         String authKey = fileData.toString();
-        if (Logging.DEBUG)
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "authentication key acquired. length: " + authKey.length());
+        }
         return authKey;
     }
 
@@ -137,31 +146,41 @@ public class ClientInterfaceImplementation extends RpcClient {
         ProjectConfig config = null;
 
         Boolean success = getProjectConfig(url); //asynchronous call
-        if (success) { //only continue if attach command did not fail
+        if(success) { //only continue if attach command did not fail
             // verify success of getProjectConfig with poll function
             Boolean loop = true;
-            while (loop) {
+            while(loop) {
                 loop = false;
                 try {
                     Thread.sleep(minRetryInterval);
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
                 config = getProjectConfigPoll();
-                if (config == null) {
-                    if (Logging.ERROR)
+                if(config == null) {
+                    if(Logging.ERROR) {
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.getProjectConfigPolling: returned null.");
+                    }
                     return null;
                 }
-                if (config.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if(config.error_num == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
-                } else {
+                }
+                else {
                     //final result ready
-                    if (config.error_num == 0) {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.getProjectConfigPolling: ProjectConfig retrieved: " + config.name);
-                    } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.getProjectConfigPolling: final result with error_num: " + config.error_num);
+                    if(config.error_num == 0) {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "ClientInterfaceImplementation.getProjectConfigPolling: ProjectConfig retrieved: " +
+                                  config.name);
+                        }
+                    }
+                    else {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "ClientInterfaceImplementation.getProjectConfigPolling: final result with error_num: " +
+                                  config.error_num);
+                        }
                     }
                 }
             }
@@ -180,18 +199,23 @@ public class ClientInterfaceImplementation extends RpcClient {
 
     public Boolean attachProject(String url, String projectName, String authenticator) {
         Boolean success = projectAttach(url, authenticator, projectName); //asynchronous call to attach project
-        if (success) {
+        if(success) {
             // verify success of projectAttach with poll function
             ProjectAttachReply reply = projectAttachPoll();
-            while (reply != null && reply.error_num == BOINCErrors.ERR_IN_PROGRESS) { // loop as long as reply.error_num == BOINCErrors.ERR_IN_PROGRESS
+            while(reply != null && reply.error_num ==
+                                   BOINCErrors.ERR_IN_PROGRESS) { // loop as long as reply.error_num == BOINCErrors.ERR_IN_PROGRESS
                 try {
                     Thread.sleep(minRetryInterval);
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
                 reply = projectAttachPoll();
             }
             return (reply != null && reply.error_num == BOINCErrors.ERR_OK);
-        } else if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttach failed.");
+        }
+        else if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "rpc.projectAttach failed.");
+        }
         return false;
     }
 
@@ -205,15 +229,19 @@ public class ClientInterfaceImplementation extends RpcClient {
     public Boolean checkProjectAttached(String url) {
         try {
             ArrayList<Project> attachedProjects = getProjectStatus();
-            for (Project project : attachedProjects) {
-                if (Logging.DEBUG) Log.d(Logging.TAG, project.master_url + " vs " + url);
-                if (project.master_url.equals(url)) {
+            for(Project project : attachedProjects) {
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG, project.master_url + " vs " + url);
+                }
+                if(project.master_url.equals(url)) {
                     return true;
                 }
             }
-        } catch (Exception e) {
-            if (Logging.ERROR)
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ClientInterfaceImplementation.checkProjectAttached() error: ", e);
+            }
         }
         return false;
     }
@@ -229,35 +257,46 @@ public class ClientInterfaceImplementation extends RpcClient {
     public AccountOut lookupCredentials(AccountIn credentials) {
         AccountOut auth = null;
         Boolean success = lookupAccount(credentials); //asynch
-        if (success) {
+        if(success) {
             // get authentication token from lookupAccountPoll
             Boolean loop = true;
-            while (loop) {
+            while(loop) {
                 loop = false;
                 try {
                     Thread.sleep(minRetryInterval);
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
                 auth = lookupAccountPoll();
-                if (auth == null) {
-                    if (Logging.ERROR)
+                if(auth == null) {
+                    if(Logging.ERROR) {
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: returned null.");
+                    }
                     return null;
                 }
-                if (auth.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if(auth.error_num == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
-                } else {
+                }
+                else {
                     //final result ready
-                    if (auth.error_num == 0) {
-                        if (Logging.DEBUG)
+                    if(auth.error_num == 0) {
+                        if(Logging.DEBUG) {
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: authenticator retrieved.");
-                    } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: final result with error_num: " + auth.error_num);
+                        }
+                    }
+                    else {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "ClientInterfaceImplementation.lookupCredentials: final result with error_num: " +
+                                  auth.error_num);
+                        }
                     }
                 }
             }
-        } else if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.lookupAccount failed.");
+        }
+        else if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "rpc.lookupAccount failed.");
+        }
         return auth;
     }
 
@@ -268,10 +307,12 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @param ccConfig string of all cc_config flags
      */
     public void setCcConfigAndActivate(String ccConfig) {
-        if (Logging.DEBUG)
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "Monitor.setCcConfig: current cc_config: " + getCcConfig());
-        if (Logging.DEBUG)
+        }
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "Monitor.setCcConfig: setting new cc_config: " + ccConfig);
+        }
         setCcConfig(ccConfig);
         readCcConfig();
     }
@@ -287,9 +328,11 @@ public class ClientInterfaceImplementation extends RpcClient {
 
     public Boolean transferOperation(ArrayList<Transfer> transfers, int operation) {
         Boolean success = true;
-        for (Transfer transfer : transfers) {
+        for(Transfer transfer : transfers) {
             success = success && transferOp(operation, transfer.project_url, transfer.name);
-            if (Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.name + " " + success);
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "transfer: " + transfer.name + " " + success);
+            }
         }
         return success;
     }
@@ -305,35 +348,46 @@ public class ClientInterfaceImplementation extends RpcClient {
         AccountOut auth = null;
 
         Boolean success = createAccount(information); //asynchronous call to attach project
-        if (success) {
+        if(success) {
             Boolean loop = true;
-            while (loop) {
+            while(loop) {
                 loop = false;
                 try {
                     Thread.sleep(minRetryInterval);
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
                 auth = createAccountPoll();
-                if (auth == null) {
-                    if (Logging.ERROR)
+                if(auth == null) {
+                    if(Logging.ERROR) {
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: returned null.");
+                    }
                     return null;
                 }
-                if (auth.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if(auth.error_num == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
-                } else {
+                }
+                else {
                     //final result ready
-                    if (auth.error_num == 0) {
-                        if (Logging.DEBUG)
+                    if(auth.error_num == 0) {
+                        if(Logging.DEBUG) {
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: authenticator retrieved.");
-                    } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: final result with error_num: " + auth.error_num);
+                        }
+                    }
+                    else {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "ClientInterfaceImplementation.createAccountPolling: final result with error_num: " +
+                                  auth.error_num);
+                        }
                     }
                 }
             }
-        } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.createAccount returned false.");
+        }
+        else {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "rpc.createAccount returned false.");
+            }
         }
         return auth;
     }
@@ -351,29 +405,37 @@ public class ClientInterfaceImplementation extends RpcClient {
     public AcctMgrRPCReply addAcctMgr(String url, String userName, String pwd) {
         AcctMgrRPCReply reply = null;
         Boolean success = acctMgrRPC(url, userName, pwd);
-        if (success) {
+        if(success) {
             Boolean loop = true;
-            while (loop) {
+            while(loop) {
                 reply = acctMgrRPCPoll();
-                if (reply == null || reply.error_num != BOINCErrors.ERR_IN_PROGRESS) {
+                if(reply == null || reply.error_num != BOINCErrors.ERR_IN_PROGRESS) {
                     loop = false;
                     //final result ready
-                    if (reply == null) {
-                        if (Logging.DEBUG)
+                    if(reply == null) {
+                        if(Logging.DEBUG) {
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: failed, reply null.");
-                    } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: returned " + reply.error_num);
+                        }
                     }
-                } else {
+                    else {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: returned " + reply.error_num);
+                        }
+                    }
+                }
+                else {
                     try {
                         Thread.sleep(minRetryInterval);
-                    } catch (Exception ignored) {
+                    }
+                    catch(Exception ignored) {
                     }
                 }
             }
-        } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
+        }
+        else {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
+            }
         }
         return reply;
     }
@@ -391,69 +453,91 @@ public class ClientInterfaceImplementation extends RpcClient {
         // 1st get_project_config for account manager url
         Boolean success = getProjectConfig(url);
         ProjectConfig reply;
-        if (success) {
+        if(success) {
             Boolean loop = true;
-            while (loop) {
+            while(loop) {
                 loop = false;
                 try {
                     Thread.sleep(minRetryInterval);
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
                 reply = getProjectConfigPoll();
-                if (reply == null) {
-                    if (Logging.ERROR)
+                if(reply == null) {
+                    if(Logging.ERROR) {
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: getProjectConfigreturned null.");
+                    }
                     return null;
                 }
-                if (reply.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if(reply.error_num == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
-                } else {
+                }
+                else {
                     //final result ready
-                    if (reply.error_num == 0) {
-                        if (Logging.DEBUG)
+                    if(reply.error_num == 0) {
+                        if(Logging.DEBUG) {
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: project config retrieved.");
-                    } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply.error_num);
+                        }
+                    }
+                    else {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " +
+                                  reply.error_num);
+                        }
                     }
                 }
             }
-        } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.getProjectConfig returned false.");
+        }
+        else {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "rpc.getProjectConfig returned false.");
+            }
         }
 
         // 2nd acct_mgr_rpc with <use_config_file/>
         AcctMgrRPCReply reply2;
         success = acctMgrRPC(); //asynchronous call to synchronize account manager
-        if (success) {
+        if(success) {
             Boolean loop = true;
-            while (loop) {
+            while(loop) {
                 loop = false;
                 try {
                     Thread.sleep(minRetryInterval);
-                } catch (Exception ignored) {
+                }
+                catch(Exception ignored) {
                 }
                 reply2 = acctMgrRPCPoll();
-                if (reply2 == null) {
-                    if (Logging.ERROR)
+                if(reply2 == null) {
+                    if(Logging.ERROR) {
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acctMgrRPCPoll returned null.");
+                    }
                     return null;
                 }
-                if (reply2.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if(reply2.error_num == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
-                } else {
+                }
+                else {
                     //final result ready
-                    if (reply2.error_num == 0) {
-                        if (Logging.DEBUG)
+                    if(reply2.error_num == 0) {
+                        if(Logging.DEBUG) {
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acct mngr reply retrieved.");
-                    } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply2.error_num);
+                        }
+                    }
+                    else {
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " +
+                                  reply2.error_num);
+                        }
                     }
                 }
             }
-        } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
+        }
+        else {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
+            }
         }
 
         return true;
@@ -479,30 +563,45 @@ public class ClientInterfaceImplementation extends RpcClient {
     public ArrayList<Message> getEventLogMessages(int seqNo, int number) {
         // determine oldest message seqNo for data retrieval
         int lowerBound;
-        if (seqNo > 0) lowerBound = seqNo - number - 2;
-        else
-            lowerBound = getMessageCount() - number - 1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
+        if(seqNo > 0) {
+            lowerBound = seqNo - number - 2;
+        }
+        else {
+            lowerBound = getMessageCount() - number -
+                         1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
+        }
 
         // less than desired number of messsages available, adapt lower bound
-        if (lowerBound < 0) lowerBound = 0;
+        if(lowerBound < 0) {
+            lowerBound = 0;
+        }
         ArrayList<Message> msgs = getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
-        if (msgs == null)
+        if(msgs == null) {
             msgs = new ArrayList<>(); // getMessages might return null in case of parsing or IO error
+        }
 
-        if (seqNo > 0) {
+        if(seqNo > 0) {
             // remove messages that are >= seqNo
             Iterator<Message> it = msgs.iterator();
-            while (it.hasNext()) {
+            while(it.hasNext()) {
                 Message tmp = it.next();
-                if (tmp.seqno >= seqNo) it.remove();
+                if(tmp.seqno >= seqNo) {
+                    it.remove();
+                }
             }
         }
 
-        if (!msgs.isEmpty())
-            if (Logging.DEBUG)
-                Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": " + msgs.get(msgs.size() - 1).seqno);
-            else if (Logging.DEBUG)
+        if(!msgs.isEmpty()) {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG,
+                      "getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " +
+                      lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": " +
+                      msgs.get(msgs.size() - 1).seqno);
+            }
+            else if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
+            }
+        }
         return msgs;
     }
 
@@ -515,56 +614,71 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @return list of attachable projects
      */
     public ArrayList<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG,
+                  "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
+        }
 
         ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
         ArrayList<Project> attachedProjects = getState().projects; // currently attached projects
 
         ArrayList<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
 
-        if (allProjectsList == null || attachedProjects == null) return null;
+        if(allProjectsList == null || attachedProjects == null) {
+            return null;
+        }
 
         //filter projects that do not support Android
-        for (ProjectInfo candidate : allProjectsList) {
+        for(ProjectInfo candidate : allProjectsList) {
             // check whether already attached
             Boolean alreadyAttached = false;
-            for (Project attachedProject : attachedProjects) {
-                if (attachedProject.master_url.equals(candidate.url)) {
+            for(Project attachedProject : attachedProjects) {
+                if(attachedProject.master_url.equals(candidate.url)) {
                     alreadyAttached = true;
                     break;
                 }
             }
-            if (alreadyAttached) continue;
+            if(alreadyAttached) {
+                continue;
+            }
 
             // project is not yet attached, check whether it supports CPU architecture
-            for (String supportedPlatform : candidate.platforms) {
-                if (supportedPlatform.contains(boincPlatformName) || supportedPlatform.contains(boincAltPlatformName)) {
+            for(String supportedPlatform : candidate.platforms) {
+                if(supportedPlatform.contains(boincPlatformName) || supportedPlatform.contains(boincAltPlatformName)) {
                     // project is not yet attached and does support platform
                     // add to list, if not already in it
-                    if (!attachableProjects.contains(candidate)) attachableProjects.add(candidate);
+                    if(!attachableProjects.contains(candidate)) {
+                        attachableProjects.add(candidate);
+                    }
                     break;
                 }
             }
         }
 
-        if (Logging.DEBUG)
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: " + attachableProjects.size());
+        }
         return attachableProjects;
     }
 
     public ProjectInfo getProjectInfo(String url) {
         ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
-        for (ProjectInfo tmp : allProjectsList) {
-            if (tmp.url.equals(url)) return tmp;
+        for(ProjectInfo tmp : allProjectsList) {
+            if(tmp.url.equals(url)) {
+                return tmp;
+            }
         }
-        if (Logging.ERROR) Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
+        if(Logging.ERROR) {
+            Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
+        }
         return null;
     }
 
     public boolean setDomainName(String deviceName) {
         boolean success = setDomainNameRpc(deviceName);
-        if (Logging.DEBUG) Log.d(Logging.TAG, "setDomainName: success " + success);
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "setDomainName: success " + success);
+        }
         return success;
     }
 }

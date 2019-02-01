@@ -49,7 +49,8 @@ public class EventLogClientFragment extends Fragment {
         View layout = inflater.inflate(R.layout.eventlog_client_layout, container, false);
 
         a.clientLogList = layout.findViewById(R.id.clientLogList);
-        a.clientLogListAdapter = new ClientLogListAdapter(getActivity(), a.clientLogList, R.id.clientLogList, a.clientLogData);
+        a.clientLogListAdapter =
+                new ClientLogListAdapter(getActivity(), a.clientLogList, R.id.clientLogList, a.clientLogData);
         a.clientLogList.setOnScrollListener(new EndlessScrollListener(5));
 
         return layout;
@@ -67,11 +68,14 @@ public class EventLogClientFragment extends Fragment {
     private void loadPastMsgs(List<edu.berkeley.boinc.rpc.Message> tmpA) {
         // Append old messages to the event log
         try {
-            for (int x = tmpA.size() - 1; x >= 0; x--) {
+            for(int x = tmpA.size() - 1; x >= 0; x--) {
                 a.clientLogData.add(tmpA.get(x));
             }
-        } catch (Exception e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "EventLogClientFragment.loadPastMsgs error: ", e);
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "EventLogClientFragment.loadPastMsgs error: ", e);
+            }
         } //IndexOutOfBoundException
 
         a.clientLogListAdapter.notifyDataSetChanged();
@@ -82,13 +86,15 @@ public class EventLogClientFragment extends Fragment {
         // Prepend new messages to the event log
         try {
             int y = 0;
-            for (int x = tmpA.size() - 1; x >= 0; x--) {
+            for(int x = tmpA.size() - 1; x >= 0; x--) {
                 a.clientLogData.add(y, tmpA.get(x));
                 y++;
             }
-        } catch (Exception e) {
-            if (Logging.ERROR)
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "EventLogClientFragment.loadRecentMsgs error: ", e);
+            }
         } //IndexOutOfBoundException
         a.clientLogListAdapter.notifyDataSetChanged();
     }
@@ -106,13 +112,13 @@ public class EventLogClientFragment extends Fragment {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (loading) {
-                if (totalItemCount > previousTotal) {
+            if(loading) {
+                if(totalItemCount > previousTotal) {
                     loading = false;
                     previousTotal = totalItemCount;
                 }
             }
-            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+            if(!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 new RetrievePastClientMsgs().execute();
                 loading = true;
             }
@@ -129,14 +135,17 @@ public class EventLogClientFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            if (!a.clientLogData.isEmpty()) mostRecentSeqNo = a.clientLogData.get(0).seqno;
+            if(!a.clientLogData.isEmpty()) {
+                mostRecentSeqNo = a.clientLogData.get(0).seqno;
+            }
         }
 
         @Override
         protected ArrayList<edu.berkeley.boinc.rpc.Message> doInBackground(Void... params) {
             try {
                 return (ArrayList<edu.berkeley.boinc.rpc.Message>) ((EventLogActivity) getActivity()).getMonitorService().getMessages(mostRecentSeqNo);
-            } catch (RemoteException e) {
+            }
+            catch(RemoteException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return new ArrayList<>();
@@ -158,11 +167,12 @@ public class EventLogClientFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            if (!a.clientLogData.isEmpty()) {
+            if(!a.clientLogData.isEmpty()) {
                 pastSeqNo = a.clientLogData.get(a.clientLogData.size() - 1).seqno;
-                if (pastSeqNo == 0) {
-                    if (Logging.DEBUG)
+                if(pastSeqNo == 0) {
+                    if(Logging.DEBUG) {
                         Log.d("RetrievePastMsgs", "cancel, oldest messages already loaded");
+                    }
                     cancel(true); // cancel if all past messages are present
                 }
             }
@@ -170,11 +180,13 @@ public class EventLogClientFragment extends Fragment {
 
         @Override
         protected List<Message> doInBackground(Void... params) {
-            if (Logging.DEBUG)
+            if(Logging.DEBUG) {
                 Log.d("RetrievePastMsgs", "calling monitor with: " + pastSeqNo + " / " + pastMsgsLoadingRange);
+            }
             try {
                 return ((EventLogActivity) getActivity()).getMonitorService().getEventLogMessages(pastSeqNo, pastMsgsLoadingRange);
-            } catch (RemoteException e) {
+            }
+            catch(RemoteException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return new ArrayList<>();

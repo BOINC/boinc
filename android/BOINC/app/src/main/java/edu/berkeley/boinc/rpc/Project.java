@@ -92,10 +92,10 @@ public class Project implements Parcelable {
     public boolean trickle_up_pending = false;
 
     //	/** When the last project file download was finished
-//	 *  (i.e. the time when ALL project files were finished downloading). */
+    //	 *  (i.e. the time when ALL project files were finished downloading). */
     public double project_files_downloaded_time = 0;
     //
-//	/** when the last successful scheduler RPC finished */
+    //	/** when the last successful scheduler RPC finished */
     public double last_rpc_time = 0;
 
     public boolean no_cpu_pref = false;
@@ -108,7 +108,7 @@ public class Project implements Parcelable {
 
     public boolean compare(Project proj) {
         //Test that master_url's match...
-        if (!this.master_url.equalsIgnoreCase(proj.master_url)) {
+        if(!this.master_url.equalsIgnoreCase(proj.master_url)) {
             return false;
         }
 

@@ -137,7 +137,7 @@
     <string name="status_paused">Pausad</string>
     <string name="status_idle">Inget att göra</string>
     <string name="status_idle_long">Väntar på uppgifter...</string>
-    <string name="status_computing_disabled">Pausad </string>
+    <string name="status_computing_disabled">Pausad</string>
     <string name="status_computing_disabled_long">Klicka \"play\" för att återuppta nätverkstrafik och beräkning.</string>
     <string name="status_launching">Startar...</string>
     <string name="status_noproject">Välj ett projekt att delta i.</string>

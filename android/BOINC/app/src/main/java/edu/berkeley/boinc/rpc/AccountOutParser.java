@@ -38,17 +38,20 @@ public class AccountOutParser extends BaseParser {
         try {
             String outResult;
             int xmlHeaderStart = rpcResult.indexOf("<?xml");
-            if (xmlHeaderStart != -1) {
+            if(xmlHeaderStart != -1) {
                 int xmlHeaderEnd = rpcResult.indexOf("?>");
                 outResult = rpcResult.substring(0, xmlHeaderStart);
                 outResult += rpcResult.substring(xmlHeaderEnd + 2);
-            } else
+            }
+            else {
                 outResult = rpcResult;
+            }
 
             AccountOutParser parser = new AccountOutParser();
             Xml.parse(outResult, parser);
             return parser.getAccountOut();
-        } catch (SAXException e) {
+        }
+        catch(SAXException e) {
             return null;
         }
     }
@@ -56,12 +59,14 @@ public class AccountOutParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("error_num") ||
-                localName.equalsIgnoreCase("error_msg") ||
-                localName.equalsIgnoreCase("authenticator")) {
-            if (mAccountOut == null)
+        if(localName.equalsIgnoreCase("error_num") ||
+           localName.equalsIgnoreCase("error_msg") ||
+           localName.equalsIgnoreCase("authenticator")) {
+            if(mAccountOut == null) {
                 mAccountOut = new AccountOut();
-        } else {
+            }
+        }
+        else {
             mElementStarted = true;
             mCurrentElement.setLength(0);
         }
@@ -71,18 +76,23 @@ public class AccountOutParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if (mAccountOut != null) {
+            if(mAccountOut != null) {
                 trimEnd();
-                if (localName.equalsIgnoreCase("error_num")) {
+                if(localName.equalsIgnoreCase("error_num")) {
                     mAccountOut.error_num = Integer.parseInt(mCurrentElement.toString());
-                } else if (localName.equalsIgnoreCase("error_msg")) {
+                }
+                else if(localName.equalsIgnoreCase("error_msg")) {
                     mAccountOut.error_msg = mCurrentElement.toString();
-                } else if (localName.equalsIgnoreCase("authenticator")) {
+                }
+                else if(localName.equalsIgnoreCase("authenticator")) {
                     mAccountOut.authenticator = mCurrentElement.toString();
                 }
             }
-        } catch (NumberFormatException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "AccountOutParser.endElement error: ", e);
+        }
+        catch(NumberFormatException e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "AccountOutParser.endElement error: ", e);
+            }
         }
         mElementStarted = false;
     }

@@ -37,7 +37,8 @@ public class DeviceStatus {
 
     // additional device status
     private boolean stationaryDeviceMode = false; // true, if operating in stationary device mode
-    private boolean stationaryDeviceSuspected = false; // true, if API returns no battery. offer preference to go into stationary device mode
+    private boolean stationaryDeviceSuspected = false;
+            // true, if API returns no battery. offer preference to go into stationary device mode
     private boolean screenOn = true;
 
     // android specifics
@@ -68,20 +69,26 @@ public class DeviceStatus {
      * @throws Exception if error occurs
      */
     public DeviceStatusData update(Boolean screenOn) throws Exception {
-        if (ctx == null) throw new Exception("DeviceStatus: can not update, Context not set.");
+        if(ctx == null) {
+            throw new Exception("DeviceStatus: can not update, Context not set.");
+        }
         this.screenOn = screenOn;
 
         Boolean change = determineBatteryStatus();
         change = change | determineNetworkStatus();
         change = change | determineUserActive();
 
-        if (change) if (Logging.DEBUG) Log.i(Logging.TAG, "change: " + change +
-                " - stationary device: " + stationaryDeviceMode +
-                " ; ac: " + status.on_ac_power +
-                " ; level: " + status.battery_charge_pct +
-                " ; temperature: " + status.battery_temperature_celsius +
-                " ; wifi: " + status.wifi_online +
-                " ; user active: " + status.user_active);
+        if(change) {
+            if(Logging.DEBUG) {
+                Log.i(Logging.TAG, "change: " + change +
+                                   " - stationary device: " + stationaryDeviceMode +
+                                   " ; ac: " + status.on_ac_power +
+                                   " ; level: " + status.battery_charge_pct +
+                                   " ; temperature: " + status.battery_temperature_celsius +
+                                   " ; wifi: " + status.wifi_online +
+                                   " ; user active: " + status.user_active);
+            }
+        }
 
         return status;
     }
@@ -120,13 +127,14 @@ public class DeviceStatus {
         Boolean newUserActive = status.user_active;
         int telStatus = telManager.getCallState();
 
-        if (telStatus != TelephonyManager.CALL_STATE_IDLE) {
+        if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
             newUserActive = true;
-        } else {
+        }
+        else {
             newUserActive = (screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode());
         }
 
-        if (status.user_active != newUserActive) {
+        if(status.user_active != newUserActive) {
             status.user_active = newUserActive;
             return true;
         }
@@ -144,18 +152,24 @@ public class DeviceStatus {
         Boolean change = false;
         NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
         int networkType = -1;
-        if (activeNetwork != null) networkType = activeNetwork.getType();
-        if (networkType == ConnectivityManager.TYPE_WIFI || networkType == 9) { // 9 = ConnectivityManager.TYPE_ETHERNET
+        if(activeNetwork != null) {
+            networkType = activeNetwork.getType();
+        }
+        if(networkType == ConnectivityManager.TYPE_WIFI || networkType == 9) { // 9 = ConnectivityManager.TYPE_ETHERNET
             //wifi or ethernet is online
-            if (!status.wifi_online) {
+            if(!status.wifi_online) {
                 change = true; // if different from before, set flag
-                if (Logging.ERROR)
+                if(Logging.ERROR) {
                     Log.d(Logging.TAG, "Unlmited internet connection - wifi or ethernet - found. type: " + networkType);
+                }
             }
             status.wifi_online = true;
-        } else {
+        }
+        else {
             //wifi and ethernet are offline
-            if (status.wifi_online) change = true; // if different from before, set flag
+            if(status.wifi_online) {
+                change = true; // if different from before, set flag
+            }
             status.wifi_online = false;
         }
         return change;
@@ -171,42 +185,53 @@ public class DeviceStatus {
         // check battery
         Boolean change = false;
         batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        if (batteryStatus != null) {
-            stationaryDeviceSuspected = !batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true); // if no battery present, suspect stationary device
-            if (appPrefs.getStationaryDeviceMode() && stationaryDeviceSuspected) {
+        if(batteryStatus != null) {
+            stationaryDeviceSuspected =
+                    !batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true); // if no battery present, suspect stationary device
+            if(appPrefs.getStationaryDeviceMode() && stationaryDeviceSuspected) {
                 // API says no battery present (not reliable, e.g. Galaxy Nexus)
                 // AND stationary device mode is enabled in preferences
 
-                if (!stationaryDeviceMode) { // should not change during run-time. just triggered on initial read
+                if(!stationaryDeviceMode) { // should not change during run-time. just triggered on initial read
                     change = true;
-                    if (Logging.ERROR)
+                    if(Logging.ERROR) {
                         Log.d(Logging.TAG, "No battery found and stationary device mode enabled in preferences -> skip battery status parsing");
+                    }
                 }
                 stationaryDeviceMode = true;
                 setAttributesForStationaryDevice();
-            } else {
+            }
+            else {
                 // battery present OR stationary device mode not enabled
                 // parse and report actual values to client
 
-                if (stationaryDeviceMode) change = true;
+                if(stationaryDeviceMode) {
+                    change = true;
+                }
                 stationaryDeviceMode = false;
 
                 // calculate charging level
                 int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
                 int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-                if (level == -1 || scale == -1) throw new Exception("battery level parsing error");
-                int batteryPct = (int) ((level / (float) scale) * 100); // always rounds down
-                if (batteryPct < 0 || batteryPct > 100)
+                if(level == -1 || scale == -1) {
                     throw new Exception("battery level parsing error");
-                if (batteryPct != status.battery_charge_pct) {
+                }
+                int batteryPct = (int) ((level / (float) scale) * 100); // always rounds down
+                if(batteryPct < 0 || batteryPct > 100) {
+                    throw new Exception("battery level parsing error");
+                }
+                if(batteryPct != status.battery_charge_pct) {
                     status.battery_charge_pct = batteryPct;
                     change = true;
                 }
 
                 // temperature
-                int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10; // always rounds down
-                if (temperature < 0) throw new Exception("temperature parsing error");
-                if (temperature != status.battery_temperature_celsius) {
+                int temperature =
+                        batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10; // always rounds down
+                if(temperature < 0) {
+                    throw new Exception("temperature parsing error");
+                }
+                if(temperature != status.battery_temperature_celsius) {
                     status.battery_temperature_celsius = temperature;
                     change = true;
                 }
@@ -217,7 +242,10 @@ public class DeviceStatus {
                 int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
                 change = change | setAttributesForChargerType(plugged);
             }
-        } else throw new Exception("battery intent null");
+        }
+        else {
+            throw new Exception("battery intent null");
+        }
         return change;
     }
 
@@ -246,7 +274,7 @@ public class DeviceStatus {
         Boolean change = false;
         Boolean enabled = false;
 
-        switch (chargerType) {
+        switch(chargerType) {
             case BatteryManager.BATTERY_PLUGGED_AC:
                 enabled = appPrefs.getPowerSourceAc();
                 break;
@@ -258,11 +286,16 @@ public class DeviceStatus {
                 break;
         }
 
-        if (enabled) {
-            if (!status.on_ac_power) change = true; // if different from before, set flag
+        if(enabled) {
+            if(!status.on_ac_power) {
+                change = true; // if different from before, set flag
+            }
             status.on_ac_power = true;
-        } else {
-            if (status.on_ac_power) change = true;
+        }
+        else {
+            if(status.on_ac_power) {
+                change = true;
+            }
             status.on_ac_power = false;
         }
 

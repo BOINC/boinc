@@ -42,7 +42,7 @@
     <string name="attachproject_hint_projectwebsite_science">Bilim hakkında daha fazlasını öğren</string>
     <string name="attachproject_hint_projectwebsite_stats">Katkı istatistiklerini gör</string>
     <string name="attachproject_hint_projectwebsite_community">Diğer gönüllülerle bağlantıya geç</string>
-    <string name="attachproject_hint_platforms_header">BOINC bilgisayarınız  için kullanılabilir, daha fazla bilgi için boinc.berkeley.edu adresini ziyaret edin.</string>
+    <string name="attachproject_hint_platforms_header">BOINC bilgisayarınız için kullanılabilir, daha fazla bilgi için boinc.berkeley.edu adresini ziyaret edin.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Proje sunucusuna bağlanılıyor...</string>
     <string name="attachproject_login_image_description">Proje logosu.</string>
@@ -54,7 +54,7 @@
     <string name="attachproject_login_header_platform">Android:</string>
     <string name="attachproject_login_platform_supported">Bu proje Android cihazlarını destekliyor</string>
     <string name="attachproject_login_platform_not_supported">Bu proje Android cihazlarını desteklemiyor</string>
-    <string name="attachproject_login_category_terms_of_use">Kural ve politikalar: </string>
+    <string name="attachproject_login_category_terms_of_use">Kural ve politikalar:</string>
     <string name="attachproject_login_accept_terms_of_use">Bu projede bir hesap oluşturmakla, aşağıdaki kural ve politikaları kabul etmiş oluyorsunuz.</string>
     <string name="attachproject_login_category_login">Mevcut hesap ile oturum aç</string>
     <string name="attachproject_login_header_id_email">ePosta:</string>
@@ -70,7 +70,7 @@
     <string name="attachproject_login_error_toast">Projeyle bağlantı kurulamadı!</string>
     <string name="attachproject_login_attached">Eklendi</string>
     <!--project registration-->
-    <string name="attachproject_registration_header">Hesaba kaydolma: </string>
+    <string name="attachproject_registration_header">Hesaba kaydolma:</string>
     <string name="attachproject_registration_header_url">Proje:</string>
     <string name="attachproject_registration_header_email">ePosta:</string>
     <string name="attachproject_registration_header_username">İsim:</string>
@@ -226,7 +226,7 @@
     <!--project confirm dialog-->
     <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
     <string name="projects_confirm_detach_message">Kaldırmak istediğinizden emin misiniz?</string>
-    <string name="projects_confirm_detach_message2">BOINC\'ten? </string>
+    <string name="projects_confirm_detach_message2">BOINC\'ten?</string>
     <string name="projects_confirm_detach_confirm">Kaldır</string>
     <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
     <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>
@@ -267,7 +267,7 @@
     <string name="trans_loading">Aktarımlar okunuyor...</string>
     <string name="trans_upload">Yükleme</string>
     <string name="trans_download">İndirme</string>
-    <string name="trans_retryin">yeniden denenecek </string>
+    <string name="trans_retryin">yeniden denenecek</string>
     <string name="trans_failed">başarısız</string>
     <string name="trans_suspended">durakladı</string>
     <string name="trans_active">sürüyor</string>
@@ -335,7 +335,7 @@
     <string name="about_version">Sürüm</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
-    <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM  ve HTC şirketlerine teşekkürler.</string>
+    <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM ve HTC şirketlerine teşekkürler.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Yeni bildirim - %1$s</item>

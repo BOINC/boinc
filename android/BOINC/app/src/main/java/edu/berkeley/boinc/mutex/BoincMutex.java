@@ -45,12 +45,17 @@ public class BoincMutex {
      * @return mutex acquisition successful
      */
     public boolean acquire() {
-        if (socket.isBound()) return true;
+        if(socket.isBound()) {
+            return true;
+        }
         try {
             socket.bind(new LocalSocketAddress(boincMutex));
             acquired = true;
-        } catch (IOException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "BoincMutex.acquire error: ", e);
+        }
+        catch(IOException e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "BoincMutex.acquire error: ", e);
+            }
         }
         return socket.isBound();
     }
@@ -59,12 +64,15 @@ public class BoincMutex {
      * Releases BOINC mutex. Re-acquire mutex before resuming computation.
      */
     public void release() {
-        if (socket.isBound()) {
+        if(socket.isBound()) {
             try {
                 socket.close();
                 acquired = false;
-            } catch (IOException e) {
-                if (Logging.ERROR) Log.e(Logging.TAG, "BoincMutex.release error: ", e);
+            }
+            catch(IOException e) {
+                if(Logging.ERROR) {
+                    Log.e(Logging.TAG, "BoincMutex.release error: ", e);
+                }
             }
         }
     }

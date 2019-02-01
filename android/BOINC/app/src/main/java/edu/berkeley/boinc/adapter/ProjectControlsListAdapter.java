@@ -66,12 +66,13 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ProjectControl data = entries.get(position);
 
-        View vi = ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_controls_listitem_layout, null);
+        View vi =
+                ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_controls_listitem_layout, null);
 
         TextView tvText = vi.findViewById(R.id.text);
         String text = "";
 
-        switch (data.operation) {
+        switch(data.operation) {
             case RpcClient.PROJECT_UPDATE:
                 text = activity.getResources().getString(R.string.projects_control_update);
                 break;

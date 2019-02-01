@@ -72,7 +72,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
         View v = convertView;
         SelectionDialogOption listItem = entries.get(position);
 
-        if (v == null) {
+        if(v == null) {
             LayoutInflater li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
             CheckBox cb = v.findViewById(R.id.checkbox);
@@ -84,7 +84,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
             wrapper.setClickable(true);
             wrapper.setOnClickListener(this);
             wrapper.setTag(position);
-            if (getItem(position).highlighted) {
+            if(getItem(position).highlighted) {
                 v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
                 //v.setBackgroundDrawable(activity.getResources().getDrawable());
                 //cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));

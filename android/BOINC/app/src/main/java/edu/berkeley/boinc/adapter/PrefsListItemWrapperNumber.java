@@ -46,7 +46,7 @@ public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
     }
 
     private void mapStrings(Integer id) {
-        switch (id) {
+        switch(id) {
             case R.string.battery_charge_min_pct_header:
                 description = ctx.getString(R.string.battery_charge_min_pct_description);
                 this.unit = PrefsListItemWrapperNumber.Unit.PERCENT;
@@ -100,7 +100,9 @@ public class PrefsListItemWrapperNumber extends PrefsListItemWrapper {
                 this.unit = PrefsListItemWrapperNumber.Unit.NONE;
                 break;
             default:
-                if (Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperNumber map failed!");
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG, "PrefsListItemWrapperNumber map failed!");
+                }
         }
     }
 }

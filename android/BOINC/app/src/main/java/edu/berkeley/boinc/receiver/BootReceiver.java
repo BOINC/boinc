@@ -36,14 +36,18 @@ public class BootReceiver extends BroadcastReceiver {
         AppPreferences prefs = new AppPreferences();
         prefs.readPrefs(context);
 
-        if (prefs.getAutostart()) {
-            if (Logging.DEBUG)
+        if(prefs.getAutostart()) {
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...");
+            }
             Intent startServiceIntent = new Intent(context, Monitor.class);
             context.startService(startServiceIntent);
-        } else {
+        }
+        else {
             // do nothing
-            if (Logging.DEBUG) Log.d(Logging.TAG, "BootReceiver autostart disabeld - do nothing");
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "BootReceiver autostart disabeld - do nothing");
+            }
         }
 
     }

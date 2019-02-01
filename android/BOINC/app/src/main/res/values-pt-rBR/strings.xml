@@ -60,7 +60,7 @@
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Nome:</string>
     <string name="attachproject_login_header_pwd">Senha:</string>
-    <string name="attachproject_login_category_creation">Novo para </string>
+    <string name="attachproject_login_category_creation">Novo para</string>
     <string name="attachproject_login_header_creation_enabled">Registre uma conta para participar:</string>
     <string name="attachproject_login_header_creation_client_disabled">Visite o site do projeto para criar uma conta:</string>
     <string name="attachproject_login_header_creation_disabled">Este projeto atualmente não está aceitando novas contas.</string>
@@ -70,7 +70,7 @@
     <string name="attachproject_login_error_toast">Falha no contato com projeto!</string>
     <string name="attachproject_login_attached">Anexado</string>
     <!--project registration-->
-    <string name="attachproject_registration_header">Registro de conta para </string>
+    <string name="attachproject_registration_header">Registro de conta para</string>
     <string name="attachproject_registration_header_url">Projeto:</string>
     <string name="attachproject_registration_header_email">eMail:</string>
     <string name="attachproject_registration_header_username">Nome:</string>

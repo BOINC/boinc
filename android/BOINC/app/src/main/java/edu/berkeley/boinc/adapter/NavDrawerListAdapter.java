@@ -78,20 +78,26 @@ public class NavDrawerListAdapter extends BaseAdapter {
     }
 
     public NavDrawerItem getItemForId(int id) {
-        for (NavDrawerItem item : navDrawerItems) {
-            if (item.id == id) return item;
+        for(NavDrawerItem item : navDrawerItems) {
+            if(item.id == id) {
+                return item;
+            }
         }
         return null;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (Logging.VERBOSE)
-            Log.d(Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems.get(position).title + navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem + navDrawerItems.get(position).isProjectItem);
-        if (convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
+        if(Logging.VERBOSE) {
+            Log.d(Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems.get(position).title +
+                               navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem +
+                               navDrawerItems.get(position).isProjectItem);
+        }
+        if(convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
             int layoutId = R.layout.navlist_listitem;
-            if (navDrawerItems.get(position).isSubItem())
+            if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
+            }
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(layoutId, null);
         }
@@ -101,47 +107,63 @@ public class NavDrawerListAdapter extends BaseAdapter {
         TextView txtTitle = convertView.findViewById(R.id.title);
         TextView txtCount = convertView.findViewById(R.id.counter);
 
-        if (navDrawerItems.get(position).isProjectItem) {
+        if(navDrawerItems.get(position).isProjectItem) {
             Bitmap icon = navDrawerItems.get(position).getProjectIcon();
-            if (icon == null) navDrawerItems.get(position).updateProjectIcon();
-            if (icon != null) imgIcon.setImageBitmap(icon);
-        } else imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
+            if(icon == null) {
+                navDrawerItems.get(position).updateProjectIcon();
+            }
+            if(icon != null) {
+                imgIcon.setImageBitmap(icon);
+            }
+        }
+        else {
+            imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
+        }
         txtTitle.setText(navDrawerItems.get(position).getTitle());
 
         // displaying count
         // check whether it set visible or not
-        if (navDrawerItems.get(position).getCounterVisibility()) {
+        if(navDrawerItems.get(position).getCounterVisibility()) {
             Integer counter = 0;
-            switch (navDrawerItems.get(position).id) {
+            switch(navDrawerItems.get(position).id) {
                 case R.string.tab_tasks:
                     try {
                         counter = BOINCActivity.monitor.getTasks().size();
-                    } catch (Exception e) {
-                        if (Logging.ERROR)
+                    }
+                    catch(Exception e) {
+                        if(Logging.ERROR) {
                             Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e);
+                        }
                     }
                     break;
                 case R.string.tab_notices:
                     try {
                         counter = BOINCActivity.monitor.getRssNotices().size();
-                    } catch (Exception e) {
-                        if (Logging.ERROR)
+                    }
+                    catch(Exception e) {
+                        if(Logging.ERROR) {
                             Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e);
+                        }
                     }
                     break;
             }
             txtCount.setText(NumberFormat.getIntegerInstance().format(counter));
-        } else {
+        }
+        else {
             // hide the counter view
             txtCount.setVisibility(View.GONE);
         }
 
         // highligt entry of currently activated item
-        if (navDrawerItems.get(position).id == selectedMenuId) {
-            if (Logging.DEBUG)
+        if(navDrawerItems.get(position).id == selectedMenuId) {
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "NavDrawerListAdapter.getView() highlighted! ID : " + selectedMenuId);
+            }
             wrapper.setBackgroundResource(R.drawable.navlist_selector_pressed);
-        } else wrapper.setBackgroundResource(R.drawable.navlist_selector);
+        }
+        else {
+            wrapper.setBackgroundResource(R.drawable.navlist_selector);
+        }
 
         convertView.setTag(navDrawerItems.get(position).title);
         return convertView;
@@ -151,9 +173,11 @@ public class NavDrawerListAdapter extends BaseAdapter {
         Bitmap bm = null;
         try {
             bm = BOINCActivity.monitor.getProjectIcon(masterUrl);
-        } catch (Exception e) {
-            if (Logging.ERROR)
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
                 Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectIconForMasterUrl error: ", e);
+            }
         }
         return bm;
     }
@@ -167,21 +191,25 @@ public class NavDrawerListAdapter extends BaseAdapter {
     public Integer compareAndAddProjects(ArrayList<Project> projects) {
         // delete all old projects from nav items
         Iterator<NavDrawerItem> it = navDrawerItems.iterator();
-        while (it.hasNext()) {
+        while(it.hasNext()) {
             NavDrawerItem item = it.next();
-            if (item.isProjectItem) it.remove();
+            if(item.isProjectItem) {
+                it.remove();
+            }
         }
 
         Integer numberAdded = 0;
 
-        for (Project project : projects) {
-            NavDrawerItem newProjectItem = new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
+        for(Project project : projects) {
+            NavDrawerItem newProjectItem =
+                    new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
             navDrawerItems.add(3, newProjectItem);
             numberAdded++;
         }
 
-        if (Logging.DEBUG)
+        if(Logging.DEBUG) {
             Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
+        }
         this.notifyDataSetChanged();
         return numberAdded;
     }
@@ -230,8 +258,9 @@ public class NavDrawerListAdapter extends BaseAdapter {
             this.projectMasterUrl = masterUrl;
             this.isProjectItem = true;
             this.isSubItem = true;
-            if (Logging.DEBUG)
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "NavDrawerItem: created hash code " + id + " for project " + name);
+            }
         }
 
         /**

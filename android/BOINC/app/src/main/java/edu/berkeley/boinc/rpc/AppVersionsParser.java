@@ -53,7 +53,8 @@ public class AppVersionsParser extends DefaultHandler {
             AppVersionsParser parser = new AppVersionsParser();
             Xml.parse(rpcResult, parser);
             return parser.getAppVersions();
-        } catch (SAXException e) {
+        }
+        catch(SAXException e) {
             return null;
         }
     }
@@ -61,7 +62,7 @@ public class AppVersionsParser extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (localName.equalsIgnoreCase("app_version")) {
+        if(localName.equalsIgnoreCase("app_version")) {
             mAppVersion = new AppVersion();
         }
     }
@@ -72,10 +73,10 @@ public class AppVersionsParser extends DefaultHandler {
         // put it into StringBuilder
         int myStart = start;
         int myLength = length;
-        if (mCurrentElement.length() == 0) {
+        if(mCurrentElement.length() == 0) {
             // still empty - trim leading white-spaces
-            for (; myStart < length; ++myStart, --myLength) {
-                if (!Character.isWhitespace(ch[myStart])) {
+            for(; myStart < length; ++myStart, --myLength) {
+                if(!Character.isWhitespace(ch[myStart])) {
                     // First non-white-space character
                     break;
                 }
@@ -89,26 +90,31 @@ public class AppVersionsParser extends DefaultHandler {
         super.endElement(uri, localName, qName);
         try {
             trimEnd();
-            if (mAppVersion != null) {
+            if(mAppVersion != null) {
                 // We are inside <app_version>
-                if (localName.equalsIgnoreCase("app_version")) {
+                if(localName.equalsIgnoreCase("app_version")) {
                     // Closing tag of <app_version> - add to vector and be ready for next one
-                    if (!mAppVersion.app_name.equals("")) {
+                    if(!mAppVersion.app_name.equals("")) {
                         // app_name is a must
                         mAppVersions.add(mAppVersion);
                     }
                     mAppVersion = null;
-                } else {
+                }
+                else {
                     // Not the closing tag - we decode possible inner tags
-                    if (localName.equalsIgnoreCase("app_name")) {
+                    if(localName.equalsIgnoreCase("app_name")) {
                         mAppVersion.app_name = mCurrentElement.toString();
-                    } else if (localName.equalsIgnoreCase("version_num")) {
+                    }
+                    else if(localName.equalsIgnoreCase("version_num")) {
                         mAppVersion.version_num = Integer.parseInt(mCurrentElement.toString());
                     }
                 }
             }
-        } catch (NumberFormatException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "AppVersionsParser.endElement error: ", e);
+        }
+        catch(NumberFormatException e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "AppVersionsParser.endElement error: ", e);
+            }
         }
         mCurrentElement.setLength(0); // to be clean for next one
     }
@@ -117,8 +123,8 @@ public class AppVersionsParser extends DefaultHandler {
         int length = mCurrentElement.length();
         int i;
         // Trim trailing spaces
-        for (i = length - 1; i >= 0; --i) {
-            if (!Character.isWhitespace(mCurrentElement.charAt(i))) {
+        for(i = length - 1; i >= 0; --i) {
+            if(!Character.isWhitespace(mCurrentElement.charAt(i))) {
                 // All trailing white-spaces are skipped, i is position of last character
                 break;
             }

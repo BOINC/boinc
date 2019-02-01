@@ -63,9 +63,10 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         ImageView ivIcon = v.findViewById(R.id.projectIcon);
         Bitmap icon = getIcon(position);
         // if available set icon, if not boinc logo
-        if (icon == null) {
+        if(icon == null) {
             ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
-        } else {
+        }
+        else {
             ivIcon.setImageBitmap(icon);
         }
 
@@ -79,14 +80,17 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         tvNoticeContent.setText(Html.fromHtml(listItem.description));
 
         TextView tvNoticeTime = v.findViewById(R.id.noticeTime);
-        tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date((long) listItem.create_time * 1000)));
+        tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(
+                (long) listItem.create_time * 1000)));
 
         v.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Logging.DEBUG) Log.d(Logging.TAG, "noticeClick: " + listItem.link);
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG, "noticeClick: " + listItem.link);
+                }
 
-                if (listItem.link != null && !listItem.link.isEmpty()) {
+                if(listItem.link != null && !listItem.link.isEmpty()) {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(listItem.link));
                     activity.startActivity(i);
                 }
@@ -103,9 +107,11 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         try {
             //status  = Monitor.getClientStatus();
             return BOINCActivity.monitor.getProjectIconByName(entries.get(position).project_name);
-        } catch (Exception e) {
-            if (Logging.WARNING)
+        }
+        catch(Exception e) {
+            if(Logging.WARNING) {
                 Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.");
+            }
             return null;
         }
         //return status.getProjectIconByName(entries.get(position).project_name);

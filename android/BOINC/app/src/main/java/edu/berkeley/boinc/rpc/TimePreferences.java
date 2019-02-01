@@ -91,47 +91,61 @@ public class TimePreferences implements Parcelable {
         double[] dArray = in.createDoubleArray();
         start_hour = dArray[0];
         end_hour = dArray[1];
-        if (dArray[2] != Double.NEGATIVE_INFINITY) {
+        if(dArray[2] != Double.NEGATIVE_INFINITY) {
             week_prefs[0].start_hour = dArray[2];
             week_prefs[0].end_hour = dArray[3];
-        } else
+        }
+        else {
             week_prefs[0] = null;
+        }
 
-        if (dArray[4] != Double.NEGATIVE_INFINITY) {
+        if(dArray[4] != Double.NEGATIVE_INFINITY) {
             week_prefs[1].start_hour = dArray[4];
             week_prefs[1].end_hour = dArray[5];
-        } else
+        }
+        else {
             week_prefs[1] = null;
+        }
 
-        if (dArray[6] != Double.NEGATIVE_INFINITY) {
+        if(dArray[6] != Double.NEGATIVE_INFINITY) {
             week_prefs[2].start_hour = dArray[6];
             week_prefs[2].end_hour = dArray[7];
-        } else
+        }
+        else {
             week_prefs[2] = null;
+        }
 
-        if (dArray[8] != Double.NEGATIVE_INFINITY) {
+        if(dArray[8] != Double.NEGATIVE_INFINITY) {
             week_prefs[3].start_hour = dArray[8];
             week_prefs[3].end_hour = dArray[9];
-        } else
+        }
+        else {
             week_prefs[3] = null;
+        }
 
-        if (dArray[10] != Double.NEGATIVE_INFINITY) {
+        if(dArray[10] != Double.NEGATIVE_INFINITY) {
             week_prefs[4].start_hour = dArray[10];
             week_prefs[4].end_hour = dArray[11];
-        } else
+        }
+        else {
             week_prefs[4] = null;
+        }
 
-        if (dArray[12] != Double.NEGATIVE_INFINITY) {
+        if(dArray[12] != Double.NEGATIVE_INFINITY) {
             week_prefs[5].start_hour = dArray[12];
             week_prefs[5].end_hour = dArray[13];
-        } else
+        }
+        else {
             week_prefs[5] = null;
+        }
 
-        if (dArray[14] != Double.NEGATIVE_INFINITY) {
+        if(dArray[14] != Double.NEGATIVE_INFINITY) {
             week_prefs[6].start_hour = dArray[14];
             week_prefs[6].end_hour = dArray[15];
-        } else
+        }
+        else {
             week_prefs[6] = null;
+        }
     }
 
     public static final Parcelable.Creator<TimePreferences> CREATOR = new Parcelable.Creator<TimePreferences>() {

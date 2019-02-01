@@ -44,9 +44,11 @@ public class HintFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "HintFragment onCreateView for hint type: " + type);
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "HintFragment onCreateView for hint type: " + type);
+        }
         View v = null;
-        switch (type) {
+        switch(type) {
             case HINT_TYPE_CONTRIBUTION:
                 v = inflater.inflate(R.layout.attach_project_hint_contribution_layout, container, false);
                 break;
