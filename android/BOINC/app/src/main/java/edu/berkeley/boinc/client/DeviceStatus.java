@@ -36,17 +36,23 @@ public class DeviceStatus {
     private DeviceStatusData status = new DeviceStatusData();
 
     // additional device status
-    private boolean stationaryDeviceMode = false; // true, if operating in stationary device mode
+    // true, if operating in stationary device mode
+    private boolean stationaryDeviceMode = false;
+    // true, if API returns no battery. offer preference to go into stationary device mode
     private boolean stationaryDeviceSuspected = false;
-            // true, if API returns no battery. offer preference to go into stationary device mode
     private boolean screenOn = true;
 
     // android specifics
-    private Context ctx;// context required for reading device status
-    private ConnectivityManager connManager; // connManager contains current wifi status
-    private TelephonyManager telManager; // telManager to retrieve call state
-    private Intent batteryStatus; // sticky intent, extras of Intent contain status, see BatteryManager.
-    private AppPreferences appPrefs; // manager based preferences
+    // context required for reading device status
+    private Context ctx;
+    // connManager contains current wifi status
+    private ConnectivityManager connManager;
+    // telManager to retrieve call state
+    private TelephonyManager telManager;
+    // sticky intent, extras of Intent contain status, see BatteryManager.
+    private Intent batteryStatus;
+    // manager based preferences
+    private AppPreferences appPrefs;
 
     /**
      * Constructor. Needs to be called before calling update.

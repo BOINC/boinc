@@ -76,14 +76,16 @@ import edu.berkeley.boinc.rpc.AcctMgrInfo;
  */
 public class Monitor extends Service {
 
-    private static BoincMutex mutex = new BoincMutex(); // holds the BOINC mutex, only compute if acquired
-    private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
-    private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
+    // holds the BOINC mutex, only compute if acquired
+    private static BoincMutex mutex = new BoincMutex();
+    // holds the status of the client as determined by the Monitor
+    private static ClientStatus clientStatus;
+    // hold the status of the app, controlled by AppPreferences
+    private static AppPreferences appPrefs;
+    // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
     private static DeviceStatus deviceStatus;
-            // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
-
+    //provides functions for interaction with client via rpc
     public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation();
-            //provides functions for interaction with client via rpc
 
     // XML defined variables, populated in onCreate
     private String fileNameClient;
@@ -97,7 +99,8 @@ public class Monitor extends Service {
     private Integer deviceStatusIntervalScreenOff;
     private String clientSocketAddress;
 
-    private Timer updateTimer = new Timer(true); // schedules frequent client status update
+    // schedules frequent client status update
+    private Timer updateTimer = new Timer(true);
     private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
     private boolean updateBroadcastEnabled = false;
     private Integer screenOffStatusOmitCounter = 0;
@@ -105,7 +108,9 @@ public class Monitor extends Service {
     // screen on/off updated by screenOnOffBroadcastReceiver
     private boolean screenOn = false;
 
-    private boolean forceReinstall = false; // for debugging purposes //TODO
+    // for debugging purposes
+    // TODO
+    private boolean forceReinstall = false;
 
     @Override
     public IBinder onBind(Intent intent) {

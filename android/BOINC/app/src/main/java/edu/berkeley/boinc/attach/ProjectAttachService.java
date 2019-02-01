@@ -397,19 +397,24 @@ public class ProjectAttachService extends Service {
         public ProjectConfig config; // has to be downloaded, available if RESULT_READY
         public int result = RESULT_UNINITIALIZED;
 
-        public static final int RESULT_UNINITIALIZED = 0; // config not downloaded yet, download!
-        public static final int RESULT_READY = 1; // config is available, project is ready to be attached
-        public static final int RESULT_ONGOING = 2; // ongoing attach
-        public static final int RESULT_SUCCESS = 3; // successful, -X otherwise
+        // config not downloaded yet, download!
+        public static final int RESULT_UNINITIALIZED = 0;
+        // config is available, project is ready to be attached
+        public static final int RESULT_READY = 1;
+        // ongoing attach
+        public static final int RESULT_ONGOING = 2;
+        // successful, -X otherwise
+        public static final int RESULT_SUCCESS = 3;
         public static final int RESULT_UNDEFINED = -1;
-        public static final int RESULT_NAME_NOT_UNIQUE = -2; // registration failed, either password wrong or ID taken
+        // registration failed, either password wrong or ID taken
+        public static final int RESULT_NAME_NOT_UNIQUE = -2;
+        // login failed (creation disabled or login button pressed), password wrong
         public static final int RESULT_BAD_PASSWORD = -3;
-                // login failed (creation disabled or login button pressed), password wrong
+        // login failed (creation disabled or login button pressed), user does not exist
         public static final int RESULT_UNKNOWN_USER = -4;
-                // login failed (creation disabled or login button pressed), user does not exist
         public static final int RESULT_REQUIRES_TOS_AGGREEMENT = -5;
+        // download of configuration failed, but required for attach (retry?)
         public static final int RESULT_CONFIG_DOWNLOAD_FAILED = -6;
-                // download of configuration failed, but required for attach (retry?)
 
 
         public ProjectAttachWrapper(ProjectInfo info) {

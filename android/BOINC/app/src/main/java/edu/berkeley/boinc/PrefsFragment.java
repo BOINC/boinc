@@ -59,10 +59,10 @@ public class PrefsFragment extends Fragment {
     private ListView lv;
     private PrefsListAdapter listAdapter;
 
+    // Data for the PrefsListAdapter. This is should be HashMap!
     private ArrayList<PrefsListItemWrapper> data = new ArrayList<>();
-            // Data for the PrefsListAdapter. This is should be HashMap!
+    // Android specific preferences of the client, read on every onResume via RPC
     private GlobalPreferences clientPrefs = null;
-            // Android specific preferences of the client, read on every onResume via RPC
     private HostInfo hostinfo = null;
 
     private boolean layoutSuccessful = false;

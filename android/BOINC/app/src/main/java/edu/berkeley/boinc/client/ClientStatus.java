@@ -79,11 +79,14 @@ public class ClientStatus {
 
     // setup status
     public Integer setupStatus = 0;
-    public static final int SETUP_STATUS_LAUNCHING = 0; // 0 = client is in setup routine (default)
+    // 0 = client is in setup routine (default)
+    public static final int SETUP_STATUS_LAUNCHING = 0;
+    // 1 = client is launched and available for RPC (connected and authorized)
     public static final int SETUP_STATUS_AVAILABLE = 1;
-            // 1 = client is launched and available for RPC (connected and authorized)
-    public static final int SETUP_STATUS_ERROR = 2; // 2 = client is in a permanent error state
-    public static final int SETUP_STATUS_NOPROJECT = 3; // 3 = client is launched but not attached to a project (login)
+    // 2 = client is in a permanent error state
+    public static final int SETUP_STATUS_ERROR = 2;
+    // 3 = client is launched but not attached to a project (login)
+    public static final int SETUP_STATUS_NOPROJECT = 3;
     private Boolean setupStatusParseError = false;
 
     // computing status
@@ -92,17 +95,20 @@ public class ClientStatus {
     public static final int COMPUTING_STATUS_SUSPENDED = 1;
     public static final int COMPUTING_STATUS_IDLE = 2;
     public static final int COMPUTING_STATUS_COMPUTING = 3;
-    public Integer computingSuspendReason = 0; //reason why computing got suspended, only if COMPUTING_STATUS_SUSPENDED
-    private Boolean computingParseError = false; //indicates that status could not be parsed and is therefore invalid
+    // reason why computing got suspended, only if COMPUTING_STATUS_SUSPENDED
+    public Integer computingSuspendReason = 0;
+    // indicates that status could not be parsed and is therefore invalid
+    private Boolean computingParseError = false;
 
     // network status
     public Integer networkStatus = 2;
     public static final int NETWORK_STATUS_NEVER = 0;
     public static final int NETWORK_STATUS_SUSPENDED = 1;
     public static final int NETWORK_STATUS_AVAILABLE = 2;
+    // reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
     public Integer networkSuspendReason = 0;
-            //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
-    private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
+    // indicates that status could not be parsed and is therefore invalid
+    private Boolean networkParseError = false;
 
     // notices
     private ArrayList<Notice> rssNotices = new ArrayList<>();
