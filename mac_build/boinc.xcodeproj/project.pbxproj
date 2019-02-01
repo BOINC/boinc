@@ -13,8 +13,8 @@
 			buildPhases = (
 			);
 			dependencies = (
-				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC15144EB36E005D6144 /* PBXTargetDependency */,
+				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC17144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC0F144EB34E005D6144 /* PBXTargetDependency */,
 				DDF9EC0D144EB338005D6144 /* PBXTargetDependency */,
@@ -568,6 +568,13 @@
 			remoteInfo = Installer;
 		};
 		DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DD25E20C220438090040366F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
 			proxyType = 1;
@@ -2417,6 +2424,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD25E20D220438090040366F /* PBXTargetDependency */,
 			);
 			name = BOINC_Client;
 			productName = BOINC_Client;
@@ -2782,6 +2790,10 @@
 			);
 			outputPaths = (
 				"$(SRCROOT)/Info.plist",
+				"$(SRCROOT)/ScreenSaver-Info.plist",
+				"$(SRCROOT)/Installer-Info.plist",
+				"$(SRCROOT)/PostInstall-Info.plist",
+				"$(SRCROOT)/Uninstaller-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3463,6 +3475,11 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */;
+		};
+		DD25E20D220438090040366F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DD25E20C220438090040366F /* PBXContainerItemProxy */;
 		};
 		DD3E14D40A774397007E0084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
