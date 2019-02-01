@@ -1237,8 +1237,7 @@ public class Monitor extends Service {
         }
 
         @Override
-        public boolean setGlobalPreferences(GlobalPreferences pref)
-                throws RemoteException {
+        public boolean setGlobalPreferences(GlobalPreferences pref) throws RemoteException {
             return clientInterface.setGlobalPreferences(pref);
         }
 
@@ -1253,8 +1252,7 @@ public class Monitor extends Service {
         }
 
         @Override
-        public boolean resultOp(int op, String url, String name)
-                throws RemoteException {
+        public boolean resultOp(int op, String url, String name) throws RemoteException {
             return clientInterface.resultOp(op, url, name);
         }
 
@@ -1297,8 +1295,7 @@ public class Monitor extends Service {
         }
 
         @Override
-        public ProjectConfig getProjectConfigPolling(String url)
-                throws RemoteException {
+        public ProjectConfig getProjectConfigPolling(String url) throws RemoteException {
             return clientInterface.getProjectConfigPolling(url);
         }
 
@@ -1313,8 +1310,7 @@ public class Monitor extends Service {
         }
 
         @Override
-        public List<edu.berkeley.boinc.rpc.Message> getEventLogMessages(int seq, int num)
-                throws RemoteException {
+        public List<edu.berkeley.boinc.rpc.Message> getEventLogMessages(int seq, int num) throws RemoteException {
             return clientInterface.getEventLogMessages(seq, num);
         }
 
@@ -1352,14 +1348,12 @@ public class Monitor extends Service {
         }
 
         @Override
-        public boolean attachProject(String url, String projectName, String authenticator)
-                throws RemoteException {
+        public boolean attachProject(String url, String projectName, String authenticator) throws RemoteException {
             return clientInterface.attachProject(url, projectName, authenticator);
         }
 
         @Override
-        public int addAcctMgrErrorNum(String url, String userName, String pwd)
-                throws RemoteException {
+        public int addAcctMgrErrorNum(String url, String userName, String pwd) throws RemoteException {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if(acctMgr != null) {
                 return acctMgr.error_num;
@@ -1493,8 +1487,7 @@ public class Monitor extends Service {
         }
 
         @Override
-        public List<ImageWrapper> getSlideshowForProject(String url)
-                throws RemoteException {
+        public List<ImageWrapper> getSlideshowForProject(String url) throws RemoteException {
             return clientStatus.getSlideshowForProject(url);
         }
 
@@ -1524,8 +1517,7 @@ public class Monitor extends Service {
         }
 
         @Override
-        public void setStationaryDeviceMode(boolean mode)
-                throws RemoteException {
+        public void setStationaryDeviceMode(boolean mode) throws RemoteException {
             Monitor.getAppPrefs().setStationaryDeviceMode(mode);
 
         }
