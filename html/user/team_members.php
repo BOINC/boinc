@@ -48,7 +48,7 @@ if (!$team) {
     set_cached_data(TEAM_PAGE_TTL, serialize($team), $cache_args);
 }
 
-page_head(tra("Members of %1", "<a href=team_display.php?teamid=$teamid>$team->name</a>"));
+page_head(tra("Members of %1", $team->name));
 display_team_members($team, $offset, $sort_by);
 page_tail();
 
