@@ -383,7 +383,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             );
             if (!rp->avp) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "No application found for task %s: platform %s version %d plan class%s; discarding",
+                    "No application found for task %s: platform %s version %d plan class %s; discarding",
                     rp->wup->name, rp->platform, rp->version_num, rp->plan_class
                 );
                 delete rp;
