@@ -2794,6 +2794,11 @@
 				"$(SRCROOT)/Installer-Info.plist",
 				"$(SRCROOT)/PostInstall-Info.plist",
 				"$(SRCROOT)/Uninstaller-Info.plist",
+				"$(SRCROOT)/English.lproj/InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/Installer-InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/PostInstall-InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/ScreenSaver-InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/Uninstaller-InfoPlist.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
