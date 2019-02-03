@@ -606,12 +606,22 @@ void COPROCS::get_opencl(
                 prop.opencl_available_ram = prop.global_mem_size;
                 prop.is_used = COPROC_USED;
 
-                // TODO: Find a better way to calculate / estimate peak_flops for future coprocessors?
+                // TODO: is there a better way to estimate peak_flops?
+                //
                 prop.peak_flops = 0;
                 if (prop.max_compute_units) {
-                    prop.peak_flops = prop.max_compute_units * prop.max_clock_frequency * MEGA;
+                    double freq = ((double)prop.max_clock_frequency) * MEGA;
+                    prop.peak_flops = ((double)prop.max_compute_units) * freq;
                 }
-                if (prop.peak_flops <= 0) prop.peak_flops = 45e9;
+                if (prop.peak_flops <= 0 || prop.peak_flops > 1.e15) {
+                    char buf2[256];
+                    sprintf(buf2,
+                        "bad peak flops; Max units %d, max freq %d MHz",
+                        prop.max_compute_units, prop.max_clock_frequency
+                    );
+                    warnings.push_back(buf2);
+                    prop.peak_flops = 1.e12;
+                }
 
                 other_opencls.push_back(prop);
             }
