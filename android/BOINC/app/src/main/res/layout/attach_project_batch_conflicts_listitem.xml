@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,62 +17,66 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/resolve_item_wrapper"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-	android:padding="10dp" >
-	
+                android:id="@+id/resolve_item_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
     <LinearLayout
-    	android:id="@+id/visual_status_wrapper"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_centerVertical="true"
-    	android:orientation="horizontal">
-    
-	    <ImageView 
-	    	android:id="@+id/status_image"
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:layout_marginRight="10dp"
-        	android:visibility="gone"/>
-	    
-	    <ProgressBar 
-	    	android:id="@+id/status_pb" 
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-        	style="?android:attr/progressBarStyleSmall"
-        	android:background="@android:color/transparent"
-	    	android:layout_marginRight="10dp"
-        	android:visibility="gone"/>
-    
+            android:id="@+id/visual_status_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/status_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"/>
+
+        <ProgressBar
+                android:id="@+id/status_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleSmall"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"/>
+
     </LinearLayout>
-    
-	<LinearLayout
-    	android:id="@+id/text_wrapper"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:orientation="vertical"
-    	android:layout_centerVertical="true"
-    	android:layout_toRightOf="@+id/visual_status_wrapper"
-    	android:layout_toLeftOf="@+id/resolve_button_image">
-	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:id="@+id/name"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:textStyle="bold" />
-	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/status"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	</LinearLayout>
-	
-    <ImageView 
-    	android:id="@+id/resolve_button_image"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:src="@drawable/nextb"
-    	android:layout_centerVertical="true"
-    	android:layout_alignParentRight="true"/>
-    
+
+    <LinearLayout
+            android:id="@+id/text_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/visual_status_wrapper"
+            android:layout_toLeftOf="@+id/resolve_button_image">
+
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <ImageView
+            android:id="@+id/resolve_button_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nextb"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
 </RelativeLayout>
