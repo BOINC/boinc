@@ -76,7 +76,7 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* infile_prefix = "./";
+const char* infile_prefix = "../../";
 const char* outfile_prefix = "./";
 
 #define TIMELINE_FNAME "timeline.html"
@@ -372,6 +372,9 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         }
         if (!strcmp(cp.type, "ATI")) {
             coprocs.ati.req_secs = rsc_work_fetch[i].req_secs;
+        }
+        if (!strcmp(cp.type, "intel_gpu")) {
+            coprocs.intel_gpu.req_secs = rsc_work_fetch[i].req_secs;
         }
     }
 
@@ -1116,8 +1119,10 @@ void simulate() {
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         fprintf(summary_file,
-            "   %s time left %s deadline %s\n",
+            "   %s %s (%s)\n      time left %s deadline %s\n",
+            rp->project->project_name,
             rp->name,
+            rsc_name_long(rp->avp->gpu_usage.rsc_type),
             timediff_format(rp->sim_flops_left/rp->avp->flops).c_str(),
             timediff_format(rp->report_deadline - START_TIME).c_str()
         );
@@ -1451,6 +1456,8 @@ void do_client_simulation() {
         }
     }
 
+    check_app_config(infile_prefix);
+    show_app_config();
     cc_config.show();
     log_flags.show();
 
