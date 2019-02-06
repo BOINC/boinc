@@ -868,7 +868,17 @@ void COPROC_ATI::set_peak_flops() {
         //
         x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
     }
-    peak_flops = (x>0)?x:5e10;
+    if (x <= 0 || x > 1.e15) {
+        // Event Log code not accessible in library
+        // char buf2[256];
+        // sprintf(buf2,
+        //     "bad peak flops; Max units %d, max freq %d MHz",
+        //     opencl_prop.max_compute_units, opencl_prop.max_clock_frequency
+        // );
+        // warnings.push_back(buf2);
+        x = 1.e12;
+    }
+    peak_flops = x; // was (x>0)?x:5e10;
 }
 
 void COPROC_ATI::fake(double ram, double avail_ram, int n) {
