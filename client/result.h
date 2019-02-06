@@ -197,25 +197,35 @@ struct RESULT {
     char schedule_backoff_reason[256];
 };
 
-inline bool max_concurrent_exceeded(RESULT* rp) {
+#define CONCURRENT_LIMIT_APP        1
+#define CONCURRENT_LIMIT_PROJECT    2
+
+// are we at or beyond a max_concurrent limit for this job?
+//
+inline int max_concurrent_exceeded(RESULT* rp) {
     APP* app = rp->app;
     if (app->max_concurrent) {
-        if (app->n_concurrent >= app->max_concurrent) {
-            return true;
+        if (app->app_n_concurrent >= app->max_concurrent) {
+            return CONCURRENT_LIMIT_APP;
         }
     }
     PROJECT* p = rp->project;
     if (p->app_configs.project_max_concurrent) {
-        if (p->n_concurrent >= p->app_configs.project_max_concurrent) {
-            return true;
+        if (p->proj_n_concurrent >= p->app_configs.project_max_concurrent) {
+            return CONCURRENT_LIMIT_PROJECT;
         }
     }
-    return false;
+    return 0;
 }
 
+// we're about to run this job.
+// increment counters for enforcing max_concurrent prefs
+// Used in RR simulation (RR_SIM::activate())
+// and in job scheduling (enforce_run_list())
+//
 inline void max_concurrent_inc(RESULT* rp) {
-    rp->app->n_concurrent++;
-    rp->project->n_concurrent++;
+    rp->app->app_n_concurrent++;
+    rp->project->proj_n_concurrent++;
 }
 
 // a completed result, for which the RESULT record no longer exists.

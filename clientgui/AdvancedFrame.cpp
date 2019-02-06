@@ -199,6 +199,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
+    EVT_MENU(ID_REPORT_BUG, CAdvancedFrame::OnReportBug)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
@@ -701,6 +702,13 @@ bool CAdvancedFrame::CreateMenu() {
         ID_CHECK_VERSION,
         strMenuName,
         strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    menuHelp->Append(
+        ID_REPORT_BUG,
+        _("Report Issue"),
+        _("Report bug or enhancement request")
     );
     menuHelp->AppendSeparator();
 
@@ -1669,6 +1677,14 @@ void CAdvancedFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
     wxGetApp().GetDocument()->CheckForVersionUpdate(true);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCheckVersion - Function End"));
+}
+
+void CAdvancedFrame::OnReportBug(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReportBug - Function Begin"));
+
+    wxLaunchDefaultBrowser(wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationReportBugUrl());
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReportBug - Function End"));
 }
 
 void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {

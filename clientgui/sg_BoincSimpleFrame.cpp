@@ -86,7 +86,8 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
     EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
-	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
+    EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
+    EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
@@ -272,6 +273,13 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         ID_CHECK_VERSION,
         strMenuName,
         strMenuDescription
+    );
+    menuHelp->AppendSeparator();
+
+    menuHelp->Append(
+        ID_REPORT_BUG,
+        _("Report Issue"),
+        _("Report bug or enhancement request")
     );
     menuHelp->AppendSeparator();
 
@@ -636,6 +644,13 @@ void CSimpleFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function End"));
 }
 
+void CSimpleFrame::OnReportBug(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReportBug - Function Begin"));
+
+    wxLaunchDefaultBrowser(wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationReportBugUrl());
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReportBug - Function End"));
+}
 
 void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));

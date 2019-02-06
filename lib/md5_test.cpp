@@ -11,5 +11,3 @@ int main(int, char** argv) {
 
     return 0;
 }
-
-const char *BOINC_RCSID_c6f4ef0a81 = "$Id$";

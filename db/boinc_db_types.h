@@ -696,7 +696,7 @@ struct MSG_FROM_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // message handler has processed this
+    int handled;                    // message handler has processed this
     char xml[MSG_FROM_HOST_BLOB_SIZE];
     void clear();
 };
@@ -706,7 +706,7 @@ struct MSG_TO_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // scheduler has sent this
+    int handled;                    // scheduler has sent this
     char xml[MSG_TO_HOST_BLOB_SIZE];      // text to include in sched reply
     void clear();
 };

@@ -189,8 +189,8 @@ function nodereference_field($op, &$node, $field, &$items, $teaser, $page) {
     case 'prepare translation':
       $addition = array();
       $addition[$field['field_name']] = array();
-      if (isset($node->translation_source->$field['field_name']) && is_array($node->translation_source->$field['field_name'])) {
-        foreach ($node->translation_source->$field['field_name'] as $key => $reference) {
+      if (isset($node->translation_source->{$field['field_name']}) && is_array($node->translation_source->{$field['field_name']})) {
+        foreach ($node->translation_source->{$field['field_name']} as $key => $reference) {
           $reference_node = node_load($reference['nid']);
           // Test if the referenced node type is translatable and, if so,
           // load translations if the reference is not for the current language.

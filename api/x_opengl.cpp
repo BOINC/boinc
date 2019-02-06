@@ -2,7 +2,7 @@
 
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -671,6 +671,3 @@ void xwin_graphics_event_loop() {
     glutMainLoop();
     if (debug) fprintf(stderr, "glutMainLoop() returned!! This should never happen...\n");
 }
-
-
-const char *BOINC_RCSID_c457a14644 = "$Id$";

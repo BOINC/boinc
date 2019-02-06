@@ -1,3 +1,20 @@
+build:
+    nodes:
+        analysis:
+            dependencies:
+                before:
+                    - command: 'mkdir -p 3rdParty/buildCache && wget https://ftp.drupal.org/files/projects/drupal-6.38.tar.gz -O drupal-6.38.tar.gz && tar -C 3rdParty/buildCache/ -xzf drupal-6.38.tar.gz'
+                      not_if: 'test -e 3rdParty/buildCache/drupal-6.38'
+            cache:
+                disabled: false
+                directories:
+                    - '3rdParty/buildCache'
+            tests:
+                override:
+                    - command: phpcs-run
+                      use_website_config: true
+                    - php-scrutinizer-run
+                    - js-scrutinizer-run
 filter:
     paths:
         - 'html/*.php'
@@ -8,13 +25,15 @@ filter:
     excluded_paths:
         - '*.tpl.php'
         - '*.min.js'
-        - 'html/inc/htmLawed.php'
-        - 'drupal/sites/default/boinc/modules/contrib/htmlpurifier/*'
-        - 'drupal/sites/all/libraries/*'
         - 'drupal/sites/default/modules/boinc/*'
+        - 'drupal/sites/default/themes/boinc/*'
     dependency_paths:
-        - 'drupal/sites/default/boinc/modules/contrib/htmlpurifier/*'
+        - 'html/inc/htmLawed.php'
+        - 'drupal/sites/all/libraries/*'
+        - 'drupal/sites/default/boinc/modules/contrib/*'
+        - 'drupal/sites/default/boinc/modules/boincstats/includes/pchart/*'
         - 'drupal/sites/all/libraries/phpmailer/*'
+        - '3rdParty/buildCache/drupal-6.38/*'
 checks:
     php:
         fix_php_opening_tag: false
