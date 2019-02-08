@@ -9,9 +9,11 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
      [])
 
    AM_OPTIONS_WXCONFIG
-     AM_PATH_WXCONFIG([$1],
+   WX_CONFIG_CHECK([$1],
        [_ac_cv_have_wxwidgets=yes],
-       [AC_MSG_ERROR([No suitable wxWidgets library found.])])
+       [AC_MSG_ERROR([No suitable wxWidgets library found.])],
+       , ,
+       [webview])
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],
     [ac_cv_have_wxwidgets="${_ac_cv_have_wxwidgets}"])
    AC_CACHE_SAVE
