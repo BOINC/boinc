@@ -21,6 +21,26 @@
 
 require_once("../inc/submit_db.inc");
 
+$log_file = null;
+$verbose = true;
+
+function log_write($x) {
+    global $verbose, $log_file;
+
+    if (!$verbose) return;
+    if (!$log_file) {
+        $hostname = gethostname();
+        $log_dir = "../../log_$hostname";
+        if (!file_exists($log_dir)) {
+            mkdir($log_dir);
+        }
+        $log_file = fopen("$log_dir/submit_log.txt", "a");
+        if (!$log_file) return;
+    }
+    fwrite($log_file, sprintf("%s: %s\n", strftime("%c"), $x));
+    fflush($log_file);
+}
+
 // in remote job submission,
 // for input files of type local, semilocal, and inline,
 // we need to give a unique physical name based on its content.
@@ -32,16 +52,26 @@ function job_file_name($md5) {
 
 function authenticate_user($r, $app) {
     $auth = (string)$r->authenticator;
-    if (!$auth) xml_error(-1, "no authenticator");
+    if (!$auth) {
+        log_write("no authenticator");
+        xml_error(-1, "no authenticator");
+    }
     $auth = BoincDb::escape_string($auth);
     $user = BoincUser::lookup("authenticator='$auth'");
-    if (!$user) xml_error(-1, "bad authenticator");
+    if (!$user) {
+        log_write("bad authenticator");
+        xml_error(-1, "bad authenticator");
+    }
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if (!$user_submit) xml_error(-1, "no submit access");
+    if (!$user_submit) {
+        log_write("no submit access");
+        xml_error(-1, "no submit access");
+    }
     if ($app && !$user_submit->submit_all) {
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
         if (!$usa) {
-            xml_error(-1, "no submit access");
+            log_write("no app submit access");
+            xml_error(-1, "no app submit access");
         }
     }
     return array($user, $user_submit);
