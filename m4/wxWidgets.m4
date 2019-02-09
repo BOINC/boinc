@@ -142,7 +142,8 @@ AC_DEFUN([_WX_PRIVATE_CHECK_VERSION],
 
 dnl ---------------------------------------------------------------------------
 dnl WX_CONFIG_CHECK(VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND
-dnl                  [, WX-LIBS [, ADDITIONAL-WX-CONFIG-FLAGS]]]])
+dnl                  [, WX-LIBS [, ADDITIONAL-WX-CONFIG-FLAGS
+dnl                  [, OPTIONAL-WX-LIBS ]]]]])
 dnl
 dnl Test for wxWidgets, and define WX_C*FLAGS, WX_LIBS and WX_LIBS_STATIC
 dnl (the latter is for static linking against wxWidgets). Set WX_CONFIG_NAME
@@ -159,9 +160,12 @@ dnl Optional ADDITIONAL-WX-CONFIG-FLAGS argument is appended to wx-config
 dnl invocation command in present. It can be used to fine-tune lookup of
 dnl best wxWidgets build available.
 dnl
+dnl Optional OPTIONAL-WX-LIBS argument contains comma- or space-separated list
+dnl of wxWidgets libraries to link against, if they are available in the build.
+dnl
 dnl Example use:
 dnl   WX_CONFIG_CHECK([2.6.0], [wxWin=1], [wxWin=0], [html,core,net]
-dnl                    [--unicode --debug])
+dnl                    [--unicode --debug], [webview])
 dnl ---------------------------------------------------------------------------
 
 dnl
@@ -235,14 +239,22 @@ AC_DEFUN([WX_CONFIG_CHECK],
 
     if test -n "$wx_ver_ok"; then
       AC_MSG_RESULT(yes (version $WX_VERSION))
-      WX_LIBS=`$WX_CONFIG_WITH_ARGS --libs $4`
+      if test -n "$6"; then
+        WX_LIBS=`$WX_CONFIG_WITH_ARGS --libs $4 --optional-libs $6`
+      else
+        WX_LIBS=`$WX_CONFIG_WITH_ARGS --libs $4`
+      fi
 
       dnl is this even still appropriate?  --static is a real option now
       dnl and WX_CONFIG_WITH_ARGS is likely to contain it if that is
       dnl what the user actually wants, making this redundant at best.
       dnl For now keep it in case anyone actually used it in the past.
       AC_MSG_CHECKING([for wxWidgets static library])
-      WX_LIBS_STATIC=`$WX_CONFIG_WITH_ARGS --static --libs $4 2>/dev/null`
+      if test -n "$6"; then
+        WX_LIBS_STATIC=`$WX_CONFIG_WITH_ARGS --static --libs $4 --optional-libs $6 2>/dev/null`
+      else
+        WX_LIBS_STATIC=`$WX_CONFIG_WITH_ARGS --static --libs $4 2>/dev/null`
+      fi
       if test "x$WX_LIBS_STATIC" = "x"; then
         AC_MSG_RESULT(no)
       else
