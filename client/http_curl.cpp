@@ -478,7 +478,15 @@ int HTTP_OP::libcurl_exec(
     // the server claims. The server could be lying.
     // To control lying, see CURLOPT_SSL_VERIFYPEER.
     //
-    curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
+    switch(cc_config.ssl_verifyhost) {
+    case 0:
+        curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 0L);
+        break;
+    // 1 exists too but is no longer supported, so use default 2
+    default:
+        curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
+        break;
+    }
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 0);
 
     // the following sets "tough" certificate checking
@@ -487,7 +495,14 @@ int HTTP_OP::libcurl_exec(
     // (cert not 3rd party trusted)
     // if non-zero below, you need a valid 3rd party CA (i.e. Verisign, Thawte)
     //
-    curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
+    switch(cc_config.ssl_verifyhost) {
+    case 0:
+        curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 0L);
+        break;
+    default:
+        curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
+        break;
+    }
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     // if the above is nonzero, you need the following:

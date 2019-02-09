@@ -192,6 +192,8 @@ struct CC_CONFIG {
     int save_stats_days;
     bool skip_cpu_benchmarks;
     bool simple_gui_only;
+    int ssl_verifyhost;
+    int ssl_verifypeer;
     double start_delay;
     bool stderr_head;
     bool suppress_net_info;

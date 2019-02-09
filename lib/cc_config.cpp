@@ -262,6 +262,8 @@ void CC_CONFIG::defaults() {
     save_stats_days = 30;
     simple_gui_only = false;
     skip_cpu_benchmarks = false;
+    ssl_verifyhost = 2;
+    ssl_verifypeer = 1;
     start_delay = 0;
     stderr_head = false;
     suppress_net_info = false;
@@ -438,6 +440,8 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("save_stats_days", save_stats_days)) continue;
         if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
         if (xp.parse_bool("skip_cpu_benchmarks", skip_cpu_benchmarks)) continue;
+        if (xp.parse_int("ssl_verifyhost", ssl_verifyhost)) continue;
+        if (xp.parse_int("ssl_verifypeer", ssl_verifypeer)) continue;
         if (xp.parse_double("start_delay", start_delay)) continue;
         if (xp.parse_bool("stderr_head", stderr_head)) continue;
         if (xp.parse_bool("suppress_net_info", suppress_net_info)) continue;
@@ -674,6 +678,8 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <save_stats_days>%d</save_stats_days>\n"
         "        <skip_cpu_benchmarks>%d</skip_cpu_benchmarks>\n"
         "        <simple_gui_only>%d</simple_gui_only>\n"
+        "        <ssl_verifyhost>%d</ssl_verifyhost>\n"
+        "        <ssl_verifypeer>%d</ssl_verifypeer>\n"
         "        <start_delay>%f</start_delay>\n"
         "        <stderr_head>%d</stderr_head>\n"
         "        <suppress_net_info>%d</suppress_net_info>\n"
@@ -688,6 +694,8 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         save_stats_days,
         skip_cpu_benchmarks,
         simple_gui_only,
+        ssl_verifyhost,
+        ssl_verifypeer,
         start_delay,
         stderr_head,
         suppress_net_info,

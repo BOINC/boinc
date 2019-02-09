@@ -455,6 +455,8 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("save_stats_days", save_stats_days)) continue;
         if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
         if (xp.parse_bool("skip_cpu_benchmarks", skip_cpu_benchmarks)) continue;
+        if (xp.parse_int("ssl_verifyhost", ssl_verifyhost)) continue;
+        if (xp.parse_int("ssl_verifypeer", ssl_verifypeer)) continue;
         if (xp.parse_double("start_delay", start_delay)) continue;
         if (xp.parse_bool("stderr_head", stderr_head)) continue;
         if (xp.parse_bool("suppress_net_info", suppress_net_info)) continue;
