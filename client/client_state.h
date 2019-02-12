@@ -538,7 +538,7 @@ extern THREAD throttle_thread;
 
 //////// TIME-RELATED CONSTANTS ////////////
 
-//////// CLIENT INTERNAL
+//////// POLLING PERIODS
 
 #define POLL_INTERVAL   1.0
     // the client will handle I/O (including GUI RPCs)
@@ -623,6 +623,11 @@ extern THREAD throttle_thread;
 
 #define MAX_STARTUP_TIME    10
     // if app startup takes longer than this, quit loop
+
+#define FINISH_FILE_TIMEOUT 300
+    // if app process exists this long after writing finish file, abort it.
+    // NOTE: this used to be 10 sec and it wasn't enough,
+    // e.g. during heavy paging.
 
 //////// NETWORK
 
