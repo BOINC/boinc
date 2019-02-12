@@ -181,6 +181,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
 bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu) {
     COPROC* cpp = NULL;
     bool can_use_multicore = true;
+    string msg;
 
     if (infeasible_random && drand()<infeasible_random) {
         return false;
@@ -594,7 +595,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
             return false;
         }
 
-        cp.set_peak_flops();
+        if (cp.bad_gpu_peak_flops("AMD", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
         gpu_ram = cp.opencl_prop.global_mem_size;
 
         driver_version = 0;
@@ -686,7 +689,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
             }
         }
         gpu_ram = cp.prop.totalGlobalMem;
-        cp.set_peak_flops();
+        if (cp.bad_gpu_peak_flops("NVIDIA", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
 
     // Intel GPU
     //
@@ -705,6 +710,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
         if (min_gpu_ram_mb) {
             gpu_requirements[PROC_TYPE_INTEL_GPU].update(0, min_gpu_ram_mb * MEGA);
         }
+        if (cp.bad_gpu_peak_flops("Intel GPU", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
 
     // custom GPU type
     //
@@ -722,6 +730,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: Custom coproc %s found\n", gpu_type
             );
+        }
+        if (cpp->bad_gpu_peak_flops("Custom GPU", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
     }
 
