@@ -624,6 +624,14 @@ extern THREAD throttle_thread;
 #define MAX_STARTUP_TIME    10
     // if app startup takes longer than this, quit loop
 
+#define MIN_TIME_BOUND  120.
+#define DEFAULT_TIME_BOUND  1800.
+    // if ACTIVE_TASK::max_elapsed_time is < MIN, set it to DEFAULT
+    // This is a sanity check, so that bad values for
+    // wup->rsc_fpops_bound or avp->flops won't cause jobs
+    // to get aborted after a few seconds
+    // The values are a bit arbitrary.
+
 //////// NETWORK
 
 #define CONNECT_ERROR_PERIOD    600.0
