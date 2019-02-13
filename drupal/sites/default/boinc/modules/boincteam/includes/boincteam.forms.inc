@@ -652,7 +652,7 @@ function boincteam_sendmessagetoteam(&$form_state, $team_id) {
   }
 
   // Title
-  $mytitle = bts('Send E-mail All Team Members', array(), NULL, 'boinc:team-message-form');
+  $mytitle = bts('Send E-mail To All Team Members', array(), NULL, 'boinc:team-message-form');
   drupal_set_title($mytitle);
 
   $form['emailteam']['header'] = array(
@@ -663,7 +663,7 @@ function boincteam_sendmessagetoteam(&$form_state, $team_id) {
   );
 
   $form['emailteam']['instructions'] = array(
-    '#value'              => bts('This will send an email to all team members. If a team member has opt-ed out of notification e-mails, they will not receive your message. At the bottom of your message, a link will be provied to Direct Message you the sender. This link is added automatically, you do not need to add it below in the Message box.', array(), NULL, 'boinc:team-message-form'),
+    '#value'              => bts('This will send an email to all team members. If a team member has opt-ed out of notification e-mails, they will not receive your message. At the bottom of your message, there will be a link allowing team members to send you a Direct Message. This link is added automatically, you do not need to add it below in the Message box. Your email address will not be shown to the recipients.', array(), NULL, 'boinc:team-message-form'),
     '#weight'             => '-8',
     '#prefix'             => "<div id='sendmessageteammembers-instructions'>",
     '#suffix'             => "</div>",
@@ -692,7 +692,7 @@ function boincteam_sendmessagetoteam(&$form_state, $team_id) {
   // checkbox for 'sent to self'
   $form['emailteam']['selfsend'] = array(
     '#type'    => 'checkbox',
-    '#title'   => bts('Check this box if you wish to be sent a copy of the above to your email address.', array(), NULL, 'boinc:team-message-form'),
+    '#title'   => bts('Check this box if you wish to be sent a copy of your message to your email address.', array(), NULL, 'boinc:team-message-form'),
     '#weight'  => 10,
     '#prefix'  => '<div class="clearfix" id="confirm-checkbox">',
     '#suffix'  => '</div>',
