@@ -1550,11 +1550,6 @@ void ACTIVE_TASK_SET::get_msgs() {
                         "[checkpoint] result %s checkpointed",
                         atp->result->name
                     );
-                } else if (log_flags.task_debug) {
-                    msg_printf(atp->wup->project, MSG_INFO,
-                        "[task] result %s checkpointed",
-                        atp->result->name
-                    );
                 }
                 atp->write_task_state_file();
             }
