@@ -1,0 +1,17 @@
+name = Current Search Blocks
+description = Provides an interface for creating blocks containing information about the current search.
+dependencies[] = facetapi
+package = Search Toolkit
+core = 6.x
+files[] = plugins/current_search/item.inc
+files[] = plugins/current_search/item_active.inc
+files[] = plugins/current_search/item_group.inc
+files[] = plugins/current_search/item_text.inc
+configure = admin/settings/current_search
+
+; Information added by drupal.org packaging script on 2012-10-23
+version = "6.x-3.0-beta2-boinc-3-dev"
+core = "6.x"
+project = "facetapi"
+datestamp = "1548706418"
+

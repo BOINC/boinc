@@ -568,4 +568,12 @@ struct DB_CREDIT_TEAM : public DB_BASE, public CREDIT_TEAM {
     void db_parse(MYSQL_ROW&);
 };
 
+struct DB_CONSENT_TYPE : public DB_BASE, public CONSENT_TYPE {
+    DB_CONSENT_TYPE(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+    void db_print(char *);
+    void db_parse(MYSQL_ROW &row);
+};
+
+
 #endif

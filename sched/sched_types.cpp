@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1402,6 +1402,11 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
+        if (xp.parse_bool("wsl_available", wsl_available)) continue;
+        if (xp.match_tag("wsl")) {
+            wsls.parse(xp);
+            continue;
+        }
 
         // unused fields
         //
@@ -1660,5 +1665,3 @@ bool HOST::get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
     }
     return false;
 }
-
-const char *BOINC_RCSID_ea659117b3 = "$Id$";

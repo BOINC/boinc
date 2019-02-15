@@ -484,6 +484,7 @@ void CSkinAdvanced::Clear() {
     m_strOrganizationName = wxEmptyString;
     m_strOrganizationWebsite = wxEmptyString;
     m_strOrganizationHelpUrl = wxEmptyString;
+    m_strOrganizationReportBugUrl = wxEmptyString;
     m_bDefaultTabSpecified = false;
     m_iDefaultTab = 0;
     m_strExitMessage = wxEmptyString;
@@ -556,6 +557,9 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
         } else if (parse_str(buf, "<exit_message>", strBuffer)) {
             m_strExitMessage = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
+        } else if (parse_str(buf, "<organization_report_bug_url>", strBuffer)) {
+            m_strOrganizationReportBugUrl = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
         }
     }
 
@@ -621,6 +625,9 @@ wxString CSkinAdvanced::GetOrganizationHelpUrl() {
     return m_strOrganizationHelpUrl;
 }
 
+wxString CSkinAdvanced::GetOrganizationReportBugUrl() {
+    return m_strOrganizationReportBugUrl;
+}
 
 int CSkinAdvanced::GetDefaultTab() { 
     return m_iDefaultTab;
@@ -706,6 +713,13 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
             fprintf(stderr, "Skin Manager: Exit message was not defined. Using default.\n");
         }
         m_strExitMessage = wxEmptyString;
+    }
+    if (m_strOrganizationReportBugUrl.IsEmpty()) {
+        if (show_error_msgs) {
+            fprintf(stderr, "Skin Manager: Origanization report bug url was not defined. Using defaults.\n");
+        }
+        m_strOrganizationReportBugUrl = wxT("https://boinc.berkeley.edu/trac/wiki/ReportBugs");
+        wxASSERT(!m_strOrganizationReportBugUrl.IsEmpty());
     }
     return true;
 }

@@ -89,6 +89,7 @@ public:
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
     void OnCheckVersion( wxCommandEvent& event );
+    void OnReportBug( wxCommandEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );

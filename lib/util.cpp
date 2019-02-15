@@ -484,12 +484,13 @@ int run_program(
         FCGI::perror("execvp");
 #else
         perror("execvp");
+        fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
 #endif
         exit(errno);
     }
 
     if (nsecs) {
-        boinc_sleep(3);
+        boinc_sleep(nsecs);
         if (waitpid(pid, 0, WNOHANG) == pid) {
             return -1;
         }

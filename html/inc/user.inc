@@ -69,7 +69,7 @@ function get_other_projects($user) {
                 $xml_object = @simplexml_load_string($rawxml);
             }
             curl_close($ch);
-            if (!xml_object) {
+            if (!$xml_object) {
                 return $user;
             }
         }
@@ -184,7 +184,7 @@ function show_user_stats_private($user) {
         }
         $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
         row2(tra("Cross-project statistics"), $x);
-        $x = '<a href="cert1.php">'.tra("Account").'</a>';
+        $x = sprintf('<a href="%s">%s</a>', cert_filename(), tra("Account"));
         if ($user->teamid) {
             $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
         }
@@ -243,11 +243,15 @@ function show_user_info_private($user) {
         }
         row2(tra("Email address"), $email_text);
     }
-    if (strlen($user->url)) {
-        $u = normalize_user_url($user->url);
-        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+    if (USER_URL) {
+        if (strlen($user->url)) {
+            $u = normalize_user_url($user->url);
+            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+        }
     }
-    row2(tra("Country"), $user->country);
+    if (USER_COUNTRY) {
+        row2(tra("Country"), $user->country);
+    }
     if (POSTAL_CODE) {
         row2(tra("Postal code"), $user->postal_code);
     }
@@ -433,13 +437,17 @@ function show_user_summary_public($user) {
     global $g_logged_in_user;
     row2(tra("User ID"), $user->id);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    row2(tra("Country"), $user->country);
-    // don't show URL if user has no recent credit (spam suppression)
-    //
-    if (strlen($user->url)) {
-        if (!NO_COMPUTING || $user->expavg_credit > 1) {
-            $u = normalize_user_url($user->url);
-            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+    if (USER_COUNTRY) {
+        row2(tra("Country"), $user->country);
+    }
+    if (USER_URL) {
+        // don't show URL if user has no recent credit (spam suppression)
+        //
+        if (strlen($user->url)) {
+            if (!NO_COMPUTING || $user->expavg_credit > 1) {
+                $u = normalize_user_url($user->url);
+                row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+            }
         }
     }
     if (!NO_COMPUTING) {

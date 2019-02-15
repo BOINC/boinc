@@ -29,12 +29,7 @@
 #include "version.h"
 #include "DlgAdvPreferences.h"
 
-#include "res/usage.xpm"
-#include "res/xfer.xpm"
-#include "res/proj.xpm"
-#include "res/clock.xpm"
 #include "res/warning.xpm"
-
 
 using std::string;
 
@@ -55,26 +50,6 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     m_arrTabPageIds.Add(ID_TABPAGE_DISK);
     m_arrTabPageIds.Add(ID_TABPAGE_SCHED);
     
-    //setting tab page images (not handled by generated code)
-    int iImageIndex = 0;
-    wxImageList* pImageList = m_Notebook->GetImageList();
-    if (!pImageList) {
-        pImageList = new wxImageList(ADJUSTFORXDPI(16), ADJUSTFORYDPI(16), true, 0);
-        wxASSERT(pImageList != NULL);
-        m_Notebook->SetImageList(pImageList);
-    }
-    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(proj_xpm));
-    m_Notebook->SetPageImage(0,iImageIndex);
-
-    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(xfer_xpm));
-    m_Notebook->SetPageImage(1,iImageIndex);
-
-    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(usage_xpm));
-    m_Notebook->SetPageImage(2,iImageIndex);
-
-    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(clock_xpm));
-    m_Notebook->SetPageImage(3,iImageIndex);
-
     //setting warning bitmap
     if (m_bmpWarning) {
         m_bmpWarning->SetBitmap(GetScaledBitmapFromXPMData(warning_xpm));

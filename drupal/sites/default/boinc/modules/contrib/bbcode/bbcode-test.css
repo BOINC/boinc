@@ -4,12 +4,11 @@
  * need to copy the required properties to your site's CSS file.
  */
 
-.bb-code {
+.bb-code, .bb-code-block {
   width: 100%;
   border: 1px solid #bfd0d9;
-  border-left: 4px solid #bfd0d9; 666699;
+  border-left: 4px solid #bfd0d9;
 }
-.bb-code-block {}
 .bb-list {}
 .bb-url {}
 .bb-email {}
@@ -18,6 +17,7 @@
   width: expression(this.width > 500 ? "500px" : this.width);
 }
 .bb-quote {}
+.bb-quote-body {}
 .bb-table {
   border: 1px solid #660000;
 }

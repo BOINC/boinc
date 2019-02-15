@@ -14,12 +14,6 @@ source_file = locale/templates/BOINC-Client.pot
 source_lang = en
 type = PO
 
-[boinc.web]
-file_filter = locale/<lang>/BOINC-Web.po
-source_file = locale/templates/BOINC-Web.pot
-source_lang = en
-type = PO
-
 [boinc.setup]
 file_filter = locale/<lang>/BOINC-Setup.po
 source_file = locale/templates/BOINC-Setup.pot

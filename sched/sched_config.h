@@ -73,6 +73,8 @@ struct SCHED_CONFIG {
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     bool cache_md5_info;
     int fuh_debug_level;
+    int fuh_set_completed_permission;
+    int fuh_set_initial_permission;
     int reliable_priority_on_over;
         // additional results generated after at least one result
         // is over will have their priority boosted by this amount    
@@ -99,6 +101,8 @@ struct SCHED_CONFIG {
     bool enable_assignment_multi;
     bool job_size_matching;
     bool dont_send_jobs;
+    bool user_url;          // whether to export user.url in db dump
+    bool user_country;
 
     //////////// STUFF RELEVANT ONLY TO SCHEDULER FOLLOWS ///////////
 

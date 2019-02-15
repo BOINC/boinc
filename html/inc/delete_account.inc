@@ -196,6 +196,7 @@ function wipe_account($user) {
     
     BoincHostAppVersion::delete_for_user($user->id);
     BoincHost::delete_for_user($user->id);
+    BoincConsent::delete_for_user($user->id);
 
     // final action
     delete_user($user);  //from user_util.inc

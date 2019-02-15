@@ -5,8 +5,8 @@ package = "Panels"
 dependencies[] = ctools
 
 ; Information added by Drupal.org packaging script on 2016-02-25
-version = "6.x-3.12-boinc-2-dev"
+version = "6.x-3.12-boinc-3-dev"
 core = "6.x"
 project = "panels"
-datestamp = "1494600716"
+datestamp = "1548705400"
 

@@ -1,0 +1,210 @@
+<?php
+
+/**
+ * @file
+ * Provides an interface for creating blocks containing information about the
+ * current search.
+ */
+
+/**
+ * Display current search block only when keywords are entered.
+ */
+define('CURRENT_SEARCH_DISPLAY_KEYS', 0);
+
+/**
+ * Display current search block on empty searches where no keywords are entered.
+ */
+define('CURRENT_SEARCH_DISPLAY_ALWAYS', 1);
+
+/**
+ * Display current search block only when one or more facet items are active.
+ */
+define('CURRENT_SEARCH_DISPLAY_FILTERS', 2);
+
+/**
+ * Display current search block when either keywords are entered one or more
+ * facet items are active.
+ */
+define('CURRENT_SEARCH_DISPLAY_KEYS_FILTERS', 3);
+
+// Includes the Block hooks and form alterations.
+require_once dirname(__FILE__) . '/current_search.block.inc';
+
+/**
+ * Implements hook_menu_alter().
+ */
+function current_search_menu() {
+  $items = array();
+
+  $items['admin/settings/current_search/item/%current_search_item/delete/%'] = array(
+    'title' => 'Revert current search block configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('current_search_delete_item_form', 5, 7),
+    'access arguments' => array('administer search'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'plugins/export_ui/current_search_export_ui.class.php',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function current_search_menu_alter(&$items) {
+  // Use same access callback as Facet API. We can't define access callbacks in
+  // CTools plugins, so we have to alter the menu and define them here.
+  $base_path = 'admin/settings/current_search';
+  foreach ($items as $path => $item) {
+    if ($base_path == $path || 0 === strpos($path, "$base_path/")) {
+      $items[$path]['access callback'] = 'facetapi_access_callback';
+      $items[$path]['access arguments'] = array();
+    }
+  }
+
+  // Ensures that the edit link shows up in contextual links.
+  $item = &$items['admin/settings/current_search/list/%ctools_export_ui/edit'];
+  $item['title'] = 'Configure current search items';
+  $item['type'] = MENU_CALLBACK;
+  //$item['context'] = MENU_CONTEXT_INLINE;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function current_search_theme() {
+  module_load_include('php', 'ctools', 'plugins/export_ui/ctools_export_ui.class');
+  return array(
+    'current_search_group_title' => array(
+      'arguments' => array('title' => NULL),
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_text' => array(
+      'arguments' => array('text' => NULL, 'wrapper' => NULL, 'element' => NULL, 'css' => NULL, 'class' => array()),
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_link_active' => array(
+      'arguments' => array('text' => NULL, 'path' => NULL, 'options' => array()),
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_keys' => array(
+      'arguments' => array('keys' => NULL, 'adapter' => NULL),
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_deactivate_widget' => array(
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_item_wrapper' => array(
+      'render element'  => 'element',
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_group_wrapper' => array(
+      'render element'  => 'element',
+      'file' => 'current_search.theme.inc',
+    ),
+    'current_search_sort_settings_table' => array(
+      'render element' => 'element',
+      'file' => 'plugins/export_ui/current_search_export_ui.class.php',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function current_search_ctools_plugin_api($owner, $api) {
+  if ('current_search' == $owner && 'current_search' == $api) {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function current_search_ctools_plugin_directory($module, $type) {
+  if ('export_ui' == $type) {
+    return 'plugins/export_ui';
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function current_search_ctools_plugin_type() {
+  return array(
+    'items' => array(
+      'use hooks' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Returns an array of available current search plugins.
+ *
+ * @return array
+ *   An associative array keyed by plugin ID to human readable label.
+ */
+function current_search_get_plugins() {
+  $plugins = &ctools_static(__FUNCTION__, array());
+  if (!$plugins) {
+    foreach (ctools_get_plugins('current_search', 'items') as $id => $plugin) {
+      $plugins[$id] = $plugin['handler']['label'];
+    }
+  }
+  return $plugins;
+}
+
+/**
+ * Returns an array of searcher options.
+ *
+ * @return
+ *   An array of options.
+ */
+function current_search_get_searcher_options() {
+  $options = array();
+  foreach (facetapi_get_searcher_info() as $name => $info) {
+    $options[$name] = $info['label'];
+  }
+  return $options;
+}
+
+/**
+ * Returns the settings for a current search block configuration.
+ *
+ * @param $name
+ *   The machine readable name of the configuration.
+ *
+ * @return stdClass
+ *   An object containing the configuration, FALSE if not defined.
+ */
+function current_search_item_load($name) {
+  ctools_include('export');
+  $result = ctools_export_crud_load('current_search', $name);
+  return $result ? $result : FALSE;
+}
+
+/**
+ * Implements hook_current_search_items().
+ */
+function current_search_current_search_items() {
+  return array(
+    'text' => array(
+      'handler' => array(
+        'label' => t('Custom text'),
+        'class' => 'CurrentSearchItemText',
+      ),
+    ),
+    'active' => array(
+      'handler' => array(
+        'label' => t('Active items'),
+        'class' => 'CurrentSearchItemActive',
+      ),
+    ),
+    'group' => array(
+      'handler' => array(
+        'label' => t('Field group'),
+        'class' => 'CurrentSearchGroup',
+      ),
+    ),
+  );
+}

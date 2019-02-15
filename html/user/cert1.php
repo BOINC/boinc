@@ -19,7 +19,6 @@ if ($border=="no") {
 
 $credit = sah_credit_string($user, false);
 
-$title_font = "\"Optima,ZapfChancery\"";
 $font = "\"Optima,Lucida Bright,Times New Roman\"";
 
 echo "

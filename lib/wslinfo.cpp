@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _WIN64
-
 #include "wslinfo.h"
 
 WSL::WSL() {
@@ -94,5 +92,3 @@ int WSLS::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
-
-#endif // _WIN64
