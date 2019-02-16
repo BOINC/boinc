@@ -90,6 +90,7 @@ typedef enum {
 
 char app_name[256];
 DB_APP app;
+DB_APP* g_app = &app;
 int wu_id_modulus=0;
 int wu_id_remainder=0;
 int wu_id_min=0;
