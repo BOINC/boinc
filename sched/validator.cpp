@@ -44,6 +44,8 @@
 //  [--credit_from_wu]          get credit from workunit.canonical_credit
 //  [--credit_from_runtime]     grant credit based on runtime,
 //  [--wu_id n]                 Validate WU n (debugging)
+//  [--check_punitive]          check for results with long-term failure,
+//                              punish host
 
 #include "config.h"
 #include <unistd.h>
@@ -72,6 +74,8 @@
 #ifdef GCL_SIMULATOR
 #include "gcl_simulator.h"
 #endif
+
+using std::vector;
 
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
@@ -105,6 +109,7 @@ bool credit_from_runtime = false;
 bool post_assigned_credit = false;
 bool no_credit = false;
 bool dry_run = false;
+bool check_punitive = false;
 int wu_id = 0;
 int g_argc;
 char **g_argv;
@@ -177,10 +182,52 @@ static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
     }
 }
 
+// check for results with long-term failure; punish those hosts
+//
+void scan_punitive(vector<VALIDATOR_ITEM>& items) {
+    void* data=NULL;
+    char buf[256];
+
+    for (unsigned int i=0; i<items.size(); i++) {
+        RESULT& result = items[i].res;
+        if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
+        if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
+        if (result.validate_state != VALIDATE_STATE_INIT) continue;
+        if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
+            DB_HOST_APP_VERSION hav;
+            sprintf(buf, "host_id=%ld and app_version_id=%ld",
+                result.hostid, result.app_version_id
+            );
+            int retval = hav.lookup(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "scan_punitive(): can't find HAV for results %ld",
+                    result.id
+                );
+                continue;
+            }
+            hav.max_jobs_per_day = 1;
+            hav.n_jobs_today = 1;
+            hav.update();
+        }
+        if (data) {
+            cleanup_result(result, data);
+            data = NULL;
+        }
+
+        // make result as invalid so we don't check it again
+        //
+        DB_RESULT db_result;
+        db_result = result;
+        db_result.validate_state = VALIDATE_STATE_INVALID;
+        db_result.update();
+    }
+}
+
 // handle a workunit which has new results
 //
 int handle_wu(
-    DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
+    DB_VALIDATOR_ITEM_SET& validator, vector<VALIDATOR_ITEM>& items
 ) {
     int canonical_result_index = -1;
     bool update_result, retry;
@@ -192,6 +239,10 @@ int handle_wu(
 
     WORKUNIT& wu = items[0].wu;
     g_wup = &wu;
+
+    if (check_punitive) {
+        scan_punitive(items);
+    }
 
     if (wu.canonical_resultid) {
         log_messages.printf(MSG_NORMAL,
@@ -888,6 +939,8 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "wu_id")) {
             wu_id = atoi(argv[++i]);
             one_pass = true;
+        } else if (is_arg(argv[i], "check_punitive")) {
+            check_punitive = true;
         } else {
             // unknown arg - pass to handler
             argv[j++] = argv[i];
