@@ -697,40 +697,49 @@ function boincuser_termsofuse_form() {
   drupal_set_message( bts('WARNING: You have not agreed to our terms of use. Please agree to the terms of use before continuing.', array(), NULL, 'boinc:termsofuse-form'), 'warning' );
 
   $form = array();
-
-  // Terms of use section
+  drupal_add_js(drupal_get_path('module', 'boincuser') . '/boincuser.js');
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
-  $form['title1'] = array(
+
+  // Fieldset to hold all of the form as a container
+  $form['termsofuse'] = array(
+    '#type'   => 'fieldset',
+    '#prefix' => '<div id="termsofuse-wrapper">', // This is our wrapper div.
+    '#suffix' => '</div>',
+    '#tree'   => TRUE,
+  );
+
+  $form['termsofuse']['title1'] = array(
     '#weight' => -12,
     '#value' => '<h2>' . bts( variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'project:termsofuse-form' ) . '</h2>',
     '#prefix' => '<div id="register-title1">',
     '#suffix' => '</div>',
   );
 
-  $form['termsofuse'] = array(
+  // Terms of use section
+  $form['termsofuse']['body'] = array(
     '#weight' => -10,
     '#value' => bts($termsofuse, array(), NULL, 'project:termsofuse-form'),
     '#prefix' => '<div id="register-termsofuse">',
     '#suffix' => '</div>',
   );
 
-  $form['agreeTOU'] = array(
-    '#type' => 'checkbox',
-    '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:termsofuse-form'),
+  $form['termsofuse']['agreeTOU'] = array(
+    '#type'   => 'checkbox',
+    '#title'  => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:termsofuse-form'),
     '#weight' => -8,
     '#prefix' => '<div id="register-checkbox">',
     '#suffix' => '</div>',
   );
 
-  $form['spacer'] = array(
-    '#prefix' => '<div id="register-title2">',
+  $form['termsofuse']['spacer'] = array(
+    '#prefix' => '<div class="clearfix" id="register-title2">',
     '#value'  => '&nbsp;',
     '#suffix' => '</div>',
   );
 
   // Form Control
   $form['submit'] = array(
-    '#prefix' => '<p><p><p><li class="first tab">',
+    '#prefix' => '<p><p><p><li class="first tab" id="register-submit">',
     '#type' => 'submit',
     '#value' => bts('Yes', array(), NULL, 'boinc:form-submit'),
     '#suffix' => '</li>',
@@ -756,7 +765,7 @@ function boincuser_termsofuse_form() {
 
 function boincuser_termsofuse_form_validate($form, &$form_state) {
   // Check TOU agreement
-  if (!$form_state['values']['agreeTOU']) {
+  if (!$form_state['values']['termsofuse']['agreeTOU']) {
     form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', array(), NULL, 'boinc:termsofuse-form'));
   }
 }
