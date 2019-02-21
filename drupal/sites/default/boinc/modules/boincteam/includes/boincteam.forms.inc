@@ -804,7 +804,7 @@ function boincteam_sendmessagetoteam_submit($form, &$form_state) {
 
   $suid = $form_state['values']['_senderuid'];
   $account = user_load(array('uid' => $suid ));
-  $site_url = $base_url . $base_path . "/messages/new/" . $suid;
+  $site_url = $base_url . $base_path . "messages/new/" . $suid;
 
   // Form is validated, now send to all team members. Lookup boinc
   // id of all team members, and then use user_load() to load user
