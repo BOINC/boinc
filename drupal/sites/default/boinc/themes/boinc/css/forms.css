@@ -205,6 +205,12 @@ form ul.tab-list {
   margin-top: 1em;
 }
 
+/* Form submit 'disabled' with javascript.*/
+.form-submit[disabled] {
+  color: #888888;
+  text-decoration: line-through;
+}
+
 .container-inline div,
 .container-inline label /* Inline labels and form divs */ {
   display: inline;
