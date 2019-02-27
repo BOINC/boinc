@@ -64,7 +64,7 @@ DrupalContextBlockForm = function(blockForm) {
 
     // Hide enabled blocks from selector that are used
     $('table.context-blockform-region tr').each(function() {
-      var bid = $(this).attr('id');
+      var bid = Drupal.checkPlain($(this).attr('id'));
       $('div.context-blockform-selector input[value='+bid+']').parents('div.form-item').eq(0).hide();
     });
     // Show blocks in selector that are unused
