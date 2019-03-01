@@ -62,16 +62,3 @@ if cmp "$HEADER" "$TMPFILE" >/dev/null 2>&1; then
 else
 	mv "$TMPFILE" "$HEADER"
 fi
-
-if [ ! -z ${SERVER_VERSION} ]; then
-    SERVER_VERSION=`echo ${SERVER_VERSION} | sed 's#.*/##'`
-    cat << EOF > html/inc/release.inc
-<?php
-
-global \$server_version ;
-\$server_version = "${SERVER_VERSION}";
-
-?>
-EOF
-
-fi

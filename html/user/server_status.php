@@ -16,7 +16,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Show server status page.
+// Get server status.
+//
+// default: show as web page
+// ?xml=1:  show as XML
+// ?counts=1: show only overall job counts, w/o caching
+//      (for remote job submission systems)
 // Sources of data:
 // - daemons on this host: use "ps" to see if each is running
 //   (this could be made more efficient using a single "ps",
@@ -30,8 +35,7 @@ require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/boinc_db.inc");
-if(file_exists('../inc/release.inc'))
-    include '../inc/release.inc';
+require_once("../inc/server_version.inc");
 
 if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
@@ -102,6 +106,8 @@ function item_html($name, $val) {
 }
 
 function show_status_html($x) {
+    global $server_version, $server_version_str;
+
     page_head(tra("Project status"));
     $j = $x->jobs;
     $daemons = $x->daemons;
@@ -186,12 +192,20 @@ function show_status_html($x) {
     }
     end_table();
     
-    global $server_version;
-    if ( isset($server_version) ) {
-       $url = "https://github.com/BOINC/boinc/tree/server_release/";
-       $url .= explode(".", $server_version)[0] . "." . explode(".", $server_version)[1] . "/" . "$server_version";
-       echo "Upstream server release: <a href=\"" . $url . "\">$server_version</a> <br>";
+    // show server software version.
+    // If it's a release (minor# is even) link to github branch
+    //
+    echo "Server software version: $server_version_str";
+    if ($server_version[1]%2 == 0) {
+        $url = sprintf("%s/%d/%d.%d",
+            "https://github.com/BOINC/boinc/tree/server_release",
+            $server_version[0],
+            $server_version[0],
+            $server_version[1]
+        );
+        echo " <a href=\"$url\">View source on Github</a>.";
     }
+    echo "<br>\n";
 
     if ($j->db_revision) {
         echo tra("Database schema version: "), $j->db_revision;
