@@ -207,8 +207,9 @@ form ul.tab-list {
 
 /* Form submit 'disabled' with javascript.*/
 .form-submit[disabled] {
-  color: #888888;
-  text-decoration: line-through;
+  color: #fccf9c;
+  text-decoration: none;
+  cursor: not-allowed;
 }
 
 .container-inline div,
