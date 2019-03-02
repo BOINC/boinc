@@ -360,5 +360,5 @@
   <string name="social_invite_content_body">Ich benutze mein %1$s um für die Forschung zu rechnen. Du kannst das auch! Hier gibt es die App: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">https://www.amazon.de/Space-Sciences-Laboratory-U-C-Berkeley/dp/B00DCCGLAG/ref=sr_1_1?ie=UTF8&amp;qid=1467183304&amp;sr=8-1&amp;keywords=boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.de/gp/product/B00DCCGLAG</string>
 </resources>
