@@ -7,14 +7,14 @@
 # Translators:
 # Attila Fenyvesi <fenya25@gmail.com>, 2017
 # fischer braun <fischer.braun@gmx.net>, 2015
-# Gabor Cseh <csega@mailbox.hu>, 2016-2018
+# Gabor Cseh <csega@mailbox.hu>, 2016-2019
 # Zoltan Retvari <retvari@freemail.hu>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-01-16 17:52+0000\n"
+"PO-Revision-Date: 2019-02-01 12:10+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid "Total Credit"
 msgstr "Összes kredit"
 
 msgid "App ID"
-msgstr "App ID"
+msgstr "App azonosító"
 
 msgid "Friends (@count)"
 msgstr "@count barát"
@@ -50,7 +50,7 @@ msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Az Einstein@Home program a számítógéped üresjárati idejében egy képernyővédőt futtat, ami forgó neutroncsillagokból (más néven pulzárokból) származó gravitációs hullámokat keres a LIGO gravitációs hullám detektor adatainak felhasználásával."
+msgstr "Az Einstein@Home program a számítógéped üresjárati idejében egy képernyővédőt futtat, ami forgó neutroncsillagokból (más néven pulzárokból) származó gravitációs hullámokat keres a LIGO gravitációshullám-detektor adatainak felhasználásával."
 
 msgid "Run while computer is on battery power?"
 msgstr "Fusson amikor a számítógép akkumulátorról megy?"
@@ -65,22 +65,22 @@ msgid "Run GPU work while computer is in use?"
 msgstr "Fusson a GPU-n amikor a számítógépet használják?"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "A \"használat\" egér mozgást vagy billentyűzést jelent az utóbbi"
+msgstr "A \"használat\" egérmozgást vagy billentyűzetleütést jelent az utóbbi"
 
 msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "A munka felfüggesztése, ha nincs egérmozgás/billentyűzés az utóbbi"
+msgstr "A munka felfüggesztése, ha nincs egérmozgás/billentyűzetleütés az utóbbi"
 
 msgid "Needed to enter low-power mode on some computers"
-msgstr "Szükséges némely számítógépen, hogy energiatakarékos állapotba mehessen."
+msgstr "Szükséges némely számítógépen, hogy energiatakarékos állapotba mehessen"
 
 msgid "Suspend work if CPU usage is above"
 msgstr "A munka felfüggesztése, ha a CPU használat magasabb mint"
 
 msgid "0 means no restriction. Enforced by version @number"
-msgstr "0 = korlátlan. A @version verziótól érvényes"
+msgstr "0 = korlátlan. A @number verziószámtól érvényes"
 
 msgid "Do work only between the hours of:"
-msgstr "Csak az következő időpontok között működjön (órában):"
+msgstr "Csak a következő időpontok között működjön (órában):"
 
 msgid "No restriction if equal"
 msgstr "Nincs korlát, ha egyformák."
@@ -89,7 +89,7 @@ msgid "Leave tasks in memory while suspended?"
 msgstr "A felfüggesztett feladat a memóriában maradjon?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "A felfüggesztett feladatok a háttérfileból foglalnak helyet, ha \"igen\""
+msgstr "A felfüggesztett feladatok a lapozóterületről foglalnak helyet, ha \"igen\""
 
 msgid "Recommended: @period minutes"
 msgstr "Ajánlott időtartam: @period perc"
@@ -252,7 +252,7 @@ msgid ""
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr ""
+msgstr "Az Einstein@Home egy program, ami a számítógéped üresjárati idejét használja azért, hogy egy képernyővédőt futtasson, amely olyan gravitációs hullámokat keres, melyek elszigetelt, forgó, kompakt objektumoktól (például pulzárok) származnak. Ehhez a LIGO gravitációshullám-detektor adatait használja fel."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
@@ -261,39 +261,39 @@ msgid ""
 msgstr "Az Einstein@Home egy program, ami a számítógéped üresjárati idejét használja gravitációs hullámok keresésére, melyek elszigetelt, forgó, kompakt objektumoktól (például pulzárok) származnak. Ehhez a LIGO gravitációshullám-detektor adatait használjuk fel."
 
 msgid "Add separate preferences for @venue"
-msgstr ""
+msgstr "Külön beállítások hozzáadása @venue számára"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
 "left the team or have not had contact with the team for a long time."
-msgstr ""
+msgstr "@name csapattag alapító szeretne lenni. Ez azért lehet, mert kiléptél a csapatból, vagy nagyon régen nem léptél kapcsolatba a csapatoddal."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr ""
+msgstr "A csapat alapítójának 1 napja van arra, hogy válaszoljon az alapítócserével kapcsolatos felkérésedre."
 
 msgid "Message board title is required."
-msgstr ""
+msgstr "Üzenőfali cím szükséges."
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr ""
+msgstr "Figyelem: A tartalmat <a href=\"@url\">újra kell indexelni</a> ahhoz, hogy az Apache Solr keresni tudjon a kommentek között."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr ""
+msgstr "Válaszd ki azokat a tartalomtípusokat, amelyeknél a kommenteket az Apache Solr indexeli. A tartalmakat újra kell indexelni ezen beállítás megváltoztatása után."
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr ""
+msgstr "Ha megváltoztatod egy felhasználó emailcímét, egyúttal a jelszót is meg kell változtatnod."
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr ""
+msgstr "Használat: A 'beállítások mentése' menteni fogja a fenti beállításokat a drupal adatbázisba. Ezek lesznek az előre beállított (globális) számítási beállítások, melyek a beállítások űrlapon fognak megjelenik, amikor egy felhasználó betölti a Fiókbeállítások lapot."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -303,7 +303,7 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr ""
+msgstr "A 'Beállítások mentése a lemezhasználati beállításokkal a config.xml-ből' menteni fogja a fenti beállításokat a drupal adatbázisba, de emellett a lemezhasználati beállításokat is elmenti a BOINC projekt config.xml fájljából. Ez a lehetőség felül fog írni minden fentebbi lemezhasználati beállítást. Figyelem: A felhasználók személyes beállításai nem fognak változni, ha betöltöd a lemezhasználati beállításokat az itteni config.xml fájlból a drupal adatbázisba. A beállítások preferenciáját kézzel kell átállítani."
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -354,7 +354,7 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr ""
+msgstr "Mondd el a véleményed erről: @this_project\n  1. Miért futtatod ezt: @this_project?\n  2. Mi a véleméyned a projektről?\n  3. Van bármilyen javaslatod?"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -384,7 +384,7 @@ msgstr "A weboldal URL-je"
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr ""
+msgstr "@this_project Folyamat"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -394,12 +394,12 @@ msgstr "Projektek"
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr ""
+msgstr "Nincsenek barátok hozzáadva."
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr ""
+msgstr "Összes barát megtekintése"
 
 #: friends-page
 msgctxt "friends-page"
@@ -409,12 +409,12 @@ msgstr "Barát felkérések"
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr ""
+msgstr "Várakozás barátság jóváhagyásra"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr ""
+msgstr "Keresés az oldalon"
 
 #: menu-link
 msgctxt "menu-link"
@@ -424,7 +424,7 @@ msgstr "Hírek"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr ""
+msgstr "Bizonyítványok"
 
 #: account-host-list
 msgctxt "account-host-list"
@@ -434,7 +434,7 @@ msgstr "Minden számítógép"
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr ""
+msgstr "Az elmúlt 30 napban aktív számítógépek"
 
 #: menu-link
 msgctxt "menu-link"
@@ -449,27 +449,27 @@ msgstr "Közösség"
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr ""
+msgstr "Biztonság"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Feliratkozások"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Feliratkozások"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr ""
+msgstr "Frissítve"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr ""
+msgstr "Várakozási sor"
 
 #: menu-link
 msgctxt "menu-link"
@@ -479,7 +479,7 @@ msgstr "Profil"
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Az elmúlt 30 napban aktív"
 
 #: user-host-list
 msgctxt "user-host-list"
@@ -519,7 +519,7 @@ msgstr "Új létrehozása"
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr ""
+msgstr "Számítógépek mutatása"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -539,17 +539,17 @@ msgstr "Belépés hitelesítővel"
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr ""
+msgstr "A sorban nincsen moderálásra váró tartalom."
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr ""
+msgstr "Felhasználói fiók moderáló sor"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Az elmúlt 30 napban aktív"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
@@ -559,7 +559,7 @@ msgstr "Hozzászólás tőle:"
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Feliratkozások"
 
 #: country-of-origin
 msgctxt "country-of-origin"
@@ -991,17 +991,17 @@ msgstr "Jóváhagyás"
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr ""
+msgstr "Csúcs munkahalmazméret"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr ""
+msgstr "Csúcs swap méret"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr ""
+msgstr "Csúcs lemezhasználat"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1148,27 +1148,27 @@ msgstr "Idézés"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr ""
+msgstr "Válasz erre a hozzászólásra idézettel"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr ""
+msgstr "Csatlakozott: @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr ""
+msgstr "Bejegyzések: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr ""
+msgstr "Kreditek: @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr ""
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
@@ -1475,37 +1475,37 @@ msgstr "Processzorhasználat"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr ""
+msgstr "Felfüggesztés, ha a számítógép akkumulátorról működik?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr ""
+msgstr "Felfüggeszti a számítást a hordozható eszközökön, ha azok akkumulátorról működnek."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr ""
+msgstr "Felfüggesztés, ha a számítógép használatban van?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr ""
+msgstr "Felfüggeszti a számításokat és a fájlátviteleket, ha a számítógép használatban van."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr ""
+msgstr "GPU szűmítás felfüggesztése, ha a számítógép használatban van?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr ""
+msgstr "Felfüggeszti a GPU számításokat, ha a számítógép használatban van."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr ""
+msgstr "A \"használatban\" azt jelenti, hogy volt egér/billentyűzet-aktivitás az elmúlt"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1515,7 +1515,7 @@ msgstr "perc"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr ""
+msgstr "Ez a beállítás határozza meg, hogy mikor tekinthető a számítógép \"használatban\" lévőnek."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1540,7 +1540,7 @@ msgstr "Számítás felfüggesztése, ha a gépet más programok használják."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr ""
+msgstr "Számítás csak e között:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -1555,7 +1555,7 @@ msgstr "Csak a nap bizonyos szakában dolgozzon."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr ""
+msgstr "Hagyjuk a memóriában a nem-GPU feladatokat felfüggesztés esetén?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1563,7 +1563,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "Ha \"Igen\", akkor a felfüggesztett feladatok a memóriában maradnak, és folytatódnak elvesztett munka nélkül. Ha \"Nem\", akkor a felfüggesztett feladatokat eltávolítjuk a memóriából, és folytatásukkor a legutóbbi ellenőrzőponttól indulnak."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1613,7 +1613,7 @@ msgstr "Lemez- és memóriahasználat"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr ""
+msgstr "Lemez: ne használj többet, mint"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1623,7 +1623,7 @@ msgstr "A BOINC által maximálisan használt lemezterület."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr ""
+msgstr "Lemez: hagyj legalább"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1786,14 +1786,14 @@ msgstr "Példa: a BOINC legfeljebb 2000 MB adatot továbbíthat 30 nap alatt."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr ""
+msgstr "Kihagyjuk az adatverifikációt képfájlok esetén?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr ""
+msgstr "Csak akkro válaszd az \"Igen\"-t, ha az internetszolgáltatód módosítja a képfájlokat. A verifikáció kihagyása csökkenti a BOINC biztonságosságát."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -1842,7 +1842,7 @@ msgstr "CPU használata"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr ""
+msgstr "Csak CPU feladatok kérése ettől a projekttől."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1852,7 +1852,7 @@ msgstr "NVIDIA GPU használata"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr ""
+msgstr "NVIDIA GPU feladatok kérése ettől a projekttől."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1862,7 +1862,7 @@ msgstr "ATI GPU használata"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr ""
+msgstr "ATI GPU feladatok kérése ettől a projekttől."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1872,7 +1872,7 @@ msgstr "Intel GPU használata"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr ""
+msgstr "Intel GPU feladatok kérése ettől a projekttől."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -2035,12 +2035,12 @@ msgstr "Az aláírások elrejtése a fórumokban"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr ""
+msgstr "Felhasználók figyelmen kívül hagyása a fórumokban:"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr ""
+msgstr "Figyelmen kívül hagyott felhasználók listájának <a href=\"@ignore-user-list\">megnézése/szerkesztése</a>."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
@@ -2175,7 +2175,7 @@ msgstr "Keresés a csapatok között"
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr ""
+msgstr "Az ehhez a munkacsomaghoz tartozó feladatok fel vannak függesztve."
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
@@ -2269,7 +2269,7 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr ""
+msgstr "Nem találtunk beállításokat ehhez: '@venue'. Kattints a VÁLTOZÁSOK MENTÉSE gombra az alábbi beállítások fiókodra történő mentéséhez."
 
 #: join-page
 msgctxt "join-page"
@@ -2284,7 +2284,7 @@ msgstr "Futtasd a telepítőt"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr ""
+msgstr "válasz"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2294,7 +2294,7 @@ msgstr "Válasz erre a hozzászólásra"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr ""
+msgstr "Válasz erre a témára idézettel"
 
 #: private-message
 msgctxt "private-message"
@@ -2461,7 +2461,7 @@ msgstr "Ha nem találsz megfelelő csapatot magadnak, létre is hozhatsz egyet."
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr ""
+msgstr "Bejelentkezés új csapat létrehozásához"
 
 #: join-page
 msgctxt "join-page"
@@ -2689,7 +2689,7 @@ msgstr "Nézet átváltása"
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr ""
+msgstr "Fájlok átvitele csak e között:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -3129,12 +3129,12 @@ msgstr "válasz a kérésre"
 msgctxt "team-founder-change"
 msgid ""
 "A foundership transfer request has been made for your team. Please !respond."
-msgstr ""
+msgstr "Alapítóátadási kérést indítottak a csapatodhoz. Kérjük, !válaszolj."
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Respond to transfer request"
-msgstr ""
+msgstr "Válasz az átvitelkérésre"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3142,7 +3142,7 @@ msgid ""
 "If you don't decline the request by @date, @name will have the option of "
 "assuming team foundership. (note: To accept the request, assign foundership "
 "to @name using the form below)"
-msgstr ""
+msgstr "Ha nem utasítod el a kérést eddig: @date, @name megkapja a lehetőséget, hogy magához ragadja a csapat alapítói jogát. (Megjegyzés: a kérés elfogadásához rendeld hozzá az alapítói jogkört hozzá: @name az alábbi nyomtatvány használatával.)"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3324,7 +3324,7 @@ msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr ""
+msgstr "Nem létezik fiók ehhez az emailcímhez: @email -- kérjük, készíts egy fiókot a BOINC klienssel -- !útmutató"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3358,7 +3358,7 @@ msgstr "Függőben"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr ""
+msgstr "A fiókodhoz tartozó feladatok"
 
 #: task-table
 msgctxt "task-table"
@@ -3368,7 +3368,7 @@ msgstr "Alkalmazás"
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr ""
+msgstr "Összes alkalmazás"
 
 #: task-table
 msgctxt "task-table"
@@ -3393,7 +3393,7 @@ msgstr "Elküldve"
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr ""
+msgstr "Jelentési idő vagy határidő"
 
 #: task-table
 msgctxt "task-table"
@@ -3413,12 +3413,12 @@ msgstr "Processzor idő"
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr ""
+msgstr "Igényelt kredit"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr ""
+msgstr "Garantált kredit"
 
 #: task-table
 msgctxt "task-table"
@@ -3458,32 +3458,32 @@ msgstr "Visszaállítás"
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr ""
+msgstr "Szűrő alkalmazása"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr ""
+msgstr "Nincs engedélyed ezt a gazdagép módosításához."
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr ""
+msgstr "Feladatok ehhez a számítógéphez: @host_id"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr ""
+msgstr "A ehhez a gazdagéphez tartozó földrajzi fekvés frissítve."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr ""
+msgstr "Ez akkor lép érvényre, amikor a gazdagép legközelebb kapcsolatba lép a projekttel."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr ""
+msgstr "A profil nem létezik."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
@@ -3529,7 +3529,7 @@ msgstr "Futtasd a telepítőt."
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr ""
+msgstr "Válassz projektet (@sitename) a listából, vagy add meg a(z) @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3541,7 +3541,7 @@ msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "Válaszd az <i>Eszközök / Projekt hozzáadása</i> menüpontot. Válassz a listából egy @sitename-t, vagy adj meg egy @siteurl-t."
 
 #: join-page
 msgctxt "join-page"
@@ -3550,7 +3550,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "Ha a BOINC parancssori verzióját használod,\nelőször is használd a BOINC Kezelőt (ha szükséges, másik gépen), hogy\nlétre tudj hozni egy fiókot ennél a projektnél, majd használd ezt a fiókot\na projekthez való csatlakozáshoz a <b>!boinccmd</b> parancssori verziójának használatával."
 
 #: join-page
 msgctxt "join-page"
@@ -3558,52 +3558,52 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "Ha a BOINC 5.0 előtti verzióját használod, kérjük,\nfrissíts egy újabb BOINC verzióra, máskülönben nem tudsz fiókot létrehozni\nennél: @this_project."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr ""
+msgstr "@user az alapítója ennek a csapatnak: @team!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "A BOINC fordítási szűrő segít feldarabolni a tartalmat a fordításhoz."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "Feldarabolja a tartalmat a fordításhoz."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr ""
+msgstr "BOINC fordítási szűrő"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "Szűrendő tartalomtípusok"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "Válaszd ki azt a típusú tartalmat (csomópontot), melyet darabolni szeretnél a fordításhoz."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr ""
+msgstr "Hibakeresési információk kinyomtatása"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr ""
+msgstr "További hibakeresési információkat nyomtat ki. Működő oldalakon ezt az opciót érdemes kikapcsolni."
 
 #: join-page
 msgctxt "join-page"
@@ -3613,7 +3613,7 @@ msgstr "Szabályok és vezérelvek"
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr ""
+msgstr "!rules_and_policies elolvasása."
 
 #: account-password
 msgctxt "account-password"
@@ -3675,72 +3675,72 @@ msgstr "a rich-text engedélyezése"
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr ""
+msgstr "feliratkozás"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr ""
+msgstr "leiratkozás"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr ""
+msgstr "Jelentés"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr ""
+msgstr "Jelentés visszavonása"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr ""
+msgstr "Zászlók visszaállítása"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr ""
+msgstr "Felhasználó ignorálása"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr ""
+msgstr "Minden feladat"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr ""
+msgstr "Jelentési idő vagy határidő"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr ""
+msgstr "Futási idő (mp)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr ""
+msgstr "CPU idő (mp)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr ""
+msgstr "Hiteles eredmény"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr ""
+msgstr "A hibás/összes/sikeres feladatok max száma"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr ""
+msgstr "Üzenet az oldal kezdőlapjára"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr ""
+msgstr "Ez a szöveg az oldal kezdőlapján fog megjelenni."
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3767,7 +3767,7 @@ msgstr "Nincs közzétéve"
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr ""
+msgstr "E téma felfedése"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3819,17 +3819,17 @@ msgstr "Kérjük, válassz csapattípust."
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr ""
+msgstr "BOINC ID"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr ""
+msgstr "A feladat nem található az adatbázisban."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr ""
+msgstr "A munkacsomag nem található az adatbázisban."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
@@ -3839,7 +3839,7 @@ msgstr "Stderr kimenet"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr ""
+msgstr "Kérjük, vedd figyelembe: a felhasználói profilok moderálhatóak."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3848,60 +3848,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "Köszönjük, @user_name, hogy csatlakoztál ehhez: @site_name. A fiókodat létrehoztuk. A BOINC kliensed nemsokára elkezd dolgozni a kirendelt feladatokon, ehhez semmilyen további teendőd nincs. Kérjük, látogasd meg az alábbi linket további információkért és beállítási lehetőségekért. (A link úja ablakban fog megnyílni.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr ""
+msgstr "Közösségi beállítások"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr ""
+msgstr "Változtasd meg a felhasználói neved itt: !community_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr ""
+msgstr "A többi önkéntes ezen a weboldalon a felhasználói neved alapján fog tudni azonosítani."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "Továbbá beállíthatod az alapértelmezett nyelvet és finomhangolhatod az értesítési beállításokat."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr ""
+msgstr "Számítási beállítások"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr ""
+msgstr "Változtasd meg ezt: !computing_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "Beállíthatod, mennyi CPU-t, RAM-ot és lemezterületet engedélyezel a BOINC kliensnek a különböző feladatok futtatására ezen a számítógépen."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr ""
+msgstr "Alapértelmezés szerint @site_name feladatokat fogsz futtatni, további beállítás nem szükséges."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr ""
+msgstr "fórumok"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3909,24 +3909,24 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr ""
+msgstr "Az új önkénteseknek ajánlott az alapértelmezett beállításokat használni, amíg tapasztalatot nem gyűjtenek néhány feladat futtatásával. Tegyél fel kérdéseket itt: !forums, és kérj tanácsot, mielőtt bármilyen beállítást megváltoztatnál, amit nem értesz."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr ""
+msgstr "Felhasználói profil"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr ""
+msgstr "!user_profile készítése."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr ""
+msgstr "A felhasználói profilból a többi önkéntes megtudhatja, hogy ki vagy és miért csatlakoztál a(z) @site_name projekthez."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3936,29 +3936,29 @@ msgstr "Csapat"
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr ""
+msgstr "Csatlakozás ehhez: !team."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr ""
+msgstr "Csatlakozhatsz egy csoporthoz, mely további önkéntesekből áll."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr ""
+msgstr "Fiók műszerfal"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr ""
+msgstr "Ugrás ide: !account_dashboard."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr ""
+msgstr "A fiók műszerfaladon információk és linkek vannak a számítógépe(i)dről, és a hozzá(juk) rendelt feladat(ok)ról."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3968,17 +3968,17 @@ msgstr "Segítség"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr ""
+msgstr "Látogasd meg a !help lapokat."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr ""
+msgstr "Kérj segítséget a közösségi !forums oldalain."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr ""
+msgstr "HIBA: Ezzel a hitelesítővel nem létezik fiók."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3988,14 +3988,14 @@ msgstr "A beállításokat utoljára @mod_time-kor módosították"
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr ""
+msgstr "A gazdagép nem található az adatbázisban."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr ""
+msgstr "HIBA: Probléma történt a fiókod betöltése közben. Próbálj meg belépni a felhasználói neveddel és a jelszavaddal."
 
 #: team-add-admin
 msgctxt "team-add-admin"
@@ -4010,30 +4010,30 @@ msgstr "moderáció"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr ""
+msgstr "Kérjük, vedd figyelembe: a felhasználói profilok !moderation tárgyát képezhetik."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr ""
+msgstr "Alapbeállításban a keresés BÁRMILYEN keresőkifejezésre kiterjed. A több, mint egy kifejezést tartalmazó találatokat előrébb soroltuk a találatok között."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr ""
+msgstr "Ha az 'AND' kifejezést használod, a keresőmotor csak azokat a találatokat jeleníti meg, melyek az ÖSSZES keresőkifejezést tartalmazzák."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr ""
+msgstr "Például ha rákeresel a 'boinc AND kliens' kifejezésre, csak olyan találatokat fogsz látni, melyek mind a boinc, mind a kliens kifejezéseket tartalmazzák."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr ""
+msgstr "Segítség a kereséshez"
