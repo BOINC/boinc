@@ -193,7 +193,7 @@ function validate_post_make_user() {
     if ($checkct and check_termsofuse()) {
         $agree = post_str("agree_to_terms_of_use", true);
         if (!$agree) {
-            error_page(tra("You have not agreeed to our terms of use. Please agree to the terms of use by navigating back to the previous page, in order to create your account"));
+            error_page(tra("You have not agreed to our terms of use. Please agree to the terms of use by navigating back to the previous page, in order to create your account"));
         }
         $myconsent = TRUE;
     }
