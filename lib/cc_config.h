@@ -198,6 +198,7 @@ struct CC_CONFIG {
     bool use_certs_only;
         // overrides use_certs
     bool vbox_window;
+    std::vector<std::string> ignore_tty;
 
     CC_CONFIG();
     void defaults();

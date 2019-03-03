@@ -267,6 +267,7 @@ void CC_CONFIG::defaults() {
     use_certs = false;
     use_certs_only = false;
     vbox_window = false;
+    ignore_tty.clear();
 }
 
 int EXCLUDE_GPU::parse(XML_PARSER& xp) {
@@ -311,6 +312,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         ignore_gpu_instance[i].clear();
     }
     exclude_gpus.clear();
+    ignore_tty.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -429,6 +431,10 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+        if (xp.parse_string("ignore_tty", s)) {
+            ignore_tty.push_back(s);
+            continue;
+        }
 
         // The following 3 tags have been moved to nvc_config and
         // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
@@ -680,6 +686,12 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         use_certs_only,
         vbox_window
     );
+    for (i=0; i<ignore_tty.size(); ++i) {
+        out.printf(
+            "        <ignore_tty>%s</ignore_tty>\n",
+            ignore_tty[i].c_str()
+        );
+    }
 
     out.printf("    </options>\n</cc_config>\n");
     return 0;
