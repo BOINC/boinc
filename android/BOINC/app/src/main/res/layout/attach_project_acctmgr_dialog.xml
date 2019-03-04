@@ -41,6 +41,15 @@
             android:layout_margin="10dp"/>
 
     <EditText
+        android:id="@+id/url_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/attachproject_acctmgr_header_url"
+        android:inputType="textUri"
+        android:minWidth="200dp"/>
+
+    <EditText
             android:id="@+id/name_input"
             android:inputType="textNoSuggestions"
             android:hint="@string/attachproject_acctmgr_header_name"
