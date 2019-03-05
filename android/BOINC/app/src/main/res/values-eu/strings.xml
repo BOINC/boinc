@@ -27,7 +27,9 @@
   <string name="attachproject_conflict_not_unique">Kontua existitzen da pasahitz ezberdin batekin</string>
   <string name="attachproject_conflict_bad_password">Pasahitza ez da zuzena</string>
   <string name="attachproject_conflict_unknown_user">Kontua ez da existitzen</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontua ez da existitzen, joan proiektuaren webgunera izena emateko</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontua ez da existitzen, joan proiektuaren webgunera
+izena emateko
+</string>
   <!--working-->
   <string name="attachproject_working_attaching">Gehitzen</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
   <string name="attachproject_hint_projectwebsite_science">Zientziari buruz azalpen gehiago</string>
   <string name="attachproject_hint_projectwebsite_stats">Begiratu emandako laguntzaren estatistika</string>
   <string name="attachproject_hint_projectwebsite_community">Jarri harremanetan beste bolondresekin</string>
-  <string name="attachproject_hint_platforms_header">Zure ordenagailuarentzat edo eramangarriarentzat ere eskuragarri dago BOINC, azalpen gehiagorako begiratu boinc.berkeley.edu.</string>
+  <string name="attachproject_hint_platforms_header">Zure ordenagailuarentzat edo eramangarriarentzat ere eskuragarri dago BOINC,
+azalpen gehiagorako begiratu boinc.berkeley.edu.
+</string>
   <!--project login-->
   <string name="attachproject_login_loading">Proiektuaren zerbitzariarekin kontaktatzen...</string>
   <string name="attachproject_login_image_description">Proiektuaren logoa.</string>
@@ -55,15 +59,19 @@
   <string name="attachproject_login_platform_supported">Proiektu honek onartzen du gailu mota hau</string>
   <string name="attachproject_login_platform_not_supported">Proiektu honek ez du onartzen gailu mota hau</string>
   <string name="attachproject_login_category_terms_of_use">Erabilpen baldintzak honentzat</string>
-  <string name="attachproject_login_accept_terms_of_use">Proiektu honetan kontu bat sortzearekin batera goiko erabilpen baldintzak onartzen dituzu.</string>
+  <string name="attachproject_login_accept_terms_of_use">Proiektu honetan kontu bat sortzearekin batera
+goiko erabilpen baldintzak onartzen dituzu.
+</string>
   <string name="attachproject_login_category_login">Hasi saioa oraingo kontuarekin</string>
   <string name="attachproject_login_header_id_email">Helbide elektronikoa:</string>
   <string name="attachproject_login_header_id_name">Izena:</string>
   <string name="attachproject_login_header_pwd">Pasahitza:</string>
   <string name="attachproject_login_category_creation">Berria hemen</string>
   <string name="attachproject_login_header_creation_enabled">Sortu kontu bat parte hartzeko:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Joan proiektuaren webgunera kontu bat sortzeko:</string>
-  <string name="attachproject_login_header_creation_disabled">Proiektu honek ez du orain kontu berririk onartzen.</string>
+  <string name="attachproject_login_header_creation_client_disabled">Joan proiektuaren webgunera kontu bat sortzeko:
+</string>
+  <string name="attachproject_login_header_creation_disabled">Proiektu honek ez du orain kontu berririk onartzen.
+</string>
   <string name="attachproject_login_button_registration">Izena eman</string>
   <string name="attachproject_login_button_login">Hasi saioa</string>
   <string name="attachproject_login_button_forgotpw">Pasahitza ahaztuta</string>
@@ -79,7 +87,8 @@
   <string name="attachproject_registration_header_pwd_confirm">... Berridatzi:</string>
   <string name="attachproject_registration_button">Sortu</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Erabili BOINCen kontu-administratzailea proiektuak gehitu eta kudeatzeko</string>
+  <string name="attachproject_acctmgr_list_desc">Erabili BOINCen kontu-administratzailea proiektuak gehitu eta kudeatzeko
+</string>
   <string name="attachproject_acctmgr_header">Gehitu kontu-administratzailea</string>
   <string name="attachproject_acctmgr_header_url">URLa</string>
   <string name="attachproject_acctmgr_header_name">Erabiltzailea:</string>
@@ -155,23 +164,33 @@
   <string name="prefs_category_cpu">PUZa</string>
   <string name="prefs_category_storage">Biltegiratzea</string>
   <string name="prefs_category_memory">Memoria</string>
+  <string name="prefs_category_other">Besteak</string>
   <string name="prefs_category_debug">Araztu</string>
   <string name="prefs_show_advanced_header">Erakutsi hobespen aurreratuak eta kontrolak...</string>
   <string name="prefs_suspend_when_screen_on">Pausarazi konputazioa pantaila piztuta dagoenean</string>
+  <string name="prefs_general_device_name_header">Gailuaren izena</string>
   <string name="prefs_stationary_device_mode_header">Gailu-egonkor modua</string>
-  <string name="prefs_stationary_device_mode_description">Konputazioa baimentzen du energia hobespenei jaramonik egin gabe. Gaitu soilik gailuak bateriarik ez badu.</string>
+  <string name="prefs_stationary_device_mode_description">Konputazioa baimentzen du energia hobespenei jaramonik egin gabe.
+Gaitu soilik gailuak bateriarik ez badu.
+</string>
   <string name="prefs_power_source_header">Konputaziorako energia iturriak</string>
-  <string name="prefs_power_source_description">BOINCek konputaziorako erabil ditzakeen energia iturriak aukeratzen ditu.</string>
+  <string name="prefs_power_source_description">BOINCek konputaziorako erabil ditzakeen energia iturriak aukeratzen ditu.
+</string>
   <string name="prefs_power_source_ac">Lokia</string>
   <string name="prefs_power_source_usb">USB konexioa</string>
   <string name="prefs_power_source_wireless">Haririk gabeko kargagailua</string>
   <string name="prefs_power_source_battery">Bateria</string>
   <string name="battery_charge_min_pct_header">Bateriaren gutxieneko karga-maila</string>
-  <string name="battery_charge_min_pct_description">BOINCek konputazioa eteten du bateriaren karga-maila zehaztutakoa baino baxuagoa denean.</string>
+  <string name="battery_charge_min_pct_description">BOINCek konputazioa eteten du bateriaren karga-maila zehaztutakoa baino baxuagoa denean.
+</string>
   <string name="battery_temperature_max_header">Bateriaren gehieneko tenperatura</string>
-  <string name="battery_temperature_max_description">BOINCek konputazioa eteten du bateriaren tenperatura zehaztutakoa baino altuagoa denean. Ez da gomendatzen balio hau aldatzea.</string>
+  <string name="battery_temperature_max_description">BOINCek konputazioa eteten du bateriaren tenperatura zehaztutakoa baino altuagoa denean.
+Ez da gomendatzen balio hau aldatzea.
+</string>
   <string name="prefs_disk_max_pct_header">Erabilitako gehieneko biltegiratze tamaina</string>
-  <string name="prefs_disk_max_pct_description">Zure gailuko biltegiratze tamainaren ehuneko zenbat erabil dezake BOINCek?</string>
+  <string name="prefs_disk_max_pct_description">Zure gailuko biltegiratze tamainaren ehuneko zenbat erabil dezake
+BOINCek?
+</string>
   <string name="prefs_disk_min_free_gb_header">Gutxieneko biltegiratze tamaina libre</string>
   <string name="prefs_disk_min_free_gb_description">Zure gailuko biltegiratze tamainatik zenbat gelditu beharko litzateke libre?</string>
   <string name="prefs_disk_access_interval_header">Sartzeko denbora-tartea</string>
@@ -185,11 +204,19 @@
   <string name="prefs_cpu_number_cpus_header">Erabilitako prozesadore-nukleoak</string>
   <string name="prefs_cpu_number_cpus_description">BOINCek konputaziorako erabiltzen dituen prozesadore-nukleo kopurua mugatzen du.</string>
   <string name="prefs_cpu_other_load_suspension_header">Eten PUZaren erabilerak maila hau gainditzen badu:</string>
-  <string name="prefs_cpu_other_load_suspension_description">Beste aplikazioen PUZaren erabileragatik BOINCek konputazioa noiz pausarazten duen zehazten du.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Beste aplikazioen PUZaren erabileragatik BOINCek konputazioa noiz
+pausarazten duen zehazten du.
+</string>
   <string name="prefs_cpu_time_max_header">PUZ muga</string>
   <string name="prefs_cpu_time_max_description">Mugatu BOINCek konputaziorako erabiltzen duen PUZ denbora.</string>
   <string name="prefs_memory_max_idle_header">RAM memoriaren muga</string>
   <string name="prefs_memory_max_idle_description">Atazek erabil dezaketen RAM kopurua mugatzen du.</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Lan-unitateen bufferra</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_description">Gorde gutxienez X egunetarako lana</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Lan-unitateen buffer gehigarria</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Gorde X egunetarako lan
+gehigarria
+</string>
   <string name="prefs_client_log_flags_header">BOINC bezeroaren erregistro banderak</string>
   <string name="prefs_gui_log_level_header">GUIren erregistro maila</string>
   <string name="prefs_gui_log_level_description">GUIren erregistro-mezuen luzera zehazten du.</string>
@@ -328,14 +355,18 @@
   <string name="menu_run_mode_enable">Berrekin</string>
   <string name="menu_about">Honi buruz</string>
   <string name="menu_help">Laguntza</string>
+  <string name="menu_report_issue">Arazoaren berri eman</string>
   <!--about dialog-->
   <string name="about_button">Itzuli</string>
   <string name="about_title">Honi buruz</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Bertsioa</string>
   <string name="about_name_long">Sare bidezko Konputaziorako Berkeleyko Azpiegitura Irekia</string>
+  <string name="about_copyright">\u00A9 2003–2018 Kaliforniako Unibertsitatea Berkeleyn.</string>
   <string name="about_copyright_reserved">Eskubide guztiak erreserbatuta.</string>
-  <string name="about_credits">Eskerrik asko Max Planck-en Grabitazioaren Fisikako Institutuari, IBM Korporazioari eta HTC Korporazioari beraien laguntzagatik.</string>
+  <string name="about_credits">Eskerrik asko Max Planck-en Grabitazioaren Fisikako Institutuari, IBM Korporazioari eta HTC 
+Korporazioari beraien laguntzagatik.
+</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">%1$s(e)tik ohar berriak</item>
@@ -343,14 +374,20 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Borondatezko konputazio-aplikazioa hauteman da</string>
-  <string name="nonexcl_dialog_text">Borondatezko beste konputazio-aplikazio bat exekutatzen ari da gailu honetan. Aldi bakoitzean bakarra exekuta daiteke soilik.</string>
+  <string name="nonexcl_dialog_text">Borondatezko beste konputazio-aplikazio bat exekutatzen ari da gailu honetan. Aldi bakoitzean bakarra
+exekuta daiteke soilik.
+</string>
   <string name="nonexcl_dialog_exit">Irten</string>
   <!--social integration-->
   <string name="social_invite_button">Gonbidatu lagunak</string>
   <string name="social_invite_intent_title">Nola nahi duzu partekatu?</string>
   <string name="social_invite_content_title">Zientzia egiten ari naiz nire telefono adimendunean!</string>
-  <string name="social_invite_content_body">Nire %1$s erabiltzen ari naiz konputazio bidezko zientzia egiteko. Zuk ere egin dezakezu! Jaitsi aplikazioa hemendik: %2$s</string>
+  <string name="social_invite_content_body">Nire %1$s erabiltzen ari naiz konputazio bidezko zientzia egiteko. Zuk ere egin dezakezu! Jaitsi
+aplikazioa hemendik: %2$s
+</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+</string>
 </resources>

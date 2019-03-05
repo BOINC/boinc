@@ -244,7 +244,7 @@ struct PROJECT : PROJ_AM {
     bool some_result_suspended();
     bool uploading();
     bool has_results();
-    int n_concurrent;
+    int proj_n_concurrent;
         // used to enforce APP_CONFIGS::max_concurrent
 
     struct RESULT *next_runnable_result;

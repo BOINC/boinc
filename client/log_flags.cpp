@@ -423,7 +423,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
-#ifndef SIM
         if (xp.match_tag("proxy_info")) {
             retval = proxy_info.parse_config(xp);
             if (retval) {
@@ -433,7 +432,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             }
             continue;
         }
-#endif
         if (xp.parse_double("rec_half_life_days", rec_half_life)) {
             if (rec_half_life <= 0) rec_half_life = 10;
             rec_half_life *= 86400;

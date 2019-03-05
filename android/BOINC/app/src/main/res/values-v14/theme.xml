@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -24,21 +23,21 @@
     <style name="Theme.Styled" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/StyledActionBar</item>
         <item name="android:actionBarTabStyle">@style/StyledActionBarTabView</item>
-    	<item name="android:itemBackground">@color/dark_blue</item>
-    </style>
-    
-    <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-    	<item name="android:background">@drawable/shape_dark_blue_gradient_background</item>
-    	<item name="android:backgroundStacked">@color/dark_blue</item>
-    	<item name="android:titleTextStyle">@style/StyledActionBarTitleText</item>
-	</style>
-    
-    <style name="StyledActionBarTabView" parent="@style/Widget.AppCompat.ActionBar.TabView">
-   		<item name="android:gravity">center</item>
+        <item name="android:itemBackground">@color/dark_blue</item>
     </style>
 
-  	<style name="StyledActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-    	<item name="android:textColor">@android:color/white</item>
-  	</style>
-    
+    <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/shape_dark_blue_gradient_background</item>
+        <item name="android:backgroundStacked">@color/dark_blue</item>
+        <item name="android:titleTextStyle">@style/StyledActionBarTitleText</item>
+    </style>
+
+    <style name="StyledActionBarTabView" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="StyledActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

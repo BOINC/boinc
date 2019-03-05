@@ -4,8 +4,8 @@ core = 6.x
 dependencies[] = ahah_helper
 
 ; Information added by drupal.org packaging script on 2013-09-30
-version = "6.x-2.x-dev"
+version = "6.x-2.x-boinc-2-dev"
 core = "6.x"
 project = "jump"
-datestamp = "1393530079"
+datestamp = "1548705400"
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,8 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:color="@android:color/black" />
-    <item android:state_focused="true" android:color="@android:color/black" />
-    <item android:state_pressed="true" android:color="@android:color/black" />
-    <item android:color="@android:color/white" />
+    <item android:state_selected="true" android:color="@android:color/black"/>
+    <item android:state_focused="true" android:color="@android:color/black"/>
+    <item android:state_pressed="true" android:color="@android:color/black"/>
+    <item android:color="@android:color/white"/>
 </selector>

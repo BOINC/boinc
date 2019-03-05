@@ -205,6 +205,12 @@ form ul.tab-list {
   margin-top: 1em;
 }
 
+/* Form submit 'disabled' with javascript.*/
+.form-submit[disabled] {
+  color: #888888;
+  text-decoration: line-through;
+}
+
 .container-inline div,
 .container-inline label /* Inline labels and form divs */ {
   display: inline;
@@ -642,4 +648,16 @@ html.js fieldset.collapsible legend a,
 select.task-app-filter {
   width: 120px;
   white-space: nowrap;
+}
+
+/* Team email members forms */
+#sendmessageteammembers-header {
+  ;
+}
+
+#sendmessageteammembers-instructions {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-right: 40px;
 }

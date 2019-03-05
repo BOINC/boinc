@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Provides a test adapter and plugins.
+ */
+
+/**
+ * Placeholder text on the admin settings form.
+ */
+define('FACETAPI_TEST_FORM_TEXT', t('Facet API test form'));
+
+/**
+ * Implements hook_menu().
+ */
+function facetapi_test_menu() {
+  $items = array();
+
+  $items['admin/settings/facetapi_test'] = array(
+    'title' => 'Facet API test',
+    'description' => 'Settings for the Facet API module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('facetapi_test_admin_settings'),
+    'access arguments' => array('administer search'),
+  );
+
+  $items['admin/settings/facetapi_test/settings'] = array(
+    'title' => 'Settings',
+    'weight' => -10,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items['facetapi_test/search'] = array(
+    'title' => 'Search',
+    'description' => 'Fake search page callback.',
+    'page callback' => 'facetapi_test_search_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_facetapi_widgets().
+ */
+function facetapi_test_facetapi_adapters() {
+  $adapters = array();
+  $adapters['facetapi_test'] = array(
+    'handler' => array(
+      'label' => t('class for Test Adapter'),
+      'class' => 'FacetapiTestAdapter',
+      'path' => drupal_get_path('module', 'facetapi_test') . '/plugins/facetapi',
+      'file' => 'test_adapter.inc',
+      'parent' => 'adapter',
+    ),
+  );
+  return $adapters;
+}
+
+/**
+ * Implements hook_facetapi_query_types().
+ */
+function facetapi_test_facetapi_query_types() {
+  $query_types['facetapi_test_term'] = array(
+    'handler' => array(
+      'class' => 'FacetapiTestTerm',
+      'parent' => 'query_type',
+      'adapter' => 'facetapi_test',
+      'path' => drupal_get_path('module', 'facetapi_test') . '/plugins/facetapi',
+      'file' => 'test_query_type.inc',
+    ),
+  );
+  return $query_types;
+}
+
+/**
+ * Implements hook_facetapi_searcher_info().
+ */
+function facetapi_test_facetapi_searcher_info() {
+  $info = array();
+  $info['facetapi_test'] = array(
+    'label' => t('Facet API Test'),
+    'adapter' => 'facetapi_test',
+    'type' => 'test',
+    'path' => 'admin/settings/facetapi_test',
+    'supports facet missing' => FALSE,
+  );
+
+  return $info;
+}
+
+/**
+ * Placeholder for the admin settings form.
+ */
+function facetapi_test_admin_settings(&$form_state) {
+  $form = array();
+  $form['text'] = array(
+    '#value' => FACETAPI_TEST_FORM_TEXT,
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_facetapi_facet_info().
+ */
+function facetapi_test_facetapi_facet_info($searcher_info) {
+  $facets = array();
+  if ('test' == $searcher_info['type']) {
+
+    $facets['enabled'] = array(
+      'label' => t('Enabled facet'),
+      'description' => t('Facet that tests enabling.'),
+      'dependency plugins' => array('role'),
+    );
+
+    $facets['disabled'] = array(
+      'label' => t('Disabled facet'),
+      'description' => t('Facet that tests disabling.'),
+      'dependency plugins' => array('role'),
+    );
+
+    $facets['colon:test'] = array(
+      'label' => t('Colon test'),
+      'description' => t('Test facets names with colonss.'),
+      'dependency plugins' => array('role'),
+    );
+  }
+  return $facets;
+}
+
+/**
+ * Fake search page callback.
+ */
+function facetapi_test_search_callback() {
+  $build = array();
+
+  if (!$adapter = facetapi_adapter_load('facetapi_test')) {
+    throw new Exception(t('Error loading adapter.'));
+  }
+
+  $query = new stdClass();
+  $adapter->addActiveFilters($query);
+
+  $keys = isset($_GET['keys']) ? $_GET['keys'] : arg(2);
+  $adapter->setSearchKeys($keys);
+
+  $build['placeholder'] = array(
+    '#value' => t('Placeholder'),
+  );
+
+  return $build;
+}

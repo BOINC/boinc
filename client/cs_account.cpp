@@ -95,6 +95,7 @@ static void handle_no_rsc_pref(PROJECT* p, const char* name) {
 
 // parse an account_*.xml file, ignoring <venue> elements
 // (since we don't know the host venue yet)
+// Called at startup and after scheduler RPC
 //
 int PROJECT::parse_account(FILE* in) {
     char buf2[256];
@@ -195,6 +196,7 @@ int PROJECT::parse_account(FILE* in) {
 // and parsing that for resource share and prefs.
 // Call this only after client_state.xml has been read
 // (so that we know the host venue)
+// Called at startup and after scheduler RPC
 //
 int PROJECT::parse_account_file_venue() {
     char attr_buf[256], venue[256], path[MAXPATHLEN], buf2[256];

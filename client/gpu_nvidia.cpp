@@ -240,6 +240,7 @@ void COPROC_NVIDIA::get(
     char buf[256];
     int j, itemp;
     size_t global_mem = 0;
+    string s;
     COPROC_NVIDIA cc;
 
 #ifdef _WIN32
@@ -444,6 +445,9 @@ void* cudalib = NULL;
         cc.cuda_version = cuda_version;
         cc.device_num = j;
         cc.set_peak_flops();
+        if (cc.bad_gpu_peak_flops("CUDA", s)) {
+            warnings.push_back(s);
+        }
         get_available_nvidia_ram(cc, warnings);
         nvidia_gpus.push_back(cc);
     }
