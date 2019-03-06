@@ -348,11 +348,13 @@ bool CAdvancedFrame::CreateMenu() {
         _("Select computer...\tCtrl+Shift+I"),
         _("Connect to a BOINC client on another computer")
     );
+#ifndef __WXGTK__
     menuFile->Append(
         ID_SHUTDOWNCORECLIENT, 
         _("Shut down connected client..."),
         _("Shut down the currently connected BOINC client")
     );
+#endif
     menuFile->AppendSeparator();
 
     strMenuDescription.Printf(
