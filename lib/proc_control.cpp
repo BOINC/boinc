@@ -234,7 +234,7 @@ void suspend_or_resume_descendants(bool resume) {
     int pid = getpid();
     get_descendants(pid, descendants);
     for (unsigned int i=0; i<descendants.size(); i++) {
-        kill(descendants[i], resume?SIGCONT:SIGSTOP);
+        kill(descendants[i], resume?SIGCONT:SIGTSTP);
     }
 #endif
 }
@@ -247,7 +247,7 @@ void suspend_or_resume_process(int pid, bool resume) {
     pids.push_back(pid);
     suspend_or_resume_threads(pids, 0, resume, false);
 #else
-    ::kill(pid, resume?SIGCONT:SIGSTOP);
+    ::kill(pid, resume?SIGCONT:SIGTSTP);
 #endif
 }
 
