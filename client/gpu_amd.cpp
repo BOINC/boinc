@@ -377,6 +377,9 @@ void COPROC_ATI::get(
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
         cc.set_peak_flops();
+        if (cc.bad_gpu_peak_flops("CAL", s)) {
+            warnings.push_back(s);
+        }
         get_available_ati_ram(cc, warnings);
         ati_gpus.push_back(cc);
     }
