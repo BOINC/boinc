@@ -182,7 +182,7 @@ static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
     }
 }
 
-// check for results with long-term failure; punish those hosts
+// check for results with long-term failure; punish those hosts.
 //
 void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     void* data=NULL;
@@ -192,7 +192,6 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
         RESULT& result = items[i].res;
         if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
-        if (result.validate_state != VALIDATE_STATE_INIT) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
             DB_HOST_APP_VERSION hav;
             sprintf(buf, "host_id=%ld and app_version_id=%ld",
@@ -214,13 +213,6 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
             cleanup_result(result, data);
             data = NULL;
         }
-
-        // make result as invalid so we don't check it again
-        //
-        DB_RESULT db_result;
-        db_result = result;
-        db_result.validate_state = VALIDATE_STATE_INVALID;
-        db_result.update();
     }
 }
 
