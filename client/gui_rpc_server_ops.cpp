@@ -102,8 +102,6 @@ int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     return 0;
 }
 
-// client passes its version, but ignore it for now
-//
 static void handle_exchange_versions(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_int("major", grc.client_api.major)) continue;
