@@ -625,7 +625,7 @@ const char* boincerror(int which_error) {
         case HTTP_STATUS_BAD_GATEWAY: return "HTTP bad gateway";
         case HTTP_STATUS_SERVICE_UNAVAILABLE: return "HTTP service unavailable";
         case HTTP_STATUS_GATEWAY_TIMEOUT: return "HTTP gateway timeout";
-        case ERR_ACCT_REQUIRE_CONSENT: return "This project requires to consent to its terms of use"
+        case ERR_ACCT_REQUIRE_CONSENT: return "This project requires to consent to its terms of use";
     }
     static char buf[128];
     sprintf(buf, "Error %d", which_error);
