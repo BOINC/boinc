@@ -114,12 +114,10 @@ if ($user) {
         // * not agree.
         //   -> no create account RPC at all
         //
-        // In the future, when the majority of BOINC clients and
-        // Account Managers have been updated to use the consent_flag
-        // parameter, then this code should be revised to only allow
-        // clients who do use this flag to continue. I.e., if
-        // is_null($consent_flag) returns TRUE, then return an
-        // xml_error(-1, ...).
+        // Projects can require explicit consent for account creation
+        // by setting "account_creation_rpc_require_consent" to 1 in
+        // config.xml
+        //
         if ( (!is_null($consent_flag)) and $source) {
             // Record the user giving consent in database - if consent_flag is 0,
             // this is an 'anonymous account' and consent_not_required is
@@ -132,6 +130,12 @@ if ($user) {
             if (!$rc) {
                 xml_error(-1, "database error, please contact site administrators");
             }
+        }
+        else if (parse_bool($config, "account_creation_rpc_require_consent")) {
+            xml_error(ERR_ACCT_REQUIRE_CONSENT, "This project requires to consent to its terms of use. " .
+                                                "Please update your BOINC software " .
+                                                "or register via the project's website " .
+                                                "or contact your account manager's provider.");
         }
     }
 

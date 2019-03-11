@@ -265,6 +265,9 @@ public class AcctMgrFragment extends DialogFragment {
             case BOINCErrors.ERR_INVALID_URL:
                 stringResource = R.string.attachproject_error_invalid_url;
                 break;
+            case BOINCErrors.ERR_ACCT_REQUIRE_CONSENT:
+                stringResource = R.string.attachproject_error_consent_required;
+                break;
             default:
                 stringResource = R.string.attachproject_error_unknown;
                 break;
