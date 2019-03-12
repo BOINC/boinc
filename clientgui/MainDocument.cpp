@@ -922,11 +922,13 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
         pFrame->GetEventHandler()->AddPendingEvent(event);
+#ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
             CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
             pTaskbar->AddPendingEvent(event);
         }
+#endif
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
             eventLog->OnRefresh();

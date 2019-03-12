@@ -944,11 +944,13 @@ void CMainDocument::HandleCompletedRPC() {
 
     if (m_bNeedTaskBarRefresh && !m_bWaitingForRPC) {
         m_bNeedTaskBarRefresh = false;
+#ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
             CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
             pTaskbar->ProcessEvent(event);
         }
+#endif
     }
 
     if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER) {
