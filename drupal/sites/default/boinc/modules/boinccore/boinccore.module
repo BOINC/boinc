@@ -787,6 +787,21 @@ function boinccore_link($type, $object, $teaser = FALSE) {
   return $links;
 }
 
+/**
+ * Implementation of hook_mail_alter()
+ */
+function boinccore_mail_alter(&$message) {
+  /* This code alters the headers for all emails sent by the Drupal Web site to use
+     'Quote-Printable' as the encoding, both altering the header and modifies the body to the
+     new encoding.
+  */
+  $message['headers']['Content-Transfer-Encoding'] = 'Quoted-Printable';
+  if (is_array($message['body'])) {
+    $message['body'] = array_map( "quoted_printable_encode", $message['body'] );
+  } else {
+    $message['body'] = quoted_printable_encode($message['body']);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
