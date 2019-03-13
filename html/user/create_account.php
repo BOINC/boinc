@@ -92,7 +92,7 @@ if ($user) {
     // by setting "account_creation_rpc_require_consent" to 1 in
     // config.xml
     //
-    if (parse_bool($config, "account_creation_rpc_require_consent") {
+    if (parse_bool($config, "account_creation_rpc_require_consent")) {
         // Consistency checks
         if (!check_termsofuse()) {
             error_log("Project configuration error! " .
