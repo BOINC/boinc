@@ -93,12 +93,7 @@ if ($user) {
     // config.xml
     //
     if (parse_bool($config, "account_creation_rpc_require_consent") {
-        if (is_null($consent_flag) or !$source) {
-            xml_error(ERR_ACCT_REQUIRE_CONSENT, "This project requires to consent to its terms of use. " .
-                                                "Please update your BOINC software " .
-                                                "or register via the project's website " .
-                                                "or contact your account manager's provider.");
-        }
+        // Consistency checks
         if (!check_termsofuse()) {
             error_log("Project configuration error! " .
                       "Terms of use undefined while 'account_creation_rpc_require_consent' enabled!");
@@ -106,6 +101,14 @@ if ($user) {
         if (!$checkct) {
             error_log("Project configuration error! " .
                       "'CONSENT_TYPE_ENROLL' disabled while 'account_creation_rpc_require_consent' enabled!");
+        }
+
+        // Check consent requirement
+        if (is_null($consent_flag) or !$source) {
+            xml_error(ERR_ACCT_REQUIRE_CONSENT, "This project requires to consent to its terms of use. " .
+                                                "Please update your BOINC software " .
+                                                "or register via the project's website " .
+                                                "or contact your account manager's provider.");
         }
     }
 
