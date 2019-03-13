@@ -288,7 +288,6 @@ void CDlgExclusiveApps::AddToListBox(wxListBox * theListBox) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    // ? why use these instead of ifdefs?
     if (strstr(pDoc->state.host_info.os_name, "Darwin")) {
         hostIsMac = true;
     } else if (strstr(pDoc->state.host_info.os_name, "Microsoft")) {
