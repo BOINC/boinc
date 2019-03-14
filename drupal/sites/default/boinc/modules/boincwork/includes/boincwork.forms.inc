@@ -787,7 +787,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   if ($new_host->userid==0) {
     rules_invoke_event('boincwork_zombie_merge_error', $old_host->id, $new_host->id);
     watchdog('boincwork',
-      'Zombier merge attempted, target host has userid=0: old host id=%old_host, target host id=%new_host',
+      'Zombie merge attempted, target host has userid=0: old host id=%old_host, target host id=%new_host',
       array(
         '%old_host' => $old_host->id,
         '%new_host' => $new_host->id,
