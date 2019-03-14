@@ -68,11 +68,9 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $email_addr = $user->email_addr;
         }
         if ($body_html) {
-            $body = "<html>\n"; 
-            $body .= '<body style="font-family:Verdana, Verdana, Geneva, sans-serif; font-size:12px;">\n'; 
+            $body = "<html><body>\n"; 
             $body = $body_html; 
-            $body .= "</body>\n"; 
-            $body .= "</html>\n"; 
+            $body .= "\n</body></html>\n"; 
             $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
         }
         return mail($email_addr, $subject, $body, $headers);
