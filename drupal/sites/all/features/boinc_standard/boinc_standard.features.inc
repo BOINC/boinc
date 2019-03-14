@@ -201,6 +201,137 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_notify_admins_about_circular_merge_error' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincwork_circular_merge_error',
+        '#label' => 'Notify admins about circular merge error',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Circular host merging error',
+              'message' => 'User tried to merge a host (old_host) into a target host where the target host\'s rpc_seqno is equal to the old_host\'s id. 
+
+Information about this host merge attempt:
+<?php
+print "Old host id: " . $oldhost_id . "\\n";
+print "Target host id: " . $targethost_id . "\\n";
+$account = user_load($user->uid);
+print "Username: " . $account->boincuser_name . "\\n";
+print "BOINC id: " . $account->boincuser_id . "\\n";
+print "Drupal UID: " . $user->uid . "\\n";
+?>',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'oldhost_id',
+                    '1' => 'targethost_id',
+                    '2' => 'user',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_notify_admins_about_zombie_merge_attempt' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincwork_zombie_merge_error',
+        '#label' => 'Notify admins about zombie merge attempt',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Zombie host merging error',
+              'message' => 'User tried to merge a host (old_host) into a target host where the target host\'s userid is equal to 0, a zombie host. 
+I.e., $target_host->userid == 0
+
+Information about this host merge attempt:
+<?php
+print "Old host id: " . $oldhost_id . "\\n";
+print "Target host id: " . $targethost_id . "\\n";
+$account = user_load($user->uid);
+print "Username: " . $account->boincuser_name . "\\n";
+print "BOINC id: " . $account->boincuser_id . "\\n";
+print "Drupal UID: " . $user->uid . "\\n";
+?>',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'oldhost_id',
+                    '1' => 'targethost_id',
+                    '2' => 'user',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_comment_converted_to_new_forum_topic_by_moderator_or_admin' => array(
         '#type' => 'rule',
         '#set' => 'event_boinccore_comment_convert',
