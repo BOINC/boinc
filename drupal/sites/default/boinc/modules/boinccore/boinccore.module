@@ -2005,7 +2005,7 @@ function boinccore_rules_action_mail_to_moderators_form($settings = array(), &$f
 
 
 /**
- * Action: Send mail to moderators.
+ * Action: Send mail to admins.
  */
 function boinccore_rules_action_mail_to_admins($settings) {
   module_load_include('inc', 'rules', 'modules/system.rules');
