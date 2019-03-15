@@ -861,6 +861,7 @@ void usage(char* name) {
         "    [--credit_from_wu]         Credit is specified in WU XML\n"
         "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
         "    [--no_credit]              Don't grant credit\n"
+        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"  
         "    [--sleep_interval n]       Set sleep-interval to n\n"
         "    [--wu_id n]                Process WU with given ID\n"
         "    [-d level|--debug_level n] Set log verbosity level\n"
