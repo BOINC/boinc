@@ -323,7 +323,7 @@ function fitb() {
             }
             break;
         case 1:
-            if (ereg($answer->ans, $response)) {
+            if (preg_match('/'.$answer->ans.'/', $response)) {
                 $bolt_ex->score = 1;
             }
             break;

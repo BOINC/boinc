@@ -326,7 +326,7 @@ function show_next($iter, $view) {
             //
             show_refresh_finished();
             $refresh->update('count=count+1');
-            break;
+            return;
         }
     }
 
