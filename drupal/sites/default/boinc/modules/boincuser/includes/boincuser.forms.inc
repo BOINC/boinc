@@ -104,7 +104,7 @@ function boincuser_register_validate($form, &$form_state) {
   // Check terms of use agreement
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   if (!empty($termsofuse)) {
-    if (!$form_state['values']['agreeTOU']) {
+    if (!$form_state['values']['termsofuse']['agreeTOU']) {
       form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
       return false;
     }
