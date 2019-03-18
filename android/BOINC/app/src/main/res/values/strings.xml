@@ -131,6 +131,7 @@
     <string name="attachproject_error_bad_pwd">Password refused</string>
     <string name="attachproject_error_creation_disabled">Account creation is disabled on this project</string>
     <string name="attachproject_error_invalid_url">Invalid URL</string>
+    <string name="attachproject_error_consent_required">This project requires to consent to its terms of use</string>
     <!-- working activity -->
     <string name="attachproject_working_back_button">Back</string>
     <string name="attachproject_working_finish_button">Finish</string>
