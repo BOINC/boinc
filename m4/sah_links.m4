@@ -14,7 +14,7 @@ AC_DEFUN([SAH_LINKS],[
       LN=cp
     fi
     /bin/rm erase.me$$ lntest/config.sub
-    /bin/rmdir ln_test
+    /bin/rmdir lntest
   else
     LN=cp
   fi

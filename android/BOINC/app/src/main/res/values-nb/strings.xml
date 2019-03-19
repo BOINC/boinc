@@ -1,348 +1,379 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Laster inn – vent litt …</string>
-  <string name="generic_button_continue">Fortsett</string>
-  <string name="generic_button_finish">Ferdig</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">Velg vitenskapelige prosjekter du vil bidra til:</string>
-  <string name="attachproject_list_header">Velg et prosjekt</string>
-  <string name="attachproject_list_manual_button">Legg til prosjekt fra nettadresse</string>
-  <string name="attachproject_list_manual_dialog_title">Legg inn prosjektadresse:</string>
-  <string name="attachproject_list_manual_dialog_button">Legg til prosjekt</string>
-  <string name="attachproject_list_manual_no_url">Legg inn prosjektadresse</string>
-  <string name="attachproject_list_acctmgr_button">Legg til kontobehandler</string>
-  <string name="attachproject_list_no_internet">Ingen Internett tilgang</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Skriv inn kontoinformasjon</string>
-  <string name="attachproject_credential_input_desc">Skriv inn kontoinformasjon for valgte prosjekter:</string>
-  <string name="attachproject_credential_input_show_pwd">Vis passord</string>
-  <string name="attachproject_individual_credential_input">Legg til prosjekt enkeltvis</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Det har vært problemer med å legge til vitenskapelige prosjekter:</string>
-  <string name="attachproject_conflict_undefined">Kunne ikke koble til</string>
-  <string name="attachproject_conflict_not_unique">Kontoen finnes allerede med et annet passord</string>
-  <string name="attachproject_conflict_bad_password">Passordet er ugyldig</string>
-  <string name="attachproject_conflict_unknown_user">Kontoen eksisterer ikke</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontoen eksisterer ikke. Besøk prosjektets hjemmeside for å registrere</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">Legger til</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">Hint</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">Hvordan bidra:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Koble til WIFI</string>
-  <string name="attachproject_hint_contribtion_charger">2. Plugg inn lader</string>
-  <string name="attachproject_hint_contribtion_screen">3. Slå av skjerm</string>
-  <string name="attachproject_hint_projectwebsite_header">Besøk prosjektets hjemmeside:</string>
-  <string name="attachproject_hint_projectwebsite_science">Lær mer om vitenskapen</string>
-  <string name="attachproject_hint_projectwebsite_stats">Vis bidragsstatistikk</string>
-  <string name="attachproject_hint_projectwebsite_community">Kom i kontakt med andre frivillige</string>
-  <string name="attachproject_hint_platforms_header">BOINC er også tilgjengelig for din PC. Besøk boinc.berkeley.edu for å finne ut mer.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">Kontakter prosjektserveren ...</string>
-  <string name="attachproject_login_image_description">Prosjekt logo.</string>
-  <string name="attachproject_login_header_general_area">Generelle områder:</string>
-  <string name="attachproject_login_header_specific_area">Spesifikk område:</string>
-  <string name="attachproject_login_header_description">Beskrivelse:</string>
-  <string name="attachproject_login_header_home">Hjem:</string>
-  <string name="attachproject_login_header_url">Hjemmeside:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Enheten støttes av dette prosjektet</string>
-  <string name="attachproject_login_platform_not_supported">Enheten støttes ikke av dette prosjektet</string>
-  <string name="attachproject_login_category_terms_of_use">Vilkår for Bruk</string>
-  <string name="attachproject_login_accept_terms_of_use">Ved å opprette en konto hos dette prosjektet godtar du betingelsene vist ovenfor.</string>
-  <string name="attachproject_login_category_login">Logg inn med en eksisterende konto</string>
-  <string name="attachproject_login_header_id_email">Epost:</string>
-  <string name="attachproject_login_header_id_name">Navn:</string>
-  <string name="attachproject_login_header_pwd">Passord:</string>
-  <string name="attachproject_login_category_creation">Ny til</string>
-  <string name="attachproject_login_header_creation_enabled">Registrer en konto for å delta:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Besøk prosjektets hjemmeside for å opprette en konto:</string>
-  <string name="attachproject_login_header_creation_disabled">Dette prosjektet godtar ikke nye kontoer for øyeblikket</string>
-  <string name="attachproject_login_button_registration">Registrer</string>
-  <string name="attachproject_login_button_login">Logg inn</string>
-  <string name="attachproject_login_button_forgotpw">Glemt passord</string>
-  <string name="attachproject_login_error_toast">Kontakt med prosjektet feilet!</string>
-  <string name="attachproject_login_attached">Tilknyttet</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">Konto registrering for</string>
-  <string name="attachproject_registration_header_url">Prosjekt</string>
-  <string name="attachproject_registration_header_email">Epost:</string>
-  <string name="attachproject_registration_header_username">Navn:</string>
-  <string name="attachproject_registration_header_teamname">Team:</string>
-  <string name="attachproject_registration_header_pwd">Passord:</string>
-  <string name="attachproject_registration_header_pwd_confirm">... Tast på nytt:</string>
-  <string name="attachproject_registration_button">Opprett</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Bruk BOINC kontobehandler for å legge til og behandle flere prosjekt</string>
-  <string name="attachproject_acctmgr_header">Legg til kontobehandler</string>
-  <string name="attachproject_acctmgr_header_url">URL</string>
-  <string name="attachproject_acctmgr_header_name">Bruker:</string>
-  <string name="attachproject_acctmgr_header_pwd">Passord:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">... Tast på nytt:</string>
-  <string name="attachproject_acctmgr_button">Legg til</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">Bruker ikke funnet!</string>
-  <string name="attachproject_error_short_pwd">Passordet er for kort</string>
-  <string name="attachproject_error_no_internet">Tilkobling feilet</string>
-  <string name="attachproject_error_pwd_no_match">Passordene stemmer ikke</string>
-  <string name="attachproject_error_pwd_no_retype">Vennligst tast inn passordet på nytt</string>
-  <string name="attachproject_error_no_url">Vennligst skriv inn adresse</string>
-  <string name="attachproject_error_no_email">Tast inn en epostadresse.</string>
-  <string name="attachproject_error_no_pwd">Vennligst tast inn et passord</string>
-  <string name="attachproject_error_no_name">Vennligst tast inn brukernavn</string>
-  <string name="attachproject_error_unknown">mislyktes</string>
-  <string name="attachproject_error_bad_username">Brukernavnet er ikke godkjent</string>
-  <string name="attachproject_error_email_in_use">Epostadressen allerede i bruk</string>
-  <string name="attachproject_error_project_down">Prosjektet er frakoblet</string>
-  <string name="attachproject_error_email_bad_syntax">Epost adresse ikke godkjent</string>
-  <string name="attachproject_error_bad_pwd">Passord ikke godkjent</string>
-  <string name="attachproject_error_creation_disabled">Opprettelse av konto er deaktivisert for dette prosjektet</string>
-  <string name="attachproject_error_invalid_url">Ugyldig URL</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">Tilbake</string>
-  <string name="attachproject_working_finish_button">Ferdig</string>
-  <string name="attachproject_working_check_desc">Vellykket</string>
-  <string name="attachproject_working_failed_desc">Mislykket</string>
-  <string name="attachproject_working_ongoing">...</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">Koble til</string>
-  <string name="attachproject_working_verify">Verifiser konto</string>
-  <string name="attachproject_working_register">Registrer konto</string>
-  <string name="attachproject_working_login">Logg inn</string>
-  <string name="attachproject_working_acctmgr">Legg til kontobehandler</string>
-  <string name="attachproject_working_acctmgr_sync">Synkroniser</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">Trykk her for å velge prosjekt</string>
-  <string name="main_error">Oooops</string>
-  <string name="main_error_long">... noe gikk galt!\nTrykk på ikonet for å prøve på nytt.</string>
-  <string name="main_title_icon_desc">BOINC ikon</string>
-  <!--tab names-->
-  <string name="tab_status">Status</string>
-  <string name="tab_projects">Prosjekter</string>
-  <string name="tab_tasks">Oppgaver</string>
-  <string name="tab_transfers">Overføringer</string>
-  <string name="tab_preferences">Preferanser</string>
-  <string name="tab_notices">Varsler</string>
-  <string name="tab_desc">Navigasjon</string>
-  <!--status strings-->
-  <string name="status_running">Databehandling</string>
-  <string name="status_running_long">Takk for at du deltar</string>
-  <string name="status_paused">Deaktivert</string>
-  <string name="status_idle">Ingen oppgaver</string>
-  <string name="status_idle_long">Venter på oppgaver...</string>
-  <string name="status_computing_disabled">Deaktivert</string>
-  <string name="status_computing_disabled_long">Trykk play for å gjenoppta nettverk og beregningsaktivitet.</string>
-  <string name="status_launching">Starter...</string>
-  <string name="status_noproject">Velg et prosjekt å delta i.</string>
-  <string name="status_closing">Lukker ...</string>
-  <string name="status_benchmarking">Måler ytelse...</string>
-  <string name="status_image_description">Prosjektbilde</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">Leser innstillinger ...</string>
-  <string name="prefs_submit_button">Lagre</string>
-  <string name="prefs_dialog_title">Skriv inn ny verdi</string>
-  <string name="prefs_dialog_title_selection">Velg</string>
-  <string name="prefs_category_general">Generelle</string>
-  <string name="prefs_category_network">Nettverk</string>
-  <string name="prefs_category_power">Strøm</string>
-  <string name="prefs_category_cpu">CPU</string>
-  <string name="prefs_category_storage">Lagring</string>
-  <string name="prefs_category_memory">Minne</string>
-  <string name="prefs_category_debug">Feilsøk</string>
-  <string name="prefs_show_advanced_header">Vis avansert kontroll og innstillinger...</string>
-  <string name="prefs_suspend_when_screen_on">Sett beregning på pause mens skjermen er på</string>
-  <string name="prefs_stationary_device_mode_header">Stasjonær enhets modus</string>
-  <string name="prefs_stationary_device_mode_description">Tillater beregning uavhengig av strømalternativer. Bruk bare dersom enheten ikke har et batteri.</string>
-  <string name="prefs_power_source_header">Strømkilder for beregning</string>
-  <string name="prefs_power_source_description">Velger hvilke strømkilder BOINC kan kjøre kalkulering med</string>
-  <string name="prefs_power_source_ac">Stikkontakt</string>
-  <string name="prefs_power_source_usb">USB tilkobling</string>
-  <string name="prefs_power_source_wireless">Trådløs lader</string>
-  <string name="prefs_power_source_battery">Batteri</string>
-  <string name="battery_charge_min_pct_header">Minimum batterinivå</string>
-  <string name="battery_charge_min_pct_description">BOINC stopper beregning under definert batterinivå</string>
-  <string name="battery_temperature_max_header">Maksimal batteritemperatur</string>
-  <string name="battery_temperature_max_description">BOINC stopper beregningen hvis temperaturen på batteriet overskrider grensen. Det er ikke anbefalt å endre denne verdien.</string>
-  <string name="prefs_disk_max_pct_header">Maks brukt lagringsplass</string>
-  <string name="prefs_disk_max_pct_description">Hvor mange prosent av enhetens lagringsplass kan BOINC benytte?</string>
-  <string name="prefs_disk_min_free_gb_header">Minimum ledig plass</string>
-  <string name="prefs_disk_min_free_gb_description">Hvor mye av enhetens lagringsplass skal være tilgjengelig?</string>
-  <string name="prefs_disk_access_interval_header">Tilkoblingsinterval</string>
-  <string name="prefs_disk_access_interval_description">Foreslå intervall mellom diskaktivitet</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Daglig overføringsgrense</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Begrenser den daglige datatrafikken generert av BOINC.</string>
-  <string name="prefs_network_wifi_only_header">Overfør oppgaver kun når WIFI er tilkoblet</string>
-  <string name="prefs_autostart_header">Autostart</string>
-  <string name="prefs_show_notification_notices_header">Vis varsel for nye notater</string>
-  <string name="prefs_show_notification_suspended_header">Vis notis når beregning er på pause</string>
-  <string name="prefs_cpu_number_cpus_header">Benyttede CPU kjerner</string>
-  <string name="prefs_cpu_number_cpus_description">Begrenser antallet CPU kjerner BOINC bruker til beregning</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pause når CPU bruk overskrider</string>
-  <string name="prefs_cpu_other_load_suspension_description">Avgjør når BOINC settes på pause fordi andre apper bruker CPU</string>
-  <string name="prefs_cpu_time_max_header">CPU grense</string>
-  <string name="prefs_cpu_time_max_description">Begrenser prosessorbruken til BOINC</string>
-  <string name="prefs_memory_max_idle_header">Minne grense</string>
-  <string name="prefs_memory_max_idle_description">Begrenser mengden minne BOINC tildeler oppgaver</string>
-  <string name="prefs_client_log_flags_header">BOINC klient loggflagg</string>
-  <string name="prefs_gui_log_level_header">GUI loggnivå</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">sek</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">Leser prosjekter ...</string>
-  <string name="projects_add">Legg til prosjekt</string>
-  <string name="projects_icon">Prosjektikon</string>
-  <string name="projects_credits">Arbeid utført</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">Suspendert av bruker</string>
-  <string name="projects_status_dontrequestmorework">Vil ikke hente nye oppgaver</string>
-  <string name="projects_status_ended">Prosjekt avsluttet - OK å fjerne</string>
-  <string name="projects_status_detachwhendone">Vil fjerne når oppgaver er ferdige</string>
-  <string name="projects_status_schedrpcpending">Forespørsel fra planleggeren venter</string>
-  <string name="projects_status_schedrpcinprogress">Forespørsel fra planleggeren pågår</string>
-  <string name="projects_status_trickleuppending">Godskriv andelsmelding venter</string>
-  <string name="projects_status_backoff">Kommunikasjon planlagt om:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">Prosjektkommandoer</string>
-  <string name="projects_control_visit_website">Besøk hjemmeside</string>
-  <string name="projects_control_update">Oppdater</string>
-  <string name="projects_control_remove">Fjern</string>
-  <string name="projects_control_suspend">Suspender</string>
-  <string name="projects_control_resume">Gjennoppta</string>
-  <string name="projects_control_nonewtasks">Ingen nye oppgaver</string>
-  <string name="projects_control_allownewtasks">Tillat nye oppgaver</string>
-  <string name="projects_control_reset">Nullstill</string>
-  <string name="projects_control_dialog_title_acctmgr">Kontobehandler kommandoer</string>
-  <string name="projects_control_sync_acctmgr">Synkroniser</string>
-  <string name="projects_control_remove_acctmgr">Deaktiver</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Fjern prosjekt?</string>
-  <string name="projects_confirm_detach_message">Er du sikker på at du vil fjerne</string>
-  <string name="projects_confirm_detach_message2">fra BOINC</string>
-  <string name="projects_confirm_detach_confirm">Fjern</string>
-  <string name="projects_confirm_reset_title">Nullstill prosjekt</string>
-  <string name="projects_confirm_reset_message">Er du sikker på at du vil nullstille</string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Nullstill</string>
-  <string name="projects_confirm_remove_acctmgr_title">Deaktiver kontobehandler</string>
-  <string name="projects_confirm_remove_acctmgr_message">Er du sikker på at du vil slutte å bruke</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">Deaktiver</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">Oppgavenavn:</string>
-  <string name="tasks_header_elapsed_time">Tid brukt</string>
-  <string name="tasks_header_project_paused">(Satt på pause)</string>
-  <string name="tasks_header_deadline">Frist</string>
-  <string name="tasks_result_new">ny</string>
-  <string name="tasks_result_files_downloading">venter på nedlasting</string>
-  <string name="tasks_result_files_downloaded">nedlasting fullført</string>
-  <string name="tasks_result_compute_error">Beregningsfeil</string>
-  <string name="tasks_result_files_uploading">laster opp</string>
-  <string name="tasks_result_files_uploaded">opplasting fullført</string>
-  <string name="tasks_result_aborted">avbrutt</string>
-  <string name="tasks_result_upload_failed">Opplasting feilet</string>
-  <string name="tasks_active_uninitialized">klar</string>
-  <string name="tasks_active_executing">Kjører</string>
-  <string name="tasks_active_suspended">suspendert</string>
-  <string name="tasks_active_abort_pending">setter på pause</string>
-  <string name="tasks_active_quit_pending">setter på pause</string>
-  <string name="tasks_custom_suspended_via_gui">suspendert</string>
-  <string name="tasks_custom_project_suspended_via_gui">prosjektet satt på pause</string>
-  <string name="tasks_custom_ready_to_report">Klar til å rapportere</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">Avbryt oppgave?</string>
-  <string name="confirm_abort_task_message">Avbryt oppgave:</string>
-  <string name="confirm_abort_task_confirm">Avbryt</string>
-  <string name="confirm_cancel">Avbryt</string>
-  <string name="confirm_image_desc">Bekreftelsesdialog</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">Leser overføringer ...</string>
-  <string name="trans_upload">Last opp</string>
-  <string name="trans_download">Nedlasting</string>
-  <string name="trans_retryin">prøver igjen om </string>
-  <string name="trans_failed">mislyktes</string>
-  <string name="trans_suspended">suspendert</string>
-  <string name="trans_active">aktiv</string>
-  <string name="trans_pending">venter</string>
-  <string name="trans_header_name">Fil:</string>
-  <string name="trans_control_retry">Prøv overføring på nytt</string>
-  <string name="confirm_abort_trans_title">Avbryt overføring?</string>
-  <string name="confirm_abort_trans_message">Avbryt fil:</string>
-  <string name="confirm_abort_trans_confirm">Avbryt</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">Leser notifikasjoner</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">Laster inn loggmeldinger...</string>
-  <string name="eventlog_client_header">Klientmeldinger</string>
-  <string name="eventlog_gui_header">GUI Meldinger</string>
-  <string name="eventlog_copy_toast">Logg kopiert til utklippstavle.</string>
-  <string name="eventlog_email_subject">Hendelseslogg for BOINC på Android:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">Beregning er satt på pause.</string>
-  <string name="suspend_batteries">Koble enheten til en lader for å fortsette beregningen.</string>
-  <string name="suspend_screen_on">Slå skjermen av for å fortsette beregningen.</string>
-  <string name="suspend_useractive">Brukeren er aktiv.</string>
-  <string name="suspend_tod">Tomt for bergnings tidsrammer.</string>
-  <string name="suspend_bm">BOINC måler enhetens ytelse ...</string>
-  <string name="suspend_disksize">Tomt for diskplass.</string>
-  <string name="suspend_cputhrottle">Planlagt CPU begrensning.</string>
-  <string name="suspend_noinput">Ingen nylig brukeraktivitet.</string>
-  <string name="suspend_delay">Oppstartsforsinkelse.</string>
-  <string name="suspend_exclusiveapp">En app med enerett kjører.</string>
-  <string name="suspend_cpu">Din enhet er opptatt med andre oppgaver</string>
-  <string name="suspend_network_quota">BOINC har nådd grensen for nettverksbruk.</string>
-  <string name="suspend_os">Stoppet av Android.</string>
-  <string name="suspend_wifi">Ikke koblet til WIFI.</string>
-  <string name="suspend_battery_charging">Venter på at batteriet skal lades</string>
-  <string name="suspend_battery_charging_long">Beregningen vil fortsette når batteriets ladenivå overskrider</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">nåværende</string>
-  <string name="suspend_battery_overheating">Venter på at batteriet skal kjøles av</string>
-  <string name="suspend_user_req">Gjenopptar beregning ...</string>
-  <string name="suspend_network_user_req">Manuell.</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">Anmodet av bruker</string>
-  <string name="rpcreason_needwork">Å hente arbeid</string>
-  <string name="rpcreason_resultsdue">Å rapportere fullførte oppgaver</string>
-  <string name="rpcreason_trickleup">Å sende godskriv andelsmelding</string>
-  <string name="rpcreason_acctmgrreq">Forespurt av kontobehandler</string>
-  <string name="rpcreason_init">Initialisering av prosjekt</string>
-  <string name="rpcreason_projectreq">Anmodet av prosjektet</string>
-  <string name="rpcreason_unknown">Ukjent grunn</string>
-  <!--menu-->
-  <string name="menu_refresh">Oppdater</string>
-  <string name="menu_emailto">Send som epost</string>
-  <string name="menu_copy">Kopier til utklippstavle</string>
-  <string name="menu_eventlog">Hendelseslogg</string>
-  <string name="menu_exit">Avslutt BOINC</string>
-  <string name="menu_run_mode_disable">Suspender</string>
-  <string name="menu_run_mode_enable">Gjennoppta</string>
-  <string name="menu_about">Om</string>
-  <string name="menu_help">Hjelp</string>
-  <!--about dialog-->
-  <string name="about_button">Returner</string>
-  <string name="about_title">Om</string>
-  <string name="about_name">BOINC</string>
-  <string name="about_version">Versjon</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright_reserved">All Rights Reserved.</string>
-  <string name="about_credits">Takk til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC Corporation for deres støtte.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">Frivillig beregningsapp funnet</string>
-  <string name="nonexcl_dialog_text">En annen frivillig beregningsapp kjører allerede på denne enheten. Kun en versjon kan kjøre om gangen.</string>
-  <string name="nonexcl_dialog_exit">Avslutt</string>
-  <!--social integration-->
-  <string name="social_invite_button">Inviter venner</string>
-  <string name="social_invite_intent_title">Hvordan vil du dele?</string>
-  <string name="social_invite_content_title">Jeg utfører vitenskap med min smarttelefon!</string>
-  <string name="social_invite_content_body">Jeg bruker min %1$s til å utføre matematiske oppgaver for vitenskapen. Du kan hjelpe til også! Last ned appen fra %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">Laster inn – vent litt …</string>
+    <string name="generic_button_continue">Fortsett</string>
+    <string name="generic_button_finish">Ferdig</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">Velg vitenskapelige prosjekter du vil bidra til:</string>
+    <string name="attachproject_list_header">Velg et prosjekt</string>
+    <string name="attachproject_list_manual_button">Legg til prosjekt fra nettadresse</string>
+    <string name="attachproject_list_manual_dialog_title">Legg inn prosjektadresse:</string>
+    <string name="attachproject_list_manual_dialog_button">Legg til prosjekt</string>
+    <string name="attachproject_list_manual_no_url">Legg inn prosjektadresse</string>
+    <string name="attachproject_list_acctmgr_button">Legg til kontobehandler</string>
+    <string name="attachproject_list_no_internet">Ingen Internett tilgang</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">Skriv inn kontoinformasjon</string>
+    <string name="attachproject_credential_input_desc">Skriv inn kontoinformasjon for valgte prosjekter:</string>
+    <string name="attachproject_credential_input_show_pwd">Vis passord</string>
+    <string name="attachproject_individual_credential_input">Legg til prosjekt enkeltvis</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">Det har vært problemer med å legge til vitenskapelige prosjekter:
+    </string>
+    <string name="attachproject_conflict_undefined">Kunne ikke koble til</string>
+    <string name="attachproject_conflict_not_unique">Kontoen finnes allerede med et annet passord</string>
+    <string name="attachproject_conflict_bad_password">Passordet er ugyldig</string>
+    <string name="attachproject_conflict_unknown_user">Kontoen eksisterer ikke</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Kontoen eksisterer ikke. Besøk prosjektets
+        hjemmeside for å registrere
+    </string>
+    <!--working-->
+    <string name="attachproject_working_attaching">Legger til</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">Hint</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">Hvordan bidra:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. Koble til WIFI</string>
+    <string name="attachproject_hint_contribtion_charger">2. Plugg inn lader</string>
+    <string name="attachproject_hint_contribtion_screen">3. Slå av skjerm</string>
+    <string name="attachproject_hint_projectwebsite_header">Besøk prosjektets hjemmeside:</string>
+    <string name="attachproject_hint_projectwebsite_science">Lær mer om vitenskapen</string>
+    <string name="attachproject_hint_projectwebsite_stats">Vis bidragsstatistikk</string>
+    <string name="attachproject_hint_projectwebsite_community">Kom i kontakt med andre frivillige</string>
+    <string name="attachproject_hint_platforms_header">BOINC er også tilgjengelig for din PC. Besøk boinc.berkeley.edu
+        for å finne ut mer.
+    </string>
+    <!--project login-->
+    <string name="attachproject_login_loading">Kontakter prosjektserveren ...</string>
+    <string name="attachproject_login_image_description">Prosjekt logo.</string>
+    <string name="attachproject_login_header_general_area">Generelle områder:</string>
+    <string name="attachproject_login_header_specific_area">Spesifikk område:</string>
+    <string name="attachproject_login_header_description">Beskrivelse:</string>
+    <string name="attachproject_login_header_home">Hjem:</string>
+    <string name="attachproject_login_header_url">Hjemmeside:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">Enheten støttes av dette prosjektet</string>
+    <string name="attachproject_login_platform_not_supported">Enheten støttes ikke av dette prosjektet</string>
+    <string name="attachproject_login_category_terms_of_use">Vilkår for Bruk</string>
+    <string name="attachproject_login_accept_terms_of_use">Ved å opprette en konto hos dette prosjektet godtar du
+        betingelsene vist ovenfor.
+    </string>
+    <string name="attachproject_login_category_login">Logg inn med en eksisterende konto</string>
+    <string name="attachproject_login_header_id_email">Epost:</string>
+    <string name="attachproject_login_header_id_name">Navn:</string>
+    <string name="attachproject_login_header_pwd">Passord:</string>
+    <string name="attachproject_login_category_creation">Ny til</string>
+    <string name="attachproject_login_header_creation_enabled">Registrer en konto for å delta:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Besøk prosjektets hjemmeside for å opprette en
+        konto:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">Dette prosjektet godtar ikke nye kontoer for
+        øyeblikket
+    </string>
+    <string name="attachproject_login_button_registration">Registrer</string>
+    <string name="attachproject_login_button_login">Logg inn</string>
+    <string name="attachproject_login_button_forgotpw">Glemt passord</string>
+    <string name="attachproject_login_error_toast">Kontakt med prosjektet feilet!</string>
+    <string name="attachproject_login_attached">Tilknyttet</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">Konto registrering for</string>
+    <string name="attachproject_registration_header_url">Prosjekt</string>
+    <string name="attachproject_registration_header_email">Epost:</string>
+    <string name="attachproject_registration_header_username">Navn:</string>
+    <string name="attachproject_registration_header_teamname">Team:</string>
+    <string name="attachproject_registration_header_pwd">Passord:</string>
+    <string name="attachproject_registration_header_pwd_confirm">... Tast på nytt:</string>
+    <string name="attachproject_registration_button">Opprett</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">Bruk BOINC kontobehandler for å legge til og behandle flere
+        prosjekt
+    </string>
+    <string name="attachproject_acctmgr_header">Legg til kontobehandler</string>
+    <string name="attachproject_acctmgr_header_url">URL</string>
+    <string name="attachproject_acctmgr_header_name">Bruker:</string>
+    <string name="attachproject_acctmgr_header_pwd">Passord:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">... Tast på nytt:</string>
+    <string name="attachproject_acctmgr_button">Legg til</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">Bruker ikke funnet!</string>
+    <string name="attachproject_error_short_pwd">Passordet er for kort</string>
+    <string name="attachproject_error_no_internet">Tilkobling feilet</string>
+    <string name="attachproject_error_pwd_no_match">Passordene stemmer ikke</string>
+    <string name="attachproject_error_pwd_no_retype">Vennligst tast inn passordet på nytt</string>
+    <string name="attachproject_error_no_url">Vennligst skriv inn adresse</string>
+    <string name="attachproject_error_no_email">Tast inn en epostadresse.</string>
+    <string name="attachproject_error_no_pwd">Vennligst tast inn et passord</string>
+    <string name="attachproject_error_no_name">Vennligst tast inn brukernavn</string>
+    <string name="attachproject_error_unknown">mislyktes</string>
+    <string name="attachproject_error_bad_username">Brukernavnet er ikke godkjent</string>
+    <string name="attachproject_error_email_in_use">Epostadressen allerede i bruk</string>
+    <string name="attachproject_error_project_down">Prosjektet er frakoblet</string>
+    <string name="attachproject_error_email_bad_syntax">Epost adresse ikke godkjent</string>
+    <string name="attachproject_error_bad_pwd">Passord ikke godkjent</string>
+    <string name="attachproject_error_creation_disabled">Opprettelse av konto er deaktivisert for dette prosjektet
+    </string>
+    <string name="attachproject_error_invalid_url">Ugyldig URL</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">Tilbake</string>
+    <string name="attachproject_working_finish_button">Ferdig</string>
+    <string name="attachproject_working_check_desc">Vellykket</string>
+    <string name="attachproject_working_failed_desc">Mislykket</string>
+    <string name="attachproject_working_ongoing">...</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">Koble til</string>
+    <string name="attachproject_working_verify">Verifiser konto</string>
+    <string name="attachproject_working_register">Registrer konto</string>
+    <string name="attachproject_working_login">Logg inn</string>
+    <string name="attachproject_working_acctmgr">Legg til kontobehandler</string>
+    <string name="attachproject_working_acctmgr_sync">Synkroniser</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">Trykk her for å velge prosjekt</string>
+    <string name="main_error">Oooops</string>
+    <string name="main_error_long">... noe gikk galt!\nTrykk på ikonet for å prøve på nytt.</string>
+    <string name="main_title_icon_desc">BOINC ikon</string>
+    <!--tab names-->
+    <string name="tab_status">Status</string>
+    <string name="tab_projects">Prosjekter</string>
+    <string name="tab_tasks">Oppgaver</string>
+    <string name="tab_transfers">Overføringer</string>
+    <string name="tab_preferences">Preferanser</string>
+    <string name="tab_notices">Varsler</string>
+    <string name="tab_desc">Navigasjon</string>
+    <!--status strings-->
+    <string name="status_running">Databehandling</string>
+    <string name="status_running_long">Takk for at du deltar</string>
+    <string name="status_paused">Deaktivert</string>
+    <string name="status_idle">Ingen oppgaver</string>
+    <string name="status_idle_long">Venter på oppgaver...</string>
+    <string name="status_computing_disabled">Deaktivert</string>
+    <string name="status_computing_disabled_long">Trykk play for å gjenoppta nettverk og beregningsaktivitet.</string>
+    <string name="status_launching">Starter...</string>
+    <string name="status_noproject">Velg et prosjekt å delta i.</string>
+    <string name="status_closing">Lukker ...</string>
+    <string name="status_benchmarking">Måler ytelse...</string>
+    <string name="status_image_description">Prosjektbilde</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">Leser innstillinger ...</string>
+    <string name="prefs_submit_button">Lagre</string>
+    <string name="prefs_dialog_title">Skriv inn ny verdi</string>
+    <string name="prefs_dialog_title_selection">Velg</string>
+    <string name="prefs_category_general">Generelle</string>
+    <string name="prefs_category_network">Nettverk</string>
+    <string name="prefs_category_power">Strøm</string>
+    <string name="prefs_category_cpu">CPU</string>
+    <string name="prefs_category_storage">Lagring</string>
+    <string name="prefs_category_memory">Minne</string>
+    <string name="prefs_category_debug">Feilsøk</string>
+    <string name="prefs_show_advanced_header">Vis avansert kontroll og innstillinger...</string>
+    <string name="prefs_suspend_when_screen_on">Sett beregning på pause mens skjermen er på</string>
+    <string name="prefs_stationary_device_mode_header">Stasjonær enhets modus</string>
+    <string name="prefs_stationary_device_mode_description">Tillater beregning uavhengig av strømalternativer. Bruk bare
+        dersom enheten ikke har et batteri.
+    </string>
+    <string name="prefs_power_source_header">Strømkilder for beregning</string>
+    <string name="prefs_power_source_description">Velger hvilke strømkilder BOINC kan kjøre kalkulering med</string>
+    <string name="prefs_power_source_ac">Stikkontakt</string>
+    <string name="prefs_power_source_usb">USB tilkobling</string>
+    <string name="prefs_power_source_wireless">Trådløs lader</string>
+    <string name="prefs_power_source_battery">Batteri</string>
+    <string name="battery_charge_min_pct_header">Minimum batterinivå</string>
+    <string name="battery_charge_min_pct_description">BOINC stopper beregning under definert batterinivå</string>
+    <string name="battery_temperature_max_header">Maksimal batteritemperatur</string>
+    <string name="battery_temperature_max_description">BOINC stopper beregningen hvis temperaturen på batteriet
+        overskrider grensen. Det er ikke anbefalt å endre denne verdien.
+    </string>
+    <string name="prefs_disk_max_pct_header">Maks brukt lagringsplass</string>
+    <string name="prefs_disk_max_pct_description">Hvor mange prosent av enhetens lagringsplass kan BOINC benytte?
+    </string>
+    <string name="prefs_disk_min_free_gb_header">Minimum ledig plass</string>
+    <string name="prefs_disk_min_free_gb_description">Hvor mye av enhetens lagringsplass skal være tilgjengelig?
+    </string>
+    <string name="prefs_disk_access_interval_header">Tilkoblingsinterval</string>
+    <string name="prefs_disk_access_interval_description">Foreslå intervall mellom diskaktivitet</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">Daglig overføringsgrense</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Begrenser den daglige datatrafikken generert av
+        BOINC.
+    </string>
+    <string name="prefs_network_wifi_only_header">Overfør oppgaver kun når WIFI er tilkoblet</string>
+    <string name="prefs_autostart_header">Autostart</string>
+    <string name="prefs_show_notification_notices_header">Vis varsel for nye notater</string>
+    <string name="prefs_show_notification_suspended_header">Vis notis når beregning er på pause</string>
+    <string name="prefs_cpu_number_cpus_header">Benyttede CPU kjerner</string>
+    <string name="prefs_cpu_number_cpus_description">Begrenser antallet CPU kjerner BOINC bruker til beregning</string>
+    <string name="prefs_cpu_other_load_suspension_header">Pause når CPU bruk overskrider</string>
+    <string name="prefs_cpu_other_load_suspension_description">Avgjør når BOINC settes på pause fordi andre apper bruker
+        CPU
+    </string>
+    <string name="prefs_cpu_time_max_header">CPU grense</string>
+    <string name="prefs_cpu_time_max_description">Begrenser prosessorbruken til BOINC</string>
+    <string name="prefs_memory_max_idle_header">Minne grense</string>
+    <string name="prefs_memory_max_idle_description">Begrenser mengden minne BOINC tildeler oppgaver</string>
+    <string name="prefs_client_log_flags_header">BOINC klient loggflagg</string>
+    <string name="prefs_gui_log_level_header">GUI loggnivå</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">sek</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">Leser prosjekter ...</string>
+    <string name="projects_add">Legg til prosjekt</string>
+    <string name="projects_icon">Prosjektikon</string>
+    <string name="projects_credits">Arbeid utført</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">Suspendert av bruker</string>
+    <string name="projects_status_dontrequestmorework">Vil ikke hente nye oppgaver</string>
+    <string name="projects_status_ended">Prosjekt avsluttet - OK å fjerne</string>
+    <string name="projects_status_detachwhendone">Vil fjerne når oppgaver er ferdige</string>
+    <string name="projects_status_schedrpcpending">Forespørsel fra planleggeren venter</string>
+    <string name="projects_status_schedrpcinprogress">Forespørsel fra planleggeren pågår</string>
+    <string name="projects_status_trickleuppending">Godskriv andelsmelding venter</string>
+    <string name="projects_status_backoff">Kommunikasjon planlagt om:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">Prosjektkommandoer</string>
+    <string name="projects_control_visit_website">Besøk hjemmeside</string>
+    <string name="projects_control_update">Oppdater</string>
+    <string name="projects_control_remove">Fjern</string>
+    <string name="projects_control_suspend">Suspender</string>
+    <string name="projects_control_resume">Gjennoppta</string>
+    <string name="projects_control_nonewtasks">Ingen nye oppgaver</string>
+    <string name="projects_control_allownewtasks">Tillat nye oppgaver</string>
+    <string name="projects_control_reset">Nullstill</string>
+    <string name="projects_control_dialog_title_acctmgr">Kontobehandler kommandoer</string>
+    <string name="projects_control_sync_acctmgr">Synkroniser</string>
+    <string name="projects_control_remove_acctmgr">Deaktiver</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">Fjern prosjekt?</string>
+    <string name="projects_confirm_detach_message">Er du sikker på at du vil fjerne</string>
+    <string name="projects_confirm_detach_message2">fra BOINC</string>
+    <string name="projects_confirm_detach_confirm">Fjern</string>
+    <string name="projects_confirm_reset_title">Nullstill prosjekt</string>
+    <string name="projects_confirm_reset_message">Er du sikker på at du vil nullstille</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">Nullstill</string>
+    <string name="projects_confirm_remove_acctmgr_title">Deaktiver kontobehandler</string>
+    <string name="projects_confirm_remove_acctmgr_message">Er du sikker på at du vil slutte å bruke</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">Deaktiver</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">Oppgavenavn:</string>
+    <string name="tasks_header_elapsed_time">Tid brukt</string>
+    <string name="tasks_header_project_paused">(Satt på pause)</string>
+    <string name="tasks_header_deadline">Frist</string>
+    <string name="tasks_result_new">ny</string>
+    <string name="tasks_result_files_downloading">venter på nedlasting</string>
+    <string name="tasks_result_files_downloaded">nedlasting fullført</string>
+    <string name="tasks_result_compute_error">Beregningsfeil</string>
+    <string name="tasks_result_files_uploading">laster opp</string>
+    <string name="tasks_result_files_uploaded">opplasting fullført</string>
+    <string name="tasks_result_aborted">avbrutt</string>
+    <string name="tasks_result_upload_failed">Opplasting feilet</string>
+    <string name="tasks_active_uninitialized">klar</string>
+    <string name="tasks_active_executing">Kjører</string>
+    <string name="tasks_active_suspended">suspendert</string>
+    <string name="tasks_active_abort_pending">setter på pause</string>
+    <string name="tasks_active_quit_pending">setter på pause</string>
+    <string name="tasks_custom_suspended_via_gui">suspendert</string>
+    <string name="tasks_custom_project_suspended_via_gui">prosjektet satt på pause</string>
+    <string name="tasks_custom_ready_to_report">Klar til å rapportere</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">Avbryt oppgave?</string>
+    <string name="confirm_abort_task_message">Avbryt oppgave:</string>
+    <string name="confirm_abort_task_confirm">Avbryt</string>
+    <string name="confirm_cancel">Avbryt</string>
+    <string name="confirm_image_desc">Bekreftelsesdialog</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">Leser overføringer ...</string>
+    <string name="trans_upload">Last opp</string>
+    <string name="trans_download">Nedlasting</string>
+    <string name="trans_retryin">prøver igjen om</string>
+    <string name="trans_failed">mislyktes</string>
+    <string name="trans_suspended">suspendert</string>
+    <string name="trans_active">aktiv</string>
+    <string name="trans_pending">venter</string>
+    <string name="trans_header_name">Fil:</string>
+    <string name="trans_control_retry">Prøv overføring på nytt</string>
+    <string name="confirm_abort_trans_title">Avbryt overføring?</string>
+    <string name="confirm_abort_trans_message">Avbryt fil:</string>
+    <string name="confirm_abort_trans_confirm">Avbryt</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">Leser notifikasjoner</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">Laster inn loggmeldinger...</string>
+    <string name="eventlog_client_header">Klientmeldinger</string>
+    <string name="eventlog_gui_header">GUI Meldinger</string>
+    <string name="eventlog_copy_toast">Logg kopiert til utklippstavle.</string>
+    <string name="eventlog_email_subject">Hendelseslogg for BOINC på Android:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">Beregning er satt på pause.</string>
+    <string name="suspend_batteries">Koble enheten til en lader for å fortsette beregningen.</string>
+    <string name="suspend_screen_on">Slå skjermen av for å fortsette beregningen.</string>
+    <string name="suspend_useractive">Brukeren er aktiv.</string>
+    <string name="suspend_tod">Tomt for bergnings tidsrammer.</string>
+    <string name="suspend_bm">BOINC måler enhetens ytelse ...</string>
+    <string name="suspend_disksize">Tomt for diskplass.</string>
+    <string name="suspend_cputhrottle">Planlagt CPU begrensning.</string>
+    <string name="suspend_noinput">Ingen nylig brukeraktivitet.</string>
+    <string name="suspend_delay">Oppstartsforsinkelse.</string>
+    <string name="suspend_exclusiveapp">En app med enerett kjører.</string>
+    <string name="suspend_cpu">Din enhet er opptatt med andre oppgaver</string>
+    <string name="suspend_network_quota">BOINC har nådd grensen for nettverksbruk.</string>
+    <string name="suspend_os">Stoppet av Android.</string>
+    <string name="suspend_wifi">Ikke koblet til WIFI.</string>
+    <string name="suspend_battery_charging">Venter på at batteriet skal lades</string>
+    <string name="suspend_battery_charging_long">Beregningen vil fortsette når batteriets ladenivå overskrider</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">nåværende</string>
+    <string name="suspend_battery_overheating">Venter på at batteriet skal kjøles av</string>
+    <string name="suspend_user_req">Gjenopptar beregning ...</string>
+    <string name="suspend_network_user_req">Manuell.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">Anmodet av bruker</string>
+    <string name="rpcreason_needwork">Å hente arbeid</string>
+    <string name="rpcreason_resultsdue">Å rapportere fullførte oppgaver</string>
+    <string name="rpcreason_trickleup">Å sende godskriv andelsmelding</string>
+    <string name="rpcreason_acctmgrreq">Forespurt av kontobehandler</string>
+    <string name="rpcreason_init">Initialisering av prosjekt</string>
+    <string name="rpcreason_projectreq">Anmodet av prosjektet</string>
+    <string name="rpcreason_unknown">Ukjent grunn</string>
+    <!--menu-->
+    <string name="menu_refresh">Oppdater</string>
+    <string name="menu_emailto">Send som epost</string>
+    <string name="menu_copy">Kopier til utklippstavle</string>
+    <string name="menu_eventlog">Hendelseslogg</string>
+    <string name="menu_exit">Avslutt BOINC</string>
+    <string name="menu_run_mode_disable">Suspender</string>
+    <string name="menu_run_mode_enable">Gjennoppta</string>
+    <string name="menu_about">Om</string>
+    <string name="menu_help">Hjelp</string>
+    <!--about dialog-->
+    <string name="about_button">Returner</string>
+    <string name="about_title">Om</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">Versjon</string>
+    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_copyright_reserved">All Rights Reserved.</string>
+    <string name="about_credits">Takk til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC
+        Corporation for deres støtte.
+    </string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">Frivillig beregningsapp funnet</string>
+    <string name="nonexcl_dialog_text">En annen frivillig beregningsapp kjører allerede på denne enheten. Kun en versjon
+        kan kjøre om gangen.
+    </string>
+    <string name="nonexcl_dialog_exit">Avslutt</string>
+    <!--social integration-->
+    <string name="social_invite_button">Inviter venner</string>
+    <string name="social_invite_intent_title">Hvordan vil du dele?</string>
+    <string name="social_invite_content_title">Jeg utfører vitenskap med min smarttelefon!</string>
+    <string name="social_invite_content_body">Jeg bruker min %1$s til å utføre matematiske oppgaver for vitenskapen. Du
+        kan hjelpe til også! Last ned appen fra %2$s
+    </string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
 </resources>

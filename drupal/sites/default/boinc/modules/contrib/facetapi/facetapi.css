@@ -1,0 +1,27 @@
+
+.facetapi-checkbox {
+  margin-right: .5em;
+}
+
+ul li.leaf a.facetapi-checkbox, ul li.expanded a.facetapi-checkbox,
+ul li.collapsed a.facetapi-checkbox,
+ul li.leaf a.facetapi-checkbox-processed,
+ul li.expanded a.facetapi-checkbox-processed,
+ul li.collapsed a.facetapi-checkbox-processed {
+  display: inline;
+}
+
+/**
+* Hide elements visually, but keep them available for screen-readers.
+*
+* Used for information required for screen-reader users to understand and use
+* the site where visual display is undesirable. Information provided in this
+* manner should be kept concise, to avoid unnecessary burden on the user.
+* "!important" is used to prevent unintentional overrides.
+* Copied from Drupal 7
+*/
+.facetapi-element-invisible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}

@@ -62,6 +62,8 @@ environment:
       solution_name: win_build\boinc_vs2013.sln
       depends_git_path: http://boinc.berkeley.edu/git/boinc_depends_win_vs2013.git
       depends_path: C:\projects\boinc_depends_win_vs2013
+  BINTRAY_API_KEY:
+    secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
 
 cache:
   - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
@@ -75,6 +77,7 @@ build_script:
 
 after_build:
   - call deploy\prepare_deployment.bat
+  - call deploy\deploy_to_bintray.bat
 
 artifacts:
   - path: deploy\win-apps\*.7z
@@ -83,16 +86,5 @@ artifacts:
     name: win-client
   - path: deploy\win-manager\*.7z
     name: win-manager
-
-deploy:
-  - provider: BinTray
-    username: ChristianBeer
-    api_key:
-      secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
-    subject: boinc
-    repo: boinc-ci
-    package: $(pkg_name)
-    version: $(pkg_version)
-    publish: true
 
 test: off

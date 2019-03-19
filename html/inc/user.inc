@@ -69,7 +69,7 @@ function get_other_projects($user) {
                 $xml_object = @simplexml_load_string($rawxml);
             }
             curl_close($ch);
-            if (!xml_object) {
+            if (!$xml_object) {
                 return $user;
             }
         }
@@ -243,11 +243,15 @@ function show_user_info_private($user) {
         }
         row2(tra("Email address"), $email_text);
     }
-    if (strlen($user->url)) {
-        $u = normalize_user_url($user->url);
-        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+    if (USER_URL) {
+        if (strlen($user->url)) {
+            $u = normalize_user_url($user->url);
+            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+        }
     }
-    row2(tra("Country"), $user->country);
+    if (USER_COUNTRY) {
+        row2(tra("Country"), $user->country);
+    }
     if (POSTAL_CODE) {
         row2(tra("Postal code"), $user->postal_code);
     }
@@ -326,8 +330,9 @@ function friend_links($user) {
 
 // show user name, with links to profile if present.
 // if $badge_height is > 0, show badges
+// if $name_limit, limit name to N chars
 //
-function user_links($user, $badge_height=0) {
+function user_links($user, $badge_height=0, $name_limit=0) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
@@ -337,14 +342,18 @@ function user_links($user, $badge_height=0) {
         $img_url = url_base()."img/head_20.png";
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $name = $user->name;
+    if ($name_limit && strlen($name) > $name_limit) {
+        $name = substr($name, 0, $name_limit)."...";
+    }
+    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$name."</a>";
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
     }
-    return $x;
+    return $name_limit?"<nobr>$x</nobr>":$x;
 }
 
 function show_community_private($user) {
@@ -433,13 +442,17 @@ function show_user_summary_public($user) {
     global $g_logged_in_user;
     row2(tra("User ID"), $user->id);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    row2(tra("Country"), $user->country);
-    // don't show URL if user has no recent credit (spam suppression)
-    //
-    if (strlen($user->url)) {
-        if (!NO_COMPUTING || $user->expavg_credit > 1) {
-            $u = normalize_user_url($user->url);
-            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+    if (USER_COUNTRY) {
+        row2(tra("Country"), $user->country);
+    }
+    if (USER_URL) {
+        // don't show URL if user has no recent credit (spam suppression)
+        //
+        if (strlen($user->url)) {
+            if (!NO_COMPUTING || $user->expavg_credit > 1) {
+                $u = normalize_user_url($user->url);
+                row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+            }
         }
     }
     if (!NO_COMPUTING) {

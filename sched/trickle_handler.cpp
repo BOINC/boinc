@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,12 +20,14 @@
 //
 //  --variety variety
 //  [--d debug_level]
-//  [--one_pass]     // make one pass through table, then exit
+//  [--one_pass]        // make one pass through table, then exit
 //
-// This program must be linked with an app-specific function:
+// This program must be linked with an app-specific functions:
 //
+// int handle_trickle_init(int argc, char** argv);
+//      initialize
 // int handle_trickle(MSG_FROM_HOST&)
-//    handle a trickle message
+//      handle a trickle message
 //
 // return nonzero on error
 
@@ -46,7 +48,17 @@
 
 char variety[256];
 
-// make one pass through trickle_ups with handled == 0
+// values of mhf.handled.
+// Can change the following in handle_trickle_init()
+//
+int handled_enum = 0;
+    // enumerate messages with this
+int handled_set = 1;
+    // if successful, set to this
+int handled_error = 1;
+    // if handling error, set to this
+
+// make one pass through trickle_ups with handled == handled_enum
 // return true if there were any
 //
 bool do_trickle_scan() {
@@ -55,7 +67,7 @@ bool do_trickle_scan() {
     bool found=false;
     int retval;
 
-    sprintf(buf, "where variety='%s' and handled=0", variety);
+    sprintf(buf, "where variety='%s' and handled=%d", variety, handled_enum);
     while (1) {
         retval = mfh.enumerate(buf);
         if (retval) {
@@ -66,12 +78,12 @@ bool do_trickle_scan() {
             break;
         }
         retval = handle_trickle(mfh);
-        if (!retval) {
+        if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "handle_trickle(): %s", boincerror(retval)
             );
         }
-        mfh.handled = true;
+        mfh.handled = retval?handled_error:handled_set;
         mfh.update();
         found = true;
     }
@@ -181,5 +193,3 @@ int main(int argc, char** argv) {
 
     main_loop(one_pass);
 }
-
-const char *BOINC_RCSID_560388f67e = "$Id$";

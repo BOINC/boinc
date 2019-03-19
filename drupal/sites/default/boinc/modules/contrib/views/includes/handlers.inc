@@ -510,8 +510,12 @@ class views_handler extends views_object {
  *
  */
 class views_many_to_one_helper {
-  function views_many_to_one_helper(&$handler) {
+  function __construct(&$handler) {
     $this->handler = &$handler;
+  }
+
+  function views_many_to_one_helper(&$handler) {
+    self::__construct($handler);
   }
 
   public static function option_definition(&$options) {

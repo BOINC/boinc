@@ -22,8 +22,10 @@ require_once("../inc/util.inc");
 // Constants for valid token types
 define("TOKEN_TYPE_DELETE_ACCOUNT", "D");
 define("TOKEN_TYPE_CHANGE_EMAIL", "E");
+define("TOKEN_TYPE_LOGIN_INTERCEPT", "L");
 
 // Constants for token durations
+define("TOKEN_DURATION_TWO_HOURS", 7200);
 define("TOKEN_DURATION_ONE_DAY", 86400);
 define("TOKEN_DURATION_ONE_WEEK", 604800);
 

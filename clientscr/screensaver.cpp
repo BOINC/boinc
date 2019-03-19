@@ -243,7 +243,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
     }
 #else
         char* argv[3];
-        argv[0] = "app_graphics";   // not used
+        argv[0] = rp->graphics_exec_path;
         argv[1] = "--fullscreen";
         argv[2] = 0;
         retval = run_program(
@@ -392,10 +392,6 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
     BOINCTRACE(_T("launch_default_screensaver returned %d\n"), retval);
     
 #else
-    // For unknown reasons, the graphics application exits with 
-    // "RegisterProcess failed (error = -50)" unless we pass its 
-    // full path twice in the argument list to execv on Macs.
-
     char* argv[4];
     char full_path[1024];
 
@@ -403,7 +399,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
 
-    argv[0] = full_path;   // not used
+    argv[0] = full_path;
     argv[1] = "--fullscreen";
     argv[2] = 0;
     argv[3] = 0;

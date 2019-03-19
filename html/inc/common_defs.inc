@@ -95,4 +95,5 @@ define('ERR_BAD_PASSWD',              -206);
 define('ERR_ACCT_CREATION_DISABLED',  -208);
 define('ERR_ATTACH_FAIL_INIT',        -209);
 define('ERR_ATTACH_FAIL_DOWNLOAD',    -210);
+define('ERR_ACCT_REQUIRE_CONSENT',    -242);
 ?>

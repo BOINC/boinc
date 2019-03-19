@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,82 +17,83 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/status_wrapper"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants" >
+              android:id="@+id/status_wrapper"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:descendantFocusability="blocksDescendants">
 
-    <LinearLayout 
-        android:id="@+id/center_wrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@drawable/shape_light_blue_background"
-        android:visibility="gone">
-        
+    <LinearLayout
+            android:id="@+id/center_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/shape_light_blue_background"
+            android:visibility="gone">
+
         <ImageView
-	        android:id="@+id/status_image"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-        	android:layout_marginRight="10dp"
-        	android:layout_marginLeft="10dp"
-	        android:contentDescription="@string/status_paused"
-	        android:background="@android:color/transparent" />
- 
+                android:id="@+id/status_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:contentDescription="@string/status_paused"
+                android:background="@android:color/transparent"/>
+
         <LinearLayout
-        	android:id="@+id/text_wrapper"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-        	android:orientation="vertical"
-		    android:background="@android:color/transparent"  >
+                android:id="@+id/text_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/transparent">
+
             <TextView
-		        android:id="@+id/status_header"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceMedium"
-		        android:background="@android:color/transparent" />
-	        
-		    <TextView
-		        android:id="@+id/status_long"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:textAppearance="?android:attr/textAppearanceSmall"
-		        android:background="@android:color/transparent"  />
+                    android:id="@+id/status_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:background="@android:color/transparent"/>
+
+            <TextView
+                    android:id="@+id/status_long"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:background="@android:color/transparent"/>
         </LinearLayout>
     </LinearLayout>
-    
-    <LinearLayout 
-    	android:id="@+id/restarting_wrapper"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center"
-	    android:orientation="horizontal"
-	    android:paddingTop="10dp"
-	    android:paddingBottom="10dp"
-	    android:background="@drawable/shape_light_blue_background"
-	    android:visibility="gone" >
 
-	    <ProgressBar
-	        android:id="@+id/restarting_progressBar"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        style="?android:attr/progressBarStyleSmall"
-	        android:layout_marginRight="10dp"
-	        android:background="@android:color/transparent" />
-	
-	    <TextView
-	        android:id="@+id/restarting_text"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/suspend_user_req"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:maxWidth="300dp"
-	        android:background="@android:color/transparent" />
-	</LinearLayout>
- 
+    <LinearLayout
+            android:id="@+id/restarting_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/shape_light_blue_background"
+            android:visibility="gone">
+
+        <ProgressBar
+                android:id="@+id/restarting_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"/>
+
+        <TextView
+                android:id="@+id/restarting_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/suspend_user_req"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:maxWidth="300dp"
+                android:background="@android:color/transparent"/>
+    </LinearLayout>
+
 </LinearLayout>

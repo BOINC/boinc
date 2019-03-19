@@ -101,6 +101,15 @@ function boincteam_menu() {
     'access arguments' => array(2),
     'type' => MENU_CALLBACK,
   );
+  $items['community/teams/%/message-all-members'] = array(
+    'title' => bts('Send Message to Team', array(), NULL, 'boinc:team-manage'),
+    'description' => bts('Send Message to Team', array(), NULL, 'boinc:team-manage'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincteam_sendmessagetoteam', 2),
+    'access callback' => 'boincteam_is_admin',
+    'access arguments' => array(2),
+    'type' => MENU_CALLBACK,
+  );
   $items['admin/boinc/utility-team-delete'] = array(
     'title' => 'Utility: Delete SPAM Teams',
     'description' => 'Utililities to help delete BOINC teams created by SPAMMERs.',
@@ -201,6 +210,16 @@ function boincteam_cron_queue_info() {
     'worker callback' => 'boincteam_delete',
     'time' => 60,
   );
+}
+
+/**
+ * Implementation of hook_mail_alter()
+ */
+function boincteam_mail_alter(&$message) {
+  if (isset($message['params']['boincteam_headers'])) {
+    $message['headers']['Bcc'] = $message['params']['boincteam_headers']['Bcc'];
+    $message['to'] = '';
+  }
 }
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
@@ -976,20 +995,13 @@ function boincteam_management_panel($team_id) {
   
   // PM all members
   if (module_exists('privatemsg')) {
-    // Obtain all Drupal uids of team members and construct URL to send
-    // a private message to all.
-    $boinc_id = boincteam_lookup_id($team_id);
-    $member_drupaluids = _boincteam_userids($boinc_id, FALSE);
-    $members = array_map("user_load", $member_drupaluids);
-    $team_pm_link = privatemsg_get_link($members);
-
     $output .= '<div class="form-item">';
     $output .= '  <ul class="tab-list action-list">';
     $output .= '    <li class="first tab primary">' .
-      l('Send message to team', $team_pm_link) . '</li>';
+      l('Send message to team', "community/teams/{$team_id}/message-all-members") . '</li>';
     $output .= '  </ul>';
     $output .= '  <div class="description">';
-    $output .=   bts('Private message all team members.', array(), NULL, 'boinc:team-manage');
+    $output .=   bts('Contact all team members using e-mail.', array(), NULL, 'boinc:team-manage');
     $output .= '  </div>';
     $output .= '</div>';
   }

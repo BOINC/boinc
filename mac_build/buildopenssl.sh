@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2019 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -33,11 +33,12 @@
 # Updated 3/2/16 for openssl-1.0.2g
 # Updated 9/10/16 for openssl-1.1.0
 # Updated 1/25/18 for bulding openssl 1.1.0g (updated comemnts only)
+# Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.8 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode
-## and clicked the Install button on the dialog which appears to
+## After first installing Xcode, you must have opened Xcode and
+## clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## Where x.xx.xy is the openssl version number:
@@ -122,11 +123,12 @@ if [ -d "${libPath}" ]; then
 fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
+export CPPFLAGS=""
 export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.6
+export MACOSX_DEPLOYMENT_TARGET=10.7
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
 if [ "x${lprefix}" != "x" ]; then
@@ -152,7 +154,7 @@ fi
 lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
-export CPPFLAGS=""
+export CXXFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 

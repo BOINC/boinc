@@ -96,6 +96,7 @@
 #define ID_HELPBOINCWEBSITE                     6024  // Locked: Used by manager_links.php
 #define ID_HELPBOINCMANAGER                     6025  // Locked: Used by manager_links.php
 #define ID_CHECK_VERSION                        6026
+#define ID_REPORT_BUG                           6027
 //#define wxID_ABOUT
 
 // Views

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -95,6 +95,8 @@ int SCHED_CONFIG::parse(FILE* f) {
     scheduler_log_buffer = 32768;
     version_select_random_factor = 1.;
     maintenance_delay = 3600;
+    user_url = true;
+    user_country = true;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -194,6 +196,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("job_size_matching", job_size_matching)) continue;
         if (xp.parse_bool("dont_send_jobs", dont_send_jobs)) continue;
         if (xp.parse_bool("estimate_flops_from_hav_pfc", estimate_flops_from_hav_pfc)) continue;
+        if (xp.parse_bool("user_url", user_url)) continue;
+        if (xp.parse_bool("user_country", user_country)) continue;
 
         //////////// STUFF RELEVANT ONLY TO SCHEDULER STARTS HERE ///////
 
@@ -440,5 +444,3 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
     va_end(ap);
     return (const char *)path;
 }
-
-const char *BOINC_RCSID_3704204cfd = "$Id$";

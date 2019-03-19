@@ -58,4 +58,3 @@ int main() {
   }
 
 };
-const char *BOINC_RCSID_b8522ef5bd = "$Id$";

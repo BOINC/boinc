@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -90,6 +90,7 @@ typedef enum {
 
 char app_name[256];
 DB_APP app;
+DB_APP* g_app = &app;
 int wu_id_modulus=0;
 int wu_id_remainder=0;
 int wu_id_min=0;
@@ -965,5 +966,3 @@ int main(int argc, char** argv) {
 
     main_loop();
 }
-
-const char *BOINC_RCSID_634dbda0b9 = "$Id$";
