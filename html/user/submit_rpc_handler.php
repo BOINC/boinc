@@ -471,6 +471,7 @@ function submit_batch($r) {
             log_write("batch update to njobs failed");
             xml_error(-1, "batch->update() failed");
         }
+        log_write("adding jobs to existing batch $batch_id");
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_name = BoincDb::escape_string($batch_name);
@@ -511,6 +512,7 @@ function submit_batch($r) {
         log_write("batch update to IN_PROGRESS failed");
         xml_error(-1, "batch->update() failed");
     }
+    log_write("updated batch state to IN_PROGRESS");
 
     echo "<batch_id>$batch_id</batch_id>
         </submit_batch>
@@ -1022,13 +1024,13 @@ estimate_batch($r);
 exit;
 }
 
-$request_log = parse_config(get_config(), "<remote_submission_log>");
+// optionally write request message (XML) to log file
+//
+$request_log = parse_config(get_config(), "<remote_submit_request_log>");
 if ($request_log) {
-    $request_log_dir = parse_config(get_config(), "<log_dir>");
-    if ($request_log_dir) {
-        $request_log = $request_log_dir . "/" . $request_log;
-    }
-    if ($file = fopen($request_log, "a+")) {
+    $log_dir = parse_config(get_config(), "<log_dir>");
+    $request_log = $log_dir . "/" . $request_log;
+    if ($file = fopen($request_log, "a")) {
         fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</submit_rpc_handler>\n");
         fclose($file);
     }

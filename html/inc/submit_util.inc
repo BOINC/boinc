@@ -21,22 +21,26 @@
 
 require_once("../inc/submit_db.inc");
 
-$log_file = null;
-$verbose = true;
-
+// write status and error messages to log
+//
 function log_write($x) {
-    global $verbose, $log_file;
+    static $enabled, $log_file;
 
-    if (!$verbose) return;
-    if (!$log_file) {
-        $hostname = gethostname();
-        $log_dir = "../../log_$hostname";
-        if (!file_exists($log_dir)) {
-            mkdir($log_dir);
+    if (!isset($enabled)) {
+        $enabled = false;
+        $filename = parse_config(get_config(), "<remote_submit_log>");
+        if (!$filename) {
+            return;
         }
-        $log_file = fopen("$log_dir/submit_log.txt", "a");
+        $log_dir = parse_config(get_config(), "<log_dir>");
+        if (!$log_dir) {
+            return;
+        }
+        $log_file = fopen("$log_dir/$filename", "a");
         if (!$log_file) return;
+        $enabled = true;
     }
+    if (!$enabled) return;
     fwrite($log_file, sprintf("%s: %s\n", strftime("%c"), $x));
     fflush($log_file);
 }
