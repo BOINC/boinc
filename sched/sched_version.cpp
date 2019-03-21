@@ -100,6 +100,13 @@ inline DB_ID_TYPE host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
 //
 inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     int n = hav.max_jobs_per_day;
+
+    // if max jobs per day is 1, don't scale;
+    // this host probably can't use this app version at all.
+    // Allow 1 job/day in case something changes.
+    //
+    if (n == 1) return 1;
+
     if (hu.proc_type == PROC_TYPE_CPU) {
         if (g_reply->host.p_ncpus) {
             n *= g_reply->host.p_ncpus;
