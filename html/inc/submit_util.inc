@@ -163,7 +163,7 @@ function abort_batch($batch) {
     foreach ($wus as $wu) {
         abort_workunit($wu);
     }
-    $batch->update("project_state=".BATCH_STATE_ABORTED);
+    $batch->update("state=".BATCH_STATE_ABORTED);
     return 0;
 }
 
@@ -177,13 +177,13 @@ function retire_batch($batch) {
             "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
         );
     }
-    $batch->update("project_state=".BATCH_STATE_RETIRED);
+    $batch->update("state=".BATCH_STATE_RETIRED);
 }
 
 function expire_batch($batch) {
     abort_batch($batch);
     retire_batch($batch);
-    $batch->update("project_state=".BATCH_STATE_EXPIRED);
+    $batch->update("state=".BATCH_STATE_EXPIRED);
 }
 
 function batch_state_string($state) {
