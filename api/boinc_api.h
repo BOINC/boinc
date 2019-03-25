@@ -95,7 +95,6 @@ extern int boinc_report_app_status(
 );
 extern int boinc_time_to_checkpoint(void);
 extern void boinc_begin_critical_section(void);
-extern int boinc_try_critical_section(void);
 extern void boinc_end_critical_section(void);
 extern void boinc_need_network(void);
 extern int boinc_network_poll(void);
