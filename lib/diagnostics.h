@@ -86,7 +86,7 @@ extern int boinc_finish_diag(void);
 extern int diagnostics_init(
     int flags, const char* stdout_prefix, const char* stderr_prefix
 );
-extern int diagnostics_thread_init();
+extern int diagnostics_thread_init(void);
 extern int diagnostics_finish(void);
 extern int diagnostics_is_initialized(void);
 extern int diagnostics_is_flag_set(int flags);
