@@ -240,6 +240,8 @@ struct APP_CONFIGS {
     std::vector<APP_CONFIG> app_configs;
     std::vector<APP_VERSION_CONFIG> app_version_configs;
     int project_max_concurrent;
+    bool project_has_mc;
+        // have app- or project-level max concurrent restriction
     bool report_results_immediately;
 
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
@@ -250,6 +252,7 @@ struct APP_CONFIGS {
         app_configs.clear();
         app_version_configs.clear();
         project_max_concurrent = 0;
+        project_has_mc = false;
         report_results_immediately = false;
     }
 };

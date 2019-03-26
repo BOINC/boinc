@@ -76,6 +76,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init() {
     sim_nused = 0;
     nused_total = 0;
     deadlines_missed = 0;
+    mc_shortfall = 0;
 }
 
 void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
@@ -177,6 +178,9 @@ void RSC_WORK_FETCH::rr_init() {
     sim_used_instances = 0;
 }
 
+// update shortfall and saturated time for a given resource;
+// called at each time step in RR sim
+//
 void RSC_WORK_FETCH::update_stats(double sim_now, double dt, double buf_end) {
     double idle = ninstances - sim_nused;
     if (idle > 1e-6 && sim_now < buf_end) {
@@ -222,6 +226,15 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     }
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     double non_excl_inst = ninstances - w.ncoprocs_excluded;
+
+    // if this project has max concurrent,
+    // use the project-specific "MC shortfall" instead of global shortfall
+    //
+    if (p->app_configs.project_has_mc) {
+        RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rsc_type];
+        shortfall = rsc_pwf.mc_shortfall;
+    }
+
     if (shortfall) {
         if (wacky_dcf(p)) {
             // if project's DCF is too big or small,

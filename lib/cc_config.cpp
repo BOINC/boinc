@@ -729,7 +729,9 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.match_tag("/app")) return 0;
         if (xp.parse_str("name", name, 256)) continue;
         if (xp.parse_int("max_concurrent", max_concurrent)) {
-            if (max_concurrent) have_max_concurrent = true;
+            if (max_concurrent) {
+                have_max_concurrent = true;
+            }
             continue;
         }
         if (xp.match_tag("gpu_versions")) {
@@ -800,6 +802,9 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             int retval = ac.parse(xp, mv, log_flags);
             if (retval) return retval;
             app_configs.push_back(ac);
+            if (ac.max_concurrent) {
+                project_has_mc = true;
+            }
             continue;
         }
         if (xp.match_tag("app_version")) {
@@ -812,6 +817,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.parse_int("project_max_concurrent", n)) {
             if (n >= 0) {
                 have_max_concurrent = true;
+                project_has_mc = true;
                 project_max_concurrent = n;
             }
             continue;
