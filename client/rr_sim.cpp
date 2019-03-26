@@ -124,8 +124,8 @@ struct RR_SIM {
             if (p->rsc_pwf[0].sim_nused > p->rsc_pwf[0].max_nused) {
                 p->rsc_pwf[0].max_nused = p->rsc_pwf[0].sim_nused;
             }
-            if (rt && p->rsc_pwf[rt].sim_nused > p->rsc_pwf[0].max_nused) {
-                p->rsc_pwf[rt].max_nused = p->rsc_pwf[0].sim_nused;
+            if (rt && p->rsc_pwf[rt].sim_nused > p->rsc_pwf[rt].max_nused) {
+                p->rsc_pwf[rt].max_nused = p->rsc_pwf[rt].sim_nused;
             }
         }
     }
@@ -268,7 +268,6 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
             if (rsc_pwf.pending.size() ==0) continue;
             rsc_pwf.pending_iter = rsc_pwf.pending.begin();
             rsc_pwf.sim_nused = 0;
-            rsc_pwf.max_nused = 0;
             p->pwf.rec_temp = p->pwf.rec;
             p->compute_sched_priority();
             project_heap.push_back(p);

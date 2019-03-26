@@ -77,6 +77,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init() {
     nused_total = 0;
     deadlines_missed = 0;
     mc_shortfall = 0;
+    max_nused = 0;
 }
 
 void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
@@ -232,6 +233,12 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     //
     if (p->app_configs.project_has_mc) {
         RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rsc_type];
+        if (log_flags.work_fetch_debug) {
+            msg_printf(p, MSG_INFO,
+                "[work_fetch] using MC shortfall %f instead of shortfall %f",
+                rsc_pwf.mc_shortfall, shortfall
+            );
+        }
         shortfall = rsc_pwf.mc_shortfall;
     }
 
@@ -614,7 +621,7 @@ bool RSC_WORK_FETCH::uses_starved_excluded_instances(PROJECT* p) {
 
 // check for various reasons to not fetch work from a project.
 // Called after doing RR simulation,
-// so p->pwf.n_runnable_jobs and p->pwf.at_max_concurrent_limit are set.
+// so p->pwf.n_runnable_jobs is set.
 //
 static PROJECT_REASON compute_project_reason(PROJECT* p) {
     if (p->non_cpu_intensive) return PROJECT_REASON_NON_CPU_INTENSIVE;
@@ -624,7 +631,6 @@ static PROJECT_REASON compute_project_reason(PROJECT* p) {
     if (p->some_download_stalled()) return PROJECT_REASON_DOWNLOAD_STALLED;
     if (p->some_result_suspended()) return PROJECT_REASON_RESULT_SUSPENDED;
     if (p->too_many_uploading_results) return PROJECT_REASON_TOO_MANY_UPLOADS;
-    if (p->pwf.at_max_concurrent_limit) return PROJECT_REASON_MAX_CONCURRENT;
     if (p->pwf.n_runnable_jobs > WF_MAX_RUNNABLE_JOBS) {
         // don't request work from projects w/ > 1000 runnable jobs
         //
