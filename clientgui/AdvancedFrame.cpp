@@ -1959,15 +1959,6 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function End"));
 }
 
-void CBOINCBaseFrame::ResetReminderTimers() {
-#ifdef __WXMSW__
-    wxASSERT(m_pDialupManager);
-    wxASSERT(wxDynamicCast(m_pDialupManager, CBOINCDialUpManager));
-
-    m_pDialupManager->ResetReminderTimers();
-#endif
-}
-
 void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
     wxMenuBar* pMenuBar = GetMenuBar();
     wxASSERT(pMenuBar);

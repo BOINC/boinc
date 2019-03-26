@@ -1042,3 +1042,12 @@ void CBOINCBaseFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardDetach - Function End"));
 }
+
+void CBOINCBaseFrame::ResetReminderTimers() {
+#ifdef __WXMSW__
+    wxASSERT(m_pDialupManager);
+    wxASSERT(wxDynamicCast(m_pDialupManager, CBOINCDialUpManager));
+
+    m_pDialupManager->ResetReminderTimers();
+#endif
+}
