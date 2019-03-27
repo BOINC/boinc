@@ -16,7 +16,7 @@
 
 require_once('includes/boincuser.forms.inc');
 require_once('includes/boincuser.helpers.inc');
-
+require_once('includes/boincuser.rules.inc');
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
