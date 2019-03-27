@@ -201,6 +201,303 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_notify_admins_error_when_user_consenting_with_missing_consent_type' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincuser_general_consent_type_error',
+        '#label' => 'Notify admins error when user consenting with missing consent type',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Error from user consenting to terms of use, missing consent type',
+              'message' => '[user:display-name], [user:mail], attempted to consent to terms-of-use form and the function \'check_consent_type\' returned an error. Consent type [consent_type:string] seems to be generating an error.',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'consent_type',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_notify_admins_user_changing_email_address_to_existing_user' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincuser_change_email_error',
+        '#label' => 'Notify admins user changing email address to existing user',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Error: User attempted to change email address to one used by existing user.',
+              'message' => '[user:display-name]	with email [user:mail] attempted to change their email to [new_email_addr:string], which is already in use by another user.',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'new_email_addr',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_notify_admins_user_reverting_to_previous_email_address_that_is_now_used_by_another_user' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincuser_revert_email_error',
+        '#label' => 'Notify admins user reverting to previous email address that is now used by another user',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Error: User attempted to revert to previous email address to one used by existing user.',
+              'message' => '[user:display-name]	with email [user:mail] attempted to revert their email to their previous email address, [new_email_addr:string], which is already in use by another user.',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'new_email_addr',
+                    '1' => 'user',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_notify_admins_when_user_fails_to_delete_their_own_account' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincuser_delete_general_error',
+        '#label' => 'Notify admins when user fails to delete their own account',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Error when user trying to delete their account',
+              'message' => 'User [user:display-name], [user:mail], attempted to delete their account. Error from \'boincuser_load\'.',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'user',
+                    '1' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_notify_admins_when_user_tries_to_delete_account_with_invalid_uid' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincuser_delete_uid_invalid_error',
+        '#label' => 'Notify admins when user tries to delete account with invalid uid',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Error: invalid uid when user trying to delete their account',
+              'message' => 'User [user:display-name], [user:mail], attempted to delete their account. Error is Drupal UID=[user:uid] cannot be located.',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'user',
+                    '1' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_notify_admin_error_when_user_consenting_to_terms_of_use' => array(
+        '#type' => 'rule',
+        '#set' => 'event_boincuser_general_consent_error',
+        '#label' => 'Notify admins error when user consenting to terms of use',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'admin notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Error when user attempted to consent to terms of use',
+              'message' => '[user:display-name], [user:mail], attempted to consent to terms-of-use form and an error was generated from function \'consent_to_a_policy\'.',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'user',
+                    '1' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_admins',
+            '#info' => array(
+              'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_notify_admins_about_circular_merge_error' => array(
         '#type' => 'rule',
         '#set' => 'event_boincwork_circular_merge_error',
