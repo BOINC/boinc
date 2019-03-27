@@ -116,12 +116,13 @@ function boincuser_register_validate($form, &$form_state) {
   if ($tmp_user) {
     // User already exists
     rules_invoke_event('boincuser_change_email_error', $lower_email_addr);
-    form_set_error('mail', bts('An account already exists for @email. The @project administrators have been notified.',
-      array(
-        '@email' => $lower_email_addr,
-        '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user',
-      )
-    , NULL, 'boinc:register-new-user'));
+    form_set_error('mail',
+      bts('An account already exists for @email. The @project administrators have been notified.',
+        array(
+          '@email' => $lower_email_addr,
+          '@project' => variable_get('site_name', 'Drupal-BOINC')
+        ), NULL, 'boinc:register-new-user')
+    );
   }
 
   // Check for an existing BOINC user
@@ -774,9 +775,10 @@ function boincuser_termsofuse_form_validate($form, &$form_state) {
 function boincuser_termsofuse_form_submit($form, &$form_state) {
   $user = $form['#account'];
   if (!boincuser_consentto_termsofuse($user)) {
-    form_set_error('termsofuse', bts('There was an error in agreeing to the terms of use. The @project administrators have been notified.', array(
-      '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user',
-    ), NULL, 'boinc:termsofuse-form'));
+    form_set_error('termsofuse',
+      bts('There was an error in agreeing to the terms of use. The @project administrators have been notified.',
+        array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:termsofuse-form')
+    );
   }
 
   // Delete session messages
@@ -867,12 +869,12 @@ function boincuser_revertemail_validate($form, &$form_state) {
 
   if (BoincUser::lookup_email_addr($boinc_user->previous_email_addr)) {
     rules_invoke_event('boincuser_revert_email_error', $boinc_user->previous_email_addr);
-    form_set_error('mail', bts('An account already exists for @email. Previous email address cannot be used because another account is using it as their email address. The @project administrators have been notified.',
-      array(
-        '@email' => $boinc_user->previous_email_addr,
-        '@project' => variable_get('site_name', 'Drupal-BOINC'),
-      ),
-    NULL, 'boinc:add-new-user'));
+    form_set_error('mail',
+      bts('An account already exists for @email. Previous email address cannot be used because another account is using it as their email address. The @project administrators have been notified.',
+        array(
+          '@email' => $boinc_user->previous_email_addr,
+          '@project' => variable_get('site_name', 'Drupal-BOINC'),
+        ), NULL, 'boinc:add-new-user'));
   }
 
 }

@@ -360,10 +360,8 @@ function boincuser_consentto_termsofuse($user) {
   }
   else {
     drupal_set_message(
-      bts('ERROR: Consent type for enrollment not found. Please contact site administrators.',
-        array(
-          '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user',
-        ), 'NULL', 'boinc:consent-termsofuse'),
+      bts('ERROR: Consent type for enrollment not found. The @project administrators have been nofitifed.',
+        array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:consent-termsofuse'),
     'error');
     rules_invoke_event('boincuser_general_consent_type_error', CONSENT_TYPE_ENROLL);
   }
