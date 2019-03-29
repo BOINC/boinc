@@ -130,6 +130,9 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     return n;
 }
 
+// are we at the jobs/day limit for this (host, app version)?
+// (if so don't use the app version)
+//
 inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
@@ -666,6 +669,12 @@ BEST_APP_VERSION* get_app_version(
                 if (bavp->avp->version_num != wu.app_version_num) {
                     break;
                 }
+            }
+
+            // do this check again since we might have sent a job w/ this AV
+            //
+            if (daily_quota_exceeded(bavp->avp->id, bavp->host_usage)) {
+                break;
             }
 
             if (config.debug_version_select) {

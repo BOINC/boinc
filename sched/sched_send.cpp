@@ -192,6 +192,10 @@ const char* find_user_friendly_name(int appid) {
     return "deprecated application";
 }
 
+// Called at start of request handling.
+// 1) if there's a global jobs/day limit, enforce it using HAV limit
+// 2) if last RPC was yesterday or earlier, clear n_jobs_today for HAV
+//
 static void update_quota(DB_HOST_APP_VERSION& hav) {
     if (config.daily_result_quota) {
         if (hav.max_jobs_per_day == 0) {
