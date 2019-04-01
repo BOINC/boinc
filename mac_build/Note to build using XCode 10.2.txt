@@ -1,0 +1,54 @@
+The general instructions in the mac_build folder in the file HowToBuildBOINC_XCode.pdf should also note that if you want to build using XCode in it's GUI implementation - not command line - alone, you need to put all the downloaded libraries in the folder directly above the build folder. For EG:
+All of these external programs:
+
+wxWidgets-3.1.0 s-3.1.0.tar.bz2
+sqlite-3.22.0 
+curl-7.58.0:
+c-ares-1.13.0 (used by curl):
+openssl-1.1.0g
+freetype-2.9 
+ftgl-2.1.3~rc5 
+
+Need to go into the top GitHub directory on your system and be unpacked there. Otherwise XCode  as the project is currently set up, will not find the libraries. They need to be unzipped there of course.
+
+/Users/<your name>/GitHub/
+
+So that when you build in XCode, they can be found in the existing setup, which looks for them in - for example - 
+USER_HEADER_SEARCH_PATHS = ../../curl-7.58.0/include ../../openssl-1.1.0g/include ../lib/**
+
+I found the existing how-to-build pdf slightly misleading. It could be that to command line build would benefit from having the external libraries in this folder directly above the 'boinc' folder.
+
+In my case I have 
+/Users/Robert/Documents/GitHub
+    /boinc
+    /c-ares-1.13.0
+    /curl-7.58.0
+... and so on for the other required programs.
+
+Below the boinc folder there is of course the 'boinc/mac_build' folder.
+
+The result is
+
+01-Apr-2019 09:21:01 [---] OS: Mac OS X 10.14.4 (Darwin 18.5.0)
+01-Apr-2019 09:21:01 [---] Memory: 16.00 GB physical, 67.34 GB virtual
+01-Apr-2019 09:21:01 [---] Disk: 931.19 GB total, 64.59 GB free
+01-Apr-2019 09:21:01 [---] Local time is UTC +1 hours
+01-Apr-2019 09:21:01 [---] Last benchmark was 17987 days 08:21:01 ago
+01-Apr-2019 09:21:01 [---] No general preferences found - using defaults
+01-Apr-2019 09:21:01 [---] Preferences:
+01-Apr-2019 09:21:01 [---]    max memory usage when active: 8192.00 MB
+01-Apr-2019 09:21:01 [---]    max memory usage when idle: 14745.60 MB
+01-Apr-2019 09:21:01 [---]    max disk usage: 64.50 GB
+01-Apr-2019 09:21:01 [---]    don't use GPU while active
+01-Apr-2019 09:21:01 [---]    suspend work if non-BOINC CPU load exceeds 25%
+01-Apr-2019 09:21:01 [---]    (to change preferences, visit a project web site or select Preferences in the Manager)
+01-Apr-2019 09:21:01 [---] Setting up project and slot directories
+01-Apr-2019 09:21:01 [---] Checking active tasks
+01-Apr-2019 09:21:01 [---] Setting up GUI RPC socket
+01-Apr-2019 09:21:01 [---] Checking presence of 0 project files
+01-Apr-2019 09:21:01 [---] This computer is not attached to any projects
+01-Apr-2019 09:21:01 Initialization completed
+01-Apr-2019 09:21:01 [---] Suspending GPU computation - computer is in use
+
+
+
