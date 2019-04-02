@@ -354,8 +354,8 @@ function boincuser_consentto_termsofuse($user) {
         ),
         'NULL', 'boinc:consent-termsofuse'),
       'error');
+      rules_invoke_event('boincuser_general_consent_error');
     }
-    rules_invoke_event('boincuser_general_consent_error');
     return $rc1;
   }
   else {
