@@ -56,7 +56,7 @@ function teams_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error creating new team',
+              'subject' => '[drupal-error] Error creating new team',
               'message' => '[user:display-name] attempted to create team [team_name:string], but an error was returned. See function \'boincteam_create_form_submit\'. BOINC function \'make_team\' did not return a valid boinc_team object.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -106,7 +106,7 @@ function teams_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error creating BOINC team - no pathauo module',
+              'subject' => '[drupal-error] Error creating BOINC team - no pathauo module',
               'message' => '[user:display-name] attempted to create team [team_name:string], but no pathauto module detected. See function \'boincteam_create_form_submit\'.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(

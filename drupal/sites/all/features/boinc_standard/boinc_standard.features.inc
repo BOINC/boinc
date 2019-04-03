@@ -218,7 +218,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error from user consenting to terms of use, missing consent type',
+              'subject' => '[drupal-error] Error from user consenting to terms of use, missing consent type',
               'message' => '[user:display-name], [user:mail], attempted to consent to terms-of-use form and the function \'check_consent_type\' returned an error. Consent type [consent_type:string] seems to be generating an error.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -268,7 +268,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error: User attempted to change email address to one used by existing user.',
+              'subject' => '[drupal-error] User attempted to change email address to one used by existing user.',
               'message' => '[user:display-name]	with email [user:mail] attempted to change their email to [new_email_addr:string], which is already in use by another user.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -318,7 +318,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error: User attempted to revert to previous email address to one used by existing user.',
+              'subject' => '[drupal-error] User attempted to revert to previous email address to one used by existing user.',
               'message' => '[user:display-name]	with email [user:mail] attempted to revert their email to their previous email address, [new_email_addr:string], which is already in use by another user.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -368,7 +368,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error when user trying to delete their account',
+              'subject' => '[drupal-error] Error when user trying to delete their account',
               'message' => 'User [user:display-name], [user:mail], attempted to delete their account. Error from \'boincuser_load\'.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -417,7 +417,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error: invalid uid when user trying to delete their account',
+              'subject' => '[drupal-error] invalid uid when user trying to delete their account',
               'message' => 'User [user:display-name], [user:mail], attempted to delete their account. Error is Drupal UID=[user:uid] cannot be located.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -466,7 +466,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Error when user attempted to consent to terms of use',
+              'subject' => '[drupal-error] Error when user attempted to consent to terms of use',
               'message' => '[user:display-name], [user:mail], attempted to consent to terms-of-use form and an error was generated from function \'consent_to_a_policy\'.',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
@@ -515,7 +515,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Circular host merging error',
+              'subject' => '[BOINC-error] Circular host merging error',
               'message' => 'User tried to merge a host (old_host) into a target host where the target host\'s rpc_seqno is equal to the old_host\'s id. 
 
 Information about this host merge attempt:
@@ -580,7 +580,7 @@ print "Drupal UID: " . $user->uid . "\\n";
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => 'Zombie host merging error',
+              'subject' => '[BOINC-error] Zombie host merging error',
               'message' => 'User tried to merge a host (old_host) into a target host where the target host\'s userid is equal to 0, a zombie host. 
 I.e., $target_host->userid == 0
 
