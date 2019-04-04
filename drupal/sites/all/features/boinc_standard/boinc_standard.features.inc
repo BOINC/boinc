@@ -515,7 +515,7 @@ function boinc_standard_rules_defaults() {
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => '[BOINC-error] Circular host merging error',
+              'subject' => '[drupal-error] Circular host merging error',
               'message' => 'User tried to merge a host (old_host) into a target host where the target host\'s rpc_seqno is equal to the old_host\'s id. 
 
 Information about this host merge attempt:
@@ -580,7 +580,7 @@ print "Drupal UID: " . $user->uid . "\\n";
             '#type' => 'action',
             '#settings' => array(
               'from' => '',
-              'subject' => '[BOINC-error] Zombie host merging error',
+              'subject' => '[drupal-error] Zombie host merging error',
               'message' => 'User tried to merge a host (old_host) into a target host where the target host\'s userid is equal to 0, a zombie host. 
 I.e., $target_host->userid == 0
 
