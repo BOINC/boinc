@@ -81,22 +81,22 @@ static int android_version_num(HOST h) {
 static bool wu_is_infeasible_for_plan_class(const PLAN_CLASS_SPEC* pc, const WORKUNIT* wu) {
     if (pc->min_wu_id && wu->id < pc->min_wu_id) {
         if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old for plan class '%s'\n", wu->id, pc->name);
+            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old for plan class '%s' (%ld)\n", wu->id, pc->name,pc->min_wu_id);
         return true;
     }
     if (pc->max_wu_id && wu->id > pc->max_wu_id) {
         if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new for plan class '%s'\n", wu->id, pc->name);
+            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new for plan class '%s' (%ld)\n", wu->id, pc->name, pc->max_wu_id);
         return true;
     }
     if (pc->min_batch && wu->batch < pc->min_batch) {
         if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old for plan class '%s'\n", wu->id, pc->name);
+            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old for plan class '%s' (%ld)\n", wu->id, pc->name, pc->min_batch);
         return true;
     }
     if (pc->max_batch && wu->batch > pc->max_batch) {
         if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new for plan class '%s'\n", wu->id, pc->name);
+            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new for plan class '%s' (%ld)\n", wu->id, pc->name, pc->max_batch);
         return true;
     }
     return false;
@@ -1167,6 +1167,10 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
+    min_wu_id=0;
+    max_wu_id=0;
+    min_batch=0;
+    max_batch=0;
 
     cpu_frac = .1;
     min_gpu_ram_mb = 0;
