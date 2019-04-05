@@ -256,12 +256,20 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
         }
     }
 
-    double instance_share = ninstances*w.fetchable_share;
-    if (instance_share > non_excl_inst) {
-        instance_share = non_excl_inst;
+    // ask for enough instances to use our share, and to use idle instances
+    //
+    if (p->app_configs.project_has_mc) {
+        // but not if project has max_concurrent
+        //
+        req_instances = 0;
+    } else {
+        double instance_share = ninstances*w.fetchable_share;
+        if (instance_share > non_excl_inst) {
+            instance_share = non_excl_inst;
+        }
+        instance_share -= w.nused_total;
+        req_instances = std::max(nidle_now, instance_share);
     }
-    instance_share -= w.nused_total;
-    req_instances = std::max(nidle_now, instance_share);
 
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
@@ -764,14 +772,21 @@ PROJECT* WORK_FETCH::choose_project() {
                 }
                 continue;
             }
+
+            // is the buffer low for this resource?
+            //
             if (rwf.saturated_time < gstate.work_buf_min()) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO, "%s needs work - buffer low",
-                        rsc_name_long(i)
-                    );
+                // skip if project has max_concurrent and has no shortfall
+                //
+                if (!p->app_configs.project_has_mc || rpwf.mc_shortfall > 0) {
+                    if (log_flags.work_fetch_debug) {
+                        msg_printf(p, MSG_INFO, "%s needs work - buffer low",
+                            rsc_name_long(i)
+                        );
+                    }
+                    rsc_index = i;
+                    break;
                 }
-                rsc_index = i;
-                break;
             }
             if (rwf.has_exclusions && rwf.uses_starved_excluded_instances(p)) {
                 if (log_flags.work_fetch_debug) {
