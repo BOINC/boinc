@@ -1167,6 +1167,10 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
+    min_wu_id=0;
+    max_wu_id=0;
+    min_batch=0;
+    max_batch=0;
 
     cpu_frac = .1;
     min_gpu_ram_mb = 0;
