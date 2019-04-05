@@ -169,7 +169,7 @@ function direct_to_boinc() {
             PROJECT,
             $master_url
         ),
-        tra("Go the BOINC download page.")
+        tra("Go to the BOINC download page.")
     );
     text_end();
     page_tail();

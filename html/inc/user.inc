@@ -330,8 +330,9 @@ function friend_links($user) {
 
 // show user name, with links to profile if present.
 // if $badge_height is > 0, show badges
+// if $name_limit, limit name to N chars
 //
-function user_links($user, $badge_height=0) {
+function user_links($user, $badge_height=0, $name_limit=0) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
@@ -341,14 +342,18 @@ function user_links($user, $badge_height=0) {
         $img_url = url_base()."img/head_20.png";
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $name = $user->name;
+    if ($name_limit && strlen($name) > $name_limit) {
+        $name = substr($name, 0, $name_limit)."...";
+    }
+    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$name."</a>";
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
     }
-    return $x;
+    return $name_limit?"<nobr>$x</nobr>":$x;
 }
 
 function show_community_private($user) {

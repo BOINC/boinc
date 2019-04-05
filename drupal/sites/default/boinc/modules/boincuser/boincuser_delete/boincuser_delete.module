@@ -10,6 +10,7 @@
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 require_once('includes/boincuser_delete.helpers.inc');
+require_once('includes/boincuser_delete.rules.inc');
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
@@ -283,8 +284,13 @@ function boincuser_delete_validate($form, &$form_state) {
   $account = $form_state['values']['_account'];
   $boinc_user = boincuser_load($account->uid, TRUE);
   if (!$boinc_user) {
+    rules_invoke_event('boincuser_delete_general_error');
     return form_set_error('current_pass',
-      bts('There was a problem deleting your account. Please contact the site administrators.', array(), NULL, 'boinc:delete-user-account')
+      bts('There was a problem deleting your account. The @project administrators have been contacted.',
+      array(
+        '@project' => variable_get('site_name', 'Drupal-BOINC'),
+      )
+      , NULL, 'boinc:delete-user-account')
     );
   }
 
@@ -308,7 +314,14 @@ function boincuser_delete_submit($form, &$form_state) {
   $account = user_load(array('uid' => $uid));
 
   if (!$account) {
-    drupal_set_message(bts('ERROR: The user account @uid does not exist.', array('@uid' => $uid), array(), NULL, 'delete-user-account'), 'error');
+    rules_invoke_event('boincuser_delete_uid_invalid_error');
+    drupal_set_message(
+      bts('ERROR: The user account @uid does not exist. The @project administrators have been notified.',
+        array(
+          '@uid' => $uid,
+          '@project' => variable_get('site_name', 'Drupal-BOINC'),
+        ), NULL, 'delete-user-account'),
+      'error');
     watchdog('user', 'Attempted to cancel non-existing user account UID: %uid.', array('%uid' => $uid), WATCHDOG_ERROR);
     return;
   }

@@ -179,8 +179,8 @@ function boincteam_create_form_submit($form, &$form_state) {
     user_join_team($boinc_team, $boinc_user);
   }
   else {
-    drupal_set_message(t('Teams cannot be created at this time. Please 
-      contact the @project administrators!', array('@project' => PROJECT)));
+    drupal_set_message(t('Teams cannot be created at this time. The @project administrators have been notified.', array('@project' => PROJECT)));
+    rules_invoke_event('boincteam_create_team_error', $values['name']);
     watchdog('BOINC team', 'BOINC teams cannot be created for an unknown
       reason.', 'error');
     return FALSE;
@@ -214,8 +214,8 @@ function boincteam_create_form_submit($form, &$form_state) {
     $node['path'] = pathauto_cleanstring($values['name']);
   }
   else {
-    drupal_set_message(t('Teams cannot be created at this time. Please 
-      contact the @project administrators!', array('@project' => PROJECT)));
+    drupal_set_message(t('Teams cannot be created at this time. The @project administrators have been notified.', array('@project' => PROJECT)));
+    rules_invoke_event('boincteam_create_team_nopathauto_error', $values['name']);
     watchdog('BOINC team', 'BOINC teams require the Pathauto module. Teams
       cannot be created.', 'error');
   }
@@ -804,7 +804,7 @@ function boincteam_sendmessagetoteam_submit($form, &$form_state) {
 
   $suid = $form_state['values']['_senderuid'];
   $account = user_load(array('uid' => $suid ));
-  $site_url = $base_url . $base_path . "/messages/new/" . $suid;
+  $site_url = $base_url . $base_path . "messages/new/" . $suid;
 
   // Form is validated, now send to all team members. Lookup boinc
   // id of all team members, and then use user_load() to load user

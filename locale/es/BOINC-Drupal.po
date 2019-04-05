@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-07-26 12:18+0000\n"
+"PO-Revision-Date: 2018-12-10 12:11+0000\n"
 "Last-Translator: Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/boinc/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -591,7 +591,7 @@ msgstr "Dirección de correo electrónico"
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Enter your @s email address."
-msgstr "Introduce tu @s dirección de correo electrónico."
+msgstr "Introduzca su @s dirección de correo electrónico."
 
 #: standard-login-page
 msgctxt "standard-login-page"
@@ -2569,7 +2569,7 @@ msgctxt "forgot-password"
 msgid ""
 "Enter your email address to receive instructions for resetting your password"
 " (or use the !authenticator_login)."
-msgstr "Introduce tu dirección de correo electrónico para recibir instrucciones para restablecer tu contraseña (o usa el !authenticator_login)."
+msgstr "Introduzca su dirección de correo electrónico para recibir instrucciones para restablecer su contraseña (o utilice el !authenticator_login)."
 
 #: form-send
 msgctxt "form-send"
@@ -3519,7 +3519,7 @@ msgstr "Puede crear un tablón de mensajes para uso de @team"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Please enter your email address"
-msgstr "Por favor, introduce tu dirección de correo electrónico"
+msgstr "Por favor, introduzca su dirección de correo electrónico"
 
 #: join-page
 msgctxt "join-page"
@@ -3635,7 +3635,7 @@ msgstr "Contraseña"
 #: login-page
 msgctxt "login-page"
 msgid "Enter the password that accompanies your username."
-msgstr "Introduce la contraseña que corresponde con tu nombre de usuario."
+msgstr "Introduzca la contraseña que corresponda a su nombre de usuario."
 
 #: login-page
 msgctxt "login-page"

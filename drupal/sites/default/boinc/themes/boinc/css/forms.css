@@ -205,6 +205,13 @@ form ul.tab-list {
   margin-top: 1em;
 }
 
+/* Form submit 'disabled' with javascript.*/
+.form-submit[disabled] {
+  color: #fccf9c;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
 .container-inline div,
 .container-inline label /* Inline labels and form divs */ {
   display: inline;
