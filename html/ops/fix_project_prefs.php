@@ -59,7 +59,7 @@ function handle_project_specific_block($node) {
     $asnode = $node->getElementsByTagName("apps_selected");
     $length = $asnode->length;
     if ($length == 1) {
-        $node = $asnode[0];
+        $node = $asnode->item(0);
     } else if ($length == 0) {
         if (ADD_APPS_SELECTED_BLOCK) {
             // create a new apps_selected block and move app_id tags in there
@@ -143,7 +143,7 @@ function repair_prefs($prefs) {
                     // check if venue has a project_specific subnode (its optional)
                     $psnode = $subNode->getElementsByTagName("project_specific");
                     if ($psnode->length == 1) {
-                        handle_project_specific_block($psnode[0]);
+                        handle_project_specific_block($psnode->item(0));
                     }
                 }
                 if ($subNode->nodeName == "project_specific") {
