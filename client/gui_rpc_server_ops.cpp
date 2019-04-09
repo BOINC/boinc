@@ -874,9 +874,39 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
         }
     }
 
+	// remove http(s):// at the beginning of project address
+	// there is no reason to connect to secure address project
+	// if we're already connected to the non-secure address
+	// or vice versa
+
+	const std::string http = "http://";
+	const std::string https = "https://";
+
+	string new_project_url = url;
+	size_t pos = new_project_url.find(http);
+	if (pos != std::string::npos) {
+		new_project_url.erase(pos, http.length());
+	}
+	else if ((pos = new_project_url.find(https)) != std::string::npos) {
+		new_project_url.erase(pos, https.length());
+	}
+
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (url == p->master_url) already_attached = true;
+		string project_url = p->master_url;
+
+		pos = project_url.find(http);
+		if (pos != std::string::npos) {
+			project_url.erase(pos, http.length());
+		}
+		else if ((pos = project_url.find(https)) != std::string::npos) {
+			project_url.erase(pos, https.length());
+		}
+
+		if (new_project_url == project_url) {
+			already_attached = true;
+			break;
+		}
     }
 
     if (already_attached) {
