@@ -193,8 +193,8 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
         if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
-            DB_HOST_APP_VERSION hav;
-            sprintf(buf, "host_id=%ld and app_version_id=%ld",
+            DB_HOST_APP_VERSION hav, hav2;
+            sprintf(buf, "where host_id=%ld and app_version_id=%ld",
                 result.hostid, result.app_version_id
             );
             int retval = hav.lookup(buf);
@@ -205,9 +205,11 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
                 );
                 continue;
             }
-            hav.max_jobs_per_day = 1;
-            hav.n_jobs_today = 1;
-            hav.update();
+            hav2 = hav;
+            hav2.max_jobs_per_day = 1;
+            hav2.n_jobs_today = 1;
+            hav2.update_scheduler(hav);
+                // update_scheduler() updates the above fields
         }
         if (data) {
             cleanup_result(result, data);
