@@ -1803,17 +1803,19 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             );
         }
 #else
-        char* argv[2];
-
         // If graphics app is already running, don't launch a second instance
         //
         if (previous_gfx_app) return 0;
-        argv[0] = 0;
+
+        char* argv[2] = {
+            rp->graphics_exec_path,
+            NULL
+        };
 
         iRetVal = run_program(
             rp->slot_path,
             rp->graphics_exec_path,
-            0,
+            1,
             argv,
             0,
             id

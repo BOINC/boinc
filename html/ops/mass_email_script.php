@@ -267,7 +267,7 @@ function read_log() {
         exit();
     }
     $startid = 0;
-    while (fscanf($f, '%d', &$startid)) {
+    while (fscanf($f, '%d', $startid)) {
         // read to the last entry in the file
     }
     fclose($f);
@@ -287,13 +287,13 @@ function main() {
             $startid = $new_startid;
         }
     } else {
-        $fid = fopen($id_file, 'r'); 
+        $fid = fopen($id_file, 'r');
         if (!$fid) {
             echo  $id_file . ' not found - create ID list and run again\n';
             exit();
         }
         $thisid = 0;
-        while (fscanf($fid, '%d', &$thisid)) {
+        while (fscanf($fid, '%d', $thisid)) {
             if ($thisid > $startid) {
                 do_one($thisid, $f);
             }

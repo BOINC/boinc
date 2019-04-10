@@ -16,7 +16,7 @@
 
 require_once('includes/boincuser.forms.inc');
 require_once('includes/boincuser.helpers.inc');
-
+require_once('includes/boincuser.rules.inc');
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
@@ -303,7 +303,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 
   require_boinc('password_compat/password');
   // Handle BOINC integration for users with UID > 1 (skip anonymous and admin)
-  if ($account->uid > 1) {
+  if (isset($account->uid) && ($account->uid > 1)) {
     switch($op) {
     case 'load':
       // User loading; insert BOINC data into the user object
@@ -1406,7 +1406,9 @@ function boincuser_token_list($type = 'all') {
  * Implementation of hook_views_pre_execute()
  */
 function boincuser_views_pre_execute(&$view) {
-  $account_id = $view->args[0];
+  if ($view->args) {
+    $account_id = $view->args[0];
+  }
   if ($view->name=="user_activity") {
     // Run the following custom query for the user_activity view
     $view->build_info['query']= "

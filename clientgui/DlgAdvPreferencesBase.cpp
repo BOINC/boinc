@@ -137,7 +137,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     wxBoxSizer* notebookSizer = new wxBoxSizer( wxVERTICAL );
 
-    m_Notebook = new wxNotebook( m_panelControls, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxNB_FLAT|wxNB_TOP );
+    m_Notebook = new wxNotebook( m_panelControls, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxNB_TOP );
     m_Notebook->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
     wxImageList* pImageList = new wxImageList(ADJUSTFORXDPI(16), ADJUSTFORYDPI(16), true, 0);
