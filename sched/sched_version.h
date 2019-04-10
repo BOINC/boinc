@@ -19,3 +19,4 @@ extern BEST_APP_VERSION* get_app_version(
     const WORKUNIT&, bool check_req, bool reliable_only
 );
 extern void estimate_flops_anon_platform();
+extern bool daily_quota_exceeded(BEST_APP_VERSION*);

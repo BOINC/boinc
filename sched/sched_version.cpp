@@ -150,6 +150,10 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
     return false;
 }
 
+bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
+    return daily_quota_exceeded(bavp->avp->id, bavp->host_usage);
+}
+
 // scan through client's anonymous apps and pick the best one
 //
 CLIENT_APP_VERSION* get_app_version_anonymous(
@@ -671,12 +675,6 @@ BEST_APP_VERSION* get_app_version(
                 }
             }
 
-            // do this check again since we might have sent a job w/ this AV
-            //
-            if (daily_quota_exceeded(bavp->avp->id, bavp->host_usage)) {
-                break;
-            }
-
             if (config.debug_version_select) {
                 app_version_desc(*bavp, buf);
                 log_messages.printf(MSG_NORMAL,
@@ -813,7 +811,7 @@ BEST_APP_VERSION* get_app_version(
             if (daily_quota_exceeded(av.id, host_usage)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%lu] daily quota exceeded\n", av.id
+                        "[version] [AV#%lu] daily HAV quota exceeded\n", av.id
                     );
                 }
                 continue;
