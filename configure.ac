@@ -62,7 +62,6 @@ dnl Workaround for autoconf >= 2.65 backwards incompatibility
 m4_pattern_allow([AC_PROG_OBJCXX])
 m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX],)
 dnl ------
-AC_PROG_F77
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 SAH_LINKS

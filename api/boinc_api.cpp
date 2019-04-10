@@ -1071,7 +1071,9 @@ int resume_activities() {
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
-        if (pids.size() == 0) pids.push_back(GetCurrentProcessId());
+        if (pids.size() == 0) {
+            pids.push_back(GetCurrentProcessId());
+        }
         suspend_or_resume_threads(pids, timer_thread_id, true, true);
     } else {
         ResumeThread(worker_thread_handle);

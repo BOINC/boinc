@@ -80,23 +80,39 @@ static int android_version_num(HOST h) {
 
 static bool wu_is_infeasible_for_plan_class(const PLAN_CLASS_SPEC* pc, const WORKUNIT* wu) {
     if (pc->min_wu_id && wu->id < pc->min_wu_id) {
-        if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too old for plan class '%s' (%ld)\n", wu->id, pc->name,pc->min_wu_id);
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] WU#%ld too old for plan class '%s' (%ld)\n",
+                wu->id, pc->name, pc->min_wu_id
+            );
+        }
         return true;
     }
     if (pc->max_wu_id && wu->id > pc->max_wu_id) {
-        if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] WU#%ld too new for plan class '%s' (%ld)\n", wu->id, pc->name, pc->max_wu_id);
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] WU#%ld too new for plan class '%s' (%ld)\n",
+                wu->id, pc->name, pc->max_wu_id
+            );
+        }
         return true;
     }
     if (pc->min_batch && wu->batch < pc->min_batch) {
-        if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too old for plan class '%s' (%ld)\n", wu->id, pc->name, pc->min_batch);
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] batch#%ld too old for plan class '%s' (%ld)\n",
+                wu->id, pc->name, pc->min_batch
+            );
+        }
         return true;
     }
     if (pc->max_batch && wu->batch > pc->max_batch) {
-        if (config.debug_version_select)
-            log_messages.printf(MSG_NORMAL, "[version] batch#%ld too new for plan class '%s' (%ld)\n", wu->id, pc->name, pc->max_batch);
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] batch#%ld too new for plan class '%s' (%ld)\n",
+                wu->id, pc->name, pc->max_batch
+            );
+        }
         return true;
     }
     return false;
@@ -200,7 +216,8 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKU
     //
     hu.sequential_app(sreq.host.p_fpops);
 
-    // WU restriction
+    // ID restrictions
+    //
     if (min_wu_id || max_wu_id || min_batch || max_batch) {
         if (wu_is_infeasible_for_plan_class(this, wu)) {
             return false;
@@ -1078,10 +1095,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_driver_version", min_driver_version)) continue;
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
-        if (xp.parse_int("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_int("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_int("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_int("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
