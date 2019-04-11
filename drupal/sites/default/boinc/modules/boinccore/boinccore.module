@@ -16,6 +16,7 @@
 
 //require_once('includes/boinccore.forms.inc');
 //require_once('includes/boinccore.helpers.inc');
+require_once('includes/boinccore.rules.inc');
 require_once('boinccore.admin.inc');
 
 
@@ -184,6 +185,39 @@ function boinccore_menu_alter(&$items) {
       'weight' => 1,
       'type' => MENU_CALLBACK,
     );
+  }
+
+  // 'Remove' menu paths for ignore_user and privatemsg
+  // (pm_block_user) module which we have 'overridden' with
+  // boincwork's own functions.
+  if (module_exists('ignore_user')) {
+    $check = array(
+      'ignore_user/add',
+      'ignore_user/remove',
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
+
+    // Redirect user to privacy prefs page.
+    $path1 = 'ignore_user/list';
+    if (isset($items[$path1])) {
+      $items[$path1]['page callback'] = 'drupal_goto';
+      $items[$path1]['page arguments'] = array('account/prefs/privacy');
+    }
+  }
+
+  if (module_exists('pm_block_user')) {
+    $check = array(
+      'messages/block/%user',
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
   }
 }
 
@@ -356,6 +390,9 @@ function boinccore_cron() {
     boinccore_rules_action_mail_to_moderators($settings);
     variable_set('boinccore_last_content_moderation_reminder', time());
   }
+
+  // Delete expired tokens in BOINC DB
+  _boinccore_delete_expired_tokens();
 }
 
 /**
@@ -374,6 +411,11 @@ function boinccore_rules_action_info() {
         'node' => array('type' => 'node', 'label' => t('Content')),
       ),
       'module' => 'BOINC core',
+    ),
+    'boinccore_rules_action_mail_to_admins' => array(
+      'label' => t('Notify admins via email'),
+      'module' => 'BOINC core',
+      'eval input' => array('subject', 'message', 'from'),
     ),
   );
 }
@@ -473,6 +515,33 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant name field
     unset($form['_author']);
+
+    // If user is role='community member' only, then user may not post
+    // any comments in non-forum node-types, team_forums are also not
+    // allowed.. This allows users who have site-wide comment
+    // permission to comment on forums in special
+    // circumstances. Additionally, any comments require a captcha.
+    //
+    $node = node_load($form['nid']['#value']);
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if ($node->type == 'forum') {
+        if (module_exists('captcha')) {
+          $form['comment_captcha'] = array(
+            '#type' => 'captcha',
+            '#weight' => 1000,
+          );
+        }
+      }
+      else {
+        $form = NULL;
+        $form['from'] = array(
+          '#type'  => 'item',
+          '#value' => 'You do not have permission to post comments in this forum.',
+        );
+      }
+    }
     
     break;
     
@@ -508,6 +577,18 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
+
+    // Add captcha for role='community member'
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if (module_exists('captcha')) {
+        $form['comment_captcha'] = array(
+          '#type' => 'captcha',
+          '#weight' => 1000,
+        );
+      }
+    }
 
     break;
   case 'boinccore_delete_confirm':
@@ -711,6 +792,21 @@ function boinccore_link($type, $object, $teaser = FALSE) {
   return $links;
 }
 
+/**
+ * Implementation of hook_mail_alter()
+ */
+function boinccore_mail_alter(&$message) {
+  /* This code alters the headers for all emails sent by the Drupal Web site to use
+     'Quote-Printable' as the encoding, both altering the header and modifies the body to the
+     new encoding.
+  */
+  $message['headers']['Content-Transfer-Encoding'] = 'Quoted-Printable';
+  if (is_array($message['body'])) {
+    $message['body'] = array_map( "quoted_printable_encode", $message['body'] );
+  } else {
+    $message['body'] = quoted_printable_encode($message['body']);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
@@ -754,6 +850,12 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   default:
   }
   node_save($node);
+  // If hiding a forum topic (node) and not an administrator, go to
+  // the forum page. Otherwise the user will reach an access-denied
+  // page.
+  if (($action=="hide") and (!user_access('administer forums'))) {
+    drupal_goto("community/forum/{$node->tid}");
+  }
   drupal_goto("node/{$nid}");
 }
 
@@ -772,12 +874,14 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   switch ($action) {
   case 'unhide':
     comment_publish_action($comment);
+    rules_invoke_event('boinccore_comment_unhidden', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_publish($comment);
     }
     break;
   case 'hide':
     comment_unpublish_action($comment);
+    rules_invoke_event('comment_unpublish', $comment);
     if (module_exists("boinc_solr_comments")) {
       boinc_solr_comments_unpublish($comment);
     }
@@ -813,6 +917,8 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
     module_load_include('inc', 'comment', 'comment.admin');
     _comment_delete_thread($comment);
     
+    rules_invoke_event('boinccore_comment_convert', $comment);
+
     $return_path = "node/{$node->nid}";
     $return_anchor = NULL;
     break;
@@ -896,7 +1002,7 @@ function boinccore_am_set_info() {
     if (isset($xml['am_set_info_reply']['success'])) {
       // Find the account in Drupal
       $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $boinc_id = db_result(db_query("
         SELECT id
         FROM {user}
@@ -1127,35 +1233,17 @@ function boinccore_team_lookup() {
 function boinccore_team_email_list() {
   // See if the account has an approved profile in Drupal
   $boincteam_id = !empty($_POST['teamid']) ? $_POST['teamid'] : $_GET['teamid'];
-  $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
   $credit_only = !empty($_POST['creditonly']) ? $_POST['creditonly'] : $_GET['creditonly'];
   $show_xml = !empty($_POST['xml']) ? $_POST['xml'] : $_GET['xml'];
   if (!$show_xml) {
       // creditonly does not affect non xml output in BOINC
       $credit_only = FALSE;
   }
-  $admin_request = FALSE;
-  if ($boincteam_id && is_numeric($boincteam_id)) {
-    if ($account_key) {
-      // See if this is a team admin
-      db_set_active('boinc');
-      $boincuser_id = db_result(db_query("
-        SELECT 
-          u.id
-        FROM {user} u
-        WHERE u.authenticator = '%s'
-        LIMIT 1",
-        $account_key
-      ));
-      db_set_active('default');
-      require_boinc('team');
-      $boincuser = boincuser_load(boincuser_lookup_uid($boincuser_id), TRUE);
-      $boincteam = boincteam_load($boincteam_id);
-      $admin_request = is_team_admin($boincuser, $boincteam) OR is_team_founder($boincuser, $boincteam);
-    }
+  $xml = array();
 
+  if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($credit_only) {
-      db_set_active('boinc');
+      db_set_active('boinc_rw');
       $result = db_query("
         SELECT
           u.id, u.name, u.cross_project_id, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
@@ -1179,43 +1267,58 @@ function boinccore_team_email_list() {
       }
     }
     else {
-      $members = array();
-      db_set_active('boinc');
+      // Query BOINC database user table
+      db_set_active('boinc_rw');
       $result = db_query("
         SELECT
-          u.name, u.email_addr
+          u.id, u.name, u.cross_project_id, u.create_time, u.email_addr, u.total_credit, u.expavg_credit, u.expavg_time
         FROM {user} u
-        WHERE u.teamid = %d
-        ORDER BY u.email_addr ASC",
+        WHERE u.teamid = %d ORDER BY u.email_addr ASC",
         $boincteam_id
       );
       db_set_active('default');
 
+      // Extract information from BOINC database for team members.
+      $team_members = array();
       while ($member = db_fetch_object($result)) {
-        $members[] = user_load(array('mail' => $member->email_addr));
+        $team_members[$member->id] = array(
+          'id' => $member->id,
+          'cpid' => md5($member->cross_project_id.$member->email_addr),
+          'create_time' => $member->create_time,
+          'name' => htmlspecialchars($member->name),
+          'country' => NULL,
+          'total_credit' => round($member->total_credit),
+          'expavg_credit' => round($member->expavg_credit),
+          'expavg_time' => round($member->expavg_time),
+          'url' => NULL,
+          'has_profile' => 0,
+        );
       }
 
-      $xml = array('users' => array());
-      foreach ($members as $member) {
-        $content_profile = content_profile_load('profile', $member->uid);
-        $team_member = array(
-          'id' => $member->boincuser_id,
-          'cpid' => $member->boincuser_cpid,
-          'create_time' => $member->created,
-          'name' => $member->boincuser_name,
-          'country' => $content_profile->field_country[0]['value'],
-          'total_credit' => $member->boincuser_total_credit,
-          'expavg_credit' => $member->boincuser_expavg_credit,
-          'expavg_time' => $member->boincuser_expavg_time,
-          'url' => $content_profile->field_url[0]['value'],
-          'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
-        );
-        if ($admin_request) {
-          $team_member['email_addr'] = $member->mail;
-        }
-        $xml['users']['user'][] = $team_member;
+      // Query Drupal database, multiple tables
+      $sql1 = "
+         SELECT
+           bu.boinc_id, du.uid, du.name, n.nid, n.type, n.field_country_value, n.field_url_value
+         FROM {boincuser} AS bu
+         INNER JOIN {users} AS du ON bu.uid=du.uid
+         LEFT JOIN (
+           SELECT node.nid, node.uid, node.type, p.field_country_value, p.field_url_value
+           FROM {node}
+           INNER JOIN {content_type_profile} AS p ON node.nid=p.nid
+           WHERE node.type='profile' ) n ON du.uid=n.uid
+         WHERE bu.boinc_id IN (%s)";
+      $member_id_list = implode(',', array_keys($team_members));
+      if (!$member_id_list) {
+        $member_id_list = '-1';
       }
-    }
+      $result = db_query($sql1, $member_id_list);
+      while ($member = db_fetch_object($result)) {
+        $team_members[$member->boinc_id]['country'] = $member->field_country_value;
+        $team_members[$member->boinc_id]['url'] = $member->field_url_value;
+        $team_members[$member->boinc_id]['has_profile'] = isset($member->nid) ? 1:  0;
+        $xml['users']['user'][] = $team_members[$member->boinc_id];
+      }
+    } // end if credit_only
   }
   else {
     $xml = array(
@@ -1224,7 +1327,7 @@ function boinccore_team_email_list() {
         'error_msg' => 'Not found',
       ),
     );
-  }
+  } // end if boincteam_id
   print xml_to_text(array_to_xml($xml), TRUE, TRUE);
 }
 
@@ -1850,6 +1953,10 @@ function boinccore_get_country_list() {
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Functions related to rules module
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
 /**
  * Action: Mark node for moderation
  */
@@ -1895,6 +2002,38 @@ function boinccore_rules_action_mail_to_moderators_form($settings = array(), &$f
   // Select only non-anonymous user roles because anonymous users won't have emails.
   rules_action_mail_to_user_form($settings, $form);
 }
+
+
+/**
+ * Action: Send mail to admins.
+ */
+function boinccore_rules_action_mail_to_admins($settings) {
+  module_load_include('inc', 'rules', 'modules/system.rules');
+  $mailing_list = variable_get('boinc_admin_mailing_list', '');
+  if (empty($mailing_list)) {
+    $mailing_list = variable_get('site_mail', '');
+    if (empty($mailing_list)) {
+      watchdog('boinccore',
+        'Attempting to email administrators, but there is no admin email list or site email to send to.', array(),
+        WATCHDOG_ERROR
+      );
+      return FALSE;
+    }
+  }
+  $settings['to'] = $mailing_list;
+  rules_action_mail($settings);
+}
+
+/**
+ * Action "Send mail to admins" configuration form
+ */
+function boinccore_rules_action_mail_to_admins_form($settings = array(), &$form) {
+  rules_action_mail_to_user_form($settings, $form);
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * BOINC Translation functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /*
  * BOINC wrapper for string translation
@@ -1955,4 +2094,19 @@ function boinccore_moderation_overview_panel() {
   }
   $output .= '</ul>';
   return $output;
+}
+
+
+/**
+ * Utility function to delete expired tokens in the BOINC database,
+ * token table.
+ *
+ */
+function  _boinccore_delete_expired_tokens() {
+  require_boinc('boinc_db');
+
+  $num_deleted = BoincToken::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boinccore', "Deleted ${num_deleted} tokens from table token", WATCHDOG_NOTICE);
+  }
 }

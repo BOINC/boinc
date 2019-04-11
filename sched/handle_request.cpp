@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1257,6 +1257,7 @@ void process_request(char* code_sign_key) {
     if (g_reply->user.id == 0) {
         log_messages.printf(MSG_CRITICAL, "No user ID!\n");
     }
+    g_request->user_id = g_reply->user.id;
     initial_host = g_reply->host;
     g_reply->host.rpc_seqno = g_request->rpc_seqno;
 
@@ -1535,5 +1536,3 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         unlock_sched();
     }
 }
-
-const char *BOINC_RCSID_2ac231f9de = "$Id$";

@@ -309,11 +309,26 @@ bool CWizardAttach::SyncToAccountManager() {
     ACCT_MGR_INFO ami;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
 
+   wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(pSkinWizardATAM);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+    wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
+
+
+     if (!pSkinWizardATAM->GetWizardTitle().IsEmpty()) {
+        SetTitle(pSkinWizardATAM->GetWizardTitle());
+    } else {
+        SetTitle(pSkinAdvanced->GetApplicationName());
+    }
+ 
     IsAttachToProjectWizard = false;
     IsAccountManagerWizard = true;
+    
 
     pDoc->rpc.acct_mgr_info(ami);
 

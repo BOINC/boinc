@@ -66,7 +66,7 @@ class view extends views_db_object {
   /**
    * Constructor
    */
-  function view() {
+  function __construct() {
     parent::init();
     // Make sure all of our sub objects are arrays.
     foreach ($this->db_objects() as $object) {
@@ -74,6 +74,10 @@ class view extends views_db_object {
     }
 
     $this->query = new stdClass();
+  }
+
+  function view() {
+    self::__construct();
   }
 
   /**
@@ -2055,8 +2059,11 @@ class views_db_object {
  */
 class views_display extends views_db_object {
   var $db_table = 'views_display';
-  function views_display($init = TRUE) {
+  function __construct($init = TRUE) {
     parent::init($init);
+  }
+  function views_display($init = TRUE) {
+    self::construct($init);
   }
 
   function options($type, $id, $title) {

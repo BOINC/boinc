@@ -32,12 +32,11 @@ function email_sent_message($email_addr) {
 
     page_head("Email sent");
     echo "
-        Instructions have been emailed to $email_addr.
+        Instructions for resetting your password have been emailed to $email_addr.
         <p>
         If the email doesn't arrive in a few minutes,
         your ISP may be blocking it as spam.
-        In this case please contact your ISP and
-        ask them to not block email from $email_from.
+        In this case please ask your ISP to not block email from $email_from.
     ";
 }
 
@@ -50,12 +49,12 @@ $user = BoincUser::lookup_email_addr($email_addr);
 
 if (!$user) {
     page_head("No such user");
-    echo "There is no user with email address $email_addr. <br>
+    echo "There is no account with email address $email_addr. <br>
         Try reentering your email address.<p>
     ";
 } else {
     if (substr($user->authenticator, 0, 1) == 'x') {
-        page_head("Account Currently Disabled");
+        page_head("Account currently disabled");
         echo "This account has been administratively disabled.";
     } else {
         $user->email_addr = $email_addr;

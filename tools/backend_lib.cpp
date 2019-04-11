@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -304,7 +304,7 @@ int create_work2(
     // check for presence of result template.
     // we don't need to actually look at it.
     //
-    const char* p = config.project_path(result_template_filename);
+    const char* p = config_loc.project_path(result_template_filename);
     if (!boinc_file_exists(p)) {
         fprintf(stderr,
             "create_work: result template file %s doesn't exist\n", p
@@ -688,5 +688,3 @@ double user_priority_delta(
 #endif
     return runtime/share;
 }
-
-const char *BOINC_RCSID_b5f8b10eb5 = "$Id$";

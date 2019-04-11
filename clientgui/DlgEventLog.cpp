@@ -248,13 +248,47 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
         wxNullFont
     );
+
 #if EVENT_LOG_STRIPES
+    m_pList->EnableAlternateRowColours();
+    wxColour stripe_color;
+
+#if wxCHECK_VERSION(3, 1, 0)
+    stripe_color = m_pList->GetAlternateRowColour();
+    if (!stripe_color.IsOk())
+#endif
+    {
+        // copied from wxListCtrlBase::EnableAlternateRowColours(bool)
+
+        // Determine the alternate rows colour automatically from the
+        // background colour.
+        const wxColour bgColour = m_pList->GetBackgroundColour();
+
+        // Depending on the background, alternate row color
+        // will be 3% more dark or 50% brighter.
+        int alpha = bgColour.GetRGB() > 0x808080 ? 97 : 150;
+        stripe_color = bgColour.ChangeLightness(alpha);
+    }
+
+#ifdef __WXMSW__
+    // work around a bug in wxWidgets 3.1 and earlier
+    // if row background color is wxSYS_COLOR_BTNFACE selected unfocused row is drawn with wrong colors
+    if (stripe_color == wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE)) {
+        // adjust the color just enough to make it different
+        stripe_color.SetRGB(stripe_color.GetRGB() + 1);
+    }
+#endif
+
     m_pMessageInfoGrayAttr = new wxListItemAttr(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
+        stripe_color,
         wxNullFont
     );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(
+        *wxRED,
+        stripe_color,
+        wxNullFont
+    );
 #else
     m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
     m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
@@ -1073,6 +1107,9 @@ bool CDlgEventLog::OpenClipboard( wxInt32 size ) {
         m_strClipboardData = wxEmptyString;
         m_strClipboardData.Alloc( size );
 
+#if defined(__WXGTK__) || defined(__WXQT__)
+        wxTheClipboard->UsePrimarySelection(false);
+#endif
         wxTheClipboard->Clear();
     }
 

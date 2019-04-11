@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,98 +17,98 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center">
-    
-    <RelativeLayout 
-    	android:layout_width="match_parent"
-    	android:layout_height="0dp"
-    	android:orientation="horizontal"
-    	android:layout_weight="0.25">
-        
-        <TextView 
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:textAppearance="?android:attr/textAppearanceMedium"
-	  		android:layout_alignParentLeft="true"
-	  		android:layout_centerVertical="true"
-	  		android:text="@string/attachproject_hint_projectwebsite_header"/>
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:layout_gravity="center">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.25">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/attachproject_hint_projectwebsite_header"/>
     </RelativeLayout>
-    
-    <RelativeLayout 
-    	android:layout_width="match_parent"
-    	android:layout_height="0dp"
-    	android:orientation="horizontal"
-    	android:layout_weight="0.25">
-        
-        <TextView 
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:textAppearance="?android:attr/textAppearanceMedium"
-	  		android:layout_alignParentLeft="true"
-	  		android:layout_centerVertical="true"
-	  		android:layout_toLeftOf="@+id/hint_contribution_image_1"
-	  		android:text="@string/attachproject_hint_projectwebsite_science"/>
-        
-        <ImageView 
-      		android:id="@+id/hint_contribution_image_1"
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:layout_alignParentRight="true"
-	  		android:layout_centerVertical="true"
-	  		android:src="@drawable/magnifierb"
-	  		android:contentDescription="@string/attachproject_hint_projectwebsite_science"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.25">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/hint_contribution_image_1"
+                android:text="@string/attachproject_hint_projectwebsite_science"/>
+
+        <ImageView
+                android:id="@+id/hint_contribution_image_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/magnifierb"
+                android:contentDescription="@string/attachproject_hint_projectwebsite_science"/>
     </RelativeLayout>
-    
-    <RelativeLayout 
-    	android:layout_width="match_parent"
-    	android:layout_height="0dp"
-    	android:orientation="horizontal"
-    	android:layout_weight="0.25">
-        
-        <TextView 
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:textAppearance="?android:attr/textAppearanceMedium"
-	  		android:layout_alignParentLeft="true"
-	  		android:layout_centerVertical="true"
-	  		android:layout_toLeftOf="@+id/hint_contribution_image_2"
-	  		android:text="@string/attachproject_hint_projectwebsite_stats"/>
-        
-        <ImageView 
-      		android:id="@+id/hint_contribution_image_2"
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:layout_alignParentRight="true"
-	  		android:layout_centerVertical="true"
-	  		android:src="@drawable/chartb"
-	  		android:contentDescription="@string/attachproject_hint_projectwebsite_stats"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.25">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/hint_contribution_image_2"
+                android:text="@string/attachproject_hint_projectwebsite_stats"/>
+
+        <ImageView
+                android:id="@+id/hint_contribution_image_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/chartb"
+                android:contentDescription="@string/attachproject_hint_projectwebsite_stats"/>
     </RelativeLayout>
-    
-    <RelativeLayout 
-    	android:layout_width="match_parent"
-    	android:layout_height="0dp"
-    	android:orientation="horizontal"
-    	android:layout_weight="0.25">
-        
-        <TextView 
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:textAppearance="?android:attr/textAppearanceMedium"
-	  		android:layout_alignParentLeft="true"
-	  		android:layout_centerVertical="true"
-	  		android:layout_toLeftOf="@+id/hint_contribution_image_3"
-	  		android:text="@string/attachproject_hint_projectwebsite_community"/>
-        
-        <ImageView 
-      		android:id="@+id/hint_contribution_image_3"
-	  		android:layout_width="wrap_content"
-	  		android:layout_height="wrap_content"
-	  		android:layout_alignParentRight="true"
-	  		android:layout_centerVertical="true"
-	  		android:src="@drawable/speechbubbleb"
-	  		android:contentDescription="@string/attachproject_hint_projectwebsite_community"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.25">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/hint_contribution_image_3"
+                android:text="@string/attachproject_hint_projectwebsite_community"/>
+
+        <ImageView
+                android:id="@+id/hint_contribution_image_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/speechbubbleb"
+                android:contentDescription="@string/attachproject_hint_projectwebsite_community"/>
     </RelativeLayout>
 </LinearLayout>

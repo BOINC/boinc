@@ -27,7 +27,9 @@
   <string name="attachproject_conflict_not_unique">Účet existuje s iným heslom</string>
   <string name="attachproject_conflict_bad_password">Nesprávne heslo</string>
   <string name="attachproject_conflict_unknown_user">Účet neexistuje</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Účet neexistuje, navštívte stránku projektu na registráciu</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Účet neexistuje, navštívte stránku projektu
+        na registráciu
+    </string>
   <!--working-->
   <string name="attachproject_working_attaching">Pripája sa</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -42,7 +44,9 @@
   <string name="attachproject_hint_projectwebsite_science">Zistiť viac o vede</string>
   <string name="attachproject_hint_projectwebsite_stats">Skontrolovať štatistiky</string>
   <string name="attachproject_hint_projectwebsite_community">Buďte v kontakte s ďalšími dobrovoľníkmi</string>
-  <string name="attachproject_hint_platforms_header">BOINC je k dispozícii aj pre váš počítač alebo laptop. Navštívte boinc.berkley.edu pre viac informácií.</string>
+  <string name="attachproject_hint_platforms_header">BOINC je k dispozícii aj pre Váš počítač alebo laptop, navštívte
+        boinc.berkeley.edu pre viac informácii.
+    </string>
   <!--project login-->
   <string name="attachproject_login_loading">Pripájanie na server projektu…</string>
   <string name="attachproject_login_image_description">Logo projektu.</string>
@@ -55,14 +59,15 @@
   <string name="attachproject_login_platform_supported">Projekt podporuje tento typ zariadenia</string>
   <string name="attachproject_login_platform_not_supported">Projekt nepodporuje tento typ zariadenia</string>
   <string name="attachproject_login_category_terms_of_use">Podmienky používania </string>
-  <string name="attachproject_login_accept_terms_of_use">Vytvorením účtu súhlasíte s hore uvedenými podmienkami používania.</string>
+  <string name="attachproject_login_accept_terms_of_use">Vytvorením účtu súhlasíte s hore uvedenými podmienkami používania.   </string>
   <string name="attachproject_login_category_login">Prihlásiť sa s existujúcim účtom</string>
   <string name="attachproject_login_header_id_email">e-mail</string>
   <string name="attachproject_login_header_id_name">Meno:</string>
   <string name="attachproject_login_header_pwd">Heslo:</string>
   <string name="attachproject_login_category_creation">Nový v</string>
   <string name="attachproject_login_header_creation_enabled">Zaregistrujte sa, aby ste sa mohli pridať:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Navštívte stránku projektu na vytvorenie účtu:</string>
+  <string name="attachproject_login_header_creation_client_disabled">Navštívte stránku projektu na vytvorenie účtu:
+    </string>
   <string name="attachproject_login_header_creation_disabled">Tento projekt momentálne neakceptuje nové účty.</string>
   <string name="attachproject_login_button_registration">Registrácia</string>
   <string name="attachproject_login_button_login">Prihlásiť sa</string>
@@ -155,11 +160,15 @@
   <string name="prefs_category_cpu">Procesor</string>
   <string name="prefs_category_storage">Úložisko</string>
   <string name="prefs_category_memory">Pamäť</string>
+  <string name="prefs_category_other">Ostatné</string>
   <string name="prefs_category_debug">Ladenie</string>
   <string name="prefs_show_advanced_header">Zobraziť pokročilé nastavenia...</string>
   <string name="prefs_suspend_when_screen_on">Pozastaviť výpočty keď je obrazovka zapnutá</string>
+  <string name="prefs_general_device_name_header">Názov zariadenia</string>
   <string name="prefs_stationary_device_mode_header">Mód neprenosného zariadenia</string>
-  <string name="prefs_stationary_device_mode_description">Povolí výpočty bez ohľadu na nastavenia napájania. Zapínajte len pokiaľ ide o bezbatériové zariadenie.</string>
+  <string name="prefs_stationary_device_mode_description">Umožní počítanie bez ohľadu na nastavenie napájania. Zapnite len
+        ak zariadenie nemá batériu.
+    </string>
   <string name="prefs_power_source_header">Zdroje energie na výpočty</string>
   <string name="prefs_power_source_description">Zvolí zdroje napájania, ktoré BOINC môže využívať na výpočty.</string>
   <string name="prefs_power_source_ac">Zásuvka</string>
@@ -167,11 +176,11 @@
   <string name="prefs_power_source_wireless">Bezdrôtová nabíjačka</string>
   <string name="prefs_power_source_battery">Batéria</string>
   <string name="battery_charge_min_pct_header">Minimálna úroveň stavu batérie</string>
-  <string name="battery_charge_min_pct_description">BOINC pozastaví výpočty, pokiaľ stav batérie klesne pod danú úroveň.</string>
+  <string name="battery_charge_min_pct_description">BOINC pozastaví výpočet, pokiaľ stav batérie klesne pod danú úroveň.</string>
   <string name="battery_temperature_max_header">Maximálna teplota batérie</string>
-  <string name="battery_temperature_max_description">BOINC pozastaví výpočty, pokiaľ stav batérie klesne pod zadanú úroveň. Zmena tejto hodnoty sa neodporúča.</string>
+  <string name="battery_temperature_max_description">BOINC pozastaví výpočet ak teplota batérie stúpne nad danú úroveň. Zmena tejto hodnoty sa neodporúča.</string>
   <string name="prefs_disk_max_pct_header">Maximum použitého úložného priestoru</string>
-  <string name="prefs_disk_max_pct_description">Koľko percent úložného priestoru na vašom zariadení môže BOINC využívať?</string>
+  <string name="prefs_disk_max_pct_description">Koľko percent úložného priestoru na Vašom zariadení môže BOINC využívať?</string>
   <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
   <string name="prefs_disk_min_free_gb_description">Koľko z úložného priestoru vášho zariadenia by malo ostať voľného?</string>
   <string name="prefs_disk_access_interval_header">Interval prístupov</string>
@@ -190,6 +199,10 @@
   <string name="prefs_cpu_time_max_description">Obmedzí procesorový čas, ktorý BOINC využíva na výpočty.</string>
   <string name="prefs_memory_max_idle_header">Limit RAM</string>
   <string name="prefs_memory_max_idle_description">Nastaví koľko RAM môžu úlohy využiť</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer pracovnej jednotky</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_description">Ulož aspoň X dní práce</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočný buffer pracovnej jednotky</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Uložiť až do X dodatočných dní práce.</string>
   <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
@@ -328,6 +341,7 @@
   <string name="menu_run_mode_enable">Pokračovať</string>
   <string name="menu_about">O</string>
   <string name="menu_help">Pomoc</string>
+  <string name="menu_report_issue">Nahlás problém</string>
   <!--about dialog-->
   <string name="about_button">Návrat</string>
   <string name="about_title">O</string>
@@ -335,13 +349,14 @@
   <string name="about_version">Verzia</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
-  <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkley.</string>
+  <string name="about_copyright">\u00A9 2003–2018 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
   <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">%2$,d nový oznam</item>
     <item quantity="few">%2$,d nový oznamy</item>
+    <item quantity="many">%2$,d nových oznamov</item>
     <item quantity="other">%2$,d nových oznamov</item>
   </plurals>
   <!--multi BOINC compatibility-->
@@ -352,8 +367,11 @@
   <string name="social_invite_button">Pozvať priateľov</string>
   <string name="social_invite_intent_title">Akým spôsobom chcete zdieľať?</string>
   <string name="social_invite_content_title">Riešim vedu na mojom smartfóne!</string>
-  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty, len si stiahni aplikáciu z %2$s</string>
+  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty! Stiahni si aplikáciu z: %2$s
+    </string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

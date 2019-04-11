@@ -23,7 +23,7 @@
   $count = 0;
   
   // Get teams from BOINC
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boincteam = db_fetch_object(db_query('SELECT * FROM team WHERE id=%d', array($team_id)));
   $boincteam_members = db_query('SELECT id FROM user WHERE teamid=%d', array($team_id));
   $boincteam_admin = (int) db_result(db_query('SELECT userid FROM team_admin WHERE teamid=%d', array($team_id)));
@@ -75,7 +75,7 @@
   }
   
   // Determine team membership
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   $boincteam_member_ids = array();
   while ($boincuser = db_fetch_object($boincteam_members)) $boincteam_member_ids[] = $boincuser->id;
   db_set_active('default');

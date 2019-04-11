@@ -23,7 +23,7 @@ function boincteam_views_data() {
       'field' => 'id',
       'title' => t('BOINC team'),
       'help' => t('BOINC data for a team'),
-      'database' => 'boinc'
+      'database' => 'boinc_rw'
   );
   
   // This table references the {user} table.
@@ -223,7 +223,7 @@ function boincteam_views_data() {
       'field' => 'id',
       'title' => t('BOINC team admins'),
       'help' => t('BOINC admins for a team'),
-      'database' => 'boinc'
+      'database' => 'boinc_rw'
   );
   
   // This table references the {team} table.

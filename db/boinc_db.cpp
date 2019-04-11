@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,8 +71,10 @@ void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void USER::clear() {memset(this, 0, sizeof(*this));}
+void USER_DELETED::clear() {memset(this, 0, sizeof(*this));}
 void TEAM::clear() {memset(this, 0, sizeof(*this));}
 void HOST::clear() {memset(this, 0, sizeof(*this));}
+void HOST_DELETED::clear() {memset(this, 0, sizeof(*this));}
 void RESULT::clear() {
     memset(this, 0, sizeof(*this));
     size_class = -1;
@@ -110,6 +112,7 @@ void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
 void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_USER::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_TEAM::clear() {memset(this, 0, sizeof(*this));}
+void CONSENT_TYPE::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -119,10 +122,14 @@ DB_APP_VERSION::DB_APP_VERSION(DB_CONN* dc) :
     DB_BASE("app_version", dc?dc:&boinc_db){}
 DB_USER::DB_USER(DB_CONN* dc) :
     DB_BASE("user", dc?dc:&boinc_db){}
+DB_USER_DELETED::DB_USER_DELETED(DB_CONN* dc) :
+    DB_BASE("user_deleted", dc?dc:&boinc_db){}
 DB_TEAM::DB_TEAM(DB_CONN* dc) :
     DB_BASE("team", dc?dc:&boinc_db){}
 DB_HOST::DB_HOST(DB_CONN* dc) :
     DB_BASE("host", dc?dc:&boinc_db){}
+DB_HOST_DELETED::DB_HOST_DELETED(DB_CONN* dc) :
+    DB_BASE("host_deleted", dc?dc:&boinc_db){}
 DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
     DB_BASE("workunit", dc?dc:&boinc_db){}
 DB_CREDITED_JOB::DB_CREDITED_JOB(DB_CONN* dc) :
@@ -187,13 +194,17 @@ DB_CREDIT_USER::DB_CREDIT_USER(DB_CONN* dc) :
     DB_BASE("credit_user", dc?dc:&boinc_db){}
 DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
     DB_BASE("credit_team", dc?dc:&boinc_db){}
+DB_CONSENT_TYPE::DB_CONSENT_TYPE(DB_CONN* dc) :
+    DB_BASE("consent_type", dc?dc:&boinc_db){}
 
 DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
 DB_ID_TYPE DB_APP::get_id() {return id;}
 DB_ID_TYPE DB_APP_VERSION::get_id() {return id;}
 DB_ID_TYPE DB_USER::get_id() {return id;}
+DB_ID_TYPE DB_USER_DELETED::get_id() {return userid;}
 DB_ID_TYPE DB_TEAM::get_id() {return id;}
 DB_ID_TYPE DB_HOST::get_id() {return id;}
+DB_ID_TYPE DB_HOST_DELETED::get_id() {return hostid;}
 DB_ID_TYPE DB_WORKUNIT::get_id() {return id;}
 DB_ID_TYPE DB_RESULT::get_id() {return id;}
 DB_ID_TYPE DB_MSG_FROM_HOST::get_id() {return id;}
@@ -204,6 +215,7 @@ DB_ID_TYPE DB_FILE::get_id() {return id;}
 DB_ID_TYPE DB_FILESET::get_id() {return id;}
 DB_ID_TYPE DB_SCHED_TRIGGER::get_id() {return id;}
 DB_ID_TYPE DB_VDA_FILE::get_id() {return id;}
+DB_ID_TYPE DB_CONSENT_TYPE::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -348,6 +360,7 @@ void DB_USER::db_print(char* buf){
     ESCAPE(project_prefs);
     ESCAPE(url);
     ESCAPE(signature);
+    ESCAPE(previous_email_addr);
     sprintf(buf,
         "create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
@@ -359,7 +372,9 @@ void DB_USER::db_print(char* buf){
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
         "seti_total_cpu=%.15e, signature='%s', has_profile=%d, "
         "cross_project_id='%s', passwd_hash='%s', "
-        "email_validated=%d, donated=%d",
+        "email_validated=%d, donated=%d, "
+        "login_token='%s', login_token_time=%f, "
+	"previous_email_addr='%s', email_addr_change_time=%f",
         create_time, email_addr, name,
         authenticator,
         country, postal_code,
@@ -370,7 +385,9 @@ void DB_USER::db_print(char* buf){
         seti_id, seti_nresults, seti_last_result_time,
         seti_total_cpu, signature, has_profile,
         cross_project_id, passwd_hash,
-        email_validated, donated
+        email_validated, donated,
+        login_token, login_token_time,
+	previous_email_addr, email_addr_change_time
     );
     UNESCAPE(email_addr);
     UNESCAPE(name);
@@ -380,6 +397,7 @@ void DB_USER::db_print(char* buf){
     UNESCAPE(project_prefs);
     UNESCAPE(url);
     UNESCAPE(signature);
+    UNESCAPE(previous_email_addr);
 }
 
 void DB_USER::db_parse(MYSQL_ROW &r) {
@@ -413,6 +431,25 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     strcpy2(passwd_hash, r[i++]);
     email_validated = atoi(r[i++]);
     donated = atoi(r[i++]);
+    strcpy2(login_token, r[i++]);
+    login_token_time = atof(r[i++]);
+    strcpy2(previous_email_addr, r[i++]);
+    email_addr_change_time = atof(r[i++]);
+}
+
+void DB_USER_DELETED::db_print(char* buf){
+    sprintf(buf,
+        "public_cross_project_id=%s, create_time=%.15e",
+        public_cross_project_id, create_time
+    );
+} 
+
+void DB_USER_DELETED::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    userid = atol(r[i++]);
+    strcpy2(public_cross_project_id, r[i++]);
+    create_time = atof(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -524,7 +561,8 @@ void DB_HOST::db_print(char* buf){
         "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
         "error_rate=%.15e, "
         "product_name='%s', "
-        "gpu_active_frac=%.15e ",
+        "gpu_active_frac=%.15e, "
+        "p_ngpus=%d, p_gpu_fpops=%.15e ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -546,7 +584,8 @@ void DB_HOST::db_print(char* buf){
         host_cpid, external_ip_addr, _max_results_day,
         _error_rate,
         product_name,
-        gpu_active_frac
+        gpu_active_frac,
+        p_ngpus, p_gpu_fpops
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -880,6 +919,21 @@ int DB_HOST::fpops_stddev(double& stddev) {
         "select stddev(p_fpops) from host where expavg_credit>10"
     );
     return db->get_double(query, stddev);
+}
+
+void DB_HOST_DELETED::db_print(char* buf){
+    sprintf(buf,
+        "public_cross_project_id=%s, create_time=%.15e",
+        public_cross_project_id, create_time
+    );
+}
+
+void DB_HOST_DELETED::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    hostid = atol(r[i++]);
+    strcpy2(public_cross_project_id, r[i++]);
+    create_time = atof(r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){
@@ -2815,4 +2869,30 @@ void DB_CREDIT_TEAM::db_parse(MYSQL_ROW &r) {
     credit_type = atoi(r[i++]);
 }
 
-const char *BOINC_RCSID_ac374386c8 = "$Id$";
+void DB_CONSENT_TYPE::db_print(char *buf) {
+    sprintf(buf,
+	"id=%lu, "
+	"shortname='%s', "
+	"description='%s', "
+	"enabled=%d, "
+	"project_specific=%d, "
+	"privacypref=%d, ",
+	id,
+	shortname,
+	description,
+	enabled,
+	project_specific,
+	privacypref
+    );
+}
+
+void DB_CONSENT_TYPE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    strcpy2(shortname, r[i++]);
+    strcpy2(description, r[i++]);
+    enabled = atoi(r[i++]);
+    project_specific = atoi(r[i++]);
+    privacypref = atoi(r[i++]);
+}

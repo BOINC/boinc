@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,11 +40,12 @@
 //
 //  [--no_credit]               don't grant credit
 //                              Use this, e.g., if using trickles for credit
-//  [--credit_from_wu]          get credit from WU XML
-//  [--credit_from_runtime X]   grant credit based on runtime,
-//                              assuming single-CPU app.
-//                              X is the max runtime.
+//  [--post_assigned_credit]    init_result() must set result.claimed_credit
+//  [--credit_from_wu]          get credit from workunit.canonical_credit
+//  [--credit_from_runtime]     grant credit based on runtime,
 //  [--wu_id n]                 Validate WU n (debugging)
+//  [--check_punitive]          check for results with long-term failure,
+//                              punish host
 
 #include "config.h"
 #include <unistd.h>
@@ -74,6 +75,8 @@
 #include "gcl_simulator.h"
 #endif
 
+using std::vector;
+
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
 
@@ -91,6 +94,7 @@ typedef enum {
 
 char app_name[256];
 DB_APP app;
+DB_APP* g_app = &app;
 int wu_id_modulus=0;
 int wu_id_remainder=0;
 int wu_id_min=0;
@@ -102,9 +106,10 @@ double max_granted_credit = 200 * 1000 * 365;
 bool update_credited_job = false;
 bool credit_from_wu = false;
 bool credit_from_runtime = false;
-double max_runtime = 0;
+bool post_assigned_credit = false;
 bool no_credit = false;
 bool dry_run = false;
+bool check_punitive = false;
 int wu_id = 0;
 int g_argc;
 char **g_argv;
@@ -177,10 +182,44 @@ static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
     }
 }
 
+// check for results with long-term failure; punish those hosts.
+//
+void scan_punitive(vector<VALIDATOR_ITEM>& items) {
+    void* data=NULL;
+    char buf[256];
+
+    for (unsigned int i=0; i<items.size(); i++) {
+        RESULT& result = items[i].res;
+        if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
+        if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
+        if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
+            DB_HOST_APP_VERSION hav;
+            sprintf(buf, "host_id=%ld and app_version_id=%ld",
+                result.hostid, result.app_version_id
+            );
+            int retval = hav.lookup(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "scan_punitive(): can't find HAV for results %ld",
+                    result.id
+                );
+                continue;
+            }
+            hav.max_jobs_per_day = 1;
+            hav.n_jobs_today = 1;
+            hav.update();
+        }
+        if (data) {
+            cleanup_result(result, data);
+            data = NULL;
+        }
+    }
+}
+
 // handle a workunit which has new results
 //
 int handle_wu(
-    DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
+    DB_VALIDATOR_ITEM_SET& validator, vector<VALIDATOR_ITEM>& items
 ) {
     int canonical_result_index = -1;
     bool update_result, retry;
@@ -192,6 +231,10 @@ int handle_wu(
 
     WORKUNIT& wu = items[0].wu;
     g_wup = &wu;
+
+    if (check_punitive) {
+        scan_punitive(items);
+    }
 
     if (wu.canonical_resultid) {
         log_messages.printf(MSG_NORMAL,
@@ -438,40 +481,65 @@ int handle_wu(
                 }
 
                 if (credit_from_wu) {
-                    retval = get_credit_from_wu(wu, viable_results, credit);
-                    if (retval) {
+                    credit = wu.canonical_credit;
+                    if (credit == 0) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%lu %s] get_credit_from_wu(): credit not specified in WU\n",
+                            "[WU#%lu %s] credit not specified in WU\n",
+                            wu.id, wu.name
+                        );
+                    }
+                } else if (credit_from_runtime) {
+                    // take the average of results whose runtime-based credit
+                    // is within range
+                    //
+                    vector<double> cc;
+                    for (i=0; i<viable_results.size(); i++) {
+                        RESULT& result = viable_results[i];
+                        double runtime = result.elapsed_time;
+                        double c = result.flops_estimate * runtime * COBBLESTONE_SCALE;
+                        if (c <=0 || c > max_granted_credit) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[WU#%lu %s] credit out of range: %f\n",
+                                wu.id, wu.name, c
+                            );
+                        } else {
+                            cc.push_back(c);
+                        }
+
+                        log_messages.printf(MSG_DEBUG,
+                            "[WU#%lu][RESULT#%lu] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
+                            wu.id, result.id,
+                            c, runtime, result.flops_estimate/1e9
+                        );
+                    }
+                    if (cc.size()) {
+                        credit = low_average(cc);
+                        log_messages.printf(MSG_DEBUG,
+                            "[WU#%lu %s] credit from runtime: %f\n",
+                            wu.id, wu.name, credit
+                        );
+                    } else {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%lu %s] credit from runtime: no results have valid credit\n",
                             wu.id, wu.name
                         );
                         credit = 0;
                     }
-                } else if (credit_from_runtime) {
+                } else if (post_assigned_credit) {
                     credit = 0;
                     for (i=0; i<viable_results.size(); i++) {
                         RESULT& result = viable_results[i];
-                        if (result.id == canonicalid) {
-                            DB_HOST host;
-                            retval = host.lookup_id(result.hostid);
-                            if (retval) {
-                                log_messages.printf(MSG_CRITICAL,
-                                    "[WU#%lu %s] host %lu lookup failed\n",
-                                    wu.id, wu.name, result.hostid
-                                );
-                                break;
-                            }
-                            double runtime = result.elapsed_time;
-                            if (runtime <=0 || runtime > max_runtime) {
-                                runtime = max_runtime;
-                            }
-                            credit = result.flops_estimate * runtime * COBBLESTONE_SCALE;
-                            log_messages.printf(MSG_NORMAL,
-                                "[WU#%lu][RESULT#%lu] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
-                                wu.id, result.id,
-                                credit, runtime, result.flops_estimate/1e9
-                            );
-                            break;
+                        if (result.id != canonicalid) {
+                            continue;
                         }
+                        credit = result.claimed_credit;
+                        break;
+                    }
+                    if (credit == 0) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%lu %s] post-assigned credit missing\n",
+                            wu.id, wu.name
+                        );
                     }
                 } else if (no_credit) {
                     credit = 0;
@@ -793,6 +861,7 @@ void usage(char* name) {
         "    [--credit_from_wu]         Credit is specified in WU XML\n"
         "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
         "    [--no_credit]              Don't grant credit\n"
+        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"  
         "    [--sleep_interval n]       Set sleep-interval to n\n"
         "    [--wu_id n]                Process WU with given ID\n"
         "    [-d level|--debug_level n] Set log verbosity level\n"
@@ -854,14 +923,17 @@ int main(int argc, char** argv) {
             update_credited_job = true;
         } else if (is_arg(argv[i], "credit_from_wu")) {
             credit_from_wu = true;
+        } else if (is_arg(argv[i], "post_assigned_credit")) {
+            post_assigned_credit = true;
         } else if (is_arg(argv[i], "credit_from_runtime")) {
             credit_from_runtime = true;
-            max_runtime = atof(argv[++i]);
         } else if (is_arg(argv[i], "no_credit")) {
             no_credit = true;
         } else if (is_arg(argv[i], "wu_id")) {
             wu_id = atoi(argv[++i]);
             one_pass = true;
+        } else if (is_arg(argv[i], "check_punitive")) {
+            check_punitive = true;
         } else {
             // unknown arg - pass to handler
             argv[j++] = argv[i];
@@ -895,8 +967,20 @@ int main(int argc, char** argv) {
     }
 
     if (credit_from_runtime) {
+        if (max_granted_credit == 0) {
+            log_messages.printf(MSG_CRITICAL,
+                "if use credit_from_runtime, must specify max credit\n"
+            );
+            exit(1);
+        }
         log_messages.printf(MSG_NORMAL,
-            "using credit from runtime, max runtime: %f\n", max_runtime
+            "using credit from runtime\n"
+        );
+    }
+
+    if (max_granted_credit) {
+        log_messages.printf(MSG_NORMAL,
+            "max_granted_credit: %f\n", max_granted_credit
         );
     }
 
@@ -928,5 +1012,3 @@ int main(int argc, char** argv) {
 
     main_loop();
 }
-
-const char *BOINC_RCSID_634dbda0b9 = "$Id$";

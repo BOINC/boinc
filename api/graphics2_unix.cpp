@@ -115,12 +115,12 @@ static void maybe_render() {
     new_ypos = glutGet(GLUT_WINDOW_Y);
     new_width = glutGet(GLUT_WINDOW_WIDTH);
     new_height = glutGet(GLUT_WINDOW_HEIGHT);
-    
-    
+
+
     if (throttled_app_render(new_width, new_height, dtime())) {
 #ifdef __APPLE__
         if (UseSharedOffscreenBuffer()) {
-            return; // Don't try to send garbage to screen
+            return; // Don't waste cycles drawing to hidden window on screen
         }
 #endif
         glutSwapBuffers();
@@ -179,7 +179,7 @@ static void make_window(const char* title) {
 #ifdef __APPLE__
     glutWMCloseFunc(boinc_close_window_and_quit_aux);   // Enable the window's close box
     BringAppToFront();
-    // Show window only after a successful call to throttled_app_render(); 
+    // Show window only after a successful call to throttled_app_render();
     // this avoids momentary display of old image when screensaver restarts 
     // which made image appear to "jump."
     need_show = true;

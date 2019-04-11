@@ -1,0 +1,6 @@
+<nvc_config>
+    <client_download_url>https://www.worldcommunitygrid.org/reg/ms/viewDownloadAgain.do</client_download_url>
+    <client_version_check_url>https://www.worldcommunitygrid.org/download_all.php?xml=1</client_version_check_url>
+    <client_new_version_name>World Community Grid</client_new_version_name>
+    <network_test_url>https://www.ibm.com</network_test_url>
+</nvc_config>

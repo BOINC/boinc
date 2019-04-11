@@ -1391,3 +1391,17 @@ function _boinctranslate_filter_tips_long() {
 <p>The editor/admin may add as many of these tokens as you wish. You may add and remove them at your discretion. It is permitted for a page as no tokens, as the entire content will be a single chunk- such as for a shorter page.</p>
 ");
 }
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Misc utility/helper functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Split a string by newline, and trim each line, implode back into a
+ * string. Used for cleaning whitespace title & description elements
+ * from project preferences XML upload before adding to translation
+ * database.
+ */
+function _boinctranslate_supertrim($instr) {
+  return implode("\n", array_map('trim', preg_split('/\r\n|\r|\n/', $instr) ) );
+}

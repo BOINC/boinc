@@ -273,7 +273,7 @@ void ASYNC_VERIFY::error(int retval) {
 }
 
 int ASYNC_VERIFY::verify_chunk() {
-    int n;
+    size_t n;
     unsigned char buf[BUFSIZE];
     if (fip->download_gzipped) {
         n = gzread(gzin, buf, BUFSIZE);
@@ -287,23 +287,23 @@ int ASYNC_VERIFY::verify_chunk() {
             finish();
             return 1;
         } else {
-            int m = (int)fwrite(buf, 1, n, out);
-            if (m != n) {
+            size_t m = fwrite(buf, 1, n, out);
+            if (m != n || ferror(out)) {
                 // write failed
                 //
                 error(ERR_FWRITE);
                 return 1;
             }
-            md5_append(&md5_state, buf, n);
+            md5_append(&md5_state, buf, (int)n);
         }
     } else {
-        n = (int)fread(buf, 1, BUFSIZE, in);
-        if (n <= 0) {
+        n = fread(buf, 1, BUFSIZE, in);
+        if (!n || ferror(in)) {
             fclose(in);
             finish();
             return 1;
         } else {
-            md5_append(&md5_state, buf, n);
+            md5_append(&md5_state, buf, (int)n);
         }
     }
     return 0;

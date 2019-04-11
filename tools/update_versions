@@ -195,7 +195,7 @@ function get_api_version($a, $v, $p, $fds) {
     foreach ($fds as $fd) {
         if ($fd->main_program) {
             $path = "apps/$a/$v/$p/$fd->physical_name";
-            $handle = popen("strings $path | grep API_VERSION", "r");
+            $handle = popen("strings $path | egrep --max-count=1 '^API_VERSION_[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'", "r");
             $x = fread($handle, 8192);
             pclose($handle);
             $x = strstr($x, "API_VERSION_");

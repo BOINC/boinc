@@ -17,6 +17,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Utility functions for BOINC web pages
+// Stuff that's not web-specific (e.g. that's used in non-web scripts)
+// should go in util_basic.inc
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -31,15 +34,24 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config (do it here for efficiency)
+// parse some stuff from config.xml (do it here for efficiency)
 //
 $config = get_config();
+global $master_url;
 $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
-// don't allow /... at the end of URL
+// the following default to on
+//
+$x = parse_config($config, "<user_country>");
+define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
+$x = parse_config($config, "<user_url>");
+define('USER_URL', ($x===null)?1:(int)$x);
+
+// don't allow /... at the end of URL
+//
 if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
@@ -94,6 +106,9 @@ if (!defined('NO_GLOBAL_PREFS')) {
 if (!defined('USER_HOME')) {
     define('USER_HOME', 'home.php');
 }
+if (!defined('POST_MAX_LINKS')) {
+    define('POST_MAX_LINKS', 0);
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
@@ -120,7 +135,7 @@ function secure_url_base() {
 }
 
 function url_base() {
-    return secure_url_base();
+    return is_https()?secure_url_base():URL_BASE;
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
@@ -228,6 +243,10 @@ function page_head(
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
 
+    if ($did_page_head) {
+        return;
+    }
+    
     $did_page_head = true;
     $url_base = url_base();
 
@@ -236,15 +255,24 @@ function page_head(
 
     if (!$caching) {
         header("Content-type: text/html; charset=utf-8");
-        header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
-        header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
-        header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
-        header ("Pragma: no-cache");                          // HTTP/1.0
+        header("Expires: Mon, 26 Jul 1997 05:00:00 UTC");
+            // Date in the past
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC");
+            // always modified
+        header("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");
+            // for HTTP/1.1
+        header("Pragma: no-cache");
+            // for HTTP/1.0
     }
 
     echo '<!DOCTYPE html>
         <html lang="en">
         <head>
+    ';
+    if (defined('GLOBAL_HEAD_EXTRA')) {
+        echo GLOBAL_HEAD_EXTRA;
+    }
+    echo '
         <meta name="viewport" content="width=device-width, initial-scale=1">
     ';
     if ($head_extra) {
@@ -300,7 +328,6 @@ function page_head(
         break;
     }
     project_banner($title, $url_prefix, $is_main);
-
 }
 }
 
@@ -315,6 +342,7 @@ function page_tail(
     $is_main=false
         // passed to project_footer;
 ) {
+    echo "<br>\n";
     project_footer($is_main, $show_date, $url_prefix);
     echo '
         <script src="'.secure_url_base().'/jquery.min.js"></script>
@@ -512,10 +540,6 @@ function row_heading($x, $class='bg-primary') {
     echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
         ', $class, $x
     );
-}
-
-function random_string() {
-    return md5(uniqid(rand(), true));
 }
 
 function url_tokens($auth) {
@@ -858,19 +882,6 @@ function show_button_small($url, $text, $desc=null) {
     echo button_text($url, $text, $desc, "btn-primary btn-xs");
 }
 
-// When multiple buttons (or actions) are presented in a list you can
-// use this convenience method to avoid having to wrap each button in <li></li> elements
-// @param url The destination URL of the button
-// @param text The text to display on the button
-// @param desc The title of the destination - typically used as a popup
-// @param class The optional CSS class of the button. Defaults to a standard button
-//
-function show_actionlist_button($url, $text, $desc, $class="btn btn-default"){
-    echo "<li>";
-    echo show_button($url, $text, $desc, $class);
-    echo "</li>";
-}
-
 // used for showing icons
 //
 function show_image($src, $title, $alt, $height=null) {
@@ -881,21 +892,26 @@ function show_image($src, $title, $alt, $height=null) {
     echo "<img class=\"icon\" border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
+function show_project_down() {
+    global $did_page_head;
+    if (!$did_page_head) {
+        page_head(tra("Project down for maintenance"));
+    }
+    echo tra(
+        "%1 is temporarily shut down for maintenance.  Please try again later.",
+        PROJECT
+    );
+    page_tail();
+    exit();
+}
+
 function check_web_stopped() {
-    global $generating_xml, $did_page_head;
+    global $generating_xml;
     if (web_stopped()) {
         if ($generating_xml) {
             xml_error(-183);
         } else {
-			if (!$did_page_head) {
-				page_head(tra("Project down for maintenance"));
-			}
-            echo tra(
-				"%1 is temporarily shut down for maintenance.  Please try again later.",
-				PROJECT
-			);
-            page_tail();
-            exit();
+            show_project_down();
         }
     }
 }
@@ -933,6 +949,9 @@ function get_app_types() {
     $avs = BoincAppVersion::enum("deprecated=0");
     foreach ($avs as $av) {
         if (strstr($av->plan_class, "ati")) {
+            $t->ati = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "amd")) {
             $t->ati = true;
             $t->count++;
         } else if (strstr($av->plan_class, "cuda")) {
@@ -1012,14 +1031,20 @@ function do_download($path,$name="") {
     readfile($path);
 }
 
-function redirect_to_secure_url($url) {
+// if have SSL but not using it, redirect
+//
+function redirect_to_secure_url() {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
+        && empty($_SERVER['HTTPS'])
     ) {
-        Header("Location: ".SECURE_URL_BASE."/$url");
+        Header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit;
     }
+}
+
+if (php_sapi_name() != "cli") {
+    redirect_to_secure_url();
 }
 
 function badges_string($is_user, $item, $height) {
@@ -1044,10 +1069,6 @@ function show_badges_row($is_user, $item) {
     if ($x) {
         row2("Badges", $x);
     }
-}
-
-function dtime() {
-    return microtime(true);
 }
 
 // If this request is from a BOINC client, return its version as MMmmRR.
@@ -1111,6 +1132,25 @@ function google_search_form($url) {
         </form>
         </nobr>
     ";
+}
+
+// use the following around text with long lines,
+// to limit the width and make it more readable.
+//
+function text_start($width=640) {
+    echo sprintf("<div style=\"max-width: %dpx;\">\n", $width);
+}
+function text_end() {
+    echo "</div>\n";
+}
+
+// Utility function to check the terms of use.
+function check_termsofuse() {
+    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
+
+function cert_filename() {
+    return defined("CERT_FILENAME")?CERT_FILENAME:"cert1.php";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

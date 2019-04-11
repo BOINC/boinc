@@ -1,0 +1,19 @@
+[Unit]
+Description=Berkeley Open Infrastructure Network Computing Client
+Documentation=man:boinc(1)
+After=network-online.target
+
+[Service]
+ProtectHome=true
+Type=simple
+Nice=10
+User=boinc
+WorkingDirectory=/var/lib/boinc
+ExecStart=@exec_prefix@/bin/boinc
+ExecStop=@exec_prefix@/bin/boinccmd --quit
+ExecReload=@exec_prefix@/bin/boinccmd --read_cc_config
+ExecStopPost=/bin/rm -f lockfile
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target

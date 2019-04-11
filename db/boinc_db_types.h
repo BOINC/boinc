@@ -23,6 +23,7 @@
 #include "average.h"
 #include "opencl_boinc.h"
 #include "parse.h"
+#include "wslinfo.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
 // The following is for regular blobs, 64KB
@@ -212,6 +213,17 @@ struct USER {
     char passwd_hash[256];
     bool email_validated;           // deprecated
     int donated;
+    char login_token[32];
+    double login_token_time;
+    char previous_email_addr[256];
+    double email_addr_change_time;
+    void clear();
+};
+
+struct USER_DELETED {
+    DB_ID_TYPE userid;
+    char public_cross_project_id[256];
+    double create_time;
     void clear();
 };
 
@@ -360,6 +372,8 @@ struct HOST {
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
+    bool wsl_available;
+    WSLS wsls;
 
     // stuff from time_stats
     double cpu_and_network_available_frac;
@@ -375,6 +389,13 @@ struct HOST {
     void fix_nans();
     void clear();
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
+};
+
+struct HOST_DELETED {
+    DB_ID_TYPE hostid;
+    char public_cross_project_id[256];
+    double create_time;
+    void clear();
 };
 
 // values for file_delete state
@@ -587,7 +608,7 @@ struct RESULT {
     int batch;
     int file_delete_state;          // see above; values for file_delete_state
     int validate_state;
-    double claimed_credit;          // deprecated
+    double claimed_credit;          // used for post-assigned credit
     double granted_credit;          // == canonical credit of WU
     double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order
@@ -675,7 +696,7 @@ struct MSG_FROM_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // message handler has processed this
+    int handled;                    // message handler has processed this
     char xml[MSG_FROM_HOST_BLOB_SIZE];
     void clear();
 };
@@ -685,7 +706,7 @@ struct MSG_TO_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // scheduler has sent this
+    int handled;                    // scheduler has sent this
     char xml[MSG_TO_HOST_BLOB_SIZE];      // text to include in sched reply
     void clear();
 };
@@ -828,6 +849,16 @@ struct CREDIT_TEAM {
     double expavg;
     double expavg_time;
     int credit_type;
+    void clear();
+};
+
+struct CONSENT_TYPE {
+    DB_ID_TYPE id;
+    char shortname[256];
+    char description[256];
+    int enabled;
+    int project_specific;
+    int privacypref;
     void clear();
 };
 

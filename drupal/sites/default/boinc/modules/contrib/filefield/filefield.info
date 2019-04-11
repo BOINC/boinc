@@ -1,0 +1,12 @@
+name = FileField
+description = Defines a file field type.
+dependencies[] = content
+package = CCK
+core = 6.x
+php = 5.0
+; Information added by Drupal.org packaging script on 2016-02-24
+version = "6.x-3.14-boinc-3-dev"
+core = "6.x"
+project = "filefield"
+datestamp = "1548705400"
+

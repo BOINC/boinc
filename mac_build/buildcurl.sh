@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2019 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of curl-7.50.2 for
+# Script to build Macintosh 64-bit Intel library of curl for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
@@ -32,54 +32,31 @@
 # Updated 3/2/16 for curl 7.47.1 with c-ares 1.10.0
 # Updated 9/10/16 for curl 7.50.2 with c-ares 1.11.0
 # Updated 3/14/17 to patch curlrules.h to fix BOINC Manager compile error
+# Updated 1/25/18 for curl 7.58.0 with c-ares 1.13.0 & openssl 1.1.0g, don't patch currules.h
+# Updated 1/26/18 to get directory names of c-ares and OpenSSL from dependencyNames.sh
+# Updated 2/22/18 to avoid APIs not available in earlier versions of OS X
+# Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.8 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode
-## and clicked the Install button on the dialog which appears to
+## After first installing Xcode, you must have opened Xcode and
+## clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the curl-7.50.2 directory.
-##     cd [path]/curl-7.50.2/
+## Where x.xx.x is the curl version number:
+## In Terminal, CD to the curl-x.xx.x directory.
+##     cd [path]/curl-x.xx.x/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
-##
+#
+## NOTE: cURL depends on OpenSLL and c-ares, so they must be built before cURL.
+#
 
 CURL_DIR=`pwd`
-
-# Patch curl-7.50.2/include/curl/curlrules.h so it doesn't
-# cause our 32-bit build of BOINC Manager to fail.
-if [ ! -f include/curl/curlrules.h.orig ]; then
-    cat >> /tmp/curlrules_h_diff << ENDOFFILE
---- /Volumes/Cheer/BOINC_GIT/curl-7.50.2/include/curl/curlrules_orig.h	2016-08-08 05:03:14.000000000 -0700
-+++ /Volumes/Cheer/BOINC_GIT/curl-7.50.2/include/curl/curlrules.h	2017-03-13 17:17:43.000000000 -0700
-@@ -74,6 +74,7 @@
- /*
-  * Verify that some macros are actually defined.
-  */
-+#if 0
-
- #ifndef CURL_SIZEOF_LONG
- #  error "CURL_SIZEOF_LONG definition is missing!"
-@@ -182,6 +183,8 @@
-   __curl_rule_05__
-     [CurlchkszGE(curl_socklen_t, int)];
-
-+#endif
-+
- /* ================================================================ */
- /*          EXTERNALLY AND INTERNALLY VISIBLE DEFINITIONS           */
- /* ================================================================ */
-ENDOFFILE
-    patch -bfi /tmp/curlrules_h_diff include/curl/curlrules.h
-    rm -f /tmp/curlrules_h_diff
-else
-    echo "include/curl/curlrules.h already patched"
-fi
 
 doclean=""
 lprefix=""
@@ -156,34 +133,79 @@ fi
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.6
-export MAC_OS_X_VERSION_MAX_ALLOWED=1060
-export MAC_OS_X_VERSION_MIN_REQUIRED=1060
+export MACOSX_DEPLOYMENT_TARGET=10.7
+export MAC_OS_X_VERSION_MAX_ALLOWED=1070
+export MAC_OS_X_VERSION_MIN_REQUIRED=1070
 
 if [ "x${lprefix}" != "x" ]; then
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
+    export CPPFLAGS=""
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --host=x86_64
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
 else
-    # curl configure and make expect a path to _installed_ c-ares-1.11.0
+    # Get the names of the current versions of c-ares and openssl from
+    # the dependencyNames.sh file in the same directory as this script.
+    myScriptPath="${BASH_SOURCE[0]}"
+    myScriptDir="${myScriptPath%/*}"
+    source "${myScriptDir}/dependencyNames.sh"
+    if [ $? -ne 0 ]; then return 1; fi
+
+    # curl configure and make expect a path to _installed_ c-ares
     # so we temporarily installed c-ares at a path that does not contain spaces.
     # buildc-ares.sh installed c-ares to /tmp/installed-c-ares
     # and configured c-ares with prefix=/tmp/installed-c-ares
     if [ ! -f "${libcares}/libcares.a" ]; then
-        cd ../c-ares-1.11.0 || return 1
+        cd ../"${caresDirName}" || return 1
         make install
         cd "${CURL_DIR}" || return 1
     fi
 
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0 "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
-    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
-    ./configure --enable-shared=NO --enable-ares="${libcares}" --host=x86_64
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
+    export CPPFLAGS=""
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
+    ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
+
+# Patch curl_config.h to not use clock_gettime(), which is
+# defined in OS 10.12 SDK but was not available before OS 10.12.
+# If building with an older SDK or an older version of Xcode, these
+# patches will fail because config has already set our desired values.
+cat >> /tmp/curl_config_h_diff1 << ENDOFFILE
+--- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
++++ lib/curl_config1.h.in    2018-02-22 04:29:56.000000000 -0800
+@@ -141,5 +141,5 @@
+
+ /* Define to 1 if you have the __builtin_available function. */
+-#define HAVE_BUILTIN_AVAILABLE 1
++/* #undef HAVE_BUILTIN_AVAILABLE */
+
+ /* Define to 1 if you have the clock_gettime function and monotonic timer. */
+ENDOFFILE
+
+patch -fi /tmp/curl_config_h_diff1 lib/curl_config.h
+rm -f /tmp/curl_config_h_diff1
+rm -f lib/curl_config.h.rej
+
+cat >> /tmp/curl_config_h_diff2 << ENDOFFILE
+--- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
++++ lib/curl_config2.h.in    2018-02-22 04:30:21.000000000 -0800
+@@ -144,5 +144,5 @@
+
+ /* Define to 1 if you have the clock_gettime function and monotonic timer. */
+-#define HAVE_CLOCK_GETTIME_MONOTONIC 1
++/* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
+
+ /* Define to 1 if you have the closesocket function. */
+ENDOFFILE
+
+patch -fi /tmp/curl_config_h_diff2 lib/curl_config.h
+rm -f /tmp/curl_config_h_diff2
+rm -f lib/curl_config.h.rej
 
 if [ "${doclean}" = "yes" ]; then
     make clean
@@ -203,7 +225,7 @@ fi
 export lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
-export CPPFLAGS=""
+export CXXFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 

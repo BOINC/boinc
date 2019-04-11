@@ -65,17 +65,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\..\..\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -102,13 +102,13 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\clientsetup\win\boinccas.def</ModuleDefinitionFile>
       <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
@@ -133,13 +133,13 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\clientsetup\win\boinccas.def</ModuleDefinitionFile>
       <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
@@ -161,13 +161,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\clientsetup\win\boinccas.def</ModuleDefinitionFile>
       <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
@@ -194,13 +194,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib;../win_build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;libboinc_staticcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\clientsetup\win\boinccas.def</ModuleDefinitionFile>
       <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
@@ -213,131 +213,131 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="aclmgmt.cpp" />
-    <ClCompile Include="boinccas.cpp" />
-    <ClCompile Include="CAAnnounceUpgrade.cpp" />
-    <ClCompile Include="CACCConfigMd5sum.cpp" />
-    <ClCompile Include="CACleanupOldBinaries.cpp" />
-    <ClCompile Include="CACreateAcctMgrLoginFile.cpp" />
-    <ClCompile Include="CACreateBOINCAccounts.cpp" />
-    <ClCompile Include="CACreateBOINCGroups.cpp" />
-    <ClCompile Include="CACreateClientAuthFile.cpp" />
-    <ClCompile Include="CACreateProjectInitFile.cpp" />
-    <ClCompile Include="CADeleteBOINCAccounts.cpp" />
-    <ClCompile Include="CADeleteBOINCGroups.cpp" />
-    <ClCompile Include="CAGetAdministratorsGroupName.cpp" />
-    <ClCompile Include="CAGetUsersGroupName.cpp" />
-    <ClCompile Include="CAGrantBOINCAdminsRights.cpp" />
-    <ClCompile Include="CAGrantBOINCAdminsVirtualBoxRights.cpp" />
-    <ClCompile Include="CAGrantBOINCMasterRights.cpp" />
-    <ClCompile Include="CAGrantBOINCProjectRights.cpp" />
-    <ClCompile Include="CAGrantBOINCProjectsRights.cpp" />
-    <ClCompile Include="CAGrantBOINCProjectsVirtualBoxRights.cpp" />
-    <ClCompile Include="CAGrantBOINCUsersRights.cpp" />
-    <ClCompile Include="CALaunchBOINCManager.cpp" />
-    <ClCompile Include="CALaunchBOINCTray.cpp" />
-    <ClCompile Include="CARestoreExecutionState.cpp" />
-    <ClCompile Include="CARestorePermissionBOINCData.cpp" />
-    <ClCompile Include="CARestoreSetupState.cpp" />
-    <ClCompile Include="CARevokeBOINCAdminsRights.cpp" />
-    <ClCompile Include="CARevokeBOINCMasterRights.cpp" />
-    <ClCompile Include="CARevokeBOINCProjectRights.cpp" />
-    <ClCompile Include="CARevokeBOINCProjectsRights.cpp" />
-    <ClCompile Include="CARevokeBOINCUsersRights.cpp" />
-    <ClCompile Include="CASaveExecutionState.cpp" />
-    <ClCompile Include="CASaveSetupState.cpp" />
-    <ClCompile Include="CASetPermissionBOINC.cpp" />
-    <ClCompile Include="CASetPermissionBOINCData.cpp" />
-    <ClCompile Include="CASetPermissionBOINCDataProjects.cpp" />
-    <ClCompile Include="CASetPermissionBOINCDataSlots.cpp" />
-    <ClCompile Include="CAShutdownBOINC.cpp" />
-    <ClCompile Include="CAShutdownBOINCManager.cpp" />
-    <ClCompile Include="CAShutdownBOINCScreensaver.cpp" />
-    <ClCompile Include="CAShutdownUD.cpp" />
-    <ClCompile Include="CAValidateInstall.cpp" />
-    <ClCompile Include="CAValidateRebootRequest.cpp" />
-    <ClCompile Include="CAValidateSetupType.cpp" />
-    <ClCompile Include="CAVerifyInstallDirectories.cpp" />
-    <ClCompile Include="dirops.cpp" />
-    <ClCompile Include="launcher.cpp" />
-    <ClCompile Include="listacl.cpp" />
-    <ClCompile Include="lkuprid.cpp" />
-    <ClCompile Include="lsaprivs.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="password.cpp" />
-    <ClCompile Include="sdmgmt.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="..\clientsetup\win\aclmgmt.cpp" />
+    <ClCompile Include="..\clientsetup\win\boinccas.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAAnnounceUpgrade.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACCConfigMd5sum.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACleanupOldBinaries.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACreateAcctMgrLoginFile.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACreateBOINCAccounts.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACreateBOINCGroups.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACreateClientAuthFile.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACreateProjectInitFile.cpp" />
+    <ClCompile Include="..\clientsetup\win\CADeleteBOINCAccounts.cpp" />
+    <ClCompile Include="..\clientsetup\win\CADeleteBOINCGroups.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGetAdministratorsGroupName.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGetUsersGroupName.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCAdminsRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCMasterRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCProjectRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCProjectsRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCProjectsVirtualBoxRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAGrantBOINCUsersRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CALaunchBOINCManager.cpp" />
+    <ClCompile Include="..\clientsetup\win\CALaunchBOINCTray.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARestoreExecutionState.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARestorePermissionBOINCData.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARestoreSetupState.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARevokeBOINCAdminsRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARevokeBOINCMasterRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARevokeBOINCProjectRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARevokeBOINCProjectsRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CARevokeBOINCUsersRights.cpp" />
+    <ClCompile Include="..\clientsetup\win\CASaveExecutionState.cpp" />
+    <ClCompile Include="..\clientsetup\win\CASaveSetupState.cpp" />
+    <ClCompile Include="..\clientsetup\win\CASetPermissionBOINC.cpp" />
+    <ClCompile Include="..\clientsetup\win\CASetPermissionBOINCData.cpp" />
+    <ClCompile Include="..\clientsetup\win\CASetPermissionBOINCDataProjects.cpp" />
+    <ClCompile Include="..\clientsetup\win\CASetPermissionBOINCDataSlots.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAShutdownBOINC.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAShutdownBOINCManager.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAShutdownBOINCScreensaver.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAShutdownUD.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAValidateInstall.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAValidateRebootRequest.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAValidateSetupType.cpp" />
+    <ClCompile Include="..\clientsetup\win\CAVerifyInstallDirectories.cpp" />
+    <ClCompile Include="..\clientsetup\win\dirops.cpp" />
+    <ClCompile Include="..\clientsetup\win\launcher.cpp" />
+    <ClCompile Include="..\clientsetup\win\listacl.cpp" />
+    <ClCompile Include="..\clientsetup\win\lkuprid.cpp" />
+    <ClCompile Include="..\clientsetup\win\lsaprivs.cpp" />
+    <ClCompile Include="..\clientsetup\win\main.cpp" />
+    <ClCompile Include="..\clientsetup\win\password.cpp" />
+    <ClCompile Include="..\clientsetup\win\sdmgmt.cpp" />
+    <ClCompile Include="..\clientsetup\win\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="terminate.cpp" />
-    <ClCompile Include="utils.cpp" />
-    <ClCompile Include="wrappers.cpp" />
+    <ClCompile Include="..\clientsetup\win\terminate.cpp" />
+    <ClCompile Include="..\clientsetup\win\utils.cpp" />
+    <ClCompile Include="..\clientsetup\win\wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="boinccas.h" />
-    <ClInclude Include="CAAnnounceUpgrade.h" />
-    <ClInclude Include="CACCConfigMd5sum.h" />
-    <ClInclude Include="CACleanupOldBinaries.h" />
-    <ClInclude Include="CACreateAcctMgrLoginFile.h" />
-    <ClInclude Include="CACreateBOINCAccounts.h" />
-    <ClInclude Include="CACreateBOINCGroups.h" />
-    <ClInclude Include="CACreateClientAuthFile.h" />
-    <ClInclude Include="CACreateProjectInitFile.h" />
-    <ClInclude Include="CADeleteBOINCAccounts.h" />
-    <ClInclude Include="CADeleteBOINCGroups.h" />
-    <ClInclude Include="CAGetAdministratorsGroupName.h" />
-    <ClInclude Include="CAGetUsersGroupName.h" />
-    <ClInclude Include="CAGrantBOINCAdminsRights.h" />
-    <ClInclude Include="CAGrantBOINCAdminsVirtualBoxRights.h" />
-    <ClInclude Include="CAGrantBOINCMasterRights.h" />
-    <ClInclude Include="CAGrantBOINCProjectRights.h" />
-    <ClInclude Include="CAGrantBOINCProjectsRights.h" />
-    <ClInclude Include="CAGrantBOINCProjectsVirtualBoxRights.h" />
-    <ClInclude Include="CAGrantBOINCUsersRights.h" />
-    <ClInclude Include="CALaunchBOINCManager.h" />
-    <ClInclude Include="CALaunchBOINCTray.h" />
-    <ClInclude Include="CARestoreExecutionState.h" />
-    <ClInclude Include="CARestorePermissionBOINCData.h" />
-    <ClInclude Include="CARestoreSetupState.h" />
-    <ClInclude Include="CARevokeBOINCAdminsRights.h" />
-    <ClInclude Include="CARevokeBOINCMasterRights.h" />
-    <ClInclude Include="CARevokeBOINCProjectRights.h" />
-    <ClInclude Include="CARevokeBOINCProjectsRights.h" />
-    <ClInclude Include="CARevokeBOINCUsersRights.h" />
-    <ClInclude Include="CASaveExecutionState.h" />
-    <ClInclude Include="CASaveSetupState.h" />
-    <ClInclude Include="CASetPermissionBOINC.h" />
-    <ClInclude Include="CASetPermissionBOINCData.h" />
-    <ClInclude Include="CASetPermissionBOINCDataProjects.h" />
-    <ClInclude Include="CASetPermissionBOINCDataSlots.h" />
-    <ClInclude Include="CAShutdownBOINC.h" />
-    <ClInclude Include="CAShutdownBOINCManager.h" />
-    <ClInclude Include="CAShutdownBOINCScreensaver.h" />
-    <ClInclude Include="CAShutdownUD.h" />
-    <ClInclude Include="CAValidateInstall.h" />
-    <ClInclude Include="CAValidateRebootRequest.h" />
-    <ClInclude Include="CAValidateSetupType.h" />
-    <ClInclude Include="CAVerifyInstallDirectories.h" />
-    <ClInclude Include="dcomperm.h" />
-    <ClInclude Include="dirops.h" />
-    <ClInclude Include="launcher.h" />
-    <ClInclude Include="lkuprid.h" />
-    <ClInclude Include="lsaprivs.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="password.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="terminate.h" />
+    <ClInclude Include="..\clientsetup\win\boinccas.h" />
+    <ClInclude Include="..\clientsetup\win\CAAnnounceUpgrade.h" />
+    <ClInclude Include="..\clientsetup\win\CACCConfigMd5sum.h" />
+    <ClInclude Include="..\clientsetup\win\CACleanupOldBinaries.h" />
+    <ClInclude Include="..\clientsetup\win\CACreateAcctMgrLoginFile.h" />
+    <ClInclude Include="..\clientsetup\win\CACreateBOINCAccounts.h" />
+    <ClInclude Include="..\clientsetup\win\CACreateBOINCGroups.h" />
+    <ClInclude Include="..\clientsetup\win\CACreateClientAuthFile.h" />
+    <ClInclude Include="..\clientsetup\win\CACreateProjectInitFile.h" />
+    <ClInclude Include="..\clientsetup\win\CADeleteBOINCAccounts.h" />
+    <ClInclude Include="..\clientsetup\win\CADeleteBOINCGroups.h" />
+    <ClInclude Include="..\clientsetup\win\CAGetAdministratorsGroupName.h" />
+    <ClInclude Include="..\clientsetup\win\CAGetUsersGroupName.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsRights.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCMasterRights.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCProjectRights.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCProjectsRights.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCProjectsVirtualBoxRights.h" />
+    <ClInclude Include="..\clientsetup\win\CAGrantBOINCUsersRights.h" />
+    <ClInclude Include="..\clientsetup\win\CALaunchBOINCManager.h" />
+    <ClInclude Include="..\clientsetup\win\CALaunchBOINCTray.h" />
+    <ClInclude Include="..\clientsetup\win\CARestoreExecutionState.h" />
+    <ClInclude Include="..\clientsetup\win\CARestorePermissionBOINCData.h" />
+    <ClInclude Include="..\clientsetup\win\CARestoreSetupState.h" />
+    <ClInclude Include="..\clientsetup\win\CARevokeBOINCAdminsRights.h" />
+    <ClInclude Include="..\clientsetup\win\CARevokeBOINCMasterRights.h" />
+    <ClInclude Include="..\clientsetup\win\CARevokeBOINCProjectRights.h" />
+    <ClInclude Include="..\clientsetup\win\CARevokeBOINCProjectsRights.h" />
+    <ClInclude Include="..\clientsetup\win\CARevokeBOINCUsersRights.h" />
+    <ClInclude Include="..\clientsetup\win\CASaveExecutionState.h" />
+    <ClInclude Include="..\clientsetup\win\CASaveSetupState.h" />
+    <ClInclude Include="..\clientsetup\win\CASetPermissionBOINC.h" />
+    <ClInclude Include="..\clientsetup\win\CASetPermissionBOINCData.h" />
+    <ClInclude Include="..\clientsetup\win\CASetPermissionBOINCDataProjects.h" />
+    <ClInclude Include="..\clientsetup\win\CASetPermissionBOINCDataSlots.h" />
+    <ClInclude Include="..\clientsetup\win\CAShutdownBOINC.h" />
+    <ClInclude Include="..\clientsetup\win\CAShutdownBOINCManager.h" />
+    <ClInclude Include="..\clientsetup\win\CAShutdownBOINCScreensaver.h" />
+    <ClInclude Include="..\clientsetup\win\CAShutdownUD.h" />
+    <ClInclude Include="..\clientsetup\win\CAValidateInstall.h" />
+    <ClInclude Include="..\clientsetup\win\CAValidateRebootRequest.h" />
+    <ClInclude Include="..\clientsetup\win\CAValidateSetupType.h" />
+    <ClInclude Include="..\clientsetup\win\CAVerifyInstallDirectories.h" />
+    <ClInclude Include="..\clientsetup\win\dcomperm.h" />
+    <ClInclude Include="..\clientsetup\win\dirops.h" />
+    <ClInclude Include="..\clientsetup\win\launcher.h" />
+    <ClInclude Include="..\clientsetup\win\lkuprid.h" />
+    <ClInclude Include="..\clientsetup\win\lsaprivs.h" />
+    <ClInclude Include="..\clientsetup\win\main.h" />
+    <ClInclude Include="..\clientsetup\win\password.h" />
+    <ClInclude Include="..\clientsetup\win\resource.h" />
+    <ClInclude Include="..\clientsetup\win\stdafx.h" />
+    <ClInclude Include="..\clientsetup\win\terminate.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\libboinc.vcxproj" />
-    <None Include="boinccas.def" />
+    <None Include="libboinc_staticcrt.vcxproj" />
+    <None Include="..\clientsetup\win\boinccas.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="boinccas.rc" />
+    <ResourceCompile Include="..\clientsetup\win\boinccas.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

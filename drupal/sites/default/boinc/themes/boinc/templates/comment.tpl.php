@@ -97,12 +97,17 @@
         }
         print '</div>';
       }
-      // Generate ignore user link
-      $ignore_link = ignore_user_link('comment', $comment);
+      // ignore user link is now generated in preprocess functions.
       //echo '<pre>' . print_r($links, TRUE) . '</pre>';
     ?>
     <div class="name"><?php print $author; ?></div>
     <?php if ($account->uid): ?>
+      <?php if (in_array('moderator', $account->roles)): ?>
+        <div class="moderator"><?php print bts('Moderator', array(), NULL, 'boinc:user-info'); ?></div>
+      <?php endif; ?>
+      <?php if (in_array('administrator', $account->roles)): ?>
+        <div class="administrator"><?php print bts('Administrator', array(), NULL, 'boinc:user-info'); ?></div>
+      <?php endif; ?>
       <?php $nf = new NumberFormatter($locality, NumberFormatter::DECIMAL); ;?>
       <?php $nf->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0); ;?>
       <?php $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0); ;?>

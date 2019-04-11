@@ -116,7 +116,7 @@ void MSG_LOG::vprintf_multiline(
 
     char sprefix[256] = "";
     if (prefix_format) {
-        vsprintf(sprefix, prefix_format, va);
+        vsnprintf(sprefix, sizeof(sprefix),prefix_format, va);
     }
     const char* now_timestamp = precision_time_to_string(dtime());
     const char* skind = v_format_kind(kind);
@@ -143,7 +143,7 @@ void MSG_LOG::vprintf_file(
 
     char sprefix[256] = "";
     if (prefix_format) {
-        vsprintf(sprefix, prefix_format, va);
+        vsnprintf(sprefix, sizeof(sprefix), prefix_format, va);
     }
     const char* now_timestamp = precision_time_to_string(dtime());
     const char* skind = v_format_kind(kind);

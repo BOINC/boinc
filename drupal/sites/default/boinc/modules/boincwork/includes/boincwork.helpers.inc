@@ -407,12 +407,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', $description);
-        $description = i18nstrings('project:prefs_xml', $description);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
+        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
       
       $form[$name] = array(
@@ -455,12 +455,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', $description);
-        $description = i18nstrings('project:prefs_xml', $description);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
+        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
       
       $form[$name] = array(
@@ -512,12 +512,12 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       if ($description) {
-        i18nstrings_update('project:prefs_xml', $description);
-        $description = i18nstrings('project:prefs_xml', $description);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
+        $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
       
       $form[$name] = array(
@@ -536,8 +536,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
     
     $form['applications'] = array(
@@ -596,8 +596,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       
       $form[$name] = array(
@@ -625,8 +625,8 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       
       // Translate elements as appropriate
       if ($title) {
-        i18nstrings_update('project:prefs_xml', $title);
-        $title = i18nstrings('project:prefs_xml', $title);
+        i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
+        $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
       
       $form[$name] = array(
@@ -872,14 +872,14 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   if ($type == 'project') {
     $main_prefs = array('project_preferences' => $main_prefs);
     $boincuser->project_prefs = save_configuration($main_prefs);
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $result = db_query("UPDATE user SET project_prefs = '{$boincuser->project_prefs}' WHERE id = '{$boincuser->id}'");
     db_set_active('default');
   }
   else {
     $main_prefs = array('global_preferences' => $main_prefs);
     $boincuser->global_prefs = save_configuration($main_prefs);
-    db_set_active('boinc');
+    db_set_active('boinc_rw');
     $result = db_query("UPDATE user SET global_prefs = '{$boincuser->global_prefs}' WHERE id = '{$boincuser->id}'");
     db_set_active('default');
   }
@@ -887,6 +887,134 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Ignore user functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+// These functions are boinc-ppecific "replacements" for the
+// ignore_user module's add and remove user functions.
+
+
+/**
+ *Add another user to the current user's ignore list using a BOINC
+ *username. Called from privacy preference form.
+ */
+function boincwork_ignore_user_add_user_username($name = NULL) {
+  global $user;
+
+  if (isset($name)) {
+    // Get the BOINC ID from the name string, and lookup the
+    // corresponding drupal user.
+    $boincname = substr($name, 0, strrpos($name, '_'));
+    $boincid = substr($name, strrpos($name, '_') + 1);
+    // iuid is the drupal uid to be ignored and author to be blocked.
+    $iuid = get_drupal_id($boincid);
+
+    if ($user->uid == $iuid) {
+      drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
+      drupal_goto('account/prefs/privacy');
+    }
+
+    if (is_numeric($iuid) && $iuid > 0) {
+      if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
+        db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+      }// endif db_result
+
+      if (module_exists('pm_block_user')) {
+        if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
+          db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+        }// endif db_result
+      }// endif module_exists('pm_block_user')
+
+    }// endif $iuid
+  }
+}
+
+/**
+ * Add another user's UID to the current user's ignore list.
+ */
+function boincwork_ignore_user_add_user($iuid = NULL) {
+  global $user;
+
+  if ($user->uid == $iuid) {
+    drupal_set_message(bts('You can\'t add yourself to your own ignore list.', array(), NULL, 'boinc:ignore-user-error-message'), 'error');
+    drupal_goto();
+  }
+
+  $otheraccount = user_load($iuid);
+
+  if (is_numeric($iuid) && $iuid > 0) {
+    if (!db_result(db_query('SELECT COUNT(iuid) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid))) {
+      db_query('INSERT INTO {ignore_user} (uid, iuid) VALUES (%d, %d)', $user->uid, $iuid);
+    }// endif db_result
+
+    if (module_exists('pm_block_user')) {
+      if (!db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid))) {
+        db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $iuid, $user->uid);
+      }// endif db_result
+    }// endif module_exists('pm_block_user')
+
+    drupal_set_message(
+      bts('@username has been added to your ignore list. See your !privacy_preferences for more details.',
+        array(
+          '@username' => $otheraccount->boincuser_name,
+          '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+        ),
+        NULL, 'boinc:ignore-user-add'),
+      'status');
+    drupal_goto();
+  }
+  else {
+    drupal_not_found();
+  }// endif iuid
+}
+
+/**
+ * Remove user from user's ignore list.
+ */
+function boincwork_ignore_user_remove_user($iuid = NULL) {
+  global $user;
+  $otheraccount = user_load($iuid);
+
+  db_query('DELETE FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $iuid);
+  if (module_exists('pm_block_user')) {
+    db_query('DELETE FROM {pm_block_user} WHERE author = %d AND recipient = %d', $iuid, $user->uid);
+  }// endif module_exists
+  drupal_set_message(
+    bts('@username has been removed from your ignore list. See your !privacy_preferences for more details.',
+      array(
+        '@username' => $otheraccount->boincuser_name,
+        '!privacy_preferences' => l(bts('privacy preferences', array(), NULL, 'boinc:ignore-user-add'), 'account/prefs/privacy'),
+      ),
+      NULL, 'boinc:ignore-user-add'),
+    'status');
+  drupal_goto('account/prefs/privacy');
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Consent to Privacy funtions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Load consent types for privacy preferences from database. Returns
+ * an array of the relevant consent_types. Otherwise returns an emtpy
+ * array.
+ */
+function boincwork_load_privacyconsenttypes() {
+
+  db_set_active('boinc_rw');
+  $db_result = db_query("SELECT id,shortname,description FROM consent_type WHERE enabled=1 AND privacypref=1 ORDER by project_specific ASC");
+  db_set_active('drupal');
+
+  if ($db_result) {
+    $consent_types = array();
+    while ($result = db_fetch_array($db_result)) {
+      $consent_types[] = $result;
+    }
+    return $consent_types;
+  }
+  return array();
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Utility functions
@@ -904,7 +1032,7 @@ function boincwork_set_default_venue($venue = '') {
     $venue = '';
   }
   
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     UPDATE user
     SET venue = '%s'
@@ -1009,7 +1137,6 @@ function boincwork_format_stats($number, $max_digits = 4) {
   
   return $number;
 }
-
 
   //------------------------------------------------------------------------------------------------
   //  load_configuration(): Convert structured text/xml to array
@@ -1366,7 +1493,7 @@ function boincwork_host_action_links($host_id) {
  * Get details for a given host
  */
 function boincwork_host_get_info($host_id) {
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $host = db_fetch_object(db_query(
     "SELECT * FROM {host} WHERE id = '%d'",
     $host_id
@@ -1379,7 +1506,7 @@ function boincwork_host_get_info($host_id) {
  * Get the number of tasks associated with a given host
  */
 function boincwork_host_get_task_count($host_id) {
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $count = db_result(db_query(
     "SELECT COUNT(*) FROM {result} WHERE hostid = '%d'",
     $host_id
@@ -1398,7 +1525,7 @@ function boincwork_host_user_is_owner($host_id, $uid = NULL) {
   }
   $account = user_load($uid);
   // Get host owner
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $owner = db_result(db_query(
     "SELECT userid FROM {host} WHERE id = '%d'",
     $host_id
@@ -1444,7 +1571,7 @@ function boincwork_host_venue_selector($host_id) {
     drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
     drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
     // Get current venue
-    db_set_active('boinc');
+    db_set_active('boinc_ro');
     $venue = db_result(db_query(
       "SELECT venue FROM {host} WHERE id = '%d'",
       $host_id
@@ -1545,7 +1672,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   $applications = array();
 
   // BOINC DB queries for results, application names
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
 
   // Query to retreive all results, in order to calculate status for a
   // host with application names for each result.
@@ -1663,7 +1790,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   );
 
   // Query to retreive a subset of the total results for the results table.
-  db_set_active('boinc');
+  db_set_active('boinc_ro');
   $sqlsub = "SELECT r.id AS id,"
       ."r.name AS name,"
       ."r.workunitid AS workunitid,"
@@ -1870,7 +1997,7 @@ function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
     case ANON_PLATFORM_NVIDIA:
       return "Anonymous platform NVIDIA GPU";
     case ANON_PLATFORM_ATI:
-      return "Anonymous platform ATI GPU";
+      return "Anonymous platform AMD GPU";
     case ANON_PLATFORM_INTEL:
       return "Anonymous platform Intel GPU";
     case 0:

@@ -556,6 +556,10 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
                 return;
             }
         }
+    } else {
+        // Don't ask whether to reconnect to remote client
+        pDoc->Reconnect();
+        return;
     }
 
     // %s is the application name

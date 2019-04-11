@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -312,14 +312,26 @@ int get_memory_info(double& bytes, double& swap) {
     return 0;
 }
 
-
 // Returns the OS name and version
 //
 
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
+BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi) {
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
+    // If that fails, try using the OSVERSIONINFO structure.
+    BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
+    if (!bOsVersionInfoEx) {
+        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+        bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
+    }
+    return bOsVersionInfoEx;
+}
+
 int get_os_information(
-    char* os_name, int os_name_size, char* os_version, int os_version_size
+    char* os_name, const int os_name_size, char* os_version, const int os_version_size
 ) {
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
@@ -330,29 +342,18 @@ int get_os_information(
     OSVERSIONINFOEX osvi;
     SYSTEM_INFO si;
     PGPI pGPI;
-    BOOL bOsVersionInfoEx;
     DWORD dwType = 0;
 
     ZeroMemory(szVersion, sizeof(szVersion));
     ZeroMemory(szSKU, sizeof(szSKU));
     ZeroMemory(szServicePack, sizeof(szServicePack));
     ZeroMemory(&si, sizeof(SYSTEM_INFO));
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
 
     // GetProductInfo is a Vista+ API
     pGPI = (PGPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProductInfo");
 
-
-    // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
-    // If that fails, try using the OSVERSIONINFO structure.
-    bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO*)&osvi);
-    if(!bOsVersionInfoEx) {
-        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-        GetVersionEx ((OSVERSIONINFO*)&osvi);
-    }
-
+    BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
 
     GetNativeSystemInfo(&si);
 
@@ -1432,6 +1433,14 @@ int HOST_INFO::get_host_info(bool init) {
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
+#ifdef _WIN64
+    if (!cc_config.dont_use_wsl) {
+        OSVERSIONINFOEX osvi;
+        if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
+            get_wsl_information(wsl_available, wsls);
+        }
+    }
+#endif
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
     }

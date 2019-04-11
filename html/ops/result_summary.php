@@ -23,7 +23,7 @@ require_once("../inc/util_ops.inc");
 db_init();
 admin_page_head("Result summary");
 
-show_result_summary();
+admin_show_result_summary();
 
 admin_page_tail();
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

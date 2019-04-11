@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">جاري التحميل! برجاء الانتظار...</string>
+    <string name="generic_button_continue">استمرار</string>
+    <string name="generic_button_finish">انهاء</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">اختر المشاريع العلمية التي ترغب المساهمة بها</string>
+    <string name="attachproject_list_header">اختر مشروعا</string>
+    <string name="attachproject_list_manual_button">أضف مشروعا باضافة الرابط الخاص به</string>
+    <string name="attachproject_list_manual_dialog_title">أدخل رابط المشروع:</string>
+    <string name="attachproject_list_manual_dialog_button">اضافة مشروع</string>
+    <string name="attachproject_list_manual_no_url">من فضلك أدخل رابط المشروع</string>
+    <string name="attachproject_list_acctmgr_button">اضافة مدير الحسابات</string>
+    <string name="attachproject_list_no_internet">لا يوجد اتصال بالإنترنت</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">قم بإدخال معلومات الحساب</string>
+    <string name="attachproject_credential_input_desc">أدخل معلومات الحساب الخاصة بالمشاريع المختارة</string>
+    <string name="attachproject_credential_input_show_pwd">اظهار كلمة المرور</string>
+    <string name="attachproject_individual_credential_input">إرفاق المشاريع على حدى</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">يوجد خطاء بعملية إرفاق المشاريع العلمية:</string>
+    <string name="attachproject_conflict_undefined">تعذر الاتصال</string>
+    <string name="attachproject_conflict_not_unique">الحساب مسجل بكلمة مرور اَخرى</string>
+    <string name="attachproject_conflict_bad_password">كلمة مرور خاطئة</string>
+    <string name="attachproject_conflict_unknown_user">الحساب غير مسجل</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">الحساب غير مسجل ، قم بزيارة موقع المشروع
+        للتسجيل
+    </string>
+    <!--working-->
+    <string name="attachproject_working_attaching">جاري رفق</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">ملحوظة</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">كيفية المساهمة</string>
+    <string name="attachproject_hint_contribtion_wifi">1. اتصل بالشبكة اللاسلكية</string>
+    <string name="attachproject_hint_contribtion_charger">2. قم بتوصيل الشاحن</string>
+    <string name="attachproject_hint_contribtion_screen">3. قم بإيقاف الشاشة</string>
+    <string name="attachproject_hint_projectwebsite_header">قم بزيارة مواقع المشاريع من اجل:</string>
+    <string name="attachproject_hint_projectwebsite_science">التعرف على المزيد حول العلم</string>
+    <string name="attachproject_hint_projectwebsite_stats">عرض إحصائيات المساهمة</string>
+    <string name="attachproject_hint_projectwebsite_community">التواصل مع المتطوعين الآخرين</string>
+    <string name="attachproject_hint_platforms_header">BOINC متوفر ايضا لجهاز الكمبيوتر المنزلى أو المحمول، لمعرفة
+        المزيد الرجاء زيارة موقعنا على الإنترنت boinc.berkeley.edu
+    </string>
+    <!--project login-->
+    <string name="attachproject_login_loading">الاتصال بخادم المشروع</string>
+    <string name="attachproject_login_image_description">رمز المشروع</string>
+    <string name="attachproject_login_header_general_area">المعلومات العامة:</string>
+    <string name="attachproject_login_header_specific_area">المعلومات المتخصصة:</string>
+    <string name="attachproject_login_header_description">الوصف:</string>
+    <string name="attachproject_login_header_home">المنزل</string>
+    <string name="attachproject_login_header_url">الموقع</string>
+    <string name="attachproject_login_header_platform">الاندرويد</string>
+    <string name="attachproject_login_platform_supported">نوع الجهاز معتمد من قبل المشروع</string>
+    <string name="attachproject_login_platform_not_supported">نوع الجهاز غير معتمد من قبل المشروع</string>
+    <string name="attachproject_login_category_terms_of_use">شروط الاستخدام</string>
+    <string name="attachproject_login_accept_terms_of_use">عند قيامك بإنشاء حساب على هذا المشروع، فإنت تقبل بشروط
+        الاستخدام كما هو موضح أعلاه.
+    </string>
+    <string name="attachproject_login_category_login">تسجيل الدخول باستخدام حساب مسجل مسبقا</string>
+    <string name="attachproject_login_header_id_email">البريد الإلكتروني</string>
+    <string name="attachproject_login_header_id_name">الإسم</string>
+    <string name="attachproject_login_header_pwd">كلمة المرور</string>
+    <string name="attachproject_login_category_creation">جديد إلى</string>
+    <string name="attachproject_login_header_creation_enabled">تسجيل حساب للمشاركة:</string>
+    <string name="attachproject_login_header_creation_client_disabled">قم بزيارة موقع المشروع على الإنترنت لإنشاء
+        حساب:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">لا يقبل المشروع حاليا تسجيل حسابات جديدة.</string>
+    <string name="attachproject_login_button_registration">تسجيل</string>
+    <string name="attachproject_login_button_login">تسجيل الدخول</string>
+    <string name="attachproject_login_button_forgotpw">نسيت كلمة المرور</string>
+    <string name="attachproject_login_error_toast">فشل الاتصال بالمشروع</string>
+    <string name="attachproject_login_attached">تم إرفاق</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">تسجيل حساب ب</string>
+    <string name="attachproject_registration_header_url">المشروع</string>
+    <string name="attachproject_registration_header_email">البريد الإلكتروني</string>
+    <string name="attachproject_registration_header_username">الاسم</string>
+    <string name="attachproject_registration_header_teamname">الفريق</string>
+    <string name="attachproject_registration_header_pwd">كلمة المرور</string>
+    <string name="attachproject_registration_header_pwd_confirm">... أعد كتابة</string>
+    <string name="attachproject_registration_button">إنشاء</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">إستخدم مدير حسابات BOINC لإضافة و إدارة مشاريع متعددة</string>
+    <string name="attachproject_acctmgr_header">اضافة مدير الحسابات</string>
+    <string name="attachproject_acctmgr_header_url">الرابط</string>
+    <string name="attachproject_acctmgr_header_name">اسم المستخدم</string>
+    <string name="attachproject_acctmgr_header_pwd">كلمة المرور</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">أعد كتابة</string>
+    <string name="attachproject_acctmgr_button">أضف</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">لم يتم العثور على المستخدم</string>
+    <string name="attachproject_error_short_pwd">كلمة المرور قصيرة</string>
+    <string name="attachproject_error_no_internet">تعذر الإتصال</string>
+    <string name="attachproject_error_pwd_no_match">كلمة المرور غير مطابقة</string>
+    <string name="attachproject_error_pwd_no_retype">الرجاء كتابة كلمة المرور مرة أخرى</string>
+    <string name="attachproject_error_no_url">من فضلك أدخل الرابط</string>
+    <string name="attachproject_error_no_email">الرجاء إدخال عنوان البريد الإلكتروني</string>
+    <string name="attachproject_error_no_pwd">الرجاء إدخال كلمة المرور</string>
+    <string name="attachproject_error_no_name">الرجاء إدخال اسم المستخدم</string>
+    <string name="attachproject_error_unknown">فشل</string>
+    <string name="attachproject_error_bad_username">اسم مسخدم خاطء</string>
+    <string name="attachproject_error_email_in_use">عنوان البريد الإلكتروني مستخدم بالفعل</string>
+    <string name="attachproject_error_project_down">المشروع غير متصل</string>
+    <string name="attachproject_error_email_bad_syntax">عنوان بريد الكتروني خاطء</string>
+    <string name="attachproject_error_bad_pwd">كلمة مرور خاطئة</string>
+    <string name="attachproject_error_creation_disabled">إنشاء الحساب معطّل على هذا المشروع</string>
+    <string name="attachproject_error_invalid_url">الرابط غير صالح</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">العودة</string>
+    <string name="attachproject_working_finish_button">انهاء</string>
+    <string name="attachproject_working_check_desc">تم بنجاح</string>
+    <string name="attachproject_working_failed_desc">فشل</string>
+    <string name="attachproject_working_ongoing">...</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">الاتصال</string>
+    <string name="attachproject_working_verify">التحقق من الحساب</string>
+    <string name="attachproject_working_register">تسجيل حساب</string>
+    <string name="attachproject_working_login">تسجيل الدخول</string>
+    <string name="attachproject_working_acctmgr">اضافة مدير الحساب</string>
+    <string name="attachproject_working_acctmgr_sync">مزامنة</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">اضغط هنا لإختيار مشروع.</string>
+    <string name="main_error">تنبيه</string>
+    <string name="main_error_long">لا يفترض حدوث ذلك اضغط على الأيقونة للمحاولة مرة أخرى</string>
+    <string name="main_title_icon_desc">أيقونة BOINC</string>
+    <!--tab names-->
+    <string name="tab_status">الحالة</string>
+    <string name="tab_projects">المشروعات</string>
+    <string name="tab_tasks">المهام</string>
+    <string name="tab_transfers">عمليات النقل</string>
+    <string name="tab_preferences">التفضيلات</string>
+    <string name="tab_notices">الإشعارات</string>
+    <string name="tab_desc">الملاحة</string>
+    <!--status strings-->
+    <string name="status_running">الحوسبة</string>
+    <string name="status_running_long">نشكركم للمشاركة</string>
+    <string name="status_paused">معلق</string>
+    <string name="status_idle">لا شيء للقيام به</string>
+    <string name="status_idle_long">في انتظار المهام</string>
+    <string name="status_computing_disabled">معلق</string>
+    <string name="status_computing_disabled_long">اضغط على تشغيل لاستئناف الشبكة والحساب.</string>
+    <string name="status_launching">جارى البدء</string>
+    <string name="status_noproject">اختر مشروع للمساهمه به</string>
+    <string name="status_closing">جارى الإغلاق</string>
+    <string name="status_benchmarking">قياس...</string>
+    <string name="status_image_description">صورة المشروع</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">قراءة التفضيلات</string>
+    <string name="prefs_submit_button">حفظ</string>
+    <string name="prefs_dialog_title">أدخل قيمة جديدة</string>
+    <string name="prefs_dialog_title_selection">اختر</string>
+    <string name="prefs_category_general">عام</string>
+    <string name="prefs_category_network">شبكة الاتصال</string>
+    <string name="prefs_category_power">الطاقة</string>
+    <string name="prefs_category_cpu">وحدة المعالجة المركزية</string>
+    <string name="prefs_category_storage">السعة التخزينية</string>
+    <string name="prefs_category_memory">الذاكرة</string>
+    <string name="prefs_category_debug">التصحيح</string>
+    <string name="prefs_show_advanced_header">إظهار التفضيلات المتقدمة والضوابط..</string>
+    <string name="prefs_suspend_when_screen_on">إيقاف مؤقت للعمليات الحسابية عند تشغيل الشاشة</string>
+    <string name="prefs_stationary_device_mode_header">وضع الجهاز الثابت</string>
+    <string name="prefs_stationary_device_mode_description">السماح بالحوسبة بغض النظر عن تفضيلات الطاقة، مكن فقط في حالة
+        عدم وجود بطارية بالجهاز.
+    </string>
+    <string name="prefs_power_source_header">مصدر الطاقة للحساب.</string>
+    <string name="prefs_power_source_description">حدد مصادر الطاقة المسموح لBOINC إستخدامها للقيام بالعمليات الحسابية.
+    </string>
+    <string name="prefs_power_source_ac">مقبس الحائط</string>
+    <string name="prefs_power_source_usb">اتصال USB</string>
+    <string name="prefs_power_source_wireless">شاحن لاسلكي</string>
+    <string name="prefs_power_source_battery">البطارية</string>
+    <string name="battery_charge_min_pct_header">الحد الادنى لمستوي البطارية</string>
+    <string name="battery_charge_min_pct_description">يقوم BOINC بتعليق العمليات الحسابية حين انخفاض نسبة البطارية عن
+        المستوى المقرر.
+    </string>
+    <string name="battery_temperature_max_header">اقصى درجة حرارة للبطارية</string>
+    <string name="battery_temperature_max_description">يقوم BOINC بوقف العمليات الحسابية عند تخطي البطارية درجة الحرارة
+        المقررة. لا ينصح بتغيير هذه القيمة.
+    </string>
+    <string name="prefs_disk_max_pct_header">الحد الاقصى للسعة التخزينية المستخدمة</string>
+    <string name="prefs_disk_max_pct_description">كم تكون النسبة المئوية من السعة التخزينية للجهاز المسموحة لBOINC
+        استخدامها؟
+    </string>
+    <string name="prefs_disk_min_free_gb_header">الحد الأدنى للسعة التخزينية</string>
+    <string name="prefs_disk_min_free_gb_description">ما حجم السعة التخزينية التى ستظل غير مستخدمة؟</string>
+    <string name="prefs_disk_access_interval_header">فاصل الوصول</string>
+    <string name="prefs_disk_access_interval_description">يقترح فاصلا بين الوصول إلى القرص</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">حد النقل اليومي</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">يقرر معدل حركة البيانات اليومية الخاصة بBOINC</string>
+    <string name="prefs_network_wifi_only_header">نقل المهام عن طريق الشبكة اللاسلكية فقط</string>
+    <string name="prefs_autostart_header">بدء تلقائي</string>
+    <string name="prefs_show_notification_notices_header">عرض الإخطار للإشعارات الجديدة</string>
+    <string name="prefs_show_notification_suspended_header">عرض الإخطار عند التعليق</string>
+    <string name="prefs_cpu_number_cpus_header">أنوية المعالج المستخدمة</string>
+    <string name="prefs_cpu_number_cpus_description">يقرر الحد الأقصى لعدد أنوية المعالج المستخدمة لعمليات BOINC
+        الحسابية.
+    </string>
+    <string name="prefs_cpu_other_load_suspension_header">إيقاف استخدام المعالج عند حد أقصاه</string>
+    <string name="prefs_cpu_other_load_suspension_description">يقرر الحد الأقصى الذى يتم عنده وقف عمليات BOINC لصالح
+        التطبيقات الأخرى.
+    </string>
+    <string name="prefs_cpu_time_max_header">الحد الأقصى للمعالج</string>
+    <string name="prefs_cpu_time_max_description">يقرر وقت المعالج المستغرق للقيام بعمليات BOINC الحسابية</string>
+    <string name="prefs_memory_max_idle_header">الحد الأقصى للذاكرة</string>
+    <string name="prefs_memory_max_idle_description">يقرر مساحة الذاكرة المسموح للهام احتلالها</string>
+    <string name="prefs_client_log_flags_header">أعلام سجل عميل BOINC</string>
+    <string name="prefs_gui_log_level_header">مستوى سجل واجهة المستخدم الرسومية</string>
+    <string name="prefs_gui_log_level_description">تحديد إسهاب رسائل سجل واجهة المستخدم الرسومية</string>
+    <string name="prefs_unit_celsius">درجة حرارة مئوية</string>
+    <string name="prefs_unit_seconds">ثانية</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">قراءة المشاريع</string>
+    <string name="projects_add">اضافة مشروع</string>
+    <string name="projects_icon">أيقونة المشروع</string>
+    <string name="projects_credits">الرصيد</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">علَّقه المستخدم</string>
+    <string name="projects_status_dontrequestmorework">لن يجلب مهام جديدة</string>
+    <string name="projects_status_ended">تم إنهاء المشورع - موافق لإزالة</string>
+    <string name="projects_status_detachwhendone">سيتم الإزالة حين إنهاء المهام</string>
+    <string name="projects_status_schedrpcpending">طَلبُ المُجَدوِِل في الطابور</string>
+    <string name="projects_status_schedrpcinprogress">يجري طلبُ المُجَدوِِل</string>
+    <string name="projects_status_trickleuppending">تراكم الرسائل المعلقة</string>
+    <string name="projects_status_backoff">لاتصال مقرر في:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">أوامر المشروع</string>
+    <string name="projects_control_visit_website">زيارة الموقع</string>
+    <string name="projects_control_update">حدِّث</string>
+    <string name="projects_control_remove">إزالة</string>
+    <string name="projects_control_suspend">علِّق</string>
+    <string name="projects_control_resume">عاود</string>
+    <string name="projects_control_nonewtasks">لا مهام جديدة</string>
+    <string name="projects_control_allownewtasks">اسمح بمهام جديدة</string>
+    <string name="projects_control_reset">إعادة الضبط</string>
+    <string name="projects_control_dialog_title_acctmgr">أوامر مدير الحسابات:</string>
+    <string name="projects_control_sync_acctmgr">مزامنة</string>
+    <string name="projects_control_remove_acctmgr">معطّل</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">إزالة المشروع؟</string>
+    <string name="projects_confirm_detach_message">هل أنت متأكد من رغبتك في إزالة</string>
+    <string name="projects_confirm_detach_message2">من BOINC؟</string>
+    <string name="projects_confirm_detach_confirm">إزالة</string>
+    <string name="projects_confirm_reset_title">صفِّر المشروع</string>
+    <string name="projects_confirm_reset_message">هل أنت متأكد من رغبتك فى إعادة الضبط؟</string>
+    <string name="projects_confirm_reset_message2">/؟</string>
+    <string name="projects_confirm_reset_confirm">إعادة الضبط</string>
+    <string name="projects_confirm_remove_acctmgr_title">تعطيل مدير الحسابات</string>
+    <string name="projects_confirm_remove_acctmgr_message">هل انت متأكد من رغبتك في إيقاف استخدام</string>
+    <string name="projects_confirm_remove_acctmgr_message2">/؟</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">معطّل</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">اسم المهمة:</string>
+    <string name="tasks_header_elapsed_time">الوقت المنقضي:</string>
+    <string name="tasks_header_project_paused">(معلق)</string>
+    <string name="tasks_header_deadline">الموعد النهائي:</string>
+    <string name="tasks_result_new">جديد</string>
+    <string name="tasks_result_files_downloading">في انتظار التنزيلات</string>
+    <string name="tasks_result_files_downloaded">انتهاء التنزيل</string>
+    <string name="tasks_result_compute_error">خطاء بالحسابات</string>
+    <string name="tasks_result_files_uploading">جاري الرفع</string>
+    <string name="tasks_result_files_uploaded">انتهاء الرفع</string>
+    <string name="tasks_result_aborted">إحباط</string>
+    <string name="tasks_result_upload_failed">فشل الرفع</string>
+    <string name="tasks_active_uninitialized">استعداد</string>
+    <string name="tasks_active_executing">جاري العمل</string>
+    <string name="tasks_active_suspended">معلق</string>
+    <string name="tasks_active_abort_pending">جاري الإيقاف</string>
+    <string name="tasks_active_quit_pending">جاري الإيقاف</string>
+    <string name="tasks_custom_suspended_via_gui">معلق</string>
+    <string name="tasks_custom_project_suspended_via_gui">المشروع معلق</string>
+    <string name="tasks_custom_ready_to_report">جاهز للتسليم</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">إحباط المهمة؟</string>
+    <string name="confirm_abort_task_message">إحباط المهمة:</string>
+    <string name="confirm_abort_task_confirm">إحباط</string>
+    <string name="confirm_cancel">إلغاء</string>
+    <string name="confirm_image_desc">محادثة التأكيد</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">قراءة حركة البيانات...</string>
+    <string name="trans_upload">رفع</string>
+    <string name="trans_download">تنزيل</string>
+    <string name="trans_retryin">اعادة المحاولة في غضون</string>
+    <string name="trans_failed">فشل</string>
+    <string name="trans_suspended">معلق</string>
+    <string name="trans_active">نشط</string>
+    <string name="trans_pending">قيد الانتظار</string>
+    <string name="trans_header_name">الملف</string>
+    <string name="trans_control_retry">إعادة محاولة نقل البيانات</string>
+    <string name="confirm_abort_trans_title">إحباط النقل؟</string>
+    <string name="confirm_abort_trans_message">إحباط الملف:</string>
+    <string name="confirm_abort_trans_confirm">إحباط</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">قراءة الإشعارات...</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">تحميل رسائل السجل...</string>
+    <string name="eventlog_client_header">رسائل العميل</string>
+    <string name="eventlog_gui_header">رسائل واجهة المستخدم الرسومية</string>
+    <string name="eventlog_copy_toast">تم نسخ السجل إلى الحافظة</string>
+    <string name="eventlog_email_subject">سجل أحداث BOINC بالاندرويد</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">تعليق العمليات الحسابية</string>
+    <string name="suspend_batteries">ضع هاتفك بالشاحن لمواصلة العمليات الحسابية.</string>
+    <string name="suspend_screen_on">إيقاف تشغيل الشاشة لمواصلة الحوسبة.</string>
+    <string name="suspend_useractive">المستخدم نشط.</string>
+    <string name="suspend_tod">انتهى الإطار الزمني للعمليات الحسابية.</string>
+    <string name="suspend_bm">يقوم BOINC بقياس جهازك...</string>
+    <string name="suspend_disksize">نفذت مساحة القرص.</string>
+    <string name="suspend_cputhrottle">خفض سرعة المعالج المقرر.</string>
+    <string name="suspend_noinput">لا يوجد نشاط مستخدم حديث.</string>
+    <string name="suspend_delay">مهلة التهئية</string>
+    <string name="suspend_exclusiveapp">تطبيق حصري قيد التنفيذ.</string>
+    <string name="suspend_cpu">جهازك مشغول بتطبيقات أخرى.</string>
+    <string name="suspend_network_quota">لقد وصل BOINC الحد الأقصى لنقل البيانات على الشبكة.</string>
+    <string name="suspend_os">تم الإيقاف من قبل الاندرويد.</string>
+    <string name="suspend_wifi">غير متصل بالشبكة اللاسلكية.</string>
+    <string name="suspend_battery_charging">في انتظار شحن البطارية</string>
+    <string name="suspend_battery_charging_long">ستسأنف العمليات الحسابية عند وصول طاقة البطارية إلى</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">حاليا</string>
+    <string name="suspend_battery_overheating">في انتظار انخفاض حرارة البطارية</string>
+    <string name="suspend_user_req">استئناف العمليات الحسابية</string>
+    <string name="suspend_network_user_req">يدويا.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">مطلوب من قبل المستخدم</string>
+    <string name="rpcreason_needwork">جلب العمل</string>
+    <string name="rpcreason_resultsdue">للإبلاغ عن المهام المكتملة</string>
+    <string name="rpcreason_trickleup">ارسال الرسائل المتراكمة</string>
+    <string name="rpcreason_acctmgrreq">مطلوب من قبل مدير الحسابات</string>
+    <string name="rpcreason_init">تهيئة المشروع</string>
+    <string name="rpcreason_projectreq">مطلوب من قبل المشروع</string>
+    <string name="rpcreason_unknown">سبب غير معلوم</string>
+    <!--menu-->
+    <string name="menu_refresh">اعادة التنشيط</string>
+    <string name="menu_emailto">ارسال كبريد إلكتروني</string>
+    <string name="menu_copy">نسخ إلى الحافظة</string>
+    <string name="menu_eventlog">سجل الأحداث</string>
+    <string name="menu_exit">الخروج من BOINC</string>
+    <string name="menu_run_mode_disable">علِّق</string>
+    <string name="menu_run_mode_enable">عاود</string>
+    <string name="menu_about">عن</string>
+    <string name="menu_help">مساعدة</string>
+    <!--about dialog-->
+    <string name="about_button">العودة</string>
+    <string name="about_title">عن</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">اصدار</string>
+    <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network
+        Computing
+    </string>
+    <string name="about_copyright">جامعة بيركلي بكاليفورنيا
+        \u00A9 2003–2018 
+    </string>
+    <string name="about_copyright_reserved">جميع الحقوق محفوظة</string>
+    <string name="about_credits">كل الشكر والتقدير لكل من معهد ماكس بلانك لفيزياء الجاذبية، شركة أي بي أم وشركة إتش تي
+        سي لدعمهم.
+    </string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">تم الكشف على تطبيق الحوسبة التطوعى</string>
+    <string name="nonexcl_dialog_text">هناك اصدار اخر من التطبيق قيد العمل على الجهاز, الرجاء العلم انه يمكنك تشغيل نسخة
+        واحدة فقط.
+    </string>
+    <string name="nonexcl_dialog_exit">خروج</string>
+    <!--social integration-->
+    <string name="social_invite_button">إضافة صديق</string>
+    <string name="social_invite_intent_title">كيف ترغب بالمشاركة؟</string>
+    <string name="social_invite_content_title">أنا أقوم بالعلوم على هاتفي الذكي!</string>
+    <string name="social_invite_content_body">أنا أستخدم %1$sالخاص بي للقيام بعمليات حسابية لصالح العلم. تسطيع القيام
+        بذلك أيضا قم بتحميل التطبيق من %2$s
+    </string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
+</resources>

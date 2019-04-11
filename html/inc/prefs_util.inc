@@ -23,6 +23,8 @@
 // PREF_NUM2: a pair of numbers (e.g. transfer limit)
 // PREF_HOUR_RANGE: a range of hours
 
+require_once("../inc/consent.inc");
+
 $venues = array("home", "school", "work");
 
 function check_venue($x) {
@@ -167,6 +169,129 @@ class PREF_BOOL extends PREF {
         $tag = $this->tag;
         $prefs->$tag = $this->default;
     }
+}
+
+class PREF_CONSENT extends PREF {
+    public $consent_type_id; // the consent_type_id from the consent_type table
+    public $consent_name; // the consent_name to configure
+    public $default;
+    public $invert;     // show to user in opposite sense
+
+    function __construct($desc, $tooltip, $tag, $consent_type_id, $consent_name, $default, $invert=false) {
+        $this->consent_type_id = $consent_type_id;
+        $this->consent_name = $consent_name;
+        $this->default = $default;
+        $this->invert = $invert;
+        parent::__construct($desc, $tooltip, $tag);
+    }
+
+    // multi-column display (read only)
+    //
+    function consent_show_cols($user) {
+        global $venues;
+        $this->tooltip_tr();
+        echo "<td class=\"text-right \">$this->desc</td>";
+        $consent_type_id = $this->consent_type_id;
+        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        if ($cr) {
+            $this->show_value($user);
+        } else {
+            echo "<td>---</td>";
+        }
+        foreach ($venues as $v) {
+            echo "<td>--</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    // show read-only row
+    //
+    function consent_show($user) {
+        $this->tooltip_tr();
+        echo "<td class=\"text-right \">$this->desc</td>";
+        $consent_type_id = $this->consent_type_id;
+        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        if ($cr) {
+            $this->show_value($user);
+        } else {
+            echo "<td>---</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    function consent_show_form_row($user, $error) {
+        $this->tooltip_tr();
+        echo "<td ".NAME_ATTRS.">$this->desc</td>";
+        $this->show_form($user, $error);
+        echo "</tr>\n";
+    }
+
+    function show_value($user) {
+        $consent_type_id = $this->consent_type_id;
+        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        if ($cr) {
+            $value = $cr->consent_flag;
+        } else {
+            $value = false;
+        }
+        echo "<td>" . readonly_checkbox($value) . "</td>";
+    }
+    function show_form($user, $error) {
+        $consent_type_id = $this->consent_type_id;
+        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        if ($cr) {
+            if ($this->invert) {
+                $checked = !$cr->consent_flag;
+            } else {
+                $checked = $cr->consent_flag;
+            }
+        } else {
+            $checked = ($this->invert ? true : false);
+        }
+        echo "<td ".VALUE_ATTRS.">"
+            ."<input type=checkbox name=$this->tag "
+            . ($checked?"checked":"")
+            ."></td>
+        ";
+    }
+    function parse_form(&$user, &$error) {
+        // This function parses the form AND performs the database update
+        $tag = $this->tag;
+        $consent_type_id = $this->consent_type_id;
+        $formget = array_key_exists($tag, $_GET);
+        if ($this->invert) $formget = !$formget;
+        $flag = ($formget ? 1 : 0);
+
+        // Check to see if latest consent of this name is already
+        // given, i.e., consent_flag set to "formget". If not, consent
+        // to this consent type.
+        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+
+        if ( (($cr) and ($cr->consent_flag!=$flag)) or
+             (!$cr) ) {
+            $rc = consent_to_a_policy($user, $consent_type_id, $flag, 0, 'Webform', time());
+            if (!$rc) {
+                error_page(tra("Database error:").BoincDb::error());
+            }
+        }
+    }
+    // xml_string should not be used for this class
+    function xml_string($prefs) {
+        return "";
+    }
+    // xml_parse should not be used for this class
+    function xml_parse(&$prefs, $name, $text) {
+        return false;
+    }
+    function set_default(&$user) {
+        $consent_type_id = $this->consent_type_id;
+
+        $rc = consent_to_a_policy($user, $consent_type_id, $this->default, 0, 'Webform');
+        if (!$rc) {
+            error_page(tra("Database error:").BoincDb::error());
+        }
+    }
+
 }
 
 class NUM_SPEC {

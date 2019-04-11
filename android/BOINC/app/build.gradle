@@ -13,14 +13,14 @@ def buildVersionCode() {
     def head = repo.head()
 
     // Sanity check across git plugins
-    assert head.getAbbreviatedId(10) == versionDetails().gitHash : "Internal error: SHA1 mismatch!"
+    assert head.getAbbreviatedId(10) == versionDetails().gitHash: "Internal error: SHA1 mismatch!"
 
     return head.time
 }
 
 // Derive version name from release tag and add commit SHA1
 def buildVersionName() {
-    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.].*)/
+    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.]?.*)/
     def version = ': DEVELOPMENT'
 
     def head = versionDetails()
@@ -28,15 +28,14 @@ def buildVersionName() {
     def match = (tag =~ pattern)
 
     // Sanity checks for tag format
-    if(match.hasGroup() && 1 == match.size() && 5 == match[0].size() && head.commitDistance == 0) {
+    if (match.hasGroup() && 1L == match.size() && 5L == match[0].size() && head.commitDistance == 0) {
         def major = match.group('major')
         def minor = match.group('minor')
         def revision = match.group('revision')
         def suffix = match.group('suffix')
         version = "${major}.${minor}.${revision}${suffix}"
-        assert !suffix.endsWith('.dirty') : "Dirty working tree detected! Preventing release build!"
-    }
-    else {
+        assert !suffix.endsWith('.dirty'): "Dirty working tree detected! Preventing release build!"
+    } else {
         println "Warning! Non-release tag or offset found: $tag (offset: $head.commitDistance)"
         println "Flagging as DEVELOPMENT build..."
     }
@@ -47,13 +46,13 @@ def buildVersionName() {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "edu.berkeley.boinc"
-        minSdkVersion 16
-        targetSdkVersion 23
+        minSdkVersion 19
+        targetSdkVersion 28
         versionCode buildVersionCode()
         versionName buildVersionName()
     }
@@ -71,5 +70,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.+'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 }

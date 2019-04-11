@@ -261,7 +261,7 @@ struct APP {
         // Limit on # of concurrent jobs of this app; 0 if none
         // Specified in app_config.xml
         // Can also specify in client_state.xml (for client emulator)
-    int n_concurrent;
+    int app_n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
     COPROC_INSTANCE_BITMAP non_excluded_instances[MAX_RSC];
         // for each resource type, bitmap of the non-excluded instances
@@ -292,7 +292,6 @@ struct APP_VERSION {
     char plan_class[64];
     char api_version[16];
     double avg_ncpus;
-    double max_ncpus;
     GPU_USAGE gpu_usage;    // can only use 1 GPU type
     double gpu_ram;
     double flops;

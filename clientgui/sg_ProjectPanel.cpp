@@ -446,9 +446,14 @@ void CSimpleProjectPanel::UpdateProjectList() {
                 }
             }
 
-            // if it isn't currently in the list then we have a new one!  lets add it
-            if ( !found ) {
-                wxString projname(project->project_name.c_str(), wxConvUTF8);
+            // add new project
+            //
+            if (!found) {
+                const char* p = project->project_name.c_str();
+                if (strlen(p) == 0) {
+                    p = project->master_url;
+                }
+                wxString projname(p, wxConvUTF8);
 #if SORTPROJECTLIST
                 int alphaOrder;
                 for(j = 0; j < ctrlCount; ++j) {

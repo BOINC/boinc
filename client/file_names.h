@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -70,6 +70,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #endif
 #define CLIENT_OPAQUE_FILENAME      "client_opaque.txt"
 #define CONFIG_FILE                 "cc_config.xml"
+#define NVC_CONFIG_FILE             "nvc_config.xml"
 #define COPROC_INFO_FILENAME        "coproc_info.xml"
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
@@ -80,6 +81,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define GLOBAL_PREFS_OVERRIDE_FILE  "global_prefs_override.xml"
 #define JOB_LOG_BASE                "job_log_"
 #define KEYWORD_FILENAME            "keywords.xml"
+#define LOGIN_TOKEN_LOOKUP_REPLY    "login_token_lookup_reply.xml"
 #define LOOKUP_ACCOUNT_FILENAME     "lookup_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define MASTER_BASE                 "master_"

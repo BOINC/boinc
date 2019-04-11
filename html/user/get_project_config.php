@@ -16,8 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/consent.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
+require_once("../inc/server_version.inc");
 
 BoincDb::get(true);
 xml_header();
@@ -48,6 +50,7 @@ function show_platforms() {
 }
 
 $config = get_config();
+global $master_url;
 $long_name = parse_config($config, "<long_name>");
 
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
@@ -61,6 +64,12 @@ echo "<project_config>
     <master_url>$master_url</master_url>
     <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
+
+echo "<server_version>$server_version_str</server_version>\n";
+
+if (parse_config($config, "<account_manager>")) {
+    echo "    <account_manager/>\n";
+}
 
 $local_revision = @trim(file_get_contents("../../local.revision"));
 if ($local_revision) {
@@ -99,10 +108,22 @@ if ($min_core_client_version) {
 
 show_platforms();
 
-$tou_file = "../../terms_of_use.txt";
+// Conditional added to allow for backwards-compatability. If a
+// project has not defined the constant TERMSOFUSE_FILE, then look for
+// the terms_of_use.txt file in the project base directory.
+//
+if (defined('TERMSOFUSE_FILE')) {
+  $tou_file = TERMSOFUSE_FILE;
+} else {
+  $tou_file =  "../../terms_of_use.txt";
+}
 if (file_exists($tou_file)) {
     $terms_of_use = trim(file_get_contents($tou_file));
-    if ($terms_of_use) {
+
+    // Also check consent type ENROLL is enabled.
+    //
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+    if ($terms_of_use and $checkct) {
         echo "    <terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
     }
 }

@@ -91,12 +91,15 @@ foreach ($categories as $category) {
         echo "<p>";
         show_mark_as_read_button($user);
         start_table('table-striped');
-        row_heading_array(array(
-            tra("Topic"),
-            tra("Threads"),
-            tra("Posts"),
-            tra("Last post")
-        ));
+        row_heading_array(
+            array(
+                tra("Topic"),
+                tra("Threads"),
+                tra("Posts"),
+                tra("Last post")
+            ),
+            array("width=30%", "", "", "")
+        );
     }
     if (strlen($category->name)) {
         echo '

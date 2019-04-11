@@ -179,8 +179,8 @@ function boincteam_create_form_submit($form, &$form_state) {
     user_join_team($boinc_team, $boinc_user);
   }
   else {
-    drupal_set_message(t('Teams cannot be created at this time. Please 
-      contact the @project administrators!', array('@project' => PROJECT)));
+    drupal_set_message(t('Teams cannot be created at this time. The @project administrators have been notified.', array('@project' => PROJECT)));
+    rules_invoke_event('boincteam_create_team_error', $values['name']);
     watchdog('BOINC team', 'BOINC teams cannot be created for an unknown
       reason.', 'error');
     return FALSE;
@@ -214,8 +214,8 @@ function boincteam_create_form_submit($form, &$form_state) {
     $node['path'] = pathauto_cleanstring($values['name']);
   }
   else {
-    drupal_set_message(t('Teams cannot be created at this time. Please 
-      contact the @project administrators!', array('@project' => PROJECT)));
+    drupal_set_message(t('Teams cannot be created at this time. The @project administrators have been notified.', array('@project' => PROJECT)));
+    rules_invoke_event('boincteam_create_team_nopathauto_error', $values['name']);
     watchdog('BOINC team', 'BOINC teams require the Pathauto module. Teams
       cannot be created.', 'error');
   }
@@ -450,7 +450,7 @@ function boincteam_edit_form_submit($form, &$form_state) {
   $values['description'] = check_markup($values['description'], $input_format);
   
   // Update the team in the BOINC db
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     UPDATE {team} SET
       name = '%s',
@@ -516,15 +516,17 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   $form_state['storage']['team_id'] = $team_id;
   
   $default = array(
-    'email' => '',
+    'username' => '',
   );
   
   // Form elements
-  $form['email'] = array(
-    '#title' => bts('Enter email address', array(), NULL, 'boinc:team--add-admin'),
+  $form['username'] = array(
+    '#title' => bts('Enter BOINC username', array(), NULL, 'boinc:team--add-admin'),
+    '#description' => bts('The number appearing in the suffix is the BOINC id. You can find a user\'s BOINC id on their user profile page.'),
     '#type' => 'textfield',
-    '#default_value' => $default['email'],
+    '#default_value' => $default['username'],
     '#size' => 34,
+    '#autocomplete_path' => "community/teams/${team_id}/user-name-autocomplete",
   );
   
   // Form control
@@ -553,19 +555,24 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
 
   $team_id = $form_state['storage']['team_id'];
   $values = $form_state['values'];
-  
   $team = node_load($team_id);
   
-  if (!$values['email']) {
-    form_set_error('email', bts('Email address is required.', array(), NULL, 'boinc:team-add-admin'));
+  if (!$values['username']) {
+    form_set_error('username', bts('BOINC username is required.', array(), NULL, 'boinc:team-add-admin'));
   }
   else {
-    $account = user_load(array('mail' => $values['email']));
+    // Load user account associated with username
+    $account = boincuser_privatemsg_name_lookup($values['username']);
+    // Validate the account
     if ((!$account) OR ($account->team != $team_id)) {
-      form_set_error('email', bts('There is no user on your team with that email address.', array(), NULL, 'boinc:team-add-admin'));
+      form_set_error('username', bts('There is no user on your team with name @username.',
+        array(
+          '@username' => $account->boincuser_name
+        ),
+      NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_founder($team_id, $account->uid)) {
-      form_set_error('email', bts('@user is the founder of @team!',
+      form_set_error('username', bts('@user is the founder of @team! Team founder already have all admin privileges.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
@@ -573,7 +580,7 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
         NULL, 'boinc:team-add-admin'));
     }
     elseif (boincteam_is_admin($team_id, $account->uid)) {
-      form_set_error('email', bts('@user is already an admin of @team.',
+      form_set_error('username', bts('@user is already an admin of @team.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
@@ -601,7 +608,7 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
   $boincteam_id = boincteam_lookup_id($team_id);
   
   // Update the team in the BOINC db
-  db_set_active('boinc');
+  db_set_active('boinc_rw');
   db_query("
     INSERT INTO {team_admin} SET
       teamid = '%d',
@@ -621,4 +628,222 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
     
   // The storage variable quietly kills redirection for some reason... unset it
   unset($form_state['storage']);
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Team email functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+
+/**
+ * Send all team members an email message function
+ */
+function boincteam_sendmessagetoteam(&$form_state, $team_id) {
+  global $user;
+  $form = array();
+
+  if (isset($form_state['values'])) {
+    $subject   = $form_state['values']['subject'];
+    $body      = $form_state['values']['body'];
+  }
+  else {
+    $subject   = '';
+    $body      = '';
+  }
+
+  // Title
+  $mytitle = bts('Send E-mail To All Team Members', array(), NULL, 'boinc:team-message-form');
+  drupal_set_title($mytitle);
+
+  $form['emailteam']['header'] = array(
+    '#value'              => '<h1>' . $mytitle . '</h1>',
+    '#weight'             => '-10',
+    '#prefix'             => "<div id='sendmessageteammembers-header'>",
+    '#suffix'             => "</div>",
+  );
+
+  $form['emailteam']['instructions'] = array(
+    '#value'              => bts('This will send an email to all team members. If a team member has opt-ed out of notification e-mails, they will not receive your message. At the bottom of your message, there will be a link allowing team members to send you a Direct Message. This link is added automatically, you do not need to add it below in the Message box. Your email address will not be shown to the recipients.', array(), NULL, 'boinc:team-message-form'),
+    '#weight'             => '-8',
+    '#prefix'             => "<div id='sendmessageteammembers-instructions'>",
+    '#suffix'             => "</div>",
+  );
+
+  // Subject
+  $form['emailteam']['subject'] = array(
+    '#type'               => 'textfield',
+    '#title'              => bts('Subject', array(), NULL, 'boinc:team-message-form'),
+    '#size'               => 50,
+    '#maxlength'          => 255,
+    '#default_value'      => $subject,
+    '#weight'             => -5,
+  );
+
+  // Body
+  $form['emailteam']['body'] = array(
+    '#type'               => 'textarea',
+    '#title'              => bts('Message', array(), NULL, 'boinc:team-message-form'),
+    '#rows'               => 8,
+    '#weight'             => 0,
+    '#default_value'      => $body,
+    '#resizable'          => TRUE,
+  );
+
+  // checkbox for 'sent to self'
+  $form['emailteam']['selfsend'] = array(
+    '#type'    => 'checkbox',
+    '#title'   => bts('Check this box if you wish to be sent a copy of your message to your email address.', array(), NULL, 'boinc:team-message-form'),
+    '#weight'  => 10,
+    '#prefix'  => '<div class="clearfix" id="confirm-checkbox">',
+    '#suffix'  => '</div>',
+  );
+
+  // Add a captcha to form
+  if (module_exists('captcha')) {
+    $form['register_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 1000,
+    );
+  }
+
+  // form buttons
+  $form['emailteam']['form control tabs prefix'] = array(
+    '#value'  => '<ul class="form-control tab-list">',
+    '#weight' => 1000,
+  );
+
+  $form['emailteam']['submit'] = array(
+    '#type'               => 'submit',
+    '#value'              => bts('Send message', array(), NULL, 'boinc:form-submit'),
+    '#submit'             => array('boincteam_sendmessagetoteam_submit'),
+    '#validate'           => array('boincteam_sendmessagetoteam_validate'),
+    '#weight'             => 1001,
+    '#prefix'             => '<li class="first tab">',
+    '#suffix'             => '</li>'
+  );
+
+  $title = bts('Cancel', array(), NULL, 'boinc:form-cancel');
+  $url = "community/teams/{$team_id}";
+  $form['emailteam']['cancel'] = array(
+    '#value'              => l($title, $url, array('attributes' => array('id' => 'edit-cancel'))),
+    '#weight'             => 1005,
+    '#prefix'             => '<li class="tab">',
+    '#suffix'             => '</li>'
+  );
+
+  $form['emailteam']['form control tabs suffix'] = array(
+    '#value'  => '</ul>',
+    '#weight' => 1010,
+  );
+
+  // Add team id information to form_state
+  $form['_team_id'] = array(
+    '#type'  => 'value',
+    '#value' => $team_id,
+  );
+
+  // Add sender user object to form_state
+  $form['_senderuid'] = array(
+    '#type'  => 'value',
+    '#value' => $user->uid,
+  );
+
+  // redirect after sending message
+  $form['#redirect'] = "community/teams/{$team_id}";
+
+  return $form;
+}
+
+/**
+ * Send all team members validation handler
+ */
+function boincteam_sendmessagetoteam_validate($form, &$form_state) {
+  $message = $form_state['values'];
+  $message['timestamp'] = time();
+  // Avoid subjects which only consist of a space as these can not be clicked.
+  $message['subject'] = trim($message['subject']);
+
+  $trimed_body = trim(truncate_utf8(strip_tags($message['body']), 50, TRUE, TRUE));
+  if (empty($message['subject']) && !empty($trimed_body)) {
+    $message['subject'] = $trimed_body;
+    $form_state['values']['subject'] = $message['subject'];
+  }
+
+  // Check subject line
+  $message['subject'] = trim($message['subject']);
+  if (empty($message['subject'])) {
+    form_set_error('subject',
+      bts('Not allowed to send a message without subject', array(), NULL, 'boinc:team-message-form')
+    );
+  }
+
+  // Check body
+  if ( ($message['body'] === NULL || $message['body'] === '') ) {
+    form_set_error('body',
+      bts('Not allowed to send an empty message.', array(), NULL, 'boinc:team-message-form')
+    );
+  }
+
+  // Check team id
+  if (empty($message['_team_id'])) {
+    form_set_error('team_id',
+      bts('Error, no team_id supplied.', array(), NULL, 'boinc:team-message-form')
+    );
+  }
+
+  $form_state['validated_built_message'] = $message;
+}
+
+/**
+ * Send all team members submit handler
+ */
+function boincteam_sendmessagetoteam_submit($form, &$form_state) {
+  module_load_include('inc', 'rules', 'modules/system.rules');
+  global $base_url;
+  global $base_path;
+
+  $suid = $form_state['values']['_senderuid'];
+  $account = user_load(array('uid' => $suid ));
+  $site_url = $base_url . $base_path . "messages/new/" . $suid;
+
+  // Form is validated, now send to all team members. Lookup boinc
+  // id of all team members, and then use user_load() to load user
+  // object. Send message using email.
+  //
+  $boinc_id = boincteam_lookup_id($form_state['values']['_team_id']);
+  // Email addresses, with those who have opt-ed out of notification
+  // emails removed.
+  $member_emails = _boincteam_emails($boinc_id);
+  // Remove sender's email address, unless selfsend is true.
+  if ( !$form_state['values']['selfsend'] ) {
+    $pos = array_search($account->mail, $member_emails);
+    unset($member_emails[$pos]);
+  }
+
+  // Add link at bottom of body
+  $mybody = $form_state['validated_built_message']['body'];
+  $mybody .= "\n\n"
+      . "To reply to the sender using a Direct Message (DM), please use this link:\n"
+      . "${site_url}";
+
+  $emailsettings = array(
+    'from'    => '',
+    'to'      => "webmaster@{$base_url}",
+    'boincteam_headers' => array(
+      'Bcc'     => implode(',', $member_emails),
+    ),
+    'subject' => $form_state['validated_built_message']['subject'],
+    'message' => $mybody,
+  );
+  rules_action_mail($emailsettings);
+
+  $om = bts(
+    'Sent your email message to !number team members.',
+    array( '!number' => count($member_emails) ),
+    'NULL',
+    'boinc:team-message-sent'
+  );
+  drupal_set_message($om, 'info');
+
+  $form_state['redirect'] = "community/teams/{$form_state['values']['_team_id']}";
 }

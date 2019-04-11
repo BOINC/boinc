@@ -22,7 +22,7 @@ class views_handler_field_locale_language extends views_handler_field {
   }
 
   function render($values) {
-    $languages = locale_language_list(empty($this->$options['native_language']) ? 'name' : 'native');
+    $languages = locale_language_list(empty($this->{$options['native_language']}) ? 'name' : 'native');
     return isset($languages[$values->{$this->field_alias}]) ? $languages[$values->{$this->field_alias}] : '';
   }
 }

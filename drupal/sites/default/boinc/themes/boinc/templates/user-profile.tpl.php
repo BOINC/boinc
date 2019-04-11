@@ -54,6 +54,7 @@ $website = check_plain($content_profile->field_url[0]['value']);
 $background = check_markup($content_profile->field_background[0]['value'], $content_profile->format, FALSE);
 $opinions = check_markup($content_profile->field_opinions[0]['value'], $content_profile->format, FALSE);
 $user_links = array();
+$user_links2l = array();
 $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
 $user_is_moderator = user_access('edit any profile content');
 $is_own_profile = ($user->uid == $account->uid);
@@ -98,17 +99,49 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       );
     }
   }
+
+  if (module_exists('ignore_user')) {
+    static $ignored;
+    if ($user->uid != $account->uid && $account->uid != 0 && user_access('ignore user')) {
+      if (!isset($ignored[$account->uid])) {
+        $ignored[$account->uid] = db_result(db_query('SELECT COUNT(*) FROM {ignore_user} WHERE uid = %d AND iuid = %d', $user->uid, $account->uid));
+      }
+      if ($ignored[$account->uid] == 0) {
+        $ignore_link = array(
+          'title' => bts('Ignore user', array(), NULL, 'boinc:ignore-user-add'),
+          'href' => 'account/prefs/privacy/ignore_user/add/'. $account->uid,
+          'query' => 'destination='. $_GET['q'],
+          'attributes' => array(
+            'class' => 'ignore-user',
+            'title' => bts('Add user to your ignore list', array(), NULL, 'boinc:ignore-user-add'),
+          ),
+        );
+      }
+      else {
+        $ignore_link = array(
+          'title' => bts('Stop Ignoring user', array(), NULL, 'boinc:ignore-user-add'),
+          'href' => 'account/prefs/privacy/ignore_user/remove/'. $account->uid,
+          'query' => 'destination='. $_GET['q'],
+          'attributes' => array(
+            'class' => 'ignore-user',
+            'title' => bts('Remove user from your ignore list', array(), NULL, 'boinc:ignore-user-add'),
+          ),
+        );
+      }
+    $user_links2l[] = $ignore_link;
+    }
+  }
   
   if (user_access('assign community member role')
       OR user_access('assign all roles')) {
     if (array_search('community member', $account->roles)) {
-      $user_links[] = array(
+      $user_links2l[] = array(
         'title' => bts('Ban user', array(), NULL, 'boinc:moderate-ban-user'),
         'href' => "moderate/user/{$account->uid}/ban"
       );
     }
     else {
-      $user_links[] = array(
+      $user_links2l[] = array(
         'title' => bts('Lift user ban', array(), NULL, 'boinc:moderate-unban-user'),
         'href' => "user_control/{$account->uid}/lift-ban"
       );
@@ -130,38 +163,41 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="label"></span>
       <span class="value"><?php print $name; ?></span>
     </div>
-    <div class="join-date">
-      <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-info'); ?>:</span>
-      <span class="value"><?php print $join_date; ?></span>
-    </div>
-    <div class="country">
-      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
-      <span class="value"><?php print $country; ?></span>
-    </div>
-    <div class="boincid">
-      <span class="value"><?php print bts('BOINC ID', array(), NULL, 'boinc:boincid'); ?>:</span>
-      <span class="value"><?php print $boincid; ?></span>
-    </div>
-    <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
-      <div class="website">
-        <span class="label"><?php print bts('Website', array(), NULL, 'boinc:website-of-user-of-team'); ?>:</span>
-        <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
+    <?php if ($account->status==1): ?>
+      <div class="join-date">
+        <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-info'); ?>:</span>
+        <span class="value"><?php print $join_date; ?></span>
       </div>
-    <?php endif; ?>
-    <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
-      <ul class="tab-list">
-        <?php foreach ($user_links as $key => $link): ?>
-          <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links)-1) ? ' last' : ''; ?>">
-            <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
-          </li>
-          <!--
-          <?php if (module_exists('private_messages')): ?>
-            <li class="first tab"><?php print l(bts('Send message', array(), NULL, 'boinc:private-message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
-          <?php endif; ?>
-          <li class="last tab"><?php print l(bts('Add as friend', array(), NULL, 'boinc:friend-add'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>
-          -->
-        <?php endforeach; ?>
-      </ul>
+      <div class="country">
+        <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
+        <span class="value"><?php print $country; ?></span>
+      </div>
+      <div class="boincid">
+        <span class="value"><?php print bts('BOINC ID', array(), NULL, 'boinc:boincid'); ?>:</span>
+        <span class="value"><?php print $boincid; ?></span>
+      </div>
+      <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
+        <div class="website">
+          <span class="label"><?php print bts('Website', array(), NULL, 'boinc:website-of-user-of-team'); ?>:</span>
+          <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
+        </div>
+      <?php endif; ?>
+      <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
+        <ul class="tab-list">
+          <?php foreach ($user_links as $key => $link): ?>
+            <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links)-1) ? ' last' : ''; ?>">
+              <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+        <ul class="tab-list">
+          <?php foreach ($user_links2l as $key => $link): ?>
+            <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links2l)-1) ? ' last' : ''; ?>">
+              <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
     <?php endif; ?>
     <div class="clearfix"></div>
   </div>

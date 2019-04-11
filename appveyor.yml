@@ -11,15 +11,50 @@ platform:
 pull_requests:
   do_not_increment_build_number: true
 
+notifications:
+  - provider: Email
+    to:
+      - boinc_cvs@ssl.berkeley.edu
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
+
 branches:
   only:
   - master
 
 skip_tags: true
 
+skip_commits:
+  files:
+    - 3rdParty/*.sh
+    - android/
+    - client/android/
+    - client/os2/
+    - client/scripts/
+    - clientgui/gtk/
+    - clientgui/mac/
+    - clientgui/skins/
+    - db/
+    - doc/
+    - drupal/
+    - html/
+    - lib/mac/
+    - locale/
+    - m4/
+    - mac_build/
+    - mac_installer/
+    - packages/
+    - py/
+    - stripchart/
+    - test/
+    - tools/
+    - vda/
+    - xcompile/
+
 configuration:
-  - Debug
-#  - Release
+#  - Debug
+  - Release
 
 environment:
   matrix:
@@ -27,9 +62,11 @@ environment:
       solution_name: win_build\boinc_vs2013.sln
       depends_git_path: http://boinc.berkeley.edu/git/boinc_depends_win_vs2013.git
       depends_path: C:\projects\boinc_depends_win_vs2013
+  BINTRAY_API_KEY:
+    secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
 
 cache:
-  - C:\projects\boinc_depends_win_vs2013
+  - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
 
 before_build:
   - call win_build\load_dependencies.bat %depends_git_path% %depends_path% %platform% %configuration%
@@ -37,5 +74,17 @@ before_build:
 
 build_script:
   - devenv %solution_name% /Build "%configuration%|%platform%"
+
+after_build:
+  - call deploy\prepare_deployment.bat
+  - call deploy\deploy_to_bintray.bat
+
+artifacts:
+  - path: deploy\win-apps\*.7z
+    name: win-apps
+  - path: deploy\win-client\*.7z
+    name: win-client
+  - path: deploy\win-manager\*.7z
+    name: win-manager
 
 test: off

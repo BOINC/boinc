@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -69,6 +69,12 @@ void HOST_INFO::clear_host_info() {
 
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
+
+    wsl_available = false;
+#ifdef _WIN64
+    wsls.clear();
+#endif
+
     safe_strcpy(product_name, "");
     safe_strcpy(mac_address, "");
 
@@ -124,6 +130,13 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_double("d_free", d_free)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
+#ifdef _WIN64
+        if (xp.parse_bool("os_wsl_enabled", wsl_available)) continue;
+        if (xp.match_tag("wsl")) {
+            this->wsls.parse(xp);
+            continue;
+        }
+#endif
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.match_tag("coprocs")) {
@@ -191,7 +204,8 @@ int HOST_INFO::write(
         "    <d_free>%f</d_free>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
-        "    <n_usable_coprocs>%d</n_usable_coprocs>\n",
+        "    <n_usable_coprocs>%d</n_usable_coprocs>\n"
+        "    <wsl_available>%d</wsl_available>\n",
         host_cpid,
         p_ncpus,
         pv,
@@ -209,8 +223,18 @@ int HOST_INFO::write(
         d_free,
         osn,
         osv,
-        coprocs.ndevs()
+        coprocs.ndevs(),
+#ifdef _WIN64
+        wsl_available ? 1 : 0
+#else
+        0
+#endif
     );
+#ifdef _WIN64
+    if (wsl_available) {
+        wsls.write_xml(out);
+    }
+#endif
     if (strlen(product_name)) {
         xml_escape(product_name, pn, sizeof(pn));
         out.printf(

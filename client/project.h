@@ -176,6 +176,9 @@ struct PROJECT : PROJ_AM {
         // This provides only the illusion of security.
     bool use_symlinks;
     bool report_results_immediately;
+    bool sched_req_no_work[MAX_RSC];
+        // the last sched request asked for work for resource i
+        // and didn't get any
 
     // items sent in scheduler replies,
     // requesting that various things be sent subsequent requests
@@ -241,7 +244,7 @@ struct PROJECT : PROJ_AM {
     bool some_result_suspended();
     bool uploading();
     bool has_results();
-    int n_concurrent;
+    int proj_n_concurrent;
         // used to enforce APP_CONFIGS::max_concurrent
 
     struct RESULT *next_runnable_result;

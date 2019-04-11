@@ -61,7 +61,7 @@ CACleanupOldBinaries::~CACleanupOldBinaries()
 UINT CACleanupOldBinaries::OnExecution()
 {
     tstring     strInstallDirectory;
-    UINT        uiReturnValue = -1;
+    UINT        uiReturnValue;
 
 
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );

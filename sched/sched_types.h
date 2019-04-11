@@ -66,7 +66,6 @@ struct HOST_USAGE {
     double gpu_usage;
     double gpu_ram;
     double avg_ncpus;
-    double max_ncpus;
     double mem_usage;
         // mem usage if specified by the plan class
         // (overrides wu.rsc_memory_bound)
@@ -86,7 +85,6 @@ struct HOST_USAGE {
         gpu_usage = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
-        max_ncpus = 1;
         mem_usage = 0;
         projected_flops = 0;
         peak_flops = 0;
@@ -98,7 +96,6 @@ struct HOST_USAGE {
         gpu_usage = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
-        max_ncpus = 1;
         mem_usage = 0;
         if (flops <= 0) flops = 1e9;
         projected_flops = flops;
@@ -347,6 +344,7 @@ struct SCHEDULER_REQUEST {
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
     USER_KEYWORDS user_keywords;
+    int user_id;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};

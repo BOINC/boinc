@@ -56,7 +56,7 @@ function boincimport_admin_settings() {
   // Where is BOINC data?
   $pre = variable_get('boincimport_table_prefix', '');
   $tables = array($pre .'forum', $pre .'post', $pre .'thread', $pre .'user');
-  $db = (is_array($db_url) AND isset($db_url['boinc'])) ? 'boinc' : 'default';
+  $db = (is_array($db_url) AND isset($db_url['boinc_rw'])) ? 'boinc_rw' : 'default';
   $result = _boincimport_check_tables($tables, $db, 0);
   
   $config_path = conf_path();

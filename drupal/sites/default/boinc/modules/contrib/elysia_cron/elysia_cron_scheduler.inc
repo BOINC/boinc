@@ -32,16 +32,16 @@ function _elysia_cron_next_run($conf) {
 
   $rule = array($rules[1], $rules[2], array($rules[3], $rules[5]), $rules[4]);
   $ruledec = array();
-  $date = __cronDecodeDate($conf['last_run'], 1);
-  $expected_date = __cronDecodeDate(!empty($conf['last_run_expected']) ? $conf['last_run_expected'] : 0);
+  $date = _cronDecodeDate($conf['last_run'], 1);
+  $expected_date = _cronDecodeDate(!empty($conf['last_run_expected']) ? $conf['last_run_expected'] : 0);
   
   for ($i = 0; $i < 4; $i++) {
     if ($i != 2) {
       // Standard scheme for mins, hours, month
-      $ruledec[$i] = __cronDecodeRule($rule[$i], $ranges[$i][0], $ranges[$i][1]);
+      $ruledec[$i] = _cronDecodeRule($rule[$i], $ranges[$i][0], $ranges[$i][1]);
     } else {
       // For mday+week we follow another scheme
-      $ruledec[$i] = __cronDecodeRuleMday($rule[2], $date[3], $date[4]);
+      $ruledec[$i] = _cronDecodeRuleMday($rule[2], $date[3], $date[4]);
     }
     $r = $ruledec[$i];
     $new = $date[$i];
@@ -52,7 +52,7 @@ function _elysia_cron_next_run($conf) {
       $new = $expected_date[$i] + ceil(($date[$i] - $expected_date[$i]) / $r['d']) * $r['d'];
     }
     elseif ($r['n']) {
-      $new = __cronNextOrEqual($date[$i], $r['n'], $ranges[$i][0], $ranges[$i][1]);
+      $new = _cronNextOrEqual($date[$i], $r['n'], $ranges[$i][0], $ranges[$i][1]);
     }
     if ($new != $date[$i]) {
       $date[$i] = $new;
@@ -63,7 +63,7 @@ function _elysia_cron_next_run($conf) {
       for ($j = 0; $j < $i; $j++) {
         if ($j == 2) {
           // For mday+week decoded rule could be changed (by month+year)
-          $ruledec[$j] = __cronDecodeRuleMday($rule[2], $date[3], $date[4]);
+          $ruledec[$j] = _cronDecodeRuleMday($rule[2], $date[3], $date[4]);
         }
         $date[$j] = $ruledec[$j]['d'] ? ($ranges[$j][0] == 0 ? 0 : $ruledec[$j]['d']) : ($ruledec[$j]['n'] ? reset($ruledec[$j]['n']) : $ranges[$j][0]);
         $expected_date[$j] = 0;
@@ -71,10 +71,10 @@ function _elysia_cron_next_run($conf) {
     }
   }
 
-  return __cronEncodeDate($date);
+  return _cronEncodeDate($date);
 }
 
-function __cronDecodeDate($timestamp, $min_diff = 0) {
+function _cronDecodeDate($timestamp, $min_diff = 0) {
   $time = floor($timestamp / 60);
   $time += $min_diff;
   
@@ -88,11 +88,11 @@ function __cronDecodeDate($timestamp, $min_diff = 0) {
   );
   return $date;
 }
-function __cronEncodeDate($date) {
+function _cronEncodeDate($date) {
   return mktime($date[1], $date[0], 0, $date[3], $date[2], $date[4]);
 }
 
-function __cronNextOrEqual($el, $arr, $range_start, $range_end) {
+function _cronNextOrEqual($el, $arr, $range_start, $range_end) {
   if (empty($arr)) {
     return $el;
   }
@@ -104,7 +104,7 @@ function __cronNextOrEqual($el, $arr, $range_start, $range_end) {
   return $range_end + reset($arr) + 1 - $range_start;
 }
 
-function __cronDecodeRule($rule, $min, $max) {
+function _cronDecodeRule($rule, $min, $max) {
   if ($rule == '*') {
     return array('n' => array(), 'd' => 0);
   }
@@ -125,11 +125,11 @@ function __cronDecodeRule($rule, $min, $max) {
   return $result;
 }
 
-function __cronDecodeRuleMday($rule, $month, $year) {
+function _cronDecodeRuleMday($rule, $month, $year) {
   $range_from = 1;
   $range_to = $month != 2 ? (in_array($month, array(4,6,9,11)) ? 30 : 31) : ($year % 4 == 0 ? 29 : 28);
-  $r1 = __cronDecodeRule($rule[0], $range_from, $range_to);
-  $r2 = __cronDecodeRule($rule[1], $range_from, $range_to);
+  $r1 = _cronDecodeRule($rule[0], $range_from, $range_to);
+  $r2 = _cronDecodeRule($rule[1], $range_from, $range_to);
   if ($r2['d']) {
     for ($i = 0; $i < 7; $i++) {
       if ($i % $r2['d'] == 0) {
@@ -139,13 +139,13 @@ function __cronDecodeRuleMday($rule, $month, $year) {
   }
   if ($r2['n']) {
     $r2['n'] = array_unique($r2['n']);
-    $r1['n'] = array_merge($r1['n'], __cronMonDaysFromWeekDays($year, $month, $r2['n']), __cronMonDaysFromWeekDays($year, $month + 1, $r2['n'], $range_to));
+    $r1['n'] = array_merge($r1['n'], _cronMonDaysFromWeekDays($year, $month, $r2['n']), _cronMonDaysFromWeekDays($year, $month + 1, $r2['n'], $range_to));
   }
   return $r1;
 }
 
 // Used by elysia_cron_should_run
-function __cronMonDaysFromWeekDays($year, $mon, $weekdays, $offset = 0) {
+function _cronMonDaysFromWeekDays($year, $mon, $weekdays, $offset = 0) {
   if ($mon > 12) {
     $year ++;
     $mon = $mon - 12;

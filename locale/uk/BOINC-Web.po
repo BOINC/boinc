@@ -1,162 +1,375 @@
-# BOINC web translation
-# Copyright (C) 2008-2009 University of California
+# BOINC website localization template
+# Copyright (C) 2017 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
-# FileID  : $Id$
-# 
 # Translators:
+# Vasyan Nyasha <vasyannyasha@gmail.com>, 2017
+# makalu makalu <awakenings@outlook.com>, 2018
+# Максим Перепелиця <maxim.perepelitsya@gmail.com>, 2016
+# Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017
+# Сергій «lagidnyj» Лагода <student.laser@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-05-28 09:05+0000\n"
-"Last-Translator: Rom Walton\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/boinc/language/uk/)\n"
+"POT-Creation-Date: 2017-07-04 11:20 UTC\n"
+"PO-Revision-Date: 2018-09-01 12:33+0000\n"
+"Last-Translator: makalu makalu <awakenings@outlook.com>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: docutil.php:21
+msgid "LANG_NAME_NATIVE"
+msgstr "Українська"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Ukrainian"
+
+#: doc/account_managers.inc:7
+msgid ""
+"BAM! assists you in creating and managing your BOINC project accounts and "
+"helps you with setting preferences, joining or creating teams, connecting "
+"your computers to projects, and much more.  Whether you're a new or an "
+"existing BOINC user, BAM will help you get the most out of BOINC."
+msgstr "BAM! допомагає вам у створенні, налаштуванні та керуванні обліковими записами вашого проекта BOINC, допомагає створити свою або приєднатись до існуючої команди, а також підключити комп'ютери до проектів, та багато чого іншого.  Неважливо, ви новий або існуючий користувач BOINC, BAM! допоможе вам максимально ефективно використовувати BIONIC."
+
+#: doc/account_managers.inc:13
+msgid ""
+"GridRepublic members run a screensaver that allows their computers to work "
+"on public-interest research projects when the machines are not otherwise in "
+"use. This screensaver does not affect performance of the host computer any "
+"more than an ordinary screensaver does."
+msgstr "Члени GridRepublic запускають заставку, що дозволяє їх комп'ютерам працювати на громадських дослідницьких проектах, коли машини не використовуються. Ця заставка не впливає на продуктивність комп'ютера більше, ніж звичайна заставка."
+
+#: doc/docutil.php:21
 msgid "Search"
 msgstr "Пошук"
 
-#: docutil.php:103
+#: doc/docutil.php:107
 msgid "Return to BOINC main page"
 msgstr "Повернутися на головну сторінку BOINC"
 
-#: docutil.php:114
+#: doc/docutil.php:118
 #, php-format
 msgid "This page is %stranslatable%s."
 msgstr "Цю сторінку можна %sперекласти%s."
 
-#: download.php:39
-msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr "Ми рекомендуємо Вам також встановити VirtualBox, щоб Ваш комп'ютер міг приймати участь у наукових проектах, які цього вимагають."
-
-#: download.php:41
-msgid "Learn more about VirtualBox."
-msgstr "Дізнатися більше про VirtualBox."
-
-#: download.php:51
-msgid "Download BOINC + VirtualBox"
-msgstr "Завантажити BOINC + VirtualBox"
-
-#: download.php:54 download.php:69
-#, php-format
-msgid "for %s"
-msgstr "для %s"
-
-#: download.php:57 download.php:72
-#, php-format
-msgid "BOINC version %s"
-msgstr "Версія BOINC: %s"
-
-#: download.php:59
-#, php-format
-msgid "VirtualBox version %s"
-msgstr "Версія VirtualBox: %s"
-
-#: download.php:67
-msgid "Download BOINC"
-msgstr "Завантажити BOINC"
-
-#: download.php:123
+#: doc/download.php:42
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC - це програма, яка дозволяє Вам пожертвувати незадіяні потужності Вашого комп’ютера для наукових проектів, таких як: SETI@home, Climateprediction.net, Rosetta@home, World Community Grid і багатьох інших."
 
-#: download.php:125
+#: doc/download.php:44
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "Після встановлення BOINC на свій комп’ютер, Ви зможете приймати участь одночасно у стількох проектах, у скількох забажаєте."
 
-#: download.php:127
+#: doc/download.php:46
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Ви можете запустити це програмне забезпечення тільки, якщо це Ваш комп'ютер або якщо Ви маєте дозвіл від власника."
 
-#: download.php:132
+#: doc/download.php:51
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Ми рекомендуємо Вам завантажити BOINC з Google Play Store або Amazon Appstore, а не звідси."
 
-#: download.php:167
+#: doc/download.php:86
 msgid "System requirements"
 msgstr "Системні вимоги"
 
-#: download.php:168
+#: doc/download.php:87
 msgid "Release notes"
 msgstr "Опис останньої версії"
 
-#: download.php:169 index.php:86
+#: doc/download.php:88 doc/index.php:122
 msgid "Help"
 msgstr "Довідка"
 
-#: download.php:170
+#: doc/download.php:89
 msgid "All versions"
 msgstr "Всі версії"
 
-#: download.php:171
+#: doc/download.php:90
 msgid "Version history"
 msgstr "Історія версій"
 
-#: download.php:172
+#: doc/download.php:91
 msgid "GPU computing"
 msgstr "Обчислення за допомогою графічних процесорів"
 
-#: download.php:190
+#: doc/download.php:111
 msgid "BOINC: compute for science"
 msgstr "BOINC: обчислення для науки"
 
-#: help.php:12
-#, php-format
+#: doc/index.php:29
+msgid "Computing power"
+msgstr "Обчислювальні потужності"
+
+#: doc/index.php:37
+msgid "Top 100 volunteers"
+msgstr "100 найкращих учасників"
+
+#: doc/index.php:38
+msgid "Statistics"
+msgstr "Статистика"
+
+#: doc/index.php:67
+msgid "24-hour average:"
+msgstr "В середньому за 24 години:"
+
+#: doc/index.php:67
+msgid "PetaFLOPS."
+msgstr "петафлопс."
+
+#: doc/index.php:69
+msgid "Active:"
+msgstr "Активно:"
+
+#: doc/index.php:69
+msgid "volunteers,"
+msgstr "учасників,"
+
+#: doc/index.php:69
+msgid "computers.\n"
+msgstr "комп'ютерів.\n"
+
+#: doc/index.php:76
+msgid "News"
+msgstr "Новини"
+
+#: doc/index.php:81
+msgid "Database not available; please try again later."
+msgstr "База даних недоступна; спробуйте, будь ласка, пізніше."
+
+#. "Volunteer" is used as a verb
+#: doc/index.php:90
+msgid "Volunteer"
+msgstr "Інформація для учасників"
+
+#: doc/index.php:92
 msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who"
-" can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
+"Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
+" diseases, study global warming, discover pulsars, and do many other types "
+"of scientific research.  It's safe, secure, and easy:"
+msgstr "Використовуйте час простою свого комп'ютера (Windows, Mac, Linux чи Android) для того, щоб лікувати хвороби, вивчати глобальне потепління, відкривати пульсари і проводити багато інших типів наукових досліджень. Це безпечно, надійно і просто:"
+
+#: doc/index.php:95
+msgid "Download"
+msgstr "Завантажити"
+
+#: doc/index.php:98
+msgid ""
+"For Android devices, get the BOINC app from the Google Play Store; for "
+"Kindle, get it from the Amazon App Store."
+msgstr "BOINC для Android можна знайти в Google Play Store, а версію для Kindle можна завантажити з Amazon App Store."
+
+#: doc/index.php:102
+msgid ""
+"You can choose to support %1 projects %2 such as %3, %4, and %5, among many "
+"others."
+msgstr "Ви можете вибрати для підтримки %1 проекти %2 такі як %3, %4 та %5, серед багатьох інших."
+
+#: doc/index.php:109
+msgid ""
+"If you run several projects, try an %1 account manager %2 such as %3 "
+"GridRepublic %4 or %5 BAM! %6. "
+msgstr "Якщо ви запустили декілька проектів, спробуйте %1 менеджер проектів %2 такий як %3 GridRepublic %4 або %5 BAM! %6."
+
+#: doc/index.php:116
+msgid "Learn more:"
+msgstr "Дізнатися більше"
+
+#: doc/index.php:119
+msgid "Message boards"
+msgstr "Дошка повідомлень"
+
+#: doc/index.php:120
+msgid "Projects"
+msgstr "Проекти"
+
+#: doc/index.php:121
+msgid "Manual"
+msgstr "Інструкція"
+
+#: doc/index.php:123
+msgid "Add-ons"
+msgstr "Доповнення"
+
+#: doc/index.php:124
+msgid "Links"
+msgstr "Посилання"
+
+#: doc/index.php:129
+msgid "Other ways to help:"
+msgstr "Інші шляхи для допомоги:"
+
+#: doc/index.php:132
+msgid "Overview"
+msgstr "Огляд"
+
+#: doc/index.php:133
+msgid "Translate"
+msgstr "Переклад"
+
+#: doc/index.php:134
+msgid "Test"
+msgstr "Тест"
+
+#: doc/index.php:135
+msgid "Document"
+msgstr "Документ"
+
+#: doc/index.php:136
+msgid "Publicize"
+msgstr "Рекламувати"
+
+#: doc/index.php:137
+msgid "Report bugs"
+msgstr "Повідомляти про помилки"
+
+#: doc/index.php:147
+msgid "High-throughput computing with BOINC"
+msgstr "Високопродуктивні обчислення з BOINC"
+
+#: doc/index.php:150
+msgid ""
+"%1 Scientists %2: use BOINC to create a %3 volunteer computing project %4, "
+"giving you the power of thousands of CPUs and GPUs."
+msgstr "%1 Вчені %2: використовуйте BOINC для того, щоб створити %3 проект добровільних розподілених обчислень %4, який надасть Вам обчислювальну потужність тисяч процесорів та графічних прискорювачів. "
+
+#: doc/index.php:154
+msgid ""
+"%1 Universities %2: use BOINC to create a %3 Virtual Campus Supercomputing "
+"Center %4."
+msgstr "%1 Університети %2: використовуйте BOINC для того, щоб створити %3 Віртуальний суперкомп'ютерний центр ВНЗ %4."
+
+#: doc/index.php:159
+msgid "%1 Companies %2: use BOINC for %3 desktop Grid computing %4."
+msgstr "%1 Компанії %2: використовуйте BOINC для %3 розподілених обчислень в локальній мережі %4."
+
+#: doc/index.php:164
+msgid "Documentation"
+msgstr "Документація"
+
+#: doc/index.php:165
+msgid "BOINC and Docker"
+msgstr "BOINC та Docker"
+
+#: doc/index.php:173
+msgid "Software development"
+msgstr "Розробка програмного забезпечення"
+
+#: doc/index.php:176
+msgid ""
+"BOINC is a software platform for volunteer computing. It includes client, "
+"server, and web components, and APIs for connecting other components."
+msgstr "BOINC - це програмна платформа для добровільних обчислень. Вона включає в себе клієнт, сервер та веб-компоненти, а також API для підключення інших компонентів."
+
+#: doc/index.php:179
+msgid "Source code"
+msgstr "Вихідний код"
+
+#: doc/index.php:180
+msgid "Building BOINC"
+msgstr "Зібрати BOINC"
+
+#: doc/index.php:182
+msgid "Design documents"
+msgstr "Проектна документація"
+
+#: doc/index.php:185
+msgid ""
+"We're always looking for programmers to help us maintain and develop BOINC."
+msgstr "Ми завжди раді програмістам які допоможать нам розробляти та підтримувати Boinc."
+
+#: doc/index.php:188
+msgid "Development process"
+msgstr "Процес розробки"
+
+#: doc/index.php:189
+msgid "Development tasks"
+msgstr "Задачі розробки"
+
+#: doc/index.php:192
+msgid "BOINC is distributed under the LGPL open-source license."
+msgstr "BOINC розповсюджується під ліцензією GNU LGPL v 3.0."
+
+#: doc/index.php:200
+msgid "The BOINC project"
+msgstr "Проект BOINC"
+
+#: doc/index.php:203
+msgid ""
+"BOINC is a community-based project.  Everyone is welcome to participate."
+msgstr "BOINC - це громадський проект. Кожен може приєднатися."
+
+#: doc/index.php:207
+msgid "Email lists"
+msgstr "Розсилки"
+
+#: doc/index.php:208
+msgid "Events"
+msgstr "Події"
+
+#: doc/index.php:209
+msgid "Graphics"
+msgstr "Графіки"
+
+#: doc/index.php:210
+msgid "Governance"
+msgstr "Управління"
+
+#: doc/help.php:7
+msgid "Live help via Skype or email"
+msgstr "Жива допомога через Skype або електронну пошту"
+
+#: doc/help.php:11
+msgid ""
+"BOINC Live Help lets get one-on-one help from an experienced BOINC user, who"
+" can answer questions about BOINC, help you install and use BOINC, and "
+"troubleshoot problems."
 msgstr "За допомогою цієї гарячої лінії BOINC, ви можете задати питання досвідченим користувачам BOINC особисто: %s про те, що таке BOINC і розподілені обчислення; %s про встановлення програмного забезпечення BOINC і процес підключення до проектів; %s про проблеми, що виникли при роботі BOINC."
 
-#: help.php:21
-#, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system."
-" Skype is free (both the software and the calls).  If you don't already have"
-" Skype, please %sdownload and install it now%s.  When you're finished, "
-"return to this page."
-msgstr "Гаряча лінія техпідтримкм BOINC побудована на використанні інтернет-телефону %sSkype%s. Skype - це безкоштовна програма, яка дозволяє безплатно телефонувати по всьому світу.   Якщо у Вас ще не встановлений Skype, Ви можете %sзавантажити і встановити%s його, а потім повернутися на цю сторінку для вибору помічника."
+#: doc/help.php:14
+msgid "You can communicate with a helper"
+msgstr "Ви можете спілкуватися з помічником"
 
-#: help.php:28
-msgid ""
-"The best way to get help is by voice, for which you need either built-in "
-"microphone and speakers or an external headset for your computer.  You can "
-"also use Skype's text-based chat system or regular email (if you don't have "
-"Skype) to communicate with Help Volunteers."
-msgstr "Найкраще задати питання помічникові особисто, в режимі телефонної розмови, але для цього знадобляться мікрофон і навушники.  В якості альтернативи, в Skype можна скористатися текстовим чатом, у крайньому випадку залиште свою питання і адресу електронної пошти (для того щоб на нього  можна було відповісти)."
+#: doc/help.php:16
+msgid "by email"
+msgstr "Відправити листа"
 
-#: help.php:31
+#: doc/help.php:18
 msgid ""
-"Volunteers speaking several languages are available. Please select a "
-"language:"
-msgstr "Помічники розмовляють багатьма мовами. Будь-ласка, оберіть свою:"
+"\n"
+"by voice, using %1 Skype %2, a free Internet-based telephone system. If you don't already have Skype, you can %3 download and install it now %4.  When you're finished, return to this page."
+msgstr "\nголосом, за допомогою %1 Skype %2, безкоштовної  інтернет-телефонної системи. Якщо у Вас ще немає Skype, Ви можете %3 завантажити та встановити його зараз %4. Коли Ви закінчите, поверніться на цю сторінку."
 
-#: help.php:47
+#: doc/help.php:25
+msgid "using Skype chat"
+msgstr "використовуючи Skype чат"
+
+#: doc/help.php:28
+msgid ""
+"Volunteers speaking many languages are available. Please select a language "
+"(number of helpers is shown):"
+msgstr "Помічники розмовляють багатьма мовами. Будь-ласка, оберіть свою (кількість помічників):"
+
+#: doc/help.php:43
 msgid "Be a Help Volunteer"
 msgstr "Станьте волонтером"
 
-#: help.php:50
+#: doc/help.php:46
 #, php-format
 msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
@@ -164,256 +377,118 @@ msgid ""
 "volunteer computing - and it's fun!"
 msgstr "Якщо Ви досить добре розумієте, що таке BOINC і як він працює, Ви самі %sможете стати помічником%s.  Цим Ви допоможете як новим учасникам BOINC, так і розвитку BOINC і розподілених обчислень."
 
-#: help.php:56
+#: doc/help.php:52
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "Якщо Ви вже є помічником: для зміни своїх налаштувань, %sзайдіть сюди%s."
 
-#: help_funcs.php:107
+#: doc/help_funcs.php:136
 msgid ""
-"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
-"or the University of California."
-msgstr "Помічники BOINC - це волонтери, які не отримують оплату.  BOINC або Каліфорнійський університет не несуть відповідальності за їхні поради."
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC."
+msgstr "Помічники BOINC - це волонтери, які не отримують оплату.  BOINC не несе відповідальність за їхні поради."
 
-#: help_funcs.php:110
-msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1Ніколи%2 не давайте інформацію про адресу електронної пошти або пароль помічникам BOINC."
-
-#: index.php:24
-msgid "Computing power"
-msgstr "Обчислювальні потужності"
-
-#: index.php:26
-msgid "Top 100 volunteers"
-msgstr "100 найкращих учасників"
-
-#: index.php:27
-msgid "Statistics"
-msgstr "Статистика"
-
-#: index.php:55
-msgid "Active:"
-msgstr "Активно:"
-
-#: index.php:55
-msgid "volunteers,"
-msgstr "учасників,"
-
-#: index.php:55
-msgid "computers.\n"
-msgstr "комп'ютерів.\n"
-
-#: index.php:56
-msgid "24-hour average:"
-msgstr "В середньому за 24 години:"
-
-#: index.php:56
-msgid "PetaFLOPS."
-msgstr "петафлопс."
-
-#: index.php:68
-msgid "News"
-msgstr "Новини"
-
-#: index.php:83
-msgid "Volunteer"
-msgstr "Інформація для учасників"
-
-#: index.php:85
-msgid "Download"
-msgstr "Завантажити"
-
-#: index.php:87 index.php:120 index.php:171
-msgid "Documentation"
-msgstr "Документація"
-
-#: index.php:88
-msgid "Add-ons"
-msgstr "Доповнення"
-
-#: index.php:89
-msgid "Links"
-msgstr "Посилання"
-
-#: index.php:94
+#: doc/help_funcs.php:139
 msgid ""
-"Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
-" diseases, study global warming, discover pulsars, and do many other types "
-"of scientific research.  It's safe, secure, and easy:"
-msgstr "Використовуйте час простою свого комп'ютера (Windows, Mac, Linux чи Android) для того, щоб лікувати хвороби, вивчати глобальне потепління, відкривати пульсари і проводити багато інших типів наукових досліджень. Це безпечно, надійно і просто:"
+"%1 Never %2 give email address or password information to BOINC helpers."
+msgstr "%1 Ніколи %2 не надавайте інформацію про адресу електронної пошти або пароль помічникам BOINC."
 
-#: index.php:96
-msgid "Choose projects"
-msgstr "Виберіть проекти"
+#: doc/projects.php:151
+msgid "Unknown"
+msgstr "Невідомо"
 
-#: index.php:97
-msgid "Download BOINC software"
-msgstr "Завантажити програмне забезпечення BOINC"
+#: doc/download_util.inc:88
+msgid ""
+"We recommend that you also install %1 VirtualBox %2, so your computer can "
+"work on science projects that require it."
+msgstr "Ми рекомендуємо Вам також встановити %1 VirtualBox %2, щоб Ваш комп'ютер міг приймати участь у наукових проектах, які цього вимагають."
 
-#: index.php:98
-msgid "Enter an email address and password."
-msgstr "Введіть адресу електронної пошти та пароль."
+#: doc/download_util.inc:90
+msgid "Learn more about VirtualBox."
+msgstr "Дізнатися більше про VirtualBox."
 
-#: index.php:102
+#: doc/download_util.inc:104
+msgid "Download BOINC + VirtualBox"
+msgstr "Завантажити BOINC + VirtualBox"
+
+#. "for %s" identifies the operating system, e.g. "for Windows"
+#: doc/download_util.inc:108 doc/download_util.inc:124
 #, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as "
-"%sGridRepublic%s or %sBAM!%s. "
-msgstr "За бажання приймати участь одночасно в декількох проектах, можна скористатися сайтами %sменеджерів проектів%s, такими як %sGridRepublic%s або %sBAM!%s. "
+msgid "for %s"
+msgstr "для %s"
 
-#: index.php:118
-msgid "Compute with BOINC"
-msgstr "Обчислюйте з BOINC"
-
-#: index.php:121
-msgid "Software updates"
-msgstr "Оновлення програмного забезпечення"
-
-#: index.php:128
-msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
-" you the computing power of thousands of CPUs."
-msgstr "%1Вчені%2: використовуйте BOINC для того, щоб створити %3проект добровільних розподілених обчислень%4, який надасть Вам обчислювальну потужність тисяч процесорів."
-
-#: index.php:132
-msgid ""
-"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
-"Center%4."
-msgstr "%1Університети%2: використовуйте BOINC для того, щоб створити %3Віртуальний суперкомп'ютерний центр ВНЗ%4."
-
-#: index.php:137
-msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Компанії%2: використовуйте BOINC для %3розподілених обчислень в локальній мережі%4."
-
-#: index.php:149
-msgid "The BOINC project"
-msgstr "Проект BOINC"
-
-#: index.php:155
-msgid "Message boards"
-msgstr "Дошка повідомлень"
-
-#: index.php:156
-msgid "Email lists"
-msgstr "Розсилки"
-
-#: index.php:157
-msgid "Personnel and contributors"
-msgstr "Список розробників"
-
-#: index.php:158
-msgid "Events"
-msgstr "Події"
-
-#: index.php:159
-msgid "Papers and talks"
-msgstr "Статті та обговорення"
-
-#: index.php:160
-msgid "Research projects"
-msgstr "Науково-дослідні проекти"
-
-#: index.php:161
-msgid "Logos and graphics"
-msgstr "Логотипи та графіка"
-
-#: index.php:162
-msgid "and"
-msgstr "і"
-
-#: index.php:166
-msgid "Help wanted"
-msgstr "Потрібна допомога"
-
-#: index.php:168
-msgid "Programming"
-msgstr "Програмування"
-
-#: index.php:169
-msgid "Translation"
-msgstr "Переклад"
-
-#: index.php:170
-msgid "Testing"
-msgstr "Тестування"
-
-#: index.php:172
-msgid "Publicity"
-msgstr "Пропагування"
-
-#: index.php:174
-msgid "Software development"
-msgstr "Розробка програмного забезпечення"
-
-#: index.php:175
-msgid "APIs for add-on software"
-msgstr "API для програмного забезпечення сторонніх розробників"
-
-#: index.php:217
+#: doc/download_util.inc:111 doc/download_util.inc:127
 #, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "Програмне забезпечення з відкритим вихідним кодом для організації %sдобровільних розподілених обчислень%s і %sрозподілених обчислень в мережі%s."
+msgid "BOINC %s"
+msgstr "BOINC %s"
 
-#: index.php:230
-msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC створено в Університеті Каліфорнії, Берклі"
+#: doc/download_util.inc:113
+#, php-format
+msgid "VirtualBox %s"
+msgstr "VirtualBox %s"
 
-#: projects.inc:14
+#: doc/download_util.inc:122
+msgid "Download BOINC"
+msgstr "Завантажити BOINC"
+
+#: doc/projects.inc:17
 msgid "Distributed sensing"
 msgstr "Розподілена мережа датчиків"
 
-#: projects.inc:19
-msgid "Stanford University"
-msgstr "Стенфордський університет"
+#: doc/projects.inc:22
+msgid "University of Southern California"
+msgstr "Університет Південної Каліфорнії"
 
-#: projects.inc:20
+#: doc/projects.inc:23
 msgid "Seismology"
 msgstr "Сейсмологія"
 
-#: projects.inc:21
+#: doc/projects.inc:24
 msgid ""
-"The Quake-Catcher Network is developing the world's largest seismic network "
-"using sensors attached to Internet-connected computers.  You must buy a "
-"sensor to participate."
-msgstr "Quake-Catcher Network розвиває найбільшу у світі сейсмічну мережу, використовуючи датчики, які підключені до комп’ютерів з виходом в Інтернет.  Ви повинні купити датчик для участі в проекті."
+"Quake-Catcher Network uses sensors attached to computers and smartphones to "
+"detect seismic waves."
+msgstr "Quake-Catcher мережу використовує датчики комп'ютерів і смартфонів для виявлення сейсмічних хвиль."
 
-#: projects.inc:27
+#: doc/projects.inc:32
 msgid "BOINC Poland Foundation"
 msgstr "Польський фонд BOINC"
 
-#: projects.inc:28
+#: doc/projects.inc:33
 msgid "Environmental research"
 msgstr "Дослідження навколишнього середовища"
 
-#: projects.inc:29
+#: doc/projects.inc:34
 msgid ""
-"This project is creating a free and continuously updated map of radiation "
-"levels by using sensors connected to volunteers' computers.  You must buy a "
-"sensor to participate."
-msgstr "Цей проект створює безкоштовну постійно оновлювану карту рівнів радіації, використовуючи датчики, підключені до комп’ютерів добровольців.  Ви повинні купити датчик для участі в проекті."
+"Radioactive@Home is creating a free and continuously updated map of "
+"radiation levels using sensors connected to volunteers' computers.  You must"
+" buy a sensor to participate."
+msgstr "Radioactive@Home створює безкоштовну постійно оновлювану карту рівнів радіації, використовуючи датчики, підключені до комп’ютерів добровольців.  Ви повинні купити датчик для участі в проекті."
 
-#: projects.inc:33
-msgid ""
-"To participate in these projects you must buy a sensor and attach it to your"
-" computer."
-msgstr "Для участі в цих проектах Ви повинні купити датчик і підключити його до свого комп’ютера."
-
-#: projects.inc:37
+#: doc/projects.inc:43
 msgid "Cognitive science and artifical intelligence"
 msgstr "Когнітивна наука та штучний інтелект"
 
-#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
-#: projects.inc:464 projects.inc:511
-msgid "Private"
-msgstr "Приватний"
+#: doc/projects.inc:49
+msgid "Cognitive Science"
+msgstr "Когнітивна наука"
 
-#: projects.inc:61
+#: doc/projects.inc:50
+msgid ""
+"MindModeling@Home uses computational cognitive process modeling to better "
+"understand the human mind, and specifically to study the mechanisms and "
+"processes that enable and moderate human performance and learning."
+msgstr "MindModeling@Home використовує обрахунки моделей когнетивних процесів, щоб краще зрозуміти людський розум, зокрема для вивчення механізмів і процесів, які забезпечують і утримують людську працездатність і навчання."
+
+#: doc/projects.inc:68 doc/projects.inc:474 doc/projects.inc:598
+#: doc/projects.inc:608 doc/projects.inc:664
+msgid "Independent"
+msgstr "Незалежний"
+
+#: doc/projects.inc:69
 msgid "Artificial intelligence"
 msgstr "Штучний інтелект"
 
-#: projects.inc:62
+#: doc/projects.inc:70
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -421,69 +496,55 @@ msgid ""
 "conversations."
 msgstr "Розбір і перетворення семантичних мереж для використання у FreeHAL - штучному інтелекті, який використовує семантичні мережі, алгоритми семантичного пошуку, бази даних частин мови і частини мовних додатків, які не несуть основного змістового навантаження, для імітації поведінки людини під час розмов."
 
-#: projects.inc:69
+#: doc/projects.inc:80
 msgid "Biology and Medicine"
 msgstr "Біологія та медицина"
 
-#: projects.inc:82
+#: doc/projects.inc:86
+msgid "Medical physiology"
+msgstr "Медична фізіологія"
+
+#: doc/projects.inc:87
+msgid ""
+"DENIS@Home does cardiac electrophysiological simulations, studying the "
+"electrical activity of the heart."
+msgstr "DENIS@Home робить серцеві електрофізіологічні симуляції, для вивчення електричної активності серця."
+
+#: doc/projects.inc:96
+msgid "Molecular biology"
+msgstr "Молекулярна біологія"
+
+#: doc/projects.inc:97
+msgid ""
+"RNA World seeks to identify, analyze, structurally predict and design RNA "
+"molecules on the basis of established bioinformatics software."
+msgstr "RNA World прагне визначити, проаналізувати, структурно передбачити і розробити дизайн молекул РНК, на підставі встановленого програмного забезпечення біоінформатики."
+
+#: doc/projects.inc:105
 msgid "University College Dublin"
 msgstr "Університетський коледж у Дубліні"
 
-#: projects.inc:83
+#: doc/projects.inc:106
 msgid "Antimalarial drug discovery"
 msgstr "Пошук ліків від малярії"
 
-#: projects.inc:84
+#: doc/projects.inc:107
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available"
-" medication. We therefore urgently need to discover new drugs to replace "
-"existing drugs. Importantly, these new drugs need to target NEW proteins in "
-"the parasite. The FightMalaria@Home project is aimed at finding these new "
-"targets."
-msgstr "Паразит, який викликає малярію, продовжує посилювати супротив доступним лікам. Тому нам вкрай необхідно виявити нові ліки для заміни існуючих. Важливо, що ці нові ліки повинні бути націленими на НОВІ білки в паразиті. Проект FightMalaria@Home має за мету відкриття таких нових мішеней."
+" medication. We therefore urgently need to discover new drugs, targeting new"
+" proteins in the parasite. The FiND@Home project is aimed at finding these "
+"new targets."
+msgstr "Паразит,який викликає малярію, продовжує розвивати стійкість до доступних препаратів. Тому нам терміново потрібно відкрити для себе нові препарати, орієнтовані на нові білки в паразиті. Проєкт FiND@Home має за мету відкриття таких нових мішеней."
 
-#: projects.inc:90
-msgid "University of Karlsruhe (Germany)"
-msgstr "Університет Карлсруе (Німеччина)"
-
-#: projects.inc:91
-msgid "Protein structure prediction"
-msgstr "Передбачення структури білків"
-
-#: projects.inc:92
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of"
-" the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME використовує обчислювальний підхід для прогнозування біологічно активної структури білків, для розуміння механізмів обробки сигналів, коли білки взаємодіють один з одним, для розуміння хвороб, які пов'язані зі збоями або об'єднанням білків, і для розробки нових ліків на основі тривимірної структури біологічно важливих білків."
-
-#: projects.inc:98
-msgid "University of Delaware"
-msgstr "Університет Делавера"
-
-#: projects.inc:99
-msgid "Study of protein - ligand interactions"
-msgstr "Дослідження білково-лігандних взаємодій"
-
-#: projects.inc:100
-msgid ""
-"Docking@Home has both bioscience and computer science goals. The project "
-"aims to further knowledge of the atomic details of protein-ligand "
-"interactions and, by doing so, will search for insights into the discovery "
-"of novel pharmaceuticals."
-msgstr "Метою Docking@Home є як біологія так і інформатика. Проект націлений на отримання знань про взаємодію білок-ліганд на атомарному рівні та, як результат, буде шукати ідеї для відкриття нових медичних препаратів."
-
-#: projects.inc:114
+#: doc/projects.inc:145
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Барселонський парк біомедичних досліджень (PRBB)"
 
-#: projects.inc:115
+#: doc/projects.inc:146
 msgid "Molecular simulations of proteins"
 msgstr "Молекулярне моделювання білків"
 
-#: projects.inc:116
+#: doc/projects.inc:147
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -491,99 +552,37 @@ msgid ""
 "computational biology for biomedical research."
 msgstr "GPUGrid.net відкриває нові сценарії обчислень, використовуючи перший повно-атомний молекулярний динамічний код (CellMD), спеціально оптимізований для запуску на графічних процесорах NVIDIA. Нові біомедичні програмні засоби несподівано надали можливість досягнути нових висот у обчислювальній біології для біомедичних наукових досліджень."
 
-#: projects.inc:122
-msgid "Technion, Israel"
-msgstr "Техніон, Ізраїль"
-
-#: projects.inc:123
-msgid "Genetic linkage analysis"
-msgstr "Аналіз генетичних зв’язків"
-
-#: projects.inc:124
-msgid ""
-"Superlink@Technion helps geneticists all over the world find disease-"
-"provoking genes causing some types of diabetes, hypertension (high blood "
-"pressure), cancer, schizophrenia and many others."
-msgstr "Superlink@Technion допомагає генетикам з усього світу знайти гени, які провокують деякі типи діабету, гіпертонії (високого кров'яного тиску), раку, шизофренії та інших захворювань."
-
-#: projects.inc:138
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "Центр біоінформатики та обчислювальної біології університету Меріленду."
-
-#: projects.inc:139
-msgid "Life science research"
-msgstr "Дослідження в науці про життя"
-
-#: projects.inc:140
-msgid ""
-"The Lattice Project supplies computing power to scientists at the University"
-" of Maryland studying evolutionary relationships based on DNA sequence data;"
-" bacterial, plasmid, and virus protein sequences; and biological diversity "
-"in nature reserves. "
-msgstr "The Lattice Project надає обчислювальні потужності вченим з Університету штату Меріленд, які вивчають еволюційні взаємовідносини на підставі даних послідовності ДНК; бактеріальні, плазмідні та вірусні білкові послідовності; а також біологічну різноманітність у заповідниках. "
-
-#: projects.inc:146
-msgid "The Swiss Tropical Institute"
-msgstr "Швейцарський Тропічний Інститут"
-
-#: projects.inc:147
-msgid "Epidemiology"
-msgstr "Епідеміологія"
-
-#: projects.inc:148
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria"
-" are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr "Симуляційні моделі динаміки передачі та впливу малярії на здоров`я - важливий інструмент для контролю малярії. Вони можуть бути використані для визначення оптимальної стратегії постачання сіток проти москітів, хіміотерапії чи нових вакцин, які зараз знаходяться у розробці та випробовуються.  Таке моделювання потребує надзвичайних обчислювальних потужностей для симуляції великих груп людей з різноманітним набором параметрів, пов`язаних з біологічними та соціальними факторами, що впливають на розповсюдження хвороби. "
-
-#: projects.inc:170
+#: doc/projects.inc:209
 msgid "University of Washington"
 msgstr "Університет Вашингтону"
 
-#: projects.inc:171 projects.inc:179
+#: doc/projects.inc:210
 msgid "Biology"
 msgstr "Біологія"
 
-#: projects.inc:172
+#: doc/projects.inc:211
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
 "Rosetta@home you will help us speed up and extend our research in ways we "
 "couldn't possibly attempt without your help. You will also be helping our "
-"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
-"Cancer, and Alzheimer's"
+"efforts at designing new proteins to fight diseases such as HIV, malaria, "
+"cancer, and Alzheimer's"
 msgstr "Визначення тривимірних форм білків у дослідженні, яке може зрештою привести до виявлення ліків для деяких серйозних людських недуг. Запустивши Rosetta@home, Ви допоможете прискорити і розширити наше дослідження способами, якими ми не могли б скористатися без Вашої допомоги. Ви також допоможете нам при проектуванні нових білків для боротьби з хворобами типу ВІЛ, малярія, рак і хвороба Альцгеймера."
 
-#: projects.inc:178
-msgid "University of Vienna"
-msgstr "Університет Відня"
-
-#: projects.inc:180
-msgid ""
-"Calculate similarities between proteins. SIMAP provides a public database of"
-" the resulting data, which plays a key role in many bioinformatics research "
-"projects."
-msgstr "Обчислення схожості між білками. SIMAP надає загальнодоступну базу даних результатів, які відіграють ключову роль у багатьох біоінформаційних науково-дослідницьких проектах."
-
-#: projects.inc:186
+#: doc/projects.inc:229
 msgid "Earth Sciences"
 msgstr "Науки про Землю"
 
-#: projects.inc:198
+#: doc/projects.inc:241
 msgid "Oxford University"
 msgstr "Оксфордський Університет"
 
-#: projects.inc:199
+#: doc/projects.inc:242
 msgid "Climate study"
 msgstr "Вивчення клімату"
 
-#: projects.inc:200
+#: doc/projects.inc:243
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -595,83 +594,83 @@ msgid ""
 "century under a wide range of different scenarios."
 msgstr "Дослідження наближень, які повинні бути зроблені у найновіших моделях клімату. Запускаючи модель тисячі разів, ми сподіваємося вияснити, як модель реагує на невеликі зміни цих наближень - достатньо невеликих для того, щоб не зробити наближення менш реалістичними. Це дозволить нам покращити наше розуміння того, наскільки чутливі наші моделі до невеликих змін, а також до таких речей, як зміни кількості вуглекислого газу і круговороту сірки. Цн дозволить нам дослідити, яким чином може змінитися клімат у наступному столітті при широкому діапазоні різних сценаріїв."
 
-#: projects.inc:207
+#: doc/projects.inc:251
 msgid "Physical Science"
 msgstr "Фізика"
 
-#: projects.inc:213
-msgid "Mechanical engineering"
-msgstr "Машинобудування"
-
-#: projects.inc:214
-msgid ""
-"Currently we are calculating the optimum design of a structure call the 52 "
-"bar truss"
-msgstr "Зараз ми обчислюємо оптимальне дизайн структури під назвою 52 барні зв'язки."
-
-#: projects.inc:224 projects.inc:263 projects.inc:271
+#: doc/projects.inc:276 doc/projects.inc:325 doc/projects.inc:335
+#: doc/projects.inc:345
 msgid "Astronomy"
 msgstr "Астрономія"
 
-#: projects.inc:225
+#: doc/projects.inc:277
 msgid ""
-"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
-"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
-"Universe. We will measure physical parameters (such as stellar mass surface "
-"density, star formation rate surface density, attenuation, and first-order "
-"star formation history) on a resolved pixel-by-pixel basis using spectral "
-"energy distribution (SED) fitting techniques in a distributed computing "
-"mode."
-msgstr "Ми об'єднаємо спектральне охоплення телескопів GALEX, Pan-STARRS1 і WISE для створення мультичастотного галактичного атласу найближчих до нас околиць Всесвіту в ультрафіолетовому / оптичному / інфрачервоному спектрах. Ми виміряємо фізичні параметри (такі як зоряна маса галактик, швидкість утворення зірок, поглинання випромінювання пилом і історія формування зірок першого порядку) на основі попіксельного рішення використовуючи методи розподілу спектральної енергії (SED), застосувавши для цього розподілені обчислення."
+"TheSkyNet POGS is an astronomy project studying 16 different properties of "
+"galaxies, including brightness, mass, amount of dust and how fast stars are "
+"forming. We are using your processing power to conduct pixel-by-pixel "
+"calculations on multi-wavelength (ultraviolet, optical and near-infrared "
+"light) images of galaxies to produce an atlas that will help astronomers to "
+"better understand the distant universe."
+msgstr "TheSkyNet POGS – астрономічний проект вивчення 16 різних властивостей галактик, включаючи яскравість, масу, кількість пилу і швидкість формування зірок. Ми використовуємо потужності ваших процесорів, щоб провести розрахунки піксель за пікселем на кількох довжинах хвилі (ультрафіолетових, оптичних і ближнього інфрачервоного світла) зображення галактик, щоб розробити Атлас, який допоможе астрономам краще зрозуміти далекий Всесвіт."
 
-#: projects.inc:247
-msgid "University of Texas at Austin"
-msgstr "Університет Техасу в Остіні"
+#: doc/projects.inc:287 doc/projects.inc:373
+msgid "Astrophysics"
+msgstr "Астрофізика"
 
-#: projects.inc:248 projects.inc:279
-msgid "Chemistry"
-msgstr "Хімія"
-
-#: projects.inc:249
+#: doc/projects.inc:288
 msgid ""
-"A common problem in theoretical chemistry, condensed matter physics and "
-"materials science is the calculation of the time evolution of an atomic "
-"scale system where, for example, chemical reactions and/or diffusion occur. "
-"Generally the events of interest are quite rare (many orders of magnitude "
-"slower than the vibrational movements of the atoms), and therefore direct "
-"simulations, tracking every movement of the atoms, would take thousands of "
-"years of computer calculations on the fastest present day computer before a "
-"single event of interest can be expected to occur.  Our research group is "
-"interested in calculating the long time dynamics of systems."
-msgstr "Загальна проблема в теоретичній хімії, фізиці стисненої речовини і матеріалознавстві - обчислення часу розвитку систем атомарного масштабу, де, наприклад, відбуваються хімічні реакції і/або дифузія. В основному події, які цікавлять вчених, трапляються доволі рідко (у багатьох випадках зміни відбуваються повільніше ніж вібрація атомів), і тому пряме моделювання, що відслідковує кожен рух атомів, зайняло б тисячі років комп’ютерних обчислень на найшвидшому сучасному комп’ютері, перш ніж відбулася б єдина очікувана подія.  Наша група дослідників зацікавлена у розрахунках тривалої динаміки систем."
+"The aim of the project is to derive shapes and spin for a significant part "
+"of the asteroid population. As input data, we use any asteroid photometry "
+"that is available. The results are asteroid convex shape models with the "
+"direction of the spin axis and the rotation period."
+msgstr "Метою проекту є виведення форм і спинів обертання значної частини населення астероїдів. В якості вхідних даних ми використовуємо всі доступні дані фотометрії астероїдів. Як результати маємо моделі астероїдів опуклої форми з напрямками вісі і періоду обертання."
 
-#: projects.inc:262
+#: doc/projects.inc:324
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Іллінойський університет в Урбана-Шампейн"
 
-#: projects.inc:264
+#: doc/projects.inc:326
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr "Мета проекту Cosmology@Home полягає у пошуку моделі, яка б найкраще описувала наш Всесвіт, і пошуку діапазону моделей, узгоджених із наявними астрономічними даними фізики елементарних частинок."
 
-#: projects.inc:270
+#: doc/projects.inc:336
+msgid ""
+"Universe@Home aims to create the first database of the simulated stellar "
+"content of the Universe, from the earliest stars to the most exotic black "
+"hole binaries."
+msgstr "Universe@Home націлений на створення першої бази даних модельованого вмісту зоряного Всесвіту, починаючи від самих ранніх зірок до більш екзотичних подвійних чорних дір."
+
+#: doc/projects.inc:339
+msgid "Do research in physics and astronomy"
+msgstr "Робити дослідження у фізиці та астрономії"
+
+#: doc/projects.inc:344
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Політехнічний інститут Ренсселера"
 
-#: projects.inc:272
+#: doc/projects.inc:346
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "Мета Milkyway@Home полягає у створенні високоточної тривимірної моделі Чумацького Шляху з використанням даних, зібраних Слоанівським цифровим оглядом неба."
 
-#: projects.inc:278
+#: doc/projects.inc:349
+msgid "Study the structure of the Milky Way galaxy"
+msgstr "Вивчати структуру галактики Чумацький Шлях"
+
+#: doc/projects.inc:354
 msgid "Leiden University, The Netherlands"
 msgstr "Лейденський університет, Нідерланди"
 
-#: projects.inc:280
+#: doc/projects.inc:355
+msgid "Chemistry"
+msgstr "Хімія"
+
+#: doc/projects.inc:356
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -681,146 +680,131 @@ msgid ""
 "simulations through the grid."
 msgstr "Обчислення в науці поверхонь, використовуючи Classical Dynamics.  Leiden Classical дозволяя волонтерам, студентам і вченим відправляти результати своїх обчислень у мережу. Кожен користувач має свою власну особисту чергу завдань Classical Dynamics. Таким чином, студенти використовують мережу для того, щоб змоделювати рідкий аргон або перевірити обґрунтованість закону ідеального газу, фактично проводячи моделювання за посередництва мережі."
 
-#: projects.inc:294
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "Університет Вісконсина - Мілуокі, Інститут Макса Планка"
+#: doc/projects.inc:359
+msgid "Help students do atomic simulations"
+msgstr "Допомога студентам робити атомні моделювання"
 
-#: projects.inc:295
-msgid "Astrophysics"
-msgstr "Астрофізика"
-
-#: projects.inc:296
+#: doc/projects.inc:372
 msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr "Пошук нейтронних зірок, що обертаються (ще звуться пульсарами), використовуючи дані детекторів гравітаційних звиль LIGO і GEO, а також радіообсерваторії Аресібо.  Einstein@Home - проект Міжнародного року фізики 2005, підтриманий Американським фізичним товариством і багатьма міжнародними організаціями."
+"University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
+"Gravitational Physics - Hanover (Germany)"
+msgstr "Університет Вісконсина - Мілуокі (США), Інститут ґравітаційної фізики Макса Планка - Гановер (Німеччина)"
 
-#: projects.inc:310 projects.inc:318
+#: doc/projects.inc:374
+msgid ""
+"Einstein@Home uses your computer's idle time to search for weak "
+"astrophysical signals from spinning neutron stars (often called pulsars) "
+"using data from the LIGO gravitational-wave detectors, the Arecibo radio "
+"telescope, and the Fermi gamma-ray satellite."
+msgstr "Einstein@Home використовує вільний час вашого компʼютера для пошуку слабких астрофізичних сигналів від нейтронних зірок (їх також називають пульсарами), що обертаються, використовуючи дані з детекторів ґравітаційних хвиль у лазерно-інтерферометричній обсерваторії (LIGO), радіотелескопа Arecibo, а також γ-променевого супутника Фермі."
+
+#: doc/projects.inc:377
+msgid "Help detect pulsars and gravitational waves"
+msgstr "Допомога виявити пульсари та гравітаційні хвилі"
+
+#: doc/projects.inc:390
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "ЦЕРН (Європейська рада з ядерних досліджень)"
 
-#: projects.inc:311 projects.inc:319
+#: doc/projects.inc:391
 msgid "Physics"
 msgstr "Фізика"
 
-#: projects.inc:312
+#: doc/projects.inc:392
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
 "physics laboratory.  It is the most powerful instrument ever built to "
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
-msgstr "Великий адронний колайдер (ВАК) - прискорювач частинок у ЦЕРН, Європейській раді з ядерних досліджень, найбільшій у світі лабораторії фізики елементарних частинок.  Це найпотужніший із будь-коли побудованих інструментів для дослідження поведінки елементарних частинок. LHC@home виконує моделювання для покращення проекту ВАК і його датчиків."
+msgstr "Великий адронний колайдер (ВАК) — прискорювач частинок у ЦЕРН, Європейській раді з ядерних досліджень, найбільшій у світі лабораторії фізики елементарних частинок.  Це найпотужніший із будь-коли побудованих інструментів для дослідження поведінки елементарних частинок. LHC@home виконує моделювання для покращення проекту ВАК і його датчиків."
 
-#: projects.inc:320
-msgid ""
-"This project uses CERN-developed virtual machine technology for full-fledged"
-" LHC event physics simulation on volunteer computers.  Requires that you "
-"install VirtualBox on your computer"
-msgstr "Цей проект використовує технологію віртуальних машин, розроблених у CERN, для моделювання фізики повноцінних подій ВАК на комп’ютерах добровольців.  Необхідне встановлення VirtualBox на Вашому комп’ютері"
+#: doc/projects.inc:395
+msgid "Improve the design of the Large Hadron Collider"
+msgstr "Поліпшувати дизайн Великого адронного колайдера"
 
-#: projects.inc:326
+#: doc/projects.inc:420
 msgid "University of California, Berkeley"
 msgstr "Каліфорнійський університет, Берклі"
 
-#: projects.inc:327
+#: doc/projects.inc:421
 msgid "Astrophysics, astrobiology"
 msgstr "Астрофізика, астробіологія"
 
-#: projects.inc:328
+#: doc/projects.inc:422
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
 "radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
-msgstr "SETI (Search for Extraterrestrial Intelligence, пошук позаземного розуму) - це науковий напрямок, мета якого - виявити розумне життя за межами Землі. На першому етапі, відомому як radio SETI (радіо SETI), використовуються радіотелескопи для слідкування за вуьзкосмуговими радіосигналами космосу. Природні джерела таких сигналів невідомі, тому їх виявлення може надати підтвердження про існування позаземної технології."
+msgstr "SETI (Search for Extraterrestrial Intelligence, пошук позаземного розуму) — це науковий напрямок, мета якого — виявити розумне життя за межами Землі. На першому етапі, відомому як radio SETI (радіо SETI), використовуються радіотелескопи для слідкування за вузькосмуговими радіосигналами космосу. Природні джерела таких сигналів невідомі, тому їх виявлення може надати підтвердження про існування позаземної технології."
 
-#: projects.inc:342
-msgid "Bielefeld University of Applied Sciences"
-msgstr "Університет прикладних наук Бельфелда"
+#: doc/projects.inc:425
+msgid "Search for evidence of extra-terrestrial life"
+msgstr "Пошуки доказів позаземного життя"
 
-#: projects.inc:343
-msgid "Chemical engineering and nanotechnology"
-msgstr "Хімічна технологія і нанотехнологія"
-
-#: projects.inc:344
-msgid ""
-"The study of molecular magnets and controlled nanoscale magnetism.  These "
-"magnetic molecules may be used to develop tiny magnetic switches, with "
-"applications in medicine (such as local tumor chemotherapy) and "
-"biotechnology."
-msgstr "Вивчення молекулярних магнітів і керованого нанорозмірного магнетизму.  Такі магнітні молекули можуть використовуватися у розробці дрібних магнітних вимикачів, які використовуватимуться у медицині (наприклад місцева хіміотерапія пухлин) і в біотехнології."
-
-#: projects.inc:351
+#: doc/projects.inc:449
 msgid "Multiple applications"
 msgstr "Різні додатки"
 
-#: projects.inc:356
+#: doc/projects.inc:455
+msgid "Molecular biology, Computer Science"
+msgstr "Молекулярна біологія, Комп'ютерні науки"
+
+#: doc/projects.inc:456
+msgid ""
+"The Citizen Science Grid is dedicated to supporting a wide range of research"
+" and educational projects using volunteer computing and citizen science."
+msgstr "Проект Citizen Science Grid присвячений для підтримки широкого діапазону науково-освітніх проектів з використанням обчислювальних потужностей добровольців і науковців."
+
+#: doc/projects.inc:459
+msgid "Support science from the University of North Dakota"
+msgstr "Підтримка науки в Університеті Північної Дакоти"
+
+#: doc/projects.inc:464
 msgid "Chinese Academy of Sciences"
 msgstr "Китайська академія Наук"
 
-#: projects.inc:357
+#: doc/projects.inc:465
 msgid "Physics, biochemistry, and others"
 msgstr "Фізика, біохімія та інші"
 
-#: projects.inc:358
+#: doc/projects.inc:466
 msgid ""
-"The objective of CAS@home is to encourage and assist scientists in China to "
-"adopt the technologies of volunteer computing and volunteer thinking for "
-"their research."
-msgstr "Метою CAS@home є рекомендування і допомога вченим Китаю прийняти технології волонтерських обчислень і мислення у їхні дослідження."
+"CAS@home is hosted by the Computing Centre of the Institute of High Energy "
+"Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with "
+"projects studying protein structure, nanotechnology, cancer genomics, and "
+"high energy physics."
+msgstr "CAS@home розташован в Обчислювальному Центрі Інституту Фізики Високих Енергій (ОЦФЕ), Китайської Академії Наук, для китайських вчених з проектами, що вивчають білкову структуру, нанотехнології, геноміку раку та фізику високих енергій."
 
-#: projects.inc:365
+#: doc/projects.inc:469
+msgid "Help Chinese researchers"
+msgstr "Допомогти китайським дослідникам"
+
+#: doc/projects.inc:475
 msgid "Mathematics, physics, evolution"
 msgstr "Математика, фізика, еволюція"
 
-#: projects.inc:366
+#: doc/projects.inc:476
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr "Yoyo@home - адаптер між BOINC і декількома існуючими волонтерськими обчислювальними проектами: ECM, Muon, Evolution@home і distributed.net"
 
-#: projects.inc:371 projects.inc:527
-msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr "Лабораторія паралельних і розподілених систем MTA-SZTAKI (Угорщина)"
+#: doc/projects.inc:479
+msgid "Do research in math, physics, and evolution"
+msgstr "Проведення досліджень в математиці, фізиці та еволюції"
 
-#: projects.inc:372
-msgid "European research projects"
-msgstr "Європейські дослідницькі проекти"
-
-#: projects.inc:373
-msgid ""
-"The EDGeS@Home Beta project integrates volunteer computing into the service "
-"grid network of Europe by allowing service grids to send workunits to be "
-"processed by the volunteers of this project. The scientific projects covered"
-" by the project include math, physics, biology, etc."
-msgstr "Бета-проект EDGeS@Home об’єднує волонтерські обчислення у європейську сервісну мережу, дозволяючи сервісній мережі посилати завдання для обробки волонтерами цього проекту. Наукові дослідження, що підтримуються даним проектом, включають в себе математику, фізику, біологію і т.д."
-
-#: projects.inc:379
-msgid "Spanish universities and research centers"
-msgstr "Іспанські університети та дослідницькі центри"
-
-#: projects.inc:380
-msgid "Various Spanish research projects"
-msgstr "Різноманітні Іспанські дослідницькі проекти"
-
-#: projects.inc:381
-msgid "Research in physics, material science, and biomedicine"
-msgstr "Дослідження у галузях фізики, матеріалознавства і біомедицини"
-
-#: projects.inc:387
+#: doc/projects.inc:504
 msgid "IBM Corporate Citizenship"
 msgstr "Корпоративне громадянство IBM"
 
-#: projects.inc:388
+#: doc/projects.inc:505
 msgid "Medical, environmental and other humanitarian research"
 msgstr "Медичні, екологічні та інші гуманітарні дослідження"
 
-#: projects.inc:389
+#: doc/projects.inc:506
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research"
@@ -828,50 +812,87 @@ msgid ""
 "clean water and many more."
 msgstr "Для подальших критичних некомерційних досліджень деяких з найбільш актуальних проблем людства, створивши найбільшу в світі добровільну обчислювальну мережу.  Дослідження включають в себе ВІЛ-СНІД, рак, тропічні і забуті хвороби, сонячну енергію, чисту воду і багато іншого."
 
-#: projects.inc:395
+#: doc/projects.inc:509
+msgid "Do biomedical and environmental research"
+msgstr "Робити біомедичні дослідження та дослідження навколишнього середовища"
+
+#: doc/projects.inc:514
 msgid "Mathematics, computing, and games"
 msgstr "Математика, програмування та ігри."
 
-#: projects.inc:401
+#: doc/projects.inc:540 doc/projects.inc:609 doc/projects.inc:665
+#: doc/projects.inc:675 doc/projects.inc:685
+msgid "Mathematics"
+msgstr "Математика"
+
+#: doc/projects.inc:541
+msgid ""
+"NumberFields@home searches for fields with special properties. The primary "
+"application of this research is in the realm of algebraic number theory. "
+"Number theorists can mine the data for interesting patterns to help them "
+"formulate conjectures about number fields. Ultimately, this research will "
+"lead to a deeper understanding of the profound properties of numbers, the "
+"basic building blocks of all mathematics."
+msgstr "NumberFields@home шукає поля з особливими властивостями. Первинне застосування цього дослідження полягає в галузі алгебраїчної теорії чисел. Теоретики можуть видобувати дані для цікавих моделей, щоб допомогти їм сформулювати іпотези про числові поля. Зрештою, це дослідження приведе до глибшого розуміння глибинних властивостей чисел, основних будівельних блоків всієї математики."
+
+#: doc/projects.inc:544
+msgid "Do research in algebraic number theory"
+msgstr "Проведення досліджень в алгебраїчній теорії чисел"
+
+#: doc/projects.inc:560
 msgid "Computer Science"
 msgstr "Наука про комп’ютери"
 
-#: projects.inc:409
-msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr "Математика, фізика, штучний інтелект"
+#: doc/projects.inc:561
+msgid ""
+"Solve hard and practically important problems (discrete functions inversion "
+"problems, discrete optimization, bioinformatics, etc.) that can be "
+"effectively reduced to Boolean satisfiability problem."
+msgstr "Вирішення важких і практично важливих завдань (звернення дискретних функцій, дискретної оптимізації, біоінформатики та інше), які можуть бути ефективно зведені до задачі здійсненності булевих формул."
 
-#: projects.inc:410
-msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr "Моделювання квантових комп’ютерів; гіпотеза Гольдбаха."
+#: doc/projects.inc:564
+msgid "Study computational complexity"
+msgstr "Досліджувати обчислювальну складність"
 
-#: projects.inc:450 projects.inc:458
+#: doc/projects.inc:589
+msgid "Cryptography and combinatorics"
+msgstr "Криптографія та комбінаторика"
+
+#: doc/projects.inc:590 doc/projects.inc:593
+msgid "Run applications from distributed.net"
+msgstr "Виконання застосунків із distributed.net"
+
+#: doc/projects.inc:599
 msgid "Cryptography"
 msgstr "Криптографія"
 
-#: projects.inc:459
+#: doc/projects.inc:600
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "Спроба розшифрувати 3 оригінальних повідомлення Енігми. Сигнали були перехоплені у Північноатлантичному океані у 1942 році і вважалось, що їх неможливо зламати."
 
-#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
-#: projects.inc:528 projects.inc:568
-msgid "Mathematics"
-msgstr "Математика"
+#: doc/projects.inc:603
+msgid "Decode WWII submarine messages"
+msgstr "Декодувати повідомлення підводних човнів часів Другої світової війни"
 
-#: projects.inc:466
+#: doc/projects.inc:610
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Вивчення гіпотези Коллатца - нерозв'язаної задачі в математиці."
 
-#: projects.inc:471
+#: doc/projects.inc:613
+msgid "Study the Collatz Conjecture"
+msgstr "Дослідження Гіпотези Коллатца"
+
+#: doc/projects.inc:618
 msgid "California State University Fullerton"
 msgstr "Каліфорнійський державний університет, Фуллертон"
 
-#: projects.inc:472
+#: doc/projects.inc:619
 msgid "Factorization of large integers"
 msgstr "Розклад великих цілих чисел на множники"
 
-#: projects.inc:473
+#: doc/projects.inc:620
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -881,66 +902,60 @@ msgid ""
 "hundreds of digits long."
 msgstr "NFS@Home - це дослідницький проект, який використовує підключені до Інтернету комп’ютери для того, щоб розрахувати крок решітки просіювання при факторизації великих цілих чисел у Number Field Sieve (NFS). Школярем Ви отримали свій перший досвід у розкладанні цілих чисел на прості, такі як 15 = 3 * 5 або 35 = 5 * 7. NFS@Home є продовженням цього досвіду, тільки з цілими числами, які складаються із сотень цифр."
 
-#: projects.inc:479
-msgid ""
-"Vilnius Gediminas Technical University and Kaunas University of Technology "
-"(Lithuania)"
-msgstr "Вільнюський технічний університет і Каунаський університет технологій (Литва)"
+#: doc/projects.inc:623
+msgid "Study the factorization of large integers"
+msgstr "Дослідження розкладання на множники цілих великих чисел"
 
-#: projects.inc:480
-msgid "Software testing"
-msgstr "Тестування програмного забезпечення"
-
-#: projects.inc:481
-msgid ""
-"The aim of this project is to provide a powerful distributed computing "
-"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
-"well as others Lithuanian academic institutions.  Current applications "
-"involve the study of Monte-Carlo based software testing."
-msgstr "Метою даного проекту є надання потужної розподіленої обчислювальної платформи для вчених із Вільнюського технічного університету, а також інших литовських наукових закладів.  Поточні додатки включають вивчення тестування програмного забезпечення, заснованого на методі Монте-Карло."
-
-#: projects.inc:503
-msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr "Математичний інститут Лейденського університету/Кенніслінк"
-
-#: projects.inc:505
-msgid ""
-"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
-"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
-"product of the distinct prime factors of n. The ABC conjecture says that "
-"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
-"any real h > 1. The ABC conjecture is currently one of the greatest open "
-"problems in mathematics. If it is proven to be true, a lot of other open "
-"problems can be answered directly from it."
-msgstr "Пошук 'ABC-трійок': додатних цілих чисел a, b, c, таких, що a+b=c, a &lt; b &lt; c, a,b,c не мають загальних дільників і c > rad(abc), де rad(n) - продукт окремих простих факторів n. ABC-гіпотеза говорить, що є тільки кінцева множина a,b,c, таких що log(c)/log(rad(abc)) > h для будь-якого реального h > 1. ABC-гіпотеза - одна із найбільших відкритих проблем у математиці в даний час. Якщо вона буде доведена, безпосередньо через неї може бути вирішено багато інших відкритих проблем."
-
-#: projects.inc:513
+#: doc/projects.inc:666
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr "Primegri підтримує багато проектів, які шукають різні форми дуже великих простих чисел, включаючи пошук найбільшого відомого простого числа."
 
-#: projects.inc:519
+#: doc/projects.inc:669
+msgid "Search for large prime numbers"
+msgstr "Пошук великих простих чисел"
+
+#: doc/projects.inc:674
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Університет Прикладних Наук РейнМейн"
 
-#: projects.inc:521
+#: doc/projects.inc:676
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "Пошук контрприкладів до двох теорем, пов’язаних з ідентифікацією головних чисел"
 
-#: projects.inc:529
+#: doc/projects.inc:679
+msgid "Study the properties of prime numbers"
+msgstr "Дослідження властивостей простих чисел"
+
+#: doc/projects.inc:684
+msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
+msgstr "Лабораторія паралельних і розподілених систем MTA-SZTAKI (Угорщина)"
+
+#: doc/projects.inc:686
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr "Пошук всіх систем узагальнених двійкових чисел (в яких основи є матрицями, а цифри - векторами) до 11-го виміру."
 
-#: ../html/inc/news.inc:40
-msgid "Comment"
-msgstr "Коментар"
+#: doc/projects.inc:689
+msgid "Study number theory"
+msgstr "Дослідження теорії чисел"
 
-#: ../html/inc/news.inc:111
+#: doc/projects.inc:746
+msgid ""
+"Testing and comparison of heuristic methods for getting separations of "
+"parallel algorithms working in the CAD system for designing logic control "
+"systems"
+msgstr "Тестування і порівняння евристичних методів для отримання відокремлених паралельних алгоритмів, що працюють в CAD системах для проектування систем логічного керування"
+
+#: html/inc/news.inc:41
+msgid "Discuss"
+msgstr "Обговорення"
+
+#: html/inc/news.inc:112
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "Новини доступні у форматі %sстрічки RSS%s"
