@@ -98,7 +98,7 @@ function left(){
                     ',
                     tra("Want to help more?"),
                     tra("If BOINC is not installed on this computer, %1download it%2.",
-                        "<a href=download.php>", "</a>"
+                        "<a href=download_software.php>", "</a>"
                     ),
                     tra("Install BOINC on your other computers, tablets, and phones."),
                     tra("Tell your friends about BOINC, and show them how to join %1.", PROJECT)
