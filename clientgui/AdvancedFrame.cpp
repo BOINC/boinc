@@ -348,11 +348,15 @@ bool CAdvancedFrame::CreateMenu() {
         _("Select computer...\tCtrl+Shift+I"),
         _("Connect to a BOINC client on another computer")
     );
+
+// As by default on Linux BOINC runs as a service, the GUI must not stop it.
+#ifndef __WXGTK__
     menuFile->Append(
         ID_SHUTDOWNCORECLIENT, 
         _("Shut down connected client..."),
         _("Shut down the currently connected BOINC client")
     );
+#endif
     menuFile->AppendSeparator();
 
     strMenuDescription.Printf(
@@ -367,6 +371,8 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
+// As by default on Linux BOINC runs as a service, the GUI must not stop it
+#ifndef __WXGTK__
     strMenuDescription.Printf(
         _("Exit %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -387,6 +393,7 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuName,
         strMenuDescription
     );
+#endif
 
 #ifdef __WXMAC__
     // wxWidgets actually puts this in the BOINCManager menu
